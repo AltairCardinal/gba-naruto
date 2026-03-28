@@ -1,0 +1,68 @@
+rom=build/naruto-sequel-dev.gba
+start=0x080965C6
+focus=0x080965E6
+size=0x80
+
+   0x080965C6: cmp      r0, #0
+   0x080965C8: bge      #0x80965ce
+   0x080965CA: ldr      r1, [pc, #0x20]
+   0x080965CC: adds     r0, r0, r1
+   0x080965CE: asrs     r0, r0, #0xc
+   0x080965D0: ldrh     r2, [r4, #0xc]
+   0x080965D2: adds     r0, r0, r2
+   0x080965D4: strh     r0, [r5, #4]
+   0x080965D6: ldrh     r1, [r4, #8]
+   0x080965D8: ldr      r0, [pc, #0x10]
+   0x080965DA: cmp      r1, r0
+   0x080965DC: bls      #0x80965e6
+   0x080965DE: ldrh     r0, [r4, #0xe]
+   0x080965E0: strh     r0, [r5, #4]
+   0x080965E2: movs     r0, #0x41
+   0x080965E4: strb     r0, [r4]
+=> 0x080965E6: pop      {r4, r5}
+   0x080965E8: pop      {r0}
+   0x080965EA: bx       r0
+   0x080965EC: lsrs     r7, r7, #0x1f
+   0x080965EE: movs     r0, r0
+   0x080965F0: push     {r4, r5, r6, r7, lr}
+   0x080965F2: mov      r7, r8
+   0x080965F4: push     {r7}
+   0x080965F6: sub      sp, #0x14
+   0x080965F8: lsls     r0, r0, #0x18
+   0x080965FA: lsrs     r4, r0, #0x18
+   0x080965FC: mov      r8, r4
+   0x080965FE: lsls     r1, r1, #0x18
+   0x08096600: lsrs     r6, r1, #0x18
+   0x08096602: lsls     r2, r2, #0x18
+   0x08096604: lsrs     r7, r2, #0x18
+   0x08096606: ldr      r1, [pc, #0x50]
+   0x08096608: lsls     r0, r4, #2
+   0x0809660A: adds     r5, r0, r1
+   0x0809660C: ldr      r3, [r5]
+   0x0809660E: cmp      r3, #0
+   0x08096610: bne      #0x8096634
+   0x08096612: movs     r0, #0xc8
+   0x08096614: adds     r2, r4, #0
+   0x08096616: muls     r2, r0, r2
+   0x08096618: ldr      r0, [pc, #0x40]
+   0x0809661A: ldr      r1, [pc, #0x44]
+   0x0809661C: str      r3, [sp]
+   0x0809661E: str      r2, [sp, #4]
+   0x08096620: str      r3, [sp, #8]
+   0x08096622: movs     r2, #0xa0
+   0x08096624: str      r2, [sp, #0xc]
+   0x08096626: ldr      r2, [pc, #0x3c]
+   0x08096628: str      r2, [sp, #0x10]
+   0x0809662A: movs     r2, #0
+   0x0809662C: movs     r3, #0
+   0x0809662E: bl       #0x80626b4
+   0x08096632: str      r0, [r5]
+   0x08096634: ldr      r0, [r5]
+   0x08096636: adds     r0, #0x2c
+   0x08096638: movs     r1, #0
+   0x0809663A: strb     r1, [r0]
+   0x0809663C: mov      r1, r8
+   0x0809663E: strb     r1, [r0, #1]
+   0x08096640: strb     r6, [r0, #4]
+   0x08096642: strb     r6, [r0, #2]
+   0x08096644: strb     r7, [r0, #5]

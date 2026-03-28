@@ -1,0 +1,41 @@
+(lldb) command source -s 0 '/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmp.hDjWGZGRkf'
+Executing commands in '/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmp.hDjWGZGRkf'.
+(lldb) target create /Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA
+Current executable set to '/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA' (x86_64).
+(lldb) command script import /Users/altair/github/naruto/tools/lldb_trace_dialogue_callers.py
+(lldb) script lldb_trace_dialogue_callers.reset("/Users/altair/github/naruto/notes/lldb-dialogue-callers.log")
+(lldb) gdb-remote localhost:2345
+Process 1 stopped
+* thread #1, stop reason = signal SIGINT
+    frame #0: 0x085dfb34
+->  0x85dfb34: cmp    r0, #160
+    0x85dfb38: bne    0x85dfb30
+    0x85dfb3c: mov    pc, lr
+    0x85dfb40: ldmdaeq r12, {r9, r10, r11, lr, pc} ^
+Target 0: (No executable module.) stopped.
+(lldb) breakpoint set --address 0x08077D0E
+Breakpoint 1: address = 0x08077d0e
+(lldb) breakpoint command add -s python 1 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x08089B36
+Breakpoint 2: address = 0x08089b36
+(lldb) breakpoint command add -s python 2 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x0809159C
+Breakpoint 3: address = 0x0809159c
+(lldb) breakpoint command add -s python 3 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x08093842
+Breakpoint 4: address = 0x08093842
+(lldb) breakpoint command add -s python 4 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x0809678A
+Breakpoint 5: address = 0x0809678a
+(lldb) breakpoint command add -s python 5 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x080968A0
+Breakpoint 6: address = 0x080968a0
+(lldb) breakpoint command add -s python 6 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) breakpoint set --address 0x0809698E
+Breakpoint 7: address = 0x0809698e
+(lldb) breakpoint command add -s python 7 -F lldb_trace_dialogue_callers.log_and_continue
+(lldb) continue
+Process 1 resuming
+Process 1 exited with status = -1 (0xffffffff) lost connection
+(lldb) script lldb_trace_dialogue_callers.finish_marker("lldb_complete")
+(lldb) quit

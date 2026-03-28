@@ -1,0 +1,144 @@
+{
+  "start": 1568124,
+  "size": 64,
+  "entropy": 2.8809,
+  "zero_ratio": 0.4375,
+  "u32_prefix": [
+    {
+      "index": 0,
+      "offset": 1568124,
+      "value": 135785732,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 1,
+      "offset": 1568128,
+      "value": 135785756,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 2,
+      "offset": 1568132,
+      "value": 135785780,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 3,
+      "offset": 1568136,
+      "value": 135785804,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 4,
+      "offset": 1568140,
+      "value": 135785828,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 5,
+      "offset": 1568144,
+      "value": 524288,
+      "kind": "raw32"
+    },
+    {
+      "index": 6,
+      "offset": 1568148,
+      "value": 393218,
+      "kind": "raw32"
+    },
+    {
+      "index": 7,
+      "offset": 1568152,
+      "value": 262145,
+      "kind": "raw32"
+    },
+    {
+      "index": 8,
+      "offset": 1568156,
+      "value": 262147,
+      "kind": "raw32"
+    },
+    {
+      "index": 9,
+      "offset": 1568160,
+      "value": 524292,
+      "kind": "raw32"
+    },
+    {
+      "index": 10,
+      "offset": 1568164,
+      "value": 65535,
+      "kind": "u16ish"
+    },
+    {
+      "index": 11,
+      "offset": 1568168,
+      "value": 135785872,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 12,
+      "offset": 1568172,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 13,
+      "offset": 1568176,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 14,
+      "offset": 1568180,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 15,
+      "offset": 1568184,
+      "value": 251658240,
+      "kind": "raw32"
+    }
+  ],
+  "palette_probe": {
+    "palette_like_ratio": 0.78125,
+    "nonzero_halfwords": 23,
+    "first_u16": [
+      60676,
+      2071,
+      60700,
+      2071,
+      60724,
+      2071,
+      60748,
+      2071,
+      60772,
+      2071,
+      0,
+      8,
+      2,
+      6,
+      1,
+      4,
+      3,
+      4,
+      4,
+      8,
+      65535,
+      0,
+      60816,
+      2071,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3840
+    ]
+  },
+  "guess": "nested_descriptor",
+  "head_hex": "04ed17081ced170834ed17084ced170864ed17080000080002000600010004000300040004000800ffff000090ed17080000000000000000000000000000000f"
+}

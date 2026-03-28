@@ -1,0 +1,97 @@
+rom=build/naruto-sequel-dev.gba
+start=0x08066CD4
+focus=0x08066D34
+size=0xC0
+
+   0x08066CD4: adds     r0, r0, r1
+   0x08066CD6: asrs     r0, r0, #1
+   0x08066CD8: subs     r0, #1
+   0x08066CDA: movs     r5, #0
+   0x08066CDC: movs     r4, #0
+   0x08066CDE: strh     r0, [r3, #0xc]
+   0x08066CE0: ldrh     r0, [r3, #0xa]
+   0x08066CE2: subs     r0, #4
+   0x08066CE4: strh     r0, [r3, #0xe]
+   0x08066CE6: ldr      r1, [pc, #0x28]
+   0x08066CE8: adds     r0, r3, #0
+   0x08066CEA: str      r3, [sp]
+   0x08066CEC: bl       #0x806626c
+   0x08066CF0: ldr      r3, [sp]
+   0x08066CF2: strh     r4, [r3, #0xe]
+   0x08066CF4: strh     r4, [r3, #0xc]
+   0x08066CF6: strb     r5, [r3, #0x16]
+   0x08066CF8: mov      r0, sb
+   0x08066CFA: bl       #0x80655f4
+   0x08066CFE: add      sp, #4
+   0x08066D00: pop      {r3, r4, r5}
+   0x08066D02: mov      r8, r3
+   0x08066D04: mov      sb, r4
+   0x08066D06: mov      sl, r5
+   0x08066D08: pop      {r4, r5, r6, r7}
+   0x08066D0A: pop      {r0}
+   0x08066D0C: bx       r0
+   0x08066D0E: movs     r0, r0
+   0x08066D10: ldm      r5!, {r2, r6}
+   0x08066D12: lsrs     r1, r1, #0x20
+   0x08066D14: push     {r4, r5, r6, r7, lr}
+   0x08066D16: mov      r7, r8
+   0x08066D18: push     {r7}
+   0x08066D1A: lsls     r0, r0, #0x18
+   0x08066D1C: lsrs     r0, r0, #0x18
+   0x08066D1E: bl       #0x80655b4
+   0x08066D22: adds     r5, r0, #0
+   0x08066D24: ldrh     r0, [r5, #8]
+   0x08066D26: lsls     r0, r0, #1
+   0x08066D28: adds     r0, r0, r5
+   0x08066D2A: adds     r4, r0, #0
+   0x08066D2C: adds     r4, #0x20
+   0x08066D2E: movs     r1, #1
+   0x08066D30: b        #0x8066d82
+   0x08066D32: movs     r6, #1
+=> 0x08066D34: ldrh     r0, [r5, #8]
+   0x08066D36: subs     r0, #1
+   0x08066D38: adds     r1, #1
+   0x08066D3A: mov      r8, r1
+   0x08066D3C: cmp      r6, r0
+   0x08066D3E: bge      #0x8066d7e
+   0x08066D40: ldr      r7, [pc, #0x60]
+   0x08066D42: ldrh     r1, [r4]
+   0x08066D44: ldr      r2, [pc, #0x60]
+   0x08066D46: adds     r0, r2, #0
+   0x08066D48: ands     r1, r0
+   0x08066D4A: adds     r2, r1, #0
+   0x08066D4C: ldr      r0, [r7]
+   0x08066D4E: cmp      r1, r0
+   0x08066D50: blo      #0x8066d58
+   0x08066D52: adds     r0, #0x40
+   0x08066D54: cmp      r1, r0
+   0x08066D56: blo      #0x8066d66
+   0x08066D58: ldr      r0, [pc, #0x50]
+   0x08066D5A: ldr      r0, [r0]
+   0x08066D5C: subs     r0, r2, r0
+   0x08066D5E: lsls     r0, r0, #0x10
+   0x08066D60: lsrs     r0, r0, #0x10
+   0x08066D62: bl       #0x8065dd4
+   0x08066D66: ldr      r0, [r7]
+   0x08066D68: adds     r0, #1
+   0x08066D6A: ldr      r1, [pc, #0x44]
+   0x08066D6C: ldrh     r1, [r1]
+   0x08066D6E: orrs     r0, r1
+   0x08066D70: strh     r0, [r4]
+   0x08066D72: adds     r4, #2
+   0x08066D74: adds     r6, #1
+   0x08066D76: ldrh     r0, [r5, #8]
+   0x08066D78: subs     r0, #1
+   0x08066D7A: cmp      r6, r0
+   0x08066D7C: blt      #0x8066d42
+   0x08066D7E: adds     r4, #4
+   0x08066D80: mov      r1, r8
+   0x08066D82: ldrh     r0, [r5, #0xa]
+   0x08066D84: subs     r0, #1
+   0x08066D86: cmp      r1, r0
+   0x08066D88: blt      #0x8066d32
+   0x08066D8A: movs     r0, #0
+   0x08066D8C: strh     r0, [r5, #0xe]
+   0x08066D8E: strh     r0, [r5, #0xc]
+   0x08066D90: ldr      r0, [r5]
+   0x08066D92: movs     r1, #2

@@ -1,0 +1,7 @@
+rom=build/naruto-sequel-dev.gba
+target=0x08065EB8
+matches=3
+
+0x08065FBE: bl   #0x8065eb8
+0x08066058: bl   #0x8065eb8
+0x080894DE: bl   #0x8065eb8

@@ -1,0 +1,144 @@
+{
+  "start": 1573460,
+  "size": 64,
+  "entropy": 1.2316,
+  "zero_ratio": 0.8125,
+  "u32_prefix": [
+    {
+      "index": 0,
+      "offset": 1573460,
+      "value": 135791160,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 1,
+      "offset": 1573464,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 2,
+      "offset": 1573468,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 3,
+      "offset": 1573472,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 4,
+      "offset": 1573476,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 5,
+      "offset": 1573480,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 6,
+      "offset": 1573484,
+      "value": 4278190080,
+      "kind": "raw32"
+    },
+    {
+      "index": 7,
+      "offset": 1573488,
+      "value": 4026531840,
+      "kind": "raw32"
+    },
+    {
+      "index": 8,
+      "offset": 1573492,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 9,
+      "offset": 1573496,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 10,
+      "offset": 1573500,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 11,
+      "offset": 1573504,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 12,
+      "offset": 1573508,
+      "value": 240,
+      "kind": "small"
+    },
+    {
+      "index": 13,
+      "offset": 1573512,
+      "value": 3840,
+      "kind": "u16ish"
+    },
+    {
+      "index": 14,
+      "offset": 1573516,
+      "value": 65280,
+      "kind": "u16ish"
+    },
+    {
+      "index": 15,
+      "offset": 1573520,
+      "value": 1020415,
+      "kind": "raw32"
+    }
+  ],
+  "palette_probe": {
+    "palette_like_ratio": 0.875,
+    "nonzero_halfwords": 9,
+    "first_u16": [
+      568,
+      2072,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      65280,
+      0,
+      61440,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      240,
+      0,
+      3840,
+      0,
+      65280,
+      0,
+      37375,
+      15
+    ]
+  },
+  "guess": "sparse_binary",
+  "head_hex": "380218080000000000000000000000000000000000000000000000ff000000f000000000000000000000000000000000f0000000000f000000ff0000ff910f00"
+}

@@ -1,0 +1,25 @@
+rom=build/naruto-sequel-dev.gba
+start=0x0808983C
+focus=0x0808983C
+size=0x120
+
+=> 0x0808983C: push     {r4, r5, r6, r7, lr}
+   0x0808983E: adds     r6, r3, #0
+   0x08089840: ldr      r7, [sp, #0x14]
+   0x08089842: lsls     r0, r0, #0x18
+   0x08089844: lsrs     r3, r0, #0x18
+   0x08089846: lsls     r1, r1, #0x10
+   0x08089848: lsrs     r4, r1, #0x10
+   0x0808984A: lsls     r2, r2, #0x10
+   0x0808984C: lsrs     r5, r2, #0x10
+   0x0808984E: movs     r0, #0
+   0x08089850: strh     r0, [r6]
+   0x08089852: cmp      r4, #0x31
+   0x08089854: bls      #0x8089868
+   0x08089856: cmp      r7, #0
+   0x08089858: beq      #0x80898cc
+   0x0808985A: ldr      r1, [pc, #8]
+   0x0808985C: adds     r0, r1, #0
+   0x0808985E: strh     r0, [r7]
+   0x08089860: b        #0x80898cc
+   0x08089862: movs     r0, r0

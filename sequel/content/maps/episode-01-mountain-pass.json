@@ -1,0 +1,15 @@
+{
+  "map_id": "episode-01-mountain-pass",
+  "status": "spec",
+  "reference": "原作山道/护送类关卡",
+  "layout_notes": [
+    "战场右下保留运输卷轴点位，作为失败判定目标。",
+    "中段设置高低差与两处可埋伏的树林区域。",
+    "地图上方留出敌方增援出生点，以便验证章节脚本和伏兵触发。"
+  ],
+  "reverse_engineering_dependency": [
+    "地图 tilemap 定位",
+    "出生点与事件区格式",
+    "战斗胜败条件脚本入口"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "start": 1568144,
+  "size": 32,
+  "entropy": 2.4689,
+  "zero_ratio": 0.5312,
+  "u32_prefix": [
+    {
+      "index": 0,
+      "offset": 1568144,
+      "value": 524288,
+      "kind": "raw32"
+    },
+    {
+      "index": 1,
+      "offset": 1568148,
+      "value": 393218,
+      "kind": "raw32"
+    },
+    {
+      "index": 2,
+      "offset": 1568152,
+      "value": 262145,
+      "kind": "raw32"
+    },
+    {
+      "index": 3,
+      "offset": 1568156,
+      "value": 262147,
+      "kind": "raw32"
+    },
+    {
+      "index": 4,
+      "offset": 1568160,
+      "value": 524292,
+      "kind": "raw32"
+    },
+    {
+      "index": 5,
+      "offset": 1568164,
+      "value": 65535,
+      "kind": "u16ish"
+    },
+    {
+      "index": 6,
+      "offset": 1568168,
+      "value": 135785872,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 7,
+      "offset": 1568172,
+      "value": 0,
+      "kind": "zero"
+    }
+  ],
+  "palette_probe": {
+    "palette_like_ratio": 0.875,
+    "nonzero_halfwords": 12,
+    "first_u16": [
+      0,
+      8,
+      2,
+      6,
+      1,
+      4,
+      3,
+      4,
+      4,
+      8,
+      65535,
+      0,
+      60816,
+      2071,
+      0,
+      0
+    ]
+  },
+  "guess": "binary_or_compressed",
+  "head_hex": "0000080002000600010004000300040004000800ffff000090ed170800000000"
+}

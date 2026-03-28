@@ -1,0 +1,16 @@
+{
+  "project_id": "naruto-konoha-sequel",
+  "title": "木叶战记 续作开发工作区",
+  "base_rom": {
+    "path": "火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba",
+    "sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d",
+    "game_code": "AUEJ",
+    "internal_title": "NARUTOKONOHA"
+  },
+  "build": {
+    "output_rom": "build/naruto-sequel-dev.gba",
+    "report": "build/naruto-sequel-build-report.json"
+  },
+  "content_root": "sequel/content",
+  "patch_manifest": "sequel/patches/manifest.json"
+}

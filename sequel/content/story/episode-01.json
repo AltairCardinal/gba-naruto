@@ -1,0 +1,38 @@
+{
+  "episode_id": "episode-01",
+  "title": "边境异动",
+  "status": "draft",
+  "design_goal": "建立续作主角小队，完成一章可用作 ROM Hack 或重建引擎参考的垂直切片。",
+  "beats": [
+    {
+      "id": "ep01_intro",
+      "type": "dialogue",
+      "summary": "木叶边境巡逻情报异常，主角小队被临时派往南部警戒线。"
+    },
+    {
+      "id": "ep01_battle",
+      "type": "battle",
+      "summary": "在山道遭遇身份不明的忍者部队，敌方试图夺取运输卷轴。"
+    },
+    {
+      "id": "ep01_post",
+      "type": "dialogue",
+      "summary": "战后发现敌人携带来自外村的伪装通行文书，展开续作主线。"
+    }
+  ],
+  "battle_slice": {
+    "map_stub": "episode-01-mountain-pass",
+    "allied_party": [
+      "naruto",
+      "shikamaru",
+      "sakura",
+      "sai"
+    ],
+    "enemy_groups": [
+      "masked-scouts",
+      "ambush-team-a"
+    ],
+    "win_condition": "击退敌方伏击队长并保护运输卷轴点位",
+    "lose_condition": "运输卷轴点位被占领或我方主角倒下"
+  }
+}

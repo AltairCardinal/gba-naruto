@@ -1,0 +1,57 @@
+rom=build/naruto-sequel-dev.gba
+start=0x08065F84
+focus=0x08065F84
+size=0x70
+
+=> 0x08065F84: push     {r4, r5, r6, r7, lr}
+   0x08065F86: sub      sp, #4
+   0x08065F88: adds     r5, r2, #0
+   0x08065F8A: lsls     r0, r0, #0x10
+   0x08065F8C: lsrs     r0, r0, #0x10
+   0x08065F8E: adds     r4, r0, #0
+   0x08065F90: lsls     r7, r1, #0x18
+   0x08065F92: lsrs     r6, r7, #0x18
+   0x08065F94: ldr      r0, [pc, #0x6c]
+   0x08065F96: cmp      r4, r0
+   0x08065F98: beq      #0x8066014
+   0x08065F9A: movs     r0, #2
+   0x08065F9C: mov      r1, sp
+   0x08065F9E: bl       #0x8065df8
+   0x08065FA2: lsls     r0, r0, #0x18
+   0x08065FA4: cmp      r0, #0
+   0x08065FA6: beq      #0x8066014
+   0x08065FA8: ldr      r1, [pc, #0x5c]
+   0x08065FAA: mov      r0, sp
+   0x08065FAC: ldrh     r2, [r0]
+   0x08065FAE: lsls     r2, r2, #5
+   0x08065FB0: ldr      r3, [r1]
+   0x08065FB2: adds     r2, r3, r2
+   0x08065FB4: ldrh     r0, [r0, #2]
+   0x08065FB6: lsls     r0, r0, #5
+   0x08065FB8: adds     r3, r3, r0
+   0x08065FBA: adds     r0, r4, #0
+   0x08065FBC: adds     r1, r6, #0
+   0x08065FBE: bl       #0x8065eb8
+   0x08065FC2: lsls     r0, r0, #0x18
+   0x08065FC4: cmp      r0, #0
+   0x08065FC6: beq      #0x8066014
+   0x08065FC8: mov      r0, sp
+   0x08065FCA: ldrh     r0, [r0]
+   0x08065FCC: bl       #0x8065db0
+   0x08065FD0: mov      r0, sp
+   0x08065FD2: ldrh     r0, [r0, #2]
+   0x08065FD4: bl       #0x8065db0
+   0x08065FD8: ldr      r4, [pc, #0x30]
+   0x08065FDA: ldr      r1, [r4]
+   0x08065FDC: mov      r0, sp
+   0x08065FDE: ldrh     r0, [r0]
+   0x08065FE0: adds     r1, r1, r0
+   0x08065FE2: ldr      r3, [pc, #0x2c]
+   0x08065FE4: lsrs     r2, r7, #0x19
+   0x08065FE6: lsls     r2, r2, #0xc
+   0x08065FE8: ldrh     r0, [r3]
+   0x08065FEA: adds     r0, r0, r2
+   0x08065FEC: orrs     r1, r0
+   0x08065FEE: strh     r1, [r5]
+   0x08065FF0: ldr      r1, [r4]
+   0x08065FF2: mov      r0, sp

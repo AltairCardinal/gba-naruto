@@ -1,0 +1,30 @@
+rom=build/naruto-sequel-dev.gba
+start=0x08096187
+focus=0x080961D7
+size=0x120
+
+   0x08096187: movs     r6, #6
+   0x08096189: vrshl.u8 d1, d29, d14
+   0x0809618D: movs     r5, #0xd0
+   0x0809618F: add      r0, sp, #0x124
+   0x08096191: tst      r0, r0
+   0x08096193: asrs     r0, r3, #4
+   0x08096195: cmp      r4, #0x68
+   0x08096197: adds     r0, #0x31
+   0x08096199: movs     r0, r3
+   0x0809619B: lsls     r6, r0, #0x18
+   0x0809619D: ldm      r0!, {r1, r2, r3}
+   0x0809619F: ldr      r0, [r4]
+   0x080961A1: subs     r0, #0x43
+   0x080961A3: movs     r0, r3
+   0x080961A5: lsls     r4, r0, #0x1c
+   0x080961A7: ldm      r6!, {r2, r3}
+   0x080961A9: lsls     r1, r6, #1
+   0x080961AB: ands     r1, r4
+   0x080961AD: cmp      r3, #0x46
+   0x080961AF: movs     r0, r5
+   0x080961B1: lsls     r1, r2, #7
+   0x080961B3: asrs     r1, r4, #0x20
+   0x080961B5: ldm      r4!, {r3, r5, r6}
+   0x080961B7: vshr.s64 q10, q13, #9
+   0x080961BB: ldr      r1, [pc, #0x118]

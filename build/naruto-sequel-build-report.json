@@ -1,0 +1,28 @@
+{
+  "project": "naruto-konoha-sequel",
+  "base_rom": {
+    "path": "火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba",
+    "sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
+  },
+  "output_rom": {
+    "path": "build/naruto-sequel-dev.gba",
+    "sha1": "383adf1bce4b0e7793648a13b3749c1bcf97c1b7",
+    "size": 6291456
+  },
+  "applied_patches": [
+    {
+      "id": "dialogue_proof_same_length",
+      "type": "dialogue",
+      "offset": 1901,
+      "before_hex": "89df95d1",
+      "after_hex": "8e8e8cb1",
+      "length": 4,
+      "text": "試験",
+      "encoding": "cp932",
+      "bank": "sequel/content/text/dialogue-bank.json",
+      "content": "sequel/content/text/dialogue-patches.json",
+      "source_entry": "proof.menu.same_length_00076d"
+    }
+  ],
+  "patch_manifest": "sequel/patches/manifest.json"
+}

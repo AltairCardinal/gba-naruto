@@ -1,0 +1,70 @@
+(lldb) command source -s 0 '/tmp/naruto-lldb-disasm.cmds'
+Executing commands in '/tmp/naruto-lldb-disasm.cmds'.
+(lldb) gdb-remote localhost:2345
+Process 1 stopped
+* thread #1, stop reason = signal SIGINT
+    frame #0: 0x00000000
+->  0x0: andeq  r0, r0, r0
+    0x4: andeq  r0, r0, r0
+    0x8: andeq  r0, r0, r0
+    0xc: andeq  r0, r0, r0
+Target 0: (No executable module.) stopped.
+(lldb) disassemble --start-address 0x08066d50 --count 24
+    0x8066d50: sublo  sp, r0, r2, lsl #6
+    0x8066d54: movwle r4, #0x6281
+    0x8066d58: stmdavs r0, {r2, r4, r11, lr}
+    0x8066d5c: streq  r1, [r0], #-2576
+    0x8066d60: .long  0xf7ff0c00                ; unknown opcode
+    0x8066d64: ldmdavs r8!, {r0, r1, r2, r4, r5, r11, r12, sp, lr, pc}
+    0x8066d68: ldmdbmi r1, {r0, r12, sp}
+    0x8066d6c: movwmi r8, #0x8809
+    0x8066d70: strlo  r8, [r2], #-32
+    0x8066d74: stmdbhi r8!, {r0, r9, r10, r12, sp}
+    0x8066d78: addmi  r3, r6, #65536
+    0x8066d7c: strlo  sp, [r4], #-3041
+    0x8066d80: stmdbhi r8!, {r0, r6, r9, r10, lr} ^
+    0x8066d84: addmi  r3, r1, #65536
+    0x8066d88: .long  0x2000dbd3                ; unknown opcode
+    0x8066d8c: .long  0x81a881e8                ; unknown opcode
+    0x8066d90: .long  0x21026828                ; unknown opcode
+    0x8066d94: eorvs  r4, r8, r8, lsl #6
+    0x8066d98: ldrmi  r11, [r8], r8, lsl #24
+    0x8066d9c: .long  0xbc01bcf0                ; unknown opcode
+    0x8066da0: andeq  r4, r0, r0, lsl #14
+    0x8066da4: andeq  r11, r1, #88, #26
+    0x8066da8: .long  0x000003ff                ; unknown opcode
+    0x8066dac: andeq  r11, r1, #100, #26
+(lldb) disassemble --start-address 0x08065ec0 --count 32
+    0x8065ec0: addlt  r11, r4, r0, ror #9
+    0x8065ec4: .long  0x0c050400                ; unknown opcode
+    0x8065ec8: .long  0x0e0c0609                ; unknown opcode
+    0x8065ecc: movwls r9, #0x1200
+    0x8065ed0: eormi  r2, r0, r1
+    0x8065ed4: .long  0x1c043002                ; unknown opcode
+    0x8065ed8: .long  0xf7ff1c28                ; unknown opcode
+    0x8065edc: .long  0x0600ffd1                ; unknown opcode
+    0x8065ee0: ldmibhs pc!, {r0, r9, r10, r11} ^
+    0x8065ee4: bmi    0x88d9ffc
+    0x8065ee8: .long  0x1d1100c8                ; unknown opcode
+    0x8065eec: stmne  r0, {r0, r6, r11, r12}
+    0x8065ef0: bne    0x8a87ef8
+    0x8065ef4: stmdavs r9, {r6, r8}
+    0x8065ef8: .long  0x2100180d                ; unknown opcode
+    0x8065efc: strmi  r0, [r2], r0, lsr #1
+    0x8065f00: ldrmi  r0, [r1], r2, lsr #2
+    0x8065f04: ldrtmi r0, [r8], r7, lsr #3
+    0x8065f08: strtmi r0, [r4], r4, lsr #4
+    0x8065f0c: andls  r4, r2, r8, ror #12
+    0x8065f10: addeq  r2, r8, r0, lsl #12
+    0x8065f14: .long  0x91033101                ; unknown opcode
+    0x8065f18: stmdane r4, {r1, r8, r11, r12, pc} ^
+    0x8065f1c: stmdavc r10!, {r0, r1, r5, r11, sp, lr}
+    0x8065f20: andsmi r2, r1, r3, lsl #2
+    0x8065f24: .long  0x43394657                ; unknown opcode
+    0x8065f28: andsmi r2, r0, r12
+    0x8065f2c: .long  0x4338464f                ; unknown opcode
+    0x8065f30: movwmi r0, #0x1080
+    0x8065f34: andsmi r2, r0, r0, lsr r0
+    0x8065f38: .long  0x43384647                ; unknown opcode
+    0x8065f3c: movwmi r0, #0x1100
+(lldb) quit

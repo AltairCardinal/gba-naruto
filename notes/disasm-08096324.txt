@@ -1,0 +1,211 @@
+rom=build/naruto-sequel-dev.gba
+start=0x08096324
+focus=0x08096324
+size=0x2E0
+
+=> 0x08096324: push     {r4, r5, lr}
+   0x08096326: adds     r5, r0, #0
+   0x08096328: adds     r4, r5, #0
+   0x0809632A: adds     r4, #0x2c
+   0x0809632C: ldrb     r0, [r4]
+   0x0809632E: cmp      r0, #0x50
+   0x08096330: bls      #0x8096334
+   0x08096332: b        #0x80965e6
+   0x08096334: lsls     r0, r0, #2
+   0x08096336: ldr      r1, [pc, #8]
+   0x08096338: adds     r0, r0, r1
+   0x0809633A: ldr      r0, [r0]
+   0x0809633C: mov      pc, r0
+   0x0809633E: movs     r0, r0
+   0x08096340: str      r4, [r0, #0x34]
+   0x08096342: lsrs     r1, r1, #0x20
+   0x08096344: str      r0, [r1, #0x48]
+   0x08096346: lsrs     r1, r1, #0x20
+   0x08096348: str      r0, [r1, #0x4c]
+   0x0809634A: lsrs     r1, r1, #0x20
+   0x0809634C: str      r0, [r1, #0x48]
+   0x0809634E: lsrs     r1, r1, #0x20
+   0x08096350: str      r6, [r4, #0x5c]
+   0x08096352: lsrs     r1, r1, #0x20
+   0x08096354: str      r6, [r4, #0x5c]
+   0x08096356: lsrs     r1, r1, #0x20
+   0x08096358: str      r6, [r4, #0x5c]
+   0x0809635A: lsrs     r1, r1, #0x20
+   0x0809635C: str      r6, [r4, #0x5c]
+   0x0809635E: lsrs     r1, r1, #0x20
+   0x08096360: str      r6, [r4, #0x5c]
+   0x08096362: lsrs     r1, r1, #0x20
+   0x08096364: str      r6, [r4, #0x5c]
+   0x08096366: lsrs     r1, r1, #0x20
+   0x08096368: str      r6, [r4, #0x5c]
+   0x0809636A: lsrs     r1, r1, #0x20
+   0x0809636C: str      r6, [r4, #0x5c]
+   0x0809636E: lsrs     r1, r1, #0x20
+   0x08096370: str      r6, [r4, #0x5c]
+   0x08096372: lsrs     r1, r1, #0x20
+   0x08096374: str      r6, [r4, #0x5c]
+   0x08096376: lsrs     r1, r1, #0x20
+   0x08096378: str      r6, [r4, #0x5c]
+   0x0809637A: lsrs     r1, r1, #0x20
+   0x0809637C: str      r6, [r4, #0x5c]
+   0x0809637E: lsrs     r1, r1, #0x20
+   0x08096380: str      r6, [r4, #0x5c]
+   0x08096382: lsrs     r1, r1, #0x20
+   0x08096384: str      r6, [r4, #0x5c]
+   0x08096386: lsrs     r1, r1, #0x20
+   0x08096388: str      r6, [r4, #0x5c]
+   0x0809638A: lsrs     r1, r1, #0x20
+   0x0809638C: str      r6, [r4, #0x5c]
+   0x0809638E: lsrs     r1, r1, #0x20
+   0x08096390: str      r6, [r4, #0x5c]
+   0x08096392: lsrs     r1, r1, #0x20
+   0x08096394: str      r6, [r4, #0x5c]
+   0x08096396: lsrs     r1, r1, #0x20
+   0x08096398: str      r6, [r4, #0x5c]
+   0x0809639A: lsrs     r1, r1, #0x20
+   0x0809639C: str      r6, [r4, #0x5c]
+   0x0809639E: lsrs     r1, r1, #0x20
+   0x080963A0: str      r6, [r4, #0x5c]
+   0x080963A2: lsrs     r1, r1, #0x20
+   0x080963A4: str      r6, [r4, #0x5c]
+   0x080963A6: lsrs     r1, r1, #0x20
+   0x080963A8: str      r6, [r4, #0x5c]
+   0x080963AA: lsrs     r1, r1, #0x20
+   0x080963AC: str      r6, [r4, #0x5c]
+   0x080963AE: lsrs     r1, r1, #0x20
+   0x080963B0: str      r6, [r4, #0x5c]
+   0x080963B2: lsrs     r1, r1, #0x20
+   0x080963B4: str      r6, [r4, #0x5c]
+   0x080963B6: lsrs     r1, r1, #0x20
+   0x080963B8: str      r6, [r4, #0x5c]
+   0x080963BA: lsrs     r1, r1, #0x20
+   0x080963BC: str      r6, [r4, #0x5c]
+   0x080963BE: lsrs     r1, r1, #0x20
+   0x080963C0: str      r6, [r4, #0x5c]
+   0x080963C2: lsrs     r1, r1, #0x20
+   0x080963C4: str      r6, [r4, #0x4c]
+   0x080963C6: lsrs     r1, r1, #0x20
+   0x080963C8: str      r4, [r5, #0x4c]
+   0x080963CA: lsrs     r1, r1, #0x20
+   0x080963CC: str      r6, [r4, #0x5c]
+   0x080963CE: lsrs     r1, r1, #0x20
+   0x080963D0: str      r6, [r4, #0x5c]
+   0x080963D2: lsrs     r1, r1, #0x20
+   0x080963D4: str      r6, [r4, #0x5c]
+   0x080963D6: lsrs     r1, r1, #0x20
+   0x080963D8: str      r6, [r4, #0x5c]
+   0x080963DA: lsrs     r1, r1, #0x20
+   0x080963DC: str      r6, [r4, #0x5c]
+   0x080963DE: lsrs     r1, r1, #0x20
+   0x080963E0: str      r6, [r4, #0x5c]
+   0x080963E2: lsrs     r1, r1, #0x20
+   0x080963E4: str      r6, [r4, #0x5c]
+   0x080963E6: lsrs     r1, r1, #0x20
+   0x080963E8: str      r6, [r4, #0x5c]
+   0x080963EA: lsrs     r1, r1, #0x20
+   0x080963EC: str      r6, [r4, #0x5c]
+   0x080963EE: lsrs     r1, r1, #0x20
+   0x080963F0: str      r6, [r4, #0x5c]
+   0x080963F2: lsrs     r1, r1, #0x20
+   0x080963F4: str      r6, [r4, #0x5c]
+   0x080963F6: lsrs     r1, r1, #0x20
+   0x080963F8: str      r6, [r4, #0x5c]
+   0x080963FA: lsrs     r1, r1, #0x20
+   0x080963FC: str      r6, [r4, #0x5c]
+   0x080963FE: lsrs     r1, r1, #0x20
+   0x08096400: str      r6, [r4, #0x5c]
+   0x08096402: lsrs     r1, r1, #0x20
+   0x08096404: str      r6, [r4, #0x5c]
+   0x08096406: lsrs     r1, r1, #0x20
+   0x08096408: str      r6, [r4, #0x5c]
+   0x0809640A: lsrs     r1, r1, #0x20
+   0x0809640C: str      r6, [r4, #0x5c]
+   0x0809640E: lsrs     r1, r1, #0x20
+   0x08096410: str      r6, [r4, #0x5c]
+   0x08096412: lsrs     r1, r1, #0x20
+   0x08096414: str      r6, [r4, #0x5c]
+   0x08096416: lsrs     r1, r1, #0x20
+   0x08096418: str      r6, [r4, #0x5c]
+   0x0809641A: lsrs     r1, r1, #0x20
+   0x0809641C: str      r6, [r4, #0x5c]
+   0x0809641E: lsrs     r1, r1, #0x20
+   0x08096420: str      r6, [r4, #0x5c]
+   0x08096422: lsrs     r1, r1, #0x20
+   0x08096424: str      r6, [r4, #0x5c]
+   0x08096426: lsrs     r1, r1, #0x20
+   0x08096428: str      r6, [r4, #0x5c]
+   0x0809642A: lsrs     r1, r1, #0x20
+   0x0809642C: str      r6, [r4, #0x5c]
+   0x0809642E: lsrs     r1, r1, #0x20
+   0x08096430: str      r6, [r4, #0x5c]
+   0x08096432: lsrs     r1, r1, #0x20
+   0x08096434: str      r6, [r4, #0x5c]
+   0x08096436: lsrs     r1, r1, #0x20
+   0x08096438: str      r6, [r4, #0x5c]
+   0x0809643A: lsrs     r1, r1, #0x20
+   0x0809643C: str      r6, [r4, #0x5c]
+   0x0809643E: lsrs     r1, r1, #0x20
+   0x08096440: str      r6, [r4, #0x5c]
+   0x08096442: lsrs     r1, r1, #0x20
+   0x08096444: str      r4, [r3, #0x50]
+   0x08096446: lsrs     r1, r1, #0x20
+   0x08096448: str      r0, [r0, #0x58]
+   0x0809644A: lsrs     r1, r1, #0x20
+   0x0809644C: str      r6, [r4, #0x5c]
+   0x0809644E: lsrs     r1, r1, #0x20
+   0x08096450: str      r6, [r4, #0x5c]
+   0x08096452: lsrs     r1, r1, #0x20
+   0x08096454: str      r6, [r4, #0x5c]
+   0x08096456: lsrs     r1, r1, #0x20
+   0x08096458: str      r6, [r4, #0x5c]
+   0x0809645A: lsrs     r1, r1, #0x20
+   0x0809645C: str      r6, [r4, #0x5c]
+   0x0809645E: lsrs     r1, r1, #0x20
+   0x08096460: str      r6, [r4, #0x5c]
+   0x08096462: lsrs     r1, r1, #0x20
+   0x08096464: str      r6, [r4, #0x5c]
+   0x08096466: lsrs     r1, r1, #0x20
+   0x08096468: str      r6, [r4, #0x5c]
+   0x0809646A: lsrs     r1, r1, #0x20
+   0x0809646C: str      r6, [r4, #0x5c]
+   0x0809646E: lsrs     r1, r1, #0x20
+   0x08096470: str      r6, [r4, #0x5c]
+   0x08096472: lsrs     r1, r1, #0x20
+   0x08096474: str      r6, [r4, #0x5c]
+   0x08096476: lsrs     r1, r1, #0x20
+   0x08096478: str      r6, [r4, #0x5c]
+   0x0809647A: lsrs     r1, r1, #0x20
+   0x0809647C: str      r6, [r4, #0x5c]
+   0x0809647E: lsrs     r1, r1, #0x20
+   0x08096480: str      r6, [r4, #0x5c]
+   0x08096482: lsrs     r1, r1, #0x20
+   0x08096484: str      r0, [r6, #0x58]
+   0x08096486: lsrs     r1, r1, #0x20
+   0x08096488: ldrb     r0, [r4, #1]
+   0x0809648A: movs     r1, #0x90
+   0x0809648C: cmp      r0, #0
+   0x0809648E: bne      #0x8096492
+   0x08096490: movs     r1, #0x10
+   0x08096492: strh     r1, [r5, #4]
+   0x08096494: ldrb     r0, [r4, #1]
+   0x08096496: movs     r1, #0x60
+   0x08096498: cmp      r0, #0
+   0x0809649A: bne      #0x80964a2
+   0x0809649C: movs     r0, #0x60
+   0x0809649E: rsbs     r0, r0, #0
+   0x080964A0: adds     r1, r0, #0
+   0x080964A2: strh     r1, [r5, #8]
+   0x080964A4: movs     r0, #8
+   0x080964A6: strh     r0, [r5, #6]
+   0x080964A8: ldr      r0, [r5]
+   0x080964AA: ldr      r1, [pc, #0x14]
+   0x080964AC: ands     r0, r1
+   0x080964AE: str      r0, [r5]
+   0x080964B0: ldrb     r0, [r4]
+   0x080964B2: cmp      r0, #2
+   0x080964B4: bne      #0x80964c4
+   0x080964B6: movs     r0, #0
+   0x080964B8: strh     r0, [r5, #8]
+   0x080964BA: movs     r0, #0x10
+   0x080964BC: b        #0x80965e4
+   0x080964BE: movs     r0, r0

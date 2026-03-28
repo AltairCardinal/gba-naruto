@@ -1,0 +1,104 @@
+(lldb) command source -s 0 '/Users/altair/github/naruto/tools/lldb-watch-a9xx.cmds'
+Executing commands in '/Users/altair/github/naruto/tools/lldb-watch-a9xx.cmds'.
+(lldb) target create /Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA
+Current executable set to '/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA' (x86_64).
+(lldb) gdb-remote localhost:2345
+Process 1 stopped
+* thread #1, stop reason = signal SIGINT
+    frame #0: 0x00000000
+->  0x0: andeq  r0, r0, r0
+    0x4: andeq  r0, r0, r0
+    0x8: andeq  r0, r0, r0
+    0xc: andeq  r0, r0, r0
+Target 0: (No executable module.) stopped.
+(lldb) watchpoint set expression -w write -- *(unsigned short*)0x0200A904
+error: Assertion failed: (0 && "GetMemoryRegionInfo() succeeded, then failed"), function FindSpace, file IRMemoryMap.cpp, line 138
+Stack dump without symbol names (ensure you have llvm-symbolizer in your PATH or set the environment var `LLVM_SYMBOLIZER_PATH` to point to it):
+0  LLDB 0x00000001214eb8f8 llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) + 40
+1  LLDB 0x0000000120fbd0a8 lldb_private::lldb_assert(bool, char const*, char const*, char const*, unsigned int) + 184
+2  LLDB 0x0000000120e29c31 lldb_private::IRMemoryMap::FindSpace(unsigned long) + 897
+3  LLDB 0x0000000120e2a234 lldb_private::IRMemoryMap::Malloc(unsigned long, unsigned char, unsigned int, lldb_private::IRMemoryMap::AllocationPolicy, bool, lldb_private::Status&) + 324
+4  LLDB 0x0000000120e2c787 lldb_private::LLVMUserExpression::PrepareToExecuteJITExpression(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, unsigned long long&) + 183
+5  LLDB 0x0000000120e2bdb2 lldb_private::LLVMUserExpression::DoExecute(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, std::__1::shared_ptr<lldb_private::UserExpression>&, std::__1::shared_ptr<lldb_private::ExpressionVariable>&) + 130
+6  LLDB 0x0000000120e373a6 lldb_private::UserExpression::Execute(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, std::__1::shared_ptr<lldb_private::UserExpression>&, std::__1::shared_ptr<lldb_private::ExpressionVariable>&) + 38
+7  LLDB 0x0000000120e36c63 lldb_private::UserExpression::Evaluate(lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, llvm::StringRef, llvm::StringRef, std::__1::shared_ptr<lldb_private::ValueObject>&, lldb_private::Status&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>*, lldb_private::ValueObject*) + 4339
+8  LLDB 0x0000000120f6211e lldb_private::Target::EvaluateExpression(llvm::StringRef, lldb_private::ExecutionContextScope*, std::__1::shared_ptr<lldb_private::ValueObject>&, lldb_private::EvaluateExpressionOptions const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>*, lldb_private::ValueObject*) + 878
+9  LLDB 0x00000001215acc34 CommandObjectWatchpointSetExpression::DoExecute(llvm::StringRef, lldb_private::CommandReturnObject&) + 708
+10 LLDB 0x0000000120e74dd1 lldb_private::CommandObjectRaw::Execute(char const*, lldb_private::CommandReturnObject&) + 401
+11 LLDB 0x0000000120e6a69e lldb_private::CommandInterpreter::HandleCommand(char const*, lldb_private::LazyBool, lldb_private::CommandReturnObject&, bool) + 2894
+12 LLDB 0x0000000120e6e46e lldb_private::CommandInterpreter::IOHandlerInputComplete(lldb_private::IOHandler&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>&) + 862
+13 LLDB 0x0000000120d90b2a lldb_private::IOHandlerEditline::Run() + 346
+14 LLDB 0x0000000120d702bd lldb_private::Debugger::RunIOHandlerSync(std::__1::shared_ptr<lldb_private::IOHandler> const&) + 109
+15 LLDB 0x0000000120e6b90b lldb_private::CommandInterpreter::HandleCommandsFromFile(lldb_private::FileSpec&, lldb_private::CommandInterpreterRunOptions const&, lldb_private::CommandReturnObject&) + 1899
+16 LLDB 0x000000012151fe26 CommandObjectCommandsSource::DoExecute(lldb_private::Args&, lldb_private::CommandReturnObject&) + 630
+17 LLDB 0x0000000120e74a7b lldb_private::CommandObjectParsed::Execute(char const*, lldb_private::CommandReturnObject&) + 763
+18 LLDB 0x0000000120e6a69e lldb_private::CommandInterpreter::HandleCommand(char const*, lldb_private::LazyBool, lldb_private::CommandReturnObject&, bool) + 2894
+19 LLDB 0x0000000120e6e46e lldb_private::CommandInterpreter::IOHandlerInputComplete(lldb_private::IOHandler&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>&) + 862
+20 LLDB 0x0000000120d90b2a lldb_private::IOHandlerEditline::Run() + 346
+21 LLDB 0x0000000120d70083 lldb_private::Debugger::RunIOHandlers() + 147
+22 LLDB 0x0000000120e6fc2c lldb_private::CommandInterpreter::RunCommandInterpreter(lldb_private::CommandInterpreterRunOptions&) + 204
+23 LLDB 0x0000000120badd35 lldb::SBDebugger::RunCommandInterpreter(lldb::SBCommandInterpreterRunOptions const&) + 117
+24 lldb 0x000000010cfaff89 Driver::MainLoop() + 2633
+25 lldb 0x000000010cfb0d1f main + 2111
+26 dyld 0x00007ff808a22345 start + 1909
+Please file a bug report against lldb reporting this failure log, and as many details as possible
+Watchpoint created: Watchpoint 1: addr = 0x00000000 size = 4 state = enabled type = w
+    watchpoint spec = '*(unsigned short*)0x0200A904'
+    watchpoint resources:
+       #0: addr = 0x00000000 size = 4
+Watchpoint 1 hit:
+    
+new value: {
+  '\0'
+  '\0'
+  '\0'
+  '\0'
+}
+
+(lldb) watchpoint set expression -w write -- *(unsigned short*)0x0200A940
+error: Assertion failed: (0 && "GetMemoryRegionInfo() succeeded, then failed"), function FindSpace, file IRMemoryMap.cpp, line 138
+Stack dump without symbol names (ensure you have llvm-symbolizer in your PATH or set the environment var `LLVM_SYMBOLIZER_PATH` to point to it):
+0  LLDB 0x00000001214eb8f8 llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) + 40
+1  LLDB 0x0000000120fbd0a8 lldb_private::lldb_assert(bool, char const*, char const*, char const*, unsigned int) + 184
+2  LLDB 0x0000000120e29c31 lldb_private::IRMemoryMap::FindSpace(unsigned long) + 897
+3  LLDB 0x0000000120e2a234 lldb_private::IRMemoryMap::Malloc(unsigned long, unsigned char, unsigned int, lldb_private::IRMemoryMap::AllocationPolicy, bool, lldb_private::Status&) + 324
+4  LLDB 0x0000000120e2c787 lldb_private::LLVMUserExpression::PrepareToExecuteJITExpression(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, unsigned long long&) + 183
+5  LLDB 0x0000000120e2bdb2 lldb_private::LLVMUserExpression::DoExecute(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, std::__1::shared_ptr<lldb_private::UserExpression>&, std::__1::shared_ptr<lldb_private::ExpressionVariable>&) + 130
+6  LLDB 0x0000000120e373a6 lldb_private::UserExpression::Execute(lldb_private::DiagnosticManager&, lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, std::__1::shared_ptr<lldb_private::UserExpression>&, std::__1::shared_ptr<lldb_private::ExpressionVariable>&) + 38
+7  LLDB 0x0000000120e36c63 lldb_private::UserExpression::Evaluate(lldb_private::ExecutionContext&, lldb_private::EvaluateExpressionOptions const&, llvm::StringRef, llvm::StringRef, std::__1::shared_ptr<lldb_private::ValueObject>&, lldb_private::Status&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>*, lldb_private::ValueObject*) + 4339
+8  LLDB 0x0000000120f6211e lldb_private::Target::EvaluateExpression(llvm::StringRef, lldb_private::ExecutionContextScope*, std::__1::shared_ptr<lldb_private::ValueObject>&, lldb_private::EvaluateExpressionOptions const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>*, lldb_private::ValueObject*) + 878
+9  LLDB 0x00000001215acc34 CommandObjectWatchpointSetExpression::DoExecute(llvm::StringRef, lldb_private::CommandReturnObject&) + 708
+10 LLDB 0x0000000120e74dd1 lldb_private::CommandObjectRaw::Execute(char const*, lldb_private::CommandReturnObject&) + 401
+11 LLDB 0x0000000120e6a69e lldb_private::CommandInterpreter::HandleCommand(char const*, lldb_private::LazyBool, lldb_private::CommandReturnObject&, bool) + 2894
+12 LLDB 0x0000000120e6e46e lldb_private::CommandInterpreter::IOHandlerInputComplete(lldb_private::IOHandler&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>&) + 862
+13 LLDB 0x0000000120d90b2a lldb_private::IOHandlerEditline::Run() + 346
+14 LLDB 0x0000000120d702bd lldb_private::Debugger::RunIOHandlerSync(std::__1::shared_ptr<lldb_private::IOHandler> const&) + 109
+15 LLDB 0x0000000120e6b90b lldb_private::CommandInterpreter::HandleCommandsFromFile(lldb_private::FileSpec&, lldb_private::CommandInterpreterRunOptions const&, lldb_private::CommandReturnObject&) + 1899
+16 LLDB 0x000000012151fe26 CommandObjectCommandsSource::DoExecute(lldb_private::Args&, lldb_private::CommandReturnObject&) + 630
+17 LLDB 0x0000000120e74a7b lldb_private::CommandObjectParsed::Execute(char const*, lldb_private::CommandReturnObject&) + 763
+18 LLDB 0x0000000120e6a69e lldb_private::CommandInterpreter::HandleCommand(char const*, lldb_private::LazyBool, lldb_private::CommandReturnObject&, bool) + 2894
+19 LLDB 0x0000000120e6e46e lldb_private::CommandInterpreter::IOHandlerInputComplete(lldb_private::IOHandler&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>&) + 862
+20 LLDB 0x0000000120d90b2a lldb_private::IOHandlerEditline::Run() + 346
+21 LLDB 0x0000000120d70083 lldb_private::Debugger::RunIOHandlers() + 147
+22 LLDB 0x0000000120e6fc2c lldb_private::CommandInterpreter::RunCommandInterpreter(lldb_private::CommandInterpreterRunOptions&) + 204
+23 LLDB 0x0000000120badd35 lldb::SBDebugger::RunCommandInterpreter(lldb::SBCommandInterpreterRunOptions const&) + 117
+24 lldb 0x000000010cfaff89 Driver::MainLoop() + 2633
+25 lldb 0x000000010cfb0d1f main + 2111
+26 dyld 0x00007ff808a22345 start + 1909
+Please file a bug report against lldb reporting this failure log, and as many details as possible
+Watchpoint created: Watchpoint 1: addr = 0x00000000 size = 4 state = enabled type = w
+    watchpoint spec = '*(unsigned short*)0x0200A940'
+    watchpoint resources:
+       #0: addr = 0x00000000 size = 4
+Watchpoint 1 hit:
+    
+new value: {
+  '\0'
+  '\0'
+  '\0'
+  '\0'
+}
+
+(lldb) continue
+Process 1 resuming
+Process 1 exited with status = -1 (0xffffffff) lost connection

@@ -1,0 +1,144 @@
+{
+  "start": 1573412,
+  "size": 64,
+  "entropy": 2.8197,
+  "zero_ratio": 0.4219,
+  "u32_prefix": [
+    {
+      "index": 0,
+      "offset": 1573412,
+      "value": 135791020,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 1,
+      "offset": 1573416,
+      "value": 135791044,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 2,
+      "offset": 1573420,
+      "value": 135791068,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 3,
+      "offset": 1573424,
+      "value": 135791092,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 4,
+      "offset": 1573428,
+      "value": 135791116,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 5,
+      "offset": 1573432,
+      "value": 524288,
+      "kind": "raw32"
+    },
+    {
+      "index": 6,
+      "offset": 1573436,
+      "value": 262145,
+      "kind": "raw32"
+    },
+    {
+      "index": 7,
+      "offset": 1573440,
+      "value": 524290,
+      "kind": "raw32"
+    },
+    {
+      "index": 8,
+      "offset": 1573444,
+      "value": 131073,
+      "kind": "raw32"
+    },
+    {
+      "index": 9,
+      "offset": 1573448,
+      "value": 131075,
+      "kind": "raw32"
+    },
+    {
+      "index": 10,
+      "offset": 1573452,
+      "value": 524292,
+      "kind": "raw32"
+    },
+    {
+      "index": 11,
+      "offset": 1573456,
+      "value": 65535,
+      "kind": "u16ish"
+    },
+    {
+      "index": 12,
+      "offset": 1573460,
+      "value": 135791160,
+      "kind": "rom_ptr"
+    },
+    {
+      "index": 13,
+      "offset": 1573464,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 14,
+      "offset": 1573468,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 15,
+      "offset": 1573472,
+      "value": 0,
+      "kind": "zero"
+    }
+  ],
+  "palette_probe": {
+    "palette_like_ratio": 0.96875,
+    "nonzero_halfwords": 24,
+    "first_u16": [
+      428,
+      2072,
+      452,
+      2072,
+      476,
+      2072,
+      500,
+      2072,
+      524,
+      2072,
+      0,
+      8,
+      1,
+      4,
+      2,
+      8,
+      1,
+      2,
+      3,
+      2,
+      4,
+      8,
+      65535,
+      0,
+      568,
+      2072,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "guess": "nested_descriptor",
+  "head_hex": "ac011808c4011808dc011808f40118080c021808000008000100040002000800010002000300020004000800ffff000038021808000000000000000000000000"
+}

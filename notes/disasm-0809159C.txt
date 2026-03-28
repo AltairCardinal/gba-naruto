@@ -1,0 +1,130 @@
+rom=build/naruto-sequel-dev.gba
+start=0x0809153C
+focus=0x0809159C
+size=0x120
+
+   0x0809153C: ldr      r0, [sp, #0x2c]
+   0x0809153E: movs     r2, #0
+   0x08091540: bl       #0x8066efc
+   0x08091544: ldr      r1, [pc, #0x308]
+   0x08091546: ldr      r0, [sp, #0x2c]
+   0x08091548: movs     r2, #0
+   0x0809154A: bl       #0x8066efc
+   0x0809154E: add      r1, sp, #0x18
+   0x08091550: movs     r2, #0
+   0x08091552: movs     r0, #7
+   0x08091554: strb     r0, [r1]
+   0x08091556: adds     r0, r1, #0
+   0x08091558: add      r3, sp, #0x2c
+   0x0809155A: ldrb     r3, [r3]
+   0x0809155C: strb     r3, [r0, #1]
+   0x0809155E: strb     r2, [r0, #2]
+   0x08091560: strb     r2, [r0, #3]
+   0x08091562: bl       #0x8090564
+   0x08091566: add      r0, sp, #0x18
+   0x08091568: bl       #0x8067158
+   0x0809156C: ldr      r0, [pc, #0x2e4]
+   0x0809156E: ldrb     r0, [r0]
+   0x08091570: str      r0, [sp, #0x30]
+   0x08091572: ldr      r0, [sp, #0x2c]
+   0x08091574: bl       #0x8066db4
+   0x08091578: bl       #0x806571c
+   0x0809157C: bl       #0x8090584
+   0x08091580: movs     r0, #1
+   0x08091582: bl       #0x809c574
+   0x08091586: movs     r0, #0xb
+   0x08091588: bl       #0x8061e5c
+   0x0809158C: ldr      r0, [pc, #0x2c8]
+   0x0809158E: strb     r4, [r0]
+   0x08091590: movs     r1, #0
+   0x08091592: str      r1, [sp]
+   0x08091594: movs     r0, #0xff
+   0x08091596: movs     r1, #1
+   0x08091598: movs     r2, #0
+   0x0809159A: movs     r3, #0
+=> 0x0809159C: bl       #0x8096168
+   0x080915A0: ldr      r7, [pc, #0x2b8]
+   0x080915A2: movs     r2, #0
+   0x080915A4: str      r2, [sp, #0x1c]
+   0x080915A6: add      r0, sp, #0x1c
+   0x080915A8: ldr      r2, [pc, #0x2b4]
+   0x080915AA: adds     r1, r7, #0
+   0x080915AC: bl       #0x809c0e0
+   0x080915B0: add      r3, sp, #0x2c
+   0x080915B2: ldrb     r0, [r3]
+   0x080915B4: ldr      r3, [pc, #0x2ac]
+   0x080915B6: strb     r0, [r3]
+   0x080915B8: movs     r0, #0xc
+   0x080915BA: str      r0, [sp]
+   0x080915BC: movs     r0, #0x10
+   0x080915BE: str      r0, [sp, #4]
+   0x080915C0: ldr      r0, [sp, #0x2c]
+   0x080915C2: movs     r1, #0
+   0x080915C4: movs     r2, #0
+   0x080915C6: movs     r3, #0x12
+   0x080915C8: bl       #0x8066ae8
+   0x080915CC: ldr      r0, [sp, #0x2c]
+   0x080915CE: adds     r0, #2
+   0x080915D0: str      r0, [sp, #0x44]
+   0x080915D2: lsls     r4, r0, #0x18
+   0x080915D4: lsrs     r4, r4, #0x18
+   0x080915D6: movs     r6, #8
+   0x080915D8: str      r6, [sp]
+   0x080915DA: movs     r1, #0
+   0x080915DC: str      r1, [sp, #4]
+   0x080915DE: adds     r0, r4, #0
+   0x080915E0: movs     r2, #0xc
+   0x080915E2: movs     r3, #0x10
+   0x080915E4: bl       #0x8066ae8
+   0x080915E8: ldr      r0, [pc, #0x27c]
+   0x080915EA: movs     r2, #0
+   0x080915EC: str      r2, [sp]
+   0x080915EE: movs     r1, #2
+   0x080915F0: adds     r2, r4, #0
+   0x080915F2: movs     r3, #0
+   0x080915F4: bl       #0x8066758
+   0x080915F8: ldr      r0, [pc, #0x270]
+   0x080915FA: movs     r1, #2
+   0x080915FC: str      r1, [sp]
+   0x080915FE: movs     r1, #1
+   0x08091600: adds     r2, r4, #0
+   0x08091602: movs     r3, #0
+   0x08091604: bl       #0x8066758
+   0x08091608: ldr      r0, [pc, #0x264]
+   0x0809160A: movs     r1, #4
+   0x0809160C: str      r1, [sp]
+   0x0809160E: movs     r1, #1
+   0x08091610: adds     r2, r4, #0
+   0x08091612: movs     r3, #0
+   0x08091614: bl       #0x8066758
+   0x08091618: ldr      r3, [sp, #0x2c]
+   0x0809161A: adds     r3, #1
+   0x0809161C: mov      sl, r3
+   0x0809161E: lsls     r3, r3, #0x18
+   0x08091620: str      r3, [sp, #0x4c]
+   0x08091622: lsrs     r0, r3, #0x18
+   0x08091624: str      r0, [sp, #0x48]
+   0x08091626: str      r6, [sp]
+   0x08091628: movs     r0, #0x80
+   0x0809162A: lsls     r0, r0, #4
+   0x0809162C: str      r0, [sp, #4]
+   0x0809162E: ldr      r0, [sp, #0x48]
+   0x08091630: movs     r1, #0
+   0x08091632: movs     r2, #0xc
+   0x08091634: movs     r3, #0x1e
+   0x08091636: bl       #0x8066ae8
+   0x0809163A: bl       #0x806571c
+   0x0809163E: ldr      r1, [pc, #0x234]
+   0x08091640: ldr      r2, [pc, #0x234]
+   0x08091642: adds     r0, r2, #0
+   0x08091644: strh     r0, [r1]
+   0x08091646: add      r0, sp, #0x20
+   0x08091648: movs     r3, #0xaf
+   0x0809164A: lsls     r3, r3, #2
+   0x0809164C: adds     r1, r3, #0
+   0x0809164E: strh     r1, [r0]
+   0x08091650: ldr      r1, [pc, #0x228]
+   0x08091652: ldr      r2, [pc, #0x22c]
+   0x08091654: mov      r8, r2
+   0x08091656: bl       #0x809c0e0
+   0x0809165A: ldr      r0, [pc, #0x228]

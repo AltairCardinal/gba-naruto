@@ -1,0 +1,84 @@
+rom=build/naruto-sequel-dev.gba
+start=0x0809C0C0
+focus=0x0809C0F0
+size=0xA0
+
+   0x0809C0C0: adds     r2, r4, #0
+   0x0809C0C2: bl       #0x809c11c
+   0x0809C0C6: adds     r3, r0, #0
+   0x0809C0C8: cmp      r3, #0
+   0x0809C0CA: bne      #0x809c0a4
+   0x0809C0CC: adds     r0, r3, #0
+   0x0809C0CE: pop      {r4, r5, r6, r7}
+   0x0809C0D0: pop      {r1}
+   0x0809C0D2: bx       r1
+   0x0809C0D4: strb     r4, [r0, #0x1f]
+   0x0809C0D6: lsls     r0, r0, #0xc
+   0x0809C0D8: svc      #0xa
+   0x0809C0DA: bx       lr
+   0x0809C0DC: svc      #0xc
+   0x0809C0DE: bx       lr
+   0x0809C0E0: svc      #0xb
+   0x0809C0E2: bx       lr
+   0x0809C0E4: svc      #6
+   0x0809C0E6: bx       lr
+   0x0809C0E8: svc      #0x12
+   0x0809C0EA: bx       lr
+   0x0809C0EC: svc      #0x11
+   0x0809C0EE: bx       lr
+=> 0x0809C0F0: svc      #8
+   0x0809C0F2: bx       lr
+   0x0809C0F4: ldr      r3, [pc, #0x10]
+   0x0809C0F6: movs     r2, #0
+   0x0809C0F8: strb     r2, [r3]
+   0x0809C0FA: ldr      r3, [pc, #0x10]
+   0x0809C0FC: movs     r2, #0
+   0x0809C0FE: strb     r2, [r3]
+   0x0809C100: subs     r3, #0xfa
+   0x0809C102: mov      sp, r3
+   0x0809C104: svc      #1
+   0x0809C106: svc      #0
+   0x0809C108: lsls     r0, r1, #8
+   0x0809C10A: lsls     r0, r0, #0x10
+   0x0809C10C: ldrb     r2, [r7, #0x1f]
+   0x0809C10E: lsls     r0, r0, #0xc
+   0x0809C110: bx       r0
+   0x0809C112: mov      r8, r8
+   0x0809C114: bx       r1
+   0x0809C116: mov      r8, r8
+   0x0809C118: bx       r2
+   0x0809C11A: mov      r8, r8
+   0x0809C11C: bx       r3
+   0x0809C11E: mov      r8, r8
+   0x0809C120: bx       r4
+   0x0809C122: mov      r8, r8
+   0x0809C124: bx       r5
+   0x0809C126: mov      r8, r8
+   0x0809C128: bx       r6
+   0x0809C12A: mov      r8, r8
+   0x0809C12C: bx       r7
+   0x0809C12E: mov      r8, r8
+   0x0809C130: bx       r8
+   0x0809C132: mov      r8, r8
+   0x0809C134: bx       sb
+   0x0809C136: mov      r8, r8
+   0x0809C138: bx       sl
+   0x0809C13A: mov      r8, r8
+   0x0809C13C: bx       fp
+   0x0809C13E: mov      r8, r8
+   0x0809C140: bx       ip
+   0x0809C142: mov      r8, r8
+   0x0809C144: bx       sp
+   0x0809C146: mov      r8, r8
+   0x0809C148: bx       lr
+   0x0809C14A: mov      r8, r8
+   0x0809C14C: cmp      r1, #0
+   0x0809C14E: beq      #0x809c1d4
+   0x0809C150: push     {r4}
+   0x0809C152: adds     r4, r0, #0
+   0x0809C154: eors     r4, r1
+   0x0809C156: mov      ip, r4
+   0x0809C158: movs     r3, #1
+   0x0809C15A: movs     r2, #0
+   0x0809C15C: cmp      r1, #0
+   0x0809C15E: bpl      #0x809c162

@@ -1,0 +1,5 @@
+target create /Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA
+gdb-remote localhost:2345
+watchpoint set expression -w write -- *(unsigned short*)0x0200A904
+watchpoint set expression -w write -- *(unsigned short*)0x0200A940
+continue

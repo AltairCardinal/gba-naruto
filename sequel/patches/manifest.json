@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "description": "Sequel development patch manifest. All applied changes must be recorded here or in referenced files.",
+  "patches": [
+    {
+      "id": "exp_00076d_same_length",
+      "type": "bytes",
+      "enabled": false,
+      "description": "Existing proof-of-write patch in low-ROM text bank. Keeps same byte length.",
+      "offset": 1901,
+      "before_hex": "89df95d1",
+      "after_hex": "8e8e8cb1"
+    },
+    {
+      "id": "dialogue_proof_same_length",
+      "type": "dialogue",
+      "enabled": true,
+      "description": "High-level dialogue import that reproduces the proof-of-write patch through sequel content files.",
+      "bank": "sequel/content/text/dialogue-bank.json",
+      "content": "sequel/content/text/dialogue-patches.json",
+      "entry_id": "proof.menu.same_length_00076d"
+    }
+  ]
+}
