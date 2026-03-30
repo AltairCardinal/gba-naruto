@@ -2,75 +2,89 @@
 
 ## Status
 
-Not yet identified. This document records the investigation state and recommended path forward.
+Identified via static analysis (2026-03-31).
 
-## Known Entry Points
+---
 
-### Dialogue/UI Rendering Path (confirmed)
+## Confirmed Entry Points
+
+### Chapter/Battle Initialization Chain
+
+| Address | Role |
+|---------|------|
+| `0x0808F618` | Top-level chapter start: reads struct, copies IDs, calls init |
+| `0x08068DE4` | Sets IWRAM trigger flag, dispatches to battle init |
+| `0x080732B4` | Reads tile slot params from WRAM, prepares display args |
+| `0x08068FF0` | **Map loader**: loads tile/palette data from battle config table |
+| `0x0806FD00` | Alternate chapter init (7 callers, similar pattern) |
+
+### Map Loader Callers (0x08068FF0)
+
+```
+0x0806FD38  →  called from function at 0x0806FD00
+0x08073314  →  called from function at 0x080732B4
+0x080750B6  →  unknown third path
+```
+
+### Chapter State Struct Writer
+
+`0x0808F618` clears and writes:
+- `0x020311D4` (chapter state struct base)
+- `0x02026804` (battle control flags region)
+
+Literal pools within `0x0808F618` function area: `0x0808F64C` = `0x020311D4`, `0x0808F650` = `0x02026804`.
+
+---
+
+## Known WRAM Addresses
+
+| Address | Purpose |
+|---------|---------|
+| `0x020311D4` | Chapter state struct base |
+| `0x020311EA` | Chapter/battle slot 1 ID (base+0x16) — **write here to change chapter** |
+| `0x020311ED` | Chapter/battle slot 2 ID (base+0x19) |
+| `0x02026804` | Battle control flags |
+| `0x02026805` | Chapter ID committed at init time (from struct+0x16) |
+| `0x02026806` | Chapter ID 2 committed at init time (from struct+0x19) |
+| `0x0202680C` | Game state flag (alternate chapter ID source when nonzero) |
+| `0x0201BE2A` | Tile display slot 1 (also used in battle area — dual purpose) |
+| `0x0201BE2B` | Tile display slot 2 |
+| `0x03000075` | IWRAM chapter trigger flag (set to 1 by `0x08068DE4`) |
+
+---
+
+## Known ROM Addresses
+
+| Address | Purpose |
+|---------|---------|
+| `0x0853D910` | Battle/chapter config table (8 entries × 32 bytes) |
+| `0x0853F298` | Unit ID mapping table (u16[64], slot → character ID) |
+| `0x0853F1C0` | Battle state machine function pointers (u32[60]) |
+| `0x08068FF0` | Map loader (reads from 0x0853D910) |
+| `0x0808F618` | Chapter init trigger |
+| `0x080732B4` | Battle display setup |
+
+---
+
+## Dialogue/UI Rendering Path (previously confirmed)
+
 - `0x080968A0` — runtime-confirmed opening dialogue caller (lr=0x08096633)
-- `0x08096176-0x08096212` — shared RAM-state preparation layer for page-level renderer
-- `0x0808947C` — high-level renderer block (consumes `0x02002880` state struct)
-
-### WRAM/VRAM Rendering Path (confirmed)
+- `0x08096176-0x08096212` — shared RAM-state preparation layer
+- `0x0808947C` — high-level renderer block
 - `0x08066D74` — confirmed WRAM tilemap halfword writer
 - `0x08065F50` — confirmed VRAM glyph upload writer
 - `0x08065EB8` — glyph expansion function
-- `0x08065F84` — glyph→tilemap wrapper
-- `0x080894DE` — external caller of glyph expansion (higher-value upstream anchor)
+- `0x080894DE` — higher-value upstream anchor
 
-### Visual Resource Tables (identified but not chapter config)
-- `0x596D5C`: 312-row × 16-byte tile/map descriptor table
-- `0x596FA8`: 4-pointer resource descriptor table
-- `0x5A4E14`: visual resource bank (155 rows × 16 bytes)
-- `0x461CE8`: dialogue pointer table (305 groups)
+---
 
-### Battle Event Strings
-- `0x12F0F8` — `BATTLEFINISH` event label
-- `0x12FEA0` — `BATTLESTAT` event label
+## Notes on Static Analysis Method
 
-## Investigation Gaps
+All findings above were obtained from:
+1. `tools/find_pointer_refs.py` — finding literal pool references to known ROM addresses
+2. `tools/find_thumb_calls.py` — finding bl/blx callers of key functions
+3. `tools/disasm_thumb.py` — disassembling function bodies
+4. Manual extraction of literal pool values from disassembly
 
-1. **Chapter configuration table**: Not found
-2. **Battle unit placement table**: Not found  
-3. **Enemy/unit stats table**: Not found
-4. **Map tilemap data**: Not located
-5. **Event/script engine entry points**: Not identified
-
-## Recommended Path Forward
-
-### Immediate (requires mGBA)
-1. Run `mgba_newgame_walk.lua` through the first battle
-2. Set a range watchpoint on `0x0200C000-0x0200E000` (game state) during battle start
-3. Capture PC of the first code that writes battle configuration to RAM
-4. Use that PC to find the chapter config reader in the ROM
-
-### Medium-term (requires static analysis + runtime validation)
-1. Use the confirmed dialogue pointer table (0x461CE8) as a template to find similar pointer tables nearby
-2. Search for tables that reference both map data and dialogue text
-3. Look for tables that have a consistent entry count matching typical chapter count (8-20 entries)
-
-### Data-driven approach
-1. Look for data structures that combine unit placement data (x, y coordinates) with unit type IDs
-2. The 0x4BF000 area showed unit-like patterns but structure is unclear
-3. Search for u16 values in range 1-50 repeated 10+ times consecutively — these could be chapter or unit ID sequences
-
-## Reference: What a Chapter Entry Point Looks Like
-
-A typical chapter configuration struct for a GBA tactical RPG:
-
-```c
-struct ChapterEntry {
-    u16 id;           // 1-indexed chapter number
-    u16 map_tile_id;  // Index into map tile descriptor table (e.g., 0x596D5C)
-    u32 map_data;     // Pointer to tilemap data
-    u32 enemy_table;  // Pointer to enemy unit array
-    u32 ally_table;  // Pointer to allied unit array
-    u32 script;      // Pointer to event/script data
-    u16 objective;    // Text index for objective
-    u16 turns;        // Turn limit (0 = no limit)
-    u8 bgm;           // Music track index
-    u8 padding;
-};
-```
-
-Entry size would be 28-32 bytes. A 20-chapter game would have a ~600 byte table.
+The chapter flow was NOT directly observable at runtime (opening story is >15000 frames
+at headless emulator speed before first battle). Static analysis was sufficient.

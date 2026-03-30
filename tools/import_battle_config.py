@@ -46,18 +46,23 @@ ROM_UNIT_ID_TABLE_SIZE = 128  # u16[64]
 
 ROM_BATTLE_SCENARIO_ARM = 0x0853D910
 ROM_BATTLE_SCENARIO_FILE = 0x53D910
-ROM_BATTLE_SCENARIO_SIZE = 256  # 16 entries × 16 bytes
+ROM_BATTLE_SCENARIO_SIZE = 256  # 8 entries × 32 bytes
+ROM_BATTLE_SCENARIO_HEADER = 4   # 4-byte header before entries
+ROM_BATTLE_SCENARIO_ENTRY_SIZE = 32  # bytes per entry
 
 ROM_FUNC_PTR_TABLE_ARM = 0x0853F1C0
 ROM_FUNC_PTR_TABLE_FILE = 0x53F1C0
 
-# Battle scenario entry format: 16 bytes each
-# +0x00: u16 tiles_x  (battle arena width in tiles)
-# +0x02: u16 tiles_y  (battle arena height in tiles)
-# +0x04: u32 ptr1     (ROM pointer → compressed tilemap data)
-# +0x08: u32 ptr2     (ROM pointer → LZ77 compressed palette/attribute data)
-# +0x0C: u16 flag     (scenario flags)
-# +0x0E: u16 extra    (extra data / padding)
+# Battle scenario entry format: 32 bytes = 8 × u32
+# Index formula: entry_ptr = 0x0853D910 + 4 + chapter_id * 32
+# +0x00: u16 height, u16 width  (map dimensions in tiles)
+# +0x04: u32 tile_gfx_ptr       (ROM pointer → tile graphics data)
+# +0x08: u32 tilemap_ptr        (ROM pointer → tilemap layout)
+# +0x0C: u32 tilemap_alt_ptr    (ROM pointer → tilemap layout variant)
+# +0x10: u32 extra_ptr          (ROM pointer → optional extra data, 0 = absent)
+# +0x14: u32 palette_ptr        (ROM pointer → palette/attribute data)
+# +0x18: u32 palette2_ptr       (ROM pointer → secondary palette/compressed)
+# +0x1C: u32 flags              (0x01 = normal, 0x02 = alt mode, 0x102 = special)
 
 # Known unit ID → character name mapping
 UNIT_ID_NAMES = {
@@ -98,16 +103,17 @@ UNIT_ID_NAMES = {
     0x24: "Ambush Member",
 }
 
-# Valid battle scenario entries (from ROM analysis at 0x53D910)
+# Valid battle scenario entries (from ROM analysis at 0x53D910, corrected 2026-03-31)
+# Entry size = 32 bytes, IDs 0-7, accessed as: 0x0853D910 + 4 + id * 32
 BATTLE_SCENARIOS = [
-    {"index": 0,  "w": 92, "h": 64, "ptr1_file": 0x0B9F80, "ptr2_file": 0x0BD608},
-    {"index": 2,  "w": 60, "h": 30, "ptr1_file": 0x0BF318, "ptr2_file": 0x0C166C},
-    {"index": 4,  "w": 36, "h": 36, "ptr1_file": 0x0C1CF8, "ptr2_file": 0x0C416C},
-    {"index": 6,  "w": 36, "h": 40, "ptr1_file": 0x0C4880, "ptr2_file": 0x0C5F24},
-    {"index": 8,  "w": 36, "h": 40, "ptr1_file": 0x0C6450, "ptr2_file": 0x0C8454},
-    {"index": 10, "w": 36, "h": 46, "ptr1_file": 0x0C8AF4, "ptr2_file": 0x0CAA94},
-    {"index": 12, "w": 60, "h": 32, "ptr1_file": 0x0CB18C, "ptr2_file": 0x0CCB54},
-    {"index": 14, "w": 60, "h": 32, "ptr1_file": 0x0CD260, "ptr2_file": 0x0D0054},
+    {"id": 0, "h": 64, "w": 92, "tile_gfx_file": 0x0B9F80, "tilemap_file": 0x0BD608, "tilemap_alt_file": 0x0BD70C, "palette_file": 0x0BE10C, "palette2_file": 0x0BF250, "flags": 0x01},
+    {"id": 1, "h": 30, "w": 60, "tile_gfx_file": 0x0BF318, "tilemap_file": 0x0C166C, "tilemap_alt_file": 0x0C1710, "palette_file": 0x0C18EC, "palette2_file": 0x0C1CAC, "flags": 0x01},
+    {"id": 2, "h": 36, "w": 36, "tile_gfx_file": 0x0C1CF8, "tilemap_file": 0x0C416C, "tilemap_alt_file": 0x0C4210, "palette_file": 0x0C43E4, "palette2_file": 0x0C4844, "flags": 0x01},
+    {"id": 3, "h": 40, "w": 36, "tile_gfx_file": 0x0C4880, "tilemap_file": 0x0C5F24, "tilemap_alt_file": 0x0C5FC8, "palette_file": 0x0C6140, "palette2_file": 0x0C6410, "flags": 0x01},
+    {"id": 4, "h": 40, "w": 36, "tile_gfx_file": 0x0C6450, "tilemap_file": 0x0C8454, "tilemap_alt_file": 0x0C84F8, "palette_file": 0x0C86D8, "palette2_file": 0x0C8ABC, "flags": 0x01},
+    {"id": 5, "h": 46, "w": 36, "tile_gfx_file": 0x0C8AF4, "tilemap_file": 0x0CAA94, "tilemap_alt_file": 0x0CAB30, "palette_file": 0x0CAD38, "palette2_file": 0x0CB138, "flags": 0x01},
+    {"id": 6, "h": 32, "w": 60, "tile_gfx_file": 0x0CB18C, "tilemap_file": 0x0CCB54, "tilemap_alt_file": 0x0CCC28, "palette_file": 0x0CCE1C, "palette2_file": 0x0CD21C, "flags": 0x02},
+    {"id": 7, "h": 32, "w": 60, "tile_gfx_file": 0x0CD260, "tilemap_file": 0x0D0054, "tilemap_alt_file": 0x0D0154, "palette_file": 0x0D0638, "palette2_file": 0x0D1238, "flags": 0x102},
 ]
 
 
@@ -148,35 +154,25 @@ def build_rom_scenario_patch(
     """
     Build ROM byte patches for a single battle scenario config entry.
 
-    Each entry is 16 bytes at ROM file 0x53D910 + scenario_index * 16.
+    Each entry is 32 bytes at ROM file 0x53D910 + 4 + chapter_id * 32.
+    chapter_id must be in range 0–7.
     """
-    base_file = ROM_BATTLE_SCENARIO_FILE + scenario_index * 16
-    base_arm = ROM_BATTLE_SCENARIO_ARM + scenario_index * 16
+    base_file = ROM_BATTLE_SCENARIO_FILE + ROM_BATTLE_SCENARIO_HEADER + scenario_index * ROM_BATTLE_SCENARIO_ENTRY_SIZE
+    base_arm = ROM_BATTLE_SCENARIO_ARM + ROM_BATTLE_SCENARIO_HEADER + scenario_index * ROM_BATTLE_SCENARIO_ENTRY_SIZE
     patches = []
 
-    # +0x00: u16 tiles_x
+    # +0x00: u16 height (low), u16 width (high) — packed into one u32
     patches.append({
         "type": "bytes",
         "rom_file_offset": f"0x{base_file:06X}",
         "rom_addr_arm": f"0x{base_arm:08X}",
-        "value": tiles_x,
-        "size": 2,
-        "encoding": "<H",
-        "comment": f"scenario[{scenario_index}] tiles_x = {tiles_x}",
+        "value": (tiles_x & 0xFFFF) | ((tiles_y & 0xFFFF) << 16),
+        "size": 4,
+        "encoding": "<I",
+        "comment": f"scenario[{scenario_index}] height={tiles_y} width={tiles_x} (packed u32)",
     })
 
-    # +0x02: u16 tiles_y
-    patches.append({
-        "type": "bytes",
-        "rom_file_offset": f"0x{base_file + 2:06X}",
-        "rom_addr_arm": f"0x{base_arm + 2:08X}",
-        "value": tiles_y,
-        "size": 2,
-        "encoding": "<H",
-        "comment": f"scenario[{scenario_index}] tiles_y = {tiles_y}",
-    })
-
-    # +0x04: u32 ptr1 (ROM pointer to compressed tilemap)
+    # +0x04: u32 tile_gfx_ptr (ROM pointer to tile graphics)
     if ptr1_arm is not None:
         patches.append({
             "type": "bytes",
@@ -185,10 +181,10 @@ def build_rom_scenario_patch(
             "value": ptr1_arm,
             "size": 4,
             "encoding": "<I",
-            "comment": f"scenario[{scenario_index}] ptr1 = 0x{ptr1_arm:08X}",
+            "comment": f"scenario[{scenario_index}] tile_gfx_ptr = 0x{ptr1_arm:08X}",
         })
 
-    # +0x08: u32 ptr2 (ROM pointer to LZ77 compressed data)
+    # +0x08: u32 tilemap_ptr (ROM pointer to tilemap layout)
     if ptr2_arm is not None:
         patches.append({
             "type": "bytes",
@@ -197,19 +193,19 @@ def build_rom_scenario_patch(
             "value": ptr2_arm,
             "size": 4,
             "encoding": "<I",
-            "comment": f"scenario[{scenario_index}] ptr2 = 0x{ptr2_arm:08X}",
+            "comment": f"scenario[{scenario_index}] tilemap_ptr = 0x{ptr2_arm:08X}",
         })
 
-    # +0x0C: u16 flag
+    # +0x1C: u32 flags
     if flag is not None:
         patches.append({
             "type": "bytes",
-            "rom_file_offset": f"0x{base_file + 12:06X}",
-            "rom_addr_arm": f"0x{base_arm + 12:08X}",
+            "rom_file_offset": f"0x{base_file + 0x1C:06X}",
+            "rom_addr_arm": f"0x{base_arm + 0x1C:08X}",
             "value": flag,
-            "size": 2,
-            "encoding": "<H",
-            "comment": f"scenario[{scenario_index}] flag = 0x{flag:04X}",
+            "size": 4,
+            "encoding": "<I",
+            "comment": f"scenario[{scenario_index}] flags = 0x{flag:08X}",
         })
 
     return patches
@@ -348,7 +344,7 @@ def resolve_battle_config_patches(
     if scenario_idx < len(BATTLE_SCENARIOS):
         scenario = BATTLE_SCENARIOS[scenario_idx]
         scenario_patches = build_rom_scenario_patch(
-            scenario_index=scenario["index"],
+            scenario_index=scenario["id"],
             tiles_x=battle_cfg.get("tiles_x", scenario["w"]),
             tiles_y=battle_cfg.get("tiles_y", scenario["h"]),
             ptr1_arm=battle_cfg.get("ptr1_arm"),
@@ -366,8 +362,8 @@ def resolve_battle_config_patches(
         "notes": {
             "unit_array": f"WRAM 0x02024294, {UNIT_STRIDE} bytes/unit, max {MAX_UNITS} units",
             "unit_id_table": f"ROM 0x{ROM_UNIT_ID_TABLE_ARM:08X} (file 0x{ROM_UNIT_ID_TABLE_FILE:X}), u16[64]",
-            "scenario_table": f"ROM 0x{ROM_BATTLE_SCENARIO_ARM:08X} (file 0x{ROM_BATTLE_SCENARIO_FILE:X}), 16 entries × 16 bytes",
-            "scenario_entry_format": "u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra",
+            "scenario_table": f"ROM 0x{ROM_BATTLE_SCENARIO_ARM:08X} (file 0x{ROM_BATTLE_SCENARIO_FILE:X}), 8 entries × 32 bytes (header +4)",
+            "scenario_entry_format": "u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags",
             "battle_state": "WRAM 0x02022E30, 4732 bytes",
             "main_battle_data": "WRAM 0x020240C0, 6084 bytes",
             "patch_approach": (

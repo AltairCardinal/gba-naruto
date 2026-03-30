@@ -107,18 +107,25 @@
 
 ### P0-Step 4｜定位章节流程入口（Phase 3 收尾）
 
-**现状：**
-- 静态分析遍历 38 个表候选，全部为视觉/资源描述表，未找到章节配置表
+**状态：✅ 已完成**（静态分析法，2026-03-31）
 
-**方法：**
-1. 在"新游戏 → 第一章开始"流程上设 mGBA 断点
-2. 追踪从 `0x080894DE`（文本渲染）跳向何处
-3. 定位章节脚本/事件表的入口地址
+**发现：**
+- 章节状态结构体：WRAM `0x020311D4`，+0x16 存章节/战斗 slot ID
+- 要改变加载的章节：写 `0x020311EA`（= base + 0x16）
+- 章节配置表：ROM `0x0853D910`，8 条目 × **32 字节**（之前误判为 16 字节，已修正）
+- 条目访问公式：`entry_ptr = 0x0853D910 + 4 + chapter_id * 32`
+- 初始化调用链：`0x0808F618` → `0x08068DE4` → `0x080732B4` → `0x08068FF0`（地图加载器）
+- 地图加载器 `0x08068FF0` 读取 tile graphics / tilemap / palette，通过 DMA 写入 VRAM
+
+**关键修正：**
+- ROM 条目大小 = **32 字节**，非 16 字节，影响 `import_battle_config.py` 中的 patch 计算
+- `0x0201BE2A/B` 是 tile display slot，非 unit count（功能重新解释）
 
 **交付物：**
-- `notes/chapter-flow-format.md`（完整版）
-- `notes/chapter-entry-points.md`（完整版）
-- 最小流程改动实验记录
+- ✅ `notes/chapter-flow-format.md`（完整版）
+- ✅ `notes/chapter-entry-points.md`（完整版）
+- ✅ `notes/battle-config-format.md`（已修正条目大小）
+- ⚠️ `tools/import_battle_config.py` 需更新以反映 32 字节条目格式
 
 ---
 

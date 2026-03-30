@@ -25,30 +25,37 @@
 
 - **ARM address**: `0x0853D910`
 - **File offset**: `0x53D910`
-- **Entry size**: 16 bytes
-- **Total entries**: 16 (8 valid, 8 padding)
+- **Entry size**: **32 bytes** (CORRECTED from prior 16-byte estimate)
+- **Total entries**: 8 valid entries (indices 0–7)
+- **Index formula**: `entry_ptr = 0x0853D910 + 4 + chapter_id * 32`
 
-**Entry format:**
+> The `+4` offset skips an unknown 4-byte value at the table base.
+> This was confirmed by disassembling `0x08068FF0`:
+> `lsls r6, r2, #5` (multiply by 32) and `adds r0, r5, #4` (skip header).
+
+**Entry format (32 bytes = 8 × u32):**
 | Offset | Type | Name | Description |
 |---|---|---|---|
-| +0x00 | u16 | tiles_x | Battle arena width in tiles |
-| +0x02 | u16 | tiles_y | Battle arena height in tiles |
-| +0x04 | u32 | ptr1 | ROM pointer to compressed tilemap data (12-byte header + raw tile IDs) |
-| +0x08 | u32 | ptr2 | ROM pointer to LZ77-compressed palette/attribute data (384 bytes decompressed) |
-| +0x0C | u16 | flag | Scenario flags |
-| +0x0E | u16 | extra | Extra data / padding |
+| +0x00 | u16+u16 | height, width | Map dimensions in tiles (both u16 LE) |
+| +0x04 | u32 | tile_gfx_ptr | ROM pointer to tile graphics data |
+| +0x08 | u32 | tilemap_ptr | ROM pointer to tilemap layout |
+| +0x0C | u32 | tilemap_alt_ptr | ROM pointer to tilemap layout variant |
+| +0x10 | u32 | extra_ptr | ROM pointer to optional extra data (0 = absent) |
+| +0x14 | u32 | palette_ptr | ROM pointer to palette / attribute data |
+| +0x18 | u32 | palette2_ptr | ROM pointer to secondary palette / compressed data |
+| +0x1C | u32 | flags | 0x01=normal, 0x02=alt mode, 0x102=special |
 
-**Valid scenarios:**
-| Entry | Dimensions | ptr1 (file) | ptr2 (file) |
-|---|---|---|---|
-| 0 | 92×64 | 0x0B9F80 | 0x0BD608 |
-| 2 | 60×30 | 0x0BF318 | 0x0C166C |
-| 4 | 36×36 | 0x0C1CF8 | 0x0C416C |
-| 6 | 36×40 | 0x0C4880 | 0x0C5F24 |
-| 8 | 36×40 | 0x0C6450 | 0x0C8454 |
-| 10 | 36×46 | 0x0C8AF4 | 0x0CAA94 |
-| 12 | 60×32 | 0x0CB18C | 0x0CCB54 |
-| 14 | 60×32 | 0x0CD260 | 0x0D0054 |
+**Valid scenarios (IDs 0–7):**
+| ID | H×W | tile_gfx (file) | tilemap (file) | flags |
+|---|---|---|---|---|
+| 0 | 64×92 | 0x0B9F80 | 0x0BD608 | 0x01 |
+| 1 | 30×60 | 0x0BF318 | 0x0C166C | 0x01 |
+| 2 | 36×36 | 0x0C1CF8 | 0x0C416C | 0x01 |
+| 3 | 40×36 | 0x0C4880 | 0x0C5F24 | 0x01 |
+| 4 | 40×36 | 0x0C6450 | 0x0C8454 | 0x01 |
+| 5 | 46×36 | 0x0C8AF4 | 0x0CAA94 | 0x01 |
+| 6 | 32×60 | 0x0CB18C | 0x0CCB54 | 0x02 |
+| 7 | 32×60 | 0x0CD260 | 0x0D0054 | 0x102 |
 
 ### ptr1 Data Format (Tilemap)
 
