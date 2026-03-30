@@ -1,23 +1,44 @@
 # Episode 01 Dialogue Draft
 
-## Intro
+> All text in this file must be compatible with cp932 (Shift-JIS) encoding.
+> Roman characters and standard Japanese hiragana/katakana are safe.
+> Traditional Chinese characters may not encode correctly.
 
-伊鲁卡：
-边境巡逻队刚送回情报，南部山道出现了身份不明的忍者活动。
+## Beat 1: 边境异动 (Opening Briefing)
 
-纲手：
-这不是普通骚扰。运输线一旦被切断，村子的物资调度会立刻出问题。
+**Group 0 Main** (41 bytes max):
+```
+木葉村国境に異変あり小隊が調査に向かう。
+```
+Status: PATCHED in ROM (group0.main)
 
-鸣人：
-那就交给我们吧！不管是谁，敢打木叶的主意我都不会放过！
+**Group 0 Label 1** (6 bytes max):
+```
+第１話
+```
+Note: "第"=0x95 0x7E, "１"=0x81 0x66, "話"=0x8A 0x8E → 6 bytes. Replaces "休４机".
 
-## Post Battle
+## Beat 2: 遭遇戦 (Encounter)
 
-鹿丸：
-这些家伙的护额和通行文书都不对劲……像是故意拼出来骗检查用的。
+**Group 1 Main** (41 bytes max):
+```
+忍刀の残党が附近に潜伏警戒せよ。
+```
+Status: PATCHED in ROM (group1.main)
 
-小樱：
-也就是说，他们背后还有更大的组织在调动人手。
+## Beat 3: 戦後 (Post Battle)
 
-佐井：
-如果这只是试探，下一次袭击不会只冲着一条山道来。
+**Group 2 Main** (41 bytes max):
+```
+輸送巻物守るべし。敵の狙いは明白だ。
+```
+Status: PATCHED in ROM (group2.main)
+
+---
+
+## Notes
+
+- All sequel dialogue uses cp932-compatible text
+- Patch system uses null-padding to fill to max_bytes
+- Original Japanese text preserved in `dialogue-bank.json` expected_hex field
+- Chinese authoring notes in `authoring-notes.md`

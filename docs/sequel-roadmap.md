@@ -2,405 +2,233 @@
 
 ## 目标
 
-把当前仓库从“已建立续作工作区和逆向基础”推进到“可以持续生产续作内容并稳定回写 ROM”的状态。
+把当前仓库从"已建立续作工作区和逆向基础"推进到"可以持续生产续作内容并稳定回写 ROM"的状态。
 
-这份 roadmap 只写接下来真正应该做的事，不重复已经完成的工作。
-
-## 当前基线
-
-已具备：
-
-- 项目记忆规则和工作区结构
-- 续作内容目录 `sequel/content/`
-- ROM 构建入口 `tools/build_mod.py`
-- 可重复生成开发 ROM
-- 高层 `dialogue` 导入补丁已接入构建流程
-- 地图/战斗配置已进入统一内容校验接口
-- 无头 `mGBA` 自动导航、截图、OCR
-- 对白渲染链路的关键结论：
-  - `BG3` 是对白层
-  - `WRAM 0x00A900-0x00AA4A` 是对白 tilemap 工作缓冲候选
-  - `VRAM 0x1800+` 是对应 screen block
-  - `VRAM 0x2000+` 更像字形上传区
-  - `WRAM` 稳定写入点已定位到 `0x08066D74`
-  - `VRAM glyph` 稳定写入点已定位到 `0x08065F50`
-  - `VRAM tilemap` 刷新更像 DMA/system copy 到 `0x06001B00+`
-  - `0x08065EB8` 已识别为强字形展开候选函数
-  - `0x08065F84` / `0x080894DE` 已识别为更高价值的上层文本渲染入口
-
-未具备：
-
-- 可变长真实对白导入格式
-- 章节脚本导入格式
-- 地图导入格式
-- 角色/技能高层配置格式
-- `0x080894DE` 所在上层流程的状态结构与数据来源
-
-## 总体路线
-
-按四条线并行推进：
-
-1. 渲染与脚本逆向
-2. 内容源稿生产
-3. ROM 补丁流水线扩展
-4. 垂直切片集成验证
-
-其中优先级最高的是第 1 条和第 3 条，因为它们决定“续作内容能不能真正进 ROM”。
+**执行策略：先完成逆向工程，再建网页编辑器。**
 
 ---
 
-## Phase 1: 拿下对白写入路径
+## 现状总览
 
-当前状态：已完成。
+### ✅ 已打通
+- 对白 → ROM 写入闭环（dialogue patch pipeline）
+- 5 段对话已验证写入 ROM
+- 构建流水线支持 5 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config）
+- mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
+- Phase 1/2/6 框架级完成
 
-已完成内容：
+### 🔴 核心瓶颈（P0 — 逆向工程阶段）
 
-- 无头静音 watchpoint 流程已稳定复跑
-- `WRAM 0x0200A900-0x0200AA4A` 写入者已稳定命中 `0x08066D74`
-- `VRAM 0x06002000-0x06002800` 字形上传写入者已稳定命中 `0x08065F50`
-- `VRAM 0x06001B00+` 已确认更像 `BG3` tilemap 的 DMA/system copy 目标区
-- 相关结果、脚本和汇总都已落盘
+| 目标 | 状态 | 备注 |
+|------|------|------|
+| tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
+| 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
+| 章节流程入口 | ❌ 未定位 | 需 runtime 调试 |
+| 资源提取（图片/音频） | ⚠️ 部分 | tileset 地址已知，提取未完成 |
 
-详见：
+### 🟡 续作内容创作（逆向完成后）
+- episode-01 剧情源稿细化
+- 多章节内容模板
 
-- `notes/dialogue-write-path.md`
-- `notes/dialogue-writer-addresses.md`
-- `notes/dialogue-function-analysis.md`
-
-### 目标
-
-确认是谁在写：
-
-- `WRAM 0x00A900-0x00AA4A`
-- `VRAM 0x1800+`
-- `VRAM 0x2000+`
-
-### 原因
-
-对白系统是目前最接近“真正可扩展内容开发”的入口。只要拿到这条链路，就有机会做：
-
-- 新对白回写
-- 新剧情事件
-- 章节前后演出
-
-### 任务
-
-1. 稳定化脚本级 watchpoint 或等效调试方案
-2. 分别针对 `WRAM 0xA900+` 和 `VRAM 0x2000+` 捕获写入 PC
-3. 记录命中函数附近的调用链
-4. 判断写入前的数据来源是：
-   - ROM 直接文本块
-   - 自定义编码缓冲
-   - 压缩块解码结果
-
-### 交付物
-
-- `notes/dialogue-write-path.md`
-- `notes/dialogue-writer-addresses.md`
-- 至少一个可重复命中的调试脚本
-
-### 完成标准
-
-- 至少拿到一个稳定的写入者地址
-- 能解释“tilemap 更新”和“glyph 上传”分别由哪段逻辑负责
+### 🟢 网页编辑器（逆向工程 100% 完成后启动）
+- 技术方案：FastAPI 后端 + Vue 前端，部署于本服务器（14.103.49.74）
+- 功能：地图编辑器、角色编辑器、技能编辑器、剧情编辑器、道具编辑器等
+- 架构：多用户 WebSocket 协作编辑，ROM 在服务端操作
 
 ---
 
-## Phase 2: 拿下对白数据入口
+## 逆向工程路线图
 
-当前状态：进行中。
+### P0-Step 1｜稳定 mGBA 调试环境
+**状态：✅ 已完成**
 
-已完成内容：
-
-- `0x08066D14` 已确认是 `WRAM` tilemap 半字写函数
-- `0x08065EB8` 已确认是字形展开候选函数
-- `0x08065F84` 已确认是连接字形生成与 tilemap 放置的包装层
-- `0x080894DE` 已确认是非局部上层调用点，值得继续上追
-- `0x0808947C-0x080894F8` 已确认是更高层的多项渲染循环
-- `sb` 已收敛到 `0x02002880` 这块 RAM 工作结构
-- `0x080886E8` / `0x08088718` 已显示出对 `0x02022E30` 一带 RAM 记录的查询关系
-- `0x02002880` / `0x02022E30` 的快照观察已表明它们更像页级渲染状态和记录区，而不像直接文本源
-- `0x02002880` / `0x02002E30` 的运行时写入已确认共享同一上游调用链，锚点落在 `0x08096176-0x08096212`
-- 静态调用与局部反汇编资产已建立
-- 高层 `dialogue` 导入补丁已通过固定入口位点打通构建闭环
-- `0x08096168` caller family 已做第一轮静态分层：
-  - `0x08077D0E` / `0x08089B36` / `0x0809159C` / `0x08093842` 更像大块 panel/window builder
-  - `0x0809678A` / `0x080968A0` / `0x0809698E` 更像紧凑 record-state transition helper
-- 运行时 caller trace 已确认：开场新游戏流程在这组 caller 中实际命中的是 `0x080968A0`
-- `0x080968A0` 两次命中都带有相同上游 `lr=0x08096633`
-
-当前缺口：
-
-- `0x080894DE` 所在上层函数的边界、状态结构、数据来源
-- `0x02002880` 结构及其 `+0x16` / `+0x82` / `+0x96` 区域含义
-- `0x02022E30` 记录区与对白/角色/槽位的关系
-- 谁负责把更上游的脚本/文本数据写进这两块 RAM 结构
-- `0x08096176-0x08096212` 如何从更上游状态组装这两块 RAM
-- 哪条脚本/UI 路径实际驱动了开场对白使用的那一支调用链
-- `0x080968A0` 上游 `0x08096633` 所在函数的真实边界和来源
-
-详见：
-
-- `notes/dialogue-function-analysis.md`
-- `notes/disasm-080894DE.txt`
-- `notes/calls-08065EB8.txt`
-
-### 目标
-
-从“知道怎么显示”推进到“知道从哪里取文本”。
-
-### 任务
-
-1. 从写入者反推对白源数据结构
-2. 判断文本是否：
-   - 直接块存储
-   - 指针表存储
-   - 脚本命令流内嵌
-3. 做最小对白替换实验
-4. 把对白改动接入构建流水线
-
-### 交付物
-
-- `notes/dialogue-format.md`
-- `tools/import_dialogue.py` 或同类工具
-- `sequel/patches/manifest.json` 中出现第一类“高层对白导入”条目
-
-当前已交付：
-
-- `tools/import_dialogue.py`
-- `sequel/content/text/dialogue-bank.json`
-- `sequel/content/text/dialogue-patches.json`
-- `sequel/patches/manifest.json` 中的 `dialogue` 条目
-
-### 完成标准
-
-- 能从项目内容文件生成至少 1 段实际对白改动
-- 不再只依赖同长度字节补丁
-
-当前进度：
-
-- 已达到“能从项目内容文件生成至少 1 段实际对白改动”
-- 尚未达到“摆脱固定已知入口位点”
-- 开场对白的上层 live branch 已进一步收敛到 `0x080968A0`
+- `tools/mgba-headless-snapshot.py`：snapshot / watch / diff 三种模式可用
+- `docs/next-action-plan.md`：方案 A 执行结果已记录
+- 验证：watchpoint 命中 PC=0x08060FD2，cycle=182801696
 
 ---
 
-## Phase 3: 拿下章节流程入口
+### P0-Step 2｜定位 tilemap 布局数据（Phase 4 收尾）
 
-### 目标
+**状态：✅ 已完成**
 
-确认 1 章完整流程的入口、结束和跳转逻辑。
+**现状：**
+- Tile 描述表 `0x596D5C` 已完整分析（312行×16字节，每行含 tile data/attribute/layout/palette 4 个指针）
+- tilemap 布局数据（2D 瓦片 ID 网格）已定位！
 
-### 任务
+**发现：**
+- 多个 tilemap 数据区位于 ROM: 0x14D000, 0x195000, 0x1CB000 等
+- 格式：2字节/条目，32×32 网格 (1024条目，2048字节)
+- 编码：低10位为 tile ID (0-311)， bits 10-15 为 flip/调色板属性
 
-1. 找出章节开始点
-2. 找出胜利条件、失败条件、战后跳转
-3. 识别章节编号或流程脚本入口
-4. 做一次最小流程改动：
-   - 改一句战后对白
-   - 改一次跳转目标
-   - 或改一条胜利判定
+**方法：**
+1. 用静态分析扫描 ROM 寻找 tile ID 有效范围内的 2D 网格模式
+2. 通过对比验证找到多个有效的 tilemap 数据区
 
-### 交付物
+**交付物：**
+- `notes/map-format.md`（完整版）✓
+- `notes/map-addresses.md`（完整版）✓
+- `tools/import_map.py`（完整 patch 生成逻辑）✓
 
-- `notes/chapter-flow-format.md`
-- `notes/chapter-entry-points.md`
+---
+
+### P0-Step 3｜定位战斗配置表（Phase 5 收尾）
+
+**状态：✅ 已完成**（ROM 数据表已定位，patch 生成可用，runtime 验证受限于 headless 环境）
+
+**已确认 ROM 数据表：**
+- ✅ 单位 ID 映射表：`0x0853F298` / file `0x53F298`，u16[64]，映射 slot → character ID
+- ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
+  - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
+  - ptr1：12 字节头 + 原始 tile 数据（u16/tile）
+  - ptr2：LZ77 压缩数据（解压后 384 字节，调色板/属性数据）
+- ✅ 状态机函数指针表：`0x0853F1C0` / file `0x53F1C0`，u32[60]，指向 0x0812Fxxx
+- ✅ WRAM 分配表：`0x0853D848` / file `0x53D848`
+
+**已确认 WRAM 战斗数据地址：**
+| WRAM 地址 | 大小 | 说明 |
+|---|---|---|
+| `0x0201BE2A` | 可变 | 单位计数 + team 计数 |
+| `0x02021E2C` | 234*N | 单位查找表基址 |
+| `0x02024294` | 234*25 | 单位数组 |
+| `0x020240C0` | 0x17C4 | 主战斗数据 |
+| `0x02022E30` | 0x127C | 战斗状态 |
+| `0x02026804` | 8 字节 | 战斗控制标志 |
+
+**交付物：**
+- ✅ `notes/battle-config-format.md` — 完整版（ROM 表、WRAM 布局、LZ77 格式、代码引用）
+- ✅ `notes/unit-skill-addresses.md` — 完整版（单位 ID 表、场景配置、状态机函数）
+- ✅ `notes/unit-id-mapping-analysis.md` — 完整版
+- ✅ `notes/battle-scenario-config.md` — 完整版（8 个场景条目解析）
+- ✅ `tools/import_battle_config.py` — 可生成 ROM patches + WRAM cheat patches
+- ⚠️ runtime WRAM dump 受限于 headless 环境（无 key input 注入），已记录在案
+
+---
+
+### P0-Step 4｜定位章节流程入口（Phase 3 收尾）
+
+**现状：**
+- 静态分析遍历 38 个表候选，全部为视觉/资源描述表，未找到章节配置表
+
+**方法：**
+1. 在"新游戏 → 第一章开始"流程上设 mGBA 断点
+2. 追踪从 `0x080894DE`（文本渲染）跳向何处
+3. 定位章节脚本/事件表的入口地址
+
+**交付物：**
+- `notes/chapter-flow-format.md`（完整版）
+- `notes/chapter-entry-points.md`（完整版）
 - 最小流程改动实验记录
 
-### 完成标准
+---
 
-- 能完整描述一章从进入到结束的控制路径
+### P0-Step 5｜资源提取链路（图片/音频）
+
+**现状：**
+- tileset 地址已知（`0x596D5C` 的 tile data 指针），提取脚本未完成
+
+**方法：**
+1. 从 `0x596D5C` 提取 tileset 指针，用 Python 导出为 PNG
+2. 搜索音频数据段（MIDI-like 结构 或 PCM 段）
+3. 编写 `tools/extract_tileset.py` 和 `tools/extract_audio.py`
+
+**交付物：**
+- `tools/extract_tileset.py`
+- `tools/extract_audio.py`
+- `notes/resource-locations.md`
 
 ---
 
-## Phase 4: 拿下地图格式
+### P0-Step 6｜可变长对话（Phase 2 收尾）
 
-当前状态：已建立内容接口，ROM 写回未完成。
+**现状：**
+- 同长替换可行，变长 redirect 需要已验证的空闲 ROM 区域
 
-### 目标
+**方法：**
+1. 用 mGBA 在游戏运行时检测 ROM 空闲区域（写入后读回为 0xFF 且不被读的地址）
+2. 验证后实现 pointer_redirect 策略
 
-确定战斗地图的导入导出闭环。
-
-### 任务
-
-1. 定位地图 tilemap 数据
-2. 定位出生点、事件区、障碍、目标点
-3. 判断地图和战斗配置是合并还是分离
-4. 做一张地图最小改动实验
-
-### 交付物
-
-- `notes/map-format.md`
-- `notes/map-addresses.md`
-- `tools/extract_map.py`
-- `tools/import_map.py`
-
-当前已交付：
-
-- `tools/import_map.py`
-- `notes/map-import-report.json`
-
-### 完成标准
-
-- 能对一张战斗地图做稳定修改并在模拟器中验证
+**交付物：**
+- 空闲 ROM 区域验证文档
+- `import_dialogue_var.py`（变长 redirect patch 生成）
 
 ---
 
-## Phase 5: 拿下战斗配置格式
+### P0-Step 7｜全面测试闭环
 
-当前状态：已建立内容接口，ROM 写回未完成。
+**现状：**
+- `docs/testing-checklist.md` 已建立
+- mGBA + OCR 验证流程未完成
 
-### 目标
+**方法：**
+1. 搭建自动化验证：`build_mod.py` → mGBA 加载 → OCR 比对 → 报告
+2. 每完成一个格式的 patch 生成，都要跑一遍 checklist
 
-确定角色、敌人、技能、阵营、出生配置的主要表结构。
-
-### 任务
-
-1. 定位角色基础数值
-2. 定位敌方战斗配置
-3. 定位技能 ID、消耗、范围或效果索引
-4. 做最小战斗配置改动实验
-
-### 交付物
-
-- `notes/battle-config-format.md`
-- `notes/unit-skill-addresses.md`
-- `tools/import_battle_config.py`
-
-当前已交付：
-
-- `tools/import_battle_config.py`
-- `notes/battle-config-report.json`
-
-### 完成标准
-
-- 能稳定修改一场战斗中的单位、敌人或技能配置
-
----
-
-## Phase 6: 扩展构建流水线
-
-当前状态：已部分完成。
-
-### 目标
-
-把已经拿下的高层格式全部接入统一构建入口。
-
-### 任务
-
-1. 扩展 `tools/build_mod.py`
-2. 支持补丁类型从 `bytes` 扩展到：
-   - `dialogue`
-   - `map`
-   - `battle_config`
-   - `pointer_redirect`
-3. 增加构建前校验
-4. 增加构建后报告
-
-### 交付物
-
-- `tools/build_mod.py` 扩展版
-- `docs/build-pipeline.md`
-- 更完整的 `build/naruto-sequel-build-report.json`
-
-当前已交付：
-
-- `tools/build_mod.py` 已支持 `dialogue`
-- `docs/build-pipeline.md`
-- `build/naruto-sequel-build-report.json` 已记录高层 `dialogue` 补丁
-
-### 完成标准
-
-- 不再需要手工做十六进制试验来集成新内容
-
-当前进度：
-
-- 对 `dialogue` 已基本达到
-- 对 `map` / `battle_config` / `pointer_redirect` 尚未达到
-
----
-
-## Phase 7: 续作第一章垂直切片
-
-当前状态：内容源稿已具备基础骨架，ROM 集成未完成。
-
-### 目标
-
-把 `episode-01` 真正变成一章可玩切片。
-
-### 任务
-
-1. 完成 `episode-01` 的剧情源稿
-2. 完成地图草案
-3. 完成战斗配置草案
-4. 至少导入：
-   - 1 段新对白
-   - 1 处战斗配置改动
-   - 1 个地图或流程改动
-5. 生成一版可测试 ROM
-
-### 交付物
-
-- `sequel/content/story/episode-01.json` 完整版
-- `sequel/content/text/episode-01-dialogue.md` 扩展版
-- 切片测试 ROM
-- 切片测试记录
-
-### 完成标准
-
-- 新内容不再只是源稿，而是实际进入 ROM 并可验证
-
----
-
-## Phase 8: 工具链化与规模化内容生产
-
-### 目标
-
-进入真正的续作开发阶段，而不是单次试验阶段。
-
-### 任务
-
-1. 固定内容编写规范
-2. 固定补丁清单结构
-3. 固定构建流程
-4. 增加更多章节模板
-5. 增加测试 checklist
-
-### 交付物
-
-- `docs/content-pipeline.md`
-- `docs/testing-checklist.md`
-- 更多 `sequel/content/` 章节草案
-
-### 完成标准
-
-- 新章节开发不再依赖重新探索整个 ROM
+**交付物：**
+- `tools/automated-test.py`（mGBA + OCR 验证）
+- 所有格式的验证报告
 
 ---
 
 ## 当前推荐顺序
 
-按投入产出比，建议严格按下面顺序继续：
+```
+P0-Step 1（mGBA调试） ✅
+       ↓
+P0-Step 2（tilemap） ✅
+       ↓
+P0-Step 3（战斗配置） ✅（ROM 表已定位，patch 生成可用）
+P0-Step 4（章节流程）
+P0-Step 5（资源提取）
+P0-Step 6（变长对话）
+P0-Step 7（测试闭环）
+       ↓
+100% 逆向覆盖
+       ↓
+网页编辑器开发
+```
 
-1. `Phase 1` 对白写入路径
-2. `Phase 2` 对白数据入口
-3. `Phase 6` 构建流水线扩展的对白部分
-4. `Phase 3` 章节流程入口
-5. `Phase 4` 地图格式
-6. `Phase 5` 战斗配置格式
-7. `Phase 7` 第一章垂直切片
+---
 
 ## 不该现在做的事
 
-1. 不要现在就写大量长篇剧情，因为还没拿到真实导入格式
-2. 不要现在就做多章地图生产，因为地图格式还没拿下
-3. 不要把大规模十六进制手改当正式开发流程
-4. 不要把不落盘的聊天结论当项目记忆
+1. 不要现在开始写大量剧情 —— 格式还没定，内容随时可能废弃
+2. 不要现在开始建网页编辑器 —— 等逆向覆盖到 80%+ 再动手
+3. 不要把手工十六进制修改当正式开发流程 —— 一切要走 pipeline
 
-## 本周最具体的下一步
+---
 
-最该优先完成的是这 3 件事：
+## 网页编辑器架构（逆向完成后）
 
-1. 稳定一个能抓 `WRAM 0xA900+` 写入者的调试方案
-2. 把对白导入格式拿到最小闭环
-3. 把 `episode-01` 的剧情源稿扩成可导入结构
+**技术方案：** FastAPI + Vue + SQLite
+
+**服务器：** 14.103.49.74:443（Debian 12，2核/4GB）
+
+**架构图：**
+```
+用户浏览器 (Vue)
+    │ HTTPS
+[FastAPI 服务]
+    │
+ ┌──┼──┐
+ │     │
+SQLite  ROM文件
+(队列)  (本地)
+ │
+WebSocket
+(协作编辑)
+```
+
+**功能模块（逆向完成后按序开发）：**
+
+| 模块 | 说明 |
+|------|------|
+| 对话编辑器 | 文本表单，调用 import_dialogue.py |
+| 地图编辑器 | Canvas 瓦片地图，调用 import_map.py |
+| 角色编辑器 | 数值表单，调用 import_battle_config.py |
+| 技能编辑器 | 效果链配置 |
+| 道具编辑器 | 表格编辑 |
+| 剧情编辑器 | 分支对话树 |
+| 构建验证 | build_mod.py 输出可下载 patch ROM |
+
+**优先级：** 对话 > 地图 > 角色 > 技能 > 道具 > 剧情

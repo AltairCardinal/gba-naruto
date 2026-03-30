@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "description": "Known text patch points that can already be targeted from high-level dialogue content.",
+  "version": 3,
+  "description": "Dialogue patch points discovered from the ROM pointer table at 0x461CE8.",
   "entries": [
     {
       "id": "proof.menu.same_length_00076d",
@@ -8,7 +8,73 @@
       "encoding": "cp932",
       "max_bytes": 4,
       "expected_hex": "89df95d1",
-      "notes": "Existing proof-of-write patch site in a low-ROM text bank."
+      "notes": "Existing proof-of-write patch site in a low-ROM text bank. Pre-pointer-table region."
+    },
+    {
+      "id": "group0.main",
+      "table_index": 0,
+      "table_offset": 4594920,
+      "text_rom_offset": 4559892,
+      "offset": 4559892,
+      "encoding": "cp932",
+      "max_bytes": 41,
+      "expected_hex": "88cf8fc297af99c78df98c819a6a9b45929894c896e292d78b620a95c48b788eb58af78e8f9a798148",
+      "notes": "Group 0 main text at 0x459414. Decoded: 委渉留夘笹戟嗚妣著畔問潰誼\\n米休七机誌噐？"
+    },
+    {
+      "id": "group0.label1",
+      "table_index": 1,
+      "table_offset": 4594924,
+      "text_rom_offset": 4559972,
+      "offset": 4559972,
+      "encoding": "cp932",
+      "max_bytes": 6,
+      "expected_hex": "8b7882538af7",
+      "notes": "Group 0 label 1 at 0x459464. Decoded: 休４机"
+    },
+    {
+      "id": "group0.label2",
+      "table_index": 2,
+      "table_offset": 4594928,
+      "text_rom_offset": 4559984,
+      "offset": 4559984,
+      "encoding": "cp932",
+      "max_bytes": 6,
+      "expected_hex": "8b7882528af7",
+      "notes": "Group 0 label 2 at 0x459470. Decoded: 休３机"
+    },
+    {
+      "id": "group0.label3",
+      "table_index": 3,
+      "table_offset": 4594932,
+      "text_rom_offset": 4559996,
+      "offset": 4559996,
+      "encoding": "cp932",
+      "max_bytes": 6,
+      "expected_hex": "8b7882508af7",
+      "notes": "Group 0 label 3 at 0x45947C. Decoded: 休１机"
+    },
+    {
+      "id": "group1.main",
+      "table_index": 5,
+      "table_offset": 4594940,
+      "text_rom_offset": 4560008,
+      "offset": 4560008,
+      "encoding": "cp932",
+      "max_bytes": 41,
+      "expected_hex": "94c99ba99b4595b69a8d95f28b6295ae8def0a995399d28b6292d99adc8f6e95af9252929a9ca08148",
+      "notes": "Group 1 main text at 0x459488. Decoded: 繁岔妣文嚶奉誼憤搾\\n儡參誼壷壘熟扮坦丁悛？"
+    },
+    {
+      "id": "group2.main",
+      "table_index": 10,
+      "table_offset": 4594960,
+      "text_rom_offset": 4560136,
+      "offset": 4560136,
+      "encoding": "cp932",
+      "max_bytes": 41,
+      "expected_hex": "929894c897a78bee9cc18fe48c4092968b620a9a9a8b8295498b6295f28f6e95af9252929a9ca08148",
+      "notes": "Group 2 main text at 0x459508. Decoded: 著畔立駒愧丈掘猪誼\\n囹汲肘誼奉熟扮坦丁悛？"
     }
   ]
 }

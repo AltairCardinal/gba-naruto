@@ -6,8 +6,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
-
-from import_dialogue import import_dialogue
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -55,7 +54,7 @@ def apply_bytes_patch(data: bytearray, patch: dict) -> dict:
     data[offset : offset + len(before)] = after
     return {
         "id": patch["id"],
-        "type": patch["type"],
+        "type": patch.get("sub_type", patch["type"]),
         "offset": offset,
         "before_hex": before.hex(),
         "after_hex": after.hex(),
@@ -63,7 +62,29 @@ def apply_bytes_patch(data: bytearray, patch: dict) -> dict:
     }
 
 
-def resolve_dialogue_patch(patch: dict) -> dict:
+def apply_pointer_redirect_patch(data: bytearray, patch: dict) -> dict:
+    ptr_offset = int(patch["pointer_table_offset"])
+    new_ptr_bytes = bytes.fromhex(patch["new_pointer_hex"])
+    actual = bytes(data[ptr_offset : ptr_offset + 4])
+    if actual != bytes.fromhex(patch["expected_pointer_hex"]):
+        raise ValueError(
+            f"pointer_redirect {patch['id']} mismatch at 0x{ptr_offset:X}: "
+            f"expected {patch['expected_pointer_hex']} got {actual.hex()}"
+        )
+    data[ptr_offset : ptr_offset + 4] = new_ptr_bytes
+
+    return {
+        "id": patch["id"],
+        "type": "pointer_redirect",
+        "pointer_table_offset": ptr_offset,
+        "new_pointer_hex": patch["new_pointer_hex"],
+        "expected_pointer_hex": patch["expected_pointer_hex"],
+    }
+
+
+def resolve_dialogue_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_dialogue import import_dialogue
+
     bank = ROOT / patch["bank"]
     content = ROOT / patch["content"]
     entries = import_dialogue(bank, content)
@@ -73,10 +94,34 @@ def resolve_dialogue_patch(patch: dict) -> dict:
         raise ValueError(f"dialogue entry {entry_id} missing from imported content")
     entry = dict(entry_map[entry_id])
     entry["id"] = patch["id"]
-    entry["type"] = "dialogue"
     entry["bank"] = str(bank.relative_to(ROOT))
     entry["content"] = str(content.relative_to(ROOT))
-    return entry
+    return [entry]
+
+
+def resolve_map_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_map import resolve_map_patches
+
+    spec = ROOT / patch["spec"]
+    return resolve_map_patches(spec, patch["id"])
+
+
+def resolve_battle_config_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_battle_config import resolve_battle_config_patches
+
+    units_path = ROOT / patch["units"]
+    story_path = ROOT / patch["story"]
+    return resolve_battle_config_patches(units_path, story_path, patch["id"])
+
+
+def apply_patch(data: bytearray, patch: dict) -> dict:
+    ptype = patch.get("sub_type", patch["type"])
+    if ptype == "bytes":
+        return apply_bytes_patch(data, patch)
+    elif ptype == "pointer_redirect":
+        return apply_pointer_redirect_patch(data, patch)
+    else:
+        raise ValueError(f"unsupported sub-patch type: {ptype}")
 
 
 def build(project_path: Path) -> dict:
@@ -92,7 +137,7 @@ def build(project_path: Path) -> dict:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
     data = bytearray(ctx.base_rom_path.read_bytes())
-    applied = []
+    applied: list[dict] = []
     for patch in manifest["patches"]:
         if not patch.get("enabled", True):
             continue
@@ -100,18 +145,32 @@ def build(project_path: Path) -> dict:
         if patch_type == "bytes":
             applied.append(apply_bytes_patch(data, patch))
         elif patch_type == "dialogue":
-            resolved = resolve_dialogue_patch(patch)
-            applied.append(
-                apply_bytes_patch(data, resolved)
-                | {
-                    "type": "dialogue",
-                    "text": resolved["text"],
-                    "encoding": resolved["encoding"],
-                    "bank": resolved["bank"],
-                    "content": resolved["content"],
-                    "source_entry": resolved["source_entry"],
-                }
-            )
+            resolved_list = resolve_dialogue_patch((ROOT, ROOT), patch)
+            for resolved in resolved_list:
+                sub_type = resolved.get("sub_type", resolved["type"])
+                if sub_type == "pointer_redirect":
+                    result = apply_pointer_redirect_patch(data, resolved)
+                    result["strategy"] = resolved.get("strategy", "pointer_redirect")
+                    result["text"] = resolved.get("text", "")
+                    result["encoding"] = resolved.get("encoding", "")
+                    applied.append(result)
+                else:
+                    result = apply_bytes_patch(data, resolved)
+                    result["text"] = resolved.get("text", "")
+                    result["encoding"] = resolved.get("encoding", "")
+                    result["source_entry"] = resolved.get("source_entry", "")
+                    result["strategy"] = resolved.get("strategy", "same_length")
+                    applied.append(result)
+        elif patch_type == "pointer_redirect":
+            applied.append(apply_pointer_redirect_patch(data, patch))
+        elif patch_type == "map":
+            sub_patches = resolve_map_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                applied.append(apply_patch(data, sp))
+        elif patch_type == "battle_config":
+            sub_patches = resolve_battle_config_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                applied.append(apply_patch(data, sp))
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
 
@@ -119,7 +178,7 @@ def build(project_path: Path) -> dict:
     ctx.output_rom_path.write_bytes(data)
     built_sha1 = sha1_file(ctx.output_rom_path)
 
-    report = {
+    report: dict[str, Any] = {
         "project": ctx.project["project_id"],
         "base_rom": {
             "path": str(ctx.base_rom_path.relative_to(ROOT)),

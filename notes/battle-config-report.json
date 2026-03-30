@@ -1,20 +1,464 @@
 {
-  "episode_id": "episode-01",
-  "allied_party": [
-    "naruto",
-    "shikamaru",
-    "sakura",
-    "sai"
-  ],
-  "enemy_groups": [
-    "masked-scouts",
-    "ambush-team-a"
-  ],
-  "unit_ids": [
-    "sai",
-    "masked-scout"
-  ],
-  "win_condition": "击退敌方伏击队长并保护运输卷轴点位",
-  "lose_condition": "运输卷轴点位被占领或我方主角倒下",
-  "patch_ready": false
+  "summary": {
+    "episode_id": "episode-01",
+    "allied_party": [
+      "naruto",
+      "shikamaru",
+      "sakura",
+      "sai"
+    ],
+    "enemy_groups": [
+      "masked-scouts",
+      "ambush-team-a"
+    ],
+    "unit_ids": [
+      "sai",
+      "masked-scout"
+    ],
+    "win_condition": "击退敌方伏击队长并保护运输卷轴点位",
+    "lose_condition": "运输卷轴点位被占领或我方主角倒下",
+    "patch_ready": true
+  },
+  "patches": {
+    "patch_id": "battle.episode-01",
+    "episode_id": "episode-01",
+    "wram_patches": [
+      {
+        "unit_index": 0,
+        "unit_id": "0x00",
+        "base": "0x2024294",
+        "patches": [
+          {
+            "wr_addr": "0x2024294",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[0] existence flag"
+          },
+          {
+            "wr_addr": "0x20242A0",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[0] init flag"
+          },
+          {
+            "wr_addr": "0x2024354",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[0] battle state marker"
+          },
+          {
+            "wr_addr": "0x2024358",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[0] character ID (0x00 = Naruto)"
+          },
+          {
+            "wr_addr": "0x2024295",
+            "value": 2,
+            "size": 1,
+            "comment": "unit[0] x position"
+          },
+          {
+            "wr_addr": "0x2024296",
+            "value": 3,
+            "size": 1,
+            "comment": "unit[0] y position"
+          },
+          {
+            "wr_addr": "0x2024297",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[0] team (0=ally, 1=enemy)"
+          }
+        ]
+      },
+      {
+        "unit_index": 1,
+        "unit_id": "0x05",
+        "base": "0x202437E",
+        "patches": [
+          {
+            "wr_addr": "0x202437E",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[1] existence flag"
+          },
+          {
+            "wr_addr": "0x202438A",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[1] init flag"
+          },
+          {
+            "wr_addr": "0x202443E",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[1] battle state marker"
+          },
+          {
+            "wr_addr": "0x2024442",
+            "value": 5,
+            "size": 1,
+            "comment": "unit[1] character ID (0x05 = Shikamaru)"
+          },
+          {
+            "wr_addr": "0x202437F",
+            "value": 3,
+            "size": 1,
+            "comment": "unit[1] x position"
+          },
+          {
+            "wr_addr": "0x2024380",
+            "value": 4,
+            "size": 1,
+            "comment": "unit[1] y position"
+          },
+          {
+            "wr_addr": "0x2024381",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[1] team (0=ally, 1=enemy)"
+          }
+        ]
+      },
+      {
+        "unit_index": 2,
+        "unit_id": "0x02",
+        "base": "0x2024468",
+        "patches": [
+          {
+            "wr_addr": "0x2024468",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[2] existence flag"
+          },
+          {
+            "wr_addr": "0x2024474",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[2] init flag"
+          },
+          {
+            "wr_addr": "0x2024528",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[2] battle state marker"
+          },
+          {
+            "wr_addr": "0x202452C",
+            "value": 2,
+            "size": 1,
+            "comment": "unit[2] character ID (0x02 = Sakura)"
+          },
+          {
+            "wr_addr": "0x2024469",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[2] x position"
+          },
+          {
+            "wr_addr": "0x202446A",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[2] y position"
+          },
+          {
+            "wr_addr": "0x202446B",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[2] team (0=ally, 1=enemy)"
+          }
+        ]
+      },
+      {
+        "unit_index": 3,
+        "unit_id": "0x03",
+        "base": "0x2024552",
+        "patches": [
+          {
+            "wr_addr": "0x2024552",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[3] existence flag"
+          },
+          {
+            "wr_addr": "0x202455E",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[3] init flag"
+          },
+          {
+            "wr_addr": "0x2024612",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[3] battle state marker"
+          },
+          {
+            "wr_addr": "0x2024616",
+            "value": 3,
+            "size": 1,
+            "comment": "unit[3] character ID (0x03 = Sai)"
+          },
+          {
+            "wr_addr": "0x2024553",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[3] x position"
+          },
+          {
+            "wr_addr": "0x2024554",
+            "value": 2,
+            "size": 1,
+            "comment": "unit[3] y position"
+          },
+          {
+            "wr_addr": "0x2024555",
+            "value": 0,
+            "size": 1,
+            "comment": "unit[3] team (0=ally, 1=enemy)"
+          }
+        ]
+      },
+      {
+        "unit_index": 4,
+        "unit_id": "0x23",
+        "base": "0x202463C",
+        "patches": [
+          {
+            "wr_addr": "0x202463C",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[4] existence flag"
+          },
+          {
+            "wr_addr": "0x2024648",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[4] init flag"
+          },
+          {
+            "wr_addr": "0x20246FC",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[4] battle state marker"
+          },
+          {
+            "wr_addr": "0x2024700",
+            "value": 35,
+            "size": 1,
+            "comment": "unit[4] character ID (0x23 = Masked Scouter)"
+          },
+          {
+            "wr_addr": "0x202463D",
+            "value": 10,
+            "size": 1,
+            "comment": "unit[4] x position"
+          },
+          {
+            "wr_addr": "0x202463E",
+            "value": 5,
+            "size": 1,
+            "comment": "unit[4] y position"
+          },
+          {
+            "wr_addr": "0x202463F",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[4] team (0=ally, 1=enemy)"
+          }
+        ]
+      },
+      {
+        "unit_index": 5,
+        "unit_id": "0x24",
+        "base": "0x2024726",
+        "patches": [
+          {
+            "wr_addr": "0x2024726",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[5] existence flag"
+          },
+          {
+            "wr_addr": "0x2024732",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[5] init flag"
+          },
+          {
+            "wr_addr": "0x20247E6",
+            "value": 17,
+            "size": 4,
+            "comment": "unit[5] battle state marker"
+          },
+          {
+            "wr_addr": "0x20247EA",
+            "value": 36,
+            "size": 1,
+            "comment": "unit[5] character ID (0x24 = Ambush Member)"
+          },
+          {
+            "wr_addr": "0x2024727",
+            "value": 11,
+            "size": 1,
+            "comment": "unit[5] x position"
+          },
+          {
+            "wr_addr": "0x2024728",
+            "value": 6,
+            "size": 1,
+            "comment": "unit[5] y position"
+          },
+          {
+            "wr_addr": "0x2024729",
+            "value": 1,
+            "size": 1,
+            "comment": "unit[5] team (0=ally, 1=enemy)"
+          }
+        ]
+      }
+    ],
+    "rom_patches": [
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F298",
+        "rom_addr_arm": "0x0853F298",
+        "value": 0,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[0] = 0x0000 (Naruto)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F29A",
+        "rom_addr_arm": "0x0853F29A",
+        "value": 1,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[1] = 0x0001 (Sasuke)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F29C",
+        "rom_addr_arm": "0x0853F29C",
+        "value": 2,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[2] = 0x0002 (Sakura)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F29E",
+        "rom_addr_arm": "0x0853F29E",
+        "value": 3,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[3] = 0x0003 (Sai)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F2A0",
+        "rom_addr_arm": "0x0853F2A0",
+        "value": 4,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[4] = 0x0004 (Kakashi)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53F2A2",
+        "rom_addr_arm": "0x0853F2A2",
+        "value": 5,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "Unit ID table[5] = 0x0005 (Shikamaru)"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53D910",
+        "rom_addr_arm": "0x0853D910",
+        "value": 92,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "scenario[0] tiles_x = 92"
+      },
+      {
+        "type": "bytes",
+        "rom_file_offset": "0x53D912",
+        "rom_addr_arm": "0x0853D912",
+        "value": 64,
+        "size": 2,
+        "encoding": "<H",
+        "comment": "scenario[0] tiles_y = 64"
+      }
+    ],
+    "available_scenarios": [
+      {
+        "index": 0,
+        "w": 92,
+        "h": 64,
+        "ptr1_file": 761728,
+        "ptr2_file": 775688
+      },
+      {
+        "index": 2,
+        "w": 60,
+        "h": 30,
+        "ptr1_file": 783128,
+        "ptr2_file": 792172
+      },
+      {
+        "index": 4,
+        "w": 36,
+        "h": 36,
+        "ptr1_file": 793848,
+        "ptr2_file": 803180
+      },
+      {
+        "index": 6,
+        "w": 36,
+        "h": 40,
+        "ptr1_file": 804992,
+        "ptr2_file": 810788
+      },
+      {
+        "index": 8,
+        "w": 36,
+        "h": 40,
+        "ptr1_file": 812112,
+        "ptr2_file": 820308
+      },
+      {
+        "index": 10,
+        "w": 36,
+        "h": 46,
+        "ptr1_file": 822004,
+        "ptr2_file": 830100
+      },
+      {
+        "index": 12,
+        "w": 60,
+        "h": 32,
+        "ptr1_file": 831884,
+        "ptr2_file": 838484
+      },
+      {
+        "index": 14,
+        "w": 60,
+        "h": 32,
+        "ptr1_file": 840288,
+        "ptr2_file": 852052
+      }
+    ],
+    "notes": {
+      "unit_array": "WRAM 0x02024294, 234 bytes/unit, max 25 units",
+      "unit_id_table": "ROM 0x0853F298 (file 0x53F298), u16[64]",
+      "scenario_table": "ROM 0x0853D910 (file 0x53D910), 16 entries × 16 bytes",
+      "scenario_entry_format": "u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra",
+      "battle_state": "WRAM 0x02022E30, 4732 bytes",
+      "main_battle_data": "WRAM 0x020240C0, 6084 bytes",
+      "patch_approach": "ROM patches modify unit ID table and scenario config directly. WRAM patches provide runtime overrides when ROM patching is insufficient.",
+      "lz77_note": "ptr1 data has 12-byte header (u16 stride, u16 height, u16 type, u16 0xF000, u16 0x9001, u16 subtype) followed by raw tile data. ptr2 data is LZ77-compressed (header 0x10, decompressed size 384 bytes)."
+    }
+  }
 }

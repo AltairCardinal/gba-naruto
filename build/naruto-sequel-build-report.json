@@ -6,7 +6,7 @@
   },
   "output_rom": {
     "path": "build/naruto-sequel-dev.gba",
-    "sha1": "383adf1bce4b0e7793648a13b3749c1bcf97c1b7",
+    "sha1": "145f72d165f8342bebad35104007432b07934b25",
     "size": 6291456
   },
   "applied_patches": [
@@ -19,9 +19,56 @@
       "length": 4,
       "text": "試験",
       "encoding": "cp932",
-      "bank": "sequel/content/text/dialogue-bank.json",
-      "content": "sequel/content/text/dialogue-patches.json",
-      "source_entry": "proof.menu.same_length_00076d"
+      "source_entry": "proof.menu.same_length_00076d",
+      "strategy": "same_length"
+    },
+    {
+      "id": "dialogue_group0_main",
+      "type": "dialogue",
+      "offset": 4559892,
+      "before_hex": "88cf8fc297af99c78df98c819a6a9b45929894c896e292d78b620a95c48b788eb58af78e8f9a798148",
+      "after_hex": "96d8977491ba8d918bab82c988d995cf82a082e88fac91e082aa92b28db882c98cfc82a982a4814200",
+      "length": 41,
+      "text": "木葉村国境に異変あり小隊が調査に向かう。",
+      "encoding": "cp932",
+      "source_entry": "group0.main",
+      "strategy": "same_length"
+    },
+    {
+      "id": "dialogue_group1_main",
+      "type": "dialogue",
+      "offset": 4560008,
+      "before_hex": "94c99ba99b4595b69a8d95f28b6295ae8def0a995399d28b6292d99adc8f6e95af9252929a9ca08148",
+      "after_hex": "9445938182cc8e63937d82aa958d8bdf82c990f6959a8c7889fa82b982e68142000000000000000000",
+      "length": 41,
+      "text": "忍刀の残党が附近に潜伏警戒せよ。",
+      "encoding": "cp932",
+      "source_entry": "group1.main",
+      "strategy": "same_length"
+    },
+    {
+      "id": "dialogue_group2_main",
+      "type": "dialogue",
+      "offset": 4560136,
+      "before_hex": "929894c897a78bee9cc18fe48c4092968b620a9a9a8b8295498b6295f28f6e95af9252929a9ca08148",
+      "after_hex": "974191978aaa95a88ee782e982d782b58142934782cc915f82a282cd96be949282be81420000000000",
+      "length": 41,
+      "text": "輸送巻物守るべし。敵の狙いは明白だ。",
+      "encoding": "cp932",
+      "source_entry": "group2.main",
+      "strategy": "same_length"
+    },
+    {
+      "id": "dialogue_group0_label1",
+      "type": "dialogue",
+      "offset": 4559972,
+      "before_hex": "8b7882538af7",
+      "after_hex": "91e682509862",
+      "length": 6,
+      "text": "第１話",
+      "encoding": "cp932",
+      "source_entry": "group0.label1",
+      "strategy": "same_length"
     }
   ],
   "patch_manifest": "sequel/patches/manifest.json"

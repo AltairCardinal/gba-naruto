@@ -1,0 +1,144 @@
+{
+  "start": 1321104,
+  "size": 64,
+  "entropy": 2.1869,
+  "zero_ratio": 0.5,
+  "u32_prefix": [
+    {
+      "index": 0,
+      "offset": 1321104,
+      "value": 0,
+      "kind": "zero"
+    },
+    {
+      "index": 1,
+      "offset": 1321108,
+      "value": 4291362800,
+      "kind": "raw32"
+    },
+    {
+      "index": 2,
+      "offset": 1321112,
+      "value": 4194336,
+      "kind": "raw32"
+    },
+    {
+      "index": 3,
+      "offset": 1321116,
+      "value": 16777472,
+      "kind": "raw32"
+    },
+    {
+      "index": 4,
+      "offset": 1321120,
+      "value": 255,
+      "kind": "small"
+    },
+    {
+      "index": 5,
+      "offset": 1321124,
+      "value": 65535,
+      "kind": "u16ish"
+    },
+    {
+      "index": 6,
+      "offset": 1321128,
+      "value": 32,
+      "kind": "small"
+    },
+    {
+      "index": 7,
+      "offset": 1321132,
+      "value": 4291362800,
+      "kind": "raw32"
+    },
+    {
+      "index": 8,
+      "offset": 1321136,
+      "value": 4194336,
+      "kind": "raw32"
+    },
+    {
+      "index": 9,
+      "offset": 1321140,
+      "value": 16777472,
+      "kind": "raw32"
+    },
+    {
+      "index": 10,
+      "offset": 1321144,
+      "value": 255,
+      "kind": "small"
+    },
+    {
+      "index": 11,
+      "offset": 1321148,
+      "value": 65535,
+      "kind": "u16ish"
+    },
+    {
+      "index": 12,
+      "offset": 1321152,
+      "value": 64,
+      "kind": "small"
+    },
+    {
+      "index": 13,
+      "offset": 1321156,
+      "value": 4291362800,
+      "kind": "raw32"
+    },
+    {
+      "index": 14,
+      "offset": 1321160,
+      "value": 4194336,
+      "kind": "raw32"
+    },
+    {
+      "index": 15,
+      "offset": 1321164,
+      "value": 16777472,
+      "kind": "raw32"
+    }
+  ],
+  "palette_probe": {
+    "palette_like_ratio": 0.75,
+    "nonzero_halfwords": 24,
+    "first_u16": [
+      0,
+      0,
+      65520,
+      65480,
+      32,
+      64,
+      256,
+      256,
+      255,
+      0,
+      65535,
+      0,
+      32,
+      0,
+      65520,
+      65480,
+      32,
+      64,
+      256,
+      256,
+      255,
+      0,
+      65535,
+      0,
+      64,
+      0,
+      65520,
+      65480,
+      32,
+      64,
+      256,
+      256
+    ]
+  },
+  "guess": "binary_or_compressed",
+  "head_hex": "00000000f0ffc8ff2000400000010001ff000000ffff000020000000f0ffc8ff2000400000010001ff000000ffff000040000000f0ffc8ff2000400000010001"
+}
