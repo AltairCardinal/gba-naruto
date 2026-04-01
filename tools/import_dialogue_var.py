@@ -41,16 +41,20 @@ def build_pointer_redirect(
     new_ptr = ROM_BASE + new_text_offset
     return {
         "type": "pointer_redirect",
-        "table_offset": table_offset,
-        "old_value": old_ptr,
-        "new_value": new_ptr,
+        "pointer_table_offset": table_offset,
+        "expected_pointer_hex": struct.pack("<I", old_ptr).hex(),
+        "new_pointer_hex": struct.pack("<I", new_ptr).hex(),
     }
+
+
+FREE_SPACE_START = 0x5DFBEC  # first 0xFF-filled byte after all game data (128 KB free)
+FREE_SPACE_END   = 0x5FFFFF  # last byte of ROM
 
 
 def import_dialogue_variable(
     bank_path: Path,
     content_path: Path,
-    free_space_start: int = 0x463500,
+    free_space_start: int = FREE_SPACE_START,
 ) -> list[dict]:
     """Generate patches for variable-length dialogue entries.
 
@@ -112,13 +116,14 @@ def import_dialogue_variable(
             # Align to 4 bytes
             text_cursor = (text_cursor + 3) & ~3
 
+            after_bytes = encoded + b"\x00"
             patches.append(
                 {
                     "id": f"dialogue.{entry_id}.write_text",
                     "type": "bytes",
                     "offset": text_cursor,
-                    "before_hex": "",
-                    "after_hex": encoded.hex() + "00",
+                    "before_hex": "ff" * len(after_bytes),  # free space is 0xFF-filled
+                    "after_hex": after_bytes.hex(),
                     "encoding": encoding,
                     "text": text,
                     "source_entry": entry_id,
@@ -126,13 +131,15 @@ def import_dialogue_variable(
                 }
             )
 
+            old_ptr = ROM_BASE + old_text_offset
+            new_ptr = ROM_BASE + text_cursor
             patches.append(
                 {
                     "id": f"dialogue.{entry_id}.redirect_ptr",
                     "type": "pointer_redirect",
-                    "table_offset": table_offset,
-                    "old_value": ROM_BASE + old_text_offset,
-                    "new_value": ROM_BASE + text_cursor,
+                    "pointer_table_offset": table_offset,
+                    "expected_pointer_hex": struct.pack("<I", old_ptr).hex(),
+                    "new_pointer_hex": struct.pack("<I", new_ptr).hex(),
                     "source_entry": entry_id,
                 }
             )
@@ -152,7 +159,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--free-space-start",
-        default="0x463500",
+        default=hex(FREE_SPACE_START),
         help="Start offset for free space in ROM (hex)",
     )
     parser.add_argument("--output", help="Optional output JSON path")

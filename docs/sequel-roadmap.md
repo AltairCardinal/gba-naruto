@@ -23,7 +23,8 @@
 |------|------|------|
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
-| 章节流程入口 | ❌ 未定位 | 需 runtime 调试 |
+| 章节流程入口 | ✅ 已定位 | 静态分析完成，WRAM 0x020311EA 写入控制章节 ID |
+| 可变长对话 | ✅ 已完成 | 128 KB 空闲区域 0x5DFBEC, pointer_redirect pipeline 可用 |
 | 资源提取（图片/音频） | ⚠️ 部分 | tileset 地址已知，提取未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
@@ -78,10 +79,9 @@
 
 **已确认 ROM 数据表：**
 - ✅ 单位 ID 映射表：`0x0853F298` / file `0x53F298`，u16[64]，映射 slot → character ID
-- ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
-  - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
-  - ptr1：12 字节头 + 原始 tile 数据（u16/tile）
-  - ptr2：LZ77 压缩数据（解压后 384 字节，调色板/属性数据）
+- ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × **32 字节**（2026-03-31 修正）
+  - 访问公式：`entry_ptr = 0x0853D910 + 4 + chapter_id * 32`
+  - 条目格式：u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags
 - ✅ 状态机函数指针表：`0x0853F1C0` / file `0x53F1C0`，u32[60]，指向 0x0812Fxxx
 - ✅ WRAM 分配表：`0x0853D848` / file `0x53D848`
 
@@ -125,39 +125,48 @@
 - ✅ `notes/chapter-flow-format.md`（完整版）
 - ✅ `notes/chapter-entry-points.md`（完整版）
 - ✅ `notes/battle-config-format.md`（已修正条目大小）
-- ⚠️ `tools/import_battle_config.py` 需更新以反映 32 字节条目格式
+- ✅ `tools/import_battle_config.py` — 已更新为 32 字节条目格式
 
 ---
 
 ### P0-Step 5｜资源提取链路（图片/音频）
 
-**现状：**
-- tileset 地址已知（`0x596D5C` 的 tile data 指针），提取脚本未完成
+**状态：✅ 已完成**（2026-04-01）
 
-**方法：**
-1. 从 `0x596D5C` 提取 tileset 指针，用 Python 导出为 PNG
-2. 搜索音频数据段（MIDI-like 结构 或 PCM 段）
-3. 编写 `tools/extract_tileset.py` 和 `tools/extract_audio.py`
+**已完成：**
+- ✅ `tools/extract_tileset.py` — 读取战斗配置表 8 条目，LZ77 解压 tile_gfx + palette，导出 PNG 图集
+  - 输出：`build/tiles/battle_tileset_00.png` … `battle_tileset_07.png`
+  - 格式：8×8 4bpp tiles，32 列图集，×2 缩放，BGR555 调色板（bit15 mask 修正）
+  - 调色板来源：fields[4] (palette_ptr) - LZ77 压缩 BG 调色板（16 sub-palettes × 16 色）
+  - 验证：entry 0 = 672 tiles，97% 非零像素，PNG 21 KB，颜色正确（地形棕绿色）
+- ✅ `tools/analyze_tile_table.py` — 分析 0x596D5C 描述符表的多级指针链，用于 sprite 格式研究
+- ✅ `notes/resource-locations.md` — 已记录关键资源地址
 
 **交付物：**
-- `tools/extract_tileset.py`
-- `tools/extract_audio.py`
-- `notes/resource-locations.md`
+- ✅ `tools/extract_tileset.py` — 战斗地图图集 PNG 导出（8 场景 × LZ77 tile_gfx + palette）
+- ✅ `tools/extract_audio.py` — 扫描 DirectSound PCM 样本，导出 WAV 文件
+- ✅ `tools/analyze_tile_table.py` — 0x596D5C 多级指针链分析工具
+- ✅ `notes/resource-locations.md` — 完整资源地址文档
+
+**关键发现：**
+- fields[4] (palette_ptr) = 实际 BG 调色板（LZ77 压缩，BGR555，bit15=透明标志需 mask）
+- fields[5] (palette2_ptr) = 全 0x8000，为属性/透明度数据，非颜色调色板
+- 32 字节条目实际字段顺序（修正文档）：tile_gfx_ptr, tilemap_ptr, tilemap_alt_ptr, extra_ptr, palette_ptr, palette2_ptr, flags, packed_dims
 
 ---
 
 ### P0-Step 6｜可变长对话（Phase 2 收尾）
 
-**现状：**
-- 同长替换可行，变长 redirect 需要已验证的空闲 ROM 区域
+**状态：✅ 已完成**（2026-03-31）
 
-**方法：**
-1. 用 mGBA 在游戏运行时检测 ROM 空闲区域（写入后读回为 0xFF 且不被读的地址）
-2. 验证后实现 pointer_redirect 策略
+**发现：**
+- ROM 末尾 0x5DFBEC–0x5FFFFF 为 ~128 KB 的 0xFF 填充空闲区域
+- 同长替换与变长 redirect 均已实现
 
 **交付物：**
-- 空闲 ROM 区域验证文档
-- `import_dialogue_var.py`（变长 redirect patch 生成）
+- ✅ `notes/free-space.md` — 空闲 ROM 区域验证文档（起始地址、大小、填充值）
+- ✅ `tools/import_dialogue_var.py` — 变长 redirect patch 生成（字段名与 build_mod.py 对齐）
+- ✅ `tools/build_mod.py` — 新增 `dialogue_var` patch 类型支持
 
 ---
 
@@ -184,10 +193,10 @@ P0-Step 1（mGBA调试） ✅
        ↓
 P0-Step 2（tilemap） ✅
        ↓
-P0-Step 3（战斗配置） ✅（ROM 表已定位，patch 生成可用）
-P0-Step 4（章节流程）
-P0-Step 5（资源提取）
-P0-Step 6（变长对话）
+P0-Step 3（战斗配置） ✅（ROM 表已定位，条目格式已修正为 32 字节）
+P0-Step 4（章节流程） ✅（章节流程入口已定位，WRAM/ROM 地址均已确认）
+P0-Step 5（资源提取） ✅（tileset PNG + audio WAV 均已完成）
+P0-Step 6（变长对话） ✅（128 KB 空闲区域确认，pipeline 完整）
 P0-Step 7（测试闭环）
        ↓
 100% 逆向覆盖

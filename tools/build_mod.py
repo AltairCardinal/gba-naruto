@@ -114,6 +114,15 @@ def resolve_battle_config_patch(ctx_roots: tuple[Path, Path], patch: dict) -> li
     return resolve_battle_config_patches(units_path, story_path, patch["id"])
 
 
+def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_dialogue_var import import_dialogue_variable
+
+    bank = ROOT / patch["bank"]
+    content = ROOT / patch["content"]
+    free_start = int(patch.get("free_space_start", "0x5DFBEC"), 0)
+    return import_dialogue_variable(bank, content, free_start)
+
+
 def apply_patch(data: bytearray, patch: dict) -> dict:
     ptype = patch.get("sub_type", patch["type"])
     if ptype == "bytes":
@@ -169,6 +178,10 @@ def build(project_path: Path) -> dict:
                 applied.append(apply_patch(data, sp))
         elif patch_type == "battle_config":
             sub_patches = resolve_battle_config_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                applied.append(apply_patch(data, sp))
+        elif patch_type == "dialogue_var":
+            sub_patches = resolve_dialogue_var_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
                 applied.append(apply_patch(data, sp))
         else:
