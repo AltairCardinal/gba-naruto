@@ -35,32 +35,34 @@
 - **章节配置表**：ROM `0x0853D910`，8 条目 × 32 字节
 - **条目公式**：`0x0853D910 + 4 + chapter_id * 32`
 - **初始化链**：`0x0808F618` → `0x08068DE4` → `0x080732B4` → `0x08068FF0`
-- **重要修正**：配置表条目大小为 32 字节（非 16），`import_battle_config.py` 需更新
+- **重要修正**：配置表条目大小为 32 字节（非 16），`import_battle_config.py` 已更新 ✅
 
-## 当前仍未拿下
+## P0 逆向工程阶段 — 全部完成（2026-04-01）
 
-- 真实剧情脚本导入格式（章节脚本事件表）
-- 地图导入格式（写回位点）
-- 角色/技能高层配置格式
-- 对白源数据格式（变长支持）
-- `0x080894DE` 上层渲染流程的数据来源
-- `0x080968A0` 上游调用层的边界和数据来源
+所有 7 个 P0 逆向工程步骤均已完成。详见 `docs/sequel-roadmap.md`。
 
-## 可立即开展的续作开发
+### 新增完成（2026-04-01）
 
-当前已经可以并且应该并行做两类工作：
+**P0-Step 5：资源提取**
+- `tools/extract_tileset.py` — 8 个战斗地图 tileset → PNG 图集（LZ77 + BGR555 调色板）
+  - 关键修正：battle config 字段顺序（tile_gfx_ptr 在 +0x00，dims 在 +0x1C，非之前文档所述）
+  - palette_ptr (fields[4]) = 实际颜色；palette2_ptr (fields[5]) = 全 0x8000 属性数据
+- `tools/extract_audio.py` — 扫描 DirectSound PCM 样本，找到 10 个（含 3 个 BGM），导出 WAV
+- `notes/resource-locations.md` — 完整资源地址文档
 
-1. 内容开发
-   - 把新章节、新角色、新地图、新对白全部先写入 `sequel/content/`
-   - 不再把内容设计留在聊天里
-2. 工程开发
-   - 继续逆向对白/章节/地图入口
-   - 把每个可写回结果接入 `sequel/patches/manifest.json`
+**P0-Step 6：可变长对话**
+- `tools/import_dialogue_var.py` — 字段名已与 `build_mod.py` 对齐，free_space 地址修正
+- `tools/build_mod.py` — 新增 `dialogue_var` patch 类型
+- `notes/free-space.md` — ROM 0x5DFBEC–0x5FFFFF 128 KB 空闲区域文档
 
-## 推荐工作顺序
+**P0-Step 7：自动化测试**
+- `tools/automated_test.py` — 17/17 测试全部通过（build/manifest/patches/encoding 4 个套件）
 
-1. 扩写 `sequel/content/story/episode-01.json`
-2. 继续补齐 `sequel/content/text/episode-01-dialogue.md`
-3. 从 `0x080968A0` 和其上游 `lr=0x08096633` 反推对白状态准备层
-4. 拿下章节流程或地图入口
-5. 把地图/战斗配置的真实导入器接入 `tools/build_mod.py`
+## 现在可以开展的工作
+
+P0 逆向全部完成，下一阶段为**内容生产**：
+
+1. 扩写 `sequel/content/story/episode-01.json`（剧情框架 → 完整场景）
+2. 补齐 `sequel/content/text/episode-01-dialogue.md`（对话内容）
+3. 建立 episode-02 等多章节内容模板
+4. 启动网页编辑器开发（FastAPI + Vue，服务器 14.103.49.74）

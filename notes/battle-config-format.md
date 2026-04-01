@@ -33,29 +33,32 @@
 > This was confirmed by disassembling `0x08068FF0`:
 > `lsls r6, r2, #5` (multiply by 32) and `adds r0, r5, #4` (skip header).
 
-**Entry format (32 bytes = 8 × u32):**
+**Entry format (32 bytes = 8 × u32) — CORRECTED 2026-04-01:**
 | Offset | Type | Name | Description |
 |---|---|---|---|
-| +0x00 | u16+u16 | height, width | Map dimensions in tiles (both u16 LE) |
-| +0x04 | u32 | tile_gfx_ptr | ROM pointer to tile graphics data |
-| +0x08 | u32 | tilemap_ptr | ROM pointer to tilemap layout |
-| +0x0C | u32 | tilemap_alt_ptr | ROM pointer to tilemap layout variant |
-| +0x10 | u32 | extra_ptr | ROM pointer to optional extra data (0 = absent) |
-| +0x14 | u32 | palette_ptr | ROM pointer to palette / attribute data |
-| +0x18 | u32 | palette2_ptr | ROM pointer to secondary palette / compressed data |
-| +0x1C | u32 | flags | 0x01=normal, 0x02=alt mode, 0x102=special |
+| +0x00 | u32 | tile_gfx_ptr | ROM pointer to LZ77-compressed tile graphics (4bpp) |
+| +0x04 | u32 | tilemap_ptr | ROM pointer to LZ77-compressed tilemap layout |
+| +0x08 | u32 | tilemap_alt_ptr | ROM pointer to LZ77-compressed alternate tilemap |
+| +0x0C | u32 | extra_ptr | ROM pointer to optional extra data (0 = absent) |
+| +0x10 | u32 | palette_ptr | ROM pointer to LZ77-compressed BG palette (actual BGR555 colors; mask bit15) |
+| +0x14 | u32 | palette2_ptr | ROM pointer to LZ77-compressed attribute data (all 0x8000, not colors) |
+| +0x18 | u32 | flags | 0x01=normal, 0x02=alt mode, 0x102=special |
+| +0x1C | u16+u16 | width, height | Map dimensions in tiles (width=bits 15-0, height=bits 31-16) |
 
-**Valid scenarios (IDs 0–7):**
-| ID | H×W | tile_gfx (file) | tilemap (file) | flags |
-|---|---|---|---|---|
-| 0 | 64×92 | 0x0B9F80 | 0x0BD608 | 0x01 |
-| 1 | 30×60 | 0x0BF318 | 0x0C166C | 0x01 |
-| 2 | 36×36 | 0x0C1CF8 | 0x0C416C | 0x01 |
-| 3 | 40×36 | 0x0C4880 | 0x0C5F24 | 0x01 |
-| 4 | 40×36 | 0x0C6450 | 0x0C8454 | 0x01 |
-| 5 | 46×36 | 0x0C8AF4 | 0x0CAA94 | 0x01 |
-| 6 | 32×60 | 0x0CB18C | 0x0CCB54 | 0x02 |
-| 7 | 32×60 | 0x0CD260 | 0x0D0054 | 0x102 |
+> **Prior error**: earlier docs had `u16+u16 dim` at +0x00 and `flags` at +0x18. Corrected by
+> inspecting actual ROM data at 0x53D914 with `extract_tileset.py` (2026-04-01).
+
+**Valid scenarios (IDs 0–7) — CORRECTED dims:**
+| ID | W×H tiles | tile_gfx (file) | tilemap (file) | palette (file) | flags |
+|---|---|---|---|---|---|
+| 0 | 60×30 | 0x0B9F80 | 0x0BD608 | 0x0BE10C | 0x01 |
+| 1 | 36×36 | 0x0BF318 | 0x0C166C | 0x0C18EC | 0x01 |
+| 2 | 36×40 | 0x0C1CF8 | 0x0C416C | 0x0C43E4 | 0x01 |
+| 3 | 36×40 | 0x0C4880 | 0x0C5F24 | 0x0C6140 | 0x01 |
+| 4 | 36×46 | 0x0C6450 | 0x0C8454 | 0x0C86D8 | 0x01 |
+| 5 | 60×32 | 0x0C8AF4 | 0x0CAA94 | 0x0CAD38 | 0x01 |
+| 6 | 60×32 | 0x0CB18C | 0x0CCB54 | 0x0CCE1C | 0x02 |
+| 7 | 60×32 | 0x0CD260 | 0x0D0054 | 0x0D0638 | 0x102 |
 
 ### ptr1 Data Format (Tilemap)
 
