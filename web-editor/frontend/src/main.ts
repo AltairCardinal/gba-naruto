@@ -9,7 +9,8 @@ const router = createRouter({
     { path: '/', redirect: '/dialogues' },
     { path: '/dialogues', component: () => import('./views/DialogueListView.vue') },
     { path: '/dialogues/:key', component: () => import('./views/DialogueEditorView.vue') },
-    { path: '/build', component: () => import('./views/BuildView.vue') }
+    { path: '/build', component: () => import('./views/BuildView.vue') },
+    { path: '/map', component: () => import('./views/MapEditorView.vue') }
   ]
 })
 

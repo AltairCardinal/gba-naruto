@@ -5,6 +5,7 @@
       <nav>
         <router-link to="/dialogues">对话管理</router-link>
         <router-link to="/build">构建</router-link>
+        <router-link to="/map">地图编辑</router-link>
       </nav>
     </header>
     <main>
