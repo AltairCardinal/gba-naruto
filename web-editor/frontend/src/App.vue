@@ -4,6 +4,7 @@
       <h1>木叶战记续作 - 编辑器</h1>
       <nav>
         <router-link to="/dialogues">对话管理</router-link>
+        <router-link to="/build">构建</router-link>
       </nav>
     </header>
     <main>
