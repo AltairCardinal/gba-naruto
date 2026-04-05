@@ -13,6 +13,7 @@ const router = createRouter({
     { path: '/map', component: () => import('./views/MapEditorView.vue') },
     { path: '/battle-configs', component: () => import('./views/BattleConfigView.vue') },
     { path: '/units', component: () => import('./views/UnitListView.vue') },
+    { path: '/units/place', component: () => import('./views/UnitPlacementView.vue') },
     { path: '/skills', component: () => import('./views/SkillListView.vue') },
     { path: '/story-beats', component: () => import('./views/StoryBeatListView.vue') },
     { path: '/audio', component: () => import('./views/AudioView.vue') },

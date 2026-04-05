@@ -146,6 +146,20 @@ def init_db():
         )
     """)
     
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS unit_positions (
+            id INTEGER PRIMARY KEY,
+            unit_id INTEGER NOT NULL,
+            map_id TEXT NOT NULL,
+            position_x INTEGER NOT NULL,
+            position_y INTEGER NOT NULL,
+            team INTEGER DEFAULT 0,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (unit_id) REFERENCES units(id)
+        )
+    """)
+    
     conn.commit()
     conn.close()
 

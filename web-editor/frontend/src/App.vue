@@ -6,6 +6,7 @@
         <router-link to="/dialogues">对话管理</router-link>
         <router-link to="/battle-configs">战斗配置</router-link>
         <router-link to="/units">单位配置</router-link>
+        <router-link to="/units/place">角色放置</router-link>
         <router-link to="/skills">技能配置</router-link>
         <router-link to="/story-beats">剧情节拍</router-link>
         <router-link to="/audio">音频管理</router-link>

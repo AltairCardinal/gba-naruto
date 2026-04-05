@@ -277,10 +277,12 @@ async def export_battle_config_rom(config_id: int):
     
     if row["player_units"] or row["enemy_units"]:
         all_units = []
-        if row["player_units"]:
-            all_units.extend(_parse_json(row["player_units"]))
-        if row["enemy_units"]:
-            all_units.extend(_parse_json(row["enemy_units"]))
+        units_data = _parse_json(row["player_units"])
+        if units_data:
+            all_units.extend(units_data)
+        enemy_data = _parse_json(row["enemy_units"])
+        if enemy_data:
+            all_units.extend(enemy_data)
         
         if all_units:
             unit_data = struct.pack(f"<{len(all_units)}H", *[u.get("char_id", 0) for u in all_units][:64])
@@ -294,10 +296,11 @@ async def export_battle_config_rom(config_id: int):
     if row["scenario_id"] is not None:
         scenario_id = row["scenario_id"]
         scenario_offset = 0x53D914 + scenario_id * 32
+        scenario_data = bytes.fromhex("0100000000000000000000000000000002000000")
         patches.append({
             "type": "bytes",
             "offset": scenario_offset,
-            "after_hex": "0100000000000000000000000000000002000000".decode("hex") if hasattr(__builtins__, 'decode') else bytes.fromhex("0100000000000000000000000000000002000000").hex(),
+            "after_hex": scenario_data.hex(),
             "description": f"Battle config {config_id}: Scenario {scenario_id}"
         })
     
