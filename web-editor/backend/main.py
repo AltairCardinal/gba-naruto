@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import dialogues, build, maps
+from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users
 import database
 
 app = FastAPI(title="Naruto GBA Editor API")
@@ -16,6 +16,13 @@ app.add_middleware(
 app.include_router(dialogues.router)
 app.include_router(build.router)
 app.include_router(maps.router)
+app.include_router(units.router)
+app.include_router(skills.router)
+app.include_router(story_beats.router)
+app.include_router(audio.router)
+app.include_router(characters.router)
+app.include_router(battle_configs.router)
+app.include_router(users.router)
 
 @app.on_event("startup")
 async def startup():

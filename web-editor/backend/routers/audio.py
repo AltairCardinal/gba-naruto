@@ -200,3 +200,60 @@ async def get_audio_types():
     return {
         "types": ["bgm", "se", "voice", "ambient"]
     }
+
+@router.get("/preview/{audio_id}")
+async def preview_audio(audio_id: int):
+    import os
+    import struct
+    
+    ROM_PATH = "/root/gba-naruto/sequel/naruto.gba"
+    
+    conn = get_db_connection()
+    conn.row_factory = sqlite3.Row
+    cursor = conn.execute("SELECT * FROM audio_files WHERE id = ?", (audio_id,))
+    row = cursor.fetchone()
+    conn.close()
+    
+    if not row:
+        raise HTTPException(status_code=404, detail="Audio file not found")
+    
+    if not row["rom_offset"]:
+        raise HTTPException(status_code=400, detail="No ROM offset configured")
+    
+    if not os.path.exists(ROM_PATH):
+        raise HTTPException(status_code=500, detail="ROM file not found")
+    
+    offset = row["rom_offset"]
+    size = row["size"] or 10000
+    
+    with open(ROM_PATH, "rb") as f:
+        f.seek(offset)
+        data = f.read(size)
+    
+    wav_data = create_wav(data, row.get("format", "pcm8"))
+    
+    from fastapi.responses import Response
+    return Response(content=wav_data, media_type="audio/wav")
+
+def create_wav(pcm_data: bytes, fmt: str = "pcm8") -> bytes:
+    import struct
+    import wave
+    import io
+    
+    if fmt == "pcm8":
+        sample_rate = 13379
+        bits_per_sample = 8
+        num_channels = 1
+    else:
+        sample_rate = 13379
+        bits_per_sample = 8
+        num_channels = 1
+    
+    buf = io.BytesIO()
+    with wave.open(buf, 'wb') as w:
+        w.setnchannels(num_channels)
+        w.setsampwidth(bits_per_sample // 8)
+        w.setframerate(sample_rate)
+        w.writeframes(pcm_data)
+    
+    return buf.getvalue()

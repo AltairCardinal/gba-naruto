@@ -4,6 +4,11 @@
       <h1>木叶战记续作 - 编辑器</h1>
       <nav>
         <router-link to="/dialogues">对话管理</router-link>
+        <router-link to="/battle-configs">战斗配置</router-link>
+        <router-link to="/units">单位配置</router-link>
+        <router-link to="/skills">技能配置</router-link>
+        <router-link to="/story-beats">剧情节拍</router-link>
+        <router-link to="/audio">音频管理</router-link>
         <router-link to="/build">构建</router-link>
         <router-link to="/map">地图编辑</router-link>
       </nav>
