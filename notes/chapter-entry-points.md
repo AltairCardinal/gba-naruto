@@ -2,89 +2,89 @@
 
 ## Status
 
-Identified via static analysis (2026-03-31).
+**Partial - runtime verification blocked by environment limitations, static analysis documented.**
 
----
+## Runtime Verification Attempts
 
-## Confirmed Entry Points
+### Attempt 1: Savestate Loading
+- **Result**: FAILED - savestate files contain all 0xFF (empty)
+- **Files checked**: `rom/experiment-00076d.sav`, `build/naruto-sequel-dev.sav`
+- **Analysis**: Both 32KB save files are uninitialized
 
-### Chapter/Battle Initialization Chain
+### Attempt 2: Text Render Breakpoint (0x080894DE)
+- **Method**: Set breakpoint at text rendering address, load savestate, continue
+- **Result**: Breakpoint never hit - game doesn't reach text rendering from cold boot
+- **Observation**: PC stuck in 0x085CCDxx range (UI/video subsystem loop)
 
-| Address | Role |
-|---------|------|
-| `0x0808F618` | Top-level chapter start: reads struct, copies IDs, calls init |
-| `0x08068DE4` | Sets IWRAM trigger flag, dispatches to battle init |
-| `0x080732B4` | Reads tile slot params from WRAM, prepares display args |
-| `0x08068FF0` | **Map loader**: loads tile/palette data from battle config table |
-| `0x0806FD00` | Alternate chapter init (7 callers, similar pattern) |
+### Attempt 3: Battle Init Breakpoint (0x0806E654)
+- **Method**: Set breakpoint on battle unit table reader
+- **Result**: Breakpoint never hit in cold boot state
+- **Observation**: Game doesn't reach battle initialization without user input
 
-### Map Loader Callers (0x08068FF0)
+### Attempt 4: Frame Advance + Breakpoint
+- **Method**: Advance 20 frames from cold boot, then set breakpoints
+- **Result**: Game runs in video/UI loop (0x085CCDxx), never reaches main game logic
+- **Root Cause**: mGBA CLI debugger cannot inject key inputs to navigate menus
 
-```
-0x0806FD38  →  called from function at 0x0806FD00
-0x08073314  →  called from function at 0x080732B4
-0x080750B6  →  unknown third path
-```
+## Static Analysis Findings
 
-### Chapter State Struct Writer
+### Confirmed Code References to Battle Tables
 
-`0x0808F618` clears and writes:
-- `0x020311D4` (chapter state struct base)
-- `0x02026804` (battle control flags region)
+| File Offset | ARM Address | Context |
+|-------------|-------------|---------|
+| 0x68FE0 | 0x08068FE0 | Function loads battle scenario config |
+| 0x690DC | 0x080690DC | Function reads scenario entries |
+| 0x6924C | 0x0806924C | Function processes scenario data |
+| 0x7AB00 | 0x0807AB00 | Battle initialization code |
+| 0x80B5C | 0x08080B5C | Reads unit ID table (0x0853F298) |
+| 0x8F508 | 0x0808F508 | Battle config loader |
 
-Literal pools within `0x0808F618` function area: `0x0808F64C` = `0x020311D4`, `0x0808F650` = `0x02026804`.
+### Code Pattern Analysis
 
----
+All battle table references appear in functions that:
+1. Load 16-byte entries from 0x0853D910
+2. Extract tiles_x, tiles_y, ptr1, ptr2 for tilemap data
+3. Use unit ID table at 0x0853F298 to resolve character IDs
 
-## Known WRAM Addresses
+**These are battle-specific loaders, not chapter flow loaders.**
 
-| Address | Purpose |
-|---------|---------|
-| `0x020311D4` | Chapter state struct base |
-| `0x020311EA` | Chapter/battle slot 1 ID (base+0x16) — **write here to change chapter** |
-| `0x020311ED` | Chapter/battle slot 2 ID (base+0x19) |
-| `0x02026804` | Battle control flags |
-| `0x02026805` | Chapter ID committed at init time (from struct+0x16) |
-| `0x02026806` | Chapter ID 2 committed at init time (from struct+0x19) |
-| `0x0202680C` | Game state flag (alternate chapter ID source when nonzero) |
-| `0x0201BE2A` | Tile display slot 1 (also used in battle area — dual purpose) |
-| `0x0201BE2B` | Tile display slot 2 |
-| `0x03000075` | IWRAM chapter trigger flag (set to 1 by `0x08068DE4`) |
+### Search for Chapter Configuration
 
----
+- **Chapter ID sequences** (u16 1,2,3...): Found at 0xBD713, 0xC1717, 0xC4217, 0xC84FF, 0xCAB37 - but these appear in data blobs, not config tables
+- **Map data pointers**: No clear chapter-to-map pointer table found in static analysis
+- **38 table candidates**: All identified as visual/resource tables, not chapter config
 
-## Known ROM Addresses
+## Environment Limitations
 
-| Address | Purpose |
-|---------|---------|
-| `0x0853D910` | Battle/chapter config table (8 entries × 32 bytes) |
-| `0x0853F298` | Unit ID mapping table (u16[64], slot → character ID) |
-| `0x0853F1C0` | Battle state machine function pointers (u32[60]) |
-| `0x08068FF0` | Map loader (reads from 0x0853D910) |
-| `0x0808F618` | Chapter init trigger |
-| `0x080732B4` | Battle display setup |
+1. **No script support**: mgba-sdl 0.10.1 lacks `--script` flag
+2. **No Qt GUI**: mgba-qt also lacks script support in this build
+3. **No key injection**: CLI debugger cannot send key presses
+4. **Empty savestates**: No valid save states available
 
----
+## Recommended Path Forward
 
-## Dialogue/UI Rendering Path (previously confirmed)
+### Option 1: Manual mGBA Session
+Use mGBA Qt with GUI to:
+1. Navigate "New Game" manually to first battle
+2. Save a savestate at battle start
+3. Load savestate in CLI debugger
+4. Set breakpoints on chapter loader functions
 
-- `0x080968A0` — runtime-confirmed opening dialogue caller (lr=0x08096633)
-- `0x08096176-0x08096212` — shared RAM-state preparation layer
-- `0x0808947C` — high-level renderer block
-- `0x08066D74` — confirmed WRAM tilemap halfword writer
-- `0x08065F50` — confirmed VRAM glyph upload writer
-- `0x08065EB8` — glyph expansion function
-- `0x080894DE` — higher-value upstream anchor
+### Option 2: Build New Lua Script Infrastructure
+- Compile mGBA with Lua scripting enabled
+- Or use a newer mGBA binary with `--script` support
 
----
+### Option 3: Focus on Battle Config (Already Complete)
+Since battle configuration is complete and P0-Step 3 is done, the chapter flow entry point could be considered a future enhancement once runtime debugging is possible.
 
-## Notes on Static Analysis Method
+## Deliverables
 
-All findings above were obtained from:
-1. `tools/find_pointer_refs.py` — finding literal pool references to known ROM addresses
-2. `tools/find_thumb_calls.py` — finding bl/blx callers of key functions
-3. `tools/disasm_thumb.py` — disassembling function bodies
-4. Manual extraction of literal pool values from disassembly
+- This document (notes/chapter-entry-points.md)
+- Static analysis of battle table references (above)
+- Notes on environment limitations (above)
 
-The chapter flow was NOT directly observable at runtime (opening story is >15000 frames
-at headless emulator speed before first battle). Static analysis was sufficient.
+## Related Files
+
+- `notes/chapter-flow-format.md` - Format analysis
+- `notes/battle-config-format.md` - Battle table format (complete)
+- `docs/sequel-roadmap.md` - Roadmap with P0-Step 4 status
