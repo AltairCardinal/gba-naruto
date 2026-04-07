@@ -1,622 +1,1040 @@
-# 网页编辑器技术规格书
+# 木叶战记 网页编辑器技术规格书
 
-> 创建日期：2026-04-01  
-> 项目：木叶战记 GBA 续作网页编辑器  
-> 技术栈：FastAPI + Vue 3 + SQLite (WAL) + WebSocket + Docker Compose  
-> 服务器：14.103.49.74:443（Debian 12，2核/4GB）
+## 概述
 
----
+P0 逆向工程全部 7 步已完成（2026-04-01）。项目已具备 6 种 patch 类型的构建流水线、17 项自动化测试、完整的 ROM 地址文档。现在需要建立网页编辑器，让内容创作者无需接触命令行即可编辑对话、地图、战斗配置，触发构建并下载 ROM。
 
-## 1. 系统架构
+本规格书覆盖：系统架构、数据库设计、REST API、WebSocket 协议、前端组件树、构建队列、部署方案、开发阶段、错误处理、测试策略。
 
-### 1.1 整体架构
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Browser (Vue 3 SPA)                     │
-│   WebSocket ←→ FastAPI Server ←→ SQLite DB                   │
-│                        ↓                                     │
-│              ROM Build Pipeline                              │
-│         tools/build_mod.py (existing)                        │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### 1.2 技术选型
-
-| 层级 | 技术 | 说明 |
-|------|------|------|
-| 前端 | Vue 3 + TypeScript | Composition API, Pinia 状态管理 |
-| 后端 | FastAPI (Python 3.11) | 异步 REST + WebSocket |
-| 数据库 | SQLite (WAL 模式) | 文件存储在 `/root/gba-naruto/sequel/` |
-| 实时通信 | WebSocket | 多人协作编辑、构建日志流 |
-| 部署 | Docker Compose | 容器化部署 |
-| 反向代理 | nginx (已有) | 端口 443 HTTPS，代理到 FastAPI |
-| 构建 | tools/build_mod.py | 现有 ROM 构建入口 |
-
-### 1.3 项目结构
-
-```
-web-editor/
-├── backend/
-│   ├── main.py              # FastAPI 入口
-│   ├── database.py          # SQLite WAL 连接管理
-│   ├── models/              # Pydantic 模型
-│   │   ├── dialogue.py
-│   │   ├── map.py
-│   │   ├── character.py
-│   │   └── chapter.py
-│   ├── routers/             # API 路由
-│   │   ├── dialogues.py
-│   │   ├── maps.py
-│   │   ├── characters.py
-│   │   ├── chapters.py
-│   │   ├── build.py
-│   │   └── websocket.py
-│   ├── services/            # 业务逻辑
-│   │   ├── dialogue_service.py
-│   │   ├── map_service.py
-│   │   ├── build_service.py
-│   │   └── collaboration.py
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── components/      # Vue 组件
-│   │   ├── views/           # 页面视图
-│   │   ├── stores/          # Pinia stores
-│   │   ├── composables/     # 组合式函数
-│   │   └── types/           # TypeScript 类型
-│   ├── package.json
-│   └── vite.config.ts
-├── docker-compose.yml
-└── Dockerfile
-```
 
 ---
 
-## 2. 数据库设计（12 张表）
+## 1. System Architecture
 
-### 2.1 对话相关表
-
-```sql
--- 对话条目表
-CREATE TABLE dialogues (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    key TEXT UNIQUE NOT NULL,        -- 对话唯一标识，如 "EP01_NARU_001"
-    speaker TEXT,                     -- 说话者
-    text_ja TEXT,                     -- 日文原文
-    text_zh TEXT,                     -- 中文翻译
-    chapter_id INTEGER,               -- 所属章节
-    byte_count INTEGER,               -- 编码后字节数
-    max_bytes INTEGER DEFAULT 255,    -- 最大允许字节数
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- 对话变量引用表
-CREATE TABLE dialogue_vars (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dialogue_id INTEGER REFERENCES dialogues(id),
-    var_name TEXT,                    -- 变量名如 "PLAYER_NAME"
-    var_type TEXT DEFAULT 'str'      -- str/int/flag
-);
+```
+                         Internet
+                            |
+                        [nginx:443]
+                       TLS termination
+                            |
+                    +-------+-------+
+                    |               |
+              /api/* (HTTP)   /ws/* (WebSocket upgrade)
+                    |               |
+              [FastAPI:8000] -------+
+              (uvicorn, 2 workers)
+                    |
+         +----------+----------+----------+
+         |          |          |          |
+    [SQLAlchemy] [ROM Ops]  [Build Q]  [WS Hub]
+         |          |          |          |
+      SQLite     ROM file   subprocess  broadcast
+    (WAL mode)  (read-only   (serial)   (per-room)
+                 + build/)
 ```
 
-### 2.2 地图相关表
+### Server File System Layout
 
-```sql
--- 地图元数据表
-CREATE TABLE maps (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    map_key TEXT UNIQUE NOT NULL,    -- 如 "MAP_01_01"
-    name TEXT,                        -- 地图名称
-    tilemap_ptr_hex TEXT,            -- ROM 指针如 "0x195000"
-    tile_width INTEGER DEFAULT 32,
-    tile_height INTEGER DEFAULT 32,
-    tileset_ids TEXT,                -- JSON: [0, 1, 2] 引用的 tileset
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- 瓦片编辑快照（undo/redo）
-CREATE TABLE map_snapshots (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    map_id INTEGER REFERENCES maps(id),
-    snapshot_data BLOB,              -- 完整 tilemap 二进制快照
-    operation TEXT,                  -- 'edit'/'paste'/'fill'
-    created_by TEXT,                 -- 用户名
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+```
+/opt/naruto-editor/
+  app/                     # FastAPI application
+    main.py                # application entry, mount routers
+    config.py              # settings (paths, secrets, limits)
+    models.py              # SQLAlchemy ORM models
+    schemas.py             # Pydantic request/response models
+    auth.py                # token verification middleware
+    routers/
+      dialogue.py          # /api/dialogue/*
+      maps.py              # /api/maps/*
+      battle.py            # /api/battle/*
+      story.py             # /api/story/*
+      audio.py             # /api/audio/*
+      build.py             # /api/build/*
+      project.py           # /api/project/*
+      users.py             # /api/users/*
+    services/
+      dialogue_svc.py      # encoding logic, byte counting
+      map_svc.py           # tilemap serialization
+      battle_svc.py        # unit/scenario patch generation
+      build_svc.py         # build queue manager
+      ws_hub.py            # WebSocket connection manager
+      rom_reader.py        # read-only ROM data extraction
+      content_io.py        # JSON file read/write bridging
+    websocket/
+      handler.py           # WebSocket endpoint, message dispatch
+      rooms.py             # room/channel management
+      protocol.py          # message type definitions
+  tools/                   # symlink or copy of repo tools/
+  rom/                     # base ROM (read-only mount)
+  data/                    # SQLite database + build artifacts
+    editor.db
+    builds/                # timestamped build outputs
+    tiles/                 # extracted tileset PNGs (pre-generated)
+    audio/                 # extracted WAV files (pre-generated)
+  frontend/                # Vue 3 + Vite project
+    src/
+      main.ts
+      App.vue
+      router/index.ts
+      stores/              # Pinia stores
+      composables/         # shared composition functions
+      components/
+      views/
+      api/                 # HTTP + WS client wrappers
+      i18n/                # zh-CN locale files
 ```
 
-### 2.3 角色/战斗相关表
+### Key Design Decisions
+
+- **ROM never leaves the server.** All ROM reads (tileset extraction, map reading, current hex values) happen server-side. The client receives only derived data: tile PNGs as base64 or URLs, dialogue text as decoded strings, map grids as JSON arrays.
+- **Existing Python tools are invoked as library calls, not subprocess.** `build_mod.py`, `import_dialogue.py`, `import_dialogue_var.py`, `import_map.py`, and `import_battle_config.py` are imported directly by FastAPI service modules. The only subprocess call is for `automated_test.py` which is run as an isolated process.
+- **SQLite in WAL mode** allows concurrent reads from multiple uvicorn workers while a single writer handles mutations. All content edits are persisted to SQLite immediately, then projected onto the JSON content files on disk only at build time.
+
+---
+
+## 2. Database Schema (SQLite, WAL mode)
 
 ```sql
--- 角色基础信息表
-CREATE TABLE characters (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    slot_id INTEGER UNIQUE,         -- ROM 槽位 ID (0-63)
-    name_ja TEXT,
-    name_zh TEXT,
-    hp_base INTEGER DEFAULT 100,
-    attack_base INTEGER DEFAULT 10,
-    speed_base INTEGER DEFAULT 5,
-    sprite_idx INTEGER,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+-- ============================================================
+-- Authentication
+-- ============================================================
+
+CREATE TABLE users (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    username    TEXT    NOT NULL UNIQUE,
+    display_name TEXT   NOT NULL,
+    token_hash  TEXT    NOT NULL,           -- SHA-256 of bearer token
+    role        TEXT    NOT NULL DEFAULT 'editor',  -- 'admin' | 'editor' | 'viewer'
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now')),
+    last_seen   TEXT
 );
 
--- 技能配置表
-CREATE TABLE skills (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    character_id INTEGER REFERENCES characters(id),
-    skill_slot INTEGER,              -- 技能槽位 0-3
-    skill_name TEXT,
-    power INTEGER DEFAULT 0,
-    effect TEXT,                     -- 效果描述
-    animation_id INTEGER
+-- ============================================================
+-- Dialogue
+-- ============================================================
+
+CREATE TABLE dialogue_bank_entries (
+    id              TEXT    PRIMARY KEY,     -- e.g. 'group0.main'
+    rom_offset      INTEGER NOT NULL,
+    max_bytes       INTEGER NOT NULL,
+    encoding        TEXT    NOT NULL DEFAULT 'cp932',
+    table_index     INTEGER,
+    table_offset    INTEGER,
+    text_rom_offset INTEGER,
+    expected_hex    TEXT    NOT NULL,
+    notes           TEXT,
+    group_id        INTEGER,
+    group_slot      INTEGER,
+    created_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
--- 战斗场景配置表
-CREATE TABLE battle_configs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    scene_key TEXT UNIQUE,           -- 如 "BATTLE_CHAPTER_01"
-    chapter_id INTEGER,
-    tilemap_ptr_hex TEXT,
-    palette_ptr_hex TEXT,
-    enemyFormation TEXT,             -- JSON: 敌人阵型配置
-    flags INTEGER DEFAULT 0,
-    raw_bytes BLOB                   -- 原始 32 字节（用于直接 patch）
-);
-```
-
-### 2.4 章节/剧情相关表
-
-```sql
--- 章节配置表
-CREATE TABLE chapters (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    chapter_num INTEGER UNIQUE,      -- 章节号 1-8
-    title TEXT,
-    tilemap_entry_ptr TEXT,          -- ROM 入口指针
-    start_map_key TEXT,
-    start_x INTEGER,
-    start_y INTEGER,
-    episode_id INTEGER               -- 所属季/篇
+CREATE TABLE dialogue_content (
+    id              TEXT    PRIMARY KEY,     -- matches dialogue_bank_entries.id
+    text            TEXT    NOT NULL,
+    notes           TEXT,
+    encoded_bytes   INTEGER,
+    strategy        TEXT    NOT NULL DEFAULT 'auto',  -- 'same_length' | 'variable' | 'auto'
+    updated_by      INTEGER REFERENCES users(id),
+    created_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    version         INTEGER NOT NULL DEFAULT 1
 );
 
--- 剧情事件表
-CREATE TABLE story_events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    chapter_id INTEGER REFERENCES chapters(id),
-    sequence_order INTEGER,           -- 事件顺序
-    event_type TEXT,                 -- 'dialogue'/'battle'/'move'/'item'
-    event_key TEXT,                   -- 引用 key
-    condition TEXT,                   -- 触发条件 JSON
-    raw_script BLOB                   -- 原始脚本数据
+CREATE TABLE dialogue_history (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    entry_id        TEXT    NOT NULL REFERENCES dialogue_content(id),
+    text_before     TEXT    NOT NULL,
+    text_after      TEXT    NOT NULL,
+    changed_by      INTEGER REFERENCES users(id),
+    changed_at      TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
--- 剧情节拍线表
-CREATE TABLE story_beats (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    chapter_id INTEGER REFERENCES chapters(id),
-    beat_type TEXT,                  -- 'setup'/'confrontation'/'resolution'
-    description TEXT,
-    related_dialogue_keys TEXT       -- JSON: 相关对话 key 列表
-);
-```
+-- ============================================================
+-- Maps
+-- ============================================================
 
-### 2.5 构建相关表
-
-```sql
--- 构建历史表
-CREATE TABLE build_history (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    build_hash TEXT,                -- ROM SHA-1
-    status TEXT,                     -- 'success'/'error'/'warning'
-    output_path TEXT,
-    log_text TEXT,
-    built_by TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE map_definitions (
+    id              TEXT    PRIMARY KEY,
+    display_name    TEXT    NOT NULL,
+    rom_region      TEXT,
+    rom_offset      INTEGER,
+    status          TEXT    NOT NULL DEFAULT 'draft',
+    notes           TEXT,
+    created_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
--- patch manifest 追踪表
-CREATE TABLE patch_records (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    patch_key TEXT UNIQUE,          -- 如 "dialogue_EP01_NARU_001"
-    patch_type TEXT,                -- 'bytes'/'pointer_redirect'/'dialogue_var'
-    target_address TEXT,            -- ROM 地址
-    patch_data BLOB,
-    applied BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE map_tile_grids (
+    map_id          TEXT    PRIMARY KEY REFERENCES map_definitions(id),
+    grid_json       TEXT    NOT NULL,        -- JSON: 32x32 array of {tile_id, hflip, vflip, palette_bank}
+    updated_by      INTEGER REFERENCES users(id),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    version         INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE map_edit_ops (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    map_id          TEXT    NOT NULL REFERENCES map_definitions(id),
+    op_type         TEXT    NOT NULL,        -- 'paint' | 'fill' | 'rect' | 'paste'
+    op_data         TEXT    NOT NULL,        -- JSON: {cells: [{row, col, before, after}]}
+    user_id         INTEGER REFERENCES users(id),
+    created_at      TEXT    NOT NULL DEFAULT (datetime('now')),
+    seq             INTEGER NOT NULL
+);
+
+CREATE INDEX idx_map_edit_ops_map ON map_edit_ops(map_id, seq);
+
+-- ============================================================
+-- Battle / Units
+-- ============================================================
+
+CREATE TABLE battle_scenarios (
+    id              INTEGER PRIMARY KEY,     -- 0-7
+    height          INTEGER NOT NULL,
+    width           INTEGER NOT NULL,
+    tile_gfx_ptr    INTEGER NOT NULL,
+    tilemap_ptr     INTEGER NOT NULL,
+    tilemap_alt_ptr INTEGER NOT NULL,
+    extra_ptr       INTEGER,
+    palette_ptr     INTEGER NOT NULL,
+    palette2_ptr    INTEGER NOT NULL,
+    flags           INTEGER NOT NULL,
+    notes           TEXT,
+    loaded_from_rom INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE unit_definitions (
+    id              TEXT    PRIMARY KEY,
+    unit_id         INTEGER NOT NULL,
+    display_name    TEXT    NOT NULL,
+    role            TEXT,                    -- 'ally' | 'enemy' | 'npc'
+    level           INTEGER DEFAULT 1,
+    attack          INTEGER DEFAULT 10,
+    defense         INTEGER DEFAULT 10,
+    agility         INTEGER DEFAULT 10,
+    movement        INTEGER DEFAULT 3,
+    chakra          INTEGER DEFAULT 100,
+    experience      INTEGER DEFAULT 0,
+    skills_json     TEXT,                    -- JSON: [{slot, skill_id, skill_level}]
+    notes           TEXT,
+    updated_by      INTEGER REFERENCES users(id),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE battle_placements (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    episode_id      TEXT    NOT NULL,
+    unit_id         TEXT    NOT NULL REFERENCES unit_definitions(id),
+    team            INTEGER NOT NULL DEFAULT 0,
+    grid_x          INTEGER NOT NULL,
+    grid_y          INTEGER NOT NULL,
+    scenario_index  INTEGER NOT NULL DEFAULT 0 REFERENCES battle_scenarios(id)
+);
+
+-- ============================================================
+-- Story / Episodes
+-- ============================================================
+
+CREATE TABLE episodes (
+    id              TEXT    PRIMARY KEY,
+    title           TEXT    NOT NULL,
+    status          TEXT    NOT NULL DEFAULT 'draft',
+    design_goal     TEXT,
+    battle_map_id   TEXT    REFERENCES map_definitions(id),
+    battle_scenario INTEGER REFERENCES battle_scenarios(id),
+    win_condition   TEXT,
+    lose_condition  TEXT,
+    updated_by      INTEGER REFERENCES users(id),
+    updated_at      TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE episode_beats (
+    id              TEXT    NOT NULL,
+    episode_id      TEXT    NOT NULL REFERENCES episodes(id),
+    seq             INTEGER NOT NULL,
+    beat_type       TEXT    NOT NULL,         -- 'dialogue' | 'battle' | 'cutscene'
+    summary         TEXT,
+    dialogue_ids    TEXT,                     -- JSON array
+    config_json     TEXT,
+    PRIMARY KEY (episode_id, id)
+);
+
+-- ============================================================
+-- Build Pipeline
+-- ============================================================
+
+CREATE TABLE builds (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    status          TEXT    NOT NULL DEFAULT 'queued',
+    triggered_by    INTEGER REFERENCES users(id),
+    queued_at       TEXT    NOT NULL DEFAULT (datetime('now')),
+    started_at      TEXT,
+    finished_at     TEXT,
+    rom_sha1        TEXT,
+    rom_size        INTEGER,
+    report_json     TEXT,
+    test_json       TEXT,
+    test_passed     INTEGER,
+    test_total      INTEGER,
+    log             TEXT,
+    error           TEXT
+);
+
+CREATE TABLE patches_applied (
+    build_id        INTEGER NOT NULL REFERENCES builds(id),
+    patch_id        TEXT    NOT NULL,
+    patch_type      TEXT    NOT NULL,
+    offset          INTEGER,
+    length          INTEGER,
+    strategy        TEXT,
+    PRIMARY KEY (build_id, patch_id)
+);
+
+-- ============================================================
+-- Collaboration / Locking
+-- ============================================================
+
+CREATE TABLE edit_locks (
+    resource_type   TEXT    NOT NULL,
+    resource_id     TEXT    NOT NULL,
+    locked_by       INTEGER NOT NULL REFERENCES users(id),
+    locked_at       TEXT    NOT NULL DEFAULT (datetime('now')),
+    expires_at      TEXT    NOT NULL,        -- auto-expire after 5 minutes
+    PRIMARY KEY (resource_type, resource_id)
 );
 ```
 
 ---
 
-## 3. REST API 端点（60+）
+## 3. REST API Specification
 
-### 3.1 对话 API
+All endpoints prefixed with `/api/v1`. Authentication via `Authorization: Bearer <token>`.
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/dialogues` | 列出所有对话（分页 + 搜索） |
-| GET | `/api/dialogues/{key}` | 获取单个对话 |
-| POST | `/api/dialogues` | 创建对话 |
-| PUT | `/api/dialogues/{key}` | 更新对话 |
-| DELETE | `/api/dialogues/{key}` | 删除对话 |
-| POST | `/api/dialogues/batch` | 批量创建/更新 |
-| GET | `/api/dialogues/chapter/{chapter_id}` | 获取章节所有对话 |
-| GET | `/api/dialogues/{key}/byte-count` | 实时字节计数 |
-| GET | `/api/dialogues/export` | 导出 JSON |
-| POST | `/api/dialogues/import` | 导入 JSON |
+### 3.1 Authentication
 
-### 3.2 地图 API
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/auth/login` | Exchange username + password for bearer token |
+| `POST` | `/auth/logout` | Invalidate current token |
+| `GET` | `/auth/me` | Return current user profile |
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/maps` | 列出所有地图 |
-| GET | `/api/maps/{key}` | 获取地图元数据 |
-| POST | `/api/maps` | 创建地图 |
-| PUT | `/api/maps/{key}` | 更新地图元数据 |
-| DELETE | `/api/maps/{key}` | 删除地图 |
-| GET | `/api/maps/{key}/tilemap` | 获取 tilemap 数据（原始字节） |
-| PUT | `/api/maps/{key}/tilemap` | 保存 tilemap 编辑 |
-| POST | `/api/maps/{key}/snapshot` | 保存快照（undo） |
-| GET | `/api/maps/{key}/snapshots` | 获取快照历史 |
-| POST | `/api/maps/{key}/undo` | 撤销 |
-| POST | `/api/maps/{key}/redo` | 重做 |
-| GET | `/api/tilesets` | 列出 tileset 元数据 |
-| GET | `/api/tilesets/{id}/tiles.png` | 导出 tileset 图像 |
+### 3.2 Project
 
-### 3.3 角色 API
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/project` | Return project metadata |
+| `GET` | `/project/stats` | Dashboard statistics |
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/characters` | 列出所有角色 |
-| GET | `/api/characters/{slot_id}` | 按槽位获取角色 |
-| POST | `/api/characters` | 创建角色 |
-| PUT | `/api/characters/{slot_id}` | 更新角色 |
-| GET | `/api/characters/{slot_id}/skills` | 获取角色技能 |
-| PUT | `/api/characters/{slot_id}/skills` | 更新角色技能 |
+### 3.3 Dialogue Editor
 
-### 3.4 战斗 API
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/dialogue/bank` | List all bank entries |
+| `GET` | `/dialogue/bank/{id}` | Get single bank entry |
+| `GET` | `/dialogue/groups` | List grouped entries (305 groups) |
+| `GET` | `/dialogue/content` | List all content entries |
+| `GET` | `/dialogue/content/{id}` | Get single content entry |
+| `PUT` | `/dialogue/content/{id}` | Create or update dialogue text |
+| `DELETE` | `/dialogue/content/{id}` | Revert to ROM original |
+| `POST` | `/dialogue/validate` | Validate encoding + byte count |
+| `GET` | `/dialogue/history/{id}` | Edit history |
+| `POST` | `/dialogue/bulk-import` | Import dialogue-patches.json |
+| `GET` | `/dialogue/export` | Export as dialogue-patches.json |
+| `GET` | `/dialogue/free-space` | Free space usage report |
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/battles` | 列出所有战斗配置 |
-| GET | `/api/battles/{key}` | 获取战斗配置 |
-| POST | `/api/battles` | 创建战斗配置 |
-| PUT | `/api/battles/{key}` | 更新战斗配置 |
-| GET | `/api/battles/{key}/raw-bytes` | 获取原始字节用于验证 |
+**PUT /dialogue/content/{id}** example:
+```json
+Request:  {"text": "木葉村国境に異変あり小隊が調査に向かう。", "notes": "Episode-01 opening"}
+Response: {"id": "group0.main", "text": "...", "encoded_bytes": 40, "max_bytes": 41,
+           "fits_in_place": true, "strategy": "same_length", "version": 2}
+```
 
-### 3.5 章节/剧情 API
+**POST /dialogue/validate** example:
+```json
+Request:  {"bank_id": "group0.main", "text": "テスト文字列"}
+Response: {"valid": true, "encoded_bytes": 12, "max_bytes": 41, "fits_in_place": true,
+           "strategy": "same_length", "hex_preview": "8365834883678e9a97f1", "warnings": []}
+```
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/chapters` | 列出所有章节 |
-| GET | `/api/chapters/{num}` | 获取章节详情 |
-| POST | `/api/chapters` | 创建章节 |
-| PUT | `/api/chapters/{num}` | 更新章节 |
-| GET | `/api/chapters/{num}/events` | 获取章节事件序列 |
-| POST | `/api/chapters/{num}/events` | 添加事件 |
-| GET | `/api/chapters/{num}/beats` | 获取剧情节拍线 |
-| PUT | `/api/chapters/{num}/beats` | 更新节拍线 |
+### 3.4 Map Editor
 
-### 3.6 构建 API
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/maps` | List all map definitions |
+| `GET` | `/maps/{id}` | Get map definition |
+| `GET` | `/maps/{id}/grid` | Get full 32x32 tile grid |
+| `PUT` | `/maps/{id}/grid` | Replace entire tile grid |
+| `PATCH` | `/maps/{id}/cells` | Update specific cells (batch) |
+| `POST` | `/maps/{id}/fill` | Flood fill |
+| `GET` | `/maps/{id}/ops` | Edit operation history |
+| `POST` | `/maps/{id}/undo` | Undo last operation |
+| `POST` | `/maps/{id}/redo` | Redo |
+| `GET` | `/maps/tileset` | Tileset atlas metadata |
+| `GET` | `/maps/tileset/image/{chapter_id}` | Tileset PNG |
+| `GET` | `/maps/rom/{region}` | Read current map from ROM |
+| `POST` | `/maps/{id}/import-rom` | Import map grid from ROM region |
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| POST | `/api/build/run` | 触发 ROM 构建（异步） |
-| GET | `/api/build/status/{job_id}` | 获取构建状态 |
-| GET | `/api/build/history` | 构建历史 |
-| GET | `/api/build/output/{hash}` | 下载构建产物 |
-| GET | `/api/build/log/{job_id}` | 获取构建日志流 |
-| POST | `/api/build/validate` | 验证当前 manifest |
-| GET | `/api/patches` | 列出所有 patch 记录 |
-| POST | `/api/patches/apply` | 手动应用 patch |
+### 3.5 Battle / Character Editor
 
-### 3.7 管理 API
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/battle/scenarios` | List all 8 battle scenarios |
+| `GET` | `/battle/scenarios/{id}` | Get scenario detail |
+| `PUT` | `/battle/scenarios/{id}` | Update scenario fields |
+| `GET` | `/battle/units` | List all unit definitions |
+| `GET` | `/battle/units/{id}` | Get unit detail with skills |
+| `PUT` | `/battle/units/{id}` | Create or update unit |
+| `DELETE` | `/battle/units/{id}` | Delete unit |
+| `GET` | `/battle/unit-id-map` | ROM unit ID mapping (64 entries) |
+| `GET` | `/battle/placements/{episode_id}` | Get placements |
+| `PUT` | `/battle/placements/{episode_id}` | Set placements |
+| `POST` | `/battle/validate/{episode_id}` | Validate battle config |
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/health` | 健康检查 |
-| GET | `/api/stats` | 统计数据（对话数/地图数等） |
-| GET | `/api/rom/basInfo` | 基础 ROM 信息（SHA-1/大小） |
-| POST | `/api/admin/reset-db` | 重置数据库（慎用） |
+### 3.6 Story / Chapter Editor
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/story/episodes` | List all episodes |
+| `GET` | `/story/episodes/{id}` | Get episode with beats |
+| `PUT` | `/story/episodes/{id}` | Create or update episode |
+| `DELETE` | `/story/episodes/{id}` | Delete episode |
+| `GET` | `/story/episodes/{id}/beats` | Get ordered beat list |
+| `PUT` | `/story/episodes/{id}/beats` | Replace beat list |
+| `PATCH` | `/story/episodes/{id}/beats/{beat_id}` | Update single beat |
+| `POST` | `/story/episodes/{id}/reorder` | Reorder beats |
+
+### 3.7 Audio Preview
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/audio/samples` | List all extracted audio samples |
+| `GET` | `/audio/samples/{index}` | Get sample metadata |
+| `GET` | `/audio/samples/{index}/wav` | Download WAV file |
+
+### 3.8 Build Pipeline
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/build/trigger` | Queue a new build |
+| `GET` | `/build/queue` | Current queue status |
+| `GET` | `/build/{id}` | Build detail + report |
+| `GET` | `/build/{id}/log` | Build log (streamed) |
+| `GET` | `/build/{id}/rom` | Download built ROM |
+| `GET` | `/build/{id}/test-report` | Automated test results |
+| `GET` | `/build/history` | All builds (paginated) |
+| `POST` | `/build/{id}/rerun-tests` | Re-run tests on existing build |
+
+### 3.9 User Management (Admin only)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/users` | List all users |
+| `POST` | `/users` | Create user (returns generated token) |
+| `PUT` | `/users/{id}` | Update user profile/role |
+| `DELETE` | `/users/{id}` | Deactivate user |
+| `POST` | `/users/{id}/reset-token` | Generate new token |
 
 ---
 
-## 4. WebSocket 协议
+## 4. WebSocket Protocol
 
-### 4.1 连接
+### Connection
 
 ```
-WebSocket: wss://14.103.49.74/ws?room={room_id}&user={username}
+wss://14.103.49.74/ws?token=<bearer_token>
 ```
 
-### 4.2 消息格式
+### Message Format
 
 ```typescript
-// 基础消息 envelope
-interface WsMessage {
-    type: string;
-    room_id: string;
-    user: string;
-    payload: any;
-    timestamp: number;
+// Client -> Server
+interface ClientMessage {
+  type: string;
+  room?: string;
+  payload: any;
+  request_id?: string;
 }
 
-// 房间加入
-{ "type": "join", "room_id": "ep01", "user": "alice" }
-
-// 编辑锁定（协作光标）
-{ "type": "lock", "room_id": "ep01", "user": "alice", "payload": { "resource": "dialogue:EP01_NARU_001", "range": [0, 50] } }
-{ "type": "unlock", "room_id": "ep01", "user": "alice", "payload": { "resource": "dialogue:EP01_NARU_001" } }
-
-// 实时编辑广播
-{ "type": "edit", "room_id": "ep01", "user": "alice", "payload": { "resource": "dialogue:EP01_NARU_001", "delta": {...} } }
-
-// 构建日志流
-{ "type": "build_log", "room_id": "ep01", "payload": { "line": "...", "level": "info|error" } }
-{ "type": "build_complete", "room_id": "ep01", "payload": { "success": true, "hash": "abc123" } }
-
-// 用户列表
-{ "type": "room_users", "room_id": "ep01", "payload": { "users": ["alice", "bob"] } }
+// Server -> Client
+interface ServerMessage {
+  type: string;
+  room?: string;
+  payload: any;
+  request_id?: string;
+  sender?: {id: number, display_name: string};
+  timestamp: string;    // ISO 8601
+}
 ```
 
-### 4.3 房间隔离
+### Room Management
 
-- 每个资源（对话/key/地图）有独立 room
-- 用户加入 room 后接收该 room 所有编辑事件
-- 构建日志统一 room：`room=__build__`
+| Type | Direction | Payload | Description |
+|------|-----------|---------|-------------|
+| `join_room` | C->S | `{room: "dialogue"}` | Join a resource channel |
+| `leave_room` | C->S | `{room: "dialogue"}` | Leave |
+| `room_joined` | S->C | `{room, users: [...]}` | Confirmation + current users |
+| `user_joined` | S->C (broadcast) | `{room, user}` | Another user joined |
+| `user_left` | S->C (broadcast) | `{room, user}` | Another user left |
+
+Valid rooms: `dialogue`, `map:{map_id}`, `battle`, `story:{episode_id}`, `build`
+
+### Dialogue Editing Messages
+
+| Type | Direction | Description |
+|------|-----------|-------------|
+| `dialogue:edit` | C->S | User edits dialogue text |
+| `dialogue:edited` | S->C (broadcast) | Broadcast edit |
+| `dialogue:cursor` | C->S | User is viewing this entry |
+| `dialogue:cursors` | S->C (broadcast) | Current cursors |
+| `dialogue:lock` | C->S | Request edit lock |
+| `dialogue:locked` | S->C | Lock granted/denied |
+| `dialogue:unlock` | C->S | Release edit lock |
+
+### Map Editing Messages
+
+| Type | Direction | Description |
+|------|-----------|-------------|
+| `map:paint` | C->S | Paint cells |
+| `map:painted` | S->C (broadcast) | Broadcast paint |
+| `map:fill` | C->S | Flood fill |
+| `map:filled` | S->C (broadcast) | Broadcast fill result |
+| `map:undo` | C->S | Undo last own operation |
+| `map:undone` | S->C (broadcast) | Broadcast undo |
+| `map:cursor` | C->S | User cursor position |
+| `map:cursors` | S->C (broadcast) | All cursors |
+
+### Build Pipeline Messages
+
+| Type | Direction | Description |
+|------|-----------|-------------|
+| `build:triggered` | S->C (broadcast) | New build queued |
+| `build:started` | S->C (broadcast) | Build started |
+| `build:log` | S->C (broadcast) | Streaming log line |
+| `build:finished` | S->C (broadcast) | Build complete |
+
+### Conflict Resolution
+
+Last-writer-wins with advisory locks:
+1. Client sends `dialogue:lock` when editing begins
+2. Server grants lock for 5 minutes (renewable)
+3. Other clients see lock indicator but are **not blocked** -- UI shows warning
+4. Simultaneous edits: later write wins, earlier user receives `conflict` message
+5. Map editing: cell-level granularity means conflicts are rare; different-cell edits merge automatically
+
+### Heartbeat
+
+Client sends `ping` every 30 seconds. Server disconnects after 3 missed pings (90s timeout).
 
 ---
 
-## 5. Vue 组件树
-
-### 5.1 页面视图
+## 5. Frontend Component Tree
 
 ```
 App.vue
-├── LoginView.vue              # 简单用户名输入（无密码）
-├── EditorLayout.vue           # 主布局（侧边栏 + 内容区）
-│   ├── SidebarNav.vue         # 导航栏
-│   ├── TopBar.vue             # 顶部栏（用户名 + 房间 + 构建按钮）
-│   └── RouterView
-│       ├── DialogueListView.vue    # 对话列表
-│       ├── DialogueEditorView.vue  # 对话编辑器
-│       ├── MapListView.vue         # 地图列表
-│       ├── MapEditorView.vue       # 地图编辑器（Canvas）
-│       ├── CharacterListView.vue   # 角色列表
-│       ├── CharacterEditorView.vue # 角色编辑器
-│       ├── BattleListView.vue      # 战斗配置列表
-│       ├── BattleEditorView.vue    # 战斗编辑器
-│       ├── ChapterListView.vue     # 章节列表
-│       ├── StoryTimelineView.vue   # 剧情节拍线
-│       └── BuildView.vue           # 构建控制台
+  AppLayout.vue
+    HeaderBar.vue                    -- logo, user menu, language switch
+    SideNav.vue                      -- module navigation
+    NotificationToast.vue            -- global notifications
+
+  router-view:
+
+    DashboardView.vue
+      ProjectStatsCard.vue
+      RecentBuildsCard.vue
+      ActiveUsersCard.vue
+
+    DialogueEditorView.vue
+      DialogueGroupList.vue          -- 305 groups sidebar (virtual scrolled)
+      DialogueEntryEditor.vue
+        TextInputField.vue           -- textarea with live byte counter
+        EncodingInfo.vue             -- encoding, bytes used/max, strategy
+        ByteHexPreview.vue           -- hex preview of encoded text
+        WarningBanner.vue            -- overflow / encoding errors
+      DialogueBulkImport.vue
+      DialogueHistoryPanel.vue
+
+    MapEditorView.vue
+      MapToolbar.vue                 -- tool selection, flip toggles
+      MapCanvas.vue                  -- HTML5 Canvas, 32x32 grid
+        CanvasRenderer.ts
+        GridOverlay.ts
+        CursorOverlay.ts             -- other users' cursors
+      TilePalette.vue               -- 312 tile thumbnails
+      MapPropertiesPanel.vue
+      UndoRedoBar.vue
+
+    BattleEditorView.vue
+      ScenarioSelector.vue           -- 8 scenario tabs
+      ScenarioDetailPanel.vue
+      UnitListPanel.vue
+      UnitDetailEditor.vue           -- stats form + skill slots
+      BattleGridPreview.vue          -- unit placement preview (canvas)
+      UnitPlacementEditor.vue
+
+    StoryEditorView.vue
+      EpisodeList.vue
+      EpisodeEditor.vue
+      BeatTimeline.vue               -- ordered beat list (drag to reorder)
+      BranchingEditor.vue            -- win/lose condition editor
+
+    AudioPreviewView.vue
+      SampleList.vue                 -- 10 sample cards
+      AudioPlayer.vue
+
+    BuildView.vue
+      BuildTriggerPanel.vue
+      BuildQueueStatus.vue
+      BuildLogViewer.vue             -- streaming log
+      BuildHistoryTable.vue
+      TestResultPanel.vue            -- 17 tests, pass/fail
+      RomDownloadButton.vue
+
+    AdminView.vue (admin only)
+      UserManagementTable.vue
+      CreateUserDialog.vue
+      TokenResetDialog.vue
 ```
 
-### 5.2 核心组件
+### Pinia Stores
 
-| 组件 | 说明 |
-|------|------|
-| `DialogueEditor.vue` | 双栏编辑（日文/中文）+ 实时字节计数 |
-| `MapCanvas.vue` | Canvas 瓦片编辑器，支持笔刷/填充/撤销 |
-| `TilePalette.vue` | 瓦片调色板（从 tileset 图像切片） |
-| `CharacterForm.vue` | 角色属性表单（HP/ATK/SPD/技能） |
-| `BattleConfigForm.vue` | 战斗配置（tilemap/调色板/敌人） |
-| `StoryBeatLine.vue` | 可视化剧情节拍线（时间轴组件） |
-| `BuildConsole.vue` | 构建日志终端（ANSI 彩色 + 实时流） |
-| `CollaborativeCursor.vue` | 其他用户光标/锁定指示器 |
-| `ByteCounter.vue` | 实时字节计数（绿/黄/红三色警告） |
+```
+stores/
+  useAuthStore.ts        -- token, user, login/logout
+  useDialogueStore.ts    -- bank entries, content, groups, encoding cache
+  useMapStore.ts         -- map definitions, current grid, undo stack
+  useBattleStore.ts      -- scenarios, units, placements
+  useStoryStore.ts       -- episodes, beats
+  useBuildStore.ts       -- build queue, history, current build
+  useWebSocketStore.ts   -- connection state, room management, message dispatch
+  useNotificationStore.ts -- toast queue
+```
 
-### 5.3 Pinia Stores
+### Composables
 
-```typescript
-// stores/dialogue.ts — 对话状态
-// stores/map.ts — 当前地图 + tilemap 数据 + 快照栈
-// stores/character.ts — 角色数据
-// stores/battle.ts — 战斗配置
-// stores/collaboration.ts — WebSocket 房间 + 用户列表 + 锁定状态
-// stores/build.ts — 构建任务状态 + 日志缓冲
-// stores/ui.ts — 侧边栏折叠状态 + 主题
+```
+composables/
+  useEncoding.ts         -- cp932 byte counting via precomputed lookup table (~80 KB)
+  useUndoRedo.ts         -- generic undo/redo stack
+  useCanvasTools.ts      -- paint, fill, select for map canvas
+  useWebSocket.ts        -- WS connection, auto-reconnect, room join/leave
+  useEditLock.ts         -- advisory lock acquisition/release
+  useI18n.ts             -- Vue i18n integration
 ```
 
 ---
 
-## 6. 构建流水线
+## 6. Build Queue Design
 
-### 6.1 流程
+### Architecture
 
-```
-用户点击"构建 ROM"
-    ↓
-POST /api/build/run
-    ↓
-后端：创建 job_id，fork 进程执行 build_mod.py
-    ↓
-WebSocket 推送构建日志（实时流）
-    ↓
-build_mod.py 执行完毕 → ROM 输出到 build/output/
-    ↓
-POST /api/build/status/{job_id} 返回 { success, hash, output_path }
-    ↓
-前端：提供下载链接
-```
-
-### 6.2 与现有工具的集成
+Single-threaded async task runner. ROM is a single file so only one build can run at a time.
 
 ```python
-# build_service.py
-import subprocess
-import sys
-sys.path.insert(0, '/root/gba-naruto/tools')
+class BuildQueue:
+    def __init__(self, db, rom_dir, tools_dir):
+        self._lock = asyncio.Lock()
+        self._queue: asyncio.Queue[int] = asyncio.Queue(maxsize=10)
 
-from build_mod import build_rom
+    async def enqueue(self, user_id, run_tests, note) -> int:
+        # 1. Write content files from SQLite to disk
+        # 2. Create builds row (status='queued')
+        # 3. Put build_id into queue
+        # 4. Broadcast 'build:triggered' via WS
 
-def run_build(job_id: str, project_path: str):
-    result = build_rom(
-        project_path='/root/gba-naruto/sequel',
-        base_rom_path='/root/gba-naruto/base_rom.gba',
-        output_path=f'/root/gba-naruto/build/output/{job_id}.gba'
-    )
-    return result
+    async def run_worker(self):
+        while True:
+            build_id = await self._queue.get()
+            async with self._lock:
+                await self._execute_build(build_id)
+
+    async def _execute_build(self, build_id):
+        # 1. Update status to 'running', broadcast 'build:started'
+        # 2. Flush SQLite content to JSON files on disk
+        # 3. Call build_mod.build() -- imported as library
+        # 4. Parse build report
+        # 5. If run_tests: run automated_test.py via subprocess
+        # 6. Copy output ROM to data/builds/{build_id}/
+        # 7. Update builds row, broadcast 'build:finished'
 ```
+
+### Content Flush Strategy
+
+Before each build, convert SQLite state to JSON files that existing tools expect:
+
+1. `dialogue_bank_entries` -> `sequel/content/text/dialogue-bank.json`
+2. `dialogue_content` -> `sequel/content/text/dialogue-patches.json`
+3. episodes + beats -> `sequel/content/story/episode-*.json`
+4. map grid -> map spec JSON
+5. unit definitions + placements -> `sequel/content/units/sequel-units.json`
+6. Reconstruct `sequel/patches/manifest.json` from enabled content
+
+**SQLite is the source of truth.** JSON files on disk are transient build artifacts. Existing tools work unchanged.
+
+### Queue Limits
+
+- Maximum queue depth: 10 (reject with 429 if full)
+- Build timeout: 120 seconds
+- ROM file lock: `flock` during build
+- Cooldown: minimum 5 seconds between builds by the same user
 
 ---
 
-## 7. Docker 部署
+## 7. File Storage Strategy
 
-### 7.1 Dockerfile (Backend)
-
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY backend/ ./backend/
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+/opt/naruto-editor/
+  rom/
+    base.gba                               # immutable (read-only mount)
+    base.gba.sha1
+  data/
+    editor.db                              # SQLite (WAL mode)
+    builds/{build_id}/
+      naruto-sequel-dev.gba
+      build-report.json
+      test-report.json
+      manifest-snapshot.json
+    tiles/battle_tileset_00..07.png         # pre-extracted
+    audio/*.wav                             # pre-extracted
+    content/                                # transient JSON (flushed before build)
 ```
 
-### 7.2 docker-compose.yml
+### Storage Budget
+
+| Item | Size | Notes |
+|------|------|-------|
+| Base ROM | 6 MB | read-only |
+| SQLite DB | ~5 MB | all content + history |
+| Per build | ~7 MB | ROM + reports |
+| 100 builds | 700 MB | retention: keep last 50 |
+| Tile PNGs | ~200 KB | 8 files |
+| Audio WAVs | ~4 MB | 10 files |
+| Frontend dist | ~2 MB | gzipped |
+
+Retention: auto-delete builds older than 30 days, keep 50 most recent.
+
+---
+
+## 8. Authentication Design
+
+### Token-Based (Small Team, 3-5 Users)
+
+1. Admin creates users via CLI or admin panel, generating random 32-byte token
+2. Token hashed (SHA-256) before storage; plaintext shown once at creation
+3. All API: `Authorization: Bearer <token>`
+4. WebSocket: `wss://host/ws?token=<token>`
+5. Tokens do not expire but can be rotated by admin
+
+### Roles
+
+| Role | Permissions |
+|------|------------|
+| `admin` | All operations + user management |
+| `editor` | All content operations + build trigger |
+| `viewer` | Read-only access |
+
+### Rate Limiting
+
+60 requests/minute per user (API), 120 messages/minute per user (WebSocket).
+
+---
+
+## 9. Deployment Plan
+
+### Docker Compose
 
 ```yaml
-version: '3.8'
+version: "3.9"
 services:
   backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
+    build: {context: ., dockerfile: Dockerfile.backend}
     volumes:
-      - /root/gba-naruto/sequel:/data/sequel
-      - /root/gba-naruto/tools:/app/tools
-      - /root/gba-naruto/build:/app/build
-    restart: unless-stopped
+      - ./rom:/opt/naruto-editor/rom:ro
+      - editor-data:/opt/naruto-editor/data
+    environment:
+      - DATABASE_URL=sqlite:///opt/naruto-editor/data/editor.db
+      - SECRET_KEY=${SECRET_KEY}
+      - ROM_PATH=/opt/naruto-editor/rom/base.gba
+    expose: ["8000"]
+    deploy: {resources: {limits: {memory: 2G}}}
 
   frontend:
-    build: ./frontend
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
+    build: {context: ./frontend, dockerfile: Dockerfile.frontend}
+    expose: ["80"]
+    deploy: {resources: {limits: {memory: 256M}}}
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports: ["443:443", "80:80"]
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - certs:/etc/letsencrypt:ro
+    depends_on: [backend, frontend]
+
+volumes:
+  editor-data:
+  certs:
 ```
 
-### 7.3 nginx 配置更新
+### nginx Configuration
 
 ```nginx
-# /root/gba-emu-www/nginx.conf 新增
-location /api/ {
-    proxy_pass http://127.0.0.1:8000/api/;
-    proxy_http_version 1.1;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-}
+upstream backend { server backend:8000; }
+upstream frontend { server frontend:80; }
 
-location /ws {
-    proxy_pass http://127.0.0.1:8000/ws;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-}
+server {
+    listen 443 ssl http2;
+    server_name 14.103.49.74;
 
-location /editor/ {
-    proxy_pass http://127.0.0.1:5173/;
-    # SPA fallback
-    try_files $uri /index.html;
+    ssl_certificate     /etc/letsencrypt/live/naruto-editor/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/naruto-editor/privkey.pem;
+
+    client_max_body_size 10M;
+
+    location /api/ {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /ws {
+        proxy_pass http://backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 300s;
+    }
+
+    location /static/tiles/ {
+        alias /opt/naruto-editor/data/tiles/;
+        expires 1h;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /static/audio/ {
+        alias /opt/naruto-editor/data/audio/;
+        expires 1h;
+    }
+
+    location / { proxy_pass http://frontend; }
 }
 ```
+
+Note: IP-only access (14.103.49.74) requires self-signed certificate. Switch to certbot when a domain is added.
 
 ---
 
-## 8. 错误处理
+## 10. Development Phases
 
-### 8.1 API 错误响应
+### Phase 1: Foundation (2 weeks)
+
+**Goal: Running backend with auth, database, and dialogue editor API + UI.**
+
+1. FastAPI scaffold, SQLAlchemy models, Pydantic schemas
+2. Auth middleware
+3. Dialogue router + service (full CRUD + validate)
+4. Seed script: import existing `dialogue-bank.json` and `dialogue-patches.json` into SQLite
+5. Vue 3 + Vite project, router, Pinia
+6. `DialogueEditorView` with `TextInputField`, `EncodingInfo`, `ByteHexPreview`
+7. Client-side cp932 byte counter
+8. API integration tests (pytest)
+
+**Deliverable:** Browse dialogue groups, edit text, see real-time byte counts, save to SQLite.
+
+### Phase 2: Build Pipeline + WebSocket (2 weeks)
+
+**Goal: Trigger builds from UI, see streaming logs, download ROM.**
+
+1. `BuildQueue` service with async worker
+2. Content flush (SQLite -> JSON)
+3. Integrate `build_mod.build()` as library call
+4. Integrate `automated_test.py` as subprocess
+5. Build router endpoints
+6. WebSocket handler + hub
+7. `build:*` WS messages
+8. `BuildView` UI components
+9. Docker deployment on target server
+10. Build pipeline integration tests
+
+**Deliverable:** Full build-test-download cycle from browser.
+
+### Phase 3: Map Editor (3 weeks)
+
+**Goal: Canvas-based tile map editor with undo/redo.**
+
+1. Map router + service
+2. ROM map reading via `import_map.read_map_from_rom()`
+3. Tileset PNG serving
+4. Cell PATCH + flood fill endpoints
+5. Undo/redo via `map_edit_ops` table
+6. `MapCanvas.vue` with HTML5 Canvas rendering
+7. `TilePalette.vue` with 312 tiles
+8. Paint, fill, select tools
+9. Map WebSocket messages + collaborative cursors
+10. E2E tests (Playwright)
+
+**Deliverable:** Multi-user map editing with tile palette, tools, and undo/redo.
+
+### Phase 4: Battle/Character + Story Editors (2 weeks)
+
+**Goal: Unit/scenario editing and story beat management.**
+
+1. Seed `battle_scenarios` from `BATTLE_SCENARIOS` constant
+2. Seed `unit_definitions` from `UNIT_ID_NAMES`
+3. Battle/unit CRUD endpoints
+4. `BattleEditorView` with stats form and skill slots
+5. Placement grid preview
+6. Story/episode CRUD endpoints
+7. `StoryEditorView` with beat timeline
+8. Dialogue collaboration WebSocket + edit locking
+
+**Deliverable:** Complete battle configuration and story structure editing.
+
+### Phase 5: Audio + Polish + i18n (1 week)
+
+**Goal: Audio preview, Chinese localization, UX polish.**
+
+1. Audio preview with HTML5 player
+2. zh-CN i18n for all UI strings
+3. Dashboard view
+4. Admin user management panel
+5. Performance: virtual scrolling, canvas optimization
+6. Build history retention
+7. Security: CSP headers, rate limiting
+
+**Deliverable:** Production-ready editor.
+
+---
+
+## 11. Error Handling
+
+### Backend Error Model
 
 ```json
 {
-    "error": {
-        "code": "DIALOGUE_EXCEEDS_MAX_BYTES",
-        "message": "对话 'EP01_NARU_001' 编码后 312 字节，超过限制 255 字节",
-        "details": {
-            "current_bytes": 312,
-            "max_bytes": 255,
-            "dialogue_key": "EP01_NARU_001"
-        }
-    }
+  "error": {
+    "code": "DIALOGUE_ENCODING_ERROR",
+    "message": "文本包含无法编码为cp932的字符: '😀'",
+    "details": {"entry_id": "group0.main", "character": "😀", "position": 15}
+  }
 }
 ```
 
-### 8.2 错误码
+### Error Categories
 
-| 错误码 | HTTP 状态 | 说明 |
-|--------|-----------|------|
-| DIALOGUE_NOT_FOUND | 404 | 对话不存在 |
-| DIALOGUE_EXCEEDS_MAX_BYTES | 422 | 超过最大字节数 |
-| MAP_NOT_FOUND | 404 | 地图不存在 |
-| BUILD_FAILED | 500 | ROM 构建失败 |
-| ROM_HASH_MISMATCH | 422 | 基础 ROM SHA-1 不匹配 |
-| PATCH_APPLY_FAILED | 500 | Patch 应用失败 |
-| INVALID_POINTER | 422 | 无效的 ROM 指针 |
+| HTTP | Code Prefix | Description |
+|------|-------------|-------------|
+| 400 | `VALIDATION_*` | Invalid data |
+| 401 | `AUTH_*` | Missing/invalid token |
+| 403 | `FORBIDDEN_*` | Insufficient permissions |
+| 404 | `NOT_FOUND_*` | Resource not found |
+| 409 | `CONFLICT_*` | Edit conflict |
+| 422 | `ENCODING_*` | cp932 encoding failure |
+| 429 | `RATE_LIMIT_*` | Too many requests |
+| 500 | `INTERNAL_*` | Server error |
+| 503 | `BUILD_QUEUE_*` | Queue full |
+
+### Logging
+
+Python `logging` with structured JSON output. 10 MB per file, 5 backups, `/opt/naruto-editor/data/logs/`.
 
 ---
 
-## 9. 测试策略
+## 12. Testing Strategy
 
-### 9.1 后端测试
+### Backend (pytest)
 
-```python
-# tests/test_dialogues.py
-def test_dialogue_byte_count():
-    # 验证字节计数准确性
+**Unit tests:**
+- `test_dialogue_svc.py` (15+): cp932 encoding, overflow, strategy selection
+- `test_map_svc.py` (10+): tile grid serialization, flood fill, validation
+- `test_battle_svc.py` (8+): unit ID mapping, patch generation
+- `test_build_svc.py` (5+): content flush, manifest generation
+- `test_auth.py` (5+): token hashing, roles, rate limiting
 
-def test_dialogue_crud():
-    # 验证完整 CRUD 流程
+**Integration tests:**
+- `test_dialogue_api.py`: Full CRUD cycle
+- `test_map_api.py`: Create map, PATCH cells, undo
+- `test_build_api.py`: Trigger build, poll status, verify ROM
+- `test_ws_protocol.py`: WS connect, join room, verify broadcast
+- `test_full_pipeline.py`: Seed DB -> trigger build -> verify 17/17 tests pass
 
-def test_map_undo_redo():
-    # 验证 undo/redo 栈
+### Frontend (Vitest + Playwright)
 
-def test_build_pipeline():
-    # 验证构建流程（mock build_mod.py）
+**Unit:** `useEncoding`, `useUndoRedo`, `useCanvasTools`, Pinia stores
+**Component:** `TextInputField`, `TilePalette`, `BuildTriggerPanel`
+**E2E:** dialogue-edit, map-paint, build-cycle, multi-user collaboration
 
-def test_websocket_join():
-    # 验证 WebSocket 房间加入
+### Existing Tests
+
+`tools/automated_test.py` (17 tests) runs unchanged as subprocess during each build. JSON output stored in `builds.test_json`.
+
+---
+
+## Appendix A: ROM Constants
+
+| Constant | Value | Source |
+|----------|-------|--------|
+| ROM size | 6,291,456 bytes | `project.json` |
+| ROM SHA-1 | `26f60795...` | `project.json` |
+| Dialogue pointer table | `0x461CE8`-`0x4634B8` (1,524 entries) | `import_dialogue_var.py` |
+| Free space | `0x5DFBEC`-`0x5FFFFF` (128 KB) | `import_dialogue_var.py` |
+| Tile descriptor table | `0x596D5C` (312 x 16B) | `import_map.py` |
+| Tilemap format | 32x32, 2B/entry, bits[9:0]=tile_id | `import_map.py` |
+| Tilemap regions | 0x14D000, 0x195000, 0x1CB000, 0x1C2000, 0x1F1000 | `import_map.py` |
+| Battle config | `0x53D910`, +4 header, 8 x 32B | `import_battle_config.py` |
+| Unit ID table | `0x53F298`, u16[64] | `import_battle_config.py` |
+| Audio sample rate | 13,379 Hz | `extract_audio.py` |
+| GBA ROM base | `0x08000000` | multiple tools |
+
+## Appendix B: Data Flow Diagrams
+
+### Dialogue Edit Flow
+```
+User types text -> [Client] useEncoding.countBytes() -> display
+    -> (on save) PUT /api/v1/dialogue/content/{id}
+    -> [Server] dialogue_svc.validate_and_save()
+        -> text.encode('cp932'), compare vs max_bytes, determine strategy
+        -> save to dialogue_content, insert dialogue_history
+    -> ws_hub.broadcast('dialogue:edited')
+    -> [All Clients] useDialogueStore.applyRemoteEdit()
 ```
 
-### 9.2 前端测试
-
-- Vitest 单元测试（composables, stores）
-- Playwright E2E 测试（关键流程）
+### Build Flow
+```
+User clicks "构建" -> POST /api/v1/build/trigger
+    -> build_svc.enqueue() -> builds row (queued) -> broadcast 'build:triggered'
+    -> [BuildWorker] content_io.flush_sqlite_to_json()
+        -> write dialogue-bank.json, dialogue-patches.json, manifest.json
+    -> build_mod.build(project_path) -> apply patches -> output ROM
+    -> subprocess: automated_test.py --json-output
+    -> copy ROM to data/builds/{id}/
+    -> broadcast 'build:finished'
+```
 
 ---
 
-## 10. 开发阶段优先级
+## Critical Files for Implementation
 
-**Phase 1 — 基础 + 对话编辑器（2 周）**
-1. 项目脚手架（FastAPI + Vue 3 + SQLite）
-2. 对话 CRUD API + SQLite 表
-3. 对话列表视图 + 编辑器组件
-4. 实时字节计数 UI
-5. 基础用户认证（仅用户名，无密码）
+| File | Role |
+|------|------|
+| `tools/build_mod.py` | Core build pipeline, `build()` function, all patch application logic |
+| `tools/import_dialogue.py` | Dialogue encoding (`build_patch()`, `import_dialogue()`) |
+| `tools/import_dialogue_var.py` | Variable-length dialogue redirect pipeline |
+| `tools/import_map.py` | Map format constants (`TILEMAP_REGIONS`), `read_map_from_rom()`, `generate_map_patch()` |
+| `tools/import_battle_config.py` | `UNIT_ID_NAMES`, `BATTLE_SCENARIOS`, `resolve_battle_config_patches()` |
+| `tools/extract_tileset.py` | Tileset PNG extraction (pre-generate for serving) |
+| `tools/extract_audio.py` | Audio WAV extraction (pre-generate for serving) |
+| `tools/automated_test.py` | 17 tests, run as subprocess during builds |
 
-**Phase 2 — 构建流水线 + WebSocket（2 周）**
-1. build_mod.py 集成
-2. 构建触发 API + 日志流
-3. WebSocket 协作（房间 + 锁定）
-4. 构建历史 + 下载
+---
 
-**Phase 3 — 地图编辑器（3 周）**
-1. 地图 CRUD + tilemap 原始数据 API
-2. Canvas 瓦片编辑器
-3. tileset 图像加载 + TilePalette
-4. Undo/Redo 栈（map_snapshots 表）
-5. 多用户协作光标
+## Verification Plan
 
-**Phase 4 — 战斗/角色 + 剧情编辑器（2 周）**
-1. 角色 CRUD + 技能配置
-2. 战斗配置编辑器
-3. 章节管理
-4. 剧情节拍线时间轴
-
-**Phase 5 — 音频 + 打磨 + 国际化（1 周）**
-1. 音频预览（使用现有 tools/extract_audio.py）
-2. 中文 UI 完善
-3. 管理面板
-4. 错误处理加固
+1. **Phase 1 验证:** 启动 FastAPI 服务，通过 pytest 运行对话 CRUD 集成测试，打开浏览器访问对话编辑器 UI，编辑一条对话，验证字节计数与服务端一致
+2. **Phase 2 验证:** 在 UI 点击"构建"按钮，观察 WebSocket 推送的构建日志流，下载构建后的 ROM，用 mGBA 打开验证对话修改生效
+3. **Phase 3 验证:** 打开地图编辑器，绘制瓦片，执行 undo/redo，触发构建并验证 ROM 中地图数据已更新
+4. **Phase 4 验证:** 配置战斗角色属性和放置位置，修改剧情结构，构建后验证
+5. **Phase 5 验证:** 试听音频，验证中文 UI 完整，测试多用户同时编辑场景
+6. **全流程:** 从零开始：登录 -> 编辑对话 -> 编辑地图 -> 配置战斗 -> 构建 -> 下载 ROM -> mGBA 验证
