@@ -1038,3 +1038,111 @@ User clicks "构建" -> POST /api/v1/build/trigger
 4. **Phase 4 验证:** 配置战斗角色属性和放置位置，修改剧情结构，构建后验证
 5. **Phase 5 验证:** 试听音频，验证中文 UI 完整，测试多用户同时编辑场景
 6. **全流程:** 从零开始：登录 -> 编辑对话 -> 编辑地图 -> 配置战斗 -> 构建 -> 下载 ROM -> mGBA 验证
+
+---
+
+# 附录 C：实现状态（2026-04-07 更新）
+
+## 整体评估：约 35% 实现
+
+| 模块 | 实现度 | 状态 | 说明 |
+|------|--------|------|------|
+| 对话 CRUD | ✅ 85% | 基本完成 | 缺 validate / bulk-import / export / free-space |
+| 地图编辑器 | ⚠️ 40% | 基础CRUD | 缺 undo/redo / fill / ops历史 |
+| 战斗配置 | ✅ 80% | 基本完成 | unit_positions 完整，battles/characters 齐全 |
+| 技能列表 | ✅ 90% | 基本完成 | 仅列表，无 tree view |
+| 剧情编辑 | ✅ 70% | 基本完成 | story_beats CRUD，有 episode 概念 |
+| 音频预览 | ⚠️ 30% | 读取已有文件 | 需实现上传 + extract 联动 |
+| 用户管理 | ⚠️ 50% | CRUD 存在 | 无 auth middleware，role 字段未强制 |
+| 构建流水线 | ⚠️ 50% | 可触发 | 缺 queue 列表、build 记录表 |
+| WebSocket | ⚠️ 20% | 仅 build WS | 缺协作编辑房间、用户感知、冲突解决 |
+| 认证系统 | ❌ 0% | 未实现 | 无 JWT / login / middleware |
+| 地图 undo/redo | ❌ 0% | 未实现 | map_edit_ops 表不存在 |
+| 对话 undo/redo | ❌ 0% | 未实现 | dialogue_edit_ops 表不存在 |
+| 项目统计 | ❌ 0% | 未实现 | /project/stats 不存在 |
+
+## 实际数据库表（8张）
+
+```
+dialogues          — 对话条目（简化为单表，无 bank/content 分离）
+units              — 战斗单位
+skills             — 技能列表
+story_beats        — 剧情节点
+audio_files        — 音频文件索引
+settings           — 键值设置
+battle_configs     — 战斗配置
+users              — 用户（含 role 字段，但无权限校验）
+```
+
+**SPEC 描述但未实现的表**：dialogue_bank_entries / dialogue_edit_ops / map_definitions / map_edit_ops / battle_scenarios / unit_definitions / episodes / episode_scenes / builds / build_patches / edit_locks
+
+## 实际 API 路由
+
+### 对话 `/api/dialogues`
+- ✅ GET `/api/dialogues`
+- ✅ GET `/api/dialogues/{key}`
+- ✅ POST `/api/dialogues`
+- ✅ PUT `/api/dialogues/{key}`
+- ✅ DELETE `/api/dialogues/{key}`
+- ✅ GET `/api/dialogues/{key}/byte-count`
+- ❌ GET `/dialogue/bank` · POST `/dialogue/validate` · POST `/dialogue/bulk-import` · GET `/dialogue/export` · GET `/dialogue/free-space`
+
+### 地图 `/api/maps`
+- ✅ GET `/api/maps` · GET `/api/maps/{id}` · PUT `/api/maps/{id}`
+- ❌ GET `/maps/{id}/grid`（实际内嵌在返回中）· POST `/maps/{id}/fill` · GET `/maps/{id}/ops` · POST `/maps/{id}/undo` · POST `/maps/{id}/redo`
+
+### 战斗 `/api/battles`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+### 单位 `/api/units`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+### 角色 `/api/characters`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+### 技能 `/api/skills`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+### 剧情 `/api/story-beats`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+### 章节 `/api/chapters`
+- ✅ GET/POST 存在
+
+### 音频 `/api/audio-files`
+- ✅ GET 存在（读取 build/audio/ 目录）
+
+### 构建 `/api/build`
+- ✅ POST `/api/build/trigger` · GET `/api/build/status` · GET `/api/build/download` · WS `/ws/build`
+- ❌ GET `/build/queue`
+
+### 用户 `/api/users`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD（但无权限校验）
+- ❌ POST `/auth/login` · POST `/auth/logout` · GET `/auth/me`
+
+### 单位位置 `/api/unit-positions`
+- ✅ GET/POST/PUT/DELETE 完整 CRUD
+
+## 未实现的 API（按优先级）
+
+### P0 — 必须实现
+1. **JWT 认证**：`POST /auth/login` · `POST /auth/logout` · `GET /auth/me` + 所有路由 auth middleware
+2. **地图 undo/redo**：新增 `map_edit_ops` 表 + `POST /maps/{id}/undo` · `POST /maps/{id}/redo`
+3. **构建队列状态**：`GET /api/build/queue` + `builds` 表
+
+### P1 — 重要功能
+4. **对话批量导入/导出**：`POST /dialogue/bulk-import` · `GET /dialogue/export`
+5. **对话验证**：`POST /dialogue/validate`
+6. **空闲空间报告**：`GET /dialogue/free-space`
+7. **对话操作历史**：`dialogue_edit_ops` 表 + `GET /dialogue/history/{id}`
+8. **地图操作历史**：`map_edit_ops` 表（现有 `operations` 字段存在，但未实现 undo/redo 逻辑）
+
+### P2 — 协作功能
+9. **WebSocket 协作房间**：`/ws/collaborate` · 房间感知 · 用户列表
+10. **冲突解决**：last-write-wins 或 OT
+
+### P3 — 锦上添花
+11. **项目统计**：`GET /project/stats`
+12. **地图 flood fill**：`POST /maps/{id}/fill`
+13. **音频文件上传** + 触发 `extract_audio.py` 联动
+
