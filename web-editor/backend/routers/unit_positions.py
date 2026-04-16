@@ -7,7 +7,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/unit-positions", tags=["unit-positions"])
+router = APIRouter(prefix="/api/v1/unit-positions", tags=["unit-positions"])
 
 class UnitPositionCreate(BaseModel):
     unit_id: int

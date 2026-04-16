@@ -1,9 +1,22 @@
 import sqlite3
 import os
+from pathlib import Path
+from contextlib import contextmanager
 
-DB_PATH = "/root/gba-naruto/sequel/editor.db"
+DB_PATH = os.environ.get("DB_PATH") or str(Path(__file__).resolve().parent.parent.parent / "sequel" / "editor.db")
+
+@contextmanager
+def get_db():
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA journal_mode=WAL")
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 def get_db_connection():
+    """Legacy function - use get_db() context manager instead."""
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA journal_mode=WAL")
@@ -159,7 +172,22 @@ def init_db():
             FOREIGN KEY (unit_id) REFERENCES units(id)
         )
     """)
-    
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS chapters (
+            id INTEGER PRIMARY KEY,
+            chapter_number INTEGER NOT NULL,
+            title TEXT,
+            title_ja TEXT,
+            title_zh TEXT,
+            description TEXT,
+            map_id TEXT,
+            sequence_order INTEGER,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
     conn.commit()
     conn.close()
 

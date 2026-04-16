@@ -8,7 +8,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/users", tags=["users"])
+router = APIRouter(prefix="/api/v1/users", tags=["users"])
 
 class UserCreate(BaseModel):
     username: str

@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/maps", tags=["maps"])
+router = APIRouter(prefix="/api/v1/maps", tags=["maps"])
 
 ROM_PATH = Path("/root/gba-naruto/rom/experiment-00076d.gba")
 

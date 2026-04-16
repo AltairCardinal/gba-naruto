@@ -7,7 +7,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/audio", tags=["audio"])
+router = APIRouter(prefix="/api/v1/audio", tags=["audio"])
 
 class AudioFileCreate(BaseModel):
     name: str

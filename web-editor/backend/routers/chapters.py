@@ -6,7 +6,7 @@ from datetime import datetime
 
 from database import get_db_connection
 
-router = APIRouter(prefix="/api/chapters", tags=["chapters"])
+router = APIRouter(prefix="/api/v1/chapters", tags=["chapters"])
 
 class ChapterCreate(BaseModel):
     chapter_num: int

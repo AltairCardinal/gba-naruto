@@ -7,7 +7,7 @@ import asyncio
 
 from .auth import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/build", tags=["build"])
 
 class BuildState:
     _instance = None

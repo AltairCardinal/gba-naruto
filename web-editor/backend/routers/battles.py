@@ -7,7 +7,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/battles", tags=["battles"])
+router = APIRouter(prefix="/api/v1/battles", tags=["battles"])
 
 class BattleConfigCreate(BaseModel):
     scene_key: str
