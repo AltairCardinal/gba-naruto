@@ -240,3 +240,53 @@ python3 tools/compare_wram_regions.py \
   0x140 \
   --output notes/diff-02002880-2160-2700.txt
 ```
+
+## `import_dialogue.py`
+
+Imports dialogue content from `sequel/content/dialogue/*.json` into the ROM at runtime, replacing dialogue ID entries with strings from the JSON file. Reads current dialogue entries from the running ROM and updates them in-place.
+
+Example:
+
+```bash
+python3 tools/import_dialogue.py
+```
+
+## `import_map.py`
+
+Imports map scene data from a JSON map definition file into the ROM build. Expects a JSON file with map tile data, dimensions, and scene metadata.
+
+Example:
+
+```bash
+python3 tools/import_map.py sequel/content/maps/episode-01-mountain-pass.json
+```
+
+## `import_battle_config.py`
+
+Imports battle configuration data (enemy lineups, stage parameters, wave definitions) from the `sequel/content/battles/` directory into the ROM build.
+
+Example:
+
+```bash
+python3 tools/import_battle_config.py
+```
+
+## `build_mod.py`
+
+Main ROM build entrypoint. Applies all patches and content imports (dialogue, maps, battle configs) to produce `build/naruto-sequel-dev.gba`. Also handles base ROM detection and patch application.
+
+Example:
+
+```bash
+python3 tools/build_mod.py
+```
+
+## `automated_test.py`
+
+Runs automated headless tests against the built ROM using mGBA. Verifies that dialogue, map, and battle imports are correctly reflected in the emulated game state. Outputs test results to `notes/test-results/`.
+
+Example:
+
+```bash
+python3 tools/automated_test.py
+```
