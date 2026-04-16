@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
-import hashlib
+import bcrypt
 from datetime import datetime
 
 from database import get_db_connection
@@ -26,7 +26,7 @@ class UserResponse(BaseModel):
     created_at: str
 
 def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 @router.get("", response_model=List[UserResponse])
 async def get_users():
