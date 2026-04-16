@@ -99,6 +99,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
+import { getErrorMessage } from '../utils/error'
 
 interface AudioFile {
   id: number
@@ -163,8 +164,8 @@ async function saveAudio() {
     
     await fetchAudioFiles()
     closeModal()
-  } catch (e: any) {
-    alert(e.message)
+  } catch (e) {
+    alert(getErrorMessage(e))
   }
 }
 
@@ -189,8 +190,8 @@ async function previewAudio(id: number) {
       audioPlayer.value.src = url
       audioPlayer.value.play()
     }
-  } catch (e: any) {
-    alert(e.message)
+  } catch (e) {
+    alert(getErrorMessage(e))
   }
 }
 
