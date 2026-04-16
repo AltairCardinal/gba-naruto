@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
 interface TileData {
   tile_id: number
@@ -84,6 +84,7 @@ const canvasRef = ref<HTMLCanvasElement | null>(null)
 const selectedTileId = ref(0)
 const hoverPos = ref({ x: -1, y: -1 })
 const saveStatus = ref('')
+let mouseMoveTimer: ReturnType<typeof setTimeout> | null = null
 
 const hasChanges = computed(() => {
   if (!currentMap.value.length) return false
@@ -164,20 +165,25 @@ function handleCanvasClick(e: MouseEvent) {
 }
 
 function handleMouseMove(e: MouseEvent) {
-  const canvas = canvasRef.value
-  if (!canvas) return
-  
-  const rect = canvas.getBoundingClientRect()
-  const x = Math.floor((e.clientX - rect.left) / TILE_SIZE)
-  const y = Math.floor((e.clientY - rect.top) / TILE_SIZE)
-  
-  if (x >= 0 && x < 32 && y >= 0 && y < 32) {
-    hoverPos.value = { x, y }
-  } else {
-    hoverPos.value = { x: -1, y: -1 }
-  }
-  renderCanvas()
+  if (mouseMoveTimer) clearTimeout(mouseMoveTimer)
+  mouseMoveTimer = setTimeout(() => {
+    const canvas = canvasRef.value
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    const x = Math.floor((e.clientX - rect.left) / TILE_SIZE)
+    const y = Math.floor((e.clientY - rect.top) / TILE_SIZE)
+    if (x >= 0 && x < 32 && y >= 0 && y < 32) {
+      hoverPos.value = { x, y }
+    } else {
+      hoverPos.value = { x: -1, y: -1 }
+    }
+    renderCanvas()
+  }, 50)
 }
+
+onUnmounted(() => {
+  if (mouseMoveTimer) clearTimeout(mouseMoveTimer)
+})
 
 function selectTile(id: number) {
   selectedTileId.value = id
