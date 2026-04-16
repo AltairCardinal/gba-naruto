@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-LOG_PATH = Path("/Users/altair/github/naruto/notes/lldb-dialogue-callers.log")
+LOG_PATH = Path(os.environ.get("LLDB_LOG_PATH", "notes/lldb-dialogue-callers.log"))
 HIT_COUNT = 0
 
 

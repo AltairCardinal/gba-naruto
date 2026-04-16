@@ -38,6 +38,8 @@ def main() -> int:
         )
 
     buf = bytearray(args.input_rom.read_bytes())
+    if offset + len(replacement) > len(buf):
+        raise SystemExit(f"offset 0x{offset:06X} + replacement ({len(replacement)} bytes) exceeds ROM size ({len(buf)} bytes)")
     original = bytes(buf[offset : offset + len(replacement)])
     buf[offset : offset + len(replacement)] = replacement
 

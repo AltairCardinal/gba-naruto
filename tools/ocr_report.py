@@ -38,6 +38,8 @@ def main() -> int:
     args = parser.parse_args()
 
     ocr_bin = Path(args.ocr_bin)
+    if not ocr_bin.is_file():
+        raise SystemExit(f"OCR binary not found: {ocr_bin}")
     images = sorted(Path().glob(args.glob), key=frame_num)
     report_lines = [
         f"# OCR Timeline: `{args.glob}`",
