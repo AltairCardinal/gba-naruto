@@ -1,2 +1,49 @@
-/tools/__pycache__
-/tools/_vendor
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Node
+node_modules/
+.vite/
+
+# Build artifacts
+build/*.gba
+build/*.sav
+build/*-report.json
+build/audio/
+build/tiles/
+
+# Generated data
+*.db
+*.db-wal
+*.db-shm
+
+# Tool state
+.ralph/
+
+# Experiment outputs
+rom/experiment-*.gba
+rom/experiment-*.sav
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+credentials.*
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Notes generated files
+notes/*.json
+notes/*.png
+notes/*.txt
+notes/*.bin
+notes/*.log
+notes/*.done

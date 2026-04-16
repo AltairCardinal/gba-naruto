@@ -3,12 +3,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users, unit_positions
 import database
 
+import os
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "")
+if ALLOWED_ORIGINS:
+    origins = [o.strip() for o in ALLOWED_ORIGINS.split(",") if o.strip()]
+else:
+    origins = []
+
 app = FastAPI(title="Naruto GBA Editor API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=origins,
+    allow_credentials=bool(origins),
     allow_methods=["*"],
     allow_headers=["*"],
 )
