@@ -8,7 +8,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/dialogues", tags=["dialogues"])
 
 class DialogueCreate(BaseModel):
     key: str
@@ -42,7 +42,7 @@ def calc_byte_count(text: Optional[str]) -> int:
         return 0
     return len(text.encode('utf-8'))
 
-@router.get("/api/dialogues", response_model=List[DialogueResponse])
+@router.get("/", response_model=List[DialogueResponse])
 async def get_dialogues(
     page: int = 1,
     limit: int = 20,
@@ -94,15 +94,15 @@ async def get_dialogues(
     
     return results
 
-@router.get("/api/dialogues/{key}", response_model=DialogueResponse)
+@router.get("/{key}", response_model=DialogueResponse)
 async def get_dialogue(key: str):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     cursor = conn.execute("SELECT * FROM dialogues WHERE key = ?", (key,))
     row = cursor.fetchone()
-    conn.close()
-    
+
     if not row:
+        conn.close()
         raise HTTPException(status_code=404, detail="Dialogue not found")
     
     text_ja = row["text_ja"] or ""
@@ -122,7 +122,7 @@ async def get_dialogue(key: str):
         "updated_at": row["updated_at"]
     }
 
-@router.post("/api/dialogues", response_model=DialogueResponse)
+@router.post("/", response_model=DialogueResponse)
 async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
@@ -145,11 +145,7 @@ async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_curren
     except sqlite3.IntegrityError:
         conn.close()
         raise HTTPException(status_code=400, detail="Key already exists")
-    finally:
-        pass
-    
-    conn.close()
-    
+
     return {
         "id": row["id"],
         "key": row["key"],
@@ -163,7 +159,7 @@ async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_curren
         "updated_at": row["updated_at"]
     }
 
-@router.put("/api/dialogues/{key}", response_model=DialogueResponse)
+@router.put("/{key}", response_model=DialogueResponse)
 async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
@@ -227,7 +223,7 @@ async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(
         "updated_at": row["updated_at"]
     }
 
-@router.delete("/api/dialogues/{key}")
+@router.delete("/{key}")
 async def delete_dialogue(key: str, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM dialogues WHERE key = ?", (key,))
@@ -241,7 +237,7 @@ async def delete_dialogue(key: str, _: User = Depends(get_current_user)):
     
     return {"status": "deleted", "key": key}
 
-@router.get("/api/dialogues/{key}/byte-count")
+@router.get("/{key}/byte-count")
 async def get_byte_count(key: str):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
