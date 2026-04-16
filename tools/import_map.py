@@ -16,10 +16,9 @@ import struct
 from pathlib import Path
 from typing import Any, Optional
 
-ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
-
-TILEMAP_REGIONS = {
+from tools.lib import load_json
     "map_1": {"rom_offset": 0x14D000, "arm_addr": 0x0814D000, "name": "Battle Map A"},
     "map_2": {"rom_offset": 0x195000, "arm_addr": 0x08195000, "name": "Battle Map B"},
     "map_3": {"rom_offset": 0x1CB000, "arm_addr": 0x081CB000, "name": "Battle Map C"},

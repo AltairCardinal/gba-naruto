@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
@@ -6,6 +6,7 @@ import bcrypt
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/users", tags=["users"])
 
@@ -65,7 +66,7 @@ async def get_user(user_id: int):
     }
 
 @router.post("", response_model=UserResponse)
-async def create_user(user: UserCreate):
+async def create_user(user: UserCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -97,7 +98,7 @@ async def create_user(user: UserCreate):
     }
 
 @router.put("/{user_id}", response_model=UserResponse)
-async def update_user(user_id: int, user: UserUpdate):
+async def update_user(user_id: int, user: UserUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -150,7 +151,7 @@ async def update_user(user_id: int, user: UserUpdate):
     }
 
 @router.delete("/{user_id}")
-async def delete_user(user_id: int):
+async def delete_user(user_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM users WHERE id = ?", (user_id,))
     if not cursor.fetchone():

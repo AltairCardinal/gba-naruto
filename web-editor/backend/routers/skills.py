@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/skills", tags=["skills"])
 
@@ -133,7 +134,7 @@ async def get_skill(skill_id: int):
     }
 
 @router.post("", response_model=SkillResponse)
-async def create_skill(skill: SkillCreate):
+async def create_skill(skill: SkillCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -173,7 +174,7 @@ async def create_skill(skill: SkillCreate):
     }
 
 @router.put("/{skill_id}", response_model=SkillResponse)
-async def update_skill(skill_id: int, skill: SkillUpdate):
+async def update_skill(skill_id: int, skill: SkillUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -246,7 +247,7 @@ async def update_skill(skill_id: int, skill: SkillUpdate):
     }
 
 @router.delete("/{skill_id}")
-async def delete_skill(skill_id: int):
+async def delete_skill(skill_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM skills WHERE id = ?", (skill_id,))
     if not cursor.fetchone():

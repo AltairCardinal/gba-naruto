@@ -3,18 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
-
-
-ROM_BASE = 0x08000000
-
-
-def parse_target(value: str) -> int:
-    target = int(value, 0)
-    if target >= ROM_BASE:
-        target -= ROM_BASE
-    return target
-
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.lib import read_u32_le
 

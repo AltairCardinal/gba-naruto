@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/unit-positions", tags=["unit-positions"])
 
@@ -72,7 +73,7 @@ async def get_unit_positions(
     ]
 
 @router.post("", response_model=UnitPositionResponse)
-async def create_unit_position(pos: UnitPositionCreate):
+async def create_unit_position(pos: UnitPositionCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -102,7 +103,7 @@ async def create_unit_position(pos: UnitPositionCreate):
     }
 
 @router.put("/{pos_id}", response_model=UnitPositionResponse)
-async def update_unit_position(pos_id: int, pos: UnitPositionUpdate):
+async def update_unit_position(pos_id: int, pos: UnitPositionUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -159,7 +160,7 @@ async def update_unit_position(pos_id: int, pos: UnitPositionUpdate):
     }
 
 @router.delete("/{pos_id}")
-async def delete_unit_position(pos_id: int):
+async def delete_unit_position(pos_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM unit_positions WHERE id = ?", (pos_id,))
     if not cursor.fetchone():

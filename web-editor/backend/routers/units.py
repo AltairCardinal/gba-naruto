@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/units", tags=["units"])
 
@@ -145,7 +146,7 @@ async def get_unit(unit_id: int):
     }
 
 @router.post("", response_model=UnitResponse)
-async def create_unit(unit: UnitCreate):
+async def create_unit(unit: UnitCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -184,7 +185,7 @@ async def create_unit(unit: UnitCreate):
     }
 
 @router.put("/{unit_id}", response_model=UnitResponse)
-async def update_unit(unit_id: int, unit: UnitUpdate):
+async def update_unit(unit_id: int, unit: UnitUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -255,7 +256,7 @@ async def update_unit(unit_id: int, unit: UnitUpdate):
     }
 
 @router.delete("/{unit_id}")
-async def delete_unit(unit_id: int):
+async def delete_unit(unit_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM units WHERE id = ?", (unit_id,))
     if not cursor.fetchone():
