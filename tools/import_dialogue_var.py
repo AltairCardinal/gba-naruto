@@ -6,13 +6,9 @@ import json
 import struct
 from pathlib import Path
 
+import sys
 ROOT = Path(__file__).resolve().parent.parent
-ROM_BASE = 0x08000000
-
-# Known pointer table for dialogue
-DIALOGUE_PTR_TABLE_START = 0x461CE8
-DIALOGUE_PTR_TABLE_END = 0x4634B8
-
+sys.path.insert(0, str(ROOT))
 
 from tools.lib import load_json
 

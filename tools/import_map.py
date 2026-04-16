@@ -16,19 +16,20 @@ import struct
 from pathlib import Path
 from typing import Any, Optional
 
+ROOT = Path(__file__).resolve().parent.parent
+
+import sys
 sys.path.insert(0, str(ROOT))
 
 from tools.lib import load_json
+
+TILEMAP_REGIONS = {
     "map_1": {"rom_offset": 0x14D000, "arm_addr": 0x0814D000, "name": "Battle Map A"},
     "map_2": {"rom_offset": 0x195000, "arm_addr": 0x08195000, "name": "Battle Map B"},
     "map_3": {"rom_offset": 0x1CB000, "arm_addr": 0x081CB000, "name": "Battle Map C"},
     "map_4": {"rom_offset": 0x1C2000, "arm_addr": 0x081C2000, "name": "Battle Map D"},
     "map_5": {"rom_offset": 0x1F1000, "arm_addr": 0x081F1000, "name": "Battle Map E"},
 }
-
-
-from tools.lib import load_json
-
 
 def resolve_map_patches(spec_path: Path, patch_id: str) -> list[dict[str, Any]]:
     spec = load_json(spec_path)

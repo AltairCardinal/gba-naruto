@@ -4,13 +4,9 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
+import sys
 from pathlib import Path
-
-
-ROM_BASE = 0x08000000
-PRINTABLE_ASCII = set(range(0x20, 0x7F))
-CONTROL_BYTES = {0x09, 0x0A, 0x0D}
-
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.lib import read_u32_le
 

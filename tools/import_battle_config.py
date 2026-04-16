@@ -30,6 +30,15 @@ from __future__ import annotations
 import argparse
 import json
 import struct
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parent.parent
+
+# Battle unit struct size (from code analysis of battle init at 0x0806E678)
+UNIT_STRIDE = 234  # bytes per unit in the unit array at 0x02024294
+MAX_UNITS = 25  # max units in battle (6084 / 234 ≈ 25)
+
 import sys
 sys.path.insert(0, str(ROOT))
 
