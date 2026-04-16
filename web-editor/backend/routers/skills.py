@@ -7,7 +7,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/skills", tags=["skills"])
+router = APIRouter(prefix="/api/v1/skills", tags=["skills"])
 
 class SkillCreate(BaseModel):
     unit_id: int
@@ -61,8 +61,12 @@ class SkillResponse(BaseModel):
 
 @router.get("", response_model=List[SkillResponse])
 async def get_skills(
-    unit_id: Optional[int] = None
+    unit_id: Optional[int] = None,
+    limit: int = 100,
+    offset: int = 0
 ):
+    if limit > 100:
+        limit = 100
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -73,8 +77,8 @@ async def get_skills(
         params.append(unit_id)
     
     cursor = conn.execute(
-        f"SELECT * FROM skills WHERE {where_sql} ORDER BY id",
-        params
+        f"SELECT * FROM skills WHERE {where_sql} ORDER BY id LIMIT ? OFFSET ?",
+        params + [limit, offset]
     )
     rows = cursor.fetchall()
     conn.close()

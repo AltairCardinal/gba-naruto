@@ -49,6 +49,8 @@ async def get_dialogues(
     search: Optional[str] = None,
     chapter_id: Optional[int] = None
 ):
+    if limit > 100:
+        limit = 100
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     offset = (page - 1) * limit

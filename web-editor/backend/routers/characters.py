@@ -8,7 +8,7 @@ import json
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/characters", tags=["characters"])
+router = APIRouter(prefix="/api/v1/characters", tags=["characters"])
 
 class CharacterCreate(BaseModel):
     char_id: int
@@ -59,7 +59,13 @@ class CharacterResponse(BaseModel):
 
 
 @router.get("", response_model=List[CharacterResponse])
-async def list_characters(team: Optional[int] = None):
+async def list_characters(
+    team: Optional[int] = None,
+    limit: int = 50,
+    offset: int = 0
+):
+    if limit > 100:
+        limit = 100
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -70,8 +76,8 @@ async def list_characters(team: Optional[int] = None):
         params = [team]
     
     cursor = conn.execute(
-        f"SELECT * FROM units {where_clause} ORDER BY char_id",
-        params
+        f"SELECT * FROM units {where_clause} ORDER BY char_id LIMIT ? OFFSET ?",
+        params + [limit, offset]
     )
     rows = cursor.fetchall()
     conn.close()

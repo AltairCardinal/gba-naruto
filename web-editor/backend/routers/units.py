@@ -7,7 +7,7 @@ from datetime import datetime
 from database import get_db_connection
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api/units", tags=["units"])
+router = APIRouter(prefix="/api/v1/units", tags=["units"])
 
 class UnitCreate(BaseModel):
     char_id: int
@@ -65,6 +65,8 @@ async def get_units(
     team: Optional[int] = None,
     map_id: Optional[str] = None
 ):
+    if limit > 100:
+        limit = 100
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
