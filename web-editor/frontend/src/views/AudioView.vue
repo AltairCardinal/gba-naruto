@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { getErrorMessage } from '../utils/error'
 
 interface AudioFile {
@@ -117,6 +117,7 @@ const showEditModal = ref(false)
 const showPreview = ref(false)
 const editingId = ref<number | null>(null)
 const audioPlayer = ref<HTMLAudioElement | null>(null)
+let currentAudioUrl: string | null = null
 
 const form = ref({
   name: '',
@@ -177,11 +178,16 @@ async function deleteAudio(id: number) {
 
 async function previewAudio(id: number) {
   try {
+    if (currentAudioUrl) {
+      URL.revokeObjectURL(currentAudioUrl)
+      currentAudioUrl = null
+    }
     const res = await fetch(`/api/audio/preview/${id}`)
     if (!res.ok) throw new Error('Failed to load audio')
     
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)
+    currentAudioUrl = url
     
     showPreview.value = true
     await nextTick()
@@ -194,6 +200,10 @@ async function previewAudio(id: number) {
     alert(getErrorMessage(e))
   }
 }
+
+onUnmounted(() => {
+  if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl)
+})
 
 function closeModal() {
   showCreateModal.value = false
