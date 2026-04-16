@@ -5,7 +5,7 @@ import sqlite3
 from datetime import datetime
 import json
 
-from database import get_db_connection
+from database import get_db
 from .auth import get_current_user
 
 router = APIRouter(prefix="/api/v1/characters", tags=["characters"])
@@ -66,24 +66,55 @@ async def list_characters(
 ):
     if limit > 100:
         limit = 100
-    conn = get_db_connection()
-    conn.row_factory = sqlite3.Row
-    
-    where_clause = "WHERE 1=1"
-    params = []
-    if team is not None:
-        where_clause = "WHERE team = ?"
-        params = [team]
-    
-    cursor = conn.execute(
-        f"SELECT * FROM units {where_clause} ORDER BY char_id LIMIT ? OFFSET ?",
-        params + [limit, offset]
-    )
-    rows = cursor.fetchall()
-    conn.close()
-    
-    return [
-        {
+    with get_db() as conn:
+        conn.row_factory = sqlite3.Row
+
+        where_clause = "WHERE 1=1"
+        params = []
+        if team is not None:
+            where_clause = "WHERE team = ?"
+            params = [team]
+
+        cursor = conn.execute(
+            f"SELECT * FROM units {where_clause} ORDER BY char_id LIMIT ? OFFSET ?",
+            params + [limit, offset]
+        )
+        rows = cursor.fetchall()
+
+        return [
+            {
+                "id": row["id"],
+                "char_id": row["char_id"],
+                "name": row["name"],
+                "name_ja": row["name_ja"],
+                "name_zh": row["name_zh"],
+                "hp": row["hp"],
+                "attack": row["attack"],
+                "defense": row["defense"],
+                "speed": row["speed"],
+                "chapter_id": row["chapter_id"],
+                "map_id": row["map_id"],
+                "position_x": row["position_x"],
+                "position_y": row["position_y"],
+                "team": row["team"],
+                "created_at": row["created_at"],
+                "updated_at": row["updated_at"]
+            }
+            for row in rows
+        ]
+
+
+@router.get("/{char_id}", response_model=CharacterResponse)
+async def get_character(char_id: int):
+    with get_db() as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.execute("SELECT * FROM units WHERE char_id = ?", (char_id,))
+        row = cursor.fetchone()
+
+        if not row:
+            raise HTTPException(status_code=404, detail="Character not found")
+
+        return {
             "id": row["id"],
             "char_id": row["char_id"],
             "name": row["name"],
@@ -101,20 +132,6 @@ async def list_characters(
             "created_at": row["created_at"],
             "updated_at": row["updated_at"]
         }
-        for row in rows
-    ]
-
-
-@router.get("/{char_id}", response_model=CharacterResponse)
-async def get_character(char_id: int):
-    conn = get_db_connection()
-    conn.row_factory = sqlite3.Row
-    cursor = conn.execute("SELECT * FROM units WHERE char_id = ?", (char_id,))
-    row = cursor.fetchone()
-    conn.close()
-    
-    if not row:
-        raise HTTPException(status_code=404, detail="Character not found")
     
     return {
         "id": row["id"],
