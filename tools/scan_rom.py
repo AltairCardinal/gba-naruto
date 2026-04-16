@@ -12,8 +12,7 @@ PRINTABLE_ASCII = set(range(0x20, 0x7F))
 CONTROL_BYTES = {0x09, 0x0A, 0x0D}
 
 
-def read_u32_le(buf: bytes, offset: int) -> int:
-    return int.from_bytes(buf[offset : offset + 4], "little")
+from tools.lib import read_u32_le
 
 
 def scan_gba_pointers(buf: bytes, min_hits_per_target: int) -> dict:

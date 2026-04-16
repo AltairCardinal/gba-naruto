@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/battle-configs", tags=["battle-configs"])
 
@@ -128,7 +129,7 @@ async def get_battle_config(config_id: int):
     }
 
 @router.post("", response_model=BattleConfigResponse)
-async def create_battle_config(config: BattleConfigCreate):
+async def create_battle_config(config: BattleConfigCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -167,7 +168,7 @@ async def create_battle_config(config: BattleConfigCreate):
     }
 
 @router.put("/{config_id}", response_model=BattleConfigResponse)
-async def update_battle_config(config_id: int, config: BattleConfigUpdate):
+async def update_battle_config(config_id: int, config: BattleConfigUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -245,7 +246,7 @@ async def update_battle_config(config_id: int, config: BattleConfigUpdate):
     }
 
 @router.delete("/{config_id}")
-async def delete_battle_config(config_id: int):
+async def delete_battle_config(config_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM battle_configs WHERE id = ?", (config_id,))
     if not cursor.fetchone():
@@ -259,7 +260,7 @@ async def delete_battle_config(config_id: int):
     return {"status": "deleted", "config_id": config_id}
 
 @router.post("/{config_id}/export")
-async def export_battle_config_rom(config_id: int):
+async def export_battle_config_rom(config_id: int, _: User = Depends(get_current_user)):
     import struct
     import subprocess
     from datetime import datetime

@@ -14,8 +14,7 @@ DIALOGUE_PTR_TABLE_START = 0x461CE8
 DIALOGUE_PTR_TABLE_END = 0x4634B8
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+from tools.lib import load_json
 
 
 def find_free_space(data: bytes, size: int, start: int = 0) -> int:

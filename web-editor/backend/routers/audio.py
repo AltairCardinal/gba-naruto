@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/audio", tags=["audio"])
 
@@ -94,7 +95,7 @@ async def get_audio_file(audio_id: int):
     }
 
 @router.post("", response_model=AudioFileResponse)
-async def create_audio_file(audio: AudioFileCreate):
+async def create_audio_file(audio: AudioFileCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -125,7 +126,7 @@ async def create_audio_file(audio: AudioFileCreate):
     }
 
 @router.put("/{audio_id}", response_model=AudioFileResponse)
-async def update_audio_file(audio_id: int, audio: AudioFileUpdate):
+async def update_audio_file(audio_id: int, audio: AudioFileUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -182,7 +183,7 @@ async def update_audio_file(audio_id: int, audio: AudioFileUpdate):
     }
 
 @router.delete("/{audio_id}")
-async def delete_audio_file(audio_id: int):
+async def delete_audio_file(audio_id: int, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM audio_files WHERE id = ?", (audio_id,))
     if not cursor.fetchone():

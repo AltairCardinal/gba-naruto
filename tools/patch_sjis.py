@@ -5,8 +5,7 @@ import argparse
 from pathlib import Path
 
 
-def parse_int(value: str) -> int:
-    return int(value, 0)
+from tools.lib import parse_int
 
 
 def render_bytes(data: bytes) -> str:

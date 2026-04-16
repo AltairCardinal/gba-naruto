@@ -100,8 +100,7 @@ def sha1_bytes(b: bytes) -> str:
     return hashlib.sha1(b).hexdigest()
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+from tools.lib import load_json
 
 
 def load_build_report() -> dict:

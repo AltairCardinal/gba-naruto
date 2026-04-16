@@ -8,8 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+from tools.lib import load_json
 
 
 def build_patch(bank_entry: dict, content_entry: dict) -> list[dict]:

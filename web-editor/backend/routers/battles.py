@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/battles", tags=["battles"])
 
@@ -142,7 +143,7 @@ async def get_battle(scene_key: str):
 
 
 @router.post("", response_model=BattleConfigResponse)
-async def create_battle(battle: BattleConfigCreate):
+async def create_battle(battle: BattleConfigCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -180,7 +181,7 @@ async def create_battle(battle: BattleConfigCreate):
 
 
 @router.put("/{scene_key}", response_model=BattleConfigResponse)
-async def update_battle(scene_key: str, battle: BattleConfigUpdate):
+async def update_battle(scene_key: str, battle: BattleConfigUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     

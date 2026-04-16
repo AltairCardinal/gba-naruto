@@ -1,9 +1,11 @@
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional
 import subprocess
 import threading
 import asyncio
+
+from .auth import get_current_user
 
 router = APIRouter()
 
@@ -67,7 +69,7 @@ async def run_build():
         build_state.logs.append(f"[BUILD] Error: {str(e)}")
 
 @router.post("/api/build/trigger")
-async def trigger_build():
+async def trigger_build(_: User = Depends(get_current_user)):
     if build_state.status == "running":
         raise HTTPException(status_code=400, detail="Build already running")
     

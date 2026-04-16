@@ -1,8 +1,10 @@
 import struct
 from pathlib import Path
 from typing import Any
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/maps", tags=["maps"])
 
@@ -117,7 +119,7 @@ def get_map(map_id: str) -> dict:
 
 
 @router.put("/{map_id}")
-def update_map(map_id: str, data: MapUpdateRequest) -> dict:
+def update_map(map_id: str, data: MapUpdateRequest, _: User = Depends(get_current_user)) -> dict:
     if map_id not in MAP_METADATA:
         raise HTTPException(status_code=404, detail=f"Map {map_id} not found")
     

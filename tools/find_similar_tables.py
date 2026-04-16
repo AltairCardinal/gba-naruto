@@ -9,12 +9,7 @@ from pathlib import Path
 ROM_BASE = 0x08000000
 
 
-def parse_int(value: str) -> int:
-    return int(value, 0)
-
-
-def read_u32_le(buf: bytes, offset: int) -> int:
-    return int.from_bytes(buf[offset : offset + 4], "little")
+from tools.lib import parse_int, read_u32_le
 
 
 def is_rom_ptr(value: int, rom_size: int) -> bool:

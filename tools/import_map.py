@@ -28,8 +28,7 @@ TILEMAP_REGIONS = {
 }
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+from tools.lib import load_json
 
 
 def resolve_map_patches(spec_path: Path, patch_id: str) -> list[dict[str, Any]]:

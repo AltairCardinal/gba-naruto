@@ -117,8 +117,7 @@ BATTLE_SCENARIOS = [
 ]
 
 
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+from tools.lib import load_json
 
 
 def build_rom_unit_id_patch(unit_index: int, unit_id: int) -> dict[str, Any]:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter()
 
@@ -122,7 +123,7 @@ async def get_dialogue(key: str):
     }
 
 @router.post("/api/dialogues", response_model=DialogueResponse)
-async def create_dialogue(dialogue: DialogueCreate):
+async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -163,7 +164,7 @@ async def create_dialogue(dialogue: DialogueCreate):
     }
 
 @router.put("/api/dialogues/{key}", response_model=DialogueResponse)
-async def update_dialogue(key: str, dialogue: DialogueUpdate):
+async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -227,7 +228,7 @@ async def update_dialogue(key: str, dialogue: DialogueUpdate):
     }
 
 @router.delete("/api/dialogues/{key}")
-async def delete_dialogue(key: str):
+async def delete_dialogue(key: str, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM dialogues WHERE key = ?", (key,))
     if not cursor.fetchone():

@@ -16,8 +16,7 @@ def parse_target(value: str) -> int:
     return target
 
 
-def read_u32_le(buf: bytes, offset: int) -> int:
-    return int.from_bytes(buf[offset : offset + 4], "little")
+from tools.lib import read_u32_le
 
 
 def classify_ref_context(buf: bytes, offset: int) -> str:
