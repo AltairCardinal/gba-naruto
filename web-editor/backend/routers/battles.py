@@ -5,7 +5,7 @@ import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
-from .auth import get_current_user
+from .auth import get_current_user, User
 
 router = APIRouter(prefix="/api/v1/battles", tags=["battles"])
 

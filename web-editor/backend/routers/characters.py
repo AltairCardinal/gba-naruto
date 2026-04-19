@@ -6,7 +6,7 @@ from datetime import datetime
 import json
 
 from database import get_db
-from .auth import get_current_user
+from .auth import get_current_user, User
 
 router = APIRouter(prefix="/api/v1/characters", tags=["characters"])
 

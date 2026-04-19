@@ -5,7 +5,7 @@ import subprocess
 import threading
 import asyncio
 
-from .auth import get_current_user
+from .auth import get_current_user, User
 
 router = APIRouter(prefix="/api/v1/build", tags=["build"])
 

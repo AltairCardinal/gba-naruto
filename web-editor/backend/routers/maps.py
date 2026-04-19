@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
-from .auth import get_current_user
+from .auth import get_current_user, User
 
 router = APIRouter(prefix="/api/v1/maps", tags=["maps"])
 
