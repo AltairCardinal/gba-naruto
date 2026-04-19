@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from datetime import datetime
 
 from database import get_db_connection
+from .auth import get_current_user
 
 router = APIRouter(prefix="/api/v1/chapters", tags=["chapters"])
 
@@ -102,7 +103,7 @@ async def get_chapter(chapter_num: int):
 
 
 @router.post("", response_model=ChapterResponse)
-async def create_chapter(chapter: ChapterCreate):
+async def create_chapter(chapter: ChapterCreate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -124,7 +125,7 @@ async def create_chapter(chapter: ChapterCreate):
 
 
 @router.put("/{chapter_num}", response_model=ChapterResponse)
-async def update_chapter(chapter_num: int, chapter: ChapterUpdate):
+async def update_chapter(chapter_num: int, chapter: ChapterUpdate, _: User = Depends(get_current_user)):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
