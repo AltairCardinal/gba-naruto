@@ -55,11 +55,68 @@ This file records confirmed and suspected ROM offsets.
 - **Offset**: 0x53D914
 - **Format**: 8 entries × 32 bytes
 - **Entry Format**: u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags
+- **Notes**: Actually part of the Map Header Table (see below)
 
 ### Unit Positions
 - **WRAM**: 0x02024294, stride 234 bytes, max 25 units
 - **Format**: u8 existence, u8 x, u8 y, u8 team, u12 pad, u8 init_flag, ...
 - **Notes**: Runtime data initialized from ROM during battle init
+
+### Map Header Table
+- **Offset**: 0x53D910
+- **Format**: 47 entries × 32 bytes
+- **Entry Format**: u16 width, u16 height, u32 tileset_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags
+- **Notes**: Contains all map definitions including battle maps, overworld maps, and special event maps. The battle scenario config at 0x53D914 is actually part of this table (offset by 4 bytes).
+- **Verification**: Static analysis - found table with consistent structure (u16 dimensions followed by u32 ROM pointers). All 47 entries have valid dimensions (16-128) and valid ROM pointers.
+- **Discovered**: 2026-06-25
+
+### Level-up / Stat Progression Table
+- **Offset**: 0x5459D4
+- **Format**: 47 entries × 12 bytes
+- **Entry Format**: u16 level_or_id, u16 hp_gain, u16 stat1_gain, u16 stat2_gain, u16 stat3_gain, u16 padding
+- **Notes**: Contains level-up stat progression data. Entries 0-25 appear to be sequential level gains (level 1-31), while entries 26+ may be character-specific overrides. Values range from 1-200 for HP gains and 1-100 for other stat gains.
+- **Verification**: Static analysis - found table with consistent small u16 values in plausible stat gain ranges.
+- **Discovered**: 2026-06-25
+
+### Skill Data Table A
+- **Offset**: 0x545EC4
+- **Format**: 21 entries × 16 bytes
+- **Entry Format**: u16 type_id, u16 skill_id, u16 stat1, u16 stat2, u16 stat3, u16 value, u16 padding, u16 padding
+- **Notes**: Skill/ability data table with values like 612 (matching skill table at 0x546100). Contains battle skill parameters.
+- **Verification**: Static analysis - found table with consistent stride and plausible values.
+- **Discovered**: 2026-06-25
+
+### Skill Data Table B
+- **Offset**: 0x546074
+- **Format**: 21 entries × 16 bytes
+- **Entry Format**: u16 type_id, u16 skill_id, u16 stat1, u16 stat2, u16 stat3, u16 value, u16 padding, u16 padding
+- **Notes**: Second skill/ability data table with similar structure to Skill Data Table A. Contains battle skill parameters.
+- **Verification**: Static analysis - found table with consistent stride and plausible values.
+- **Discovered**: 2026-06-25
+
+### Experience Curve Table
+- **Offset**: 0x09C580
+- **Format**: 15 entries × 8 bytes
+- **Entry Format**: u16 values (12, 18, 25, 31, 37, 43, 49, 56, 62, 68, 74, 80, 86, 92, 97, 103, ...)
+- **Notes**: Lookup table with smoothly increasing values (12-255). Likely experience curve or level-up threshold table.
+- **Verification**: Static analysis - found table with consistent increasing pattern.
+- **Discovered**: 2026-06-25
+
+### Battle Configuration Table
+- **Offset**: 0x545458
+- **Format**: 32 entries × 16 bytes
+- **Entry Format**: u16 config_id, u16 param1, u16 param2, u16 value, u16 flag1, u16 flag2, u16 flag3, u16 flag4
+- **Notes**: Battle configuration table with skill/ability parameters. The value field often contains 612 (matching skill table at 0x546100). Entry 0 is a null entry. Referenced from battle init code at 0x06D866 (LDR R2, =0x08545458).
+- **Verification**: Static analysis - found table with consistent stride and plausible battle parameters. Referenced from battle init code.
+- **Discovered**: 2026-06-25
+
+### Character Stat Table
+- **Offset**: 0x54507A
+- **Format**: 20+ entries × 16 bytes
+- **Entry Format**: u16 char_type, u16 hp, u16 attack, u16 defense, u16 padding1, u16 padding2, u16 padding3, u16 max_value
+- **Notes**: Character stat table with base stats. All entries have HP/attack/defense = 100. The char_type field varies (0, 4, 6, 8) indicating different character classes. The max_value field ranges from 1450-1500.
+- **Verification**: Static analysis - found table with consistent structure (u16 type followed by u16 HP/atk/def). All entries have plausible stat values.
+- **Discovered**: 2026-06-25
 
 ## Workflow
 

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "description": "Battle configuration table discovered at ROM offset 0x545458. 32 entries of 16-byte stride containing battle skill/ability configurations.",
+  "table_offset": 5526616,
+  "table_offset_hex": "0x545458",
+  "entry_count": 32,
+  "entry_size": 16,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 2, "name": "config_id", "type": "u16", "description": "Configuration ID or type"},
+      {"offset": 2, "size": 2, "name": "param1", "type": "u16", "description": "First parameter"},
+      {"offset": 4, "size": 2, "name": "param2", "type": "u16", "description": "Second parameter"},
+      {"offset": 6, "size": 2, "name": "value", "type": "u16", "description": "Value (often 612, matching skill table)"},
+      {"offset": 8, "size": 2, "name": "flag1", "type": "u16", "description": "First flag"},
+      {"offset": 10, "size": 2, "name": "flag2", "type": "u16", "description": "Second flag"},
+      {"offset": 12, "size": 2, "name": "flag3", "type": "u16", "description": "Third flag"},
+      {"offset": 14, "size": 2, "name": "flag4", "type": "u16", "description": "Fourth flag"}
+    ]
+  },
+  "notes": "Battle configuration table with skill/ability parameters. The value field often contains 612 (matching skill table at 0x546100). Entry 0 is a null entry. Referenced from battle init code at 0x06D866 (LDR R2, =0x08545458).",
+  "entries": [
+    {"id": "config_00", "index": 0, "offset": 5526616, "offset_hex": "0x545458", "config_id": 0, "value": 0},
+    {"id": "config_01", "index": 1, "offset": 5526632, "offset_hex": "0x545468", "config_id": 1281, "value": 612},
+    {"id": "config_02", "index": 2, "offset": 5526648, "offset_hex": "0x545478", "config_id": 1025, "value": 868},
+    {"id": "config_03", "index": 3, "offset": 5526664, "offset_hex": "0x545488", "config_id": 769, "value": 612},
+    {"id": "config_04", "index": 4, "offset": 5526680, "offset_hex": "0x545498", "config_id": 1281, "value": 356},
+    {"id": "config_05", "index": 5, "offset": 5526696, "offset_hex": "0x5454A8", "config_id": 258, "value": 354},
+    {"id": "config_06", "index": 6, "offset": 5526712, "offset_hex": "0x5454B8", "config_id": 1283, "value": 356},
+    {"id": "config_07", "index": 7, "offset": 5526728, "offset_hex": "0x5454C8", "config_id": 1281, "value": 612},
+    {"id": "config_08", "index": 8, "offset": 5526744, "offset_hex": "0x5454D8", "config_id": 257, "value": 316},
+    {"id": "config_09", "index": 9, "offset": 5526760, "offset_hex": "0x5454E8", "config_id": 1281, "value": 100},
+    {"id": "config_10", "index": 10, "offset": 5526776, "offset_hex": "0x5454F8", "config_id": 257, "value": 98},
+    {"id": "config_11", "index": 11, "offset": 5526792, "offset_hex": "0x545508", "config_id": 257, "value": 95},
+    {"id": "config_12", "index": 12, "offset": 5526808, "offset_hex": "0x545518", "config_id": 257, "value": 33631},
+    {"id": "config_13", "index": 13, "offset": 5526824, "offset_hex": "0x545528", "config_id": 257, "value": 100},
+    {"id": "config_14", "index": 14, "offset": 5526840, "offset_hex": "0x545538", "config_id": 1281, "value": 100},
+    {"id": "config_15", "index": 15, "offset": 5526856, "offset_hex": "0x545548", "config_id": 513, "value": 356}
+  ],
+  "verification_method": "Static analysis - found table with consistent stride and plausible battle parameters. Referenced from battle init code.",
+  "discovered_by": "Pattern matching and code cross-reference"
+}

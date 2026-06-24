@@ -551,6 +551,217 @@ def generate_unit_position_patches(db_path: Path) -> list[dict[str, Any]]:
     return patches
 
 
+def generate_map_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate real ROM patches for map rows.
+
+    Each map row writes to the map header table at 0x53D910 (stride 32 bytes).
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    MAP_HEADER_TABLE_OFFSET = 0x53D910
+    MAP_ENTRY_SIZE = 32
+    try:
+        rows = conn.execute("SELECT id, name, width, height, tileset_ptr, tilemap_ptr FROM maps").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            row_id = int(row["id"]) if row["id"] is not None else 0
+            width = int(row["width"]) if row["width"] is not None else 36
+            height = int(row["height"]) if row["height"] is not None else 36
+            tileset_ptr = int(row["tileset_ptr"]) if row["tileset_ptr"] is not None else 0x080C1CF8
+            tilemap_ptr = int(row["tilemap_ptr"]) if row["tilemap_ptr"] is not None else 0x080C416C
+            # Write map header entry at index (assuming sequential)
+            table_offset = MAP_HEADER_TABLE_OFFSET + row_id * MAP_ENTRY_SIZE
+            # Pack as: u16 width, u16 height, u32 tileset_ptr, u32 tilemap_ptr, ... (32 bytes total)
+            map_data = struct.pack("<HHII", width, height, tileset_ptr, tilemap_ptr)
+            # Pad to 32 bytes
+            map_data += b'\x00' * (MAP_ENTRY_SIZE - len(map_data))
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": map_data.hex(),
+                "length": MAP_ENTRY_SIZE,
+                "description": (
+                    f"DB[maps] id={row_id} "
+                    f"name={row['name']!r}: map header entry"
+                ),
+                "db_table": "maps",
+                "db_row_id": row_id,
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_map_error",
+                "db_table": "maps",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[maps] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_level_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate real ROM patches for level rows.
+
+    Each level row writes to the level-up table at 0x5459D4 (stride 12 bytes).
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    LEVEL_TABLE_OFFSET = 0x5459D4
+    LEVEL_ENTRY_SIZE = 12
+    try:
+        rows = conn.execute("SELECT id, level, hp_gain, stat1_gain, stat2_gain FROM levels").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            row_id = int(row["id"]) if row["id"] is not None else 0
+            level = int(row["level"]) if row["level"] is not None else 0
+            hp_gain = int(row["hp_gain"]) if row["hp_gain"] is not None else 0
+            stat1_gain = int(row["stat1_gain"]) if row["stat1_gain"] is not None else 0
+            stat2_gain = int(row["stat2_gain"]) if row["stat2_gain"] is not None else 0
+            # Write level entry at index (assuming sequential)
+            table_offset = LEVEL_TABLE_OFFSET + row_id * LEVEL_ENTRY_SIZE
+            # Pack as: u16 level, u16 hp_gain, u16 stat1_gain, u16 stat2_gain, u16 stat3_gain, u16 padding
+            level_data = struct.pack("<HHHHHH", level, hp_gain, stat1_gain, stat2_gain, 0, 0)
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": level_data.hex(),
+                "length": LEVEL_ENTRY_SIZE,
+                "description": (
+                    f"DB[levels] id={row_id} level={level} "
+                    f"hp_gain={hp_gain}: level entry"
+                ),
+                "db_table": "levels",
+                "db_row_id": row_id,
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_level_error",
+                "db_table": "levels",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[levels] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_character_stat_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate real ROM patches for character_stat rows.
+
+    Each character_stat row writes to the character stat table at 0x54507A (stride 16 bytes).
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    CHAR_STAT_TABLE_OFFSET = 0x54507A
+    CHAR_STAT_ENTRY_SIZE = 16
+    try:
+        rows = conn.execute("SELECT id, name, char_type, hp, attack, defense, max_value FROM character_stats").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            row_id = int(row["id"]) if row["id"] is not None else 0
+            char_type = int(row["char_type"]) if row["char_type"] is not None else 8
+            hp = int(row["hp"]) if row["hp"] is not None else 100
+            attack = int(row["attack"]) if row["attack"] is not None else 100
+            defense = int(row["defense"]) if row["defense"] is not None else 100
+            max_value = int(row["max_value"]) if row["max_value"] is not None else 1500
+            # Write character stat entry at index (assuming sequential)
+            table_offset = CHAR_STAT_TABLE_OFFSET + row_id * CHAR_STAT_ENTRY_SIZE
+            # Pack as: u16 char_type, u16 hp, u16 attack, u16 defense, u16 padding1, u16 padding2, u16 padding3, u16 max_value
+            stat_data = struct.pack("<HHHHHHHH", char_type, hp, attack, defense, 0, 0, 0, max_value)
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": stat_data.hex(),
+                "length": CHAR_STAT_ENTRY_SIZE,
+                "description": (
+                    f"DB[character_stats] id={row_id} "
+                    f"name={row['name']!r}: character stat entry"
+                ),
+                "db_table": "character_stats",
+                "db_row_id": row_id,
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_character_stat_error",
+                "db_table": "character_stats",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[character_stats] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_battle_config_data_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate real ROM patches for battle_config_data rows.
+
+    Each battle_config_data row writes to the battle configuration table at 0x545458 (stride 16 bytes).
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    BATTLE_CONFIG_TABLE_OFFSET = 0x545458
+    BATTLE_CONFIG_ENTRY_SIZE = 16
+    try:
+        rows = conn.execute("SELECT id, name, config_id, value, flag1, flag2 FROM battle_config_data").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            row_id = int(row["id"]) if row["id"] is not None else 0
+            config_id = int(row["config_id"]) if row["config_id"] is not None else 0
+            value = int(row["value"]) if row["value"] is not None else 612
+            flag1 = int(row["flag1"]) if row["flag1"] is not None else 0
+            flag2 = int(row["flag2"]) if row["flag2"] is not None else 0
+            # Write battle config entry at index (assuming sequential)
+            table_offset = BATTLE_CONFIG_TABLE_OFFSET + row_id * BATTLE_CONFIG_ENTRY_SIZE
+            # Pack as: u16 config_id, u16 param1, u16 param2, u16 value, u16 flag1, u16 flag2, u16 flag3, u16 flag4
+            config_data = struct.pack("<HHHHHHHH", config_id, 0, 0, value, flag1, flag2, 0, 0)
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": config_data.hex(),
+                "length": BATTLE_CONFIG_ENTRY_SIZE,
+                "description": (
+                    f"DB[battle_config_data] id={row_id} "
+                    f"name={row['name']!r}: battle config entry"
+                ),
+                "db_table": "battle_config_data",
+                "db_row_id": row_id,
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_battle_config_data_error",
+                "db_table": "battle_config_data",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[battle_config_data] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
 def generate_editor_dialogue_overrides(db_path: Path) -> dict[str, str]:
     """Map editor.db's dialogues into dialogue-bank overrides.
 

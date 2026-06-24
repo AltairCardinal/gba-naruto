@@ -187,6 +187,10 @@ def build(project_path: Path) -> dict:
             generate_story_beat_patches,
             generate_audio_patches,
             generate_unit_position_patches,
+            generate_map_patches,
+            generate_level_patches,
+            generate_character_stat_patches,
+            generate_battle_config_data_patches,
         )
         db_real_patches.extend(generate_battle_config_patches(editor_db_path))
         db_real_patches.extend(generate_chapter_patches(editor_db_path))
@@ -195,6 +199,10 @@ def build(project_path: Path) -> dict:
         db_real_patches.extend(generate_story_beat_patches(editor_db_path))
         db_real_patches.extend(generate_audio_patches(editor_db_path))
         db_real_patches.extend(generate_unit_position_patches(editor_db_path))
+        db_real_patches.extend(generate_map_patches(editor_db_path))
+        db_real_patches.extend(generate_level_patches(editor_db_path))
+        db_real_patches.extend(generate_character_stat_patches(editor_db_path))
+        db_real_patches.extend(generate_battle_config_data_patches(editor_db_path))
         db_audit_patches = generate_db_patches(editor_db_path)
     ctx = load_context(project_path)
     expected_sha1 = ctx.project["base_rom"]["sha1"]

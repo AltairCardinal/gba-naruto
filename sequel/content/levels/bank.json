@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "description": "Level-up / stat progression table discovered at ROM offset 0x5459D4. 47 entries of 12-byte stride containing level-up stat gains.",
+  "table_offset": 5527988,
+  "table_offset_hex": "0x5459D4",
+  "entry_count": 47,
+  "entry_size": 12,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 2, "name": "level_or_id", "type": "u16", "description": "Level number or character ID"},
+      {"offset": 2, "size": 2, "name": "hp_gain", "type": "u16", "description": "HP gain at this level"},
+      {"offset": 4, "size": 2, "name": "stat1_gain", "type": "u16", "description": "First stat gain (attack or defense)"},
+      {"offset": 6, "size": 2, "name": "stat2_gain", "type": "u16", "description": "Second stat gain"},
+      {"offset": 8, "size": 2, "name": "stat3_gain", "type": "u16", "description": "Third stat gain"},
+      {"offset": 10, "size": 2, "name": "padding", "type": "u16", "description": "Always 0"}
+    ]
+  },
+  "notes": "This table contains level-up stat progression data. Entries 0-25 appear to be sequential level gains (level 1-31), while entries 26+ may be character-specific overrides. The values range from 1-200 for HP gains and 1-100 for other stat gains.",
+  "entries": [
+    {"index": 0, "offset": 5527988, "offset_hex": "0x5459D4", "level": 1, "hp_gain": 30, "stat1": 0, "stat2": 30},
+    {"index": 1, "offset": 5528000, "offset_hex": "0x5459E0", "level": 3, "hp_gain": 1, "stat1": 0, "stat2": 1},
+    {"index": 2, "offset": 5528012, "offset_hex": "0x5459EC", "level": 4, "hp_gain": 3, "stat1": 0, "stat2": 2},
+    {"index": 3, "offset": 5528024, "offset_hex": "0x5459F8", "level": 5, "hp_gain": 5, "stat1": 0, "stat2": 4},
+    {"index": 4, "offset": 5528036, "offset_hex": "0x545A04", "level": 7, "hp_gain": 4, "stat1": 0, "stat2": 3},
+    {"index": 5, "offset": 5528048, "offset_hex": "0x545A10", "level": 9, "hp_gain": 1, "stat1": 0, "stat2": 1},
+    {"index": 6, "offset": 5528060, "offset_hex": "0x545A1C", "level": 10, "hp_gain": 1, "stat1": 0, "stat2": 1},
+    {"index": 7, "offset": 5528072, "offset_hex": "0x545A28", "level": 11, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 8, "offset": 5528084, "offset_hex": "0x545A34", "level": 12, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 9, "offset": 5528096, "offset_hex": "0x545A40", "level": 13, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 10, "offset": 5528108, "offset_hex": "0x545A4C", "level": 15, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 11, "offset": 5528120, "offset_hex": "0x545A58", "level": 17, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 12, "offset": 5528132, "offset_hex": "0x545A64", "level": 18, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 13, "offset": 5528144, "offset_hex": "0x545A70", "level": 19, "hp_gain": 5, "stat1": 0, "stat2": 5},
+    {"index": 14, "offset": 5528156, "offset_hex": "0x545A7C", "level": 20, "hp_gain": 30, "stat1": 0, "stat2": 30},
+    {"index": 15, "offset": 5528168, "offset_hex": "0x545A88", "level": 21, "hp_gain": 5, "stat1": 0, "stat2": 5},
+    {"index": 16, "offset": 5528180, "offset_hex": "0x545A94", "level": 22, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 17, "offset": 5528192, "offset_hex": "0x545AA0", "level": 23, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 18, "offset": 5528204, "offset_hex": "0x545AAC", "level": 24, "hp_gain": 10, "stat1": 0, "stat2": 5},
+    {"index": 19, "offset": 5528216, "offset_hex": "0x545AB8", "level": 25, "hp_gain": 20, "stat1": 0, "stat2": 5},
+    {"index": 20, "offset": 5528228, "offset_hex": "0x545AC4", "level": 26, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 21, "offset": 5528240, "offset_hex": "0x545AD0", "level": 27, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 22, "offset": 5528252, "offset_hex": "0x545ADC", "level": 28, "hp_gain": 2, "stat1": 0, "stat2": 1},
+    {"index": 23, "offset": 5528264, "offset_hex": "0x545AE8", "level": 29, "hp_gain": 200, "stat1": 0, "stat2": 50},
+    {"index": 24, "offset": 5528276, "offset_hex": "0x545AF4", "level": 30, "hp_gain": 25, "stat1": 100, "stat2": 5},
+    {"index": 25, "offset": 5528288, "offset_hex": "0x545B00", "level": 31, "hp_gain": 10, "stat1": 0, "stat2": 5}
+  ],
+  "verification_method": "Static analysis - found table with consistent small u16 values in plausible stat gain ranges. Verified by checking that all 47 entries have values in range 0-255 for stat gains.",
+  "discovered_by": "Pattern matching on small u16 values in regular stride"
+}
