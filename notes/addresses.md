@@ -26,6 +26,41 @@ This file records confirmed and suspected ROM offsets.
 - `0x17A1A4`: likely base resource or shared header block reused across multiple entries in the `0x596FA8` table
 - `0x5A4E14` table columns may map to mostly palette-like blocks plus one more variable binary resource column
 
+## Confirmed Resource Tables (2026-06-24)
+
+### Audio Table
+- **Offset**: 0x53F138
+- **Format**: 88 entries × u32 pointer to Sappy audio entry
+- **Audio Entry Format**: 16 bytes: u32 data_ptr, u16 type, u16 pad, u16 flags, u16 pad, u32 extra_ptr
+- **Notes**: First 2 entries point to code, entries 2+ are valid audio
+
+### Story/Chapter Table
+- **Offset**: 0x53636C
+- **Format**: 9 entries × u32 pointer to chapter data
+- **Chapter 0**: Header with pointers to scene/dialogue data
+- **Chapters 1-8**: Encoded beat data starting with 0xBE 0x69 0xBC 0x00
+
+### Skill Table
+- **Offset**: 0x546100
+- **Format**: 12 entries × 16 bytes
+- **Entry Format**: u32 padding, u16 count, u16 type_id, u16 skill_id, u16 value, u16 flags, u16 extra_id
+- **Notes**: Referenced from battle init code at 0x06E6D2
+
+### Unit ID Table
+- **Offset**: 0x53F298
+- **Format**: u16[64] mapping unit index to character ID
+- **Known IDs**: 0x00=Naruto, 0x01=Sasuke, 0x02=Sakura, 0x03=Sai, 0x04=Kakashi, 0x05=Shikamaru
+
+### Battle Scenario Config
+- **Offset**: 0x53D914
+- **Format**: 8 entries × 32 bytes
+- **Entry Format**: u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags
+
+### Unit Positions
+- **WRAM**: 0x02024294, stride 234 bytes, max 25 units
+- **Format**: u8 existence, u8 x, u8 y, u8 team, u12 pad, u8 init_flag, ...
+- **Notes**: Runtime data initialized from ROM during battle init
+
 ## Workflow
 
 For each new finding, record:

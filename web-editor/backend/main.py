@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users, unit_positions
+from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users, unit_positions, auth, chapters, battles
 import database
 
 import os
@@ -20,6 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Public (no auth) — login must be reachable without a token.
+app.include_router(auth.router)
+# Authenticated CRUD
 app.include_router(dialogues.router)
 app.include_router(build.router)
 app.include_router(maps.router)
@@ -29,6 +32,8 @@ app.include_router(story_beats.router)
 app.include_router(audio.router)
 app.include_router(characters.router)
 app.include_router(battle_configs.router)
+app.include_router(chapters.router)
+app.include_router(battles.router)
 app.include_router(users.router)
 app.include_router(unit_positions.router)
 

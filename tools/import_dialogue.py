@@ -75,7 +75,21 @@ def build_patch(bank_entry: dict, content_entry: dict) -> list[dict]:
     ]
 
 
-def import_dialogue(bank_path: Path, content_path: Path) -> list[dict]:
+def import_dialogue(
+    bank_path: Path,
+    content_path: Path,
+    overrides: dict[str, str] | None = None,
+) -> list[dict]:
+    """Convert high-level dialogue content into ROM patch entries.
+
+    Args:
+        bank_path: Path to dialogue-bank.json (ROM offset / max_bytes info).
+        content_path: Path to dialogue-patches.json (text content).
+        overrides: Optional dict {entry_id: text} that takes precedence over
+                   whatever is in dialogue-patches.json. Used by build_db_patches
+                   to inject dialogues created via the editor (which live in
+                   sequel/editor.db) without rewriting the content JSON file.
+    """
     bank = load_json(bank_path)
     content = load_json(content_path)
     bank_map = {entry["id"]: entry for entry in bank["entries"]}
@@ -84,6 +98,9 @@ def import_dialogue(bank_path: Path, content_path: Path) -> list[dict]:
         patch_id = entry["id"]
         if patch_id not in bank_map:
             raise ValueError(f"dialogue entry {patch_id} missing from bank")
+        # Apply editor override if present
+        if overrides is not None and patch_id in overrides:
+            entry = {**entry, "text": overrides[patch_id]}
         result = build_patch(bank_map[patch_id], entry)
         patches.extend(result)
     return patches

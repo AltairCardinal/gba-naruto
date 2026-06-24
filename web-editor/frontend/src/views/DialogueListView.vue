@@ -8,7 +8,8 @@
         @keyup.enter="search"
       />
       <button @click="search">搜索</button>
-      <button @click="createNew">新建对话</button>
+      <button v-if="auth.has('create_file')" @click="createNew">新建对话</button>
+      <span v-else class="no-perm-hint" title="需要 create_file 权限">🔒 无新建权限</span>
     </div>
 
     <div v-if="store.loading" class="loading">加载中...</div>
@@ -37,8 +38,9 @@
           </td>
           <td>{{ d.chapter_id ?? '-' }}</td>
           <td>
-            <button @click="edit(d.key)">编辑</button>
-            <button @click="remove(d.key)">删除</button>
+            <button v-if="auth.has('modify_file')" @click="edit(d.key)">编辑</button>
+            <button v-if="auth.has('delete_file')" @click="remove(d.key)">删除</button>
+            <span v-if="!auth.has('modify_file') && !auth.has('delete_file')" class="no-perm-hint">🔒</span>
           </td>
         </tr>
       </tbody>
@@ -63,9 +65,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDialogueStore } from '../stores/dialogueStore'
+import { useAuthStore } from '../stores/authStore'
 
 const router = useRouter()
 const store = useDialogueStore()
+const auth = useAuthStore()
 
 const searchQuery = ref('')
 const showCreateModal = ref(false)
@@ -203,5 +207,15 @@ th, td {
 
 .error {
   color: red;
+}
+
+.no-perm-hint {
+  display: inline-block;
+  color: #b08500;
+  font-size: 12px;
+  padding: 6px 10px;
+  background: #fff8e1;
+  border-radius: 3px;
+  align-self: center;
 }
 </style>

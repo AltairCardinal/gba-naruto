@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/maps", tags=["maps"])
 
@@ -64,27 +65,41 @@ def read_tilemap(map_id: str) -> list[list[dict]]:
     return tile_grid
 
 
-def write_tilemap(map_id: str, tile_grid: list[list[dict]]) -> bytes:
+def _tile_to_dict(tile: Any) -> dict:
+    """Normalize a TileData entry into a plain dict so both dict- and
+    Pydantic-model inputs work (the frontend posts TileData models, but
+    read_tilemap returns dicts)."""
+    if isinstance(tile, dict):
+        return tile
+    # Pydantic v1/v2 BaseModel
+    if hasattr(tile, "model_dump"):
+        return tile.model_dump()
+    if hasattr(tile, "dict"):
+        return tile.dict()
+    return tile
+
+
+def write_tilemap(map_id: str, tile_grid: list[list[Any]]) -> bytes:
     if map_id not in MAP_METADATA:
         raise HTTPException(status_code=404, detail=f"Map {map_id} not found")
-    
+
     meta = MAP_METADATA[map_id]
     offset = meta["rom_offset"]
     width = meta["width"]
     height = meta["height"]
-    
+
     data = bytearray()
     for row in range(height):
         for col in range(width):
-            tile = tile_grid[row][col]
+            tile = _tile_to_dict(tile_grid[row][col])
             tile_id = tile.get("tile_id", 0) & 0x3FF
             hflip = 1 if tile.get("hflip", False) else 0
             vflip = 1 if tile.get("vflip", False) else 0
             pbank = tile.get("palette_bank", 0) & 0xF
-            
+
             entry = tile_id | (hflip << 10) | (vflip << 11) | (pbank << 12)
             data.extend(struct.pack('<H', entry))
-    
+
     return bytes(data)
 
 
@@ -119,7 +134,7 @@ def get_map(map_id: str) -> dict:
 
 
 @router.put("/{map_id}")
-def update_map(map_id: str, data: MapUpdateRequest, _: User = Depends(get_current_user)) -> dict:
+def update_map(map_id: str, data: MapUpdateRequest, _: User = Depends(require_permission("modify_file"))) -> dict:
     if map_id not in MAP_METADATA:
         raise HTTPException(status_code=404, detail=f"Map {map_id} not found")
     

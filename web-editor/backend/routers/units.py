@@ -6,6 +6,7 @@ from datetime import datetime
 
 from database import get_db_connection
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/units", tags=["units"])
 
@@ -148,7 +149,7 @@ async def get_unit(unit_id: int):
     }
 
 @router.post("", response_model=UnitResponse)
-async def create_unit(unit: UnitCreate, _: User = Depends(get_current_user)):
+async def create_unit(unit: UnitCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -187,7 +188,7 @@ async def create_unit(unit: UnitCreate, _: User = Depends(get_current_user)):
     }
 
 @router.put("/{unit_id}", response_model=UnitResponse)
-async def update_unit(unit_id: int, unit: UnitUpdate, _: User = Depends(get_current_user)):
+async def update_unit(unit_id: int, unit: UnitUpdate, _: User = Depends(require_permission("modify_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -258,7 +259,7 @@ async def update_unit(unit_id: int, unit: UnitUpdate, _: User = Depends(get_curr
     }
 
 @router.delete("/{unit_id}")
-async def delete_unit(unit_id: int, _: User = Depends(get_current_user)):
+async def delete_unit(unit_id: int, _: User = Depends(require_permission("delete_file"))):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM units WHERE id = ?", (unit_id,))
     if not cursor.fetchone():

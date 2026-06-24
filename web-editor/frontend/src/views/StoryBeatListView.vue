@@ -2,7 +2,8 @@
   <div class="story-beat-list">
     <h2>剧情节拍</h2>
     <div class="actions">
-      <button @click="showCreateModal = true" class="btn-primary">新建节拍</button>
+      <button v-if="auth.has('create_file')" @click="showCreateModal = true" class="btn-primary">新建节拍</button>
+      <span v-else class="no-perm-hint">🔒 无新建权限</span>
     </div>
 
     <table v-if="beats.length > 0" class="data-table">
@@ -24,8 +25,8 @@
           <td>{{ beat.beat_type }}</td>
           <td>{{ beat.title }}</td>
           <td>
-            <button @click="editBeat(beat)" class="btn-small">编辑</button>
-            <button @click="deleteBeat(beat.id)" class="btn-small btn-danger">删除</button>
+            <button v-if="auth.has('modify_file')" @click="editBeat(beat)" class="btn-small">编辑</button>
+            <button v-if="auth.has('delete_file')" @click="deleteBeat(beat.id)" class="btn-small btn-danger">删除</button>
           </td>
         </tr>
       </tbody>
@@ -113,6 +114,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useAuthStore } from '../stores/authStore'
+
+const auth = useAuthStore()
 import { useStoryBeatStore } from '../stores/storyBeatStore'
 
 const store = useStoryBeatStore()
@@ -204,6 +208,7 @@ function closeModal() {
 .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
 .data-table th { background: #f5f5f5; }
 .empty { padding: 20px; text-align: center; color: #666; }
+.no-perm-hint { color: #b08500; font-size: 12px; padding: 8px 0; display: inline-block; }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
 .modal { background: white; padding: 24px; border-radius: 8px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
 .form-group { margin-bottom: 16px; }

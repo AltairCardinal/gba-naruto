@@ -6,6 +6,7 @@ from datetime import datetime
 
 from database import get_db_connection
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/skills", tags=["skills"])
 
@@ -138,7 +139,7 @@ async def get_skill(skill_id: int):
     }
 
 @router.post("", response_model=SkillResponse)
-async def create_skill(skill: SkillCreate, _: User = Depends(get_current_user)):
+async def create_skill(skill: SkillCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -178,7 +179,7 @@ async def create_skill(skill: SkillCreate, _: User = Depends(get_current_user)):
     }
 
 @router.put("/{skill_id}", response_model=SkillResponse)
-async def update_skill(skill_id: int, skill: SkillUpdate, _: User = Depends(get_current_user)):
+async def update_skill(skill_id: int, skill: SkillUpdate, _: User = Depends(require_permission("modify_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -251,7 +252,7 @@ async def update_skill(skill_id: int, skill: SkillUpdate, _: User = Depends(get_
     }
 
 @router.delete("/{skill_id}")
-async def delete_skill(skill_id: int, _: User = Depends(get_current_user)):
+async def delete_skill(skill_id: int, _: User = Depends(require_permission("delete_file"))):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM skills WHERE id = ?", (skill_id,))
     if not cursor.fetchone():

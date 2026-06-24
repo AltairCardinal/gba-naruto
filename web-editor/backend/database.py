@@ -2,14 +2,20 @@ import sqlite3
 import os
 from pathlib import Path
 from contextlib import contextmanager
+import bcrypt
 
 DB_PATH = os.environ.get("DB_PATH") or str(Path(__file__).resolve().parent.parent.parent / "sequel" / "editor.db")
+
+ADMIN_USERNAME = "kibox"
+ADMIN_PASSWORD = "Ztl159632"
 
 @contextmanager
 def get_db():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA busy_timeout = 30000")
     try:
         yield conn
     finally:
@@ -20,6 +26,13 @@ def get_db_connection():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA journal_mode=WAL")
+    # Enable FK enforcement so ON DELETE CASCADE on user_permissions
+    # actually fires when an admin deletes a user. Without this pragma,
+    # SQLite accepts the FK declarations but never enforces them — leaving
+    # orphan permission rows that get re-attached if a new user happens
+    # to get the same id via auto-increment.
+    conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA busy_timeout = 30000")
     return conn
 
 def init_db():
@@ -187,6 +200,43 @@ def init_db():
             updated_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
     """)
+
+    # User permissions: which editor-level actions a user can perform.
+    # Admin always has all 4 (enforced at app layer, not stored here).
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS user_permissions (
+            user_id INTEGER NOT NULL,
+            permission TEXT NOT NULL CHECK(permission IN ('create_file', 'modify_file', 'delete_file', 'trigger_build')),
+            granted_by INTEGER,
+            granted_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (user_id, permission),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (granted_by) REFERENCES users(id)
+        )
+    """)
+
+    # Bootstrap the built-in admin account so the system always has at
+    # least one admin (and a fresh DB is recoverable from credentials
+    # documented in the design doc). If the account already exists with
+    # the right password, leave it; if password is wrong, reset to the
+    # documented one (this is a dev tool, not a customer-facing system).
+    cursor = conn.execute("SELECT id, password_hash FROM users WHERE username = ?", (ADMIN_USERNAME,))
+    row = cursor.fetchone()
+    if row is None:
+        pw_hash = bcrypt.hashpw(ADMIN_PASSWORD.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        conn.execute(
+            "INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'admin')",
+            (ADMIN_USERNAME, pw_hash),
+        )
+    else:
+        # row is a tuple (id, password_hash) — default row_factory
+        existing_hash = row[1] or ""
+        if not existing_hash or not bcrypt.checkpw(ADMIN_PASSWORD.encode("utf-8"), existing_hash.encode("utf-8")):
+            pw_hash = bcrypt.hashpw(ADMIN_PASSWORD.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+            conn.execute(
+                "UPDATE users SET password_hash = ?, role = 'admin', updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+                (pw_hash, row[0]),
+            )
 
     conn.commit()
     conn.close()

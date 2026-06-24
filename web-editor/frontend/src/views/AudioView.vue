@@ -100,6 +100,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { getErrorMessage } from '../utils/error'
+import { useAuthStore } from '../stores/authStore'
+
+const auth = useAuthStore()
 
 interface AudioFile {
   id: number
@@ -220,6 +223,7 @@ function closeModal() {
 .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
 .data-table th { background: #f5f5f5; }
 .empty { padding: 20px; text-align: center; color: #666; }
+.no-perm-hint { color: #b08500; font-size: 12px; padding: 8px 0; display: inline-block; }
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
 .modal { background: white; padding: 24px; border-radius: 8px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
 .form-group { margin-bottom: 16px; }

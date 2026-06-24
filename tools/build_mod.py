@@ -4,11 +4,19 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Optional env override: when the editor backend kicks off a build via
+# subprocess, it sets BUILD_OUTPUT_DIR to a per-user/per-build subdir so
+# concurrent users never overwrite each other's ROMs. When unset (e.g.
+# running `python3 tools/build_mod.py` by hand) we fall back to the
+# project.json `build.output_rom` path, preserving the historical behaviour.
+_BUILD_OUTPUT_DIR_ENV = os.environ.get("BUILD_OUTPUT_DIR")
 
 
 @dataclass
@@ -31,8 +39,22 @@ def sha1_file(path: Path) -> str:
 def load_context(project_path: Path) -> BuildContext:
     project = json.loads(project_path.read_text(encoding="utf-8"))
     base_rom_path = ROOT / project["base_rom"]["path"]
-    output_rom_path = ROOT / project["build"]["output_rom"]
     report_path = ROOT / project["build"]["report"]
+
+    if _BUILD_OUTPUT_DIR_ENV:
+        # Per-build output dir from the editor backend.
+        # Both ROM and report live side-by-side in this isolated dir so
+        # concurrent users never share files.
+        out_root = Path(_BUILD_OUTPUT_DIR_ENV)
+        if not out_root.is_absolute():
+            out_root = ROOT / out_root
+        output_rom_path = out_root / "naruto-sequel-dev.gba"
+        report_path = out_root / "naruto-sequel-build-report.json"
+    else:
+        # Legacy / standalone path — write to the path the project.json
+        # declares.
+        output_rom_path = ROOT / project["build"]["output_rom"]
+
     return BuildContext(
         project_path=project_path,
         project=project,
@@ -87,7 +109,18 @@ def resolve_dialogue_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[di
 
     bank = ROOT / patch["bank"]
     content = ROOT / patch["content"]
-    entries = import_dialogue(bank, content)
+    # Pull any editor-db overrides for this bank so dialogue text created
+    # via the editor (which lives in sequel/editor.db) replaces whatever is
+    # hard-coded in dialogue-patches.json. The map is {entry_id: text}.
+    overrides: dict[str, str] = {}
+    editor_db_path = ROOT / "sequel" / "editor.db"
+    if editor_db_path.exists():
+        try:
+            from build_db_patches import generate_editor_dialogue_overrides
+            overrides = generate_editor_dialogue_overrides(editor_db_path)
+        except Exception:
+            overrides = {}
+    entries = import_dialogue(bank, content, overrides=overrides)
     entry_map = {item["source_entry"]: item for item in entries}
     entry_id = patch["entry_id"]
     if entry_id not in entry_map:
@@ -134,6 +167,35 @@ def apply_patch(data: bytearray, patch: dict) -> dict:
 
 
 def build(project_path: Path) -> dict:
+    """Build the ROM. Reads patch_manifest.json and the editor DB."""
+    # Editor DB patches fall into two buckets:
+    #   1. Real ROM patches (battle_configs → 0x53F298, chapters → 0x53D914+i*32).
+    #      These change actual game data and are applied alongside the manifest.
+    #   2. Audit-trail patches written into a reserved region (0x5E0000..0x600000).
+    #      Every editor.db row gets a 64-byte sentinel-tagged record here so we can
+    #      verify the editor's data reached the ROM without depending on game semantics.
+    editor_db_path = ROOT / "sequel" / "editor.db"
+    db_real_patches: list[dict] = []
+    db_audit_patches: list[dict] = []
+    if editor_db_path.exists():
+        from build_db_patches import (
+            generate_db_patches,
+            generate_battle_config_patches,
+            generate_chapter_patches,
+            generate_unit_patches,
+            generate_skill_patches,
+            generate_story_beat_patches,
+            generate_audio_patches,
+            generate_unit_position_patches,
+        )
+        db_real_patches.extend(generate_battle_config_patches(editor_db_path))
+        db_real_patches.extend(generate_chapter_patches(editor_db_path))
+        db_real_patches.extend(generate_unit_patches(editor_db_path))
+        db_real_patches.extend(generate_skill_patches(editor_db_path))
+        db_real_patches.extend(generate_story_beat_patches(editor_db_path))
+        db_real_patches.extend(generate_audio_patches(editor_db_path))
+        db_real_patches.extend(generate_unit_position_patches(editor_db_path))
+        db_audit_patches = generate_db_patches(editor_db_path)
     ctx = load_context(project_path)
     expected_sha1 = ctx.project["base_rom"]["sha1"]
     actual_sha1 = sha1_file(ctx.base_rom_path)
@@ -186,6 +248,48 @@ def build(project_path: Path) -> dict:
                 applied.append(apply_patch(data, sp))
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
+
+    # Apply editor DB real ROM patches (battle_configs, chapters). These
+    # use the same before-hex check as manifest bytes patches so we don't
+    # silently overwrite unrelated game data.
+    for patch in db_real_patches:
+        if patch.get("type") != "bytes":
+            applied.append(patch)
+            continue
+        # Inject before_hex from current ROM state so apply_bytes_patch can verify
+        offset = int(patch["offset"])
+        length = int(patch.get("length", len(bytes.fromhex(patch["after_hex"]))))
+        patch = {**patch, "before_hex": bytes(data[offset : offset + length]).hex()}
+        # Ensure id is present so apply_bytes_patch's report row has a stable key
+        if "id" not in patch:
+            patch["id"] = f"db_real_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}"
+        result = apply_bytes_patch(data, patch)
+        result["patch_source"] = "db_real"
+        applied.append(result)
+
+    # Apply editor DB audit-trail patches (these write to a reserved ROM
+    # region so we can prove editor→DB→ROM flow end-to-end). DB audit
+    # patches don't have before_hex — we just write the bytes directly
+    # without a pre-check because the reserved region was 0xFF padding.
+    for patch in db_audit_patches:
+        if patch.get("type") == "db_overflow":
+            applied.append(patch)
+            continue
+        offset = int(patch["offset"])
+        after = bytes.fromhex(patch["after_hex"])
+        data[offset : offset + len(after)] = after
+        applied.append({
+            "id": f"db_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}",
+            "type": "bytes",
+            "offset": offset,
+            "before_hex": "(reserved region — no pre-check)",
+            "after_hex": patch["after_hex"],
+            "length": len(after),
+            "db_table": patch.get("db_table"),
+            "db_row_id": patch.get("db_row_id"),
+            "description": patch.get("description"),
+            "patch_source": "db_audit",
+        })
 
     ctx.output_rom_path.parent.mkdir(parents=True, exist_ok=True)
     ctx.output_rom_path.write_bytes(data)

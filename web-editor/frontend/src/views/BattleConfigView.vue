@@ -3,7 +3,8 @@
     <h2>战斗配置编辑器</h2>
     
     <div class="actions">
-      <button @click="showCreateModal = true" class="btn-primary">新建配置</button>
+      <button v-if="auth.has('create_file')" @click="showCreateModal = true" class="btn-primary">新建配置</button>
+      <span v-else class="no-perm-hint">🔒 无新建权限</span>
     </div>
 
     <table v-if="configs.length > 0" class="data-table">
@@ -23,8 +24,8 @@
           <td>{{ config.chapter_id }}</td>
           <td>{{ config.scenario_id }}</td>
           <td>
-            <button @click="editConfig(config)" class="btn-small">编辑</button>
-            <button @click="deleteConfig(config.id)" class="btn-small btn-danger">删除</button>
+            <button v-if="auth.has('modify_file')" @click="editConfig(config)" class="btn-small">编辑</button>
+            <button v-if="auth.has('delete_file')" @click="deleteConfig(config.id)" class="btn-small btn-danger">删除</button>
           </td>
         </tr>
       </tbody>
@@ -82,8 +83,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useBattleConfigStore } from '../stores/battleConfigStore'
+import { useAuthStore } from '../stores/authStore'
 
 const store = useBattleConfigStore()
+const auth = useAuthStore()
 
 const configs = ref<any[]>([])
 const showCreateModal = ref(false)
@@ -198,6 +201,7 @@ function closeModal() {
   text-align: center;
   color: #666;
 }
+.no-perm-hint { color: #b08500; font-size: 12px; padding: 8px 0; display: inline-block; }
 
 .modal-overlay {
   position: fixed;

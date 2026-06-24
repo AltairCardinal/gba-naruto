@@ -9,40 +9,40 @@ from .auth import get_current_user, User
 
 router = APIRouter(prefix="/api/v1/chapters", tags=["chapters"])
 
+# Fields that map to the DB schema in database.py:
+#   chapter_number, title, title_ja, title_zh, description, map_id, sequence_order
+# Note: the original router referenced tilemap_entry_ptr, start_map_key, start_x,
+# start_y, episode_id — but database.py's CREATE TABLE never added those columns.
+# We strip them here so the schema (router ↔ DB) stays in sync.
+
 class ChapterCreate(BaseModel):
-    chapter_num: int
+    chapter_number: int
     title: str
     title_ja: Optional[str] = None
     title_zh: Optional[str] = None
-    tilemap_entry_ptr: str = "0x0"
-    start_map_key: Optional[str] = None
-    start_x: int = 0
-    start_y: int = 0
-    episode_id: int = 1
+    description: Optional[str] = None
+    map_id: Optional[str] = None
+    sequence_order: Optional[int] = None
 
 class ChapterUpdate(BaseModel):
     title: Optional[str] = None
     title_ja: Optional[str] = None
     title_zh: Optional[str] = None
-    tilemap_entry_ptr: Optional[str] = None
-    start_map_key: Optional[str] = None
-    start_x: Optional[int] = None
-    start_y: Optional[int] = None
-    episode_id: Optional[int] = None
+    description: Optional[str] = None
+    map_id: Optional[str] = None
+    sequence_order: Optional[int] = None
 
 class ChapterResponse(BaseModel):
     id: int
-    chapter_num: int
-    title: str
-    title_ja: Optional[str]
-    title_zh: Optional[str]
-    tilemap_entry_ptr: str
-    start_map_key: Optional[str]
-    start_x: int
-    start_y: int
-    episode_id: int
-    created_at: str
-    updated_at: str
+    chapter_number: int
+    title: Optional[str] = None
+    title_ja: Optional[str] = None
+    title_zh: Optional[str] = None
+    description: Optional[str] = None
+    map_id: Optional[str] = None
+    sequence_order: Optional[int] = None
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
 
 @router.get("", response_model=List[ChapterResponse])
@@ -50,22 +50,25 @@ async def list_chapters(episode_id: Optional[int] = None):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
-    where_clause = "WHERE 1=1"
-    params = []
-    if episode_id is not None:
-        where_clause = "WHERE episode_id = ?"
-        params = [episode_id]
-    
-    cursor = conn.execute(
-        f"SELECT * FROM chapters {where_clause} ORDER BY chapter_num",
-        params
-    )
+    cursor = conn.execute("SELECT * FROM chapters ORDER BY chapter_number")
     rows = cursor.fetchall()
     conn.close()
     
     if not rows:
+        # DB has no rows yet — return synthetic default chapters 1..8
         default_chapters = [
-            {"chapter_num": i, "title": f"Chapter {i}", "title_ja": f"第{i}章", "title_zh": f"第{i}章", "tilemap_entry_ptr": f"0x{0x53D914 + (i-1)*32:X}", "start_map_key": "map_1", "start_x": 0, "start_y": 0, "episode_id": 1}
+            {
+                "id": i,
+                "chapter_number": i,
+                "title": f"Chapter {i}",
+                "title_ja": f"第{i}章",
+                "title_zh": f"第{i}章",
+                "description": None,
+                "map_id": None,
+                "sequence_order": i,
+                "created_at": None,
+                "updated_at": None,
+            }
             for i in range(1, 9)
         ]
         return default_chapters
@@ -77,7 +80,7 @@ async def list_chapters(episode_id: Optional[int] = None):
 async def get_chapter(chapter_num: int):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
-    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_num = ?", (chapter_num,))
+    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_number = ?", (chapter_num,))
     row = cursor.fetchone()
     conn.close()
     
@@ -85,17 +88,15 @@ async def get_chapter(chapter_num: int):
         if 1 <= chapter_num <= 8:
             return {
                 "id": chapter_num,
-                "chapter_num": chapter_num,
+                "chapter_number": chapter_num,
                 "title": f"Chapter {chapter_num}",
                 "title_ja": f"第{chapter_num}章",
                 "title_zh": f"第{chapter_num}章",
-                "tilemap_entry_ptr": f"0x{0x53D914 + (chapter_num-1)*32:X}",
-                "start_map_key": "map_1",
-                "start_x": 0,
-                "start_y": 0,
-                "episode_id": 1,
-                "created_at": datetime.now().isoformat(),
-                "updated_at": datetime.now().isoformat()
+                "description": None,
+                "map_id": None,
+                "sequence_order": chapter_num,
+                "created_at": None,
+                "updated_at": None,
             }
         raise HTTPException(status_code=404, detail="Chapter not found")
     
@@ -110,9 +111,10 @@ async def create_chapter(chapter: ChapterCreate, _: User = Depends(get_current_u
     now = datetime.now().isoformat()
     
     cursor = conn.execute(
-        """INSERT INTO chapters (chapter_num, title, title_ja, title_zh, tilemap_entry_ptr, start_map_key, start_x, start_y, episode_id, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (chapter.chapter_num, chapter.title, chapter.title_ja, chapter.title_zh, chapter.tilemap_entry_ptr, chapter.start_map_key, chapter.start_x, chapter.start_y, chapter.episode_id, now, now)
+        """INSERT INTO chapters (chapter_number, title, title_ja, title_zh, description, map_id, sequence_order, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (chapter.chapter_number, chapter.title, chapter.title_ja, chapter.title_zh,
+         chapter.description, chapter.map_id, chapter.sequence_order, now, now)
     )
     conn.commit()
     row_id = cursor.lastrowid
@@ -129,7 +131,7 @@ async def update_chapter(chapter_num: int, chapter: ChapterUpdate, _: User = Dep
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
-    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_num = ?", (chapter_num,))
+    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_number = ?", (chapter_num,))
     row = cursor.fetchone()
     if not row:
         conn.close()
@@ -138,7 +140,7 @@ async def update_chapter(chapter_num: int, chapter: ChapterUpdate, _: User = Dep
     updates = []
     params = []
     
-    for field in ["title", "title_ja", "title_zh", "tilemap_entry_ptr", "start_map_key", "start_x", "start_y", "episode_id"]:
+    for field in ["title", "title_ja", "title_zh", "description", "map_id", "sequence_order"]:
         value = getattr(chapter, field, None)
         if value is not None:
             updates.append(f"{field} = ?")
@@ -152,10 +154,10 @@ async def update_chapter(chapter_num: int, chapter: ChapterUpdate, _: User = Dep
     params.append(datetime.now().isoformat())
     params.append(chapter_num)
     
-    conn.execute(f"UPDATE chapters SET {', '.join(updates)} WHERE chapter_num = ?", params)
+    conn.execute(f"UPDATE chapters SET {', '.join(updates)} WHERE chapter_number = ?", params)
     conn.commit()
     
-    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_num = ?", (chapter_num,))
+    cursor = conn.execute("SELECT * FROM chapters WHERE chapter_number = ?", (chapter_num,))
     row = cursor.fetchone()
     conn.close()
     

@@ -7,6 +7,7 @@ from datetime import datetime
 
 from database import get_db_connection
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/story-beats", tags=["story-beats"])
 
@@ -150,7 +151,7 @@ async def get_story_beat(beat_id: int):
     }
 
 @router.post("", response_model=StoryBeatResponse)
-async def create_story_beat(beat: StoryBeatCreate, _: User = Depends(get_current_user)):
+async def create_story_beat(beat: StoryBeatCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -195,7 +196,7 @@ async def create_story_beat(beat: StoryBeatCreate, _: User = Depends(get_current
     }
 
 @router.put("/{beat_id}", response_model=StoryBeatResponse)
-async def update_story_beat(beat_id: int, beat: StoryBeatUpdate, _: User = Depends(get_current_user)):
+async def update_story_beat(beat_id: int, beat: StoryBeatUpdate, _: User = Depends(require_permission("modify_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -274,7 +275,7 @@ async def update_story_beat(beat_id: int, beat: StoryBeatUpdate, _: User = Depen
     }
 
 @router.delete("/{beat_id}")
-async def delete_story_beat(beat_id: int, _: User = Depends(get_current_user)):
+async def delete_story_beat(beat_id: int, _: User = Depends(require_permission("delete_file"))):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM story_beats WHERE id = ?", (beat_id,))
     if not cursor.fetchone():

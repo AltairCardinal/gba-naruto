@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "description": "Audio file table discovered at ROM offset 0x53F138. 88 entries of 4-byte pointers to Sappy-format audio entries.",
+  "table_offset": 5505384,
+  "table_offset_hex": "0x53F138",
+  "entry_count": 88,
+  "entry_size": 4,
+  "entry_format": "u32 pointer to 16-byte Sappy audio entry",
+  "audio_entry_format": {
+    "size": 16,
+    "fields": [
+      {"offset": 0, "size": 4, "name": "data_ptr", "type": "u32", "description": "Pointer to actual music/SFX data"},
+      {"offset": 4, "size": 2, "name": "type", "type": "u16", "description": "0=entry header, 1=music"},
+      {"offset": 6, "size": 2, "name": "padding", "type": "u16"},
+      {"offset": 8, "size": 2, "name": "flags", "type": "u16", "description": "0xFFFF=music, 0x0000=SFX"},
+      {"offset": 10, "size": 2, "name": "padding2", "type": "u16"},
+      {"offset": 12, "size": 4, "name": "extra_ptr", "type": "u32", "description": "Pointer to extra data or next entry"}
+    ]
+  },
+  "notes": "First 2 entries (index 0-1) point to code, not audio. Entries 2+ are valid audio entries. Sappy/M4A format.",
+  "entries": [
+    {"id": "bgm_00", "index": 2, "table_offset": 5505392, "table_offset_hex": "0x53F140", "flags": "0xFFFF", "type": "music"},
+    {"id": "sfx_00", "index": 3, "table_offset": 5505396, "table_offset_hex": "0x53F144", "flags": "0x0000", "type": "sfx"},
+    {"id": "bgm_01", "index": 4, "table_offset": 5505400, "table_offset_hex": "0x53F148", "flags": "0xFFFF", "type": "music"},
+    {"id": "sfx_01", "index": 5, "table_offset": 5505404, "table_offset_hex": "0x53F14C", "flags": "0x0000", "type": "sfx"},
+    {"id": "bgm_02", "index": 6, "table_offset": 5505408, "table_offset_hex": "0x53F150", "flags": "0xFFFF", "type": "music"},
+    {"id": "sfx_02", "index": 7, "table_offset": 5505412, "table_offset_hex": "0x53F154", "flags": "0x0000", "type": "sfx"}
+  ]
+}

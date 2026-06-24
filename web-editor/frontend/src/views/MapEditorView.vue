@@ -45,9 +45,10 @@
     </div>
     
     <div class="editor-actions">
-      <button @click="saveMap" :disabled="!hasChanges" class="save-btn">
+      <button v-if="auth.has('modify_file')" @click="saveMap" :disabled="!hasChanges" class="save-btn">
         保存修改
       </button>
+      <span v-else class="no-perm-hint">🔒 无修改权限</span>
       <button @click="reloadMap" class="reload-btn">
         重新加载
       </button>
@@ -58,6 +59,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { useAuthStore } from '../stores/authStore'
+
+const auth = useAuthStore()
 
 interface TileData {
   tile_id: number

@@ -7,6 +7,7 @@ from datetime import datetime
 
 from database import get_db_connection
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/dialogues", tags=["dialogues"])
 
@@ -125,7 +126,7 @@ async def get_dialogue(key: str):
     }
 
 @router.post("/", response_model=DialogueResponse)
-async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_current_user)):
+async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -162,7 +163,7 @@ async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(get_curren
     }
 
 @router.put("/{key}", response_model=DialogueResponse)
-async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(get_current_user)):
+async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(require_permission("modify_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -226,7 +227,7 @@ async def update_dialogue(key: str, dialogue: DialogueUpdate, _: User = Depends(
     }
 
 @router.delete("/{key}")
-async def delete_dialogue(key: str, _: User = Depends(get_current_user)):
+async def delete_dialogue(key: str, _: User = Depends(require_permission("delete_file"))):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM dialogues WHERE key = ?", (key,))
     if not cursor.fetchone():

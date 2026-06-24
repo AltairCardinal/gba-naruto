@@ -7,6 +7,7 @@ from datetime import datetime
 
 from database import get_db_connection
 from .auth import get_current_user, User
+from dependencies import require_permission
 
 router = APIRouter(prefix="/api/v1/battle-configs", tags=["battle-configs"])
 
@@ -129,7 +130,7 @@ async def get_battle_config(config_id: int):
     }
 
 @router.post("", response_model=BattleConfigResponse)
-async def create_battle_config(config: BattleConfigCreate, _: User = Depends(get_current_user)):
+async def create_battle_config(config: BattleConfigCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -168,7 +169,7 @@ async def create_battle_config(config: BattleConfigCreate, _: User = Depends(get
     }
 
 @router.put("/{config_id}", response_model=BattleConfigResponse)
-async def update_battle_config(config_id: int, config: BattleConfigUpdate, _: User = Depends(get_current_user)):
+async def update_battle_config(config_id: int, config: BattleConfigUpdate, _: User = Depends(require_permission("modify_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
     
@@ -246,7 +247,7 @@ async def update_battle_config(config_id: int, config: BattleConfigUpdate, _: Us
     }
 
 @router.delete("/{config_id}")
-async def delete_battle_config(config_id: int, _: User = Depends(get_current_user)):
+async def delete_battle_config(config_id: int, _: User = Depends(require_permission("delete_file"))):
     conn = get_db_connection()
     cursor = conn.execute("SELECT id FROM battle_configs WHERE id = ?", (config_id,))
     if not cursor.fetchone():
