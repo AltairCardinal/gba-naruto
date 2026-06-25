@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 18
+- **Total structures discovered**: 19
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -237,6 +237,16 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - u16 attack (typically 100)
   - u16 defense (typically 100)
 
+### 20. Battle Encounter Table ✨ NEW
+- **Offset**: 0x542384
+- **Format**: 38 entries × u32 (mixed pointers and small numbers)
+- **Entry count**: 38
+- **Method**: Static analysis - found table with 38 entries containing mixed pointers and small numbers
+- **Verification**: Referenced from code at 0x542310, 0x542314, and 0x54231C
+- **Notes**: Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region.
+- **Entry format**: Mixed table with u32 pointers and u32 small numbers
+- **Pattern**: ptr, val, ptr, ptr repeating (4 entries per group)
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -270,6 +280,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/map-events/bank.json` ✨ NEW
 - `sequel/content/map-sprites/bank.json` ✨ NEW
 - `sequel/content/character-stats-b/bank.json` ✨ NEW
+- `sequel/content/battle-encounters/bank.json` ✨ NEW
 
 ## Remaining Work
 

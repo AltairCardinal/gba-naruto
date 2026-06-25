@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "description": "Battle encounter table discovered at ROM offset 0x542384. 38 entries with mixed pointers and small numbers, likely defining battle encounters.",
+  "table_offset": 5514116,
+  "table_offset_hex": "0x542384",
+  "entry_count": 38,
+  "entry_size": 4,
+  "entry_format": {
+    "description": "Mixed table with u32 pointers and u32 small numbers. Pattern: ptr, val, ptr, ptr repeating.",
+    "fields": [
+      {"offset": 0, "size": 4, "name": "entry", "type": "u32", "description": "Either a pointer to battle data or a small battle ID/count value"}
+    ]
+  },
+  "notes": "Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C. Located after the skill table (0x546100) and before the level-up table (0x5459D4).",
+  "pattern_analysis": {
+    "entries_per_group": 4,
+    "group_format": "ptr, val, ptr, ptr",
+    "small_values": [48, 49, 51, 52, 58, 61, 74, 16, 77, 5],
+    "pointer_range": "0x138F74-0x13DE58"
+  },
+  "entries_sample": [
+    {"index": 0, "offset": 5514116, "offset_hex": "0x542384", "type": "pointer", "value": "0x08138F74", "notes": "Battle data pointer"},
+    {"index": 1, "offset": 5514120, "offset_hex": "0x542388", "type": "value", "value": 48, "notes": "Battle ID or count"},
+    {"index": 2, "offset": 5514124, "offset_hex": "0x54238C", "type": "pointer", "value": "0x0813918C", "notes": "Battle data pointer"},
+    {"index": 3, "offset": 5514128, "offset_hex": "0x542390", "type": "pointer", "value": "0x08139A6C", "notes": "Battle data pointer"},
+    {"index": 4, "offset": 5514132, "offset_hex": "0x542394", "type": "pointer", "value": "0x08139A94", "notes": "Battle data pointer"},
+    {"index": 5, "offset": 5514136, "offset_hex": "0x542398", "type": "value", "value": 49, "notes": "Battle ID or count"}
+  ],
+  "verification_method": "Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code at 0x542310, 0x542314, and 0x54231C.",
+  "discovered_by": "Searching for code references to 0x54xxxx tables"
+}

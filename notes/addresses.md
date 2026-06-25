@@ -163,6 +163,14 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found table with consistent 16-byte entries containing plausible character stat values.
 - **Discovered**: 2026-06-25
 
+### Battle Encounter Table
+- **Offset**: 0x542384
+- **Format**: 38 entries × u32 (mixed pointers and small numbers)
+- **Entry Format**: Pattern of 4 entries: pointer, small_number, pointer, pointer
+- **Notes**: Battle encounter table with 38 entries. Small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. Pointers reference data in 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C.
+- **Verification**: Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
