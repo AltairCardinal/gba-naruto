@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 19
+- **Total structures discovered**: 20
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -247,6 +247,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Entry format**: Mixed table with u32 pointers and u32 small numbers
 - **Pattern**: ptr, val, ptr, ptr repeating (4 entries per group)
 
+### 21. Story/Chapter Table B ✨ NEW
+- **Offset**: 0x536BC8
+- **Format**: 11 entries × u32 pointer to chapter data
+- **Entry count**: 11
+- **Method**: Static analysis - found 11-entry pointer table near primary story table
+- **Verification**: Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data
+- **Notes**: Second story/chapter pointer table with 11 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the primary story table at 0x53636C (which starts with 0xBE 0x69 0xBC 0x00). This suggests the game has two separate story/chapter systems. The first entry points to 0x464854 which has a different structure, suggesting it's a header or special entry.
+- **Entry format**: u32 pointer to chapter data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -281,6 +290,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/map-sprites/bank.json` ✨ NEW
 - `sequel/content/character-stats-b/bank.json` ✨ NEW
 - `sequel/content/battle-encounters/bank.json` ✨ NEW
+- `sequel/content/story-b/bank.json` ✨ NEW
 
 ## Remaining Work
 
