@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 28
+- **Total structures discovered**: 29
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -332,6 +332,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9C, 0x6E, 0x9C, 0x6A which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables. This table is separate from Data Table A at 0x5A14A4.
 - **Entry format**: u32 pointer to encoded data
 
+### 30. Tile Asset Pointer Table ✨ NEW
+- **Offset**: 0x5A3218
+- **Format**: 6 entries × u32 pointer to tile/map data in 0x34xxxx region
+- **Entry count**: 6
+- **Method**: Static analysis - found 6-entry pointer table in 0x5Axxxx region
+- **Verification**: All entries point to valid ROM addresses in the 0x34xxxx region
+- **Notes**: Tile asset pointer table with 6 entries. All entries point to data in the 0x34xxxx region. The target data starts with patterns like 0x10 0x00 which could be map dimensions (16x0) or tile data headers. Some entries contain what appears to be tilemap data (0xF0, 0x01 patterns). Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Entry format**: u32 pointer to tile/map data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -375,6 +384,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/resource-pointers/bank.json` ✨ NEW
 - `sequel/content/data-table-a/bank.json` ✨ NEW
 - `sequel/content/data-table-b/bank.json` ✨ NEW
+- `sequel/content/tile-assets/bank.json` ✨ NEW
 
 ## Remaining Work
 

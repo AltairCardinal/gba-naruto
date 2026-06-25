@@ -234,6 +234,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x5Axxxx region.
 - **Discovered**: 2026-06-25
 
+### Tile Asset Pointer Table
+- **Offset**: 0x5A3218
+- **Format**: 6 entries × u32 pointer to tile/map data in 0x34xxxx region
+- **Notes**: Tile asset pointer table with 6 entries. All entries point to data in the 0x34xxxx region. The target data starts with patterns like 0x10 0x00 which could be map dimensions (16x0) or tile data headers. Some entries contain what appears to be tilemap data (0xF0, 0x01 patterns). Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Verification**: Static analysis - found 6 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x34xxxx region.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Tile asset pointer table discovered at ROM offset 0x5A3218. 6 entries of u32 pointers to tile/map data in the 0x34xxxx region.",
+  "table_offset": 5911064,
+  "table_offset_hex": "0x5A3218",
+  "entry_count": 6,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "tile_ptr", "type": "u32", "description": "Pointer to tile/map data in the 0x34xxxx region"}
+    ]
+  },
+  "notes": "Tile asset pointer table with 6 entries. All entries point to data in the 0x34xxxx region. The target data starts with patterns like 0x10 0x00 which could be map dimensions (16x0) or tile data headers. Some entries contain what appears to be tilemap data (0xF0, 0x01 patterns). Located in the 0x5Axxxx region which is known to contain resource data tables.",
+  "entries_sample": [
+    {"index": 0, "offset": 5911064, "offset_hex": "0x5A3218", "tile_ptr": "0x08349EB4", "tile_offset": "0x349EB4", "notes": "Tile/map data"},
+    {"index": 1, "offset": 5911068, "offset_hex": "0x5A321C", "tile_ptr": "0x0834AFC8", "tile_offset": "0x34AFC8", "notes": "Tile/map data"},
+    {"index": 2, "offset": 5911072, "offset_hex": "0x5A3220", "tile_ptr": "0x0834B228", "tile_offset": "0x34B228", "notes": "Tile/map data"},
+    {"index": 3, "offset": 5911076, "offset_hex": "0x5A3224", "tile_ptr": "0x083497BC", "tile_offset": "0x3497BC", "notes": "Tile/map data"},
+    {"index": 4, "offset": 5911080, "offset_hex": "0x5A3228", "tile_ptr": "0x08349D10", "tile_offset": "0x349D10", "notes": "Tile/map data"}
+  ],
+  "verification_method": "Static analysis - found 6 consecutive u32 pointers at 0x5A3218, all pointing to valid ROM addresses in the 0x34xxxx region.",
+  "discovered_by": "Examining region 0x5A3000-0x5A5000 for pointer tables"
+}
