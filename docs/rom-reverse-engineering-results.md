@@ -406,18 +406,43 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/menu-ui/bank.json` ✨ NEW
 - `sequel/content/cutscene-scripts/bank.json` ✨ NEW
 
-## Remaining Work
+## Remaining Work (Structures Requiring Dynamic Analysis)
 
-The following structures still need to be reverse-engineered:
+The following structures have been investigated but require dynamic analysis (mGBA/LLDB) to fully document:
 
-- **Save state structure** - offsets for chapter progress, character unlocks, item counts
-- **Tile asset indices** - what tiles does each map reference
-- **Random encounter tables** - per-map encounter probabilities
-- **Item / inventory tables** - item IDs, types, effects
-- **Menu UI elements** - layout positions for menu items
-- **Title screen / cutscene script** - pointer table to scene scripts
-- **BGM/SFX channels** - what audio does each event trigger
-- **Quest flags** - bit-packed quest progress in WRAM
+- **Random encounter tables** — static search returns false positives; suspected locations documented in `notes/unknown-random-encounter.md`
+- **Item / inventory tables** — static search returns false positives (level-up table area); suspected locations documented in `notes/unknown-item-inventory.md`
+- **Save state structure** — SRAM-based, requires WRAM dump + diff analysis; documented in `notes/unknown-save-state.md`
+- **BGM/SFX channels** — Sappy engine, requires mGBA instrumentation; documented in `notes/unknown-bgm-sfx.md`
+
+## Structures Documented in This Session
+
+The following structures were discovered and documented in the Phase 2 remaining structures task:
+
+### Iteration 1 (4 structures)
+1. **Palette Table** at 0x53F138 - 88 entries × u32 pointer to RGB555 palette data
+2. **Font Width Table** at 0x53E5B4 - 256 entries × u8 character width in pixels
+3. **Sprite Animation Table** at 0x53F200 - 38 entries × u32 pointer to animation frame data
+4. **Map Event Handler Table** at 0x53EB08 - 47 entries × u32 pointer to Thumb event handler code
+
+### Iteration 2-8 (5 structures)
+5. **Map Sprite Animation Table** at 0x53F1DC - 47 entries × u32 pointer to sprite animation frame data
+6. **Character Stat Table B** at 0x545200 - 18 entries × 16 bytes with different field ordering
+7. **Battle Encounter Table** at 0x542384 - 38 entries × u32 (mixed pointers and small numbers)
+8. **Story/Chapter Table B** at 0x536BC8 - 11 entries × u32 pointer to chapter data
+9. **Story/Chapter Table C** at 0x538FF0 - 10 entries × u32 pointer to chapter data
+
+### Iteration 9-16 (10 structures)
+10. **Story/Chapter Table D** at 0x53AB78 - 11 entries × u32 pointer to chapter data
+11. **Story/Chapter Table E** at 0x53C3C0 - 9 entries × u32 pointer to chapter data
+12. **Function Pointer Table** at 0x53D5F4 - 11 entries × u32 pointer to Thumb code
+13. **Battle Event Handler Table** at 0x53E6D8 - 14 entries × u32 pointer to Thumb event handler code
+14. **Resource Pointer Table** at 0x596F0C - 20 entries × u32 pointer to resource data in 0x17xxxx region
+15. **Data Table A** at 0x5A14A4 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
+16. **Data Table B** at 0x5A2120 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
+17. **Tile Asset Pointer Table** at 0x5A3218 - 6 entries × u32 pointer to tile/map data in 0x34xxxx region
+18. **Menu UI Pointer Table** at 0x5A5774 - 20 entries × u32 pointer to menu/UI data in 0x43xxxx-0x44xxxx region
+19. **Cutscene Script Pointer Table** at 0x53DF70 - 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
 
 ## Methodology
 
