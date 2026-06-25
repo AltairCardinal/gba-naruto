@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 30
+- **Total structures discovered**: 31
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -350,6 +350,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.
 - **Entry format**: u32 pointer to menu/UI data
 
+### 32. Cutscene Script Pointer Table ✨ NEW
+- **Offset**: 0x53DF70
+- **Format**: 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
+- **Entry count**: 17
+- **Method**: Static analysis - found 17-entry pointer table in 0x53Dxxx region
+- **Verification**: All entries point to valid ROM addresses in the 0x12xxxx region
+- **Notes**: Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.
+- **Entry format**: u32 pointer to cutscene/script data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -395,6 +404,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/data-table-b/bank.json` ✨ NEW
 - `sequel/content/tile-assets/bank.json` ✨ NEW
 - `sequel/content/menu-ui/bank.json` ✨ NEW
+- `sequel/content/cutscene-scripts/bank.json` ✨ NEW
 
 ## Remaining Work
 
