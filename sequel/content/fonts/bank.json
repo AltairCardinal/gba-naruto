@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "description": "Font character width table discovered at ROM offset 0x53E5B4. 256 entries of u8 values mapping ASCII characters to pixel widths.",
+  "table_offset": 5498292,
+  "table_offset_hex": "0x53E5B4",
+  "entry_count": 256,
+  "entry_size": 1,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 1, "name": "char_width", "type": "u8", "description": "Character width in pixels (0 = not rendered, 6 = standard, 13 = wide, 15 = extra wide)"}
+    ]
+  },
+  "notes": "Font character width table for text rendering. Maps ASCII character codes (0-255) to pixel widths. Key values: space(0x20)=0, digits(0x30-0x39)=6px, lowercase(0x61-0x7A)=13px, uppercase(0x41-0x5A)=0 (not used?), punctuation varies (6-17px). Used by dialogue and menu text rendering code to calculate line breaks and text positioning.",
+  "entries_sample": [
+    {"index": 32, "char": " ", "width": 0, "notes": "Space - not rendered"},
+    {"index": 48, "char": "0", "width": 6, "notes": "Digit - standard width"},
+    {"index": 49, "char": "1", "width": 6, "notes": "Digit - standard width"},
+    {"index": 65, "char": "A", "width": 0, "notes": "Uppercase - not in this font?"},
+    {"index": 97, "char": "a", "width": 13, "notes": "Lowercase - wide"},
+    {"index": 98, "char": "b", "width": 13, "notes": "Lowercase - wide"},
+    {"index": 99, "char": "c", "width": 13, "notes": "Lowercase - wide"}
+  ],
+  "width_categories": {
+    "0": "Not rendered (space, uppercase, special)",
+    "6": "Standard width (digits, some punctuation)",
+    "13": "Wide (lowercase letters)",
+    "15": "Extra wide (period, slash)",
+    "17": "Double wide (quote, hash)"
+  },
+  "verification_method": "Static analysis - found 256-byte table with plausible character width values. Digits have uniform width (6px), lowercase letters have uniform width (13px), space has width 0. Pattern consistent with fixed-width font rendering.",
+  "discovered_by": "Searching for character width tables in 4-24 pixel range"
+}

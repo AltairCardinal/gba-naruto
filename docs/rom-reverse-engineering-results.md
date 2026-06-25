@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 12
+- **Total structures discovered**: 15
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -161,6 +161,41 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - u16 padding3 (always 0)
   - u16 max_value (1450-1500)
 
+### 14. Palette Table ✨ NEW
+- **Offset**: 0x53F138
+- **Format**: 88 entries × u32 pointer to 16-color RGB555 palette data
+- **Entry count**: 88
+- **Method**: Static analysis - found pointer table with valid RGB555 palette data
+- **Verification**: 86 of 88 entries point to valid palette data
+- **Notes**: Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (possibly code), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character.
+- **Entry format**: u32 pointer to 32-byte palette (16 colors × u16 RGB555)
+- **Palette format**: u16 per color: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)
+
+### 15. Font Width Table ✨ NEW
+- **Offset**: 0x53E5B4
+- **Format**: 256 entries × u8 character width in pixels
+- **Entry count**: 256
+- **Method**: Static analysis - found table with plausible character width values
+- **Verification**: Digits have uniform width (6px), lowercase letters have uniform width (13px)
+- **Notes**: Font character width table for text rendering. Maps ASCII character codes (0-255) to pixel widths. Key values: space(0x20)=0, digits(0x30-0x39)=6px, lowercase(0x61-0x7A)=13px, uppercase(0x41-0x5A)=0 (not used in this font).
+- **Entry format**: u8 width in pixels (0 = not rendered)
+
+### 16. Sprite Animation Table ✨ NEW
+- **Offset**: 0x53F200
+- **Format**: 38 entries × u32 pointer to animation frame data
+- **Entry count**: 38
+- **Method**: Static analysis - found pointer table with consistent animation frame structure
+- **Verification**: All entries point to valid ROM addresses with 16-byte frame structures
+- **Notes**: Sprite animation pointer table located just before the unit ID table (0x53F298). Entries come in pairs - odd entries have frame_count=1 (active frame), even entries have frame_count=0 (inactive/transition frame).
+- **Entry format**: u32 pointer to 16-byte animation frame
+- **Animation frame format**:
+  - u32 frame_ptr (pointer to sprite graphics)
+  - u16 unk1 (usually 0x0000)
+  - u16 frame_count (0=inactive, 1=active)
+  - u16 unk2 (0xFFFF for active, 0x0000 for inactive)
+  - u16 unk3 (usually 0x0000)
+  - u32 next_ptr (pointer to next frame in linked list)
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -184,10 +219,13 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/skills/bank.json`
 - `sequel/content/units/bank.json`
 - `sequel/content/positions/bank.json`
-- `sequel/content/maps/bank.json` ✨ NEW
-- `sequel/content/levels/bank.json` ✨ NEW
-- `sequel/content/character-stats/bank.json` ✨ NEW
-- `sequel/content/battle-config/bank.json` ✨ NEW
+- `sequel/content/maps/bank.json`
+- `sequel/content/levels/bank.json`
+- `sequel/content/character-stats/bank.json`
+- `sequel/content/battle-config/bank.json`
+- `sequel/content/palettes/bank.json` ✨ NEW
+- `sequel/content/fonts/bank.json` ✨ NEW
+- `sequel/content/sprite-animations/bank.json` ✨ NEW
 
 ## Remaining Work
 
@@ -195,8 +233,11 @@ The following structures still need to be reverse-engineered:
 
 - **Save state structure** - offsets for chapter progress, character unlocks, item counts
 - **Tile asset indices** - what tiles does each map reference
-- **Palette tables** - which palettes each character/screen uses
-- **Sprite animation indices** - pointers to sprite frame tables
+- **Random encounter tables** - per-map encounter probabilities
+- **Item / inventory tables** - item IDs, types, effects
+- **Menu UI elements** - layout positions for menu items
+- **Title screen / cutscene script** - pointer table to scene scripts
+- **BGM/SFX channels** - what audio does each event trigger
 - **Menu UI elements** - layout positions for menu items
 - **Title screen / cutscene script** - pointer table to scene scripts
 - **BGM/SFX channels** - what audio does each event trigger

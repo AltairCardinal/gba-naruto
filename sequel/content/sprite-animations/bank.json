@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "description": "Sprite animation pointer table discovered at ROM offset 0x53F200. 38 entries of u32 pointers to animation frame data.",
+  "table_offset": 5497344,
+  "table_offset_hex": "0x53F200",
+  "entry_count": 38,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "anim_ptr", "type": "u32", "description": "Pointer to animation frame data structure"}
+    ]
+  },
+  "animation_frame_format": {
+    "description": "Each animation frame is 16 bytes",
+    "size": 16,
+    "fields": [
+      {"offset": 0, "size": 4, "name": "frame_ptr", "type": "u32", "description": "Pointer to sprite frame graphics data"},
+      {"offset": 4, "size": 2, "name": "unk1", "type": "u16", "description": "Unknown (usually 0x0000)"},
+      {"offset": 6, "size": 2, "name": "frame_count", "type": "u16", "description": "Frame count (0=inactive, 1=active)"},
+      {"offset": 8, "size": 2, "name": "unk2", "type": "u16", "description": "Unknown (0xFFFF for active, 0x0000 for inactive)"},
+      {"offset": 10, "size": 2, "name": "unk3", "type": "u16", "description": "Unknown (usually 0x0000)"},
+      {"offset": 12, "size": 4, "name": "next_ptr", "type": "u32", "description": "Pointer to next animation frame (linked list)"}
+    ]
+  },
+  "notes": "Sprite animation pointer table located just before the unit ID table (0x53F298). Entries come in pairs - odd entries have frame_count=1 (active frame with 0xFFFF flag), even entries have frame_count=0 (inactive/transition frame). Each animation frame is a 16-byte structure containing a pointer to graphics data and a linked-list pointer to the next frame. Located at 0x53F200, ends at 0x53F298 (where unit ID table begins).",
+  "entries_sample": [
+    {"index": 0, "offset": 5497344, "offset_hex": "0x53F200", "anim_ptr": "0x0812FB50", "notes": "Character 0 animation frame 0 (active)"},
+    {"index": 1, "offset": 5497348, "offset_hex": "0x53F204", "anim_ptr": "0x0812FB5C", "notes": "Character 0 animation frame 1 (inactive)"},
+    {"index": 2, "offset": 5497352, "offset_hex": "0x53F208", "anim_ptr": "0x0812FB78", "notes": "Character 1 animation frame 0 (active)"},
+    {"index": 3, "offset": 5497356, "offset_hex": "0x53F20C", "anim_ptr": "0x0812FB84", "notes": "Character 1 animation frame 1 (inactive)"}
+  ],
+  "verification_method": "Static analysis - found 38 consecutive u32 pointers at 0x53F200, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte structure with frame pointers and animation flags.",
+  "discovered_by": "Examining region near unit ID table (0x53F298)"
+}

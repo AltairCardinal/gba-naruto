@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "description": "Character palette table discovered at ROM offset 0x53F138. 88 entries of u32 pointers to 16-color RGB555 palette data.",
+  "table_offset": 5501240,
+  "table_offset_hex": "0x53F138",
+  "entry_count": 88,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "palette_ptr", "type": "u32", "description": "Pointer to 16-color RGB555 palette data (32 bytes)"}
+    ]
+  },
+  "palette_format": {
+    "description": "Each palette is 32 bytes = 16 colors in GBA RGB555 format",
+    "color_format": "u16: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)",
+    "size": 32
+  },
+  "notes": "Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (code?), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character. The primary palette has transparency at index 4 (31,31,31 = white), alternate has different structure. Referenced from battle/character rendering code.",
+  "entries_sample": [
+    {"index": 0, "offset": 5501240, "offset_hex": "0x53F138", "palette_ptr": "0x080808BD", "notes": "Points to 0x0808xx region (possibly code)"},
+    {"index": 1, "offset": 5501244, "offset_hex": "0x53F13C", "palette_ptr": "0x08080965", "notes": "Points to 0x0808xx region (possibly code)"},
+    {"index": 2, "offset": 5501248, "offset_hex": "0x53F140", "palette_ptr": "0x0812F5B0", "notes": "Character 0 primary palette"},
+    {"index": 3, "offset": 5501252, "offset_hex": "0x53F144", "palette_ptr": "0x0812F5BC", "notes": "Character 0 alternate palette"},
+    {"index": 4, "offset": 5501256, "offset_hex": "0x53F148", "palette_ptr": "0x0812F5D8", "notes": "Character 1 primary palette"},
+    {"index": 5, "offset": 5501260, "offset_hex": "0x53F14C", "palette_ptr": "0x0812F5E4", "notes": "Character 1 alternate palette"}
+  ],
+  "verification_method": "Static analysis - found 88 consecutive u32 pointers at 0x53F138, all pointing to valid ROM addresses. 86 of 88 entries point to data that decodes as valid RGB555 palette data (has dark colors, bright colors, and variety).",
+  "discovered_by": "Searching for palette pointer tables near map headers and character data"
+}

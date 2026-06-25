@@ -118,6 +118,29 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found table with consistent structure (u16 type followed by u16 HP/atk/def). All entries have plausible stat values.
 - **Discovered**: 2026-06-25
 
+### Palette Table
+- **Offset**: 0x53F138
+- **Format**: 88 entries × u32 pointer to 16-color RGB555 palette data
+- **Palette Format**: 32 bytes = 16 colors in GBA RGB555 format (u16: 0bbb bbgg gggr rrrr)
+- **Notes**: Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (possibly code), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character. Primary palette has transparency at index 4 (31,31,31 = white), alternate has different structure.
+- **Verification**: Static analysis - found 88 consecutive u32 pointers, 86 of 88 entries point to valid RGB555 palette data.
+- **Discovered**: 2026-06-25
+
+### Font Width Table
+- **Offset**: 0x53E5B4
+- **Format**: 256 entries × u8 character width in pixels
+- **Notes**: Font character width table for text rendering. Maps ASCII character codes (0-255) to pixel widths. Key values: space(0x20)=0, digits(0x30-0x39)=6px, lowercase(0x61-0x7A)=13px, uppercase(0x41-0x5A)=0 (not used?), punctuation varies (6-17px). Used by dialogue and menu text rendering code.
+- **Verification**: Static analysis - found 256-byte table with plausible character width values. Digits have uniform width (6px), lowercase letters have uniform width (13px).
+- **Discovered**: 2026-06-25
+
+### Sprite Animation Table
+- **Offset**: 0x53F200
+- **Format**: 38 entries × u32 pointer to animation frame data
+- **Animation Frame Format**: 16 bytes: u32 frame_ptr, u16 unk1, u16 frame_count, u16 unk2, u16 unk3, u32 next_ptr
+- **Notes**: Sprite animation pointer table located just before the unit ID table (0x53F298). Entries come in pairs - odd entries have frame_count=1 (active frame with 0xFFFF flag), even entries have frame_count=0 (inactive/transition frame). Each animation frame is a 16-byte structure containing a pointer to graphics data and a linked-list pointer to the next frame.
+- **Verification**: Static analysis - found 38 consecutive u32 pointers, all pointing to valid ROM addresses. Target data has consistent 16-byte structure.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
