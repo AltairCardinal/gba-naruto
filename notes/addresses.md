@@ -206,6 +206,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 11 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
 - **Discovered**: 2026-06-25
 
+### Battle Event Handler Table
+- **Offset**: 0x53E6D8
+- **Format**: 14 entries × u32 pointer to Thumb event handler code
+- **Notes**: Battle event handler pointer table with 14 entries. Only 3 unique handlers are used: 0x07EFFD (7 times), 0x07F065 (5 times), 0x07F149 (2 times). The handlers alternate in a pattern. Located in the 0x53Exxx region between the story tables and the map headers.
+- **Verification**: Static analysis - found 14 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:

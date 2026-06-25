@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "description": "Battle event handler pointer table discovered at ROM offset 0x53E6D8. 14 entries of u32 pointers to Thumb event handler code.",
+  "table_offset": 5498744,
+  "table_offset_hex": "0x53E6D8",
+  "entry_count": 14,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "handler_ptr", "type": "u32", "description": "Pointer to Thumb event handler code"}
+    ]
+  },
+  "notes": "Battle event handler pointer table with 14 entries. All entries point to Thumb code (PUSH instructions starting with 0xB5). Only 3 unique handlers are used: 0x07EFFD (used 7 times), 0x07F065 (used 5 times), and 0x07F149 (used 2 times). The handlers alternate in a pattern similar to the map event handler table. Located in the 0x53Exxx region between the story tables and the map headers.",
+  "handler_summary": {
+    "0x07EFFD": "Used 7 times (entries 0, 2, 4, 6, 8, 10, 12)",
+    "0x07F065": "Used 5 times (entries 1, 5, 7, 9, 11)",
+    "0x07F149": "Used 2 times (entries 3, 13)"
+  },
+  "entries_sample": [
+    {"index": 0, "offset": 5498744, "offset_hex": "0x53E6D8", "handler_ptr": "0x0807EFFD", "handler_offset": "0x07EFFD", "notes": "Handler A"},
+    {"index": 1, "offset": 5498748, "offset_hex": "0x53E6DC", "handler_ptr": "0x0807F065", "handler_offset": "0x07F065", "notes": "Handler B"},
+    {"index": 2, "offset": 5498752, "offset_hex": "0x53E6E0", "handler_ptr": "0x0807EFFD", "handler_offset": "0x07EFFD", "notes": "Handler A"},
+    {"index": 3, "offset": 5498756, "offset_hex": "0x53E6E4", "handler_ptr": "0x0807F149", "handler_offset": "0x07F149", "notes": "Handler C"}
+  ],
+  "verification_method": "Static analysis - found 14 consecutive u32 pointers at 0x53E6D8, all pointing to valid ROM addresses with Thumb PUSH instructions.",
+  "discovered_by": "Examining region 0x53E000-0x53F000 between story tables and map headers"
+}

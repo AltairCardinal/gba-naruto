@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 24
+- **Total structures discovered**: 25
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -292,6 +292,19 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Function pointer table with 11 entries. The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters (R0 = 1, 2, 3, 4, 5, 6, etc.). Located in the 0x53Dxxx region near the map headers. The functions appear to be menu or UI related based on their structure.
 - **Entry format**: u32 pointer to Thumb function code
 
+### 26. Battle Event Handler Table ✨ NEW
+- **Offset**: 0x53E6D8
+- **Format**: 14 entries × u32 pointer to Thumb event handler code
+- **Entry count**: 14
+- **Method**: Static analysis - found 14-entry pointer table with Thumb code targets
+- **Verification**: All entries point to valid ROM addresses with Thumb PUSH instructions
+- **Notes**: Battle event handler pointer table with 14 entries. Only 3 unique handlers are used: 0x07EFFD (7 times), 0x07F065 (5 times), 0x07F149 (2 times). The handlers alternate in a pattern. Located in the 0x53Exxx region between the story tables and the map headers.
+- **Entry format**: u32 pointer to Thumb event handler code
+- **Unique handlers**:
+  - 0x07EFFD: Used 7 times (entries 0, 2, 4, 6, 8, 10, 12)
+  - 0x07F065: Used 5 times (entries 1, 5, 7, 9, 11)
+  - 0x07F149: Used 2 times (entries 3, 13)
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -331,6 +344,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/story-d/bank.json` ✨ NEW
 - `sequel/content/story-e/bank.json` ✨ NEW
 - `sequel/content/function-pointers/bank.json` ✨ NEW
+- `sequel/content/battle-handlers/bank.json` ✨ NEW
 
 ## Remaining Work
 
