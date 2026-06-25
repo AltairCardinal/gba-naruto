@@ -185,6 +185,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 10 consecutive u32 pointers, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern.
 - **Discovered**: 2026-06-25
 
+### Story/Chapter Table D
+- **Offset**: 0x53AB78
+- **Format**: 11 entries × u32 pointer to chapter data
+- **Notes**: Fourth story/chapter pointer table with 11 entries. Target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has four separate story/chapter systems. Located in the 0x53Axxx region between the other story tables and the map headers.
+- **Verification**: Static analysis - found 11 consecutive u32 pointers, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
