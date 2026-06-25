@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Third story/chapter pointer table discovered at ROM offset 0x538FF0. 10 entries of u32 pointers to chapter data.",
+  "table_offset": 5476336,
+  "table_offset_hex": "0x538FF0",
+  "entry_count": 10,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "chapter_ptr", "type": "u32", "description": "Pointer to chapter data"}
+    ]
+  },
+  "notes": "Third story/chapter pointer table with 10 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables at 0x53636C and 0x536BC8. This suggests the game has three separate story/chapter systems. Located in the 0x538xxx region between the other story tables and the map headers. The first entry points to 0x464A40 which has a different structure (starts with 0x003C), suggesting it's a header or special entry.",
+  "entries_sample": [
+    {"index": 0, "offset": 5476336, "offset_hex": "0x538FF0", "chapter_ptr": "0x08464A40", "notes": "Header or special entry"},
+    {"index": 1, "offset": 5476340, "offset_hex": "0x538FF4", "chapter_ptr": "0x085388AC", "notes": "Chapter 1 data"},
+    {"index": 2, "offset": 5476344, "offset_hex": "0x538FF8", "chapter_ptr": "0x0853899E", "notes": "Chapter 2 data"},
+    {"index": 3, "offset": 5476348, "offset_hex": "0x538FFC", "chapter_ptr": "0x08538A85", "notes": "Chapter 3 data"},
+    {"index": 4, "offset": 5476352, "offset_hex": "0x539000", "chapter_ptr": "0x08538B52", "notes": "Chapter 4 data"}
+  ],
+  "verification_method": "Static analysis - found 10 consecutive u32 pointers at 0x538FF0, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data.",
+  "discovered_by": "Examining region 0x538000-0x53A000 between story tables and map headers"
+}

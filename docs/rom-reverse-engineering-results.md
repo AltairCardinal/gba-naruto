@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 20
+- **Total structures discovered**: 21
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -256,6 +256,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Second story/chapter pointer table with 11 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the primary story table at 0x53636C (which starts with 0xBE 0x69 0xBC 0x00). This suggests the game has two separate story/chapter systems. The first entry points to 0x464854 which has a different structure, suggesting it's a header or special entry.
 - **Entry format**: u32 pointer to chapter data
 
+### 22. Story/Chapter Table C ✨ NEW
+- **Offset**: 0x538FF0
+- **Format**: 10 entries × u32 pointer to chapter data
+- **Entry count**: 10
+- **Method**: Static analysis - found 10-entry pointer table in 0x538xxx region
+- **Verification**: Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data
+- **Notes**: Third story/chapter pointer table with 10 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has three separate story/chapter systems. Located in the 0x538xxx region between the other story tables and the map headers. The first entry points to 0x464A40 which has a different structure, suggesting it's a header or special entry.
+- **Entry format**: u32 pointer to chapter data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -291,6 +300,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/character-stats-b/bank.json` ✨ NEW
 - `sequel/content/battle-encounters/bank.json` ✨ NEW
 - `sequel/content/story-b/bank.json` ✨ NEW
+- `sequel/content/story-c/bank.json` ✨ NEW
 
 ## Remaining Work
 
