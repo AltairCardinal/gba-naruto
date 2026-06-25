@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Data pointer table discovered at ROM offset 0x5A14A4. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
+  "table_offset": 5903524,
+  "table_offset_hex": "0x5A14A4",
+  "entry_count": 20,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "data_ptr", "type": "u32", "description": "Pointer to encoded data in the 0x5Axxxx region"}
+    ]
+  },
+  "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.",
+  "entries_sample": [
+    {"index": 0, "offset": 5903524, "offset_hex": "0x5A14A4", "data_ptr": "0x085A0880", "data_offset": "0x5A0880", "notes": "Encoded data"},
+    {"index": 1, "offset": 5903528, "offset_hex": "0x5A14A8", "data_ptr": "0x085A0908", "data_offset": "0x5A0908", "notes": "Encoded data"},
+    {"index": 2, "offset": 5903532, "offset_hex": "0x5A14AC", "data_ptr": "0x085A097C", "data_offset": "0x5A097C", "notes": "Encoded data"},
+    {"index": 3, "offset": 5903536, "offset_hex": "0x5A14B0", "data_ptr": "0x085A0A2C", "data_offset": "0x5A0A2C", "notes": "Encoded data"},
+    {"index": 4, "offset": 5903540, "offset_hex": "0x5A14B4", "data_ptr": "0x085A0AE0", "data_offset": "0x5A0AE0", "notes": "Encoded data"}
+  ],
+  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A14A4, all pointing to valid ROM addresses in the 0x5Axxxx region.",
+  "discovered_by": "Examining region 0x5A0000-0x5C0000 for pointer tables"
+}

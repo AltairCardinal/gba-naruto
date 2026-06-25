@@ -220,6 +220,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x17xxxx resource region.
 - **Discovered**: 2026-06-25
 
+### Data Table A
+- **Offset**: 0x5A14A4
+- **Format**: 20 entries × u32 pointer to encoded data in 0x5Axxxx region
+- **Notes**: Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x5Axxxx region.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:

@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 26
+- **Total structures discovered**: 27
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -314,6 +314,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.
 - **Entry format**: u32 pointer to resource data
 
+### 28. Data Table A ✨ NEW
+- **Offset**: 0x5A14A4
+- **Format**: 20 entries × u32 pointer to encoded data in 0x5Axxxx region
+- **Entry count**: 20
+- **Method**: Static analysis - found 20-entry pointer table in 0x5Axxxx region
+- **Verification**: All entries point to valid ROM addresses in the 0x5Axxxx region
+- **Notes**: Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Entry format**: u32 pointer to encoded data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -355,6 +364,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/function-pointers/bank.json` ✨ NEW
 - `sequel/content/battle-handlers/bank.json` ✨ NEW
 - `sequel/content/resource-pointers/bank.json` ✨ NEW
+- `sequel/content/data-table-a/bank.json` ✨ NEW
 
 ## Remaining Work
 
