@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 23
+- **Total structures discovered**: 24
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -283,6 +283,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Fifth story/chapter pointer table with 9 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has five separate story/chapter systems. Located in the 0x53Cxxx region between the other story tables and the map headers. The first entry points to 0x464C5C which has a different structure, suggesting it's a header or special entry.
 - **Entry format**: u32 pointer to chapter data
 
+### 25. Function Pointer Table ✨ NEW
+- **Offset**: 0x53D5F4
+- **Format**: 11 entries × u32 pointer to Thumb code
+- **Entry count**: 11
+- **Method**: Static analysis - found 11-entry pointer table with Thumb code targets
+- **Verification**: All entries point to valid ROM addresses with Thumb PUSH instructions
+- **Notes**: Function pointer table with 11 entries. The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters (R0 = 1, 2, 3, 4, 5, 6, etc.). Located in the 0x53Dxxx region near the map headers. The functions appear to be menu or UI related based on their structure.
+- **Entry format**: u32 pointer to Thumb function code
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -321,6 +330,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/story-c/bank.json` ✨ NEW
 - `sequel/content/story-d/bank.json` ✨ NEW
 - `sequel/content/story-e/bank.json` ✨ NEW
+- `sequel/content/function-pointers/bank.json` ✨ NEW
 
 ## Remaining Work
 

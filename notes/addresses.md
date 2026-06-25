@@ -199,6 +199,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 9 consecutive u32 pointers, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern.
 - **Discovered**: 2026-06-25
 
+### Function Pointer Table
+- **Offset**: 0x53D5F4
+- **Format**: 11 entries × u32 pointer to Thumb code
+- **Notes**: Function pointer table with 11 entries. All entries point to Thumb code (PUSH instructions). The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters. Located in the 0x53Dxxx region near the map headers.
+- **Verification**: Static analysis - found 11 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
