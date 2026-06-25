@@ -241,6 +241,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 6 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x34xxxx region.
 - **Discovered**: 2026-06-25
 
+### Menu UI Pointer Table
+- **Offset**: 0x5A5774
+- **Format**: 20 entries × u32 pointer to menu/UI data in 0x43xxxx-0x44xxxx region
+- **Notes**: Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x43xxxx-0x44xxxx region.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:

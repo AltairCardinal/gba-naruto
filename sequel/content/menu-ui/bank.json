@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Menu UI pointer table discovered at ROM offset 0x5A5774. 20 entries of u32 pointers to menu/UI data in the 0x43xxxx-0x44xxxx region.",
+  "table_offset": 5920628,
+  "table_offset_hex": "0x5A5774",
+  "entry_count": 20,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "ui_ptr", "type": "u32", "description": "Pointer to menu/UI data in the 0x43xxxx-0x44xxxx region"}
+    ]
+  },
+  "notes": "Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.",
+  "entries_sample": [
+    {"index": 0, "offset": 5920628, "offset_hex": "0x5A5774", "ui_ptr": "0x0843FC78", "ui_offset": "0x43FC78", "notes": "Menu/UI data A"},
+    {"index": 1, "offset": 5920632, "offset_hex": "0x5A5778", "ui_ptr": "0x08440738", "ui_offset": "0x440738", "notes": "Menu/UI data B"},
+    {"index": 2, "offset": 5920636, "offset_hex": "0x5A577C", "ui_ptr": "0x0843FC78", "ui_offset": "0x43FC78", "notes": "Menu/UI data A"},
+    {"index": 3, "offset": 5920640, "offset_hex": "0x5A5780", "ui_ptr": "0x08440738", "ui_offset": "0x440738", "notes": "Menu/UI data B"},
+    {"index": 10, "offset": 5920668, "offset_hex": "0x5A579C", "ui_ptr": "0x084407B8", "ui_offset": "0x4407B8", "notes": "Menu/UI data C"}
+  ],
+  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A5774, all pointing to valid ROM addresses in the 0x43xxxx-0x44xxxx region.",
+  "discovered_by": "Examining region 0x5A5000-0x5B0000 for pointer tables"
+}

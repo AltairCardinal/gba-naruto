@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 29
+- **Total structures discovered**: 30
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -341,6 +341,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Tile asset pointer table with 6 entries. All entries point to data in the 0x34xxxx region. The target data starts with patterns like 0x10 0x00 which could be map dimensions (16x0) or tile data headers. Some entries contain what appears to be tilemap data (0xF0, 0x01 patterns). Located in the 0x5Axxxx region which is known to contain resource data tables.
 - **Entry format**: u32 pointer to tile/map data
 
+### 31. Menu UI Pointer Table ✨ NEW
+- **Offset**: 0x5A5774
+- **Format**: 20 entries × u32 pointer to menu/UI data in 0x43xxxx-0x44xxxx region
+- **Entry count**: 20
+- **Method**: Static analysis - found 20-entry pointer table in 0x5Axxxx region
+- **Verification**: All entries point to valid ROM addresses in the 0x43xxxx-0x44xxxx region
+- **Notes**: Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.
+- **Entry format**: u32 pointer to menu/UI data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -385,6 +394,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/data-table-a/bank.json` ✨ NEW
 - `sequel/content/data-table-b/bank.json` ✨ NEW
 - `sequel/content/tile-assets/bank.json` ✨ NEW
+- `sequel/content/menu-ui/bank.json` ✨ NEW
 
 ## Remaining Work
 
