@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Resource pointer table discovered at ROM offset 0x596F0C. 20 entries of u32 pointers to resource data in the 0x17xxxx region.",
+  "table_offset": 5861132,
+  "table_offset_hex": "0x596F0C",
+  "entry_count": 20,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "resource_ptr", "type": "u32", "description": "Pointer to resource data in the 0x17xxxx region"}
+    ]
+  },
+  "notes": "Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area mentioned in the addresses.md file. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.",
+  "entries_sample": [
+    {"index": 0, "offset": 5861132, "offset_hex": "0x596F0C", "resource_ptr": "0x08174590", "resource_offset": "0x174590", "notes": "Resource data"},
+    {"index": 1, "offset": 5861136, "offset_hex": "0x596F10", "resource_ptr": "0x081746C0", "resource_offset": "0x1746C0", "notes": "Resource data"},
+    {"index": 2, "offset": 5861140, "offset_hex": "0x596F14", "resource_ptr": "0x08170FB0", "resource_offset": "0x170FB0", "notes": "Null or default resource"},
+    {"index": 3, "offset": 5861144, "offset_hex": "0x596F18", "resource_ptr": "0x08170F90", "resource_offset": "0x170F90", "notes": "Null or default resource"},
+    {"index": 4, "offset": 5861148, "offset_hex": "0x596F1C", "resource_ptr": "0x08175B68", "resource_offset": "0x175B68", "notes": "Resource data"}
+  ],
+  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x596F0C, all pointing to valid ROM addresses in the 0x17xxxx resource region.",
+  "discovered_by": "Examining region 0x580000-0x5A0000 for pointer tables"
+}

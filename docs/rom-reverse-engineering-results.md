@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 25
+- **Total structures discovered**: 26
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -305,6 +305,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - 0x07F065: Used 5 times (entries 1, 5, 7, 9, 11)
   - 0x07F149: Used 2 times (entries 3, 13)
 
+### 27. Resource Pointer Table ✨ NEW
+- **Offset**: 0x596F0C
+- **Format**: 20 entries × u32 pointer to resource data in 0x17xxxx region
+- **Entry count**: 20
+- **Method**: Static analysis - found 20-entry pointer table in 0x59xxxx region
+- **Verification**: All entries point to valid ROM addresses in the 0x17xxxx resource region
+- **Notes**: Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.
+- **Entry format**: u32 pointer to resource data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -345,6 +354,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/story-e/bank.json` ✨ NEW
 - `sequel/content/function-pointers/bank.json` ✨ NEW
 - `sequel/content/battle-handlers/bank.json` ✨ NEW
+- `sequel/content/resource-pointers/bank.json` ✨ NEW
 
 ## Remaining Work
 
