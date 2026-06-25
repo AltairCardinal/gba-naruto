@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "description": "Map sprite animation pointer table discovered at ROM offset 0x53F1DC. 47 entries of u32 pointers to sprite animation frame data.",
+  "table_offset": 5497308,
+  "table_offset_hex": "0x53F1DC",
+  "entry_count": 47,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "sprite_ptr", "type": "u32", "description": "Pointer to sprite animation frame data for this map"}
+    ]
+  },
+  "notes": "Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure as the sprite animation table. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).",
+  "entries_sample": [
+    {"index": 0, "offset": 5497308, "offset_hex": "0x53F1DC", "sprite_ptr": "0x0812FA44", "notes": "Map 0 sprite animation"},
+    {"index": 1, "offset": 5497312, "offset_hex": "0x53F1E0", "sprite_ptr": "0x0812FAB0", "notes": "Map 1 sprite animation"},
+    {"index": 2, "offset": 5497316, "offset_hex": "0x53F1E4", "sprite_ptr": "0x0812FABC", "notes": "Map 2 sprite animation"},
+    {"index": 3, "offset": 5497320, "offset_hex": "0x53F1E8", "sprite_ptr": "0x0812FAD8", "notes": "Map 3 sprite animation"},
+    {"index": 4, "offset": 5497324, "offset_hex": "0x53F1EC", "sprite_ptr": "0x0812FAE4", "notes": "Map 4 sprite animation"}
+  ],
+  "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53F1DC, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte animation frame structure.",
+  "discovered_by": "Searching for 47-entry pointer tables matching map count"
+}

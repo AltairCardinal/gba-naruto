@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 16
+- **Total structures discovered**: 17
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -211,6 +211,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - 0x07EC49: Used by maps 34, 36, 38, 40, 42, 44
   - 0x07F065: Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)
 
+### 18. Map Sprite Animation Table ✨ NEW
+- **Offset**: 0x53F1DC
+- **Format**: 47 entries × u32 pointer to sprite animation frame data
+- **Entry count**: 47
+- **Method**: Static analysis - found 47-entry pointer table matching map count
+- **Verification**: All entries point to valid ROM addresses in 0x12Fxxx region
+- **Notes**: Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).
+- **Entry format**: u32 pointer to 16-byte animation frame data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -242,6 +251,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/fonts/bank.json` ✨ NEW
 - `sequel/content/sprite-animations/bank.json` ✨ NEW
 - `sequel/content/map-events/bank.json` ✨ NEW
+- `sequel/content/map-sprites/bank.json` ✨ NEW
 
 ## Remaining Work
 

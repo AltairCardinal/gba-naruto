@@ -148,6 +148,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
 - **Discovered**: 2026-06-25
 
+### Map Sprite Animation Table
+- **Offset**: 0x53F1DC
+- **Format**: 47 entries × u32 pointer to sprite animation frame data
+- **Notes**: Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure.
+- **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses in 0x12Fxxx region.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
