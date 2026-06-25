@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 17
+- **Total structures discovered**: 18
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -220,6 +220,23 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).
 - **Entry format**: u32 pointer to 16-byte animation frame data
 
+### 19. Character Stat Table B ✨ NEW
+- **Offset**: 0x545200
+- **Format**: 18 entries × 16 bytes
+- **Entry count**: 18
+- **Method**: Static analysis - found table with consistent 16-byte entries containing plausible character stat values
+- **Verification**: All entries have HP/attack/defense = 100 and max_value = 1500
+- **Notes**: Second character stat table with different field ordering from the primary table at 0x54507A. The char_type field varies (0, 4, 8) indicating different character classes. Located between the primary character stat table (0x54507A) and the battle configuration table (0x545458).
+- **Entry format**:
+  - u16 hp (typically 100)
+  - u16 padding1 (always 0)
+  - u16 padding2 (always 0)
+  - u16 padding3 (always 0)
+  - u16 max_value (typically 1500)
+  - u16 char_type (0, 4, 8)
+  - u16 attack (typically 100)
+  - u16 defense (typically 100)
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -252,6 +269,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/sprite-animations/bank.json` ✨ NEW
 - `sequel/content/map-events/bank.json` ✨ NEW
 - `sequel/content/map-sprites/bank.json` ✨ NEW
+- `sequel/content/character-stats-b/bank.json` ✨ NEW
 
 ## Remaining Work
 

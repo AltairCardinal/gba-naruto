@@ -155,6 +155,14 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses in 0x12Fxxx region.
 - **Discovered**: 2026-06-25
 
+### Character Stat Table B
+- **Offset**: 0x545200
+- **Format**: 18 entries × 16 bytes
+- **Entry Format**: u16 hp, u16 padding1, u16 padding2, u16 padding3, u16 max_value, u16 char_type, u16 attack, u16 defense
+- **Notes**: Second character stat table with different field ordering from the primary table at 0x54507A. All entries have HP/attack/defense = 100 and max_value = 1500. The char_type field varies (0, 4, 8) indicating different character classes.
+- **Verification**: Static analysis - found table with consistent 16-byte entries containing plausible character stat values.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
