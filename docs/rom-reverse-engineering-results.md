@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 22
+- **Total structures discovered**: 23
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -274,6 +274,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Fourth story/chapter pointer table with 11 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has four separate story/chapter systems. Located in the 0x53Axxx region between the other story tables and the map headers. The first entry points to 0x464B48 which has a different structure, suggesting it's a header or special entry.
 - **Entry format**: u32 pointer to chapter data
 
+### 24. Story/Chapter Table E ✨ NEW
+- **Offset**: 0x53C3C0
+- **Format**: 9 entries × u32 pointer to chapter data
+- **Entry count**: 9
+- **Method**: Static analysis - found 9-entry pointer table in 0x53Cxxx region
+- **Verification**: Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data
+- **Notes**: Fifth story/chapter pointer table with 9 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has five separate story/chapter systems. Located in the 0x53Cxxx region between the other story tables and the map headers. The first entry points to 0x464C5C which has a different structure, suggesting it's a header or special entry.
+- **Entry format**: u32 pointer to chapter data
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -311,6 +320,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/story-b/bank.json` ✨ NEW
 - `sequel/content/story-c/bank.json` ✨ NEW
 - `sequel/content/story-d/bank.json` ✨ NEW
+- `sequel/content/story-e/bank.json` ✨ NEW
 
 ## Remaining Work
 
