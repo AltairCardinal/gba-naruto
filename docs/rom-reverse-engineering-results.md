@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 15
+- **Total structures discovered**: 16
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -196,6 +196,21 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - u16 unk3 (usually 0x0000)
   - u32 next_ptr (pointer to next frame in linked list)
 
+### 17. Map Event Handler Table ✨ NEW
+- **Offset**: 0x53EB08
+- **Format**: 47 entries × u32 pointer to Thumb event handler code
+- **Entry count**: 47
+- **Method**: Static analysis - found 47-entry pointer table matching map count
+- **Verification**: All entries point to valid ROM addresses with Thumb PUSH instructions
+- **Notes**: Map event handler pointer table with one entry per map (47 maps total). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).
+- **Entry format**: u32 pointer to Thumb code
+- **Unique handlers**:
+  - 0x07EA7D: Used by maps 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26
+  - 0x07EAF9: Used by maps 0, 2, 4
+  - 0x07EBA1: Used by maps 28, 30, 32
+  - 0x07EC49: Used by maps 34, 36, 38, 40, 42, 44
+  - 0x07F065: Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)
+
 ## Build Pipeline Integration
 
 All discovered tables have been integrated into the build pipeline:
@@ -226,6 +241,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/palettes/bank.json` ✨ NEW
 - `sequel/content/fonts/bank.json` ✨ NEW
 - `sequel/content/sprite-animations/bank.json` ✨ NEW
+- `sequel/content/map-events/bank.json` ✨ NEW
 
 ## Remaining Work
 
@@ -238,13 +254,7 @@ The following structures still need to be reverse-engineered:
 - **Menu UI elements** - layout positions for menu items
 - **Title screen / cutscene script** - pointer table to scene scripts
 - **BGM/SFX channels** - what audio does each event trigger
-- **Menu UI elements** - layout positions for menu items
-- **Title screen / cutscene script** - pointer table to scene scripts
-- **BGM/SFX channels** - what audio does each event trigger
-- **Random encounter tables** - per-map encounter probabilities
-- **Item / inventory tables** - item IDs, types, effects
 - **Quest flags** - bit-packed quest progress in WRAM
-- **Text/font tables** - character mapping for SJIS rendering
 
 ## Methodology
 

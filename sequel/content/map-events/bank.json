@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "description": "Map event handler pointer table discovered at ROM offset 0x53EB08. 47 entries of u32 pointers to Thumb event handler code.",
+  "table_offset": 5499656,
+  "table_offset_hex": "0x53EB08",
+  "entry_count": 47,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "handler_ptr", "type": "u32", "description": "Pointer to Thumb event handler code for this map"}
+    ]
+  },
+  "notes": "Map event handler pointer table with one entry per map (47 maps total). All entries point to Thumb code (PUSH instructions). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).",
+  "handler_summary": {
+    "0x07EA7D": "Used by maps 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26",
+    "0x07EAF9": "Used by maps 0, 2, 4",
+    "0x07EBA1": "Used by maps 28, 30, 32",
+    "0x07EC49": "Used by maps 34, 36, 38, 40, 42, 44",
+    "0x07ED21": "Not used in this table (but exists as a handler)",
+    "0x07F065": "Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)"
+  },
+  "entries_sample": [
+    {"index": 0, "offset": 5499656, "offset_hex": "0x53EB08", "handler_ptr": "0x0807EAF9", "handler_offset": "0x07EAF9", "notes": "Map 0 handler"},
+    {"index": 1, "offset": 5499660, "offset_hex": "0x53EB0C", "handler_ptr": "0x0807F065", "handler_offset": "0x07F065", "notes": "Map 1 handler"},
+    {"index": 6, "offset": 5499680, "offset_hex": "0x53EB20", "handler_ptr": "0x0807EA7D", "handler_offset": "0x07EA7D", "notes": "Map 6 handler"},
+    {"index": 28, "offset": 5499768, "offset_hex": "0x53EB78", "handler_ptr": "0x0807EBA1", "handler_offset": "0x07EBA1", "notes": "Map 28 handler"},
+    {"index": 34, "offset": 5499792, "offset_hex": "0x53EB90", "handler_ptr": "0x0807EC49", "handler_offset": "0x07EC49", "notes": "Map 34 handler"}
+  ],
+  "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53EB08, all pointing to valid ROM addresses. All targets start with Thumb PUSH instructions (0xB5xx), confirming they are code pointers.",
+  "discovered_by": "Searching for 47-entry pointer tables matching map count"
+}

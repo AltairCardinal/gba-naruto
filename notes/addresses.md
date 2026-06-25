@@ -141,6 +141,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 38 consecutive u32 pointers, all pointing to valid ROM addresses. Target data has consistent 16-byte structure.
 - **Discovered**: 2026-06-25
 
+### Map Event Handler Table
+- **Offset**: 0x53EB08
+- **Format**: 47 entries × u32 pointer to Thumb event handler code
+- **Notes**: Map event handler pointer table with one entry per map (47 maps total). All entries point to Thumb code (PUSH instructions). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).
+- **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
+- **Discovered**: 2026-06-25
+
 ## Workflow
 
 For each new finding, record:
