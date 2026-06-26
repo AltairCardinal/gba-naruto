@@ -4,7 +4,7 @@ This document lists all discovered ROM offsets and data structures for the Narut
 
 ## Summary
 
-- **Total structures discovered**: 31
+- **Total structures discovered**: 32
 - **ROM size**: 6,291,456 bytes (6.0 MB)
 - **Reserved region**: 0x5E0000..0x600000 (128 KiB) for audit-trail patches
 - **Last updated**: 2026-06-25
@@ -350,6 +350,15 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.
 - **Entry format**: u32 pointer to menu/UI data
 
+### 32. Sappy Audio Engine Command Handler ✨ NEW
+- **Offset**: 0x079668
+- **Format**: Function that processes audio commands
+- **Entry count**: 1 (function)
+- **Method**: Disasm analysis - traced from battle event handlers
+- **Verification**: Found Sappy audio command handler that processes different audio commands based on input value
+- **Notes**: Sappy audio engine command handler. Processes commands 0x64-0x67 (special commands) and 0x80-0xE3 (indexed commands). Called from battle event handlers (0x07EFFD, 0x07F065, 0x07F149). Audio table at 0x53F138 contains 88 entries × u32 pointer to Sappy audio data.
+- **Entry format**: Function (not table)
+
 ### 32. Cutscene Script Pointer Table ✨ NEW
 - **Offset**: 0x53DF70
 - **Format**: 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
@@ -404,6 +413,7 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 - `sequel/content/data-table-b/bank.json` ✨ NEW
 - `sequel/content/tile-assets/bank.json` ✨ NEW
 - `sequel/content/menu-ui/bank.json` ✨ NEW
+- `sequel/content/sappy-engine/bank.json` ✨ NEW
 - `sequel/content/cutscene-scripts/bank.json` ✨ NEW
 
 ## Remaining Work (Structures Requiring Dynamic Analysis)

@@ -155,6 +155,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses in 0x12Fxxx region.
 - **Discovered**: 2026-06-25
 
+### Sappy Audio Engine Command Handler
+- **Offset**: 0x079668
+- **Format**: Function that processes audio commands
+- **Notes**: Sappy audio engine command handler. Processes commands 0x64-0x67 (special commands) and 0x80-0xE3 (indexed commands). Called from battle event handlers. Audio table at 0x53F138 contains 88 entries × u32 pointer to Sappy audio data.
+- **Verification**: Disasm analysis - found Sappy audio command handler that processes different audio commands based on input value.
+- **Discovered**: 2026-06-25
+
 ### Character Stat Table B
 - **Offset**: 0x545200
 - **Format**: 18 entries × 16 bytes
