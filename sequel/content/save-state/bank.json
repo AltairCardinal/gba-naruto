@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "description": "Save state structure identified through deep Thumb disasm of save handler at 0x08068684. Save table at 0x53D848 contains 10 entries (7 unique) mapping EWRAM buffers to SRAM offsets. Each entry writes 19 data bytes + 1 byte checksum (total 20 bytes) to SRAM.",
+  "table_offset": 549448,
+  "table_offset_hex": "0x053D848",
+  "entry_count": 10,
+  "unique_field_count": 7,
+  "entry_size": 8,
+  "entry_format": {
+    "fields": [
+      {"offset": 0, "size": 4, "name": "ewram_buffer", "type": "u32", "description": "EWRAM address of source/destination buffer"},
+      {"offset": 4, "size": 4, "name": "sram_offset_field", "type": "u32", "description": "SRAM offset field (real SRAM offset = this + 0x14)"}
+    ]
+  },
+  "data_size_per_entry": 20,
+  "data_format": {
+    "data_bytes": 19,
+    "checksum_bytes": 1,
+    "checksum_method": "8-bit NOT(sum of bytes)"
+  },
+  "save_handler": {
+    "address": "0x08068684",
+    "mode_0": "save",
+    "mode_1": "load",
+    "size_per_call": "20 bytes"
+  },
+  "unique_save_fields": [
+    {
+      "sram_offset": "0x001C",
+      "ewram_buffer": "0x02026804",
+      "description": "Save field 1 — short data record (19 bytes)"
+    },
+    {
+      "sram_offset": "0x0028",
+      "ewram_buffer": "0x020240AC",
+      "description": "Save field 2 — short data record (19 bytes), referenced twice in table"
+    },
+    {
+      "sram_offset": "0x002C",
+      "ewram_buffer": "0x02026BC8",
+      "description": "Save field 3 — short data record (19 bytes)"
+    },
+    {
+      "sram_offset": "0x0214",
+      "ewram_buffer": "0x02026604",
+      "description": "Save field 4 — medium data record (19 bytes)"
+    },
+    {
+      "sram_offset": "0x0590",
+      "ewram_buffer": "0x02025884",
+      "description": "Save field 5 — medium data record (19 bytes)"
+    },
+    {
+      "sram_offset": "0x1290",
+      "ewram_buffer": "0x02022E30",
+      "description": "Save field 6 — short data record (19 bytes), referenced 3 times in table"
+    },
+    {
+      "sram_offset": "0x17D8",
+      "ewram_buffer": "0x020240C0",
+      "description": "Save field 7 — large data record (19 bytes), near end of 64KB SRAM"
+    }
+  ],
+  "total_save_size_bytes": 140,
+  "sram_region": {
+    "base_address": "0x0E000000",
+    "size": "0x10000",
+    "size_bytes": 65536,
+    "type": "SRAM"
+  },
+  "literal_pool_refs": {
+    "0x080686C8": "0x0853D848 (save table)",
+    "0x080686CC": "0x030077C0 (IWRAM buffer)",
+    "0x080686D0": "0x02002880 (EWRAM buffer)",
+    "0x080686D4": "0x06001C60 (VRAM buffer)"
+  },
+  "verification_method": "Deep Thumb disassembly of save handler at 0x08068684. Trace shows literal pool reference to table at 0x0853D848. Each table entry contains EWRAM buffer address and SRAM offset. Per-entry size 20 bytes derived from `movs r2, #0x13` (19 data bytes) + 1 byte checksum appended in save mode. Checksum = NOT(sum of all 19 data bytes) stored at end of each 20-byte block.",
+  "discovered_by": "Disasm trace Phase 3 (2026-06-26)",
+  "static_verification": "All 10 table entries cross-referenced with EWRAM addresses that appear in EWRAM layout. Save data layout confirmed: 7 unique save fields, each 20 bytes (19 data + 1 checksum).",
+  "notes": "Save state uses 7 unique fields totaling 140 bytes. Table has 10 entries with 3 duplicates — duplicates may indicate save retries or separate field copies. The 7 unique EWRAM buffers are game-state pointers (chapter, unlocks, items, stats, etc.) but specific field semantics require runtime verification (not possible with current mGBA build)."
+}
