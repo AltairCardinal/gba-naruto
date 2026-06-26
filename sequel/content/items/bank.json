@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "description": "Item/inventory table investigation results. Static analysis could not locate a dedicated item table. This game appears to be a tactical RPG (SRPG) where items may be replaced by skill/technique systems, or item data is accessed through indirection that requires dynamic analysis.",
+  "verification_level": "partial",
+  "status": "INCONCLUSIVE",
+  "investigation_summary": {
+    "candidate_addresses": [
+      "0xD3E02", "0x27AC8D", "0x366A4B", "0x3B5D95", "0x3D256C", "0x4A60DD"
+    ],
+    "sjis_text_found": false,
+    "structured_table_found": false,
+    "code_reference_found": false
+  },
+  "related_structures": {
+    "skill_table": {
+      "offset": "0x546100",
+      "entry_count": 12,
+      "entry_size": 16,
+      "description": "Skill/technique definitions that may serve as the item system in this tactical RPG"
+    },
+    "battle_config_table": {
+      "offset": "0x545458",
+      "entry_count": 32,
+      "entry_size": 16,
+      "description": "Battle configuration with skill references"
+    },
+    "character_stat_table": {
+      "offset": "0x54507A",
+      "entry_count": null,
+      "entry_size": 16,
+      "description": "Character stat definitions that may include equipment modifiers"
+    },
+    "level_up_table": {
+      "offset": "0x5459D4",
+      "entry_count": null,
+      "entry_size": 12,
+      "description": "Level-up stat progression (confirmed separate from items)"
+    }
+  },
+  "possible_explanations": [
+    "Items are embedded in the battle config or skill system rather than a standalone table",
+    "Item names are not stored as SJIS text (may use a custom encoding)",
+    "Item data is accessed through a chain of indirect pointers requiring runtime tracing",
+    "This SRPG uses a technique/scroll system instead of traditional consumable items",
+    "Item effects are code-driven (implemented in function calls rather than data tables)"
+  ],
+  "recommended_next_steps": [
+    "Use mGBA Qt frontend with Lua scripting to open the in-game menu",
+    "Dump WRAM before and after acquiring an item",
+    "Diff WRAM to identify item record array in runtime memory",
+    "Use LLDB watchpoints on suspected WRAM addresses during menu interaction"
+  ],
+  "notes": "All 6 candidate addresses from prior analysis were examined for SJIS item names. No clear item name text was found near any candidate. The ROM contains many instances of the SJIS character 薬 (medicine) but in unrelated data. The skill table at 0x546100 with 12 entries of 16 bytes remains the most likely item-adjacent structure. In this Naruto tactical RPG, 'items' may be ninja techniques/scrolls managed through the skill system rather than a traditional RPG inventory."
+}

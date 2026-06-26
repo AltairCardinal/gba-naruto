@@ -1,29 +1,33 @@
 {
-  "version": 1,
-  "description": "Sappy audio engine command handler discovered through disasm analysis at ROM offset 0x079668.",
+  "version": 2,
+  "description": "Sappy audio engine command handler at 0x08079668. Custom dispatcher that processes audio commands 0x64-0xE3. Special commands 0x64-0x67 load from engine state offsets. Indexed commands 0x80-0xE3 use the command as a table index into the audio pointer table at 0x08599634.",
   "table_offset": 496232,
   "table_offset_hex": "0x079668",
   "entry_count": 1,
   "entry_size": 0,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 1, "name": "command_id", "type": "u8", "description": "Audio command ID (0x64-0x67, 0x80-0xE3)"},
-      {"offset": 1, "size": 1, "name": "param", "type": "u8", "description": "Command parameter"}
-    ]
+  "command_range": {
+    "min": 100,
+    "max": 227,
+    "special_min": 100,
+    "special_max": 103,
+    "indexed_min": 128,
+    "indexed_max": 227
   },
-  "notes": "Sappy audio engine command handler. Function at 0x08079668 processes audio commands based on the low byte of R0. Commands 0x64-0x67 are special commands that load from specific offsets in a data structure. Commands 0x80-0xE3 are indexed commands. The function is called from battle event handlers (0x07EFFD, 0x07F065, 0x07F149). Audio table at 0x53F138 contains 88 entries × u32 pointer to Sappy audio data.",
   "command_handlers": [
-    {"command": "0x64", "description": "Load from [R0 + 0x60]", "handler": "0x08079698"},
-    {"command": "0x65", "description": "Load from [R0 + 0x64]", "handler": "0x080796A8"},
-    {"command": "0x66", "description": "Load from [R0 + 0x68]", "handler": "0x080796B8"},
-    {"command": "0x67", "description": "Load from [R0 + 0x8C]", "handler": "0x080796C8"},
-    {"command": "0x80-0xE3", "description": "Indexed commands (use as table index)", "handler": "0x080796D8"}
+    {"command": "0x64", "decimal": 100, "description": "Load from [engine_state + 0x60]", "handler": "0x08079698"},
+    {"command": "0x65", "decimal": 101, "description": "Load from [engine_state + 0x64]", "handler": "0x080796A8"},
+    {"command": "0x66", "decimal": 102, "description": "Load from [engine_state + 0x68]", "handler": "0x080796B8"},
+    {"command": "0x67", "decimal": 103, "description": "Load from [engine_state + 0x8C]", "handler": "0x080796C8"},
+    {"command": "0x80-0xE3", "decimal": "128-227", "description": "Indexed commands (table at 0x08599634)", "handler": "0x080796D8"}
   ],
   "related_structures": {
-    "audio_table": "0x53F138",
-    "battle_event_handlers": "0x53E6D8",
-    "map_event_handlers": "0x53EB08"
+    "audio_table": "0x53F138 (88 entries × u32)",
+    "indexed_command_table": "0x08599634 (100 entries × u32)",
+    "battle_event_handlers": "0x53E6D8 (14 entries × u32)",
+    "map_event_handlers": "0x53EB08 (47 entries × u32)",
+    "sappy_playback_function": "0x08066758"
   },
-  "verification_method": "Disasm analysis - found Sappy audio command handler that processes different audio commands based on input value.",
-  "discovered_by": "Disasm trace of battle event handler code"
+  "verification_method": "Deep Thumb disassembly of dispatcher function. Literal pool trace to indexed command table at 0x08599634. BL call site search across entire ROM identifying 15 call sites from 6 unique functions.",
+  "discovered_by": "Disasm trace Phase 3 (2026-06-26)",
+  "verification_level": "code_verified"
 }

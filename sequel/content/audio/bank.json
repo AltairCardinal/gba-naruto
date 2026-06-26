@@ -1,29 +1,115 @@
 {
-  "version": 1,
-  "description": "Audio file table discovered at ROM offset 0x53F138. 88 entries of 4-byte pointers to Sappy-format audio entries.",
-  "table_offset": 5505384,
-  "table_offset_hex": "0x53F138",
-  "entry_count": 88,
-  "entry_size": 4,
-  "entry_format": "u32 pointer to 16-byte Sappy audio entry",
-  "audio_entry_format": {
-    "size": 16,
-    "fields": [
-      {"offset": 0, "size": 4, "name": "data_ptr", "type": "u32", "description": "Pointer to actual music/SFX data"},
-      {"offset": 4, "size": 2, "name": "type", "type": "u16", "description": "0=entry header, 1=music"},
-      {"offset": 6, "size": 2, "name": "padding", "type": "u16"},
-      {"offset": 8, "size": 2, "name": "flags", "type": "u16", "description": "0xFFFF=music, 0x0000=SFX"},
-      {"offset": 10, "size": 2, "name": "padding2", "type": "u16"},
-      {"offset": 12, "size": 4, "name": "extra_ptr", "type": "u32", "description": "Pointer to extra data or next entry"}
+  "version": 2,
+  "description": "Complete audio event dispatcher system. The custom audio dispatcher at 0x08079668 processes commands 0x64-0xE3, with 15 call sites from 6 unique caller functions covering map transitions, battle events, and special scenes. The dispatcher indexes into an audio pointer table at 0x08599634 (commands 0x80+) or loads from engine state offsets (commands 0x64-0x67).",
+  "dispatcher": {
+    "address": "0x08079668",
+    "file_offset": "0x079668",
+    "name": "audio_command_dispatcher",
+    "parameter": "u8 command_id (low byte of R0)",
+    "max_command": 227,
+    "sappy_playback_call": "0x08066758"
+  },
+  "command_types": {
+    "special_commands": {
+      "range": "0x64-0x67",
+      "description": "Load audio ID from specific offsets in the audio engine state structure",
+      "handlers": [
+        {"command": 100, "hex": "0x64", "source": "[engine_state + 0x60]", "description": "BGM channel 0"},
+        {"command": 101, "hex": "0x65", "source": "[engine_state + 0x64]", "description": "BGM channel 1"},
+        {"command": 102, "hex": "0x66", "source": "[engine_state + 0x68]", "description": "BGM channel 2"},
+        {"command": 103, "hex": "0x67", "source": "[engine_state + 0x8C]", "description": "SFX channel"}
+      ]
+    },
+    "indexed_commands": {
+      "range": "0x80-0xE3",
+      "count": 100,
+      "description": "Index into the audio pointer table at 0x08599634 (ROM 0x599634). Each entry is a u32 pointer to a 16-byte Sappy audio entry.",
+      "table_address": "0x08599634",
+      "table_file_offset": "0x599634",
+      "entry_size": 4
+    }
+  },
+  "call_sites": {
+    "total_unique": 15,
+    "unique_caller_functions": 6,
+    "callers": [
+      {
+        "address": "0x0807EFFD",
+        "event_type": "battle_scenario_start",
+        "description": "Battle scenario audio - loads command from [config_struct + 0x770]",
+        "call_count": 2,
+        "config_offset": "0x770"
+      },
+      {
+        "address": "0x0807F065",
+        "event_type": "map_transition",
+        "description": "Map entry audio - loads command from [config_struct + 0x770]",
+        "call_count": 2,
+        "config_offset": "0x770"
+      },
+      {
+        "address": "0x0807EA7D",
+        "event_type": "zone_map_event",
+        "description": "Zone map event handler - no direct audio call found in function body",
+        "call_count": 0,
+        "note": "Audio triggered through sub-function calls"
+      },
+      {
+        "address": "0x0807EAF9",
+        "event_type": "map_special_event_0x0D",
+        "description": "Plays command 0x6E (110) when map event code == 0x0D",
+        "call_count": 1,
+        "literal_command": 110
+      },
+      {
+        "address": "0x0807EBA1",
+        "event_type": "map_special_event_0x0D_alt",
+        "description": "Plays command 0x6F (111) when map event code == 0x0D",
+        "call_count": 1,
+        "literal_command": 111
+      },
+      {
+        "address": "0x0807EC49",
+        "event_type": "map_special_event_0x13_0x15",
+        "description": "Plays 0x70 (112) for event 0x13 or 0x71 (113) for event 0x15",
+        "call_count": 2,
+        "literal_commands": [112, 113]
+      },
+      {
+        "address": "0x0807ED21",
+        "event_type": "map_46_special",
+        "description": "Map 46 handler - complex multi-step event with audio",
+        "call_count": 0,
+        "note": "Audio triggered through sub-function chain"
+      }
     ]
   },
-  "notes": "First 2 entries (index 0-1) point to code, not audio. Entries 2+ are valid audio entries. Sappy/M4A format.",
-  "entries": [
-    {"id": "bgm_00", "index": 2, "table_offset": 5505392, "table_offset_hex": "0x53F140", "flags": "0xFFFF", "type": "music"},
-    {"id": "sfx_00", "index": 3, "table_offset": 5505396, "table_offset_hex": "0x53F144", "flags": "0x0000", "type": "sfx"},
-    {"id": "bgm_01", "index": 4, "table_offset": 5505400, "table_offset_hex": "0x53F148", "flags": "0xFFFF", "type": "music"},
-    {"id": "sfx_01", "index": 5, "table_offset": 5505404, "table_offset_hex": "0x53F14C", "flags": "0x0000", "type": "sfx"},
-    {"id": "bgm_02", "index": 6, "table_offset": 5505408, "table_offset_hex": "0x53F150", "flags": "0xFFFF", "type": "music"},
-    {"id": "sfx_02", "index": 7, "table_offset": 5505412, "table_offset_hex": "0x53F154", "flags": "0x0000", "type": "sfx"}
-  ]
+  "audio_table": {
+    "address": "0x53F138",
+    "file_offset": "0x53F138",
+    "entry_count": 88,
+    "entry_size": 4,
+    "format": "u32 pointer to 16-byte Sappy audio entry",
+    "entries_0_1": "code/bootstrap (not audio data)",
+    "entries_2_plus": "valid Sappy audio data pointers"
+  },
+  "indexed_command_table": {
+    "address": "0x08599634",
+    "file_offset": "0x599634",
+    "entry_count": 100,
+    "entry_size": 4,
+    "description": "Maps command IDs 0x80-0xE3 to Sappy audio entry pointers. Same format as the main audio table."
+  },
+  "event_audio_mapping": {
+    "battle_start": {"source": "config_struct[0x770]", "description": "Per-scenario BGM command"},
+    "map_entry": {"source": "config_struct[0x770]", "description": "Per-map BGM command"},
+    "special_event_0x0D": {"command": 110, "description": "Event trigger audio"},
+    "special_event_0x0D_alt": {"command": 111, "description": "Alt event trigger audio"},
+    "special_event_0x13": {"command": 112, "description": "Cutscene event audio"},
+    "special_event_0x15": {"command": 113, "description": "Boss encounter audio"}
+  },
+  "verification_method": "Disassembly of audio dispatcher at 0x08079668. Identified 15 BL call sites across the ROM. Each call site was traced to its enclosing function to determine the game event context. The indexed command table at 0x08599634 was found via literal pool analysis. Commands 0x80-0xE3 index into this 100-entry table of Sappy audio pointers. Commands 0x64-0x67 load from engine state offsets.",
+  "discovered_by": "Thumb disassembly + literal pool trace + BL call site search",
+  "verification_level": "code_verified",
+  "notes": "The audio dispatcher is a custom implementation, not standard Sappy m4aSongNumStart. Commands 0x64-0x67 handle dynamic BGM channels. Commands 0x80-0xE3 are static audio lookups. The per-scenario audio command at config_struct[0x770] means each battle scenario and map has its own BGM assigned through the configuration system, not through a global event→song table."
 }

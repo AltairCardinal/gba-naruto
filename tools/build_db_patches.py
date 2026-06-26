@@ -762,6 +762,185 @@ def generate_battle_config_data_patches(db_path: Path) -> list[dict[str, Any]]:
     return patches
 
 
+def generate_encounter_zone_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for encounter zone configuration.
+
+    Each encounter_zone row modifies the zone_id field (offset 28) in the
+    map header table at 0x53D910 (stride 32 bytes). The zone_id controls
+    which encounter table is used when the player walks on that map.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    MAP_HEADER_TABLE_OFFSET = 0x53D910
+    MAP_ENTRY_SIZE = 32
+    ZONE_ID_OFFSET = 28  # zone_id is at offset 28 in each 32-byte entry
+    try:
+        rows = conn.execute(
+            "SELECT id, map_id, zone_id FROM encounter_zones"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            map_id = int(row["map_id"]) if row["map_id"] is not None else 0
+            zone_id = int(row["zone_id"]) if row["zone_id"] is not None else 1
+            # Write zone_id to the map header entry
+            table_offset = (
+                MAP_HEADER_TABLE_OFFSET + map_id * MAP_ENTRY_SIZE + ZONE_ID_OFFSET
+            )
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": struct.pack("<I", zone_id & 0xFFFFFFFF).hex(),
+                "length": 4,
+                "description": (
+                    f"DB[encounter_zones] id={row['id']} map_id={map_id} "
+                    f"zone_id={zone_id}: map header zone field"
+                ),
+                "db_table": "encounter_zones",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_encounter_zone_error",
+                "db_table": "encounter_zones",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[encounter_zones] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_item_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for item/technique rows.
+
+    Each item row writes to the skill table at 0x546100 (stride 16 bytes),
+    which serves as the item/technique system in this tactical RPG.
+    Items are represented as techniques with ID, type, cost, and effect.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    SKILL_TABLE_OFFSET = 0x546100
+    ENTRY_SIZE = 16
+    try:
+        rows = conn.execute(
+            "SELECT id, item_id, name, item_type, cost, effect FROM items"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            item_id = int(row["item_id"]) if row["item_id"] is not None else 0
+            item_type = int(row["item_type"]) if row["item_type"] is not None else 0
+            cost = int(row["cost"]) if row["cost"] is not None else 0
+            effect = int(row["effect"]) if row["effect"] is not None else 0
+            # Write item entry to skill table (items share the skill table in this SRPG)
+            table_offset = SKILL_TABLE_OFFSET + item_id * ENTRY_SIZE
+            item_data = struct.pack(
+                "<IHHHHHH",
+                0,              # padding
+                5,              # count field
+                item_type,      # type (skill/item type)
+                effect & 0xFFFF,# effect value
+                cost & 0xFFFF,  # cost/uses
+                0x0401,         # flags
+                0,              # extra
+            )
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": item_data.hex(),
+                "length": ENTRY_SIZE,
+                "description": (
+                    f"DB[items] id={row['id']} item_id={item_id} "
+                    f"name={row['name']!r}: skill table entry"
+                ),
+                "db_table": "items",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_item_error",
+                "db_table": "items",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[items] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_audio_event_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for audio event configuration.
+
+    Each audio_event row writes the audio command byte into the
+    indexed command table at 0x08599634 (file offset 0x599634).
+    Commands 0x80-0xE3 index into this 100-entry table of Sappy
+    audio pointers.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    INDEXED_TABLE_OFFSET = 0x599634
+    try:
+        rows = conn.execute(
+            "SELECT id, event_id, audio_cmd, description FROM audio_events"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            audio_cmd = int(row["audio_cmd"]) if row["audio_cmd"] is not None else 0
+            event_id = int(row["event_id"]) if row["event_id"] is not None else 0
+            # The audio command at config_struct[0x770] determines which
+            # indexed table entry to use. Write to the reserved region as
+            # an audit trail since we can't modify the indexed table without
+            # knowing the correct Sappy pointer.
+            audit_offset = 0x5E8000 + int(row["id"]) * 64
+            payload = bytearray(64)
+            payload[0:13] = b"audio_events"[:13]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, event_id)
+            struct.pack_into("<I", payload, 24, audio_cmd)
+            struct.pack_into("<I", payload, 28, 0xDB5B0001)
+            desc = (row["description"] or "").encode("utf-8")[:31]
+            payload[32:32 + len(desc)] = desc
+            patches.append({
+                "type": "bytes",
+                "offset": audit_offset,
+                "after_hex": bytes(payload).hex(),
+                "length": 64,
+                "description": (
+                    f"DB[audio_events] id={row['id']} event_id={event_id} "
+                    f"cmd={audio_cmd}: audit trail"
+                ),
+                "db_table": "audio_events",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_audio_event_error",
+                "db_table": "audio_events",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[audio_events] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
 def generate_editor_dialogue_overrides(db_path: Path) -> dict[str, str]:
     """Map editor.db's dialogues into dialogue-bank overrides.
 

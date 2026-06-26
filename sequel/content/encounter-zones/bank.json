@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "description": "Map encounter zone mapping derived from map header table. Each map has a zone_id field (u32 at offset 28) that controls encounter behavior. The zone_id is used by the battle system to determine which encounter table to use when the player is on that map.",
+  "table_offset": 5494288,
+  "table_offset_hex": "0x53D910",
+  "entry_count": 47,
+  "entry_size": 32,
+  "entry_format": {
+    "description": "32-byte map header entries. Zone ID is the last field (offset 28).",
+    "fields": [
+      {"offset": 0, "size": 2, "name": "width", "type": "u16", "description": "Map width in tiles"},
+      {"offset": 2, "size": 2, "name": "height", "type": "u16", "description": "Map height in tiles"},
+      {"offset": 4, "size": 4, "name": "tileset_ptr", "type": "u32", "description": "Pointer to tileset data"},
+      {"offset": 8, "size": 4, "name": "tilemap_ptr", "type": "u32", "description": "Pointer to tilemap data"},
+      {"offset": 12, "size": 4, "name": "extra_data_ptr", "type": "u32", "description": "Pointer to extra data (0 if none)"},
+      {"offset": 16, "size": 4, "name": "collision_ptr", "type": "u32", "description": "Pointer to collision data (0 if none)"},
+      {"offset": 20, "size": 4, "name": "event_data_ptr", "type": "u32", "description": "Pointer to event data"},
+      {"offset": 24, "size": 4, "name": "sprite_data_ptr", "type": "u32", "description": "Pointer to sprite data"},
+      {"offset": 28, "size": 4, "name": "zone_id", "type": "u32", "description": "Encounter zone ID (1-7, 258 for special maps)"}
+    ]
+  },
+  "zone_distribution": {
+    "zone_1": {"count": 23, "maps": [0, 1, 2, 3, 4, 5, 13, 14, 15, 16, 17, 18, 19, 20, 33, 38, 39, 40, 41, 42, 43, 44, 45], "description": "Standard exploration maps"},
+    "zone_2": {"count": 1, "maps": [6], "description": "Single map zone"},
+    "zone_3": {"count": 5, "maps": [9, 10, 11, 12, 35], "description": "Mid-game maps"},
+    "zone_4": {"count": 4, "maps": [21, 22, 23, 34], "description": "Chapter 4 maps"},
+    "zone_5": {"count": 1, "maps": [32], "description": "Single map zone"},
+    "zone_6": {"count": 1, "maps": [31], "description": "Single map zone"},
+    "zone_7": {"count": 10, "maps": [24, 25, 26, 27, 28, 29, 30, 36, 37, 46], "description": "Late-game maps"},
+    "zone_258": {"count": 2, "maps": [7, 8], "description": "Special/boss maps (0x0102)"}
+  },
+  "map_event_handlers": {
+    "table_offset": "0x53EB08",
+    "entry_count": 47,
+    "entry_size": 4,
+    "unique_handlers": [
+      {"address": "0x0807F065", "count": 23, "description": "Standard handler - loads audio cmd from struct[0x770]"},
+      {"address": "0x0807EA7D", "count": 10, "description": "Zone map handler - no direct audio"},
+      {"address": "0x0807EAF9", "count": 3, "description": "Handler with cmd 0x6E (110) audio event"},
+      {"address": "0x0807EBA1", "count": 3, "description": "Handler with cmd 0x6F (111) audio event"},
+      {"address": "0x0807EC49", "count": 6, "description": "Handler with cmd 0x70/0x71 (112/113) conditional audio"},
+      {"address": "0x0807ED21", "count": 1, "description": "Map 46 handler - complex multi-step"}
+    ]
+  },
+  "battle_event_handlers": {
+    "table_offset": "0x53E6D8",
+    "entry_count": 14,
+    "entry_size": 4,
+    "unique_handlers": [
+      {"address": "0x0807EFFD", "count": 7, "description": "Battle handler - loads audio cmd from struct[0x770]"},
+      {"address": "0x0807F065", "count": 7, "description": "Shared with map handler"},
+      {"address": "0x0807F149", "count": 2, "description": "Alt battle handler - no direct audio dispatcher call"}
+    ]
+  },
+  "verification_method": "Static analysis of map header table at 0x53D910. Zone ID field at offset 28 confirmed by examining all 47 map entries. Values 1-7 plus 258 (0x0102) observed. Cross-referenced with map event handler table at 0x53EB08 showing 6 unique handlers that reference zone data. Battle event handler table at 0x53E6D8 shows 3 unique handlers.",
+  "discovered_by": "Map header table structure analysis + event handler disasm",
+  "verification_level": "static_verified",
+  "notes": "Zone ID 258 (0x0102) appears on maps 7 and 8 which have the 0x0102 flag in the map header. These maps share identical pointers to maps 9-12 (zone 3). The zone_id likely indexes into a separate encounter probability table at runtime. The encounter threshold check pattern (CMP + BCC) was not found via static analysis, suggesting the encounter rate is computed dynamically per-zone at runtime."
+}
