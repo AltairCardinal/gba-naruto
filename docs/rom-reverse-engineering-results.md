@@ -408,12 +408,14 @@ Each discovered table has a corresponding bank.json file in `sequel/content/<res
 
 ## Remaining Work (Structures Requiring Dynamic Analysis)
 
-The following structures have been investigated but require dynamic analysis (mGBA/LLDB) to fully document:
+The following structures have been investigated but require dynamic analysis (mGBA Qt frontend + Lua scripting) to fully document:
 
 - **Random encounter tables** — static search returns false positives; suspected locations documented in `notes/unknown-random-encounter.md`
 - **Item / inventory tables** — static search returns false positives (level-up table area); suspected locations documented in `notes/unknown-item-inventory.md`
-- **Save state structure** — SRAM-based, requires WRAM dump + diff analysis; documented in `notes/unknown-save-state.md`
+- **Save state structure** — SRAM-based (0x0E000000-0x0E00FFFF, 64KB), requires WRAM dump + diff analysis; documented in `notes/unknown-save-state.md`
 - **BGM/SFX channels** — Sappy engine, requires mGBA instrumentation; documented in `notes/unknown-bgm-sfx.md`
+
+**Status**: All 4 remaining structures require dynamic analysis with mGBA Qt frontend + Lua scripting. The mGBA headless mode (CLI debugger) does not properly initialize the game - WRAM/IWRAM remain all zeros after 500+ frames despite I/O registers being active. These structures cannot be completed with the available tools and require a desktop environment with mGBA Qt frontend.
 
 ## Structures Documented in This Session
 
