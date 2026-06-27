@@ -992,6 +992,1060 @@ def count_db_rows(db_path: Path) -> dict[str, int]:
     return counts
 
 
+def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for battle encounter rows.
+
+    Each encounter row writes to the reserved region as an audit trail.
+    The battle encounter table at 0x542384 contains 38 entries of mixed
+    pointers and data values.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, encounter_id, value, is_pointer FROM battle_encounters").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            encounter_id = int(row["encounter_id"]) if row["encounter_id"] is not None else 0
+            value = int(row["value"]) if row["value"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:17] = b"battle_encounters"[:17]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, encounter_id)
+            struct.pack_into("<I", payload, 24, value)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"enc{encounter_id}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[battle_encounters] id={row['id']} enc_id={encounter_id}: audit trail",
+                "db_table": "battle_encounters",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_battle_encounter_error",
+                "db_table": "battle_encounters",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[battle_encounters] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_battle_handler_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for battle handler rows.
+
+    Each handler row writes to the reserved region as an audit trail.
+    The battle handler table at 0x53E6D8 contains 14 entries of u32
+    pointers to Thumb event handler code.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, handler_index, handler_ptr FROM battle_handlers").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            handler_ptr = int(row["handler_ptr"]) if row["handler_ptr"] is not None else 0
+            handler_index = int(row["handler_index"]) if row["handler_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:16] = b"battle_handlers"[:16]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, handler_index)
+            struct.pack_into("<I", payload, 24, handler_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"h{handler_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[battle_handlers] id={row['id']} idx={handler_index}: audit trail",
+                "db_table": "battle_handlers",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_battle_handler_error",
+                "db_table": "battle_handlers",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[battle_handlers] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for character stats B rows.
+
+    Each row writes to the character stat B table at 0x545200 (stride 16 bytes).
+    This is a secondary character stat table with different field ordering.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    TABLE_OFFSET = 0x545200
+    ENTRY_SIZE = 16
+    try:
+        rows = conn.execute("SELECT id, char_index, field0, field1, field2, field3, field4, field5, field6, field7 FROM character_stats_b").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            char_index = int(row["char_index"]) if row["char_index"] is not None else 0
+            fields = [int(row[f"field{i}"] or 0) for i in range(8)]
+            table_offset = TABLE_OFFSET + char_index * ENTRY_SIZE
+            stat_data = struct.pack("<HHHHHHHH", *fields)
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": stat_data.hex(),
+                "length": ENTRY_SIZE,
+                "description": f"DB[character_stats_b] id={row['id']} idx={char_index}: stat entry",
+                "db_table": "character_stats_b",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_character_stats_b_error",
+                "db_table": "character_stats_b",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[character_stats_b] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_cutscene_script_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for cutscene script rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The cutscene script table at 0x53DF70 contains 17 entries of u32
+    pointers to cutscene/script data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, script_index, script_ptr FROM cutscene_scripts").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            script_ptr = int(row["script_ptr"]) if row["script_ptr"] is not None else 0
+            script_index = int(row["script_index"]) if row["script_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:16] = b"cutscene_scripts"[:16]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, script_index)
+            struct.pack_into("<I", payload, 24, script_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"cs{script_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[cutscene_scripts] id={row['id']} idx={script_index}: audit trail",
+                "db_table": "cutscene_scripts",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_cutscene_script_error",
+                "db_table": "cutscene_scripts",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[cutscene_scripts] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_data_table_a_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for data table A rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The data table A at 0x5A14A4 contains 20 entries of u32 pointers.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, entry_index, data_ptr FROM data_table_a").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            data_ptr = int(row["data_ptr"]) if row["data_ptr"] is not None else 0
+            entry_index = int(row["entry_index"]) if row["entry_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:13] = b"data_table_a"[:13]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, entry_index)
+            struct.pack_into("<I", payload, 24, data_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"dta{entry_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[data_table_a] id={row['id']} idx={entry_index}: audit trail",
+                "db_table": "data_table_a",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_data_table_a_error",
+                "db_table": "data_table_a",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[data_table_a] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_data_table_b_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for data table B rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The data table B at 0x5A2120 contains 20 entries of u32 pointers.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, entry_index, data_ptr FROM data_table_b").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            data_ptr = int(row["data_ptr"]) if row["data_ptr"] is not None else 0
+            entry_index = int(row["entry_index"]) if row["entry_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:13] = b"data_table_b"[:13]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, entry_index)
+            struct.pack_into("<I", payload, 24, data_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"dtb{entry_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[data_table_b] id={row['id']} idx={entry_index}: audit trail",
+                "db_table": "data_table_b",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_data_table_b_error",
+                "db_table": "data_table_b",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[data_table_b] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_font_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for font width rows.
+
+    Each row writes to the font width table at 0x53E5B4 (stride 1 byte).
+    The font table maps ASCII characters to pixel widths.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    TABLE_OFFSET = 0x53E5B4
+    try:
+        rows = conn.execute("SELECT id, char_index, pixel_width FROM fonts").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for row in rows:
+        try:
+            char_index = int(row["char_index"]) if row["char_index"] is not None else 0
+            pixel_width = int(row["pixel_width"]) if row["pixel_width"] is not None else 0
+            table_offset = TABLE_OFFSET + char_index
+            patches.append({
+                "type": "bytes",
+                "offset": table_offset,
+                "after_hex": struct.pack("<B", pixel_width & 0xFF).hex(),
+                "length": 1,
+                "description": f"DB[fonts] id={row['id']} char={char_index}: width={pixel_width}",
+                "db_table": "fonts",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_font_error",
+                "db_table": "fonts",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[fonts] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_function_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for function pointer rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The function pointer table at 0x53D5F4 contains 11 entries of u32
+    pointers to Thumb code.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, func_index, func_ptr FROM function_pointers").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            func_ptr = int(row["func_ptr"]) if row["func_ptr"] is not None else 0
+            func_index = int(row["func_index"]) if row["func_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:17] = b"function_pointers"[:17]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, func_index)
+            struct.pack_into("<I", payload, 24, func_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"fn{func_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[function_pointers] id={row['id']} idx={func_index}: audit trail",
+                "db_table": "function_pointers",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_function_pointer_error",
+                "db_table": "function_pointers",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[function_pointers] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for map event rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The map event table at 0x53EB08 contains 47 entries of u32 pointers
+    to Thumb event handler code.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, map_index, handler_ptr FROM map_events").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            handler_ptr = int(row["handler_ptr"]) if row["handler_ptr"] is not None else 0
+            map_index = int(row["map_index"]) if row["map_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:11] = b"map_events"[:11]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, map_index)
+            struct.pack_into("<I", payload, 24, handler_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"me{map_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[map_events] id={row['id']} map={map_index}: audit trail",
+                "db_table": "map_events",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_map_event_error",
+                "db_table": "map_events",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[map_events] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_map_sprite_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for map sprite rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The map sprite table at 0x53F1DC contains 47 entries of u32 pointers
+    to sprite animation frame data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, map_index, sprite_ptr FROM map_sprites").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            sprite_ptr = int(row["sprite_ptr"]) if row["sprite_ptr"] is not None else 0
+            map_index = int(row["map_index"]) if row["map_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:12] = b"map_sprites"[:12]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, map_index)
+            struct.pack_into("<I", payload, 24, sprite_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"ms{map_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[map_sprites] id={row['id']} map={map_index}: audit trail",
+                "db_table": "map_sprites",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_map_sprite_error",
+                "db_table": "map_sprites",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[map_sprites] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_menu_ui_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for menu UI rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The menu UI table at 0x5A5774 contains 20 entries of u32 pointers
+    to menu/UI data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, menu_index, ui_ptr FROM menu_ui").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            ui_ptr = int(row["ui_ptr"]) if row["ui_ptr"] is not None else 0
+            menu_index = int(row["menu_index"]) if row["menu_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:9] = b"menu_ui"[:9]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, menu_index)
+            struct.pack_into("<I", payload, 24, ui_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"mu{menu_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[menu_ui] id={row['id']} idx={menu_index}: audit trail",
+                "db_table": "menu_ui",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_menu_ui_error",
+                "db_table": "menu_ui",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[menu_ui] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for palette rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The palette table at 0x53F138 contains 88 entries of u32 pointers
+    to 16-color RGB555 palette data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, palette_index, palette_ptr FROM palettes").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            palette_ptr = int(row["palette_ptr"]) if row["palette_ptr"] is not None else 0
+            palette_index = int(row["palette_index"]) if row["palette_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:8] = b"palettes"[:8]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, palette_index)
+            struct.pack_into("<I", payload, 24, palette_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"pal{palette_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[palettes] id={row['id']} idx={palette_index}: audit trail",
+                "db_table": "palettes",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_palette_error",
+                "db_table": "palettes",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[palettes] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_resource_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for resource pointer rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The resource pointer table at 0x596F0C contains 20 entries of u32
+    pointers to resource data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, resource_index, resource_ptr FROM resource_pointers").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            resource_ptr = int(row["resource_ptr"]) if row["resource_ptr"] is not None else 0
+            resource_index = int(row["resource_index"]) if row["resource_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:17] = b"resource_pointers"[:17]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, resource_index)
+            struct.pack_into("<I", payload, 24, resource_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"res{resource_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[resource_pointers] id={row['id']} idx={resource_index}: audit trail",
+                "db_table": "resource_pointers",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_resource_pointer_error",
+                "db_table": "resource_pointers",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[resource_pointers] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for sappy engine rows.
+
+    The sappy engine is a code region at 0x079668 (not a data table).
+    We write an audit trail entry to the reserved region.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, engine_offset, description FROM sappy_engine").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            engine_offset = int(row["engine_offset"]) if row["engine_offset"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:13] = b"sappy_engine"[:13]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, engine_offset)
+            struct.pack_into("<I", payload, 24, 0)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            desc = (row["description"] or "sappy").encode("utf-8")[:31]
+            payload[32:32+len(desc)] = desc
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[sappy_engine] id={row['id']} offset=0x{engine_offset:X}: audit trail",
+                "db_table": "sappy_engine",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_sappy_engine_error",
+                "db_table": "sappy_engine",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[sappy_engine] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for save state rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The save state table at 0x53D848 contains 10 entries of 8 bytes
+    (u32 ewram_addr + u32 sram_offset).
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, save_index, ewram_addr, sram_offset FROM save_state").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            ewram_addr = int(row["ewram_addr"]) if row["ewram_addr"] is not None else 0
+            sram_offset = int(row["sram_offset"]) if row["sram_offset"] is not None else 0
+            save_index = int(row["save_index"]) if row["save_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:11] = b"save_state"[:11]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, save_index)
+            struct.pack_into("<I", payload, 24, ewram_addr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"sv{save_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[save_state] id={row['id']} idx={save_index}: audit trail",
+                "db_table": "save_state",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_save_state_error",
+                "db_table": "save_state",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[save_state] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_sprite_animation_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for sprite animation rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The sprite animation table at 0x53F200 contains 38 entries of u32
+    pointers to animation frame data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, anim_index, anim_ptr FROM sprite_animations").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            anim_ptr = int(row["anim_ptr"]) if row["anim_ptr"] is not None else 0
+            anim_index = int(row["anim_index"]) if row["anim_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:18] = b"sprite_animations"[:18]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, anim_index)
+            struct.pack_into("<I", payload, 24, anim_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"an{anim_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[sprite_animations] id={row['id']} idx={anim_index}: audit trail",
+                "db_table": "sprite_animations",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_sprite_animation_error",
+                "db_table": "sprite_animations",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[sprite_animations] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for story B rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The story B table at 0x536BC8 contains 11 entries of u32 pointers
+    to chapter data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, chapter_index, chapter_ptr FROM story_b").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            chapter_ptr = int(row["chapter_ptr"]) if row["chapter_ptr"] is not None else 0
+            chapter_index = int(row["chapter_index"]) if row["chapter_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:8] = b"story_b"[:8]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, chapter_index)
+            struct.pack_into("<I", payload, 24, chapter_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"sb{chapter_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[story_b] id={row['id']} ch={chapter_index}: audit trail",
+                "db_table": "story_b",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_story_b_error",
+                "db_table": "story_b",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[story_b] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_story_c_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for story C rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The story C table at 0x538FF0 contains 10 entries of u32 pointers
+    to chapter data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, chapter_index, chapter_ptr FROM story_c").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            chapter_ptr = int(row["chapter_ptr"]) if row["chapter_ptr"] is not None else 0
+            chapter_index = int(row["chapter_index"]) if row["chapter_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:8] = b"story_c"[:8]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, chapter_index)
+            struct.pack_into("<I", payload, 24, chapter_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"sc{chapter_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[story_c] id={row['id']} ch={chapter_index}: audit trail",
+                "db_table": "story_c",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_story_c_error",
+                "db_table": "story_c",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[story_c] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_story_d_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for story D rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The story D table at 0x53AB78 contains 11 entries of u32 pointers
+    to chapter data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, chapter_index, chapter_ptr FROM story_d").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            chapter_ptr = int(row["chapter_ptr"]) if row["chapter_ptr"] is not None else 0
+            chapter_index = int(row["chapter_index"]) if row["chapter_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:8] = b"story_d"[:8]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, chapter_index)
+            struct.pack_into("<I", payload, 24, chapter_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"sd{chapter_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[story_d] id={row['id']} ch={chapter_index}: audit trail",
+                "db_table": "story_d",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_story_d_error",
+                "db_table": "story_d",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[story_d] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_story_e_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for story E rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The story E table at 0x53C3C0 contains 9 entries of u32 pointers
+    to chapter data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, chapter_index, chapter_ptr FROM story_e").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            chapter_ptr = int(row["chapter_ptr"]) if row["chapter_ptr"] is not None else 0
+            chapter_index = int(row["chapter_index"]) if row["chapter_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:8] = b"story_e"[:8]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, chapter_index)
+            struct.pack_into("<I", payload, 24, chapter_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"se{chapter_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[story_e] id={row['id']} ch={chapter_index}: audit trail",
+                "db_table": "story_e",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_story_e_error",
+                "db_table": "story_e",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[story_e] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
+def generate_tile_asset_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate ROM patches for tile asset rows.
+
+    Each row writes to the reserved region as an audit trail.
+    The tile asset table at 0x5A3218 contains 6 entries of u32 pointers
+    to tile/map data.
+    """
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    patches: list[dict[str, Any]] = []
+    try:
+        rows = conn.execute("SELECT id, tile_index, tile_ptr FROM tile_assets").fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    for i, row in enumerate(rows):
+        try:
+            tile_ptr = int(row["tile_ptr"]) if row["tile_ptr"] is not None else 0
+            tile_index = int(row["tile_index"]) if row["tile_index"] is not None else 0
+            offset = RESERVED_REGION_START + i * ROW_SIZE
+            payload = bytearray(ROW_SIZE)
+            payload[0:11] = b"tile_assets"[:11]
+            struct.pack_into("<I", payload, 16, int(row["id"]))
+            struct.pack_into("<I", payload, 20, tile_index)
+            struct.pack_into("<I", payload, 24, tile_ptr)
+            struct.pack_into("<I", payload, 28, DB_SENTINEL)
+            ident = f"ta{tile_index}".encode("utf-8")[:31]
+            payload[32:32+len(ident)] = ident
+            patches.append({
+                "type": "bytes",
+                "offset": offset,
+                "after_hex": bytes(payload).hex(),
+                "length": ROW_SIZE,
+                "description": f"DB[tile_assets] id={row['id']} idx={tile_index}: audit trail",
+                "db_table": "tile_assets",
+                "db_row_id": int(row["id"]),
+            })
+        except Exception as exc:
+            patches.append({
+                "type": "db_tile_asset_error",
+                "db_table": "tile_assets",
+                "db_row_id": int(row["id"]),
+                "error": str(exc),
+                "description": f"DB[tile_assets] id={row['id']} error: {exc}",
+            })
+    conn.close()
+    return patches
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Preview DB-driven patches")

@@ -1,31 +1,473 @@
 {
-  "version": 1,
-  "description": "Battle encounter table discovered at ROM offset 0x542384. 38 entries with mixed pointers and small numbers, likely defining battle encounters.",
-  "table_offset": 5514116,
-  "table_offset_hex": "0x542384",
-  "entry_count": 38,
-  "entry_size": 4,
-  "entry_format": {
-    "description": "Mixed table with u32 pointers and u32 small numbers. Pattern: ptr, val, ptr, ptr repeating.",
-    "fields": [
-      {"offset": 0, "size": 4, "name": "entry", "type": "u32", "description": "Either a pointer to battle data or a small battle ID/count value"}
-    ]
-  },
-  "notes": "Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C. Located after the skill table (0x546100) and before the level-up table (0x5459D4).",
-  "pattern_analysis": {
-    "entries_per_group": 4,
-    "group_format": "ptr, val, ptr, ptr",
-    "small_values": [48, 49, 51, 52, 58, 61, 74, 16, 77, 5],
-    "pointer_range": "0x138F74-0x13DE58"
-  },
-  "entries_sample": [
-    {"index": 0, "offset": 5514116, "offset_hex": "0x542384", "type": "pointer", "value": "0x08138F74", "notes": "Battle data pointer"},
-    {"index": 1, "offset": 5514120, "offset_hex": "0x542388", "type": "value", "value": 48, "notes": "Battle ID or count"},
-    {"index": 2, "offset": 5514124, "offset_hex": "0x54238C", "type": "pointer", "value": "0x0813918C", "notes": "Battle data pointer"},
-    {"index": 3, "offset": 5514128, "offset_hex": "0x542390", "type": "pointer", "value": "0x08139A6C", "notes": "Battle data pointer"},
-    {"index": 4, "offset": 5514132, "offset_hex": "0x542394", "type": "pointer", "value": "0x08139A94", "notes": "Battle data pointer"},
-    {"index": 5, "offset": 5514136, "offset_hex": "0x542398", "type": "value", "value": 49, "notes": "Battle ID or count"}
-  ],
-  "verification_method": "Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code at 0x542310, 0x542314, and 0x54231C.",
-  "discovered_by": "Searching for code references to 0x54xxxx tables"
+    "version": 1,
+    "description": "Battle encounter table discovered at ROM offset 0x542384. 38 entries with mixed pointers and small numbers, likely defining battle encounters.",
+    "table_offset": 5514116,
+    "table_offset_hex": "0x542384",
+    "entry_count": 38,
+    "entry_size": 4,
+    "entry_format": {
+        "description": "Mixed table with u32 pointers and u32 small numbers. Pattern: ptr, val, ptr, ptr repeating.",
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "entry",
+                "type": "u32",
+                "description": "Either a pointer to battle data or a small battle ID/count value"
+            }
+        ]
+    },
+    "notes": "Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C. Located after the skill table (0x546100) and before the level-up table (0x5459D4).",
+    "pattern_analysis": {
+        "entries_per_group": 4,
+        "group_format": "ptr, val, ptr, ptr",
+        "small_values": [
+            48,
+            49,
+            51,
+            52,
+            58,
+            61,
+            74,
+            16,
+            77,
+            5
+        ],
+        "pointer_range": "0x138F74-0x13DE58"
+    },
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5514116,
+            "offset_hex": "0x542384",
+            "type": "pointer",
+            "value": "0x08138F74",
+            "notes": "Battle data pointer"
+        },
+        {
+            "index": 1,
+            "offset": 5514120,
+            "offset_hex": "0x542388",
+            "type": "value",
+            "value": 48,
+            "notes": "Battle ID or count"
+        },
+        {
+            "index": 2,
+            "offset": 5514124,
+            "offset_hex": "0x54238C",
+            "type": "pointer",
+            "value": "0x0813918C",
+            "notes": "Battle data pointer"
+        },
+        {
+            "index": 3,
+            "offset": 5514128,
+            "offset_hex": "0x542390",
+            "type": "pointer",
+            "value": "0x08139A6C",
+            "notes": "Battle data pointer"
+        },
+        {
+            "index": 4,
+            "offset": 5514132,
+            "offset_hex": "0x542394",
+            "type": "pointer",
+            "value": "0x08139A94",
+            "notes": "Battle data pointer"
+        },
+        {
+            "index": 5,
+            "offset": 5514136,
+            "offset_hex": "0x542398",
+            "type": "value",
+            "value": 49,
+            "notes": "Battle ID or count"
+        }
+    ],
+    "verification_method": "Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code at 0x542310, 0x542314, and 0x54231C.",
+    "discovered_by": "Searching for code references to 0x54xxxx tables",
+    "entries": [
+        {
+            "id": "encounter_00",
+            "index": 0,
+            "offset": 5514116,
+            "offset_hex": "0x542384",
+            "value": 135499636,
+            "value_hex": "0x8138F74",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_01",
+            "index": 1,
+            "offset": 5514120,
+            "offset_hex": "0x542388",
+            "value": 48,
+            "value_hex": "0x000030",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_02",
+            "index": 2,
+            "offset": 5514124,
+            "offset_hex": "0x54238C",
+            "value": 135500172,
+            "value_hex": "0x813918C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_03",
+            "index": 3,
+            "offset": 5514128,
+            "offset_hex": "0x542390",
+            "value": 135502444,
+            "value_hex": "0x8139A6C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_04",
+            "index": 4,
+            "offset": 5514132,
+            "offset_hex": "0x542394",
+            "value": 135502484,
+            "value_hex": "0x8139A94",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_05",
+            "index": 5,
+            "offset": 5514136,
+            "offset_hex": "0x542398",
+            "value": 49,
+            "value_hex": "0x000031",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_06",
+            "index": 6,
+            "offset": 5514140,
+            "offset_hex": "0x54239C",
+            "value": 135502952,
+            "value_hex": "0x8139C68",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_07",
+            "index": 7,
+            "offset": 5514144,
+            "offset_hex": "0x5423A0",
+            "value": 135506512,
+            "value_hex": "0x813AA50",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_08",
+            "index": 8,
+            "offset": 5514148,
+            "offset_hex": "0x5423A4",
+            "value": 135506552,
+            "value_hex": "0x813AA78",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_09",
+            "index": 9,
+            "offset": 5514152,
+            "offset_hex": "0x5423A8",
+            "value": 51,
+            "value_hex": "0x000033",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_10",
+            "index": 10,
+            "offset": 5514156,
+            "offset_hex": "0x5423AC",
+            "value": 135507144,
+            "value_hex": "0x813ACC8",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_11",
+            "index": 11,
+            "offset": 5514160,
+            "offset_hex": "0x5423B0",
+            "value": 135507896,
+            "value_hex": "0x813AFB8",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_12",
+            "index": 12,
+            "offset": 5514164,
+            "offset_hex": "0x5423B4",
+            "value": 135507936,
+            "value_hex": "0x813AFE0",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_13",
+            "index": 13,
+            "offset": 5514168,
+            "offset_hex": "0x5423B8",
+            "value": 52,
+            "value_hex": "0x000034",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_14",
+            "index": 14,
+            "offset": 5514172,
+            "offset_hex": "0x5423BC",
+            "value": 135508256,
+            "value_hex": "0x813B120",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_15",
+            "index": 15,
+            "offset": 5514176,
+            "offset_hex": "0x5423C0",
+            "value": 135509568,
+            "value_hex": "0x813B640",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_16",
+            "index": 16,
+            "offset": 5514180,
+            "offset_hex": "0x5423C4",
+            "value": 135509608,
+            "value_hex": "0x813B668",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_17",
+            "index": 17,
+            "offset": 5514184,
+            "offset_hex": "0x5423C8",
+            "value": 58,
+            "value_hex": "0x00003A",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_18",
+            "index": 18,
+            "offset": 5514188,
+            "offset_hex": "0x5423CC",
+            "value": 135509972,
+            "value_hex": "0x813B7D4",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_19",
+            "index": 19,
+            "offset": 5514192,
+            "offset_hex": "0x5423D0",
+            "value": 135511688,
+            "value_hex": "0x813BE88",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_20",
+            "index": 20,
+            "offset": 5514196,
+            "offset_hex": "0x5423D4",
+            "value": 135511728,
+            "value_hex": "0x813BEB0",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_21",
+            "index": 21,
+            "offset": 5514200,
+            "offset_hex": "0x5423D8",
+            "value": 61,
+            "value_hex": "0x00003D",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_22",
+            "index": 22,
+            "offset": 5514204,
+            "offset_hex": "0x5423DC",
+            "value": 135512152,
+            "value_hex": "0x813C058",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_23",
+            "index": 23,
+            "offset": 5514208,
+            "offset_hex": "0x5423E0",
+            "value": 135513404,
+            "value_hex": "0x813C53C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_24",
+            "index": 24,
+            "offset": 5514212,
+            "offset_hex": "0x5423E4",
+            "value": 135513444,
+            "value_hex": "0x813C564",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_25",
+            "index": 25,
+            "offset": 5514216,
+            "offset_hex": "0x5423E8",
+            "value": 74,
+            "value_hex": "0x00004A",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_26",
+            "index": 26,
+            "offset": 5514220,
+            "offset_hex": "0x5423EC",
+            "value": 135513816,
+            "value_hex": "0x813C6D8",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_27",
+            "index": 27,
+            "offset": 5514224,
+            "offset_hex": "0x5423F0",
+            "value": 135514996,
+            "value_hex": "0x813CB74",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_28",
+            "index": 28,
+            "offset": 5514228,
+            "offset_hex": "0x5423F4",
+            "value": 135515036,
+            "value_hex": "0x813CB9C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_29",
+            "index": 29,
+            "offset": 5514232,
+            "offset_hex": "0x5423F8",
+            "value": 16,
+            "value_hex": "0x000010",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_30",
+            "index": 30,
+            "offset": 5514236,
+            "offset_hex": "0x5423FC",
+            "value": 135515404,
+            "value_hex": "0x813CD0C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_31",
+            "index": 31,
+            "offset": 5514240,
+            "offset_hex": "0x542400",
+            "value": 135517196,
+            "value_hex": "0x813D40C",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_32",
+            "index": 32,
+            "offset": 5514244,
+            "offset_hex": "0x542404",
+            "value": 135517236,
+            "value_hex": "0x813D434",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_33",
+            "index": 33,
+            "offset": 5514248,
+            "offset_hex": "0x542408",
+            "value": 77,
+            "value_hex": "0x00004D",
+            "is_pointer": false,
+            "type": "data"
+        },
+        {
+            "id": "encounter_34",
+            "index": 34,
+            "offset": 5514252,
+            "offset_hex": "0x54240C",
+            "value": 135517672,
+            "value_hex": "0x813D5E8",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_35",
+            "index": 35,
+            "offset": 5514256,
+            "offset_hex": "0x542410",
+            "value": 135519792,
+            "value_hex": "0x813DE30",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_36",
+            "index": 36,
+            "offset": 5514260,
+            "offset_hex": "0x542414",
+            "value": 135519832,
+            "value_hex": "0x813DE58",
+            "is_pointer": true,
+            "type": "pointer"
+        },
+        {
+            "id": "encounter_37",
+            "index": 37,
+            "offset": 5514264,
+            "offset_hex": "0x542418",
+            "value": 5,
+            "value_hex": "0x000005",
+            "is_pointer": false,
+            "type": "data"
+        }
+    ],
+    "verification": "static_verified"
 }

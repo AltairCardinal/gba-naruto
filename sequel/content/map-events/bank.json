@@ -1,31 +1,460 @@
 {
-  "version": 1,
-  "description": "Map event handler pointer table discovered at ROM offset 0x53EB08. 47 entries of u32 pointers to Thumb event handler code.",
-  "table_offset": 5499656,
-  "table_offset_hex": "0x53EB08",
-  "entry_count": 47,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "handler_ptr", "type": "u32", "description": "Pointer to Thumb event handler code for this map"}
+    "version": 1,
+    "description": "Map event handler pointer table discovered at ROM offset 0x53EB08. 47 entries of u32 pointers to Thumb event handler code.",
+    "table_offset": 5499656,
+    "table_offset_hex": "0x53EB08",
+    "entry_count": 47,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "handler_ptr",
+                "type": "u32",
+                "description": "Pointer to Thumb event handler code for this map"
+            }
+        ]
+    },
+    "notes": "Map event handler pointer table with one entry per map (47 maps total). All entries point to Thumb code (PUSH instructions). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).",
+    "handler_summary": {
+        "0x07EA7D": "Used by maps 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26",
+        "0x07EAF9": "Used by maps 0, 2, 4",
+        "0x07EBA1": "Used by maps 28, 30, 32",
+        "0x07EC49": "Used by maps 34, 36, 38, 40, 42, 44",
+        "0x07ED21": "Not used in this table (but exists as a handler)",
+        "0x07F065": "Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)"
+    },
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5499656,
+            "offset_hex": "0x53EB08",
+            "handler_ptr": "0x0807EAF9",
+            "handler_offset": "0x07EAF9",
+            "notes": "Map 0 handler"
+        },
+        {
+            "index": 1,
+            "offset": 5499660,
+            "offset_hex": "0x53EB0C",
+            "handler_ptr": "0x0807F065",
+            "handler_offset": "0x07F065",
+            "notes": "Map 1 handler"
+        },
+        {
+            "index": 6,
+            "offset": 5499680,
+            "offset_hex": "0x53EB20",
+            "handler_ptr": "0x0807EA7D",
+            "handler_offset": "0x07EA7D",
+            "notes": "Map 6 handler"
+        },
+        {
+            "index": 28,
+            "offset": 5499768,
+            "offset_hex": "0x53EB78",
+            "handler_ptr": "0x0807EBA1",
+            "handler_offset": "0x07EBA1",
+            "notes": "Map 28 handler"
+        },
+        {
+            "index": 34,
+            "offset": 5499792,
+            "offset_hex": "0x53EB90",
+            "handler_ptr": "0x0807EC49",
+            "handler_offset": "0x07EC49",
+            "notes": "Map 34 handler"
+        }
+    ],
+    "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53EB08, all pointing to valid ROM addresses. All targets start with Thumb PUSH instructions (0xB5xx), confirming they are code pointers.",
+    "discovered_by": "Searching for 47-entry pointer tables matching map count",
+    "entries": [
+        {
+            "id": "map_event_00",
+            "index": 0,
+            "offset": 5499656,
+            "offset_hex": "0x53EB08",
+            "handler_ptr": 134736633,
+            "handler_ptr_hex": "0x807EAF9"
+        },
+        {
+            "id": "map_event_01",
+            "index": 1,
+            "offset": 5499660,
+            "offset_hex": "0x53EB0C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_02",
+            "index": 2,
+            "offset": 5499664,
+            "offset_hex": "0x53EB10",
+            "handler_ptr": 134736633,
+            "handler_ptr_hex": "0x807EAF9"
+        },
+        {
+            "id": "map_event_03",
+            "index": 3,
+            "offset": 5499668,
+            "offset_hex": "0x53EB14",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_04",
+            "index": 4,
+            "offset": 5499672,
+            "offset_hex": "0x53EB18",
+            "handler_ptr": 134736633,
+            "handler_ptr_hex": "0x807EAF9"
+        },
+        {
+            "id": "map_event_05",
+            "index": 5,
+            "offset": 5499676,
+            "offset_hex": "0x53EB1C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_06",
+            "index": 6,
+            "offset": 5499680,
+            "offset_hex": "0x53EB20",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_07",
+            "index": 7,
+            "offset": 5499684,
+            "offset_hex": "0x53EB24",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_08",
+            "index": 8,
+            "offset": 5499688,
+            "offset_hex": "0x53EB28",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_09",
+            "index": 9,
+            "offset": 5499692,
+            "offset_hex": "0x53EB2C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_10",
+            "index": 10,
+            "offset": 5499696,
+            "offset_hex": "0x53EB30",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_11",
+            "index": 11,
+            "offset": 5499700,
+            "offset_hex": "0x53EB34",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_12",
+            "index": 12,
+            "offset": 5499704,
+            "offset_hex": "0x53EB38",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_13",
+            "index": 13,
+            "offset": 5499708,
+            "offset_hex": "0x53EB3C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_14",
+            "index": 14,
+            "offset": 5499712,
+            "offset_hex": "0x53EB40",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_15",
+            "index": 15,
+            "offset": 5499716,
+            "offset_hex": "0x53EB44",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_16",
+            "index": 16,
+            "offset": 5499720,
+            "offset_hex": "0x53EB48",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_17",
+            "index": 17,
+            "offset": 5499724,
+            "offset_hex": "0x53EB4C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_18",
+            "index": 18,
+            "offset": 5499728,
+            "offset_hex": "0x53EB50",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_19",
+            "index": 19,
+            "offset": 5499732,
+            "offset_hex": "0x53EB54",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_20",
+            "index": 20,
+            "offset": 5499736,
+            "offset_hex": "0x53EB58",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_21",
+            "index": 21,
+            "offset": 5499740,
+            "offset_hex": "0x53EB5C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_22",
+            "index": 22,
+            "offset": 5499744,
+            "offset_hex": "0x53EB60",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_23",
+            "index": 23,
+            "offset": 5499748,
+            "offset_hex": "0x53EB64",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_24",
+            "index": 24,
+            "offset": 5499752,
+            "offset_hex": "0x53EB68",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_25",
+            "index": 25,
+            "offset": 5499756,
+            "offset_hex": "0x53EB6C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_26",
+            "index": 26,
+            "offset": 5499760,
+            "offset_hex": "0x53EB70",
+            "handler_ptr": 134736509,
+            "handler_ptr_hex": "0x807EA7D"
+        },
+        {
+            "id": "map_event_27",
+            "index": 27,
+            "offset": 5499764,
+            "offset_hex": "0x53EB74",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_28",
+            "index": 28,
+            "offset": 5499768,
+            "offset_hex": "0x53EB78",
+            "handler_ptr": 134736801,
+            "handler_ptr_hex": "0x807EBA1"
+        },
+        {
+            "id": "map_event_29",
+            "index": 29,
+            "offset": 5499772,
+            "offset_hex": "0x53EB7C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_30",
+            "index": 30,
+            "offset": 5499776,
+            "offset_hex": "0x53EB80",
+            "handler_ptr": 134736801,
+            "handler_ptr_hex": "0x807EBA1"
+        },
+        {
+            "id": "map_event_31",
+            "index": 31,
+            "offset": 5499780,
+            "offset_hex": "0x53EB84",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_32",
+            "index": 32,
+            "offset": 5499784,
+            "offset_hex": "0x53EB88",
+            "handler_ptr": 134736801,
+            "handler_ptr_hex": "0x807EBA1"
+        },
+        {
+            "id": "map_event_33",
+            "index": 33,
+            "offset": 5499788,
+            "offset_hex": "0x53EB8C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_34",
+            "index": 34,
+            "offset": 5499792,
+            "offset_hex": "0x53EB90",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_35",
+            "index": 35,
+            "offset": 5499796,
+            "offset_hex": "0x53EB94",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_36",
+            "index": 36,
+            "offset": 5499800,
+            "offset_hex": "0x53EB98",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_37",
+            "index": 37,
+            "offset": 5499804,
+            "offset_hex": "0x53EB9C",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_38",
+            "index": 38,
+            "offset": 5499808,
+            "offset_hex": "0x53EBA0",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_39",
+            "index": 39,
+            "offset": 5499812,
+            "offset_hex": "0x53EBA4",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_40",
+            "index": 40,
+            "offset": 5499816,
+            "offset_hex": "0x53EBA8",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_41",
+            "index": 41,
+            "offset": 5499820,
+            "offset_hex": "0x53EBAC",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_42",
+            "index": 42,
+            "offset": 5499824,
+            "offset_hex": "0x53EBB0",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_43",
+            "index": 43,
+            "offset": 5499828,
+            "offset_hex": "0x53EBB4",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_44",
+            "index": 44,
+            "offset": 5499832,
+            "offset_hex": "0x53EBB8",
+            "handler_ptr": 134736969,
+            "handler_ptr_hex": "0x807EC49"
+        },
+        {
+            "id": "map_event_45",
+            "index": 45,
+            "offset": 5499836,
+            "offset_hex": "0x53EBBC",
+            "handler_ptr": 134738021,
+            "handler_ptr_hex": "0x807F065"
+        },
+        {
+            "id": "map_event_46",
+            "index": 46,
+            "offset": 5499840,
+            "offset_hex": "0x53EBC0",
+            "handler_ptr": 134737185,
+            "handler_ptr_hex": "0x807ED21"
+        }
+    ],
+    "verification": "static_verified",
+    "unique_handler_count": 6,
+    "unique_handlers": [
+        "0x807EA7D",
+        "0x807EAF9",
+        "0x807EBA1",
+        "0x807EC49",
+        "0x807ED21",
+        "0x807F065"
     ]
-  },
-  "notes": "Map event handler pointer table with one entry per map (47 maps total). All entries point to Thumb code (PUSH instructions). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).",
-  "handler_summary": {
-    "0x07EA7D": "Used by maps 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26",
-    "0x07EAF9": "Used by maps 0, 2, 4",
-    "0x07EBA1": "Used by maps 28, 30, 32",
-    "0x07EC49": "Used by maps 34, 36, 38, 40, 42, 44",
-    "0x07ED21": "Not used in this table (but exists as a handler)",
-    "0x07F065": "Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)"
-  },
-  "entries_sample": [
-    {"index": 0, "offset": 5499656, "offset_hex": "0x53EB08", "handler_ptr": "0x0807EAF9", "handler_offset": "0x07EAF9", "notes": "Map 0 handler"},
-    {"index": 1, "offset": 5499660, "offset_hex": "0x53EB0C", "handler_ptr": "0x0807F065", "handler_offset": "0x07F065", "notes": "Map 1 handler"},
-    {"index": 6, "offset": 5499680, "offset_hex": "0x53EB20", "handler_ptr": "0x0807EA7D", "handler_offset": "0x07EA7D", "notes": "Map 6 handler"},
-    {"index": 28, "offset": 5499768, "offset_hex": "0x53EB78", "handler_ptr": "0x0807EBA1", "handler_offset": "0x07EBA1", "notes": "Map 28 handler"},
-    {"index": 34, "offset": 5499792, "offset_hex": "0x53EB90", "handler_ptr": "0x0807EC49", "handler_offset": "0x07EC49", "notes": "Map 34 handler"}
-  ],
-  "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53EB08, all pointing to valid ROM addresses. All targets start with Thumb PUSH instructions (0xB5xx), confirming they are code pointers.",
-  "discovered_by": "Searching for 47-entry pointer tables matching map count"
 }

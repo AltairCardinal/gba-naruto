@@ -1,29 +1,778 @@
 {
-  "version": 1,
-  "description": "Character palette table discovered at ROM offset 0x53F138. 88 entries of u32 pointers to 16-color RGB555 palette data.",
-  "table_offset": 5501240,
-  "table_offset_hex": "0x53F138",
-  "entry_count": 88,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "palette_ptr", "type": "u32", "description": "Pointer to 16-color RGB555 palette data (32 bytes)"}
-    ]
-  },
-  "palette_format": {
-    "description": "Each palette is 32 bytes = 16 colors in GBA RGB555 format",
-    "color_format": "u16: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)",
-    "size": 32
-  },
-  "notes": "Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (code?), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character. The primary palette has transparency at index 4 (31,31,31 = white), alternate has different structure. Referenced from battle/character rendering code.",
-  "entries_sample": [
-    {"index": 0, "offset": 5501240, "offset_hex": "0x53F138", "palette_ptr": "0x080808BD", "notes": "Points to 0x0808xx region (possibly code)"},
-    {"index": 1, "offset": 5501244, "offset_hex": "0x53F13C", "palette_ptr": "0x08080965", "notes": "Points to 0x0808xx region (possibly code)"},
-    {"index": 2, "offset": 5501248, "offset_hex": "0x53F140", "palette_ptr": "0x0812F5B0", "notes": "Character 0 primary palette"},
-    {"index": 3, "offset": 5501252, "offset_hex": "0x53F144", "palette_ptr": "0x0812F5BC", "notes": "Character 0 alternate palette"},
-    {"index": 4, "offset": 5501256, "offset_hex": "0x53F148", "palette_ptr": "0x0812F5D8", "notes": "Character 1 primary palette"},
-    {"index": 5, "offset": 5501260, "offset_hex": "0x53F14C", "palette_ptr": "0x0812F5E4", "notes": "Character 1 alternate palette"}
-  ],
-  "verification_method": "Static analysis - found 88 consecutive u32 pointers at 0x53F138, all pointing to valid ROM addresses. 86 of 88 entries point to data that decodes as valid RGB555 palette data (has dark colors, bright colors, and variety).",
-  "discovered_by": "Searching for palette pointer tables near map headers and character data"
+    "version": 1,
+    "description": "Character palette table discovered at ROM offset 0x53F138. 88 entries of u32 pointers to 16-color RGB555 palette data.",
+    "table_offset": 5501240,
+    "table_offset_hex": "0x53F138",
+    "entry_count": 88,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "palette_ptr",
+                "type": "u32",
+                "description": "Pointer to 16-color RGB555 palette data (32 bytes)"
+            }
+        ]
+    },
+    "palette_format": {
+        "description": "Each palette is 32 bytes = 16 colors in GBA RGB555 format",
+        "color_format": "u16: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)",
+        "size": 32
+    },
+    "notes": "Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (code?), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character. The primary palette has transparency at index 4 (31,31,31 = white), alternate has different structure. Referenced from battle/character rendering code.",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5501240,
+            "offset_hex": "0x53F138",
+            "palette_ptr": "0x080808BD",
+            "notes": "Points to 0x0808xx region (possibly code)"
+        },
+        {
+            "index": 1,
+            "offset": 5501244,
+            "offset_hex": "0x53F13C",
+            "palette_ptr": "0x08080965",
+            "notes": "Points to 0x0808xx region (possibly code)"
+        },
+        {
+            "index": 2,
+            "offset": 5501248,
+            "offset_hex": "0x53F140",
+            "palette_ptr": "0x0812F5B0",
+            "notes": "Character 0 primary palette"
+        },
+        {
+            "index": 3,
+            "offset": 5501252,
+            "offset_hex": "0x53F144",
+            "palette_ptr": "0x0812F5BC",
+            "notes": "Character 0 alternate palette"
+        },
+        {
+            "index": 4,
+            "offset": 5501256,
+            "offset_hex": "0x53F148",
+            "palette_ptr": "0x0812F5D8",
+            "notes": "Character 1 primary palette"
+        },
+        {
+            "index": 5,
+            "offset": 5501260,
+            "offset_hex": "0x53F14C",
+            "palette_ptr": "0x0812F5E4",
+            "notes": "Character 1 alternate palette"
+        }
+    ],
+    "verification_method": "Static analysis - found 88 consecutive u32 pointers at 0x53F138, all pointing to valid ROM addresses. 86 of 88 entries point to data that decodes as valid RGB555 palette data (has dark colors, bright colors, and variety).",
+    "discovered_by": "Searching for palette pointer tables near map headers and character data",
+    "entries": [
+        {
+            "id": "palette_00",
+            "index": 0,
+            "offset": 5501240,
+            "offset_hex": "0x53F138",
+            "palette_ptr": 134744253,
+            "palette_ptr_hex": "0x80808BD"
+        },
+        {
+            "id": "palette_01",
+            "index": 1,
+            "offset": 5501244,
+            "offset_hex": "0x53F13C",
+            "palette_ptr": 134744421,
+            "palette_ptr_hex": "0x8080965"
+        },
+        {
+            "id": "palette_02",
+            "index": 2,
+            "offset": 5501248,
+            "offset_hex": "0x53F140",
+            "palette_ptr": 135460272,
+            "palette_ptr_hex": "0x812F5B0"
+        },
+        {
+            "id": "palette_03",
+            "index": 3,
+            "offset": 5501252,
+            "offset_hex": "0x53F144",
+            "palette_ptr": 135460284,
+            "palette_ptr_hex": "0x812F5BC"
+        },
+        {
+            "id": "palette_04",
+            "index": 4,
+            "offset": 5501256,
+            "offset_hex": "0x53F148",
+            "palette_ptr": 135460312,
+            "palette_ptr_hex": "0x812F5D8"
+        },
+        {
+            "id": "palette_05",
+            "index": 5,
+            "offset": 5501260,
+            "offset_hex": "0x53F14C",
+            "palette_ptr": 135460324,
+            "palette_ptr_hex": "0x812F5E4"
+        },
+        {
+            "id": "palette_06",
+            "index": 6,
+            "offset": 5501264,
+            "offset_hex": "0x53F150",
+            "palette_ptr": 135460352,
+            "palette_ptr_hex": "0x812F600"
+        },
+        {
+            "id": "palette_07",
+            "index": 7,
+            "offset": 5501268,
+            "offset_hex": "0x53F154",
+            "palette_ptr": 135460364,
+            "palette_ptr_hex": "0x812F60C"
+        },
+        {
+            "id": "palette_08",
+            "index": 8,
+            "offset": 5501272,
+            "offset_hex": "0x53F158",
+            "palette_ptr": 135460392,
+            "palette_ptr_hex": "0x812F628"
+        },
+        {
+            "id": "palette_09",
+            "index": 9,
+            "offset": 5501276,
+            "offset_hex": "0x53F15C",
+            "palette_ptr": 135460404,
+            "palette_ptr_hex": "0x812F634"
+        },
+        {
+            "id": "palette_10",
+            "index": 10,
+            "offset": 5501280,
+            "offset_hex": "0x53F160",
+            "palette_ptr": 135460432,
+            "palette_ptr_hex": "0x812F650"
+        },
+        {
+            "id": "palette_11",
+            "index": 11,
+            "offset": 5501284,
+            "offset_hex": "0x53F164",
+            "palette_ptr": 135460444,
+            "palette_ptr_hex": "0x812F65C"
+        },
+        {
+            "id": "palette_12",
+            "index": 12,
+            "offset": 5501288,
+            "offset_hex": "0x53F168",
+            "palette_ptr": 135460472,
+            "palette_ptr_hex": "0x812F678"
+        },
+        {
+            "id": "palette_13",
+            "index": 13,
+            "offset": 5501292,
+            "offset_hex": "0x53F16C",
+            "palette_ptr": 135460484,
+            "palette_ptr_hex": "0x812F684"
+        },
+        {
+            "id": "palette_14",
+            "index": 14,
+            "offset": 5501296,
+            "offset_hex": "0x53F170",
+            "palette_ptr": 135460512,
+            "palette_ptr_hex": "0x812F6A0"
+        },
+        {
+            "id": "palette_15",
+            "index": 15,
+            "offset": 5501300,
+            "offset_hex": "0x53F174",
+            "palette_ptr": 135460524,
+            "palette_ptr_hex": "0x812F6AC"
+        },
+        {
+            "id": "palette_16",
+            "index": 16,
+            "offset": 5501304,
+            "offset_hex": "0x53F178",
+            "palette_ptr": 135460552,
+            "palette_ptr_hex": "0x812F6C8"
+        },
+        {
+            "id": "palette_17",
+            "index": 17,
+            "offset": 5501308,
+            "offset_hex": "0x53F17C",
+            "palette_ptr": 135460564,
+            "palette_ptr_hex": "0x812F6D4"
+        },
+        {
+            "id": "palette_18",
+            "index": 18,
+            "offset": 5501312,
+            "offset_hex": "0x53F180",
+            "palette_ptr": 135460592,
+            "palette_ptr_hex": "0x812F6F0"
+        },
+        {
+            "id": "palette_19",
+            "index": 19,
+            "offset": 5501316,
+            "offset_hex": "0x53F184",
+            "palette_ptr": 135460604,
+            "palette_ptr_hex": "0x812F6FC"
+        },
+        {
+            "id": "palette_20",
+            "index": 20,
+            "offset": 5501320,
+            "offset_hex": "0x53F188",
+            "palette_ptr": 135460632,
+            "palette_ptr_hex": "0x812F718"
+        },
+        {
+            "id": "palette_21",
+            "index": 21,
+            "offset": 5501324,
+            "offset_hex": "0x53F18C",
+            "palette_ptr": 135460644,
+            "palette_ptr_hex": "0x812F724"
+        },
+        {
+            "id": "palette_22",
+            "index": 22,
+            "offset": 5501328,
+            "offset_hex": "0x53F190",
+            "palette_ptr": 135461072,
+            "palette_ptr_hex": "0x812F8D0"
+        },
+        {
+            "id": "palette_23",
+            "index": 23,
+            "offset": 5501332,
+            "offset_hex": "0x53F194",
+            "palette_ptr": 135461084,
+            "palette_ptr_hex": "0x812F8DC"
+        },
+        {
+            "id": "palette_24",
+            "index": 24,
+            "offset": 5501336,
+            "offset_hex": "0x53F198",
+            "palette_ptr": 135461112,
+            "palette_ptr_hex": "0x812F8F8"
+        },
+        {
+            "id": "palette_25",
+            "index": 25,
+            "offset": 5501340,
+            "offset_hex": "0x53F19C",
+            "palette_ptr": 135461124,
+            "palette_ptr_hex": "0x812F904"
+        },
+        {
+            "id": "palette_26",
+            "index": 26,
+            "offset": 5501344,
+            "offset_hex": "0x53F1A0",
+            "palette_ptr": 135461152,
+            "palette_ptr_hex": "0x812F920"
+        },
+        {
+            "id": "palette_27",
+            "index": 27,
+            "offset": 5501348,
+            "offset_hex": "0x53F1A4",
+            "palette_ptr": 135461164,
+            "palette_ptr_hex": "0x812F92C"
+        },
+        {
+            "id": "palette_28",
+            "index": 28,
+            "offset": 5501352,
+            "offset_hex": "0x53F1A8",
+            "palette_ptr": 135461192,
+            "palette_ptr_hex": "0x812F948"
+        },
+        {
+            "id": "palette_29",
+            "index": 29,
+            "offset": 5501356,
+            "offset_hex": "0x53F1AC",
+            "palette_ptr": 135461204,
+            "palette_ptr_hex": "0x812F954"
+        },
+        {
+            "id": "palette_30",
+            "index": 30,
+            "offset": 5501360,
+            "offset_hex": "0x53F1B0",
+            "palette_ptr": 135461232,
+            "palette_ptr_hex": "0x812F970"
+        },
+        {
+            "id": "palette_31",
+            "index": 31,
+            "offset": 5501364,
+            "offset_hex": "0x53F1B4",
+            "palette_ptr": 135461244,
+            "palette_ptr_hex": "0x812F97C"
+        },
+        {
+            "id": "palette_32",
+            "index": 32,
+            "offset": 5501368,
+            "offset_hex": "0x53F1B8",
+            "palette_ptr": 135461272,
+            "palette_ptr_hex": "0x812F998"
+        },
+        {
+            "id": "palette_33",
+            "index": 33,
+            "offset": 5501372,
+            "offset_hex": "0x53F1BC",
+            "palette_ptr": 135461284,
+            "palette_ptr_hex": "0x812F9A4"
+        },
+        {
+            "id": "palette_34",
+            "index": 34,
+            "offset": 5501376,
+            "offset_hex": "0x53F1C0",
+            "palette_ptr": 135461312,
+            "palette_ptr_hex": "0x812F9C0"
+        },
+        {
+            "id": "palette_35",
+            "index": 35,
+            "offset": 5501380,
+            "offset_hex": "0x53F1C4",
+            "palette_ptr": 135461324,
+            "palette_ptr_hex": "0x812F9CC"
+        },
+        {
+            "id": "palette_36",
+            "index": 36,
+            "offset": 5501384,
+            "offset_hex": "0x53F1C8",
+            "palette_ptr": 135461352,
+            "palette_ptr_hex": "0x812F9E8"
+        },
+        {
+            "id": "palette_37",
+            "index": 37,
+            "offset": 5501388,
+            "offset_hex": "0x53F1CC",
+            "palette_ptr": 135461364,
+            "palette_ptr_hex": "0x812F9F4"
+        },
+        {
+            "id": "palette_38",
+            "index": 38,
+            "offset": 5501392,
+            "offset_hex": "0x53F1D0",
+            "palette_ptr": 135461392,
+            "palette_ptr_hex": "0x812FA10"
+        },
+        {
+            "id": "palette_39",
+            "index": 39,
+            "offset": 5501396,
+            "offset_hex": "0x53F1D4",
+            "palette_ptr": 135461404,
+            "palette_ptr_hex": "0x812FA1C"
+        },
+        {
+            "id": "palette_40",
+            "index": 40,
+            "offset": 5501400,
+            "offset_hex": "0x53F1D8",
+            "palette_ptr": 135461432,
+            "palette_ptr_hex": "0x812FA38"
+        },
+        {
+            "id": "palette_41",
+            "index": 41,
+            "offset": 5501404,
+            "offset_hex": "0x53F1DC",
+            "palette_ptr": 135461444,
+            "palette_ptr_hex": "0x812FA44"
+        },
+        {
+            "id": "palette_42",
+            "index": 42,
+            "offset": 5501408,
+            "offset_hex": "0x53F1E0",
+            "palette_ptr": 135461552,
+            "palette_ptr_hex": "0x812FAB0"
+        },
+        {
+            "id": "palette_43",
+            "index": 43,
+            "offset": 5501412,
+            "offset_hex": "0x53F1E4",
+            "palette_ptr": 135461564,
+            "palette_ptr_hex": "0x812FABC"
+        },
+        {
+            "id": "palette_44",
+            "index": 44,
+            "offset": 5501416,
+            "offset_hex": "0x53F1E8",
+            "palette_ptr": 135461592,
+            "palette_ptr_hex": "0x812FAD8"
+        },
+        {
+            "id": "palette_45",
+            "index": 45,
+            "offset": 5501420,
+            "offset_hex": "0x53F1EC",
+            "palette_ptr": 135461604,
+            "palette_ptr_hex": "0x812FAE4"
+        },
+        {
+            "id": "palette_46",
+            "index": 46,
+            "offset": 5501424,
+            "offset_hex": "0x53F1F0",
+            "palette_ptr": 135461632,
+            "palette_ptr_hex": "0x812FB00"
+        },
+        {
+            "id": "palette_47",
+            "index": 47,
+            "offset": 5501428,
+            "offset_hex": "0x53F1F4",
+            "palette_ptr": 135461644,
+            "palette_ptr_hex": "0x812FB0C"
+        },
+        {
+            "id": "palette_48",
+            "index": 48,
+            "offset": 5501432,
+            "offset_hex": "0x53F1F8",
+            "palette_ptr": 135461672,
+            "palette_ptr_hex": "0x812FB28"
+        },
+        {
+            "id": "palette_49",
+            "index": 49,
+            "offset": 5501436,
+            "offset_hex": "0x53F1FC",
+            "palette_ptr": 135461684,
+            "palette_ptr_hex": "0x812FB34"
+        },
+        {
+            "id": "palette_50",
+            "index": 50,
+            "offset": 5501440,
+            "offset_hex": "0x53F200",
+            "palette_ptr": 135461712,
+            "palette_ptr_hex": "0x812FB50"
+        },
+        {
+            "id": "palette_51",
+            "index": 51,
+            "offset": 5501444,
+            "offset_hex": "0x53F204",
+            "palette_ptr": 135461724,
+            "palette_ptr_hex": "0x812FB5C"
+        },
+        {
+            "id": "palette_52",
+            "index": 52,
+            "offset": 5501448,
+            "offset_hex": "0x53F208",
+            "palette_ptr": 135461752,
+            "palette_ptr_hex": "0x812FB78"
+        },
+        {
+            "id": "palette_53",
+            "index": 53,
+            "offset": 5501452,
+            "offset_hex": "0x53F20C",
+            "palette_ptr": 135461764,
+            "palette_ptr_hex": "0x812FB84"
+        },
+        {
+            "id": "palette_54",
+            "index": 54,
+            "offset": 5501456,
+            "offset_hex": "0x53F210",
+            "palette_ptr": 135461792,
+            "palette_ptr_hex": "0x812FBA0"
+        },
+        {
+            "id": "palette_55",
+            "index": 55,
+            "offset": 5501460,
+            "offset_hex": "0x53F214",
+            "palette_ptr": 135461804,
+            "palette_ptr_hex": "0x812FBAC"
+        },
+        {
+            "id": "palette_56",
+            "index": 56,
+            "offset": 5501464,
+            "offset_hex": "0x53F218",
+            "palette_ptr": 135461832,
+            "palette_ptr_hex": "0x812FBC8"
+        },
+        {
+            "id": "palette_57",
+            "index": 57,
+            "offset": 5501468,
+            "offset_hex": "0x53F21C",
+            "palette_ptr": 135461844,
+            "palette_ptr_hex": "0x812FBD4"
+        },
+        {
+            "id": "palette_58",
+            "index": 58,
+            "offset": 5501472,
+            "offset_hex": "0x53F220",
+            "palette_ptr": 135461872,
+            "palette_ptr_hex": "0x812FBF0"
+        },
+        {
+            "id": "palette_59",
+            "index": 59,
+            "offset": 5501476,
+            "offset_hex": "0x53F224",
+            "palette_ptr": 135461884,
+            "palette_ptr_hex": "0x812FBFC"
+        },
+        {
+            "id": "palette_60",
+            "index": 60,
+            "offset": 5501480,
+            "offset_hex": "0x53F228",
+            "palette_ptr": 135461912,
+            "palette_ptr_hex": "0x812FC18"
+        },
+        {
+            "id": "palette_61",
+            "index": 61,
+            "offset": 5501484,
+            "offset_hex": "0x53F22C",
+            "palette_ptr": 135461924,
+            "palette_ptr_hex": "0x812FC24"
+        },
+        {
+            "id": "palette_62",
+            "index": 62,
+            "offset": 5501488,
+            "offset_hex": "0x53F230",
+            "palette_ptr": 135460672,
+            "palette_ptr_hex": "0x812F740"
+        },
+        {
+            "id": "palette_63",
+            "index": 63,
+            "offset": 5501492,
+            "offset_hex": "0x53F234",
+            "palette_ptr": 135460684,
+            "palette_ptr_hex": "0x812F74C"
+        },
+        {
+            "id": "palette_64",
+            "index": 64,
+            "offset": 5501496,
+            "offset_hex": "0x53F238",
+            "palette_ptr": 135460712,
+            "palette_ptr_hex": "0x812F768"
+        },
+        {
+            "id": "palette_65",
+            "index": 65,
+            "offset": 5501500,
+            "offset_hex": "0x53F23C",
+            "palette_ptr": 135460724,
+            "palette_ptr_hex": "0x812F774"
+        },
+        {
+            "id": "palette_66",
+            "index": 66,
+            "offset": 5501504,
+            "offset_hex": "0x53F240",
+            "palette_ptr": 135461472,
+            "palette_ptr_hex": "0x812FA60"
+        },
+        {
+            "id": "palette_67",
+            "index": 67,
+            "offset": 5501508,
+            "offset_hex": "0x53F244",
+            "palette_ptr": 135461484,
+            "palette_ptr_hex": "0x812FA6C"
+        },
+        {
+            "id": "palette_68",
+            "index": 68,
+            "offset": 5501512,
+            "offset_hex": "0x53F248",
+            "palette_ptr": 135461512,
+            "palette_ptr_hex": "0x812FA88"
+        },
+        {
+            "id": "palette_69",
+            "index": 69,
+            "offset": 5501516,
+            "offset_hex": "0x53F24C",
+            "palette_ptr": 135461524,
+            "palette_ptr_hex": "0x812FA94"
+        },
+        {
+            "id": "palette_70",
+            "index": 70,
+            "offset": 5501520,
+            "offset_hex": "0x53F250",
+            "palette_ptr": 135461952,
+            "palette_ptr_hex": "0x812FC40"
+        },
+        {
+            "id": "palette_71",
+            "index": 71,
+            "offset": 5501524,
+            "offset_hex": "0x53F254",
+            "palette_ptr": 135461964,
+            "palette_ptr_hex": "0x812FC4C"
+        },
+        {
+            "id": "palette_72",
+            "index": 72,
+            "offset": 5501528,
+            "offset_hex": "0x53F258",
+            "palette_ptr": 135461992,
+            "palette_ptr_hex": "0x812FC68"
+        },
+        {
+            "id": "palette_73",
+            "index": 73,
+            "offset": 5501532,
+            "offset_hex": "0x53F25C",
+            "palette_ptr": 135462004,
+            "palette_ptr_hex": "0x812FC74"
+        },
+        {
+            "id": "palette_74",
+            "index": 74,
+            "offset": 5501536,
+            "offset_hex": "0x53F260",
+            "palette_ptr": 135460752,
+            "palette_ptr_hex": "0x812F790"
+        },
+        {
+            "id": "palette_75",
+            "index": 75,
+            "offset": 5501540,
+            "offset_hex": "0x53F264",
+            "palette_ptr": 135460764,
+            "palette_ptr_hex": "0x812F79C"
+        },
+        {
+            "id": "palette_76",
+            "index": 76,
+            "offset": 5501544,
+            "offset_hex": "0x53F268",
+            "palette_ptr": 135460812,
+            "palette_ptr_hex": "0x812F7CC"
+        },
+        {
+            "id": "palette_77",
+            "index": 77,
+            "offset": 5501548,
+            "offset_hex": "0x53F26C",
+            "palette_ptr": 135460824,
+            "palette_ptr_hex": "0x812F7D8"
+        },
+        {
+            "id": "palette_78",
+            "index": 78,
+            "offset": 5501552,
+            "offset_hex": "0x53F270",
+            "palette_ptr": 135460872,
+            "palette_ptr_hex": "0x812F808"
+        },
+        {
+            "id": "palette_79",
+            "index": 79,
+            "offset": 5501556,
+            "offset_hex": "0x53F274",
+            "palette_ptr": 135460884,
+            "palette_ptr_hex": "0x812F814"
+        },
+        {
+            "id": "palette_80",
+            "index": 80,
+            "offset": 5501560,
+            "offset_hex": "0x53F278",
+            "palette_ptr": 135460912,
+            "palette_ptr_hex": "0x812F830"
+        },
+        {
+            "id": "palette_81",
+            "index": 81,
+            "offset": 5501564,
+            "offset_hex": "0x53F27C",
+            "palette_ptr": 135460924,
+            "palette_ptr_hex": "0x812F83C"
+        },
+        {
+            "id": "palette_82",
+            "index": 82,
+            "offset": 5501568,
+            "offset_hex": "0x53F280",
+            "palette_ptr": 135460952,
+            "palette_ptr_hex": "0x812F858"
+        },
+        {
+            "id": "palette_83",
+            "index": 83,
+            "offset": 5501572,
+            "offset_hex": "0x53F284",
+            "palette_ptr": 135460964,
+            "palette_ptr_hex": "0x812F864"
+        },
+        {
+            "id": "palette_84",
+            "index": 84,
+            "offset": 5501576,
+            "offset_hex": "0x53F288",
+            "palette_ptr": 135460992,
+            "palette_ptr_hex": "0x812F880"
+        },
+        {
+            "id": "palette_85",
+            "index": 85,
+            "offset": 5501580,
+            "offset_hex": "0x53F28C",
+            "palette_ptr": 135461004,
+            "palette_ptr_hex": "0x812F88C"
+        },
+        {
+            "id": "palette_86",
+            "index": 86,
+            "offset": 5501584,
+            "offset_hex": "0x53F290",
+            "palette_ptr": 135461032,
+            "palette_ptr_hex": "0x812F8A8"
+        },
+        {
+            "id": "palette_87",
+            "index": 87,
+            "offset": 5501588,
+            "offset_hex": "0x53F294",
+            "palette_ptr": 135461044,
+            "palette_ptr_hex": "0x812F8B4"
+        }
+    ],
+    "verification": "static_verified"
 }

@@ -1,23 +1,227 @@
 {
-  "version": 1,
-  "description": "Resource pointer table discovered at ROM offset 0x596F0C. 20 entries of u32 pointers to resource data in the 0x17xxxx region.",
-  "table_offset": 5861132,
-  "table_offset_hex": "0x596F0C",
-  "entry_count": 20,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "resource_ptr", "type": "u32", "description": "Pointer to resource data in the 0x17xxxx region"}
-    ]
-  },
-  "notes": "Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area mentioned in the addresses.md file. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.",
-  "entries_sample": [
-    {"index": 0, "offset": 5861132, "offset_hex": "0x596F0C", "resource_ptr": "0x08174590", "resource_offset": "0x174590", "notes": "Resource data"},
-    {"index": 1, "offset": 5861136, "offset_hex": "0x596F10", "resource_ptr": "0x081746C0", "resource_offset": "0x1746C0", "notes": "Resource data"},
-    {"index": 2, "offset": 5861140, "offset_hex": "0x596F14", "resource_ptr": "0x08170FB0", "resource_offset": "0x170FB0", "notes": "Null or default resource"},
-    {"index": 3, "offset": 5861144, "offset_hex": "0x596F18", "resource_ptr": "0x08170F90", "resource_offset": "0x170F90", "notes": "Null or default resource"},
-    {"index": 4, "offset": 5861148, "offset_hex": "0x596F1C", "resource_ptr": "0x08175B68", "resource_offset": "0x175B68", "notes": "Resource data"}
-  ],
-  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x596F0C, all pointing to valid ROM addresses in the 0x17xxxx resource region.",
-  "discovered_by": "Examining region 0x580000-0x5A0000 for pointer tables"
+    "version": 1,
+    "description": "Resource pointer table discovered at ROM offset 0x596F0C. 20 entries of u32 pointers to resource data in the 0x17xxxx region.",
+    "table_offset": 5861132,
+    "table_offset_hex": "0x596F0C",
+    "entry_count": 20,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "resource_ptr",
+                "type": "u32",
+                "description": "Pointer to resource data in the 0x17xxxx region"
+            }
+        ]
+    },
+    "notes": "Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area mentioned in the addresses.md file. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5861132,
+            "offset_hex": "0x596F0C",
+            "resource_ptr": "0x08174590",
+            "resource_offset": "0x174590",
+            "notes": "Resource data"
+        },
+        {
+            "index": 1,
+            "offset": 5861136,
+            "offset_hex": "0x596F10",
+            "resource_ptr": "0x081746C0",
+            "resource_offset": "0x1746C0",
+            "notes": "Resource data"
+        },
+        {
+            "index": 2,
+            "offset": 5861140,
+            "offset_hex": "0x596F14",
+            "resource_ptr": "0x08170FB0",
+            "resource_offset": "0x170FB0",
+            "notes": "Null or default resource"
+        },
+        {
+            "index": 3,
+            "offset": 5861144,
+            "offset_hex": "0x596F18",
+            "resource_ptr": "0x08170F90",
+            "resource_offset": "0x170F90",
+            "notes": "Null or default resource"
+        },
+        {
+            "index": 4,
+            "offset": 5861148,
+            "offset_hex": "0x596F1C",
+            "resource_ptr": "0x08175B68",
+            "resource_offset": "0x175B68",
+            "notes": "Resource data"
+        }
+    ],
+    "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x596F0C, all pointing to valid ROM addresses in the 0x17xxxx resource region.",
+    "discovered_by": "Examining region 0x580000-0x5A0000 for pointer tables",
+    "entries": [
+        {
+            "id": "resource_00",
+            "index": 0,
+            "offset": 5861132,
+            "offset_hex": "0x596F0C",
+            "resource_ptr": 135742864,
+            "resource_ptr_hex": "0x8174590"
+        },
+        {
+            "id": "resource_01",
+            "index": 1,
+            "offset": 5861136,
+            "offset_hex": "0x596F10",
+            "resource_ptr": 135743168,
+            "resource_ptr_hex": "0x81746C0"
+        },
+        {
+            "id": "resource_02",
+            "index": 2,
+            "offset": 5861140,
+            "offset_hex": "0x596F14",
+            "resource_ptr": 135729072,
+            "resource_ptr_hex": "0x8170FB0"
+        },
+        {
+            "id": "resource_03",
+            "index": 3,
+            "offset": 5861144,
+            "offset_hex": "0x596F18",
+            "resource_ptr": 135729040,
+            "resource_ptr_hex": "0x8170F90"
+        },
+        {
+            "id": "resource_04",
+            "index": 4,
+            "offset": 5861148,
+            "offset_hex": "0x596F1C",
+            "resource_ptr": 135748456,
+            "resource_ptr_hex": "0x8175B68"
+        },
+        {
+            "id": "resource_05",
+            "index": 5,
+            "offset": 5861152,
+            "offset_hex": "0x596F20",
+            "resource_ptr": 135748500,
+            "resource_ptr_hex": "0x8175B94"
+        },
+        {
+            "id": "resource_06",
+            "index": 6,
+            "offset": 5861156,
+            "offset_hex": "0x596F24",
+            "resource_ptr": 135743216,
+            "resource_ptr_hex": "0x81746F0"
+        },
+        {
+            "id": "resource_07",
+            "index": 7,
+            "offset": 5861160,
+            "offset_hex": "0x596F28",
+            "resource_ptr": 135729040,
+            "resource_ptr_hex": "0x8170F90"
+        },
+        {
+            "id": "resource_08",
+            "index": 8,
+            "offset": 5861164,
+            "offset_hex": "0x596F2C",
+            "resource_ptr": 135753744,
+            "resource_ptr_hex": "0x8177010"
+        },
+        {
+            "id": "resource_09",
+            "index": 9,
+            "offset": 5861168,
+            "offset_hex": "0x596F30",
+            "resource_ptr": 135753792,
+            "resource_ptr_hex": "0x8177040"
+        },
+        {
+            "id": "resource_10",
+            "index": 10,
+            "offset": 5861172,
+            "offset_hex": "0x596F34",
+            "resource_ptr": 135748504,
+            "resource_ptr_hex": "0x8175B98"
+        },
+        {
+            "id": "resource_11",
+            "index": 11,
+            "offset": 5861176,
+            "offset_hex": "0x596F38",
+            "resource_ptr": 135729040,
+            "resource_ptr_hex": "0x8170F90"
+        },
+        {
+            "id": "resource_12",
+            "index": 12,
+            "offset": 5861180,
+            "offset_hex": "0x596F3C",
+            "resource_ptr": 135761084,
+            "resource_ptr_hex": "0x8178CBC"
+        },
+        {
+            "id": "resource_13",
+            "index": 13,
+            "offset": 5861184,
+            "offset_hex": "0x596F40",
+            "resource_ptr": 135761128,
+            "resource_ptr_hex": "0x8178CE8"
+        },
+        {
+            "id": "resource_14",
+            "index": 14,
+            "offset": 5861188,
+            "offset_hex": "0x596F44",
+            "resource_ptr": 135753796,
+            "resource_ptr_hex": "0x8177044"
+        },
+        {
+            "id": "resource_15",
+            "index": 15,
+            "offset": 5861192,
+            "offset_hex": "0x596F48",
+            "resource_ptr": 135729040,
+            "resource_ptr_hex": "0x8170F90"
+        },
+        {
+            "id": "resource_16",
+            "index": 16,
+            "offset": 5861196,
+            "offset_hex": "0x596F4C",
+            "resource_ptr": 135766372,
+            "resource_ptr_hex": "0x817A164"
+        },
+        {
+            "id": "resource_17",
+            "index": 17,
+            "offset": 5861200,
+            "offset_hex": "0x596F50",
+            "resource_ptr": 135766428,
+            "resource_ptr_hex": "0x817A19C"
+        },
+        {
+            "id": "resource_18",
+            "index": 18,
+            "offset": 5861204,
+            "offset_hex": "0x596F54",
+            "resource_ptr": 135761132,
+            "resource_ptr_hex": "0x8178CEC"
+        },
+        {
+            "id": "resource_19",
+            "index": 19,
+            "offset": 5861208,
+            "offset_hex": "0x596F58",
+            "resource_ptr": 135729040,
+            "resource_ptr_hex": "0x8170F90"
+        }
+    ],
+    "verification": "static_verified"
 }

@@ -1,23 +1,150 @@
 {
-  "version": 1,
-  "description": "Function pointer table discovered at ROM offset 0x53D5F4. 11 entries of u32 pointers to Thumb code.",
-  "table_offset": 5494260,
-  "table_offset_hex": "0x53D5F4",
-  "entry_count": 11,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "func_ptr", "type": "u32", "description": "Pointer to Thumb function code"}
-    ]
-  },
-  "notes": "Function pointer table with 11 entries. All entries point to Thumb code (PUSH instructions starting with 0xB5). The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters (R0 = 1, 2, 3, 4, 5, 6, etc.). Located in the 0x53Dxxx region near the map headers. The functions appear to be menu or UI related based on their structure.",
-  "entries_sample": [
-    {"index": 0, "offset": 5494260, "offset_hex": "0x53D5F4", "func_ptr": "0x08061C8D", "notes": "Function with R0=1"},
-    {"index": 1, "offset": 5494264, "offset_hex": "0x53D5F8", "func_ptr": "0x08061C99", "notes": "Function with R0=2"},
-    {"index": 2, "offset": 5494268, "offset_hex": "0x53D5FC", "func_ptr": "0x08061CA5", "notes": "Function with R0=3"},
-    {"index": 3, "offset": 5494272, "offset_hex": "0x53D600", "func_ptr": "0x08061CB1", "notes": "Function with R0=4"},
-    {"index": 4, "offset": 5494276, "offset_hex": "0x53D604", "func_ptr": "0x08061CBD", "notes": "Function with R0=5"}
-  ],
-  "verification_method": "Static analysis - found 11 consecutive u32 pointers at 0x53D5F4, all pointing to valid ROM addresses with Thumb PUSH instructions.",
-  "discovered_by": "Examining region 0x53D000-0x53E000 between story tables and map headers"
+    "version": 1,
+    "description": "Function pointer table discovered at ROM offset 0x53D5F4. 11 entries of u32 pointers to Thumb code.",
+    "table_offset": 5494260,
+    "table_offset_hex": "0x53D5F4",
+    "entry_count": 11,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "func_ptr",
+                "type": "u32",
+                "description": "Pointer to Thumb function code"
+            }
+        ]
+    },
+    "notes": "Function pointer table with 11 entries. All entries point to Thumb code (PUSH instructions starting with 0xB5). The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters (R0 = 1, 2, 3, 4, 5, 6, etc.). Located in the 0x53Dxxx region near the map headers. The functions appear to be menu or UI related based on their structure.",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5494260,
+            "offset_hex": "0x53D5F4",
+            "func_ptr": "0x08061C8D",
+            "notes": "Function with R0=1"
+        },
+        {
+            "index": 1,
+            "offset": 5494264,
+            "offset_hex": "0x53D5F8",
+            "func_ptr": "0x08061C99",
+            "notes": "Function with R0=2"
+        },
+        {
+            "index": 2,
+            "offset": 5494268,
+            "offset_hex": "0x53D5FC",
+            "func_ptr": "0x08061CA5",
+            "notes": "Function with R0=3"
+        },
+        {
+            "index": 3,
+            "offset": 5494272,
+            "offset_hex": "0x53D600",
+            "func_ptr": "0x08061CB1",
+            "notes": "Function with R0=4"
+        },
+        {
+            "index": 4,
+            "offset": 5494276,
+            "offset_hex": "0x53D604",
+            "func_ptr": "0x08061CBD",
+            "notes": "Function with R0=5"
+        }
+    ],
+    "verification_method": "Static analysis - found 11 consecutive u32 pointers at 0x53D5F4, all pointing to valid ROM addresses with Thumb PUSH instructions.",
+    "discovered_by": "Examining region 0x53D000-0x53E000 between story tables and map headers",
+    "entries": [
+        {
+            "id": "func_00",
+            "index": 0,
+            "offset": 5494260,
+            "offset_hex": "0x53D5F4",
+            "func_ptr": 134618253,
+            "func_ptr_hex": "0x8061C8D"
+        },
+        {
+            "id": "func_01",
+            "index": 1,
+            "offset": 5494264,
+            "offset_hex": "0x53D5F8",
+            "func_ptr": 134618265,
+            "func_ptr_hex": "0x8061C99"
+        },
+        {
+            "id": "func_02",
+            "index": 2,
+            "offset": 5494268,
+            "offset_hex": "0x53D5FC",
+            "func_ptr": 134618277,
+            "func_ptr_hex": "0x8061CA5"
+        },
+        {
+            "id": "func_03",
+            "index": 3,
+            "offset": 5494272,
+            "offset_hex": "0x53D600",
+            "func_ptr": 134618289,
+            "func_ptr_hex": "0x8061CB1"
+        },
+        {
+            "id": "func_04",
+            "index": 4,
+            "offset": 5494276,
+            "offset_hex": "0x53D604",
+            "func_ptr": 134618301,
+            "func_ptr_hex": "0x8061CBD"
+        },
+        {
+            "id": "func_05",
+            "index": 5,
+            "offset": 5494280,
+            "offset_hex": "0x53D608",
+            "func_ptr": 134618313,
+            "func_ptr_hex": "0x8061CC9"
+        },
+        {
+            "id": "func_06",
+            "index": 6,
+            "offset": 5494284,
+            "offset_hex": "0x53D60C",
+            "func_ptr": 134618325,
+            "func_ptr_hex": "0x8061CD5"
+        },
+        {
+            "id": "func_07",
+            "index": 7,
+            "offset": 5494288,
+            "offset_hex": "0x53D610",
+            "func_ptr": 134618337,
+            "func_ptr_hex": "0x8061CE1"
+        },
+        {
+            "id": "func_08",
+            "index": 8,
+            "offset": 5494292,
+            "offset_hex": "0x53D614",
+            "func_ptr": 134618349,
+            "func_ptr_hex": "0x8061CED"
+        },
+        {
+            "id": "func_09",
+            "index": 9,
+            "offset": 5494296,
+            "offset_hex": "0x53D618",
+            "func_ptr": 134618361,
+            "func_ptr_hex": "0x8061CF9"
+        },
+        {
+            "id": "func_10",
+            "index": 10,
+            "offset": 5494300,
+            "offset_hex": "0x53D61C",
+            "func_ptr": 134618373,
+            "func_ptr_hex": "0x8061D05"
+        }
+    ],
+    "verification": "static_verified"
 }

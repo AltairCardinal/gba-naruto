@@ -1,45 +1,294 @@
 {
-  "version": 1,
-  "description": "Character stat table discovered at ROM offset 0x54507A. 20+ entries of 16-byte stride containing character base stats.",
-  "table_offset": 5525626,
-  "table_offset_hex": "0x54507A",
-  "entry_count": 20,
-  "entry_size": 16,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 2, "name": "char_type", "type": "u16", "description": "Character type/class (0, 4, 6, 8)"},
-      {"offset": 2, "size": 2, "name": "hp", "type": "u16", "description": "Base HP (typically 100)"},
-      {"offset": 4, "size": 2, "name": "attack", "type": "u16", "description": "Base attack (typically 100)"},
-      {"offset": 6, "size": 2, "name": "defense", "type": "u16", "description": "Base defense (typically 100)"},
-      {"offset": 8, "size": 2, "name": "padding1", "type": "u16", "description": "Always 0"},
-      {"offset": 10, "size": 2, "name": "padding2", "type": "u16", "description": "Always 0"},
-      {"offset": 12, "size": 2, "name": "padding3", "type": "u16", "description": "Always 0"},
-      {"offset": 14, "size": 2, "name": "max_value", "type": "u16", "description": "Maximum value (1450-1500)"}
-    ]
-  },
-  "notes": "Character stat table with base stats. All entries have HP/attack/defense = 100. The char_type field varies (0, 4, 6, 8) indicating different character classes. The max_value field ranges from 1450-1500.",
-  "entries": [
-    {"id": "char_00", "index": 0, "offset": 5525626, "offset_hex": "0x54507A", "char_type": 4, "hp": 100, "attack": 100, "defense": 100, "max_value": 1480},
-    {"id": "char_01", "index": 1, "offset": 5525642, "offset_hex": "0x54508A", "char_type": 6, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_02", "index": 2, "offset": 5525658, "offset_hex": "0x54509A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_03", "index": 3, "offset": 5525674, "offset_hex": "0x5450AA", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_04", "index": 4, "offset": 5525690, "offset_hex": "0x5450BA", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_05", "index": 5, "offset": 5525706, "offset_hex": "0x5450CA", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_06", "index": 6, "offset": 5525722, "offset_hex": "0x5450DA", "char_type": 4, "hp": 100, "attack": 100, "defense": 100, "max_value": 1480},
-    {"id": "char_07", "index": 7, "offset": 5525738, "offset_hex": "0x5450EA", "char_type": 6, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_08", "index": 8, "offset": 5525754, "offset_hex": "0x5450FA", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_09", "index": 9, "offset": 5525770, "offset_hex": "0x54510A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1480},
-    {"id": "char_10", "index": 10, "offset": 5525786, "offset_hex": "0x54511A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1460},
-    {"id": "char_11", "index": 11, "offset": 5525802, "offset_hex": "0x54512A", "char_type": 0, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_12", "index": 12, "offset": 5525818, "offset_hex": "0x54513A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_13", "index": 13, "offset": 5525834, "offset_hex": "0x54514A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_14", "index": 14, "offset": 5525850, "offset_hex": "0x54515A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_15", "index": 15, "offset": 5525866, "offset_hex": "0x54516A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_16", "index": 16, "offset": 5525882, "offset_hex": "0x54517A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_17", "index": 17, "offset": 5525898, "offset_hex": "0x54518A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500},
-    {"id": "char_18", "index": 18, "offset": 5525914, "offset_hex": "0x54519A", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1450},
-    {"id": "char_19", "index": 19, "offset": 5525930, "offset_hex": "0x5451AA", "char_type": 8, "hp": 100, "attack": 100, "defense": 100, "max_value": 1500}
-  ],
-  "verification_method": "Static analysis - found table with consistent structure (u16 type followed by u16 HP/atk/def). All entries have plausible stat values.",
-  "discovered_by": "Pattern matching on small u16 values in regular stride"
+    "version": 1,
+    "description": "Character stat table discovered at ROM offset 0x54507A. 20+ entries of 16-byte stride containing character base stats.",
+    "table_offset": 5525626,
+    "table_offset_hex": "0x54507A",
+    "entry_count": 20,
+    "entry_size": 16,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 2,
+                "name": "char_type",
+                "type": "u16",
+                "description": "Character type/class (0, 4, 6, 8)"
+            },
+            {
+                "offset": 2,
+                "size": 2,
+                "name": "hp",
+                "type": "u16",
+                "description": "Base HP (typically 100)"
+            },
+            {
+                "offset": 4,
+                "size": 2,
+                "name": "attack",
+                "type": "u16",
+                "description": "Base attack (typically 100)"
+            },
+            {
+                "offset": 6,
+                "size": 2,
+                "name": "defense",
+                "type": "u16",
+                "description": "Base defense (typically 100)"
+            },
+            {
+                "offset": 8,
+                "size": 2,
+                "name": "padding1",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 10,
+                "size": 2,
+                "name": "padding2",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 12,
+                "size": 2,
+                "name": "padding3",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 14,
+                "size": 2,
+                "name": "max_value",
+                "type": "u16",
+                "description": "Maximum value (1450-1500)"
+            }
+        ]
+    },
+    "notes": "Character stat table with base stats. All entries have HP/attack/defense = 100. The char_type field varies (0, 4, 6, 8) indicating different character classes. The max_value field ranges from 1450-1500.",
+    "entries": [
+        {
+            "id": "char_00",
+            "index": 0,
+            "offset": 5525626,
+            "offset_hex": "0x54507A",
+            "char_type": 4,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1480
+        },
+        {
+            "id": "char_01",
+            "index": 1,
+            "offset": 5525642,
+            "offset_hex": "0x54508A",
+            "char_type": 6,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_02",
+            "index": 2,
+            "offset": 5525658,
+            "offset_hex": "0x54509A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_03",
+            "index": 3,
+            "offset": 5525674,
+            "offset_hex": "0x5450AA",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_04",
+            "index": 4,
+            "offset": 5525690,
+            "offset_hex": "0x5450BA",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_05",
+            "index": 5,
+            "offset": 5525706,
+            "offset_hex": "0x5450CA",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_06",
+            "index": 6,
+            "offset": 5525722,
+            "offset_hex": "0x5450DA",
+            "char_type": 4,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1480
+        },
+        {
+            "id": "char_07",
+            "index": 7,
+            "offset": 5525738,
+            "offset_hex": "0x5450EA",
+            "char_type": 6,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_08",
+            "index": 8,
+            "offset": 5525754,
+            "offset_hex": "0x5450FA",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_09",
+            "index": 9,
+            "offset": 5525770,
+            "offset_hex": "0x54510A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1480
+        },
+        {
+            "id": "char_10",
+            "index": 10,
+            "offset": 5525786,
+            "offset_hex": "0x54511A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1460
+        },
+        {
+            "id": "char_11",
+            "index": 11,
+            "offset": 5525802,
+            "offset_hex": "0x54512A",
+            "char_type": 0,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_12",
+            "index": 12,
+            "offset": 5525818,
+            "offset_hex": "0x54513A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_13",
+            "index": 13,
+            "offset": 5525834,
+            "offset_hex": "0x54514A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_14",
+            "index": 14,
+            "offset": 5525850,
+            "offset_hex": "0x54515A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_15",
+            "index": 15,
+            "offset": 5525866,
+            "offset_hex": "0x54516A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_16",
+            "index": 16,
+            "offset": 5525882,
+            "offset_hex": "0x54517A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_17",
+            "index": 17,
+            "offset": 5525898,
+            "offset_hex": "0x54518A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "id": "char_18",
+            "index": 18,
+            "offset": 5525914,
+            "offset_hex": "0x54519A",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1450
+        },
+        {
+            "id": "char_19",
+            "index": 19,
+            "offset": 5525930,
+            "offset_hex": "0x5451AA",
+            "char_type": 8,
+            "hp": 100,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        }
+    ],
+    "verification_method": "Static analysis - found table with consistent structure (u16 type followed by u16 HP/atk/def). All entries have plausible stat values.",
+    "discovered_by": "Pattern matching on small u16 values in regular stride",
+    "verification": "static_verified"
 }

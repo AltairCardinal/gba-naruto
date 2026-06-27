@@ -1,24 +1,121 @@
 {
-  "version": 1,
-  "description": "Skill/ability table discovered at ROM offset 0x546100. 12 entries of 16-byte stride.",
-  "table_offset": 5529856,
-  "table_offset_hex": "0x546100",
-  "entry_count": 12,
-  "entry_size": 16,
-  "entry_format": "u32 padding, u16 count, u16 type_id, u16 skill_id, u16 value, u16 flags, u16 extra_id",
-  "notes": "Battle config skill entries. Referenced from battle init code at 0x06E6D2 (LDR R1, =0x085461C4). The pointer 0x5461C4 is the base for indexing.",
-  "entries": [
-    {"id": "skill_00", "index": 0, "table_offset": 5529856, "table_offset_hex": "0x546100", "type_id": "0x0120", "skill_id": "0x010A", "value": 612},
-    {"id": "skill_01", "index": 1, "table_offset": 5529872, "table_offset_hex": "0x546110", "type_id": "0x0120", "skill_id": "0x011E", "value": 612},
-    {"id": "skill_02", "index": 2, "table_offset": 5529888, "table_offset_hex": "0x546120", "type_id": "0x0120", "skill_id": "0x0132", "value": 612},
-    {"id": "skill_03", "index": 3, "table_offset": 5529904, "table_offset_hex": "0x546130", "type_id": "0x0122", "skill_id": "0x010A", "value": 612},
-    {"id": "skill_04", "index": 4, "table_offset": 5529920, "table_offset_hex": "0x546140", "type_id": "0x0122", "skill_id": "0x011E", "value": 612},
-    {"id": "skill_05", "index": 5, "table_offset": 5529936, "table_offset_hex": "0x546150", "type_id": "0x0122", "skill_id": "0x0132", "value": 612},
-    {"id": "skill_06", "index": 6, "table_offset": 5529952, "table_offset_hex": "0x546160", "type_id": "0x0124", "skill_id": "0x0101", "value": 612},
-    {"id": "skill_07", "index": 7, "table_offset": 5529968, "table_offset_hex": "0x546170", "type_id": "0x0124", "skill_id": "0x0102", "value": 612},
-    {"id": "skill_08", "index": 8, "table_offset": 5529984, "table_offset_hex": "0x546180", "type_id": "0x0124", "skill_id": "0x0103", "value": 612},
-    {"id": "skill_09", "index": 9, "table_offset": 5530000, "table_offset_hex": "0x546190", "type_id": "0x0126", "skill_id": "0x010A", "value": 612},
-    {"id": "skill_10", "index": 10, "table_offset": 5530016, "table_offset_hex": "0x5461A0", "type_id": "0x0126", "skill_id": "0x011E", "value": 612},
-    {"id": "skill_11", "index": 11, "table_offset": 5530032, "table_offset_hex": "0x5461B0", "type_id": "0x0126", "skill_id": "0x0132", "value": 612}
-  ]
+    "version": 1,
+    "description": "Skill/ability table discovered at ROM offset 0x546100. 12 entries of 16-byte stride.",
+    "table_offset": 5529856,
+    "table_offset_hex": "0x546100",
+    "entry_count": 12,
+    "entry_size": 16,
+    "entry_format": "u32 padding, u16 count, u16 type_id, u16 skill_id, u16 value, u16 flags, u16 extra_id",
+    "notes": "Battle config skill entries. Referenced from battle init code at 0x06E6D2 (LDR R1, =0x085461C4). The pointer 0x5461C4 is the base for indexing.",
+    "entries": [
+        {
+            "id": "skill_00",
+            "index": 0,
+            "table_offset": 5529856,
+            "table_offset_hex": "0x546100",
+            "type_id": "0x0120",
+            "skill_id": "0x010A",
+            "value": 612
+        },
+        {
+            "id": "skill_01",
+            "index": 1,
+            "table_offset": 5529872,
+            "table_offset_hex": "0x546110",
+            "type_id": "0x0120",
+            "skill_id": "0x011E",
+            "value": 612
+        },
+        {
+            "id": "skill_02",
+            "index": 2,
+            "table_offset": 5529888,
+            "table_offset_hex": "0x546120",
+            "type_id": "0x0120",
+            "skill_id": "0x0132",
+            "value": 612
+        },
+        {
+            "id": "skill_03",
+            "index": 3,
+            "table_offset": 5529904,
+            "table_offset_hex": "0x546130",
+            "type_id": "0x0122",
+            "skill_id": "0x010A",
+            "value": 612
+        },
+        {
+            "id": "skill_04",
+            "index": 4,
+            "table_offset": 5529920,
+            "table_offset_hex": "0x546140",
+            "type_id": "0x0122",
+            "skill_id": "0x011E",
+            "value": 612
+        },
+        {
+            "id": "skill_05",
+            "index": 5,
+            "table_offset": 5529936,
+            "table_offset_hex": "0x546150",
+            "type_id": "0x0122",
+            "skill_id": "0x0132",
+            "value": 612
+        },
+        {
+            "id": "skill_06",
+            "index": 6,
+            "table_offset": 5529952,
+            "table_offset_hex": "0x546160",
+            "type_id": "0x0124",
+            "skill_id": "0x0101",
+            "value": 612
+        },
+        {
+            "id": "skill_07",
+            "index": 7,
+            "table_offset": 5529968,
+            "table_offset_hex": "0x546170",
+            "type_id": "0x0124",
+            "skill_id": "0x0102",
+            "value": 612
+        },
+        {
+            "id": "skill_08",
+            "index": 8,
+            "table_offset": 5529984,
+            "table_offset_hex": "0x546180",
+            "type_id": "0x0124",
+            "skill_id": "0x0103",
+            "value": 612
+        },
+        {
+            "id": "skill_09",
+            "index": 9,
+            "table_offset": 5530000,
+            "table_offset_hex": "0x546190",
+            "type_id": "0x0126",
+            "skill_id": "0x010A",
+            "value": 612
+        },
+        {
+            "id": "skill_10",
+            "index": 10,
+            "table_offset": 5530016,
+            "table_offset_hex": "0x5461A0",
+            "type_id": "0x0126",
+            "skill_id": "0x011E",
+            "value": 612
+        },
+        {
+            "id": "skill_11",
+            "index": 11,
+            "table_offset": 5530032,
+            "table_offset_hex": "0x5461B0",
+            "type_id": "0x0126",
+            "skill_id": "0x0132",
+            "value": 612
+        }
+    ],
+    "verification": "static_verified"
 }

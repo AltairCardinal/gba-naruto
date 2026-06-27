@@ -1,75 +1,740 @@
 {
-  "version": 1,
-  "description": "Unit/character data tables. Unit ID mapping table at 0x53F298, battle scenario config at 0x53D914.",
-  "unit_id_table": {
-    "offset": 5501592,
-    "offset_hex": "0x53F298",
-    "size": 128,
-    "format": "u16[64]",
-    "description": "Maps unit array index to character ID. Used by battle system to identify which character occupies each slot.",
+    "version": 1,
+    "description": "Unit/character data tables. Unit ID mapping table at 0x53F298, battle scenario config at 0x53D914.",
+    "unit_id_table": {
+        "offset": 5501592,
+        "offset_hex": "0x53F298",
+        "size": 128,
+        "format": "u16[64]",
+        "description": "Maps unit array index to character ID. Used by battle system to identify which character occupies each slot.",
+        "entries": [
+            {
+                "index": 0,
+                "char_id": 0,
+                "name": "Naruto"
+            },
+            {
+                "index": 1,
+                "char_id": 1,
+                "name": "Sasuke"
+            },
+            {
+                "index": 2,
+                "char_id": 2,
+                "name": "Sakura"
+            },
+            {
+                "index": 3,
+                "char_id": 3,
+                "name": "Sai"
+            },
+            {
+                "index": 4,
+                "char_id": 4,
+                "name": "Kakashi"
+            },
+            {
+                "index": 5,
+                "char_id": 5,
+                "name": "Shikamaru"
+            },
+            {
+                "index": 6,
+                "char_id": 6,
+                "name": "Sasuke (Naruto)"
+            },
+            {
+                "index": 7,
+                "char_id": 7,
+                "name": "Sakura (NPC)"
+            },
+            {
+                "index": 8,
+                "char_id": 8,
+                "name": "Naruto (NPC)"
+            },
+            {
+                "index": 9,
+                "char_id": 9,
+                "name": "Sasuke (NPC)"
+            },
+            {
+                "index": 10,
+                "char_id": 25,
+                "name": "Enemy-25"
+            },
+            {
+                "index": 11,
+                "char_id": 26,
+                "name": "Enemy-26"
+            },
+            {
+                "index": 12,
+                "char_id": 27,
+                "name": "Enemy-27"
+            },
+            {
+                "index": 13,
+                "char_id": 28,
+                "name": "Enemy-28"
+            },
+            {
+                "index": 14,
+                "char_id": 29,
+                "name": "Enemy-29"
+            },
+            {
+                "index": 15,
+                "char_id": 30,
+                "name": "Enemy-30"
+            },
+            {
+                "index": 16,
+                "char_id": 31,
+                "name": "Enemy-31"
+            },
+            {
+                "index": 17,
+                "char_id": 32,
+                "name": "Enemy-32"
+            },
+            {
+                "index": 18,
+                "char_id": 33,
+                "name": "Enemy-33"
+            },
+            {
+                "index": 19,
+                "char_id": 34,
+                "name": "Enemy-34"
+            },
+            {
+                "index": 20,
+                "char_id": 37,
+                "name": "Enemy-37"
+            },
+            {
+                "index": 21,
+                "char_id": 38,
+                "name": "Enemy-38"
+            },
+            {
+                "index": 22,
+                "char_id": 39,
+                "name": "Enemy-39"
+            },
+            {
+                "index": 23,
+                "char_id": 40,
+                "name": "Enemy-40"
+            },
+            {
+                "index": 24,
+                "char_id": 41,
+                "name": "Enemy-41"
+            },
+            {
+                "index": 25,
+                "char_id": 42,
+                "name": "Enemy-42"
+            },
+            {
+                "index": 26,
+                "char_id": 43,
+                "name": "Enemy-43"
+            },
+            {
+                "index": 27,
+                "char_id": 44,
+                "name": "Enemy-44"
+            },
+            {
+                "index": 28,
+                "char_id": 45,
+                "name": "Enemy-45"
+            },
+            {
+                "index": 29,
+                "char_id": 46,
+                "name": "Enemy-46"
+            },
+            {
+                "index": 30,
+                "char_id": 10,
+                "name": "Zabuza"
+            },
+            {
+                "index": 31,
+                "char_id": 11,
+                "name": "Haku"
+            },
+            {
+                "index": 32,
+                "char_id": 35,
+                "name": "Masked Scouter"
+            },
+            {
+                "index": 33,
+                "char_id": 36,
+                "name": "Ambush Member"
+            },
+            {
+                "index": 34,
+                "char_id": 47,
+                "name": "Enemy-47"
+            },
+            {
+                "index": 35,
+                "char_id": 48,
+                "name": "Enemy-48"
+            },
+            {
+                "index": 36,
+                "char_id": 12,
+                "name": "Enemy-12"
+            },
+            {
+                "index": 37,
+                "char_id": 13,
+                "name": "Enemy-13"
+            },
+            {
+                "index": 38,
+                "char_id": 18,
+                "name": "Enemy-18"
+            },
+            {
+                "index": 39,
+                "char_id": 21,
+                "name": "Enemy-21"
+            },
+            {
+                "index": 40,
+                "char_id": 22,
+                "name": "Enemy-22"
+            },
+            {
+                "index": 41,
+                "char_id": 23,
+                "name": "Enemy-23"
+            },
+            {
+                "index": 42,
+                "char_id": 24,
+                "name": "Enemy-24"
+            }
+        ]
+    },
+    "battle_scenario_table": {
+        "offset": 5495060,
+        "offset_hex": "0x53D914",
+        "entry_size": 32,
+        "entry_count": 8,
+        "format": "u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags",
+        "description": "Battle scenario configuration. Each 32-byte entry defines a map layout with tile graphics, tilemaps, and palettes.",
+        "entries": [
+            {
+                "scenario_id": 0,
+                "height": 64,
+                "width": 92,
+                "flags": 1
+            },
+            {
+                "scenario_id": 1,
+                "height": 30,
+                "width": 60,
+                "flags": 1
+            },
+            {
+                "scenario_id": 2,
+                "height": 36,
+                "width": 36,
+                "flags": 1
+            },
+            {
+                "scenario_id": 3,
+                "height": 40,
+                "width": 36,
+                "flags": 1
+            },
+            {
+                "scenario_id": 4,
+                "height": 40,
+                "width": 36,
+                "flags": 1
+            },
+            {
+                "scenario_id": 5,
+                "height": 46,
+                "width": 36,
+                "flags": 1
+            },
+            {
+                "scenario_id": 6,
+                "height": 32,
+                "width": 60,
+                "flags": 2
+            },
+            {
+                "scenario_id": 7,
+                "height": 32,
+                "width": 60,
+                "flags": 258
+            }
+        ]
+    },
+    "notes": "Unit base stats are loaded dynamically during battle init from a per-character data block (stride 0x8E4). The unit ID table at 0x53F298 is the primary table for modifying which characters appear in battle.",
     "entries": [
-      {"index": 0, "char_id": 0, "name": "Naruto"},
-      {"index": 1, "char_id": 1, "name": "Sasuke"},
-      {"index": 2, "char_id": 2, "name": "Sakura"},
-      {"index": 3, "char_id": 3, "name": "Sai"},
-      {"index": 4, "char_id": 4, "name": "Kakashi"},
-      {"index": 5, "char_id": 5, "name": "Shikamaru"},
-      {"index": 6, "char_id": 6, "name": "Sasuke (Naruto)"},
-      {"index": 7, "char_id": 7, "name": "Sakura (NPC)"},
-      {"index": 8, "char_id": 8, "name": "Naruto (NPC)"},
-      {"index": 9, "char_id": 9, "name": "Sasuke (NPC)"},
-      {"index": 10, "char_id": 25, "name": "Enemy-25"},
-      {"index": 11, "char_id": 26, "name": "Enemy-26"},
-      {"index": 12, "char_id": 27, "name": "Enemy-27"},
-      {"index": 13, "char_id": 28, "name": "Enemy-28"},
-      {"index": 14, "char_id": 29, "name": "Enemy-29"},
-      {"index": 15, "char_id": 30, "name": "Enemy-30"},
-      {"index": 16, "char_id": 31, "name": "Enemy-31"},
-      {"index": 17, "char_id": 32, "name": "Enemy-32"},
-      {"index": 18, "char_id": 33, "name": "Enemy-33"},
-      {"index": 19, "char_id": 34, "name": "Enemy-34"},
-      {"index": 20, "char_id": 37, "name": "Enemy-37"},
-      {"index": 21, "char_id": 38, "name": "Enemy-38"},
-      {"index": 22, "char_id": 39, "name": "Enemy-39"},
-      {"index": 23, "char_id": 40, "name": "Enemy-40"},
-      {"index": 24, "char_id": 41, "name": "Enemy-41"},
-      {"index": 25, "char_id": 42, "name": "Enemy-42"},
-      {"index": 26, "char_id": 43, "name": "Enemy-43"},
-      {"index": 27, "char_id": 44, "name": "Enemy-44"},
-      {"index": 28, "char_id": 45, "name": "Enemy-45"},
-      {"index": 29, "char_id": 46, "name": "Enemy-46"},
-      {"index": 30, "char_id": 10, "name": "Zabuza"},
-      {"index": 31, "char_id": 11, "name": "Haku"},
-      {"index": 32, "char_id": 35, "name": "Masked Scouter"},
-      {"index": 33, "char_id": 36, "name": "Ambush Member"},
-      {"index": 34, "char_id": 47, "name": "Enemy-47"},
-      {"index": 35, "char_id": 48, "name": "Enemy-48"},
-      {"index": 36, "char_id": 12, "name": "Enemy-12"},
-      {"index": 37, "char_id": 13, "name": "Enemy-13"},
-      {"index": 38, "char_id": 18, "name": "Enemy-18"},
-      {"index": 39, "char_id": 21, "name": "Enemy-21"},
-      {"index": 40, "char_id": 22, "name": "Enemy-22"},
-      {"index": 41, "char_id": 23, "name": "Enemy-23"},
-      {"index": 42, "char_id": 24, "name": "Enemy-24"}
-    ]
-  },
-  "battle_scenario_table": {
-    "offset": 5495060,
-    "offset_hex": "0x53D914",
-    "entry_size": 32,
-    "entry_count": 8,
-    "format": "u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags",
-    "description": "Battle scenario configuration. Each 32-byte entry defines a map layout with tile graphics, tilemaps, and palettes.",
-    "entries": [
-      {"scenario_id": 0, "height": 64, "width": 92, "flags": 1},
-      {"scenario_id": 1, "height": 30, "width": 60, "flags": 1},
-      {"scenario_id": 2, "height": 36, "width": 36, "flags": 1},
-      {"scenario_id": 3, "height": 40, "width": 36, "flags": 1},
-      {"scenario_id": 4, "height": 40, "width": 36, "flags": 1},
-      {"scenario_id": 5, "height": 46, "width": 36, "flags": 1},
-      {"scenario_id": 6, "height": 32, "width": 60, "flags": 2},
-      {"scenario_id": 7, "height": 32, "width": 60, "flags": 258}
-    ]
-  },
-  "notes": "Unit base stats are loaded dynamically during battle init from a per-character data block (stride 0x8E4). The unit ID table at 0x53F298 is the primary table for modifying which characters appear in battle."
+        {
+            "id": "unit_00",
+            "index": 0,
+            "offset": 5501592,
+            "offset_hex": "0x53F298",
+            "char_id": 6391
+        },
+        {
+            "id": "unit_01",
+            "index": 1,
+            "offset": 5501594,
+            "offset_hex": "0x53F29A",
+            "char_id": 6634
+        },
+        {
+            "id": "unit_02",
+            "index": 2,
+            "offset": 5501596,
+            "offset_hex": "0x53F29C",
+            "char_id": 6831
+        },
+        {
+            "id": "unit_03",
+            "index": 3,
+            "offset": 5501598,
+            "offset_hex": "0x53F29E",
+            "char_id": 49020
+        },
+        {
+            "id": "unit_04",
+            "index": 4,
+            "offset": 5501600,
+            "offset_hex": "0x53F2A0",
+            "char_id": 47664
+        },
+        {
+            "id": "unit_05",
+            "index": 5,
+            "offset": 5501602,
+            "offset_hex": "0x53F2A2",
+            "char_id": 16478
+        },
+        {
+            "id": "unit_06",
+            "index": 6,
+            "offset": 5501604,
+            "offset_hex": "0x53F2A4",
+            "char_id": 6
+        },
+        {
+            "id": "unit_07",
+            "index": 7,
+            "offset": 5501606,
+            "offset_hex": "0x53F2A6",
+            "char_id": 7
+        },
+        {
+            "id": "unit_08",
+            "index": 8,
+            "offset": 5501608,
+            "offset_hex": "0x53F2A8",
+            "char_id": 8
+        },
+        {
+            "id": "unit_09",
+            "index": 9,
+            "offset": 5501610,
+            "offset_hex": "0x53F2AA",
+            "char_id": 9
+        },
+        {
+            "id": "unit_10",
+            "index": 10,
+            "offset": 5501612,
+            "offset_hex": "0x53F2AC",
+            "char_id": 25
+        },
+        {
+            "id": "unit_11",
+            "index": 11,
+            "offset": 5501614,
+            "offset_hex": "0x53F2AE",
+            "char_id": 26
+        },
+        {
+            "id": "unit_12",
+            "index": 12,
+            "offset": 5501616,
+            "offset_hex": "0x53F2B0",
+            "char_id": 27
+        },
+        {
+            "id": "unit_13",
+            "index": 13,
+            "offset": 5501618,
+            "offset_hex": "0x53F2B2",
+            "char_id": 28
+        },
+        {
+            "id": "unit_14",
+            "index": 14,
+            "offset": 5501620,
+            "offset_hex": "0x53F2B4",
+            "char_id": 29
+        },
+        {
+            "id": "unit_15",
+            "index": 15,
+            "offset": 5501622,
+            "offset_hex": "0x53F2B6",
+            "char_id": 30
+        },
+        {
+            "id": "unit_16",
+            "index": 16,
+            "offset": 5501624,
+            "offset_hex": "0x53F2B8",
+            "char_id": 31
+        },
+        {
+            "id": "unit_17",
+            "index": 17,
+            "offset": 5501626,
+            "offset_hex": "0x53F2BA",
+            "char_id": 32
+        },
+        {
+            "id": "unit_18",
+            "index": 18,
+            "offset": 5501628,
+            "offset_hex": "0x53F2BC",
+            "char_id": 33
+        },
+        {
+            "id": "unit_19",
+            "index": 19,
+            "offset": 5501630,
+            "offset_hex": "0x53F2BE",
+            "char_id": 34
+        },
+        {
+            "id": "unit_20",
+            "index": 20,
+            "offset": 5501632,
+            "offset_hex": "0x53F2C0",
+            "char_id": 37
+        },
+        {
+            "id": "unit_21",
+            "index": 21,
+            "offset": 5501634,
+            "offset_hex": "0x53F2C2",
+            "char_id": 38
+        },
+        {
+            "id": "unit_22",
+            "index": 22,
+            "offset": 5501636,
+            "offset_hex": "0x53F2C4",
+            "char_id": 39
+        },
+        {
+            "id": "unit_23",
+            "index": 23,
+            "offset": 5501638,
+            "offset_hex": "0x53F2C6",
+            "char_id": 40
+        },
+        {
+            "id": "unit_24",
+            "index": 24,
+            "offset": 5501640,
+            "offset_hex": "0x53F2C8",
+            "char_id": 41
+        },
+        {
+            "id": "unit_25",
+            "index": 25,
+            "offset": 5501642,
+            "offset_hex": "0x53F2CA",
+            "char_id": 42
+        },
+        {
+            "id": "unit_26",
+            "index": 26,
+            "offset": 5501644,
+            "offset_hex": "0x53F2CC",
+            "char_id": 43
+        },
+        {
+            "id": "unit_27",
+            "index": 27,
+            "offset": 5501646,
+            "offset_hex": "0x53F2CE",
+            "char_id": 44
+        },
+        {
+            "id": "unit_28",
+            "index": 28,
+            "offset": 5501648,
+            "offset_hex": "0x53F2D0",
+            "char_id": 45
+        },
+        {
+            "id": "unit_29",
+            "index": 29,
+            "offset": 5501650,
+            "offset_hex": "0x53F2D2",
+            "char_id": 46
+        },
+        {
+            "id": "unit_30",
+            "index": 30,
+            "offset": 5501652,
+            "offset_hex": "0x53F2D4",
+            "char_id": 10
+        },
+        {
+            "id": "unit_31",
+            "index": 31,
+            "offset": 5501654,
+            "offset_hex": "0x53F2D6",
+            "char_id": 11
+        },
+        {
+            "id": "unit_32",
+            "index": 32,
+            "offset": 5501656,
+            "offset_hex": "0x53F2D8",
+            "char_id": 35
+        },
+        {
+            "id": "unit_33",
+            "index": 33,
+            "offset": 5501658,
+            "offset_hex": "0x53F2DA",
+            "char_id": 36
+        },
+        {
+            "id": "unit_34",
+            "index": 34,
+            "offset": 5501660,
+            "offset_hex": "0x53F2DC",
+            "char_id": 47
+        },
+        {
+            "id": "unit_35",
+            "index": 35,
+            "offset": 5501662,
+            "offset_hex": "0x53F2DE",
+            "char_id": 48
+        },
+        {
+            "id": "unit_36",
+            "index": 36,
+            "offset": 5501664,
+            "offset_hex": "0x53F2E0",
+            "char_id": 12
+        },
+        {
+            "id": "unit_37",
+            "index": 37,
+            "offset": 5501666,
+            "offset_hex": "0x53F2E2",
+            "char_id": 13
+        },
+        {
+            "id": "unit_38",
+            "index": 38,
+            "offset": 5501668,
+            "offset_hex": "0x53F2E4",
+            "char_id": 18
+        },
+        {
+            "id": "unit_39",
+            "index": 39,
+            "offset": 5501670,
+            "offset_hex": "0x53F2E6",
+            "char_id": 21
+        },
+        {
+            "id": "unit_40",
+            "index": 40,
+            "offset": 5501672,
+            "offset_hex": "0x53F2E8",
+            "char_id": 22
+        },
+        {
+            "id": "unit_41",
+            "index": 41,
+            "offset": 5501674,
+            "offset_hex": "0x53F2EA",
+            "char_id": 23
+        },
+        {
+            "id": "unit_42",
+            "index": 42,
+            "offset": 5501676,
+            "offset_hex": "0x53F2EC",
+            "char_id": 24
+        },
+        {
+            "id": "unit_43",
+            "index": 43,
+            "offset": 5501678,
+            "offset_hex": "0x53F2EE",
+            "char_id": 65532
+        },
+        {
+            "id": "unit_44",
+            "index": 44,
+            "offset": 5501680,
+            "offset_hex": "0x53F2F0",
+            "char_id": 0
+        },
+        {
+            "id": "unit_45",
+            "index": 45,
+            "offset": 5501682,
+            "offset_hex": "0x53F2F2",
+            "char_id": 65530
+        },
+        {
+            "id": "unit_46",
+            "index": 46,
+            "offset": 5501684,
+            "offset_hex": "0x53F2F4",
+            "char_id": 4
+        },
+        {
+            "id": "unit_47",
+            "index": 47,
+            "offset": 5501686,
+            "offset_hex": "0x53F2F6",
+            "char_id": 65529
+        },
+        {
+            "id": "unit_48",
+            "index": 48,
+            "offset": 5501688,
+            "offset_hex": "0x53F2F8",
+            "char_id": 7
+        },
+        {
+            "id": "unit_49",
+            "index": 49,
+            "offset": 5501690,
+            "offset_hex": "0x53F2FA",
+            "char_id": 65528
+        },
+        {
+            "id": "unit_50",
+            "index": 50,
+            "offset": 5501692,
+            "offset_hex": "0x53F2FC",
+            "char_id": 9
+        },
+        {
+            "id": "unit_51",
+            "index": 51,
+            "offset": 5501694,
+            "offset_hex": "0x53F2FE",
+            "char_id": 65530
+        },
+        {
+            "id": "unit_52",
+            "index": 52,
+            "offset": 5501696,
+            "offset_hex": "0x53F300",
+            "char_id": 9
+        },
+        {
+            "id": "unit_53",
+            "index": 53,
+            "offset": 5501698,
+            "offset_hex": "0x53F302",
+            "char_id": 65532
+        },
+        {
+            "id": "unit_54",
+            "index": 54,
+            "offset": 5501700,
+            "offset_hex": "0x53F304",
+            "char_id": 7
+        },
+        {
+            "id": "unit_55",
+            "index": 55,
+            "offset": 5501702,
+            "offset_hex": "0x53F306",
+            "char_id": 65534
+        },
+        {
+            "id": "unit_56",
+            "index": 56,
+            "offset": 5501704,
+            "offset_hex": "0x53F308",
+            "char_id": 4
+        },
+        {
+            "id": "unit_57",
+            "index": 57,
+            "offset": 5501706,
+            "offset_hex": "0x53F30A",
+            "char_id": 0
+        },
+        {
+            "id": "unit_58",
+            "index": 58,
+            "offset": 5501708,
+            "offset_hex": "0x53F30C",
+            "char_id": 0
+        },
+        {
+            "id": "unit_59",
+            "index": 59,
+            "offset": 5501710,
+            "offset_hex": "0x53F30E",
+            "char_id": 0
+        },
+        {
+            "id": "unit_60",
+            "index": 60,
+            "offset": 5501712,
+            "offset_hex": "0x53F310",
+            "char_id": 0
+        },
+        {
+            "id": "unit_61",
+            "index": 61,
+            "offset": 5501714,
+            "offset_hex": "0x53F312",
+            "char_id": 0
+        },
+        {
+            "id": "unit_62",
+            "index": 62,
+            "offset": 5501716,
+            "offset_hex": "0x53F314",
+            "char_id": 3133
+        },
+        {
+            "id": "unit_63",
+            "index": 63,
+            "offset": 5501718,
+            "offset_hex": "0x53F316",
+            "char_id": 2056
+        }
+    ],
+    "verification": "static_verified",
+    "table_offset": 5501592,
+    "table_offset_hex": "0x53F298"
 }

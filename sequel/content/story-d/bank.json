@@ -1,23 +1,150 @@
 {
-  "version": 1,
-  "description": "Fourth story/chapter pointer table discovered at ROM offset 0x53AB78. 11 entries of u32 pointers to chapter data.",
-  "table_offset": 5483384,
-  "table_offset_hex": "0x53AB78",
-  "entry_count": 11,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "chapter_ptr", "type": "u32", "description": "Pointer to chapter data"}
-    ]
-  },
-  "notes": "Fourth story/chapter pointer table with 11 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has four separate story/chapter systems. Located in the 0x53Axxx region between the other story tables and the map headers. The first entry points to 0x464B48 which has a different structure (starts with 0x003C), suggesting it's a header or special entry.",
-  "entries_sample": [
-    {"index": 0, "offset": 5483384, "offset_hex": "0x53AB78", "chapter_ptr": "0x08464B48", "notes": "Header or special entry"},
-    {"index": 1, "offset": 5483388, "offset_hex": "0x53AB7C", "chapter_ptr": "0x0853A214", "notes": "Chapter 1 data"},
-    {"index": 2, "offset": 5483392, "offset_hex": "0x53AB80", "chapter_ptr": "0x0853A317", "notes": "Chapter 2 data"},
-    {"index": 3, "offset": 5483396, "offset_hex": "0x53AB84", "chapter_ptr": "0x0853A3D1", "notes": "Chapter 3 data"},
-    {"index": 4, "offset": 5483400, "offset_hex": "0x53AB88", "chapter_ptr": "0x0853A48A", "notes": "Chapter 4 data"}
-  ],
-  "verification_method": "Static analysis - found 11 consecutive u32 pointers at 0x53AB78, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data.",
-  "discovered_by": "Examining region 0x53A000-0x53C000 between story tables and map headers"
+    "version": 1,
+    "description": "Fourth story/chapter pointer table discovered at ROM offset 0x53AB78. 11 entries of u32 pointers to chapter data.",
+    "table_offset": 5483384,
+    "table_offset_hex": "0x53AB78",
+    "entry_count": 11,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "chapter_ptr",
+                "type": "u32",
+                "description": "Pointer to chapter data"
+            }
+        ]
+    },
+    "notes": "Fourth story/chapter pointer table with 11 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has four separate story/chapter systems. Located in the 0x53Axxx region between the other story tables and the map headers. The first entry points to 0x464B48 which has a different structure (starts with 0x003C), suggesting it's a header or special entry.",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5483384,
+            "offset_hex": "0x53AB78",
+            "chapter_ptr": "0x08464B48",
+            "notes": "Header or special entry"
+        },
+        {
+            "index": 1,
+            "offset": 5483388,
+            "offset_hex": "0x53AB7C",
+            "chapter_ptr": "0x0853A214",
+            "notes": "Chapter 1 data"
+        },
+        {
+            "index": 2,
+            "offset": 5483392,
+            "offset_hex": "0x53AB80",
+            "chapter_ptr": "0x0853A317",
+            "notes": "Chapter 2 data"
+        },
+        {
+            "index": 3,
+            "offset": 5483396,
+            "offset_hex": "0x53AB84",
+            "chapter_ptr": "0x0853A3D1",
+            "notes": "Chapter 3 data"
+        },
+        {
+            "index": 4,
+            "offset": 5483400,
+            "offset_hex": "0x53AB88",
+            "chapter_ptr": "0x0853A48A",
+            "notes": "Chapter 4 data"
+        }
+    ],
+    "verification_method": "Static analysis - found 11 consecutive u32 pointers at 0x53AB78, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data.",
+    "discovered_by": "Examining region 0x53A000-0x53C000 between story tables and map headers",
+    "entries": [
+        {
+            "id": "story_d_00",
+            "index": 0,
+            "offset": 5483384,
+            "offset_hex": "0x53AB78",
+            "chapter_ptr": 138824520,
+            "chapter_ptr_hex": "0x8464B48"
+        },
+        {
+            "id": "story_d_01",
+            "index": 1,
+            "offset": 5483388,
+            "offset_hex": "0x53AB7C",
+            "chapter_ptr": 139698708,
+            "chapter_ptr_hex": "0x853A214"
+        },
+        {
+            "id": "story_d_02",
+            "index": 2,
+            "offset": 5483392,
+            "offset_hex": "0x53AB80",
+            "chapter_ptr": 139698967,
+            "chapter_ptr_hex": "0x853A317"
+        },
+        {
+            "id": "story_d_03",
+            "index": 3,
+            "offset": 5483396,
+            "offset_hex": "0x53AB84",
+            "chapter_ptr": 139699153,
+            "chapter_ptr_hex": "0x853A3D1"
+        },
+        {
+            "id": "story_d_04",
+            "index": 4,
+            "offset": 5483400,
+            "offset_hex": "0x53AB88",
+            "chapter_ptr": 139699338,
+            "chapter_ptr_hex": "0x853A48A"
+        },
+        {
+            "id": "story_d_05",
+            "index": 5,
+            "offset": 5483404,
+            "offset_hex": "0x53AB8C",
+            "chapter_ptr": 139699449,
+            "chapter_ptr_hex": "0x853A4F9"
+        },
+        {
+            "id": "story_d_06",
+            "index": 6,
+            "offset": 5483408,
+            "offset_hex": "0x53AB90",
+            "chapter_ptr": 139699784,
+            "chapter_ptr_hex": "0x853A648"
+        },
+        {
+            "id": "story_d_07",
+            "index": 7,
+            "offset": 5483412,
+            "offset_hex": "0x53AB94",
+            "chapter_ptr": 139700074,
+            "chapter_ptr_hex": "0x853A76A"
+        },
+        {
+            "id": "story_d_08",
+            "index": 8,
+            "offset": 5483416,
+            "offset_hex": "0x53AB98",
+            "chapter_ptr": 139700330,
+            "chapter_ptr_hex": "0x853A86A"
+        },
+        {
+            "id": "story_d_09",
+            "index": 9,
+            "offset": 5483420,
+            "offset_hex": "0x53AB9C",
+            "chapter_ptr": 139700597,
+            "chapter_ptr_hex": "0x853A975"
+        },
+        {
+            "id": "story_d_10",
+            "index": 10,
+            "offset": 5483424,
+            "offset_hex": "0x53ABA0",
+            "chapter_ptr": 139700769,
+            "chapter_ptr_hex": "0x853AA21"
+        }
+    ],
+    "verification": "static_verified"
 }

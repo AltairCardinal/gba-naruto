@@ -1,23 +1,438 @@
 {
-  "version": 1,
-  "description": "Map sprite animation pointer table discovered at ROM offset 0x53F1DC. 47 entries of u32 pointers to sprite animation frame data.",
-  "table_offset": 5497308,
-  "table_offset_hex": "0x53F1DC",
-  "entry_count": 47,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "sprite_ptr", "type": "u32", "description": "Pointer to sprite animation frame data for this map"}
-    ]
-  },
-  "notes": "Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure as the sprite animation table. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).",
-  "entries_sample": [
-    {"index": 0, "offset": 5497308, "offset_hex": "0x53F1DC", "sprite_ptr": "0x0812FA44", "notes": "Map 0 sprite animation"},
-    {"index": 1, "offset": 5497312, "offset_hex": "0x53F1E0", "sprite_ptr": "0x0812FAB0", "notes": "Map 1 sprite animation"},
-    {"index": 2, "offset": 5497316, "offset_hex": "0x53F1E4", "sprite_ptr": "0x0812FABC", "notes": "Map 2 sprite animation"},
-    {"index": 3, "offset": 5497320, "offset_hex": "0x53F1E8", "sprite_ptr": "0x0812FAD8", "notes": "Map 3 sprite animation"},
-    {"index": 4, "offset": 5497324, "offset_hex": "0x53F1EC", "sprite_ptr": "0x0812FAE4", "notes": "Map 4 sprite animation"}
-  ],
-  "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53F1DC, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte animation frame structure.",
-  "discovered_by": "Searching for 47-entry pointer tables matching map count"
+    "version": 1,
+    "description": "Map sprite animation pointer table discovered at ROM offset 0x53F1DC. 47 entries of u32 pointers to sprite animation frame data.",
+    "table_offset": 5497308,
+    "table_offset_hex": "0x53F1DC",
+    "entry_count": 47,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "sprite_ptr",
+                "type": "u32",
+                "description": "Pointer to sprite animation frame data for this map"
+            }
+        ]
+    },
+    "notes": "Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure as the sprite animation table. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5497308,
+            "offset_hex": "0x53F1DC",
+            "sprite_ptr": "0x0812FA44",
+            "notes": "Map 0 sprite animation"
+        },
+        {
+            "index": 1,
+            "offset": 5497312,
+            "offset_hex": "0x53F1E0",
+            "sprite_ptr": "0x0812FAB0",
+            "notes": "Map 1 sprite animation"
+        },
+        {
+            "index": 2,
+            "offset": 5497316,
+            "offset_hex": "0x53F1E4",
+            "sprite_ptr": "0x0812FABC",
+            "notes": "Map 2 sprite animation"
+        },
+        {
+            "index": 3,
+            "offset": 5497320,
+            "offset_hex": "0x53F1E8",
+            "sprite_ptr": "0x0812FAD8",
+            "notes": "Map 3 sprite animation"
+        },
+        {
+            "index": 4,
+            "offset": 5497324,
+            "offset_hex": "0x53F1EC",
+            "sprite_ptr": "0x0812FAE4",
+            "notes": "Map 4 sprite animation"
+        }
+    ],
+    "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53F1DC, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte animation frame structure.",
+    "discovered_by": "Searching for 47-entry pointer tables matching map count",
+    "entries": [
+        {
+            "id": "sprite_00",
+            "index": 0,
+            "offset": 5501404,
+            "offset_hex": "0x53F1DC",
+            "sprite_ptr": 135461444,
+            "sprite_ptr_hex": "0x812FA44"
+        },
+        {
+            "id": "sprite_01",
+            "index": 1,
+            "offset": 5501408,
+            "offset_hex": "0x53F1E0",
+            "sprite_ptr": 135461552,
+            "sprite_ptr_hex": "0x812FAB0"
+        },
+        {
+            "id": "sprite_02",
+            "index": 2,
+            "offset": 5501412,
+            "offset_hex": "0x53F1E4",
+            "sprite_ptr": 135461564,
+            "sprite_ptr_hex": "0x812FABC"
+        },
+        {
+            "id": "sprite_03",
+            "index": 3,
+            "offset": 5501416,
+            "offset_hex": "0x53F1E8",
+            "sprite_ptr": 135461592,
+            "sprite_ptr_hex": "0x812FAD8"
+        },
+        {
+            "id": "sprite_04",
+            "index": 4,
+            "offset": 5501420,
+            "offset_hex": "0x53F1EC",
+            "sprite_ptr": 135461604,
+            "sprite_ptr_hex": "0x812FAE4"
+        },
+        {
+            "id": "sprite_05",
+            "index": 5,
+            "offset": 5501424,
+            "offset_hex": "0x53F1F0",
+            "sprite_ptr": 135461632,
+            "sprite_ptr_hex": "0x812FB00"
+        },
+        {
+            "id": "sprite_06",
+            "index": 6,
+            "offset": 5501428,
+            "offset_hex": "0x53F1F4",
+            "sprite_ptr": 135461644,
+            "sprite_ptr_hex": "0x812FB0C"
+        },
+        {
+            "id": "sprite_07",
+            "index": 7,
+            "offset": 5501432,
+            "offset_hex": "0x53F1F8",
+            "sprite_ptr": 135461672,
+            "sprite_ptr_hex": "0x812FB28"
+        },
+        {
+            "id": "sprite_08",
+            "index": 8,
+            "offset": 5501436,
+            "offset_hex": "0x53F1FC",
+            "sprite_ptr": 135461684,
+            "sprite_ptr_hex": "0x812FB34"
+        },
+        {
+            "id": "sprite_09",
+            "index": 9,
+            "offset": 5501440,
+            "offset_hex": "0x53F200",
+            "sprite_ptr": 135461712,
+            "sprite_ptr_hex": "0x812FB50"
+        },
+        {
+            "id": "sprite_10",
+            "index": 10,
+            "offset": 5501444,
+            "offset_hex": "0x53F204",
+            "sprite_ptr": 135461724,
+            "sprite_ptr_hex": "0x812FB5C"
+        },
+        {
+            "id": "sprite_11",
+            "index": 11,
+            "offset": 5501448,
+            "offset_hex": "0x53F208",
+            "sprite_ptr": 135461752,
+            "sprite_ptr_hex": "0x812FB78"
+        },
+        {
+            "id": "sprite_12",
+            "index": 12,
+            "offset": 5501452,
+            "offset_hex": "0x53F20C",
+            "sprite_ptr": 135461764,
+            "sprite_ptr_hex": "0x812FB84"
+        },
+        {
+            "id": "sprite_13",
+            "index": 13,
+            "offset": 5501456,
+            "offset_hex": "0x53F210",
+            "sprite_ptr": 135461792,
+            "sprite_ptr_hex": "0x812FBA0"
+        },
+        {
+            "id": "sprite_14",
+            "index": 14,
+            "offset": 5501460,
+            "offset_hex": "0x53F214",
+            "sprite_ptr": 135461804,
+            "sprite_ptr_hex": "0x812FBAC"
+        },
+        {
+            "id": "sprite_15",
+            "index": 15,
+            "offset": 5501464,
+            "offset_hex": "0x53F218",
+            "sprite_ptr": 135461832,
+            "sprite_ptr_hex": "0x812FBC8"
+        },
+        {
+            "id": "sprite_16",
+            "index": 16,
+            "offset": 5501468,
+            "offset_hex": "0x53F21C",
+            "sprite_ptr": 135461844,
+            "sprite_ptr_hex": "0x812FBD4"
+        },
+        {
+            "id": "sprite_17",
+            "index": 17,
+            "offset": 5501472,
+            "offset_hex": "0x53F220",
+            "sprite_ptr": 135461872,
+            "sprite_ptr_hex": "0x812FBF0"
+        },
+        {
+            "id": "sprite_18",
+            "index": 18,
+            "offset": 5501476,
+            "offset_hex": "0x53F224",
+            "sprite_ptr": 135461884,
+            "sprite_ptr_hex": "0x812FBFC"
+        },
+        {
+            "id": "sprite_19",
+            "index": 19,
+            "offset": 5501480,
+            "offset_hex": "0x53F228",
+            "sprite_ptr": 135461912,
+            "sprite_ptr_hex": "0x812FC18"
+        },
+        {
+            "id": "sprite_20",
+            "index": 20,
+            "offset": 5501484,
+            "offset_hex": "0x53F22C",
+            "sprite_ptr": 135461924,
+            "sprite_ptr_hex": "0x812FC24"
+        },
+        {
+            "id": "sprite_21",
+            "index": 21,
+            "offset": 5501488,
+            "offset_hex": "0x53F230",
+            "sprite_ptr": 135460672,
+            "sprite_ptr_hex": "0x812F740"
+        },
+        {
+            "id": "sprite_22",
+            "index": 22,
+            "offset": 5501492,
+            "offset_hex": "0x53F234",
+            "sprite_ptr": 135460684,
+            "sprite_ptr_hex": "0x812F74C"
+        },
+        {
+            "id": "sprite_23",
+            "index": 23,
+            "offset": 5501496,
+            "offset_hex": "0x53F238",
+            "sprite_ptr": 135460712,
+            "sprite_ptr_hex": "0x812F768"
+        },
+        {
+            "id": "sprite_24",
+            "index": 24,
+            "offset": 5501500,
+            "offset_hex": "0x53F23C",
+            "sprite_ptr": 135460724,
+            "sprite_ptr_hex": "0x812F774"
+        },
+        {
+            "id": "sprite_25",
+            "index": 25,
+            "offset": 5501504,
+            "offset_hex": "0x53F240",
+            "sprite_ptr": 135461472,
+            "sprite_ptr_hex": "0x812FA60"
+        },
+        {
+            "id": "sprite_26",
+            "index": 26,
+            "offset": 5501508,
+            "offset_hex": "0x53F244",
+            "sprite_ptr": 135461484,
+            "sprite_ptr_hex": "0x812FA6C"
+        },
+        {
+            "id": "sprite_27",
+            "index": 27,
+            "offset": 5501512,
+            "offset_hex": "0x53F248",
+            "sprite_ptr": 135461512,
+            "sprite_ptr_hex": "0x812FA88"
+        },
+        {
+            "id": "sprite_28",
+            "index": 28,
+            "offset": 5501516,
+            "offset_hex": "0x53F24C",
+            "sprite_ptr": 135461524,
+            "sprite_ptr_hex": "0x812FA94"
+        },
+        {
+            "id": "sprite_29",
+            "index": 29,
+            "offset": 5501520,
+            "offset_hex": "0x53F250",
+            "sprite_ptr": 135461952,
+            "sprite_ptr_hex": "0x812FC40"
+        },
+        {
+            "id": "sprite_30",
+            "index": 30,
+            "offset": 5501524,
+            "offset_hex": "0x53F254",
+            "sprite_ptr": 135461964,
+            "sprite_ptr_hex": "0x812FC4C"
+        },
+        {
+            "id": "sprite_31",
+            "index": 31,
+            "offset": 5501528,
+            "offset_hex": "0x53F258",
+            "sprite_ptr": 135461992,
+            "sprite_ptr_hex": "0x812FC68"
+        },
+        {
+            "id": "sprite_32",
+            "index": 32,
+            "offset": 5501532,
+            "offset_hex": "0x53F25C",
+            "sprite_ptr": 135462004,
+            "sprite_ptr_hex": "0x812FC74"
+        },
+        {
+            "id": "sprite_33",
+            "index": 33,
+            "offset": 5501536,
+            "offset_hex": "0x53F260",
+            "sprite_ptr": 135460752,
+            "sprite_ptr_hex": "0x812F790"
+        },
+        {
+            "id": "sprite_34",
+            "index": 34,
+            "offset": 5501540,
+            "offset_hex": "0x53F264",
+            "sprite_ptr": 135460764,
+            "sprite_ptr_hex": "0x812F79C"
+        },
+        {
+            "id": "sprite_35",
+            "index": 35,
+            "offset": 5501544,
+            "offset_hex": "0x53F268",
+            "sprite_ptr": 135460812,
+            "sprite_ptr_hex": "0x812F7CC"
+        },
+        {
+            "id": "sprite_36",
+            "index": 36,
+            "offset": 5501548,
+            "offset_hex": "0x53F26C",
+            "sprite_ptr": 135460824,
+            "sprite_ptr_hex": "0x812F7D8"
+        },
+        {
+            "id": "sprite_37",
+            "index": 37,
+            "offset": 5501552,
+            "offset_hex": "0x53F270",
+            "sprite_ptr": 135460872,
+            "sprite_ptr_hex": "0x812F808"
+        },
+        {
+            "id": "sprite_38",
+            "index": 38,
+            "offset": 5501556,
+            "offset_hex": "0x53F274",
+            "sprite_ptr": 135460884,
+            "sprite_ptr_hex": "0x812F814"
+        },
+        {
+            "id": "sprite_39",
+            "index": 39,
+            "offset": 5501560,
+            "offset_hex": "0x53F278",
+            "sprite_ptr": 135460912,
+            "sprite_ptr_hex": "0x812F830"
+        },
+        {
+            "id": "sprite_40",
+            "index": 40,
+            "offset": 5501564,
+            "offset_hex": "0x53F27C",
+            "sprite_ptr": 135460924,
+            "sprite_ptr_hex": "0x812F83C"
+        },
+        {
+            "id": "sprite_41",
+            "index": 41,
+            "offset": 5501568,
+            "offset_hex": "0x53F280",
+            "sprite_ptr": 135460952,
+            "sprite_ptr_hex": "0x812F858"
+        },
+        {
+            "id": "sprite_42",
+            "index": 42,
+            "offset": 5501572,
+            "offset_hex": "0x53F284",
+            "sprite_ptr": 135460964,
+            "sprite_ptr_hex": "0x812F864"
+        },
+        {
+            "id": "sprite_43",
+            "index": 43,
+            "offset": 5501576,
+            "offset_hex": "0x53F288",
+            "sprite_ptr": 135460992,
+            "sprite_ptr_hex": "0x812F880"
+        },
+        {
+            "id": "sprite_44",
+            "index": 44,
+            "offset": 5501580,
+            "offset_hex": "0x53F28C",
+            "sprite_ptr": 135461004,
+            "sprite_ptr_hex": "0x812F88C"
+        },
+        {
+            "id": "sprite_45",
+            "index": 45,
+            "offset": 5501584,
+            "offset_hex": "0x53F290",
+            "sprite_ptr": 135461032,
+            "sprite_ptr_hex": "0x812F8A8"
+        },
+        {
+            "id": "sprite_46",
+            "index": 46,
+            "offset": 5501588,
+            "offset_hex": "0x53F294",
+            "sprite_ptr": 135461044,
+            "sprite_ptr_hex": "0x812F8B4"
+        }
+    ],
+    "verification": "static_verified"
 }

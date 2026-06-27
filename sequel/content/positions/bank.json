@@ -1,34 +1,96 @@
 {
-  "version": 1,
-  "description": "Unit positions table. Initial battle positions are embedded in the battle scenario config at 0x53D914.",
-  "table_offset": 5495060,
-  "table_offset_hex": "0x53D914",
-  "entry_size": 32,
-  "entry_count": 8,
-  "format": "Each scenario entry contains pointers to tile data which defines unit starting positions",
-  "wram_unit_array": {
-    "address": "0x02024294",
-    "stride": 234,
-    "max_units": 25,
-    "format": {
-      "existence_flag": {"offset": 0, "size": 1},
-      "x_position": {"offset": 1, "size": 1},
-      "y_position": {"offset": 2, "size": 1},
-      "team": {"offset": 3, "size": 1},
-      "init_flag": {"offset": 12, "size": 1},
-      "battle_state": {"offset": 192, "size": 4},
-      "character_id": {"offset": 196, "size": 1}
-    }
-  },
-  "notes": "Unit positions are written to WRAM during battle init. ROM-side initial positions are determined by the scenario config and tile data. Use WRAM patches (0x02024294+i*234) to override positions at runtime.",
-  "entries": [
-    {"id": "scenario_0_positions", "scenario_id": 0, "scenario_offset": 5495060, "scenario_offset_hex": "0x53D914"},
-    {"id": "scenario_1_positions", "scenario_id": 1, "scenario_offset": 5495092, "scenario_offset_hex": "0x53D934"},
-    {"id": "scenario_2_positions", "scenario_id": 2, "scenario_offset": 5495124, "scenario_offset_hex": "0x53D954"},
-    {"id": "scenario_3_positions", "scenario_id": 3, "scenario_offset": 5495156, "scenario_offset_hex": "0x53D974"},
-    {"id": "scenario_4_positions", "scenario_id": 4, "scenario_offset": 5495188, "scenario_offset_hex": "0x53D994"},
-    {"id": "scenario_5_positions", "scenario_id": 5, "scenario_offset": 5495220, "scenario_offset_hex": "0x53D9B4"},
-    {"id": "scenario_6_positions", "scenario_id": 6, "scenario_offset": 5495252, "scenario_offset_hex": "0x53D9D4"},
-    {"id": "scenario_7_positions", "scenario_id": 7, "scenario_offset": 5495284, "scenario_offset_hex": "0x53D9F4"}
-  ]
+    "version": 1,
+    "description": "Unit positions table. Initial battle positions are embedded in the battle scenario config at 0x53D914.",
+    "table_offset": 5495060,
+    "table_offset_hex": "0x53D914",
+    "entry_size": 32,
+    "entry_count": 8,
+    "format": "Each scenario entry contains pointers to tile data which defines unit starting positions",
+    "wram_unit_array": {
+        "address": "0x02024294",
+        "stride": 234,
+        "max_units": 25,
+        "format": {
+            "existence_flag": {
+                "offset": 0,
+                "size": 1
+            },
+            "x_position": {
+                "offset": 1,
+                "size": 1
+            },
+            "y_position": {
+                "offset": 2,
+                "size": 1
+            },
+            "team": {
+                "offset": 3,
+                "size": 1
+            },
+            "init_flag": {
+                "offset": 12,
+                "size": 1
+            },
+            "battle_state": {
+                "offset": 192,
+                "size": 4
+            },
+            "character_id": {
+                "offset": 196,
+                "size": 1
+            }
+        }
+    },
+    "notes": "Unit positions are written to WRAM during battle init. ROM-side initial positions are determined by the scenario config and tile data. Use WRAM patches (0x02024294+i*234) to override positions at runtime.",
+    "entries": [
+        {
+            "id": "scenario_0_positions",
+            "scenario_id": 0,
+            "scenario_offset": 5495060,
+            "scenario_offset_hex": "0x53D914"
+        },
+        {
+            "id": "scenario_1_positions",
+            "scenario_id": 1,
+            "scenario_offset": 5495092,
+            "scenario_offset_hex": "0x53D934"
+        },
+        {
+            "id": "scenario_2_positions",
+            "scenario_id": 2,
+            "scenario_offset": 5495124,
+            "scenario_offset_hex": "0x53D954"
+        },
+        {
+            "id": "scenario_3_positions",
+            "scenario_id": 3,
+            "scenario_offset": 5495156,
+            "scenario_offset_hex": "0x53D974"
+        },
+        {
+            "id": "scenario_4_positions",
+            "scenario_id": 4,
+            "scenario_offset": 5495188,
+            "scenario_offset_hex": "0x53D994"
+        },
+        {
+            "id": "scenario_5_positions",
+            "scenario_id": 5,
+            "scenario_offset": 5495220,
+            "scenario_offset_hex": "0x53D9B4"
+        },
+        {
+            "id": "scenario_6_positions",
+            "scenario_id": 6,
+            "scenario_offset": 5495252,
+            "scenario_offset_hex": "0x53D9D4"
+        },
+        {
+            "id": "scenario_7_positions",
+            "scenario_id": 7,
+            "scenario_offset": 5495284,
+            "scenario_offset_hex": "0x53D9F4"
+        }
+    ],
+    "verification": "static_verified"
 }

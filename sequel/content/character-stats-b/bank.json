@@ -1,29 +1,368 @@
 {
-  "version": 1,
-  "description": "Character stat table B discovered at ROM offset 0x545200. 18 entries of 16 bytes with different field ordering from the primary character stat table at 0x54507A.",
-  "table_offset": 5526016,
-  "table_offset_hex": "0x545200",
-  "entry_count": 18,
-  "entry_size": 16,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 2, "name": "hp", "type": "u16", "description": "Base HP (typically 100)"},
-      {"offset": 2, "size": 2, "name": "padding1", "type": "u16", "description": "Always 0"},
-      {"offset": 4, "size": 2, "name": "padding2", "type": "u16", "description": "Always 0"},
-      {"offset": 6, "size": 2, "name": "padding3", "type": "u16", "description": "Always 0"},
-      {"offset": 8, "size": 2, "name": "max_value", "type": "u16", "description": "Maximum value (typically 1500)"},
-      {"offset": 10, "size": 2, "name": "char_type", "type": "u16", "description": "Character type/class (0, 4, 8)"},
-      {"offset": 12, "size": 2, "name": "attack", "type": "u16", "description": "Base attack (typically 100)"},
-      {"offset": 14, "size": 2, "name": "defense", "type": "u16", "description": "Base defense (typically 100)"}
-    ]
-  },
-  "notes": "Second character stat table with different field ordering from the primary table at 0x54507A. All entries have HP/attack/defense = 100 and max_value = 1500. The char_type field varies (0, 4, 8) indicating different character classes. Located between the primary character stat table (0x54507A) and the battle configuration table (0x545458).",
-  "entries_sample": [
-    {"index": 0, "offset": 5526016, "offset_hex": "0x545200", "hp": 100, "char_type": 8, "attack": 100, "defense": 100, "max_value": 1500},
-    {"index": 1, "offset": 5526032, "offset_hex": "0x545210", "hp": 100, "char_type": 0, "attack": 100, "defense": 100, "max_value": 1500},
-    {"index": 2, "offset": 5526048, "offset_hex": "0x545220", "hp": 100, "char_type": 0, "attack": 100, "defense": 100, "max_value": 1500},
-    {"index": 3, "offset": 5526064, "offset_hex": "0x545230", "hp": 100, "char_type": 4, "attack": 100, "defense": 100, "max_value": 1500}
-  ],
-  "verification_method": "Static analysis - found table with consistent 16-byte entries containing plausible character stat values. All entries have HP/attack/defense = 100 and max_value = 1500.",
-  "discovered_by": "Examining region around battle configuration table (0x545458)"
+    "version": 1,
+    "description": "Character stat table B discovered at ROM offset 0x545200. 18 entries of 16 bytes with different field ordering from the primary character stat table at 0x54507A.",
+    "table_offset": 5526016,
+    "table_offset_hex": "0x545200",
+    "entry_count": 18,
+    "entry_size": 16,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 2,
+                "name": "hp",
+                "type": "u16",
+                "description": "Base HP (typically 100)"
+            },
+            {
+                "offset": 2,
+                "size": 2,
+                "name": "padding1",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 4,
+                "size": 2,
+                "name": "padding2",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 6,
+                "size": 2,
+                "name": "padding3",
+                "type": "u16",
+                "description": "Always 0"
+            },
+            {
+                "offset": 8,
+                "size": 2,
+                "name": "max_value",
+                "type": "u16",
+                "description": "Maximum value (typically 1500)"
+            },
+            {
+                "offset": 10,
+                "size": 2,
+                "name": "char_type",
+                "type": "u16",
+                "description": "Character type/class (0, 4, 8)"
+            },
+            {
+                "offset": 12,
+                "size": 2,
+                "name": "attack",
+                "type": "u16",
+                "description": "Base attack (typically 100)"
+            },
+            {
+                "offset": 14,
+                "size": 2,
+                "name": "defense",
+                "type": "u16",
+                "description": "Base defense (typically 100)"
+            }
+        ]
+    },
+    "notes": "Second character stat table with different field ordering from the primary table at 0x54507A. All entries have HP/attack/defense = 100 and max_value = 1500. The char_type field varies (0, 4, 8) indicating different character classes. Located between the primary character stat table (0x54507A) and the battle configuration table (0x545458).",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5526016,
+            "offset_hex": "0x545200",
+            "hp": 100,
+            "char_type": 8,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "index": 1,
+            "offset": 5526032,
+            "offset_hex": "0x545210",
+            "hp": 100,
+            "char_type": 0,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "index": 2,
+            "offset": 5526048,
+            "offset_hex": "0x545220",
+            "hp": 100,
+            "char_type": 0,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        },
+        {
+            "index": 3,
+            "offset": 5526064,
+            "offset_hex": "0x545230",
+            "hp": 100,
+            "char_type": 4,
+            "attack": 100,
+            "defense": 100,
+            "max_value": 1500
+        }
+    ],
+    "verification_method": "Static analysis - found table with consistent 16-byte entries containing plausible character stat values. All entries have HP/attack/defense = 100 and max_value = 1500.",
+    "discovered_by": "Examining region around battle configuration table (0x545458)",
+    "entries": [
+        {
+            "id": "char_b_00",
+            "index": 0,
+            "offset": 5526016,
+            "offset_hex": "0x545200",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 8,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_01",
+            "index": 1,
+            "offset": 5526032,
+            "offset_hex": "0x545210",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_02",
+            "index": 2,
+            "offset": 5526048,
+            "offset_hex": "0x545220",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_03",
+            "index": 3,
+            "offset": 5526064,
+            "offset_hex": "0x545230",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 4,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_04",
+            "index": 4,
+            "offset": 5526080,
+            "offset_hex": "0x545240",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_05",
+            "index": 5,
+            "offset": 5526096,
+            "offset_hex": "0x545250",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_06",
+            "index": 6,
+            "offset": 5526112,
+            "offset_hex": "0x545260",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 8,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_07",
+            "index": 7,
+            "offset": 5526128,
+            "offset_hex": "0x545270",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 8,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_08",
+            "index": 8,
+            "offset": 5526144,
+            "offset_hex": "0x545280",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 8,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_09",
+            "index": 9,
+            "offset": 5526160,
+            "offset_hex": "0x545290",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 8,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_10",
+            "index": 10,
+            "offset": 5526176,
+            "offset_hex": "0x5452A0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_11",
+            "index": 11,
+            "offset": 5526192,
+            "offset_hex": "0x5452B0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_12",
+            "index": 12,
+            "offset": 5526208,
+            "offset_hex": "0x5452C0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_13",
+            "index": 13,
+            "offset": 5526224,
+            "offset_hex": "0x5452D0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_14",
+            "index": 14,
+            "offset": 5526240,
+            "offset_hex": "0x5452E0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_15",
+            "index": 15,
+            "offset": 5526256,
+            "offset_hex": "0x5452F0",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_16",
+            "index": 16,
+            "offset": 5526272,
+            "offset_hex": "0x545300",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 1500,
+            "field5": 0,
+            "field6": 100,
+            "field7": 100
+        },
+        {
+            "id": "char_b_17",
+            "index": 17,
+            "offset": 5526288,
+            "offset_hex": "0x545310",
+            "field0": 100,
+            "field1": 0,
+            "field2": 0,
+            "field3": 0,
+            "field4": 0,
+            "field5": 0,
+            "field6": 0,
+            "field7": 0
+        }
+    ],
+    "verification": "static_verified"
 }

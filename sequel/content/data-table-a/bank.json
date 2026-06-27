@@ -1,23 +1,227 @@
 {
-  "version": 1,
-  "description": "Data pointer table discovered at ROM offset 0x5A14A4. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
-  "table_offset": 5903524,
-  "table_offset_hex": "0x5A14A4",
-  "entry_count": 20,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {"offset": 0, "size": 4, "name": "data_ptr", "type": "u32", "description": "Pointer to encoded data in the 0x5Axxxx region"}
-    ]
-  },
-  "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.",
-  "entries_sample": [
-    {"index": 0, "offset": 5903524, "offset_hex": "0x5A14A4", "data_ptr": "0x085A0880", "data_offset": "0x5A0880", "notes": "Encoded data"},
-    {"index": 1, "offset": 5903528, "offset_hex": "0x5A14A8", "data_ptr": "0x085A0908", "data_offset": "0x5A0908", "notes": "Encoded data"},
-    {"index": 2, "offset": 5903532, "offset_hex": "0x5A14AC", "data_ptr": "0x085A097C", "data_offset": "0x5A097C", "notes": "Encoded data"},
-    {"index": 3, "offset": 5903536, "offset_hex": "0x5A14B0", "data_ptr": "0x085A0A2C", "data_offset": "0x5A0A2C", "notes": "Encoded data"},
-    {"index": 4, "offset": 5903540, "offset_hex": "0x5A14B4", "data_ptr": "0x085A0AE0", "data_offset": "0x5A0AE0", "notes": "Encoded data"}
-  ],
-  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A14A4, all pointing to valid ROM addresses in the 0x5Axxxx region.",
-  "discovered_by": "Examining region 0x5A0000-0x5C0000 for pointer tables"
+    "version": 1,
+    "description": "Data pointer table discovered at ROM offset 0x5A14A4. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
+    "table_offset": 5903524,
+    "table_offset_hex": "0x5A14A4",
+    "entry_count": 20,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "data_ptr",
+                "type": "u32",
+                "description": "Pointer to encoded data in the 0x5Axxxx region"
+            }
+        ]
+    },
+    "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.",
+    "entries_sample": [
+        {
+            "index": 0,
+            "offset": 5903524,
+            "offset_hex": "0x5A14A4",
+            "data_ptr": "0x085A0880",
+            "data_offset": "0x5A0880",
+            "notes": "Encoded data"
+        },
+        {
+            "index": 1,
+            "offset": 5903528,
+            "offset_hex": "0x5A14A8",
+            "data_ptr": "0x085A0908",
+            "data_offset": "0x5A0908",
+            "notes": "Encoded data"
+        },
+        {
+            "index": 2,
+            "offset": 5903532,
+            "offset_hex": "0x5A14AC",
+            "data_ptr": "0x085A097C",
+            "data_offset": "0x5A097C",
+            "notes": "Encoded data"
+        },
+        {
+            "index": 3,
+            "offset": 5903536,
+            "offset_hex": "0x5A14B0",
+            "data_ptr": "0x085A0A2C",
+            "data_offset": "0x5A0A2C",
+            "notes": "Encoded data"
+        },
+        {
+            "index": 4,
+            "offset": 5903540,
+            "offset_hex": "0x5A14B4",
+            "data_ptr": "0x085A0AE0",
+            "data_offset": "0x5A0AE0",
+            "notes": "Encoded data"
+        }
+    ],
+    "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A14A4, all pointing to valid ROM addresses in the 0x5Axxxx region.",
+    "discovered_by": "Examining region 0x5A0000-0x5C0000 for pointer tables",
+    "entries": [
+        {
+            "id": "data_a_00",
+            "index": 0,
+            "offset": 5903524,
+            "offset_hex": "0x5A14A4",
+            "data_ptr": 140118144,
+            "data_ptr_hex": "0x85A0880"
+        },
+        {
+            "id": "data_a_01",
+            "index": 1,
+            "offset": 5903528,
+            "offset_hex": "0x5A14A8",
+            "data_ptr": 140118280,
+            "data_ptr_hex": "0x85A0908"
+        },
+        {
+            "id": "data_a_02",
+            "index": 2,
+            "offset": 5903532,
+            "offset_hex": "0x5A14AC",
+            "data_ptr": 140118396,
+            "data_ptr_hex": "0x85A097C"
+        },
+        {
+            "id": "data_a_03",
+            "index": 3,
+            "offset": 5903536,
+            "offset_hex": "0x5A14B0",
+            "data_ptr": 140118572,
+            "data_ptr_hex": "0x85A0A2C"
+        },
+        {
+            "id": "data_a_04",
+            "index": 4,
+            "offset": 5903540,
+            "offset_hex": "0x5A14B4",
+            "data_ptr": 140118752,
+            "data_ptr_hex": "0x85A0AE0"
+        },
+        {
+            "id": "data_a_05",
+            "index": 5,
+            "offset": 5903544,
+            "offset_hex": "0x5A14B8",
+            "data_ptr": 140118940,
+            "data_ptr_hex": "0x85A0B9C"
+        },
+        {
+            "id": "data_a_06",
+            "index": 6,
+            "offset": 5903548,
+            "offset_hex": "0x5A14BC",
+            "data_ptr": 140119080,
+            "data_ptr_hex": "0x85A0C28"
+        },
+        {
+            "id": "data_a_07",
+            "index": 7,
+            "offset": 5903552,
+            "offset_hex": "0x5A14C0",
+            "data_ptr": 140119232,
+            "data_ptr_hex": "0x85A0CC0"
+        },
+        {
+            "id": "data_a_08",
+            "index": 8,
+            "offset": 5903556,
+            "offset_hex": "0x5A14C4",
+            "data_ptr": 140119384,
+            "data_ptr_hex": "0x85A0D58"
+        },
+        {
+            "id": "data_a_09",
+            "index": 9,
+            "offset": 5903560,
+            "offset_hex": "0x5A14C8",
+            "data_ptr": 140119564,
+            "data_ptr_hex": "0x85A0E0C"
+        },
+        {
+            "id": "data_a_10",
+            "index": 10,
+            "offset": 5903564,
+            "offset_hex": "0x5A14CC",
+            "data_ptr": 140119700,
+            "data_ptr_hex": "0x85A0E94"
+        },
+        {
+            "id": "data_a_11",
+            "index": 11,
+            "offset": 5903568,
+            "offset_hex": "0x5A14D0",
+            "data_ptr": 140119852,
+            "data_ptr_hex": "0x85A0F2C"
+        },
+        {
+            "id": "data_a_12",
+            "index": 12,
+            "offset": 5903572,
+            "offset_hex": "0x5A14D4",
+            "data_ptr": 140120000,
+            "data_ptr_hex": "0x85A0FC0"
+        },
+        {
+            "id": "data_a_13",
+            "index": 13,
+            "offset": 5903576,
+            "offset_hex": "0x5A14D8",
+            "data_ptr": 140120152,
+            "data_ptr_hex": "0x85A1058"
+        },
+        {
+            "id": "data_a_14",
+            "index": 14,
+            "offset": 5903580,
+            "offset_hex": "0x5A14DC",
+            "data_ptr": 140120320,
+            "data_ptr_hex": "0x85A1100"
+        },
+        {
+            "id": "data_a_15",
+            "index": 15,
+            "offset": 5903584,
+            "offset_hex": "0x5A14E0",
+            "data_ptr": 140120492,
+            "data_ptr_hex": "0x85A11AC"
+        },
+        {
+            "id": "data_a_16",
+            "index": 16,
+            "offset": 5903588,
+            "offset_hex": "0x5A14E4",
+            "data_ptr": 140120616,
+            "data_ptr_hex": "0x85A1228"
+        },
+        {
+            "id": "data_a_17",
+            "index": 17,
+            "offset": 5903592,
+            "offset_hex": "0x5A14E8",
+            "data_ptr": 140120740,
+            "data_ptr_hex": "0x85A12A4"
+        },
+        {
+            "id": "data_a_18",
+            "index": 18,
+            "offset": 5903596,
+            "offset_hex": "0x5A14EC",
+            "data_ptr": 140120892,
+            "data_ptr_hex": "0x85A133C"
+        },
+        {
+            "id": "data_a_19",
+            "index": 19,
+            "offset": 5903600,
+            "offset_hex": "0x5A14F0",
+            "data_ptr": 140121004,
+            "data_ptr_hex": "0x85A13AC"
+        }
+    ],
+    "verification": "static_verified"
 }

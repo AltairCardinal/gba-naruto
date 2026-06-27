@@ -194,6 +194,27 @@ def build(project_path: Path) -> dict:
             generate_encounter_zone_patches,
             generate_item_patches,
             generate_audio_event_patches,
+            generate_battle_encounter_patches,
+            generate_battle_handler_patches,
+            generate_character_stats_b_patches,
+            generate_cutscene_script_patches,
+            generate_data_table_a_patches,
+            generate_data_table_b_patches,
+            generate_font_patches,
+            generate_function_pointer_patches,
+            generate_map_event_patches,
+            generate_map_sprite_patches,
+            generate_menu_ui_patches,
+            generate_palette_patches,
+            generate_resource_pointer_patches,
+            generate_sappy_engine_patches,
+            generate_save_state_patches,
+            generate_sprite_animation_patches,
+            generate_story_b_patches,
+            generate_story_c_patches,
+            generate_story_d_patches,
+            generate_story_e_patches,
+            generate_tile_asset_patches,
         )
         db_real_patches.extend(generate_battle_config_patches(editor_db_path))
         db_real_patches.extend(generate_chapter_patches(editor_db_path))
@@ -209,6 +230,27 @@ def build(project_path: Path) -> dict:
         db_real_patches.extend(generate_encounter_zone_patches(editor_db_path))
         db_real_patches.extend(generate_item_patches(editor_db_path))
         db_real_patches.extend(generate_audio_event_patches(editor_db_path))
+        db_real_patches.extend(generate_battle_encounter_patches(editor_db_path))
+        db_real_patches.extend(generate_battle_handler_patches(editor_db_path))
+        db_real_patches.extend(generate_character_stats_b_patches(editor_db_path))
+        db_real_patches.extend(generate_cutscene_script_patches(editor_db_path))
+        db_real_patches.extend(generate_data_table_a_patches(editor_db_path))
+        db_real_patches.extend(generate_data_table_b_patches(editor_db_path))
+        db_real_patches.extend(generate_font_patches(editor_db_path))
+        db_real_patches.extend(generate_function_pointer_patches(editor_db_path))
+        db_real_patches.extend(generate_map_event_patches(editor_db_path))
+        db_real_patches.extend(generate_map_sprite_patches(editor_db_path))
+        db_real_patches.extend(generate_menu_ui_patches(editor_db_path))
+        db_real_patches.extend(generate_palette_patches(editor_db_path))
+        db_real_patches.extend(generate_resource_pointer_patches(editor_db_path))
+        db_real_patches.extend(generate_sappy_engine_patches(editor_db_path))
+        db_real_patches.extend(generate_save_state_patches(editor_db_path))
+        db_real_patches.extend(generate_sprite_animation_patches(editor_db_path))
+        db_real_patches.extend(generate_story_b_patches(editor_db_path))
+        db_real_patches.extend(generate_story_c_patches(editor_db_path))
+        db_real_patches.extend(generate_story_d_patches(editor_db_path))
+        db_real_patches.extend(generate_story_e_patches(editor_db_path))
+        db_real_patches.extend(generate_tile_asset_patches(editor_db_path))
         db_audit_patches = generate_db_patches(editor_db_path)
     ctx = load_context(project_path)
     expected_sha1 = ctx.project["base_rom"]["sha1"]
