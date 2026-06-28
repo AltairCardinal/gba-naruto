@@ -4,15 +4,22 @@ from pathlib import Path
 from contextlib import contextmanager
 import bcrypt
 
-DB_PATH = os.environ.get("DB_PATH") or str(Path(__file__).resolve().parent.parent.parent / "sequel" / "editor.db")
-
 ADMIN_USERNAME = "kibox"
 ADMIN_PASSWORD = "Ztl159632"
 
+def _get_db_path():
+    """Resolve DB_PATH dynamically so tests can override via env var."""
+    return os.environ.get("DB_PATH") or str(Path(__file__).resolve().parent.parent.parent / "sequel" / "editor.db")
+
+# Keep a module-level alias for backward compat, but prefer _get_db_path()
+DB_PATH = _get_db_path()
+
 @contextmanager
 def get_db():
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+    db_path = _get_db_path()
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys = ON")
     conn.execute("PRAGMA busy_timeout = 30000")
@@ -23,8 +30,9 @@ def get_db():
 
 def get_db_connection():
     """Legacy function - use get_db() context manager instead."""
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+    db_path = _get_db_path()
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA journal_mode=WAL")
     # Enable FK enforcement so ON DELETE CASCADE on user_permissions
     # actually fires when an admin deletes a user. Without this pragma,
