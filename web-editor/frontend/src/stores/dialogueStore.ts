@@ -11,7 +11,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  async function fetchDialogues(page = 1, limit = 20, search?: string, chapterId?: number) {
+  async function fetchDialogues(page = 1, limit = 300, search?: string, chapterId?: number) {
     loading.value = true
     error.value = null
     try {

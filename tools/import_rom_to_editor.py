@@ -118,30 +118,43 @@ def import_units(conn, dry_run=False):
 
 
 def import_dialogues(conn, dry_run=False):
-    """ROM dialogue pointer table has 50 entries (40 non-empty).
+    """Import ROM dialogue data from dialogue-bank-full.json.
 
-    Reads from dialogue-bank-full.json (produced by Phase 5 deep scan of
-    the 0x461CE8 pointer table). Original dialogue-bank.json only had 7
-    override patch sites — but the ROM has 50 dialogue slots total.
+    Three regions extracted by tools/extract_dialogue_full.py:
+      1. dialogue_pointer_table @ 0x461CE8 (50 slots, 40 non-empty)
+      2. 0x458000-0x460000 (258 segments — bulk of 熊组 Chinese localization)
+      3. title screen text @ 0x00076D
+
+    Note on 'garbled' text:
+        GBA's native text encoding is SJIS (cp932). 熊组 2004 年的
+        汉化 patch 替换了部分 dialogue bytes 为 GBK 编码中文，但
+        GBA text engine 不能完美解码 GBK 双字节字符，所以 cp932 和
+        GBK 两种解码都不能完美还原——编辑器里看到 '乱码' 是 ROM
+        真实数据的限制。要看到流畅中文需要 ROM 字体表改造 + 逐字
+        节重新编码，是 GBA 汉化的标准工作流。
     """
     cur = conn.cursor()
     full_path = CONTENT_DIR / 'text' / 'dialogue-bank-full.json'
     if not full_path.exists():
         print(f'  ⚠️  dialogue-bank-full.json missing — run tools/extract_dialogue_full.py first')
         return 0
-    data = json.load(open(full_path))
-    entries = data if isinstance(data, list) else data.get('entries', [])
+    entries = json.load(open(full_path))
+    if not isinstance(entries, list):
+        entries = entries.get('entries', [])
     inserted = 0
     for entry in entries:
-        key = entry.get('key', '')
         if entry.get('empty'):
-            continue  # skip null pointer slots
+            continue
+        # New format uses 'slot', old used 'key'
+        key = entry.get('slot') or entry.get('key', '')
         if not key:
             continue
-        text = entry.get('text', '')
-        text_offset = entry.get('text_offset', 0)
-        ptr = entry.get('ptr', 0)
+        text_ja = entry.get('text_ja', '') or ''
+        text_zh = entry.get('text_zh', '') or ''
         text_len = entry.get('text_len', 0)
+        # Skip empty text
+        if not text_ja and not text_zh:
+            continue
         # Skip if exact key already present
         cur.execute("SELECT 1 FROM dialogues WHERE key = ? LIMIT 1", (key,))
         if cur.fetchone():
@@ -157,10 +170,10 @@ def import_dialogues(conn, dry_run=False):
             """, (
                 key,
                 None,
-                text,           # text_ja = decoded cp932 string
-                None,
+                text_ja,
+                text_zh if text_zh and text_zh != text_ja else None,
                 text_len,
-                text_len + 8,   # max_bytes = real_len + buffer
+                text_len + 8,
             ))
             inserted += 1
         except Exception as e:
