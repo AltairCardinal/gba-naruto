@@ -246,3 +246,27 @@ export interface BuildStatusResponse {
   rom_path: string | null
   error?: string | null
 }
+
+/** Phase 5: ROM Explorer — read-only mirror of 27 reverse-engineered structures. */
+export interface RomField {
+  name: string
+  type: string
+  size: number
+  offset: number
+}
+
+export interface RomStructure {
+  name: string
+  table: string
+  entries_in_db: number
+  entries_in_bank: number
+  fields: RomField[]
+}
+
+export interface RomStructureListResponse {
+  rows: Array<Record<string, number | string | null>>
+  total: number
+  limit: number
+  offset: number
+  structure: string
+}

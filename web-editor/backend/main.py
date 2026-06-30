@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users, unit_positions, auth, chapters, battles
+from routers import dialogues, build, maps, units, skills, story_beats, audio, characters, battle_configs, users, unit_positions, auth, chapters, battles, rom_explorer
 import database
 
 import os
@@ -36,6 +36,7 @@ app.include_router(chapters.router)
 app.include_router(battles.router)
 app.include_router(users.router)
 app.include_router(unit_positions.router)
+app.include_router(rom_explorer.router)
 
 @app.on_event("startup")
 async def startup():

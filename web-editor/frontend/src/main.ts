@@ -19,6 +19,7 @@ const router = createRouter({
     { path: '/skills', component: () => import('./views/SkillListView.vue') },
     { path: '/story-beats', component: () => import('./views/StoryBeatListView.vue') },
     { path: '/audio', component: () => import('./views/AudioView.vue') },
+    { path: '/rom-explorer', component: () => import('./views/RomExplorerView.vue') },
     {
       path: '/users',
       component: () => import('./views/UserManagementView.vue'),

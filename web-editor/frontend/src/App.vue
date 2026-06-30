@@ -24,6 +24,7 @@
         <router-link to="/units/place">角色放置</router-link>
         <router-link to="/map">地图编辑</router-link>
         <router-link to="/audio">音频管理</router-link>
+        <router-link to="/rom-explorer">ROM 浏览</router-link>
         <router-link to="/build" class="nav-build">构建</router-link>
       </nav>
     </header>

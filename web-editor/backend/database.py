@@ -247,6 +247,16 @@ def init_db():
             )
 
     conn.commit()
+
+    # Phase 5: ROM-derived read-only tables (one per extractable structure)
+    try:
+        from rom_models import init_rom_tables, populate_rom_tables
+        init_rom_tables(conn)
+        populate_rom_tables(conn)
+    except Exception as e:
+        # Don't crash boot if sequel/content is missing or malformed
+        print(f"[init_db] WARNING: rom_models init failed: {e}")
+
     conn.close()
 
 if __name__ == "__main__":
