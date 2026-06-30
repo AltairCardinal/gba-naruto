@@ -43,7 +43,7 @@ def calc_byte_count(text: Optional[str]) -> int:
         return 0
     return len(text.encode('utf-8'))
 
-@router.get("/", response_model=List[DialogueResponse])
+@router.get("", response_model=List[DialogueResponse])
 async def get_dialogues(
     page: int = 1,
     limit: int = 20,
@@ -125,7 +125,7 @@ async def get_dialogue(key: str):
         "updated_at": row["updated_at"]
     }
 
-@router.post("/", response_model=DialogueResponse)
+@router.post("", response_model=DialogueResponse)
 async def create_dialogue(dialogue: DialogueCreate, _: User = Depends(require_permission("create_file"))):
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row

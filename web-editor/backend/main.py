@@ -10,7 +10,7 @@ if ALLOWED_ORIGINS:
 else:
     origins = []
 
-app = FastAPI(title="Naruto GBA Editor API")
+app = FastAPI(title="Naruto GBA Editor API", redirect_slashes=False)
 
 app.add_middleware(
     CORSMiddleware,
