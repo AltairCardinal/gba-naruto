@@ -37,7 +37,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
       const params = new URLSearchParams()
       if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
       
-      const res = await fetch(`/api/story-beats?${params}`)
+      const res = await fetch(`/api/v1/story-beats?${params}`)
       if (!res.ok) throw new Error('Failed to fetch story beats')
       storyBeats.value = await res.json()
     } catch (e: any) {
@@ -51,7 +51,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/story-beats/${id}`)
+      const res = await fetch(`/api/v1/story-beats/${id}`)
       if (!res.ok) throw new Error('Story beat not found')
       currentStoryBeat.value = await res.json()
     } catch (e: any) {
@@ -65,7 +65,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/story-beats', {
+      const res = await fetch('/api/v1/story-beats', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -87,7 +87,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/story-beats/${id}`, {
+      const res = await fetch(`/api/v1/story-beats/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -107,7 +107,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/story-beats/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/story-beats/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete')
     } catch (e: any) {
       error.value = e.message

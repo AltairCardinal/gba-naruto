@@ -35,7 +35,7 @@ export const useUnitStore = defineStore('unit', () => {
       if (team !== undefined) params.append('team', String(team))
       if (mapId) params.append('map_id', mapId)
       
-      const res = await fetch(`/api/units?${params}`)
+      const res = await fetch(`/api/v1/units?${params}`)
       if (!res.ok) throw new Error('Failed to fetch units')
       units.value = await res.json()
     } catch (e: any) {
@@ -49,7 +49,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/units/${id}`)
+      const res = await fetch(`/api/v1/units/${id}`)
       if (!res.ok) throw new Error('Unit not found')
       currentUnit.value = await res.json()
     } catch (e: any) {
@@ -63,7 +63,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/units', {
+      const res = await fetch('/api/v1/units', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -85,7 +85,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/units/${id}`, {
+      const res = await fetch(`/api/v1/units/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -105,7 +105,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/units/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/units/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete')
     } catch (e: any) {
       error.value = e.message

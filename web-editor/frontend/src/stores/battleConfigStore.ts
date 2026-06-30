@@ -30,7 +30,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
       if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
       if (scenarioId !== undefined) params.append('scenario_id', String(scenarioId))
       
-      const res = await fetch(`/api/battle-configs?${params}`)
+      const res = await fetch(`/api/v1/battle-configs?${params}`)
       if (!res.ok) throw new Error('Failed to fetch battle configs')
       configs.value = await res.json()
     } catch (e: any) {
@@ -44,7 +44,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/battle-configs/${id}`)
+      const res = await fetch(`/api/v1/battle-configs/${id}`)
       if (!res.ok) throw new Error('Config not found')
       currentConfig.value = await res.json()
     } catch (e: any) {
@@ -58,7 +58,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/battle-configs', {
+      const res = await fetch('/api/v1/battle-configs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -80,7 +80,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/battle-configs/${id}`, {
+      const res = await fetch(`/api/v1/battle-configs/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -100,7 +100,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/battle-configs/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/battle-configs/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete')
     } catch (e: any) {
       error.value = e.message

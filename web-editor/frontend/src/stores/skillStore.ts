@@ -34,7 +34,7 @@ export const useSkillStore = defineStore('skill', () => {
       const params = new URLSearchParams()
       if (unitId !== undefined) params.append('unit_id', String(unitId))
       
-      const res = await fetch(`/api/skills?${params}`)
+      const res = await fetch(`/api/v1/skills?${params}`)
       if (!res.ok) throw new Error('Failed to fetch skills')
       skills.value = await res.json()
     } catch (e: any) {
@@ -48,7 +48,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/skills/${id}`)
+      const res = await fetch(`/api/v1/skills/${id}`)
       if (!res.ok) throw new Error('Skill not found')
       currentSkill.value = await res.json()
     } catch (e: any) {
@@ -62,7 +62,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/skills', {
+      const res = await fetch('/api/v1/skills', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -84,7 +84,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/skills/${id}`, {
+      const res = await fetch(`/api/v1/skills/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -104,7 +104,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/skills/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/skills/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete')
     } catch (e: any) {
       error.value = e.message

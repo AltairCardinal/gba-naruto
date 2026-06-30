@@ -28,7 +28,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
       if (search) params.append('search', search)
       if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
       
-      const res = await fetch(`/api/dialogues?${params}`)
+      const res = await fetch(`/api/v1/dialogues?${params}`)
       if (!res.ok) throw new Error('Failed to fetch dialogues')
       dialogues.value = await res.json()
     } catch (e: any) {
@@ -42,7 +42,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/dialogues/${key}`)
+      const res = await fetch(`/api/v1/dialogues/${key}`)
       if (!res.ok) throw new Error('Dialogue not found')
       currentDialogue.value = await res.json()
     } catch (e: any) {
@@ -56,7 +56,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/dialogues', {
+      const res = await fetch('/api/v1/dialogues', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -78,7 +78,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/dialogues/${key}`, {
+      const res = await fetch(`/api/v1/dialogues/${key}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -98,7 +98,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/dialogues/${key}`, { method: 'DELETE' })
+      const res = await fetch(`/api/v1/dialogues/${key}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Failed to delete')
     } catch (e: any) {
       error.value = e.message
@@ -109,7 +109,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
   }
 
   async function getByteCount(key: string) {
-    const res = await fetch(`/api/dialogues/${key}/byte-count`)
+    const res = await fetch(`/api/v1/dialogues/${key}/byte-count`)
     if (!res.ok) throw new Error('Failed to get byte count')
     return await res.json()
   }
