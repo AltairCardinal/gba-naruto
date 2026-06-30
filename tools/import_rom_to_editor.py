@@ -47,10 +47,31 @@ def field(entry: dict, *names: str, default=None):
 
 
 def import_units(conn, dry_run=False):
-    """43 unit_id_table entries + battle_scenario entries → units table."""
+    """43 unit_id_table entries + battle_scenario entries → units table.
+
+    Also enriches hp/attack/defense with character_stats data when
+    char_id matches (character_stats[char_id] gives the real base stats).
+    """
     cur = conn.cursor()
     data = json.load(open(CONTENT_DIR / 'units' / 'bank.json'))
+
+    # Load character_stats for hp/atk/def enrichment (20 chars, indexed by char_id)
+    char_stats = {}
+    stats_path = CONTENT_DIR / 'character-stats' / 'bank.json'
+    if stats_path.exists():
+        stats_data = json.load(open(stats_path))
+        for e in stats_data.get('entries', []):
+            idx = e.get('_index', -1)
+            if 0 <= idx < 256:
+                char_stats[idx] = {
+                    'hp': e.get('hp', 100),
+                    'attack': e.get('attack', 10),
+                    'defense': e.get('defense', 5),
+                    'char_type': e.get('char_type', 0),
+                }
+
     inserted = 0
+    enriched = 0
     for entry in data.get('unit_id_table', {}).get('entries', []):
         char_id = entry.get('char_id', 0)
         name = entry.get('name', f'Unit {char_id}')
@@ -58,32 +79,70 @@ def import_units(conn, dry_run=False):
         cur.execute("SELECT 1 FROM units WHERE char_id = ? AND name = ? LIMIT 1", (char_id, name))
         if cur.fetchone():
             continue
+        # Use character_stats real values if available, else defaults
+        cs = char_stats.get(char_id, {})
+        hp = cs.get('hp', 100)
+        atk = cs.get('attack', 10)
+        df = cs.get('defense', 5)
         try:
             if dry_run:
                 inserted += 1
+                if cs:
+                    enriched += 1
                 continue
             cur.execute("""
                 INSERT INTO units (char_id, name, name_ja, hp, attack, defense, speed)
-                VALUES (?, ?, ?, 100, 10, 5, 5)
-            """, (char_id, name, name if any(ord(c) > 127 for c in name) else None))
+                VALUES (?, ?, ?, ?, ?, ?, 5)
+            """, (char_id, name, name if any(ord(c) > 127 for c in name) else None,
+                  hp, atk, df))
             inserted += 1
+            if cs:
+                enriched += 1
         except Exception as e:
             print(f'  units[{char_id}] failed: {e}')
+
+    # Also UPDATE existing seed rows (char_id 6391/6634/etc) won't match
+    # character_stats (those are E2E test data) — only char_ids 0-19 do.
+    for char_id, cs in char_stats.items():
+        cur.execute("""
+            UPDATE units SET hp = ?, attack = ?, defense = ?
+            WHERE char_id = ? AND (hp = 100 AND attack = 10 AND defense = 5)
+        """, (cs['hp'], cs['attack'], cs['defense'], char_id))
+        if cur.rowcount > 0:
+            enriched += cur.rowcount
+
     conn.commit()
+    if enriched > 0:
+        print(f'  +enriched hp/atk/def for {enriched} units from character_stats')
     return inserted
 
 
 def import_dialogues(conn, dry_run=False):
-    """7 dialogue-bank.json entries → dialogues table."""
+    """ROM dialogue pointer table has 50 entries (40 non-empty).
+
+    Reads from dialogue-bank-full.json (produced by Phase 5 deep scan of
+    the 0x461CE8 pointer table). Original dialogue-bank.json only had 7
+    override patch sites — but the ROM has 50 dialogue slots total.
+    """
     cur = conn.cursor()
-    entries = load_entries(CONTENT_DIR / 'text' / 'dialogue-bank.json')
+    full_path = CONTENT_DIR / 'text' / 'dialogue-bank-full.json'
+    if not full_path.exists():
+        print(f'  ⚠️  dialogue-bank-full.json missing — run tools/extract_dialogue_full.py first')
+        return 0
+    data = json.load(open(full_path))
+    entries = data if isinstance(data, list) else data.get('entries', [])
     inserted = 0
     for entry in entries:
-        key = entry.get('id', '')
-        if not key or key.startswith('proof.'):
-            continue  # skip the proof-of-write demo entry
-        max_bytes = entry.get('max_bytes', 41)
-        expected_hex = entry.get('expected_hex', '')
+        key = entry.get('key', '')
+        if entry.get('empty'):
+            continue  # skip null pointer slots
+        if not key:
+            continue
+        text = entry.get('text', '')
+        text_offset = entry.get('text_offset', 0)
+        ptr = entry.get('ptr', 0)
+        text_len = entry.get('text_len', 0)
+        # Skip if exact key already present
         cur.execute("SELECT 1 FROM dialogues WHERE key = ? LIMIT 1", (key,))
         if cur.fetchone():
             continue
@@ -98,10 +157,10 @@ def import_dialogues(conn, dry_run=False):
             """, (
                 key,
                 None,
-                expected_hex,
+                text,           # text_ja = decoded cp932 string
                 None,
-                len(expected_hex) // 2,
-                max_bytes,
+                text_len,
+                text_len + 8,   # max_bytes = real_len + buffer
             ))
             inserted += 1
         except Exception as e:
