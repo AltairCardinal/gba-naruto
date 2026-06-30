@@ -10,17 +10,18 @@ If a structure needs editing, do it via its dedicated CRUD router
 (dialogues/units/skills/etc.) + patch generator.
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Optional
 
 from database import get_db_connection
 from rom_models import EXTRACTABLE, get_entries, get_fields, table_name
+from routers.auth import get_current_user, User
 
 router = APIRouter(prefix='/api/rom', tags=['rom'])
 
 
 @router.get('/structures')
-def list_structures():
+def list_structures(_: User = Depends(get_current_user)):
     """List all extractable structures with metadata."""
     out = []
     for structure in EXTRACTABLE:
@@ -54,6 +55,7 @@ def get_structure_entries(
     name: str,
     limit: int = Query(100, ge=1, le=500),
     offset: int = Query(0, ge=0),
+    _: User = Depends(get_current_user),
 ):
     if name not in EXTRACTABLE:
         raise HTTPException(404, f'Unknown structure: {name}. Valid: {EXTRACTABLE}')
@@ -77,7 +79,7 @@ def get_structure_entries(
 
 
 @router.get('/structures/{name}/{idx}')
-def get_structure_entry(name: str, idx: int):
+def get_structure_entry(name: str, idx: int, _: User = Depends(get_current_user)):
     if name not in EXTRACTABLE:
         raise HTTPException(404, f'Unknown structure: {name}')
     conn = get_db_connection()
