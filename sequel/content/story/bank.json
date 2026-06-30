@@ -1,99 +1,90 @@
 {
-    "version": 1,
-    "description": "Story/chapter table discovered at ROM offset 0x53636C. 9 entries of 4-byte pointers to chapter data.",
-    "table_offset": 5464940,
-    "table_offset_hex": "0x53636C",
-    "entry_count": 9,
-    "entry_size": 4,
-    "entry_format": "u32 pointer to chapter data",
-    "chapter_data_format": {
-        "description": "Chapter data contains encoded story beats and scene pointers",
-        "chapter_0_format": "Header with u32 pointers to scene/dialogue data",
-        "chapters_1_8_format": "Encoded data with beat sequences"
-    },
-    "notes": "Chapter 0 has a different structure (header with scene pointers). Chapters 1-8 have encoded beat data starting with 0xBE 0x69 0xBC 0x00.",
-    "entries": [
-        {
-            "id": "chapter_0",
-            "index": 0,
-            "table_offset": 5464940,
-            "table_offset_hex": "0x53636C",
-            "target_offset": 4605964,
-            "target_offset_hex": "0x46480C",
-            "type": "header_with_scenes"
-        },
-        {
-            "id": "chapter_1",
-            "index": 1,
-            "table_offset": 5464944,
-            "table_offset_hex": "0x536370",
-            "target_offset": 5463292,
-            "target_offset_hex": "0x535CFC",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_2",
-            "index": 2,
-            "table_offset": 5464948,
-            "table_offset_hex": "0x536374",
-            "target_offset": 5463506,
-            "target_offset_hex": "0x535DD2",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_3",
-            "index": 3,
-            "table_offset": 5464952,
-            "table_offset_hex": "0x536378",
-            "target_offset": 5463797,
-            "target_offset_hex": "0x535EF5",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_4",
-            "index": 4,
-            "table_offset": 5464956,
-            "table_offset_hex": "0x53637C",
-            "target_offset": 5464105,
-            "target_offset_hex": "0x536029",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_5",
-            "index": 5,
-            "table_offset": 5464960,
-            "table_offset_hex": "0x536380",
-            "target_offset": 5464319,
-            "target_offset_hex": "0x5360FF",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_6",
-            "index": 6,
-            "table_offset": 5464964,
-            "table_offset_hex": "0x536384",
-            "target_offset": 5464532,
-            "target_offset_hex": "0x5361D4",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_7",
-            "index": 7,
-            "table_offset": 5464968,
-            "table_offset_hex": "0x536388",
-            "target_offset": 5464762,
-            "target_offset_hex": "0x5362BA",
-            "type": "encoded_beats"
-        },
-        {
-            "id": "chapter_8",
-            "index": 8,
-            "table_offset": 5464972,
-            "table_offset_hex": "0x53638C",
-            "target_offset": 5464887,
-            "target_offset_hex": "0x536337",
-            "type": "encoded_beats"
-        }
+  "version": 1,
+  "description": "Story/chapter table discovered at ROM offset 0x53636C. 9 entries of 4-byte pointers to chapter data.",
+  "table_offset": 5464940,
+  "table_offset_hex": "0x53636C",
+  "entry_count": 9,
+  "entry_size": 4,
+  "entry_format": {
+    "description": "u32 pointer to chapter data",
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "chapter_ptr",
+        "type": "u32",
+        "description": "Pointer to chapter data"
+      }
     ],
-    "verification": "static_verified"
+    "entry_size": 4
+  },
+  "chapter_data_format": {
+    "description": "Chapter data contains encoded story beats and scene pointers",
+    "chapter_0_format": "Header with u32 pointers to scene/dialogue data",
+    "chapters_1_8_format": "Encoded data with beat sequences"
+  },
+  "notes": "Chapter 0 has a different structure (header with scene pointers). Chapters 1-8 have encoded beat data starting with 0xBE 0x69 0xBC 0x00.",
+  "entries": [
+    {
+      "_raw_offset": 5464940,
+      "chapter_ptr": 138823692,
+      "chapter_ptr_hex": "0c484608",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5464944,
+      "chapter_ptr": 139681020,
+      "chapter_ptr_hex": "fc5c5308",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5464948,
+      "chapter_ptr": 139681234,
+      "chapter_ptr_hex": "d25d5308",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5464952,
+      "chapter_ptr": 139681525,
+      "chapter_ptr_hex": "f55e5308",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5464956,
+      "chapter_ptr": 139681833,
+      "chapter_ptr_hex": "29605308",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5464960,
+      "chapter_ptr": 139682047,
+      "chapter_ptr_hex": "ff605308",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5464964,
+      "chapter_ptr": 139682260,
+      "chapter_ptr_hex": "d4615308",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5464968,
+      "chapter_ptr": 139682490,
+      "chapter_ptr_hex": "ba625308",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5464972,
+      "chapter_ptr": 139682615,
+      "chapter_ptr_hex": "37635308",
+      "_index": 8
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 9,
+    "rom_offset": 5464940,
+    "rom_offset_hex": "0x53636C"
+  }
 }

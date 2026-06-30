@@ -1,2380 +1,1618 @@
 {
-    "version": 1,
-    "description": "Font character width table discovered at ROM offset 0x53E5B4. 256 entries of u8 values mapping ASCII characters to pixel widths.",
-    "table_offset": 5498292,
-    "table_offset_hex": "0x53E5B4",
-    "entry_count": 256,
-    "entry_size": 1,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 1,
-                "name": "char_width",
-                "type": "u8",
-                "description": "Character width in pixels (0 = not rendered, 6 = standard, 13 = wide, 15 = extra wide)"
-            }
-        ]
+  "version": 1,
+  "description": "Font character width table discovered at ROM offset 0x53E5B4. 256 entries of u8 values mapping ASCII characters to pixel widths.",
+  "table_offset": 5498292,
+  "table_offset_hex": "0x53E5B4",
+  "entry_count": 256,
+  "entry_size": 1,
+  "entry_format": {
+    "fields": [
+      {
+        "offset": 0,
+        "size": 1,
+        "name": "char_width",
+        "type": "u8",
+        "description": "Character width in pixels (0 = not rendered, 6 = standard, 13 = wide, 15 = extra wide)"
+      }
+    ]
+  },
+  "notes": "Font character width table for text rendering. Maps ASCII character codes (0-255) to pixel widths. Key values: space(0x20)=0, digits(0x30-0x39)=6px, lowercase(0x61-0x7A)=13px, uppercase(0x41-0x5A)=0 (not used?), punctuation varies (6-17px). Used by dialogue and menu text rendering code to calculate line breaks and text positioning.",
+  "entries_sample": [
+    {
+      "index": 32,
+      "char": " ",
+      "width": 0,
+      "notes": "Space - not rendered"
     },
-    "notes": "Font character width table for text rendering. Maps ASCII character codes (0-255) to pixel widths. Key values: space(0x20)=0, digits(0x30-0x39)=6px, lowercase(0x61-0x7A)=13px, uppercase(0x41-0x5A)=0 (not used?), punctuation varies (6-17px). Used by dialogue and menu text rendering code to calculate line breaks and text positioning.",
-    "entries_sample": [
-        {
-            "index": 32,
-            "char": " ",
-            "width": 0,
-            "notes": "Space - not rendered"
-        },
-        {
-            "index": 48,
-            "char": "0",
-            "width": 6,
-            "notes": "Digit - standard width"
-        },
-        {
-            "index": 49,
-            "char": "1",
-            "width": 6,
-            "notes": "Digit - standard width"
-        },
-        {
-            "index": 65,
-            "char": "A",
-            "width": 0,
-            "notes": "Uppercase - not in this font?"
-        },
-        {
-            "index": 97,
-            "char": "a",
-            "width": 13,
-            "notes": "Lowercase - wide"
-        },
-        {
-            "index": 98,
-            "char": "b",
-            "width": 13,
-            "notes": "Lowercase - wide"
-        },
-        {
-            "index": 99,
-            "char": "c",
-            "width": 13,
-            "notes": "Lowercase - wide"
-        }
-    ],
-    "width_categories": {
-        "0": "Not rendered (space, uppercase, special)",
-        "6": "Standard width (digits, some punctuation)",
-        "13": "Wide (lowercase letters)",
-        "15": "Extra wide (period, slash)",
-        "17": "Double wide (quote, hash)"
+    {
+      "index": 48,
+      "char": "0",
+      "width": 6,
+      "notes": "Digit - standard width"
     },
-    "verification_method": "Static analysis - found 256-byte table with plausible character width values. Digits have uniform width (6px), lowercase letters have uniform width (13px), space has width 0. Pattern consistent with fixed-width font rendering.",
-    "discovered_by": "Searching for character width tables in 4-24 pixel range",
-    "entries": [
-        {
-            "id": "char_00",
-            "index": 0,
-            "offset": 5498292,
-            "offset_hex": "0x53E5B4",
-            "ascii_code": 0,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_01",
-            "index": 1,
-            "offset": 5498293,
-            "offset_hex": "0x53E5B5",
-            "ascii_code": 1,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_02",
-            "index": 2,
-            "offset": 5498294,
-            "offset_hex": "0x53E5B6",
-            "ascii_code": 2,
-            "character": null,
-            "pixel_width": 14
-        },
-        {
-            "id": "char_03",
-            "index": 3,
-            "offset": 5498295,
-            "offset_hex": "0x53E5B7",
-            "ascii_code": 3,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_04",
-            "index": 4,
-            "offset": 5498296,
-            "offset_hex": "0x53E5B8",
-            "ascii_code": 4,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_05",
-            "index": 5,
-            "offset": 5498297,
-            "offset_hex": "0x53E5B9",
-            "ascii_code": 5,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_06",
-            "index": 6,
-            "offset": 5498298,
-            "offset_hex": "0x53E5BA",
-            "ascii_code": 6,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_07",
-            "index": 7,
-            "offset": 5498299,
-            "offset_hex": "0x53E5BB",
-            "ascii_code": 7,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_08",
-            "index": 8,
-            "offset": 5498300,
-            "offset_hex": "0x53E5BC",
-            "ascii_code": 8,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_09",
-            "index": 9,
-            "offset": 5498301,
-            "offset_hex": "0x53E5BD",
-            "ascii_code": 9,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_0A",
-            "index": 10,
-            "offset": 5498302,
-            "offset_hex": "0x53E5BE",
-            "ascii_code": 10,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_0B",
-            "index": 11,
-            "offset": 5498303,
-            "offset_hex": "0x53E5BF",
-            "ascii_code": 11,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_0C",
-            "index": 12,
-            "offset": 5498304,
-            "offset_hex": "0x53E5C0",
-            "ascii_code": 12,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_0D",
-            "index": 13,
-            "offset": 5498305,
-            "offset_hex": "0x53E5C1",
-            "ascii_code": 13,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_0E",
-            "index": 14,
-            "offset": 5498306,
-            "offset_hex": "0x53E5C2",
-            "ascii_code": 14,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_0F",
-            "index": 15,
-            "offset": 5498307,
-            "offset_hex": "0x53E5C3",
-            "ascii_code": 15,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_10",
-            "index": 16,
-            "offset": 5498308,
-            "offset_hex": "0x53E5C4",
-            "ascii_code": 16,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_11",
-            "index": 17,
-            "offset": 5498309,
-            "offset_hex": "0x53E5C5",
-            "ascii_code": 17,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_12",
-            "index": 18,
-            "offset": 5498310,
-            "offset_hex": "0x53E5C6",
-            "ascii_code": 18,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_13",
-            "index": 19,
-            "offset": 5498311,
-            "offset_hex": "0x53E5C7",
-            "ascii_code": 19,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_14",
-            "index": 20,
-            "offset": 5498312,
-            "offset_hex": "0x53E5C8",
-            "ascii_code": 20,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_15",
-            "index": 21,
-            "offset": 5498313,
-            "offset_hex": "0x53E5C9",
-            "ascii_code": 21,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_16",
-            "index": 22,
-            "offset": 5498314,
-            "offset_hex": "0x53E5CA",
-            "ascii_code": 22,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_17",
-            "index": 23,
-            "offset": 5498315,
-            "offset_hex": "0x53E5CB",
-            "ascii_code": 23,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_18",
-            "index": 24,
-            "offset": 5498316,
-            "offset_hex": "0x53E5CC",
-            "ascii_code": 24,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_19",
-            "index": 25,
-            "offset": 5498317,
-            "offset_hex": "0x53E5CD",
-            "ascii_code": 25,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_1A",
-            "index": 26,
-            "offset": 5498318,
-            "offset_hex": "0x53E5CE",
-            "ascii_code": 26,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_1B",
-            "index": 27,
-            "offset": 5498319,
-            "offset_hex": "0x53E5CF",
-            "ascii_code": 27,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_1C",
-            "index": 28,
-            "offset": 5498320,
-            "offset_hex": "0x53E5D0",
-            "ascii_code": 28,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_1D",
-            "index": 29,
-            "offset": 5498321,
-            "offset_hex": "0x53E5D1",
-            "ascii_code": 29,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_1E",
-            "index": 30,
-            "offset": 5498322,
-            "offset_hex": "0x53E5D2",
-            "ascii_code": 30,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_1F",
-            "index": 31,
-            "offset": 5498323,
-            "offset_hex": "0x53E5D3",
-            "ascii_code": 31,
-            "character": null,
-            "pixel_width": 15
-        },
-        {
-            "id": "char_20",
-            "index": 32,
-            "offset": 5498324,
-            "offset_hex": "0x53E5D4",
-            "ascii_code": 32,
-            "character": " ",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_21",
-            "index": 33,
-            "offset": 5498325,
-            "offset_hex": "0x53E5D5",
-            "ascii_code": 33,
-            "character": "!",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_22",
-            "index": 34,
-            "offset": 5498326,
-            "offset_hex": "0x53E5D6",
-            "ascii_code": 34,
-            "character": "\"",
-            "pixel_width": 17
-        },
-        {
-            "id": "char_23",
-            "index": 35,
-            "offset": 5498327,
-            "offset_hex": "0x53E5D7",
-            "ascii_code": 35,
-            "character": "#",
-            "pixel_width": 17
-        },
-        {
-            "id": "char_24",
-            "index": 36,
-            "offset": 5498328,
-            "offset_hex": "0x53E5D8",
-            "ascii_code": 36,
-            "character": "$",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_25",
-            "index": 37,
-            "offset": 5498329,
-            "offset_hex": "0x53E5D9",
-            "ascii_code": 37,
-            "character": "%",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_26",
-            "index": 38,
-            "offset": 5498330,
-            "offset_hex": "0x53E5DA",
-            "ascii_code": 38,
-            "character": "&",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_27",
-            "index": 39,
-            "offset": 5498331,
-            "offset_hex": "0x53E5DB",
-            "ascii_code": 39,
-            "character": "'",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_28",
-            "index": 40,
-            "offset": 5498332,
-            "offset_hex": "0x53E5DC",
-            "ascii_code": 40,
-            "character": "(",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_29",
-            "index": 41,
-            "offset": 5498333,
-            "offset_hex": "0x53E5DD",
-            "ascii_code": 41,
-            "character": ")",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_2A",
-            "index": 42,
-            "offset": 5498334,
-            "offset_hex": "0x53E5DE",
-            "ascii_code": 42,
-            "character": "*",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_2B",
-            "index": 43,
-            "offset": 5498335,
-            "offset_hex": "0x53E5DF",
-            "ascii_code": 43,
-            "character": "+",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_2C",
-            "index": 44,
-            "offset": 5498336,
-            "offset_hex": "0x53E5E0",
-            "ascii_code": 44,
-            "character": ",",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_2D",
-            "index": 45,
-            "offset": 5498337,
-            "offset_hex": "0x53E5E1",
-            "ascii_code": 45,
-            "character": "-",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_2E",
-            "index": 46,
-            "offset": 5498338,
-            "offset_hex": "0x53E5E2",
-            "ascii_code": 46,
-            "character": ".",
-            "pixel_width": 15
-        },
-        {
-            "id": "char_2F",
-            "index": 47,
-            "offset": 5498339,
-            "offset_hex": "0x53E5E3",
-            "ascii_code": 47,
-            "character": "/",
-            "pixel_width": 15
-        },
-        {
-            "id": "char_30",
-            "index": 48,
-            "offset": 5498340,
-            "offset_hex": "0x53E5E4",
-            "ascii_code": 48,
-            "character": "0",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_31",
-            "index": 49,
-            "offset": 5498341,
-            "offset_hex": "0x53E5E5",
-            "ascii_code": 49,
-            "character": "1",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_32",
-            "index": 50,
-            "offset": 5498342,
-            "offset_hex": "0x53E5E6",
-            "ascii_code": 50,
-            "character": "2",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_33",
-            "index": 51,
-            "offset": 5498343,
-            "offset_hex": "0x53E5E7",
-            "ascii_code": 51,
-            "character": "3",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_34",
-            "index": 52,
-            "offset": 5498344,
-            "offset_hex": "0x53E5E8",
-            "ascii_code": 52,
-            "character": "4",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_35",
-            "index": 53,
-            "offset": 5498345,
-            "offset_hex": "0x53E5E9",
-            "ascii_code": 53,
-            "character": "5",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_36",
-            "index": 54,
-            "offset": 5498346,
-            "offset_hex": "0x53E5EA",
-            "ascii_code": 54,
-            "character": "6",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_37",
-            "index": 55,
-            "offset": 5498347,
-            "offset_hex": "0x53E5EB",
-            "ascii_code": 55,
-            "character": "7",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_38",
-            "index": 56,
-            "offset": 5498348,
-            "offset_hex": "0x53E5EC",
-            "ascii_code": 56,
-            "character": "8",
-            "pixel_width": 6
-        },
-        {
-            "id": "char_39",
-            "index": 57,
-            "offset": 5498349,
-            "offset_hex": "0x53E5ED",
-            "ascii_code": 57,
-            "character": "9",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3A",
-            "index": 58,
-            "offset": 5498350,
-            "offset_hex": "0x53E5EE",
-            "ascii_code": 58,
-            "character": ":",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3B",
-            "index": 59,
-            "offset": 5498351,
-            "offset_hex": "0x53E5EF",
-            "ascii_code": 59,
-            "character": ";",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3C",
-            "index": 60,
-            "offset": 5498352,
-            "offset_hex": "0x53E5F0",
-            "ascii_code": 60,
-            "character": "<",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3D",
-            "index": 61,
-            "offset": 5498353,
-            "offset_hex": "0x53E5F1",
-            "ascii_code": 61,
-            "character": "=",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3E",
-            "index": 62,
-            "offset": 5498354,
-            "offset_hex": "0x53E5F2",
-            "ascii_code": 62,
-            "character": ">",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_3F",
-            "index": 63,
-            "offset": 5498355,
-            "offset_hex": "0x53E5F3",
-            "ascii_code": 63,
-            "character": "?",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_40",
-            "index": 64,
-            "offset": 5498356,
-            "offset_hex": "0x53E5F4",
-            "ascii_code": 64,
-            "character": "@",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_41",
-            "index": 65,
-            "offset": 5498357,
-            "offset_hex": "0x53E5F5",
-            "ascii_code": 65,
-            "character": "A",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_42",
-            "index": 66,
-            "offset": 5498358,
-            "offset_hex": "0x53E5F6",
-            "ascii_code": 66,
-            "character": "B",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_43",
-            "index": 67,
-            "offset": 5498359,
-            "offset_hex": "0x53E5F7",
-            "ascii_code": 67,
-            "character": "C",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_44",
-            "index": 68,
-            "offset": 5498360,
-            "offset_hex": "0x53E5F8",
-            "ascii_code": 68,
-            "character": "D",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_45",
-            "index": 69,
-            "offset": 5498361,
-            "offset_hex": "0x53E5F9",
-            "ascii_code": 69,
-            "character": "E",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_46",
-            "index": 70,
-            "offset": 5498362,
-            "offset_hex": "0x53E5FA",
-            "ascii_code": 70,
-            "character": "F",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_47",
-            "index": 71,
-            "offset": 5498363,
-            "offset_hex": "0x53E5FB",
-            "ascii_code": 71,
-            "character": "G",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_48",
-            "index": 72,
-            "offset": 5498364,
-            "offset_hex": "0x53E5FC",
-            "ascii_code": 72,
-            "character": "H",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_49",
-            "index": 73,
-            "offset": 5498365,
-            "offset_hex": "0x53E5FD",
-            "ascii_code": 73,
-            "character": "I",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4A",
-            "index": 74,
-            "offset": 5498366,
-            "offset_hex": "0x53E5FE",
-            "ascii_code": 74,
-            "character": "J",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4B",
-            "index": 75,
-            "offset": 5498367,
-            "offset_hex": "0x53E5FF",
-            "ascii_code": 75,
-            "character": "K",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4C",
-            "index": 76,
-            "offset": 5498368,
-            "offset_hex": "0x53E600",
-            "ascii_code": 76,
-            "character": "L",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4D",
-            "index": 77,
-            "offset": 5498369,
-            "offset_hex": "0x53E601",
-            "ascii_code": 77,
-            "character": "M",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4E",
-            "index": 78,
-            "offset": 5498370,
-            "offset_hex": "0x53E602",
-            "ascii_code": 78,
-            "character": "N",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_4F",
-            "index": 79,
-            "offset": 5498371,
-            "offset_hex": "0x53E603",
-            "ascii_code": 79,
-            "character": "O",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_50",
-            "index": 80,
-            "offset": 5498372,
-            "offset_hex": "0x53E604",
-            "ascii_code": 80,
-            "character": "P",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_51",
-            "index": 81,
-            "offset": 5498373,
-            "offset_hex": "0x53E605",
-            "ascii_code": 81,
-            "character": "Q",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_52",
-            "index": 82,
-            "offset": 5498374,
-            "offset_hex": "0x53E606",
-            "ascii_code": 82,
-            "character": "R",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_53",
-            "index": 83,
-            "offset": 5498375,
-            "offset_hex": "0x53E607",
-            "ascii_code": 83,
-            "character": "S",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_54",
-            "index": 84,
-            "offset": 5498376,
-            "offset_hex": "0x53E608",
-            "ascii_code": 84,
-            "character": "T",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_55",
-            "index": 85,
-            "offset": 5498377,
-            "offset_hex": "0x53E609",
-            "ascii_code": 85,
-            "character": "U",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_56",
-            "index": 86,
-            "offset": 5498378,
-            "offset_hex": "0x53E60A",
-            "ascii_code": 86,
-            "character": "V",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_57",
-            "index": 87,
-            "offset": 5498379,
-            "offset_hex": "0x53E60B",
-            "ascii_code": 87,
-            "character": "W",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_58",
-            "index": 88,
-            "offset": 5498380,
-            "offset_hex": "0x53E60C",
-            "ascii_code": 88,
-            "character": "X",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_59",
-            "index": 89,
-            "offset": 5498381,
-            "offset_hex": "0x53E60D",
-            "ascii_code": 89,
-            "character": "Y",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5A",
-            "index": 90,
-            "offset": 5498382,
-            "offset_hex": "0x53E60E",
-            "ascii_code": 90,
-            "character": "Z",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5B",
-            "index": 91,
-            "offset": 5498383,
-            "offset_hex": "0x53E60F",
-            "ascii_code": 91,
-            "character": "[",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5C",
-            "index": 92,
-            "offset": 5498384,
-            "offset_hex": "0x53E610",
-            "ascii_code": 92,
-            "character": "\\",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5D",
-            "index": 93,
-            "offset": 5498385,
-            "offset_hex": "0x53E611",
-            "ascii_code": 93,
-            "character": "]",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5E",
-            "index": 94,
-            "offset": 5498386,
-            "offset_hex": "0x53E612",
-            "ascii_code": 94,
-            "character": "^",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_5F",
-            "index": 95,
-            "offset": 5498387,
-            "offset_hex": "0x53E613",
-            "ascii_code": 95,
-            "character": "_",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_60",
-            "index": 96,
-            "offset": 5498388,
-            "offset_hex": "0x53E614",
-            "ascii_code": 96,
-            "character": "`",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_61",
-            "index": 97,
-            "offset": 5498389,
-            "offset_hex": "0x53E615",
-            "ascii_code": 97,
-            "character": "a",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_62",
-            "index": 98,
-            "offset": 5498390,
-            "offset_hex": "0x53E616",
-            "ascii_code": 98,
-            "character": "b",
-            "pixel_width": 0
-        },
-        {
-            "id": "char_63",
-            "index": 99,
-            "offset": 5498391,
-            "offset_hex": "0x53E617",
-            "ascii_code": 99,
-            "character": "c",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_64",
-            "index": 100,
-            "offset": 5498392,
-            "offset_hex": "0x53E618",
-            "ascii_code": 100,
-            "character": "d",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_65",
-            "index": 101,
-            "offset": 5498393,
-            "offset_hex": "0x53E619",
-            "ascii_code": 101,
-            "character": "e",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_66",
-            "index": 102,
-            "offset": 5498394,
-            "offset_hex": "0x53E61A",
-            "ascii_code": 102,
-            "character": "f",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_67",
-            "index": 103,
-            "offset": 5498395,
-            "offset_hex": "0x53E61B",
-            "ascii_code": 103,
-            "character": "g",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_68",
-            "index": 104,
-            "offset": 5498396,
-            "offset_hex": "0x53E61C",
-            "ascii_code": 104,
-            "character": "h",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_69",
-            "index": 105,
-            "offset": 5498397,
-            "offset_hex": "0x53E61D",
-            "ascii_code": 105,
-            "character": "i",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6A",
-            "index": 106,
-            "offset": 5498398,
-            "offset_hex": "0x53E61E",
-            "ascii_code": 106,
-            "character": "j",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6B",
-            "index": 107,
-            "offset": 5498399,
-            "offset_hex": "0x53E61F",
-            "ascii_code": 107,
-            "character": "k",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6C",
-            "index": 108,
-            "offset": 5498400,
-            "offset_hex": "0x53E620",
-            "ascii_code": 108,
-            "character": "l",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6D",
-            "index": 109,
-            "offset": 5498401,
-            "offset_hex": "0x53E621",
-            "ascii_code": 109,
-            "character": "m",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6E",
-            "index": 110,
-            "offset": 5498402,
-            "offset_hex": "0x53E622",
-            "ascii_code": 110,
-            "character": "n",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_6F",
-            "index": 111,
-            "offset": 5498403,
-            "offset_hex": "0x53E623",
-            "ascii_code": 111,
-            "character": "o",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_70",
-            "index": 112,
-            "offset": 5498404,
-            "offset_hex": "0x53E624",
-            "ascii_code": 112,
-            "character": "p",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_71",
-            "index": 113,
-            "offset": 5498405,
-            "offset_hex": "0x53E625",
-            "ascii_code": 113,
-            "character": "q",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_72",
-            "index": 114,
-            "offset": 5498406,
-            "offset_hex": "0x53E626",
-            "ascii_code": 114,
-            "character": "r",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_73",
-            "index": 115,
-            "offset": 5498407,
-            "offset_hex": "0x53E627",
-            "ascii_code": 115,
-            "character": "s",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_74",
-            "index": 116,
-            "offset": 5498408,
-            "offset_hex": "0x53E628",
-            "ascii_code": 116,
-            "character": "t",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_75",
-            "index": 117,
-            "offset": 5498409,
-            "offset_hex": "0x53E629",
-            "ascii_code": 117,
-            "character": "u",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_76",
-            "index": 118,
-            "offset": 5498410,
-            "offset_hex": "0x53E62A",
-            "ascii_code": 118,
-            "character": "v",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_77",
-            "index": 119,
-            "offset": 5498411,
-            "offset_hex": "0x53E62B",
-            "ascii_code": 119,
-            "character": "w",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_78",
-            "index": 120,
-            "offset": 5498412,
-            "offset_hex": "0x53E62C",
-            "ascii_code": 120,
-            "character": "x",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_79",
-            "index": 121,
-            "offset": 5498413,
-            "offset_hex": "0x53E62D",
-            "ascii_code": 121,
-            "character": "y",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7A",
-            "index": 122,
-            "offset": 5498414,
-            "offset_hex": "0x53E62E",
-            "ascii_code": 122,
-            "character": "z",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7B",
-            "index": 123,
-            "offset": 5498415,
-            "offset_hex": "0x53E62F",
-            "ascii_code": 123,
-            "character": "{",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7C",
-            "index": 124,
-            "offset": 5498416,
-            "offset_hex": "0x53E630",
-            "ascii_code": 124,
-            "character": "|",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7D",
-            "index": 125,
-            "offset": 5498417,
-            "offset_hex": "0x53E631",
-            "ascii_code": 125,
-            "character": "}",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7E",
-            "index": 126,
-            "offset": 5498418,
-            "offset_hex": "0x53E632",
-            "ascii_code": 126,
-            "character": "~",
-            "pixel_width": 13
-        },
-        {
-            "id": "char_7F",
-            "index": 127,
-            "offset": 5498419,
-            "offset_hex": "0x53E633",
-            "ascii_code": 127,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_80",
-            "index": 128,
-            "offset": 5498420,
-            "offset_hex": "0x53E634",
-            "ascii_code": 128,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_81",
-            "index": 129,
-            "offset": 5498421,
-            "offset_hex": "0x53E635",
-            "ascii_code": 129,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_82",
-            "index": 130,
-            "offset": 5498422,
-            "offset_hex": "0x53E636",
-            "ascii_code": 130,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_83",
-            "index": 131,
-            "offset": 5498423,
-            "offset_hex": "0x53E637",
-            "ascii_code": 131,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_84",
-            "index": 132,
-            "offset": 5498424,
-            "offset_hex": "0x53E638",
-            "ascii_code": 132,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_85",
-            "index": 133,
-            "offset": 5498425,
-            "offset_hex": "0x53E639",
-            "ascii_code": 133,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_86",
-            "index": 134,
-            "offset": 5498426,
-            "offset_hex": "0x53E63A",
-            "ascii_code": 134,
-            "character": null,
-            "pixel_width": 13
-        },
-        {
-            "id": "char_87",
-            "index": 135,
-            "offset": 5498427,
-            "offset_hex": "0x53E63B",
-            "ascii_code": 135,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_88",
-            "index": 136,
-            "offset": 5498428,
-            "offset_hex": "0x53E63C",
-            "ascii_code": 136,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_89",
-            "index": 137,
-            "offset": 5498429,
-            "offset_hex": "0x53E63D",
-            "ascii_code": 137,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8A",
-            "index": 138,
-            "offset": 5498430,
-            "offset_hex": "0x53E63E",
-            "ascii_code": 138,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8B",
-            "index": 139,
-            "offset": 5498431,
-            "offset_hex": "0x53E63F",
-            "ascii_code": 139,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8C",
-            "index": 140,
-            "offset": 5498432,
-            "offset_hex": "0x53E640",
-            "ascii_code": 140,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8D",
-            "index": 141,
-            "offset": 5498433,
-            "offset_hex": "0x53E641",
-            "ascii_code": 141,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8E",
-            "index": 142,
-            "offset": 5498434,
-            "offset_hex": "0x53E642",
-            "ascii_code": 142,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_8F",
-            "index": 143,
-            "offset": 5498435,
-            "offset_hex": "0x53E643",
-            "ascii_code": 143,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_90",
-            "index": 144,
-            "offset": 5498436,
-            "offset_hex": "0x53E644",
-            "ascii_code": 144,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_91",
-            "index": 145,
-            "offset": 5498437,
-            "offset_hex": "0x53E645",
-            "ascii_code": 145,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_92",
-            "index": 146,
-            "offset": 5498438,
-            "offset_hex": "0x53E646",
-            "ascii_code": 146,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_93",
-            "index": 147,
-            "offset": 5498439,
-            "offset_hex": "0x53E647",
-            "ascii_code": 147,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_94",
-            "index": 148,
-            "offset": 5498440,
-            "offset_hex": "0x53E648",
-            "ascii_code": 148,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_95",
-            "index": 149,
-            "offset": 5498441,
-            "offset_hex": "0x53E649",
-            "ascii_code": 149,
-            "character": null,
-            "pixel_width": 6
-        },
-        {
-            "id": "char_96",
-            "index": 150,
-            "offset": 5498442,
-            "offset_hex": "0x53E64A",
-            "ascii_code": 150,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_97",
-            "index": 151,
-            "offset": 5498443,
-            "offset_hex": "0x53E64B",
-            "ascii_code": 151,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_98",
-            "index": 152,
-            "offset": 5498444,
-            "offset_hex": "0x53E64C",
-            "ascii_code": 152,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_99",
-            "index": 153,
-            "offset": 5498445,
-            "offset_hex": "0x53E64D",
-            "ascii_code": 153,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9A",
-            "index": 154,
-            "offset": 5498446,
-            "offset_hex": "0x53E64E",
-            "ascii_code": 154,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9B",
-            "index": 155,
-            "offset": 5498447,
-            "offset_hex": "0x53E64F",
-            "ascii_code": 155,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9C",
-            "index": 156,
-            "offset": 5498448,
-            "offset_hex": "0x53E650",
-            "ascii_code": 156,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9D",
-            "index": 157,
-            "offset": 5498449,
-            "offset_hex": "0x53E651",
-            "ascii_code": 157,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9E",
-            "index": 158,
-            "offset": 5498450,
-            "offset_hex": "0x53E652",
-            "ascii_code": 158,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_9F",
-            "index": 159,
-            "offset": 5498451,
-            "offset_hex": "0x53E653",
-            "ascii_code": 159,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A0",
-            "index": 160,
-            "offset": 5498452,
-            "offset_hex": "0x53E654",
-            "ascii_code": 160,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A1",
-            "index": 161,
-            "offset": 5498453,
-            "offset_hex": "0x53E655",
-            "ascii_code": 161,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A2",
-            "index": 162,
-            "offset": 5498454,
-            "offset_hex": "0x53E656",
-            "ascii_code": 162,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A3",
-            "index": 163,
-            "offset": 5498455,
-            "offset_hex": "0x53E657",
-            "ascii_code": 163,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A4",
-            "index": 164,
-            "offset": 5498456,
-            "offset_hex": "0x53E658",
-            "ascii_code": 164,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A5",
-            "index": 165,
-            "offset": 5498457,
-            "offset_hex": "0x53E659",
-            "ascii_code": 165,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A6",
-            "index": 166,
-            "offset": 5498458,
-            "offset_hex": "0x53E65A",
-            "ascii_code": 166,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A7",
-            "index": 167,
-            "offset": 5498459,
-            "offset_hex": "0x53E65B",
-            "ascii_code": 167,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A8",
-            "index": 168,
-            "offset": 5498460,
-            "offset_hex": "0x53E65C",
-            "ascii_code": 168,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_A9",
-            "index": 169,
-            "offset": 5498461,
-            "offset_hex": "0x53E65D",
-            "ascii_code": 169,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AA",
-            "index": 170,
-            "offset": 5498462,
-            "offset_hex": "0x53E65E",
-            "ascii_code": 170,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AB",
-            "index": 171,
-            "offset": 5498463,
-            "offset_hex": "0x53E65F",
-            "ascii_code": 171,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AC",
-            "index": 172,
-            "offset": 5498464,
-            "offset_hex": "0x53E660",
-            "ascii_code": 172,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AD",
-            "index": 173,
-            "offset": 5498465,
-            "offset_hex": "0x53E661",
-            "ascii_code": 173,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AE",
-            "index": 174,
-            "offset": 5498466,
-            "offset_hex": "0x53E662",
-            "ascii_code": 174,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_AF",
-            "index": 175,
-            "offset": 5498467,
-            "offset_hex": "0x53E663",
-            "ascii_code": 175,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B0",
-            "index": 176,
-            "offset": 5498468,
-            "offset_hex": "0x53E664",
-            "ascii_code": 176,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B1",
-            "index": 177,
-            "offset": 5498469,
-            "offset_hex": "0x53E665",
-            "ascii_code": 177,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B2",
-            "index": 178,
-            "offset": 5498470,
-            "offset_hex": "0x53E666",
-            "ascii_code": 178,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B3",
-            "index": 179,
-            "offset": 5498471,
-            "offset_hex": "0x53E667",
-            "ascii_code": 179,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B4",
-            "index": 180,
-            "offset": 5498472,
-            "offset_hex": "0x53E668",
-            "ascii_code": 180,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B5",
-            "index": 181,
-            "offset": 5498473,
-            "offset_hex": "0x53E669",
-            "ascii_code": 181,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B6",
-            "index": 182,
-            "offset": 5498474,
-            "offset_hex": "0x53E66A",
-            "ascii_code": 182,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B7",
-            "index": 183,
-            "offset": 5498475,
-            "offset_hex": "0x53E66B",
-            "ascii_code": 183,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B8",
-            "index": 184,
-            "offset": 5498476,
-            "offset_hex": "0x53E66C",
-            "ascii_code": 184,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_B9",
-            "index": 185,
-            "offset": 5498477,
-            "offset_hex": "0x53E66D",
-            "ascii_code": 185,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BA",
-            "index": 186,
-            "offset": 5498478,
-            "offset_hex": "0x53E66E",
-            "ascii_code": 186,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BB",
-            "index": 187,
-            "offset": 5498479,
-            "offset_hex": "0x53E66F",
-            "ascii_code": 187,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BC",
-            "index": 188,
-            "offset": 5498480,
-            "offset_hex": "0x53E670",
-            "ascii_code": 188,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BD",
-            "index": 189,
-            "offset": 5498481,
-            "offset_hex": "0x53E671",
-            "ascii_code": 189,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BE",
-            "index": 190,
-            "offset": 5498482,
-            "offset_hex": "0x53E672",
-            "ascii_code": 190,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_BF",
-            "index": 191,
-            "offset": 5498483,
-            "offset_hex": "0x53E673",
-            "ascii_code": 191,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C0",
-            "index": 192,
-            "offset": 5498484,
-            "offset_hex": "0x53E674",
-            "ascii_code": 192,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C1",
-            "index": 193,
-            "offset": 5498485,
-            "offset_hex": "0x53E675",
-            "ascii_code": 193,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C2",
-            "index": 194,
-            "offset": 5498486,
-            "offset_hex": "0x53E676",
-            "ascii_code": 194,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C3",
-            "index": 195,
-            "offset": 5498487,
-            "offset_hex": "0x53E677",
-            "ascii_code": 195,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C4",
-            "index": 196,
-            "offset": 5498488,
-            "offset_hex": "0x53E678",
-            "ascii_code": 196,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C5",
-            "index": 197,
-            "offset": 5498489,
-            "offset_hex": "0x53E679",
-            "ascii_code": 197,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C6",
-            "index": 198,
-            "offset": 5498490,
-            "offset_hex": "0x53E67A",
-            "ascii_code": 198,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C7",
-            "index": 199,
-            "offset": 5498491,
-            "offset_hex": "0x53E67B",
-            "ascii_code": 199,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C8",
-            "index": 200,
-            "offset": 5498492,
-            "offset_hex": "0x53E67C",
-            "ascii_code": 200,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_C9",
-            "index": 201,
-            "offset": 5498493,
-            "offset_hex": "0x53E67D",
-            "ascii_code": 201,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CA",
-            "index": 202,
-            "offset": 5498494,
-            "offset_hex": "0x53E67E",
-            "ascii_code": 202,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CB",
-            "index": 203,
-            "offset": 5498495,
-            "offset_hex": "0x53E67F",
-            "ascii_code": 203,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CC",
-            "index": 204,
-            "offset": 5498496,
-            "offset_hex": "0x53E680",
-            "ascii_code": 204,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CD",
-            "index": 205,
-            "offset": 5498497,
-            "offset_hex": "0x53E681",
-            "ascii_code": 205,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CE",
-            "index": 206,
-            "offset": 5498498,
-            "offset_hex": "0x53E682",
-            "ascii_code": 206,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_CF",
-            "index": 207,
-            "offset": 5498499,
-            "offset_hex": "0x53E683",
-            "ascii_code": 207,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D0",
-            "index": 208,
-            "offset": 5498500,
-            "offset_hex": "0x53E684",
-            "ascii_code": 208,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D1",
-            "index": 209,
-            "offset": 5498501,
-            "offset_hex": "0x53E685",
-            "ascii_code": 209,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D2",
-            "index": 210,
-            "offset": 5498502,
-            "offset_hex": "0x53E686",
-            "ascii_code": 210,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D3",
-            "index": 211,
-            "offset": 5498503,
-            "offset_hex": "0x53E687",
-            "ascii_code": 211,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D4",
-            "index": 212,
-            "offset": 5498504,
-            "offset_hex": "0x53E688",
-            "ascii_code": 212,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D5",
-            "index": 213,
-            "offset": 5498505,
-            "offset_hex": "0x53E689",
-            "ascii_code": 213,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D6",
-            "index": 214,
-            "offset": 5498506,
-            "offset_hex": "0x53E68A",
-            "ascii_code": 214,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D7",
-            "index": 215,
-            "offset": 5498507,
-            "offset_hex": "0x53E68B",
-            "ascii_code": 215,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D8",
-            "index": 216,
-            "offset": 5498508,
-            "offset_hex": "0x53E68C",
-            "ascii_code": 216,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_D9",
-            "index": 217,
-            "offset": 5498509,
-            "offset_hex": "0x53E68D",
-            "ascii_code": 217,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DA",
-            "index": 218,
-            "offset": 5498510,
-            "offset_hex": "0x53E68E",
-            "ascii_code": 218,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DB",
-            "index": 219,
-            "offset": 5498511,
-            "offset_hex": "0x53E68F",
-            "ascii_code": 219,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DC",
-            "index": 220,
-            "offset": 5498512,
-            "offset_hex": "0x53E690",
-            "ascii_code": 220,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DD",
-            "index": 221,
-            "offset": 5498513,
-            "offset_hex": "0x53E691",
-            "ascii_code": 221,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DE",
-            "index": 222,
-            "offset": 5498514,
-            "offset_hex": "0x53E692",
-            "ascii_code": 222,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_DF",
-            "index": 223,
-            "offset": 5498515,
-            "offset_hex": "0x53E693",
-            "ascii_code": 223,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E0",
-            "index": 224,
-            "offset": 5498516,
-            "offset_hex": "0x53E694",
-            "ascii_code": 224,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E1",
-            "index": 225,
-            "offset": 5498517,
-            "offset_hex": "0x53E695",
-            "ascii_code": 225,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E2",
-            "index": 226,
-            "offset": 5498518,
-            "offset_hex": "0x53E696",
-            "ascii_code": 226,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E3",
-            "index": 227,
-            "offset": 5498519,
-            "offset_hex": "0x53E697",
-            "ascii_code": 227,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E4",
-            "index": 228,
-            "offset": 5498520,
-            "offset_hex": "0x53E698",
-            "ascii_code": 228,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E5",
-            "index": 229,
-            "offset": 5498521,
-            "offset_hex": "0x53E699",
-            "ascii_code": 229,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E6",
-            "index": 230,
-            "offset": 5498522,
-            "offset_hex": "0x53E69A",
-            "ascii_code": 230,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E7",
-            "index": 231,
-            "offset": 5498523,
-            "offset_hex": "0x53E69B",
-            "ascii_code": 231,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E8",
-            "index": 232,
-            "offset": 5498524,
-            "offset_hex": "0x53E69C",
-            "ascii_code": 232,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_E9",
-            "index": 233,
-            "offset": 5498525,
-            "offset_hex": "0x53E69D",
-            "ascii_code": 233,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_EA",
-            "index": 234,
-            "offset": 5498526,
-            "offset_hex": "0x53E69E",
-            "ascii_code": 234,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_EB",
-            "index": 235,
-            "offset": 5498527,
-            "offset_hex": "0x53E69F",
-            "ascii_code": 235,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_EC",
-            "index": 236,
-            "offset": 5498528,
-            "offset_hex": "0x53E6A0",
-            "ascii_code": 236,
-            "character": null,
-            "pixel_width": 113
-        },
-        {
-            "id": "char_ED",
-            "index": 237,
-            "offset": 5498529,
-            "offset_hex": "0x53E6A1",
-            "ascii_code": 237,
-            "character": null,
-            "pixel_width": 224
-        },
-        {
-            "id": "char_EE",
-            "index": 238,
-            "offset": 5498530,
-            "offset_hex": "0x53E6A2",
-            "ascii_code": 238,
-            "character": null,
-            "pixel_width": 7
-        },
-        {
-            "id": "char_EF",
-            "index": 239,
-            "offset": 5498531,
-            "offset_hex": "0x53E6A3",
-            "ascii_code": 239,
-            "character": null,
-            "pixel_width": 8
-        },
-        {
-            "id": "char_F0",
-            "index": 240,
-            "offset": 5498532,
-            "offset_hex": "0x53E6A4",
-            "ascii_code": 240,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_F1",
-            "index": 241,
-            "offset": 5498533,
-            "offset_hex": "0x53E6A5",
-            "ascii_code": 241,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_F2",
-            "index": 242,
-            "offset": 5498534,
-            "offset_hex": "0x53E6A6",
-            "ascii_code": 242,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_F3",
-            "index": 243,
-            "offset": 5498535,
-            "offset_hex": "0x53E6A7",
-            "ascii_code": 243,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_F4",
-            "index": 244,
-            "offset": 5498536,
-            "offset_hex": "0x53E6A8",
-            "ascii_code": 244,
-            "character": null,
-            "pixel_width": 73
-        },
-        {
-            "id": "char_F5",
-            "index": 245,
-            "offset": 5498537,
-            "offset_hex": "0x53E6A9",
-            "ascii_code": 245,
-            "character": null,
-            "pixel_width": 230
-        },
-        {
-            "id": "char_F6",
-            "index": 246,
-            "offset": 5498538,
-            "offset_hex": "0x53E6AA",
-            "ascii_code": 246,
-            "character": null,
-            "pixel_width": 7
-        },
-        {
-            "id": "char_F7",
-            "index": 247,
-            "offset": 5498539,
-            "offset_hex": "0x53E6AB",
-            "ascii_code": 247,
-            "character": null,
-            "pixel_width": 8
-        },
-        {
-            "id": "char_F8",
-            "index": 248,
-            "offset": 5498540,
-            "offset_hex": "0x53E6AC",
-            "ascii_code": 248,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_F9",
-            "index": 249,
-            "offset": 5498541,
-            "offset_hex": "0x53E6AD",
-            "ascii_code": 249,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FA",
-            "index": 250,
-            "offset": 5498542,
-            "offset_hex": "0x53E6AE",
-            "ascii_code": 250,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FB",
-            "index": 251,
-            "offset": 5498543,
-            "offset_hex": "0x53E6AF",
-            "ascii_code": 251,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FC",
-            "index": 252,
-            "offset": 5498544,
-            "offset_hex": "0x53E6B0",
-            "ascii_code": 252,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FD",
-            "index": 253,
-            "offset": 5498545,
-            "offset_hex": "0x53E6B1",
-            "ascii_code": 253,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FE",
-            "index": 254,
-            "offset": 5498546,
-            "offset_hex": "0x53E6B2",
-            "ascii_code": 254,
-            "character": null,
-            "pixel_width": 0
-        },
-        {
-            "id": "char_FF",
-            "index": 255,
-            "offset": 5498547,
-            "offset_hex": "0x53E6B3",
-            "ascii_code": 255,
-            "character": null,
-            "pixel_width": 0
-        }
-    ],
-    "verification": "static_verified"
+    {
+      "index": 49,
+      "char": "1",
+      "width": 6,
+      "notes": "Digit - standard width"
+    },
+    {
+      "index": 65,
+      "char": "A",
+      "width": 0,
+      "notes": "Uppercase - not in this font?"
+    },
+    {
+      "index": 97,
+      "char": "a",
+      "width": 13,
+      "notes": "Lowercase - wide"
+    },
+    {
+      "index": 98,
+      "char": "b",
+      "width": 13,
+      "notes": "Lowercase - wide"
+    },
+    {
+      "index": 99,
+      "char": "c",
+      "width": 13,
+      "notes": "Lowercase - wide"
+    }
+  ],
+  "width_categories": {
+    "0": "Not rendered (space, uppercase, special)",
+    "6": "Standard width (digits, some punctuation)",
+    "13": "Wide (lowercase letters)",
+    "15": "Extra wide (period, slash)",
+    "17": "Double wide (quote, hash)"
+  },
+  "verification_method": "Static analysis - found 256-byte table with plausible character width values. Digits have uniform width (6px), lowercase letters have uniform width (13px), space has width 0. Pattern consistent with fixed-width font rendering.",
+  "discovered_by": "Searching for character width tables in 4-24 pixel range",
+  "entries": [
+    {
+      "_raw_offset": 5498292,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5498293,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5498294,
+      "char_width": 14,
+      "char_width_hex": "0e",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5498295,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5498296,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5498297,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5498298,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5498299,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5498300,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5498301,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5498302,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5498303,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5498304,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5498305,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5498306,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5498307,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5498308,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5498309,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5498310,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5498311,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 19
+    },
+    {
+      "_raw_offset": 5498312,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 20
+    },
+    {
+      "_raw_offset": 5498313,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 21
+    },
+    {
+      "_raw_offset": 5498314,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 22
+    },
+    {
+      "_raw_offset": 5498315,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 23
+    },
+    {
+      "_raw_offset": 5498316,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 24
+    },
+    {
+      "_raw_offset": 5498317,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 25
+    },
+    {
+      "_raw_offset": 5498318,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 26
+    },
+    {
+      "_raw_offset": 5498319,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 27
+    },
+    {
+      "_raw_offset": 5498320,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 28
+    },
+    {
+      "_raw_offset": 5498321,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 29
+    },
+    {
+      "_raw_offset": 5498322,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 30
+    },
+    {
+      "_raw_offset": 5498323,
+      "char_width": 15,
+      "char_width_hex": "0f",
+      "_index": 31
+    },
+    {
+      "_raw_offset": 5498324,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 32
+    },
+    {
+      "_raw_offset": 5498325,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 33
+    },
+    {
+      "_raw_offset": 5498326,
+      "char_width": 17,
+      "char_width_hex": "11",
+      "_index": 34
+    },
+    {
+      "_raw_offset": 5498327,
+      "char_width": 17,
+      "char_width_hex": "11",
+      "_index": 35
+    },
+    {
+      "_raw_offset": 5498328,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 36
+    },
+    {
+      "_raw_offset": 5498329,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 37
+    },
+    {
+      "_raw_offset": 5498330,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 38
+    },
+    {
+      "_raw_offset": 5498331,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 39
+    },
+    {
+      "_raw_offset": 5498332,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 40
+    },
+    {
+      "_raw_offset": 5498333,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 41
+    },
+    {
+      "_raw_offset": 5498334,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 42
+    },
+    {
+      "_raw_offset": 5498335,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 43
+    },
+    {
+      "_raw_offset": 5498336,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 44
+    },
+    {
+      "_raw_offset": 5498337,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 45
+    },
+    {
+      "_raw_offset": 5498338,
+      "char_width": 15,
+      "char_width_hex": "0f",
+      "_index": 46
+    },
+    {
+      "_raw_offset": 5498339,
+      "char_width": 15,
+      "char_width_hex": "0f",
+      "_index": 47
+    },
+    {
+      "_raw_offset": 5498340,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 48
+    },
+    {
+      "_raw_offset": 5498341,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 49
+    },
+    {
+      "_raw_offset": 5498342,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 50
+    },
+    {
+      "_raw_offset": 5498343,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 51
+    },
+    {
+      "_raw_offset": 5498344,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 52
+    },
+    {
+      "_raw_offset": 5498345,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 53
+    },
+    {
+      "_raw_offset": 5498346,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 54
+    },
+    {
+      "_raw_offset": 5498347,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 55
+    },
+    {
+      "_raw_offset": 5498348,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 56
+    },
+    {
+      "_raw_offset": 5498349,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 57
+    },
+    {
+      "_raw_offset": 5498350,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 58
+    },
+    {
+      "_raw_offset": 5498351,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 59
+    },
+    {
+      "_raw_offset": 5498352,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 60
+    },
+    {
+      "_raw_offset": 5498353,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 61
+    },
+    {
+      "_raw_offset": 5498354,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 62
+    },
+    {
+      "_raw_offset": 5498355,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 63
+    },
+    {
+      "_raw_offset": 5498356,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 64
+    },
+    {
+      "_raw_offset": 5498357,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 65
+    },
+    {
+      "_raw_offset": 5498358,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 66
+    },
+    {
+      "_raw_offset": 5498359,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 67
+    },
+    {
+      "_raw_offset": 5498360,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 68
+    },
+    {
+      "_raw_offset": 5498361,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 69
+    },
+    {
+      "_raw_offset": 5498362,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 70
+    },
+    {
+      "_raw_offset": 5498363,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 71
+    },
+    {
+      "_raw_offset": 5498364,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 72
+    },
+    {
+      "_raw_offset": 5498365,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 73
+    },
+    {
+      "_raw_offset": 5498366,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 74
+    },
+    {
+      "_raw_offset": 5498367,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 75
+    },
+    {
+      "_raw_offset": 5498368,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 76
+    },
+    {
+      "_raw_offset": 5498369,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 77
+    },
+    {
+      "_raw_offset": 5498370,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 78
+    },
+    {
+      "_raw_offset": 5498371,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 79
+    },
+    {
+      "_raw_offset": 5498372,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 80
+    },
+    {
+      "_raw_offset": 5498373,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 81
+    },
+    {
+      "_raw_offset": 5498374,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 82
+    },
+    {
+      "_raw_offset": 5498375,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 83
+    },
+    {
+      "_raw_offset": 5498376,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 84
+    },
+    {
+      "_raw_offset": 5498377,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 85
+    },
+    {
+      "_raw_offset": 5498378,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 86
+    },
+    {
+      "_raw_offset": 5498379,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 87
+    },
+    {
+      "_raw_offset": 5498380,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 88
+    },
+    {
+      "_raw_offset": 5498381,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 89
+    },
+    {
+      "_raw_offset": 5498382,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 90
+    },
+    {
+      "_raw_offset": 5498383,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 91
+    },
+    {
+      "_raw_offset": 5498384,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 92
+    },
+    {
+      "_raw_offset": 5498385,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 93
+    },
+    {
+      "_raw_offset": 5498386,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 94
+    },
+    {
+      "_raw_offset": 5498387,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 95
+    },
+    {
+      "_raw_offset": 5498388,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 96
+    },
+    {
+      "_raw_offset": 5498389,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 97
+    },
+    {
+      "_raw_offset": 5498390,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 98
+    },
+    {
+      "_raw_offset": 5498391,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 99
+    },
+    {
+      "_raw_offset": 5498392,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 100
+    },
+    {
+      "_raw_offset": 5498393,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 101
+    },
+    {
+      "_raw_offset": 5498394,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 102
+    },
+    {
+      "_raw_offset": 5498395,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 103
+    },
+    {
+      "_raw_offset": 5498396,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 104
+    },
+    {
+      "_raw_offset": 5498397,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 105
+    },
+    {
+      "_raw_offset": 5498398,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 106
+    },
+    {
+      "_raw_offset": 5498399,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 107
+    },
+    {
+      "_raw_offset": 5498400,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 108
+    },
+    {
+      "_raw_offset": 5498401,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 109
+    },
+    {
+      "_raw_offset": 5498402,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 110
+    },
+    {
+      "_raw_offset": 5498403,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 111
+    },
+    {
+      "_raw_offset": 5498404,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 112
+    },
+    {
+      "_raw_offset": 5498405,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 113
+    },
+    {
+      "_raw_offset": 5498406,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 114
+    },
+    {
+      "_raw_offset": 5498407,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 115
+    },
+    {
+      "_raw_offset": 5498408,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 116
+    },
+    {
+      "_raw_offset": 5498409,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 117
+    },
+    {
+      "_raw_offset": 5498410,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 118
+    },
+    {
+      "_raw_offset": 5498411,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 119
+    },
+    {
+      "_raw_offset": 5498412,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 120
+    },
+    {
+      "_raw_offset": 5498413,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 121
+    },
+    {
+      "_raw_offset": 5498414,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 122
+    },
+    {
+      "_raw_offset": 5498415,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 123
+    },
+    {
+      "_raw_offset": 5498416,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 124
+    },
+    {
+      "_raw_offset": 5498417,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 125
+    },
+    {
+      "_raw_offset": 5498418,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 126
+    },
+    {
+      "_raw_offset": 5498419,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 127
+    },
+    {
+      "_raw_offset": 5498420,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 128
+    },
+    {
+      "_raw_offset": 5498421,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 129
+    },
+    {
+      "_raw_offset": 5498422,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 130
+    },
+    {
+      "_raw_offset": 5498423,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 131
+    },
+    {
+      "_raw_offset": 5498424,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 132
+    },
+    {
+      "_raw_offset": 5498425,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 133
+    },
+    {
+      "_raw_offset": 5498426,
+      "char_width": 13,
+      "char_width_hex": "0d",
+      "_index": 134
+    },
+    {
+      "_raw_offset": 5498427,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 135
+    },
+    {
+      "_raw_offset": 5498428,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 136
+    },
+    {
+      "_raw_offset": 5498429,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 137
+    },
+    {
+      "_raw_offset": 5498430,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 138
+    },
+    {
+      "_raw_offset": 5498431,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 139
+    },
+    {
+      "_raw_offset": 5498432,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 140
+    },
+    {
+      "_raw_offset": 5498433,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 141
+    },
+    {
+      "_raw_offset": 5498434,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 142
+    },
+    {
+      "_raw_offset": 5498435,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 143
+    },
+    {
+      "_raw_offset": 5498436,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 144
+    },
+    {
+      "_raw_offset": 5498437,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 145
+    },
+    {
+      "_raw_offset": 5498438,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 146
+    },
+    {
+      "_raw_offset": 5498439,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 147
+    },
+    {
+      "_raw_offset": 5498440,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 148
+    },
+    {
+      "_raw_offset": 5498441,
+      "char_width": 6,
+      "char_width_hex": "06",
+      "_index": 149
+    },
+    {
+      "_raw_offset": 5498442,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 150
+    },
+    {
+      "_raw_offset": 5498443,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 151
+    },
+    {
+      "_raw_offset": 5498444,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 152
+    },
+    {
+      "_raw_offset": 5498445,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 153
+    },
+    {
+      "_raw_offset": 5498446,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 154
+    },
+    {
+      "_raw_offset": 5498447,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 155
+    },
+    {
+      "_raw_offset": 5498448,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 156
+    },
+    {
+      "_raw_offset": 5498449,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 157
+    },
+    {
+      "_raw_offset": 5498450,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 158
+    },
+    {
+      "_raw_offset": 5498451,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 159
+    },
+    {
+      "_raw_offset": 5498452,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 160
+    },
+    {
+      "_raw_offset": 5498453,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 161
+    },
+    {
+      "_raw_offset": 5498454,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 162
+    },
+    {
+      "_raw_offset": 5498455,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 163
+    },
+    {
+      "_raw_offset": 5498456,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 164
+    },
+    {
+      "_raw_offset": 5498457,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 165
+    },
+    {
+      "_raw_offset": 5498458,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 166
+    },
+    {
+      "_raw_offset": 5498459,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 167
+    },
+    {
+      "_raw_offset": 5498460,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 168
+    },
+    {
+      "_raw_offset": 5498461,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 169
+    },
+    {
+      "_raw_offset": 5498462,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 170
+    },
+    {
+      "_raw_offset": 5498463,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 171
+    },
+    {
+      "_raw_offset": 5498464,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 172
+    },
+    {
+      "_raw_offset": 5498465,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 173
+    },
+    {
+      "_raw_offset": 5498466,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 174
+    },
+    {
+      "_raw_offset": 5498467,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 175
+    },
+    {
+      "_raw_offset": 5498468,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 176
+    },
+    {
+      "_raw_offset": 5498469,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 177
+    },
+    {
+      "_raw_offset": 5498470,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 178
+    },
+    {
+      "_raw_offset": 5498471,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 179
+    },
+    {
+      "_raw_offset": 5498472,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 180
+    },
+    {
+      "_raw_offset": 5498473,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 181
+    },
+    {
+      "_raw_offset": 5498474,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 182
+    },
+    {
+      "_raw_offset": 5498475,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 183
+    },
+    {
+      "_raw_offset": 5498476,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 184
+    },
+    {
+      "_raw_offset": 5498477,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 185
+    },
+    {
+      "_raw_offset": 5498478,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 186
+    },
+    {
+      "_raw_offset": 5498479,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 187
+    },
+    {
+      "_raw_offset": 5498480,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 188
+    },
+    {
+      "_raw_offset": 5498481,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 189
+    },
+    {
+      "_raw_offset": 5498482,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 190
+    },
+    {
+      "_raw_offset": 5498483,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 191
+    },
+    {
+      "_raw_offset": 5498484,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 192
+    },
+    {
+      "_raw_offset": 5498485,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 193
+    },
+    {
+      "_raw_offset": 5498486,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 194
+    },
+    {
+      "_raw_offset": 5498487,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 195
+    },
+    {
+      "_raw_offset": 5498488,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 196
+    },
+    {
+      "_raw_offset": 5498489,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 197
+    },
+    {
+      "_raw_offset": 5498490,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 198
+    },
+    {
+      "_raw_offset": 5498491,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 199
+    },
+    {
+      "_raw_offset": 5498492,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 200
+    },
+    {
+      "_raw_offset": 5498493,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 201
+    },
+    {
+      "_raw_offset": 5498494,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 202
+    },
+    {
+      "_raw_offset": 5498495,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 203
+    },
+    {
+      "_raw_offset": 5498496,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 204
+    },
+    {
+      "_raw_offset": 5498497,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 205
+    },
+    {
+      "_raw_offset": 5498498,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 206
+    },
+    {
+      "_raw_offset": 5498499,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 207
+    },
+    {
+      "_raw_offset": 5498500,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 208
+    },
+    {
+      "_raw_offset": 5498501,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 209
+    },
+    {
+      "_raw_offset": 5498502,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 210
+    },
+    {
+      "_raw_offset": 5498503,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 211
+    },
+    {
+      "_raw_offset": 5498504,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 212
+    },
+    {
+      "_raw_offset": 5498505,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 213
+    },
+    {
+      "_raw_offset": 5498506,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 214
+    },
+    {
+      "_raw_offset": 5498507,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 215
+    },
+    {
+      "_raw_offset": 5498508,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 216
+    },
+    {
+      "_raw_offset": 5498509,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 217
+    },
+    {
+      "_raw_offset": 5498510,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 218
+    },
+    {
+      "_raw_offset": 5498511,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 219
+    },
+    {
+      "_raw_offset": 5498512,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 220
+    },
+    {
+      "_raw_offset": 5498513,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 221
+    },
+    {
+      "_raw_offset": 5498514,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 222
+    },
+    {
+      "_raw_offset": 5498515,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 223
+    },
+    {
+      "_raw_offset": 5498516,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 224
+    },
+    {
+      "_raw_offset": 5498517,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 225
+    },
+    {
+      "_raw_offset": 5498518,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 226
+    },
+    {
+      "_raw_offset": 5498519,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 227
+    },
+    {
+      "_raw_offset": 5498520,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 228
+    },
+    {
+      "_raw_offset": 5498521,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 229
+    },
+    {
+      "_raw_offset": 5498522,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 230
+    },
+    {
+      "_raw_offset": 5498523,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 231
+    },
+    {
+      "_raw_offset": 5498524,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 232
+    },
+    {
+      "_raw_offset": 5498525,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 233
+    },
+    {
+      "_raw_offset": 5498526,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 234
+    },
+    {
+      "_raw_offset": 5498527,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 235
+    },
+    {
+      "_raw_offset": 5498528,
+      "char_width": 113,
+      "char_width_hex": "71",
+      "_index": 236
+    },
+    {
+      "_raw_offset": 5498529,
+      "char_width": 224,
+      "char_width_hex": "e0",
+      "_index": 237
+    },
+    {
+      "_raw_offset": 5498530,
+      "char_width": 7,
+      "char_width_hex": "07",
+      "_index": 238
+    },
+    {
+      "_raw_offset": 5498531,
+      "char_width": 8,
+      "char_width_hex": "08",
+      "_index": 239
+    },
+    {
+      "_raw_offset": 5498532,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 240
+    },
+    {
+      "_raw_offset": 5498533,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 241
+    },
+    {
+      "_raw_offset": 5498534,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 242
+    },
+    {
+      "_raw_offset": 5498535,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 243
+    },
+    {
+      "_raw_offset": 5498536,
+      "char_width": 73,
+      "char_width_hex": "49",
+      "_index": 244
+    },
+    {
+      "_raw_offset": 5498537,
+      "char_width": 230,
+      "char_width_hex": "e6",
+      "_index": 245
+    },
+    {
+      "_raw_offset": 5498538,
+      "char_width": 7,
+      "char_width_hex": "07",
+      "_index": 246
+    },
+    {
+      "_raw_offset": 5498539,
+      "char_width": 8,
+      "char_width_hex": "08",
+      "_index": 247
+    },
+    {
+      "_raw_offset": 5498540,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 248
+    },
+    {
+      "_raw_offset": 5498541,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 249
+    },
+    {
+      "_raw_offset": 5498542,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 250
+    },
+    {
+      "_raw_offset": 5498543,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 251
+    },
+    {
+      "_raw_offset": 5498544,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 252
+    },
+    {
+      "_raw_offset": 5498545,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 253
+    },
+    {
+      "_raw_offset": 5498546,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 254
+    },
+    {
+      "_raw_offset": 5498547,
+      "char_width": 0,
+      "char_width_hex": "00",
+      "_index": 255
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 256,
+    "rom_offset": 5498292,
+    "rom_offset_hex": "0x53E5B4"
+  }
 }

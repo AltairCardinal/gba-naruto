@@ -1,203 +1,175 @@
 {
-    "version": 1,
-    "description": "Cutscene script pointer table discovered at ROM offset 0x53DF70. 17 entries of u32 pointers to cutscene/script data in the 0x12xxxx region.",
-    "table_offset": 5496688,
-    "table_offset_hex": "0x53DF70",
-    "entry_count": 17,
-    "entry_size": 4,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "script_ptr",
-                "type": "u32",
-                "description": "Pointer to cutscene/script data in the 0x12xxxx region"
-            }
-        ]
+  "version": 1,
+  "description": "Cutscene script pointer table discovered at ROM offset 0x53DF70. 17 entries of u32 pointers to cutscene/script data in the 0x12xxxx region.",
+  "table_offset": 5496688,
+  "table_offset_hex": "0x53DF70",
+  "entry_count": 17,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "script_ptr",
+        "type": "u32",
+        "description": "Pointer to cutscene/script data in the 0x12xxxx region"
+      }
+    ]
+  },
+  "notes": "Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.",
+  "entries_sample": [
+    {
+      "index": 0,
+      "offset": 5496688,
+      "offset_hex": "0x53DF70",
+      "script_ptr": "0x0812D9E4",
+      "script_offset": "0x12D9E4",
+      "notes": "Cutscene/script data"
     },
-    "notes": "Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.",
-    "entries_sample": [
-        {
-            "index": 0,
-            "offset": 5496688,
-            "offset_hex": "0x53DF70",
-            "script_ptr": "0x0812D9E4",
-            "script_offset": "0x12D9E4",
-            "notes": "Cutscene/script data"
-        },
-        {
-            "index": 1,
-            "offset": 5496692,
-            "offset_hex": "0x53DF74",
-            "script_ptr": "0x0812DEE4",
-            "script_offset": "0x12DEE4",
-            "notes": "Cutscene/script data"
-        },
-        {
-            "index": 2,
-            "offset": 5496696,
-            "offset_hex": "0x53DF78",
-            "script_ptr": "0x0812DF4C",
-            "script_offset": "0x12DF4C",
-            "notes": "Cutscene/script data"
-        },
-        {
-            "index": 3,
-            "offset": 5496700,
-            "offset_hex": "0x53DF7C",
-            "script_ptr": "0x0812E42C",
-            "script_offset": "0x12E42C",
-            "notes": "Cutscene/script data"
-        },
-        {
-            "index": 4,
-            "offset": 5496704,
-            "offset_hex": "0x53DF80",
-            "script_ptr": "0x0812E494",
-            "script_offset": "0x12E494",
-            "notes": "Cutscene/script data"
-        }
-    ],
-    "verification_method": "Static analysis - found 17 consecutive u32 pointers at 0x53DF70, all pointing to valid ROM addresses in the 0x12xxxx region.",
-    "discovered_by": "Searching for title screen / cutscene script tables",
-    "entries": [
-        {
-            "id": "cutscene_00",
-            "index": 0,
-            "offset": 5496688,
-            "offset_hex": "0x53DF70",
-            "script_ptr": 135453156,
-            "script_ptr_hex": "0x812D9E4"
-        },
-        {
-            "id": "cutscene_01",
-            "index": 1,
-            "offset": 5496692,
-            "offset_hex": "0x53DF74",
-            "script_ptr": 135454436,
-            "script_ptr_hex": "0x812DEE4"
-        },
-        {
-            "id": "cutscene_02",
-            "index": 2,
-            "offset": 5496696,
-            "offset_hex": "0x53DF78",
-            "script_ptr": 135454540,
-            "script_ptr_hex": "0x812DF4C"
-        },
-        {
-            "id": "cutscene_03",
-            "index": 3,
-            "offset": 5496700,
-            "offset_hex": "0x53DF7C",
-            "script_ptr": 135455788,
-            "script_ptr_hex": "0x812E42C"
-        },
-        {
-            "id": "cutscene_04",
-            "index": 4,
-            "offset": 5496704,
-            "offset_hex": "0x53DF80",
-            "script_ptr": 135455892,
-            "script_ptr_hex": "0x812E494"
-        },
-        {
-            "id": "cutscene_05",
-            "index": 5,
-            "offset": 5496708,
-            "offset_hex": "0x53DF84",
-            "script_ptr": 135457096,
-            "script_ptr_hex": "0x812E948"
-        },
-        {
-            "id": "cutscene_06",
-            "index": 6,
-            "offset": 5496712,
-            "offset_hex": "0x53DF88",
-            "script_ptr": 135457200,
-            "script_ptr_hex": "0x812E9B0"
-        },
-        {
-            "id": "cutscene_07",
-            "index": 7,
-            "offset": 5496716,
-            "offset_hex": "0x53DF8C",
-            "script_ptr": 135458136,
-            "script_ptr_hex": "0x812ED58"
-        },
-        {
-            "id": "cutscene_08",
-            "index": 8,
-            "offset": 5496720,
-            "offset_hex": "0x53DF90",
-            "script_ptr": 135454508,
-            "script_ptr_hex": "0x812DF2C"
-        },
-        {
-            "id": "cutscene_09",
-            "index": 9,
-            "offset": 5496724,
-            "offset_hex": "0x53DF94",
-            "script_ptr": 135454532,
-            "script_ptr_hex": "0x812DF44"
-        },
-        {
-            "id": "cutscene_10",
-            "index": 10,
-            "offset": 5496728,
-            "offset_hex": "0x53DF98",
-            "script_ptr": 135455860,
-            "script_ptr_hex": "0x812E474"
-        },
-        {
-            "id": "cutscene_11",
-            "index": 11,
-            "offset": 5496732,
-            "offset_hex": "0x53DF9C",
-            "script_ptr": 135455884,
-            "script_ptr_hex": "0x812E48C"
-        },
-        {
-            "id": "cutscene_12",
-            "index": 12,
-            "offset": 5496736,
-            "offset_hex": "0x53DFA0",
-            "script_ptr": 135457168,
-            "script_ptr_hex": "0x812E990"
-        },
-        {
-            "id": "cutscene_13",
-            "index": 13,
-            "offset": 5496740,
-            "offset_hex": "0x53DFA4",
-            "script_ptr": 135457192,
-            "script_ptr_hex": "0x812E9A8"
-        },
-        {
-            "id": "cutscene_14",
-            "index": 14,
-            "offset": 5496744,
-            "offset_hex": "0x53DFA8",
-            "script_ptr": 135458256,
-            "script_ptr_hex": "0x812EDD0"
-        },
-        {
-            "id": "cutscene_15",
-            "index": 15,
-            "offset": 5496748,
-            "offset_hex": "0x53DFAC",
-            "script_ptr": 135458304,
-            "script_ptr_hex": "0x812EE00"
-        },
-        {
-            "id": "cutscene_16",
-            "index": 16,
-            "offset": 5496752,
-            "offset_hex": "0x53DFB0",
-            "script_ptr": 151652361,
-            "script_ptr_hex": "0x90A0809"
-        }
-    ],
-    "verification": "static_verified"
+    {
+      "index": 1,
+      "offset": 5496692,
+      "offset_hex": "0x53DF74",
+      "script_ptr": "0x0812DEE4",
+      "script_offset": "0x12DEE4",
+      "notes": "Cutscene/script data"
+    },
+    {
+      "index": 2,
+      "offset": 5496696,
+      "offset_hex": "0x53DF78",
+      "script_ptr": "0x0812DF4C",
+      "script_offset": "0x12DF4C",
+      "notes": "Cutscene/script data"
+    },
+    {
+      "index": 3,
+      "offset": 5496700,
+      "offset_hex": "0x53DF7C",
+      "script_ptr": "0x0812E42C",
+      "script_offset": "0x12E42C",
+      "notes": "Cutscene/script data"
+    },
+    {
+      "index": 4,
+      "offset": 5496704,
+      "offset_hex": "0x53DF80",
+      "script_ptr": "0x0812E494",
+      "script_offset": "0x12E494",
+      "notes": "Cutscene/script data"
+    }
+  ],
+  "verification_method": "Static analysis - found 17 consecutive u32 pointers at 0x53DF70, all pointing to valid ROM addresses in the 0x12xxxx region.",
+  "discovered_by": "Searching for title screen / cutscene script tables",
+  "entries": [
+    {
+      "_raw_offset": 5496688,
+      "script_ptr": 135453156,
+      "script_ptr_hex": "e4d91208",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5496692,
+      "script_ptr": 135454436,
+      "script_ptr_hex": "e4de1208",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5496696,
+      "script_ptr": 135454540,
+      "script_ptr_hex": "4cdf1208",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5496700,
+      "script_ptr": 135455788,
+      "script_ptr_hex": "2ce41208",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5496704,
+      "script_ptr": 135455892,
+      "script_ptr_hex": "94e41208",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5496708,
+      "script_ptr": 135457096,
+      "script_ptr_hex": "48e91208",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5496712,
+      "script_ptr": 135457200,
+      "script_ptr_hex": "b0e91208",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5496716,
+      "script_ptr": 135458136,
+      "script_ptr_hex": "58ed1208",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5496720,
+      "script_ptr": 135454508,
+      "script_ptr_hex": "2cdf1208",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5496724,
+      "script_ptr": 135454532,
+      "script_ptr_hex": "44df1208",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5496728,
+      "script_ptr": 135455860,
+      "script_ptr_hex": "74e41208",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5496732,
+      "script_ptr": 135455884,
+      "script_ptr_hex": "8ce41208",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5496736,
+      "script_ptr": 135457168,
+      "script_ptr_hex": "90e91208",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5496740,
+      "script_ptr": 135457192,
+      "script_ptr_hex": "a8e91208",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5496744,
+      "script_ptr": 135458256,
+      "script_ptr_hex": "d0ed1208",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5496748,
+      "script_ptr": 135458304,
+      "script_ptr_hex": "00ee1208",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5496752,
+      "script_ptr": 151652361,
+      "script_ptr_hex": "09080a09",
+      "_index": 16
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 17,
+    "rom_offset": 5496688,
+    "rom_offset_hex": "0x53DF70"
+  }
 }

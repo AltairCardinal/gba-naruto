@@ -1,407 +1,337 @@
 {
-    "version": 1,
-    "description": "Sprite animation pointer table discovered at ROM offset 0x53F200. 38 entries of u32 pointers to animation frame data.",
-    "table_offset": 5497344,
-    "table_offset_hex": "0x53F200",
-    "entry_count": 38,
-    "entry_size": 4,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "anim_ptr",
-                "type": "u32",
-                "description": "Pointer to animation frame data structure"
-            }
-        ]
+  "version": 1,
+  "description": "Sprite animation pointer table discovered at ROM offset 0x53F200. 38 entries of u32 pointers to animation frame data.",
+  "table_offset": 5497344,
+  "table_offset_hex": "0x53F200",
+  "entry_count": 38,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "anim_ptr",
+        "type": "u32",
+        "description": "Pointer to animation frame data structure"
+      }
+    ]
+  },
+  "animation_frame_format": {
+    "description": "Each animation frame is 16 bytes",
+    "size": 16,
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "frame_ptr",
+        "type": "u32",
+        "description": "Pointer to sprite frame graphics data"
+      },
+      {
+        "offset": 4,
+        "size": 2,
+        "name": "unk1",
+        "type": "u16",
+        "description": "Unknown (usually 0x0000)"
+      },
+      {
+        "offset": 6,
+        "size": 2,
+        "name": "frame_count",
+        "type": "u16",
+        "description": "Frame count (0=inactive, 1=active)"
+      },
+      {
+        "offset": 8,
+        "size": 2,
+        "name": "unk2",
+        "type": "u16",
+        "description": "Unknown (0xFFFF for active, 0x0000 for inactive)"
+      },
+      {
+        "offset": 10,
+        "size": 2,
+        "name": "unk3",
+        "type": "u16",
+        "description": "Unknown (usually 0x0000)"
+      },
+      {
+        "offset": 12,
+        "size": 4,
+        "name": "next_ptr",
+        "type": "u32",
+        "description": "Pointer to next animation frame (linked list)"
+      }
+    ]
+  },
+  "notes": "Sprite animation pointer table located just before the unit ID table (0x53F298). Entries come in pairs - odd entries have frame_count=1 (active frame with 0xFFFF flag), even entries have frame_count=0 (inactive/transition frame). Each animation frame is a 16-byte structure containing a pointer to graphics data and a linked-list pointer to the next frame. Located at 0x53F200, ends at 0x53F298 (where unit ID table begins).",
+  "entries_sample": [
+    {
+      "index": 0,
+      "offset": 5497344,
+      "offset_hex": "0x53F200",
+      "anim_ptr": "0x0812FB50",
+      "notes": "Character 0 animation frame 0 (active)"
     },
-    "animation_frame_format": {
-        "description": "Each animation frame is 16 bytes",
-        "size": 16,
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "frame_ptr",
-                "type": "u32",
-                "description": "Pointer to sprite frame graphics data"
-            },
-            {
-                "offset": 4,
-                "size": 2,
-                "name": "unk1",
-                "type": "u16",
-                "description": "Unknown (usually 0x0000)"
-            },
-            {
-                "offset": 6,
-                "size": 2,
-                "name": "frame_count",
-                "type": "u16",
-                "description": "Frame count (0=inactive, 1=active)"
-            },
-            {
-                "offset": 8,
-                "size": 2,
-                "name": "unk2",
-                "type": "u16",
-                "description": "Unknown (0xFFFF for active, 0x0000 for inactive)"
-            },
-            {
-                "offset": 10,
-                "size": 2,
-                "name": "unk3",
-                "type": "u16",
-                "description": "Unknown (usually 0x0000)"
-            },
-            {
-                "offset": 12,
-                "size": 4,
-                "name": "next_ptr",
-                "type": "u32",
-                "description": "Pointer to next animation frame (linked list)"
-            }
-        ]
+    {
+      "index": 1,
+      "offset": 5497348,
+      "offset_hex": "0x53F204",
+      "anim_ptr": "0x0812FB5C",
+      "notes": "Character 0 animation frame 1 (inactive)"
     },
-    "notes": "Sprite animation pointer table located just before the unit ID table (0x53F298). Entries come in pairs - odd entries have frame_count=1 (active frame with 0xFFFF flag), even entries have frame_count=0 (inactive/transition frame). Each animation frame is a 16-byte structure containing a pointer to graphics data and a linked-list pointer to the next frame. Located at 0x53F200, ends at 0x53F298 (where unit ID table begins).",
-    "entries_sample": [
-        {
-            "index": 0,
-            "offset": 5497344,
-            "offset_hex": "0x53F200",
-            "anim_ptr": "0x0812FB50",
-            "notes": "Character 0 animation frame 0 (active)"
-        },
-        {
-            "index": 1,
-            "offset": 5497348,
-            "offset_hex": "0x53F204",
-            "anim_ptr": "0x0812FB5C",
-            "notes": "Character 0 animation frame 1 (inactive)"
-        },
-        {
-            "index": 2,
-            "offset": 5497352,
-            "offset_hex": "0x53F208",
-            "anim_ptr": "0x0812FB78",
-            "notes": "Character 1 animation frame 0 (active)"
-        },
-        {
-            "index": 3,
-            "offset": 5497356,
-            "offset_hex": "0x53F20C",
-            "anim_ptr": "0x0812FB84",
-            "notes": "Character 1 animation frame 1 (inactive)"
-        }
-    ],
-    "verification_method": "Static analysis - found 38 consecutive u32 pointers at 0x53F200, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte structure with frame pointers and animation flags.",
-    "discovered_by": "Examining region near unit ID table (0x53F298)",
-    "entries": [
-        {
-            "id": "anim_00",
-            "index": 0,
-            "offset": 5501440,
-            "offset_hex": "0x53F200",
-            "anim_ptr": 135461712,
-            "anim_ptr_hex": "0x812FB50"
-        },
-        {
-            "id": "anim_01",
-            "index": 1,
-            "offset": 5501444,
-            "offset_hex": "0x53F204",
-            "anim_ptr": 135461724,
-            "anim_ptr_hex": "0x812FB5C"
-        },
-        {
-            "id": "anim_02",
-            "index": 2,
-            "offset": 5501448,
-            "offset_hex": "0x53F208",
-            "anim_ptr": 135461752,
-            "anim_ptr_hex": "0x812FB78"
-        },
-        {
-            "id": "anim_03",
-            "index": 3,
-            "offset": 5501452,
-            "offset_hex": "0x53F20C",
-            "anim_ptr": 135461764,
-            "anim_ptr_hex": "0x812FB84"
-        },
-        {
-            "id": "anim_04",
-            "index": 4,
-            "offset": 5501456,
-            "offset_hex": "0x53F210",
-            "anim_ptr": 135461792,
-            "anim_ptr_hex": "0x812FBA0"
-        },
-        {
-            "id": "anim_05",
-            "index": 5,
-            "offset": 5501460,
-            "offset_hex": "0x53F214",
-            "anim_ptr": 135461804,
-            "anim_ptr_hex": "0x812FBAC"
-        },
-        {
-            "id": "anim_06",
-            "index": 6,
-            "offset": 5501464,
-            "offset_hex": "0x53F218",
-            "anim_ptr": 135461832,
-            "anim_ptr_hex": "0x812FBC8"
-        },
-        {
-            "id": "anim_07",
-            "index": 7,
-            "offset": 5501468,
-            "offset_hex": "0x53F21C",
-            "anim_ptr": 135461844,
-            "anim_ptr_hex": "0x812FBD4"
-        },
-        {
-            "id": "anim_08",
-            "index": 8,
-            "offset": 5501472,
-            "offset_hex": "0x53F220",
-            "anim_ptr": 135461872,
-            "anim_ptr_hex": "0x812FBF0"
-        },
-        {
-            "id": "anim_09",
-            "index": 9,
-            "offset": 5501476,
-            "offset_hex": "0x53F224",
-            "anim_ptr": 135461884,
-            "anim_ptr_hex": "0x812FBFC"
-        },
-        {
-            "id": "anim_10",
-            "index": 10,
-            "offset": 5501480,
-            "offset_hex": "0x53F228",
-            "anim_ptr": 135461912,
-            "anim_ptr_hex": "0x812FC18"
-        },
-        {
-            "id": "anim_11",
-            "index": 11,
-            "offset": 5501484,
-            "offset_hex": "0x53F22C",
-            "anim_ptr": 135461924,
-            "anim_ptr_hex": "0x812FC24"
-        },
-        {
-            "id": "anim_12",
-            "index": 12,
-            "offset": 5501488,
-            "offset_hex": "0x53F230",
-            "anim_ptr": 135460672,
-            "anim_ptr_hex": "0x812F740"
-        },
-        {
-            "id": "anim_13",
-            "index": 13,
-            "offset": 5501492,
-            "offset_hex": "0x53F234",
-            "anim_ptr": 135460684,
-            "anim_ptr_hex": "0x812F74C"
-        },
-        {
-            "id": "anim_14",
-            "index": 14,
-            "offset": 5501496,
-            "offset_hex": "0x53F238",
-            "anim_ptr": 135460712,
-            "anim_ptr_hex": "0x812F768"
-        },
-        {
-            "id": "anim_15",
-            "index": 15,
-            "offset": 5501500,
-            "offset_hex": "0x53F23C",
-            "anim_ptr": 135460724,
-            "anim_ptr_hex": "0x812F774"
-        },
-        {
-            "id": "anim_16",
-            "index": 16,
-            "offset": 5501504,
-            "offset_hex": "0x53F240",
-            "anim_ptr": 135461472,
-            "anim_ptr_hex": "0x812FA60"
-        },
-        {
-            "id": "anim_17",
-            "index": 17,
-            "offset": 5501508,
-            "offset_hex": "0x53F244",
-            "anim_ptr": 135461484,
-            "anim_ptr_hex": "0x812FA6C"
-        },
-        {
-            "id": "anim_18",
-            "index": 18,
-            "offset": 5501512,
-            "offset_hex": "0x53F248",
-            "anim_ptr": 135461512,
-            "anim_ptr_hex": "0x812FA88"
-        },
-        {
-            "id": "anim_19",
-            "index": 19,
-            "offset": 5501516,
-            "offset_hex": "0x53F24C",
-            "anim_ptr": 135461524,
-            "anim_ptr_hex": "0x812FA94"
-        },
-        {
-            "id": "anim_20",
-            "index": 20,
-            "offset": 5501520,
-            "offset_hex": "0x53F250",
-            "anim_ptr": 135461952,
-            "anim_ptr_hex": "0x812FC40"
-        },
-        {
-            "id": "anim_21",
-            "index": 21,
-            "offset": 5501524,
-            "offset_hex": "0x53F254",
-            "anim_ptr": 135461964,
-            "anim_ptr_hex": "0x812FC4C"
-        },
-        {
-            "id": "anim_22",
-            "index": 22,
-            "offset": 5501528,
-            "offset_hex": "0x53F258",
-            "anim_ptr": 135461992,
-            "anim_ptr_hex": "0x812FC68"
-        },
-        {
-            "id": "anim_23",
-            "index": 23,
-            "offset": 5501532,
-            "offset_hex": "0x53F25C",
-            "anim_ptr": 135462004,
-            "anim_ptr_hex": "0x812FC74"
-        },
-        {
-            "id": "anim_24",
-            "index": 24,
-            "offset": 5501536,
-            "offset_hex": "0x53F260",
-            "anim_ptr": 135460752,
-            "anim_ptr_hex": "0x812F790"
-        },
-        {
-            "id": "anim_25",
-            "index": 25,
-            "offset": 5501540,
-            "offset_hex": "0x53F264",
-            "anim_ptr": 135460764,
-            "anim_ptr_hex": "0x812F79C"
-        },
-        {
-            "id": "anim_26",
-            "index": 26,
-            "offset": 5501544,
-            "offset_hex": "0x53F268",
-            "anim_ptr": 135460812,
-            "anim_ptr_hex": "0x812F7CC"
-        },
-        {
-            "id": "anim_27",
-            "index": 27,
-            "offset": 5501548,
-            "offset_hex": "0x53F26C",
-            "anim_ptr": 135460824,
-            "anim_ptr_hex": "0x812F7D8"
-        },
-        {
-            "id": "anim_28",
-            "index": 28,
-            "offset": 5501552,
-            "offset_hex": "0x53F270",
-            "anim_ptr": 135460872,
-            "anim_ptr_hex": "0x812F808"
-        },
-        {
-            "id": "anim_29",
-            "index": 29,
-            "offset": 5501556,
-            "offset_hex": "0x53F274",
-            "anim_ptr": 135460884,
-            "anim_ptr_hex": "0x812F814"
-        },
-        {
-            "id": "anim_30",
-            "index": 30,
-            "offset": 5501560,
-            "offset_hex": "0x53F278",
-            "anim_ptr": 135460912,
-            "anim_ptr_hex": "0x812F830"
-        },
-        {
-            "id": "anim_31",
-            "index": 31,
-            "offset": 5501564,
-            "offset_hex": "0x53F27C",
-            "anim_ptr": 135460924,
-            "anim_ptr_hex": "0x812F83C"
-        },
-        {
-            "id": "anim_32",
-            "index": 32,
-            "offset": 5501568,
-            "offset_hex": "0x53F280",
-            "anim_ptr": 135460952,
-            "anim_ptr_hex": "0x812F858"
-        },
-        {
-            "id": "anim_33",
-            "index": 33,
-            "offset": 5501572,
-            "offset_hex": "0x53F284",
-            "anim_ptr": 135460964,
-            "anim_ptr_hex": "0x812F864"
-        },
-        {
-            "id": "anim_34",
-            "index": 34,
-            "offset": 5501576,
-            "offset_hex": "0x53F288",
-            "anim_ptr": 135460992,
-            "anim_ptr_hex": "0x812F880"
-        },
-        {
-            "id": "anim_35",
-            "index": 35,
-            "offset": 5501580,
-            "offset_hex": "0x53F28C",
-            "anim_ptr": 135461004,
-            "anim_ptr_hex": "0x812F88C"
-        },
-        {
-            "id": "anim_36",
-            "index": 36,
-            "offset": 5501584,
-            "offset_hex": "0x53F290",
-            "anim_ptr": 135461032,
-            "anim_ptr_hex": "0x812F8A8"
-        },
-        {
-            "id": "anim_37",
-            "index": 37,
-            "offset": 5501588,
-            "offset_hex": "0x53F294",
-            "anim_ptr": 135461044,
-            "anim_ptr_hex": "0x812F8B4"
-        }
-    ],
-    "verification": "static_verified"
+    {
+      "index": 2,
+      "offset": 5497352,
+      "offset_hex": "0x53F208",
+      "anim_ptr": "0x0812FB78",
+      "notes": "Character 1 animation frame 0 (active)"
+    },
+    {
+      "index": 3,
+      "offset": 5497356,
+      "offset_hex": "0x53F20C",
+      "anim_ptr": "0x0812FB84",
+      "notes": "Character 1 animation frame 1 (inactive)"
+    }
+  ],
+  "verification_method": "Static analysis - found 38 consecutive u32 pointers at 0x53F200, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte structure with frame pointers and animation flags.",
+  "discovered_by": "Examining region near unit ID table (0x53F298)",
+  "entries": [
+    {
+      "_raw_offset": 5497344,
+      "anim_ptr": 6144,
+      "anim_ptr_hex": "00180000",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5497348,
+      "anim_ptr": 6144,
+      "anim_ptr_hex": "00180000",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5497352,
+      "anim_ptr": 3,
+      "anim_ptr_hex": "03000000",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5497356,
+      "anim_ptr": 6144,
+      "anim_ptr_hex": "00180000",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5497360,
+      "anim_ptr": 6144,
+      "anim_ptr_hex": "00180000",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5497364,
+      "anim_ptr": 4,
+      "anim_ptr_hex": "04000000",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5497368,
+      "anim_ptr": 12288,
+      "anim_ptr_hex": "00300000",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5497372,
+      "anim_ptr": 12288,
+      "anim_ptr_hex": "00300000",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5497376,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5497380,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5497384,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5497388,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5497392,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5497396,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5497400,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5497404,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5497408,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5497412,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5497416,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5497420,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 19
+    },
+    {
+      "_raw_offset": 5497424,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 20
+    },
+    {
+      "_raw_offset": 5497428,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 21
+    },
+    {
+      "_raw_offset": 5497432,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 22
+    },
+    {
+      "_raw_offset": 5497436,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 23
+    },
+    {
+      "_raw_offset": 5497440,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 24
+    },
+    {
+      "_raw_offset": 5497444,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 25
+    },
+    {
+      "_raw_offset": 5497448,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 26
+    },
+    {
+      "_raw_offset": 5497452,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 27
+    },
+    {
+      "_raw_offset": 5497456,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 28
+    },
+    {
+      "_raw_offset": 5497460,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 29
+    },
+    {
+      "_raw_offset": 5497464,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 30
+    },
+    {
+      "_raw_offset": 5497468,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 31
+    },
+    {
+      "_raw_offset": 5497472,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 32
+    },
+    {
+      "_raw_offset": 5497476,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 33
+    },
+    {
+      "_raw_offset": 5497480,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 34
+    },
+    {
+      "_raw_offset": 5497484,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 35
+    },
+    {
+      "_raw_offset": 5497488,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 36
+    },
+    {
+      "_raw_offset": 5497492,
+      "anim_ptr": 0,
+      "anim_ptr_hex": "00000000",
+      "_index": 37
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 38,
+    "rom_offset": 5497344,
+    "rom_offset_hex": "0x53E200"
+  }
 }

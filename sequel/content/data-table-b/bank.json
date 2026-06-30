@@ -1,227 +1,193 @@
 {
-    "version": 1,
-    "description": "Data pointer table discovered at ROM offset 0x5A2120. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
-    "table_offset": 5906720,
-    "table_offset_hex": "0x5A2120",
-    "entry_count": 20,
-    "entry_size": 4,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "data_ptr",
-                "type": "u32",
-                "description": "Pointer to encoded data in the 0x5Axxxx region"
-            }
-        ]
+  "version": 1,
+  "description": "Data pointer table discovered at ROM offset 0x5A2120. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
+  "table_offset": 5906720,
+  "table_offset_hex": "0x5A2120",
+  "entry_count": 20,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "data_ptr",
+        "type": "u32",
+        "description": "Pointer to encoded data in the 0x5Axxxx region"
+      }
+    ]
+  },
+  "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9C, 0x6E, 0x9C, 0x6A which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables. This table is separate from Data Table A at 0x5A14A4.",
+  "entries_sample": [
+    {
+      "index": 0,
+      "offset": 5906720,
+      "offset_hex": "0x5A2120",
+      "data_ptr": "0x085A1D50",
+      "data_offset": "0x5A1D50",
+      "notes": "Encoded data"
     },
-    "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9C, 0x6E, 0x9C, 0x6A which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables. This table is separate from Data Table A at 0x5A14A4.",
-    "entries_sample": [
-        {
-            "index": 0,
-            "offset": 5906720,
-            "offset_hex": "0x5A2120",
-            "data_ptr": "0x085A1D50",
-            "data_offset": "0x5A1D50",
-            "notes": "Encoded data"
-        },
-        {
-            "index": 1,
-            "offset": 5906724,
-            "offset_hex": "0x5A2124",
-            "data_ptr": "0x085A1D60",
-            "data_offset": "0x5A1D60",
-            "notes": "Encoded data"
-        },
-        {
-            "index": 2,
-            "offset": 5906728,
-            "offset_hex": "0x5A2128",
-            "data_ptr": "0x085A1D78",
-            "data_offset": "0x5A1D78",
-            "notes": "Encoded data"
-        },
-        {
-            "index": 3,
-            "offset": 5906732,
-            "offset_hex": "0x5A212C",
-            "data_ptr": "0x085A1DA0",
-            "data_offset": "0x5A1DA0",
-            "notes": "Encoded data"
-        },
-        {
-            "index": 4,
-            "offset": 5906736,
-            "offset_hex": "0x5A2130",
-            "data_ptr": "0x085A1DB4",
-            "data_offset": "0x5A1DB4",
-            "notes": "Encoded data"
-        }
-    ],
-    "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A2120, all pointing to valid ROM addresses in the 0x5Axxxx region.",
-    "discovered_by": "Examining region 0x5A2000-0x5B0000 for pointer tables",
-    "entries": [
-        {
-            "id": "data_b_00",
-            "index": 0,
-            "offset": 5906720,
-            "offset_hex": "0x5A2120",
-            "data_ptr": 140123472,
-            "data_ptr_hex": "0x85A1D50"
-        },
-        {
-            "id": "data_b_01",
-            "index": 1,
-            "offset": 5906724,
-            "offset_hex": "0x5A2124",
-            "data_ptr": 140123488,
-            "data_ptr_hex": "0x85A1D60"
-        },
-        {
-            "id": "data_b_02",
-            "index": 2,
-            "offset": 5906728,
-            "offset_hex": "0x5A2128",
-            "data_ptr": 140123512,
-            "data_ptr_hex": "0x85A1D78"
-        },
-        {
-            "id": "data_b_03",
-            "index": 3,
-            "offset": 5906732,
-            "offset_hex": "0x5A212C",
-            "data_ptr": 140123552,
-            "data_ptr_hex": "0x85A1DA0"
-        },
-        {
-            "id": "data_b_04",
-            "index": 4,
-            "offset": 5906736,
-            "offset_hex": "0x5A2130",
-            "data_ptr": 140123572,
-            "data_ptr_hex": "0x85A1DB4"
-        },
-        {
-            "id": "data_b_05",
-            "index": 5,
-            "offset": 5906740,
-            "offset_hex": "0x5A2134",
-            "data_ptr": 140123628,
-            "data_ptr_hex": "0x85A1DEC"
-        },
-        {
-            "id": "data_b_06",
-            "index": 6,
-            "offset": 5906744,
-            "offset_hex": "0x5A2138",
-            "data_ptr": 140123668,
-            "data_ptr_hex": "0x85A1E14"
-        },
-        {
-            "id": "data_b_07",
-            "index": 7,
-            "offset": 5906748,
-            "offset_hex": "0x5A213C",
-            "data_ptr": 140123724,
-            "data_ptr_hex": "0x85A1E4C"
-        },
-        {
-            "id": "data_b_08",
-            "index": 8,
-            "offset": 5906752,
-            "offset_hex": "0x5A2140",
-            "data_ptr": 140123764,
-            "data_ptr_hex": "0x85A1E74"
-        },
-        {
-            "id": "data_b_09",
-            "index": 9,
-            "offset": 5906756,
-            "offset_hex": "0x5A2144",
-            "data_ptr": 140123820,
-            "data_ptr_hex": "0x85A1EAC"
-        },
-        {
-            "id": "data_b_10",
-            "index": 10,
-            "offset": 5906760,
-            "offset_hex": "0x5A2148",
-            "data_ptr": 140123860,
-            "data_ptr_hex": "0x85A1ED4"
-        },
-        {
-            "id": "data_b_11",
-            "index": 11,
-            "offset": 5906764,
-            "offset_hex": "0x5A214C",
-            "data_ptr": 140123896,
-            "data_ptr_hex": "0x85A1EF8"
-        },
-        {
-            "id": "data_b_12",
-            "index": 12,
-            "offset": 5906768,
-            "offset_hex": "0x5A2150",
-            "data_ptr": 140123932,
-            "data_ptr_hex": "0x85A1F1C"
-        },
-        {
-            "id": "data_b_13",
-            "index": 13,
-            "offset": 5906772,
-            "offset_hex": "0x5A2154",
-            "data_ptr": 140123964,
-            "data_ptr_hex": "0x85A1F3C"
-        },
-        {
-            "id": "data_b_14",
-            "index": 14,
-            "offset": 5906776,
-            "offset_hex": "0x5A2158",
-            "data_ptr": 140123976,
-            "data_ptr_hex": "0x85A1F48"
-        },
-        {
-            "id": "data_b_15",
-            "index": 15,
-            "offset": 5906780,
-            "offset_hex": "0x5A215C",
-            "data_ptr": 140123996,
-            "data_ptr_hex": "0x85A1F5C"
-        },
-        {
-            "id": "data_b_16",
-            "index": 16,
-            "offset": 5906784,
-            "offset_hex": "0x5A2160",
-            "data_ptr": 140124016,
-            "data_ptr_hex": "0x85A1F70"
-        },
-        {
-            "id": "data_b_17",
-            "index": 17,
-            "offset": 5906788,
-            "offset_hex": "0x5A2164",
-            "data_ptr": 140124052,
-            "data_ptr_hex": "0x85A1F94"
-        },
-        {
-            "id": "data_b_18",
-            "index": 18,
-            "offset": 5906792,
-            "offset_hex": "0x5A2168",
-            "data_ptr": 140124108,
-            "data_ptr_hex": "0x85A1FCC"
-        },
-        {
-            "id": "data_b_19",
-            "index": 19,
-            "offset": 5906796,
-            "offset_hex": "0x5A216C",
-            "data_ptr": 140124172,
-            "data_ptr_hex": "0x85A200C"
-        }
-    ],
-    "verification": "static_verified"
+    {
+      "index": 1,
+      "offset": 5906724,
+      "offset_hex": "0x5A2124",
+      "data_ptr": "0x085A1D60",
+      "data_offset": "0x5A1D60",
+      "notes": "Encoded data"
+    },
+    {
+      "index": 2,
+      "offset": 5906728,
+      "offset_hex": "0x5A2128",
+      "data_ptr": "0x085A1D78",
+      "data_offset": "0x5A1D78",
+      "notes": "Encoded data"
+    },
+    {
+      "index": 3,
+      "offset": 5906732,
+      "offset_hex": "0x5A212C",
+      "data_ptr": "0x085A1DA0",
+      "data_offset": "0x5A1DA0",
+      "notes": "Encoded data"
+    },
+    {
+      "index": 4,
+      "offset": 5906736,
+      "offset_hex": "0x5A2130",
+      "data_ptr": "0x085A1DB4",
+      "data_offset": "0x5A1DB4",
+      "notes": "Encoded data"
+    }
+  ],
+  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A2120, all pointing to valid ROM addresses in the 0x5Axxxx region.",
+  "discovered_by": "Examining region 0x5A2000-0x5B0000 for pointer tables",
+  "entries": [
+    {
+      "_raw_offset": 5906720,
+      "data_ptr": 140123472,
+      "data_ptr_hex": "501d5a08",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5906724,
+      "data_ptr": 140123488,
+      "data_ptr_hex": "601d5a08",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5906728,
+      "data_ptr": 140123512,
+      "data_ptr_hex": "781d5a08",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5906732,
+      "data_ptr": 140123552,
+      "data_ptr_hex": "a01d5a08",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5906736,
+      "data_ptr": 140123572,
+      "data_ptr_hex": "b41d5a08",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5906740,
+      "data_ptr": 140123628,
+      "data_ptr_hex": "ec1d5a08",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5906744,
+      "data_ptr": 140123668,
+      "data_ptr_hex": "141e5a08",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5906748,
+      "data_ptr": 140123724,
+      "data_ptr_hex": "4c1e5a08",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5906752,
+      "data_ptr": 140123764,
+      "data_ptr_hex": "741e5a08",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5906756,
+      "data_ptr": 140123820,
+      "data_ptr_hex": "ac1e5a08",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5906760,
+      "data_ptr": 140123860,
+      "data_ptr_hex": "d41e5a08",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5906764,
+      "data_ptr": 140123896,
+      "data_ptr_hex": "f81e5a08",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5906768,
+      "data_ptr": 140123932,
+      "data_ptr_hex": "1c1f5a08",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5906772,
+      "data_ptr": 140123964,
+      "data_ptr_hex": "3c1f5a08",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5906776,
+      "data_ptr": 140123976,
+      "data_ptr_hex": "481f5a08",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5906780,
+      "data_ptr": 140123996,
+      "data_ptr_hex": "5c1f5a08",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5906784,
+      "data_ptr": 140124016,
+      "data_ptr_hex": "701f5a08",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5906788,
+      "data_ptr": 140124052,
+      "data_ptr_hex": "941f5a08",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5906792,
+      "data_ptr": 140124108,
+      "data_ptr_hex": "cc1f5a08",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5906796,
+      "data_ptr": 140124172,
+      "data_ptr_hex": "0c205a08",
+      "_index": 19
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 20,
+    "rom_offset": 5906720,
+    "rom_offset_hex": "0x5A2120"
+  }
 }

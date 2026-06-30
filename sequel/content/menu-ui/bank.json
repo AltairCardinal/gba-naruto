@@ -1,227 +1,193 @@
 {
-    "version": 1,
-    "description": "Menu UI pointer table discovered at ROM offset 0x5A5774. 20 entries of u32 pointers to menu/UI data in the 0x43xxxx-0x44xxxx region.",
-    "table_offset": 5920628,
-    "table_offset_hex": "0x5A5774",
-    "entry_count": 20,
-    "entry_size": 4,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "ui_ptr",
-                "type": "u32",
-                "description": "Pointer to menu/UI data in the 0x43xxxx-0x44xxxx region"
-            }
-        ]
+  "version": 1,
+  "description": "Menu UI pointer table discovered at ROM offset 0x5A5774. 20 entries of u32 pointers to menu/UI data in the 0x43xxxx-0x44xxxx region.",
+  "table_offset": 5920628,
+  "table_offset_hex": "0x5A5774",
+  "entry_count": 20,
+  "entry_size": 4,
+  "entry_format": {
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "ui_ptr",
+        "type": "u32",
+        "description": "Pointer to menu/UI data in the 0x43xxxx-0x44xxxx region"
+      }
+    ]
+  },
+  "notes": "Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.",
+  "entries_sample": [
+    {
+      "index": 0,
+      "offset": 5920628,
+      "offset_hex": "0x5A5774",
+      "ui_ptr": "0x0843FC78",
+      "ui_offset": "0x43FC78",
+      "notes": "Menu/UI data A"
     },
-    "notes": "Menu UI pointer table with 20 entries. Entries alternate between two pointers (0x43FC78 and 0x440738) for the first 10 entries, then switch to another pair (0x4407B8 and 0x441324) for the last 10 entries. The target data starts with patterns like 0x10 0x00 which could be UI element dimensions or layout data. Located in the 0x5Axxxx region which is known to contain resource data tables.",
-    "entries_sample": [
-        {
-            "index": 0,
-            "offset": 5920628,
-            "offset_hex": "0x5A5774",
-            "ui_ptr": "0x0843FC78",
-            "ui_offset": "0x43FC78",
-            "notes": "Menu/UI data A"
-        },
-        {
-            "index": 1,
-            "offset": 5920632,
-            "offset_hex": "0x5A5778",
-            "ui_ptr": "0x08440738",
-            "ui_offset": "0x440738",
-            "notes": "Menu/UI data B"
-        },
-        {
-            "index": 2,
-            "offset": 5920636,
-            "offset_hex": "0x5A577C",
-            "ui_ptr": "0x0843FC78",
-            "ui_offset": "0x43FC78",
-            "notes": "Menu/UI data A"
-        },
-        {
-            "index": 3,
-            "offset": 5920640,
-            "offset_hex": "0x5A5780",
-            "ui_ptr": "0x08440738",
-            "ui_offset": "0x440738",
-            "notes": "Menu/UI data B"
-        },
-        {
-            "index": 10,
-            "offset": 5920668,
-            "offset_hex": "0x5A579C",
-            "ui_ptr": "0x084407B8",
-            "ui_offset": "0x4407B8",
-            "notes": "Menu/UI data C"
-        }
-    ],
-    "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A5774, all pointing to valid ROM addresses in the 0x43xxxx-0x44xxxx region.",
-    "discovered_by": "Examining region 0x5A5000-0x5B0000 for pointer tables",
-    "entries": [
-        {
-            "id": "menu_00",
-            "index": 0,
-            "offset": 5920628,
-            "offset_hex": "0x5A5774",
-            "ui_ptr": 138673272,
-            "ui_ptr_hex": "0x843FC78"
-        },
-        {
-            "id": "menu_01",
-            "index": 1,
-            "offset": 5920632,
-            "offset_hex": "0x5A5778",
-            "ui_ptr": 138676024,
-            "ui_ptr_hex": "0x8440738"
-        },
-        {
-            "id": "menu_02",
-            "index": 2,
-            "offset": 5920636,
-            "offset_hex": "0x5A577C",
-            "ui_ptr": 138673272,
-            "ui_ptr_hex": "0x843FC78"
-        },
-        {
-            "id": "menu_03",
-            "index": 3,
-            "offset": 5920640,
-            "offset_hex": "0x5A5780",
-            "ui_ptr": 138676024,
-            "ui_ptr_hex": "0x8440738"
-        },
-        {
-            "id": "menu_04",
-            "index": 4,
-            "offset": 5920644,
-            "offset_hex": "0x5A5784",
-            "ui_ptr": 138673272,
-            "ui_ptr_hex": "0x843FC78"
-        },
-        {
-            "id": "menu_05",
-            "index": 5,
-            "offset": 5920648,
-            "offset_hex": "0x5A5788",
-            "ui_ptr": 138676024,
-            "ui_ptr_hex": "0x8440738"
-        },
-        {
-            "id": "menu_06",
-            "index": 6,
-            "offset": 5920652,
-            "offset_hex": "0x5A578C",
-            "ui_ptr": 138673272,
-            "ui_ptr_hex": "0x843FC78"
-        },
-        {
-            "id": "menu_07",
-            "index": 7,
-            "offset": 5920656,
-            "offset_hex": "0x5A5790",
-            "ui_ptr": 138676024,
-            "ui_ptr_hex": "0x8440738"
-        },
-        {
-            "id": "menu_08",
-            "index": 8,
-            "offset": 5920660,
-            "offset_hex": "0x5A5794",
-            "ui_ptr": 138673272,
-            "ui_ptr_hex": "0x843FC78"
-        },
-        {
-            "id": "menu_09",
-            "index": 9,
-            "offset": 5920664,
-            "offset_hex": "0x5A5798",
-            "ui_ptr": 138676024,
-            "ui_ptr_hex": "0x8440738"
-        },
-        {
-            "id": "menu_10",
-            "index": 10,
-            "offset": 5920668,
-            "offset_hex": "0x5A579C",
-            "ui_ptr": 138676152,
-            "ui_ptr_hex": "0x84407B8"
-        },
-        {
-            "id": "menu_11",
-            "index": 11,
-            "offset": 5920672,
-            "offset_hex": "0x5A57A0",
-            "ui_ptr": 138679076,
-            "ui_ptr_hex": "0x8441324"
-        },
-        {
-            "id": "menu_12",
-            "index": 12,
-            "offset": 5920676,
-            "offset_hex": "0x5A57A4",
-            "ui_ptr": 138676152,
-            "ui_ptr_hex": "0x84407B8"
-        },
-        {
-            "id": "menu_13",
-            "index": 13,
-            "offset": 5920680,
-            "offset_hex": "0x5A57A8",
-            "ui_ptr": 138679076,
-            "ui_ptr_hex": "0x8441324"
-        },
-        {
-            "id": "menu_14",
-            "index": 14,
-            "offset": 5920684,
-            "offset_hex": "0x5A57AC",
-            "ui_ptr": 138676152,
-            "ui_ptr_hex": "0x84407B8"
-        },
-        {
-            "id": "menu_15",
-            "index": 15,
-            "offset": 5920688,
-            "offset_hex": "0x5A57B0",
-            "ui_ptr": 138679076,
-            "ui_ptr_hex": "0x8441324"
-        },
-        {
-            "id": "menu_16",
-            "index": 16,
-            "offset": 5920692,
-            "offset_hex": "0x5A57B4",
-            "ui_ptr": 138676152,
-            "ui_ptr_hex": "0x84407B8"
-        },
-        {
-            "id": "menu_17",
-            "index": 17,
-            "offset": 5920696,
-            "offset_hex": "0x5A57B8",
-            "ui_ptr": 138679076,
-            "ui_ptr_hex": "0x8441324"
-        },
-        {
-            "id": "menu_18",
-            "index": 18,
-            "offset": 5920700,
-            "offset_hex": "0x5A57BC",
-            "ui_ptr": 138676152,
-            "ui_ptr_hex": "0x84407B8"
-        },
-        {
-            "id": "menu_19",
-            "index": 19,
-            "offset": 5920704,
-            "offset_hex": "0x5A57C0",
-            "ui_ptr": 138679076,
-            "ui_ptr_hex": "0x8441324"
-        }
-    ],
-    "verification": "static_verified"
+    {
+      "index": 1,
+      "offset": 5920632,
+      "offset_hex": "0x5A5778",
+      "ui_ptr": "0x08440738",
+      "ui_offset": "0x440738",
+      "notes": "Menu/UI data B"
+    },
+    {
+      "index": 2,
+      "offset": 5920636,
+      "offset_hex": "0x5A577C",
+      "ui_ptr": "0x0843FC78",
+      "ui_offset": "0x43FC78",
+      "notes": "Menu/UI data A"
+    },
+    {
+      "index": 3,
+      "offset": 5920640,
+      "offset_hex": "0x5A5780",
+      "ui_ptr": "0x08440738",
+      "ui_offset": "0x440738",
+      "notes": "Menu/UI data B"
+    },
+    {
+      "index": 10,
+      "offset": 5920668,
+      "offset_hex": "0x5A579C",
+      "ui_ptr": "0x084407B8",
+      "ui_offset": "0x4407B8",
+      "notes": "Menu/UI data C"
+    }
+  ],
+  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A5774, all pointing to valid ROM addresses in the 0x43xxxx-0x44xxxx region.",
+  "discovered_by": "Examining region 0x5A5000-0x5B0000 for pointer tables",
+  "entries": [
+    {
+      "_raw_offset": 5920628,
+      "ui_ptr": 138673272,
+      "ui_ptr_hex": "78fc4308",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5920632,
+      "ui_ptr": 138676024,
+      "ui_ptr_hex": "38074408",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5920636,
+      "ui_ptr": 138673272,
+      "ui_ptr_hex": "78fc4308",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5920640,
+      "ui_ptr": 138676024,
+      "ui_ptr_hex": "38074408",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5920644,
+      "ui_ptr": 138673272,
+      "ui_ptr_hex": "78fc4308",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5920648,
+      "ui_ptr": 138676024,
+      "ui_ptr_hex": "38074408",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5920652,
+      "ui_ptr": 138673272,
+      "ui_ptr_hex": "78fc4308",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5920656,
+      "ui_ptr": 138676024,
+      "ui_ptr_hex": "38074408",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5920660,
+      "ui_ptr": 138673272,
+      "ui_ptr_hex": "78fc4308",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5920664,
+      "ui_ptr": 138676024,
+      "ui_ptr_hex": "38074408",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5920668,
+      "ui_ptr": 138676152,
+      "ui_ptr_hex": "b8074408",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5920672,
+      "ui_ptr": 138679076,
+      "ui_ptr_hex": "24134408",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5920676,
+      "ui_ptr": 138676152,
+      "ui_ptr_hex": "b8074408",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5920680,
+      "ui_ptr": 138679076,
+      "ui_ptr_hex": "24134408",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5920684,
+      "ui_ptr": 138676152,
+      "ui_ptr_hex": "b8074408",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5920688,
+      "ui_ptr": 138679076,
+      "ui_ptr_hex": "24134408",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5920692,
+      "ui_ptr": 138676152,
+      "ui_ptr_hex": "b8074408",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5920696,
+      "ui_ptr": 138679076,
+      "ui_ptr_hex": "24134408",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5920700,
+      "ui_ptr": 138676152,
+      "ui_ptr_hex": "b8074408",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5920704,
+      "ui_ptr": 138679076,
+      "ui_ptr_hex": "24134408",
+      "_index": 19
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 20,
+    "rom_offset": 5920628,
+    "rom_offset_hex": "0x5A5774"
+  }
 }
