@@ -1,28 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { API_V1, apiFetch } from '../api/client'
+import type { StoryBeatResponse, StoryBeatCreate, StoryBeatUpdate } from '../api/types'
 
-export interface StoryBeat {
-  id: number
-  chapter_id: number
-  beat_index: number
-  beat_type: string
-  title: string | null
-  title_ja: string | null
-  title_zh: string | null
-  description: string | null
-  description_ja: string | null
-  description_zh: string | null
-  trigger_type: string | null
-  trigger_param: string | null
-  dialogue_key: string | null
-  battle_config_id: number | null
-  map_id: string | null
-  position_x: number | null
-  position_y: number | null
-  next_beat_id: number | null
-  created_at: string
-  updated_at: string
-}
+export type StoryBeat = StoryBeatResponse
 
 export const useStoryBeatStore = defineStore('storyBeat', () => {
   const storyBeats = ref<StoryBeat[]>([])
@@ -34,12 +15,9 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const params = new URLSearchParams()
-      if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
-      
-      const res = await fetch(`/api/v1/story-beats?${params}`)
-      if (!res.ok) throw new Error('Failed to fetch story beats')
-      storyBeats.value = await res.json()
+      storyBeats.value = await apiFetch<StoryBeat[]>(`${API_V1}/story-beats`, {
+        query: { chapter_id: chapterId },
+      })
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -51,9 +29,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/story-beats/${id}`)
-      if (!res.ok) throw new Error('Story beat not found')
-      currentStoryBeat.value = await res.json()
+      currentStoryBeat.value = await apiFetch<StoryBeat>(`${API_V1}/story-beats/${id}`)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -61,20 +37,14 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     }
   }
 
-  async function createStoryBeat(data: Partial<StoryBeat>) {
+  async function createStoryBeat(data: StoryBeatCreate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/v1/story-beats', {
+      return await apiFetch<StoryBeat>(`${API_V1}/story-beats`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Failed to create')
-      }
-      return await res.json()
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -83,17 +53,14 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     }
   }
 
-  async function updateStoryBeat(id: number, data: Partial<StoryBeat>) {
+  async function updateStoryBeat(id: number, data: StoryBeatUpdate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/story-beats/${id}`, {
+      currentStoryBeat.value = await apiFetch<StoryBeat>(`${API_V1}/story-beats/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) throw new Error('Failed to update')
-      currentStoryBeat.value = await res.json()
       return currentStoryBeat.value
     } catch (e: any) {
       error.value = e.message
@@ -107,8 +74,7 @@ export const useStoryBeatStore = defineStore('storyBeat', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/story-beats/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      await apiFetch<void>(`${API_V1}/story-beats/${id}`, { method: 'DELETE' })
     } catch (e: any) {
       error.value = e.message
       throw e

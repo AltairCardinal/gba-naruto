@@ -1,20 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { API_V1, apiFetch } from '../api/client'
+import type { BattleConfigResponse, BattleConfigCreate, BattleConfigUpdate } from '../api/types'
 
-export interface BattleConfig {
-  id: number
-  name: string
-  chapter_id: number | null
-  scenario_id: number | null
-  player_units: any[] | null
-  enemy_units: any[] | null
-  terrain_mod: any | null
-  turn_limit: number | null
-  win_condition: string | null
-  lose_condition: string | null
-  created_at: string
-  updated_at: string
-}
+/**
+ * Backend returns only (id, chapter_id, scenario_id, config_json, created_at, updated_at).
+ * Anything else (player_units, win_condition, etc.) lives inside `config_json`
+ * — views should JSON.parse it rather than expecting top-level fields.
+ */
+export type BattleConfig = BattleConfigResponse
 
 export const useBattleConfigStore = defineStore('battleConfig', () => {
   const configs = ref<BattleConfig[]>([])
@@ -26,13 +20,9 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const params = new URLSearchParams()
-      if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
-      if (scenarioId !== undefined) params.append('scenario_id', String(scenarioId))
-      
-      const res = await fetch(`/api/v1/battle-configs?${params}`)
-      if (!res.ok) throw new Error('Failed to fetch battle configs')
-      configs.value = await res.json()
+      configs.value = await apiFetch<BattleConfig[]>(`${API_V1}/battle-configs`, {
+        query: { chapter_id: chapterId, scenario_id: scenarioId },
+      })
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -44,9 +34,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/battle-configs/${id}`)
-      if (!res.ok) throw new Error('Config not found')
-      currentConfig.value = await res.json()
+      currentConfig.value = await apiFetch<BattleConfig>(`${API_V1}/battle-configs/${id}`)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -54,20 +42,14 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     }
   }
 
-  async function createConfig(data: Partial<BattleConfig>) {
+  async function createConfig(data: BattleConfigCreate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/v1/battle-configs', {
+      return await apiFetch<BattleConfig>(`${API_V1}/battle-configs`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Failed to create')
-      }
-      return await res.json()
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -76,17 +58,14 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     }
   }
 
-  async function updateConfig(id: number, data: Partial<BattleConfig>) {
+  async function updateConfig(id: number, data: BattleConfigUpdate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/battle-configs/${id}`, {
+      currentConfig.value = await apiFetch<BattleConfig>(`${API_V1}/battle-configs/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) throw new Error('Failed to update')
-      currentConfig.value = await res.json()
       return currentConfig.value
     } catch (e: any) {
       error.value = e.message
@@ -100,8 +79,7 @@ export const useBattleConfigStore = defineStore('battleConfig', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/battle-configs/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      await apiFetch<void>(`${API_V1}/battle-configs/${id}`, { method: 'DELETE' })
     } catch (e: any) {
       error.value = e.message
       throw e

@@ -1,18 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { API_V1, apiFetch } from '../api/client'
+import type { DialogueResponse, DialogueCreate, DialogueUpdate } from '../api/types'
 
-export interface Dialogue {
-  id: number
-  key: string
-  speaker: string | null
-  text_ja: string | null
-  text_zh: string | null
-  chapter_id: number | null
-  byte_count: number
-  max_bytes: number
-  created_at: string
-  updated_at: string
-}
+export type Dialogue = DialogueResponse
 
 export const useDialogueStore = defineStore('dialogue', () => {
   const dialogues = ref<Dialogue[]>([])
@@ -24,13 +15,9 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const params = new URLSearchParams({ page: String(page), limit: String(limit) })
-      if (search) params.append('search', search)
-      if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
-      
-      const res = await fetch(`/api/v1/dialogues?${params}`)
-      if (!res.ok) throw new Error('Failed to fetch dialogues')
-      dialogues.value = await res.json()
+      dialogues.value = await apiFetch<Dialogue[]>(`${API_V1}/dialogues`, {
+        query: { page, limit, search, chapter_id: chapterId },
+      })
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -42,9 +29,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/dialogues/${key}`)
-      if (!res.ok) throw new Error('Dialogue not found')
-      currentDialogue.value = await res.json()
+      currentDialogue.value = await apiFetch<Dialogue>(`${API_V1}/dialogues/${key}`)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -52,20 +37,14 @@ export const useDialogueStore = defineStore('dialogue', () => {
     }
   }
 
-  async function createDialogue(data: Partial<Dialogue>) {
+  async function createDialogue(data: DialogueCreate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/v1/dialogues', {
+      return await apiFetch<Dialogue>(`${API_V1}/dialogues`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Failed to create')
-      }
-      return await res.json()
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -74,17 +53,14 @@ export const useDialogueStore = defineStore('dialogue', () => {
     }
   }
 
-  async function updateDialogue(key: string, data: Partial<Dialogue>) {
+  async function updateDialogue(key: string, data: DialogueUpdate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/dialogues/${key}`, {
+      currentDialogue.value = await apiFetch<Dialogue>(`${API_V1}/dialogues/${key}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) throw new Error('Failed to update')
-      currentDialogue.value = await res.json()
       return currentDialogue.value
     } catch (e: any) {
       error.value = e.message
@@ -98,8 +74,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/dialogues/${key}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      await apiFetch<void>(`${API_V1}/dialogues/${key}`, { method: 'DELETE' })
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -109,9 +84,7 @@ export const useDialogueStore = defineStore('dialogue', () => {
   }
 
   async function getByteCount(key: string) {
-    const res = await fetch(`/api/v1/dialogues/${key}/byte-count`)
-    if (!res.ok) throw new Error('Failed to get byte count')
-    return await res.json()
+    return apiFetch<{ count: number }>(`${API_V1}/dialogues/${key}/byte-count`)
   }
 
   return {

@@ -1,24 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { API_V1, apiFetch } from '../api/client'
+import type { UnitResponse, UnitCreate, UnitUpdate } from '../api/types'
 
-export interface Unit {
-  id: number
-  char_id: number
-  name: string
-  name_ja: string | null
-  name_zh: string | null
-  hp: number
-  attack: number
-  defense: number
-  speed: number
-  chapter_id: number | null
-  map_id: string | null
-  position_x: number | null
-  position_y: number | null
-  team: number
-  created_at: string
-  updated_at: string
-}
+export type Unit = UnitResponse
 
 export const useUnitStore = defineStore('unit', () => {
   const units = ref<Unit[]>([])
@@ -30,14 +15,9 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const params = new URLSearchParams()
-      if (chapterId !== undefined) params.append('chapter_id', String(chapterId))
-      if (team !== undefined) params.append('team', String(team))
-      if (mapId) params.append('map_id', mapId)
-      
-      const res = await fetch(`/api/v1/units?${params}`)
-      if (!res.ok) throw new Error('Failed to fetch units')
-      units.value = await res.json()
+      units.value = await apiFetch<Unit[]>(`${API_V1}/units`, {
+        query: { chapter_id: chapterId, team, map_id: mapId },
+      })
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -49,9 +29,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/units/${id}`)
-      if (!res.ok) throw new Error('Unit not found')
-      currentUnit.value = await res.json()
+      currentUnit.value = await apiFetch<Unit>(`${API_V1}/units/${id}`)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -59,20 +37,14 @@ export const useUnitStore = defineStore('unit', () => {
     }
   }
 
-  async function createUnit(data: Partial<Unit>) {
+  async function createUnit(data: UnitCreate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/v1/units', {
+      return await apiFetch<Unit>(`${API_V1}/units`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Failed to create')
-      }
-      return await res.json()
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -81,17 +53,14 @@ export const useUnitStore = defineStore('unit', () => {
     }
   }
 
-  async function updateUnit(id: number, data: Partial<Unit>) {
+  async function updateUnit(id: number, data: UnitUpdate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/units/${id}`, {
+      currentUnit.value = await apiFetch<Unit>(`${API_V1}/units/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) throw new Error('Failed to update')
-      currentUnit.value = await res.json()
       return currentUnit.value
     } catch (e: any) {
       error.value = e.message
@@ -105,8 +74,7 @@ export const useUnitStore = defineStore('unit', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/units/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      await apiFetch<void>(`${API_V1}/units/${id}`, { method: 'DELETE' })
     } catch (e: any) {
       error.value = e.message
       throw e

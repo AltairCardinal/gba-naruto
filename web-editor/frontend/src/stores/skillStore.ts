@@ -1,25 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { API_V1, apiFetch } from '../api/client'
+import type { SkillResponse, SkillCreate, SkillUpdate } from '../api/types'
 
-export interface Skill {
-  id: number
-  unit_id: number
-  name: string
-  name_ja: string | null
-  name_zh: string | null
-  description: string | null
-  description_ja: string | null
-  description_zh: string | null
-  damage: number
-  heal: number
-  range_min: number
-  range_max: number
-  cost_hp: number
-  cost_chakra: number
-  effect_type: string | null
-  created_at: string
-  updated_at: string
-}
+export type Skill = SkillResponse
 
 export const useSkillStore = defineStore('skill', () => {
   const skills = ref<Skill[]>([])
@@ -31,12 +15,9 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const params = new URLSearchParams()
-      if (unitId !== undefined) params.append('unit_id', String(unitId))
-      
-      const res = await fetch(`/api/v1/skills?${params}`)
-      if (!res.ok) throw new Error('Failed to fetch skills')
-      skills.value = await res.json()
+      skills.value = await apiFetch<Skill[]>(`${API_V1}/skills`, {
+        query: { unit_id: unitId },
+      })
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -48,9 +29,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/skills/${id}`)
-      if (!res.ok) throw new Error('Skill not found')
-      currentSkill.value = await res.json()
+      currentSkill.value = await apiFetch<Skill>(`${API_V1}/skills/${id}`)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -58,20 +37,14 @@ export const useSkillStore = defineStore('skill', () => {
     }
   }
 
-  async function createSkill(data: Partial<Skill>) {
+  async function createSkill(data: SkillCreate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch('/api/v1/skills', {
+      return await apiFetch<Skill>(`${API_V1}/skills`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Failed to create')
-      }
-      return await res.json()
     } catch (e: any) {
       error.value = e.message
       throw e
@@ -80,17 +53,14 @@ export const useSkillStore = defineStore('skill', () => {
     }
   }
 
-  async function updateSkill(id: number, data: Partial<Skill>) {
+  async function updateSkill(id: number, data: SkillUpdate) {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/skills/${id}`, {
+      currentSkill.value = await apiFetch<Skill>(`${API_V1}/skills/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: data,
       })
-      if (!res.ok) throw new Error('Failed to update')
-      currentSkill.value = await res.json()
       return currentSkill.value
     } catch (e: any) {
       error.value = e.message
@@ -104,8 +74,7 @@ export const useSkillStore = defineStore('skill', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(`/api/v1/skills/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      await apiFetch<void>(`${API_V1}/skills/${id}`, { method: 'DELETE' })
     } catch (e: any) {
       error.value = e.message
       throw e
