@@ -122,7 +122,9 @@ const translations = {
 }
 
 export function t(key: string): string {
-  return translations[currentLocale.value]?.[key as keyof typeof translations['zh']] || key
+  const dict = (translations as Record<string, Record<string, string>>)[currentLocale.value]
+    ?? translations.zh
+  return dict[key] ?? key
 }
 
 export function setLocale(locale: Locale) {

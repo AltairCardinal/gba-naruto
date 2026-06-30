@@ -55,7 +55,7 @@ const app = createApp(App)
 // since use(pinia) is called before the router is registered.)
 app.use(pinia)
 app.use(router)
-app.config.errorHandler = (err, instance, info) => {
+app.config.errorHandler = (err, _instance, info) => {
   console.error(err, info)
 }
 app.mount('#app')

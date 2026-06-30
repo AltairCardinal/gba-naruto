@@ -21,7 +21,7 @@
       </button>
       <span v-else class="no-perm-hint">🔒 无构建权限，请联系管理员</span>
       <button
-        @click="store.downloadRom"
+        @click="() => store.downloadRom()"
         :disabled="store.buildStatus.status !== 'done'"
       >
         下载 ROM

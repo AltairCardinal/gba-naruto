@@ -109,10 +109,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useUnitStore } from '../stores/unitStore'
-import { useAuthStore } from '../stores/authStore'
 
 const store = useUnitStore()
-const auth = useAuthStore()
 
 const units = ref<any[]>([])
 const showCreateModal = ref(false)

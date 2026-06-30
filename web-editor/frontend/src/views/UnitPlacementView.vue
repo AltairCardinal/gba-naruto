@@ -101,14 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-
-interface TileData {
-  tile_id: number
-  hflip: boolean
-  vflip: boolean
-  palette_bank: number
-}
+import { ref, computed, onMounted } from 'vue'
 
 interface Unit {
   id: number

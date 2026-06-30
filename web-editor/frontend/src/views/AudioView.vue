@@ -100,9 +100,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { getErrorMessage } from '../utils/error'
-import { useAuthStore } from '../stores/authStore'
-
-const auth = useAuthStore()
 
 interface AudioFile {
   id: number
