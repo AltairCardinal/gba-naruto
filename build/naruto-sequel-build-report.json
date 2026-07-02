@@ -6,7 +6,7 @@
   },
   "output_rom": {
     "path": "build/naruto-sequel-dev.gba",
-    "sha1": "20c85b9ea18581608dba98f743ace33e88c5d96f",
+    "sha1": "740ce234d65f8e64aaa3ef95f442887065e94f0c",
     "size": 6291456
   },
   "applied_patches": [
@@ -27,9 +27,9 @@
       "type": "dialogue",
       "offset": 4559892,
       "before_hex": "88cf8fc297af99c78df98c819a6a9b45929894c896e292d78b620a95c48b788eb58af78e8f9a798148",
-      "after_hex": "96d8977491ba8d918bab82c988d995cf82a082e88fac91e082aa92b28db882c98cfc82a982a4814200",
+      "after_hex": "81798c9f8fd89770817a00000000000000000000000000000000000000000000000000000000000000",
       "length": 41,
-      "text": "木葉村国境に異変あり小隊が調査に向かう。",
+      "text": "【検証用】",
       "encoding": "cp932",
       "source_entry": "group0.main",
       "strategy": "same_length"
@@ -143,6 +143,15 @@
       "patch_source": "db_real"
     },
     {
+      "id": "db_real_chapters_7",
+      "type": "bytes",
+      "offset": 5495092,
+      "before_hex": "18f30b086c160c0810170c0800000000ec180c08",
+      "after_hex": "0100000000000000000000000000000002000000",
+      "length": 20,
+      "patch_source": "db_real"
+    },
+    {
       "id": "db_real_units_1",
       "type": "bytes",
       "offset": 5501592,
@@ -197,6 +206,24 @@
       "patch_source": "db_real"
     },
     {
+      "id": "db_real_units_7",
+      "type": "bytes",
+      "offset": 5501604,
+      "before_hex": "0600",
+      "after_hex": "0100",
+      "length": 2,
+      "patch_source": "db_real"
+    },
+    {
+      "id": "db_real_units_8",
+      "type": "bytes",
+      "offset": 5501606,
+      "before_hex": "0700",
+      "after_hex": "0200",
+      "length": 2,
+      "patch_source": "db_real"
+    },
+    {
       "id": "db_real_skills_1",
       "type": "bytes",
       "offset": 5529920,
@@ -243,6 +270,15 @@
     },
     {
       "id": "db_real_story_beats_3",
+      "type": "bytes",
+      "offset": 5464944,
+      "before_hex": "fc5c5308",
+      "after_hex": "fc5c5308",
+      "length": 4,
+      "patch_source": "db_real"
+    },
+    {
+      "id": "db_real_story_beats_4",
       "type": "bytes",
       "offset": 5464944,
       "before_hex": "fc5c5308",
@@ -327,17 +363,53 @@
       "type": "bytes",
       "offset": 6160512,
       "before_hex": "(reserved region — no pre-check)",
-      "after_hex": "6469616c6f677565730000000000000003000000010000002900000001005bdb67726f7570302e6d61696e000000000000000000000000000000000000000000",
+      "after_hex": "6469616c6f67756573000000000000000300000001000000ff00000001005bdb67726f7570302e6d61696e000000000000000000000000000000000000000000",
       "length": 64,
       "db_table": "dialogues",
       "db_row_id": 3,
-      "description": "DB[dialogues] id=3 chapter_id=1 max_bytes=41",
+      "description": "DB[dialogues] id=3 chapter_id=1 max_bytes=255",
+      "patch_source": "db_audit"
+    },
+    {
+      "id": "db_dialogues_4",
+      "type": "bytes",
+      "offset": 6160576,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "6469616c6f67756573000000000000000400000001000000ff00000001005bdb657030315f696e74726f5f303100000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "dialogues",
+      "db_row_id": 4,
+      "description": "DB[dialogues] id=4 chapter_id=1 max_bytes=255",
+      "patch_source": "db_audit"
+    },
+    {
+      "id": "db_dialogues_5",
+      "type": "bytes",
+      "offset": 6160640,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "6469616c6f67756573000000000000000500000001000000ff00000001005bdb657030315f696e74726f5f303200000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "dialogues",
+      "db_row_id": 5,
+      "description": "DB[dialogues] id=5 chapter_id=1 max_bytes=255",
+      "patch_source": "db_audit"
+    },
+    {
+      "id": "db_dialogues_6",
+      "type": "bytes",
+      "offset": 6160704,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "6469616c6f67756573000000000000000600000001000000ff00000001005bdb657030315f706f73745f30310000000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "dialogues",
+      "db_row_id": 6,
+      "description": "DB[dialogues] id=6 chapter_id=1 max_bytes=255",
       "patch_source": "db_audit"
     },
     {
       "id": "db_units_1",
       "type": "bytes",
-      "offset": 6160576,
+      "offset": 6160768,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e697473000000000000000000000001000000f71800003200000001005bdb4532455f32303236303632345f3039353935302d636861720000000000000000",
       "length": 64,
@@ -349,7 +421,7 @@
     {
       "id": "db_units_2",
       "type": "bytes",
-      "offset": 6160640,
+      "offset": 6160832,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e697473000000000000000000000002000000ea1900003200000001005bdb4532455f32303236303632345f3130303335332d636861720000000000000000",
       "length": 64,
@@ -361,7 +433,7 @@
     {
       "id": "db_units_3",
       "type": "bytes",
-      "offset": 6160704,
+      "offset": 6160896,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e697473000000000000000000000003000000af1a00003200000001005bdb4532455f32303236303632345f3130303731302d636861720000000000000000",
       "length": 64,
@@ -373,7 +445,7 @@
     {
       "id": "db_units_4",
       "type": "bytes",
-      "offset": 6160768,
+      "offset": 6160960,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e6974730000000000000000000000040000007cbf00002a00000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -385,7 +457,7 @@
     {
       "id": "db_units_5",
       "type": "bytes",
-      "offset": 6160832,
+      "offset": 6161024,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e69747300000000000000000000000500000030ba00002a00000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -397,7 +469,7 @@
     {
       "id": "db_units_6",
       "type": "bytes",
-      "offset": 6160896,
+      "offset": 6161088,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e6974730000000000000000000000060000005e4000002a00000001005bdb46494e414c5f32303236303632345f3134323232330000000000000000000000",
       "length": 64,
@@ -407,9 +479,33 @@
       "patch_source": "db_audit"
     },
     {
+      "id": "db_units_7",
+      "type": "bytes",
+      "offset": 6161152,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "756e697473000000000000000000000007000000010000006400000001005bdb4e617275746f20557a756d616b69000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "units",
+      "db_row_id": 7,
+      "description": "DB[units] id=7 char_id=1 hp=100",
+      "patch_source": "db_audit"
+    },
+    {
+      "id": "db_units_8",
+      "type": "bytes",
+      "offset": 6161216,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "756e697473000000000000000000000008000000020000006400000001005bdb5368696b616d617275204e617261000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "units",
+      "db_row_id": 8,
+      "description": "DB[units] id=8 char_id=2 hp=100",
+      "patch_source": "db_audit"
+    },
+    {
       "id": "db_skills_1",
       "type": "bytes",
-      "offset": 6160960,
+      "offset": 6161280,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "736b696c6c730000000000000000000001000000040000001100000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -421,7 +517,7 @@
     {
       "id": "db_skills_2",
       "type": "bytes",
-      "offset": 6161024,
+      "offset": 6161344,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "736b696c6c730000000000000000000002000000050000001100000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -433,7 +529,7 @@
     {
       "id": "db_skills_3",
       "type": "bytes",
-      "offset": 6161088,
+      "offset": 6161408,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "736b696c6c730000000000000000000003000000060000001100000001005bdb46494e414c5f32303236303632345f3134323232330000000000000000000000",
       "length": 64,
@@ -445,7 +541,7 @@
     {
       "id": "db_story_beats_1",
       "type": "bytes",
-      "offset": 6161152,
+      "offset": 6161472,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "73746f72795f626561747300000000000100000001000000fe20000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -457,7 +553,7 @@
     {
       "id": "db_story_beats_2",
       "type": "bytes",
-      "offset": 6161216,
+      "offset": 6161536,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "73746f72795f6265617473000000000002000000010000005922000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -469,7 +565,7 @@
     {
       "id": "db_story_beats_3",
       "type": "bytes",
-      "offset": 6161280,
+      "offset": 6161600,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "73746f72795f6265617473000000000003000000010000003010000001005bdb46494e414c5f32303236303632345f3134323232330000000000000000000000",
       "length": 64,
@@ -479,9 +575,21 @@
       "patch_source": "db_audit"
     },
     {
+      "id": "db_story_beats_4",
+      "type": "bytes",
+      "offset": 6161664,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "73746f72795f6265617473000000000004000000010000000000000001005bdb457069736f646520303120496e74726f00000000000000000000000000000000",
+      "length": 64,
+      "db_table": "story_beats",
+      "db_row_id": 4,
+      "description": "DB[story_beats] id=4 chapter_id=1 beat_index=0",
+      "patch_source": "db_audit"
+    },
+    {
       "id": "db_audio_files_1",
       "type": "bytes",
-      "offset": 6161344,
+      "offset": 6161728,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "617564696f5f66696c6573000000000001000000000000000000000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -493,7 +601,7 @@
     {
       "id": "db_audio_files_2",
       "type": "bytes",
-      "offset": 6161408,
+      "offset": 6161792,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "617564696f5f66696c6573000000000002000000000000000000000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -505,7 +613,7 @@
     {
       "id": "db_audio_files_3",
       "type": "bytes",
-      "offset": 6161472,
+      "offset": 6161856,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "617564696f5f66696c6573000000000003000000000000000000000001005bdb46494e414c5f32303236303632345f3134323232330000000000000000000000",
       "length": 64,
@@ -517,7 +625,7 @@
     {
       "id": "db_battle_configs_1",
       "type": "bytes",
-      "offset": 6161536,
+      "offset": 6161920,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "626174746c655f636f6e66696773000001000000010000000000000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -529,7 +637,7 @@
     {
       "id": "db_battle_configs_2",
       "type": "bytes",
-      "offset": 6161600,
+      "offset": 6161984,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "626174746c655f636f6e66696773000002000000010000000000000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -541,7 +649,7 @@
     {
       "id": "db_unit_positions_1",
       "type": "bytes",
-      "offset": 6161664,
+      "offset": 6162048,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e69745f706f736974696f6e73000001000000040000000700000001005bdb6d61705f31000000000000000000000000000000000000000000000000000000",
       "length": 64,
@@ -553,7 +661,7 @@
     {
       "id": "db_unit_positions_2",
       "type": "bytes",
-      "offset": 6161728,
+      "offset": 6162112,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e69745f706f736974696f6e7300000200000005000000130e627101005bdb6d61705f31000000000000000000000000000000000000000000000000000000",
       "length": 64,
@@ -565,7 +673,7 @@
     {
       "id": "db_unit_positions_3",
       "type": "bytes",
-      "offset": 6161792,
+      "offset": 6162176,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "756e69745f706f736974696f6e730000030000000600000002295cef01005bdb6d61705f31000000000000000000000000000000000000000000000000000000",
       "length": 64,
@@ -577,7 +685,7 @@
     {
       "id": "db_chapters_1",
       "type": "bytes",
-      "offset": 6161856,
+      "offset": 6162240,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000001000000630000000000000001005bdb7570646174656400000000000000000000000000000000000000000000000000",
       "length": 64,
@@ -589,7 +697,7 @@
     {
       "id": "db_chapters_2",
       "type": "bytes",
-      "offset": 6161920,
+      "offset": 6162304,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000002000000630000000000000001005bdb7570646174656400000000000000000000000000000000000000000000000000",
       "length": 64,
@@ -601,7 +709,7 @@
     {
       "id": "db_chapters_3",
       "type": "bytes",
-      "offset": 6161984,
+      "offset": 6162368,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000003000000530000000000000001005bdb444232524f4d5f32303236303632345f31333034303600000000000000000000",
       "length": 64,
@@ -613,7 +721,7 @@
     {
       "id": "db_chapters_4",
       "type": "bytes",
-      "offset": 6162048,
+      "offset": 6162432,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000004000000580000000000000001005bdb444232524f4d5f32303236303632345f31333039353200000000000000000000",
       "length": 64,
@@ -625,7 +733,7 @@
     {
       "id": "db_chapters_5",
       "type": "bytes",
-      "offset": 6162112,
+      "offset": 6162496,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000005000000520000000000000001005bdb444232524f4d5f32303236303632345f31333133303400000000000000000000",
       "length": 64,
@@ -637,7 +745,7 @@
     {
       "id": "db_chapters_6",
       "type": "bytes",
-      "offset": 6162176,
+      "offset": 6162560,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "6368617074657273000000000000000006000000570000000000000001005bdb444232524f4d5f32303236303632345f31333133333700000000000000000000",
       "length": 64,
@@ -647,9 +755,21 @@
       "patch_source": "db_audit"
     },
     {
+      "id": "db_chapters_7",
+      "type": "bytes",
+      "offset": 6162624,
+      "before_hex": "(reserved region — no pre-check)",
+      "after_hex": "6368617074657273000000000000000007000000010000000100000001005bdb457069736f646520303100000000000000000000000000000000000000000000",
+      "length": 64,
+      "db_table": "chapters",
+      "db_row_id": 7,
+      "description": "DB[chapters] id=7 chapter_number=1 sequence_order=1",
+      "patch_source": "db_audit"
+    },
+    {
       "id": "db_user_permissions_None",
       "type": "bytes",
-      "offset": 6162240,
+      "offset": 6162688,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "757365725f7065726d697373696f6e00adb54ee20400000031b54ee201005bdb6372656174655f66696c65000000000000000000000000000000000000000000",
       "length": 64,
@@ -661,7 +781,7 @@
     {
       "id": "db_user_permissions_None",
       "type": "bytes",
-      "offset": 6162304,
+      "offset": 6162752,
       "before_hex": "(reserved region — no pre-check)",
       "after_hex": "757365725f7065726d697373696f6e0045abb2b504000000c9aab2b501005bdb747269676765725f6275696c6400000000000000000000000000000000000000",
       "length": 64,
