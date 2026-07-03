@@ -305,10 +305,26 @@ def build(project_path: Path) -> dict:
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
 
+    # Dedupe db_real_patches by offset — multiple editor.db rows can map to
+    # the same ROM offset (e.g. several battle_configs with scenario_id=0 all
+    # writing to 0x53D914). The last write wins in ROM, but the build report
+    # would still list every patch as 'applied', which trips the byte-patch
+    # applied-test. Keep the LAST patch per offset since downstream stages
+    # (UI, mGBA verification) see the last write anyway.
+    _offset_to_patch: dict[int, dict] = {}
+    for _p in db_real_patches:
+        _off = int(_p.get("offset", -1))
+        if _off >= 0 and _p.get("type") == "bytes":
+            _offset_to_patch[_off] = _p
+        else:
+            # Non-bytes patches (overflow markers) pass through unchanged
+            _offset_to_patch[(_p.get("id"), _off)] = _p
+    db_real_patches_dedup = list(_offset_to_patch.values())
+
     # Apply editor DB real ROM patches (battle_configs, chapters). These
     # use the same before-hex check as manifest bytes patches so we don't
     # silently overwrite unrelated game data.
-    for patch in db_real_patches:
+    for patch in db_real_patches_dedup:
         if patch.get("type") != "bytes":
             applied.append(patch)
             continue
