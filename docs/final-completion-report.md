@@ -41,7 +41,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 4 | Battle Handlers | 0x53E6D8 | u32 × 14 | 14 | static_verified | ✅ |
 | 5 | Character Stats | 0x54507A | u16[8] × 20 | 20 | static_verified | ✅ |
 | 6 | Character Stats B | 0x545200 | u16[8] × 18 | 18 | static_verified | ✅ |
-| 7 | Cutscene Scripts | 0x53DF70 | u32 × 17 | 17 | static_verified | ✅ |
+| 7 | Cutscene Scripts | 0x53DF70 | u32 × 16 | 16 | static_verified | ✅ |
 | 8 | Data Table A | 0x5A14A4 | u32 × 20 | 20 | static_verified | ✅ |
 | 9 | Data Table B | 0x5A2120 | u32 × 20 | 20 | static_verified | ✅ |
 | 10 | Encounter Zones | 0x53D910+28 | u32 zone_id × 47 | 47 | static_verified | ✅ |

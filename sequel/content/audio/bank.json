@@ -1,865 +1,708 @@
 {
-    "version": 2,
-    "description": "Complete audio event dispatcher system. The custom audio dispatcher at 0x08079668 processes commands 0x64-0xE3, with 15 call sites from 6 unique caller functions covering map transitions, battle events, and special scenes. The dispatcher indexes into an audio pointer table at 0x08599634 (commands 0x80+) or loads from engine state offsets (commands 0x64-0x67).",
-    "dispatcher": {
-        "address": "0x08079668",
-        "file_offset": "0x079668",
-        "name": "audio_command_dispatcher",
-        "parameter": "u8 command_id (low byte of R0)",
-        "max_command": 227,
-        "sappy_playback_call": "0x08066758"
-    },
-    "command_types": {
-        "special_commands": {
-            "range": "0x64-0x67",
-            "description": "Load audio ID from specific offsets in the audio engine state structure",
-            "handlers": [
-                {
-                    "command": 100,
-                    "hex": "0x64",
-                    "source": "[engine_state + 0x60]",
-                    "description": "BGM channel 0"
-                },
-                {
-                    "command": 101,
-                    "hex": "0x65",
-                    "source": "[engine_state + 0x64]",
-                    "description": "BGM channel 1"
-                },
-                {
-                    "command": 102,
-                    "hex": "0x66",
-                    "source": "[engine_state + 0x68]",
-                    "description": "BGM channel 2"
-                },
-                {
-                    "command": 103,
-                    "hex": "0x67",
-                    "source": "[engine_state + 0x8C]",
-                    "description": "SFX channel"
-                }
-            ]
+  "version": 2,
+  "description": "Complete audio event dispatcher system. The custom audio dispatcher at 0x08079668 processes commands 0x64-0xE3, with 15 call sites from 6 unique caller functions covering map transitions, battle events, and special scenes. The dispatcher indexes into an audio pointer table at 0x08599634 (commands 0x80+) or loads from engine state offsets (commands 0x64-0x67).",
+  "dispatcher": {
+    "address": "0x08079668",
+    "file_offset": "0x079668",
+    "name": "audio_command_dispatcher",
+    "parameter": "u8 command_id (low byte of R0)",
+    "max_command": 227,
+    "sappy_playback_call": "0x08066758"
+  },
+  "command_types": {
+    "special_commands": {
+      "range": "0x64-0x67",
+      "description": "Load audio ID from specific offsets in the audio engine state structure",
+      "handlers": [
+        {
+          "command": 100,
+          "hex": "0x64",
+          "source": "[engine_state + 0x60]",
+          "description": "BGM channel 0"
         },
-        "indexed_commands": {
-            "range": "0x80-0xE3",
-            "count": 100,
-            "description": "Index into the audio pointer table at 0x08599634 (ROM 0x599634). Each entry is a u32 pointer to a 16-byte Sappy audio entry.",
-            "table_address": "0x08599634",
-            "table_file_offset": "0x599634",
-            "entry_size": 4
+        {
+          "command": 101,
+          "hex": "0x65",
+          "source": "[engine_state + 0x64]",
+          "description": "BGM channel 1"
+        },
+        {
+          "command": 102,
+          "hex": "0x66",
+          "source": "[engine_state + 0x68]",
+          "description": "BGM channel 2"
+        },
+        {
+          "command": 103,
+          "hex": "0x67",
+          "source": "[engine_state + 0x8C]",
+          "description": "SFX channel"
         }
+      ]
     },
-    "call_sites": {
-        "total_unique": 15,
-        "unique_caller_functions": 6,
-        "callers": [
-            {
-                "address": "0x0807EFFD",
-                "event_type": "battle_scenario_start",
-                "description": "Battle scenario audio - loads command from [config_struct + 0x770]",
-                "call_count": 2,
-                "config_offset": "0x770"
-            },
-            {
-                "address": "0x0807F065",
-                "event_type": "map_transition",
-                "description": "Map entry audio - loads command from [config_struct + 0x770]",
-                "call_count": 2,
-                "config_offset": "0x770"
-            },
-            {
-                "address": "0x0807EA7D",
-                "event_type": "zone_map_event",
-                "description": "Zone map event handler - no direct audio call found in function body",
-                "call_count": 0,
-                "note": "Audio triggered through sub-function calls"
-            },
-            {
-                "address": "0x0807EAF9",
-                "event_type": "map_special_event_0x0D",
-                "description": "Plays command 0x6E (110) when map event code == 0x0D",
-                "call_count": 1,
-                "literal_command": 110
-            },
-            {
-                "address": "0x0807EBA1",
-                "event_type": "map_special_event_0x0D_alt",
-                "description": "Plays command 0x6F (111) when map event code == 0x0D",
-                "call_count": 1,
-                "literal_command": 111
-            },
-            {
-                "address": "0x0807EC49",
-                "event_type": "map_special_event_0x13_0x15",
-                "description": "Plays 0x70 (112) for event 0x13 or 0x71 (113) for event 0x15",
-                "call_count": 2,
-                "literal_commands": [
-                    112,
-                    113
-                ]
-            },
-            {
-                "address": "0x0807ED21",
-                "event_type": "map_46_special",
-                "description": "Map 46 handler - complex multi-step event with audio",
-                "call_count": 0,
-                "note": "Audio triggered through sub-function chain"
-            }
+    "indexed_commands": {
+      "range": "0x80-0xE3",
+      "count": 100,
+      "description": "Index into the audio pointer table at 0x08599634 (ROM 0x599634). Each entry is a u32 pointer to a 16-byte Sappy audio entry.",
+      "table_address": "0x08599634",
+      "table_file_offset": "0x599634",
+      "entry_size": 4
+    }
+  },
+  "call_sites": {
+    "total_unique": 15,
+    "unique_caller_functions": 6,
+    "callers": [
+      {
+        "address": "0x0807EFFD",
+        "event_type": "battle_scenario_start",
+        "description": "Battle scenario audio - loads command from [config_struct + 0x770]",
+        "call_count": 2,
+        "config_offset": "0x770"
+      },
+      {
+        "address": "0x0807F065",
+        "event_type": "map_transition",
+        "description": "Map entry audio - loads command from [config_struct + 0x770]",
+        "call_count": 2,
+        "config_offset": "0x770"
+      },
+      {
+        "address": "0x0807EA7D",
+        "event_type": "zone_map_event",
+        "description": "Zone map event handler - no direct audio call found in function body",
+        "call_count": 0,
+        "note": "Audio triggered through sub-function calls"
+      },
+      {
+        "address": "0x0807EAF9",
+        "event_type": "map_special_event_0x0D",
+        "description": "Plays command 0x6E (110) when map event code == 0x0D",
+        "call_count": 1,
+        "literal_command": 110
+      },
+      {
+        "address": "0x0807EBA1",
+        "event_type": "map_special_event_0x0D_alt",
+        "description": "Plays command 0x6F (111) when map event code == 0x0D",
+        "call_count": 1,
+        "literal_command": 111
+      },
+      {
+        "address": "0x0807EC49",
+        "event_type": "map_special_event_0x13_0x15",
+        "description": "Plays 0x70 (112) for event 0x13 or 0x71 (113) for event 0x15",
+        "call_count": 2,
+        "literal_commands": [
+          112,
+          113
         ]
+      },
+      {
+        "address": "0x0807ED21",
+        "event_type": "map_46_special",
+        "description": "Map 46 handler - complex multi-step event with audio",
+        "call_count": 0,
+        "note": "Audio triggered through sub-function chain"
+      }
+    ]
+  },
+  "audio_table": {
+    "address": "0x53F138",
+    "file_offset": "0x53F138",
+    "entry_count": 88,
+    "entry_size": 4,
+    "format": "u32 pointer to 16-byte Sappy audio entry",
+    "entries_0_1": "code/bootstrap (not audio data)",
+    "entries_2_plus": "valid Sappy audio data pointers"
+  },
+  "indexed_command_table": {
+    "address": "0x08599634",
+    "file_offset": "0x599634",
+    "entry_count": 100,
+    "entry_size": 4,
+    "description": "Maps command IDs 0x80-0xE3 to Sappy audio entry pointers. Same format as the main audio table."
+  },
+  "event_audio_mapping": {
+    "battle_start": {
+      "source": "config_struct[0x770]",
+      "description": "Per-scenario BGM command"
     },
-    "audio_table": {
-        "address": "0x53F138",
-        "file_offset": "0x53F138",
-        "entry_count": 88,
-        "entry_size": 4,
-        "format": "u32 pointer to 16-byte Sappy audio entry",
-        "entries_0_1": "code/bootstrap (not audio data)",
-        "entries_2_plus": "valid Sappy audio data pointers"
+    "map_entry": {
+      "source": "config_struct[0x770]",
+      "description": "Per-map BGM command"
     },
-    "indexed_command_table": {
-        "address": "0x08599634",
-        "file_offset": "0x599634",
-        "entry_count": 100,
-        "entry_size": 4,
-        "description": "Maps command IDs 0x80-0xE3 to Sappy audio entry pointers. Same format as the main audio table."
+    "special_event_0x0D": {
+      "command": 110,
+      "description": "Event trigger audio"
     },
-    "event_audio_mapping": {
-        "battle_start": {
-            "source": "config_struct[0x770]",
-            "description": "Per-scenario BGM command"
-        },
-        "map_entry": {
-            "source": "config_struct[0x770]",
-            "description": "Per-map BGM command"
-        },
-        "special_event_0x0D": {
-            "command": 110,
-            "description": "Event trigger audio"
-        },
-        "special_event_0x0D_alt": {
-            "command": 111,
-            "description": "Alt event trigger audio"
-        },
-        "special_event_0x13": {
-            "command": 112,
-            "description": "Cutscene event audio"
-        },
-        "special_event_0x15": {
-            "command": 113,
-            "description": "Boss encounter audio"
-        }
+    "special_event_0x0D_alt": {
+      "command": 111,
+      "description": "Alt event trigger audio"
     },
-    "verification_method": "Disassembly of audio dispatcher at 0x08079668. Identified 15 BL call sites across the ROM. Each call site was traced to its enclosing function to determine the game event context. The indexed command table at 0x08599634 was found via literal pool analysis. Commands 0x80-0xE3 index into this 100-entry table of Sappy audio pointers. Commands 0x64-0x67 load from engine state offsets.",
-    "discovered_by": "Thumb disassembly + literal pool trace + BL call site search",
-    "verification_level": "code_verified",
-    "notes": "The audio dispatcher is a custom implementation, not standard Sappy m4aSongNumStart. Commands 0x64-0x67 handle dynamic BGM channels. Commands 0x80-0xE3 are static audio lookups. The per-scenario audio command at config_struct[0x770] means each battle scenario and map has its own BGM assigned through the configuration system, not through a global event→song table.",
-    "entries": [
-        {
-            "id": "audio_00",
-            "index": 0,
-            "offset": 5501240,
-            "offset_hex": "0x53F138",
-            "audio_ptr": 134744253,
-            "audio_ptr_hex": "0x80808BD"
-        },
-        {
-            "id": "audio_01",
-            "index": 1,
-            "offset": 5501244,
-            "offset_hex": "0x53F13C",
-            "audio_ptr": 134744421,
-            "audio_ptr_hex": "0x8080965"
-        },
-        {
-            "id": "audio_02",
-            "index": 2,
-            "offset": 5501248,
-            "offset_hex": "0x53F140",
-            "audio_ptr": 135460272,
-            "audio_ptr_hex": "0x812F5B0"
-        },
-        {
-            "id": "audio_03",
-            "index": 3,
-            "offset": 5501252,
-            "offset_hex": "0x53F144",
-            "audio_ptr": 135460284,
-            "audio_ptr_hex": "0x812F5BC"
-        },
-        {
-            "id": "audio_04",
-            "index": 4,
-            "offset": 5501256,
-            "offset_hex": "0x53F148",
-            "audio_ptr": 135460312,
-            "audio_ptr_hex": "0x812F5D8"
-        },
-        {
-            "id": "audio_05",
-            "index": 5,
-            "offset": 5501260,
-            "offset_hex": "0x53F14C",
-            "audio_ptr": 135460324,
-            "audio_ptr_hex": "0x812F5E4"
-        },
-        {
-            "id": "audio_06",
-            "index": 6,
-            "offset": 5501264,
-            "offset_hex": "0x53F150",
-            "audio_ptr": 135460352,
-            "audio_ptr_hex": "0x812F600"
-        },
-        {
-            "id": "audio_07",
-            "index": 7,
-            "offset": 5501268,
-            "offset_hex": "0x53F154",
-            "audio_ptr": 135460364,
-            "audio_ptr_hex": "0x812F60C"
-        },
-        {
-            "id": "audio_08",
-            "index": 8,
-            "offset": 5501272,
-            "offset_hex": "0x53F158",
-            "audio_ptr": 135460392,
-            "audio_ptr_hex": "0x812F628"
-        },
-        {
-            "id": "audio_09",
-            "index": 9,
-            "offset": 5501276,
-            "offset_hex": "0x53F15C",
-            "audio_ptr": 135460404,
-            "audio_ptr_hex": "0x812F634"
-        },
-        {
-            "id": "audio_10",
-            "index": 10,
-            "offset": 5501280,
-            "offset_hex": "0x53F160",
-            "audio_ptr": 135460432,
-            "audio_ptr_hex": "0x812F650"
-        },
-        {
-            "id": "audio_11",
-            "index": 11,
-            "offset": 5501284,
-            "offset_hex": "0x53F164",
-            "audio_ptr": 135460444,
-            "audio_ptr_hex": "0x812F65C"
-        },
-        {
-            "id": "audio_12",
-            "index": 12,
-            "offset": 5501288,
-            "offset_hex": "0x53F168",
-            "audio_ptr": 135460472,
-            "audio_ptr_hex": "0x812F678"
-        },
-        {
-            "id": "audio_13",
-            "index": 13,
-            "offset": 5501292,
-            "offset_hex": "0x53F16C",
-            "audio_ptr": 135460484,
-            "audio_ptr_hex": "0x812F684"
-        },
-        {
-            "id": "audio_14",
-            "index": 14,
-            "offset": 5501296,
-            "offset_hex": "0x53F170",
-            "audio_ptr": 135460512,
-            "audio_ptr_hex": "0x812F6A0"
-        },
-        {
-            "id": "audio_15",
-            "index": 15,
-            "offset": 5501300,
-            "offset_hex": "0x53F174",
-            "audio_ptr": 135460524,
-            "audio_ptr_hex": "0x812F6AC"
-        },
-        {
-            "id": "audio_16",
-            "index": 16,
-            "offset": 5501304,
-            "offset_hex": "0x53F178",
-            "audio_ptr": 135460552,
-            "audio_ptr_hex": "0x812F6C8"
-        },
-        {
-            "id": "audio_17",
-            "index": 17,
-            "offset": 5501308,
-            "offset_hex": "0x53F17C",
-            "audio_ptr": 135460564,
-            "audio_ptr_hex": "0x812F6D4"
-        },
-        {
-            "id": "audio_18",
-            "index": 18,
-            "offset": 5501312,
-            "offset_hex": "0x53F180",
-            "audio_ptr": 135460592,
-            "audio_ptr_hex": "0x812F6F0"
-        },
-        {
-            "id": "audio_19",
-            "index": 19,
-            "offset": 5501316,
-            "offset_hex": "0x53F184",
-            "audio_ptr": 135460604,
-            "audio_ptr_hex": "0x812F6FC"
-        },
-        {
-            "id": "audio_20",
-            "index": 20,
-            "offset": 5501320,
-            "offset_hex": "0x53F188",
-            "audio_ptr": 135460632,
-            "audio_ptr_hex": "0x812F718"
-        },
-        {
-            "id": "audio_21",
-            "index": 21,
-            "offset": 5501324,
-            "offset_hex": "0x53F18C",
-            "audio_ptr": 135460644,
-            "audio_ptr_hex": "0x812F724"
-        },
-        {
-            "id": "audio_22",
-            "index": 22,
-            "offset": 5501328,
-            "offset_hex": "0x53F190",
-            "audio_ptr": 135461072,
-            "audio_ptr_hex": "0x812F8D0"
-        },
-        {
-            "id": "audio_23",
-            "index": 23,
-            "offset": 5501332,
-            "offset_hex": "0x53F194",
-            "audio_ptr": 135461084,
-            "audio_ptr_hex": "0x812F8DC"
-        },
-        {
-            "id": "audio_24",
-            "index": 24,
-            "offset": 5501336,
-            "offset_hex": "0x53F198",
-            "audio_ptr": 135461112,
-            "audio_ptr_hex": "0x812F8F8"
-        },
-        {
-            "id": "audio_25",
-            "index": 25,
-            "offset": 5501340,
-            "offset_hex": "0x53F19C",
-            "audio_ptr": 135461124,
-            "audio_ptr_hex": "0x812F904"
-        },
-        {
-            "id": "audio_26",
-            "index": 26,
-            "offset": 5501344,
-            "offset_hex": "0x53F1A0",
-            "audio_ptr": 135461152,
-            "audio_ptr_hex": "0x812F920"
-        },
-        {
-            "id": "audio_27",
-            "index": 27,
-            "offset": 5501348,
-            "offset_hex": "0x53F1A4",
-            "audio_ptr": 135461164,
-            "audio_ptr_hex": "0x812F92C"
-        },
-        {
-            "id": "audio_28",
-            "index": 28,
-            "offset": 5501352,
-            "offset_hex": "0x53F1A8",
-            "audio_ptr": 135461192,
-            "audio_ptr_hex": "0x812F948"
-        },
-        {
-            "id": "audio_29",
-            "index": 29,
-            "offset": 5501356,
-            "offset_hex": "0x53F1AC",
-            "audio_ptr": 135461204,
-            "audio_ptr_hex": "0x812F954"
-        },
-        {
-            "id": "audio_30",
-            "index": 30,
-            "offset": 5501360,
-            "offset_hex": "0x53F1B0",
-            "audio_ptr": 135461232,
-            "audio_ptr_hex": "0x812F970"
-        },
-        {
-            "id": "audio_31",
-            "index": 31,
-            "offset": 5501364,
-            "offset_hex": "0x53F1B4",
-            "audio_ptr": 135461244,
-            "audio_ptr_hex": "0x812F97C"
-        },
-        {
-            "id": "audio_32",
-            "index": 32,
-            "offset": 5501368,
-            "offset_hex": "0x53F1B8",
-            "audio_ptr": 135461272,
-            "audio_ptr_hex": "0x812F998"
-        },
-        {
-            "id": "audio_33",
-            "index": 33,
-            "offset": 5501372,
-            "offset_hex": "0x53F1BC",
-            "audio_ptr": 135461284,
-            "audio_ptr_hex": "0x812F9A4"
-        },
-        {
-            "id": "audio_34",
-            "index": 34,
-            "offset": 5501376,
-            "offset_hex": "0x53F1C0",
-            "audio_ptr": 135461312,
-            "audio_ptr_hex": "0x812F9C0"
-        },
-        {
-            "id": "audio_35",
-            "index": 35,
-            "offset": 5501380,
-            "offset_hex": "0x53F1C4",
-            "audio_ptr": 135461324,
-            "audio_ptr_hex": "0x812F9CC"
-        },
-        {
-            "id": "audio_36",
-            "index": 36,
-            "offset": 5501384,
-            "offset_hex": "0x53F1C8",
-            "audio_ptr": 135461352,
-            "audio_ptr_hex": "0x812F9E8"
-        },
-        {
-            "id": "audio_37",
-            "index": 37,
-            "offset": 5501388,
-            "offset_hex": "0x53F1CC",
-            "audio_ptr": 135461364,
-            "audio_ptr_hex": "0x812F9F4"
-        },
-        {
-            "id": "audio_38",
-            "index": 38,
-            "offset": 5501392,
-            "offset_hex": "0x53F1D0",
-            "audio_ptr": 135461392,
-            "audio_ptr_hex": "0x812FA10"
-        },
-        {
-            "id": "audio_39",
-            "index": 39,
-            "offset": 5501396,
-            "offset_hex": "0x53F1D4",
-            "audio_ptr": 135461404,
-            "audio_ptr_hex": "0x812FA1C"
-        },
-        {
-            "id": "audio_40",
-            "index": 40,
-            "offset": 5501400,
-            "offset_hex": "0x53F1D8",
-            "audio_ptr": 135461432,
-            "audio_ptr_hex": "0x812FA38"
-        },
-        {
-            "id": "audio_41",
-            "index": 41,
-            "offset": 5501404,
-            "offset_hex": "0x53F1DC",
-            "audio_ptr": 135461444,
-            "audio_ptr_hex": "0x812FA44"
-        },
-        {
-            "id": "audio_42",
-            "index": 42,
-            "offset": 5501408,
-            "offset_hex": "0x53F1E0",
-            "audio_ptr": 135461552,
-            "audio_ptr_hex": "0x812FAB0"
-        },
-        {
-            "id": "audio_43",
-            "index": 43,
-            "offset": 5501412,
-            "offset_hex": "0x53F1E4",
-            "audio_ptr": 135461564,
-            "audio_ptr_hex": "0x812FABC"
-        },
-        {
-            "id": "audio_44",
-            "index": 44,
-            "offset": 5501416,
-            "offset_hex": "0x53F1E8",
-            "audio_ptr": 135461592,
-            "audio_ptr_hex": "0x812FAD8"
-        },
-        {
-            "id": "audio_45",
-            "index": 45,
-            "offset": 5501420,
-            "offset_hex": "0x53F1EC",
-            "audio_ptr": 135461604,
-            "audio_ptr_hex": "0x812FAE4"
-        },
-        {
-            "id": "audio_46",
-            "index": 46,
-            "offset": 5501424,
-            "offset_hex": "0x53F1F0",
-            "audio_ptr": 135461632,
-            "audio_ptr_hex": "0x812FB00"
-        },
-        {
-            "id": "audio_47",
-            "index": 47,
-            "offset": 5501428,
-            "offset_hex": "0x53F1F4",
-            "audio_ptr": 135461644,
-            "audio_ptr_hex": "0x812FB0C"
-        },
-        {
-            "id": "audio_48",
-            "index": 48,
-            "offset": 5501432,
-            "offset_hex": "0x53F1F8",
-            "audio_ptr": 135461672,
-            "audio_ptr_hex": "0x812FB28"
-        },
-        {
-            "id": "audio_49",
-            "index": 49,
-            "offset": 5501436,
-            "offset_hex": "0x53F1FC",
-            "audio_ptr": 135461684,
-            "audio_ptr_hex": "0x812FB34"
-        },
-        {
-            "id": "audio_50",
-            "index": 50,
-            "offset": 5501440,
-            "offset_hex": "0x53F200",
-            "audio_ptr": 135461712,
-            "audio_ptr_hex": "0x812FB50"
-        },
-        {
-            "id": "audio_51",
-            "index": 51,
-            "offset": 5501444,
-            "offset_hex": "0x53F204",
-            "audio_ptr": 135461724,
-            "audio_ptr_hex": "0x812FB5C"
-        },
-        {
-            "id": "audio_52",
-            "index": 52,
-            "offset": 5501448,
-            "offset_hex": "0x53F208",
-            "audio_ptr": 135461752,
-            "audio_ptr_hex": "0x812FB78"
-        },
-        {
-            "id": "audio_53",
-            "index": 53,
-            "offset": 5501452,
-            "offset_hex": "0x53F20C",
-            "audio_ptr": 135461764,
-            "audio_ptr_hex": "0x812FB84"
-        },
-        {
-            "id": "audio_54",
-            "index": 54,
-            "offset": 5501456,
-            "offset_hex": "0x53F210",
-            "audio_ptr": 135461792,
-            "audio_ptr_hex": "0x812FBA0"
-        },
-        {
-            "id": "audio_55",
-            "index": 55,
-            "offset": 5501460,
-            "offset_hex": "0x53F214",
-            "audio_ptr": 135461804,
-            "audio_ptr_hex": "0x812FBAC"
-        },
-        {
-            "id": "audio_56",
-            "index": 56,
-            "offset": 5501464,
-            "offset_hex": "0x53F218",
-            "audio_ptr": 135461832,
-            "audio_ptr_hex": "0x812FBC8"
-        },
-        {
-            "id": "audio_57",
-            "index": 57,
-            "offset": 5501468,
-            "offset_hex": "0x53F21C",
-            "audio_ptr": 135461844,
-            "audio_ptr_hex": "0x812FBD4"
-        },
-        {
-            "id": "audio_58",
-            "index": 58,
-            "offset": 5501472,
-            "offset_hex": "0x53F220",
-            "audio_ptr": 135461872,
-            "audio_ptr_hex": "0x812FBF0"
-        },
-        {
-            "id": "audio_59",
-            "index": 59,
-            "offset": 5501476,
-            "offset_hex": "0x53F224",
-            "audio_ptr": 135461884,
-            "audio_ptr_hex": "0x812FBFC"
-        },
-        {
-            "id": "audio_60",
-            "index": 60,
-            "offset": 5501480,
-            "offset_hex": "0x53F228",
-            "audio_ptr": 135461912,
-            "audio_ptr_hex": "0x812FC18"
-        },
-        {
-            "id": "audio_61",
-            "index": 61,
-            "offset": 5501484,
-            "offset_hex": "0x53F22C",
-            "audio_ptr": 135461924,
-            "audio_ptr_hex": "0x812FC24"
-        },
-        {
-            "id": "audio_62",
-            "index": 62,
-            "offset": 5501488,
-            "offset_hex": "0x53F230",
-            "audio_ptr": 135460672,
-            "audio_ptr_hex": "0x812F740"
-        },
-        {
-            "id": "audio_63",
-            "index": 63,
-            "offset": 5501492,
-            "offset_hex": "0x53F234",
-            "audio_ptr": 135460684,
-            "audio_ptr_hex": "0x812F74C"
-        },
-        {
-            "id": "audio_64",
-            "index": 64,
-            "offset": 5501496,
-            "offset_hex": "0x53F238",
-            "audio_ptr": 135460712,
-            "audio_ptr_hex": "0x812F768"
-        },
-        {
-            "id": "audio_65",
-            "index": 65,
-            "offset": 5501500,
-            "offset_hex": "0x53F23C",
-            "audio_ptr": 135460724,
-            "audio_ptr_hex": "0x812F774"
-        },
-        {
-            "id": "audio_66",
-            "index": 66,
-            "offset": 5501504,
-            "offset_hex": "0x53F240",
-            "audio_ptr": 135461472,
-            "audio_ptr_hex": "0x812FA60"
-        },
-        {
-            "id": "audio_67",
-            "index": 67,
-            "offset": 5501508,
-            "offset_hex": "0x53F244",
-            "audio_ptr": 135461484,
-            "audio_ptr_hex": "0x812FA6C"
-        },
-        {
-            "id": "audio_68",
-            "index": 68,
-            "offset": 5501512,
-            "offset_hex": "0x53F248",
-            "audio_ptr": 135461512,
-            "audio_ptr_hex": "0x812FA88"
-        },
-        {
-            "id": "audio_69",
-            "index": 69,
-            "offset": 5501516,
-            "offset_hex": "0x53F24C",
-            "audio_ptr": 135461524,
-            "audio_ptr_hex": "0x812FA94"
-        },
-        {
-            "id": "audio_70",
-            "index": 70,
-            "offset": 5501520,
-            "offset_hex": "0x53F250",
-            "audio_ptr": 135461952,
-            "audio_ptr_hex": "0x812FC40"
-        },
-        {
-            "id": "audio_71",
-            "index": 71,
-            "offset": 5501524,
-            "offset_hex": "0x53F254",
-            "audio_ptr": 135461964,
-            "audio_ptr_hex": "0x812FC4C"
-        },
-        {
-            "id": "audio_72",
-            "index": 72,
-            "offset": 5501528,
-            "offset_hex": "0x53F258",
-            "audio_ptr": 135461992,
-            "audio_ptr_hex": "0x812FC68"
-        },
-        {
-            "id": "audio_73",
-            "index": 73,
-            "offset": 5501532,
-            "offset_hex": "0x53F25C",
-            "audio_ptr": 135462004,
-            "audio_ptr_hex": "0x812FC74"
-        },
-        {
-            "id": "audio_74",
-            "index": 74,
-            "offset": 5501536,
-            "offset_hex": "0x53F260",
-            "audio_ptr": 135460752,
-            "audio_ptr_hex": "0x812F790"
-        },
-        {
-            "id": "audio_75",
-            "index": 75,
-            "offset": 5501540,
-            "offset_hex": "0x53F264",
-            "audio_ptr": 135460764,
-            "audio_ptr_hex": "0x812F79C"
-        },
-        {
-            "id": "audio_76",
-            "index": 76,
-            "offset": 5501544,
-            "offset_hex": "0x53F268",
-            "audio_ptr": 135460812,
-            "audio_ptr_hex": "0x812F7CC"
-        },
-        {
-            "id": "audio_77",
-            "index": 77,
-            "offset": 5501548,
-            "offset_hex": "0x53F26C",
-            "audio_ptr": 135460824,
-            "audio_ptr_hex": "0x812F7D8"
-        },
-        {
-            "id": "audio_78",
-            "index": 78,
-            "offset": 5501552,
-            "offset_hex": "0x53F270",
-            "audio_ptr": 135460872,
-            "audio_ptr_hex": "0x812F808"
-        },
-        {
-            "id": "audio_79",
-            "index": 79,
-            "offset": 5501556,
-            "offset_hex": "0x53F274",
-            "audio_ptr": 135460884,
-            "audio_ptr_hex": "0x812F814"
-        },
-        {
-            "id": "audio_80",
-            "index": 80,
-            "offset": 5501560,
-            "offset_hex": "0x53F278",
-            "audio_ptr": 135460912,
-            "audio_ptr_hex": "0x812F830"
-        },
-        {
-            "id": "audio_81",
-            "index": 81,
-            "offset": 5501564,
-            "offset_hex": "0x53F27C",
-            "audio_ptr": 135460924,
-            "audio_ptr_hex": "0x812F83C"
-        },
-        {
-            "id": "audio_82",
-            "index": 82,
-            "offset": 5501568,
-            "offset_hex": "0x53F280",
-            "audio_ptr": 135460952,
-            "audio_ptr_hex": "0x812F858"
-        },
-        {
-            "id": "audio_83",
-            "index": 83,
-            "offset": 5501572,
-            "offset_hex": "0x53F284",
-            "audio_ptr": 135460964,
-            "audio_ptr_hex": "0x812F864"
-        },
-        {
-            "id": "audio_84",
-            "index": 84,
-            "offset": 5501576,
-            "offset_hex": "0x53F288",
-            "audio_ptr": 135460992,
-            "audio_ptr_hex": "0x812F880"
-        },
-        {
-            "id": "audio_85",
-            "index": 85,
-            "offset": 5501580,
-            "offset_hex": "0x53F28C",
-            "audio_ptr": 135461004,
-            "audio_ptr_hex": "0x812F88C"
-        },
-        {
-            "id": "audio_86",
-            "index": 86,
-            "offset": 5501584,
-            "offset_hex": "0x53F290",
-            "audio_ptr": 135461032,
-            "audio_ptr_hex": "0x812F8A8"
-        },
-        {
-            "id": "audio_87",
-            "index": 87,
-            "offset": 5501588,
-            "offset_hex": "0x53F294",
-            "audio_ptr": 135461044,
-            "audio_ptr_hex": "0x812F8B4"
-        }
-    ],
-    "verification": "static_verified",
-    "table_offset": 5501240,
-    "table_offset_hex": "0x53F138"
+    "special_event_0x13": {
+      "command": 112,
+      "description": "Cutscene event audio"
+    },
+    "special_event_0x15": {
+      "command": 113,
+      "description": "Boss encounter audio"
+    }
+  },
+  "verification_method": "Disassembly of audio dispatcher at 0x08079668. Identified 15 BL call sites across the ROM. Each call site was traced to its enclosing function to determine the game event context. The indexed command table at 0x08599634 was found via literal pool analysis. Commands 0x80-0xE3 index into this 100-entry table of Sappy audio pointers. Commands 0x64-0x67 load from engine state offsets.",
+  "discovered_by": "Thumb disassembly + literal pool trace + BL call site search",
+  "verification_level": "code_verified",
+  "notes": "The audio dispatcher is a custom implementation, not standard Sappy m4aSongNumStart. Commands 0x64-0x67 handle dynamic BGM channels. Commands 0x80-0xE3 are static audio lookups. The per-scenario audio command at config_struct[0x770] means each battle scenario and map has its own BGM assigned through the configuration system, not through a global event→song table.",
+  "entries": [
+    {
+      "_raw_offset": 5501240,
+      "audio_ptr": 134744253,
+      "audio_ptr_hex": "bd080808",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5501244,
+      "audio_ptr": 134744421,
+      "audio_ptr_hex": "65090808",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5501248,
+      "audio_ptr": 135460272,
+      "audio_ptr_hex": "b0f51208",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5501252,
+      "audio_ptr": 135460284,
+      "audio_ptr_hex": "bcf51208",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5501256,
+      "audio_ptr": 135460312,
+      "audio_ptr_hex": "d8f51208",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5501260,
+      "audio_ptr": 135460324,
+      "audio_ptr_hex": "e4f51208",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5501264,
+      "audio_ptr": 135460352,
+      "audio_ptr_hex": "00f61208",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5501268,
+      "audio_ptr": 135460364,
+      "audio_ptr_hex": "0cf61208",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5501272,
+      "audio_ptr": 135460392,
+      "audio_ptr_hex": "28f61208",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5501276,
+      "audio_ptr": 135460404,
+      "audio_ptr_hex": "34f61208",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5501280,
+      "audio_ptr": 135460432,
+      "audio_ptr_hex": "50f61208",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5501284,
+      "audio_ptr": 135460444,
+      "audio_ptr_hex": "5cf61208",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5501288,
+      "audio_ptr": 135460472,
+      "audio_ptr_hex": "78f61208",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5501292,
+      "audio_ptr": 135460484,
+      "audio_ptr_hex": "84f61208",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5501296,
+      "audio_ptr": 135460512,
+      "audio_ptr_hex": "a0f61208",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5501300,
+      "audio_ptr": 135460524,
+      "audio_ptr_hex": "acf61208",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5501304,
+      "audio_ptr": 135460552,
+      "audio_ptr_hex": "c8f61208",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5501308,
+      "audio_ptr": 135460564,
+      "audio_ptr_hex": "d4f61208",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5501312,
+      "audio_ptr": 135460592,
+      "audio_ptr_hex": "f0f61208",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5501316,
+      "audio_ptr": 135460604,
+      "audio_ptr_hex": "fcf61208",
+      "_index": 19
+    },
+    {
+      "_raw_offset": 5501320,
+      "audio_ptr": 135460632,
+      "audio_ptr_hex": "18f71208",
+      "_index": 20
+    },
+    {
+      "_raw_offset": 5501324,
+      "audio_ptr": 135460644,
+      "audio_ptr_hex": "24f71208",
+      "_index": 21
+    },
+    {
+      "_raw_offset": 5501328,
+      "audio_ptr": 135461072,
+      "audio_ptr_hex": "d0f81208",
+      "_index": 22
+    },
+    {
+      "_raw_offset": 5501332,
+      "audio_ptr": 135461084,
+      "audio_ptr_hex": "dcf81208",
+      "_index": 23
+    },
+    {
+      "_raw_offset": 5501336,
+      "audio_ptr": 135461112,
+      "audio_ptr_hex": "f8f81208",
+      "_index": 24
+    },
+    {
+      "_raw_offset": 5501340,
+      "audio_ptr": 135461124,
+      "audio_ptr_hex": "04f91208",
+      "_index": 25
+    },
+    {
+      "_raw_offset": 5501344,
+      "audio_ptr": 135461152,
+      "audio_ptr_hex": "20f91208",
+      "_index": 26
+    },
+    {
+      "_raw_offset": 5501348,
+      "audio_ptr": 135461164,
+      "audio_ptr_hex": "2cf91208",
+      "_index": 27
+    },
+    {
+      "_raw_offset": 5501352,
+      "audio_ptr": 135461192,
+      "audio_ptr_hex": "48f91208",
+      "_index": 28
+    },
+    {
+      "_raw_offset": 5501356,
+      "audio_ptr": 135461204,
+      "audio_ptr_hex": "54f91208",
+      "_index": 29
+    },
+    {
+      "_raw_offset": 5501360,
+      "audio_ptr": 135461232,
+      "audio_ptr_hex": "70f91208",
+      "_index": 30
+    },
+    {
+      "_raw_offset": 5501364,
+      "audio_ptr": 135461244,
+      "audio_ptr_hex": "7cf91208",
+      "_index": 31
+    },
+    {
+      "_raw_offset": 5501368,
+      "audio_ptr": 135461272,
+      "audio_ptr_hex": "98f91208",
+      "_index": 32
+    },
+    {
+      "_raw_offset": 5501372,
+      "audio_ptr": 135461284,
+      "audio_ptr_hex": "a4f91208",
+      "_index": 33
+    },
+    {
+      "_raw_offset": 5501376,
+      "audio_ptr": 135461312,
+      "audio_ptr_hex": "c0f91208",
+      "_index": 34
+    },
+    {
+      "_raw_offset": 5501380,
+      "audio_ptr": 135461324,
+      "audio_ptr_hex": "ccf91208",
+      "_index": 35
+    },
+    {
+      "_raw_offset": 5501384,
+      "audio_ptr": 135461352,
+      "audio_ptr_hex": "e8f91208",
+      "_index": 36
+    },
+    {
+      "_raw_offset": 5501388,
+      "audio_ptr": 135461364,
+      "audio_ptr_hex": "f4f91208",
+      "_index": 37
+    },
+    {
+      "_raw_offset": 5501392,
+      "audio_ptr": 135461392,
+      "audio_ptr_hex": "10fa1208",
+      "_index": 38
+    },
+    {
+      "_raw_offset": 5501396,
+      "audio_ptr": 135461404,
+      "audio_ptr_hex": "1cfa1208",
+      "_index": 39
+    },
+    {
+      "_raw_offset": 5501400,
+      "audio_ptr": 135461432,
+      "audio_ptr_hex": "38fa1208",
+      "_index": 40
+    },
+    {
+      "_raw_offset": 5501404,
+      "audio_ptr": 135461444,
+      "audio_ptr_hex": "44fa1208",
+      "_index": 41
+    },
+    {
+      "_raw_offset": 5501408,
+      "audio_ptr": 135461552,
+      "audio_ptr_hex": "b0fa1208",
+      "_index": 42
+    },
+    {
+      "_raw_offset": 5501412,
+      "audio_ptr": 135461564,
+      "audio_ptr_hex": "bcfa1208",
+      "_index": 43
+    },
+    {
+      "_raw_offset": 5501416,
+      "audio_ptr": 135461592,
+      "audio_ptr_hex": "d8fa1208",
+      "_index": 44
+    },
+    {
+      "_raw_offset": 5501420,
+      "audio_ptr": 135461604,
+      "audio_ptr_hex": "e4fa1208",
+      "_index": 45
+    },
+    {
+      "_raw_offset": 5501424,
+      "audio_ptr": 135461632,
+      "audio_ptr_hex": "00fb1208",
+      "_index": 46
+    },
+    {
+      "_raw_offset": 5501428,
+      "audio_ptr": 135461644,
+      "audio_ptr_hex": "0cfb1208",
+      "_index": 47
+    },
+    {
+      "_raw_offset": 5501432,
+      "audio_ptr": 135461672,
+      "audio_ptr_hex": "28fb1208",
+      "_index": 48
+    },
+    {
+      "_raw_offset": 5501436,
+      "audio_ptr": 135461684,
+      "audio_ptr_hex": "34fb1208",
+      "_index": 49
+    },
+    {
+      "_raw_offset": 5501440,
+      "audio_ptr": 135461712,
+      "audio_ptr_hex": "50fb1208",
+      "_index": 50
+    },
+    {
+      "_raw_offset": 5501444,
+      "audio_ptr": 135461724,
+      "audio_ptr_hex": "5cfb1208",
+      "_index": 51
+    },
+    {
+      "_raw_offset": 5501448,
+      "audio_ptr": 135461752,
+      "audio_ptr_hex": "78fb1208",
+      "_index": 52
+    },
+    {
+      "_raw_offset": 5501452,
+      "audio_ptr": 135461764,
+      "audio_ptr_hex": "84fb1208",
+      "_index": 53
+    },
+    {
+      "_raw_offset": 5501456,
+      "audio_ptr": 135461792,
+      "audio_ptr_hex": "a0fb1208",
+      "_index": 54
+    },
+    {
+      "_raw_offset": 5501460,
+      "audio_ptr": 135461804,
+      "audio_ptr_hex": "acfb1208",
+      "_index": 55
+    },
+    {
+      "_raw_offset": 5501464,
+      "audio_ptr": 135461832,
+      "audio_ptr_hex": "c8fb1208",
+      "_index": 56
+    },
+    {
+      "_raw_offset": 5501468,
+      "audio_ptr": 135461844,
+      "audio_ptr_hex": "d4fb1208",
+      "_index": 57
+    },
+    {
+      "_raw_offset": 5501472,
+      "audio_ptr": 135461872,
+      "audio_ptr_hex": "f0fb1208",
+      "_index": 58
+    },
+    {
+      "_raw_offset": 5501476,
+      "audio_ptr": 135461884,
+      "audio_ptr_hex": "fcfb1208",
+      "_index": 59
+    },
+    {
+      "_raw_offset": 5501480,
+      "audio_ptr": 135461912,
+      "audio_ptr_hex": "18fc1208",
+      "_index": 60
+    },
+    {
+      "_raw_offset": 5501484,
+      "audio_ptr": 135461924,
+      "audio_ptr_hex": "24fc1208",
+      "_index": 61
+    },
+    {
+      "_raw_offset": 5501488,
+      "audio_ptr": 135460672,
+      "audio_ptr_hex": "40f71208",
+      "_index": 62
+    },
+    {
+      "_raw_offset": 5501492,
+      "audio_ptr": 135460684,
+      "audio_ptr_hex": "4cf71208",
+      "_index": 63
+    },
+    {
+      "_raw_offset": 5501496,
+      "audio_ptr": 135460712,
+      "audio_ptr_hex": "68f71208",
+      "_index": 64
+    },
+    {
+      "_raw_offset": 5501500,
+      "audio_ptr": 135460724,
+      "audio_ptr_hex": "74f71208",
+      "_index": 65
+    },
+    {
+      "_raw_offset": 5501504,
+      "audio_ptr": 135461472,
+      "audio_ptr_hex": "60fa1208",
+      "_index": 66
+    },
+    {
+      "_raw_offset": 5501508,
+      "audio_ptr": 135461484,
+      "audio_ptr_hex": "6cfa1208",
+      "_index": 67
+    },
+    {
+      "_raw_offset": 5501512,
+      "audio_ptr": 135461512,
+      "audio_ptr_hex": "88fa1208",
+      "_index": 68
+    },
+    {
+      "_raw_offset": 5501516,
+      "audio_ptr": 135461524,
+      "audio_ptr_hex": "94fa1208",
+      "_index": 69
+    },
+    {
+      "_raw_offset": 5501520,
+      "audio_ptr": 135461952,
+      "audio_ptr_hex": "40fc1208",
+      "_index": 70
+    },
+    {
+      "_raw_offset": 5501524,
+      "audio_ptr": 135461964,
+      "audio_ptr_hex": "4cfc1208",
+      "_index": 71
+    },
+    {
+      "_raw_offset": 5501528,
+      "audio_ptr": 135461992,
+      "audio_ptr_hex": "68fc1208",
+      "_index": 72
+    },
+    {
+      "_raw_offset": 5501532,
+      "audio_ptr": 135462004,
+      "audio_ptr_hex": "74fc1208",
+      "_index": 73
+    },
+    {
+      "_raw_offset": 5501536,
+      "audio_ptr": 135460752,
+      "audio_ptr_hex": "90f71208",
+      "_index": 74
+    },
+    {
+      "_raw_offset": 5501540,
+      "audio_ptr": 135460764,
+      "audio_ptr_hex": "9cf71208",
+      "_index": 75
+    },
+    {
+      "_raw_offset": 5501544,
+      "audio_ptr": 135460812,
+      "audio_ptr_hex": "ccf71208",
+      "_index": 76
+    },
+    {
+      "_raw_offset": 5501548,
+      "audio_ptr": 135460824,
+      "audio_ptr_hex": "d8f71208",
+      "_index": 77
+    },
+    {
+      "_raw_offset": 5501552,
+      "audio_ptr": 135460872,
+      "audio_ptr_hex": "08f81208",
+      "_index": 78
+    },
+    {
+      "_raw_offset": 5501556,
+      "audio_ptr": 135460884,
+      "audio_ptr_hex": "14f81208",
+      "_index": 79
+    },
+    {
+      "_raw_offset": 5501560,
+      "audio_ptr": 135460912,
+      "audio_ptr_hex": "30f81208",
+      "_index": 80
+    },
+    {
+      "_raw_offset": 5501564,
+      "audio_ptr": 135460924,
+      "audio_ptr_hex": "3cf81208",
+      "_index": 81
+    },
+    {
+      "_raw_offset": 5501568,
+      "audio_ptr": 135460952,
+      "audio_ptr_hex": "58f81208",
+      "_index": 82
+    },
+    {
+      "_raw_offset": 5501572,
+      "audio_ptr": 135460964,
+      "audio_ptr_hex": "64f81208",
+      "_index": 83
+    },
+    {
+      "_raw_offset": 5501576,
+      "audio_ptr": 135460992,
+      "audio_ptr_hex": "80f81208",
+      "_index": 84
+    },
+    {
+      "_raw_offset": 5501580,
+      "audio_ptr": 135461004,
+      "audio_ptr_hex": "8cf81208",
+      "_index": 85
+    },
+    {
+      "_raw_offset": 5501584,
+      "audio_ptr": 135461032,
+      "audio_ptr_hex": "a8f81208",
+      "_index": 86
+    },
+    {
+      "_raw_offset": 5501588,
+      "audio_ptr": 135461044,
+      "audio_ptr_hex": "b4f81208",
+      "_index": 87
+    }
+  ],
+  "verification": "static_verified",
+  "table_offset": 5501240,
+  "table_offset_hex": "0x53F138",
+  "entry_count": 88,
+  "entry_size": 4,
+  "entry_format": {
+    "description": "Pointer table consumed by the audio dispatcher.",
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "audio_ptr",
+        "type": "u32"
+      }
+    ]
+  },
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 88,
+    "rom_offset": 5501240,
+    "rom_offset_hex": "0x53F138"
+  }
 }

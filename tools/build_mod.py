@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from patch_safety import PatchSafetyGate, with_base_precondition
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # Optional env override: when the editor backend kicks off a build via
@@ -64,15 +66,25 @@ def load_context(project_path: Path) -> BuildContext:
     )
 
 
-def apply_bytes_patch(data: bytearray, patch: dict) -> dict:
+def apply_bytes_patch(
+    data: bytearray,
+    patch: dict,
+    *,
+    gate: PatchSafetyGate | None = None,
+    patch_class: str = "game_effective",
+) -> dict:
     offset = int(patch["offset"])
     before = bytes.fromhex(patch["before_hex"])
     after = bytes.fromhex(patch["after_hex"])
-    actual = bytes(data[offset : offset + len(before)])
-    if actual != before:
-        raise ValueError(
-            f"patch {patch['id']} mismatch at 0x{offset:X}: expected {before.hex()} got {actual.hex()}"
-        )
+    safety_result: dict[str, object] = {}
+    if gate is not None:
+        safety_result = gate.register(patch, patch_class=patch_class)
+    else:
+        actual = bytes(data[offset : offset + len(before)])
+        if actual != before:
+            raise ValueError(
+                f"patch {patch['id']} mismatch at 0x{offset:X}: expected {before.hex()} got {actual.hex()}"
+            )
     data[offset : offset + len(before)] = after
     return {
         "id": patch["id"],
@@ -81,18 +93,32 @@ def apply_bytes_patch(data: bytearray, patch: dict) -> dict:
         "before_hex": before.hex(),
         "after_hex": after.hex(),
         "length": len(after),
+        "patch_class": patch_class,
+        **safety_result,
     }
 
 
-def apply_pointer_redirect_patch(data: bytearray, patch: dict) -> dict:
+def apply_pointer_redirect_patch(
+    data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
+) -> dict:
     ptr_offset = int(patch["pointer_table_offset"])
     new_ptr_bytes = bytes.fromhex(patch["new_pointer_hex"])
-    actual = bytes(data[ptr_offset : ptr_offset + 4])
-    if actual != bytes.fromhex(patch["expected_pointer_hex"]):
-        raise ValueError(
-            f"pointer_redirect {patch['id']} mismatch at 0x{ptr_offset:X}: "
-            f"expected {patch['expected_pointer_hex']} got {actual.hex()}"
-        )
+    normalized = {
+        **patch,
+        "offset": ptr_offset,
+        "before_hex": patch["expected_pointer_hex"],
+        "after_hex": patch["new_pointer_hex"],
+    }
+    safety_result: dict[str, object] = {}
+    if gate is not None:
+        safety_result = gate.register(normalized, patch_class="game_effective")
+    else:
+        actual = bytes(data[ptr_offset : ptr_offset + 4])
+        if actual != bytes.fromhex(patch["expected_pointer_hex"]):
+            raise ValueError(
+                f"pointer_redirect {patch['id']} mismatch at 0x{ptr_offset:X}: "
+                f"expected {patch['expected_pointer_hex']} got {actual.hex()}"
+            )
     data[ptr_offset : ptr_offset + 4] = new_ptr_bytes
 
     return {
@@ -101,6 +127,8 @@ def apply_pointer_redirect_patch(data: bytearray, patch: dict) -> dict:
         "pointer_table_offset": ptr_offset,
         "new_pointer_hex": patch["new_pointer_hex"],
         "expected_pointer_hex": patch["expected_pointer_hex"],
+        "patch_class": "game_effective",
+        **safety_result,
     }
 
 
@@ -156,12 +184,14 @@ def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> lis
     return import_dialogue_variable(bank, content, free_start)
 
 
-def apply_patch(data: bytearray, patch: dict) -> dict:
+def apply_patch(
+    data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
+) -> dict:
     ptype = patch.get("sub_type", patch["type"])
     if ptype == "bytes":
-        return apply_bytes_patch(data, patch)
+        return apply_bytes_patch(data, patch, gate=gate)
     elif ptype == "pointer_redirect":
-        return apply_pointer_redirect_patch(data, patch)
+        return apply_pointer_redirect_patch(data, patch, gate=gate)
     else:
         raise ValueError(f"unsupported sub-patch type: {ptype}")
 
@@ -264,78 +294,63 @@ def build(project_path: Path) -> dict:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
     data = bytearray(ctx.base_rom_path.read_bytes())
+    base_data = bytes(data)
+    safety_gate = PatchSafetyGate(base_data)
     applied: list[dict] = []
     for patch in manifest["patches"]:
         if not patch.get("enabled", True):
             continue
         patch_type = patch["type"]
         if patch_type == "bytes":
-            applied.append(apply_bytes_patch(data, patch))
+            applied.append(apply_bytes_patch(data, patch, gate=safety_gate))
         elif patch_type == "dialogue":
             resolved_list = resolve_dialogue_patch((ROOT, ROOT), patch)
             for resolved in resolved_list:
                 sub_type = resolved.get("sub_type", resolved["type"])
                 if sub_type == "pointer_redirect":
-                    result = apply_pointer_redirect_patch(data, resolved)
+                    result = apply_pointer_redirect_patch(data, resolved, gate=safety_gate)
                     result["strategy"] = resolved.get("strategy", "pointer_redirect")
                     result["text"] = resolved.get("text", "")
                     result["encoding"] = resolved.get("encoding", "")
                     applied.append(result)
                 else:
-                    result = apply_bytes_patch(data, resolved)
+                    result = apply_bytes_patch(data, resolved, gate=safety_gate)
                     result["text"] = resolved.get("text", "")
                     result["encoding"] = resolved.get("encoding", "")
                     result["source_entry"] = resolved.get("source_entry", "")
                     result["strategy"] = resolved.get("strategy", "same_length")
                     applied.append(result)
         elif patch_type == "pointer_redirect":
-            applied.append(apply_pointer_redirect_patch(data, patch))
+            applied.append(apply_pointer_redirect_patch(data, patch, gate=safety_gate))
         elif patch_type == "map":
             sub_patches = resolve_map_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
-                applied.append(apply_patch(data, sp))
+                applied.append(apply_patch(data, sp, gate=safety_gate))
         elif patch_type == "battle_config":
             sub_patches = resolve_battle_config_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
-                applied.append(apply_patch(data, sp))
+                applied.append(apply_patch(data, sp, gate=safety_gate))
         elif patch_type == "dialogue_var":
             sub_patches = resolve_dialogue_var_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
-                applied.append(apply_patch(data, sp))
+                applied.append(apply_patch(data, sp, gate=safety_gate))
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
-
-    # Dedupe db_real_patches by offset — multiple editor.db rows can map to
-    # the same ROM offset (e.g. several battle_configs with scenario_id=0 all
-    # writing to 0x53D914). The last write wins in ROM, but the build report
-    # would still list every patch as 'applied', which trips the byte-patch
-    # applied-test. Keep the LAST patch per offset since downstream stages
-    # (UI, mGBA verification) see the last write anyway.
-    _offset_to_patch: dict[int, dict] = {}
-    for _p in db_real_patches:
-        _off = int(_p.get("offset", -1))
-        if _off >= 0 and _p.get("type") == "bytes":
-            _offset_to_patch[_off] = _p
-        else:
-            # Non-bytes patches (overflow markers) pass through unchanged
-            _offset_to_patch[(_p.get("id"), _off)] = _p
-    db_real_patches_dedup = list(_offset_to_patch.values())
 
     # Apply editor DB real ROM patches (battle_configs, chapters). These
     # use the same before-hex check as manifest bytes patches so we don't
     # silently overwrite unrelated game data.
-    for patch in db_real_patches_dedup:
+    for patch in db_real_patches:
         if patch.get("type") != "bytes":
-            applied.append(patch)
+            applied.append({**patch, "patch_class": "game_effective"})
             continue
-        # Inject before_hex from current ROM state so apply_bytes_patch can verify
-        offset = int(patch["offset"])
-        length = int(patch.get("length", len(bytes.fromhex(patch["after_hex"]))))
-        patch = {**patch, "before_hex": bytes(data[offset : offset + length]).hex()}
+        # A real patch precondition is always derived from the immutable base
+        # ROM.  Reading the already-mutated buffer here would hide collisions.
+        patch = with_base_precondition(base_data, patch)
         # Ensure id is present so apply_bytes_patch's report row has a stable key
         if "id" not in patch:
             patch["id"] = f"db_real_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}"
-        result = apply_bytes_patch(data, patch)
+        result = apply_bytes_patch(data, patch, gate=safety_gate)
         result["patch_source"] = "db_real"
         applied.append(result)
 
@@ -345,13 +360,18 @@ def build(project_path: Path) -> dict:
     # without a pre-check because the reserved region was 0xFF padding.
     for patch in db_audit_patches:
         if patch.get("type") == "db_overflow":
-            applied.append(patch)
+            applied.append({**patch, "patch_class": "audit"})
             continue
         offset = int(patch["offset"])
         after = bytes.fromhex(patch["after_hex"])
+        audit_patch = {
+            **patch,
+            "id": f"db_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}",
+        }
+        audit_safety_result = safety_gate.register(audit_patch, patch_class="audit")
         data[offset : offset + len(after)] = after
         applied.append({
-            "id": f"db_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}",
+            "id": audit_patch["id"],
             "type": "bytes",
             "offset": offset,
             "before_hex": "(reserved region — no pre-check)",
@@ -361,6 +381,8 @@ def build(project_path: Path) -> dict:
             "db_row_id": patch.get("db_row_id"),
             "description": patch.get("description"),
             "patch_source": "db_audit",
+            "patch_class": "audit",
+            **audit_safety_result,
         })
 
     ctx.output_rom_path.parent.mkdir(parents=True, exist_ok=True)
@@ -379,6 +401,16 @@ def build(project_path: Path) -> dict:
             "size": len(data),
         },
         "applied_patches": applied,
+        "patch_class_counts": {
+            "game_effective": sum(
+                p.get("patch_class") == "game_effective" for p in applied
+            ),
+            "audit": sum(p.get("patch_class") == "audit" for p in applied),
+        },
+        "patch_statistics": {
+            "db_real": sum(p.get("patch_source") == "db_real" for p in applied),
+            "db_audit": sum(p.get("patch_source") == "db_audit" for p in applied),
+        },
         "patch_manifest": str(manifest_path.relative_to(ROOT)),
     }
     ctx.report_path.parent.mkdir(parents=True, exist_ok=True)

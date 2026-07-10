@@ -21,6 +21,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import sqlite3
 import struct
 import sys
 import traceback
@@ -292,6 +293,216 @@ def suite_patches(runner: TestRunner) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Suite: editor DB patch integrity
+# ---------------------------------------------------------------------------
+
+# Generator/table pairs are deliberately explicit.  This makes a schema rename
+# visible in review and, more importantly, prevents generators from silently
+# returning [] after catching sqlite3.OperationalError for a misspelled table.
+ROM_TABLE_GENERATORS = {
+    "rom_battle_encounters": "generate_battle_encounter_patches",
+    "rom_battle_handlers": "generate_battle_handler_patches",
+    "rom_character_stats_b": "generate_character_stats_b_patches",
+    "rom_cutscene_scripts": "generate_cutscene_script_patches",
+    "rom_data_table_a": "generate_data_table_a_patches",
+    "rom_data_table_b": "generate_data_table_b_patches",
+    "rom_fonts": "generate_font_patches",
+    "rom_function_pointers": "generate_function_pointer_patches",
+    "rom_map_events": "generate_map_event_patches",
+    "rom_map_sprites": "generate_map_sprite_patches",
+    "rom_menu_ui": "generate_menu_ui_patches",
+    "rom_palettes": "generate_palette_patches",
+    "rom_resource_pointers": "generate_resource_pointer_patches",
+    "rom_save_state": "generate_save_state_patches",
+    "rom_sprite_animations": "generate_sprite_animation_patches",
+    "rom_story_b": "generate_story_b_patches",
+    "rom_story_c": "generate_story_c_patches",
+    "rom_story_d": "generate_story_d_patches",
+    "rom_story_e": "generate_story_e_patches",
+    "rom_tile_assets": "generate_tile_asset_patches",
+}
+
+
+def suite_db_integrity(runner: TestRunner) -> None:
+    """Guard the boundary between game-effective and audit-only DB writes."""
+    suite = "db_integrity"
+
+    def test_audit_patches_never_reported_real() -> None:
+        report = load_build_report()
+        errors = []
+        for patch in report.get("applied_patches", []):
+            if patch.get("patch_source") != "db_real":
+                continue
+            offset = int(patch.get("offset", -1))
+            description = str(patch.get("description", "")).lower()
+            if offset >= 0x5E0000 or "audit trail" in description:
+                errors.append(
+                    f"{patch.get('id', '?')}: db_real points to audit-only data "
+                    f"at 0x{offset:X} ({patch.get('db_table', '?')})"
+                )
+        assert not errors, (
+            "audit-only patches must use patch_source=db_audit, never db_real:\n"
+            + "\n".join(errors[:20])
+        )
+
+    def test_populated_rom_tables_have_generator_output() -> None:
+        from tools import build_db_patches
+
+        db_path = ROOT / "sequel/editor.db"
+        assert db_path.exists(), f"editor DB not found: {db_path}"
+        conn = sqlite3.connect(str(db_path))
+        try:
+            existing = {
+                row[0] for row in conn.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table'"
+                )
+            }
+            errors = []
+            for table, generator_name in ROM_TABLE_GENERATORS.items():
+                if table not in existing:
+                    continue
+                row_count = int(
+                    conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
+                )
+                if row_count == 0:
+                    continue
+                generator = getattr(build_db_patches, generator_name)
+                patches = generator(db_path)
+                byte_patches = [p for p in patches if p.get("type") == "bytes"]
+                if not byte_patches:
+                    errors.append(
+                        f"{generator_name}: returned no byte patches for "
+                        f"{table} ({row_count} rows); check the queried table name"
+                    )
+        finally:
+            conn.close()
+        assert not errors, "generator silent no-op(s):\n" + "\n".join(errors)
+
+    def test_report_db_statistics_match_rows() -> None:
+        report = load_build_report()
+        stats = report.get("patch_statistics")
+        assert isinstance(stats, dict), "build report missing patch_statistics"
+
+        class_counts = report.get("patch_class_counts")
+        assert isinstance(class_counts, dict), "build report missing patch_class_counts"
+
+        actual_real = sum(
+            p.get("patch_source") == "db_real"
+            for p in report.get("applied_patches", [])
+        )
+        actual_audit = sum(
+            p.get("patch_source") == "db_audit"
+            for p in report.get("applied_patches", [])
+        )
+        assert stats.get("db_real") == actual_real, (
+            f"patch_statistics.db_real={stats.get('db_real')!r}, "
+            f"but applied_patches contains {actual_real} db_real rows"
+        )
+        assert stats.get("db_audit") == actual_audit, (
+            f"patch_statistics.db_audit={stats.get('db_audit')!r}, "
+            f"but applied_patches contains {actual_audit} db_audit rows"
+        )
+        actual_effective = sum(
+            p.get("patch_class") == "game_effective"
+            for p in report.get("applied_patches", [])
+        )
+        actual_class_audit = sum(
+            p.get("patch_class") == "audit"
+            for p in report.get("applied_patches", [])
+        )
+        assert class_counts.get("game_effective") == actual_effective, (
+            f"patch_class_counts.game_effective="
+            f"{class_counts.get('game_effective')!r}, but applied_patches contains "
+            f"{actual_effective} game_effective rows"
+        )
+        assert class_counts.get("audit") == actual_class_audit, (
+            f"patch_class_counts.audit={class_counts.get('audit')!r}, "
+            f"but applied_patches contains {actual_class_audit} audit rows"
+        )
+
+        bad_source_classes = [
+            p.get("id", "?") for p in report.get("applied_patches", [])
+            if (p.get("patch_source") == "db_real"
+                and p.get("patch_class") != "game_effective")
+            or (p.get("patch_source") == "db_audit"
+                and p.get("patch_class") != "audit")
+        ]
+        assert not bad_source_classes, (
+            "DB patch source/class disagreement: " + ", ".join(bad_source_classes[:20])
+        )
+
+    def test_db_real_report_bytes_match_base_and_output() -> None:
+        """The report must be evidence about both immutable input and final output."""
+        report = load_build_report()
+        project = load_project()
+        base = (ROOT / project["base_rom"]["path"]).read_bytes()
+        output = (ROOT / project["build"]["output_rom"]).read_bytes()
+        errors = []
+        for patch in report.get("applied_patches", []):
+            if patch.get("patch_source") != "db_real" or patch.get("type") != "bytes":
+                continue
+            patch_id = patch.get("id", "?")
+            offset = int(patch.get("offset", -1))
+            try:
+                before = bytes.fromhex(patch["before_hex"])
+                after = bytes.fromhex(patch["after_hex"])
+            except (KeyError, TypeError, ValueError) as exc:
+                errors.append(f"{patch_id}: malformed byte evidence: {exc}")
+                continue
+            if offset < 0 or offset + len(after) > len(output):
+                errors.append(f"{patch_id}: invalid output offset 0x{offset:X}")
+                continue
+            if len(before) != len(after):
+                errors.append(
+                    f"{patch_id}: before/after lengths differ "
+                    f"({len(before)} != {len(after)})"
+                )
+                continue
+            if base[offset : offset + len(before)] != before:
+                errors.append(
+                    f"{patch_id}: before_hex does not match immutable base at 0x{offset:X}"
+                )
+            if output[offset : offset + len(after)] != after:
+                errors.append(
+                    f"{patch_id}: after_hex does not match final ROM at 0x{offset:X}"
+                )
+        assert not errors, "DB real byte-fidelity failure(s):\n" + "\n".join(errors[:20])
+
+    def test_safety_gate_rejects_wrong_offset_and_polluted_precondition() -> None:
+        """Regression probes for two historical ways to manufacture false proof."""
+        from tools.patch_safety import PatchSafetyGate
+
+        base = bytes.fromhex("10203040")
+        cases = [
+            # Correct precondition bytes, deliberately attached to the wrong offset.
+            {"id": "wrong_offset", "offset": 1, "before_hex": "10", "after_hex": "aa"},
+            # before_hex copied from an already-patched/development buffer, not base.
+            {"id": "polluted_buffer", "offset": 2, "before_hex": "99", "after_hex": "bb"},
+        ]
+        accepted = []
+        for patch in cases:
+            try:
+                PatchSafetyGate(base).register(patch, patch_class="game_effective")
+            except ValueError:
+                continue
+            accepted.append(patch["id"])
+        assert not accepted, (
+            "safety gate accepted invalid byte evidence: " + ", ".join(accepted)
+        )
+
+    runner.run("audit-only patches are never labelled db_real", suite,
+               test_audit_patches_never_reported_real)
+    runner.run("populated rom_* tables cannot silently generate no patches", suite,
+               test_populated_rom_tables_have_generator_output)
+    runner.run("build report DB statistics match applied patch rows", suite,
+               test_report_db_statistics_match_rows)
+    runner.run("db_real report bytes match immutable base and final ROM", suite,
+               test_db_real_report_bytes_match_base_and_output)
+    runner.run("safety gate rejects wrong offsets and polluted preconditions", suite,
+               test_safety_gate_rejects_wrong_offset_and_polluted_precondition)
+
+
+# ---------------------------------------------------------------------------
 # Suite: encoding
 # ---------------------------------------------------------------------------
 
@@ -364,6 +575,7 @@ SUITES = {
     "build":    suite_build,
     "manifest": suite_manifest,
     "patches":  suite_patches,
+    "db_integrity": suite_db_integrity,
     "encoding": suite_encoding,
 }
 

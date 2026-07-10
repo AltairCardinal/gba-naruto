@@ -257,9 +257,9 @@ This file records confirmed and suspected ROM offsets.
 
 ### Cutscene Script Pointer Table
 - **Offset**: 0x53DF70
-- **Format**: 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
-- **Notes**: Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.
-- **Verification**: Static analysis - found 17 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x12xxxx region.
+- **Format**: 16 entries × u32 pointer to cutscene/script data in 0x12xxxx region
+- **Notes**: Pointer range is `0x53DF70..0x53DFAF`; `0x53DFB0` begins a separate byte table.
+- **Verification**: All 16 values are valid ROM pointers. Code references `0x0853DF70` at ROM `0x072F3C` and the next object `0x0853DFB0` independently at ROM `0x075C0C`.
 - **Discovered**: 2026-06-25
 
 ## Workflow

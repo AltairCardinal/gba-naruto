@@ -64,7 +64,7 @@ def documentation_matches(
 
 
 def audit_bank(
-    root: Path, bank: Path, documents: dict[Path, str]
+    root: Path, bank: Path, documents: dict[Path, str], rom: bytes | None
 ) -> dict[str, Any]:
     rel = str(bank.relative_to(root))
     try:
@@ -99,12 +99,44 @@ def audit_bank(
     verification = data.get("verification")
     verification_ok = verification in VALID_VERIFICATION
     docs = documentation_matches(root, bank, data, documents)
+    fidelity_checked = 0
+    fidelity_errors: list[str] = []
+    entry_size = data.get("entry_size")
+    entry_format = data.get("entry_format")
+    fields = entry_format.get("fields", []) if isinstance(entry_format, dict) else []
+    if rom is not None and offset_ok and isinstance(entry_size, int) and entry_size > 0 and isinstance(entries, list):
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                fidelity_errors.append(f"entry {index} is not an object")
+                continue
+            expected_offset = offset + index * entry_size
+            raw_offset = entry.get("_raw_offset", entry.get("offset"))
+            if isinstance(raw_offset, int) and raw_offset != expected_offset:
+                fidelity_errors.append(
+                    f"entry {index} offset 0x{raw_offset:X} != expected 0x{expected_offset:X}"
+                )
+            for field in fields:
+                if not isinstance(field, dict):
+                    continue
+                name, field_offset, size = field.get("name"), field.get("offset"), field.get("size")
+                hex_value = entry.get(f"{name}_hex") if isinstance(name, str) else None
+                if not (isinstance(field_offset, int) and isinstance(size, int) and isinstance(hex_value, str)):
+                    continue
+                start = expected_offset + field_offset
+                expected_hex = rom[start:start + size].hex()
+                fidelity_checked += 1
+                if hex_value.lower() != expected_hex:
+                    fidelity_errors.append(
+                        f"entry {index}.{name}={hex_value} != base ROM {expected_hex} at 0x{start:X}"
+                    )
+    fidelity_ok = fidelity_checked > 0 and not fidelity_errors
     checks = {
         "table_offset": offset_ok and hex_ok,
         "format": bool(format_fields),
         "entries": entries_ok and count_ok,
         "verification": verification_ok,
         "documentation": bool(docs),
+        "rom_fidelity": fidelity_ok,
     }
 
     issues = []
@@ -122,6 +154,11 @@ def audit_bank(
         issues.append(f"verification={verification!r} is missing or unrecognized")
     if not docs:
         issues.append("no docs/*.md or notes/*.md reference to slug, bank path, or table offset")
+    if not fidelity_ok:
+        if fidelity_errors:
+            issues.append(f"ROM fidelity failed: {fidelity_errors[0]}")
+        else:
+            issues.append("ROM fidelity not checkable from entry_format and extracted field hex")
 
     return {
         "bank": rel,
@@ -134,17 +171,20 @@ def audit_bank(
         "verification": verification,
         "verification_method_present": nonempty(data.get("verification_method")),
         "documentation": docs,
+        "rom_fidelity_fields_checked": fidelity_checked,
+        "rom_fidelity_errors": fidelity_errors,
         "checks": checks,
         "issues": issues,
         "complete": all(checks.values()),
     }
 
 
-def build_report(root: Path, output_md: Path) -> dict[str, Any]:
+def build_report(root: Path, output_md: Path, rom_path: Path | None = None) -> dict[str, Any]:
     banks = sorted((root / "sequel" / "content").glob("*/bank.json"))
     documents = load_documents(root, {output_md.resolve()})
-    results = [audit_bank(root, bank, documents) for bank in banks]
-    check_names = ("table_offset", "format", "entries", "verification", "documentation")
+    rom = rom_path.read_bytes() if rom_path is not None and rom_path.exists() else None
+    results = [audit_bank(root, bank, documents, rom) for bank in banks]
+    check_names = ("table_offset", "format", "entries", "verification", "documentation", "rom_fidelity")
     summary = {
         "banks_found": len(results),
         "expected_banks": 32,
@@ -159,7 +199,7 @@ def build_report(root: Path, output_md: Path) -> dict[str, Any]:
         label = item.get("verification") or "missing"
         summary["verification_distribution"][label] = summary["verification_distribution"].get(label, 0) + 1
     return {
-        "scope": "bank metadata/entries/verification/documentation only; no runtime or write-back validation",
+        "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "summary": summary,
         "banks": results,
@@ -178,14 +218,14 @@ def markdown(report: dict[str, Any]) -> str:
         "## 汇总",
         "",
         f"- 发现 `{summary['banks_found']}` / 预期 `{summary['expected_banks']}` 个 bank。",
-        f"- 同时满足五项元数据检查：`{summary['fully_satisfying_metadata_scope']}` / `{summary['banks_found']}`。",
+        f"- 同时满足六项元数据与字节检查：`{summary['fully_satisfying_metadata_scope']}` / `{summary['banks_found']}`。",
     ]
     for name, count in summary["checks_passing"].items():
         lines.append(f"- `{name}`：`{count}` / `{summary['banks_found']}`。")
     distribution = ", ".join(f"`{key}`={value}" for key, value in sorted(summary["verification_distribution"].items()))
     lines.extend([f"- verification 分布：{distribution}。", "", "## 逐结构结果", ""])
-    lines.append("| 结构 | table_offset | format | entries | verification | 文档覆盖 | 完整 | 问题 |")
-    lines.append("|---|---:|:---:|:---:|:---:|:---:|:---:|---|")
+    lines.append("| 结构 | table_offset | format | entries | verification | 文档覆盖 | ROM字节 | 完整 | 问题 |")
+    lines.append("|---|---:|:---:|:---:|:---:|:---:|:---:|:---:|---|")
     mark = lambda value: "✅" if value else "❌"
     for item in report["banks"]:
         checks = item["checks"]
@@ -196,6 +236,7 @@ def markdown(report: dict[str, Any]) -> str:
             f"{mark(checks['entries'])} ({item.get('entry_count_actual', '—')}) | "
             f"{mark(checks['verification'])} `{item.get('verification')}` | "
             f"{mark(checks['documentation'])} ({len(item.get('documentation', []))}) | "
+            f"{mark(checks['rom_fidelity'])} ({item.get('rom_fidelity_fields_checked', 0)}) | "
             f"{mark(item['complete'])} | {issues} |"
         )
     lines.extend(["", "## 判定规则", ""])
@@ -205,6 +246,7 @@ def markdown(report: dict[str, Any]) -> str:
         "- `entries`：必须是非空数组；若声明 `entry_count`，必须与实际数量一致。",
         "- `verification`：必须是 `static_verified`、`code_verified` 或 `runtime_verified`。",
         "- 文档覆盖：`docs/*.md` 或 `notes/*.md` 至少一处提到结构目录名、bank 路径或表偏移。",
+        "- `rom_fidelity`：已提取字段的 `*_hex` 必须与校验过的基准 ROM 对应字节一致。",
         "",
     ])
     return "\n".join(lines)
@@ -215,11 +257,18 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--json", type=Path, default=Path("notes/re-completion-audit.json"))
     parser.add_argument("--markdown", type=Path, default=Path("notes/re-completion-audit.md"))
+    parser.add_argument("--rom", type=Path, help="base ROM used for byte-fidelity checks")
     args = parser.parse_args()
     root = args.root.resolve()
     output_json = args.json if args.json.is_absolute() else root / args.json
     output_md = args.markdown if args.markdown.is_absolute() else root / args.markdown
-    report = build_report(root, output_md)
+    rom_path = args.rom
+    if rom_path is None:
+        project = json.loads((root / "sequel/project.json").read_text(encoding="utf-8"))
+        rom_path = root / project["base_rom"]["path"]
+    elif not rom_path.is_absolute():
+        rom_path = root / rom_path
+    report = build_report(root, output_md, rom_path)
     output_json.parent.mkdir(parents=True, exist_ok=True)
     output_md.parent.mkdir(parents=True, exist_ok=True)
     output_json.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

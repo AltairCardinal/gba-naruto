@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "description": "Cutscene script pointer table discovered at ROM offset 0x53DF70. 17 entries of u32 pointers to cutscene/script data in the 0x12xxxx region.",
+  "description": "Cutscene script pointer table at ROM offset 0x53DF70. 16 entries of u32 pointers; 0x53DFB0 begins a separate byte table.",
   "table_offset": 5496688,
   "table_offset_hex": "0x53DF70",
-  "entry_count": 17,
+  "entry_count": 16,
   "entry_size": 4,
   "entry_format": {
     "fields": [
@@ -16,7 +16,7 @@
       }
     ]
   },
-  "notes": "Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.",
+  "notes": "The 16 entries at 0x53DF70..0x53DFAF all point into 0x12xxxx. The former index 16 value 0x090A0809 is the first four bytes of a separate byte table at 0x53DFB0. Code references 0x0853DF70 at ROM 0x072F3C and references the next object 0x0853DFB0 independently at ROM 0x075C0C.",
   "entries_sample": [
     {
       "index": 0,
@@ -59,7 +59,7 @@
       "notes": "Cutscene/script data"
     }
   ],
-  "verification_method": "Static analysis - found 17 consecutive u32 pointers at 0x53DF70, all pointing to valid ROM addresses in the 0x12xxxx region.",
+  "verification_method": "Static boundary analysis: 16 valid ROM pointers followed by an independently referenced byte table at 0x53DFB0.",
   "discovered_by": "Searching for title screen / cutscene script tables",
   "entries": [
     {
@@ -157,18 +157,12 @@
       "script_ptr": 135458304,
       "script_ptr_hex": "00ee1208",
       "_index": 15
-    },
-    {
-      "_raw_offset": 5496752,
-      "script_ptr": 151652361,
-      "script_ptr_hex": "09080a09",
-      "_index": 16
     }
   ],
   "verification": "static_verified",
   "extraction": {
     "tool": "tools/extract_all_structures.py",
-    "extracted_count": 17,
+    "extracted_count": 16,
     "rom_offset": 5496688,
     "rom_offset_hex": "0x53DF70"
   }

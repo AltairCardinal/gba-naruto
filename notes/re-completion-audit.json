@@ -1,17 +1,18 @@
 {
-  "scope": "bank metadata/entries/verification/documentation only; no runtime or write-back validation",
-  "generated_at": "2026-07-10T07:02:08.588122+00:00",
+  "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
+  "generated_at": "2026-07-10T07:13:43.939307+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
     "all_expected_banks_found": true,
-    "fully_satisfying_metadata_scope": 32,
+    "fully_satisfying_metadata_scope": 31,
     "checks_passing": {
       "table_offset": 32,
       "format": 32,
       "entries": 32,
       "verification": 32,
-      "documentation": 32
+      "documentation": 32,
+      "rom_fidelity": 31
     },
     "verification_distribution": {
       "static_verified": 31,
@@ -25,9 +26,10 @@
       "table_offset": 5501240,
       "table_offset_hex": "0x53F138",
       "format_fields": [
+        "entry_format",
         "audio_table"
       ],
-      "entry_count_declared": null,
+      "entry_count_declared": 88,
       "entry_count_actual": 88,
       "verification": "static_verified",
       "verification_method_present": true,
@@ -46,12 +48,15 @@
         "notes/resource-locations.md",
         "notes/unknown-bgm-sfx.md"
       ],
+      "rom_fidelity_fields_checked": 88,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -83,12 +88,15 @@
         "notes/patch-generator-audit.md",
         "notes/unknown-item-inventory.md"
       ],
+      "rom_fidelity_fields_checked": 256,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -114,14 +122,18 @@
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-random-encounter.md"
       ],
+      "rom_fidelity_fields_checked": 38,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -146,14 +158,18 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
+      "rom_fidelity_fields_checked": 14,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -182,12 +198,15 @@
         "notes/unknown-item-inventory.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 160,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -216,12 +235,15 @@
         "notes/unknown-item-inventory.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 144,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -234,8 +256,8 @@
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 17,
-      "entry_count_actual": 17,
+      "entry_count_declared": 16,
+      "entry_count_actual": 16,
       "verification": "static_verified",
       "verification_method_present": true,
       "documentation": [
@@ -245,14 +267,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 16,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -276,14 +302,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -307,14 +337,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -348,12 +382,15 @@
         "notes/unit-skill-addresses.md",
         "notes/unknown-random-encounter.md"
       ],
+      "rom_fidelity_fields_checked": 423,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -379,12 +416,15 @@
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md"
       ],
+      "rom_fidelity_fields_checked": 256,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -408,14 +448,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 11,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -444,12 +488,15 @@
         "notes/text-regions.md",
         "notes/unknown-item-inventory.md"
       ],
+      "rom_fidelity_fields_checked": 84,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -476,12 +523,15 @@
         "notes/patch-generator-audit.md",
         "notes/unknown-item-inventory.md"
       ],
+      "rom_fidelity_fields_checked": 282,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -507,14 +557,18 @@
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
+      "rom_fidelity_fields_checked": 47,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -538,14 +592,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 47,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -584,12 +642,15 @@
         "notes/unit-skill-addresses.md",
         "notes/unknown-random-encounter.md"
       ],
+      "rom_fidelity_fields_checked": 423,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -613,14 +674,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -650,12 +715,15 @@
         "notes/resource-locations.md",
         "notes/unknown-bgm-sfx.md"
       ],
+      "rom_fidelity_fields_checked": 88,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -684,15 +752,20 @@
         "notes/patch-generator-audit.md",
         "notes/resource-locations.md"
       ],
+      "rom_fidelity_fields_checked": 0,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": false
       },
-      "issues": [],
-      "complete": true
+      "issues": [
+        "ROM fidelity not checkable from entry_format and extracted field hex"
+      ],
+      "complete": false
     },
     {
       "bank": "sequel/content/resource-pointers/bank.json",
@@ -713,14 +786,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -746,12 +823,15 @@
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md"
       ],
+      "rom_fidelity_fields_checked": 1,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -780,12 +860,15 @@
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md"
       ],
+      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -814,12 +897,15 @@
         "notes/patch-generator-audit.md",
         "notes/unknown-item-inventory.md"
       ],
+      "rom_fidelity_fields_checked": 84,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -844,14 +930,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 38,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -876,6 +966,7 @@
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/testing-checklist.md",
         "docs/web-editor-spec.md",
@@ -887,14 +978,18 @@
         "notes/dynamic-verification-audit.md",
         "notes/headless-workflow.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 9,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -920,14 +1015,18 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 11,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -952,14 +1051,18 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 10,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -984,14 +1087,18 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 11,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -1016,14 +1123,18 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
+      "rom_fidelity_fields_checked": 9,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -1047,14 +1158,18 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/u32-pointer-real-writeback-20260710.md"
       ],
+      "rom_fidelity_fields_checked": 6,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true
@@ -1087,12 +1202,15 @@
         "notes/unit-id-mapping-analysis.md",
         "notes/unit-skill-addresses.md"
       ],
+      "rom_fidelity_fields_checked": 64,
+      "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
         "format": true,
         "entries": true,
         "verification": true,
-        "documentation": true
+        "documentation": true,
+        "rom_fidelity": true
       },
       "issues": [],
       "complete": true

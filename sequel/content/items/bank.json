@@ -1,234 +1,335 @@
 {
-    "version": 1,
-    "description": "Item/inventory table investigation results. Static analysis could not locate a dedicated item table. This game appears to be a tactical RPG (SRPG) where items may be replaced by skill/technique systems, or item data is accessed through indirection that requires dynamic analysis.",
-    "verification_level": "partial",
-    "status": "INCONCLUSIVE",
-    "investigation_summary": {
-        "candidate_addresses": [
-            "0xD3E02",
-            "0x27AC8D",
-            "0x366A4B",
-            "0x3B5D95",
-            "0x3D256C",
-            "0x4A60DD"
-        ],
-        "sjis_text_found": false,
-        "structured_table_found": false,
-        "code_reference_found": false
+  "version": 1,
+  "description": "Item/inventory table investigation results. Static analysis could not locate a dedicated item table. This game appears to be a tactical RPG (SRPG) where items may be replaced by skill/technique systems, or item data is accessed through indirection that requires dynamic analysis.",
+  "verification_level": "partial",
+  "status": "INCONCLUSIVE",
+  "investigation_summary": {
+    "candidate_addresses": [
+      "0xD3E02",
+      "0x27AC8D",
+      "0x366A4B",
+      "0x3B5D95",
+      "0x3D256C",
+      "0x4A60DD"
+    ],
+    "sjis_text_found": false,
+    "structured_table_found": false,
+    "code_reference_found": false
+  },
+  "related_structures": {
+    "skill_table": {
+      "offset": "0x546100",
+      "entry_count": 12,
+      "entry_size": 16,
+      "description": "Skill/technique definitions that may serve as the item system in this tactical RPG"
     },
-    "related_structures": {
-        "skill_table": {
-            "offset": "0x546100",
-            "entry_count": 12,
-            "entry_size": 16,
-            "description": "Skill/technique definitions that may serve as the item system in this tactical RPG"
-        },
-        "battle_config_table": {
-            "offset": "0x545458",
-            "entry_count": 32,
-            "entry_size": 16,
-            "description": "Battle configuration with skill references"
-        },
-        "character_stat_table": {
-            "offset": "0x54507A",
-            "entry_count": null,
-            "entry_size": 16,
-            "description": "Character stat definitions that may include equipment modifiers"
-        },
-        "level_up_table": {
-            "offset": "0x5459D4",
-            "entry_count": null,
-            "entry_size": 12,
-            "description": "Level-up stat progression (confirmed separate from items)"
-        }
+    "battle_config_table": {
+      "offset": "0x545458",
+      "entry_count": 32,
+      "entry_size": 16,
+      "description": "Battle configuration with skill references"
     },
-    "possible_explanations": [
-        "Items are embedded in the battle config or skill system rather than a standalone table",
-        "Item names are not stored as SJIS text (may use a custom encoding)",
-        "Item data is accessed through a chain of indirect pointers requiring runtime tracing",
-        "This SRPG uses a technique/scroll system instead of traditional consumable items",
-        "Item effects are code-driven (implemented in function calls rather than data tables)"
-    ],
-    "recommended_next_steps": [
-        "Use mGBA Qt frontend with Lua scripting to open the in-game menu",
-        "Dump WRAM before and after acquiring an item",
-        "Diff WRAM to identify item record array in runtime memory",
-        "Use LLDB watchpoints on suspected WRAM addresses during menu interaction"
-    ],
-    "notes": "All 6 candidate addresses from prior analysis were examined for SJIS item names. No clear item name text was found near any candidate. The ROM contains many instances of the SJIS character 薬 (medicine) but in unrelated data. The skill table at 0x546100 with 12 entries of 16 bytes remains the most likely item-adjacent structure. In this Naruto tactical RPG, 'items' may be ninja techniques/scrolls managed through the skill system rather than a traditional RPG inventory.",
-    "entries": [
-        {
-            "id": "item_00",
-            "index": 0,
-            "offset": 5529856,
-            "offset_hex": "0x546100",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 266,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 841
-        },
-        {
-            "id": "item_01",
-            "index": 1,
-            "offset": 5529872,
-            "offset_hex": "0x546110",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 286,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 850
-        },
-        {
-            "id": "item_02",
-            "index": 2,
-            "offset": 5529888,
-            "offset_hex": "0x546120",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 306,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 4435
-        },
-        {
-            "id": "item_03",
-            "index": 3,
-            "offset": 5529904,
-            "offset_hex": "0x546130",
-            "padding": 0,
-            "count": 5,
-            "type_id": 290,
-            "skill_id": 266,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 3401
-        },
-        {
-            "id": "item_04",
-            "index": 4,
-            "offset": 5529920,
-            "offset_hex": "0x546140",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 17,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 0
-        },
-        {
-            "id": "item_05",
-            "index": 5,
-            "offset": 5529936,
-            "offset_hex": "0x546150",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 17,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 0
-        },
-        {
-            "id": "item_06",
-            "index": 6,
-            "offset": 5529952,
-            "offset_hex": "0x546160",
-            "padding": 0,
-            "count": 5,
-            "type_id": 288,
-            "skill_id": 17,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 0
-        },
-        {
-            "id": "item_07",
-            "index": 7,
-            "offset": 5529968,
-            "offset_hex": "0x546170",
-            "padding": 0,
-            "count": 5,
-            "type_id": 292,
-            "skill_id": 258,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 3672
-        },
-        {
-            "id": "item_08",
-            "index": 8,
-            "offset": 5529984,
-            "offset_hex": "0x546180",
-            "padding": 0,
-            "count": 5,
-            "type_id": 292,
-            "skill_id": 259,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 4441
-        },
-        {
-            "id": "item_09",
-            "index": 9,
-            "offset": 5530000,
-            "offset_hex": "0x546190",
-            "padding": 0,
-            "count": 5,
-            "type_id": 294,
-            "skill_id": 266,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 4169
-        },
-        {
-            "id": "item_10",
-            "index": 10,
-            "offset": 5530016,
-            "offset_hex": "0x5461A0",
-            "padding": 0,
-            "count": 5,
-            "type_id": 294,
-            "skill_id": 286,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 4187
-        },
-        {
-            "id": "item_11",
-            "index": 11,
-            "offset": 5530032,
-            "offset_hex": "0x5461B0",
-            "padding": 0,
-            "count": 5,
-            "type_id": 294,
-            "skill_id": 306,
-            "value": 612,
-            "flags": 1025,
-            "extra_id": 4444
-        }
-    ],
-    "verification": "static_verified",
-    "table_offset": 5529856,
-    "table_offset_hex": "0x546100",
-    "entry_count": 12,
-    "entry_size": 16,
-    "entry_format": {
-        "description": "Alias view of the technique table; independent item identity remains unverified.",
-        "fields": [
-            {"offset": 0, "size": 4, "name": "padding", "type": "u32"},
-            {"offset": 4, "size": 2, "name": "count", "type": "u16"},
-            {"offset": 6, "size": 2, "name": "type_id", "type": "u16"},
-            {"offset": 8, "size": 2, "name": "skill_id", "type": "u16"},
-            {"offset": 10, "size": 2, "name": "value", "type": "u16"},
-            {"offset": 12, "size": 2, "name": "flags", "type": "u16"},
-            {"offset": 14, "size": 2, "name": "extra_id", "type": "u16"}
-        ]
+    "character_stat_table": {
+      "offset": "0x54507A",
+      "entry_count": null,
+      "entry_size": 16,
+      "description": "Character stat definitions that may include equipment modifiers"
+    },
+    "level_up_table": {
+      "offset": "0x5459D4",
+      "entry_count": null,
+      "entry_size": 12,
+      "description": "Level-up stat progression (confirmed separate from items)"
     }
+  },
+  "possible_explanations": [
+    "Items are embedded in the battle config or skill system rather than a standalone table",
+    "Item names are not stored as SJIS text (may use a custom encoding)",
+    "Item data is accessed through a chain of indirect pointers requiring runtime tracing",
+    "This SRPG uses a technique/scroll system instead of traditional consumable items",
+    "Item effects are code-driven (implemented in function calls rather than data tables)"
+  ],
+  "recommended_next_steps": [
+    "Use mGBA Qt frontend with Lua scripting to open the in-game menu",
+    "Dump WRAM before and after acquiring an item",
+    "Diff WRAM to identify item record array in runtime memory",
+    "Use LLDB watchpoints on suspected WRAM addresses during menu interaction"
+  ],
+  "notes": "All 6 candidate addresses from prior analysis were examined for SJIS item names. No clear item name text was found near any candidate. The ROM contains many instances of the SJIS character 薬 (medicine) but in unrelated data. The skill table at 0x546100 with 12 entries of 16 bytes remains the most likely item-adjacent structure. In this Naruto tactical RPG, 'items' may be ninja techniques/scrolls managed through the skill system rather than a traditional RPG inventory.",
+  "entries": [
+    {
+      "_raw_offset": 5529856,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 288,
+      "type_id_hex": "2001",
+      "skill_id": 266,
+      "skill_id_hex": "0a01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 841,
+      "extra_id_hex": "4903",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5529872,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 288,
+      "type_id_hex": "2001",
+      "skill_id": 286,
+      "skill_id_hex": "1e01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 850,
+      "extra_id_hex": "5203",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5529888,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 288,
+      "type_id_hex": "2001",
+      "skill_id": 306,
+      "skill_id_hex": "3201",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4435,
+      "extra_id_hex": "5311",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5529904,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 290,
+      "type_id_hex": "2201",
+      "skill_id": 266,
+      "skill_id_hex": "0a01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 3401,
+      "extra_id_hex": "490d",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5529920,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 290,
+      "type_id_hex": "2201",
+      "skill_id": 286,
+      "skill_id_hex": "1e01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 3413,
+      "extra_id_hex": "550d",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5529936,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 290,
+      "type_id_hex": "2201",
+      "skill_id": 306,
+      "skill_id_hex": "3201",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4438,
+      "extra_id_hex": "5611",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5529952,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 292,
+      "type_id_hex": "2401",
+      "skill_id": 257,
+      "skill_id_hex": "0101",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 3657,
+      "extra_id_hex": "490e",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5529968,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 292,
+      "type_id_hex": "2401",
+      "skill_id": 258,
+      "skill_id_hex": "0201",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 3672,
+      "extra_id_hex": "580e",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5529984,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 292,
+      "type_id_hex": "2401",
+      "skill_id": 259,
+      "skill_id_hex": "0301",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4441,
+      "extra_id_hex": "5911",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5530000,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 294,
+      "type_id_hex": "2601",
+      "skill_id": 266,
+      "skill_id_hex": "0a01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4169,
+      "extra_id_hex": "4910",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5530016,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 294,
+      "type_id_hex": "2601",
+      "skill_id": 286,
+      "skill_id_hex": "1e01",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4187,
+      "extra_id_hex": "5b10",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5530032,
+      "padding": 0,
+      "padding_hex": "00000000",
+      "count": 5,
+      "count_hex": "0500",
+      "type_id": 294,
+      "type_id_hex": "2601",
+      "skill_id": 306,
+      "skill_id_hex": "3201",
+      "value": 612,
+      "value_hex": "6402",
+      "flags": 1025,
+      "flags_hex": "0104",
+      "extra_id": 4444,
+      "extra_id_hex": "5c11",
+      "_index": 11
+    }
+  ],
+  "verification": "static_verified",
+  "table_offset": 5529856,
+  "table_offset_hex": "0x546100",
+  "entry_count": 12,
+  "entry_size": 16,
+  "entry_format": {
+    "description": "Alias view of the technique table; independent item identity remains unverified.",
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "padding",
+        "type": "u32"
+      },
+      {
+        "offset": 4,
+        "size": 2,
+        "name": "count",
+        "type": "u16"
+      },
+      {
+        "offset": 6,
+        "size": 2,
+        "name": "type_id",
+        "type": "u16"
+      },
+      {
+        "offset": 8,
+        "size": 2,
+        "name": "skill_id",
+        "type": "u16"
+      },
+      {
+        "offset": 10,
+        "size": 2,
+        "name": "value",
+        "type": "u16"
+      },
+      {
+        "offset": 12,
+        "size": 2,
+        "name": "flags",
+        "type": "u16"
+      },
+      {
+        "offset": 14,
+        "size": 2,
+        "name": "extra_id",
+        "type": "u16"
+      }
+    ]
+  },
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 12,
+    "rom_offset": 5529856,
+    "rom_offset_hex": "0x546100"
+  }
 }

@@ -454,7 +454,7 @@ The following structures were discovered and documented in the Phase 2 remaining
 16. **Data Table B** at 0x5A2120 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
 17. **Tile Asset Pointer Table** at 0x5A3218 - 6 entries × u32 pointer to tile/map data in 0x34xxxx region
 18. **Menu UI Pointer Table** at 0x5A5774 - 20 entries × u32 pointer to menu/UI data in 0x43xxxx-0x44xxxx region
-19. **Cutscene Script Pointer Table** at 0x53DF70 - 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
+19. **Cutscene Script Pointer Table** at 0x53DF70 - 16 entries × u32 pointer to cutscene/script data in 0x12xxxx region; the following word `0x090A0809` is packed data, not a ROM pointer
 
 ## Methodology
 

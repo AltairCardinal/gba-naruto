@@ -119,7 +119,7 @@ secondary modifiers for each character class.
 
 ## 7. Cutscene Scripts (0x53DF70)
 
-**Format:** u32 × 17 — 17 pointers to cutscene script data  
+**Format:** u32 × 16 — 16 pointers to cutscene script data
 **Entry Size:** 4 bytes  
 **Semantics:** Each entry points to a cutscene script in the 0x12XXXX region.
 Scripts contain encoded dialogue, camera movements, and character animations

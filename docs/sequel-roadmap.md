@@ -188,6 +188,19 @@
 - 首次审计结果为 23/32；随后已纠正 7 个偏移错误并从校验过的基准 ROM 重新提取，同时补齐 3 个格式描述。当前元数据检查为 32/32，但这仍不代表动态语义或真实回写完成。
 - 31 个 bank 仍仅为 `static_verified`，1 个为 `code_verified`；此元数据审计不证明运行时语义和实际回写闭环，不能作为“100% 完成”的单独证据。
 
+### 2026-07-10 u32 指针表回写进展
+
+- 新增带索引边界、48 Mbit ROM 地址范围、Thumb bit 和数据指针对齐检查的通用
+  u32 指针表真实回写 helper，并补充 6 项单元测试。
+- `map_events` 与 story B–E 当前可生成 88 个真实表补丁，不再写 audit 保留区。
+- 安全检查发现 `rom_battle_handlers` 和 `rom_map_sprites` 共 61 行 DB 数据使用陈旧
+  `_rom_offset`，现已拒绝回写；下一工作周期需从 `rom/base.gba` 重新导入并验证。
+- `battle_encounters` 是混合值表；`cutscene_scripts` 的声明边界含越界值，两者仍需
+  重新确认格式，未计为完成。详见 `notes/u32-pointer-real-writeback-20260710.md`。
+- 第二批已把 data table A/B、function pointers、menu UI、resource pointers、
+  sprite animations、tile assets 共 135 行转换为带严格校验的真实 ROM 回写；旧
+  audit-only 不可达代码已删除。palette 因表冲突证据不足仍保持隔离。
+
 ```
 P0-Step 1（mGBA调试） ✅
        ↓
