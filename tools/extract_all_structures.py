@@ -13,10 +13,10 @@ Usage:
 """
 import json
 import struct
-import sys
+import argparse
 from pathlib import Path
 
-ROM_PATH = Path('build/naruto-sequel-dev.gba')
+DEFAULT_ROM_PATH = Path('火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba')
 CONTENT_DIR = Path('sequel/content')
 ENTRY_KEY = 'entries'
 
@@ -90,17 +90,21 @@ def extract_structure(rom: bytes, bank_path: Path, dry_run=False) -> tuple[str, 
     return 'ok', count
 
 def main():
-    dry_run = '--dry-run' in sys.argv
-    only = None
-    if '--structure' in sys.argv:
-        only = sys.argv[sys.argv.index('--structure') + 1]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--rom', type=Path, default=DEFAULT_ROM_PATH,
+                        help='source ROM (defaults to the SHA-1-verified base ROM)')
+    parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--structure')
+    args = parser.parse_args()
+    rom_path = args.rom
+    dry_run = args.dry_run
+    only = args.structure
 
-    if not ROM_PATH.exists():
-        print(f'FATAL: ROM not found: {ROM_PATH}', file=sys.stderr)
-        sys.exit(2)
+    if not rom_path.exists():
+        parser.error(f'ROM not found: {rom_path}')
 
-    rom = ROM_PATH.read_bytes()
-    print(f'[extract] ROM: {ROM_PATH} ({len(rom)} bytes)')
+    rom = rom_path.read_bytes()
+    print(f'[extract] ROM: {rom_path} ({len(rom)} bytes)')
 
     summary = []
     for bank_path in sorted(CONTENT_DIR.glob('*/bank.json')):

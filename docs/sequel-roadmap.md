@@ -181,6 +181,13 @@
 
 ## 当前推荐顺序
 
+### 2026-07-10 Bank 元数据审计基线
+
+- 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
+- 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
+- 首次审计结果为 23/32；随后已纠正 7 个偏移错误并从校验过的基准 ROM 重新提取，同时补齐 3 个格式描述。当前元数据检查为 32/32，但这仍不代表动态语义或真实回写完成。
+- 31 个 bank 仍仅为 `static_verified`，1 个为 `code_verified`；此元数据审计不证明运行时语义和实际回写闭环，不能作为“100% 完成”的单独证据。
+
 ```
 P0-Step 1（mGBA调试） ✅
        ↓

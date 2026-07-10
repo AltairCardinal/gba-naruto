@@ -216,5 +216,19 @@
     ],
     "verification": "static_verified",
     "table_offset": 5529856,
-    "table_offset_hex": "0x546100"
+    "table_offset_hex": "0x546100",
+    "entry_count": 12,
+    "entry_size": 16,
+    "entry_format": {
+        "description": "Alias view of the technique table; independent item identity remains unverified.",
+        "fields": [
+            {"offset": 0, "size": 4, "name": "padding", "type": "u32"},
+            {"offset": 4, "size": 2, "name": "count", "type": "u16"},
+            {"offset": 6, "size": 2, "name": "type_id", "type": "u16"},
+            {"offset": 8, "size": 2, "name": "skill_id", "type": "u16"},
+            {"offset": 10, "size": 2, "name": "value", "type": "u16"},
+            {"offset": 12, "size": 2, "name": "flags", "type": "u16"},
+            {"offset": 14, "size": 2, "name": "extra_id", "type": "u16"}
+        ]
+    }
 }

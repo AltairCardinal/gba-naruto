@@ -1,0 +1,1101 @@
+{
+  "scope": "bank metadata/entries/verification/documentation only; no runtime or write-back validation",
+  "generated_at": "2026-07-10T07:02:08.588122+00:00",
+  "summary": {
+    "banks_found": 32,
+    "expected_banks": 32,
+    "all_expected_banks_found": true,
+    "fully_satisfying_metadata_scope": 32,
+    "checks_passing": {
+      "table_offset": 32,
+      "format": 32,
+      "entries": 32,
+      "verification": 32,
+      "documentation": 32
+    },
+    "verification_distribution": {
+      "static_verified": 31,
+      "code_verified": 1
+    }
+  },
+  "banks": [
+    {
+      "bank": "sequel/content/audio/bank.json",
+      "structure": "audio",
+      "table_offset": 5501240,
+      "table_offset_hex": "0x53F138",
+      "format_fields": [
+        "audio_table"
+      ],
+      "entry_count_declared": null,
+      "entry_count_actual": 88,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/development-status.md",
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/headless-workflow.md",
+        "notes/patch-generator-audit.md",
+        "notes/resource-locations.md",
+        "notes/unknown-bgm-sfx.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/battle-config/bank.json",
+      "structure": "battle-config",
+      "table_offset": 5526616,
+      "table_offset_hex": "0x545458",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 32,
+      "entry_count_actual": 32,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/chapter-entry-points.md",
+        "notes/chapter-flow-format.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-item-inventory.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-item-inventory.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/battle-encounters/bank.json",
+      "structure": "battle-encounters",
+      "table_offset": 5514116,
+      "table_offset_hex": "0x542384",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 38,
+      "entry_count_actual": 38,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-random-encounter.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-random-encounter.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/battle-handlers/bank.json",
+      "structure": "battle-handlers",
+      "table_offset": 5498584,
+      "table_offset_hex": "0x53E6D8",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 14,
+      "entry_count_actual": 14,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-bgm-sfx.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/character-stats/bank.json",
+      "structure": "character-stats",
+      "table_offset": 5525626,
+      "table_offset_hex": "0x54507A",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 20,
+      "entry_count_actual": 20,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-item-inventory.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-item-inventory.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/character-stats-b/bank.json",
+      "structure": "character-stats-b",
+      "table_offset": 5526016,
+      "table_offset_hex": "0x545200",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 18,
+      "entry_count_actual": 18,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-item-inventory.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-item-inventory.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/cutscene-scripts/bank.json",
+      "structure": "cutscene-scripts",
+      "table_offset": 5496688,
+      "table_offset_hex": "0x53DF70",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 17,
+      "entry_count_actual": 17,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/data-table-a/bank.json",
+      "structure": "data-table-a",
+      "table_offset": 5903524,
+      "table_offset_hex": "0x5A14A4",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 20,
+      "entry_count_actual": 20,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/data-table-b/bank.json",
+      "structure": "data-table-b",
+      "table_offset": 5906720,
+      "table_offset_hex": "0x5A2120",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 20,
+      "entry_count_actual": 20,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/encounter-zones/bank.json",
+      "structure": "encounter-zones",
+      "table_offset": 5495056,
+      "table_offset_hex": "0x53D910",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 47,
+      "entry_count_actual": 47,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/battle-scenario-config.md",
+        "notes/chapter-flow-format.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-random-encounter.md",
+        "notes/patch-generator-audit.md",
+        "notes/unit-skill-addresses.md",
+        "notes/unknown-random-encounter.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/fonts/bank.json",
+      "structure": "fonts",
+      "table_offset": 5498292,
+      "table_offset_hex": "0x53E5B4",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 256,
+      "entry_count_actual": 256,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/function-pointers/bank.json",
+      "structure": "function-pointers",
+      "table_offset": 5494260,
+      "table_offset_hex": "0x53D5F4",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 11,
+      "entry_count_actual": 11,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/items/bank.json",
+      "structure": "items",
+      "table_offset": 5529856,
+      "table_offset_hex": "0x546100",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 12,
+      "entry_count_actual": 12,
+      "verification": "static_verified",
+      "verification_method_present": false,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-item-inventory.md",
+        "notes/patch-generator-audit.md",
+        "notes/text-regions.md",
+        "notes/unknown-item-inventory.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/levels/bank.json",
+      "structure": "levels",
+      "table_offset": 5528020,
+      "table_offset_hex": "0x5459D4",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 47,
+      "entry_count_actual": 47,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-item-inventory.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/map-events/bank.json",
+      "structure": "map-events",
+      "table_offset": 5499656,
+      "table_offset_hex": "0x53EB08",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 47,
+      "entry_count_actual": 47,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-random-encounter.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-bgm-sfx.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/map-sprites/bank.json",
+      "structure": "map-sprites",
+      "table_offset": 5501404,
+      "table_offset_hex": "0x53F1DC",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 47,
+      "entry_count_actual": 47,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/maps/bank.json",
+      "structure": "maps",
+      "table_offset": 5495056,
+      "table_offset_hex": "0x53D910",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 47,
+      "entry_count_actual": 47,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/build-pipeline.md",
+        "docs/content-pipeline.md",
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/battle-scenario-config.md",
+        "notes/chapter-flow-format.md",
+        "notes/dialogue-mapping-decoder-20260702.md",
+        "notes/dialogue-mapping-progress-20260702.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-random-encounter.md",
+        "notes/patch-generator-audit.md",
+        "notes/resource-locations.md",
+        "notes/unit-skill-addresses.md",
+        "notes/unknown-random-encounter.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/menu-ui/bank.json",
+      "structure": "menu-ui",
+      "table_offset": 5920628,
+      "table_offset_hex": "0x5A5774",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 20,
+      "entry_count_actual": 20,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/palettes/bank.json",
+      "structure": "palettes",
+      "table_offset": 5501240,
+      "table_offset_hex": "0x53F138",
+      "format_fields": [
+        "entry_format",
+        "palette_format"
+      ],
+      "entry_count_declared": 88,
+      "entry_count_actual": 88,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/map-format.md",
+        "notes/patch-generator-audit.md",
+        "notes/resource-locations.md",
+        "notes/unknown-bgm-sfx.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/positions/bank.json",
+      "structure": "positions",
+      "table_offset": 5495060,
+      "table_offset_hex": "0x53D914",
+      "format_fields": [
+        "format"
+      ],
+      "entry_count_declared": 8,
+      "entry_count_actual": 8,
+      "verification": "static_verified",
+      "verification_method_present": false,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/resource-locations.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/resource-pointers/bank.json",
+      "structure": "resource-pointers",
+      "table_offset": 5861132,
+      "table_offset_hex": "0x596F0C",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 20,
+      "entry_count_actual": 20,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/sappy-engine/bank.json",
+      "structure": "sappy-engine",
+      "table_offset": 497256,
+      "table_offset_hex": "0x079668",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 1,
+      "entry_count_actual": 1,
+      "verification": "code_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/save-state/bank.json",
+      "structure": "save-state",
+      "table_offset": 5494856,
+      "table_offset_hex": "0x053D848",
+      "format_fields": [
+        "entry_format",
+        "data_format"
+      ],
+      "entry_count_declared": 10,
+      "entry_count_actual": 10,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "notes/battle-config-format.md",
+        "notes/battle-scenario-config.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/skills/bank.json",
+      "structure": "skills",
+      "table_offset": 5529856,
+      "table_offset_hex": "0x546100",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 12,
+      "entry_count_actual": 12,
+      "verification": "static_verified",
+      "verification_method_present": false,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/partial-item-inventory.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-item-inventory.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/sprite-animations/bank.json",
+      "structure": "sprite-animations",
+      "table_offset": 5501440,
+      "table_offset_hex": "0x53F200",
+      "format_fields": [
+        "entry_format",
+        "animation_frame_format"
+      ],
+      "entry_count_declared": 38,
+      "entry_count_actual": 38,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/story/bank.json",
+      "structure": "story",
+      "table_offset": 5464940,
+      "table_offset_hex": "0x53636C",
+      "format_fields": [
+        "entry_format",
+        "chapter_data_format"
+      ],
+      "entry_count_declared": 9,
+      "entry_count_actual": 9,
+      "verification": "static_verified",
+      "verification_method_present": false,
+      "documentation": [
+        "docs/build-pipeline.md",
+        "docs/content-pipeline.md",
+        "docs/development-status.md",
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "docs/testing-checklist.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/debugging-record.md",
+        "notes/dialogue-caller-runtime.md",
+        "notes/dialogue-function-analysis.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/headless-workflow.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/story-b/bank.json",
+      "structure": "story-b",
+      "table_offset": 5467080,
+      "table_offset_hex": "0x536BC8",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 11,
+      "entry_count_actual": 11,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/story-c/bank.json",
+      "structure": "story-c",
+      "table_offset": 5476336,
+      "table_offset_hex": "0x538FF0",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 10,
+      "entry_count_actual": 10,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/story-d/bank.json",
+      "structure": "story-d",
+      "table_offset": 5483384,
+      "table_offset_hex": "0x53AB78",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 11,
+      "entry_count_actual": 11,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/story-e/bank.json",
+      "structure": "story-e",
+      "table_offset": 5489600,
+      "table_offset_hex": "0x53C3C0",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 9,
+      "entry_count_actual": 9,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unknown-save-state.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/tile-assets/bank.json",
+      "structure": "tile-assets",
+      "table_offset": 5911064,
+      "table_offset_hex": "0x5A3218",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 6,
+      "entry_count_actual": 6,
+      "verification": "static_verified",
+      "verification_method_present": true,
+      "documentation": [
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/structure-field-semantics.md",
+        "notes/addresses.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    },
+    {
+      "bank": "sequel/content/units/bank.json",
+      "structure": "units",
+      "table_offset": 5501592,
+      "table_offset_hex": "0x53F298",
+      "format_fields": [
+        "entry_format"
+      ],
+      "entry_count_declared": 64,
+      "entry_count_actual": 64,
+      "verification": "static_verified",
+      "verification_method_present": false,
+      "documentation": [
+        "docs/build-pipeline.md",
+        "docs/content-pipeline.md",
+        "docs/final-completion-report.md",
+        "docs/phase3-final-status.md",
+        "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
+        "docs/structure-field-semantics.md",
+        "docs/web-editor-spec.md",
+        "notes/addresses.md",
+        "notes/battle-config-format.md",
+        "notes/dynamic-verification-audit.md",
+        "notes/patch-generator-audit.md",
+        "notes/unit-id-mapping-analysis.md",
+        "notes/unit-skill-addresses.md"
+      ],
+      "checks": {
+        "table_offset": true,
+        "format": true,
+        "entries": true,
+        "verification": true,
+        "documentation": true
+      },
+      "issues": [],
+      "complete": true
+    }
+  ]
+}

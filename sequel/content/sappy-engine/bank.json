@@ -1,10 +1,16 @@
 {
     "version": 2,
     "description": "Sappy audio engine command handler at 0x08079668. Custom dispatcher that processes audio commands 0x64-0xE3. Special commands 0x64-0x67 load from engine state offsets. Indexed commands 0x80-0xE3 use the command as a table index into the audio pointer table at 0x08599634.",
-    "table_offset": 496232,
+  "table_offset": 497256,
     "table_offset_hex": "0x079668",
     "entry_count": 1,
-    "entry_size": 0,
+    "entry_size": 32,
+    "entry_format": {
+        "description": "First 32 bytes of the verified Thumb audio dispatcher code region.",
+        "fields": [
+            {"offset": 0, "size": 32, "name": "code", "type": "bytes"}
+        ]
+    },
     "command_range": {
         "min": 100,
         "max": 227,

@@ -736,5 +736,13 @@
     ],
     "verification": "static_verified",
     "table_offset": 5501592,
-    "table_offset_hex": "0x53F298"
+    "table_offset_hex": "0x53F298",
+    "entry_count": 64,
+    "entry_size": 2,
+    "entry_format": {
+        "description": "Battle slot to character ID lookup table.",
+        "fields": [
+            {"offset": 0, "size": 2, "name": "char_id", "type": "u16"}
+        ]
+    }
 }

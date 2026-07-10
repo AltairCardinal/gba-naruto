@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Battle event handler pointer table discovered at ROM offset 0x53E6D8. 14 entries of u32 pointers to Thumb event handler code.",
-  "table_offset": 5498744,
+  "table_offset": 5498584,
   "table_offset_hex": "0x53E6D8",
   "entry_count": 14,
   "entry_size": 4,
@@ -60,87 +60,87 @@
   "discovered_by": "Examining region 0x53E000-0x53F000 between story tables and map headers",
   "entries": [
     {
-      "_raw_offset": 5498744,
-      "handler_ptr": 134737977,
-      "handler_ptr_hex": "39f00708",
+      "_raw_offset": 5498584,
+      "handler_ptr": 134737917,
+      "handler_ptr_hex": "fdef0708",
       "_index": 0
     },
     {
-      "_raw_offset": 5498748,
-      "handler_ptr": 134738249,
-      "handler_ptr_hex": "49f10708",
+      "_raw_offset": 5498588,
+      "handler_ptr": 134738021,
+      "handler_ptr_hex": "65f00708",
       "_index": 1
     },
     {
-      "_raw_offset": 5498752,
+      "_raw_offset": 5498592,
       "handler_ptr": 134737917,
       "handler_ptr_hex": "fdef0708",
       "_index": 2
     },
     {
-      "_raw_offset": 5498756,
+      "_raw_offset": 5498596,
       "handler_ptr": 134738249,
       "handler_ptr_hex": "49f10708",
       "_index": 3
     },
     {
-      "_raw_offset": 5498760,
-      "handler_ptr": 0,
-      "handler_ptr_hex": "00000000",
+      "_raw_offset": 5498600,
+      "handler_ptr": 134737917,
+      "handler_ptr_hex": "fdef0708",
       "_index": 4
     },
     {
-      "_raw_offset": 5498764,
-      "handler_ptr": 0,
-      "handler_ptr_hex": "00000000",
+      "_raw_offset": 5498604,
+      "handler_ptr": 134738021,
+      "handler_ptr_hex": "65f00708",
       "_index": 5
     },
     {
-      "_raw_offset": 5498768,
-      "handler_ptr": 134737977,
-      "handler_ptr_hex": "39f00708",
+      "_raw_offset": 5498608,
+      "handler_ptr": 134737917,
+      "handler_ptr_hex": "fdef0708",
       "_index": 6
     },
     {
-      "_raw_offset": 5498772,
+      "_raw_offset": 5498612,
       "handler_ptr": 134738021,
       "handler_ptr_hex": "65f00708",
       "_index": 7
     },
     {
-      "_raw_offset": 5498776,
+      "_raw_offset": 5498616,
       "handler_ptr": 134737917,
       "handler_ptr_hex": "fdef0708",
       "_index": 8
     },
     {
-      "_raw_offset": 5498780,
+      "_raw_offset": 5498620,
       "handler_ptr": 134738021,
       "handler_ptr_hex": "65f00708",
       "_index": 9
     },
     {
-      "_raw_offset": 5498784,
-      "handler_ptr": 134734657,
-      "handler_ptr_hex": "41e30708",
+      "_raw_offset": 5498624,
+      "handler_ptr": 134737917,
+      "handler_ptr_hex": "fdef0708",
       "_index": 10
     },
     {
-      "_raw_offset": 5498788,
-      "handler_ptr": 0,
-      "handler_ptr_hex": "00000000",
+      "_raw_offset": 5498628,
+      "handler_ptr": 134738021,
+      "handler_ptr_hex": "65f00708",
       "_index": 11
     },
     {
-      "_raw_offset": 5498792,
+      "_raw_offset": 5498632,
       "handler_ptr": 134737917,
       "handler_ptr_hex": "fdef0708",
       "_index": 12
     },
     {
-      "_raw_offset": 5498796,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
+      "_raw_offset": 5498636,
+      "handler_ptr": 134738249,
+      "handler_ptr_hex": "49f10708",
       "_index": 13
     }
   ],
@@ -154,7 +154,7 @@
   "extraction": {
     "tool": "tools/extract_all_structures.py",
     "extracted_count": 14,
-    "rom_offset": 5498744,
-    "rom_offset_hex": "0x53E778"
+    "rom_offset": 5498584,
+    "rom_offset_hex": "0x53E6D8"
   }
 }
