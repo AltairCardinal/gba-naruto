@@ -30,7 +30,7 @@
 
 ```text
 python unittest: 31/31
-runtime probe node tests: 16/16
+runtime probe node tests: 19/19
 tools/automated_test.py: 22/22
 web-editor backend pytest: 9/9
 audit_re_completion.py: 32/32 banks
@@ -111,15 +111,20 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 - formation record `+0` 与模板 `+0` 匹配；
 - `0x0806AC70 → 0x0806AA64` 把模板前 `0xBC` 字节复制到
   `0x020240C0 + slot*0x1D4`，因此战斗槽 `+0` 是 character ID；
-- 首战预测：formation `0x588CA8[0]=1`，slot 1 `0x02024294[0]` 应为 1。
+- 首战样本：formation `0x588CA8[0]=1`，slot 1 `0x02024294[0]=1`；
+  template slot 1 `+0=1`，且 template 前 `0xBC` 字节完整复制到战斗 slot 1。
+  `characterId=1` 对应 ROM record `0x5424D0`，但 template payload 与 ROM raw
+  record 仅前 7 字节一致，说明 raw record 到 template 有运行时转换/重排，不能把
+  units 升级为 fully runtime-verified。
 
 入口：`notes/character-definition-source-20260711.md`、
 `notes/units-unsafe-table-fix-20260711.md`。
 
 `tools/extract_character_definitions.py` 和 `tests/test_extract_character_definitions.py`
 已建立，`sequel/content/units/bank.json` 已从错误的 `0x53F298` 迁移到 63×`0xB4`
-真表。剩余工作是把 runtime 探针样本闭合到具体 `0x54241C` 记录，并在字段语义逐项
-证明后恢复安全回写。
+真表。当前已把 runtime character ID 闭合到具体 `0x54241C` 记录，并证明
+template→unit 复制；剩余工作是用原生 PC/LR、watchpoint 或受控字段 A/B 证明 ROM
+raw-record→template 的字段来源，再逐项恢复安全回写。
 
 ### 3.4 构建安全边界
 
@@ -157,6 +162,8 @@ WASM 暴露 GBA 内存读取和本地 ROM `uploadRom/loadGame`，但不暴露 PC
 
 - START/A/B/方向键导航；
 - 单位槽坐标、character ID；
+- 角色模板池 `0x02022E34`、template→unit 复制匹配、template payload 与 units
+  ROM raw record 的前缀/首个 mismatch 检查；
 - battle-control `0x02026804..0B`；
 - map runtime `0x0201BE28..2B`；
 - 画面颜色比例分类；
@@ -164,9 +171,11 @@ WASM 暴露 GBA 内存读取和本地 ROM `uploadRom/loadGame`，但不暴露 PC
 - settle 轮询与可选恢复确认键；
 - 唯一编成匹配，歧义时拒绝猜测。
 
-已知问题：固定 250 次 A 可到人物页，但人物页→战前菜单转场仍存在输入/时序漂移。
-最近失败样本停在人物页解体的转场帧，目标 WRAM 全零，探针正确返回 `not-found`。
-最新代码增加了每次 B 后四轮（约 2.4 秒）宽限期，但尚未完成下一次真实重放。
+最新成功样本保存在 `/tmp/units-template-result.json`，result SHA-256 为
+`47eb0ce26fe1f0296b448ab931cbf4d9ddf91b00592397bcafc5770029b9819b`，最终截图
+SHA-256 为 `a5fb3caaad684fb83a19e83ddfcc258ef0cfd2b6c5c2504532865d5b0d16fb24`。
+固定 250 次 A 可到人物页，但人物页→战前菜单转场仍可能受输入/时序漂移影响；失败时
+优先检查 `screenState`、`adaptiveRetries` 和 phase screenshots。
 
 建议下一次命令：
 
@@ -183,8 +192,8 @@ env \
   PROBE_SETTLE_COUNT=40 \
   PROBE_SETTLE_DELAY=500 \
   PROBE_SETTLE_CONFIRM_EVERY=2 \
-  PROBE_RESULT=/tmp/maps-units-result.json \
-  PROBE_SCREENSHOT=/tmp/maps-units-final.png \
+  PROBE_RESULT=/tmp/units-template-result.json \
+  PROBE_SCREENSHOT=/tmp/units-template-final.png \
   node play/_scripts/runtime-formation-probe.js
 ```
 
@@ -194,6 +203,9 @@ env \
 - battle ID 40；
 - slot 1 `characterId=1, x=4, y=4`；
 - map runtime `[36,44,9,22]`；
+- template slot 1 与 battle slot 1 前 `0xBC` 字节匹配；
+- character definition match 指向 `0x5424D0`，并记录
+  `matchingPrefixBytes=7, rawRecordMatchesRom=false`；
 - 截图为首战地图；
 - 结果摘要和 SHA-256 写入仓库 note。
 
@@ -212,7 +224,9 @@ env \
 1. ✅ 用最新状态机重放 baseline，并固化 `[36,44,9,22]` 和 character ID 1；
 2. ✅ 通过 `PROBE_ROM` request-interception 自动加载 width 36→32 的本地 ROM B；
 3. ✅ 同路线验证 `[32,44,8,22]`，maps width/height 升级 runtime；
-4. ⚠️ units 只有在真实 `0x54241C` 记录也被关联后才升级。
+4. ✅ units 已取得 character ID 选择与 template→unit 复制样本；
+5. ⚠️ units 只有在 `0x5424D0` raw record 到 template 字段转换被 PC/LR、watchpoint
+   或受控 A/B 证明后才升级。
 
 ### P0-3：清除剩余危险 legacy 写入
 

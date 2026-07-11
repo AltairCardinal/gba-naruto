@@ -16,8 +16,13 @@ const BROWSER_EXECUTABLE = process.env.PROBE_BROWSER || '/usr/bin/chromium';
 const PROBE_ROM = process.env.PROBE_ROM || '';
 const ROOT = path.resolve(__dirname, '..', '..');
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
+const UNITS_BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/units/bank.json'), 'utf8'));
 const WRAM_BASE = 0x020240C0;
 const UNIT_STRIDE = 0x1D4;
+const TEMPLATE_POOL = 0x02022E34;
+const TEMPLATE_STRIDE = 0xBC;
+const CHARACTER_RECORD_SIZE = 0xB4;
+const TEMPLATE_COUNT = 24;
 // 0x02026804 is the next proven battle-control block. With 0x1D4-byte unit
 // records, only slots 0..20 fit before it; scanning slot 21+ reads unrelated
 // control data and creates false (0,0) units.
@@ -67,6 +72,78 @@ function extractRuntimePositions(snapshot) {
     }
   }
   return positions;
+}
+
+function extractRuntimeTemplates(snapshot) {
+  const templates = [];
+  for (let slot = 0; slot < TEMPLATE_COUNT; slot += 1) {
+    const start = slot * TEMPLATE_STRIDE;
+    const record = snapshot.subarray(start, start + TEMPLATE_STRIDE);
+    if (!record.some(byte => byte !== 0)) continue;
+    templates.push({
+      slot,
+      characterId: record[0],
+      first16Hex: Buffer.from(record.subarray(0, 16)).toString('hex'),
+    });
+  }
+  return templates;
+}
+
+function matchTemplatesToUnits(templateSnapshot, unitSnapshot, runtimePositions) {
+  return runtimePositions.map(position => {
+    const unitStart = position.slot * UNIT_STRIDE;
+    const unitRecord = unitSnapshot.subarray(unitStart, unitStart + TEMPLATE_STRIDE);
+    const matches = [];
+    for (let slot = 0; slot < TEMPLATE_COUNT; slot += 1) {
+      const templateStart = slot * TEMPLATE_STRIDE;
+      const templateRecord = templateSnapshot.subarray(templateStart, templateStart + TEMPLATE_STRIDE);
+      if (Buffer.compare(Buffer.from(templateRecord), Buffer.from(unitRecord)) === 0) {
+        matches.push(slot);
+      }
+    }
+    return {
+      unitSlot: position.slot,
+      characterId: position.characterId,
+      unitFirst16Hex: Buffer.from(unitRecord.subarray(0, 16)).toString('hex'),
+      matchingTemplateSlots: matches,
+    };
+  });
+}
+
+function matchTemplatesToCharacterDefinitions(templateSnapshot, unitsBank) {
+  return extractRuntimeTemplates(templateSnapshot).map(template => {
+    const entry = unitsBank.entries.find(item => item.character_id === template.characterId);
+    const templateStart = template.slot * TEMPLATE_STRIDE;
+    const templateRecordHex = Buffer.from(
+      templateSnapshot.subarray(templateStart + 1, templateStart + 1 + CHARACTER_RECORD_SIZE),
+    ).toString('hex');
+    const romRecordHex = entry?.raw_hex || '';
+    let matchingPrefixBytes = 0;
+    let firstMismatchOffset = null;
+    const templateRecord = Buffer.from(templateRecordHex, 'hex');
+    const romRecord = Buffer.from(romRecordHex, 'hex');
+    const compareLength = Math.min(templateRecord.length, romRecord.length);
+    for (let offset = 0; offset < compareLength; offset += 1) {
+      if (templateRecord[offset] !== romRecord[offset]) {
+        firstMismatchOffset = offset;
+        break;
+      }
+      matchingPrefixBytes += 1;
+    }
+    if (firstMismatchOffset === null && templateRecord.length !== romRecord.length) {
+      firstMismatchOffset = compareLength;
+    }
+    return {
+      templateSlot: template.slot,
+      characterId: template.characterId,
+      romOffsetHex: entry?.rom_offset_hex || null,
+      templateRecordFirst16Hex: templateRecordHex.slice(0, 32),
+      romRecordFirst16Hex: romRecordHex.slice(0, 32) || null,
+      matchingPrefixBytes: entry ? matchingPrefixBytes : null,
+      firstMismatchOffset,
+      rawRecordMatchesRom: Boolean(entry && templateRecordHex === romRecordHex),
+    };
+  });
 }
 
 async function readGbaBytes(page, address, length) {
@@ -197,10 +274,14 @@ async function main() {
         }
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
+      const templateSnapshot = await readGbaBytes(page, TEMPLATE_POOL, TEMPLATE_STRIDE * TEMPLATE_COUNT);
       const battleControl = decodeBattleControl(await readGbaBytes(page, BATTLE_CONTROL, 8));
       const mapRuntime = decodeMapRuntime(await readGbaBytes(page, MAP_RUNTIME, 4));
       const status = classifyMemorySnapshot(previous, snapshot);
       const runtimePositions = extractRuntimePositions(snapshot);
+      const runtimeTemplates = extractRuntimeTemplates(templateSnapshot);
+      const templateMatches = matchTemplatesToUnits(templateSnapshot, snapshot, runtimePositions);
+      const characterDefinitionMatches = matchTemplatesToCharacterDefinitions(templateSnapshot, UNITS_BANK);
       lastDiagnostic = {
         step: index + 1,
         phase: action.phase,
@@ -208,6 +289,9 @@ async function main() {
         nonzeroBytes: snapshot.reduce((count, byte) => count + (byte !== 0), 0),
         firstBytesHex: Buffer.from(snapshot.subarray(0, 16)).toString('hex'),
         runtimePositions,
+        runtimeTemplates,
+        templateMatches,
+        characterDefinitionMatches,
         battleControl,
         mapRuntime,
         screenState,
@@ -238,10 +322,14 @@ async function main() {
         await pressGbaKey(page, settle.key, settle.holdMs);
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
+      const templateSnapshot = await readGbaBytes(page, TEMPLATE_POOL, TEMPLATE_STRIDE * TEMPLATE_COUNT);
       const battleControl = decodeBattleControl(await readGbaBytes(page, BATTLE_CONTROL, 8));
       const mapRuntime = decodeMapRuntime(await readGbaBytes(page, MAP_RUNTIME, 4));
       const status = classifyMemorySnapshot(previous, snapshot);
       const runtimePositions = extractRuntimePositions(snapshot);
+      const runtimeTemplates = extractRuntimeTemplates(templateSnapshot);
+      const templateMatches = matchTemplatesToUnits(templateSnapshot, snapshot, runtimePositions);
+      const characterDefinitionMatches = matchTemplatesToCharacterDefinitions(templateSnapshot, UNITS_BANK);
       lastDiagnostic = {
         step: plan.length + settle.poll,
         phase: settle.phase,
@@ -251,6 +339,9 @@ async function main() {
         nonzeroBytes: snapshot.reduce((count, byte) => count + (byte !== 0), 0),
         firstBytesHex: Buffer.from(snapshot.subarray(0, 16)).toString('hex'),
         runtimePositions,
+        runtimeTemplates,
+        templateMatches,
+        characterDefinitionMatches,
         battleControl,
         mapRuntime,
       };
@@ -286,4 +377,11 @@ async function main() {
 
 if (require.main === module) main().catch(error => { console.error(error.stack || error); process.exitCode = 1; });
 
-module.exports = { extractRuntimePositions, focusGameSurface, readGbaBytes };
+module.exports = {
+  extractRuntimePositions,
+  extractRuntimeTemplates,
+  focusGameSurface,
+  matchTemplatesToCharacterDefinitions,
+  matchTemplatesToUnits,
+  readGbaBytes,
+};

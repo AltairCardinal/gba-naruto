@@ -60,7 +60,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 29 | story-d (`0x53AB78`) | static | Eleven chapter-like pointers only; no route/table selection evidence. |
 | 30 | story-e (`0x53C3C0`) | static | Nine chapter-like pointers only; no route/table selection evidence. |
 | 31 | tile-assets (`0x5A3218`) | static | Six valid pointers to tile/map-like data only; no decompressor/read hit or controlled visual change. |
-| 32 | units (`0x54241C`) | code | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the code-referenced character definition table. Existing battle snapshots do not yet prove a runtime slot was populated from a specific record, so this is not runtime_verified. |
+| 32 | units (`0x54241C`) | code | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the code-referenced character definition table. `notes/character-definition-source-20260711.md` now records a WASM first-battle sample where runtime template slot 1 (`characterId=1`) is copied byte-for-byte into battle slot 1, and the ID maps to ROM record `0x5424D0`; however the template payload only matches the ROM raw record for the first 7 bytes, so ROM raw-record consumption still rests on the code trace rather than runtime/source evidence. |
 
 ## Existing runtime assets: what they do and do not prove
 
@@ -78,7 +78,8 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
   evidence.
 - `notes/battle-*.json`, `notes/loaded-save-battle.json`, and WRAM dumps provide
   useful state snapshots, but lack a captured ROM source/read PC. They cannot
-  upgrade `battle-config`, `positions`, `units`, or stats to `dynamic` yet.
+  upgrade `battle-config`, `units`, or stats to `dynamic` yet; `positions` has
+  separate WASM runtime evidence in `notes/wasm-formation-probe-result-20260710.md`.
 - `tools/mgba-headless-snapshot.py` is the portable Linux debugger path. The Lua
   wrapper requires an mGBA build with `--script`; several Lua files also contain
   the historical hard-coded macOS output directory and should be parameterized

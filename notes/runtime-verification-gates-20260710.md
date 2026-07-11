@@ -118,7 +118,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 29 | story-d (`0x0853AB78`) | 后续章节 | 同上 |
 | 30 | story-e (`0x0853C3C0`) | 后续章节 | 同上 |
 | 31 | tile-assets (`0x085A3218`) | 专门资源/A-B | loader/decompressor 消费选中目标并写 VRAM；受控图块改动出现在预期位置 |
-| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；至少一条运行时单位需闭合到具体 ROM 记录并与画面角色一致 |
+| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；现有 WASM 样本已证明 ID 1 template→battle slot 复制，但 template payload 与 ROM raw record 仅前 7 字节一致；升级还需 PC/LR/watchpoint 或单字段 A/B 证明具体 ROM 记录字段进入模板 |
 
 ## 完成门槛与边界
 

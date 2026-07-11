@@ -16,7 +16,13 @@ const {
   tailTransitionDecision,
   shouldRetryBack,
 } = require('./runtime-formation-probe-lib');
-const { extractRuntimePositions, focusGameSurface } = require('./runtime-formation-probe');
+const {
+  extractRuntimePositions,
+  extractRuntimeTemplates,
+  focusGameSurface,
+  matchTemplatesToCharacterDefinitions,
+  matchTemplatesToUnits,
+} = require('./runtime-formation-probe');
 
 test('extractRuntimePositions stops before battle-control memory', () => {
   const stride = 0x1D4;
@@ -38,6 +44,102 @@ test('focusGameSurface restores keyboard focus to the emulator viewport', async 
   const clicks = [];
   await focusGameSurface({ mouse: { click: async (x, y) => clicks.push([x, y]) } });
   assert.deepEqual(clicks, [[480, 215]]);
+});
+
+test('extractRuntimeTemplates reports non-empty character templates', () => {
+  const stride = 0xBC;
+  const snapshot = new Uint8Array(stride * 24);
+  snapshot[stride * 3] = 1;
+  snapshot[stride * 3 + 1] = 0x0e;
+  snapshot[stride * 3 + 2] = 0x0d;
+  snapshot[stride * 3 + 3] = 0x08;
+
+  assert.deepEqual(extractRuntimeTemplates(snapshot), [{
+    slot: 3,
+    characterId: 1,
+    first16Hex: '010e0d08000000000000000000000000',
+  }]);
+});
+
+test('matchTemplatesToUnits links copied template bytes to unit slots', () => {
+  const templateStride = 0xBC;
+  const unitStride = 0x1D4;
+  const templateSnapshot = new Uint8Array(templateStride * 24);
+  const unitSnapshot = new Uint8Array(unitStride * 21);
+  const templateStart = templateStride * 2;
+  const unitStart = unitStride * 1;
+  for (let i = 0; i < templateStride; i += 1) {
+    templateSnapshot[templateStart + i] = i % 251;
+    unitSnapshot[unitStart + i] = i % 251;
+  }
+  templateSnapshot[templateStart] = 1;
+  unitSnapshot[unitStart] = 1;
+
+  assert.deepEqual(matchTemplatesToUnits(
+    templateSnapshot,
+    unitSnapshot,
+    [{ slot: 1, characterId: 1, x: 4, y: 4 }],
+  ), [{
+    unitSlot: 1,
+    characterId: 1,
+    unitFirst16Hex: '010102030405060708090a0b0c0d0e0f',
+    matchingTemplateSlots: [2],
+  }]);
+});
+
+test('matchTemplatesToCharacterDefinitions links template payload to ROM raw record', () => {
+  const templateStride = 0xBC;
+  const record = Buffer.from('010e0d08030505000f00500002010000', 'hex');
+  const templateSnapshot = new Uint8Array(templateStride * 24);
+  const templateStart = templateStride * 1;
+  templateSnapshot[templateStart] = 1;
+  templateSnapshot.set(record, templateStart + 1);
+
+  const rawHex = record.toString('hex').padEnd(0xB4 * 2, '0');
+  const mismatchedRawHex = `${rawHex.slice(0, -2)}ff`;
+  assert.deepEqual(matchTemplatesToCharacterDefinitions(templateSnapshot, {
+    entries: [{
+      character_id: 1,
+      rom_offset_hex: '0x5424D0',
+      raw_hex: mismatchedRawHex,
+    }],
+  }), [{
+    templateSlot: 1,
+    characterId: 1,
+    romOffsetHex: '0x5424D0',
+    templateRecordFirst16Hex: '010e0d08030505000f00500002010000',
+    romRecordFirst16Hex: '010e0d08030505000f00500002010000',
+    matchingPrefixBytes: 179,
+    firstMismatchOffset: 179,
+    rawRecordMatchesRom: false,
+  }]);
+
+  templateSnapshot.fill(0, templateStart + 1);
+  templateSnapshot.set(Buffer.from(rawHex, 'hex'), templateStart + 1);
+  assert.deepEqual(matchTemplatesToCharacterDefinitions(templateSnapshot, {
+    entries: [{
+      character_id: 1,
+      rom_offset_hex: '0x5424D0',
+      raw_hex: rawHex,
+    }],
+  })[0], {
+    templateSlot: 1,
+    characterId: 1,
+    romOffsetHex: '0x5424D0',
+    templateRecordFirst16Hex: '010e0d08030505000f00500002010000',
+    romRecordFirst16Hex: '010e0d08030505000f00500002010000',
+    matchingPrefixBytes: 180,
+    firstMismatchOffset: null,
+    rawRecordMatchesRom: true,
+  });
+
+  assert.equal(matchTemplatesToCharacterDefinitions(templateSnapshot, {
+    entries: [{
+      character_id: 1,
+      rom_offset_hex: '0x5424D0',
+      raw_hex: rawHex.slice(0, 16),
+    }],
+  })[0].firstMismatchOffset, 8);
 });
 
 test('decodeBattleControl preserves raw bytes and exposes the chapter/battle id', () => {

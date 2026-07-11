@@ -103,3 +103,30 @@ maps 后续探针线索，不能把 maps 从 `code` 提升为 `runtime_verified`
 但 WASM 仍无 PC/LR/断点能力；maps 还需 width 36→32 的受控 A/B，units 还需把
 runtime character ID 1 明确闭合到 `0x54241C + 1*0xB4` 的真实角色定义记录后，
 才能升级为 `runtime_verified`。
+
+## 2026-07-11 units template 重放
+
+后续 `runtime-formation-probe.js` 增加模板池读取：
+
+- template pool：`0x02022E34`，24×`0xBC`；
+- result：`/tmp/units-template-result.json`；
+- screenshot：`/tmp/units-template-final.png`；
+- result SHA-256：`47eb0ce26fe1f0296b448ab931cbf4d9ddf91b00592397bcafc5770029b9819b`；
+- final screenshot SHA-256：`a5fb3caaad684fb83a19e83ddfcc258ef0cfd2b6c5c2504532865d5b0d16fb24`。
+
+结果仍为首战 group 40 / variant 0，slot 1 `characterId=1, x=4, y=4`。模板池
+slot 1 也为 `characterId=1`，且 battle slot 1 的前 `0xBC` 字节与 template slot 1
+完整匹配。
+
+`characterId=1` 映射到 units ROM record `0x5424D0`，但 template payload
+`+1..+0xB4` 与 ROM raw record 仅前 7 字节一致：
+
+- template first16：`010e0d0803050505000f005000500000`
+- ROM first16：`010e0d08030505000f00500002010000`
+- `matchingPrefixBytes=7`
+- `firstMismatchOffset=7`
+- `rawRecordMatchesRom=false`
+
+因此该样本升级了 formation ID → template → battle slot 的运行时证据，但没有把
+units raw record 逐字节消费升级为 `runtime_verified`。下一步应捕获
+`0x0806D4A0` 链的 PC/LR/寄存器或做 `0x5424D0` 单字段 A/B。
