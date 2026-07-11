@@ -36,8 +36,10 @@
   受控 A/B 证明
 - maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
-- chapters、skills、story beats、audio 四类无 ROM 身份的 legacy 危险回写已禁用，
-  只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为安全写回入口
+- battle configs、units、chapters、skills、story beats、audio、maps、levels、
+  character_stats、battle_config_data、encounter_zones、items 等无 ROM 身份的
+  legacy 危险回写已禁用，只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为
+  安全写回入口
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）

@@ -25,7 +25,7 @@ import json
 import sqlite3
 import struct
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 # Reserved region: 0x5E0000 .. 0x600000 (128 KiB) — was 0xFF padding in base ROM
 RESERVED_REGION_START = 0x5E0000
@@ -323,6 +323,34 @@ def generate_audio_patches(db_path: Path) -> list[dict[str, Any]]:
     } for row in rows]
 
 
+def _reject_unproven_legacy_rows(
+    db_path: Path,
+    query: str,
+    diagnostic_type: str,
+    db_table: str,
+    error: str,
+    describe: Callable[[sqlite3.Row], str],
+) -> list[dict[str, Any]]:
+    """Return diagnostic-only patches for editable tables lacking ROM identity."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(query).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    conn.close()
+    return [{
+        "type": diagnostic_type,
+        "db_table": db_table,
+        "db_row_id": int(row["id"]),
+        "error": error,
+        "description": describe(row),
+    } for row in rows]
+
+
 def generate_unit_position_patches(db_path: Path) -> list[dict[str, Any]]:
     """Write lossless ``rom_positions`` records to their proven ROM slots.
 
@@ -405,331 +433,93 @@ def generate_unit_position_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_map_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for map rows.
-
-    Each map row writes to the map header table at 0x53D910 (stride 32 bytes).
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    MAP_HEADER_TABLE_OFFSET = 0x53D910
-    MAP_ENTRY_SIZE = 32
-    try:
-        rows = conn.execute("SELECT id, name, width, height, tileset_ptr, tilemap_ptr FROM maps").fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            row_id = int(row["id"]) if row["id"] is not None else 0
-            width = int(row["width"]) if row["width"] is not None else 36
-            height = int(row["height"]) if row["height"] is not None else 36
-            tileset_ptr = int(row["tileset_ptr"]) if row["tileset_ptr"] is not None else 0x080C1CF8
-            tilemap_ptr = int(row["tilemap_ptr"]) if row["tilemap_ptr"] is not None else 0x080C416C
-            # Write map header entry at index (assuming sequential)
-            table_offset = MAP_HEADER_TABLE_OFFSET + row_id * MAP_ENTRY_SIZE
-            # Pack as: u16 width, u16 height, u32 tileset_ptr, u32 tilemap_ptr, ... (32 bytes total)
-            map_data = struct.pack("<HHII", width, height, tileset_ptr, tilemap_ptr)
-            # Pad to 32 bytes
-            map_data += b'\x00' * (MAP_ENTRY_SIZE - len(map_data))
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": map_data.hex(),
-                "length": MAP_ENTRY_SIZE,
-                "description": (
-                    f"DB[maps] id={row_id} "
-                    f"name={row['name']!r}: map header entry"
-                ),
-                "db_table": "maps",
-                "db_row_id": row_id,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_map_error",
-                "db_table": "maps",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[maps] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy map rows without a lossless ROM header record key."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, name, width, height, tileset_ptr, tilemap_ptr FROM maps",
+        "db_map_unmapped",
+        "maps",
+        "legacy map id is not a proven lossless ROM header index",
+        lambda row: (
+            f"DB[maps] id={row['id']} name={row['name']!r}: "
+            "skipped unsafe synthesized 32-byte map header write"
+        ),
+    )
 
 
 def generate_level_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for level rows.
-
-    Each level row writes to the level-up table at 0x5459D4 (stride 12 bytes).
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    LEVEL_TABLE_OFFSET = 0x5459D4
-    LEVEL_ENTRY_SIZE = 12
-    try:
-        rows = conn.execute("SELECT id, level, hp_gain, stat1_gain, stat2_gain FROM levels").fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            row_id = int(row["id"]) if row["id"] is not None else 0
-            level = int(row["level"]) if row["level"] is not None else 0
-            hp_gain = int(row["hp_gain"]) if row["hp_gain"] is not None else 0
-            stat1_gain = int(row["stat1_gain"]) if row["stat1_gain"] is not None else 0
-            stat2_gain = int(row["stat2_gain"]) if row["stat2_gain"] is not None else 0
-            # Write level entry at index (assuming sequential)
-            table_offset = LEVEL_TABLE_OFFSET + row_id * LEVEL_ENTRY_SIZE
-            # Pack as: u16 level, u16 hp_gain, u16 stat1_gain, u16 stat2_gain, u16 stat3_gain, u16 padding
-            level_data = struct.pack("<HHHHHH", level, hp_gain, stat1_gain, stat2_gain, 0, 0)
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": level_data.hex(),
-                "length": LEVEL_ENTRY_SIZE,
-                "description": (
-                    f"DB[levels] id={row_id} level={level} "
-                    f"hp_gain={hp_gain}: level entry"
-                ),
-                "db_table": "levels",
-                "db_row_id": row_id,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_level_error",
-                "db_table": "levels",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[levels] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy level rows without a proven ROM progression record key."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, level, hp_gain, stat1_gain, stat2_gain FROM levels",
+        "db_level_unmapped",
+        "levels",
+        "legacy level row is not a proven ROM progression-table record",
+        lambda row: (
+            f"DB[levels] id={row['id']} level={row['level']!r}: "
+            "skipped unsafe synthesized level entry write"
+        ),
+    )
 
 
 def generate_character_stat_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for character_stat rows.
-
-    Each character_stat row writes to the character stat table at 0x54507A (stride 16 bytes).
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    CHAR_STAT_TABLE_OFFSET = 0x54507A
-    CHAR_STAT_ENTRY_SIZE = 16
-    try:
-        rows = conn.execute("SELECT id, name, char_type, hp, attack, defense, max_value FROM character_stats").fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            row_id = int(row["id"]) if row["id"] is not None else 0
-            char_type = int(row["char_type"]) if row["char_type"] is not None else 8
-            hp = int(row["hp"]) if row["hp"] is not None else 100
-            attack = int(row["attack"]) if row["attack"] is not None else 100
-            defense = int(row["defense"]) if row["defense"] is not None else 100
-            max_value = int(row["max_value"]) if row["max_value"] is not None else 1500
-            # Write character stat entry at index (assuming sequential)
-            table_offset = CHAR_STAT_TABLE_OFFSET + row_id * CHAR_STAT_ENTRY_SIZE
-            # Pack as: u16 char_type, u16 hp, u16 attack, u16 defense, u16 padding1, u16 padding2, u16 padding3, u16 max_value
-            stat_data = struct.pack("<HHHHHHHH", char_type, hp, attack, defense, 0, 0, 0, max_value)
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": stat_data.hex(),
-                "length": CHAR_STAT_ENTRY_SIZE,
-                "description": (
-                    f"DB[character_stats] id={row_id} "
-                    f"name={row['name']!r}: character stat entry"
-                ),
-                "db_table": "character_stats",
-                "db_row_id": row_id,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_character_stat_error",
-                "db_table": "character_stats",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[character_stats] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy character stat rows without proven field serialization."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, name, char_type, hp, attack, defense, max_value FROM character_stats",
+        "db_character_stat_unmapped",
+        "character_stats",
+        "legacy character stat fields are not proven ROM field serializers",
+        lambda row: (
+            f"DB[character_stats] id={row['id']} name={row['name']!r}: "
+            "skipped unsafe synthesized stat entry write"
+        ),
+    )
 
 
 def generate_battle_config_data_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for battle_config_data rows.
-
-    Each battle_config_data row writes to the battle configuration table at 0x545458 (stride 16 bytes).
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    BATTLE_CONFIG_TABLE_OFFSET = 0x545458
-    BATTLE_CONFIG_ENTRY_SIZE = 16
-    try:
-        rows = conn.execute("SELECT id, name, config_id, value, flag1, flag2 FROM battle_config_data").fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            row_id = int(row["id"]) if row["id"] is not None else 0
-            config_id = int(row["config_id"]) if row["config_id"] is not None else 0
-            value = int(row["value"]) if row["value"] is not None else 612
-            flag1 = int(row["flag1"]) if row["flag1"] is not None else 0
-            flag2 = int(row["flag2"]) if row["flag2"] is not None else 0
-            # Write battle config entry at index (assuming sequential)
-            table_offset = BATTLE_CONFIG_TABLE_OFFSET + row_id * BATTLE_CONFIG_ENTRY_SIZE
-            # Pack as: u16 config_id, u16 param1, u16 param2, u16 value, u16 flag1, u16 flag2, u16 flag3, u16 flag4
-            config_data = struct.pack("<HHHHHHHH", config_id, 0, 0, value, flag1, flag2, 0, 0)
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": config_data.hex(),
-                "length": BATTLE_CONFIG_ENTRY_SIZE,
-                "description": (
-                    f"DB[battle_config_data] id={row_id} "
-                    f"name={row['name']!r}: battle config entry"
-                ),
-                "db_table": "battle_config_data",
-                "db_row_id": row_id,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_battle_config_data_error",
-                "db_table": "battle_config_data",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[battle_config_data] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy battle config rows without proven ROM field identity."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, name, config_id, value, flag1, flag2 FROM battle_config_data",
+        "db_battle_config_data_unmapped",
+        "battle_config_data",
+        "legacy battle config fields are not proven ROM field serializers",
+        lambda row: (
+            f"DB[battle_config_data] id={row['id']} name={row['name']!r}: "
+            "skipped unsafe synthesized battle config write"
+        ),
+    )
 
 
 def generate_encounter_zone_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for encounter zone configuration.
-
-    Each encounter_zone row modifies the zone_id field (offset 28) in the
-    map header table at 0x53D910 (stride 32 bytes). The zone_id controls
-    which encounter table is used when the player walks on that map.
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    MAP_HEADER_TABLE_OFFSET = 0x53D910
-    MAP_ENTRY_SIZE = 32
-    ZONE_ID_OFFSET = 28  # zone_id is at offset 28 in each 32-byte entry
-    try:
-        rows = conn.execute(
-            "SELECT id, map_id, zone_id FROM encounter_zones"
-        ).fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            map_id = int(row["map_id"]) if row["map_id"] is not None else 0
-            zone_id = int(row["zone_id"]) if row["zone_id"] is not None else 1
-            # Write zone_id to the map header entry
-            table_offset = (
-                MAP_HEADER_TABLE_OFFSET + map_id * MAP_ENTRY_SIZE + ZONE_ID_OFFSET
-            )
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": struct.pack("<I", zone_id & 0xFFFFFFFF).hex(),
-                "length": 4,
-                "description": (
-                    f"DB[encounter_zones] id={row['id']} map_id={map_id} "
-                    f"zone_id={zone_id}: map header zone field"
-                ),
-                "db_table": "encounter_zones",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_encounter_zone_error",
-                "db_table": "encounter_zones",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[encounter_zones] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy encounter zone rows without a proven map-header field."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, map_id, zone_id FROM encounter_zones",
+        "db_encounter_zone_unmapped",
+        "encounter_zones",
+        "legacy encounter zone fields are not proven map-header serializers",
+        lambda row: (
+            f"DB[encounter_zones] id={row['id']} map_id={row['map_id']!r}: "
+            "skipped unsafe synthesized zone field write"
+        ),
+    )
 
 
 def generate_item_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for item/technique rows.
-
-    Each item row writes to the skill table at 0x546100 (stride 16 bytes),
-    which serves as the item/technique system in this tactical RPG.
-    Items are represented as techniques with ID, type, cost, and effect.
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    SKILL_TABLE_OFFSET = 0x546100
-    ENTRY_SIZE = 16
-    try:
-        rows = conn.execute(
-            "SELECT id, item_id, name, item_type, cost, effect FROM items"
-        ).fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            item_id = int(row["item_id"]) if row["item_id"] is not None else 0
-            item_type = int(row["item_type"]) if row["item_type"] is not None else 0
-            cost = int(row["cost"]) if row["cost"] is not None else 0
-            effect = int(row["effect"]) if row["effect"] is not None else 0
-            # Write item entry to skill table (items share the skill table in this SRPG)
-            table_offset = SKILL_TABLE_OFFSET + item_id * ENTRY_SIZE
-            item_data = struct.pack(
-                "<IHHHHHH",
-                0,              # padding
-                5,              # count field
-                item_type,      # type (skill/item type)
-                effect & 0xFFFF,# effect value
-                cost & 0xFFFF,  # cost/uses
-                0x0401,         # flags
-                0,              # extra
-            )
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": item_data.hex(),
-                "length": ENTRY_SIZE,
-                "description": (
-                    f"DB[items] id={row['id']} item_id={item_id} "
-                    f"name={row['name']!r}: skill table entry"
-                ),
-                "db_table": "items",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_item_error",
-                "db_table": "items",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[items] id={row['id']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject legacy item rows until the item/skill table identity is split."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        "SELECT id, item_id, name, item_type, cost, effect FROM items",
+        "db_item_unmapped",
+        "items",
+        "items are not proven as an independent ROM table and collide with skills",
+        lambda row: (
+            f"DB[items] id={row['id']} item_id={row['item_id']!r}: "
+            "skipped unsafe synthesized skill-table write"
+        ),
+    )
 
 
 def generate_audio_event_patches(db_path: Path) -> list[dict[str, Any]]:

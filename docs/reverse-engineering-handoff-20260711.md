@@ -143,11 +143,16 @@ raw-record→template 的字段来源，再逐项恢复安全回写。
 - chapters；
 - skills；
 - story beats；
-- audio files。
+- audio files；
+- maps；
+- levels；
+- character_stats；
+- battle_config_data；
+- encounter_zones；
+- items。
 
-仍需按同一模式封堵的潜在危险入口：maps、levels、character_stats、
-battle_config_data、encounter_zones、items。它们在当前数据库中可能尚无表，但一旦创建
-就会按 DB 主键、默认指针或补零模板写真实 ROM。
+这些 legacy 入口后续只能在具备明确 ROM 身份、完整 raw/base 校验和字段级序列化证据
+后逐项恢复真实写回；已有 `rom_*` lossless mirror 入口不受影响。
 
 入口：`notes/legacy-generator-safety-20260711.md`、
 `notes/battle-config-unsafe-template-fix-20260710.md`、
@@ -231,7 +236,7 @@ env \
 ### P0-3：清除剩余危险 legacy 写入
 
 参数化测试 maps、levels、character_stats、battle_config_data、encounter_zones、items，
-要求没有显式 ROM 身份时零 `bytes` patch，只返回 diagnostic。随后再逐项从 `rom_*`
+要求没有显式 ROM 身份时零 `bytes` patch，只返回 diagnostic，已完成。随后再逐项从 `rom_*`
 mirror 恢复安全字段编辑。
 
 ### P1：逐项提升 32 结构证据
