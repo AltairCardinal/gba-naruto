@@ -6,8 +6,8 @@
 可以审计的基线：
 
 - 32/32 个 `bank.json` 通过元数据、地址、条目和基准 ROM 字节一致性检查；
-- 当前严格证据分布为 **1 runtime / 6 code / 24 static / 1 none**；
-- positions 已取得可复查运行时证据；maps 是下一项最接近 runtime 的结构；
+- 当前严格证据分布为 **2 runtime / 5 code / 24 static / 1 none**；
+- positions 与 maps 已取得可复查运行时证据；units 是下一项最接近 runtime 的结构；
 - 构建链已具备 immutable-base 前置校验、跨补丁冲突检测及 audit/game-effective
   区域隔离；
 - 已停止 battle-config、units、chapters、skills、story beats、audio 等缺少 ROM
@@ -83,16 +83,16 @@ diagnostic: 169
 `notes/positions-rom-source-20260710.md`、
 `notes/wasm-formation-probe-result-20260710.md`。
 
-### 3.2 maps：字段链已确认，动态样本未闭合
+### 3.2 maps：width/height 已完成 runtime A/B
 
 - header：file `0x53D910`，47×32；
 - `0x08068FB4` 把选中行 width/height 写到 `0x0201BE28/29`，并把
   `width>>2` / `height>>1` 写到 `0x0201BE2A/2B`；
 - `0x08068FF0` 消费同一行的资源指针；
-- 首战 ID 40 对应 file `0x53DE10`，width/height 为 36×44；运行时预期
+- 首战 ID 40 对应 file `0x53DE10`，width/height 为 36×44；baseline 运行时为
   `[36,44,9,22]`；
-- 安全 A/B：仅将 width 36→32，预期运行时变为 `[32,44,8,22]`。不要扩大尺寸或
-  修改资源指针。
+- 安全 A/B 仅将 width 36→32，同路线运行时变为 `[32,44,8,22]`，证明
+  width/height 运行时字段链；不要扩大尺寸或修改资源指针。
 
 入口：`notes/maps-runtime-fields-20260711.md`、
 `play/_scripts/runtime-formation-probe.js`。
@@ -209,11 +209,10 @@ env \
 
 ### P0-2：闭合 maps 与 units 动态证据
 
-1. 用最新宽限状态机重放 baseline；
-2. 若成功，固化 `[36,44,9,22]` 和 character ID 1；
-3. 自动上传 width 36→32 的本地 ROM B；
-4. 同路线验证 `[32,44,8,22]`；
-5. maps 升级 runtime，units 只有在真实 `0x54241C` 记录也被关联后才升级。
+1. ✅ 用最新状态机重放 baseline，并固化 `[36,44,9,22]` 和 character ID 1；
+2. ✅ 通过 `PROBE_ROM` request-interception 自动加载 width 36→32 的本地 ROM B；
+3. ✅ 同路线验证 `[32,44,8,22]`，maps width/height 升级 runtime；
+4. ⚠️ units 只有在真实 `0x54241C` 记录也被关联后才升级。
 
 ### P0-3：清除剩余危险 legacy 写入
 

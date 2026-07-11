@@ -12,6 +12,8 @@ const {
 } = require('./runtime-formation-probe-lib');
 
 const URL = process.env.PROBE_URL || 'https://sh.kibox.com.cn/gba-naruto/play/';
+const BROWSER_EXECUTABLE = process.env.PROBE_BROWSER || '/usr/bin/chromium';
+const PROBE_ROM = process.env.PROBE_ROM || '';
 const ROOT = path.resolve(__dirname, '..', '..');
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
 const WRAM_BASE = 0x020240C0;
@@ -22,11 +24,32 @@ const UNIT_STRIDE = 0x1D4;
 const SLOT_COUNT = 21;
 const BATTLE_CONTROL = 0x02026804;
 const MAP_RUNTIME = 0x0201BE28;
+const GBA_KEYS = {
+  Enter: 'Start',
+  KeyZ: 'A',
+  KeyX: 'B',
+  ArrowUp: 'Up',
+  ArrowDown: 'Down',
+  ArrowLeft: 'Left',
+  ArrowRight: 'Right',
+  ShiftLeft: 'Select',
+  ShiftRight: 'Select',
+  KeyA: 'L',
+  KeyS: 'R',
+};
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function focusGameSurface(page) {
   await page.mouse.click(480, 215);
+}
+
+async function pressGbaKey(page, key, holdMs) {
+  const gbaKey = GBA_KEYS[key];
+  if (!gbaKey) throw new Error(`unsupported GBA key mapping: ${key}`);
+  await page.evaluate(gbaKey => window.__mGBA.buttonPress(gbaKey), gbaKey);
+  await sleep(holdMs);
+  await page.evaluate(gbaKey => window.__mGBA.buttonUnpress(gbaKey), gbaKey);
 }
 
 function extractRuntimePositions(snapshot) {
@@ -64,6 +87,30 @@ async function readGbaBytes(page, address, length) {
   }, { address, length }));
 }
 
+async function installProbeRomRoute(page, romPath) {
+  if (!romPath) return null;
+  const absolutePath = path.resolve(romPath);
+  const romBytes = fs.readFileSync(absolutePath);
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    const url = new globalThis.URL(request.url());
+    if (url.pathname.endsWith('/rom/naruto-sequel-dev.gba')) {
+      request.respond({
+        status: 200,
+        contentType: 'application/octet-stream',
+        body: romBytes,
+      }).catch(error => {
+        console.warn(`failed to serve probe ROM ${absolutePath}: ${error.message}`);
+      });
+      return;
+    }
+    request.continue().catch(error => {
+      console.warn(`failed to continue request ${request.url()}: ${error.message}`);
+    });
+  });
+  return absolutePath;
+}
+
 async function captureScreenMetrics(page) {
   const base64 = await page.screenshot({ encoding: 'base64' });
   return page.evaluate(async encoded => {
@@ -96,12 +143,13 @@ async function main() {
     process.env.PROBE_SCREENSHOT || '/tmp/runtime-formation-probe-final.png',
   );
   const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium', headless: 'new',
+    executablePath: BROWSER_EXECUTABLE, headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--enable-features=SharedArrayBuffer'],
     defaultViewport: { width: 960, height: 720 },
   });
   const page = await browser.newPage();
   try {
+    await installProbeRomRoute(page, PROBE_ROM);
     await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.click('#playBtn');
     await page.waitForFunction(() => (
@@ -132,10 +180,7 @@ async function main() {
     for (let index = 0; index < plan.length; index += 1) {
       const action = plan[index];
       await sleep(action.delayMs);
-      if (action.phase === 'tail') await focusGameSurface(page);
-      await page.keyboard.down(action.key);
-      await sleep(action.holdMs);
-      await page.keyboard.up(action.key);
+      await pressGbaKey(page, action.key, action.holdMs);
       let screenState = null;
       let adaptiveRetries = 0;
       if (action.phase === 'tail' && action.key === 'KeyX') {
@@ -145,10 +190,7 @@ async function main() {
           adaptiveRetries += 1;
           await sleep(action.delayMs);
           if (shouldRetryBack(decision, adaptiveRetries)) {
-            await focusGameSurface(page);
-            await page.keyboard.down(action.key);
-            await sleep(action.holdMs);
-            await page.keyboard.up(action.key);
+            await pressGbaKey(page, action.key, action.holdMs);
           }
           screenState = classifyScreenMetrics(await captureScreenMetrics(page));
           decision = tailTransitionDecision(screenState);
@@ -193,9 +235,7 @@ async function main() {
     for (const settle of settlePlan) {
       await sleep(settle.delayMs);
       if (settle.key) {
-        await page.keyboard.down(settle.key);
-        await sleep(settle.holdMs);
-        await page.keyboard.up(settle.key);
+        await pressGbaKey(page, settle.key, settle.holdMs);
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
       const battleControl = decodeBattleControl(await readGbaBytes(page, BATTLE_CONTROL, 8));

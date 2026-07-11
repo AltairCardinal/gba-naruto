@@ -16,24 +16,23 @@
 - 构建流水线支持 5 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config）
 - mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
 - mGBA PC/读取探针已加入：断点真实命中后可在同一上下文抓取 ROM 与 WRAM；
-  复位 PC smoke test 已通过，地图 loader `0x08068FF0` 仍需可复现导航/有效状态
-  才能将 maps 提升为动态验证
+  复位 PC smoke test 已通过；maps width/height 已由 WASM A/B 闭合，资源指针仍需
+  PC/LR 或独立字段实验
 - 网页 WASM 首战导航与编成探针已可复现：单位槽 1 坐标 `(4,4)` 唯一对应
   positions group 40 / variant 0 / record 0（ROM `0x588CA8`），positions 已完成
   runtime 验证
-- WASM 探针现会记录 `0x02026804` 的 8 字节控制区及 `0x02026805` 标识；一次
-  相同按键计数重放未进入战斗，证明下一步需改为画面/内存状态驱动导航，maps
-  暂不升级验证等级
-- 独立重放再次得到 slot 1 `(4,4)`，且 `0x02026805 = 40` 与 positions group 40
-  一致；maps 第 40 行为 `0x53DE10`（36×44），但尚缺字段消费因果证据，仍保持
-  code 验证
+- WASM 探针现会记录 `0x02026804` 的 8 字节控制区、`0x02026805` 标识和
+  `0x0201BE28..2B` map runtime；baseline 得到 `[36,44,9,22]`
+- 独立 A/B 仅把 maps 第 40 行 `0x53DE10` 的 width 36→32，同路线得到
+  `[32,44,8,22]`，因此 maps width/height 字段链已升级为 runtime；
+  资源指针字段仍保持 code 验证
 - units 旧结论已撤销：`0x0806E654` 实为读取单位 x/y，`0x53F298` 唯一消费者
   将其作为 u16 偏移查找；legacy units 回写已安全禁用，真实角色记录映射待定位
 - 真实角色定义表已定位并迁移到 units bank：`0x54241C`，63×`0xB4`；
   `tools/extract_character_definitions.py` 可重复提取；formation character ID 经
   `0x02022E34` 模板池复制到 `0x1D4` 战斗槽，待成功探针样本闭合动态证据
-- maps width/height 消费链已定位到 `0x0201BE28..2B`；首战第 40 行预期
-  `[36,44,9,22]`，探针已加入读取，待稳定状态导航取得结果
+- maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
+  A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
 - chapters、skills、story beats、audio 四类无 ROM 身份的 legacy 危险回写已禁用，
   只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为安全写回入口
 - Phase 1/2/6 框架级完成
@@ -95,7 +94,7 @@
 
 ### P0-Step 3｜定位战斗配置与角色定义
 
-**状态：⚠️ 部分完成**（positions 已运行时验证；maps 与角色定义仍待动态闭环）
+**状态：⚠️ 部分完成**（positions 与 maps width/height 已运行时验证；角色定义仍待动态闭环）
 
 **已确认 ROM 数据表：**
 - ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
@@ -227,8 +226,7 @@
   `+0xC4/+0xC5` 坐标与 positions bank 匹配；已验证 core 就绪门禁与真实 WRAM
   读取。后续真实部署运行已进入首战，两次观察到 slot 1 `(4,4)` 并唯一匹配
   group 40 / variant 0 / record 0，因此 positions 已升级为 `runtime_verified`。
-  当前导航继续扩展 battle-control、map runtime、画面分类和转场等待，用于闭合
-  maps 与真实角色定义的运行时证据。
+  当前导航已闭合 maps width/height A/B，并继续用于闭合真实角色定义的运行时证据。
 
 ### 2026-07-10 Bank 元数据审计基线
 

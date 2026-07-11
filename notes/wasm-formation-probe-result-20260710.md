@@ -78,3 +78,28 @@ positions bank 中仅 group 40 / variant 0 在无多余活动记录的情况下
 同一 ID 可索引 maps 第 40 行（ROM `0x53DE10`，36×44），但 WASM 没有 PC/LR，
 且本次没有把某个 map header 字段与加载器输出建立因果对应。因此该关联只作为
 maps 后续探针线索，不能把 maps 从 `code` 提升为 `runtime_verified`。
+
+## 2026-07-11 maps/units baseline 重放
+
+使用 macOS Chrome 和 `PROBE_BROWSER` 路径参数重跑交接文档推荐路线，结果保存于
+本机 `/tmp/maps-units-result.json`：
+
+- `outcome=matched`，`reason=unique-formation`；
+- step 286（tail）首次出现单位区变化，共 102 个非零字节；
+- slot 1：`characterId=1, x=4, y=4`；
+- 唯一匹配 positions group 40 / variant 0，且无 missing/extra；
+- `0x02026804..0x0202680B = 00 28 00 00 00 00 00 00`，battle ID 为 40；
+- map runtime `0x0201BE28..2B = 24 2c 09 16`，解码为 `[36,44,9,22]`，
+  且 `36>>2=9`、`44>>1=22`；
+- 最终截图显示首战地图已加载。
+
+本次 artifact 摘要：
+
+- result SHA-256：`d4cee7372be246814eab9a5c5b24c2e5ce1874533622bc19e0a9ab42e8de6fb8`；
+- final screenshot SHA-256：`159aa8d898f04619832405c30f6fb62d2dc0519dc8fe3cbd7a5fc04824a6528b`。
+
+该样本满足 maps A/B 实验的 baseline 前置条件，并把 slot 1 runtime
+`characterId=1` 与首战 positions group 40/variant 0 同步记录到同一次采集中。
+但 WASM 仍无 PC/LR/断点能力；maps 还需 width 36→32 的受控 A/B，units 还需把
+runtime character ID 1 明确闭合到 `0x54241C + 1*0xB4` 的真实角色定义记录后，
+才能升级为 `runtime_verified`。

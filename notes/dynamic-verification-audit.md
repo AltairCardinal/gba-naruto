@@ -1,6 +1,6 @@
 # Dynamic Verification Evidence Audit
 
-Date: 2026-07-10
+Date: 2026-07-11
 
 ## Scope and grading rule
 
@@ -19,9 +19,9 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under this definition the current repository has **1 dynamic, 6 code, 24
-static, and 1 none** after the positions runtime trace was closed on
-2026-07-10. This is deliberately stricter than the `verification`
+Under this definition the current repository has **2 dynamic, 5 code, 24
+static, and 1 none** after the maps width A/B runtime probe was closed on
+2026-07-11. This is deliberately stricter than the `verification`
 strings in the banks. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
@@ -44,7 +44,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 13 | items (`0x546100`) | none | `notes/unknown-item-inventory.md` explicitly says dynamic analysis is required and no standalone item table is confirmed. The offset duplicates `skills`, so the current bank is not evidence of an independent item structure. |
 | 14 | levels (`0x5459B4`) | static | Regular progression/experience values and parsed entries only; no level-up runtime delta tied to the table. |
 | 15 | map-events (`0x53EB08`) | static | 47 valid Thumb pointers and reuse by map indices only; no event dispatch hit. |
-| 16 | maps (`0x53D910`) | code | `notes/chapter-flow-format.md` disassembles map loader `0x08068FF0` and its `base + 4 + id*32` access. `notes/chapter-init-trace-summary.txt` is `timeout_no_hits`, so this is not dynamic. |
+| 16 | maps (`0x53D910`) | dynamic | `notes/maps-runtime-fields-20260711.md` records the loader field chain plus a controlled width A/B: baseline row 40 produces runtime `[36,44,9,22]`; changing only file `0x53DE10` width `36 -> 32` produces `[32,44,8,22]` on the same WASM route. Resource pointer semantics remain code-level only. |
 | 17 | map-sprites (`0x53E1DC`) | static | Pointer-table consistency and animation-shaped targets only. |
 | 18 | menu-ui (`0x5A5774`) | static | Alternating pointer pattern and UI-like targets only; no menu route/table access trace. |
 | 19 | palettes (`0x53F138`) | static | Valid RGB555-looking targets only. It shares the claimed table offset with `audio`, an unresolved identity conflict. |

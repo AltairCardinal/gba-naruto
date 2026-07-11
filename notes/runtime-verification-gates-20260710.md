@@ -3,8 +3,8 @@
 ## 目的与结论
 
 本文件复核 `notes/dynamic-verification-audit.md` 中 32 个内容结构，并把“动态
-验证”拆成可以执行、可以复核的门禁。经后续 WASM 首战编成探针复核，当前证据为
-**1 dynamic / 6 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
+验证”拆成可以执行、可以复核的门禁。经后续 WASM 首战编成探针和 maps A/B 复核，
+当前证据为 **2 dynamic / 5 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
 相关内容均不能替代运行时
 消费证据。
 
@@ -58,7 +58,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | `0x0806D866` 附近（加载 `0x08545458`） | 实际源地址、索引、读出的行、下游 WRAM/参数 | 地址落在 battle-config 表内，行索引与当前战斗一致，并有一字段进入运行时配置 | `battle-config` |
 | `0x0806E41E` 或 `0x0806E71E` | `r5`、`r3[1:2]`、`record[+0..+8]`、调用后 slot | `r5 = 0x085461C4 + group*0x1AAC + variant*0x8E4 + 4 + index*0xB8`；`+2/+3` 等于新单位 `+0xC4/+0xC5` 和 `+0xC7/+0xC8` | `positions` |
 | `0x0806AC70` → `0x0806AA64` | 参数 x/y/type、返回/分配 slot、单位完整前后差异 | 写入目标符合 `0x020240C0 + slot*0x1D4`，并与画面格坐标一致 | 强化 `positions`；提供 `units` 关联上下文但不单独验证 units 表 |
-| 单位 ID 表消费者（静态候选 `0x08080B5C`） | `0x0853F298 + index`、读出的 unit id、创建后单位 id | ROM 表项、运行时单位和画面角色三者一致 | `units` |
+| 角色定义表消费者（`0x0806D4A0` 链） | `0x0854241C + character_id*0xB4`、模板池 `0x02022E34`、创建后单位 slot `+0` | ROM 记录索引、模板 `+0`、战斗槽 `+0` 和画面角色三者一致；旧 `0x0853F298` 只能作为 legacy u16 对象/渲染偏移查找，不再是 units 门禁 | `units` |
 | 角色属性装载写点 `0x02022EF0`（watch） | 非 BIOS writer PC、源 ROM 地址、单位/角色索引、写前后 | 源可解析至 `0x0854507A` 对应行或有完整中间拷贝链，至少一字段落入当前单位 | `character-stats` |
 | 上一 writer 的并行/后续源地址 | 是否解析至 `0x08545200` | 独立证明第二表一字段被读取并进入运行时；第一表命中不自动通过第二表 | `character-stats-b` |
 | encounter 选择入口（从当前 battle id 反查 `0x08542384` 表项） | 表项、指针目标、battle id/敌方编成 | 运行时索引选中该表项且目标决定当前敌方/战斗；单纯 ROM 值匹配不通过 | `battle-encounters` |
@@ -102,7 +102,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 13 | items (`0x08546100` 声称值) | 条件联合 | 先与 skills 拆分身份；使用物品时捕获独立表读取和效果字段，否则保持 none |
 | 14 | levels (`0x085459B4`) | 专门升级路线 | 发生升级/经验阈值判断时读取目标条目，阈值与等级变化对应 |
 | 15 | map-events (`0x0853EB08`) | 联合 | 当前 map id 选中表项并间接调用实际事件 handler |
-| 16 | maps (`0x0853D910`, 描述符 `+4`) | 联合 | `0x08068FF0` 命中，id*0x20 描述符字段与加载结果对应 |
+| 16 | maps (`0x0853D910`, 描述符 `+4`) | 联合 | width/height 已通过 row 40 width 36→32 A/B：runtime `[36,44,9,22]` 变为 `[32,44,8,22]`；资源指针字段仍需独立消费/字段证据 |
 | 17 | map-sprites (`0x0853E1DC`) | 联合 | 当前 map 索引选中目标并遍历/拷贝动画数据 |
 | 18 | menu-ui (`0x085A5774`) | 专门菜单路线 | 菜单操作命中表项消费者，指针目标与可见 UI 元素对应 |
 | 19 | palettes（当前 bank `0x0853F138`） | 专门 A/B | 先与 audio 拆分身份；目标 RGB555 数据实际上传到 palette RAM，单色改动方向符合预期 |
@@ -118,7 +118,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 29 | story-d (`0x0853AB78`) | 后续章节 | 同上 |
 | 30 | story-e (`0x0853C3C0`) | 后续章节 | 同上 |
 | 31 | tile-assets (`0x085A3218`) | 专门资源/A-B | loader/decompressor 消费选中目标并写 VRAM；受控图块改动出现在预期位置 |
-| 32 | units (`0x0853F298`) | 联合 | 表项 unit id 被读取并进入 `0x020240C0 + slot*0x1D4`，与画面角色一致 |
+| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；至少一条运行时单位需闭合到具体 ROM 记录并与画面角色一致 |
 
 ## 完成门槛与边界
 
