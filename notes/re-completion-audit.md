@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-11T06:23:25.351460+00:00`
+生成时间：`2026-07-11T06:52:54.402649+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -14,7 +14,7 @@
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=1, `runtime_verified`=1, `static_verified`=30。
+- verification 分布：`code_verified`=2, `runtime_verified`=1, `static_verified`=29。
 
 ## 逐结构结果
 
@@ -51,7 +51,7 @@
 | `story-d` | ✅ `0x53AB78` | ✅ | ✅ (11) | ✅ `static_verified` | ✅ (10) | ✅ (11) | ✅ | — |
 | `story-e` | ✅ `0x53C3C0` | ✅ | ✅ (9) | ✅ `static_verified` | ✅ (10) | ✅ (9) | ✅ | — |
 | `tile-assets` | ✅ `0x5A3218` | ✅ | ✅ (6) | ✅ `static_verified` | ✅ (9) | ✅ (6) | ✅ | — |
-| `units` | ✅ `0x53F298` | ✅ | ✅ (64) | ✅ `static_verified` | ✅ (18) | ✅ (64) | ✅ | — |
+| `units` | ✅ `0x54241C` | ✅ | ✅ (63) | ✅ `code_verified` | ✅ (16) | ✅ (252) | ✅ | — |
 
 ## 判定规则
 

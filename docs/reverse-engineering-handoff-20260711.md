@@ -105,7 +105,8 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 真实角色定义：
 
 - file `0x54241C`，63 条（ID 0..62），stride `0xB4`；
-- 表结束 `0x545068`，随后 18 字节零填充；成长表从 `0x54507A` 开始；
+- 表结束 `0x545068`；到现有成长表 bank `0x54507A` 前有 18 字节 gap，
+  实际为 16 字节零后接 `aa05`，不能再称为全零填充；
 - WRAM 模板池 `0x02022E34`，24×`0xBC`；
 - formation record `+0` 与模板 `+0` 匹配；
 - `0x0806AC70 → 0x0806AA64` 把模板前 `0xBC` 字节复制到
@@ -115,8 +116,10 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 入口：`notes/character-definition-source-20260711.md`、
 `notes/units-unsafe-table-fix-20260711.md`。
 
-下一位接手者必须先建立 `tools/extract_character_definitions.py`（或等价脚本）和测试，
-再把 `sequel/content/units/bank.json` 从错误的 `0x53F298` 迁移到 63×`0xB4` 真表。
+`tools/extract_character_definitions.py` 和 `tests/test_extract_character_definitions.py`
+已建立，`sequel/content/units/bank.json` 已从错误的 `0x53F298` 迁移到 63×`0xB4`
+真表。剩余工作是把 runtime 探针样本闭合到具体 `0x54241C` 记录，并在字段语义逐项
+证明后恢复安全回写。
 
 ### 3.4 构建安全边界
 
@@ -198,11 +201,11 @@ env \
 
 ### P0-1：修正 units bank
 
-1. 红测：63 条、stride `0xB4`、首末地址、完整 raw bytes、ROM fidelity；
-2. 编写可重复提取器；
-3. 迁移 bank 和 `rom_units` mirror；
-4. 调整回写生成器，只允许 lossless 记录身份；
-5. 更新 audit、文档和测试。
+1. ✅ 红测/回归测试：63 条、stride `0xB4`、首末地址、完整 raw bytes、ROM fidelity；
+2. ✅ 编写可重复提取器：`tools/extract_character_definitions.py`；
+3. ✅ 迁移 units bank 到 `0x54241C` 真表；
+4. ⚠️ 回写生成器仍保持 diagnostic-only，待字段级 ROM 身份证明后恢复；
+5. ⚠️ audit、文档和测试需随后续 runtime 闭环继续更新。
 
 ### P0-2：闭合 maps 与 units 动态证据
 

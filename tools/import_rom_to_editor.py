@@ -47,10 +47,12 @@ def field(entry: dict, *names: str, default=None):
 
 
 def import_units(conn, dry_run=False):
-    """43 unit_id_table entries + battle_scenario entries → units table.
+    """ROM-backed character definition entries → legacy editor units table.
 
-    Also enriches hp/attack/defense with character_stats data when
-    char_id matches (character_stats[char_id] gives the real base stats).
+    The units bank now stores the real 63 x 0xB4 character-definition table at
+    0x54241C. ``character_id`` is the ROM table index.  The editor's legacy
+    ``units`` table is still char_id-centric, so import one row per character
+    definition and enrich hp/attack/defense from character_stats when possible.
     """
     cur = conn.cursor()
     data = json.load(open(CONTENT_DIR / 'units' / 'bank.json'))
@@ -72,9 +74,10 @@ def import_units(conn, dry_run=False):
 
     inserted = 0
     enriched = 0
-    for entry in data.get('unit_id_table', {}).get('entries', []):
-        char_id = entry.get('char_id', 0)
-        name = entry.get('name', f'Unit {char_id}')
+    entries = data.get('entries') or data.get('unit_id_table', {}).get('entries', [])
+    for entry in entries:
+        char_id = entry.get('character_id', entry.get('char_id', entry.get('_index', 0)))
+        name = entry.get('name', f'Character {char_id:02d}')
         # Check if char_id already exists (idempotent)
         cur.execute("SELECT 1 FROM units WHERE char_id = ? AND name = ? LIMIT 1", (char_id, name))
         if cur.fetchone():

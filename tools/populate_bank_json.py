@@ -10,6 +10,11 @@ import json
 import struct
 from pathlib import Path
 
+try:
+    from extract_character_definitions import extract_character_definitions, write_json_atomic
+except ImportError:  # pragma: no cover - used when imported as tools.populate_bank_json
+    from tools.extract_character_definitions import extract_character_definitions, write_json_atomic
+
 ROOT = Path(__file__).resolve().parent.parent
 ROM_PATH = ROOT / "build" / "naruto-sequel-dev.gba"
 
@@ -470,19 +475,11 @@ def populate_items(rom: bytes):
 
 
 def populate_units(rom: bytes):
-    """Units at 0x53F298: 64 entries × 2 bytes (u16 character IDs)."""
-    off = 0x53F298
-    entries = []
-    for i in range(64):
-        char_id = struct.unpack_from("<H", rom, off + i * 2)[0]
-        entries.append({
-            "id": f"unit_{i:02d}",
-            "index": i,
-            "offset": off + i * 2,
-            "offset_hex": fmt_hex(off + i * 2),
-            "char_id": char_id,
-        })
-    update_bank_json("units", entries)
+    """Units/characters at 0x54241C: 63 entries × 0xB4 bytes."""
+    bank_path = ROOT / "sequel" / "content" / "units" / "bank.json"
+    bank = extract_character_definitions(rom)
+    write_json_atomic(bank_path, bank)
+    print(f"  units: wrote {len(bank['entries'])} character definition records")
 
 
 def populate_sappy_engine(rom: bytes):

@@ -455,17 +455,20 @@ tile renderer.
 
 ---
 
-## 32. Units (0x53F298)
+## 32. Units / Character Definitions (0x54241C)
 
-**Format:** u16 × 64 — 64 unit ID entries  
-**Entry Size:** 2 bytes  
-**Semantics:** Unit ID table mapping unit indices to character IDs. Used by
-the battle system to identify which character each unit represents.
-Indexed by the scenario configuration.
+**Format:** 63 × 0xB4 byte character definition records
+**Entry Size:** 180 bytes
+**Semantics:** Character definition table indexed by character ID. Code at
+`0x0806D4A0` reads `0x0854241C + character_id*0xB4` while creating WRAM
+character templates. The old `0x53F298` unit-ID interpretation was revoked;
+that table is a separate u16 object/rendering offset lookup.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| char_id | u16 | Character identifier |
+| character_id | derived | Table index, not stored as a record byte |
+| field_00..field_03 | u8 | Conservative raw fields pending semantics |
+| raw_hex | bytes | Complete 0xB4 record retained losslessly |
 
 ---
 

@@ -27,6 +27,12 @@
 3. lossless `rom_units` mirror 仍可保存原始字节，但在真实角色记录映射确认前，
    legacy units 语义编辑不得写 ROM。
 
+后续已定位真实角色定义表 `0x54241C`，并通过
+`tools/extract_character_definitions.py` 将 `sequel/content/units/bank.json`
+迁移为 63×`0xB4` 的 lossless character definition bank。该迁移只恢复了正确 ROM
+身份和可重复提取；`generate_unit_patches()` 仍保持 diagnostic-only，因为 editor
+`units.char_id/name/hp` 还没有逐字段、可回写的 ROM 记录身份。
+
 ## 重要范围与边界
 
 - 代码：`0x0806E64C..0x0806E674`（坐标→网格索引），

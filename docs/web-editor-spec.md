@@ -984,7 +984,7 @@ Python `logging` with structured JSON output. 10 MB per file, 5 backups, `/opt/n
 | Tilemap format | 32x32, 2B/entry, bits[9:0]=tile_id | `import_map.py` |
 | Tilemap regions | 0x14D000, 0x195000, 0x1CB000, 0x1C2000, 0x1F1000 | `import_map.py` |
 | Battle config | `0x53D910`, +4 header, 8 x 32B | `import_battle_config.py` |
-| Unit ID table | `0x53F298`, u16[64] | `import_battle_config.py` |
+| Legacy battle/object lookup table | `0x53F298`, u16[64] | `import_battle_config.py` |
 | Audio sample rate | 13,379 Hz | `extract_audio.py` |
 | GBA ROM base | `0x08000000` | multiple tools |
 
@@ -1145,4 +1145,3 @@ users              — 用户（含 role 字段，但无权限校验）
 11. **项目统计**：`GET /project/stats`
 12. **地图 flood fill**：`POST /maps/{id}/fill`
 13. **音频文件上传** + 触发 `extract_audio.py` 联动
-

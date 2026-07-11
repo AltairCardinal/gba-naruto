@@ -3,8 +3,10 @@
 ## 结论
 
 真实角色定义表位于 ROM `0x0854241C`（file `0x54241C`），共 63 条（ID 0..62），
-stride `0xB4`。末条从 `0x544FB4` 开始，表结束于 `0x545068`；随后 18 字节零填充，
-下一张成长表从 `0x54507A` 开始。
+stride `0xB4`。末条从 `0x544FB4` 开始，表结束于 `0x545068`。`0x545068..0x545079`
+是 18 字节 gap，实际字节为 `00000000000000000000000000000000aa05`：前 16 字节为零，
+末 2 字节不是零。现有成长表 bank 仍从 `0x54507A` 开始，因此不能再把整段 gap 记为
+“18 字节零填充”。
 
 旧 `units` bank 所称 `0x53F298` 角色 ID 表已撤销；该地址唯一消费者属于对象/渲染
 偏移查找。
@@ -26,3 +28,17 @@ characterId；取得成功样本后才能把 units/角色定义提升为运行�
 
 ID 57/58 在 `0x0806D964` 有基础统计特例，但 `0x0806D4A0` 的技能填充仍先按原始
 ID×`0xB4` 读取，后续提取器必须保留全部 63 条原始记录。
+
+## 可重复提取器
+
+`tools/extract_character_definitions.py` 已固化该表：
+
+- 输入：`rom/base.gba`；
+- 输出：`sequel/content/units/bank.json`；
+- 记录数：63；
+- stride：`0xB4`；
+- 地址公式：`0x54241C + character_id*0xB4`；
+- `character_id` 是代码使用的表索引，不是记录内首字节；
+- 每条记录保留完整 `raw_hex`，仅暴露 `field_00..field_03` 为保守原始字段。
+
+覆盖测试：`tests/test_extract_character_definitions.py`。

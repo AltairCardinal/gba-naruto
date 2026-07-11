@@ -1,695 +1,1209 @@
 {
-  "version": 1,
-  "description": "Legacy u16 lookup bytes at 0x53F298. The former battle-slot character ID interpretation was disproven: the only direct consumer at 0x08080B2E indexes the values as offsets in a rendering/object routine. Entries are retained losslessly pending a corrected semantic split.",
-  "unit_id_table": {
-    "offset": 5501592,
-    "offset_hex": "0x53F298",
-    "size": 128,
-    "format": "u16[64]",
-    "description": "Historical labels only; not a proven unit ID mapping. The underlying u16 values are retained for compatibility and byte fidelity.",
-    "entries": [
-      {
-        "index": 0,
-        "char_id": 0,
-        "name": "Naruto"
-      },
-      {
-        "index": 1,
-        "char_id": 1,
-        "name": "Sasuke"
-      },
-      {
-        "index": 2,
-        "char_id": 2,
-        "name": "Sakura"
-      },
-      {
-        "index": 3,
-        "char_id": 3,
-        "name": "Sai"
-      },
-      {
-        "index": 4,
-        "char_id": 4,
-        "name": "Kakashi"
-      },
-      {
-        "index": 5,
-        "char_id": 5,
-        "name": "Shikamaru"
-      },
-      {
-        "index": 6,
-        "char_id": 6,
-        "name": "Sasuke (Naruto)"
-      },
-      {
-        "index": 7,
-        "char_id": 7,
-        "name": "Sakura (NPC)"
-      },
-      {
-        "index": 8,
-        "char_id": 8,
-        "name": "Naruto (NPC)"
-      },
-      {
-        "index": 9,
-        "char_id": 9,
-        "name": "Sasuke (NPC)"
-      },
-      {
-        "index": 10,
-        "char_id": 25,
-        "name": "Enemy-25"
-      },
-      {
-        "index": 11,
-        "char_id": 26,
-        "name": "Enemy-26"
-      },
-      {
-        "index": 12,
-        "char_id": 27,
-        "name": "Enemy-27"
-      },
-      {
-        "index": 13,
-        "char_id": 28,
-        "name": "Enemy-28"
-      },
-      {
-        "index": 14,
-        "char_id": 29,
-        "name": "Enemy-29"
-      },
-      {
-        "index": 15,
-        "char_id": 30,
-        "name": "Enemy-30"
-      },
-      {
-        "index": 16,
-        "char_id": 31,
-        "name": "Enemy-31"
-      },
-      {
-        "index": 17,
-        "char_id": 32,
-        "name": "Enemy-32"
-      },
-      {
-        "index": 18,
-        "char_id": 33,
-        "name": "Enemy-33"
-      },
-      {
-        "index": 19,
-        "char_id": 34,
-        "name": "Enemy-34"
-      },
-      {
-        "index": 20,
-        "char_id": 37,
-        "name": "Enemy-37"
-      },
-      {
-        "index": 21,
-        "char_id": 38,
-        "name": "Enemy-38"
-      },
-      {
-        "index": 22,
-        "char_id": 39,
-        "name": "Enemy-39"
-      },
-      {
-        "index": 23,
-        "char_id": 40,
-        "name": "Enemy-40"
-      },
-      {
-        "index": 24,
-        "char_id": 41,
-        "name": "Enemy-41"
-      },
-      {
-        "index": 25,
-        "char_id": 42,
-        "name": "Enemy-42"
-      },
-      {
-        "index": 26,
-        "char_id": 43,
-        "name": "Enemy-43"
-      },
-      {
-        "index": 27,
-        "char_id": 44,
-        "name": "Enemy-44"
-      },
-      {
-        "index": 28,
-        "char_id": 45,
-        "name": "Enemy-45"
-      },
-      {
-        "index": 29,
-        "char_id": 46,
-        "name": "Enemy-46"
-      },
-      {
-        "index": 30,
-        "char_id": 10,
-        "name": "Zabuza"
-      },
-      {
-        "index": 31,
-        "char_id": 11,
-        "name": "Haku"
-      },
-      {
-        "index": 32,
-        "char_id": 35,
-        "name": "Masked Scouter"
-      },
-      {
-        "index": 33,
-        "char_id": 36,
-        "name": "Ambush Member"
-      },
-      {
-        "index": 34,
-        "char_id": 47,
-        "name": "Enemy-47"
-      },
-      {
-        "index": 35,
-        "char_id": 48,
-        "name": "Enemy-48"
-      },
-      {
-        "index": 36,
-        "char_id": 12,
-        "name": "Enemy-12"
-      },
-      {
-        "index": 37,
-        "char_id": 13,
-        "name": "Enemy-13"
-      },
-      {
-        "index": 38,
-        "char_id": 18,
-        "name": "Enemy-18"
-      },
-      {
-        "index": 39,
-        "char_id": 21,
-        "name": "Enemy-21"
-      },
-      {
-        "index": 40,
-        "char_id": 22,
-        "name": "Enemy-22"
-      },
-      {
-        "index": 41,
-        "char_id": 23,
-        "name": "Enemy-23"
-      },
-      {
-        "index": 42,
-        "char_id": 24,
-        "name": "Enemy-24"
-      }
-    ]
-  },
-  "battle_scenario_table": {
-    "offset": 5495060,
-    "offset_hex": "0x53D914",
-    "entry_size": 32,
-    "entry_count": 8,
-    "format": "u32 dim(h|w), u32 tile_gfx_ptr, u32 tilemap_ptr, u32 tilemap_alt_ptr, u32 extra_ptr, u32 palette_ptr, u32 palette2_ptr, u32 flags",
-    "description": "Battle scenario configuration. Each 32-byte entry defines a map layout with tile graphics, tilemaps, and palettes.",
-    "entries": [
-      {
-        "scenario_id": 0,
-        "height": 64,
-        "width": 92,
-        "flags": 1
-      },
-      {
-        "scenario_id": 1,
-        "height": 30,
-        "width": 60,
-        "flags": 1
-      },
-      {
-        "scenario_id": 2,
-        "height": 36,
-        "width": 36,
-        "flags": 1
-      },
-      {
-        "scenario_id": 3,
-        "height": 40,
-        "width": 36,
-        "flags": 1
-      },
-      {
-        "scenario_id": 4,
-        "height": 40,
-        "width": 36,
-        "flags": 1
-      },
-      {
-        "scenario_id": 5,
-        "height": 46,
-        "width": 36,
-        "flags": 1
-      },
-      {
-        "scenario_id": 6,
-        "height": 32,
-        "width": 60,
-        "flags": 2
-      },
-      {
-        "scenario_id": 7,
-        "height": 32,
-        "width": 60,
-        "flags": 258
-      }
-    ]
-  },
-  "notes": "Do not write editor character IDs to 0x53F298. Its only direct consumer indexes it as a u16 offset/value lookup; the actual character record mapping remains unresolved.",
-  "entries": [
-    {
-      "_raw_offset": 5501592,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5501594,
-      "char_id": 1,
-      "char_id_hex": "0100",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5501596,
-      "char_id": 2,
-      "char_id_hex": "0200",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5501598,
-      "char_id": 3,
-      "char_id_hex": "0300",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5501600,
-      "char_id": 4,
-      "char_id_hex": "0400",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5501602,
-      "char_id": 5,
-      "char_id_hex": "0500",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5501604,
-      "char_id": 6,
-      "char_id_hex": "0600",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5501606,
-      "char_id": 7,
-      "char_id_hex": "0700",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5501608,
-      "char_id": 8,
-      "char_id_hex": "0800",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5501610,
-      "char_id": 9,
-      "char_id_hex": "0900",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5501612,
-      "char_id": 25,
-      "char_id_hex": "1900",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5501614,
-      "char_id": 26,
-      "char_id_hex": "1a00",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5501616,
-      "char_id": 27,
-      "char_id_hex": "1b00",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5501618,
-      "char_id": 28,
-      "char_id_hex": "1c00",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5501620,
-      "char_id": 29,
-      "char_id_hex": "1d00",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5501622,
-      "char_id": 30,
-      "char_id_hex": "1e00",
-      "_index": 15
-    },
-    {
-      "_raw_offset": 5501624,
-      "char_id": 31,
-      "char_id_hex": "1f00",
-      "_index": 16
-    },
-    {
-      "_raw_offset": 5501626,
-      "char_id": 32,
-      "char_id_hex": "2000",
-      "_index": 17
-    },
-    {
-      "_raw_offset": 5501628,
-      "char_id": 33,
-      "char_id_hex": "2100",
-      "_index": 18
-    },
-    {
-      "_raw_offset": 5501630,
-      "char_id": 34,
-      "char_id_hex": "2200",
-      "_index": 19
-    },
-    {
-      "_raw_offset": 5501632,
-      "char_id": 37,
-      "char_id_hex": "2500",
-      "_index": 20
-    },
-    {
-      "_raw_offset": 5501634,
-      "char_id": 38,
-      "char_id_hex": "2600",
-      "_index": 21
-    },
-    {
-      "_raw_offset": 5501636,
-      "char_id": 39,
-      "char_id_hex": "2700",
-      "_index": 22
-    },
-    {
-      "_raw_offset": 5501638,
-      "char_id": 40,
-      "char_id_hex": "2800",
-      "_index": 23
-    },
-    {
-      "_raw_offset": 5501640,
-      "char_id": 41,
-      "char_id_hex": "2900",
-      "_index": 24
-    },
-    {
-      "_raw_offset": 5501642,
-      "char_id": 42,
-      "char_id_hex": "2a00",
-      "_index": 25
-    },
-    {
-      "_raw_offset": 5501644,
-      "char_id": 43,
-      "char_id_hex": "2b00",
-      "_index": 26
-    },
-    {
-      "_raw_offset": 5501646,
-      "char_id": 44,
-      "char_id_hex": "2c00",
-      "_index": 27
-    },
-    {
-      "_raw_offset": 5501648,
-      "char_id": 45,
-      "char_id_hex": "2d00",
-      "_index": 28
-    },
-    {
-      "_raw_offset": 5501650,
-      "char_id": 46,
-      "char_id_hex": "2e00",
-      "_index": 29
-    },
-    {
-      "_raw_offset": 5501652,
-      "char_id": 10,
-      "char_id_hex": "0a00",
-      "_index": 30
-    },
-    {
-      "_raw_offset": 5501654,
-      "char_id": 11,
-      "char_id_hex": "0b00",
-      "_index": 31
-    },
-    {
-      "_raw_offset": 5501656,
-      "char_id": 35,
-      "char_id_hex": "2300",
-      "_index": 32
-    },
-    {
-      "_raw_offset": 5501658,
-      "char_id": 36,
-      "char_id_hex": "2400",
-      "_index": 33
-    },
-    {
-      "_raw_offset": 5501660,
-      "char_id": 47,
-      "char_id_hex": "2f00",
-      "_index": 34
-    },
-    {
-      "_raw_offset": 5501662,
-      "char_id": 48,
-      "char_id_hex": "3000",
-      "_index": 35
-    },
-    {
-      "_raw_offset": 5501664,
-      "char_id": 12,
-      "char_id_hex": "0c00",
-      "_index": 36
-    },
-    {
-      "_raw_offset": 5501666,
-      "char_id": 13,
-      "char_id_hex": "0d00",
-      "_index": 37
-    },
-    {
-      "_raw_offset": 5501668,
-      "char_id": 18,
-      "char_id_hex": "1200",
-      "_index": 38
-    },
-    {
-      "_raw_offset": 5501670,
-      "char_id": 21,
-      "char_id_hex": "1500",
-      "_index": 39
-    },
-    {
-      "_raw_offset": 5501672,
-      "char_id": 22,
-      "char_id_hex": "1600",
-      "_index": 40
-    },
-    {
-      "_raw_offset": 5501674,
-      "char_id": 23,
-      "char_id_hex": "1700",
-      "_index": 41
-    },
-    {
-      "_raw_offset": 5501676,
-      "char_id": 24,
-      "char_id_hex": "1800",
-      "_index": 42
-    },
-    {
-      "_raw_offset": 5501678,
-      "char_id": 65532,
-      "char_id_hex": "fcff",
-      "_index": 43
-    },
-    {
-      "_raw_offset": 5501680,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 44
-    },
-    {
-      "_raw_offset": 5501682,
-      "char_id": 65530,
-      "char_id_hex": "faff",
-      "_index": 45
-    },
-    {
-      "_raw_offset": 5501684,
-      "char_id": 4,
-      "char_id_hex": "0400",
-      "_index": 46
-    },
-    {
-      "_raw_offset": 5501686,
-      "char_id": 65529,
-      "char_id_hex": "f9ff",
-      "_index": 47
-    },
-    {
-      "_raw_offset": 5501688,
-      "char_id": 7,
-      "char_id_hex": "0700",
-      "_index": 48
-    },
-    {
-      "_raw_offset": 5501690,
-      "char_id": 65528,
-      "char_id_hex": "f8ff",
-      "_index": 49
-    },
-    {
-      "_raw_offset": 5501692,
-      "char_id": 9,
-      "char_id_hex": "0900",
-      "_index": 50
-    },
-    {
-      "_raw_offset": 5501694,
-      "char_id": 65530,
-      "char_id_hex": "faff",
-      "_index": 51
-    },
-    {
-      "_raw_offset": 5501696,
-      "char_id": 9,
-      "char_id_hex": "0900",
-      "_index": 52
-    },
-    {
-      "_raw_offset": 5501698,
-      "char_id": 65532,
-      "char_id_hex": "fcff",
-      "_index": 53
-    },
-    {
-      "_raw_offset": 5501700,
-      "char_id": 7,
-      "char_id_hex": "0700",
-      "_index": 54
-    },
-    {
-      "_raw_offset": 5501702,
-      "char_id": 65534,
-      "char_id_hex": "feff",
-      "_index": 55
-    },
-    {
-      "_raw_offset": 5501704,
-      "char_id": 4,
-      "char_id_hex": "0400",
-      "_index": 56
-    },
-    {
-      "_raw_offset": 5501706,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 57
-    },
-    {
-      "_raw_offset": 5501708,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 58
-    },
-    {
-      "_raw_offset": 5501710,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 59
-    },
-    {
-      "_raw_offset": 5501712,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 60
-    },
-    {
-      "_raw_offset": 5501714,
-      "char_id": 0,
-      "char_id_hex": "0000",
-      "_index": 61
-    },
-    {
-      "_raw_offset": 5501716,
-      "char_id": 3133,
-      "char_id_hex": "3d0c",
-      "_index": 62
-    },
-    {
-      "_raw_offset": 5501718,
-      "char_id": 2056,
-      "char_id_hex": "0808",
-      "_index": 63
-    }
-  ],
-  "verification": "static_verified",
-  "table_offset": 5501592,
-  "table_offset_hex": "0x53F298",
-  "entry_count": 64,
-  "entry_size": 2,
+  "version": 2,
+  "description": "ROM-backed character definition records. This replaces the legacy 0x53F298 units identity, whose character-ID interpretation was disproven.",
+  "table_offset": 5514268,
+  "table_offset_hex": "0x54241C",
+  "entry_size": 180,
+  "entry_count": 63,
   "entry_format": {
-    "description": "Unresolved u16 offset/value lookup; legacy char_id field names are not semantically verified.",
+    "description": "Lossless 0xB4 character definition records indexed by character_id. Only the first four bytes are exposed as conservative raw fields; remaining bytes are retained in raw_hex until field semantics are proven.",
     "fields": [
       {
+        "name": "field_00",
+        "type": "u8",
         "offset": 0,
-        "size": 2,
-        "name": "char_id",
-        "type": "u16"
+        "size": 1
+      },
+      {
+        "name": "field_01",
+        "type": "u8",
+        "offset": 1,
+        "size": 1
+      },
+      {
+        "name": "field_02",
+        "type": "u8",
+        "offset": 2,
+        "size": 1
+      },
+      {
+        "name": "field_03",
+        "type": "u8",
+        "offset": 3,
+        "size": 1
+      },
+      {
+        "name": "raw_hex",
+        "type": "bytes",
+        "offset": 0,
+        "size": 180
       }
     ]
   },
+  "format": {
+    "address_formula": "0x54241C + character_id*0xB4",
+    "character_id_range": "0..62",
+    "record_stride": 180,
+    "table_end": 5525608,
+    "table_end_hex": "0x545068",
+    "next_growth_table": 5525626,
+    "next_growth_table_hex": "0x54507A",
+    "post_table_gap_size": 18,
+    "post_table_gap_hex": "00000000000000000000000000000000aa05",
+    "post_table_zero_prefix": 16
+  },
+  "wram_template_pool": {
+    "address": "0x02022E34",
+    "slots": 24,
+    "stride": 188
+  },
+  "wram_unit_array": {
+    "address": "0x020240C0",
+    "stride": 468
+  },
+  "notes": "Character_id is the table index used by code, not a byte read from the record. Runtime evidence still needs to connect a successful battle-slot sample back to this ROM source before upgrading to runtime_verified.",
+  "entries": [
+    {
+      "id": "character_00",
+      "character_id": 0,
+      "_index": 0,
+      "_raw_offset": 5514268,
+      "rom_offset": 5514268,
+      "rom_offset_hex": "0x54241C",
+      "field_00": 0,
+      "field_00_hex": "00",
+      "field_01": 0,
+      "field_01_hex": "00",
+      "field_02": 0,
+      "field_02_hex": "00",
+      "field_03": 0,
+      "field_03_hex": "00",
+      "raw_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "active": false
+    },
+    {
+      "id": "character_01",
+      "character_id": 1,
+      "_index": 1,
+      "_raw_offset": 5514448,
+      "rom_offset": 5514448,
+      "rom_offset_hex": "0x5424D0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 14,
+      "field_01_hex": "0e",
+      "field_02": 13,
+      "field_02_hex": "0d",
+      "field_03": 8,
+      "field_03_hex": "08",
+      "raw_hex": "010e0d08030505000f0050000201000003ff040004ff03000501000006ff0d000701000008ff020009ff0a000000000000000000000000000000000000000000000000000000000001ff090002ff050003ff060004ff080005ff070006ff0f0007ff100008ff0b0009ff0e000aff0c000bff11000cff12000dff16000eff15000fff130010ff140011ff170012ff180013ff1a0014ff190015ff1d0016ff1c0017ff1b0018ff0000010000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_02",
+      "character_id": 2,
+      "_index": 2,
+      "_raw_offset": 5514628,
+      "rom_offset": 5514628,
+      "rom_offset_hex": "0x542584",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 8,
+      "field_02_hex": "08",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010c080c030504000c003c0001ff03000201000003ff020004ff04000501000006ff16000cff09000eff0f000fff0e001001000013ff00000000000000000000000000000000000001ff080002ff070003ff060004ff0a0005ff050006ff0b0007ff0d0008ff0c0009ff17000aff1b000bff18000cff1a000dff1c000eff11000fff1d0010ff100011ff140012ff120013ff130014ff150015ff200016ff1f0017ff1e0019ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_03",
+      "character_id": 3,
+      "_index": 3,
+      "_raw_offset": 5514808,
+      "rom_offset": 5514808,
+      "rom_offset_hex": "0x542638",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 7,
+      "field_01_hex": "07",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "0107070a0306030006003200010100000201000003ff020004ff03000501000006ff040015ff0a0016ff0f000000000000000000000000000000000000000000000000000000000001ff090002ff080003ff0d0004ff0e0005ff110006ff0c0007ff100008ff0b0009ff12000aff13000cff14000dff06000eff15000fff050010ff070011ff160013ff170014ff180015ff1b0016ff1a0017ff19001a0100000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_04",
+      "character_id": 4,
+      "_index": 4,
+      "_raw_offset": 5514988,
+      "rom_offset": 5514988,
+      "rom_offset_hex": "0x5426EC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 8,
+      "field_01_hex": "08",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "0108070c0303030008003200010100000200000003000000040000000501000006000000170000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff0f0009ff12000aff0d000cff0e000dff10000eff13000fff11001000000011ff140013ff150014ff160015ff190016ff180017ff17001bff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_05",
+      "character_id": 5,
+      "_index": 5,
+      "_raw_offset": 5515168,
+      "rom_offset": 5515168,
+      "rom_offset_hex": "0x5427A0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 8,
+      "field_03_hex": "08",
+      "raw_hex": "010a0a08030603000a003200010000000201000003000000040000000501000006000000180000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff0f0009ff12000aff0d000cff0e000dff10000eff13000fff11001000000011ff140013ff150014ff160015ff190016ff180017ff17001cff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_06",
+      "character_id": 6,
+      "_index": 6,
+      "_raw_offset": 5515348,
+      "rom_offset": 5515348,
+      "rom_offset_hex": "0x542854",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 13,
+      "field_02_hex": "0d",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010c0d0a020603000d003200010100000200000003000000040000000501000006ff0d00190000001a0000001b0000001cff0c000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff100008ff110009ff15000aff0e000cff0f000dff12000eff16000fff13001000000011ff170013ff180014ff190015ff1c0016ff1b0017ff1a001dff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_07",
+      "character_id": 7,
+      "_index": 7,
+      "_raw_offset": 5515528,
+      "rom_offset": 5515528,
+      "rom_offset_hex": "0x542908",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 14,
+      "field_01_hex": "0e",
+      "field_02": 8,
+      "field_02_hex": "08",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010e080c0305050006004600010000000200000003010000040000000501000006ff0d001dff10001eff0f001f00000020ff140000000000000000000000000000000000000000000100000003000000040000000500000006ff0b0007ff0e0008ff1a0009ff0c000aff11000bff12000cff13000dff1b000eff15000fff1c001000000011ff160012ff170013ff180014ff190015ff1f0016ff1e0017ff1d001eff000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_08",
+      "character_id": 8,
+      "_index": 8,
+      "_raw_offset": 5515708,
+      "rom_offset": 5515708,
+      "rom_offset_hex": "0x5429BC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "010a0a0d030504000d003c000200000003000000040100000501000006ff0d002100000022ff0f0023ff140000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0e0008ff180009ff0c000aff10000bff11000cff12000dff19000eff13000fff1a001000000011ff140012ff150013ff160014ff170015ff1d0016ff1c0017ff1b001fff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_09",
+      "character_id": 9,
+      "_index": 9,
+      "_raw_offset": 5515888,
+      "rom_offset": 5515888,
+      "rom_offset_hex": "0x542A70",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 13,
+      "field_02_hex": "0d",
+      "field_03": 8,
+      "field_03_hex": "08",
+      "raw_hex": "010a0d08030503000c003200010100000200000003000000040000000501000006000000240000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff100009ff13000aff0d000bff0e000cff0f000dff11000eff14000fff12001000000011ff150012ff160013ff170014ff180015ff1b0016ff1a0017ff190020ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_10",
+      "character_id": 10,
+      "_index": 10,
+      "_raw_offset": 5516068,
+      "rom_offset": 5516068,
+      "rom_offset_hex": "0x542B24",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 8,
+      "field_02_hex": "08",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010c080c030603000c003200010000000200000003000000040000000501000006010000250000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff0f0009ff12000aff0d000cff0e000dff10000eff13000fff11001000000011ff140013ff150014ff160015ff190016ff180017ff170021ff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_11",
+      "character_id": 11,
+      "_index": 11,
+      "_raw_offset": 5516248,
+      "rom_offset": 5516248,
+      "rom_offset_hex": "0x542BD8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 8,
+      "field_02_hex": "08",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010d080c020403000a003c00010100000200000003000000040000000501000006000000260000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff0f0009ff12000aff0d000cff0e000dff10000eff13000fff11001000000011ff140013ff150014ff160015ff190016ff180017ff170022ff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_12",
+      "character_id": 12,
+      "_index": 12,
+      "_raw_offset": 5516428,
+      "rom_offset": 5516428,
+      "rom_offset_hex": "0x542C8C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 12,
+      "field_02_hex": "0c",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "010d0c0d03040000000046000501010006000000290000002aff0c002bff0e002cff0f002dff10002eff11002fff120030ff0e0031ff1000000000000000000000000000000000000100000003000000040000000500000006ff0b0007000000090100000a0000000c0000000dff16000eff15000fff17001000000011ff0d0013ff130014ff140015ff1a0016ff190017ff180023ff000000000000000000000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_13",
+      "character_id": 13,
+      "_index": 13,
+      "_raw_offset": 5516608,
+      "rom_offset": 5516608,
+      "rom_offset_hex": "0x542D40",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "010a0a0d030503000d003200010000000200000003010000040000000501000006000000000000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff140009ff0c000aff0e000cff0f000dff15000eff10000fff16001000000011ff110013ff120014ff140015ff190016ff180017ff170024ff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_14",
+      "character_id": 14,
+      "_index": 14,
+      "_raw_offset": 5516788,
+      "rom_offset": 5516788,
+      "rom_offset_hex": "0x542DF4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 15,
+      "field_01_hex": "0f",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010f070a02050300090032000201000003000000040000000501000032ff0c003300000035ff14000000000000000000000000000000000000000000000000000000000000000000010000000200000008ff0f0009ff0c000aff10000bff0b000cff11000dff16000eff0e000fff150011ff120012ff0d0013ff130014ff140015ff190016ff180017ff170025ff0000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_15",
+      "character_id": 15,
+      "_index": 15,
+      "_raw_offset": 5516968,
+      "rom_offset": 5516968,
+      "rom_offset_hex": "0x542EA8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 7,
+      "field_03_hex": "07",
+      "raw_hex": "010a0a070303030007003200020000000301000004000000050100000600000036000000000000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0c0008ff0f0009ff12000aff0d000cff0e000dff10000eff13000fff11001000000011ff140013ff150014ff160015ff190016ff180017ff170026ff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_16",
+      "character_id": 16,
+      "_index": 16,
+      "_raw_offset": 5517148,
+      "rom_offset": 5517148,
+      "rom_offset_hex": "0x542F5C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 8,
+      "field_03_hex": "08",
+      "raw_hex": "010d0a08030503000c003200010000000200000003010000040000000501000006000000370000003800000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff160009ff0c000aff0e000bff0f000cff10000dff17000eff11000fff18001000000011ff120012ff130013ff140014ff150015ff1b0016ff1a0017ff190027ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_17",
+      "character_id": 17,
+      "_index": 17,
+      "_raw_offset": 5517328,
+      "rom_offset": 5517328,
+      "rom_offset_hex": "0x543010",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010d070c030503000d003200010100000200000003000000040000000501000006ff1400390000003a0000003bff0f00000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff180009ff0c000aff0e000bff10000cff11000dff19000eff12000fff1a001000000011ff130012ff150013ff160014ff170015ff1d0016ff1c0017ff1b0028ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_18",
+      "character_id": 18,
+      "_index": 18,
+      "_raw_offset": 5517508,
+      "rom_offset": 5517508,
+      "rom_offset_hex": "0x5430C4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010a0a0c030503000d003200010100000200000003000000040000000501000006ff14003c0000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff170009ff0c000aff0e000bff0f000cff10000dff18000eff11000fff19001000000011ff120012ff130013ff150014ff160015ff1c0016ff1b0017ff1a0029ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_19",
+      "character_id": 19,
+      "_index": 19,
+      "_raw_offset": 5517688,
+      "rom_offset": 5517688,
+      "rom_offset_hex": "0x543178",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010a0a0c030503000d003200010100000200000003000000040000000501000006ff1400000000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff150009ff0c000aff0e000cff0f000dff16000eff10000fff17001000000011ff110013ff120014ff130015ff1a0016ff190017ff18002aff00000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_20",
+      "character_id": 20,
+      "_index": 20,
+      "_raw_offset": 5517868,
+      "rom_offset": 5517868,
+      "rom_offset_hex": "0x54322C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 17,
+      "field_01_hex": "11",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "01110a0c030203000900500002000000030100000400000005010000060000003d0000003fff0c0040ff140041ff1900000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0e0008ff180009ff0e000aff0f000bff10000cff11000dff1a000eff12000fff1b001000000011ff130012ff150013ff160014ff170015ff0d0016ff1d0017ff1c002bff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_21",
+      "character_id": 21,
+      "_index": 21,
+      "_raw_offset": 5518048,
+      "rom_offset": 5518048,
+      "rom_offset_hex": "0x5432E0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 8,
+      "field_01_hex": "08",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "0108070d06030400060032000100000002000000030000000400000005010000060100004200000043ff14000000000000000000000000000000000000000000000000000000000001000000020000000300000004000000050000000600000007ff150008ff160009ff10000aff17000bff0b000cff0c000dff12000eff11000fff13001000000011ff180012ff0d0013ff0e0014ff0f0015ff1b0016ff1a0017ff19002cff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_22",
+      "character_id": 22,
+      "_index": 22,
+      "_raw_offset": 5518228,
+      "rom_offset": 5518228,
+      "rom_offset_hex": "0x543394",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 8,
+      "field_01_hex": "08",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "0108070c03050300070032000101000002010000030100000401000005010000060100004401000045010000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_23",
+      "character_id": 23,
+      "_index": 23,
+      "_raw_offset": 5518408,
+      "rom_offset": 5518408,
+      "rom_offset_hex": "0x543448",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 8,
+      "field_01_hex": "08",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "0108070c0305030007000f000101000002010000030100000401000005010000060100004601000047010000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_24",
+      "character_id": 24,
+      "_index": 24,
+      "_raw_offset": 5518588,
+      "rom_offset": 5518588,
+      "rom_offset_hex": "0x5434FC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 8,
+      "field_01_hex": "08",
+      "field_02": 7,
+      "field_02_hex": "07",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "0108070c03050300070032000101000002010000030100000401000005010000060100004801000049010000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_25",
+      "character_id": 25,
+      "_index": 25,
+      "_raw_offset": 5518768,
+      "rom_offset": 5518768,
+      "rom_offset_hex": "0x5435B0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010c0a0a030003000c0032000101000002010000030100000401000005010000060100004a01000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_26",
+      "character_id": 26,
+      "_index": 26,
+      "_raw_offset": 5518948,
+      "rom_offset": 5518948,
+      "rom_offset_hex": "0x543664",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010c0a0a030003000c0032000101000002010000030100000401000005010000060100004b01000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_27",
+      "character_id": 27,
+      "_index": 27,
+      "_raw_offset": 5519128,
+      "rom_offset": 5519128,
+      "rom_offset_hex": "0x543718",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010d0a0c03000000000032000101000002010000030100000401000005010000060100004c01000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_28",
+      "character_id": 28,
+      "_index": 28,
+      "_raw_offset": 5519308,
+      "rom_offset": 5519308,
+      "rom_offset_hex": "0x5437CC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010c0a0c03000000000032000101000002010000030100000401000005010000060100004d01000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_29",
+      "character_id": 29,
+      "_index": 29,
+      "_raw_offset": 5519488,
+      "rom_offset": 5519488,
+      "rom_offset_hex": "0x543880",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 15,
+      "field_01_hex": "0f",
+      "field_02": 15,
+      "field_02_hex": "0f",
+      "field_03": 15,
+      "field_03_hex": "0f",
+      "raw_hex": "010f0f0f05050500060046000103000002030000030300000403000005030000060300004e0300004f030000500300000000000000000000000000000000000000000000000000000103000002030000090300000a0300000b0300000c0300000e0300001103000012030000130300001403000015030000160300001703000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_30",
+      "character_id": 30,
+      "_index": 30,
+      "_raw_offset": 5519668,
+      "rom_offset": 5519668,
+      "rom_offset_hex": "0x543934",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 6,
+      "field_01_hex": "06",
+      "field_02": 6,
+      "field_02_hex": "06",
+      "field_03": 6,
+      "field_03_hex": "06",
+      "raw_hex": "01060606020502000f000a000101000002010000030100000401000005010000060100000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_31",
+      "character_id": 31,
+      "_index": 31,
+      "_raw_offset": 5519848,
+      "rom_offset": 5519848,
+      "rom_offset_hex": "0x5439E8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 0,
+      "field_01_hex": "00",
+      "field_02": 6,
+      "field_02_hex": "06",
+      "field_03": 6,
+      "field_03_hex": "06",
+      "raw_hex": "0100060601000000000032000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_32",
+      "character_id": 32,
+      "_index": 32,
+      "_raw_offset": 5520028,
+      "rom_offset": 5520028,
+      "rom_offset_hex": "0x543A9C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a030503000a0032000101000002010000030100000401000005010000060100000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_33",
+      "character_id": 33,
+      "_index": 33,
+      "_raw_offset": 5520208,
+      "rom_offset": 5520208,
+      "rom_offset_hex": "0x543B50",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a030503000a0032000101000002010000030100000401000005010000060100000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_34",
+      "character_id": 34,
+      "_index": 34,
+      "_raw_offset": 5520388,
+      "rom_offset": 5520388,
+      "rom_offset_hex": "0x543C04",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a030503000a0032000101000002010000030100000401000005010000060100000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_35",
+      "character_id": 35,
+      "_index": 35,
+      "_raw_offset": 5520568,
+      "rom_offset": 5520568,
+      "rom_offset_hex": "0x543CB8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a030503000a0032000101000002010000030100000401000005010000060100000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_36",
+      "character_id": 36,
+      "_index": 36,
+      "_raw_offset": 5520748,
+      "rom_offset": 5520748,
+      "rom_offset_hex": "0x543D6C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 20,
+      "field_01_hex": "14",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "01140a0a02000000000050005101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_37",
+      "character_id": 37,
+      "_index": 37,
+      "_raw_offset": 5520928,
+      "rom_offset": 5520928,
+      "rom_offset_hex": "0x543E20",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 25,
+      "field_01_hex": "19",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 15,
+      "field_03_hex": "0f",
+      "raw_hex": "01190a0f05000000000032005201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_38",
+      "character_id": 38,
+      "_index": 38,
+      "_raw_offset": 5521108,
+      "rom_offset": 5521108,
+      "rom_offset_hex": "0x543ED4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a03000000000032005301000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_39",
+      "character_id": 39,
+      "_index": 39,
+      "_raw_offset": 5521288,
+      "rom_offset": 5521288,
+      "rom_offset_hex": "0x543F88",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 20,
+      "field_01_hex": "14",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "01140a0a03000000000064005401000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_40",
+      "character_id": 40,
+      "_index": 40,
+      "_raw_offset": 5521468,
+      "rom_offset": 5521468,
+      "rom_offset_hex": "0x54403C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 15,
+      "field_01_hex": "0f",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010f0a0a0300000000004b005501000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_41",
+      "character_id": 41,
+      "_index": 41,
+      "_raw_offset": 5521648,
+      "rom_offset": 5521648,
+      "rom_offset_hex": "0x5440F0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 0,
+      "field_01_hex": "00",
+      "field_02": 0,
+      "field_02_hex": "00",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "0100000a04000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_42",
+      "character_id": 42,
+      "_index": 42,
+      "_raw_offset": 5521828,
+      "rom_offset": 5521828,
+      "rom_offset_hex": "0x5441A4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 14,
+      "field_01_hex": "0e",
+      "field_02": 8,
+      "field_02_hex": "08",
+      "field_03": 12,
+      "field_03_hex": "0c",
+      "raw_hex": "010e080c03050500060046000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_43",
+      "character_id": 43,
+      "_index": 43,
+      "_raw_offset": 5522008,
+      "rom_offset": 5522008,
+      "rom_offset_hex": "0x544258",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_44",
+      "character_id": 44,
+      "_index": 44,
+      "_raw_offset": 5522188,
+      "rom_offset": 5522188,
+      "rom_offset_hex": "0x54430C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_45",
+      "character_id": 45,
+      "_index": 45,
+      "_raw_offset": 5522368,
+      "rom_offset": 5522368,
+      "rom_offset_hex": "0x5443C0",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_46",
+      "character_id": 46,
+      "_index": 46,
+      "_raw_offset": 5522548,
+      "rom_offset": 5522548,
+      "rom_offset_hex": "0x544474",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_47",
+      "character_id": 47,
+      "_index": 47,
+      "_raw_offset": 5522728,
+      "rom_offset": 5522728,
+      "rom_offset_hex": "0x544528",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_48",
+      "character_id": 48,
+      "_index": 48,
+      "_raw_offset": 5522908,
+      "rom_offset": 5522908,
+      "rom_offset_hex": "0x5445DC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_49",
+      "character_id": 49,
+      "_index": 49,
+      "_raw_offset": 5523088,
+      "rom_offset": 5523088,
+      "rom_offset_hex": "0x544690",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_50",
+      "character_id": 50,
+      "_index": 50,
+      "_raw_offset": 5523268,
+      "rom_offset": 5523268,
+      "rom_offset_hex": "0x544744",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_51",
+      "character_id": 51,
+      "_index": 51,
+      "_raw_offset": 5523448,
+      "rom_offset": 5523448,
+      "rom_offset_hex": "0x5447F8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_52",
+      "character_id": 52,
+      "_index": 52,
+      "_raw_offset": 5523628,
+      "rom_offset": 5523628,
+      "rom_offset_hex": "0x5448AC",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_53",
+      "character_id": 53,
+      "_index": 53,
+      "_raw_offset": 5523808,
+      "rom_offset": 5523808,
+      "rom_offset_hex": "0x544960",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_54",
+      "character_id": 54,
+      "_index": 54,
+      "_raw_offset": 5523988,
+      "rom_offset": 5523988,
+      "rom_offset_hex": "0x544A14",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_55",
+      "character_id": 55,
+      "_index": 55,
+      "_raw_offset": 5524168,
+      "rom_offset": 5524168,
+      "rom_offset_hex": "0x544AC8",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 2,
+      "field_02_hex": "02",
+      "field_03": 20,
+      "field_03_hex": "14",
+      "raw_hex": "010a021403000000000005005601000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_56",
+      "character_id": 56,
+      "_index": 56,
+      "_raw_offset": 5524348,
+      "rom_offset": 5524348,
+      "rom_offset_hex": "0x544B7C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_57",
+      "character_id": 57,
+      "_index": 57,
+      "_raw_offset": 5524528,
+      "rom_offset": 5524528,
+      "rom_offset_hex": "0x544C30",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "010a0a0d030504000d003c000200000003000000040100000501000006ff0d002100000022ff0f0023ff140000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0e0008ff180009ff0c000aff10000bff11000cff12000dff19000eff13000fff1a001000000011ff140012ff150013ff160014ff170015ff1d0016ff1c0017ff1b001fff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_58",
+      "character_id": 58,
+      "_index": 58,
+      "_raw_offset": 5524708,
+      "rom_offset": 5524708,
+      "rom_offset_hex": "0x544CE4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 7,
+      "field_03_hex": "07",
+      "raw_hex": "010a0a070303030007003200020000000301000004000000050100000600000036000000000000000000000000000000000000000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff0d0008ff160009ff0c000aff0e000bff0f000cff10000dff17000eff11000fff18001000000011ff120012ff130013ff140014ff150015ff1b0016ff1a0017ff190026ff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_59",
+      "character_id": 59,
+      "_index": 59,
+      "_raw_offset": 5524888,
+      "rom_offset": 5524888,
+      "rom_offset_hex": "0x544D98",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 12,
+      "field_01_hex": "0c",
+      "field_02": 13,
+      "field_02_hex": "0d",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010c0d0a010603000d003200010100000200000003000000040000000501000006000000190000001a0000001b0000001cff0d000000000000000000000000000000000000000000010000000200000003000000040000000500000006ff0b0007ff110008ff120009ff16000aff0e000bff0f000cff10000dff13000eff17000fff15001000000011ff180012ff190013ff1a0014ff1b0015ff1e0016ff1d0017ff1c001dff0000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_60",
+      "character_id": 60,
+      "_index": 60,
+      "_raw_offset": 5525068,
+      "rom_offset": 5525068,
+      "rom_offset_hex": "0x544E4C",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 13,
+      "field_01_hex": "0d",
+      "field_02": 12,
+      "field_02_hex": "0c",
+      "field_03": 13,
+      "field_03_hex": "0d",
+      "raw_hex": "010d0c0d03040000000046000501010006000000290000002aff0c002bff0e002cff0f002dff10002eff11002fff120030ff0e0031ff1000000000000000000000000000000000000100000003000000040000000500000006ff0b0007000000090100000a0000000c0000000dff16000eff15000fff17001000000011ff0d0013ff130014ff140015ff1a0016ff190017ff180023ff000000000000000000000000000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_61",
+      "character_id": 61,
+      "_index": 61,
+      "_raw_offset": 5525248,
+      "rom_offset": 5525248,
+      "rom_offset_hex": "0x544F00",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 10,
+      "field_01_hex": "0a",
+      "field_02": 10,
+      "field_02_hex": "0a",
+      "field_03": 10,
+      "field_03_hex": "0a",
+      "raw_hex": "010a0a0a050909000a0064000100000002000000030000000400000005000000060000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000000000000000000000000000000000000",
+      "active": true
+    },
+    {
+      "id": "character_62",
+      "character_id": 62,
+      "_index": 62,
+      "_raw_offset": 5525428,
+      "rom_offset": 5525428,
+      "rom_offset_hex": "0x544FB4",
+      "field_00": 1,
+      "field_00_hex": "01",
+      "field_01": 20,
+      "field_01_hex": "14",
+      "field_02": 5,
+      "field_02_hex": "05",
+      "field_03": 40,
+      "field_03_hex": "28",
+      "raw_hex": "011405280306030005000a000103000002030000030300000403000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000203000003030000050300000603000007030000080300000c0300000d0300000e0300000f0300001303000014030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "active": true
+    }
+  ],
+  "verification": "code_verified",
+  "evidence": "notes/character-definition-source-20260711.md",
   "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 64,
-    "rom_offset": 5501592,
-    "rom_offset_hex": "0x53F298"
+    "tool": "tools/extract_character_definitions.py",
+    "extracted_count": 63,
+    "rom_offset": 5514268,
+    "rom_offset_hex": "0x54241C"
   }
 }

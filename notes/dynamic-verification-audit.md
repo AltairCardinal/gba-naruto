@@ -60,7 +60,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 29 | story-d (`0x53AB78`) | static | Eleven chapter-like pointers only; no route/table selection evidence. |
 | 30 | story-e (`0x53C3C0`) | static | Nine chapter-like pointers only; no route/table selection evidence. |
 | 31 | tile-assets (`0x5A3218`) | static | Six valid pointers to tile/map-like data only; no decompressor/read hit or controlled visual change. |
-| 32 | units (`0x53F298`) | static | Unit-ID values and battle/character correlation only. Existing battle snapshots do not prove this table was their source. |
+| 32 | units (`0x54241C`) | code | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the code-referenced character definition table. Existing battle snapshots do not yet prove a runtime slot was populated from a specific record, so this is not runtime_verified. |
 
 ## Existing runtime assets: what they do and do not prove
 

@@ -29,7 +29,8 @@
   code 验证
 - units 旧结论已撤销：`0x0806E654` 实为读取单位 x/y，`0x53F298` 唯一消费者
   将其作为 u16 偏移查找；legacy units 回写已安全禁用，真实角色记录映射待定位
-- 真实角色定义表已定位：`0x54241C`，63×`0xB4`；formation character ID 经
+- 真实角色定义表已定位并迁移到 units bank：`0x54241C`，63×`0xB4`；
+  `tools/extract_character_definitions.py` 可重复提取；formation character ID 经
   `0x02022E34` 模板池复制到 `0x1D4` 战斗槽，待成功探针样本闭合动态证据
 - maps width/height 消费链已定位到 `0x0201BE28..2B`；首战第 40 行预期
   `[36,44,9,22]`，探针已加入读取，待稳定状态导航取得结果
@@ -99,7 +100,9 @@
 **已确认 ROM 数据表：**
 - ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
   对象/渲染偏移查找，legacy 回写已禁用
-- ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；待建立提取器并迁移 units bank
+- ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；
+  `tools/extract_character_definitions.py` 已建立，`sequel/content/units/bank.json`
+  已迁移；仍待 runtime 样本把战斗槽 character ID 闭合回该 ROM 记录
 - ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
   - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
   - ptr1：12 字节头 + 原始 tile 数据（u16/tile）

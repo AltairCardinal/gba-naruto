@@ -1,6 +1,6 @@
 {
   "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
-  "generated_at": "2026-07-11T06:23:25.351460+00:00",
+  "generated_at": "2026-07-11T06:52:54.402649+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
@@ -15,9 +15,9 @@
       "rom_fidelity": 32
     },
     "verification_distribution": {
-      "static_verified": 30,
+      "static_verified": 29,
       "runtime_verified": 1,
-      "code_verified": 1
+      "code_verified": 2
     }
   },
   "banks": [
@@ -1245,14 +1245,15 @@
     {
       "bank": "sequel/content/units/bank.json",
       "structure": "units",
-      "table_offset": 5501592,
-      "table_offset_hex": "0x53F298",
+      "table_offset": 5514268,
+      "table_offset_hex": "0x54241C",
       "format_fields": [
+        "format",
         "entry_format"
       ],
-      "entry_count_declared": 64,
-      "entry_count_actual": 64,
-      "verification": "static_verified",
+      "entry_count_declared": 63,
+      "entry_count_actual": 63,
+      "verification": "code_verified",
       "verification_method_present": false,
       "documentation": [
         "docs/build-pipeline.md",
@@ -1264,17 +1265,15 @@
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
-        "notes/addresses.md",
         "notes/battle-config-format.md",
         "notes/character-definition-source-20260711.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/unit-id-mapping-analysis.md",
         "notes/unit-skill-addresses.md",
         "notes/units-unsafe-table-fix-20260711.md"
       ],
-      "rom_fidelity_fields_checked": 64,
+      "rom_fidelity_fields_checked": 252,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
