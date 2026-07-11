@@ -122,6 +122,13 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 
 ## 完成门槛与边界
 
+`save-state` 的 ROM 表和校验规则已有可复跑静态验证：
+`python3 tools/verify_save_state_records.py --bank sequel/content/save-state/bank.json --rom rom/base.gba`
+会检查 10 条 ROM 表记录、7 个唯一 SRAM 字段、`sram_offset_field + 0x14`
+偏移换算和 19+1 字节记录格式。拿到真实 64KB SRAM dump 后，同一工具加
+`--sram-dump <FILE>` 可验证 7 条记录的第 20 字节校验和；但这仍只证明存档
+记录结构，不替代“保存动作前后字段变化”的动态门禁。
+
 要宣称“32 结构动态验证完成”，必须逐行拥有可复查证据；一次首战联合轨迹最多是
 高复用采集入口，不是最终完成证明。尤其以下问题必须先解决：
 

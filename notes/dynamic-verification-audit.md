@@ -106,6 +106,17 @@ Then use a prepared save/battle state (or one manual save action), repeat as
 is a 20-byte changed record whose byte 19 matches the checksum algorithm from
 `0x08068684`; a boot-only unchanged dump is not a pass.
 
+The table and checksum invariants are now executable before any runtime dump is
+available:
+
+```sh
+python3 tools/verify_save_state_records.py \
+  --bank sequel/content/save-state/bank.json --rom rom/base.gba
+```
+
+When a 64KB SRAM dump is available, add `--sram-dump <FILE>` to validate the 7
+unique 20-byte records at the documented offsets.
+
 ### 2. Maps: catch the already-disassembled table consumer (`code` -> `dynamic`)
 
 The table base and loader are known, so a short breakpoint/watch attempt has a

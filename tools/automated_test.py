@@ -9,6 +9,7 @@ Covers all checks that do not require mGBA runtime input injection:
   4. Bytes patches   — verify applied bytes match expected after_hex
   5. Dialogue bank   — all entries encode correctly in their declared encoding
   6. Encoding sanity — no patch text exceeds max_bytes (same-length strategy)
+  7. RE banks        — reverse-engineering bank invariants match base ROM
 
 Usage:
     python tools/automated_test.py                 # run all tests
@@ -571,6 +572,30 @@ def suite_encoding(runner: TestRunner) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Suite: reverse-engineering bank invariants
+# ---------------------------------------------------------------------------
+
+def suite_reverse_engineering(runner: TestRunner) -> None:
+    """Verify extracted reverse-engineering bank metadata against base ROM."""
+    suite = "reverse_engineering"
+
+    def test_save_state_table_matches_base_rom() -> None:
+        from tools.verify_save_state_records import validate_bank
+
+        bank = load_json(ROOT / "sequel/content/save-state/bank.json")
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        report = validate_bank(bank, base_rom)
+        assert report["ok"], "save-state bank validation failed:\n" + "\n".join(
+            report["issues"]
+        )
+        assert report["entry_count"] == 10, report["entry_count"]
+        assert report["unique_entry_count"] == 7, report["unique_entry_count"]
+
+    runner.run("save-state table matches base ROM and unique SRAM fields", suite,
+               test_save_state_table_matches_base_rom)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -580,6 +605,7 @@ SUITES = {
     "patches":  suite_patches,
     "db_integrity": suite_db_integrity,
     "encoding": suite_encoding,
+    "reverse_engineering": suite_reverse_engineering,
 }
 
 
