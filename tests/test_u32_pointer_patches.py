@@ -78,23 +78,52 @@ class U32PointerPatchTests(unittest.TestCase):
         self.assertEqual(patch["type"], "bytes")
 
     def test_second_batch_wrappers_cover_declared_real_tables(self):
-        db = Path(__file__).resolve().parents[1] / "sequel/editor.db"
         cases = [
-            (generate_data_table_a_patches, 20, 0x5A14A4, 0x5A14F0),
-            (generate_data_table_b_patches, 20, 0x5A2120, 0x5A216C),
-            (generate_function_pointer_patches, 11, 0x53D5F4, 0x53D61C),
-            (generate_menu_ui_patches, 20, 0x5A5774, 0x5A57C0),
-            (generate_resource_pointer_patches, 20, 0x596F0C, 0x596F58),
-            (generate_sprite_animation_patches, 38, 0x53F200, 0x53F294),
-            (generate_tile_asset_patches, 6, 0x5A3218, 0x5A322C),
+            (generate_data_table_a_patches, "rom_data_table_a", "data_ptr", 20, 0x5A14A4, 0x5A14F0, 0x08010000),
+            (generate_data_table_b_patches, "rom_data_table_b", "data_ptr", 20, 0x5A2120, 0x5A216C, 0x08011000),
+            (generate_function_pointer_patches, "rom_function_pointers", "func_ptr", 11, 0x53D5F4, 0x53D61C, 0x08001235),
+            (generate_menu_ui_patches, "rom_menu_ui", "ui_ptr", 20, 0x5A5774, 0x5A57C0, 0x08012000),
+            (generate_resource_pointer_patches, "rom_resource_pointers", "resource_ptr", 20, 0x596F0C, 0x596F58, 0x08013000),
+            (generate_sprite_animation_patches, "rom_sprite_animations", "anim_ptr", 38, 0x53F200, 0x53F294, 0x08014000),
+            (generate_tile_asset_patches, "rom_tile_assets", "tile_ptr", 6, 0x5A3218, 0x5A322C, 0x08015000),
         ]
-        for generator, count, first, last in cases:
+        for generator, table, pointer_column, count, first, last, pointer in cases:
             with self.subTest(generator=generator.__name__):
+                db = self.make_pointer_db(table, pointer_column, count, first, pointer)
                 patches = generator(db)
                 self.assertEqual(len(patches), count)
                 self.assertTrue(all(p["type"] == "bytes" for p in patches))
                 self.assertEqual(patches[0]["offset"], first)
                 self.assertEqual(patches[-1]["offset"], last)
+
+    def make_pointer_db(
+        self,
+        table: str,
+        pointer_column: str,
+        count: int,
+        table_offset: int,
+        pointer: int,
+    ) -> Path:
+        tmp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+        tmp.close()
+        path = Path(tmp.name)
+        conn = sqlite3.connect(path)
+        conn.execute(
+            f"CREATE TABLE {table} (_idx INTEGER PRIMARY KEY, "
+            f"_rom_offset INTEGER NOT NULL, {pointer_column} INTEGER NOT NULL)"
+        )
+        rows = [
+            (index, table_offset + index * 4, pointer)
+            for index in range(count)
+        ]
+        conn.executemany(
+            f"INSERT INTO {table} VALUES (?, ?, ?)",
+            rows,
+        )
+        conn.commit()
+        conn.close()
+        self.addCleanup(path.unlink, missing_ok=True)
+        return path
 
 
 if __name__ == "__main__":
