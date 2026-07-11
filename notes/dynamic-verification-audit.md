@@ -130,6 +130,16 @@ legacy `0x0853D910` scenario descriptor path, but it does not upgrade
 `battle-config` to `dynamic`; that still requires a runtime hit at the
 `0x0806D866` consumer path.
 
+The two character-stats banks also have executable static byte-fidelity checks:
+
+```sh
+python3 tools/verify_character_stats_records.py --rom rom/base.gba
+```
+
+This keeps the primary `0x0854507A` ordering separate from the B-table
+`0x08545200` ordering. It still does not prove runtime consumption; direct
+pointer scans for `0x08545078`, `0x0854507A`, and `0x08545200` find no refs.
+
 ### 2. Maps: catch the already-disassembled table consumer (`code` -> `dynamic`)
 
 The table base and loader are known, so a short breakpoint/watch attempt has a

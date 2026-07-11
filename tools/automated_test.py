@@ -609,6 +609,20 @@ def suite_reverse_engineering(runner: TestRunner) -> None:
     runner.run("battle-config table matches base ROM u16 records", suite,
                test_battle_config_table_matches_base_rom)
 
+    def test_character_stats_tables_match_base_rom() -> None:
+        from tools.verify_character_stats_records import TABLE_SPECS, validate_bank
+
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        for name, spec in TABLE_SPECS.items():
+            bank = load_json(ROOT / spec["bank"])
+            report = validate_bank(bank, spec, base_rom)
+            assert report["ok"], f"{name} bank validation failed:\n" + "\n".join(
+                report["issues"]
+            )
+
+    runner.run("character-stats tables match base ROM u16 records", suite,
+               test_character_stats_tables_match_base_rom)
+
 
 # ---------------------------------------------------------------------------
 # Main
