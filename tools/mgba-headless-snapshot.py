@@ -108,7 +108,21 @@ def start_xvfb():
     return None
 
 
-def run_mgba_commands(mgba_bin, rom_path, commands, env_extra=None, timeout=60):
+def build_mgba_command(mgba_bin, rom_path, savestate=None):
+    """Build the mGBA debugger command line.
+
+    mGBA loads savestates through the native -t/--savestate option, not through
+    the CLI debugger stdin. Keep it before the ROM filename so mGBA's getopt
+    parser consumes it as an emulator option.
+    """
+    cmd = [mgba_bin, "-d", "-C", "mute=1", "-C", "volume=0"]
+    if savestate:
+        cmd.extend(["--savestate", savestate])
+    cmd.append(rom_path)
+    return cmd
+
+
+def run_mgba_commands(mgba_bin, rom_path, commands, env_extra=None, timeout=60, savestate=None):
     """Run mGBA debugger with given commands, return raw output."""
     env = os.environ.copy()
     env["SDL_VIDEODRIVER"] = "dummy"
@@ -117,7 +131,7 @@ def run_mgba_commands(mgba_bin, rom_path, commands, env_extra=None, timeout=60):
         env.update(env_extra)
 
     script = "\n".join(commands) + "\n"
-    cmd = [mgba_bin, "-d", "-C", "mute=1", "-C", "volume=0", rom_path]
+    cmd = build_mgba_command(mgba_bin, rom_path, savestate)
 
     proc = subprocess.run(
         cmd, input=script, capture_output=True, text=True,
@@ -257,7 +271,7 @@ def parse_probe_output(raw, breakpoint_addr, reads):
     }
 
 
-def mode_probe(rom, breakpoint_addr, reads, frames, timeout):
+def mode_probe(rom, breakpoint_addr, reads, frames, timeout, savestate=None):
     """Stop at a known PC and capture ROM/WRAM reads in the same process."""
     mgba = find_mgba()
     if not mgba:
@@ -265,7 +279,7 @@ def mode_probe(rom, breakpoint_addr, reads, frames, timeout):
     commands = build_probe_commands(breakpoint_addr, reads, frames)
     try:
         stdout, stderr = run_mgba_commands(
-            mgba, rom, commands, timeout=timeout,
+            mgba, rom, commands, timeout=timeout, savestate=savestate,
         )
         timed_out = False
     except subprocess.TimeoutExpired as exc:
@@ -277,6 +291,7 @@ def mode_probe(rom, breakpoint_addr, reads, frames, timeout):
             stderr = stderr.decode(errors="replace")
         timed_out = True
     result = parse_probe_output(stdout, breakpoint_addr, reads)
+    result["savestate"] = savestate
     result["stderr"] = stderr
     result["timed_out"] = timed_out
     return result
@@ -307,7 +322,7 @@ def mode_watch(rom, watch_addr, max_hits, frames_advance, per_hit_timeout, saves
     script = "\n".join(cmds) + "\n"
 
     proc = subprocess.run(
-        [mgba, "-d", "-C", "mute=1", "-C", "volume=0", rom],
+        build_mgba_command(mgba, rom, savestate),
         input=script, capture_output=True, text=True,
         timeout=per_hit_timeout, env=env,
     )
@@ -323,6 +338,7 @@ def mode_watch(rom, watch_addr, max_hits, frames_advance, per_hit_timeout, saves
     return {
         "mode": "watch",
         "watch_address": f"0x{watch_addr:08X}",
+        "savestate": savestate,
         "hits": hits,
         "final_registers": reg_state,
         "raw_output": output,
@@ -356,7 +372,7 @@ def mode_diff(rom, region_addr, region_size, num_frames, savestate):
     script = "\n".join(cmds) + "\n"
 
     proc = subprocess.run(
-        [mgba, "-d", "-C", "mute=1", "-C", "volume=0", rom],
+        build_mgba_command(mgba, rom, savestate),
         input=script, capture_output=True, text=True,
         timeout=60 + num_frames * 5, env=env,
     )
@@ -409,6 +425,7 @@ def mode_diff(rom, region_addr, region_size, num_frames, savestate):
     return {
         "mode": "diff",
         "region": {"address": addr_hex, "size": region_size},
+        "savestate": savestate,
         "frames_requested": num_frames,
         "snapshots_count": len(snapshots),
         "snapshots": snapshots,
@@ -439,7 +456,7 @@ def mode_snapshot(rom, dumps, frames, savestate):
     script = "\n".join(cmds) + "\n"
 
     proc = subprocess.run(
-        [mgba, "-d", "-C", "mute=1", "-C", "volume=0", rom],
+        build_mgba_command(mgba, rom, savestate),
         input=script, capture_output=True, text=True,
         timeout=60 + frames, env=env,
     )
@@ -459,6 +476,7 @@ def mode_snapshot(rom, dumps, frames, savestate):
 
     return {
         "mode": "snapshot",
+        "savestate": savestate,
         "frames_advanced": frames,
         "registers": reg_state,
         "memory_dumps": mem_dumps,
@@ -494,6 +512,9 @@ def main():
 
     if not os.path.isfile(args.rom):
         print(f"ERROR: ROM not found: {args.rom}", file=sys.stderr)
+        sys.exit(1)
+    if args.savestate and not os.path.isfile(args.savestate):
+        print(f"ERROR: savestate not found: {args.savestate}", file=sys.stderr)
         sys.exit(1)
 
     xvfb_proc = None
@@ -533,6 +554,7 @@ def main():
                 reads.append((addr, size))
             result = mode_probe(
                 args.rom, int(args.breakpoint, 16), reads, args.frames, args.timeout,
+                args.savestate,
             )
 
         else:  # snapshot

@@ -42,10 +42,10 @@
 
 ## 工具限制
 
-`tools/mgba-headless-snapshot.py` 虽然暴露 `--savestate FILE` 参数并把它传给
-`mode_watch`、`mode_diff` 和 `mode_snapshot`，但三个模式启动 mGBA 时均未使用该参数。
-所以当前脚本即使得到有效 `.ss0`，也不会实际加载它。动态验证前需要先用 TDD
-补齐即时状态加载，或改用确认支持加载状态的 Lua/GUI 流程。
+`tools/mgba-headless-snapshot.py` 曾经暴露 `--savestate FILE` 参数但没有传给
+mGBA 启动命令。后续修复已改为通过 mGBA 原生 `--savestate FILE` 参数加载，
+并由单元测试确认 probe/watch/diff/snapshot 共享同一启动命令构造。动态验证仍
+需要先取得有效 `.ss0`，当前仓库内没有这样的文件。
 
 ## 结论
 
@@ -63,7 +63,8 @@
 1. 在能够正常脚本输入的 mGBA 中运行现有导航流程，到第一次地图切换前或战斗初始化前保存真正的 `.ss0`。
 2. 同时保留截图、PC/LR、章节 ID `0x02026805`，并抓取单位区
    `0x02024294`，使状态本身具有可审计语境。
-3. 为 `tools/mgba-headless-snapshot.py --savestate` 先写一个“加载状态后 PC/内存必须区别于冷启动”的失败集成测试，再实现参数接线。
+3. 拿到 `.ss0` 后，先用 `tools/mgba-headless-snapshot.py --savestate <FILE>`
+   做“加载状态后 PC/内存区别于冷启动”的集成验证。
 4. 有效状态生成后，优先验证地图加载器和表项：ROM 表基址
    `0x0853D914`、章节 ID `0x02026805`；战斗单位/位置继续关注
    `0x02024294`，但必须捕获 ROM 来源或写入 PC 才能形成动态证据。

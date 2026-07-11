@@ -27,7 +27,28 @@ Hit breakpoint 0 at 0x08068FF0
 """
 
 
+class CompletedProcessFixture:
+    stdout = ""
+    stderr = ""
+
+
 class MgbaReadProbeTests(unittest.TestCase):
+    def test_build_mgba_command_loads_savestate_before_rom(self):
+        self.assertEqual(
+            [
+                "/fake/mgba",
+                "-d",
+                "-C",
+                "mute=1",
+                "-C",
+                "volume=0",
+                "--savestate",
+                "battle.ss0",
+                "fixture.gba",
+            ],
+            mgba.build_mgba_command("/fake/mgba", "fixture.gba", "battle.ss0"),
+        )
+
     def test_build_probe_commands_breaks_then_reads_rom_and_wram(self):
         commands = mgba.build_probe_commands(
             0x08068FF0,
@@ -73,13 +94,28 @@ class MgbaReadProbeTests(unittest.TestCase):
     def test_mode_probe_integrates_command_runner(self, _find, run):
         run.return_value = (BREAKPOINT_OUTPUT, "fixture warning")
         result = mgba.mode_probe(
-            "fixture.gba", 0x08068FF0, [(0x0853D910, 16)], 2, 9
+            "fixture.gba", 0x08068FF0, [(0x0853D910, 16)], 2, 9, "battle.ss0"
         )
         commands = run.call_args.args[2]
         self.assertEqual("b 0x08068FF0", commands[2])
         self.assertEqual(9, run.call_args.kwargs["timeout"])
+        self.assertEqual("battle.ss0", run.call_args.kwargs["savestate"])
         self.assertTrue(result["hit"])
+        self.assertEqual("battle.ss0", result["savestate"])
         self.assertEqual("fixture warning", result["stderr"])
+
+    @patch.object(mgba.subprocess, "run", return_value=CompletedProcessFixture())
+    @patch.object(mgba, "find_mgba", return_value="/fake/mgba")
+    def test_all_runtime_modes_pass_savestate_to_mgba_command(self, _find, run):
+        mgba.mode_snapshot("fixture.gba", [(0x02000000, 16)], 0, "battle.ss0")
+        mgba.mode_diff("fixture.gba", 0x02000000, 16, 0, "battle.ss0")
+        mgba.mode_watch("fixture.gba", 0x02000000, 1, 0, 1, "battle.ss0")
+
+        for call in run.call_args_list:
+            cmd = call.args[0]
+            self.assertIn("--savestate", cmd)
+            self.assertEqual("battle.ss0", cmd[cmd.index("--savestate") + 1])
+            self.assertLess(cmd.index("--savestate"), len(cmd) - 1)
 
     @patch.object(mgba, "run_mgba_commands")
     @patch.object(mgba, "find_mgba", return_value="/fake/mgba")
