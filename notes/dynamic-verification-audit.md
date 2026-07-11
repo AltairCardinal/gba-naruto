@@ -117,6 +117,19 @@ python3 tools/verify_save_state_records.py \
 When a 64KB SRAM dump is available, add `--sram-dump <FILE>` to validate the 7
 unique 20-byte records at the documented offsets.
 
+Battle-config also has an executable static boundary check for the separate
+`0x08545458` u16[8] x 32 data table:
+
+```sh
+python3 tools/verify_battle_config_records.py \
+  --bank sequel/content/battle-config/bank.json --rom rom/base.gba
+```
+
+This proves the bank matches immutable ROM bytes and keeps it separate from the
+legacy `0x0853D910` scenario descriptor path, but it does not upgrade
+`battle-config` to `dynamic`; that still requires a runtime hit at the
+`0x0806D866` consumer path.
+
 ### 2. Maps: catch the already-disassembled table consumer (`code` -> `dynamic`)
 
 The table base and loader are known, so a short breakpoint/watch attempt has a

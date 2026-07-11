@@ -594,6 +594,21 @@ def suite_reverse_engineering(runner: TestRunner) -> None:
     runner.run("save-state table matches base ROM and unique SRAM fields", suite,
                test_save_state_table_matches_base_rom)
 
+    def test_battle_config_table_matches_base_rom() -> None:
+        from tools.verify_battle_config_records import validate_bank
+
+        bank = load_json(ROOT / "sequel/content/battle-config/bank.json")
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        report = validate_bank(bank, base_rom)
+        assert report["ok"], "battle-config bank validation failed:\n" + "\n".join(
+            report["issues"]
+        )
+        assert report["entry_count"] == 32, report["entry_count"]
+        assert report["entry_size"] == 16, report["entry_size"]
+
+    runner.run("battle-config table matches base ROM u16 records", suite,
+               test_battle_config_table_matches_base_rom)
+
 
 # ---------------------------------------------------------------------------
 # Main
