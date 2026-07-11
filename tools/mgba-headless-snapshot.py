@@ -5,10 +5,11 @@ mGBA headless watchpoint debugger.
 Launches mgba-qt (or mgba-sdl) under Xvfb, feeds the built-in CLI debugger
 commands via stdin, parses structured output, and produces JSON logs.
 
-Supports two modes:
+Supports four modes:
   --mode watch   Set hardware watchpoints, continue until hit (best for rare writes)
   --mode diff    Frame-by-frame, diff memory each frame (best for frequent writes)
   --mode snapshot Just advance N frames and dump memory (no watchpoints)
+  --mode probe   Break at a ROM PC, then read ROM/WRAM in the stopped context
 
 Usage:
   # Watchpoint mode - stops at each write to target address
@@ -34,6 +35,16 @@ Usage:
     --dump 0x0200A900:256 \\
     --frames 10 \\
     --output notes/snapshot.json
+
+  # Stop in the map loader, then capture the selected map row and unit WRAM
+  python3 tools/mgba-headless-snapshot.py \\
+    --rom rom/base.gba \\
+    --mode probe \\
+    --breakpoint 0x08068FF0 \\
+    --read 0x0853D910:32 \\
+    --read 0x02024290:64 \\
+    --frames 0 \\
+    --output notes/map-position-probe.json
 """
 
 import argparse
@@ -64,6 +75,8 @@ RE_REGISTER_BLOCK = re.compile(
 RE_WATCHPOINT_HIT = re.compile(
     r"Hit watchpoint (\d+) at 0x([0-9A-F]+): \(new value = 0x([0-9A-F]+), old value = 0x([0-9A-F]+)\)"
 )
+
+RE_BREAKPOINT_HIT = re.compile(r"Hit breakpoint (\d+) at 0x([0-9A-Fa-f]+)")
 
 RE_MEMORY_LINE = re.compile(r"(0x[0-9A-Fa-f]+):\s+((?:[0-9A-Fa-f]{8}\s*)+)")
 
@@ -208,6 +221,65 @@ def parse_memory_words(raw, addr_hex):
         if m.group(1).lower() == addr_key:
             return [int(w, 16) for w in m.group(2).strip().split()]
     return None
+
+
+def build_probe_commands(breakpoint_addr, reads, frames=0):
+    """Build one deterministic execution-breakpoint/read command sequence."""
+    commands = ["frame"] * frames
+    commands.extend([f"b 0x{breakpoint_addr:08X}", "continue", "status"])
+    for addr, size in reads:
+        commands.extend(build_mem_read_commands(addr, size))
+    commands.append("quit")
+    return commands
+
+
+def parse_probe_output(raw, breakpoint_addr, reads):
+    """Turn debugger output into evidence tied to an actual breakpoint hit."""
+    matches = list(RE_BREAKPOINT_HIT.finditer(raw))
+    hit = matches[-1] if matches else None
+    memory_reads = []
+    for addr, size in reads:
+        words = parse_mem_region(raw, addr, size)
+        word_count = (size + 3) // 4
+        memory_reads.append({
+            "address": f"0x{addr:08X}",
+            "size": size,
+            "words": [f"0x{word:08X}" for word in words[:word_count]],
+        })
+    return {
+        "mode": "probe",
+        "breakpoint": f"0x{breakpoint_addr:08X}",
+        "hit": hit is not None,
+        "hit_pc": f"0x{int(hit.group(2), 16):08X}" if hit else None,
+        "breakpoint_id": int(hit.group(1)) if hit else None,
+        "registers": parse_registers(raw) if hit else None,
+        "memory_reads": memory_reads if hit else [],
+    }
+
+
+def mode_probe(rom, breakpoint_addr, reads, frames, timeout):
+    """Stop at a known PC and capture ROM/WRAM reads in the same process."""
+    mgba = find_mgba()
+    if not mgba:
+        return {"error": "No mGBA binary found"}
+    commands = build_probe_commands(breakpoint_addr, reads, frames)
+    try:
+        stdout, stderr = run_mgba_commands(
+            mgba, rom, commands, timeout=timeout,
+        )
+        timed_out = False
+    except subprocess.TimeoutExpired as exc:
+        stdout = exc.stdout or exc.output or ""
+        stderr = exc.stderr or ""
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode(errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode(errors="replace")
+        timed_out = True
+    result = parse_probe_output(stdout, breakpoint_addr, reads)
+    result["stderr"] = stderr
+    result["timed_out"] = timed_out
+    return result
 
 
 def mode_watch(rom, watch_addr, max_hits, frames_advance, per_hit_timeout, savestate):
@@ -396,7 +468,7 @@ def mode_snapshot(rom, dumps, frames, savestate):
 def main():
     parser = argparse.ArgumentParser(description="mGBA headless watchpoint debugger")
     parser.add_argument("--rom", required=True, help="Path to GBA ROM file")
-    parser.add_argument("--mode", choices=["watch", "diff", "snapshot"], default="snapshot",
+    parser.add_argument("--mode", choices=["watch", "diff", "snapshot", "probe"], default="snapshot",
                         help="Operation mode (default: snapshot)")
     parser.add_argument("--watch", type=str, default=None,
                         help="Watchpoint address for watch mode (hex)")
@@ -406,6 +478,10 @@ def main():
                         help="Region for diff mode: ADDRESS:SIZE (hex)")
     parser.add_argument("--dump", action="append", default=[],
                         help="Memory dump spec: ADDRESS:SIZE (hex)")
+    parser.add_argument("--read", action="append", default=[],
+                        help="Probe read spec after PC hit: ADDRESS:SIZE")
+    parser.add_argument("--breakpoint", default=None,
+                        help="Execution address for probe mode (hex)")
     parser.add_argument("--frames", type=int, default=5,
                         help="Number of frames to advance")
     parser.add_argument("--savestate", default=None, help="Savestate file")
@@ -443,6 +519,20 @@ def main():
             region_size = int(parts[1], 16) if parts[1].startswith("0x") else int(parts[1])
             result = mode_diff(
                 args.rom, region_addr, region_size, args.frames, args.savestate,
+            )
+
+        elif args.mode == "probe":
+            if not args.breakpoint:
+                print("ERROR: --breakpoint required for probe mode", file=sys.stderr)
+                sys.exit(1)
+            reads = []
+            for spec in args.read:
+                parts = spec.split(":")
+                addr = int(parts[0], 16)
+                size = int(parts[1], 16) if parts[1].startswith("0x") else int(parts[1])
+                reads.append((addr, size))
+            result = mode_probe(
+                args.rom, int(args.breakpoint, 16), reads, args.frames, args.timeout,
             )
 
         else:  # snapshot

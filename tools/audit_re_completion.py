@@ -104,13 +104,25 @@ def audit_bank(
     entry_size = data.get("entry_size")
     entry_format = data.get("entry_format")
     fields = entry_format.get("fields", []) if isinstance(entry_format, dict) else []
+    if not fields and isinstance(data.get("format"), dict):
+        domain_fields = data["format"].get("fields", [])
+        if isinstance(domain_fields, dict):
+            fields = [dict(spec, name=name) for name, spec in domain_fields.items()]
+        elif isinstance(domain_fields, list):
+            fields = domain_fields
     if rom is not None and offset_ok and isinstance(entry_size, int) and entry_size > 0 and isinstance(entries, list):
         for index, entry in enumerate(entries):
             if not isinstance(entry, dict):
                 fidelity_errors.append(f"entry {index} is not an object")
                 continue
-            expected_offset = offset + index * entry_size
+            explicit_offset = entry.get("rom_offset")
+            expected_offset = (
+                explicit_offset if isinstance(explicit_offset, int)
+                else offset + index * entry_size
+            )
             raw_offset = entry.get("_raw_offset", entry.get("offset"))
+            if raw_offset is None:
+                raw_offset = explicit_offset
             if isinstance(raw_offset, int) and raw_offset != expected_offset:
                 fidelity_errors.append(
                     f"entry {index} offset 0x{raw_offset:X} != expected 0x{expected_offset:X}"
@@ -119,11 +131,16 @@ def audit_bank(
                 if not isinstance(field, dict):
                     continue
                 name, field_offset, size = field.get("name"), field.get("offset"), field.get("size")
-                hex_value = entry.get(f"{name}_hex") if isinstance(name, str) else None
-                if not (isinstance(field_offset, int) and isinstance(size, int) and isinstance(hex_value, str)):
+                if not (isinstance(name, str) and isinstance(field_offset, int) and isinstance(size, int)):
                     continue
                 start = expected_offset + field_offset
                 expected_hex = rom[start:start + size].hex()
+                hex_value = entry.get(f"{name}_hex")
+                if not isinstance(hex_value, str):
+                    numeric_value = entry.get(name)
+                    if not isinstance(numeric_value, int):
+                        continue
+                    hex_value = numeric_value.to_bytes(size, "little", signed=False).hex()
                 fidelity_checked += 1
                 if hex_value.lower() != expected_hex:
                     fidelity_errors.append(

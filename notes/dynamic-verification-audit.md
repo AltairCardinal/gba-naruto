@@ -19,8 +19,9 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under this definition the current repository has **0 dynamic, 6 code, 25
-static, and 1 none**. This is deliberately stricter than the `verification`
+Under this definition the current repository has **1 dynamic, 6 code, 24
+static, and 1 none** after the positions runtime trace was closed on
+2026-07-10. This is deliberately stricter than the `verification`
 strings in the banks. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
@@ -47,7 +48,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 17 | map-sprites (`0x53E1DC`) | static | Pointer-table consistency and animation-shaped targets only. |
 | 18 | menu-ui (`0x5A5774`) | static | Alternating pointer pattern and UI-like targets only; no menu route/table access trace. |
 | 19 | palettes (`0x53F138`) | static | Valid RGB555-looking targets only. It shares the claimed table offset with `audio`, an unresolved identity conflict. |
-| 20 | positions (`0x53D914`) | static | Bank asserts positions are embedded in scenario data and mentions WRAM `0x02024294+i*234`; `chapter-init` recorded zero hits, so the ROM-to-WRAM link is unproved. |
+| 20 | positions (`0x5461C4`) | dynamic | WASM navigation reached the first battle; WRAM slot 1 x/y `(4,4)` uniquely matches group 40 / variant 0 / record 0 at ROM `0x588CA8`. Static code independently proves record `+2/+3` feeds unit coordinates. |
 | 21 | resource-pointers (`0x596F0C`) | static | Twenty valid nested resource pointers only; no consumer or visible controlled edit. |
 | 22 | sappy-engine (`0x079268`) | code | Handler disassembly and command ranges/callers are documented in the bank/results. No runtime command hit/audio-state change is recorded. |
 | 23 | save-state (`0x086248`) | code | Deep disassembly of handler `0x08068684` establishes 19 data bytes plus checksum and EWRAM/SRAM mapping (`sequel/content/save-state/bank.json`). No before/after SRAM trace validates field semantics. |

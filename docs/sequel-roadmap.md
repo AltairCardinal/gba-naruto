@@ -15,6 +15,26 @@
 - 5 段对话已验证写入 ROM
 - 构建流水线支持 5 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config）
 - mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
+- mGBA PC/读取探针已加入：断点真实命中后可在同一上下文抓取 ROM 与 WRAM；
+  复位 PC smoke test 已通过，地图 loader `0x08068FF0` 仍需可复现导航/有效状态
+  才能将 maps 提升为动态验证
+- 网页 WASM 首战导航与编成探针已可复现：单位槽 1 坐标 `(4,4)` 唯一对应
+  positions group 40 / variant 0 / record 0（ROM `0x588CA8`），positions 已完成
+  runtime 验证
+- WASM 探针现会记录 `0x02026804` 的 8 字节控制区及 `0x02026805` 标识；一次
+  相同按键计数重放未进入战斗，证明下一步需改为画面/内存状态驱动导航，maps
+  暂不升级验证等级
+- 独立重放再次得到 slot 1 `(4,4)`，且 `0x02026805 = 40` 与 positions group 40
+  一致；maps 第 40 行为 `0x53DE10`（36×44），但尚缺字段消费因果证据，仍保持
+  code 验证
+- units 旧结论已撤销：`0x0806E654` 实为读取单位 x/y，`0x53F298` 唯一消费者
+  将其作为 u16 偏移查找；legacy units 回写已安全禁用，真实角色记录映射待定位
+- 真实角色定义表已定位：`0x54241C`，63×`0xB4`；formation character ID 经
+  `0x02022E34` 模板池复制到 `0x1D4` 战斗槽，待成功探针样本闭合动态证据
+- maps width/height 消费链已定位到 `0x0201BE28..2B`；首战第 40 行预期
+  `[36,44,9,22]`，探针已加入读取，待稳定状态导航取得结果
+- chapters、skills、story beats、audio 四类无 ROM 身份的 legacy 危险回写已禁用，
+  只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为安全写回入口
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）
@@ -72,12 +92,14 @@
 
 ---
 
-### P0-Step 3｜定位战斗配置表（Phase 5 收尾）
+### P0-Step 3｜定位战斗配置与角色定义
 
-**状态：✅ 已完成**（ROM 数据表已定位，patch 生成可用，runtime 验证受限于 headless 环境）
+**状态：⚠️ 部分完成**（positions 已运行时验证；maps 与角色定义仍待动态闭环）
 
 **已确认 ROM 数据表：**
-- ✅ 单位 ID 映射表：`0x0853F298` / file `0x53F298`，u16[64]，映射 slot → character ID
+- ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
+  对象/渲染偏移查找，legacy 回写已禁用
+- ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；待建立提取器并迁移 units bank
 - ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
   - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
   - ptr1：12 字节头 + 原始 tile 数据（u16/tile）
@@ -88,11 +110,11 @@
 **已确认 WRAM 战斗数据地址：**
 | WRAM 地址 | 大小 | 说明 |
 |---|---|---|
-| `0x0201BE2A` | 可变 | 单位计数 + team 计数 |
-| `0x02021E2C` | 234*N | 单位查找表基址 |
-| `0x02024294` | 234*25 | 单位数组 |
-| `0x020240C0` | 0x17C4 | 主战斗数据 |
-| `0x02022E30` | 0x127C | 战斗状态 |
+| `0x0201BE28` | 4 字节 | map width/height 及 `>>2/>>1` 派生尺寸 |
+| `0x02021E2C` | 网格相关 | 单位坐标查找表基址 |
+| `0x020240C0` | `0x17C4` 总区间；`0x1D4*N` | 主战斗数据/单位数组物理基址（单位 stride 468 字节） |
+| `0x02024294` | `0x1D4` | 第一个可分配/常用单位槽（slot 1） |
+| `0x02022E34` | 24×`0xBC` | 角色模板池；模板 `+0` 为 character ID |
 | `0x02026804` | 8 字节 | 战斗控制标志 |
 
 **交付物：**
@@ -101,7 +123,12 @@
 - ✅ `notes/unit-id-mapping-analysis.md` — 完整版
 - ✅ `notes/battle-scenario-config.md` — 完整版（8 个场景条目解析）
 - ✅ `tools/import_battle_config.py` — 可生成 ROM patches + WRAM cheat patches
-- ⚠️ runtime WRAM dump 受限于 headless 环境（无 key input 注入），已记录在案
+- ✅ `tools/extract_positions.py` — 从 ROM `0x5461C4` 编成矩阵可复现提取 48×3×12 条记录；记录 `+2/+3` 已静态确认为初始 x/y
+- ✅ positions ROM→WRAM 静态链路：`0x0806E41E/0x0806E71E → 0x0806AC70 → 0x0806AA64`；单位 stride 已纠正为 `0x1D4`
+- ✅ positions 编辑/回写链：通用 ROM mirror 导入 `rom_positions` 1728 行并保留完整 `0xB8` 原始记录；构建器验证 index、ROM offset 与长度后写回真实矩阵
+- ⚠️ 旧 `unit_positions` CRUD 仅是运行时编辑概念，没有一行一 ROM 地址证据，不计入真实回写完成度
+- ✅ runtime WRAM dump 已通过网页 WASM 探针取得并与 ROM 编成记录唯一关联；CLI
+  headless 仍无按键注入与 PC/LR 联合采集能力
 
 ---
 
@@ -181,12 +208,32 @@
 
 ## 当前推荐顺序
 
+### 2026-07-10 Positions 与构建安全更新
+
+- positions 真实 ROM 来源已更正为 `0x5461C4` 编成矩阵，记录 `+2/+3`
+  为初始 x/y；旧 `0x53D914` 结论已撤销。
+- 新增可重复提取器 `tools/extract_positions.py`，共提取 `48×3×12=1728`
+  条完整 `0xB8` 记录，并通过 `rom_positions` 无损回写。
+- 单位物理数组基址是 WRAM `0x020240C0`，stride `0x1D4`；
+  `0x02024294` 是 slot 1。
+- 补丁冲突门禁发现旧 battle-config 模板会覆盖 `0x547934+`；
+  已停止将未映射的 `scenario_id` 当 ROM 索引。
+- 32/32 bank 已通过基准 ROM 字节一致性门禁；动态消费路径验证仍在进行。
+- 新增只读 WASM 导航/WRAM 轮询探针 `play/_scripts/runtime-formation-probe.js`：
+  可按 START → 新游戏 → 连续 A 计划导航，读取 `0x020240C0` 单位数组，并将
+  `+0xC4/+0xC5` 坐标与 positions bank 匹配；已验证 core 就绪门禁与真实 WRAM
+  读取。后续真实部署运行已进入首战，两次观察到 slot 1 `(4,4)` 并唯一匹配
+  group 40 / variant 0 / record 0，因此 positions 已升级为 `runtime_verified`。
+  当前导航继续扩展 battle-control、map runtime、画面分类和转场等待，用于闭合
+  maps 与真实角色定义的运行时证据。
+
 ### 2026-07-10 Bank 元数据审计基线
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
 - 首次审计结果为 23/32；随后已纠正 7 个偏移错误并从校验过的基准 ROM 重新提取，同时补齐 3 个格式描述。当前元数据检查为 32/32，但这仍不代表动态语义或真实回写完成。
-- 31 个 bank 仍仅为 `static_verified`，1 个为 `code_verified`；此元数据审计不证明运行时语义和实际回写闭环，不能作为“100% 完成”的单独证据。
+- 验证分布现为 30 个 `static_verified`、1 个 `code_verified`、1 个
+  `runtime_verified`（positions）；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-10 u32 指针表回写进展
 

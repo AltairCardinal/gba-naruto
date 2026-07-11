@@ -1,0 +1,80 @@
+# WASM formation probe structured result
+
+```json
+{
+  "schemaVersion": 1,
+  "deployment": "https://sh.kibox.com.cn/gba-naruto/play/",
+  "outcome": "matched",
+  "reason": "unique-formation-after-settle",
+  "plan": {
+    "startCount": 30,
+    "advanceCount": 250,
+    "startDelayMs": 500,
+    "confirmDelayMs": 750,
+    "advanceDelayMs": 300,
+    "keyHoldMs": 150,
+    "tailKeys": ["KeyX", "ArrowDown", "ArrowDown", "KeyZ", "KeyZ"],
+    "settleCount": 40,
+    "settleDelayMs": 500
+  },
+  "stages": [
+    { "step": 30, "phase": "boot", "wramState": "empty", "nonzeroBytes": 0 },
+    { "step": 31, "phase": "new-game", "wramState": "empty", "nonzeroBytes": 0 },
+    { "step": 281, "phase": "story", "wramState": "empty", "nonzeroBytes": 0 },
+    { "step": 286, "phase": "tail", "wramState": "changed", "nonzeroBytes": 111 },
+    { "step": 326, "phase": "settle", "wramState": "stable", "nonzeroBytes": 121 }
+  ],
+  "final": {
+    "step": 326,
+    "phase": "settle",
+    "wramState": "stable",
+    "nonzeroBytes": 121,
+    "runtimePositions": [{ "slot": 1, "x": 4, "y": 4 }],
+    "observedScreen": "首战地图已加载，鸣人战斗单位已实例化"
+  },
+  "match": {
+    "groupId": 40,
+    "variantId": 0,
+    "recordId": 0,
+    "romOffset": "0x588CA8",
+    "romCoordinate": [4, 4],
+    "unique": true
+  },
+  "rawArtifact": "/tmp/formation-confirm-result.json",
+  "screenshots": [
+    "/tmp/formation-confirm-final-tail.png",
+    "/tmp/formation-confirm-final-settle.png",
+    "/tmp/formation-confirm-final.png"
+  ]
+}
+```
+
+## 证据修正
+
+原始结果还列出 slot 21/22 的 `(0,0)`，原因是旧探针扫描 24 个
+`0x1D4` 槽位，但 `0x02026804` 已是下一个已知战斗控制块。
+`(0x02026804 - 0x020240C0) // 0x1D4 = 21`，因此合法单位槽位只有
+`0..20`。TDD 回归测试先复现 slot 21 误报，修正扫描上限后只剩
+slot 1 `(4,4)`。
+
+positions bank 中仅 group 40 / variant 0 在无多余活动记录的情况下
+精确包含该坐标：record 0，ROM `0x588CA8`，`+2/+3 = 4/4`。
+
+## 2026-07-11 独立重放
+
+相同导航路线再次成功进入首战，结构化结果保存于本机
+`/tmp/formation-recovery-result.json`：
+
+- step 286（tail）首次出现单位区变化，共 102 个非零字节；
+- slot 1 坐标仍为 `(4,4)`，再次唯一匹配 group 40 / variant 0；
+- `0x02026804..0x0202680B = 00 28 00 00 00 00 00 00`，因此
+  `0x02026805` 的章节/战斗标识为十进制 40，与编成 group 40 一致；
+- 最终截图 SHA-256 为
+  `b78e2635b9938289e95542f0e9f12d35ab8350400aa7885adb68b2be4ad15478`。
+
+本次运行配置了 settle 每 2 轮补发 A 的恢复策略，但单位在进入 settle 前已出现，
+所以该样本证明原始尾序列可再次成功，不构成恢复按键已被真实触发的证据。
+
+同一 ID 可索引 maps 第 40 行（ROM `0x53DE10`，36×44），但 WASM 没有 PC/LR，
+且本次没有把某个 map header 字段与加载器输出建立因果对应。因此该关联只作为
+maps 后续探针线索，不能把 maps 从 `code` 提升为 `runtime_verified`。

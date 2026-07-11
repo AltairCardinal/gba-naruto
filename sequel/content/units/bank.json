@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "description": "Unit/character data tables. Unit ID mapping table at 0x53F298, battle scenario config at 0x53D914.",
+  "description": "Legacy u16 lookup bytes at 0x53F298. The former battle-slot character ID interpretation was disproven: the only direct consumer at 0x08080B2E indexes the values as offsets in a rendering/object routine. Entries are retained losslessly pending a corrected semantic split.",
   "unit_id_table": {
     "offset": 5501592,
     "offset_hex": "0x53F298",
     "size": 128,
     "format": "u16[64]",
-    "description": "Maps unit array index to character ID. Used by battle system to identify which character occupies each slot.",
+    "description": "Historical labels only; not a proven unit ID mapping. The underlying u16 values are retained for compatibility and byte fidelity.",
     "entries": [
       {
         "index": 0,
@@ -283,7 +283,7 @@
       }
     ]
   },
-  "notes": "Unit base stats are loaded dynamically during battle init from a per-character data block (stride 0x8E4). The unit ID table at 0x53F298 is the primary table for modifying which characters appear in battle.",
+  "notes": "Do not write editor character IDs to 0x53F298. Its only direct consumer indexes it as a u16 offset/value lookup; the actual character record mapping remains unresolved.",
   "entries": [
     {
       "_raw_offset": 5501592,
@@ -676,7 +676,7 @@
   "entry_count": 64,
   "entry_size": 2,
   "entry_format": {
-    "description": "Battle slot to character ID lookup table.",
+    "description": "Unresolved u16 offset/value lookup; legacy char_id field names are not semantically verified.",
     "fields": [
       {
         "offset": 0,

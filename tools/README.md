@@ -212,6 +212,25 @@ Current status:
 - useful as a recorded experiment
 - not yet as reliable as watchpoint-based tracing on this project
 
+## `mgba-headless-snapshot.py --mode probe`
+
+可复现的 mGBA CLI 执行断点探针。它在同一调试器进程内设置 PC
+断点，命中后记录寄存器并读取一个或多个 ROM/WRAM 范围。JSON 中只有出现
+`Hit breakpoint ...` 时才会令 `hit=true`；普通 `status` 输出不会被误判为命中。
+
+```bash
+python3 tools/mgba-headless-snapshot.py \\
+  --rom rom/base.gba --mode probe \\
+  --breakpoint 0x08068FF0 \\
+  --read 0x0853D910:32 --read 0x02024290:64 \\
+  --frames 0 --timeout 300 \\
+  --output notes/map-position-probe.json
+```
+
+边界：CLI 调试器不能注入按键。冷启动若无法自然到达该 PC，会等待超时；
+此时应通过可复现的 Lua 导航或有效战斗 savestate 先建立可达状态，不能把
+静态 ROM 读取本身当作 map loader 的动态命中证据。
+
 ## `inspect_wram_region.py`
 
 Renders a region inside a WRAM dump as bytes, ASCII-like view, and halfwords.

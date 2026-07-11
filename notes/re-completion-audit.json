@@ -1,21 +1,22 @@
 {
   "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
-  "generated_at": "2026-07-10T07:13:43.939307+00:00",
+  "generated_at": "2026-07-11T06:23:25.351460+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
     "all_expected_banks_found": true,
-    "fully_satisfying_metadata_scope": 31,
+    "fully_satisfying_metadata_scope": 32,
     "checks_passing": {
       "table_offset": 32,
       "format": 32,
       "entries": 32,
       "verification": 32,
       "documentation": 32,
-      "rom_fidelity": 31
+      "rom_fidelity": 32
     },
     "verification_distribution": {
-      "static_verified": 31,
+      "static_verified": 30,
+      "runtime_verified": 1,
       "code_verified": 1
     }
   },
@@ -37,6 +38,7 @@
         "docs/development-status.md",
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
@@ -44,8 +46,10 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/headless-workflow.md",
+        "notes/legacy-generator-safety-20260711.md",
         "notes/patch-generator-audit.md",
         "notes/resource-locations.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
       "rom_fidelity_fields_checked": 88,
@@ -76,6 +80,7 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
@@ -86,6 +91,7 @@
         "notes/dynamic-verification-audit.md",
         "notes/partial-item-inventory.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-item-inventory.md"
       ],
       "rom_fidelity_fields_checked": 256,
@@ -122,6 +128,7 @@
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-random-encounter.md"
       ],
@@ -158,6 +165,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
@@ -189,12 +197,15 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
+        "notes/character-definition-source-20260711.md",
         "notes/dynamic-verification-audit.md",
         "notes/partial-item-inventory.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-item-inventory.md",
         "notes/unknown-save-state.md"
       ],
@@ -226,12 +237,14 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/partial-item-inventory.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-item-inventory.md",
         "notes/unknown-save-state.md"
       ],
@@ -263,11 +276,13 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 16,
@@ -303,6 +318,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
@@ -338,6 +354,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
@@ -368,17 +385,21 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
         "notes/addresses.md",
         "notes/battle-config-format.md",
+        "notes/battle-config-unsafe-template-fix-20260710.md",
         "notes/battle-scenario-config.md",
         "notes/chapter-flow-format.md",
         "notes/dynamic-verification-audit.md",
+        "notes/map-position-pc-probe-20260710.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unit-skill-addresses.md",
         "notes/unknown-random-encounter.md"
       ],
@@ -414,7 +435,8 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
       "rom_fidelity_fields_checked": 256,
       "rom_fidelity_errors": [],
@@ -449,6 +471,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 11,
@@ -479,12 +502,15 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
+        "notes/legacy-generator-safety-20260711.md",
         "notes/partial-item-inventory.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/text-regions.md",
         "notes/unknown-item-inventory.md"
       ],
@@ -516,11 +542,14 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
+        "notes/legacy-generator-safety-20260711.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-item-inventory.md"
       ],
       "rom_fidelity_fields_checked": 282,
@@ -551,12 +580,14 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
@@ -593,6 +624,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 47,
@@ -625,22 +657,30 @@
         "docs/content-pipeline.md",
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
         "notes/addresses.md",
         "notes/battle-config-format.md",
+        "notes/battle-config-unsafe-template-fix-20260710.md",
         "notes/battle-scenario-config.md",
         "notes/chapter-flow-format.md",
         "notes/dialogue-mapping-decoder-20260702.md",
         "notes/dialogue-mapping-progress-20260702.md",
         "notes/dynamic-verification-audit.md",
+        "notes/legacy-generator-safety-20260711.md",
+        "notes/map-position-pc-probe-20260710.md",
+        "notes/maps-runtime-fields-20260711.md",
         "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
         "notes/resource-locations.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unit-skill-addresses.md",
-        "notes/unknown-random-encounter.md"
+        "notes/unknown-random-encounter.md",
+        "notes/wasm-formation-navigation-probe-20260710.md",
+        "notes/wasm-formation-probe-result-20260710.md"
       ],
       "rom_fidelity_fields_checked": 423,
       "rom_fidelity_errors": [],
@@ -675,6 +715,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
@@ -706,6 +747,7 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
@@ -713,6 +755,7 @@
         "notes/map-format.md",
         "notes/patch-generator-audit.md",
         "notes/resource-locations.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-bgm-sfx.md"
       ],
       "rom_fidelity_fields_checked": 88,
@@ -731,28 +774,36 @@
     {
       "bank": "sequel/content/positions/bank.json",
       "structure": "positions",
-      "table_offset": 5495060,
-      "table_offset_hex": "0x53D914",
+      "table_offset": 5530052,
+      "table_offset_hex": "0x5461C4",
       "format_fields": [
-        "format"
+        "format",
+        "entry_format"
       ],
-      "entry_count_declared": 8,
-      "entry_count_actual": 8,
-      "verification": "static_verified",
-      "verification_method_present": false,
+      "entry_count_declared": 1728,
+      "entry_count_actual": 1728,
+      "verification": "runtime_verified",
+      "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
         "notes/addresses.md",
-        "notes/battle-config-format.md",
+        "notes/battle-config-unsafe-template-fix-20260710.md",
         "notes/dynamic-verification-audit.md",
+        "notes/map-position-pc-probe-20260710.md",
         "notes/patch-generator-audit.md",
-        "notes/resource-locations.md"
+        "notes/positions-rom-source-20260710.md",
+        "notes/runtime-verification-gates-20260710.md",
+        "notes/wasm-formation-navigation-probe-20260710.md",
+        "notes/wasm-formation-probe-result-20260710.md",
+        "notes/wasm-runtime-api-audit-20260710.md"
       ],
-      "rom_fidelity_fields_checked": 0,
+      "rom_fidelity_fields_checked": 10368,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -760,12 +811,10 @@
         "entries": true,
         "verification": true,
         "documentation": true,
-        "rom_fidelity": false
+        "rom_fidelity": true
       },
-      "issues": [
-        "ROM fidelity not checkable from entry_format and extracted field hex"
-      ],
-      "complete": false
+      "issues": [],
+      "complete": true
     },
     {
       "bank": "sequel/content/resource-pointers/bank.json",
@@ -787,6 +836,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
@@ -821,7 +871,8 @@
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
       "rom_fidelity_fields_checked": 1,
       "rom_fidelity_errors": [],
@@ -852,13 +903,15 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/battle-config-format.md",
         "notes/battle-scenario-config.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md"
+        "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
       "rom_fidelity_errors": [],
@@ -888,13 +941,17 @@
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
+        "notes/legacy-generator-safety-20260711.md",
         "notes/partial-item-inventory.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unknown-item-inventory.md"
       ],
       "rom_fidelity_fields_checked": 84,
@@ -931,6 +988,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 38,
@@ -965,6 +1023,7 @@
         "docs/development-status.md",
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
@@ -977,9 +1036,13 @@
         "notes/dialogue-function-analysis.md",
         "notes/dynamic-verification-audit.md",
         "notes/headless-workflow.md",
+        "notes/legacy-generator-safety-20260711.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
-        "notes/unknown-save-state.md"
+        "notes/unknown-save-state.md",
+        "notes/wasm-formation-navigation-probe-20260710.md",
+        "notes/wasm-formation-probe-result-20260710.md"
       ],
       "rom_fidelity_fields_checked": 9,
       "rom_fidelity_errors": [],
@@ -1015,6 +1078,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
@@ -1051,6 +1115,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
@@ -1087,6 +1152,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
@@ -1123,6 +1189,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md",
         "notes/unknown-save-state.md"
       ],
@@ -1159,6 +1226,7 @@
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 6,
@@ -1191,16 +1259,20 @@
         "docs/content-pipeline.md",
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
+        "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "docs/web-editor-spec.md",
         "notes/addresses.md",
         "notes/battle-config-format.md",
+        "notes/character-definition-source-20260711.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
+        "notes/runtime-verification-gates-20260710.md",
         "notes/unit-id-mapping-analysis.md",
-        "notes/unit-skill-addresses.md"
+        "notes/unit-skill-addresses.md",
+        "notes/units-unsafe-table-fix-20260711.md"
       ],
       "rom_fidelity_fields_checked": 64,
       "rom_fidelity_errors": [],

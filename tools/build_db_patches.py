@@ -176,382 +176,229 @@ def generate_db_patches(
 
 
 def generate_battle_config_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Convert every editor.db battle_config row into real ROM patches.
+    """Reject legacy battle rows without a proven ROM record identity.
 
-    Mirrors the editor's POST /api/v1/battle-configs/{id}/export endpoint,
-    but reads from editor.db directly so the build pipeline can produce
-    real game-meaningful patches (unit ID table at 0x53F298, scenario
-    entries at 0x53D914+i*32) without needing the user to click "export".
-
-    Each battle_config row produces up to two bytes patches:
-      * Unit ID table (uint16 LE array) at 0x53F298
-      * Scenario config (32 bytes) at 0x53D914 + scenario_id * 32
+    Imported ``scenario_id`` values such as 0x0101 and 0x0501 are gameplay
+    values, not zero-based table indices. The old implementation multiplied
+    them by 32 and wrote fixed templates over unrelated ROM regions. Lossless
+    ``rom_*`` mirrors are the only safe build source until this editable schema
+    stores an explicit ROM record key.
     """
     if not db_path.exists():
         return []
-    import json as _json
-
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-
     try:
-        rows = conn.execute("SELECT id, name, scenario_id, player_units, enemy_units FROM battle_configs").fetchall()
+        rows = conn.execute(
+            "SELECT id, name, scenario_id FROM battle_configs ORDER BY id"
+        ).fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-
-    for row in rows:
-        try:
-            all_units: list[dict] = []
-            if row["player_units"]:
-                try:
-                    all_units.extend(_json.loads(row["player_units"]))
-                except Exception:
-                    pass
-            if row["enemy_units"]:
-                try:
-                    all_units.extend(_json.loads(row["enemy_units"]))
-                except Exception:
-                    pass
-
-            if all_units:
-                # uint16 LE for each unit's char_id, max 64 entries (matches ROM table size)
-                ids = [int(u.get("char_id", 0)) & 0xFFFF for u in all_units][:64]
-                unit_data = struct.pack(f"<{len(ids)}H", *ids)
-                patches.append({
-                    "type": "bytes",
-                    "offset": 0x53F298,
-                    "after_hex": unit_data.hex(),
-                    "length": len(unit_data),
-                    "description": f"DB[battle_configs] id={row['id']} name={row['name']!r}: Unit IDs ({len(ids)})",
-                    "db_table": "battle_configs",
-                    "db_row_id": int(row["id"]),
-                })
-
-            scenario_id = row["scenario_id"]
-            if scenario_id is not None:
-                # 32 bytes per scenario entry; default-config bytes match export endpoint
-                scenario_data = bytes.fromhex("0100000000000000000000000000000002000000")
-                scenario_offset = 0x53D914 + int(scenario_id) * 32
-                patches.append({
-                    "type": "bytes",
-                    "offset": scenario_offset,
-                    "after_hex": scenario_data.hex(),
-                    "length": len(scenario_data),
-                    "description": f"DB[battle_configs] id={row['id']} name={row['name']!r}: Scenario {scenario_id}",
-                    "db_table": "battle_configs",
-                    "db_row_id": int(row["id"]),
-                })
-        except Exception as exc:
-            # Don't fail the build for one bad row — record it as an overflow marker
-            patches.append({
-                "type": "db_battle_config_error",
-                "db_table": "battle_configs",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[battle_configs] id={row['id']} error: {exc}",
-            })
-
     conn.close()
-    return patches
+    return [{
+        "type": "db_battle_config_unmapped",
+        "db_table": "battle_configs",
+        "db_row_id": int(row["id"]),
+        "error": "legacy scenario_id is not a proven ROM table index",
+        "description": (
+            f"DB[battle_configs] id={row['id']} name={row['name']!r} "
+            f"scenario_id={row['scenario_id']!r}: skipped unsafe template write"
+        ),
+    } for row in rows]
 
 
 def generate_chapter_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for chapter rows.
-
-    Each chapter row writes 32 bytes at 0x53D914 + chapter_number * 32,
-    matching the chapter scenario entry layout. Currently we write a
-    fixed scenario template (matching the export endpoint's default), and
-    update title pointers if we can derive them.
-    """
+    """Reject chapters without a proven ROM map/story record identity."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
     try:
         rows = conn.execute("SELECT id, chapter_number, title, title_ja, title_zh FROM chapters").fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for row in rows:
-        try:
-            ch_num = int(row["chapter_number"])
-            # Default scenario data (same as battle_config.export default)
-            scenario_data = bytes.fromhex("0100000000000000000000000000000002000000")
-            patches.append({
-                "type": "bytes",
-                "offset": 0x53D914 + ch_num * 32,
-                "after_hex": scenario_data.hex(),
-                "length": len(scenario_data),
-                "description": (
-                    f"DB[chapters] id={row['id']} chapter_number={ch_num} "
-                    f"title={row['title']!r}: chapter entry"
-                ),
-                "db_table": "chapters",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_chapter_error",
-                "db_table": "chapters",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[chapters] id={row['id']} error: {exc}",
-            })
     conn.close()
-    return patches
+    return [{
+        "type": "db_chapter_unmapped",
+        "db_table": "chapters",
+        "db_row_id": int(row["id"]),
+        "error": "chapter_number is not a proven ROM record index",
+        "description": f"DB[chapters] id={row['id']}: skipped unsafe fixed-template write",
+    } for row in rows]
 
 
 def generate_unit_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for unit rows.
+    """Reject legacy unit rows without a proven ROM character-record key.
 
-    Each unit row writes to the unit ID table at 0x53F298 (u16[64]).
-    The row id is used as the table index (0-63 valid range).
+    ``0x53F298`` was previously labelled a battle-slot character ID table.
+    Its only direct code reference, at ``0x08080B2E``, instead indexes it as
+    a u16 offset table used by a rendering/object routine. Writing editor
+    ``char_id`` values there is unsafe. Lossless ``rom_units`` mirror rows may
+    preserve the bytes, but the legacy semantic editor must not mutate them.
     """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    UNIT_ID_TABLE_OFFSET = 0x53F298
-    MAX_UNIT_INDEX = 63  # u16[64] table
     try:
         rows = conn.execute("SELECT id, char_id, name, hp FROM units").fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for row in rows:
-        try:
-            row_id = int(row["id"]) if row["id"] is not None else 0
-            char_id = int(row["char_id"]) if row["char_id"] is not None else 0
-            # Use row_id as table index, capped to valid range
-            table_index = (row_id - 1) % (MAX_UNIT_INDEX + 1)  # 0-based index
-            table_offset = UNIT_ID_TABLE_OFFSET + table_index * 2
-            # Write char_id (masked to u16) to the unit ID table
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": struct.pack("<H", char_id & 0xFFFF).hex(),
-                "length": 2,
-                "description": (
-                    f"DB[units] id={row_id} char_id={char_id} "
-                    f"name={row['name']!r}: unit ID table[{table_index}]"
-                ),
-                "db_table": "units",
-                "db_row_id": row_id,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_unit_error",
-                "db_table": "units",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[units] id={row['id']} error: {exc}",
-            })
     conn.close()
-    return patches
+    return [{
+        "type": "db_unit_unmapped",
+        "db_table": "units",
+        "db_row_id": int(row["id"]),
+        "error": "legacy char_id has no proven ROM character-record mapping",
+        "description": (
+            f"DB[units] id={row['id']} char_id={row['char_id']!r} "
+            f"name={row['name']!r}: skipped unsafe 0x53F298 write"
+        ),
+    } for row in rows]
 
 
 def generate_skill_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for skill rows.
-
-    Each skill row writes to the skill table at 0x546100 (stride 16 bytes).
-    """
+    """Reject skills whose unit_id is not a proven ROM skill-row key."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    SKILL_TABLE_OFFSET = 0x546100
-    SKILL_ENTRY_SIZE = 16
     try:
         rows = conn.execute("SELECT id, unit_id, name, damage FROM skills").fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for row in rows:
-        try:
-            unit_id = int(row["unit_id"]) if row["unit_id"] is not None else 0
-            damage = int(row["damage"]) if row["damage"] is not None else 0
-            # Write skill entry at index (assuming sequential)
-            table_offset = SKILL_TABLE_OFFSET + unit_id * SKILL_ENTRY_SIZE
-            # Pack as: u32 padding, u16 count, u16 type_id, u16 skill_id, u16 value, u16 flags, u16 extra_id, u16 padding
-            skill_data = struct.pack("<IHHHHHH", 0, 5, 0x0120, damage & 0xFFFF, 612, 0x0401, 0)
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": skill_data.hex(),
-                "length": SKILL_ENTRY_SIZE,
-                "description": (
-                    f"DB[skills] id={row['id']} unit_id={unit_id} "
-                    f"name={row['name']!r}: skill table entry"
-                ),
-                "db_table": "skills",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_skill_error",
-                "db_table": "skills",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[skills] id={row['id']} error: {exc}",
-            })
     conn.close()
-    return patches
+    return [{
+        "type": "db_skill_unmapped",
+        "db_table": "skills",
+        "db_row_id": int(row["id"]),
+        "error": "unit_id is not a proven ROM skill-row index",
+        "description": f"DB[skills] id={row['id']}: skipped unsafe fixed-template write",
+    } for row in rows]
 
 
 def generate_story_beat_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for story_beat rows.
-
-    Each story_beat row writes to the story/chapter table at 0x53636C (u32 pointer per chapter).
-    """
+    """Reject story beats without a proven script pointer/record key."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    STORY_TABLE_OFFSET = 0x53636C
     try:
         rows = conn.execute("SELECT id, chapter_id, beat_index, title FROM story_beats").fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for row in rows:
-        try:
-            chapter_id = int(row["chapter_id"]) if row["chapter_id"] is not None else 0
-            # Write chapter pointer to story table
-            table_offset = STORY_TABLE_OFFSET + chapter_id * 4
-            # Use existing chapter data pointer (placeholder)
-            chapter_ptr = 0x08535CFC  # Default to chapter 1 data
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": struct.pack("<I", chapter_ptr).hex(),
-                "length": 4,
-                "description": (
-                    f"DB[story_beats] id={row['id']} chapter_id={chapter_id} "
-                    f"title={row['title']!r}: story table entry"
-                ),
-                "db_table": "story_beats",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_story_beat_error",
-                "db_table": "story_beats",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[story_beats] id={row['id']} error: {exc}",
-            })
     conn.close()
-    return patches
+    return [{
+        "type": "db_story_beat_unmapped",
+        "db_table": "story_beats",
+        "db_row_id": int(row["id"]),
+        "error": "chapter_id/beat_index do not identify a proven ROM script pointer",
+        "description": f"DB[story_beats] id={row['id']}: skipped placeholder pointer write",
+    } for row in rows]
 
 
 def generate_audio_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for audio_file rows.
-
-    Each audio_file row writes to the audio table at 0x53F138 (u32 pointer per entry).
-    """
+    """Reject audio rows without a proven table identity and record key."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    AUDIO_TABLE_OFFSET = 0x53F138
     try:
         rows = conn.execute("SELECT id, rom_offset, size, name FROM audio_files").fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for row in rows:
-        try:
-            rom_offset = int(row["rom_offset"]) if row["rom_offset"] is not None else 0
-            # Write audio entry pointer to table (skip first 2 entries which are code)
-            # Audio entries start at index 2
-            table_offset = AUDIO_TABLE_OFFSET + (rom_offset + 2) * 4
-            # Pointer to Sappy audio entry
-            audio_ptr = 0x0812F5B0 + rom_offset * 16
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": struct.pack("<I", audio_ptr).hex(),
-                "length": 4,
-                "description": (
-                    f"DB[audio_files] id={row['id']} rom_offset={rom_offset} "
-                    f"name={row['name']!r}: audio table entry"
-                ),
-                "db_table": "audio_files",
-                "db_row_id": int(row["id"]),
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_audio_error",
-                "db_table": "audio_files",
-                "db_row_id": int(row["id"]),
-                "error": str(exc),
-                "description": f"DB[audio_files] id={row['id']} error: {exc}",
-            })
     conn.close()
-    return patches
+    return [{
+        "type": "db_audio_unmapped",
+        "db_table": "audio_files",
+        "db_row_id": int(row["id"]),
+        "error": "rom_offset is not a proven audio index and 0x53F138 identity conflicts",
+        "description": f"DB[audio_files] id={row['id']}: skipped synthesized pointer write",
+    } for row in rows]
 
 
 def generate_unit_position_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate real ROM patches for unit_position rows.
+    """Write lossless ``rom_positions`` records to their proven ROM slots.
 
-    Each unit_position row writes to the WRAM battle unit array.
-    Since WRAM patches are runtime-only, we write to the reserved region
-    as audit trail entries.
+    This deliberately does not read the legacy ``unit_positions`` CRUD table:
+    those rows describe runtime/editor concepts and have no proven one-row ROM
+    mapping. Only the ROM mirror produced from the formation matrix is eligible.
     """
     if not db_path.exists():
         return []
+    try:
+        from tools.extract_positions import (
+            GROUP_COUNT, RECORD_COUNT, RECORD_STRIDE, VARIANT_COUNT, record_offset,
+        )
+    except ModuleNotFoundError:  # direct ``python tools/build_mod.py`` execution
+        from extract_positions import (
+            GROUP_COUNT, RECORD_COUNT, RECORD_STRIDE, VARIANT_COUNT, record_offset,
+        )
+
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     patches: list[dict[str, Any]] = []
-    # Unit positions are runtime WRAM data, so we write audit trail entries
-    RESERVED_REGION_START = 0x5E0000
-    ROW_SIZE = 64
     try:
-        rows = conn.execute("SELECT id, unit_id, position_x, map_id FROM unit_positions").fetchall()
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, raw_hex FROM rom_positions ORDER BY _idx"
+        ).fetchall()
     except sqlite3.OperationalError:
         conn.close()
         return []
-    for i, row in enumerate(rows):
+    entry_count = GROUP_COUNT * VARIANT_COUNT * RECORD_COUNT
+    for row in rows:
         try:
-            unit_id = int(row["unit_id"]) if row["unit_id"] is not None else 0
-            pos_x = int(row["position_x"]) if row["position_x"] is not None else 0
-            map_id = int(row["map_id"]) if row["map_id"] is not None else 0
-            # Write audit trail entry
-            offset = RESERVED_REGION_START + i * ROW_SIZE
-            payload = bytearray(ROW_SIZE)
-            payload[0:15] = b"unit_positions"[:15]
-            struct.pack_into("<I", payload, 16, int(row["id"]))
-            struct.pack_into("<I", payload, 20, unit_id)
-            struct.pack_into("<I", payload, 24, pos_x)
-            struct.pack_into("<I", payload, 28, 0xDB5B0001)
-            ident = f"u{unit_id}@{map_id}".encode("utf-8")[:31]
-            payload[32:32+len(ident)] = ident
+            index = int(row["_idx"])
+            if not 0 <= index < entry_count:
+                raise ValueError(f"index {index} outside positions matrix")
+            group_id, remainder = divmod(index, VARIANT_COUNT * RECORD_COUNT)
+            variant_id, record_id = divmod(remainder, RECORD_COUNT)
+            expected_offset = record_offset(group_id, variant_id, record_id)
+            offset = int(row["_rom_offset"])
+            if offset != expected_offset:
+                if not (record_offset(0, 0, 0) <= offset < record_offset(
+                    GROUP_COUNT - 1, VARIANT_COUNT - 1, RECORD_COUNT - 1
+                ) + RECORD_STRIDE):
+                    raise ValueError(f"offset 0x{offset:X} outside positions matrix")
+                raise ValueError(
+                    f"offset 0x{offset:X} does not match index {index} "
+                    f"expected 0x{expected_offset:X}"
+                )
+            raw_hex = row["raw_hex"]
+            if not isinstance(raw_hex, str):
+                raise ValueError("raw_hex must be text")
+            try:
+                payload = bytes.fromhex(raw_hex)
+            except ValueError as exc:
+                raise ValueError(f"raw_hex is invalid: {exc}") from exc
+            if len(payload) != RECORD_STRIDE:
+                raise ValueError(
+                    f"raw_hex must encode exactly {RECORD_STRIDE} bytes, got {len(payload)}"
+                )
             patches.append({
                 "type": "bytes",
                 "offset": offset,
-                "after_hex": bytes(payload).hex(),
-                "length": ROW_SIZE,
+                "after_hex": payload.hex(),
+                "length": RECORD_STRIDE,
                 "description": (
-                    f"DB[unit_positions] id={row['id']} unit_id={unit_id} "
-                    f"pos_x={pos_x} map_id={map_id}: audit trail"
+                    f"DB[rom_positions] index={index}: real formation record"
                 ),
-                "db_table": "unit_positions",
-                "db_row_id": int(row["id"]),
+                "db_table": "rom_positions",
+                "db_row_id": index,
             })
         except Exception as exc:
             patches.append({
                 "type": "db_unit_position_error",
-                "db_table": "unit_positions",
-                "db_row_id": int(row["id"]),
+                "db_table": "rom_positions",
+                "db_row_id": row["_idx"],
                 "error": str(exc),
-                "description": f"DB[unit_positions] id={row['id']} error: {exc}",
+                "description": f"DB[rom_positions] index={row['_idx']} error: {exc}",
             })
     conn.close()
     return patches

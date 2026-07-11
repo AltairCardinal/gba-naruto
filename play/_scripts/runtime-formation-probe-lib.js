@@ -1,0 +1,166 @@
+'use strict';
+
+const DEFAULTS = Object.freeze({
+  startCount: 30,
+  advanceCount: 80,
+  startDelayMs: 3000,
+  confirmDelayMs: 1500,
+  advanceDelayMs: 3000,
+  keyHoldMs: 125,
+  tailDelayMs: 600,
+});
+
+function boundedInteger(value, fallback, name) {
+  const number = value === undefined ? fallback : Number(value);
+  if (!Number.isInteger(number) || number < 0) throw new TypeError(`${name} must be a non-negative integer`);
+  return number;
+}
+
+function buildNavigationPlan(options = {}) {
+  const startCount = boundedInteger(options.startCount, DEFAULTS.startCount, 'startCount');
+  const advanceCount = boundedInteger(options.advanceCount, DEFAULTS.advanceCount, 'advanceCount');
+  const startDelayMs = boundedInteger(options.startDelayMs, DEFAULTS.startDelayMs, 'startDelayMs');
+  const confirmDelayMs = boundedInteger(options.confirmDelayMs, DEFAULTS.confirmDelayMs, 'confirmDelayMs');
+  const advanceDelayMs = boundedInteger(options.advanceDelayMs, DEFAULTS.advanceDelayMs, 'advanceDelayMs');
+  const holdMs = boundedInteger(options.keyHoldMs, DEFAULTS.keyHoldMs, 'keyHoldMs');
+  const tailDelayMs = boundedInteger(options.tailDelayMs, DEFAULTS.tailDelayMs, 'tailDelayMs');
+  const tailKeys = options.tailKeys || [];
+  if (!Array.isArray(tailKeys) || tailKeys.some(key => typeof key !== 'string' || key.length === 0)) {
+    throw new TypeError('tailKeys must be an array of non-empty key names');
+  }
+  return [
+    ...Array.from({ length: startCount }, () => ({ phase: 'boot', key: 'Enter', delayMs: startDelayMs, holdMs })),
+    { phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs },
+    ...Array.from({ length: advanceCount }, () => ({ phase: 'story', key: 'KeyZ', delayMs: advanceDelayMs, holdMs })),
+    ...tailKeys.map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
+  ];
+}
+
+function buildSettlePlan(options = {}) {
+  const count = boundedInteger(options.count, 20, 'settleCount');
+  const delayMs = boundedInteger(options.delayMs, 500, 'settleDelayMs');
+  const confirmEvery = boundedInteger(options.confirmEvery, 0, 'settleConfirmEvery');
+  const holdMs = boundedInteger(options.keyHoldMs, DEFAULTS.keyHoldMs, 'keyHoldMs');
+  return Array.from({ length: count }, (_, index) => {
+    const action = { phase: 'settle', poll: index + 1, delayMs };
+    if (confirmEvery > 0 && (index + 1) % confirmEvery === 0) {
+      action.key = 'KeyZ';
+      action.holdMs = holdMs;
+    }
+    return action;
+  });
+}
+
+function classifyMemorySnapshot(previous, current) {
+  if (!(current instanceof Uint8Array)) throw new TypeError('current must be Uint8Array');
+  if (previous !== null && (!(previous instanceof Uint8Array) || previous.length !== current.length)) {
+    throw new TypeError('previous must be null or an equally sized Uint8Array');
+  }
+  let changedBytes = 0;
+  let nonzero = 0;
+  for (let i = 0; i < current.length; i += 1) {
+    if (current[i] !== 0) nonzero += 1;
+    if (previous !== null && previous[i] !== current[i]) changedBytes += 1;
+  }
+  return { state: nonzero === 0 ? 'empty' : changedBytes > 0 ? 'changed' : 'stable', changedBytes };
+}
+
+function coordinateKey(position) { return `${Number(position.x)},${Number(position.y)}`; }
+
+function decodeBattleControl(bytes) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 8) {
+    throw new TypeError('battle control must be an 8-byte Uint8Array');
+  }
+  return { rawHex: Buffer.from(bytes).toString('hex'), chapterBattleId: bytes[1] };
+}
+
+function decodeMapRuntime(bytes) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 4) {
+    throw new TypeError('map runtime must be a 4-byte Uint8Array');
+  }
+  const [width, height, gridWidth, gridHeight] = bytes;
+  return {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    width,
+    height,
+    gridWidth,
+    gridHeight,
+    derivationConsistent: gridWidth === (width >> 2) && gridHeight === (height >> 1),
+  };
+}
+
+function classifyScreenMetrics(metrics) {
+  if (metrics.grayRatio > 0.2) return 'character-panel';
+  if (metrics.paleRatio > 0.3) return 'prebattle-menu';
+  return 'other';
+}
+
+function tailTransitionDecision(screenState) {
+  if (screenState === 'character-panel') return 'retry-back';
+  if (screenState === 'prebattle-menu') return 'ready';
+  return 'wait';
+}
+
+function shouldRetryBack(decision, poll) {
+  return decision === 'retry-back' && poll > 0 && poll % 4 === 0;
+}
+
+function matchFormationPositions(entries, runtimePositions) {
+  const observed = new Map();
+  for (const position of runtimePositions) {
+    const key = coordinateKey(position);
+    observed.set(key, (observed.get(key) || 0) + 1);
+  }
+  const groups = new Map();
+  for (const entry of entries) {
+    if (!entry.active) continue;
+    const key = `${entry.group_id}:${entry.variant_id}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(entry);
+  }
+  const candidates = [];
+  for (const [key, records] of groups) {
+    const remaining = new Map(observed);
+    let matched = 0;
+    for (const record of records) {
+      const coordinate = coordinateKey(record);
+      const count = remaining.get(coordinate) || 0;
+      if (count > 0) {
+        matched += 1;
+        remaining.set(coordinate, count - 1);
+      }
+    }
+    const [groupId, variantId] = key.split(':').map(Number);
+    candidates.push({
+      groupId,
+      variantId,
+      matched,
+      missing: runtimePositions.length - matched,
+      extra: records.length - matched,
+    });
+  }
+  candidates.sort((a, b) => b.matched - a.matched || a.missing - b.missing || a.extra - b.extra || a.groupId - b.groupId || a.variantId - b.variantId);
+  const best = candidates[0] || null;
+  const tied = best ? candidates.filter(item => item.matched === best.matched && item.missing === best.missing && item.extra === best.extra) : [];
+  return { best, unique: tied.length === 1, candidates: tied.length > 1 ? tied : candidates.slice(0, 5) };
+}
+
+function buildArtifactPaths(resultPath, finalScreenshotPath) {
+  const extension = require('node:path').extname(finalScreenshotPath);
+  const stem = finalScreenshotPath.slice(0, -extension.length);
+  return {
+    resultPath,
+    finalScreenshotPath,
+    phaseScreenshot: phase => `${stem}-${phase}${extension}`,
+  };
+}
+
+function buildProbeResult({ outcome, reason, stages, final, match = null }) {
+  return { schemaVersion: 1, outcome, reason, stages, final, match };
+}
+
+module.exports = {
+  buildNavigationPlan, classifyMemorySnapshot, matchFormationPositions,
+  buildArtifactPaths, buildProbeResult, buildSettlePlan, decodeBattleControl,
+  decodeMapRuntime, classifyScreenMetrics, tailTransitionDecision, shouldRetryBack,
+};

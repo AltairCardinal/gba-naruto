@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -12,6 +13,33 @@ from typing import Any
 from patch_safety import PatchSafetyGate, with_base_precondition
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def sync_rom_mirrors(db_path: Path) -> dict[str, int]:
+    """Refresh read-only ``rom_*`` tables from their canonical bank files.
+
+    Direct CLI builds do not pass through the web backend startup hook, so the
+    build must perform the same idempotent mirror refresh before DB generators
+    run. This keeps newly discovered structures such as ``rom_positions`` from
+    silently producing no patches in command-line builds.
+    """
+    backend_dir = ROOT / "web-editor" / "backend"
+    sys.path.insert(0, str(backend_dir))
+    try:
+        from rom_models import init_rom_tables, populate_rom_tables
+        import sqlite3
+
+        conn = sqlite3.connect(str(db_path))
+        try:
+            init_rom_tables(conn)
+            return populate_rom_tables(conn)
+        finally:
+            conn.close()
+    finally:
+        try:
+            sys.path.remove(str(backend_dir))
+        except ValueError:
+            pass
 
 # Optional env override: when the editor backend kicks off a build via
 # subprocess, it sets BUILD_OUTPUT_DIR to a per-user/per-build subdir so
@@ -196,6 +224,11 @@ def apply_patch(
         raise ValueError(f"unsupported sub-patch type: {ptype}")
 
 
+def classify_db_patch(patch: dict) -> str:
+    """Classify non-byte generator output without inflating effective writes."""
+    return "game_effective" if patch.get("type") == "bytes" else "diagnostic"
+
+
 def build(project_path: Path) -> dict:
     """Build the ROM. Reads patch_manifest.json and the editor DB."""
     # Editor DB patches fall into two buckets:
@@ -208,6 +241,7 @@ def build(project_path: Path) -> dict:
     db_real_patches: list[dict] = []
     db_audit_patches: list[dict] = []
     if editor_db_path.exists():
+        sync_rom_mirrors(editor_db_path)
         from build_db_patches import (
             generate_db_patches,
             generate_battle_config_patches,
@@ -342,7 +376,7 @@ def build(project_path: Path) -> dict:
     # silently overwrite unrelated game data.
     for patch in db_real_patches:
         if patch.get("type") != "bytes":
-            applied.append({**patch, "patch_class": "game_effective"})
+            applied.append({**patch, "patch_class": classify_db_patch(patch)})
             continue
         # A real patch precondition is always derived from the immutable base
         # ROM.  Reading the already-mutated buffer here would hide collisions.
@@ -406,6 +440,9 @@ def build(project_path: Path) -> dict:
                 p.get("patch_class") == "game_effective" for p in applied
             ),
             "audit": sum(p.get("patch_class") == "audit" for p in applied),
+            "diagnostic": sum(
+                p.get("patch_class") == "diagnostic" for p in applied
+            ),
         },
         "patch_statistics": {
             "db_real": sum(p.get("patch_source") == "db_real" for p in applied),

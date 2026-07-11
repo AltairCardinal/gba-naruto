@@ -4,7 +4,31 @@
 **ROM:** 火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba  
 **SHA-1:** `26f60795fa5e63b4f0264b84e453beffd56b9f7d`
 
-## Summary
+## Status correction (2026-07-10)
+
+This document originally declared the reverse engineering 100% complete. That
+claim is now **withdrawn**. The evidence audit found that passing extract/build
+tests did not prove runtime consumption, and several generators were either
+audit-only, silently empty, or used unsafe inferred offsets.
+
+Current verified baseline:
+
+- 32/32 banks pass metadata and base-ROM byte-fidelity checks.
+- The positions source is now corrected to the formation matrix at `0x5461C4`;
+  the former `0x53D914` claim was wrong.
+- Lossless ROM mirror write-back is guarded by immutable-base preconditions and
+  conflict detection; unsafe legacy battle-config template writes are rejected.
+- Positions now has reproducible runtime evidence from the first-battle WASM
+  probe. Bank labels currently distribute as 1 runtime / 1 code / 30 static;
+  the stricter evidence audit distributes as 1 dynamic / 6 code / 24 static /
+  1 none.
+- Runtime evidence for the other structures remains incomplete. See `notes/dynamic-verification-audit.md`
+  and `docs/sequel-roadmap.md` for the active completion gates.
+
+The tables below are retained as the 2026-06-28 historical inventory, not as
+proof that the full reverse engineering is complete.
+
+## Historical summary
 
 **100% complete** reverse engineering of the Naruto GBA sequel ROM. All
 **32 structures** documented with `bank.json` files containing real ROM
@@ -193,10 +217,9 @@ notes/partial-random-encounter.md   (existing)
 - **Field semantics** documented for all 32 structures ✅
 - All work committed to master ✅
 
-**The reverse engineering is 100% complete.** All 32 identified data
-structures have been fully documented with real ROM offsets, formats,
-extracted entries, and patch generation functions. The editor integration
-pipeline supports all structures end-to-end.
+The earlier statement that reverse engineering was 100% complete is obsolete.
+Static extraction and write-back coverage do not substitute for field-semantic
+and runtime-consumer verification.
 
 ---
 

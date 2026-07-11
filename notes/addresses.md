@@ -58,9 +58,14 @@ This file records confirmed and suspected ROM offsets.
 - **Notes**: Actually part of the Map Header Table (see below)
 
 ### Unit Positions
-- **WRAM**: 0x02024294, stride 234 bytes, max 25 units
-- **Format**: u8 existence, u8 x, u8 y, u8 team, u12 pad, u8 init_flag, ...
-- **Notes**: Runtime data initialized from ROM during battle init
+- **ROM base**: `0x5461C4`
+- **ROM address formula**: `base + group*0x1AAC + variant*0x08E4 + 4 + record*0xB8`
+- **Matrix shape**: 48 groups × 3 variants × 12 records
+- **Position fields**: record `+2` = x, `+3` = y
+- **WRAM physical base**: `0x020240C0`, stride `0x1D4` (468 bytes)
+- **WRAM first usable slot**: `0x02024294` (= base + one stride)
+- **WRAM coordinate fields**: `+0xC4/+0xC5` and `+0xC7/+0xC8`
+- **Notes**: Static consumer trace at `0x0806E41E/0x0806E71E -> 0x0806AC70 -> 0x0806AA64` proves the ROM-to-WRAM x/y path. Group/variant and other record field names remain provisional pending runtime traces. See `notes/positions-rom-source-20260710.md`.
 
 ### Map Header Table
 - **Offset**: 0x53D910

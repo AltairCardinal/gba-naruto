@@ -26,13 +26,13 @@ import re
 CONTENT_DIR = Path(__file__).parent.parent.parent / 'sequel' / 'content'
 
 # Structures we extracted in Phase 5 (extracted_count > 0).
-# Excludes: units (already has CRUD), audio/items/positions/sappy-engine (dispatchers).
+# Excludes: units (already has CRUD), audio/items/sappy-engine (dispatchers).
 EXTRACTABLE = [
     'battle-config', 'battle-encounters', 'battle-handlers',
     'character-stats', 'character-stats-b', 'cutscene-scripts',
     'data-table-a', 'data-table-b', 'encounter-zones',
     'fonts', 'function-pointers',
-    'levels', 'map-events', 'map-sprites', 'maps',
+    'levels', 'map-events', 'map-sprites', 'maps', 'positions',
     'menu-ui', 'palettes', 'resource-pointers', 'save-state',
     'skills', 'sprite-animations',
     'story', 'story-b', 'story-c', 'story-d', 'story-e',
@@ -60,7 +60,7 @@ def get_fields(structure: str) -> list:
     bank_path = CONTENT_DIR / structure / 'bank.json'
     if not bank_path.exists():
         return []
-    data = json.load(open(bank_path))
+    data = json.loads(bank_path.read_text(encoding="utf-8"))
     ef = data.get('entry_format')
     if not isinstance(ef, dict) or 'fields' not in ef:
         return []
@@ -72,7 +72,7 @@ def get_entries(structure: str) -> list:
     bank_path = CONTENT_DIR / structure / 'bank.json'
     if not bank_path.exists():
         return []
-    data = json.load(open(bank_path))
+    data = json.loads(bank_path.read_text(encoding="utf-8"))
     return data.get('entries') or []
 
 
