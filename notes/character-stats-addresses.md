@@ -1,7 +1,13 @@
 # Character Stats (人物数据) Addresses
 
 **来源：** 第三方逆向成果（图片提取）  
-**WRAM 地址范围：** `0x02022EF0` - `0x02022FDF`（每角色 0x50 字节）
+**状态更新（2026-07-11）：** `0x02022EF0` 不是独立 character-stats WRAM
+基址；它等于角色模板池 `0x02022E34 + 1*0xBC`，即 template slot 1。首战 WASM
+样本中 `0x02022EF0` first16 为 `01010e0d0803050505000f0050005000`，与
+`runtimeTemplates[slot=1]` 完全一致。下面的字段表只能作为历史假设保留，不能作为
+`character-stats` bank `0x54507A` 的动态证据。
+
+旧假设 WRAM 地址范围：`0x02022EF0` - `0x02022FDF`（每角色 0x50 字节）
 
 ---
 

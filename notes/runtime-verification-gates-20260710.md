@@ -59,7 +59,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | `0x0806E41E` 或 `0x0806E71E` | `r5`、`r3[1:2]`、`record[+0..+8]`、调用后 slot | `r5 = 0x085461C4 + group*0x1AAC + variant*0x8E4 + 4 + index*0xB8`；`+2/+3` 等于新单位 `+0xC4/+0xC5` 和 `+0xC7/+0xC8` | `positions` |
 | `0x0806AC70` → `0x0806AA64` | 参数 x/y/type、返回/分配 slot、单位完整前后差异 | 写入目标符合 `0x020240C0 + slot*0x1D4`，并与画面格坐标一致 | 强化 `positions`；提供 `units` 关联上下文但不单独验证 units 表 |
 | 角色定义表消费者（`0x0806D4A0` 链） | `0x0854241C + character_id*0xB4`、模板池 `0x02022E34`、创建后单位 slot `+0` | ROM 记录索引、模板 `+0`、战斗槽 `+0` 和画面角色三者一致；旧 `0x0853F298` 只能作为 legacy u16 对象/渲染偏移查找，不再是 units 门禁 | `units` |
-| 角色属性装载写点 `0x02022EF0`（watch） | 非 BIOS writer PC、源 ROM 地址、单位/角色索引、写前后 | 源可解析至 `0x0854507A` 对应行或有完整中间拷贝链，至少一字段落入当前单位 | `character-stats` |
+| 角色属性装载写点（待重定） | 非 BIOS writer PC、源 ROM 地址、单位/角色索引、写前后 | `0x02022EF0` 已确认是 template slot 1，不是独立 stats block；需先找到真实写点，源可解析至 `0x0854507A` 对应行或有完整中间拷贝链，至少一字段落入当前单位 | `character-stats` |
 | 上一 writer 的并行/后续源地址 | 是否解析至 `0x08545200` | 独立证明第二表一字段被读取并进入运行时；第一表命中不自动通过第二表 | `character-stats-b` |
 | encounter 选择入口（从当前 battle id 反查 `0x08542384` 表项） | 表项、指针目标、battle id/敌方编成 | 运行时索引选中该表项且目标决定当前敌方/战斗；单纯 ROM 值匹配不通过 | `battle-encounters` |
 | handler 间接调用（表 `0x0853E778`） | 表项索引、目标 PC（3 个唯一 handler 之一）、事件上下文 | 调用目标等于当前表项 Thumb 指针并在对应战斗事件触发 | `battle-handlers` |
@@ -91,7 +91,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 2 | battle-config (`0x08545458`) | 联合 | `0x0806D866` 路径读取当前战斗行，字段进入运行时配置 |
 | 3 | battle-encounters (`0x08542384`) | 联合 | 当前 battle/encounter id 选中表项并决定敌方或战斗目标 |
 | 4 | battle-handlers (`0x0853E778`) | 联合 | 间接调用目标等于选中表项，且事件语义对应 |
-| 5 | character-stats (`0x0854507A`) | 联合 | ROM 行到当前单位 WRAM 的可追踪拷贝，至少一字段对应 |
+| 5 | character-stats (`0x0854507A`) | 联合 | 先重建消费者/写点身份；`0x02022EF0` 是 template slot 1 alias，不能作为 stats WRAM。通过 ROM 行到真实当前单位/角色 WRAM 的可追踪拷贝，至少一字段对应 |
 | 6 | character-stats-b (`0x08545200`) | 联合 | 独立 ROM 行消费链及字段对应 |
 | 7 | cutscene-scripts (`0x0853DF70`) | 联合 | 16 项之一被选中并读取命令，命令对应当前过场 |
 | 8 | data-table-a (`0x085A14A4`) | 专门路线 | 先定位消费者；命中选中表项/目标并证明一个字段用途 |

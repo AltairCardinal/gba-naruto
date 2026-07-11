@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-11T14:28:11.294496+00:00`
+生成时间：`2026-07-11T14:42:49.918286+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -24,7 +24,7 @@
 | `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `static_verified` | ✅ (15) | ✅ (256) | ✅ | — |
 | `battle-encounters` | ✅ `0x542384` | ✅ | ✅ (38) | ✅ `static_verified` | ✅ (11) | ✅ (38) | ✅ | — |
 | `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (14) | ✅ `static_verified` | ✅ (10) | ✅ (14) | ✅ | — |
-| `character-stats` | ✅ `0x54507A` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (13) | ✅ (160) | ✅ | — |
+| `character-stats` | ✅ `0x54507A` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (15) | ✅ (160) | ✅ | — |
 | `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (18) | ✅ `static_verified` | ✅ (12) | ✅ (144) | ✅ | — |
 | `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (16) | ✅ `static_verified` | ✅ (10) | ✅ (16) | ✅ | — |
 | `data-table-a` | ✅ `0x5A14A4` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |

@@ -251,9 +251,10 @@ mirror 恢复安全字段编辑。
 
 严格按 `notes/runtime-verification-gates-20260710.md` 执行。优先顺序：
 
-1. character-stats / character-stats-b；
+1. save-state；
 2. battle-config；
-3. save-state；
+3. character-stats / character-stats-b：先重建表身份；不要再把 `0x02022EF0`
+   当作 stats WRAM，它是 template slot 1；
 4. story / cutscene-scripts / map-events；
 5. skills/items 身份拆分；
 6. audio/palettes 身份拆分；

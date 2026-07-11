@@ -33,7 +33,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 2 | battle-config (`0x545458`) | code | `notes/battle-config-format.md` records code reference `0x0806D866 -> 0x08545458`. Existing runtime section says blocked; it contains no successful hit. |
 | 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |
-| 5 | character-stats (`0x54507A`) | static | Parsed table plus WRAM observations in `notes/character-stats-addresses.md`; no trace proves this ROM table populates those WRAM fields. |
+| 5 | character-stats (`0x54507A`) | static | Parsed table only. The old WRAM observation in `notes/character-stats-addresses.md` is now known to alias template pool slot 1 (`0x02022E34 + 1*0xBC = 0x02022EF0`), not an independent stats block. Direct pointer-reference scans for `0x0854507A` and `0x08545200` currently find no references, so table identity and consumer remain unproved. |
 | 6 | character-stats-b (`0x545200`) | static | Consistent table and pointer/reference inspection only. |
 | 7 | cutscene-scripts (`0x53DF70`) | static | Valid pointers into `0x12xxxx` script-like data only; no script fetch/scene correlation trace. |
 | 8 | data-table-a (`0x5A14A4`) | static | Repeating valid pointers and encoded target blocks only; semantics and consumer remain unproved. |
@@ -123,9 +123,15 @@ chapter ID, and dump the corresponding 32-byte entry at
 it does **not** verify `positions` unless a source-to-unit-array write is also
 captured.
 
-### 3. Character stats: connect one ROM row to loaded WRAM (`static` -> `dynamic`)
+### 3. Character stats: first re-establish table identity (`static` -> `code/dynamic`)
 
-From a state immediately before battle/unit initialization:
+Do not use `0x02022EF0` as the target: it aliases runtime template slot 1.
+Start by finding a real consumer or by proving a controlled ROM byte affects a
+non-template runtime field. A direct pointer scan currently returns no hits for
+`0x0854507A` or `0x08545200`.
+
+If a new candidate write target is found, use a state immediately before
+battle/unit initialization:
 
 ```sh
 python3 tools/mgba-headless-snapshot.py --rom <ROM> --mode watch \
