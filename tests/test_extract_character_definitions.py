@@ -101,7 +101,7 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
             self.assertEqual(bank["table_offset_hex"], "0x54241C")
             self.assertEqual(bank["entry_count"], CHARACTER_DEFINITION_COUNT)
             self.assertEqual(bank["entry_size"], CHARACTER_DEFINITION_STRIDE)
-            self.assertEqual(bank["verification"], "code_verified")
+            self.assertEqual(bank["verification"], "runtime_verified")
             self.assertEqual(bank["entries"][1]["character_id"], 1)
 
 

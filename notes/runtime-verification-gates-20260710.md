@@ -4,7 +4,7 @@
 
 本文件复核 `notes/dynamic-verification-audit.md` 中 32 个内容结构，并把“动态
 验证”拆成可以执行、可以复核的门禁。经后续 WASM 首战编成探针和 maps A/B 复核，
-当前证据为 **2 dynamic / 5 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
+当前证据为 **3 dynamic / 4 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
 相关内容均不能替代运行时
 消费证据。
 
@@ -118,7 +118,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 29 | story-d (`0x0853AB78`) | 后续章节 | 同上 |
 | 30 | story-e (`0x0853C3C0`) | 后续章节 | 同上 |
 | 31 | tile-assets (`0x085A3218`) | 专门资源/A-B | loader/decompressor 消费选中目标并写 VRAM；受控图块改动出现在预期位置 |
-| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；现有 WASM 样本已证明 ID 1 template→battle slot 复制，但 template payload 与 ROM raw record 仅前 7 字节一致；升级还需 PC/LR/watchpoint 或单字段 A/B 证明具体 ROM 记录字段进入模板 |
+| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；WASM 样本已证明 ID 1 template→battle slot 复制，`0x5424D1` byte `0x0e→0x0f` A/B 已证明具体 ROM record 字段进入模板；剩余门槛是逐字段语义和安全语义写回 |
 
 ## 完成门槛与边界
 

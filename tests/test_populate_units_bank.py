@@ -32,7 +32,7 @@ class PopulateUnitsBankTests(unittest.TestCase):
             self.assertEqual(bank["table_offset_hex"], "0x54241C")
             self.assertEqual(bank["entry_count"], 63)
             self.assertEqual(bank["entry_size"], 0xB4)
-            self.assertEqual(bank["verification"], "code_verified")
+            self.assertEqual(bank["verification"], "runtime_verified")
             self.assertNotIn("unit_id_table", bank)
             self.assertEqual(bank["entries"][1]["character_id"], 1)
 

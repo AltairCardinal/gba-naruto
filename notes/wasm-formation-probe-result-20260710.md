@@ -128,5 +128,27 @@ slot 1 也为 `characterId=1`，且 battle slot 1 的前 `0xBC` 字节与 templa
 - `rawRecordMatchesRom=false`
 
 因此该样本升级了 formation ID → template → battle slot 的运行时证据，但没有把
-units raw record 逐字节消费升级为 `runtime_verified`。下一步应捕获
-`0x0806D4A0` 链的 PC/LR/寄存器或做 `0x5424D0` 单字段 A/B。
+units raw record 字段消费升级为 `runtime_verified`。
+
+## 2026-07-11 units raw byte A/B
+
+后续用 `PROBE_ROM` 加载本地 patched ROM，只改 `characterId=1` record 的 byte `+1`：
+
+- file offset：`0x5424D1`
+- baseline：`0x0e`
+- patched：`0x0f`
+- patched ROM：`/tmp/units-char1-byte01-0f.gba`
+- patched ROM SHA-256：`734ea05625f4a54d1dbfa2201a8ad75e2c4619e0d14dac92967be87440f4b632`
+- result：`/tmp/units-char1-byte01-0f-result.json`
+- screenshot：`/tmp/units-char1-byte01-0f-final.png`
+- result SHA-256：`ae30e8a149106e4ea4df5dcd67d4e46e29af106efc48023693180ed6c91e0495`
+- final screenshot SHA-256：`9154ccd58af26ca9f2181ceb0c1271e7aa7ad0006451479b53a30fe5876cca97`
+
+同一路线仍命中首战 group 40 / variant 0，slot 1 `characterId=1, x=4, y=4`。
+template slot 1 first16 从 baseline `01010e0d0803050505000f0050005000` 变为
+patched `01010f0d0803050505000f0050005000`，battle slot 1 first16 同步变为
+`01010f0d0803050505000f0050005000`。
+
+该 A/B 直接证明 `0x5424D0` raw record byte `+1` 进入 runtime template payload，
+再复制到 battle unit slot。units 结构身份和至少一个 raw 字段消费链因此达到动态证据；
+剩余工作是逐字段语义命名和安全语义写回。

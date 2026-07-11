@@ -33,7 +33,8 @@
   `0x02022E34` 模板池复制到 `0x1D4` 战斗槽；WASM 首战样本已证明
   template slot 1 → battle slot 1 的前 `0xBC` 字节复制，但 template payload 与
   ROM raw record `0x5424D0` 仅前 7 字节一致，raw record 字段转换仍待 PC/LR 或
-  受控 A/B 证明
+  受控 A/B 证明；后续 `0x5424D1` byte `0x0e→0x0f` A/B 已证明 raw record byte `+1`
+  进入 runtime template 和 battle slot，units 结构身份达到 runtime 证据
 - maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
 - battle configs、units、chapters、skills、story beats、audio、maps、levels、
@@ -107,7 +108,7 @@
 - ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；
   `tools/extract_character_definitions.py` 已建立，`sequel/content/units/bank.json`
   已迁移；runtime 样本已把战斗槽 character ID 和模板槽闭合到 ID 1 / ROM
-  `0x5424D0`，但 raw record 到模板字段转换尚未动态闭合
+  `0x5424D0`；`0x5424D1` 单字节 A/B 已动态闭合 raw record byte `+1` 到模板字段
 - ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
   - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
   - ptr1：12 字节头 + 原始 tile 数据（u16/tile）

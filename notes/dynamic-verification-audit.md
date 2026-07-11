@@ -19,9 +19,9 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under this definition the current repository has **2 dynamic, 5 code, 24
-static, and 1 none** after the maps width A/B runtime probe was closed on
-2026-07-11. This is deliberately stricter than the `verification`
+Under this definition the current repository has **3 dynamic, 4 code, 24
+static, and 1 none** after the units character-record byte A/B runtime probe
+was closed on 2026-07-11. This is deliberately stricter than the `verification`
 strings in the banks. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
@@ -60,7 +60,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 29 | story-d (`0x53AB78`) | static | Eleven chapter-like pointers only; no route/table selection evidence. |
 | 30 | story-e (`0x53C3C0`) | static | Nine chapter-like pointers only; no route/table selection evidence. |
 | 31 | tile-assets (`0x5A3218`) | static | Six valid pointers to tile/map-like data only; no decompressor/read hit or controlled visual change. |
-| 32 | units (`0x54241C`) | code | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the code-referenced character definition table. `notes/character-definition-source-20260711.md` now records a WASM first-battle sample where runtime template slot 1 (`characterId=1`) is copied byte-for-byte into battle slot 1, and the ID maps to ROM record `0x5424D0`; however the template payload only matches the ROM raw record for the first 7 bytes, so ROM raw-record consumption still rests on the code trace rather than runtime/source evidence. |
+| 32 | units (`0x54241C`) | dynamic | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the character definition table. `notes/character-definition-source-20260711.md` records a WASM first-battle sample where runtime template slot 1 (`characterId=1`) is copied byte-for-byte into battle slot 1, plus a controlled `PROBE_ROM` A/B changing file `0x5424D1` from `0x0e` to `0x0f`; the runtime template payload changes from `010e0d...` to `010f0d...` on the same route. This dynamically proves at least one raw record field enters the template and unit slot. Remaining per-field semantics and safe semantic writeback are not yet proven. |
 
 ## Existing runtime assets: what they do and do not prove
 
@@ -78,8 +78,8 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
   evidence.
 - `notes/battle-*.json`, `notes/loaded-save-battle.json`, and WRAM dumps provide
   useful state snapshots, but lack a captured ROM source/read PC. They cannot
-  upgrade `battle-config`, `units`, or stats to `dynamic` yet; `positions` has
-  separate WASM runtime evidence in `notes/wasm-formation-probe-result-20260710.md`.
+  upgrade `battle-config` or stats to `dynamic` yet; `positions` and `units`
+  have separate WASM runtime evidence in `notes/wasm-formation-probe-result-20260710.md`.
 - `tools/mgba-headless-snapshot.py` is the portable Linux debugger path. The Lua
   wrapper requires an mGBA build with `--script`; several Lua files also contain
   the historical hard-coded macOS output directory and should be parameterized

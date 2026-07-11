@@ -24,8 +24,8 @@
 
 1. 新增 `tests/test_unsafe_unit_patch.py`，首次运行得到 `bytes` patch，按正确原因失败；
 2. 最小修改后只产生 `db_unit_unmapped` 诊断，不含 `offset/after_hex`；
-3. lossless `rom_units` mirror 仍可保存原始字节，但在真实角色记录映射确认前，
-   legacy units 语义编辑不得写 ROM。
+3. lossless `rom_units` mirror 仍可保存原始字节；后续已确认真实角色记录映射，但
+   legacy units 语义编辑在字段语义和安全序列化完成前仍不得写 ROM。
 
 后续已定位真实角色定义表 `0x54241C`，并通过
 `tools/extract_character_definitions.py` 将 `sequel/content/units/bank.json`
@@ -39,4 +39,6 @@
   `0x08080B08..0x08080B50`（`0x53F298` 唯一消费者）。
 - ROM：`0x53F298`（当前只能称 u16 offset/value lookup，不能称角色 ID 表）。
 - WRAM：`0x020240C0 + slot*0x1D4`；坐标字段 `+0xC4/+0xC5`。
-- `units` 保持静态字节级验证，不升级动态验证；真正角色 ID 字段/ROM 记录仍待定位。
+- 后续已将 `units` 迁移到 `0x54241C` 真实角色定义表，并通过首战 template→battle
+  slot 样本及 `0x5424D1` byte `0x0e→0x0f` A/B 达到结构身份 runtime 证据；本 note
+  的安全结论仍成立：旧 `0x53F298` 写回必须保持禁用，legacy 语义字段仍待安全序列化。

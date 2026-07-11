@@ -6,8 +6,8 @@
 可以审计的基线：
 
 - 32/32 个 `bank.json` 通过元数据、地址、条目和基准 ROM 字节一致性检查；
-- 当前严格证据分布为 **2 runtime / 5 code / 24 static / 1 none**；
-- positions 与 maps 已取得可复查运行时证据；units 是下一项最接近 runtime 的结构；
+- 当前严格证据分布为 **3 runtime / 4 code / 24 static / 1 none**；
+- positions、maps、units 已取得可复查运行时证据；units 仍需逐字段语义证明和安全写回；
 - 构建链已具备 immutable-base 前置校验、跨补丁冲突检测及 audit/game-effective
   区域隔离；
 - 已停止 battle-config、units、chapters、skills、story beats、audio 等缺少 ROM
@@ -29,7 +29,7 @@
 最近一次完整验证：
 
 ```text
-python unittest: 31/31
+python unittest: 37/37
 runtime probe node tests: 19/19
 tools/automated_test.py: 22/22
 web-editor backend pytest: 9/9
@@ -114,8 +114,11 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 - 首战样本：formation `0x588CA8[0]=1`，slot 1 `0x02024294[0]=1`；
   template slot 1 `+0=1`，且 template 前 `0xBC` 字节完整复制到战斗 slot 1。
   `characterId=1` 对应 ROM record `0x5424D0`，但 template payload 与 ROM raw
-  record 仅前 7 字节一致，说明 raw record 到 template 有运行时转换/重排，不能把
-  units 升级为 fully runtime-verified。
+  record 仅前 7 字节一致，说明 raw record 到 template 有运行时转换/重排；
+- 单字节 A/B：只改 file `0x5424D1`（record byte `+1`）`0x0e→0x0f`，同路线
+  template slot 1 first16 从 `01010e0d0803050505000f0050005000` 变为
+  `01010f0d0803050505000f0050005000`，battle slot 1 同步变化。因此 units 结构身份
+  和至少一个 raw 字段消费链已达到 runtime 证据级别。
 
 入口：`notes/character-definition-source-20260711.md`、
 `notes/units-unsafe-table-fix-20260711.md`。
@@ -123,8 +126,8 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 `tools/extract_character_definitions.py` 和 `tests/test_extract_character_definitions.py`
 已建立，`sequel/content/units/bank.json` 已从错误的 `0x53F298` 迁移到 63×`0xB4`
 真表。当前已把 runtime character ID 闭合到具体 `0x54241C` 记录，并证明
-template→unit 复制；剩余工作是用原生 PC/LR、watchpoint 或受控字段 A/B 证明 ROM
-raw-record→template 的字段来源，再逐项恢复安全回写。
+template→unit 复制；`0x5424D1` 单字节 A/B 已证明 raw-record→template 的字段来源。
+剩余工作是逐字段语义命名和安全语义写回。
 
 ### 3.4 构建安全边界
 
@@ -179,6 +182,9 @@ WASM 暴露 GBA 内存读取和本地 ROM `uploadRom/loadGame`，但不暴露 PC
 最新成功样本保存在 `/tmp/units-template-result.json`，result SHA-256 为
 `47eb0ce26fe1f0296b448ab931cbf4d9ddf91b00592397bcafc5770029b9819b`，最终截图
 SHA-256 为 `a5fb3caaad684fb83a19e83ddfcc258ef0cfd2b6c5c2504532865d5b0d16fb24`。
+`0x5424D1` A/B 样本保存在 `/tmp/units-char1-byte01-0f-result.json`，result
+SHA-256 为 `ae30e8a149106e4ea4df5dcd67d4e46e29af106efc48023693180ed6c91e0495`，
+最终截图 SHA-256 为 `9154ccd58af26ca9f2181ceb0c1271e7aa7ad0006451479b53a30fe5876cca97`。
 固定 250 次 A 可到人物页，但人物页→战前菜单转场仍可能受输入/时序漂移影响；失败时
 优先检查 `screenState`、`adaptiveRetries` 和 phase screenshots。
 
@@ -211,6 +217,8 @@ env \
 - template slot 1 与 battle slot 1 前 `0xBC` 字节匹配；
 - character definition match 指向 `0x5424D0`，并记录
   `matchingPrefixBytes=7, rawRecordMatchesRom=false`；
+- 若使用 patched ROM `/tmp/units-char1-byte01-0f.gba`，template/battle slot first16
+  应从 `01010e0d...` 变为 `01010f0d...`；
 - 截图为首战地图；
 - 结果摘要和 SHA-256 写入仓库 note。
 
@@ -230,8 +238,8 @@ env \
 2. ✅ 通过 `PROBE_ROM` request-interception 自动加载 width 36→32 的本地 ROM B；
 3. ✅ 同路线验证 `[32,44,8,22]`，maps width/height 升级 runtime；
 4. ✅ units 已取得 character ID 选择与 template→unit 复制样本；
-5. ⚠️ units 只有在 `0x5424D0` raw record 到 template 字段转换被 PC/LR、watchpoint
-   或受控 A/B 证明后才升级。
+5. ✅ units 已通过 `0x5424D1` 单字节 A/B 证明 raw record 字段进入 template；
+6. ⚠️ units 后续仍需逐字段语义命名和安全语义写回。
 
 ### P0-3：清除剩余危险 legacy 写入
 
@@ -243,13 +251,14 @@ mirror 恢复安全字段编辑。
 
 严格按 `notes/runtime-verification-gates-20260710.md` 执行。优先顺序：
 
-1. maps / units；
-2. battle-config / character-stats / character-stats-b；
-3. story / cutscene-scripts / map-events；
-4. save-state；
+1. character-stats / character-stats-b；
+2. battle-config；
+3. save-state；
+4. story / cutscene-scripts / map-events；
 5. skills/items 身份拆分；
 6. audio/palettes 身份拆分；
-7. 资源、动画、后续章节和未知表。
+7. units 字段语义和安全语义写回；
+8. 资源、动画、后续章节和未知表。
 
 ## 6. 100% 完成门槛
 

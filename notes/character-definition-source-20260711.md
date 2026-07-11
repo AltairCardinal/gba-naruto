@@ -24,8 +24,8 @@ stride `0xB4`。末条从 `0x544FB4` 开始，表结束于 `0x545068`。`0x54506
 
 首战 formation `0x588CA8` 的 record[0]=1，动态预期 slot 1
 `0x02024294[0]=1`，并应与某个模板槽 `+0=1` 一致。探针已输出战斗槽
-characterId；但 ROM raw record 到模板的字段级转换仍需 PC/LR、watchpoint 或受控
-A/B 证明，不能只凭 character ID 一致把 units/角色定义提升为运行时验证。
+characterId。后续单字节 A/B 已证明 ROM raw record 的至少一个字段进入模板；但其余
+字段语义和安全语义回写仍需逐项证明。
 
 ## 2026-07-11 WASM 首战样本
 
@@ -53,9 +53,41 @@ Artifact SHA-256：
 
 解释：这个样本动态证明了 formation character ID → runtime template slot →
 battle unit slot 的选择和复制链；它没有证明 `0x5424D0` 的 180 字节 raw record 被
-逐字节复制到模板。`0x0806D4A0` 链的 ROM 源地址仍是代码级证据，后续需要在原生
-mGBA/LLDB 中捕获 PC/LR/寄存器，或对 `0x5424D0` 做单字段受控 A/B 并观察模板字段
-按预期变化。
+逐字节复制到模板。
+
+## 2026-07-11 `0x5424D0` 单字节 A/B
+
+用 `PROBE_ROM` request interception 加载本地 patched ROM，只改一字节：
+
+- file offset：`0x5424D1`；
+- ROM record：`characterId=1`，`0x5424D0 + 1`；
+- baseline byte：`0x0e`；
+- patched byte：`0x0f`；
+- patched ROM：`/tmp/units-char1-byte01-0f.gba`；
+- patched ROM SHA-256：
+  `734ea05625f4a54d1dbfa2201a8ad75e2c4619e0d14dac92967be87440f4b632`。
+
+同一路线结果：
+
+- `outcome=matched`，唯一匹配 positions group 40 / variant 0；
+- battle ID 40，map runtime `[36,44,9,22]`；
+- slot 1 仍为 `characterId=1, x=4, y=4`；
+- template slot 1 first16 从 baseline
+  `01010e0d0803050505000f0050005000` 变为
+  `01010f0d0803050505000f0050005000`；
+- battle slot 1 first16 同步变为
+  `01010f0d0803050505000f0050005000`，并继续匹配 template slot 1；
+- template payload first16 为 `010f0d0803050505000f005000500000`。
+
+Artifact SHA-256：
+
+- result：`ae30e8a149106e4ea4df5dcd67d4e46e29af106efc48023693180ed6c91e0495`
+- final screenshot：`9154ccd58af26ca9f2181ceb0c1271e7aa7ad0006451479b53a30fe5876cca97`
+
+解释：这个 A/B 动态证明 `0x5424D0` raw record 的 byte `+1` 被运行时消费并进入
+`0x02022E34` 模板 payload，再由模板复制到 `0x020240C0 + slot*0x1D4` 的战斗单位槽。
+因此 units/角色定义结构身份和至少一个 raw 字段消费链已达到动态证据级别。尚未完成的是
+`0xB4` 记录所有字段的语义命名和安全语义写回。
 
 ID 57/58 在 `0x0806D964` 有基础统计特例，但 `0x0806D4A0` 的技能填充仍先按原始
 ID×`0xB4` 读取，后续提取器必须保留全部 63 条原始记录。

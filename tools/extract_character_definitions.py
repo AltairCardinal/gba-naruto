@@ -121,12 +121,13 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
         },
         "notes": (
             "Character_id is the table index used by code, not a byte read from "
-            "the record. Runtime evidence still needs to connect a successful "
-            "battle-slot sample back to this ROM source before upgrading to "
-            "runtime_verified."
+            "the record. Runtime evidence connects character_id=1 to ROM record "
+            "0x5424D0, proves template-to-battle-slot copying, and shows byte "
+            "0x5424D1 changes runtime template payload byte +1. Field semantics "
+            "and safe semantic writeback remain unproven."
         ),
         "entries": entries,
-        "verification": "code_verified",
+        "verification": "runtime_verified",
         "evidence": "notes/character-definition-source-20260711.md",
         "extraction": {
             "tool": "tools/extract_character_definitions.py",
