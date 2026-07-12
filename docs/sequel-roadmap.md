@@ -85,7 +85,8 @@
   `0x0809B1F4`、FIFO/DMA initializer `0x0809AE3C` 已闭合。运行时 hook 命中
   230 次并证明 ID 118→`0x0853D06C`，audio 升级 runtime；真实指针可达提取器
   已导出 217 条 track blob、23 个 voicegroup、387 个 tone 和 79 个合法 WAV；
-  每个 cue 的可听名称及 track opcode 语义仍待完成。sound-ID 主表已有持久
+  track opcode/控制流已结构化解码并生成单循环 MIDI；每个 cue 的可听名称及
+  忠实 instrument/mixer 语义仍待完成。sound-ID 主表已有持久
   `rom_audio_sound_ids` 镜像和 immutable-base、精确 offset、ROM 范围/对齐、
   descriptor track-count 门禁的 8-byte 安全写回
 - save descriptor 第二字段已纠正为 payload length/累计 stride，而非独立 SRAM
@@ -242,12 +243,15 @@
 - 已导出 217 条 track blob、23 个 voicegroup、387 个 tone、79 个 WAV
 - 217 条 track 已结构化解码为 18,090 条命令和 6,750 个 note/tie；1,287 个
   控制流目标全部落在已知 track 范围
-- 待完成 pattern/timing 执行、整曲混音/渲染和可听 cue 命名
+- PATT/PEND/GOTO 已按单循环策略执行；80/80 sound ID 已生成标准 MIDI，
+  217 条 track 共发出 17,202 个时间线事件
+- 待完成 instrument/sample mapping、drum/PSG、包络/LFO/tie、精确混音和
+  可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 执行 m4a pattern/timing 并构建多轨可播放导出（下一步）
+3. 完成 m4a instrument/mixer 语义并构建忠实多轨音频渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

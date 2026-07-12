@@ -68,6 +68,29 @@ yet execute PATT/REPT timing, resolve multi-level voicegroups, synthesize PSG
 tones, or render a complete song, so MIDI/audio rendering remains a separate
 completion gate.
 
+## One-loop timeline and MIDI export
+
+`tools/render_m4a_midi.py` executes the decoded command graph with a bounded,
+reproducible policy: PATT/PEND uses a 16-level return stack; a backward GOTO
+stops when its target was already visited, yielding exactly one loop; invalid
+command boundaries and runaway execution are hard errors. PEND with an empty
+stack falls through, matching shared fragments observed at ROM track entries.
+Treating it as an unconditional stop incorrectly truncated 120 tracks and was
+rejected during validation.
+
+All 80 active sound IDs now produce standard format-1 MIDI files at 24 PPQN:
+
+- 217/217 track executions terminate deliberately: 79 by FINE, 138 after one
+  GOTO loop;
+- 17,202 emitted timeline events;
+- no zero-duration or eventless sound IDs;
+- representative files are recognized as standard MIDI containers.
+
+Outputs are under `build/audio-v2/midi/`. The MIDI is a structural audition
+artifact, not a bit-accurate renderer: DirectSound sample mapping, 0x80 drum
+voicegroups, PSG synthesis, envelope/LFO behavior, tie release and exact mixer
+behavior remain to be implemented before audio playback can be called complete.
+
 ## Runtime proof
 
 `tools/build_audio_runtime_probe.py` replaces only the checked BL at
