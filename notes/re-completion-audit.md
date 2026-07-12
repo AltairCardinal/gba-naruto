@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-12T20:52:40.808967+00:00`
+生成时间：`2026-07-12T22:20:47.154967+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -29,7 +29,7 @@
 | `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
 | `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `code_verified` | ✅ (12) | ✅ (16) | ✅ | — |
 | `data-table-a` | ✅ `0x5A143C` | ✅ | ✅ (46) | ✅ `runtime_verified` | ✅ (7) | ✅ (46) | ✅ | — |
-| `data-table-b` | ✅ `0x5A2034` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (5) | ✅ (79) | ✅ | — |
+| `data-table-b` | ✅ `0x5A2034` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (7) | ✅ (79) | ✅ | — |
 | `encounter-zones` | ✅ `0x53D910` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (22) | ✅ (0) | ✅ | — |
 | `fonts` | ✅ `0x53E5B4` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (10) | ✅ (0) | ✅ | — |
 | `function-pointers` | ✅ `0x53D5F4` | ✅ | ✅ (11) | ✅ `code_verified` | ✅ (10) | ✅ (11) | ✅ | — |
@@ -41,10 +41,10 @@
 | `menu-ui` | ✅ `0x5A4DEC` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (9) | ✅ (630) | ✅ | — |
 | `palettes` | ✅ `0x53EE98` | ✅ | ✅ (15) | ✅ `code_verified` | ✅ (14) | ✅ (75) | ✅ | — |
 | `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (22) | ✅ (10368) | ✅ | — |
-| `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (5) | ✅ `code_verified` | ✅ (11) | ✅ (20) | ✅ | — |
+| `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (5) | ✅ `code_verified` | ✅ (12) | ✅ (20) | ✅ | — |
 | `sappy-engine` | ✅ `0x09AE3C` | ✅ | ✅ (1) | ✅ `code_verified` | ✅ (6) | ✅ (1) | ✅ | — |
 | `save-state` | ✅ `0x53D848` | ✅ | ✅ (10) | ✅ `runtime_verified` | ✅ (15) | ✅ (20) | ✅ | — |
-| `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `code_verified` | ✅ (16) | ✅ (1504) | ✅ | — |
+| `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `code_verified` | ✅ (17) | ✅ (1504) | ✅ | — |
 | `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
 | `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (37) | ✅ (56) | ✅ | — |
 | `story-b` | ✅ `0x060D54` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (17) | ✅ (56) | ✅ | — |

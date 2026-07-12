@@ -436,6 +436,12 @@
   `0x085A143C`；只替换该四字节指针为 entry 7 后，目标从 `0x0859F988` 变为
   `0x0859FDE8`，可见多行人物简介同步改变，因此升级 runtime_verified。旧 state
   `0x20` checkpoint 属于另一套三栏 UI，不再作为此 reader 的前置状态。
+- 已新增 base-ROM 可独立重放的真实 battle 41 actionable checkpoint：Naruto
+  `(4,10)`、Iruka `(4,4)`、map 36×44，strict arrival 全过。基于该边界的三条
+  专属探针进一步排除了入场期 `resource-pointers`、普通忍术下的组合关系 reader、
+  以及无效目标提示属于 `data-table-b` 的假设；三项严格保持 code_verified，下一步
+  从有效攻击/技能事件捕获真实运行 ID。详见
+  `notes/remaining-runtime-bank-probes-20260713.md`。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

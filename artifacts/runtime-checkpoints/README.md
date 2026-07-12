@@ -40,6 +40,7 @@ Expected SHA-256:
 | `alternate-character-submenu.ss9` | `b692ebabfa80773debb0685d2589c02fbeda04102f799b37221e72e3941184a8` | one B from equipment; character-information submenu |
 | `alternate-character-overview.ss9` | `209bf3c7321fedc93a6c957fb2c7b46f0d48aa56ea5c4bb3858fce93d0a336f6` | character-information overview |
 | `tutorial-ui-save.sav` | `9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b` | natural 32-KiB UI save used for cold-load proof |
+| `actionable-move-grid.ss9` | `4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac` | real actionable tutorial battle target-selection grid; base-ROM replay passes the strict battle gate |
 
 Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, which records
 the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at
@@ -59,6 +60,11 @@ from Kakashi to Sakura without changing scenario, script cursor, or dispatch cou
 the 46-entry profile text table. Both runs hit `0x0808B1A4` once for character
 0 / entry `0x085A143C`; the single four-byte pointer change selected entry 7's
 text and visibly changed the multi-line profile description.
+
+`actionable-battle-runtime-evidence.json` authenticates the clean actionable
+battle checkpoint independently on `rom/base.gba`: battle ID 41, map 36×44,
+Naruto `(4,10)`, Iruka `(4,4)`, and all strict-arrival checks true. It replaces
+the need to replay the Start overlay and tutorial dialogue for later battle-bank probes.
 
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.

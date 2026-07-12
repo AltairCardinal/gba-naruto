@@ -1,0 +1,28 @@
+{
+  "date": "2026-07-13",
+  "checkpoint": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+  "checkpoint_sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+  "checkpoint_size": 79532,
+  "independent_replay_rom": "rom/base.gba",
+  "independent_replay_screenshot_sha256": "88c0904bedb952402e196a7c7c82eb4377d390fd0734f72eb9d614a5e2d2d13f",
+  "battle_id": 41,
+  "map_runtime": {
+    "raw_hex": "242c0916",
+    "width": 36,
+    "height": 44,
+    "grid_width": 9,
+    "grid_height": 22
+  },
+  "runtime_positions": [
+    {"slot": 1, "character_id": 1, "x": 4, "y": 10},
+    {"slot": 2, "character_id": 30, "x": 4, "y": 4}
+  ],
+  "strict_arrival_checks": {
+    "unique_complete_formation": true,
+    "battle_id_present": true,
+    "map_loaded": true,
+    "battle_map_visible": true
+  },
+  "screen_state": "battle-map",
+  "boundary": "Real actionable tutorial battle target-selection grid after the Start overlay and Iruka dialogue; not the rejected prebattle view-battlefield state."
+}
