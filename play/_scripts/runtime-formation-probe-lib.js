@@ -134,7 +134,7 @@ function decodeAlternateChapterProbe(bytes, chapterState = 0) {
 
 function evaluateAlternateChapterEvidence({
   baseline, current, expectedScenarioId, expectedScriptStart, expectedScriptEnd,
-  romOpcodeBytesHex,
+  romOpcodeBytesHex, evidenceKind = 'alternate',
 }) {
   const terminated = current.opcode === 0;
   const checks = {
@@ -151,8 +151,8 @@ function evaluateAlternateChapterEvidence({
   const verified = Object.values(checks).every(Boolean);
   return {
     verified,
-    reason: verified && terminated ? 'alternate-script-terminated'
-      : verified ? 'alternate-script-updated-state' : 'alternate-script-not-verified',
+    reason: verified && terminated ? `${evidenceKind}-script-terminated`
+      : verified ? `${evidenceKind}-script-updated-state` : `${evidenceKind}-script-not-verified`,
     checks,
   };
 }

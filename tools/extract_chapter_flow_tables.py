@@ -7,6 +7,11 @@ import json
 import struct
 from pathlib import Path
 
+try:
+    from tools.chapter_script_codec import decode_script
+except ModuleNotFoundError:
+    from chapter_script_codec import decode_script
+
 ROM_BASE = 0x08000000
 TABLES = {
     "story": (0x60C74, "runtime_verified"),
@@ -66,7 +71,8 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "consumer": {
             "selector": "0x0808F544",
             "interpreter": "0x080977B8",
-            "chapter_operand_handler": "0x08097C78",
+            "set_battle_handler": "0x08097C6C",
+            "end_handler": "0x08097916",
             "opcode_dispatch": "0x080977D8",
             "state_selector": "0x020311EC (+0x18)",
         },
@@ -74,7 +80,8 @@ def build_bank(rom: bytes, slug: str) -> dict:
             "scenario_id": 39,
             "script_ptr": "0x08031020",
             "opcode_address": "0x08031070",
-            "opcode_bytes": "1a280200",
+            "script_bytes": "1a280200",
+            "semantic_commands": decode_script(bytes.fromhex("1a280200")),
             "battle_id": 40,
         } if slug == "story" else {
             "scenario_id": 39,
@@ -86,7 +93,11 @@ def build_bank(rom: bytes, slug: str) -> dict:
             "battle_id": 0,
             "forced_alternate_selector": True,
         }),
-        "writeback": "lossless pointer mirror requires immutable-base and ROM-range checks; semantic script editing remains disabled",
+        "writeback": (
+            "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict "
+            "chapter_script_codec currently authors only code-proven END/SET_BATTLE scripts; "
+            "production script allocation and atomic pointer+payload writeback remain disabled."
+        ),
         "entries": entries,
     }
 

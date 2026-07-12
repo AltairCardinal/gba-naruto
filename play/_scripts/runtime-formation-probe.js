@@ -63,6 +63,12 @@ const CHAPTER_STATE = 0x020311EA;
 const ALTERNATE_SCENARIO_ID = 39;
 const ALTERNATE_SCRIPT_START = 0x08031281;
 const ALTERNATE_SCRIPT_END = 0x0803142E;
+const CHAPTER_EVIDENCE_CONFIG = {
+  expectedScenarioId: Number(process.env.PROBE_EXPECTED_SCENARIO_ID || ALTERNATE_SCENARIO_ID),
+  expectedScriptStart: Number(process.env.PROBE_EXPECTED_SCRIPT_START || ALTERNATE_SCRIPT_START),
+  expectedScriptEnd: Number(process.env.PROBE_EXPECTED_SCRIPT_END || ALTERNATE_SCRIPT_END),
+  evidenceKind: process.env.PROBE_CHAPTER_EVIDENCE_KIND || 'alternate',
+};
 const SAVE_GROUP_PROBE_RESULT = 0x0203FFA0;
 const GBA_KEYS = {
   Enter: 'Start',
@@ -241,11 +247,11 @@ async function readAlternateChapterProbe(page) {
   return decodeAlternateChapterProbe(bytes, chapterState);
 }
 
-async function captureAlternateChapterEvidence(page, baseline) {
+async function captureAlternateChapterEvidence(page, baseline, config = CHAPTER_EVIDENCE_CONFIG) {
   const current = await readAlternateChapterProbe(page);
   let romOpcodeBytesHex = null;
-  if (current.lastOpcodeCursor >= ALTERNATE_SCRIPT_START
-      && current.lastOpcodeCursor <= ALTERNATE_SCRIPT_END) {
+  if (current.lastOpcodeCursor >= config.expectedScriptStart
+      && current.lastOpcodeCursor <= config.expectedScriptEnd) {
     romOpcodeBytesHex = Buffer.from(await readGbaBytes(page, current.lastOpcodeCursor, 4)).toString('hex');
   }
   return {
@@ -255,10 +261,11 @@ async function captureAlternateChapterEvidence(page, baseline) {
     evidence: evaluateAlternateChapterEvidence({
       baseline,
       current,
-      expectedScenarioId: ALTERNATE_SCENARIO_ID,
-      expectedScriptStart: ALTERNATE_SCRIPT_START,
-      expectedScriptEnd: ALTERNATE_SCRIPT_END,
+      expectedScenarioId: config.expectedScenarioId,
+      expectedScriptStart: config.expectedScriptStart,
+      expectedScriptEnd: config.expectedScriptEnd,
       romOpcodeBytesHex,
+      evidenceKind: config.evidenceKind,
     }),
   };
 }

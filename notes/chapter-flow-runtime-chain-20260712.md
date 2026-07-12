@@ -15,17 +15,24 @@ resource-descriptor slices formerly labeled `story*`.
 
 Entry 0 is null in both tables; entries 1..55 are ROM script pointers. The
 selected script is passed to interpreter `0x080977B8`. Within the interpreter,
-the handler at `0x08097C78` consumes four-byte command `0x1A`:
+the handler at `0x08097C6C` consumes the three-byte instruction `0x1A`:
 
 1. `r7[0]` is opcode `0x1A`;
 2. `r7[1]` is written to chapter state `+0x16` (`0x020311EA`);
-3. `0x0808CC80` derives state `+0x14` from that ID;
-4. later `0x0808F618` copies `+0x16` to battle control `0x02026805`.
+3. `r7[2]` 非零时把 `r7[2]+1` 写入状态 `+0x18`；
+4. `0x0808CC80` derives state `+0x14` from that ID;
+5. handler 最终将 cursor 增加 3；later `0x0808F618` copies `+0x16` to battle
+   control `0x02026805`。
+
+因此样本窗口 `1A 28 02 00` 必须解码为 `SetBattle(40,2)`（前三字节）随后独立
+`End`（第四字节），不能把 `00` 吞成 `0x1A` 的参数。`End` handler `0x08097916`
+在 call depth 为零时退出整个脚本，非零时弹出解释器内部返回栈。
 
 ## Live first-battle evidence
 
 `tools/build_chapter_script_probe.py` replaces only the two instructions at
-`0x08097C78..7B` with a BL to a zero-filled diagnostic stub. The stub preserves
+`0x08097C78..7B` with a BL to a zero-filled diagnostic stub. Those instructions
+are inside the `0x08097C6C` handler and perform the battle-ID write. The stub preserves
 the original write and records the live `r7` pointer and command bytes at
 `0x0203FFB0`.
 
@@ -87,3 +94,30 @@ The compact result is
 Semantic script editing is still disabled. Lossless pointer writeback requires
 new mirrors keyed by exact table/index/base pointer; old `rom_story_b..e`
 mirrors must not be reused because they describe the revoked addresses.
+
+## 2026-07-13 最小语义 codec
+
+新增 `tools/chapter_script_codec.py`，严格白名单仅包含已经闭合的：
+
+- `00`：End / interpreter return；长度 1；
+- `1A <battle_id> <mode>`：SetBattle；长度 3。
+
+codec 对截断、End 后尾随字节、未证明 opcode，以及 jump table 中 `0x24..0x31`
+共享 invalid handler 的保留 opcode 全部显式拒绝。它能 byte-exact round-trip
+`1a280200`，但尚未接入生产 allocator 与 pointer+payload 原子回写，所以不能据此宣称
+章节编辑器已可安全写入任意脚本。
+
+`tools/build_chapter_semantic_probe.py` 随后把 codec 输出放到已审计零区
+`0x0809E800`，只把 primary scenario 39 指针从 `0x08031020` 改到该地址，并安装按
+scenario 39 / script range 过滤的 preserving selector/dispatch tracer。用
+`alternate-mission-selection.ss9` 仅输入一次 A，运行结果为：
+
+- selector hit 1，scenario 39，selected script `0x0809E800`；
+- dispatch 恰为 2 次，末 cursor `0x0809E803`，ROM/live opcode 均为 `00`；
+- `0x020311EA` 从 39 变为 40，证明 `SetBattle(40,2)` 的非零状态因果；
+- 通用 driver 以 `semantic-script-terminated` 正常返回 verified；
+- 该短路线停在对话画面，battle control 尚为 0，未宣称 strict battle arrival。
+
+compact evidence：
+`artifacts/runtime-checkpoints/chapter-semantic-codec-evidence.json`。重要新增范围：
+诊断脚本 `0x0809E800..0x0809E81F`；primary 指针 slot file `0x60D10`。

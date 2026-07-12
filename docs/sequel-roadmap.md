@@ -140,7 +140,7 @@
 |------|------|------|
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
-| 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→opcode `0x1A` operand 40；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
+| 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
 | 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset atlas、217 条音频 track blob 与 79 个 pointer-reachable WAV 已导出；track opcode 解析、整曲渲染和 cue 命名未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
@@ -242,7 +242,7 @@
 - `0x0808F544` 根据状态 `+0x18` 在 `0x60C74` / `0x60D54` 两张
   56-entry script pointer table 之间选择，并按 scenario ID 索引；
 - WASM hook 捕获 primary scenario 39 → `0x08031020`，脚本游标
-  `0x08031070` 的 `1A 28 02 00` 将 battle ID 40 写入状态并最终到
+  `0x08031070` 的 `1A 28 02 | 00`（三字节 SetBattle + 一字节 End）将 battle ID 40 写入状态并最终到
   `0x02026805`；
 - `story` bank 已迁移为 primary/runtime，`story-b` 为 alternate/runtime；
   旧 late-ROM `story*` 资源切片结论已撤销。
@@ -371,6 +371,11 @@
   攻击、防御、敏捷、移动字段可同步命名。随后以 `0x08089AE0` 的标签行和数值读取
   行直接闭合 `template +8 = 查克拉容量`、`template +6 = 忍具数上限`，对应 growth
   `+2/+C`；两个运行值同为 5 不再构成歧义，也不再需要 UI A/B
+- 章节最小语义创作链新增严格 codec，只开放已证明的 `End(00)` 与三字节
+  `SetBattle(1A,id,mode)`；受控 primary scenario 39 探针选择 codec 输出
+  `0x0809E800: 1A 28 02 | 00`，恰好 dispatch 两次并将章节/战斗状态 39→40。
+  这证明 authoring bytes 的运行时因果，但生产 allocator、pointer+payload 原子回写和
+  对话 opcode 子集仍未完成，短路线也未冒充 strict battle-map arrival
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified

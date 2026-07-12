@@ -367,7 +367,8 @@ the canonical `map-sprites` bank.
 
 `0x0808F544` indexes this table by scenario ID when chapter state `+0x18` is
 zero and passes the script to `0x080977B8`. Runtime scenario 39 selected
-`0x08031020`; opcode `1A 28 02 00` at `0x08031070` wrote battle ID 40.
+`0x08031020`; bytes `1A 28 02 00` at `0x08031070` decode as the three-byte
+`SetBattle(40, mode=2)` followed by the independent one-byte `End`, and wrote battle ID 40.
 
 ---
 

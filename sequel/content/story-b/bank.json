@@ -21,7 +21,8 @@
   "consumer": {
     "selector": "0x0808F544",
     "interpreter": "0x080977B8",
-    "chapter_operand_handler": "0x08097C78",
+    "set_battle_handler": "0x08097C6C",
+    "end_handler": "0x08097916",
     "opcode_dispatch": "0x080977D8",
     "state_selector": "0x020311EC (+0x18)"
   },
@@ -35,7 +36,7 @@
     "battle_id": 0,
     "forced_alternate_selector": true
   },
-  "writeback": "lossless pointer mirror requires immutable-base and ROM-range checks; semantic script editing remains disabled",
+  "writeback": "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict chapter_script_codec currently authors only code-proven END/SET_BATTLE scripts; production script allocation and atomic pointer+payload writeback remain disabled.",
   "entries": [
     {
       "scenario_id": 0,

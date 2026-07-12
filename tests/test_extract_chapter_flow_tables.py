@@ -20,6 +20,9 @@ class ChapterFlowTablesTest(unittest.TestCase):
         self.assertEqual(bank["entries"][0]["script_ptr"], 0)
         self.assertEqual(bank["entries"][39]["script_ptr"], 0x08031020)
         self.assertEqual(self.rom[0x31070:0x31074].hex(), "1a280200")
+        self.assertEqual(bank["runtime_sample"]["script_bytes"], "1a280200")
+        self.assertEqual(bank["runtime_sample"]["semantic_commands"][0]["length"], 3)
+        self.assertEqual(bank["runtime_sample"]["semantic_commands"][1]["name"], "end")
         self.assertEqual(bank["verification"], "runtime_verified")
 
     def test_alternate_table_has_same_scenario_domain(self):

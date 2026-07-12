@@ -29,6 +29,11 @@ Expected probe-ROM SHA-256:
 | `alternate-character-overview.ss9` | `209bf3c7321fedc93a6c957fb2c7b46f0d48aa56ea5c4bb3858fce93d0a336f6` | character-information overview |
 | `tutorial-ui-save.sav` | `9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b` | natural 32-KiB UI save used for cold-load proof |
 
+Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, which records
+the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at
+`0x0809E800`, dispatched exactly twice, and changing chapter/battle state from 39 to 40.
+It deliberately does not claim strict battle-map arrival.
+
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
 

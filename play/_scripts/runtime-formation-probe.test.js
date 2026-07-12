@@ -281,6 +281,36 @@ test('runtime wiring reads ROM bytes and verifies fresh alternate-script termina
   assert.equal(result.evidence.reason, 'alternate-script-terminated');
 });
 
+test('runtime wiring accepts a configured codec-authored semantic script', async () => {
+  const scratch = new Uint8Array(32);
+  const view = new DataView(scratch.buffer);
+  view.setUint32(0, 0x52504341, true);
+  view.setUint32(4, 1, true);
+  view.setUint32(8, 39, true);
+  view.setUint32(12, 0x0809E800, true);
+  view.setUint32(16, 2, true);
+  view.setUint32(20, 0x0809E803, true);
+  const memory = new Map([
+    ['33816496:32', Array.from(scratch)],
+    ['33755626:1', [40]],
+    [`${0x0809E803}:4`, [0, 0, 0, 0]],
+  ]);
+  const page = { evaluate: async (_callback, { address, length }) => memory.get(`${address}:${length}`) };
+  const result = await captureAlternateChapterEvidence(page, {
+    selectorHitCount: 0,
+    opcodeHitCount: 0,
+    chapterState: 39,
+  }, {
+    expectedScenarioId: 39,
+    expectedScriptStart: 0x0809E800,
+    expectedScriptEnd: 0x0809E803,
+    evidenceKind: 'semantic',
+  });
+  assert.equal(result.romOpcodeBytesHex, '00000000');
+  assert.equal(result.evidence.verified, true);
+  assert.equal(result.evidence.reason, 'semantic-script-terminated');
+});
+
 test('alternate chapter completion stops before later input overwrites terminal evidence', () => {
   assert.equal(shouldStopForAlternateChapter({ evidence: { verified: true } }), true);
   assert.equal(shouldStopForAlternateChapter({ evidence: { verified: false } }), false);
