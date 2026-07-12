@@ -5,9 +5,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 
 ## Reproducible checks
 
-- Python: 100 tests pass.
+- Python: 116 tests pass.
 - Repository automated checks: 25/25 pass.
-- Node/WASM probe helpers: 24 tests pass.
+- Node/WASM probe helpers: 27 tests pass.
 - `git diff --check`: pass.
 - Catalog identity audit: 32/32 investigations closed. This consists of 27
   active data banks with ROM fidelity plus 5 documented, empty, write-disabled

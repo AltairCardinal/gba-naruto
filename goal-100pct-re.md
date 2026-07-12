@@ -1,5 +1,13 @@
 # Goal: 100% 完成 naruto-sequel-dev.gba ROM 逆向工程
 
+> **接管决议（2026-07-12）**：保留“100% 完成逆向工程”作为总目标；废弃本文下方
+> 2026-06-26 的执行清单、数量型完成标准和旧 `goal_complete` 示例。当前执行依据依次为
+> `artifacts/runtime-checkpoints/README.md`、
+> `notes/current-re-progress-20260711.md`、`docs/sequel-roadmap.md` 和
+> `notes/dynamic-verification-audit.md`。当前首要门槛是闭合备用章节表 `0x60D54`
+> 的运行时消费链；在 chapter opcode hook、script pointer/opcode 归属和结果状态同时
+> 满足前，`story-b` 保持 `code_verified`，Draft PR #1 保持 Draft，不合并。
+>
 > **状态更新（2026-07-11）**：本文下方的 2026-06-26 基线和“32 个生成器即可完成”
 > 标准已经过期。当前权威交接、完成门槛和下一步请见
 > `docs/reverse-engineering-handoff-20260711.md`；逐项证据见
@@ -7,6 +15,8 @@
 > 不得按旧清单宣称 100%。
 
 ## 当前状态（基线，2026-06-26 final-completion-report）
+
+> 以下内容仅保留为历史上下文，不再用于排期或验收。
 
 - **32 个结构**已有 `sequel/content/<name>/bank.json`
 - **14/32** 有 `generate_*_patches()` 函数（缺 18 个）
