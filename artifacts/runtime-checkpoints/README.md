@@ -72,6 +72,11 @@ locates the battle action detail renderer at `0x080708BC`, proves the tutorial
 the explicitly forced skill-2 diagnostic A/B without promoting it to natural
 runtime evidence.
 
+`adjacent-tutorial-action-evidence.json` records the minimal battle-41
+formation diagnostics that move Iruka adjacent to Naruto. It preserves both
+the rejected enemy-target route and the ally-triggered tutorial-dialogue false
+positive, including the zero-hit skill-relation scratch.
+
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
 

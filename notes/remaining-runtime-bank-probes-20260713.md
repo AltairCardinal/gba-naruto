@@ -41,6 +41,13 @@ variant 只改 row 3 `+A: 2→0`。普通“忍者组合拳”详情、目标选
 source/runtime `+4:6→7`，但由于不是自然选择且无稳定可见差异，仍不升级。
 详见 `notes/battle-action-detail-renderer-20260713.md`。
 
+为排除“只是目标距离过远”，`tools/build_adjacent_tutorial_runtime_probe.py` 只改
+battle 41 伊鲁卡 formation record `0x58A80C`。敌对相邻 `(5,10)` 时，伊鲁卡能被
+橙色范围光标选中，但教程拒绝直接攻击，低位 effect 也不在该单位上确认；同阵营相邻
+则在提交移动后直接触发教程对白，skill-relation scratch 仍 48 字节全零。因此
+“邻接即可进入组合链”也被证伪，不能把该对白当作技能执行。紧凑证据见
+`artifacts/runtime-checkpoints/adjacent-tutorial-action-evidence.json`。
+
 ### data-table-b `0x5A2034`
 
 `tools/build_battle_message_runtime_probe.py` hook `0x080985E2`，捕获 zero-based

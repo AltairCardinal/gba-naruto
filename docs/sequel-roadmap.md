@@ -447,6 +447,9 @@
   以及无效目标提示属于 `data-table-b` 的假设；三项严格保持 code_verified，下一步
   从有效攻击/技能事件捕获真实运行 ID。详见
   `notes/remaining-runtime-bank-probes-20260713.md`。
+- battle 41 的最小编成诊断又把伊鲁卡移到相邻 `(5,10)`：敌对时可被范围光标选中，
+  但教程拒绝直接攻击；同阵营时提交移动直接进入教程对白，skill-relation 专属 scratch
+  仍为零。该路线是剧情假阳性，不再作为组合技能入口继续扩展
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

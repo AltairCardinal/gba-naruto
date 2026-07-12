@@ -1,0 +1,28 @@
+{
+  "date": "2026-07-13",
+  "formation_record": "0x58A80C",
+  "base_record": {
+    "character_id": 30,
+    "affiliation": 1,
+    "x": 4,
+    "y": 4
+  },
+  "enemy_adjacent_variant": {
+    "affiliation": 1,
+    "x": 5,
+    "y": 10,
+    "rom_sha256": "6df326dc080bc6bd6c74c15bc26290920576dea89aa15ad244fa59e97ababc71",
+    "result": "Iruka becomes cursor-selectable inside the orange action range, but the tutorial rejects direct attack and the low-bit effect does not confirm on Iruka."
+  },
+  "ally_adjacent_variant": {
+    "affiliation": 0,
+    "x": 5,
+    "y": 10,
+    "rom_sha256": "72535470a92f5ebb8b750f5cd6dbe86df0b996e73f7ff3b6b2785bb00c6e7a11",
+    "skill_relation_rom_sha256": "6f75bba56c4a3fde167209e01ec04d15cfc221094605ee8380cd1c3d4df5af23",
+    "skill_relation_scratch_hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "skill_relation_scratch_sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1",
+    "result": "Committing movement triggers tutorial dialogue, not a combination action; the dedicated relation call remains at zero hits."
+  },
+  "acceptance": "negative diagnostic evidence only; no bank verification upgrade"
+}
