@@ -10,9 +10,9 @@
 
 ## 现状总览
 
-> 2026-07-12 当前调查闭合审计为 32/32：27 个有效数据 bank 均通过元数据和
-> 基准 ROM fidelity，另 5 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 7 / code 3 / static 17 / disproved 5。32/32 只表示
+> 2026-07-12 当前调查闭合审计为 32/32：26 个有效数据 bank 均通过元数据和
+> 基准 ROM fidelity，另 6 个是带负证据、空 entries、禁写回的 `disproved`
+> tombstone。分布为 runtime 9 / code 6 / static 11 / disproved 6。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -351,9 +351,9 @@
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
-- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：27 个有效 bank 必须有非空 entries 和 ROM fidelity；5 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 16 个 `static_verified`、2 个 `code_verified`、9 个
-  `runtime_verified`、5 个 `disproved`；仍不能作为“100% 完成”的单独证据。
+- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：26 个有效 bank 必须有非空 entries 和 ROM fidelity；6 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
+- 最新严格审计分布为 11 个 `static_verified`、6 个 `code_verified`、9 个
+  `runtime_verified`、6 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
 
@@ -372,6 +372,20 @@
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified
+- function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
+  `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
+  11个 wrapper 均把对应 ID 传给 `0x08061C58`，因此升级为 code_verified
+- `encounter-zones` 已证伪：其47行完整重复 maps，所谓 `zone_id` 实为已运行时
+  追踪的 map `flags`/渲染配置字段；旧 bank 现为空且禁写。
+- 历史 `cutscene-scripts@0x53DF70` 已修正为两个相邻的四记录视觉资源表：
+  `0x08072EDC` 按 ID 0..3 解压 gfx/palette，并把第二组 pair 交给 sprite task，
+  因此升级为 code_verified，但不再作为剧情脚本证据。
+- 历史 `battle-encounters@0x542384` 已纠正为从真实 `0x54229C` 视觉资源表
+  第14条 `+8` 处开始的错位切片；真实24条记录由剧情 opcode loader 消费，
+  每条三条 LZ77 流，因此升级 code_verified，旧 editor 行禁写。
+- 历史 `map-events@0x53EB08` 已纠正为完整 `0x53E698` 256×8-byte handler
+  pair 表的 index 142 起始切片；消费者按 runtime state byte 同时选择 primary /
+  secondary callback，因此升级 code_verified，旧47行 editor view 禁写。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、
@@ -393,8 +407,9 @@
 - `map_events` 与 story B–E 当前可生成 88 个真实表补丁，不再写 audit 保留区。
 - 安全检查发现 `rom_battle_handlers` 和 `rom_map_sprites` 共 61 行 DB 数据使用陈旧
   `_rom_offset`，现已拒绝回写；下一工作周期需从 `rom/base.gba` 重新导入并验证。
-- `battle_encounters` 是混合值表；`cutscene_scripts` 的声明边界含越界值，两者仍需
-  重新确认格式，未计为完成。详见 `notes/u32-pointer-real-writeback-20260710.md`。
+- `battle_encounters` 的旧混合值解释仍需纠正；`cutscene_scripts` 已确认是八个
+  视觉资源 pointer pair，不是脚本表。详见
+  `notes/cutscene-visual-resource-consumer-20260712.md`。
 - 第二批已把 data table A/B、function pointers、menu UI、resource pointers、
   sprite animations、tile assets 共 135 行转换为带严格校验的真实 ROM 回写；旧
   audit-only 不可达代码已删除。palette 因表冲突证据不足仍保持隔离。

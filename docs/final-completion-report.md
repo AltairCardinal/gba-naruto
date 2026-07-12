@@ -70,19 +70,19 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 |---|-----------|-----------|--------|---------|-------------|-------------------|
 | 1 | Audio | 0x53F138 | u32 × 88 | 88 | static_verified | ✅ |
 | 2 | Battle Config | 0x545458 | u16[8] × 32 | 16 | static_verified | ✅ |
-| 3 | Battle Encounters | 0x542384 | u32 × 38 | 38 | static_verified | ✅ |
+| 3 | Story visual descriptors | 0x54229C | 3 LZ pointers + config × 24 | 24 | code_verified | legacy writes disabled |
 | 4 | Battle Handlers | 0x53E6D8 | u32 × 14 | 14 | static_verified | ✅ |
 | 5 | Character Stats | 0x54507A | u16[8] × 20 | 20 | static_verified | ✅ |
 | 6 | Character Stats B | 0x545200 | u16[8] × 18 | 18 | static_verified | ✅ |
-| 7 | Cutscene Scripts | 0x53DF70 | u32 × 16 | 16 | static_verified | ✅ |
+| 7 | Cutscene visual resources | 0x53DF70 | pointer pair × 8 | 8 | code_verified | ✅ |
 | 8 | Data Table A | 0x5A14A4 | u32 × 20 | 20 | static_verified | ✅ |
 | 9 | Data Table B | 0x5A2120 | u32 × 20 | 20 | static_verified | ✅ |
-| 10 | Encounter Zones | 0x53D910+28 | u32 zone_id × 47 | 47 | static_verified | ✅ |
+| 10 | Encounter Zones | 0x53D910 | disproved alias of maps.flags | 0 | disproved | disabled |
 | 11 | Fonts | 0x53E5B4 | u8 × 256 | 256 | static_verified | ✅ |
 | 12 | Function Pointers | 0x53D5F4 | u32 × 11 | 11 | static_verified | ✅ |
 | 13 | Items | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
 | 14 | Levels | 0x5459D4 | u16[6] × 26 | 26 | static_verified | ✅ |
-| 15 | Map Events | 0x53EB08 | u32 × 47 | 47 | static_verified | ✅ |
+| 15 | Runtime handler pairs | 0x53E698 | 2 callbacks × 256 | 256 | code_verified | legacy writes disabled |
 | 16 | Maps | 0x53D910 | 32 bytes × 47 | 47 | static_verified | ✅ |
 | 17 | Map Sprites | 0x53F1DC | u32 × 47 | 47 | static_verified | ✅ |
 | 18 | Menu UI | 0x5A5774 | u32 × 20 | 20 | static_verified | ✅ |
@@ -128,7 +128,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 
 | Function | Table | Offset | Entry Size |
 |----------|-------|--------|-----------|
-| `generate_battle_encounter_patches` | battle_encounters | 0x542384 | 4 |
+| `generate_battle_encounter_patches` | legacy battle_encounters | diagnostic only | — |
 | `generate_battle_handler_patches` | battle_handlers | 0x53E6D8 | 4 |
 | `generate_character_stats_b_patches` | character_stats_b | 0x545200 | 16 |
 | `generate_cutscene_script_patches` | cutscene_scripts | 0x53DF70 | 4 |
@@ -136,7 +136,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | `generate_data_table_b_patches` | data_table_b | 0x5A2120 | 4 |
 | `generate_font_patches` | fonts | 0x53E5B4 | 1 |
 | `generate_function_pointer_patches` | function_pointers | 0x53D5F4 | 4 |
-| `generate_map_event_patches` | map_events | 0x53EB08 | 4 |
+| `generate_map_event_patches` | legacy map_events | diagnostic only | — |
 | `generate_map_sprite_patches` | map_sprites | 0x53F1DC | 4 |
 | `generate_menu_ui_patches` | menu_ui | 0x5A5774 | 4 |
 | `generate_palette_patches` | palettes | 0x53F138 | 4 |

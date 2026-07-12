@@ -40,18 +40,13 @@ unnamed pending action-specific runtime tests.
 
 ---
 
-## 3. Battle Encounters (0x542384)
+## 3. Story visual descriptors (historical battle-encounters slug, 0x54229C)
 
-**Format:** u32 × 38 — Mixed pointers and data values  
-**Entry Size:** 4 bytes  
-**Semantics:** Table containing both pointers (0x08XXXXXX range) to battle
-encounter definitions and small integer values (likely encounter IDs or
-flags). The pattern alternates between pointers and data, suggesting
-each encounter has a pointer to its definition followed by metadata.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| value | u32 | Pointer (0x08XXXXXX) or small integer data |
+**Format:** 24 × 16 bytes. Each record contains three LZ77 pointers at
+`+0/+4/+8` and a visual/configuration ID at `+0x0C`. Story opcode loader
+`0x08087C9C` decompresses the streams to graphics VRAM, palette RAM, and
+tilemap VRAM. The old `0x542384` base was descriptor 14 `+8`, not an
+independent encounter table.
 
 ---
 
@@ -141,17 +136,12 @@ secondary modifiers for each character class.
 
 ---
 
-## 7. Cutscene Scripts (0x53DF70)
+## 7. Cutscene visual resources (historical slug, 0x53DF70)
 
-**Format:** u32 × 16 — 16 pointers to cutscene script data
-**Entry Size:** 4 bytes  
-**Semantics:** Each entry points to a cutscene script in the 0x12XXXX region.
-Scripts contain encoded dialogue, camera movements, and character animations
-for story sequences.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| script_ptr | u32 | Pointer to cutscene script data |
+**Format:** 8 × 8-byte pointer pairs. The first four are compressed graphics
+and palette resources; the second four are sprite-definition and animation
+pairs for the same IDs 0..3. Consumer `0x08072EDC` proves this is not a script
+opcode table. See `notes/cutscene-visual-resource-consumer-20260712.md`.
 
 ---
 
@@ -182,19 +172,14 @@ May contain alternate versions or related data to Table A.
 
 ---
 
-## 10. Encounter Zones (0x53D910+28)
+## 10. Encounter Zones (disproved alias of 0x53D910)
 
-**Format:** u32 zone_id × 47 (within 32-byte map headers)  
-**Entry Size:** 32 bytes (zone_id at offset 28)  
-**Semantics:** Each map has a zone_id field that controls which encounter table
-is used when the player walks on that map. Zone IDs range from 1-7 and 258.
-The battle system uses this to determine random encounter behavior.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| map_width | u16 | Map width in tiles |
-| map_height | u16 | Map height in tiles |
-| zone_id | u32 | Encounter zone ID (1-7, 258) |
+The former bank was a second view of all 47 map descriptors, not an independent
+encounter table. Its alleged `zone_id` at `+0x1C` is the map `flags` field;
+runtime map-resource evidence and the byte consumer at `0x0806922A` establish
+that identity. The bank is retained as an empty, write-disabled migration
+tombstone. Random encounters still require discovery of an independent table
+and consumer chain.
 
 ---
 
@@ -256,7 +241,7 @@ or per-level-range.
 
 ---
 
-## 15. Map Events (0x53EB08)
+## 15. Runtime handler pairs (historical map-events slug, 0x53E698)
 
 **Format:** u32 × 47 — 47 pointers to event handler code  
 **Entry Size:** 4 bytes  

@@ -22,7 +22,7 @@ instead of a traditional item table.
 |-----------|--------|-------------------|
 | Save state | ✅ **FOUND** | Code-verified (7 unique fields, 20 bytes each) |
 | Item/inventory | ⚠️ **PARTIAL** | Static analysis inconclusive; SRPG uses skill system |
-| Random encounters | ✅ **FOUND** | Static-verified (zone_id field in map headers) |
+| Random encounters | ⚠️ **OPEN** | Former map-header zone alias disproved |
 | BGM/SFX channels | ✅ **FOUND** | Code-verified (15 call sites, full dispatcher mapped) |
 
 **Total structures documented:** 32 bank.json files across all phases.
@@ -61,25 +61,14 @@ item/technique database. No separate item table exists.
 
 ---
 
-## Phase 3.3: Random Encounter Tables — ✅ COMPLETE
+## Phase 3.3: Random Encounter Tables — ⚠️ OPEN
 
-**Method:** Map header table analysis + event handler disassembly
-
-**Findings:**
-1. **Map header table at 0x53D910** — 47 entries × 32 bytes
-   - Offset 28: `zone_id` field (u32) controlling encounter behavior
-   - Zone values: 1, 2, 3, 4, 5, 6, 7, 258 (0x0102)
-2. **Zone distribution:**
-   - Zone 1: 23 maps (standard exploration)
-   - Zone 7: 10 maps (late-game)
-   - Zone 3: 5 maps (mid-game)
-   - Zone 4: 4 maps (chapter 4)
-   - Zones 2, 5, 6: 1 map each
-   - Zone 258: 2 maps (special/boss)
-3. **Map event handler table at 0x53EB08** — 6 unique handlers for 47 maps
-4. **Battle event handler table at 0x53E6D8** — 3 unique handlers for 14 entries
-
-**Bank:** `sequel/content/encounter-zones/bank.json` (v2, static-verified)
+**Corrected finding:** `sequel/content/encounter-zones/bank.json` duplicated the
+47 complete map descriptors at `0x53D910`. Offset `+0x1C` is map `flags`, not a
+proved encounter-zone ID; byte `+0x1D` is consumed by map code at `0x0806922A`.
+The bank is now an empty, write-disabled `disproved` tombstone. A random
+encounter structure remains open until it has an independent ROM identity and
+consumer chain.
 
 ---
 
@@ -112,19 +101,19 @@ item/technique database. No separate item table exists.
 |---|-----------|-----------|-------------------|--------------|
 | 1 | audio | ✅ | ✅ audio_patches | code_verified |
 | 2 | battle-config | ✅ | ✅ battle_config_patches | verified |
-| 3 | battle-encounters | ✅ | — | static |
+| 3 | battle-encounters (historical slug; story visual resources) | ✅ | legacy rows diagnostic | code_verified |
 | 4 | battle-handlers | ✅ | — | static |
 | 5 | character-stats | ✅ | ✅ character_stat_patches | verified |
 | 6 | character-stats-b | ✅ | — | static |
-| 7 | cutscene-scripts | ✅ | — | static |
+| 7 | cutscene-scripts (historical slug; visual resources) | ✅ | legacy pointer columns | code_verified |
 | 8 | data-table-a | ✅ | — | static |
 | 9 | data-table-b | ✅ | — | static |
-| 10 | encounter-zones | ✅ | ✅ encounter_zone_patches | static_verified |
+| 10 | encounter-zones | tombstone | diagnostic only | disproved |
 | 11 | fonts | ✅ | — | static |
 | 12 | function-pointers | ✅ | — | static |
 | 13 | items | ✅ | ✅ item_patches | partial |
 | 14 | levels | ✅ | ✅ level_patches | verified |
-| 15 | map-events | ✅ | — | static |
+| 15 | map-events (historical slug; handler pairs) | ✅ | legacy rows diagnostic | code_verified |
 | 16 | maps | ✅ | ✅ map_patches | verified |
 | 17 | map-sprites | ✅ | — | static |
 | 18 | menu-ui | ✅ | — | static |

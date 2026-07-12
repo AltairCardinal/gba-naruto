@@ -20,7 +20,7 @@ The table reports the **highest evidence level actually present**:
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
 Under the current bank-level grading the repository has **9 runtime/dynamic,
-2 code, 16 static, and 5 disproved aliases** after the 2026-07-12 identity
+3 code, 15 static, and 5 disproved aliases** after the 2026-07-12 identity
 corrections. This is deliberately stricter than treating extraction success as
 runtime proof. The `maps` bank now has same-boundary runtime buffer matches for
 its dimensions and resource streams. In particular, the successful dialogue watchpoint traces
@@ -32,19 +32,19 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 |---:|---|---|---|
 | 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. All 217 tracks structurally decode; 80 one-loop MIDIs execute 17,202 events. Instrument coverage resolves 16,180/16,180 notes: 16,169 DirectSound notes reach all 79 waves (5,340 through drum tables), and 11 are explicit PSG/noise. Pitch/envelope/mixer fidelity and audible cue names remain open. |
 | 2 | battle-effect templates (`0x545458`) | runtime | A live caller consumed effect 2. A controlled level-2 A/B changed only record 2 growth `+0x0E:1→2`; the type-4 runtime destination byte `+7` changed `4→5`, while other output bytes remained stable. |
-| 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
+| 3 | battle-encounters (historical slug; real base `0x54229C`) | code | Corrected to 24 visual descriptors. Story opcode chain `0x0808FA2C→0x0808A69C→0x08087C9C` indexes all records and decompresses three LZ77 streams; no encounter semantics remain. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |
 | 5 | character-stats / growth (`0x545068`) | runtime | `0x0806D964` computes `0x08545068 + id*0x10` and applies seven growth fields as `value*(level-1)/100` to template destinations. A two-factor first-battle probe changed character 1 physical record `+4` from 100 to 200 and changed only template/battle-slot `+2` from 15 to 16. See `notes/character-growth-runtime-chain-20260711.md`. |
 | 6 | character-stats-b (`0x545200`) | disproved | Not an independent structure: `0x545200 = 0x545068 + 25*0x10 + 8`, halfway through physical growth record 25. Bank retained only as a tombstone; legacy bytes write-back is disabled. |
-| 7 | cutscene-scripts (`0x53DF70`) | static | Valid pointers into `0x12xxxx` script-like data only; no script fetch/scene correlation trace. |
+| 7 | cutscene-scripts (`0x53DF70`) | code | Corrected to two adjacent four-record visual-resource tables. `0x08072EDC` indexes compressed gfx/palette pairs and passes the second pair table to the sprite allocator; direct callers use IDs 0..3. Historical slug only. |
 | 8 | data-table-a (`0x5A14A4`) | static | Repeating valid pointers and encoded target blocks only; semantics and consumer remain unproved. |
 | 9 | data-table-b (`0x5A2120`) | static | Repeating valid pointers and encoded target blocks only; semantics and consumer remain unproved. |
-| 10 | encounter-zones (`0x53D610`) | static | Parsed fields/correlation only. No controlled zone transition or table-read hit. |
+| 10 | encounter-zones (`0x53D910`) | disproved | The former 47 rows duplicate the complete maps table. Runtime resource tracing identifies `+0x1C` as map flags, with byte `+0x1D` consumed at `0x0806922A`; no independent encounter-zone identity remains. |
 | 11 | fonts (`0x53E5B4`) | static | Width-table shape in the bank. `notes/dialogue-font-table-discovery-20260703.md` and dialogue watch logs concern a different font lookup table at `0x53D644` and therefore do not dynamically verify this bank. |
-| 12 | function-pointers (`0x53D5F4`) | code | Disassembly identifies 11 small Thumb functions and their common-call parameter pattern (`docs/rom-reverse-engineering-results.md`). No live hit identifies a selected entry. |
+| 12 | function-pointers (`0x53D5F4`) | code | `0x08061D8C` indexes one-based callbacks from sentinel base `0x0853D5F0`; `0x08061DD4..DC` loads the selected entry and stores it in a 0x4C-byte task. All 11 wrappers pass IDs 1..11 to `0x08061C58`. No live hit identifies a selected entry. |
 | 13 | items (`0x546100`) | disproved | The former bank was byte-for-byte identical to `skills` and had no independent consumer. It is now a tombstone; legacy item writes remain diagnostic-only. |
 | 14 | levels (`0x5459B4`) | static | Regular progression/experience values and parsed entries only; no level-up runtime delta tied to the table. |
-| 15 | map-events (`0x53EB08`) | static | 47 valid Thumb pointers and reuse by map indices only; no event dispatch hit. |
+| 15 | map-events (historical slug; real base `0x53E698`) | code | Corrected to 256 primary/secondary handler pairs. `0x0807F934..0x0807F964` indexes both halves from runtime byte `sb+0x770` and dispatches nonzero callbacks through `0x0809C114`. |
 | 16 | maps (`0x53D910`) | runtime | Width has a controlled row-40 36→32 A/B. A strict row-41 battle capture then matched tile gfx in VRAM, BG palette after transparent-color normalization, primary layout and metatile definitions exactly, null alternate-layout skip, and collision low-byte passability under two runtime occupancy overlays. |
 | 17 | map-sprites (`0x53E1DC`) | static | Pointer-table consistency and animation-shaped targets only. |
 | 18 | menu-ui (`0x5A5774`) | static | Alternating pointer pattern and UI-like targets only; no menu route/table access trace. |

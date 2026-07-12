@@ -9,10 +9,10 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Repository automated checks: 25/25 pass.
 - Node/WASM probe helpers: 27 tests pass.
 - `git diff --check`: pass.
-- Catalog identity audit: 32/32 investigations closed. This consists of 27
-  active data banks with ROM fidelity plus 5 documented, empty, write-disabled
+- Catalog identity audit: 32/32 investigations closed. This consists of 26
+  active data banks with ROM fidelity plus 6 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 9 runtime, 2 code, 16 static, 5 disproved.
+- Evidence labels: 9 runtime, 6 code, 11 static, 6 disproved.
 
 ## Runtime-closed chains
 
@@ -67,7 +67,7 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
   skill fields, followed by individual semantic review of the remaining static banks.
 - Correlate remaining unit/growth/skill fields with player-visible UI labels.
-- Review the 16 static banks individually; byte fidelity proves extraction
+- Review the 11 static banks individually; byte fidelity proves extraction
   accuracy, not complete runtime semantics.
 
 ## Durable evidence and next route

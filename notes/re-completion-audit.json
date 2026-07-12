@@ -1,13 +1,13 @@
 {
   "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
-  "generated_at": "2026-07-12T16:10:25.714156+00:00",
+  "generated_at": "2026-07-12T16:34:01.319216+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
     "all_expected_banks_found": true,
     "fully_satisfying_metadata_scope": 32,
-    "active_data_banks": 27,
-    "disproved_tombstones": 5,
+    "active_data_banks": 26,
+    "disproved_tombstones": 6,
     "checks_passing": {
       "table_offset": 32,
       "format": 32,
@@ -18,9 +18,9 @@
     },
     "verification_distribution": {
       "runtime_verified": 9,
-      "static_verified": 16,
-      "disproved": 5,
-      "code_verified": 2
+      "code_verified": 6,
+      "static_verified": 11,
+      "disproved": 6
     }
   },
   "banks": [
@@ -120,29 +120,29 @@
     {
       "bank": "sequel/content/battle-encounters/bank.json",
       "structure": "battle-encounters",
-      "table_offset": 5514116,
-      "table_offset_hex": "0x542384",
+      "table_offset": 5513884,
+      "table_offset_hex": "0x54229C",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 38,
-      "entry_count_actual": 38,
-      "verification": "static_verified",
+      "entry_count_declared": 24,
+      "entry_count_actual": 24,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
-        "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md",
+        "notes/story-visual-descriptor-consumer-20260712.md",
         "notes/unknown-random-encounter.md"
       ],
-      "rom_fidelity_fields_checked": 38,
+      "rom_fidelity_fields_checked": 96,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -285,17 +285,19 @@
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 16,
-      "entry_count_actual": 16,
-      "verification": "static_verified",
+      "entry_count_declared": 8,
+      "entry_count_actual": 8,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
+        "notes/cutscene-visual-resource-consumer-20260712.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
@@ -394,9 +396,9 @@
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 47,
-      "entry_count_actual": 47,
-      "verification": "static_verified",
+      "entry_count_declared": 0,
+      "entry_count_actual": 0,
+      "verification": "disproved",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
@@ -422,7 +424,7 @@
         "notes/unit-skill-addresses.md",
         "notes/unknown-random-encounter.md"
       ],
-      "rom_fidelity_fields_checked": 423,
+      "rom_fidelity_fields_checked": 0,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -480,12 +482,13 @@
       ],
       "entry_count_declared": 11,
       "entry_count_actual": 11,
-      "verification": "static_verified",
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
@@ -591,30 +594,29 @@
     {
       "bank": "sequel/content/map-events/bank.json",
       "structure": "map-events",
-      "table_offset": 5499656,
-      "table_offset_hex": "0x53EB08",
+      "table_offset": 5498520,
+      "table_offset_hex": "0x53E698",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 47,
-      "entry_count_actual": 47,
-      "verification": "static_verified",
+      "entry_count_declared": 256,
+      "entry_count_actual": 256,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/reverse-engineering-handoff-20260711.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
-        "notes/patch-generator-audit.md",
-        "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md",
-        "notes/unknown-bgm-sfx.md"
+        "notes/runtime-handler-pair-consumer-20260712.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
-      "rom_fidelity_fields_checked": 47,
+      "rom_fidelity_fields_checked": 512,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -1073,6 +1075,7 @@
         "notes/chapter-flow-runtime-chain-20260712.md",
         "notes/codex-reentry-audit-20260712.md",
         "notes/current-re-progress-20260711.md",
+        "notes/cutscene-visual-resource-consumer-20260712.md",
         "notes/debugging-record.md",
         "notes/dialogue-caller-runtime.md",
         "notes/dialogue-function-analysis.md",
@@ -1080,10 +1083,13 @@
         "notes/first-battle-savestate-checkpoints-20260712.md",
         "notes/headless-workflow.md",
         "notes/legacy-generator-safety-20260711.md",
+        "notes/partial-random-encounter.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
         "notes/story-bank-identity-correction-20260712.md",
+        "notes/story-visual-descriptor-consumer-20260712.md",
         "notes/u32-pointer-real-writeback-20260710.md",
+        "notes/unknown-random-encounter.md",
         "notes/unknown-save-state.md",
         "notes/wasm-formation-navigation-probe-20260710.md",
         "notes/wasm-formation-probe-result-20260710.md"

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "description": "Function pointer table discovered at ROM offset 0x53D5F4. 11 entries of u32 pointers to Thumb code.",
   "table_offset": 5494260,
   "table_offset_hex": "0x53D5F4",
@@ -54,7 +54,14 @@
       "notes": "Function with R0=5"
     }
   ],
-  "verification_method": "Static analysis - found 11 consecutive u32 pointers at 0x53D5F4, all pointing to valid ROM addresses with Thumb PUSH instructions.",
+  "verification_method": "0x08061D8C indexes callback_id*4 from sentinel base 0x0853D5F0; 0x08061DD4..0x08061DDC loads the selected pointer and stores it into a 0x4C-byte task record. Entries 1..11 are wrappers at 0x08061C8C..0x08061D0E that pass the matching one-based ID to common function 0x08061C58.",
+  "consumer": {
+    "dispatcher": "0x08061D8C",
+    "sentinel_base": "0x0853D5F0",
+    "callback_load": "0x08061DD4..0x08061DDC",
+    "task_stride": 76,
+    "common_wrapper_target": "0x08061C58"
+  },
   "discovered_by": "Examining region 0x53D000-0x53E000 between story tables and map headers",
   "entries": [
     {
@@ -124,7 +131,7 @@
       "_index": 10
     }
   ],
-  "verification": "static_verified",
+  "verification": "code_verified",
   "extraction": {
     "tool": "tools/extract_all_structures.py",
     "extracted_count": 11,

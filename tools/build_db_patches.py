@@ -901,17 +901,39 @@ def _generate_u32_pointer_table_patches(
 
 
 def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for battle encounter rows.
+    """Reject legacy rows from the disproved 0x542384 encounter model.
 
-    Each encounter row writes to the reserved region as an audit trail.
-    The battle encounter table at 0x542384 contains 38 entries of mixed
-    pointers and data values.
+    The old rows start at visual descriptor 14 + 8 and do not map one-to-one
+    onto the corrected 24×0x10 resource records. Silent write-back would also
+    cross the real table boundary, so migration must be explicit.
     """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_battle_encounters", index_column="_idx",
-        pointer_column="entry", table_offset=0x542384,
-        entry_count=38, pointer_kind="raw",
-    )
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            'SELECT _idx, _rom_offset, entry FROM "rom_battle_encounters" '
+            'ORDER BY _idx'
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    patches = [
+        {
+            "type": "db_battle_encounter_unmapped",
+            "db_table": "rom_battle_encounters",
+            "db_row_id": int(row["_idx"]),
+            "error": "legacy 0x542384 mixed row has no safe mapping to 24 visual descriptors",
+            "description": (
+                f"DB[rom_battle_encounters] row={int(row['_idx'])}: "
+                "diagnostic only after table identity correction"
+            ),
+        }
+        for row in rows
+    ]
+    conn.close()
+    return patches
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -1017,8 +1039,9 @@ def generate_cutscene_script_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate ROM patches for cutscene script rows.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The cutscene script table at 0x53DF70 contains 17 entries of u32
-    pointers to cutscene/script data.
+    The legacy table exposes the sixteen pointer words that now correspond to
+    eight visual-resource pairs. ``script_ptr`` is retained as a compatibility
+    column name; it does not imply script semantics.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_cutscene_scripts", index_column="_idx",
@@ -1156,17 +1179,34 @@ def generate_function_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for map event handlers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The map event table at 0x53EB08 contains 47 entries of u32 pointers
-    to Thumb event handler code.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_map_events", index_column="_idx",
-        pointer_column="handler_ptr", table_offset=0x53EB08,
-        entry_count=47, pointer_kind="thumb",
-    )
+    """Reject legacy 47-row map-handler writes after identity correction."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            'SELECT _idx, _rom_offset, handler_ptr FROM "rom_map_events" '
+            'ORDER BY _idx'
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    patches = [
+        {
+            "type": "db_map_event_unmapped",
+            "db_table": "rom_map_events",
+            "db_row_id": int(row["_idx"]),
+            "error": "legacy 47-row view has no safe mapping to 256 handler pairs",
+            "description": (
+                f"DB[rom_map_events] row={int(row['_idx'])}: diagnostic only "
+                "after handler-pair identity correction"
+            ),
+        }
+        for row in rows
+    ]
+    conn.close()
+    return patches
 
 def generate_map_sprite_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for map sprite data pointers.

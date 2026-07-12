@@ -23,21 +23,28 @@ def load_rom() -> bytes:
     return ROM_PATH.read_bytes()
 
 
-def update_bank_json(name: str, entries: list[dict], extra_fields: dict | None = None):
+def update_bank_json(
+    name: str,
+    entries: list[dict],
+    extra_fields: dict | None = None,
+    *,
+    force: bool = False,
+    verification: str = "static_verified",
+):
     """Update a bank.json with entries and optional extra fields."""
     bank_path = ROOT / "sequel" / "content" / name / "bank.json"
     if not bank_path.exists():
         print(f"  SKIP {name}: no bank.json")
         return
     bank = json.loads(bank_path.read_text(encoding="utf-8"))
-    if bank.get("entries") and len(bank["entries"]) > 0:
+    if not force and bank.get("entries") and len(bank["entries"]) > 0:
         # Already has entries - update verification only
-        bank["verification"] = "static_verified"
+        bank["verification"] = verification
         bank_path.write_text(json.dumps(bank, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
         print(f"  {name}: already has {len(bank['entries'])} entries, set verification=static_verified")
         return
     bank["entries"] = entries
-    bank["verification"] = "static_verified"
+    bank["verification"] = verification
     if extra_fields:
         bank.update(extra_fields)
     bank_path.write_text(json.dumps(bank, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -50,23 +57,28 @@ def fmt_hex(val: int) -> str:
 
 
 def populate_battle_encounters(rom: bytes):
-    """Battle encounters at 0x542384: 38 entries × 4 bytes (mixed ptrs + values)."""
-    off = 0x542384
+    """Story visual descriptors at 0x54229C: 24 entries × 16 bytes."""
+    off = 0x54229C
     entries = []
-    for i in range(38):
-        val = struct.unpack_from("<I", rom, off + i * 4)[0]
-        is_ptr = 0x08000000 <= val <= 0x09000000
+    for i in range(24):
+        gfx, palette, tilemap, config_id = struct.unpack_from(
+            "<IIII", rom, off + i * 16
+        )
         entries.append({
-            "id": f"encounter_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "value": val,
-            "value_hex": fmt_hex(val),
-            "is_pointer": is_ptr,
-            "type": "pointer" if is_ptr else "data"
+            "_index": i,
+            "_raw_offset": off + i * 16,
+            "gfx_lz_ptr": gfx,
+            "gfx_lz_ptr_hex": gfx.to_bytes(4, "little").hex(),
+            "palette_lz_ptr": palette,
+            "palette_lz_ptr_hex": palette.to_bytes(4, "little").hex(),
+            "tilemap_lz_ptr": tilemap,
+            "tilemap_lz_ptr_hex": tilemap.to_bytes(4, "little").hex(),
+            "config_id": config_id,
+            "config_id_hex": config_id.to_bytes(4, "little").hex(),
         })
-    update_bank_json("battle-encounters", entries)
+    update_bank_json(
+        "battle-encounters", entries, force=True, verification="code_verified"
+    )
 
 
 def populate_battle_handlers(rom: bytes):
@@ -97,20 +109,27 @@ def populate_character_stats_b(rom: bytes):
 
 
 def populate_cutscene_scripts(rom: bytes):
-    """Cutscene scripts at 0x53DF70: 17 entries × 4 bytes (u32 pointers)."""
+    """Visual resource tables at 0x53DF70: 8 pointer pairs."""
     off = 0x53DF70
     entries = []
-    for i in range(17):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
+    for i in range(8):
+        primary, secondary = struct.unpack_from("<II", rom, off + i * 8)
         entries.append({
-            "id": f"cutscene_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "script_ptr": ptr,
-            "script_ptr_hex": fmt_hex(ptr),
+            "_index": i,
+            "_raw_offset": off + i * 8,
+            "pair_kind": (
+                "compressed_gfx_palette"
+                if i < 4 else "sprite_definition_animation"
+            ),
+            "resource_id": i % 4,
+            "primary_ptr": primary,
+            "primary_ptr_hex": primary.to_bytes(4, "little").hex(),
+            "secondary_ptr": secondary,
+            "secondary_ptr_hex": secondary.to_bytes(4, "little").hex(),
         })
-    update_bank_json("cutscene-scripts", entries)
+    update_bank_json(
+        "cutscene-scripts", entries, force=True, verification="code_verified"
+    )
 
 
 def populate_data_table_a(rom: bytes):
@@ -183,25 +202,25 @@ def populate_function_pointers(rom: bytes):
 
 
 def populate_map_events(rom: bytes):
-    """Map events at 0x53EB08: 47 entries × 4 bytes (u32 handler pointers)."""
-    off = 0x53EB08
+    """Runtime-indexed handlers at 0x53E698: 256 primary/secondary pairs."""
+    off = 0x53E698
     entries = []
     unique_ptrs = set()
-    for i in range(47):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        unique_ptrs.add(ptr)
+    for i in range(256):
+        primary, secondary = struct.unpack_from("<II", rom, off + i * 8)
+        unique_ptrs.update((primary, secondary))
         entries.append({
-            "id": f"map_event_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "handler_ptr": ptr,
-            "handler_ptr_hex": fmt_hex(ptr),
+            "_index": i,
+            "_raw_offset": off + i * 8,
+            "primary_handler_ptr": primary,
+            "primary_handler_ptr_hex": primary.to_bytes(4, "little").hex(),
+            "secondary_handler_ptr": secondary,
+            "secondary_handler_ptr_hex": secondary.to_bytes(4, "little").hex(),
         })
     update_bank_json("map-events", entries, {
         "unique_handler_count": len(unique_ptrs),
         "unique_handlers": [fmt_hex(p) for p in sorted(unique_ptrs)]
-    })
+    }, force=True, verification="code_verified")
 
 
 def populate_map_sprites(rom: bytes):

@@ -150,11 +150,11 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 38 consecutive u32 pointers, all pointing to valid ROM addresses. Target data has consistent 16-byte structure.
 - **Discovered**: 2026-06-25
 
-### Map Event Handler Table
-- **Offset**: 0x53EB08
-- **Format**: 47 entries × u32 pointer to Thumb event handler code
-- **Notes**: Map event handler pointer table with one entry per map (47 maps total). All entries point to Thumb code (PUSH instructions). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).
-- **Verification**: Static analysis - found 47 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
+### Runtime Handler Pair Table (historical map-events slug)
+- **Offset**: 0x53E698
+- **Format**: 256 entries × `{primary_ptr, secondary_ptr}`
+- **Notes**: The former `0x53EB08` view begins at pair 142 and cuts 23.5 pairs; 47 matching the map count was coincidental.
+- **Verification**: Code at `0x0807F934..0x0807F964` indexes both callbacks by runtime state byte and dispatches nonzero values.
 - **Discovered**: 2026-06-25
 
 ### Map Sprite Animation Table
@@ -179,12 +179,11 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found table with consistent 16-byte entries containing plausible character stat values.
 - **Discovered**: 2026-06-25
 
-### Battle Encounter Table
-- **Offset**: 0x542384
-- **Format**: 38 entries × u32 (mixed pointers and small numbers)
-- **Entry Format**: Pattern of 4 entries: pointer, small_number, pointer, pointer
-- **Notes**: Battle encounter table with 38 entries. Small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. Pointers reference data in 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C.
-- **Verification**: Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code.
+### Story Visual Descriptor Table (historical battle-encounters slug)
+- **Offset**: 0x54229C
+- **Format**: 24 entries × three LZ77 pointers + config ID
+- **Notes**: The former `0x542384` view starts at descriptor 14 `+8` and is not an encounter table.
+- **Verification**: Story opcode loader `0x08087C9C` indexes all 24 records and decompresses the three streams.
 - **Discovered**: 2026-06-25
 
 ### Story/Chapter Table B
@@ -264,11 +263,11 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x43xxxx-0x44xxxx region.
 - **Discovered**: 2026-06-25
 
-### Cutscene Script Pointer Table
+### Cutscene Visual Resource Pair Tables (historical slug)
 - **Offset**: 0x53DF70
-- **Format**: 16 entries × u32 pointer to cutscene/script data in 0x12xxxx region
-- **Notes**: Pointer range is `0x53DF70..0x53DFAF`; `0x53DFB0` begins a separate byte table.
-- **Verification**: All 16 values are valid ROM pointers. Code references `0x0853DF70` at ROM `0x072F3C` and the next object `0x0853DFB0` independently at ROM `0x075C0C`.
+- **Format**: 8 records × 8 bytes, split into two four-record tables
+- **Notes**: `0x53DF70` holds LZ77 gfx/palette pairs; `0x53DF90` holds sprite-definition/animation pairs. `0x53DFB0` begins a separate object.
+- **Verification**: `0x08072EDC` indexes both tables by IDs 0..3; first-table pairs are decompressed to VRAM/palette and second-table pairs are installed in sprite tasks.
 - **Discovered**: 2026-06-25
 
 ## Workflow
