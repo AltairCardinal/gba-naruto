@@ -28,11 +28,15 @@ numbered until their individual consumers are named.
 
 ## Visual variant matrix
 
-The historical `menu-ui@0x5A5774` bank was exactly the final record of a
-31×10 matrix at `0x5A4E14..0x5A57C3`. Each variant is an LZ77 graphics pointer
-plus an RGB555-shaped palette pointer. No base xref exists yet, so the complete
-matrix correctly remains the repository's sole `static_verified` bank. A ROM
-read watchpoint must identify its selector before semantic naming or runtime
-upgrade.
+The initial structural grouping as 31×10 pairs was still not the consumer's
+index dimension. Function `0x08096138` proves the canonical formula:
+
+`0x085A4DEC + record_id*40 + variant*8`
+
+for variants 0..4. Variant 5 returns the special pair at `0x085A4DE4`.
+Therefore the main table is 63 records × five LZ-gfx/RGB555-palette pairs,
+ending at `0x5A57C4`; record 0 is intentionally all zero. The historical
+`menu-ui@0x5A5774` view flattened canonical records 61 and 62. The corrected
+bank is now `code_verified`.
 
 All four legacy partial editor schemas are diagnostic-only.

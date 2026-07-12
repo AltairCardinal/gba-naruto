@@ -268,17 +268,11 @@ indexes the selected ID and installs both pointers in a sprite task. The old
 
 ---
 
-## 18. Menu UI (0x5A5774)
+## 18. Visual variant matrix (historical menu-ui slug, 0x5A4DEC)
 
-**Format:** u32 × 20 — 20 pointers to menu/UI data  
-**Entry Size:** 4 bytes  
-**Semantics:** Pointers to menu graphics and layout data in the 0x43XXXX-
-0x44XXXX region. Each entry defines a menu screen (main menu, status,
-inventory, etc.).
-
-| Field | Type | Description |
-|-------|------|-------------|
-| ui_ptr | u32 | Pointer to menu/UI layout data |
+**Format:** 63 × five `(LZ graphics pointer, palette pointer)` variants.
+`0x08096138` selects `record_id*40 + variant*8`; variant 5 uses the special
+pair at `0x5A4DE4`. The former 20-u32 view was canonical records 61–62.
 
 ---
 

@@ -12,7 +12,7 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Catalog identity audit: 32/32 investigations closed. This consists of 23
   active data banks with ROM fidelity plus 9 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 9 runtime, 13 code, 1 static, 9 disproved.
+- Evidence labels: 9 runtime, 14 code, 0 static, 9 disproved.
 
 ## Runtime-closed chains
 
@@ -67,9 +67,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
   skill fields, followed by individual semantic review of the remaining static banks.
 - Correlate remaining unit/growth/skill fields with player-visible UI labels.
-- Close the sole remaining static visual-variant matrix with a runtime read PC;
-  for code-verified banks, byte fidelity and consumers still do not replace
-  controlled runtime/player-visible semantics.
+- All formerly static banks now have a consumer or negative identity proof.
+  The 14 code-verified banks still require prioritized controlled runtime and
+  player-visible semantic closure; code evidence alone is not a “100%” claim.
 
 ## Durable evidence and next route
 

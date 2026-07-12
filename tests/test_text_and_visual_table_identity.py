@@ -44,18 +44,24 @@ class TextAndVisualTableIdentityTest(unittest.TestCase):
         self.assertEqual(struct.unpack_from("<I", self.rom, 0x98624)[0], 0x085A2034)
         self.assertEqual(struct.unpack_from("<I", self.rom, 0x99D58)[0], 0x085A2034)
 
-    def test_visual_variant_matrix_is_complete_but_remains_static(self):
+    def test_visual_variant_matrix_uses_consumer_dimensions(self):
         bank = json.loads((ROOT / "sequel/content/menu-ui/bank.json").read_text())
         self.assertEqual((bank["table_offset"], bank["entry_count"], bank["entry_size"]),
-                         (0x5A4E14, 31, 0x50))
-        self.assertEqual(bank["verification"], "static_verified")
-        self.assertEqual(self.rom.count((0x085A4E14).to_bytes(4, "little")), 0)
+                         (0x5A4DEC, 63, 0x28))
+        self.assertEqual(bank["verification"], "code_verified")
+        self.assertEqual(struct.unpack_from("<I", self.rom, 0x96164)[0], 0x085A4DEC)
+        self.assertEqual(struct.unpack_from("<I", self.rom, 0x9614C)[0], 0x085A4DE4)
         for record_index, entry in enumerate(bank["entries"]):
-            values = struct.unpack_from("<20I", self.rom, 0x5A4E14 + record_index * 0x50)
-            for variant in range(10):
+            values = struct.unpack_from("<10I", self.rom, 0x5A4DEC + record_index * 0x28)
+            for variant in range(5):
                 self.assertEqual(entry[f"gfx_ptr_{variant}"], values[variant * 2])
                 self.assertEqual(entry[f"palette_ptr_{variant}"], values[variant * 2 + 1])
-                self.assertEqual(self.rom[values[variant * 2] - 0x08000000], 0x10)
+                if values[variant * 2]:
+                    self.assertEqual(self.rom[values[variant * 2] - 0x08000000], 0x10)
+        self.assertEqual(bank["special_variant_5"], {
+            "gfx_ptr": struct.unpack_from("<I", self.rom, 0x5A4DE4)[0],
+            "palette_ptr": struct.unpack_from("<I", self.rom, 0x5A4DE8)[0],
+        })
 
     def test_battle_visual_descriptor_table_has_seventy_nine_records(self):
         bank = json.loads((ROOT / "sequel/content/tile-assets/bank.json").read_text())

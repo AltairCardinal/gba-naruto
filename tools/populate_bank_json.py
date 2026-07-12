@@ -222,20 +222,27 @@ def populate_map_sprites(rom: bytes):
 
 
 def populate_menu_ui(rom: bytes):
-    """Visual variant matrix at 0x5A4E14: 31×10 pointer pairs."""
-    off = 0x5A4E14
+    """Visual variant matrix at 0x5A4DEC: 63×5 pointer pairs."""
+    off = 0x5A4DEC
     entries = []
-    for record in range(31):
-        values = struct.unpack_from("<20I", rom, off + record * 0x50)
-        entry = {"_index": record, "_raw_offset": off + record * 0x50}
-        for variant in range(10):
+    for record in range(63):
+        values = struct.unpack_from("<10I", rom, off + record * 0x28)
+        entry = {"_index": record, "_raw_offset": off + record * 0x28}
+        for variant in range(5):
             for prefix, value in (("gfx_ptr", values[variant * 2]),
                                   ("palette_ptr", values[variant * 2 + 1])):
                 name = f"{prefix}_{variant}"
                 entry[name] = value
                 entry[f"{name}_hex"] = value.to_bytes(4, "little").hex()
         entries.append(entry)
-    update_bank_json("menu-ui", entries, force=True, verification="static_verified")
+    update_bank_json(
+        "menu-ui", entries,
+        {"special_variant_5": {
+            "gfx_ptr": struct.unpack_from("<I", rom, 0x5A4DE4)[0],
+            "palette_ptr": struct.unpack_from("<I", rom, 0x5A4DE8)[0],
+        }},
+        force=True, verification="code_verified",
+    )
 
 
 def populate_palettes(rom: bytes):

@@ -85,7 +85,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 15 | Runtime handler pairs | 0x53E698 | 2 callbacks × 256 | 256 | code_verified | legacy writes disabled |
 | 16 | Maps | 0x53D910 | 32 bytes × 47 | 47 | static_verified | ✅ |
 | 17 | Sprite definition/animation pairs | 0x53F140 | pointer pair × 43 | 43 | code_verified | legacy writes disabled |
-| 18 | Menu UI | 0x5A5774 | u32 × 20 | 20 | static_verified | ✅ |
+| 18 | Visual variant matrix | 0x5A4DEC | 5 pairs × 63 | 63 | code_verified | legacy writes disabled |
 | 19 | Motion/effect parameters | 0x53EE98 | s16[5] × 15 | 15 | code_verified | legacy writes disabled |
 | 20 | Positions | 0x53D914 | scenario-dependent | 8 | static_verified | ✅ |
 | 21 | Nested resource descriptors | 0x596F0C | 4 pointers × 5 | 5 | code_verified | legacy writes disabled |
