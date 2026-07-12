@@ -14,15 +14,29 @@ ENTRY_COUNT = (TABLE_END - TABLE_OFFSET) // ENTRY_SIZE
 
 
 def build_bank(rom: bytes) -> dict:
-    fields = [
-        {"offset": i, "size": 1, "name": f"runtime_byte_{i:02x}", "type": "u8",
-         "description": f"Copied to runtime skill structure +0x{i:02X} by 0x0806D910"}
-        for i in range(10)
-    ] + [
+    fields = []
+    for i in range(10):
+        destination = 1 if i == 0 else i if i >= 2 else None
+        description = (
+            "Legacy column name; source +0 is copied to runtime +1 by 0x0806D910"
+            if i == 0 else
+            "Legacy column name; source +1 is not copied by 0x0806D910"
+            if i == 1 else
+            f"Copied to runtime skill structure +0x{i:02X} by 0x0806D910"
+        )
+        fields.append({
+            "offset": i, "size": 1, "name": f"runtime_byte_{i:02x}", "type": "u8",
+            "description": description, "initializer_destination": destination,
+        })
+    fields += [
         {"offset": i, "size": 1, "name": f"tail_byte_{i:02x}", "type": "u8",
          "description": "Not copied by the known 0x0806D910 initializer"}
         for i in range(10, 16)
     ]
+    fields[10]["description"] = "Not copied by the initializer; compared by relationship-table consumer 0x0808FF7C"
+    fields[10]["separate_consumer"] = "0x0808FF7C"
+    fields[11]["description"] = "Not copied by the initializer; read by relationship-table consumer 0x0808FF88"
+    fields[11]["separate_consumer"] = "0x0808FF88"
     entries = []
     for skill_id in range(ENTRY_COUNT):
         offset = TABLE_OFFSET + skill_id * ENTRY_SIZE
@@ -39,13 +53,13 @@ def build_bank(rom: bytes) -> dict:
             entry[f"{name}_hex"] = raw[field_offset:field_offset + 1].hex()
         entries.append(entry)
     return {
-        "version": 2,
+        "version": 3,
         "description": "94 skill/technique templates indexed by skill ID and initialized by Thumb 0x0806D910.",
         "table_offset": TABLE_OFFSET, "table_offset_hex": f"0x{TABLE_OFFSET:X}",
         "table_end": TABLE_END, "table_end_hex": f"0x{TABLE_END:X}",
         "entry_count": ENTRY_COUNT, "entry_size": ENTRY_SIZE,
         "verification": "code_verified",
-        "verification_method": "Literals at 0x0806D960 and five other sites point to 0x08545BE4; 0x0806D916 computes skill_id*16 and copies record bytes 0..9 to the runtime structure.",
+        "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. 0x0806D916 computes skill_id*16; source +0 copies to runtime +1, source +1 is skipped, and source +2..+9 copy to matching runtime offsets. Separate code at 0x0808FF7C/0x0808FF88 consumes source +A/+B.",
         "entry_format": {"fields": fields},
         "notes": "The former 12-entry 0x546100 bank was a misbased slice beginning at physical record 81.",
         "entries": entries,

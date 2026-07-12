@@ -369,6 +369,9 @@
   分别关联为攻击/防御/敏捷/移动/印/当前体力/体力上限/经验；growth 的体力、
   攻击、防御、敏捷、移动字段可同步命名。`+6/+8` 因同为 5，仍需单字节 UI A/B
   排定手里剑与查克拉容量，未提前猜测
+- skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
+  原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
+  byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

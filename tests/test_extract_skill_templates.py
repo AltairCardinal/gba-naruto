@@ -16,6 +16,14 @@ class SkillTemplateExtractionTests(unittest.TestCase):
         self.assertEqual(bytes(rom[TABLE_OFFSET:TABLE_OFFSET + 16]).hex(), bank["entries"][0]["raw_hex"])
         self.assertEqual(TABLE_END - ENTRY_SIZE, bank["entries"][-1]["_raw_offset"])
 
+        fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
+        self.assertEqual(fields[0]["initializer_destination"], 1)
+        self.assertIsNone(fields[1]["initializer_destination"])
+        for offset in range(2, 10):
+            self.assertEqual(fields[offset]["initializer_destination"], offset)
+        self.assertEqual(fields[10]["separate_consumer"], "0x0808FF7C")
+        self.assertEqual(fields[11]["separate_consumer"], "0x0808FF88")
+
 
 if __name__ == "__main__":
     unittest.main()
