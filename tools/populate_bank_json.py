@@ -116,55 +116,53 @@ def populate_cutscene_scripts(rom: bytes):
 
 
 def populate_data_table_a(rom: bytes):
-    """Data table A at 0x5A14A4: 20 entries × 4 bytes (u32 pointers)."""
-    off = 0x5A14A4
+    """Profile text pointer table at 0x5A143C: 46 entries."""
+    off = 0x5A143C
     entries = []
-    for i in range(20):
+    for i in range(46):
         ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
         entries.append({
-            "id": f"data_a_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "data_ptr": ptr,
-            "data_ptr_hex": fmt_hex(ptr),
+            "_index": i, "_raw_offset": off + i * 4,
+            "text_ptr": ptr, "text_ptr_hex": ptr.to_bytes(4, "little").hex(),
         })
-    update_bank_json("data-table-a", entries)
+    update_bank_json("data-table-a", entries, force=True, verification="code_verified")
 
 
 def populate_data_table_b(rom: bytes):
-    """Data table B at 0x5A2120: 20 entries × 4 bytes (u32 pointers)."""
-    off = 0x5A2120
+    """Battle/effect message pointer table at 0x5A2034: 79 entries."""
+    off = 0x5A2034
     entries = []
-    for i in range(20):
+    for i in range(79):
         ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
         entries.append({
-            "id": f"data_b_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "data_ptr": ptr,
-            "data_ptr_hex": fmt_hex(ptr),
+            "_index": i, "_raw_offset": off + i * 4,
+            "text_ptr": ptr, "text_ptr_hex": ptr.to_bytes(4, "little").hex(),
         })
-    update_bank_json("data-table-b", entries)
+    update_bank_json("data-table-b", entries, force=True, verification="code_verified")
 
 
 def populate_fonts(rom: bytes):
-    """Font widths at 0x53E5B4: 256 entries × 1 byte (character pixel widths)."""
-    off = 0x53E5B4
+    """Preserve the disproved font-width tombstone."""
+    return None
+
+
+def populate_levels(rom: bytes):
+    """Effect/stat progression records at 0x5459C8: 45×12 bytes."""
+    off = 0x5459C8
+    names = ("target_type", "reserved1", "base_a", "base_b", "per_level_a", "per_level_b", "reserved_a")
+    sizes = (1, 1, 2, 2, 2, 2, 2)
     entries = []
-    for i in range(256):
-        width = rom[off + i]
-        entries.append({
-            "id": f"char_{i:02X}",
-            "index": i,
-            "offset": off + i,
-            "offset_hex": fmt_hex(off + i),
-            "ascii_code": i,
-            "character": chr(i) if 32 <= i < 127 else None,
-            "pixel_width": width,
-        })
-    update_bank_json("fonts", entries)
+    for index in range(45):
+        raw = rom[off + index * 12:off + (index + 1) * 12]
+        values = struct.unpack("<BBHHHHH", raw)
+        entry = {"_index": index, "_raw_offset": off + index * 12}
+        cursor = 0
+        for name, size, value in zip(names, sizes, values):
+            entry[name] = value
+            entry[f"{name}_hex"] = raw[cursor:cursor + size].hex()
+            cursor += size
+        entries.append(entry)
+    update_bank_json("levels", entries, force=True, verification="code_verified")
 
 
 def populate_function_pointers(rom: bytes):
@@ -207,90 +205,73 @@ def populate_map_events(rom: bytes):
 
 
 def populate_map_sprites(rom: bytes):
-    """Map sprites at 0x53F1DC: 47 entries × 4 bytes (u32 sprite pointers)."""
-    off = 0x53F1DC
+    """Sprite definition/animation pairs at 0x53F140: 43×8 bytes."""
+    off = 0x53F140
     entries = []
-    for i in range(47):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
+    for i in range(43):
+        definition, animation = struct.unpack_from("<II", rom, off + i * 8)
         entries.append({
-            "id": f"sprite_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "sprite_ptr": ptr,
-            "sprite_ptr_hex": fmt_hex(ptr),
+            "_index": i,
+            "_raw_offset": off + i * 8,
+            "definition_ptr": definition,
+            "definition_ptr_hex": definition.to_bytes(4, "little").hex(),
+            "animation_ptr": animation,
+            "animation_ptr_hex": animation.to_bytes(4, "little").hex(),
         })
-    update_bank_json("map-sprites", entries)
+    update_bank_json("map-sprites", entries, force=True, verification="code_verified")
 
 
 def populate_menu_ui(rom: bytes):
-    """Menu UI at 0x5A5774: 20 entries × 4 bytes (u32 UI data pointers)."""
-    off = 0x5A5774
+    """Visual variant matrix at 0x5A4E14: 31×10 pointer pairs."""
+    off = 0x5A4E14
     entries = []
-    for i in range(20):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"menu_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "ui_ptr": ptr,
-            "ui_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("menu-ui", entries)
+    for record in range(31):
+        values = struct.unpack_from("<20I", rom, off + record * 0x50)
+        entry = {"_index": record, "_raw_offset": off + record * 0x50}
+        for variant in range(10):
+            for prefix, value in (("gfx_ptr", values[variant * 2]),
+                                  ("palette_ptr", values[variant * 2 + 1])):
+                name = f"{prefix}_{variant}"
+                entry[name] = value
+                entry[f"{name}_hex"] = value.to_bytes(4, "little").hex()
+        entries.append(entry)
+    update_bank_json("menu-ui", entries, force=True, verification="static_verified")
 
 
 def populate_palettes(rom: bytes):
-    """Palettes at 0x53F138: 88 entries × 4 bytes (u32 palette pointers).
-    Note: This overlaps with audio table in the report, but palettes use
-    the same region with different interpretation."""
-    off = 0x53F138
+    """Motion/effect parameters at 0x53EE98: 15×10 bytes."""
+    off = 0x53EE98
     entries = []
-    for i in range(88):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"palette_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "palette_ptr": ptr,
-            "palette_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("palettes", entries)
+    for i in range(15):
+        raw = rom[off + i * 10:off + (i + 1) * 10]
+        values = struct.unpack("<5h", raw)
+        entry = {"_index": i, "_raw_offset": off + i * 10}
+        names = ("effect_id", "x_offset", "y_offset", "render_attributes", "duration_control")
+        for field_index, (name, value) in enumerate(zip(names, values)):
+            entry[name] = value
+            entry[f"{name}_hex"] = raw[field_index * 2:field_index * 2 + 2].hex()
+        entries.append(entry)
+    update_bank_json("palettes", entries, force=True, verification="code_verified")
 
 
 def populate_resource_pointers(rom: bytes):
-    """Resource pointers at 0x596F0C: 20 entries × 4 bytes (u32 resource pointers)."""
+    """Nested resource descriptors at 0x596F0C: 5×16 bytes."""
     off = 0x596F0C
     entries = []
-    for i in range(20):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"resource_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "resource_ptr": ptr,
-            "resource_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("resource-pointers", entries)
+    for index in range(5):
+        values = struct.unpack_from("<4I", rom, off + index * 16)
+        entry = {"_index": index, "_raw_offset": off + index * 16}
+        for field_index, value in enumerate(values):
+            name = f"resource_ptr_{field_index}"
+            entry[name] = value
+            entry[f"{name}_hex"] = value.to_bytes(4, "little").hex()
+        entries.append(entry)
+    update_bank_json("resource-pointers", entries, force=True, verification="code_verified")
 
 
 def populate_sprite_animations(rom: bytes):
-    """Sprite animations at 0x53F200: 38 entries × 4 bytes (u32 animation pointers)."""
-    off = 0x53F200
-    entries = []
-    for i in range(38):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"anim_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "anim_ptr": ptr,
-            "anim_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("sprite-animations", entries)
+    """Preserve the disproved sprite-animation subset tombstone."""
+    return None
 
 
 def populate_story_b(rom: bytes):
@@ -314,20 +295,18 @@ def populate_story_e(rom: bytes):
 
 
 def populate_tile_assets(rom: bytes):
-    """Tile assets at 0x5A3218: 6 entries × 4 bytes (u32 tile data pointers)."""
-    off = 0x5A3218
+    """Battle/effect visual descriptors at 0x5A320C: 79×0x44 bytes."""
+    off = 0x5A320C
     entries = []
-    for i in range(6):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"tile_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "tile_ptr": ptr,
-            "tile_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("tile-assets", entries)
+    for index in range(79):
+        values = struct.unpack_from("<17I", rom, off + index * 0x44)
+        entry = {"_index": index, "_raw_offset": off + index * 0x44}
+        for word_index, value in enumerate(values):
+            name = f"word_{word_index:02d}"
+            entry[name] = value
+            entry[f"{name}_hex"] = value.to_bytes(4, "little").hex()
+        entries.append(entry)
+    update_bank_json("tile-assets", entries, force=True, verification="code_verified")
 
 
 def populate_encounter_zones(rom: bytes):
@@ -408,6 +387,7 @@ def main():
     populate_data_table_a(rom)
     populate_data_table_b(rom)
     populate_fonts(rom)
+    populate_levels(rom)
     populate_function_pointers(rom)
     populate_map_events(rom)
     populate_map_sprites(rom)
@@ -428,7 +408,7 @@ def main():
     populate_sappy_engine(rom)
 
     # Also update already-populated ones with verification
-    for name in ["battle-config", "character-stats", "levels", "maps", "positions", "skills"]:
+    for name in ["battle-config", "character-stats", "maps", "positions", "skills"]:
         update_bank_json(name, [])
 
     print("\nDone!")

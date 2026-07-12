@@ -183,17 +183,11 @@ and consumer chain.
 
 ---
 
-## 11. Fonts (0x53E5B4)
+## 11. Fonts (disproved catalog at 0x53E5B4)
 
-**Format:** u8 × 256 — 256 character width values  
-**Entry Size:** 1 byte  
-**Semantics:** Maps ASCII character codes (0-255) to pixel widths for the
-game's proportional font renderer. Characters 32-126 are printable ASCII.
-Width 0 indicates characters that aren't rendered or use default width.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| char_width | u8 | Pixel width of character glyph |
+The claimed 256-byte width range has no xref and crosses into the canonical
+handler-pair table. It is an empty, write-disabled tombstone. The proven
+dialogue glyph lookup is the separate `0x53D644` chain.
 
 ---
 
@@ -222,22 +216,12 @@ technique/skills candidate. Sharing an address does not create an item schema.
 
 ---
 
-## 14. Levels (0x5459D4)
+## 14. Effect/stat progression (historical levels slug, 0x5459C8)
 
-**Format:** u16[6] × 26 — 26 level-up entries  
-**Entry Size:** 12 bytes  
-**Semantics:** Level-up stat progression table. Each entry defines the stat
-gains when a character levels up. The table may be per-character-class
-or per-level-range.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| level | u16 | Level number |
-| hp_gain | u16 | HP gain at this level |
-| stat1_gain | u16 | Attack/stat1 gain |
-| stat2_gain | u16 | Defense/stat2 gain |
-| stat3_gain | u16 | Third stat gain |
-| padding | u16 | Always 0 |
+**Format:** 45 × 12 bytes: target type, reserved byte, two base values, two
+per-level values, and a reserved u16. Consumers calculate
+`base + per_level*(slot_level-1)`. The old base was record 1 and crossed into
+the skills table.
 
 ---
 
@@ -276,16 +260,11 @@ pointers, tilemap data, palette references, and configuration flags.
 
 ---
 
-## 17. Map Sprites (0x53F1DC)
+## 17. Sprite definition/animation pairs (historical map-sprites slug, 0x53F140)
 
-**Format:** u32 × 47 — 47 pointers to sprite animation data  
-**Entry Size:** 4 bytes  
-**Semantics:** Each map has associated sprite animation data for NPCs,
-enemies, and interactive objects displayed on that map.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| sprite_ptr | u32 | Pointer to sprite animation frame data |
+**Format:** 43 × 8-byte pointer pairs. `0x08080B08→0x08063494→0x080625A4`
+indexes the selected ID and installs both pointers in a sprite task. The old
+`0x53F1DC` base was pair 19 `+4`, not a 47-map table.
 
 ---
 
@@ -303,17 +282,11 @@ inventory, etc.).
 
 ---
 
-## 19. Palettes (0x53F138)
+## 19. Motion/effect parameters (historical palettes slug, 0x53EE98)
 
-**Format:** u32 × 88 — 88 pointers to palette data  
-**Entry Size:** 4 bytes  
-**Semantics:** Each entry points to a 16-color RGB555 palette (32 bytes).
-Palettes define the color schemes for characters, tiles, and UI elements.
-Note: This table shares the same ROM region as the Audio table.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| palette_ptr | u32 | Pointer to 16-color RGB555 palette data |
+**Format:** 15 × five signed halfwords. Three task consumers use stride 10 and
+pass the fields to `0x08080218`; record 14 begins with `-1` and terminates the
+chain. The old `0x53F138` RGB555 interpretation is revoked.
 
 ---
 
@@ -332,16 +305,11 @@ the scenario configuration data.
 
 ---
 
-## 21. Resource Pointers (0x596F0C)
+## 21. Nested resource descriptors (0x596F0C)
 
-**Format:** u32 × 20 — 20 pointers to resource data  
-**Entry Size:** 4 bytes  
-**Semantics:** General resource pointer table to data in the 0x17XXXX region.
-These may contain graphics, sound effects, or other game resources.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| resource_ptr | u32 | Pointer to resource data |
+**Format:** 5 × 16 bytes, four resource pointers per descriptor. The 16-byte
+path through `0x080625A4` indexes ID×16 and installs/copies the fields into a
+runtime sprite object. The old 20-u32 view merely flattened the records.
 
 ---
 
@@ -391,17 +359,11 @@ misbased `0x546100` slice are revoked pending runtime UI/action correlation.
 
 ---
 
-## 25. Sprite Animations (0x53F200)
+## 25. Sprite Animations (disproved alias at 0x53F200)
 
-**Format:** u32 × 38 — 38 pointers to animation frame data  
-**Entry Size:** 4 bytes  
-**Semantics:** Each entry points to animation frame data for character sprites.
-The animation data contains frame sequences, timing, and sprite sheet
-references.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| anim_ptr | u32 | Pointer to animation frame data |
+The former 38 u32 words exactly flatten sprite definition/animation pair
+records 24..42. This bank is an empty, write-disabled tombstone superseded by
+the canonical `map-sprites` bank.
 
 ---
 

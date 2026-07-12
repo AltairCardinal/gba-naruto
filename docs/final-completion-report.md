@@ -78,21 +78,21 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 8 | Data Table A | 0x5A14A4 | u32 × 20 | 20 | static_verified | ✅ |
 | 9 | Data Table B | 0x5A2120 | u32 × 20 | 20 | static_verified | ✅ |
 | 10 | Encounter Zones | 0x53D910 | disproved alias of maps.flags | 0 | disproved | disabled |
-| 11 | Fonts | 0x53E5B4 | u8 × 256 | 256 | static_verified | ✅ |
+| 11 | Fonts | 0x53E5B4 | disproved crossing range | 0 | disproved | disabled |
 | 12 | Function Pointers | 0x53D5F4 | u32 × 11 | 11 | static_verified | ✅ |
 | 13 | Items | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
-| 14 | Levels | 0x5459D4 | u16[6] × 26 | 26 | static_verified | ✅ |
+| 14 | Effect/stat progression | 0x5459C8 | 12 bytes × 45 | 45 | code_verified | legacy writes disabled |
 | 15 | Runtime handler pairs | 0x53E698 | 2 callbacks × 256 | 256 | code_verified | legacy writes disabled |
 | 16 | Maps | 0x53D910 | 32 bytes × 47 | 47 | static_verified | ✅ |
-| 17 | Map Sprites | 0x53F1DC | u32 × 47 | 47 | static_verified | ✅ |
+| 17 | Sprite definition/animation pairs | 0x53F140 | pointer pair × 43 | 43 | code_verified | legacy writes disabled |
 | 18 | Menu UI | 0x5A5774 | u32 × 20 | 20 | static_verified | ✅ |
-| 19 | Palettes | 0x53F138 | u32 × 88 | 88 | static_verified | ✅ |
+| 19 | Motion/effect parameters | 0x53EE98 | s16[5] × 15 | 15 | code_verified | legacy writes disabled |
 | 20 | Positions | 0x53D914 | scenario-dependent | 8 | static_verified | ✅ |
-| 21 | Resource Pointers | 0x596F0C | u32 × 20 | 20 | static_verified | ✅ |
+| 21 | Nested resource descriptors | 0x596F0C | 4 pointers × 5 | 5 | code_verified | legacy writes disabled |
 | 22 | Sappy Engine | 0x079668 | code region | 1 | code_verified | ✅ |
 | 23 | Save State | 0x53D848 | u32[2] × 10 | 10 | static_verified | ✅ |
 | 24 | Skills | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
-| 25 | Sprite Animations | 0x53F200 | u32 × 38 | 38 | static_verified | ✅ |
+| 25 | Sprite Animations | 0x53F200 | alias of sprite pairs 24..42 | 0 | disproved | disabled |
 | 26 | Story | 0x53636C | u32 × 9 | 9 | static_verified | ✅ |
 | 27 | Story B | 0x536BC8 | u32 × 11 | 11 | static_verified | ✅ |
 | 28 | Story C | 0x538FF0 | u32 × 10 | 10 | static_verified | ✅ |
@@ -137,13 +137,13 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | `generate_font_patches` | fonts | 0x53E5B4 | 1 |
 | `generate_function_pointer_patches` | function_pointers | 0x53D5F4 | 4 |
 | `generate_map_event_patches` | legacy map_events | diagnostic only | — |
-| `generate_map_sprite_patches` | map_sprites | 0x53F1DC | 4 |
+| `generate_map_sprite_patches` | legacy map_sprites | diagnostic only | — |
 | `generate_menu_ui_patches` | menu_ui | 0x5A5774 | 4 |
-| `generate_palette_patches` | palettes | 0x53F138 | 4 |
+| `generate_palette_patches` | legacy palettes | diagnostic only | — |
 | `generate_resource_pointer_patches` | resource_pointers | 0x596F0C | 4 |
 | `generate_sappy_engine_patches` | sappy_engine | 0x079668 | 64 |
 | `generate_save_state_patches` | save_state | 0x53D848 | 8 |
-| `generate_sprite_animation_patches` | sprite_animations | 0x53F200 | 4 |
+| `generate_sprite_animation_patches` | legacy sprite_animations | diagnostic only | — |
 | `generate_story_b_patches` | story_b | 0x536BC8 | 4 |
 | `generate_story_c_patches` | story_c | 0x538FF0 | 4 |
 | `generate_story_d_patches` | story_d | 0x53AB78 | 4 |

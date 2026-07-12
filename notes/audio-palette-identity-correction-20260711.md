@@ -6,7 +6,9 @@ a different table.
 
 Confirmed identities:
 
-- `0x53F138`: 88-entry palette/resource pointer table; remains `palettes`;
+- `0x53F138`: the former 88-pointer palette interpretation is now revoked; it
+  crossed unrelated motion/callback/sprite objects. The historical `palettes`
+  slug now identifies the 15×10-byte motion/effect table at `0x53EE98`;
 - `0x599634`: 100 pointers selected for commands `0x80..0xE3` by
   `0x08079668`.
 

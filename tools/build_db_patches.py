@@ -1107,76 +1107,31 @@ def generate_cutscene_script_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_data_table_a_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for data table A pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The data table A at 0x5A14A4 contains 20 entries of u32 pointers.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_data_table_a", index_column="_idx",
-        pointer_column="data_ptr", table_offset=0x5A14A4,
-        entry_count=20, pointer_kind="data",
+    """Reject the legacy 20-entry tail of the profile text table."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_data_table_a ORDER BY _idx',
+        "db_data_table_a_unmapped", "rom_data_table_a",
+        "legacy rows are physical entries 26..45 of the 46-entry text table",
+        lambda row: f"DB[rom_data_table_a] row={row['id']}: diagnostic only",
     )
 
 def generate_data_table_b_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for data table B pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The data table B at 0x5A2120 contains 20 entries of u32 pointers.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_data_table_b", index_column="_idx",
-        pointer_column="data_ptr", table_offset=0x5A2120,
-        entry_count=20, pointer_kind="data",
+    """Reject the legacy 20-entry tail of the battle message table."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_data_table_b ORDER BY _idx',
+        "db_data_table_b_unmapped", "rom_data_table_b",
+        "legacy rows are physical entries 59..78 of the 79-entry text table",
+        lambda row: f"DB[rom_data_table_b] row={row['id']}: diagnostic only",
     )
 
 def generate_font_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for font width rows.
-
-    Each row writes to the font width table at 0x53E5B4 (stride 1 byte).
-    The font table maps ASCII characters to pixel widths.
-    """
-    if not db_path.exists():
-        return []
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
-    TABLE_OFFSET = 0x53E5B4
-    try:
-        rows = conn.execute(
-            "SELECT _idx, _rom_offset, char_width FROM rom_fonts ORDER BY _idx"
-        ).fetchall()
-    except sqlite3.OperationalError:
-        conn.close()
-        return []
-    for row in rows:
-        try:
-            char_index = int(row["_idx"])
-            if not 0 <= char_index < 256:
-                raise ValueError(f"index {char_index} outside 0..255")
-            pixel_width = int(row["char_width"] or 0)
-            table_offset = TABLE_OFFSET + char_index
-            if int(row["_rom_offset"]) != table_offset:
-                raise ValueError("stale _rom_offset")
-            patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": struct.pack("<B", pixel_width & 0xFF).hex(),
-                "length": 1,
-                "description": f"DB[rom_fonts] char={char_index}: width={pixel_width}",
-                "db_table": "rom_fonts",
-                "db_row_id": char_index,
-            })
-        except Exception as exc:
-            patches.append({
-                "type": "db_font_error",
-                "db_table": "rom_fonts",
-                "db_row_id": int(row["_idx"]),
-                "error": str(exc),
-                "description": f"DB[rom_fonts] idx={row['_idx']} error: {exc}",
-            })
-    conn.close()
-    return patches
+    """Reject the disproved font-width catalog."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_fonts ORDER BY _idx',
+        "db_font_unmapped", "rom_fonts",
+        "legacy 0x53E5B4 range crosses the canonical handler-pair table",
+        lambda row: f"DB[rom_fonts] row={row['id']}: diagnostic only",
+    )
 
 
 def generate_function_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1223,42 +1178,34 @@ def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
     return patches
 
 def generate_map_sprite_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for map sprite data pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The map sprite table at 0x53F1DC contains 47 entries of u32 pointers
-    to sprite animation frame data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_map_sprites", index_column="_idx",
-        pointer_column="sprite_ptr", table_offset=0x53F1DC,
-        entry_count=47, pointer_kind="data",
+    """Reject the misaligned legacy map-sprite view."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        'SELECT _idx AS id FROM rom_map_sprites ORDER BY _idx',
+        "db_map_sprite_unmapped",
+        "rom_map_sprites",
+        "legacy 0x53F1DC view begins at canonical pair 19 +4",
+        lambda row: f"DB[rom_map_sprites] row={row['id']}: diagnostic only",
     )
 
 def generate_menu_ui_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for menu UI data pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The menu UI table at 0x5A5774 contains 20 entries of u32 pointers
-    to menu/UI data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_menu_ui", index_column="_idx",
-        pointer_column="ui_ptr", table_offset=0x5A5774,
-        entry_count=20, pointer_kind="data",
+    """Reject the legacy record-30-only visual matrix view."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_menu_ui ORDER BY _idx',
+        "db_menu_ui_unmapped", "rom_menu_ui",
+        "legacy rows are only record 30 of the 31×10 visual matrix",
+        lambda row: f"DB[rom_menu_ui] row={row['id']}: diagnostic only",
     )
 
 def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for palette rows.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The palette table at 0x53F138 contains 88 entries of u32 pointers
-    to 16-color RGB555 palette data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_palettes", index_column="_idx",
-        pointer_column="palette_ptr", table_offset=0x53F138,
-        entry_count=88, pointer_kind="rom",
+    """Reject the disproved legacy palette-pointer shape."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        'SELECT _idx AS id FROM rom_palettes ORDER BY _idx',
+        "db_palette_unmapped",
+        "rom_palettes",
+        "legacy 0x53F138 view crosses unrelated motion and sprite tables",
+        lambda row: f"DB[rom_palettes] row={row['id']}: diagnostic only",
     )
     if not db_path.exists():
         return []
@@ -1305,16 +1252,12 @@ def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_resource_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for resource data pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The resource pointer table at 0x596F0C contains 20 entries of u32
-    pointers to resource data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_resource_pointers", index_column="_idx",
-        pointer_column="resource_ptr", table_offset=0x596F0C,
-        entry_count=20, pointer_kind="data",
+    """Reject flattened legacy rows for the five nested descriptors."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_resource_pointers ORDER BY _idx',
+        "db_resource_pointer_unmapped", "rom_resource_pointers",
+        "legacy rows flatten five 16-byte descriptors",
+        lambda row: f"DB[rom_resource_pointers] row={row['id']}: diagnostic only",
     )
 
 def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1415,16 +1358,14 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_sprite_animation_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for animation frame pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The sprite animation table at 0x53F200 contains 38 entries of u32
-    pointers to animation frame data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_sprite_animations", index_column="_idx",
-        pointer_column="anim_ptr", table_offset=0x53F200,
-        entry_count=38, pointer_kind="data",
+    """Reject the duplicate sprite pair subset."""
+    return _reject_unproven_legacy_rows(
+        db_path,
+        'SELECT _idx AS id FROM rom_sprite_animations ORDER BY _idx',
+        "db_sprite_animation_unmapped",
+        "rom_sprite_animations",
+        "legacy 0x53F200 rows duplicate canonical sprite pairs 24..42",
+        lambda row: f"DB[rom_sprite_animations] row={row['id']}: diagnostic only",
     )
 
 def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1527,14 +1468,10 @@ def generate_story_e_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_tile_asset_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for tile asset data pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The tile asset table at 0x5A3218 contains 6 entries of u32 pointers
-    to tile/map data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_tile_assets", index_column="_idx",
-        pointer_column="tile_ptr", table_offset=0x5A3218,
-        entry_count=6, pointer_kind="data",
+    """Reject six flattened fields from visual descriptor zero."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id FROM rom_tile_assets ORDER BY _idx',
+        "db_tile_asset_unmapped", "rom_tile_assets",
+        "legacy rows are descriptor 0 fields +0x0C..+0x20",
+        lambda row: f"DB[rom_tile_assets] row={row['id']}: diagnostic only",
     )

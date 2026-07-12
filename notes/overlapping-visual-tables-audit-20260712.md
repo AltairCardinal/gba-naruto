@@ -1,45 +1,37 @@
-# Overlapping visual-table audit at `0x53EE98..0x53F298` (2026-07-12)
+# Overlapping visual-table correction at `0x53EE98..0x53F298` (2026-07-13)
 
-## Status
+## Result
 
-This is an in-progress boundary audit. Do not upgrade or write through the
-historical `palettes`, `map-sprites`, or `sprite-animations` banks yet.
+The historical `palettes`, `map-sprites`, and `sprite-animations` catalogs
+overlapped and had no literal references to their claimed bases. TDD now pins
+their real identities and rejects all three legacy editor shapes.
 
-## Confirmed boundaries and references
+## Motion/effect parameters
 
-The three historical banks overlap:
+Literals at `0x08080744`, `0x080807F0`, and `0x08080898` all resolve to
+`0x0853EE98`. Consumers `0x080806B0`, `0x08080764`, and `0x08080814` multiply
+a runtime index by ten, walk 10-byte records, and pass five signed-halfword
+parameters to `0x08080218`: effect ID, signed X/Y offsets, render attributes,
+and duration/control. Record 14 is `(-1,0,0,0,0)` and terminates the
+chain. The historical `palettes` slug now represents these 15 code-verified
+records; no RGB555 palette semantics remain.
 
-- `palettes@0x53F138`, 88 u32 words, ends at `0x53F298`;
-- `map-sprites@0x53F1DC`, 47 u32 words, ends at `0x53F298`;
-- `sprite-animations@0x53F200`, 38 u32 words, ends at `0x53F298`.
+## Sprite definition/animation pairs
 
-None of those three bases has a literal reference in the ROM. Code instead
-contains three literals for `0x0853EE98` at `0x08080744`, `0x080807F0`, and
-`0x08080898`; it contains a literal for `0x0853F140` at `0x08080B54` and an
-independent following-object literal `0x0853F298` at `0x08080B5C`.
+`0x08080B08` loads literal `0x0853F140` and passes the table through
+`0x08063494` to `0x080625A4`. At `0x08062668`, the selected ID is multiplied by
+eight and the two pointers are installed at sprite-task offsets `+0x1C/+0x20`.
+The independent literal `0x0853F298` closes the table at 43 records.
 
-The arithmetic gives two exact candidate objects:
+The historical `map-sprites@0x53F1DC` base was canonical pair 19 `+4`; its
+47-word shape was misaligned. That slug now represents the complete 43-pair
+table at `0x53F140`.
 
-- `0x53EE98..0x53F13F`: 68 records × 10 bytes;
-- `0x53F140..0x53F297`: 43 records × 8 bytes.
+## Duplicate subset
 
-The first consumer family (`0x080806B0`, `0x08080764`, `0x08080814`) multiplies
-a runtime index by 10, then walks 10-byte records and passes signed halfword
-fields to `0x08080218`. This proves the old `palettes` base `0x53F138` begins
-two bytes into the final 10-byte record and then crosses into the next object.
+`sprite-animations@0x53F200` equals `0x53F140 + 24*8`. Its former 38 u32 words
+exactly flatten canonical pairs 24..42, so it is an empty, write-disabled
+`disproved` tombstone superseded by `map-sprites`.
 
-`0x08080B08` loads `0x0853F140` and passes it to `0x08063494`; the same routine
-uses `0x0853F298` independently as a following u16 lookup base. Static analysis
-still needs to close the 8-byte record field semantics and record-count bound.
-
-## Next TDD step
-
-Add failing identity tests that:
-
-1. reject the three historical overlapping shapes and their write generators;
-2. require one canonical 68×10 bank and one canonical 43×8 bank;
-3. pin the literal addresses and index arithmetic above;
-4. verify the `0x53F298` following object is not absorbed into either table.
-
-Only after those tests fail for the current catalogs should the banks be
-reshaped/tombstoned and their editor migrations disabled or replaced.
+Legacy `rom_palettes`, `rom_map_sprites`, and `rom_sprite_animations` rows are
+diagnostic-only until the editor adopts the corrected record schemas.

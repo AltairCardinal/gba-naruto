@@ -10,9 +10,9 @@
 
 ## 现状总览
 
-> 2026-07-12 当前调查闭合审计为 32/32：25 个有效数据 bank 均通过元数据和
-> 基准 ROM fidelity，另 7 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 9 / code 6 / static 10 / disproved 7。32/32 只表示
+> 2026-07-13 当前调查闭合审计为 32/32：23 个有效数据 bank 均通过元数据和
+> 基准 ROM fidelity，另 9 个是带负证据、空 entries、禁写回的 `disproved`
+> tombstone。分布为 runtime 9 / code 13 / static 1 / disproved 9。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -87,7 +87,8 @@
   character_stats、battle_config_data、encounter_zones、items 等无 ROM 身份的
   legacy 危险回写已禁用，只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为
   安全写回入口
-- audio/palette/message 身份已拆分：`0x53F138` 是 palette 表，`0x599634` /
+- audio/palette/message 身份已拆分：`0x53F138` 的旧 palette 身份已撤销，
+  `palettes` slug 实为 `0x53EE98` motion/effect 参数表；`0x599634` /
   `0x08079668` 是消息表/分发器。真实 sound-ID 主表为 `0x465B70`，域 0..158，
   80 个非空 descriptor；dispatcher `0x0809AAC0`、track initializer
   `0x0809B1F4`、FIFO/DMA initializer `0x0809AE3C` 已闭合。运行时 hook 命中
@@ -351,9 +352,9 @@
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
-- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：25 个有效 bank 必须有非空 entries 和 ROM fidelity；7 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 10 个 `static_verified`、6 个 `code_verified`、9 个
-  `runtime_verified`、7 个 `disproved`；仍不能作为“100% 完成”的单独证据。
+- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：23 个有效 bank 必须有非空 entries 和 ROM fidelity；9 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
+- 最新严格审计分布为 1 个 `static_verified`、13 个 `code_verified`、9 个
+  `runtime_verified`、9 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
 
@@ -388,6 +389,15 @@
   secondary callback，因此升级 code_verified，旧47行 editor view 禁写。
 - `battle-handlers@0x53E6D8` 又被证明是同一 handler-pair 表的 records 8..14
   重复视图，现为空、禁写的 disproved tombstone。
+- `palettes` / `map-sprites` / `sprite-animations` 三个重叠目录已拆清：前两者
+  分别修正为15条 motion/effect 参数与43条 sprite pair 并 code-verified；后者
+  是 pair 24..42 的重复视图，已 tombstone。三个 legacy editor shape 均禁写。
+- `fonts` 旧表跨入 handler pairs，已证伪；`levels` 修正为 `0x5459C8`
+  45×12 effect/stat progression records；`resource-pointers` 修正为5×16嵌套
+  descriptor。后两者均由消费者升级 code_verified。
+- `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
+  `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
+  `menu-ui` 恢复为31×10 visual variant matrix，但因无 consumer 仍严格保持唯一 static。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

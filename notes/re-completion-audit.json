@@ -1,13 +1,13 @@
 {
   "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
-  "generated_at": "2026-07-12T16:38:01.123302+00:00",
+  "generated_at": "2026-07-12T16:59:36.261319+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
     "all_expected_banks_found": true,
     "fully_satisfying_metadata_scope": 32,
-    "active_data_banks": 25,
-    "disproved_tombstones": 7,
+    "active_data_banks": 23,
+    "disproved_tombstones": 9,
     "checks_passing": {
       "table_offset": 32,
       "format": 32,
@@ -18,9 +18,9 @@
     },
     "verification_distribution": {
       "runtime_verified": 9,
-      "code_verified": 6,
-      "disproved": 7,
-      "static_verified": 10
+      "code_verified": 13,
+      "disproved": 9,
+      "static_verified": 1
     }
   },
   "banks": [
@@ -321,27 +321,24 @@
     {
       "bank": "sequel/content/data-table-a/bank.json",
       "structure": "data-table-a",
-      "table_offset": 5903524,
-      "table_offset_hex": "0x5A14A4",
+      "table_offset": 5903420,
+      "table_offset_hex": "0x5A143C",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 20,
-      "entry_count_actual": 20,
-      "verification": "static_verified",
+      "entry_count_declared": 46,
+      "entry_count_actual": 46,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
-        "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
-        "docs/structure-field-semantics.md",
-        "notes/addresses.md",
+        "docs/sequel-roadmap.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md"
+        "notes/text-and-battle-visual-consumers-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_fields_checked": 46,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -357,27 +354,23 @@
     {
       "bank": "sequel/content/data-table-b/bank.json",
       "structure": "data-table-b",
-      "table_offset": 5906720,
-      "table_offset_hex": "0x5A2120",
+      "table_offset": 5906484,
+      "table_offset_hex": "0x5A2034",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 20,
-      "entry_count_actual": 20,
-      "verification": "static_verified",
+      "entry_count_declared": 79,
+      "entry_count_actual": 79,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
-        "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
-        "docs/structure-field-semantics.md",
-        "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md"
+        "notes/text-and-battle-visual-consumers-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_fields_checked": 79,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -447,21 +440,23 @@
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 256,
-      "entry_count_actual": 256,
-      "verification": "static_verified",
+      "entry_count_declared": 0,
+      "entry_count_actual": 0,
+      "verification": "disproved",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
-        "notes/runtime-verification-gates-20260710.md"
+        "notes/runtime-verification-gates-20260710.md",
+        "notes/static-bank-identity-corrections-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 256,
+      "rom_fidelity_fields_checked": 0,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -557,14 +552,14 @@
     {
       "bank": "sequel/content/levels/bank.json",
       "structure": "levels",
-      "table_offset": 5528020,
-      "table_offset_hex": "0x5459D4",
+      "table_offset": 5528008,
+      "table_offset_hex": "0x5459C8",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 47,
-      "entry_count_actual": 47,
-      "verification": "static_verified",
+      "entry_count_declared": 45,
+      "entry_count_actual": 45,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
@@ -573,14 +568,13 @@
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
-        "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/legacy-generator-safety-20260711.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/unknown-item-inventory.md"
+        "notes/static-bank-identity-corrections-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 282,
+      "rom_fidelity_fields_checked": 315,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -616,7 +610,8 @@
         "notes/dynamic-verification-audit.md",
         "notes/partial-random-encounter.md",
         "notes/runtime-handler-pair-consumer-20260712.md",
-        "notes/runtime-verification-gates-20260710.md"
+        "notes/runtime-verification-gates-20260710.md",
+        "notes/static-bank-identity-corrections-20260713.md"
       ],
       "rom_fidelity_fields_checked": 512,
       "rom_fidelity_errors": [],
@@ -634,27 +629,26 @@
     {
       "bank": "sequel/content/map-sprites/bank.json",
       "structure": "map-sprites",
-      "table_offset": 5501404,
-      "table_offset_hex": "0x53F1DC",
+      "table_offset": 5501248,
+      "table_offset_hex": "0x53F140",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 47,
-      "entry_count_actual": 47,
-      "verification": "static_verified",
+      "entry_count_declared": 43,
+      "entry_count_actual": 43,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
-        "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md",
-        "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md"
+        "notes/overlapping-visual-tables-audit-20260712.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
-      "rom_fidelity_fields_checked": 47,
+      "rom_fidelity_fields_checked": 86,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -731,27 +725,29 @@
     {
       "bank": "sequel/content/menu-ui/bank.json",
       "structure": "menu-ui",
-      "table_offset": 5920628,
-      "table_offset_hex": "0x5A5774",
+      "table_offset": 5918228,
+      "table_offset_hex": "0x5A4E14",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 20,
-      "entry_count_actual": 20,
+      "entry_count_declared": 31,
+      "entry_count_actual": 31,
       "verification": "static_verified",
       "verification_method_present": true,
       "documentation": [
-        "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
-        "docs/structure-field-semantics.md",
+        "docs/sequel-roadmap.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md",
+        "notes/map-addresses.md",
+        "notes/next-steps.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md"
+        "notes/scan-summary.md",
+        "notes/similar-tables.md",
+        "notes/text-and-battle-visual-consumers-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 20,
+      "rom_fidelity_fields_checked": 620,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -767,15 +763,14 @@
     {
       "bank": "sequel/content/palettes/bank.json",
       "structure": "palettes",
-      "table_offset": 5501240,
-      "table_offset_hex": "0x53F138",
+      "table_offset": 5500568,
+      "table_offset_hex": "0x53EE98",
       "format_fields": [
-        "entry_format",
-        "palette_format"
+        "entry_format"
       ],
-      "entry_count_declared": 88,
-      "entry_count_actual": 88,
-      "verification": "static_verified",
+      "entry_count_declared": 15,
+      "entry_count_actual": 15,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
@@ -784,17 +779,16 @@
         "docs/rom-reverse-engineering-results.md",
         "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
-        "notes/addresses.md",
-        "notes/audio-engine-runtime-chain-20260712.md",
         "notes/audio-palette-identity-correction-20260711.md",
         "notes/dynamic-verification-audit.md",
         "notes/map-format.md",
+        "notes/overlapping-visual-tables-audit-20260712.md",
         "notes/patch-generator-audit.md",
         "notes/resource-locations.md",
-        "notes/runtime-verification-gates-20260710.md",
-        "notes/unknown-bgm-sfx.md"
+        "notes/runtime-handler-pair-consumer-20260712.md",
+        "notes/runtime-verification-gates-20260710.md"
       ],
-      "rom_fidelity_fields_checked": 88,
+      "rom_fidelity_fields_checked": 75,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -865,19 +859,21 @@
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 20,
-      "entry_count_actual": 20,
-      "verification": "static_verified",
+      "entry_count_declared": 5,
+      "entry_count_actual": 5,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
+        "notes/static-bank-identity-corrections-20260713.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
       "rom_fidelity_fields_checked": 20,
@@ -994,7 +990,8 @@
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
         "notes/skill-template-identity-20260711.md",
-        "notes/skill-template-ui-probe-20260712.md"
+        "notes/skill-template-ui-probe-20260712.md",
+        "notes/static-bank-identity-corrections-20260713.md"
       ],
       "rom_fidelity_fields_checked": 1504,
       "rom_fidelity_errors": [],
@@ -1015,25 +1012,26 @@
       "table_offset": 5501440,
       "table_offset_hex": "0x53F200",
       "format_fields": [
-        "entry_format",
-        "animation_frame_format"
+        "entry_format"
       ],
-      "entry_count_declared": 38,
-      "entry_count_actual": 38,
-      "verification": "static_verified",
+      "entry_count_declared": 0,
+      "entry_count_actual": 0,
+      "verification": "disproved",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
+        "docs/sequel-roadmap.md",
         "docs/structure-field-semantics.md",
         "notes/addresses.md",
         "notes/dynamic-verification-audit.md",
+        "notes/overlapping-visual-tables-audit-20260712.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
         "notes/u32-pointer-real-writeback-20260710.md"
       ],
-      "rom_fidelity_fields_checked": 38,
+      "rom_fidelity_fields_checked": 0,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,
@@ -1269,27 +1267,24 @@
     {
       "bank": "sequel/content/tile-assets/bank.json",
       "structure": "tile-assets",
-      "table_offset": 5911064,
-      "table_offset_hex": "0x5A3218",
+      "table_offset": 5911052,
+      "table_offset_hex": "0x5A320C",
       "format_fields": [
         "entry_format"
       ],
-      "entry_count_declared": 6,
-      "entry_count_actual": 6,
-      "verification": "static_verified",
+      "entry_count_declared": 79,
+      "entry_count_actual": 79,
+      "verification": "code_verified",
       "verification_method_present": true,
       "documentation": [
-        "docs/final-completion-report.md",
         "docs/phase3-final-status.md",
         "docs/rom-reverse-engineering-results.md",
-        "docs/structure-field-semantics.md",
-        "notes/addresses.md",
+        "docs/sequel-roadmap.md",
         "notes/dynamic-verification-audit.md",
-        "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
-        "notes/u32-pointer-real-writeback-20260710.md"
+        "notes/text-and-battle-visual-consumers-20260713.md"
       ],
-      "rom_fidelity_fields_checked": 6,
+      "rom_fidelity_fields_checked": 1343,
       "rom_fidelity_errors": [],
       "checks": {
         "table_offset": true,

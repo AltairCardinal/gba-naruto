@@ -77,24 +77,38 @@ class U32PointerPatchTests(unittest.TestCase):
         )[0]
         self.assertEqual(patch["type"], "bytes")
 
-    def test_second_batch_wrappers_cover_declared_real_tables(self):
+    def test_function_pointer_wrapper_still_covers_declared_real_table(self):
+        db = self.make_pointer_db(
+            "rom_function_pointers", "func_ptr", 11, 0x53D5F4, 0x08001235
+        )
+        patches = generate_function_pointer_patches(db)
+        self.assertEqual(len(patches), 11)
+        self.assertTrue(all(p["type"] == "bytes" for p in patches))
+        self.assertEqual(patches[0]["offset"], 0x53D5F4)
+        self.assertEqual(patches[-1]["offset"], 0x53D61C)
+
+    def test_corrected_partial_views_are_diagnostic_only(self):
         cases = [
-            (generate_data_table_a_patches, "rom_data_table_a", "data_ptr", 20, 0x5A14A4, 0x5A14F0, 0x08010000),
-            (generate_data_table_b_patches, "rom_data_table_b", "data_ptr", 20, 0x5A2120, 0x5A216C, 0x08011000),
-            (generate_function_pointer_patches, "rom_function_pointers", "func_ptr", 11, 0x53D5F4, 0x53D61C, 0x08001235),
-            (generate_menu_ui_patches, "rom_menu_ui", "ui_ptr", 20, 0x5A5774, 0x5A57C0, 0x08012000),
-            (generate_resource_pointer_patches, "rom_resource_pointers", "resource_ptr", 20, 0x596F0C, 0x596F58, 0x08013000),
-            (generate_sprite_animation_patches, "rom_sprite_animations", "anim_ptr", 38, 0x53F200, 0x53F294, 0x08014000),
-            (generate_tile_asset_patches, "rom_tile_assets", "tile_ptr", 6, 0x5A3218, 0x5A322C, 0x08015000),
+            (generate_data_table_a_patches, "rom_data_table_a", "data_ptr", 20,
+             0x5A14A4, "db_data_table_a_unmapped"),
+            (generate_data_table_b_patches, "rom_data_table_b", "data_ptr", 20,
+             0x5A2120, "db_data_table_b_unmapped"),
+            (generate_menu_ui_patches, "rom_menu_ui", "ui_ptr", 20,
+             0x5A5774, "db_menu_ui_unmapped"),
+            (generate_resource_pointer_patches, "rom_resource_pointers", "resource_ptr", 20,
+             0x596F0C, "db_resource_pointer_unmapped"),
+            (generate_sprite_animation_patches, "rom_sprite_animations", "anim_ptr", 38,
+             0x53F200, "db_sprite_animation_unmapped"),
+            (generate_tile_asset_patches, "rom_tile_assets", "tile_ptr", 6,
+             0x5A3218, "db_tile_asset_unmapped"),
         ]
-        for generator, table, pointer_column, count, first, last, pointer in cases:
+        for generator, table, pointer_column, count, first, diagnostic_type in cases:
             with self.subTest(generator=generator.__name__):
-                db = self.make_pointer_db(table, pointer_column, count, first, pointer)
+                db = self.make_pointer_db(table, pointer_column, count, first, 0x08010000)
                 patches = generator(db)
                 self.assertEqual(len(patches), count)
-                self.assertTrue(all(p["type"] == "bytes" for p in patches))
-                self.assertEqual(patches[0]["offset"], first)
-                self.assertEqual(patches[-1]["offset"], last)
+                self.assertTrue(all(p["type"] == diagnostic_type for p in patches))
+                self.assertFalse(any(p["type"] == "bytes" for p in patches))
 
     def make_pointer_db(
         self,
