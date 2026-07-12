@@ -41,3 +41,33 @@ transition, select prebattle “start mission”, then require all of:
   through another explicitly decoded opcode.
 
 Until that gate passes, `story-b` remains `code_verified`.
+
+## Checkpoint replay correction
+
+Follow-up runs proved that keyboard events advance a freshly loaded checkpoint,
+whereas direct API events may not. Some later exports also replayed with every
+confirm ignored, consistent with a state captured across browser keydown/keyup.
+The runtime driver now explicitly unpresses every logical GBA button after
+`loadState()`. This is a probe-infrastructure correction, not chapter evidence;
+the alternate bank remains code-verified until the acceptance gate above.
+
+A deeper replay check found the primary defect: state export selected the first
+directory entry ending in `.ss9`, so an older same-slot file could be copied
+while the screenshot represented the new state. The exporter now deletes all
+same-slot candidates before `saveState(9)` and requires exactly one fresh file.
+Checkpoints produced before this correction are navigation aids only and are
+not accepted as durable runtime evidence.
+
+The corrected exporter then produced and replayed the same mission-selection
+screen successfully:
+
+- checkpoint SHA-256
+  `492ae012702be7488984640da968f3343670f152d189fa3628fee24b056a0308`;
+- capture SHA-256
+  `03210ca14a4f7284d7e551e2d1dbc58249013abaa003b4e2a099ee6f24193163`;
+- independent zero-input replay capture SHA-256
+  `32138d89b8873a444e4332950ddae409e73fb34be3adc3dadb5d5b9607bba4f7`.
+
+The replay screen is the `木叶里 / 对战` mission-selection view. Keyboard A
+continues forward into Kakashi dialogue; B returns to earlier dialogue. This
+replaces the earlier incorrect assumption that the screen was a character page.

@@ -120,6 +120,10 @@
   fall-through alternate path，并复用 opcode tracer。两次自动路线分别停在前置对白
   与人物页，hook hit=0，因此严格不升级 story-b；实验哈希、假阳性边界和下一接受
   门槛见 `notes/alternate-chapter-runtime-probe-20260712.md`。
+- 备用章节实验的 checkpoint 导出已修正：旧实现可能复制同槽旧文件，现保存前
+  清理 `.ss9` 候选并要求唯一新文件，加载后也显式释放全部 GBA 键。新的
+  `木叶里 / 对战` 任务选择 checkpoint 已通过独立零输入重放；下一段从该页 A
+  进入卡卡西对白，继续追到 selector hook。
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）

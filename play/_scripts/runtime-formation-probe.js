@@ -261,12 +261,17 @@ async function persistStateExport(page) {
   const state = await page.evaluate(async () => {
     const gba = window.__mGBA;
     const slot = 9;
+    const stateDir = '/data/states/';
+    for (const name of gba.FS.readdir(stateDir).filter(item => item.endsWith(`.ss${slot}`))) {
+      gba.FS.unlink(`${stateDir}${name}`);
+    }
     const saved = gba.saveState(slot);
     if (!saved) throw new Error(`saveState(${slot}) failed`);
     await new Promise(resolve => setTimeout(resolve, 250));
-    const name = gba.FS.readdir('/data/states/').find(item => item.endsWith(`.ss${slot}`));
-    if (!name) throw new Error(`state slot ${slot} file missing`);
-    return { slot, name, data: Array.from(gba.FS.readFile(`/data/states/${name}`)) };
+    const names = gba.FS.readdir(stateDir).filter(item => item.endsWith(`.ss${slot}`));
+    if (names.length !== 1) throw new Error(`state slot ${slot} expected one fresh file, got ${names.length}`);
+    const name = names[0];
+    return { slot, name, data: Array.from(gba.FS.readFile(`${stateDir}${name}`)) };
   });
   fs.writeFileSync(outputPath, Buffer.from(state.data));
   return { path: outputPath, slot: state.slot, name: state.name, size: state.data.length };
@@ -277,15 +282,19 @@ async function loadStateCheckpoint(page) {
   if (!inputPath) return null;
   const absolutePath = path.resolve(inputPath);
   const data = fs.readFileSync(absolutePath);
-  const result = await page.evaluate(async bytes => {
+  const result = await page.evaluate(async ({ bytes, buttons }) => {
     const gba = window.__mGBA;
     const slot = 9;
     const name = `naruto-sequel-dev.ss${slot}`;
     gba.FS.writeFile(`/data/states/${name}`, Uint8Array.from(bytes));
     const loaded = gba.loadState(slot);
     await new Promise(resolve => setTimeout(resolve, 500));
+    // A checkpoint can capture the emulator between the browser keydown and
+    // keyup callbacks. Clear every logical GBA button so replay does not stay
+    // latched in a state that ignores all later confirms.
+    for (const button of buttons) gba.buttonUnpress(button);
     return { slot, name, loaded };
-  }, Array.from(data));
+  }, { bytes: Array.from(data), buttons: [...new Set(Object.values(GBA_KEYS))] });
   if (!result.loaded) throw new Error(`loadState(${result.slot}) failed for ${absolutePath}`);
   return { path: absolutePath, size: data.length, ...result };
 }
