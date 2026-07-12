@@ -91,6 +91,24 @@ artifact, not a bit-accurate renderer: DirectSound sample mapping, 0x80 drum
 voicegroups, PSG synthesis, envelope/LFO behavior, tie release and exact mixer
 behavior remain to be implemented before audio playback can be called complete.
 
+## Executed instrument coverage
+
+`tools/map_m4a_instruments.py` maps every executed note through the song's
+voicegroup. A normal tone is `voicegroup + voice*12`; type `0x80` is a drum
+table whose child is `pointer + key*12`. Every pointer and terminal wave header
+is validated against the ROM. The one-loop corpus gives:
+
+- 16,180/16,180 note events resolve to a terminal tone;
+- 5,340 drum events resolve through type `0x80` child tables;
+- 16,169 notes resolve to type `0x00` DirectSound (99.932%);
+- those notes reference all 79 extracted waves, with zero missing/invalid waves;
+- the remaining 11 notes resolve explicitly to type `0x0C` PSG/noise.
+
+The durable coverage report is `build/audio-v2/instrument-map.json`. This
+closes song → voicegroup → voice/key → terminal tone → wave identity for every
+executed DirectSound note. It does not yet prove the pitch-step formula,
+ADSR/pan-sweep behavior, PSG/noise synthesis or mixer saturation.
+
 ## Runtime proof
 
 `tools/build_audio_runtime_probe.py` replaces only the checked BL at

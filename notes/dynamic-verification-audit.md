@@ -31,7 +31,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
 | # | Structure (important ROM offset) | Level | Strongest durable evidence and limitation |
 |---:|---|---|---|
-| 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. Pointer-reachable extraction now yields 217 track blobs, 23 voicegroups, 387 valid tones and 79 DirectSound WAVs. Track opcode semantics, full-song rendering and audible cue names remain open. |
+| 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. All 217 tracks structurally decode; 80 one-loop MIDIs execute 17,202 events. Instrument coverage resolves 16,180/16,180 notes: 16,169 DirectSound notes reach all 79 waves (5,340 through drum tables), and 11 are explicit PSG/noise. Pitch/envelope/mixer fidelity and audible cue names remain open. |
 | 2 | battle-effect templates (`0x545458`) | runtime | A live caller consumed effect 2. A controlled level-2 A/B changed only record 2 growth `+0x0E:1→2`; the type-4 runtime destination byte `+7` changed `4→5`, while other output bytes remained stable. |
 | 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |

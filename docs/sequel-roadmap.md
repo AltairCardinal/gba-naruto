@@ -245,13 +245,14 @@
   控制流目标全部落在已知 track 范围
 - PATT/PEND/GOTO 已按单循环策略执行；80/80 sound ID 已生成标准 MIDI，
   217 条 track 共发出 17,202 个时间线事件
-- 待完成 instrument/sample mapping、drum/PSG、包络/LFO/tie、精确混音和
-  可听 cue 命名
+- 16,180/16,180 note 已解析 terminal tone：16,169 个 DirectSound note 覆盖
+  79/79 waves，其中 5,340 个经 drum table；剩余 11 个明确为 0x0C PSG/noise
+- 待完成 pitch-step、PSG/noise 合成、包络/LFO/tie、精确混音和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a instrument/mixer 语义并构建忠实多轨音频渲染（下一步）
+3. 完成 m4a pitch/envelope/PSG/mixer 语义并构建忠实多轨音频渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
