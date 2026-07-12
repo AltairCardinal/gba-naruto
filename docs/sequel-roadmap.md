@@ -19,12 +19,13 @@
 ### ✅ 已打通
 - 对白 → ROM 写入闭环（dialogue patch pipeline）
 - 5 段对话已验证写入 ROM
-- 变长对白现已使用独占 `0x5F0000..0x5FFFFF` allocator，校验基准指针、FF
+- 变长对白现已使用独占 `0x5F0000..0x5F7FFF` allocator，校验基准指针、FF
   空间、编码/NUL、对齐和容量；`group0.label2` 已从 6-byte slot 重定位到
   `0x5F0000`，构建 ROM 的 `0x461CF0` 指针和目标文本逐字节验证通过；该 ROM
   已在 WASM 路线 step 306 通过完整 strict battle arrival，变长重定位的构建→启动→
   文本流程→首战 no-crash E2E 已闭环
-- 构建流水线支持 5 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config）
+- 构建流水线支持 7 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config/
+  dialogue_var/chapter_script）
 - mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
 - mGBA PC/读取探针已加入：断点真实命中后可在同一上下文抓取 ROM 与 WRAM；
   复位 PC smoke test 已通过；maps width/height 已由 WASM A/B 闭合，资源指针仍需
@@ -390,7 +391,12 @@
   `0x08096138` 选择 portrait/expression 资源。`01` 复用 `0x0806626C` 的控制感知
   token walker，并只承诺已编码字节的无损创作，不把汉化字形误当作 Unicode 同一。
   scenario 39 完整 25-command/`0x1AE` 字节现可 byte-exact codec 往返；analyzer 仍负责
-  地址/raw 调查证据，生产 allocator 与原子 pointer+payload 写回仍待完成
+  地址/raw 调查证据。生产 importer 已在独立 `0x5F8000..0x5FFFFF` 分区完成四字节
+  对齐 allocator、immutable-base 指针校验与 payload+pointer 原子计划；真实构建将
+  scenario 39 的 430 字节语义往返 payload 写到 `0x5F8000` 并重定向到 `0x085F8000`。
+  旧 DB pointer-only 写回已禁用，避免绕过 codec。随后 runtime trace 捕获 selector
+  实际选择 `0x085F8000`、25 次 dispatch，并在 `0x085F81AD` 的 `00` 正常终止，
+  allocator→pointer→payload→interpreter 因果链已闭合
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified

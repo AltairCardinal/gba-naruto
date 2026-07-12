@@ -13,11 +13,12 @@ whether `text_rom_offset` was a file offset or an already mapped pointer.
 The final 128 KiB FF area now has exclusive ownership:
 
 - `0x5E0000..0x5EFFFF`: DB audit rows, at most 1024×64 bytes
-- `0x5F0000..0x5FFFFF`: variable dialogue, 64 KiB
+- `0x5F0000..0x5F7FFF`: variable dialogue, 32 KiB
+- `0x5F8000..0x5FFFFF`: semantic chapter scripts, 32 KiB
 
 `tools/import_dialogue_var.py` now loads the immutable base ROM and validates:
 
-1. free-space bounds are inside ROM and the complete partition is `0xFF`;
+1. free-space bounds are inside ROM and the complete dialogue partition is `0xFF`;
 2. content ID exists and encodes in the declared encoding without embedded NUL;
 3. short content remains in place with exact base bytes and zero padding;
 4. long content has a unique, in-ROM pointer-table slot;

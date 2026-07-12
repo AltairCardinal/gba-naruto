@@ -35,6 +35,11 @@ class ChapterFlowTablesTest(unittest.TestCase):
         self.assertEqual(bank["runtime_sample"]["dispatch_hit_count"], 25)
         self.assertEqual(len(bank["runtime_sample"]["observed_commands"]), 25)
         self.assertEqual(bank["runtime_sample"]["observed_commands"][-1]["name"], "end")
+        self.assertEqual(
+            bank["production_writeback_runtime"]["relocated_script_start"],
+            "0x085F8000",
+        )
+        self.assertEqual(bank["production_writeback_runtime"]["dispatch_hit_count"], 25)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
   },
   "output_rom": {
     "path": "build/naruto-sequel-dev.gba",
-    "sha1": "c850a960b95dfc80eeb692e4576bd0d7f7af0a61",
+    "sha1": "8018d23fe80efe15f8f55c01aa8eb04f3ccb921f",
     "size": 6291456
   },
   "applied_patches": [
@@ -85,10 +85,31 @@
       "patch_class": "game_effective",
       "overlap_disposition": "unique",
       "duplicate_of": []
+    },
+    {
+      "id": "chapter.alternate-scenario-39.payload",
+      "type": "bytes",
+      "offset": 6258688,
+      "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "after_hex": "1b04000201070008070181678fca95c49bac99c388c78149816881408140814081408140000200010108010181678dc08160816081498aef9a779046904697f490cc95a39169816081608149816881408140814081408140814081400002010300080301816795c490cc95a38c63964c90af8149814081408140814081408140814081408140814081408140814081400a92e08cdc98f395af92529987814981680004000100080101816795af9252814981489046904697f490cc95a3814392e08c63964c916981488168814081408140814081408140814000020107000807018167989d8163816395c49bac99c38b628163816381408140814081408140814081408140814081400a89b88d9c92e092658b6295b2914494b495b295c496de8cdc916981428168814081408140814081408140000400010108010181678dd68dd68dd681638163816881400008070181678dc0916981499bac8acb8b6295b28b7699a7984e8fca8b5b9bac90ec91698149816881408140814081408140000200020008020181678ddc816381639bd28b5e91698e5789b8908b9ca9814281688140814081408140814081400000",
+      "length": 430,
+      "patch_class": "game_effective",
+      "overlap_disposition": "unique",
+      "duplicate_of": []
+    },
+    {
+      "id": "chapter.alternate-scenario-39.redirect",
+      "type": "pointer_redirect",
+      "pointer_table_offset": 396784,
+      "new_pointer_hex": "00805f08",
+      "expected_pointer_hex": "81120308",
+      "patch_class": "game_effective",
+      "overlap_disposition": "unique",
+      "duplicate_of": []
     }
   ],
   "patch_class_counts": {
-    "game_effective": 7,
+    "game_effective": 9,
     "audit": 0,
     "diagnostic": 0
   },

@@ -58,6 +58,22 @@
 }
 ```
 
+### `chapter_script`
+
+从语义 command 或受基准指针约束的原脚本范围生成章节 payload，并在独立分区中
+四字节对齐分配。resolver 会先验证全部脚本、codec、容量、FF 空间与基准表指针，
+再成对发出 `bytes` + `pointer_redirect`；构建失败时不会写出部分 ROM。
+
+```json
+{
+  "id": "chapter_script_allocator",
+  "type": "chapter_script",
+  "spec": "sequel/content/story-b/scenario-39-relocation.json",
+  "free_space_start": "0x5F8000",
+  "free_space_end": "0x600000"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -125,6 +141,7 @@ python3 tools/import_battle_config.py
 - `bytes` 补丁构建
 - `dialogue` 高层导入补丁构建（同长度 + 变长 redirect 框架）
 - `pointer_redirect` 补丁类型
+- `chapter_script` 语义 codec、独立 allocator 与 payload+pointer 原子计划
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 
@@ -132,4 +149,4 @@ python3 tools/import_battle_config.py
 
 - 地图格式逆向 + `import_map.py` patch 生成
 - 战斗配置格式逆向 + `import_battle_config.py` patch 生成
-- 变长文本 redirect 需要已验证的空闲 ROM 区域
+- Unicode 到熊组汉化字形的完整反向映射（章节 `RenderText` 当前使用已编码字节）

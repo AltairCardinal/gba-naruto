@@ -209,7 +209,10 @@ def suite_manifest(runner: TestRunner) -> None:
     def test_enabled_patches_only() -> None:
         # All enabled patches should have valid types
         manifest = load_manifest()
-        valid_types = {"bytes", "dialogue", "pointer_redirect", "map", "battle_config", "dialogue_var"}
+        valid_types = {
+            "bytes", "dialogue", "pointer_redirect", "map", "battle_config",
+            "dialogue_var", "chapter_script",
+        }
         errors = []
         for patch in manifest["patches"]:
             if not patch.get("enabled", True):

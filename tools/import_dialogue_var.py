@@ -44,7 +44,7 @@ def build_pointer_redirect(
 
 ROM_BASE = 0x08000000
 FREE_SPACE_START = 0x5F0000
-FREE_SPACE_END = 0x600000  # exclusive; final 64 KiB, partitioned from audit rows
+FREE_SPACE_END = 0x5F8000  # exclusive; lower half of shared content free space
 
 
 def import_dialogue_variable(

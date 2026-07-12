@@ -44,7 +44,8 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   tileset atlases are exported. Instrument coverage resolves 16,180/16,180
   notes: 16,169 DirectSound notes reach all 79 waves, 5,340 of them through
   drum tables, and the remaining 11 are explicit type-0x0C PSG/noise events.
-- Variable dialogue uses audited partition `0x5F0000..0x5FFFFF`; a real 6→20
+- Variable dialogue uses audited partition `0x5F0000..0x5F7FFF`; chapter scripts own
+  `0x5F8000..0x5FFFFF`. A real 6→20
   byte relocation at pointer `0x461CF0` survived build, boot, dialogue and strict
   first-battle arrival.
 - Five false catalogs (`character-stats-b`, `items`, `story-c/d/e`) retain only

@@ -56,7 +56,7 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "Alternate scenario/chapter flow script pointer table selected when state +0x18 is nonzero."
     )
     return {
-        "version": 7,
+        "version": 9,
         "description": description,
         "structure_kind": "chapter-flow-script-pointer-table",
         "table_offset": table_offset,
@@ -109,12 +109,26 @@ def build_bank(rom: bytes, slug: str) -> dict:
                 rom[0x31281:0x3142F], base_address=0x08031281
             ),
         }),
+        "production_writeback_runtime": ({
+            "scenario_id": 39,
+            "pointer_slot_offset": "0x060DF0",
+            "relocated_script_start": "0x085F8000",
+            "terminal_opcode_address": "0x085F81AD",
+            "script_length": 430,
+            "selector_hit_count": 1,
+            "dispatch_hit_count": 25,
+            "outcome": "verified",
+            "reason": "alternate-script-terminated",
+            "evidence": "artifacts/runtime-checkpoints/chapter-relocated-runtime-evidence.json",
+        } if slug == "story-b" else None),
         "writeback": (
             "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict "
             "chapter_script_codec authors the complete code-proven scenario-39 subset: END, "
             "RENDER_TEXT (pre-encoded bytes), SHOW_PORTRAIT, UPDATE_PORTRAIT, "
-            "SET_SPEAKER_LABEL, SET_BATTLE, and AUDIO_CUE; "
-            "production script allocation and atomic pointer+payload writeback remain disabled."
+            "SET_SPEAKER_LABEL, SET_BATTLE, and AUDIO_CUE. The production semantic importer "
+            "allocates in audited 0x5F8000..0x5FFFFF space and emits guarded payload+pointer "
+            "plans atomically; pointer-only DB writes are disabled. Relocated alternate scenario "
+            "39 was runtime-verified through all 25 dispatches to terminal opcode 0x00."
         ),
         "entries": entries,
     }

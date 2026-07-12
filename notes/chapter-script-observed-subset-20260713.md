@@ -64,8 +64,10 @@ codec 对两条 portrait 命令额外限制 `slot=0..1`、`portrait_id=0..62`、
 `[7,1,3,1,7,1,7,2]`，与画面上的说话人名标签切换一致。
 
 后续若要提供 Unicode 编辑入口，仍需闭合汉化字形的反向映射与全部 renderer 控制
-记录的高层名称。生产写回还缺共享 allocator 与 pointer+payload 原子提交，
-不能仅凭 codec 子集直接指向任意 ROM 字节。
+记录的高层名称。生产写回现由 `tools/import_chapter_scripts.py` 使用独立审计分区
+`0x5F8000..0x5FFFFF`，先验证完整计划，再成对提交 payload 与 guarded pointer；
+旧 DB pointer-only 入口已禁用。实际构建已把 alternate scenario 39 的 430 字节
+byte-exact payload 写到 `0x5F8000`，并把 `0x60D54[39]` 指向 `0x085F8000`。
 
 重要范围：script `0x31281..0x3142E`；renderer `0x0806626C..0x08066734`；
 portrait matrix `0x5A4DEC..0x5A57C3`；speaker-label table `0x5A57C4`；

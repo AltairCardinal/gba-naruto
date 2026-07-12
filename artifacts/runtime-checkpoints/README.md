@@ -18,6 +18,18 @@ python3 tools/build_alternate_chapter_runtime_probe.py \
 Expected probe-ROM SHA-256:
 `d125d8965a2c4c5b25a177d4ae0b551350c976f42c455f7ebd0eba188576dd4c`.
 
+For the production-relocation runtime proof, build:
+
+```bash
+python3 tools/build_relocated_chapter_runtime_probe.py \
+  rom/base.gba \
+  sequel/content/story-b/scenario-39-relocation.json \
+  /tmp/relocated-chapter-runtime.gba
+```
+
+Expected SHA-256:
+`392bfcd2570be007d0413da5d9d5d626d245ee6e911d5f3aebb83ec3d9443b50`.
+
 ## Checkpoints
 
 | File | SHA-256 | State |
@@ -33,6 +45,11 @@ Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, whic
 the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at
 `0x0809E800`, dispatched exactly twice, and changing chapter/battle state from 39 to 40.
 It deliberately does not claim strict battle-map arrival.
+
+`chapter-relocated-runtime-evidence.json` records the production allocator
+writing the same complete 430-byte alternate scenario 39 script at
+`0x085F8000`, the selector consuming that relocated pointer, 25 dispatches,
+and terminal opcode `00` at `0x085F81AD`.
 
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.

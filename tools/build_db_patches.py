@@ -1380,7 +1380,12 @@ def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
 def _generate_chapter_flow_pointer_patches(
     db_path: Path, *, table: str, table_offset: int
 ) -> list[dict[str, Any]]:
-    """Generate guarded pointers from an editable chapter-flow mirror."""
+    """Preserve the mirror while rejecting pointer-only chapter mutations.
+
+    A changed pointer is unsafe without an allocated, codec-validated payload.
+    Semantic edits must use ``import_chapter_scripts.py`` so both writes share
+    one validated build plan.
+    """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
@@ -1417,6 +1422,10 @@ def _generate_chapter_flow_pointer_patches(
                     raise ValueError("sentinel index 0 must remain null")
             elif not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
                 raise ValueError(f"pointer 0x{pointer:08X} outside 48 Mbit ROM address range")
+            if pointer != actual_base:
+                raise ValueError(
+                    "pointer-only writeback is disabled; use the semantic chapter importer"
+                )
             patches.append({
                 'type': 'bytes', 'offset': expected_offset,
                 'after_hex': struct.pack('<I', pointer).hex(), 'length': 4,

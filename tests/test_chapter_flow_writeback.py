@@ -18,15 +18,14 @@ class ChapterFlowWritebackTest(unittest.TestCase):
         conn = sqlite3.connect(path); init_rom_tables(conn); populate_rom_tables(conn)
         return path, conn
 
-    def test_refresh_preserves_edit_and_generator_targets_exact_slot(self):
+    def test_refresh_preserves_edit_but_pointer_only_writeback_is_rejected(self):
         path, conn = self.make_db()
         conn.execute("UPDATE rom_chapter_flow_primary SET script_ptr=? WHERE _idx=39", (0x08031024,))
         conn.commit(); populate_rom_tables(conn); conn.close()
         patches = generate_chapter_flow_primary_patches(path)
         patch = next(item for item in patches if item['db_row_id'] == 39)
-        self.assertEqual(patch['type'], 'bytes')
-        self.assertEqual(patch['offset'], 0x60C74 + 39 * 4)
-        self.assertEqual(patch['after_hex'], '24100308')
+        self.assertEqual(patch['type'], 'db_chapter_flow_pointer_error')
+        self.assertIn('semantic chapter importer', patch['error'])
 
     def test_stale_base_pointer_and_nonnull_sentinel_are_rejected(self):
         path, conn = self.make_db()

@@ -221,6 +221,20 @@ def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> lis
     )
 
 
+def resolve_chapter_script_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_chapter_scripts import resolve_chapter_script_patches
+
+    spec = ROOT / patch["spec"]
+    free_start = int(patch.get("free_space_start", "0x5F8000"), 0)
+    free_end = int(patch.get("free_space_end", "0x600000"), 0)
+    return resolve_chapter_script_patches(
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+        free_space_start=free_start,
+        free_space_end=free_end,
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -385,6 +399,10 @@ def build(project_path: Path) -> dict:
                 applied.append(apply_patch(data, sp, gate=safety_gate))
         elif patch_type == "dialogue_var":
             sub_patches = resolve_dialogue_var_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                applied.append(apply_patch(data, sp, gate=safety_gate))
+        elif patch_type == "chapter_script":
+            sub_patches = resolve_chapter_script_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
                 applied.append(apply_patch(data, sp, gate=safety_gate))
         else:
