@@ -29,10 +29,10 @@ class ProfileTextRuntimeProbeTests(unittest.TestCase):
         self.assertNotEqual(output[STUB_OFFSET:STUB_OFFSET + STUB_SIZE], b"\x00" * STUB_SIZE)
         self.assertEqual(output[PROFILE_TABLE + 4:PROFILE_TABLE + 8], self.base[PROFILE_TABLE + 4:PROFILE_TABLE + 8])
 
-    def test_variant_changes_only_character_one_pointer_to_valid_character_seven_text(self):
+    def test_variant_changes_only_runtime_naruto_pointer_to_valid_character_seven_text(self):
         control = build_profile_probe(self.base, self.spec)
         changed = build_profile_probe(self.base, self.spec, replacement_id=7)
-        target = PROFILE_TABLE + 4
+        target = PROFILE_TABLE
         differences = [index for index, pair in enumerate(zip(control, changed)) if pair[0] != pair[1]]
         self.assertTrue(differences)
         self.assertLessEqual(set(differences), set(range(target, target + 4)))

@@ -6,7 +6,14 @@ The historical `data-table-a@0x5A14A4` was physical entries 26..45 of the
 complete 46-pointer table at `0x5A143C..0x5A14F3`. All targets are
 NUL-terminated game-encoded long text. Literals at `0x0808A704` and
 `0x0808B214` load the canonical base; `0x0808A6D4` indexes ID×4 and the bound
-at `0x0808A6F6` is 45. The bank is now `code_verified` profile text.
+at `0x0808A6F6` is 45.
+
+A cold-load A/B then reached the actual state-`0x10` profile card. Both runs hit
+`0x0808B1A4` once for character 0 and entry `0x085A143C`; replacing only that
+pointer with entry 7 changed the selected target from `0x0859F988` to
+`0x0859FDE8` and changed the visible multi-line description. The bank is now
+`runtime_verified`; evidence is
+`artifacts/runtime-checkpoints/profile-text-runtime-evidence.json`.
 
 ## Battle/effect message text
 

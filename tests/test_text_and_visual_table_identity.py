@@ -25,7 +25,10 @@ class TextAndVisualTableIdentityTest(unittest.TestCase):
         bank = json.loads((ROOT / "sequel/content/data-table-a/bank.json").read_text())
         self.assertEqual((bank["table_offset"], bank["entry_count"], bank["entry_size"]),
                          (0x5A143C, 46, 4))
-        self.assertEqual(bank["verification"], "code_verified")
+        self.assertEqual(bank["verification"], "runtime_verified")
+        self.assertEqual(bank["runtime_sample"]["character_id"], 0)
+        self.assertEqual(bank["runtime_sample"]["control_text_ptr"], 0x0859F988)
+        self.assertEqual(bank["runtime_sample"]["variant_text_ptr"], 0x0859FDE8)
         pointers = list(struct.unpack_from("<46I", self.rom, 0x5A143C))
         self.assertEqual([entry["text_ptr"] for entry in bank["entries"]], pointers)
         for pointer in pointers:

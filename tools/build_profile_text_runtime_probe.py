@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 ROM_BASE = 0x08000000
 PROFILE_TABLE = 0x5A143C
 PROFILE_COUNT = 46
-TARGET_CHARACTER_ID = 1
+TARGET_CHARACTER_ID = 0
 HOOK = 0x0808B1A4
 EXPECTED_HOOK = bytes.fromhex("40180068")  # adds r0,r0,r1; ldr r0,[r0]
 STUB = 0x0809E8C0
@@ -91,7 +91,11 @@ def main() -> int:
     parser.add_argument("base_rom", type=Path)
     parser.add_argument("spec", type=Path)
     parser.add_argument("output_rom", type=Path)
-    parser.add_argument("--replacement-id", type=int)
+    parser.add_argument(
+        "--replacement-id",
+        type=int,
+        help="replace the runtime Naruto/profile entry (character ID 0) with this entry",
+    )
     args = parser.parse_args()
     output = build_profile_probe(
         args.base_rom.read_bytes(), args.spec, replacement_id=args.replacement_id

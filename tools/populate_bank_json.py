@@ -125,7 +125,28 @@ def populate_data_table_a(rom: bytes):
             "_index": i, "_raw_offset": off + i * 4,
             "text_ptr": ptr, "text_ptr_hex": ptr.to_bytes(4, "little").hex(),
         })
-    update_bank_json("data-table-a", entries, force=True, verification="code_verified")
+    update_bank_json(
+        "data-table-a",
+        entries,
+        extra_fields={
+            "verification_method": (
+                "Cold-load runtime A/B hit 0x0808B1A4 once for character ID 0. "
+                "The control selected 0x0859F988 from entry 0; changing only that "
+                "pointer to entry 7 selected 0x0859FDE8 and visibly changed the "
+                "multi-line profile description."
+            ),
+            "runtime_sample": {
+                "character_id": 0,
+                "table_entry": "0x085A143C",
+                "control_text_ptr": 0x0859F988,
+                "variant_text_ptr": 0x0859FDE8,
+                "replacement_source_character_id": 7,
+                "evidence": "artifacts/runtime-checkpoints/profile-text-runtime-evidence.json",
+            },
+        },
+        force=True,
+        verification="runtime_verified",
+    )
 
 
 def populate_data_table_b(rom: bytes):

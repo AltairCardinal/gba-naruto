@@ -93,7 +93,10 @@ const BROWSER_KEYS = {
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function focusGameSurface(page) {
-  await page.mouse.click(480, 215);
+  await page.evaluate(() => {
+    document.body.tabIndex = -1;
+    document.body.focus({ preventScroll: true });
+  });
 }
 
 async function pressGbaKey(page, key, holdMs) {

@@ -12,7 +12,7 @@
 
 > 2026-07-13 当前调查闭合审计为 32/32：23 个有效数据 bank 均通过元数据和
 > 基准 ROM fidelity，另 9 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 10 / code 13 / static 0 / disproved 9。32/32 只表示
+> tombstone。分布为 runtime 11 / code 12 / static 0 / disproved 9。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -431,10 +431,11 @@
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
   当前无 static bank。
-- `data-table-a` 新增 selected-pointer runtime hook，能捕获 character ID、表项地址、
-  指针及目标前16字节；character 1→7 的同表指针 A/B 已严格限定为 `0x5A1440`
-  四字节。现有简写路线只推进 alternate script 至第13条，equipment checkpoint replay
-  又超时，故尚无正命中，bank 继续保持 code_verified
+- `data-table-a` 的 selected-pointer hook 已通过自然存档冷启动闭合。恢复到 outer
+  state `0x10` 后，两边均在 `0x0808B1A4` 命中一次 character 0 / entry
+  `0x085A143C`；只替换该四字节指针为 entry 7 后，目标从 `0x0859F988` 变为
+  `0x0859FDE8`，可见多行人物简介同步改变，因此升级 runtime_verified。旧 state
+  `0x20` checkpoint 属于另一套三栏 UI，不再作为此 reader 的前置状态。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

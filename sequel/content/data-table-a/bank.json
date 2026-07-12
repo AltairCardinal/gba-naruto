@@ -15,8 +15,16 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "Literals 0x0808A704 and 0x0808B214 load 0x085A143C. 0x0808A6D4 indexes by ID*4 and the loop bound at 0x0808A6F6 is 45; 0x0808B19E has the second display path.",
+    "verification": "runtime_verified",
+    "verification_method": "Cold-load runtime A/B hit 0x0808B1A4 once for character ID 0. The control selected 0x0859F988 from entry 0; changing only that pointer to entry 7 selected 0x0859FDE8 and visibly changed the multi-line profile description.",
+    "runtime_sample": {
+        "character_id": 0,
+        "table_entry": "0x085A143C",
+        "control_text_ptr": 140114312,
+        "variant_text_ptr": 140115432,
+        "replacement_source_character_id": 7,
+        "evidence": "artifacts/runtime-checkpoints/profile-text-runtime-evidence.json"
+    },
     "former_claim": "20 generic encoded-data pointers beginning at physical entry 26 (0x5A14A4)",
     "notes": "All targets are NUL-terminated game-encoded profile/description text. Legacy tail rows are diagnostic-only.",
     "entries": [

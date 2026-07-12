@@ -70,10 +70,17 @@ test('extractRuntimePositions stops before battle-control memory', () => {
   assert.deepEqual(extractRuntimePositions(snapshot), [{ slot: 1, characterId: 0, x: 4, y: 4 }]);
 });
 
-test('focusGameSurface restores keyboard focus to the emulator viewport', async () => {
+test('focusGameSurface focuses the page without clicking the touch-sensitive canvas', async () => {
   const clicks = [];
-  await focusGameSurface({ mouse: { click: async (x, y) => clicks.push([x, y]) } });
-  assert.deepEqual(clicks, [[480, 215]]);
+  const evaluations = [];
+  await focusGameSurface({
+    mouse: { click: async (x, y) => clicks.push([x, y]) },
+    evaluate: async callback => {
+      evaluations.push(callback.toString());
+    },
+  });
+  assert.deepEqual(clicks, []);
+  assert.equal(evaluations.length, 1);
 });
 
 test('decodeSaveRecord validates header plus payload plus NOT-sum checksum', () => {

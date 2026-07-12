@@ -1,0 +1,48 @@
+{
+  "date": "2026-07-13",
+  "bank": "data-table-a",
+  "table": "0x085A143C",
+  "hook": "0x0808B1A4",
+  "scratch": "0x0203FE80",
+  "input_mode": "keyboard",
+  "cold_load_save": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "navigation": [
+    "A",
+    "A",
+    "A",
+    "A",
+    "A",
+    "Start",
+    "Down",
+    "A",
+    "A"
+  ],
+  "control": {
+    "rom_sha256": "a51636f1326c34fb68d41cb450eafc2914b9cbba281f7996c96586cfc1beee8a",
+    "scratch_sha256": "c52a316e9d8e4943ce722af315cbffe9da772fc2d7dd41387902f491a5278273",
+    "screenshot_sha256": "ce855f384eb1c7ed841a597344346d994bdc9b2e2ea19ee1668a9f760a53adf9",
+    "magic": "PTPR",
+    "hit_count": 1,
+    "character_id": 0,
+    "table_entry": "0x085A143C",
+    "selected_pointer": "0x0859F988",
+    "target_first_16_hex": "92bb99de8ae28b6297c796df8bf68140"
+  },
+  "variant": {
+    "rom_sha256": "66c9dbc60c2ab1962ea6d08b189bb0118668f069a93e133080fc8a5046bae74a",
+    "scratch_sha256": "6825affc51218542b90ebc57b37dca629cae333c6174615eeb85b320967070c7",
+    "screenshot_sha256": "16912178987c43e98747aca95dc2761648bd867b4ad73c2f772467e68c12d6c8",
+    "magic": "PTPR",
+    "hit_count": 1,
+    "character_id": 0,
+    "table_entry": "0x085A143C",
+    "selected_pointer": "0x0859FDE8",
+    "target_first_16_hex": "826882708251824f824f8b6296e989c2"
+  },
+  "single_factor_patch": {
+    "rom_offset": "0x5A143C",
+    "size": 4,
+    "source_entry": 7
+  },
+  "result": "Both runs cold-loaded the same natural save and hit the same reader once. The four-byte entry-0 pointer replacement changed the selected target and the visible multi-line profile text. The longer replacement redraw also overwrites more of the diagnostic frame, so only the text-consumer claim is made."
+}

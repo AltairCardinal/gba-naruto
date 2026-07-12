@@ -55,6 +55,11 @@ and terminal opcode `00` at `0x085F81AD`.
 variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame
 from Kakashi to Sakura without changing scenario, script cursor, or dispatch count.
 
+`profile-text-runtime-evidence.json` records a natural-save cold-load A/B for
+the 46-entry profile text table. Both runs hit `0x0808B1A4` once for character
+0 / entry `0x085A143C`; the single four-byte pointer change selected entry 7's
+text and visibly changed the multi-line profile description.
+
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
 
