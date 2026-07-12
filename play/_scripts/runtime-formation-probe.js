@@ -3,7 +3,14 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const puppeteer = require('/tmp/gba-puppeteer/node_modules/puppeteer-core');
+let puppeteer;
+try {
+  puppeteer = require('puppeteer-core');
+} catch (error) {
+  // Compatibility with older local setups; fresh clones should run
+  // `npm install --prefix play/_scripts` and use the standard dependency.
+  puppeteer = require('/tmp/gba-puppeteer/node_modules/puppeteer-core');
+}
 const {
   buildNavigationPlan, classifyMemorySnapshot, matchFormationPositions,
   buildArtifactPaths, buildProbeResult,

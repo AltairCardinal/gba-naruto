@@ -1,5 +1,12 @@
 # GBA 木叶战记逆向工程交接（2026-07-11）
 
+> 2026-07-12 continuation: the current alternate chapter-table experiment,
+> replayable savestates, dependency setup, hashes, and exact resume command are
+> preserved in `artifacts/runtime-checkpoints/README.md`. Read
+> `notes/alternate-chapter-runtime-probe-20260712.md` before running; several
+> visually plausible states were rejected, and `story-b` is still
+> `code_verified`.
+
 ## 1. 交接结论
 
 当前工程**尚未达到 100% 逆向完成**，但已经从“32 个目录和生成器数量齐全”推进到
