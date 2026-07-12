@@ -12,7 +12,7 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Catalog identity audit: 32/32 investigations closed. This consists of 27
   active data banks with ROM fidelity plus 5 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 7 runtime, 3 code, 17 static, 5 disproved.
+- Evidence labels: 9 runtime, 2 code, 16 static, 5 disproved.
 
 ## Runtime-closed chains
 
@@ -63,11 +63,11 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   bit-accurate mixing and audible cue names. Instrument/sample and drum mapping
   are now complete for the executed one-loop corpus; MIDI remains an audition
   artifact rather than final audio.
-- Alternate chapter table `0x60D54` is runtime-closed for scenario 39 via a
-  selector + generic-dispatch trace ending at decoded opcode `00`. Remaining
-  P0 work is map resource-pointer semantics.
+- Alternate chapter table `0x60D54` and all six map resource streams are now
+  runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
+  skill fields, followed by individual semantic review of the remaining static banks.
 - Correlate remaining unit/growth/skill fields with player-visible UI labels.
-- Review the 17 static banks individually; byte fidelity proves extraction
+- Review the 16 static banks individually; byte fidelity proves extraction
   accuracy, not complete runtime semantics.
 
 ## Durable evidence and next route

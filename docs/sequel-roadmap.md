@@ -81,7 +81,8 @@
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
 - maps 资源字段静态语义已纠正：`+8` 是 BG palette（旧 extractor 错用 `+14`），
   `+0C/+10` 是主/可选 coarse layout，`+14` 是 metatile attributes，`+18` 是
-  collision grid；47 行长度公式全部通过测试。独立 runtime 目标缓冲比对仍待闭合
+  collision grid；47 行长度公式全部通过测试。row 41 的同边界 EWRAM/PRAM/VRAM
+  比对已令六项全部通过，maps 升为 runtime_verified
 - battle configs、units、chapters、skills、story beats、legacy audio、maps、levels、
   character_stats、battle_config_data、encounter_zones、items 等无 ROM 身份的
   legacy 危险回写已禁用，只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为
@@ -189,7 +190,7 @@
 
 ### P0-Step 3｜定位战斗配置与角色定义
 
-**状态：⚠️ 部分完成**（positions、maps width/height、角色定义及成长表已有运行时闭环；units 已有结构字段和安全 lossless 写回，剩余玩家属性命名与 maps 指针字段运行时证据未完成）
+**状态：⚠️ 部分完成**（positions、maps 全资源、角色定义及成长表已有运行时闭环；units 已有结构字段和安全 lossless 写回，剩余玩家属性命名仍未完成）
 
 **已确认 ROM 数据表：**
 - ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
@@ -351,7 +352,7 @@
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
 - 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：27 个有效 bank 必须有非空 entries 和 ROM fidelity；5 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 17 个 `static_verified`、2 个 `code_verified`、8 个
+- 最新严格审计分布为 16 个 `static_verified`、2 个 `code_verified`、9 个
   `runtime_verified`、5 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正

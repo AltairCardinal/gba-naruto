@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-12T15:17:03.011657+00:00`
+生成时间：`2026-07-12T15:28:49.801339+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -15,7 +15,7 @@
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=2, `disproved`=5, `runtime_verified`=8, `static_verified`=17。
+- verification 分布：`code_verified`=2, `disproved`=5, `runtime_verified`=9, `static_verified`=16。
 
 ## 逐结构结果
 
@@ -37,7 +37,7 @@
 | `levels` | ✅ `0x5459D4` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (12) | ✅ (282) | ✅ | — |
 | `map-events` | ✅ `0x53EB08` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (12) | ✅ (47) | ✅ | — |
 | `map-sprites` | ✅ `0x53F1DC` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (9) | ✅ (47) | ✅ | — |
-| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (34) | ✅ (423) | ✅ | — |
+| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `runtime_verified` | ✅ (34) | ✅ (423) | ✅ | — |
 | `menu-ui` | ✅ `0x5A5774` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
 | `palettes` | ✅ `0x53F138` | ✅ | ✅ (88) | ✅ `static_verified` | ✅ (15) | ✅ (88) | ✅ | — |
 | `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (22) | ✅ (10368) | ✅ | — |

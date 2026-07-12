@@ -1,4 +1,5 @@
 import struct
+import json
 import sys
 import tempfile
 import unittest
@@ -31,6 +32,11 @@ class ExtractTilesetTest(unittest.TestCase):
         self.assertIsNone(entry['alternate_layout_ptr'])
         self.assertEqual(entry['metatile_attributes_ptr'], 0x11AFF4)
         self.assertEqual(entry['collision_grid_ptr'], 0x11B498)
+
+        bank = json.loads((ROOT / 'sequel/content/maps/bank.json').read_text())
+        self.assertEqual(bank['verification'], 'runtime_verified')
+        self.assertEqual(bank['runtime_sample']['map_id'], 41)
+        self.assertTrue(all(bank['runtime_sample']['resource_checks'].values()))
 
     def test_map_40_palette_comes_from_loader_field_plus_8(self):
         with tempfile.TemporaryDirectory() as tmp:

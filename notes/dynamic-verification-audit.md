@@ -19,12 +19,11 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under the current bank-level grading the repository has **8 runtime/dynamic,
-2 code, 17 static, and 5 disproved aliases** after the 2026-07-12 identity
+Under the current bank-level grading the repository has **9 runtime/dynamic,
+2 code, 16 static, and 5 disproved aliases** after the 2026-07-12 identity
 corrections. This is deliberately stricter than treating extraction success as
-runtime proof. The `maps` bank additionally has runtime evidence for dimensions
-but remains static at whole-bank level because its resource pointers are not
-runtime-closed. In particular, the successful dialogue watchpoint traces
+runtime proof. The `maps` bank now has same-boundary runtime buffer matches for
+its dimensions and resource streams. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
 ## Evidence table
@@ -46,7 +45,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 13 | items (`0x546100`) | disproved | The former bank was byte-for-byte identical to `skills` and had no independent consumer. It is now a tombstone; legacy item writes remain diagnostic-only. |
 | 14 | levels (`0x5459B4`) | static | Regular progression/experience values and parsed entries only; no level-up runtime delta tied to the table. |
 | 15 | map-events (`0x53EB08`) | static | 47 valid Thumb pointers and reuse by map indices only; no event dispatch hit. |
-| 16 | maps (`0x53D910`) | dynamic | `notes/maps-runtime-fields-20260711.md` records the loader field chain plus a controlled width A/B: baseline row 40 produces runtime `[36,44,9,22]`; changing only file `0x53DE10` width `36 -> 32` produces `[32,44,8,22]` on the same WASM route. Resource pointer semantics remain code-level only. |
+| 16 | maps (`0x53D910`) | runtime | Width has a controlled row-40 36→32 A/B. A strict row-41 battle capture then matched tile gfx in VRAM, BG palette after transparent-color normalization, primary layout and metatile definitions exactly, null alternate-layout skip, and collision low-byte passability under two runtime occupancy overlays. |
 | 17 | map-sprites (`0x53E1DC`) | static | Pointer-table consistency and animation-shaped targets only. |
 | 18 | menu-ui (`0x5A5774`) | static | Alternating pointer pattern and UI-like targets only; no menu route/table access trace. |
 | 19 | palettes (`0x53F138`) | static | Valid RGB555-looking targets only. The former conflict is resolved: audio moved to its real master table at `0x465B70`; palette consumer/runtime A/B is still missing. |

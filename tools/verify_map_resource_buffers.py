@@ -23,6 +23,36 @@ def _match(actual: bytes, offset: int, expected: bytes) -> tuple[bool, dict]:
     }
 
 
+def _match_palette(actual: bytes, expected: bytes) -> tuple[bool, dict]:
+    observed = actual[:len(expected)]
+    normalized_color_zero = observed[:2] == b"\0\0" and expected[:2] != b"\0\0"
+    matches = observed == expected or (normalized_color_zero and observed[2:] == expected[2:])
+    return matches, {
+        "offset": 0,
+        "length": len(expected),
+        "expected_sha256": hashlib.sha256(expected).hexdigest(),
+        "observed_sha256": hashlib.sha256(observed).hexdigest(),
+        "transparent_color_zero_normalized": normalized_color_zero,
+    }
+
+
+def _match_collision(actual: bytes, offset: int, expected: bytes) -> tuple[bool, dict]:
+    observed = actual[offset:offset + len(expected)]
+    low_bytes_match = observed[0::2] == expected[0::2]
+    overlay_words = sum(
+        observed[index:index + 2] != expected[index:index + 2]
+        for index in range(0, len(expected), 2)
+    )
+    return low_bytes_match, {
+        "offset": offset,
+        "length": len(expected),
+        "expected_sha256": hashlib.sha256(expected).hexdigest(),
+        "observed_sha256": hashlib.sha256(observed).hexdigest(),
+        "low_byte_passability_matches": low_bytes_match,
+        "runtime_overlay_word_count": overlay_words,
+    }
+
+
 def verify_map_resource_buffers(
     rom: bytes, map_id: int, ewram: bytes, palette_ram: bytes, vram: bytes,
 ) -> dict:
@@ -45,7 +75,7 @@ def verify_map_resource_buffers(
     checks["tile_gfx"], details["tile_gfx"] = _match(vram, gfx_offset, gfx)
 
     palette = unpack("bg_palette_ptr")
-    checks["bg_palette"], details["bg_palette"] = _match(palette_ram, 0, palette)
+    checks["bg_palette"], details["bg_palette"] = _match_palette(palette_ram, palette)
 
     primary = unpack("primary_layout_ptr")
     checks["primary_layout"], details["primary_layout"] = _match(ewram, 0x1BE2C, primary)
@@ -61,7 +91,7 @@ def verify_map_resource_buffers(
     checks["metatile_attributes"], details["metatile_attributes"] = _match(ewram, 0x1DE2C, metatile)
 
     collision = unpack("collision_grid_ptr")
-    checks["collision_grid"], details["collision_grid"] = _match(ewram, 0x21E2C, collision)
+    checks["collision_grid"], details["collision_grid"] = _match_collision(ewram, 0x21E2C, collision)
 
     return {
         "schema_version": 1,

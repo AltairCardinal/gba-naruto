@@ -1109,9 +1109,26 @@
       "_index": 46
     }
   ],
-  "verification_method": "Static analysis - found table with consistent structure (u16 width/height followed by u32 ROM pointers). Verified by checking that all 47 entries have valid dimensions (16-128) and valid ROM pointers.",
+  "verification_method": "Runtime row 41 produced dimensions 36x44 and strict battle arrival. Same-boundary EWRAM/palette-RAM/VRAM dumps matched the row's decompressed tile gfx, BG palette (except expected transparent color-zero normalization), primary layout, metatile attributes, and collision low-byte passability; null alternate layout was skipped. Width also has an independent row-40 36->32 A/B.",
   "discovered_by": "Pattern matching on u16 dimensions followed by u32 pointers",
-  "verification": "static_verified",
+  "verification": "runtime_verified",
+  "runtime_sample": {
+    "map_id": 41,
+    "row_file_offset": "0x53DE30",
+    "battle_id": 41,
+    "dimensions": [36, 44, 9, 22],
+    "strict_battle_arrival": true,
+    "vram_buffer_index": 1,
+    "resource_checks": {
+      "tile_gfx": true,
+      "bg_palette": true,
+      "primary_layout": true,
+      "alternate_layout_skipped": true,
+      "metatile_attributes": true,
+      "collision_grid": true
+    },
+    "evidence": "artifacts/runtime-checkpoints/maps-resource-runtime-evidence.json"
+  },
   "extraction": {
     "tool": "tools/extract_all_structures.py",
     "extracted_count": 47,

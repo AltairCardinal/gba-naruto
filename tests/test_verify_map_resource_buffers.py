@@ -29,8 +29,11 @@ class VerifyMapResourceBuffersTest(unittest.TestCase):
         ewram[0x22E2D] = 0
         palette = unpack("bg_palette_ptr")
         palette_ram[:len(palette)] = palette
+        palette_ram[0:2] = b"\0\0"  # runtime transparency normalization
         gfx = unpack("tile_gfx_ptr")
         vram[:len(gfx)] = gfx
+        ewram[0x21E2C + 81] = 0x90  # runtime occupancy overlays high bits
+        ewram[0x21E2C + 189] = 0x08
         return bytes(ewram), bytes(palette_ram), bytes(vram)
 
     def test_row_40_buffers_match_every_loaded_resource(self):

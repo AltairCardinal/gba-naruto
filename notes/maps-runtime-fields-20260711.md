@@ -100,3 +100,28 @@ verifier 会按 VRAM buffer index 比对 tile gfx，并逐字节比对 BG palett
 layout、metatile attributes 与 collision grid。row 40 的 `+10` 为零，因此预期
 明确记录为 skipped；任何一个目标 byte 不同都会失败。当前尚缺可靠的 loader 前
 checkpoint，不能用旧的“查看战场”假阳性替代这次 capture。
+
+## 2026-07-12 资源指针运行时闭环
+
+从自然 UI save 冷加载后重建 primary prebattle checkpoint，画面明确显示四项菜单
+“队伍·装备 / 查看地图 / 开始任务 / 保存”。输入 `Down, Down, A, Start` 选择第三项，
+runner 在 step 4 以四因素 strict gate 到达真实战斗：battle/map ID 41、runtime
+`[36,44,9,22]`、完整唯一编成、battle-map 画面。
+
+同一边界的三域 dump 对 row 41 (`0x53DE30`) 验证结果：
+
+- tile gfx：VRAM buffer 1，12,288 字节 exact SHA match；
+- BG palette：除透明色 0 被运行时归零外，其余 382 字节一致；
+- primary layout：792 字节 exact SHA match；
+- alternate layout：pointer 为 0，loader 正确 skip；
+- metatile attributes：1,376 字节 exact SHA match；
+- collision/passability：396 字节低位通行值全部一致，2 个 word 的高位被运行时
+  occupancy overlay 修改。
+
+`tools/verify_map_resource_buffers.py` 六项全部通过。结果/截图/verifier SHA-256 分别为
+`750917e77348ef3ac30914cbdb3db9b43f3b3a6c695481bef5f4ea6a05d9b3f9`、
+`3e6fbf6bd1dc83a2795483f8e808917962eec73b46a2996d5521db3592c13d13`、
+`e42421b6569e537ca5bc8f9b74bc5c71acba017989c04eb5204e56650da11f34`。
+compact evidence 位于
+`artifacts/runtime-checkpoints/maps-resource-runtime-evidence.json`。结合既有 width
+A/B，maps bank 已升级为 `runtime_verified`。
