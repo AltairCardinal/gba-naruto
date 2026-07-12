@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-12T18:53:10.672826+00:00`
+生成时间：`2026-07-12T19:12:33.551512+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -28,7 +28,7 @@
 | `character-stats` | ✅ `0x545068` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (15) | ✅ (504) | ✅ | — |
 | `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
 | `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `code_verified` | ✅ (12) | ✅ (16) | ✅ | — |
-| `data-table-a` | ✅ `0x5A143C` | ✅ | ✅ (46) | ✅ `code_verified` | ✅ (6) | ✅ (46) | ✅ | — |
+| `data-table-a` | ✅ `0x5A143C` | ✅ | ✅ (46) | ✅ `code_verified` | ✅ (7) | ✅ (46) | ✅ | — |
 | `data-table-b` | ✅ `0x5A2034` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (5) | ✅ (79) | ✅ | — |
 | `encounter-zones` | ✅ `0x53D910` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (22) | ✅ (0) | ✅ | — |
 | `fonts` | ✅ `0x53E5B4` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (10) | ✅ (0) | ✅ | — |

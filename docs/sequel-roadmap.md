@@ -431,6 +431,10 @@
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
   当前无 static bank。
+- `data-table-a` 新增 selected-pointer runtime hook，能捕获 character ID、表项地址、
+  指针及目标前16字节；character 1→7 的同表指针 A/B 已严格限定为 `0x5A1440`
+  四字节。现有简写路线只推进 alternate script 至第13条，equipment checkpoint replay
+  又超时，故尚无正命中，bank 继续保持 code_verified
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

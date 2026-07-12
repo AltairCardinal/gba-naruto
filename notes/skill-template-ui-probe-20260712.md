@@ -58,3 +58,24 @@ Keep `skills` at `code_verified`. The next valid route must either:
 Only after a visible or behavioral A/B may fields such as power or hit rate be
 named. The value-domain guess that source `+6` resembles accuracy remains a
 hypothesis, not bank metadata.
+
+## 2026-07-13 reader-search continuation
+
+Direct table-literal search found only seven sites: `0x0806D960`, `0x08078F04`,
+`0x08078FC0`, `0x0808FC38`, `0x0808FFC4`, `0x080953A0`, `0x0809545C`.
+The initializer has twelve known callers at `0x08070334`, `0x08070906`,
+`0x0807139A`, `0x080727E4`, `0x080755A0`, `0x08075C70`, `0x08075D68`,
+`0x08081CB4`, `0x0808244C`, `0x08083812`, `0x0808422C`, `0x08085456`;
+all currently classify as battle/effect paths rather than the detail renderer.
+
+`0x0808FF24` derives the selected skill ID from controller
+`+0x70 + selected_slot*4` at `0x0808FF30..38`, but its later ROM reads serve the
+parent/candidate eligibility chain, not the four displayed numbers. The detail
+page therefore likely consumes a transformed runtime/controller structure.
+
+New `/tmp/skill-detail-live*.ss9` attempts landed on character, equipment or tool
+pages and are rejected. The next shortest route is a natural cold UI entry while tracing
+the already stable text writers `0x08066D74` and `0x08065F50`; group hits by LR and
+formatter arguments for visible `1/3/1/100`, then hook the discovered upper renderer's
+four loads. A valid A/B must record selected skill ID, raw source address/offset and
+formatter output, because success rate 100 may include a character/default modifier.
