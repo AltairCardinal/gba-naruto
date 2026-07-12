@@ -403,6 +403,11 @@
 - skills 的非详情字段进一步闭合：`+0` 是战斗显示/动画族；`+A/+B` 构建前置技能到
   可联动候选的映射；`+C/+D` 是最多两个 ID 的资格白名单。它们均有明确消费者与
   错误反馈路径，但不等于详情页的威力/距离/范围/成功率，仍不升级验证等级
+- 战斗动作详情渲染器已锁定为 `0x080708BC`：action ID 高位清零时调用 effect
+  initializer `0x0806D85C`，置位时才在 `0x08070906` 调 skills initializer
+  `0x0806D910`。教程“忍者组合拳”是低位 effect 2，解释了旧 skills 探针零命中。
+  强制 high-bit 诊断 A/B 只令 skill 2 source/runtime `+4` 从 6 变 7，未产生稳定
+  可见差异，因此作为路径验证保留，skills 仍严格为 code_verified
 - function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
   `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
   11个 wrapper 均把对应 ID 传给 `0x08061C58`，因此升级为 code_verified

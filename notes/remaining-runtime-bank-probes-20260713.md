@@ -35,6 +35,12 @@ variant 只改 row 3 `+A: 2→0`。普通“忍者组合拳”详情、目标选
 零命中，证明该调用不是普通技能详情 reader，而是组合/候选关系子链。不得用它把
 整个 skills bank 升级；下一步需触发组合候选 UI 或改 hook 到实际技能执行初始化器。
 
+后续 writer 追踪已定位通用战斗动作详情渲染器 `0x080708BC`。它以 action ID 高位
+明确分流：教程“忍者组合拳”的低位 ID 2 调 `0x0806D85C`，不是 skills；只有
+`0x80|skill_id` 才在 `0x08070906` 调 `0x0806D910`。强制 ID 2 诊断 A/B 已证明
+source/runtime `+4:6→7`，但由于不是自然选择且无稳定可见差异，仍不升级。
+详见 `notes/battle-action-detail-renderer-20260713.md`。
+
 ### data-table-b `0x5A2034`
 
 `tools/build_battle_message_runtime_probe.py` hook `0x080985E2`，捕获 zero-based
@@ -45,10 +51,12 @@ message ID、表项、指针和目标前 16 bytes，并支持同表四字节指�
 
 ## 下一步优先级
 
-1. 从 actionable checkpoint 完成一次有效技能/攻击，优先同时观察 battle-message、
-   resource descriptor 和 skill initializer；
-2. 命中后先锁定真实 ID，再生成唯一四字节 pointer/palette 或单字节 skill A/B；
-3. 只有 live selector、ROM 目标一致和可见/行为差异同时成立才升级 bank。
+1. 寻找自然产生 `0x80|skill_id` 的非教程战斗或组合候选 UI，并以
+   `0x08070906` 专属探针捕获真实 skill ID；
+2. 从 actionable checkpoint 完成一次有效攻击，继续观察 battle-message 与
+   resource descriptor；
+3. 命中后先锁定真实 ID，再生成唯一四字节 pointer/palette 或单字节 skill A/B；
+4. 只有 live selector、ROM 目标一致和可见/行为差异同时成立才升级 bank。
 
 重要地址：actionable checkpoint；skill relation call `0x0808E4A4`；battle message
 selector `0x080985E2`；resource descriptor call `0x0807B256`。

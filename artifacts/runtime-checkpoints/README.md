@@ -66,6 +66,12 @@ battle checkpoint independently on `rom/base.gba`: battle ID 41, map 36×44,
 Naruto `(4,10)`, Iruka `(4,4)`, and all strict-arrival checks true. It replaces
 the need to replay the Start overlay and tutorial dialogue for later battle-bank probes.
 
+`action-detail-renderer-evidence.json` records the three-layer writer trace that
+locates the battle action detail renderer at `0x080708BC`, proves the tutorial
+“忍者组合拳” row is low-bit effect ID 2 rather than a skills row, and preserves
+the explicitly forced skill-2 diagnostic A/B without promoting it to natural
+runtime evidence.
+
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
 
