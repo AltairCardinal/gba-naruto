@@ -374,6 +374,9 @@
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified
+- skills 的非详情字段进一步闭合：`+0` 是战斗显示/动画族；`+A/+B` 构建前置技能到
+  可联动候选的映射；`+C/+D` 是最多两个 ID 的资格白名单。它们均有明确消费者与
+  错误反馈路径，但不等于详情页的威力/距离/范围/成功率，仍不升级验证等级
 - function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
   `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
   11个 wrapper 均把对应 ID 传给 `0x08061C58`，因此升级为 code_verified

@@ -37,6 +37,24 @@ def build_bank(rom: bytes) -> dict:
     fields[10]["separate_consumer"] = "0x0808FF7C"
     fields[11]["description"] = "Not copied by the initializer; read by relationship-table consumer 0x0808FF88"
     fields[11]["separate_consumer"] = "0x0808FF88"
+    semantic_names = {
+        0x00: "display_animation_family",
+        0x0A: "parent_skill_id",
+        0x0B: "eligible_candidate_id",
+        0x0C: "eligibility_whitelist_id_0",
+        0x0D: "eligibility_whitelist_id_1",
+    }
+    for offset, semantic in semantic_names.items():
+        fields[offset]["semantic"] = semantic
+    fields[0]["separate_consumers"] = ["0x08078F16", "0x080953B4"]
+    fields[12]["description"] = (
+        "First eligibility whitelist ID; zero means unrestricted in 0x0808FC20"
+    )
+    fields[12]["separate_consumer"] = "0x0808FC20"
+    fields[13]["description"] = (
+        "Optional second eligibility whitelist ID checked by 0x0808FC20"
+    )
+    fields[13]["separate_consumer"] = "0x0808FC20"
     entries = []
     for skill_id in range(ENTRY_COUNT):
         offset = TABLE_OFFSET + skill_id * ENTRY_SIZE
@@ -51,6 +69,10 @@ def build_bank(rom: bytes) -> dict:
             name, field_offset = field["name"], field["offset"]
             entry[name] = raw[field_offset]
             entry[f"{name}_hex"] = raw[field_offset:field_offset + 1].hex()
+            semantic = field.get("semantic")
+            if semantic:
+                entry[semantic] = raw[field_offset]
+                entry[f"{semantic}_hex"] = raw[field_offset:field_offset + 1].hex()
         entries.append(entry)
     return {
         "version": 3,
@@ -61,7 +83,13 @@ def build_bank(rom: bytes) -> dict:
         "verification": "code_verified",
         "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. 0x0806D916 computes skill_id*16; source +0 copies to runtime +1, source +1 is skipped, and source +2..+9 copy to matching runtime offsets. Separate code at 0x0808FF7C/0x0808FF88 consumes source +A/+B.",
         "entry_format": {"fields": fields},
-        "notes": "The former 12-entry 0x546100 bank was a misbased slice beginning at physical record 81.",
+        "notes": (
+            "The former 12-entry 0x546100 bank was a misbased slice beginning at physical "
+            "record 81. Battle/UI consumers prove source +0 as a display/animation family, "
+            "+A/+B as parent-skill to eligible-candidate relationships, and +C/+D as an "
+            "optional two-ID eligibility whitelist. Detail-panel numeric meanings remain "
+            "unresolved, so verification remains code_verified."
+        ),
         "entries": entries,
     }
 
