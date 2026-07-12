@@ -109,7 +109,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 20 | positions (`0x085461C4`) | 联合 | `0x0806E41E/0x0806E71E` 的 r5 公式成立，`+2/+3` 写到 slot 坐标并与画面一致 |
 | 21 | resource-pointers (`0x08596F0C`) | 专门资源路线 | 表项及嵌套目标被加载，目标与具体资源输出对应 |
 | 22 | sappy-engine (`0x08079268` 代码范围) | 联合 | 实际命令 handler 命中且声道状态按命令变化 |
-| 23 | save-state (`0x08086248` 表/数据，handler `0x08068684`) | 专门保存路线 | SRAM 20 字节记录发生预期变化，第 19 字节符合校验算法，字段与操作对应 |
+| 23 | save-state (`0x0853D848`，handler `0x08068684`) | ✅ UI 保存+冷加载 | 真实首战后 slot 1 写出 32KiB；active descriptor 0/2 的 19-byte header + variable payload + checksum 有效，冷启动恢复木叶状态 |
 | 24 | skills (`0x08546100` 声称值) | 条件联合 | 主动技能读取独立已确认表行，至少一参数与实际效果对应；需解决 items 冲突 |
 | 25 | sprite-animations (`0x0853E200`) | 联合 | 当前动作选中表项并遍历帧，帧与角色动作对应 |
 | 26 | story (`0x0853636C`) | 联合 | 开场/战后活动指针落入本表目标并读取剧情数据 |

@@ -12,7 +12,7 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Catalog identity audit: 32/32 investigations closed. This consists of 27
   active data banks with ROM fidelity plus 5 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 6 runtime, 4 code, 17 static, 5 disproved.
+- Evidence labels: 7 runtime, 3 code, 17 static, 5 disproved.
 
 ## Runtime-closed chains
 
@@ -53,11 +53,12 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 
 ## Work still required before a defensible full-runtime “100%” claim
 
-- Natural save/load remains `code_verified`. The real caller is postbattle
-  controller `0x080732B4`, state `0xF400`, calling `0x08074F2C → 0x080689A4`.
-  A normal first-battle-entry route does not save. Forced state/gates stall in
-  earlier result UI/resource stages and are not accepted as proof. The valid
-  next experiment is an actual battle victory or genuine post-victory state.
+- Save-state is now `runtime_verified`. The tutorial was completed naturally,
+  UI Save wrote valid active descriptors 0 and 2, and a cold restart restored
+  the same Konoha state. The corrected physical record is 19-byte header +
+  payload + checksum. Tutorial completion bypasses optional postbattle wrapper
+  `0x08074F2C`; title loading likewise does not use optional wrapper
+  `0x08068AF0`. See `notes/tutorial-victory-save-load-runtime-20260712.md`.
 - Complete pitch-step semantics, PSG/noise synthesis, envelopes/LFO/ties,
   bit-accurate mixing and audible cue names. Instrument/sample and drum mapping
   are now complete for the executed one-loop corpus; MIDI remains an audition

@@ -12,9 +12,9 @@
 
 > 2026-07-12 当前调查闭合审计为 32/32：27 个有效数据 bank 均通过元数据和
 > 基准 ROM fidelity，另 5 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 6 / code 4 / static 17 / disproved 5。32/32 只表示
+> tombstone。分布为 runtime 7 / code 3 / static 17 / disproved 5。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
-> save-state 自然保存仍明确保持 code_verified。
+> save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
 ### ✅ 已打通
 - 对白 → ROM 写入闭环（dialogue patch pipeline）
@@ -107,6 +107,15 @@
   只令光标到 `(4,8)`，单位未移动、natural-save hook 仍为0，故不得升级 SRAM
   结论；下一步必须闭合教程的真实 unit-action 子状态后再验证保存与冷加载。详见
   `notes/first-battle-savestate-checkpoints-20260712.md`
+- 上述 checkpoint 后续确认是战前“查看战场”，不是可行动战斗；此假阳性已撤销。
+  正确选择“开始任务”后，首战以真实两回合 `(4,4)→(4,7)→(4,10)` 完成，
+  在宝箱 `(4,11)` 相邻格行动结束并进入胜利转场。木叶界面 UI Save 写出 32KiB
+  存档；descriptor 0/2 的 19-byte `Naruto-KONOHASENKI\0` header、payload 和
+  NOT-sum checksum 均有效，未使用记录保持全 FF。冷启动 Continue 识别 slot 1
+  并恢复相同木叶状态，因此 save-state bank 已升为 runtime_verified。旧 verifier
+  把 payload/checksum 起点提前19字节，旧“冷加载必须命中 0x08068AF0”也混淆了
+  optional battle restore caller，均已纠正。详见
+  `notes/tutorial-victory-save-load-runtime-20260712.md`
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）

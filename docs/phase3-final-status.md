@@ -33,8 +33,10 @@ instead of a traditional item table.
 
 **Method:** Deep Thumb disassembly of save handler at 0x08068684
 
-**Findings:** 7 unique save fields × 20 bytes each (19 data + 1 checksum).
-Save table at ROM 0x53D848 contains 10 entries (3 duplicates → 7 unique).
+**Findings:** the descriptor table at ROM `0x53D848` contains 10 records.
+Each active SRAM record is `19-byte identity header + descriptor payload_length
++ 1 checksum byte`; erased descriptors remain all `0xFF`. Descriptor payload
+lengths vary, so the earlier “7 fields × 20 bytes” interpretation is retired.
 
 **Bank:** `sequel/content/save-state/bank.json` (v2, complete)
 
@@ -130,7 +132,7 @@ item/technique database. No separate item table exists.
 | 20 | positions | ✅ | ✅ unit_position_patches | verified |
 | 21 | resource-pointers | ✅ | — | static |
 | 22 | sappy-engine | ✅ | — | code_verified |
-| 23 | save-state | ✅ | — | code_verified |
+| 23 | save-state | ✅ | — | runtime_verified (UI save + cold load) |
 | 24 | skills | ✅ | ✅ skill_patches | verified |
 | 25 | sprite-animations | ✅ | — | static |
 | 26 | story | ✅ | ✅ story_beat_patches | verified |

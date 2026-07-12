@@ -69,16 +69,17 @@ test('focusGameSurface restores keyboard focus to the emulator viewport', async 
   assert.deepEqual(clicks, [[480, 215]]);
 });
 
-test('decodeSaveRecord validates the 19-byte NOT-sum checksum', () => {
-  const bytes = Buffer.alloc(20, 0);
-  bytes[0] = 1;
-  bytes[19] = 0xFE;
+test('decodeSaveRecord validates header plus payload plus NOT-sum checksum', () => {
+  const bytes = Buffer.alloc(21, 0);
+  bytes[19] = 1;
+  bytes[20] = 0xFE;
   assert.deepEqual(decodeSaveRecord(0x1C, bytes), {
     sramOffset: 0x1C,
     sramOffsetHex: '0x001C',
-    rawHex: `01${'00'.repeat(18)}fe`,
+    rawHex: `${'00'.repeat(19)}01fe`,
+    headerHex: '00'.repeat(19),
     erased: false,
-    payloadLength: 19,
+    payloadLength: 1,
     checksum: 0xFE,
     expectedChecksum: 0xFE,
     checksumValid: true,
@@ -86,13 +87,13 @@ test('decodeSaveRecord validates the 19-byte NOT-sum checksum', () => {
 });
 
 test('compareSaveRecords identifies changed SRAM records', () => {
-  const before = [decodeSaveRecord(0x1C, Buffer.alloc(20, 0xFF))];
-  const changed = Buffer.alloc(20, 0);
-  changed[19] = 0xFF;
+  const before = [decodeSaveRecord(0x1C, Buffer.alloc(21, 0xFF))];
+  const changed = Buffer.alloc(21, 0);
+  changed[20] = 0xFF;
   const result = compareSaveRecords(before, [decodeSaveRecord(0x1C, changed)]);
   assert.equal(result[0].changed, true);
   assert.equal(result[0].checksumValid, true);
-  assert.equal(result[0].beforeRawHex, 'ff'.repeat(20));
+  assert.equal(result[0].beforeRawHex, 'ff'.repeat(21));
 });
 
 test('extractRuntimeTemplates reports non-empty character templates', () => {

@@ -23,7 +23,10 @@ class SaveDescriptorsTest(unittest.TestCase):
     def test_wrapper_groups_cover_variable_length_records(self):
         lengths = [entry["payload_length"] for entry in self.bank["entries"][3:10]]
         self.assertEqual(lengths, [4732, 20, 8, 24, 6084, 1404, 512])
-        self.assertEqual(self.bank["verification"], "code_verified")
+        self.assertEqual(self.bank["verification"], "runtime_verified")
+        self.assertEqual(self.bank["record_header_length"], 19)
+        self.assertEqual(self.bank["entries"][0]["payload_offset"], 19)
+        self.assertEqual(self.bank["entries"][0]["checksum_offset"], 19 + 4732)
 
 
 if __name__ == "__main__":

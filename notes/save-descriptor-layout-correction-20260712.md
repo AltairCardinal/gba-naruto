@@ -119,3 +119,18 @@ record or hit the natural-save observer.  This is a navigation-state result,
 not save evidence.  Details and reproducible environment variables are in
 `notes/first-battle-savestate-checkpoints-20260712.md`.  The acceptance gate at
 the top of this document remains unchanged.
+
+## Final runtime correction and closure
+
+The stable textured checkpoint above was prebattle “view battlefield”; the
+later “start mission” route reached actionable combat and completed the
+tutorial naturally. The record layout is `19-byte identity header + payload +
+checksum`, not `payload + checksum + unused padding`. The old verifier read
+payload and checksum 19 bytes too early.
+
+The in-game Save command produced a 32-KiB file whose active descriptors 0 and
+2 have valid checksums. Other records are legitimately erased for unused slots.
+A cold ROM restart recognized slot 1 and restored the Konoha state. The former
+requirement that this title load hit `0x08068AF0` was wrong: its sole caller at
+`0x080752D0` belongs to a later optional/battle reconstruction path. Full
+evidence is in `notes/tutorial-victory-save-load-runtime-20260712.md`.

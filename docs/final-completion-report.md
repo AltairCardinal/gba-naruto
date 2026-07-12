@@ -168,10 +168,10 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 - Encounter logic is zone-based, not per-map
 
 ### Save System
-- **7 unique save fields** × 20 bytes (19 data + 1 checksum)
-- Checksum = `~sum(19 bytes)` (bitwise NOT)
-- Table at 0x53D848 with 10 entries (3 duplicates)
-- Handler at 0x08068684 supports save (mode 0) and load (mode 1)
+- 10 descriptors at `0x53D848`; each supplies an EWRAM buffer and variable
+  payload length
+- SRAM record = 19-byte identity header + payload + `~sum(payload)` checksum
+- Handler `0x08068684` supports save/load; UI save and cold load are runtime verified
 
 ### Item/Technique System
 - This SRPG uses skill/technique table at 0x546100 instead of traditional items

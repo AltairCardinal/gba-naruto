@@ -33,7 +33,8 @@ class SaveStateVerificationTests(unittest.TestCase):
         for entry in bank["entries"]:
             payload = bytes(range(entry["payload_length"]))
             offset = entry["sram_record_offset"]
-            sram[offset:offset + len(payload) + 1] = payload + bytes([save_checksum(payload)])
+            record = bytes(19) + payload + bytes([save_checksum(payload)])
+            sram[offset:offset + len(record)] = record
         report = validate_sram_dump(bank, bytes(sram))
         self.assertTrue(report["ok"], report["issues"])
         self.assertEqual([8, 20], [item["payload_length"] for item in report["records"]])
@@ -49,7 +50,8 @@ class SaveStateVerificationTests(unittest.TestCase):
         for entry in bank["entries"]:
             offset = entry["sram_record_offset"]
             payload = bytes([1]) * entry["payload_length"]
-            sram[offset:offset+len(payload)+1] = payload + bytes([save_checksum(payload)])
+            record = bytes(19) + payload + bytes([save_checksum(payload)])
+            sram[offset:offset+len(record)] = record
         self.assertTrue(validate_sram_dump(bank, bytes(sram))["ok"])
 
 

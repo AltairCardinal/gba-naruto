@@ -71,3 +71,18 @@ Important addresses/files for the next experiment:
 - natural-save probe result: `0x0203FF40`;
 - natural save wrapper call: `0x08074F2C`;
 - stable checkpoint recipe: `play/_scripts/runtime-formation-probe.js`.
+
+## Final correction after actionable-battle routing
+
+`/tmp/first-battle-map-stable.ss9` was prebattle **view battlefield** mode,
+not actionable combat. It exposes the same battle ID, map, formation, cursor,
+and texture, so the old visual gate could not distinguish the two modes. Its
+coordinate observations remain valid, but its “genuine combat” label is
+revoked.
+
+The real route selects prebattle “start mission”, advances the Start overlay
+and Iruka dialogue, and waits until A opens the unit command menu. The tutorial
+was completed naturally in two rounds: `(4,4)→(4,7)→(4,10)`, ending action
+adjacent to chest `(4,11)`. The save/load evidence in
+`notes/tutorial-victory-save-load-runtime-20260712.md` supersedes the unfinished
+acceptance-gate paragraph above.

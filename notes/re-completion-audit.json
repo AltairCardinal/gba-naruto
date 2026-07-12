@@ -1,6 +1,6 @@
 {
   "scope": "bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation",
-  "generated_at": "2026-07-12T09:01:49.745157+00:00",
+  "generated_at": "2026-07-12T11:02:15.347606+00:00",
   "summary": {
     "banks_found": 32,
     "expected_banks": 32,
@@ -17,10 +17,10 @@
       "rom_fidelity": 32
     },
     "verification_distribution": {
-      "runtime_verified": 6,
+      "runtime_verified": 7,
       "static_verified": 17,
       "disproved": 5,
-      "code_verified": 4
+      "code_verified": 3
     }
   },
   "banks": [
@@ -929,7 +929,7 @@
       ],
       "entry_count_declared": 10,
       "entry_count_actual": 10,
-      "verification": "code_verified",
+      "verification": "runtime_verified",
       "verification_method_present": true,
       "documentation": [
         "docs/final-completion-report.md",
@@ -940,11 +940,13 @@
         "docs/structure-field-semantics.md",
         "notes/battle-config-format.md",
         "notes/battle-scenario-config.md",
+        "notes/current-re-progress-20260711.md",
         "notes/dynamic-verification-audit.md",
         "notes/patch-generator-audit.md",
         "notes/runtime-verification-gates-20260710.md",
         "notes/save-descriptor-layout-correction-20260712.md",
-        "notes/save-state-wasm-probe-20260711.md"
+        "notes/save-state-wasm-probe-20260711.md",
+        "notes/tutorial-victory-save-load-runtime-20260712.md"
       ],
       "rom_fidelity_fields_checked": 20,
       "rom_fidelity_errors": [],

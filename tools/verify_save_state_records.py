@@ -11,6 +11,7 @@ from typing import Any
 
 DEFAULT_BANK = Path("sequel/content/save-state/bank.json")
 SRAM_ADVANCE_OVERHEAD = 0x14
+RECORD_HEADER_LENGTH = 0x13
 
 
 def save_checksum(data: bytes) -> int:
@@ -70,7 +71,7 @@ def validate_sram_dump(bank: dict[str, Any], sram: bytes) -> dict[str, Any]:
     issues: list[str] = []
     records = []
     minimum = max(
-        (entry["sram_record_offset"] + entry["payload_length"] + 1
+        (entry["sram_record_offset"] + entry["payload_length"] + SRAM_ADVANCE_OVERHEAD
          for entry in bank.get("entries", [])), default=0,
     )
     if len(sram) not in (0x8000, 0x10000):
@@ -80,19 +81,24 @@ def validate_sram_dump(bank: dict[str, Any], sram: bytes) -> dict[str, Any]:
     for entry in bank.get("entries", []):
         offset = entry["sram_record_offset"]
         length = entry["payload_length"]
-        if offset + length + 1 > len(sram):
+        if offset + length + SRAM_ADVANCE_OVERHEAD > len(sram):
             issues.append(f"record at 0x{offset:04X} exceeds SRAM dump length")
             continue
-        payload = sram[offset:offset + length]
-        observed = sram[offset + length]
+        record = sram[offset:offset + length + SRAM_ADVANCE_OVERHEAD]
+        header = record[:RECORD_HEADER_LENGTH]
+        payload = record[RECORD_HEADER_LENGTH:RECORD_HEADER_LENGTH + length]
+        observed = record[RECORD_HEADER_LENGTH + length]
         expected = save_checksum(payload)
-        valid = expected == observed
+        erased = all(byte == 0xFF for byte in record)
+        valid = erased or expected == observed
         if not valid:
             issues.append(f"checksum mismatch at SRAM 0x{offset:04X}: expected 0x{expected:02X}, got 0x{observed:02X}")
         records.append({
             "descriptor_index": entry.get("descriptor_index"),
             "sram_offset": f"0x{offset:04X}",
             "payload_length": length,
+            "header_hex": header.hex(),
+            "erased": erased,
             "checksum": f"0x{observed:02X}",
             "expected_checksum": f"0x{expected:02X}",
             "valid": valid,

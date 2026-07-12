@@ -18,6 +18,7 @@ const BROWSER_EXECUTABLE = process.env.PROBE_BROWSER || '/usr/bin/chromium';
 const PROBE_ROM = process.env.PROBE_ROM || '';
 const AUDIO_PROBE_RESULT = 0x0203FF60;
 const NATURAL_SAVE_PROBE_RESULT = 0x0203FF40;
+const NATURAL_LOAD_PROBE_RESULT = 0x0E007FF0;
 const POSTBATTLE_PROBE_LATCH = 0x0203FF30;
 const FORCED_SAVE_CASE_HIT = 0x0203FF20;
 const STOP_ON_MATCH = process.env.PROBE_STOP_ON_MATCH !== '0';
@@ -73,6 +74,13 @@ async function focusGameSurface(page) {
 async function pressGbaKey(page, key, holdMs) {
   const gbaKey = GBA_KEYS[key];
   if (!gbaKey) throw new Error(`unsupported GBA key mapping: ${key}`);
+  if (process.env.PROBE_INPUT_MODE === 'keyboard') {
+    await focusGameSurface(page);
+    await page.keyboard.down(key);
+    await sleep(holdMs);
+    await page.keyboard.up(key);
+    return;
+  }
   await page.evaluate(gbaKey => window.__mGBA.buttonPress(gbaKey), gbaKey);
   await sleep(holdMs);
   await page.evaluate(gbaKey => window.__mGBA.buttonUnpress(gbaKey), gbaKey);
@@ -215,7 +223,7 @@ async function readSaveRecords(page) {
   const saveBytes = exportAvailable ? Uint8Array.from(exported) : new Uint8Array(0x10000).fill(0xFF);
   const records = [];
   for (const record of SAVE_RECORDS) {
-    if (record.offset + record.length + 1 > saveBytes.length) {
+    if (record.offset + record.length + 0x14 > saveBytes.length) {
       throw new Error(`exported save is too short for descriptor ${record.index}: ${saveBytes.length} bytes`);
     }
     records.push({
@@ -223,7 +231,7 @@ async function readSaveRecords(page) {
       payloadLength: record.length,
       saveExportAvailable: exportAvailable,
       saveFileSize: saveBytes.length,
-      ...decodeSaveRecord(record.offset, saveBytes.subarray(record.offset, record.offset + record.length + 1)),
+      ...decodeSaveRecord(record.offset, saveBytes.subarray(record.offset, record.offset + record.length + 0x14)),
     });
   }
   return records;
@@ -279,6 +287,22 @@ async function loadStateCheckpoint(page) {
     return { slot, name, loaded };
   }, Array.from(data));
   if (!result.loaded) throw new Error(`loadState(${result.slot}) failed for ${absolutePath}`);
+  return { path: absolutePath, size: data.length, ...result };
+}
+
+async function loadSaveExport(page) {
+  const inputPath = process.env.PROBE_SAVE_LOAD;
+  if (!inputPath) return null;
+  if (process.env.PROBE_STATE_LOAD) throw new Error('PROBE_SAVE_LOAD and PROBE_STATE_LOAD are mutually exclusive');
+  const absolutePath = path.resolve(inputPath);
+  const data = fs.readFileSync(absolutePath);
+  const result = await page.evaluate(async bytes => {
+    const gba = window.__mGBA;
+    gba.FS.writeFile(gba.saveName, Uint8Array.from(bytes));
+    const reloaded = gba._quickReload();
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    return { saveName: gba.saveName, reloaded };
+  }, Array.from(data));
   return { path: absolutePath, size: data.length, ...result };
 }
 
@@ -362,8 +386,10 @@ async function main() {
       && document.querySelector('.speed-btn[data-speed="1"]')?.disabled === false
       && window.__mGBA._readGbaByte(0x08000000) !== -1
     ), { timeout: 90000, polling: 1000 });
+    const saveLoad = await loadSaveExport(page);
     const stateLoad = await loadStateCheckpoint(page);
-    await page.evaluate(() => document.querySelector('.speed-btn[data-speed="4"]')?.click());
+    const probeSpeed = String(process.env.PROBE_SPEED || '4');
+    await page.evaluate(speed => document.querySelector(`.speed-btn[data-speed="${speed}"]`)?.click(), probeSpeed);
     const initialSaveRecords = await readSaveRecords(page);
     const plan = buildNavigationPlan({
       startCount: Number(process.env.PROBE_START_COUNT ?? 30),
@@ -394,7 +420,7 @@ async function main() {
       let screenMetrics = null;
       let screenState = null;
       let adaptiveRetries = 0;
-      if (action.phase === 'tail' && action.key === 'KeyX') {
+      if (action.phase === 'tail' && action.key === 'KeyX' && process.env.PROBE_ADAPTIVE_BACK !== '0') {
         screenMetrics = await captureScreenMetrics(page);
         screenState = classifyScreenMetrics(screenMetrics);
         let decision = tailTransitionDecision(screenState);
@@ -441,6 +467,7 @@ async function main() {
         saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
         audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
         naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
+        naturalLoadProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_LOAD_PROBE_RESULT, 4)).toString('hex'),
         postbattleProbeLatchHex: Buffer.from(await readGbaBytes(page, POSTBATTLE_PROBE_LATCH, 4)).toString('hex'),
         forcedSaveCaseHitHex: Buffer.from(await readGbaBytes(page, FORCED_SAVE_CASE_HIT, 4)).toString('hex'),
         screenMetrics,
@@ -457,6 +484,7 @@ async function main() {
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
           lastDiagnostic.stateLoad = stateLoad;
+          lastDiagnostic.saveLoad = saveLoad;
           lastDiagnostic.stateExport = await persistStateExport(page);
           lastDiagnostic.memoryDump = await persistMemoryDump(page);
           await page.screenshot({ path: artifacts.finalScreenshotPath });
@@ -477,10 +505,11 @@ async function main() {
       }
       previous = snapshot;
     }
-    if (!STOP_ON_MATCH && lastDiagnostic?.arrival?.arrived) {
+    if (!STOP_ON_MATCH && process.env.PROBE_FORCE_SETTLE !== '1' && lastDiagnostic?.arrival?.arrived) {
       lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
       lastDiagnostic.saveExport = await persistSaveExport(page);
       lastDiagnostic.stateLoad = stateLoad;
+      lastDiagnostic.saveLoad = saveLoad;
       lastDiagnostic.stateExport = await persistStateExport(page);
       lastDiagnostic.memoryDump = await persistMemoryDump(page);
       await page.screenshot({ path: artifacts.finalScreenshotPath });
@@ -524,6 +553,7 @@ async function main() {
         saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
         audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
         naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
+        naturalLoadProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_LOAD_PROBE_RESULT, 4)).toString('hex'),
         postbattleProbeLatchHex: Buffer.from(await readGbaBytes(page, POSTBATTLE_PROBE_LATCH, 4)).toString('hex'),
         forcedSaveCaseHitHex: Buffer.from(await readGbaBytes(page, FORCED_SAVE_CASE_HIT, 4)).toString('hex'),
         screenMetrics,
@@ -543,6 +573,7 @@ async function main() {
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
           lastDiagnostic.stateLoad = stateLoad;
+          lastDiagnostic.saveLoad = saveLoad;
           lastDiagnostic.stateExport = await persistStateExport(page);
           lastDiagnostic.memoryDump = await persistMemoryDump(page);
           const screenshotPath = artifacts.phaseScreenshot('settle');
@@ -561,6 +592,14 @@ async function main() {
       const screenshotPath = artifacts.phaseScreenshot('settle');
       await page.screenshot({ path: screenshotPath });
       stages.push({ ...lastDiagnostic, screenshotPath });
+    }
+    if (lastDiagnostic) {
+      lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+      lastDiagnostic.saveExport = await persistSaveExport(page);
+      lastDiagnostic.stateLoad = stateLoad;
+      lastDiagnostic.saveLoad = saveLoad;
+      lastDiagnostic.stateExport = await persistStateExport(page);
+      lastDiagnostic.memoryDump = await persistMemoryDump(page);
     }
     await page.screenshot({ path: artifacts.finalScreenshotPath });
     const result = buildProbeResult({ outcome: 'not-found', reason: 'settle-exhausted', stages, final: lastDiagnostic });

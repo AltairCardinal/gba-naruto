@@ -11,6 +11,7 @@ TABLE_OFFSET = 0x53D848
 ENTRY_COUNT = 10
 ENTRY_SIZE = 8
 SRAM_ADVANCE_OVERHEAD = 0x14
+RECORD_HEADER_LENGTH = 0x13
 
 
 def build_bank(rom: bytes) -> dict:
@@ -29,14 +30,16 @@ def build_bank(rom: bytes) -> dict:
             "payload_length_hex": payload_length.to_bytes(4, "little").hex(),
             "sram_record_offset": sram_offset,
             "sram_record_offset_hex": f"0x{sram_offset:04X}",
-            "checksum_offset": sram_offset + payload_length,
-            "record_bytes_written": payload_length + 1,
+            "header_offset": sram_offset,
+            "payload_offset": sram_offset + RECORD_HEADER_LENGTH,
+            "checksum_offset": sram_offset + RECORD_HEADER_LENGTH + payload_length,
+            "record_bytes_written": payload_length + SRAM_ADVANCE_OVERHEAD,
             "next_record_offset": sram_offset + payload_length + SRAM_ADVANCE_OVERHEAD,
         })
         sram_offset += payload_length + SRAM_ADVANCE_OVERHEAD
     return {
         "version": 3,
-        "description": "Ten save-buffer descriptors consumed by 0x08068684. Each u32 pair is EWRAM source + payload length; SRAM starts are cumulative, advancing payload_length+0x14. The handler writes payload_length bytes plus one NOT-sum checksum byte.",
+        "description": "Ten save-buffer descriptors consumed by 0x08068684. Each SRAM record is a 19-byte identity header, payload_length bytes, and one NOT-sum payload checksum; starts advance by payload_length+0x14.",
         "structure_kind": "save-buffer-descriptor-table",
         "table_offset": TABLE_OFFSET,
         "table_offset_hex": f"0x{TABLE_OFFSET:06X}",
@@ -46,12 +49,14 @@ def build_bank(rom: bytes) -> dict:
             {"offset": 0, "size": 4, "name": "ewram_buffer", "type": "u32"},
             {"offset": 4, "size": 4, "name": "payload_length", "type": "u32"},
         ]},
-        "verification": "code_verified",
-        "verification_method": "0x08068684 sums prior descriptor payload_length+0x14 to form SRAM addresses and writes payload+checksum. Diagnostic group calls changed the exported .sav at all cumulative starts, but the out-of-context records failed checksum; a natural battle-completion save/load remains required for runtime verification.",
+        "verification": "runtime_verified",
+        "verification_method": "After genuine tutorial victory, the in-game Save menu wrote a 32 KiB .sav. Active descriptors 0 and 2 contain the 19-byte Naruto-KONOHASENKI identity header and payload checksums matching ~sum(payload); unused records are all-FF. A cold ROM restart recognized slot 1 and restored the saved Konoha overworld. Static disassembly at 0x08068684 proves the same header+payload+checksum layout for every descriptor; group 3..9 wrappers remain code-level subchains.",
         "handler": "0x08068684",
         "save_wrapper": "0x080689A4 (groups 3..9)",
         "load_wrapper": "0x08068AF0 (groups 3..9)",
         "sram_advance_overhead": SRAM_ADVANCE_OVERHEAD,
+        "record_header_length": RECORD_HEADER_LENGTH,
+        "record_layout": "19-byte identity header + payload_length bytes + 1 checksum byte",
         "checksum": "bitwise NOT of the 8-bit sum of all payload bytes",
         "entries": entries,
     }

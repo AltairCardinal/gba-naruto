@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "description": "Ten save-buffer descriptors consumed by 0x08068684. Each u32 pair is EWRAM source + payload length; SRAM starts are cumulative, advancing payload_length+0x14. The handler writes payload_length bytes plus one NOT-sum checksum byte.",
+  "description": "Ten save-buffer descriptors consumed by 0x08068684. Each SRAM record is a 19-byte identity header, payload_length bytes, and one NOT-sum payload checksum; starts advance by payload_length+0x14.",
   "structure_kind": "save-buffer-descriptor-table",
   "table_offset": 5494856,
   "table_offset_hex": "0x53D848",
@@ -22,12 +22,14 @@
       }
     ]
   },
-  "verification": "code_verified",
-  "verification_method": "0x08068684 sums prior descriptor payload_length+0x14 to form SRAM addresses and writes payload+checksum. Diagnostic group calls changed the exported .sav at all cumulative starts, but the out-of-context records failed checksum; a natural battle-completion save/load remains required for runtime verification.",
+  "verification": "runtime_verified",
+  "verification_method": "After genuine tutorial victory, the in-game Save menu wrote a 32 KiB .sav. Active descriptors 0 and 2 contain the 19-byte Naruto-KONOHASENKI identity header and payload checksums matching ~sum(payload); unused records are all-FF. A cold ROM restart recognized slot 1 and restored the saved Konoha overworld. Static disassembly at 0x08068684 proves the same header+payload+checksum layout for every descriptor; group 3..9 wrappers remain code-level subchains.",
   "handler": "0x08068684",
   "save_wrapper": "0x080689A4 (groups 3..9)",
   "load_wrapper": "0x08068AF0 (groups 3..9)",
   "sram_advance_overhead": 20,
+  "record_header_length": 19,
+  "record_layout": "19-byte identity header + payload_length bytes + 1 checksum byte",
   "checksum": "bitwise NOT of the 8-bit sum of all payload bytes",
   "entries": [
     {
@@ -40,8 +42,10 @@
       "payload_length_hex": "7c120000",
       "sram_record_offset": 0,
       "sram_record_offset_hex": "0x0000",
-      "checksum_offset": 4732,
-      "record_bytes_written": 4733,
+      "header_offset": 0,
+      "payload_offset": 19,
+      "checksum_offset": 4751,
+      "record_bytes_written": 4752,
       "next_record_offset": 4752
     },
     {
@@ -54,8 +58,10 @@
       "payload_length_hex": "7c120000",
       "sram_record_offset": 4752,
       "sram_record_offset_hex": "0x1290",
-      "checksum_offset": 9484,
-      "record_bytes_written": 4733,
+      "header_offset": 4752,
+      "payload_offset": 4771,
+      "checksum_offset": 9503,
+      "record_bytes_written": 4752,
       "next_record_offset": 9504
     },
     {
@@ -68,8 +74,10 @@
       "payload_length_hex": "14000000",
       "sram_record_offset": 9504,
       "sram_record_offset_hex": "0x2520",
-      "checksum_offset": 9524,
-      "record_bytes_written": 21,
+      "header_offset": 9504,
+      "payload_offset": 9523,
+      "checksum_offset": 9543,
+      "record_bytes_written": 40,
       "next_record_offset": 9544
     },
     {
@@ -82,8 +90,10 @@
       "payload_length_hex": "7c120000",
       "sram_record_offset": 9544,
       "sram_record_offset_hex": "0x2548",
-      "checksum_offset": 14276,
-      "record_bytes_written": 4733,
+      "header_offset": 9544,
+      "payload_offset": 9563,
+      "checksum_offset": 14295,
+      "record_bytes_written": 4752,
       "next_record_offset": 14296
     },
     {
@@ -96,8 +106,10 @@
       "payload_length_hex": "14000000",
       "sram_record_offset": 14296,
       "sram_record_offset_hex": "0x37D8",
-      "checksum_offset": 14316,
-      "record_bytes_written": 21,
+      "header_offset": 14296,
+      "payload_offset": 14315,
+      "checksum_offset": 14335,
+      "record_bytes_written": 40,
       "next_record_offset": 14336
     },
     {
@@ -110,8 +122,10 @@
       "payload_length_hex": "08000000",
       "sram_record_offset": 14336,
       "sram_record_offset_hex": "0x3800",
-      "checksum_offset": 14344,
-      "record_bytes_written": 9,
+      "header_offset": 14336,
+      "payload_offset": 14355,
+      "checksum_offset": 14363,
+      "record_bytes_written": 28,
       "next_record_offset": 14364
     },
     {
@@ -124,8 +138,10 @@
       "payload_length_hex": "18000000",
       "sram_record_offset": 14364,
       "sram_record_offset_hex": "0x381C",
-      "checksum_offset": 14388,
-      "record_bytes_written": 25,
+      "header_offset": 14364,
+      "payload_offset": 14383,
+      "checksum_offset": 14407,
+      "record_bytes_written": 44,
       "next_record_offset": 14408
     },
     {
@@ -138,8 +154,10 @@
       "payload_length_hex": "c4170000",
       "sram_record_offset": 14408,
       "sram_record_offset_hex": "0x3848",
-      "checksum_offset": 20492,
-      "record_bytes_written": 6085,
+      "header_offset": 14408,
+      "payload_offset": 14427,
+      "checksum_offset": 20511,
+      "record_bytes_written": 6104,
       "next_record_offset": 20512
     },
     {
@@ -152,8 +170,10 @@
       "payload_length_hex": "7c050000",
       "sram_record_offset": 20512,
       "sram_record_offset_hex": "0x5020",
-      "checksum_offset": 21916,
-      "record_bytes_written": 1405,
+      "header_offset": 20512,
+      "payload_offset": 20531,
+      "checksum_offset": 21935,
+      "record_bytes_written": 1424,
       "next_record_offset": 21936
     },
     {
@@ -166,8 +186,10 @@
       "payload_length_hex": "00020000",
       "sram_record_offset": 21936,
       "sram_record_offset_hex": "0x55B0",
-      "checksum_offset": 22448,
-      "record_bytes_written": 513,
+      "header_offset": 21936,
+      "payload_offset": 21955,
+      "checksum_offset": 22467,
+      "record_bytes_written": 532,
       "next_record_offset": 22468
     }
   ]

@@ -381,15 +381,15 @@ caller's state. The former Sappy/audio interpretation is revoked.
 
 **Format:** u32[2] × 10 — 10 save field entries (7 unique)  
 **Entry Size:** 8 bytes  
-**Semantics:** Save table mapping EWRAM buffers to SRAM offsets. Each entry
-writes 19 data bytes + 1 byte checksum (total 20 bytes) to SRAM.
-Checksum = `~sum(19 bytes)` (bitwise NOT). Handler at 0x08068684 supports
-save (mode 0) and load (mode 1).
+**Semantics:** Save table mapping EWRAM buffers and variable payload lengths to
+cumulative SRAM records. Each record is a 19-byte identity header, the payload,
+and one `~sum(payload)` checksum byte. Handler `0x08068684` supports save/load;
+an in-game slot-1 save and cold restore are runtime verified.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | ewram_addr | u32 | EWRAM buffer address |
-| sram_offset | u32 | SRAM write offset |
+| payload_length | u32 | Payload bytes; next SRAM record advances by this value + 0x14 |
 
 ---
 

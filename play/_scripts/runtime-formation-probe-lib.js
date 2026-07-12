@@ -213,18 +213,23 @@ function saveChecksum(bytes) {
 
 function decodeSaveRecord(offset, bytes) {
   const data = Array.from(bytes);
-  if (data.length < 2) throw new Error(`save record at 0x${offset.toString(16)} must contain payload and checksum`);
-  const payloadLength = data.length - 1;
-  const expectedChecksum = saveChecksum(data.slice(0, payloadLength));
+  const headerLength = 0x13;
+  if (data.length < headerLength + 2) throw new Error(`save record at 0x${offset.toString(16)} must contain header, payload and checksum`);
+  const payloadLength = data.length - headerLength - 1;
+  const header = data.slice(0, headerLength);
+  const payload = data.slice(headerLength, headerLength + payloadLength);
+  const expectedChecksum = saveChecksum(payload);
+  const erased = data.every(byte => byte === 0xFF);
   return {
     sramOffset: offset,
     sramOffsetHex: `0x${offset.toString(16).toUpperCase().padStart(4, '0')}`,
     rawHex: Buffer.from(data).toString('hex'),
-    erased: data.every(byte => byte === 0xFF),
+    headerHex: Buffer.from(header).toString('hex'),
+    erased,
     payloadLength,
-    checksum: data[payloadLength],
+    checksum: data[headerLength + payloadLength],
     expectedChecksum,
-    checksumValid: data[payloadLength] === expectedChecksum,
+    checksumValid: erased || data[headerLength + payloadLength] === expectedChecksum,
   };
 }
 
