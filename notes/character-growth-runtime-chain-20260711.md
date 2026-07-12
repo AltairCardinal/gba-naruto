@@ -128,6 +128,7 @@ CAPSTONE_PYTHON_PATH=/private/tmp/gba-capstone \
 - `sequel/content/character-stats-b/bank.json`：disproved tombstone。
 
 人物信息页同边界截图/EWRAM 已命名 growth `+0` 体力、`+4` 攻击、`+6` 防御、
-`+8` 敏捷、`+A` 移动。growth `+2/+C` 对应 template `+8/+6`，仍需单字节 UI
-A/B 排定查克拉与手里剑容量；`+E` 仍未读。editor DB 仍需迁移到 63 条 lossless
-growth records，之后才可恢复字段级安全写回。
+`+8` 敏捷、`+A` 移动。进一步对齐人物信息页渲染器的标签行与数值读取行后，
+growth `+2` → template `+8` 已命名为查克拉容量成长，growth `+C` → template `+6`
+已命名为忍具数上限成长；不再需要单字节 UI A/B。`+E` 仍未被已知成长路径读取。
+editor DB 仍需迁移到 63 条 lossless growth records，之后才可恢复字段级安全写回。

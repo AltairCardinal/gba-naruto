@@ -29,7 +29,8 @@
         "size": 2,
         "name": "template_08_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x08 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x08 as value * (level - 1) / 100",
+        "player_label": "chakra_capacity"
       },
       {
         "offset": 4,
@@ -68,7 +69,8 @@
         "size": 2,
         "name": "template_06_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x06 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x06 as value * (level - 1) / 100",
+        "player_label": "ninja_tool_capacity"
       },
       {
         "offset": 14,
@@ -79,7 +81,7 @@
       }
     ]
   },
-  "notes": "Fields are growth increments per 100 levels, applied with integer division to level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. A same-boundary character overview screenshot/EWRAM dump identifies max HP, attack, defense, agility and movement. Template +6/+8 remain unnamed until a controlled UI A/B disambiguates shuriken capacity from chakra capacity.",
+  "notes": "Fields are growth increments per 100 levels, applied with integer division to level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. A same-boundary character overview screenshot/EWRAM dump identifies the visible statistics. Renderer 0x08089B82..0x08089C9A pairs its chakra label with template +08 and its ninja-tool label with template +06, identifying growth +02 as chakra capacity and growth +0C as ninja-tool capacity.",
   "entries": [
     {
       "character_id": 0,

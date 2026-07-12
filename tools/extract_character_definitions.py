@@ -73,8 +73,12 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
                 "template_05_base_hex": raw[4:5].hex(),
                 "template_06_base": raw[5],
                 "template_06_base_hex": raw[5:6].hex(),
+                "ninja_tool_capacity_base": raw[5],
+                "ninja_tool_capacity_base_hex": raw[5:6].hex(),
                 "template_08_base": raw[6],
                 "template_08_base_hex": raw[6:7].hex(),
+                "chakra_capacity_base": raw[6],
+                "chakra_capacity_base_hex": raw[6:7].hex(),
                 "reserved_07": raw[7],
                 "reserved_07_hex": raw[7:8].hex(),
                 "template_0a_base": int.from_bytes(raw[8:10], "little"),
@@ -118,7 +122,8 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
             "description": (
                 "Lossless 0xB4 character definition records indexed by character_id. "
                 "Base-value destinations and the two four-byte slot arrays are proven by "
-                "0x0806D4A0/0x0806D964. Player-facing stat names remain deliberately unset."
+                "0x0806D4A0/0x0806D964. The character overview renderer at 0x08089AE0 "
+                "provides the player-facing stat names."
             ),
             "fields": [
                 {"name": "active_flag", "type": "u8", "offset": 0, "size": 1},
@@ -143,6 +148,8 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
             "template_03": "defense_power",
             "template_04": "agility",
             "template_05": "movement",
+            "template_06": "ninja_tool_capacity",
+            "template_08": "chakra_capacity",
             "template_0a": "hand_seals",
             "template_0e": "max_hp",
             "template_10": "experience",
@@ -173,9 +180,10 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
             "the record. Runtime evidence connects character_id=1 to ROM record "
             "0x5424D0, proves template-to-battle-slot copying, and shows byte "
             "0x5424D1 changes runtime template payload byte +1. A same-boundary character "
-            "overview screenshot and EWRAM dump correlate attack, defense, agility, movement, "
-            "hand seals, max HP and experience. Template +6/+8 remain deliberately unnamed "
-            "until a one-byte UI A/B disambiguates shuriken and chakra."
+            "overview screenshot and EWRAM dump correlate the visible statistics. The same "
+            "page's renderer at 0x08089B82..0x08089C9A draws labels in the order max HP, "
+            "chakra, attack, defense, agility, movement, ninja tools while reading template "
+            "+0E,+08,+02,+03,+04,+05,+06, proving +08 chakra and +06 ninja-tool capacity."
         ),
         "entries": entries,
         "verification": "runtime_verified",

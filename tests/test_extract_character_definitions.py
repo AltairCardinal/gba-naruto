@@ -98,6 +98,8 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
             "template_03": "defense_power",
             "template_04": "agility",
             "template_05": "movement",
+            "template_06": "ninja_tool_capacity",
+            "template_08": "chakra_capacity",
             "template_0a": "hand_seals",
             "template_0e": "max_hp",
             "template_10": "experience",

@@ -38,10 +38,12 @@ FIELDS = (
 SPECIAL_GROWTH_RECORDS = {57: 8, 58: 15}
 PLAYER_LABELS = {
     0x00: "max_hp",
+    0x02: "chakra_capacity",
     0x04: "attack_power",
     0x06: "defense_power",
     0x08: "agility",
     0x0A: "movement",
+    0x0C: "ninja_tool_capacity",
 }
 
 
@@ -112,9 +114,10 @@ def build_bank(rom: bytes) -> dict[str, Any]:
         "notes": (
             "Fields are growth increments per 100 levels, applied with integer division to "
             "level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. "
-            "A same-boundary character overview screenshot/EWRAM dump identifies max HP, "
-            "attack, defense, agility and movement. Template +6/+8 remain unnamed until "
-            "a controlled UI A/B disambiguates shuriken capacity from chakra capacity."
+            "A same-boundary character overview screenshot/EWRAM dump identifies the visible "
+            "statistics. Renderer 0x08089B82..0x08089C9A pairs its chakra label with template "
+            "+08 and its ninja-tool label with template +06, identifying growth +02 as chakra "
+            "capacity and growth +0C as ninja-tool capacity."
         ),
         "entries": extract_entries(rom),
     }

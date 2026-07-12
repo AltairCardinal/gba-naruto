@@ -130,9 +130,13 @@ ID×`0xB4` 读取，后续提取器必须保留全部 63 条原始记录。
 初始化证明 `+0C` 是当前体力，与页面 `80/80` 一致。定义表因此可命名
 `+1/+2/+3/+4/+8/+A` 为攻击/防御/敏捷/移动/印/体力基础值。
 
-template `+6/+8` 在该样本均为 5，虽然页面也正好显示手里剑与查克拉容量 5，单样本
-不能证明二者顺序，严格保留目标偏移名，待单字节 UI A/B。template `+7=3` 也不能
-冒充任一当前值。compact evidence：
+后续直接闭合了人物信息页渲染器 `0x08089AE0`。`0x08089B82..0x08089BF0`
+按行绘制体力、查克拉、攻击力、防御力、敏捷度、移动力、忍具数标签；紧接着
+`0x08089BF4..0x08089C9A` 以完全相同的行序读取模板
+`+0x0E/+0x08/+0x02/+0x03/+0x04/+0x05/+0x06`。因此无需依赖两个值都为 5 的
+单样本相关性，也无需破坏性 UI A/B：template `+0x08` 已由代码与屏幕标签共同证明为
+查克拉容量，template `+0x06` 为忍具数上限。template `+7=3` 仍是独立字段，不冒充
+任一当前值。compact evidence：
 `artifacts/runtime-checkpoints/unit-overview-field-correlation.json`。
 
 新增持久镜像 `rom_character_definitions`，保存 immutable `base_raw_hex` 和可编辑

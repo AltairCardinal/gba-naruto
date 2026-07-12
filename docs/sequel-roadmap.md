@@ -368,8 +368,9 @@
   `+2: 15→16`，结构升级为 runtime_verified。
 - 人物信息页与同边界 EWRAM 已把 template `+2/+3/+4/+5/+0A/+0C/+0E/+10`
   分别关联为攻击/防御/敏捷/移动/印/当前体力/体力上限/经验；growth 的体力、
-  攻击、防御、敏捷、移动字段可同步命名。`+6/+8` 因同为 5，仍需单字节 UI A/B
-  排定手里剑与查克拉容量，未提前猜测
+  攻击、防御、敏捷、移动字段可同步命名。随后以 `0x08089AE0` 的标签行和数值读取
+  行直接闭合 `template +8 = 查克拉容量`、`template +6 = 忍具数上限`，对应 growth
+  `+2/+C`；两个运行值同为 5 不再构成歧义，也不再需要 UI A/B
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified

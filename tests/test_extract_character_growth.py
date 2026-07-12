@@ -41,12 +41,12 @@ class CharacterGrowthExtractionTests(unittest.TestCase):
         bank = build_bank(self.fixture_rom())
         fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
         self.assertEqual(fields[0]["player_label"], "max_hp")
+        self.assertEqual(fields[2]["player_label"], "chakra_capacity")
         self.assertEqual(fields[4]["player_label"], "attack_power")
         self.assertEqual(fields[6]["player_label"], "defense_power")
         self.assertEqual(fields[8]["player_label"], "agility")
         self.assertEqual(fields[10]["player_label"], "movement")
-        self.assertNotIn("player_label", fields[2])
-        self.assertNotIn("player_label", fields[12])
+        self.assertEqual(fields[12]["player_label"], "ninja_tool_capacity")
 
 
 if __name__ == "__main__":
