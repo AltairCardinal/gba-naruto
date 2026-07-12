@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Read-only structural analyzer for the opcodes observed in alternate scenario 39.
 
-This module records exact command boundaries without assigning unproved operand
-semantics.  Authoring remains restricted to ``chapter_script_codec``.
+This module records exact command boundaries and the code-proven semantics while
+preserving opaque inline text bytes. Authoring remains more restricted than
+analysis until the text encoding/control grammar is closed.
 """
 
 from __future__ import annotations
@@ -10,9 +11,9 @@ from __future__ import annotations
 from typing import Any
 
 try:
-    from tools.chapter_script_codec import AUDIO_MODES
+    from tools.chapter_script_codec import AUDIO_MODES, find_render_text_end
 except ModuleNotFoundError:
-    from chapter_script_codec import AUDIO_MODES
+    from chapter_script_codec import AUDIO_MODES, find_render_text_end
 
 
 FIXED_LENGTHS = {
@@ -21,32 +22,6 @@ FIXED_LENGTHS = {
     0x08: 2,
     0x1B: 3,
 }
-
-
-def find_render_text_end(data: bytes, start: int) -> int:
-    """Return the NUL terminator used by renderer 0x0806626C.
-
-    Control records 0x01 and 0x02 carry operand bytes which may themselves be
-    zero, so a raw ``bytes.find(0)`` would truncate valid records.
-    """
-    cursor = start
-    while cursor < len(data):
-        value = data[cursor]
-        if value == 0:
-            return cursor
-        if value == 0x01:
-            width = 2
-        elif value == 0x02:
-            width = 3
-        elif value >= 0x80:
-            width = 2
-        else:
-            # 0x03, 0x0A and other single-byte renderer controls/ASCII.
-            width = 1
-        if cursor + width > len(data):
-            raise ValueError(f"truncated render-text token at offset 0x{cursor:X}")
-        cursor += width
-    raise ValueError(f"unterminated render text beginning at offset 0x{start:X}")
 
 
 def _address(base_address: int, offset: int) -> str:
@@ -77,7 +52,7 @@ def analyze_observed_script(data: bytes, *, base_address: int) -> list[dict[str,
         if opcode == 0x01:
             terminator = find_render_text_end(data, cursor + 1)
             length = terminator - cursor + 1
-            name = "render_text_record"
+            name = "render_text"
         elif opcode in FIXED_LENGTHS:
             length = FIXED_LENGTHS[opcode]
             name = f"opcode_{opcode:02x}"
@@ -95,6 +70,8 @@ def analyze_observed_script(data: bytes, *, base_address: int) -> list[dict[str,
             "raw_hex": raw.hex(),
             "operand_hex": raw[1:].hex(),
         }
+        if opcode == 0x01:
+            command["encoded_text_hex"] = raw[1:-1].hex()
         if opcode == 0x1B:
             mode_value = raw[2]
             if mode_value not in AUDIO_MODES:
@@ -110,6 +87,13 @@ def analyze_observed_script(data: bytes, *, base_address: int) -> list[dict[str,
             command.update({
                 "name": "set_speaker_label",
                 "speaker_label_id": raw[1],
+            })
+        elif opcode in (0x02, 0x04):
+            command.update({
+                "name": "show_portrait" if opcode == 0x02 else "update_portrait",
+                "portrait_slot": raw[1],
+                "portrait_id": raw[2],
+                "expression_id": raw[3],
             })
         commands.append(command)
         cursor += length

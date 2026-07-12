@@ -37,6 +37,23 @@ class ChapterScriptAnalyzerTests(unittest.TestCase):
         self.assertEqual(commands[0]["name"], "audio_cue")
         self.assertEqual(commands[0]["cue_id"], 4)
         self.assertEqual(commands[0]["mode"], "play")
+        show_commands = [command for command in commands if command["opcode"] == 0x02]
+        self.assertTrue(all(command["name"] == "show_portrait" for command in show_commands))
+        self.assertEqual(
+            [(command["portrait_slot"], command["portrait_id"], command["expression_id"])
+             for command in show_commands],
+            [(1, 7, 0), (0, 1, 1), (1, 3, 0), (1, 7, 0), (0, 2, 0)],
+        )
+        update_commands = [command for command in commands if command["opcode"] == 0x04]
+        self.assertTrue(all(command["name"] == "update_portrait" for command in update_commands))
+        self.assertEqual(
+            [(command["portrait_slot"], command["portrait_id"], command["expression_id"])
+             for command in update_commands],
+            [(0, 1, 0), (0, 1, 1)],
+        )
+        text_commands = [command for command in commands if command["opcode"] == 0x01]
+        self.assertTrue(all(command["name"] == "render_text" for command in text_commands))
+        self.assertTrue(all(command["encoded_text_hex"] for command in text_commands))
         speaker_commands = [command for command in commands if command["opcode"] == 0x08]
         self.assertEqual([command["speaker_label_id"] for command in speaker_commands], [7, 1, 3, 1, 7, 1, 7, 2])
         self.assertTrue(all(command["name"] == "set_speaker_label" for command in speaker_commands))

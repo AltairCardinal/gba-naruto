@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 7,
   "description": "Alternate scenario/chapter flow script pointer table selected when state +0x18 is nonzero.",
   "structure_kind": "chapter-flow-script-pointer-table",
   "table_offset": 396628,
@@ -21,6 +21,13 @@
   "consumer": {
     "selector": "0x0808F544",
     "interpreter": "0x080977B8",
+    "render_text_handler": "0x080978DC",
+    "text_renderer": "0x0806626C",
+    "show_portrait_handler": "0x08097930",
+    "show_portrait_helper": "0x080967E8",
+    "update_portrait_handler": "0x08097958",
+    "update_portrait_helper": "0x08096A04",
+    "portrait_variant_table": "0x085A4DEC",
     "set_battle_handler": "0x08097C6C",
     "audio_cue_handler": "0x08097C9C",
     "audio_cue_helper": "0x08097140",
@@ -53,12 +60,15 @@
       },
       {
         "opcode": 2,
-        "name": "opcode_02",
+        "name": "show_portrait",
         "offset": 3,
         "address": "0x08031284",
         "length": 4,
         "raw_hex": "02010700",
-        "operand_hex": "010700"
+        "operand_hex": "010700",
+        "portrait_slot": 1,
+        "portrait_id": 7,
+        "expression_id": 0
       },
       {
         "opcode": 8,
@@ -72,21 +82,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 9,
         "address": "0x0803128A",
         "length": 28,
         "raw_hex": "0181678fca95c49bac99c388c7814981688140814081408140814000",
-        "operand_hex": "81678fca95c49bac99c388c7814981688140814081408140814000"
+        "operand_hex": "81678fca95c49bac99c388c7814981688140814081408140814000",
+        "encoded_text_hex": "81678fca95c49bac99c388c78149816881408140814081408140"
       },
       {
         "opcode": 2,
-        "name": "opcode_02",
+        "name": "show_portrait",
         "offset": 37,
         "address": "0x080312A6",
         "length": 4,
         "raw_hex": "02000101",
-        "operand_hex": "000101"
+        "operand_hex": "000101",
+        "portrait_slot": 0,
+        "portrait_id": 1,
+        "expression_id": 1
       },
       {
         "opcode": 8,
@@ -100,21 +114,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 43,
         "address": "0x080312AC",
         "length": 50,
         "raw_hex": "0181678dc08160816081498aef9a779046904697f490cc95a391698160816081498168814081408140814081408140814000",
-        "operand_hex": "81678dc08160816081498aef9a779046904697f490cc95a391698160816081498168814081408140814081408140814000"
+        "operand_hex": "81678dc08160816081498aef9a779046904697f490cc95a391698160816081498168814081408140814081408140814000",
+        "encoded_text_hex": "81678dc08160816081498aef9a779046904697f490cc95a3916981608160814981688140814081408140814081408140"
       },
       {
         "opcode": 2,
-        "name": "opcode_02",
+        "name": "show_portrait",
         "offset": 93,
         "address": "0x080312DE",
         "length": 4,
         "raw_hex": "02010300",
-        "operand_hex": "010300"
+        "operand_hex": "010300",
+        "portrait_slot": 1,
+        "portrait_id": 3,
+        "expression_id": 0
       },
       {
         "opcode": 8,
@@ -128,21 +146,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 99,
         "address": "0x080312E4",
         "length": 63,
         "raw_hex": "01816795c490cc95a38c63964c90af8149814081408140814081408140814081408140814081408140814081400a92e08cdc98f395af925299878149816800",
-        "operand_hex": "816795c490cc95a38c63964c90af8149814081408140814081408140814081408140814081408140814081400a92e08cdc98f395af925299878149816800"
+        "operand_hex": "816795c490cc95a38c63964c90af8149814081408140814081408140814081408140814081408140814081400a92e08cdc98f395af925299878149816800",
+        "encoded_text_hex": "816795c490cc95a38c63964c90af8149814081408140814081408140814081408140814081408140814081400a92e08cdc98f395af9252998781498168"
       },
       {
         "opcode": 4,
-        "name": "opcode_04",
+        "name": "update_portrait",
         "offset": 162,
         "address": "0x08031323",
         "length": 4,
         "raw_hex": "04000100",
-        "operand_hex": "000100"
+        "operand_hex": "000100",
+        "portrait_slot": 0,
+        "portrait_id": 1,
+        "expression_id": 0
       },
       {
         "opcode": 8,
@@ -156,21 +178,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 168,
         "address": "0x08031329",
         "length": 50,
         "raw_hex": "01816795af9252814981489046904697f490cc95a3814392e08c63964c916981488168814081408140814081408140814000",
-        "operand_hex": "816795af9252814981489046904697f490cc95a3814392e08c63964c916981488168814081408140814081408140814000"
+        "operand_hex": "816795af9252814981489046904697f490cc95a3814392e08c63964c916981488168814081408140814081408140814000",
+        "encoded_text_hex": "816795af9252814981489046904697f490cc95a3814392e08c63964c9169814881688140814081408140814081408140"
       },
       {
         "opcode": 2,
-        "name": "opcode_02",
+        "name": "show_portrait",
         "offset": 218,
         "address": "0x0803135B",
         "length": 4,
         "raw_hex": "02010700",
-        "operand_hex": "010700"
+        "operand_hex": "010700",
+        "portrait_slot": 1,
+        "portrait_id": 7,
+        "expression_id": 0
       },
       {
         "opcode": 8,
@@ -184,21 +210,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 224,
         "address": "0x08031361",
         "length": 85,
         "raw_hex": "018167989d8163816395c49bac99c38b628163816381408140814081408140814081408140814081400a89b88d9c92e092658b6295b2914494b495b295c496de8cdc91698142816881408140814081408140814000",
-        "operand_hex": "8167989d8163816395c49bac99c38b628163816381408140814081408140814081408140814081400a89b88d9c92e092658b6295b2914494b495b295c496de8cdc91698142816881408140814081408140814000"
+        "operand_hex": "8167989d8163816395c49bac99c38b628163816381408140814081408140814081408140814081400a89b88d9c92e092658b6295b2914494b495b295c496de8cdc91698142816881408140814081408140814000",
+        "encoded_text_hex": "8167989d8163816395c49bac99c38b628163816381408140814081408140814081408140814081400a89b88d9c92e092658b6295b2914494b495b295c496de8cdc916981428168814081408140814081408140"
       },
       {
         "opcode": 4,
-        "name": "opcode_04",
+        "name": "update_portrait",
         "offset": 309,
         "address": "0x080313B6",
         "length": 4,
         "raw_hex": "04000101",
-        "operand_hex": "000101"
+        "operand_hex": "000101",
+        "portrait_slot": 0,
+        "portrait_id": 1,
+        "expression_id": 1
       },
       {
         "opcode": 8,
@@ -212,12 +242,13 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 315,
         "address": "0x080313BC",
         "length": 18,
         "raw_hex": "0181678dd68dd68dd6816381638168814000",
-        "operand_hex": "81678dd68dd68dd6816381638168814000"
+        "operand_hex": "81678dd68dd68dd6816381638168814000",
+        "encoded_text_hex": "81678dd68dd68dd68163816381688140"
       },
       {
         "opcode": 8,
@@ -231,21 +262,25 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 335,
         "address": "0x080313D0",
         "length": 48,
         "raw_hex": "0181678dc0916981499bac8acb8b6295b28b7699a7984e8fca8b5b9bac90ec9169814981688140814081408140814000",
-        "operand_hex": "81678dc0916981499bac8acb8b6295b28b7699a7984e8fca8b5b9bac90ec9169814981688140814081408140814000"
+        "operand_hex": "81678dc0916981499bac8acb8b6295b28b7699a7984e8fca8b5b9bac90ec9169814981688140814081408140814000",
+        "encoded_text_hex": "81678dc0916981499bac8acb8b6295b28b7699a7984e8fca8b5b9bac90ec91698149816881408140814081408140"
       },
       {
         "opcode": 2,
-        "name": "opcode_02",
+        "name": "show_portrait",
         "offset": 383,
         "address": "0x08031400",
         "length": 4,
         "raw_hex": "02000200",
-        "operand_hex": "000200"
+        "operand_hex": "000200",
+        "portrait_slot": 0,
+        "portrait_id": 2,
+        "expression_id": 0
       },
       {
         "opcode": 8,
@@ -259,12 +294,13 @@
       },
       {
         "opcode": 1,
-        "name": "render_text_record",
+        "name": "render_text",
         "offset": 389,
         "address": "0x08031406",
         "length": 40,
         "raw_hex": "0181678ddc816381639bd28b5e91698e5789b8908b9ca98142816881408140814081408140814000",
-        "operand_hex": "81678ddc816381639bd28b5e91698e5789b8908b9ca98142816881408140814081408140814000"
+        "operand_hex": "81678ddc816381639bd28b5e91698e5789b8908b9ca98142816881408140814081408140814000",
+        "encoded_text_hex": "81678ddc816381639bd28b5e91698e5789b8908b9ca981428168814081408140814081408140"
       },
       {
         "opcode": 0,
@@ -276,7 +312,7 @@
       }
     ]
   },
-  "writeback": "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict chapter_script_codec currently authors only code-proven END, SET_SPEAKER_LABEL, SET_BATTLE, and AUDIO_CUE scripts; production script allocation and atomic pointer+payload writeback remain disabled.",
+  "writeback": "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict chapter_script_codec authors the complete code-proven scenario-39 subset: END, RENDER_TEXT (pre-encoded bytes), SHOW_PORTRAIT, UPDATE_PORTRAIT, SET_SPEAKER_LABEL, SET_BATTLE, and AUDIO_CUE; production script allocation and atomic pointer+payload writeback remain disabled.",
   "entries": [
     {
       "scenario_id": 0,

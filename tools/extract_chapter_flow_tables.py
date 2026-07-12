@@ -56,7 +56,7 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "Alternate scenario/chapter flow script pointer table selected when state +0x18 is nonzero."
     )
     return {
-        "version": 5,
+        "version": 7,
         "description": description,
         "structure_kind": "chapter-flow-script-pointer-table",
         "table_offset": table_offset,
@@ -73,6 +73,13 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "consumer": {
             "selector": "0x0808F544",
             "interpreter": "0x080977B8",
+            "render_text_handler": "0x080978DC",
+            "text_renderer": "0x0806626C",
+            "show_portrait_handler": "0x08097930",
+            "show_portrait_helper": "0x080967E8",
+            "update_portrait_handler": "0x08097958",
+            "update_portrait_helper": "0x08096A04",
+            "portrait_variant_table": "0x085A4DEC",
             "set_battle_handler": "0x08097C6C",
             "audio_cue_handler": "0x08097C9C",
             "audio_cue_helper": "0x08097140",
@@ -104,8 +111,9 @@ def build_bank(rom: bytes, slug: str) -> dict:
         }),
         "writeback": (
             "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict "
-            "chapter_script_codec currently authors only code-proven END, SET_SPEAKER_LABEL, "
-            "SET_BATTLE, and AUDIO_CUE scripts; "
+            "chapter_script_codec authors the complete code-proven scenario-39 subset: END, "
+            "RENDER_TEXT (pre-encoded bytes), SHOW_PORTRAIT, UPDATE_PORTRAIT, "
+            "SET_SPEAKER_LABEL, SET_BATTLE, and AUDIO_CUE; "
             "production script allocation and atomic pointer+payload writeback remain disabled."
         ),
         "entries": entries,

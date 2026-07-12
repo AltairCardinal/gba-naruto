@@ -12,6 +12,9 @@ from typing import Any
 
 
 OP_END = 0x00
+OP_RENDER_TEXT = 0x01
+OP_SHOW_PORTRAIT = 0x02
+OP_UPDATE_PORTRAIT = 0x04
 OP_SET_SPEAKER_LABEL = 0x08
 OP_SET_BATTLE = 0x1A
 OP_AUDIO_CUE = 0x1B
@@ -48,6 +51,29 @@ def _opcode_error(opcode: int, offset: int) -> ChapterScriptError:
     return UnsupportedOpcodeError(f"unsupported/unproved {message}")
 
 
+def find_render_text_end(data: bytes, start: int) -> int:
+    """Return the renderer-visible NUL terminator at a token boundary."""
+    cursor = start
+    while cursor < len(data):
+        value = data[cursor]
+        if value == 0:
+            return cursor
+        if value == 0x01:
+            width = 2
+        elif value == 0x02:
+            width = 3
+        elif value >= 0x80:
+            width = 2
+        else:
+            width = 1
+        if cursor + width > len(data):
+            raise ChapterScriptError(
+                f"truncated render-text token at offset 0x{cursor:X}"
+            )
+        cursor += width
+    raise ChapterScriptError(f"unterminated render text beginning at offset 0x{start:X}")
+
+
 def decode_script(data: bytes) -> list[dict[str, Any]]:
     """Decode a complete script containing only the code-proven safe subset."""
     if not isinstance(data, bytes):
@@ -72,6 +98,49 @@ def decode_script(data: bytes) -> list[dict[str, Any]]:
             })
             cursor += 1
             ended = True
+            continue
+        if opcode == OP_RENDER_TEXT:
+            terminator = find_render_text_end(data, cursor + 1)
+            commands.append({
+                "opcode": opcode,
+                "name": "render_text",
+                "offset": cursor,
+                "length": terminator - cursor + 1,
+                "encoded_text_hex": data[cursor + 1:terminator].hex(),
+            })
+            cursor = terminator + 1
+            continue
+        if opcode in (OP_SHOW_PORTRAIT, OP_UPDATE_PORTRAIT):
+            name = "show_portrait" if opcode == OP_SHOW_PORTRAIT else "update_portrait"
+            if cursor + 4 > len(data):
+                raise TruncatedCommandError(
+                    f"truncated {name} at offset 0x{cursor:X}: need 4 bytes"
+                )
+            portrait_slot = data[cursor + 1]
+            portrait_id = data[cursor + 2]
+            expression_id = data[cursor + 3]
+            if portrait_slot > 1:
+                raise ChapterScriptError(
+                    f"portrait_slot must be in 0..1 at offset 0x{cursor:X}"
+                )
+            if portrait_id > 62:
+                raise ChapterScriptError(
+                    f"portrait_id must be in 0..62 at offset 0x{cursor:X}"
+                )
+            if expression_id > 5:
+                raise ChapterScriptError(
+                    f"expression_id must be in 0..5 at offset 0x{cursor:X}"
+                )
+            commands.append({
+                "opcode": opcode,
+                "name": name,
+                "offset": cursor,
+                "length": 4,
+                "portrait_slot": portrait_slot,
+                "portrait_id": portrait_id,
+                "expression_id": expression_id,
+            })
+            cursor += 4
             continue
         if opcode == OP_SET_BATTLE:
             if cursor + 3 > len(data):
@@ -136,6 +205,13 @@ def _u8(command: Mapping[str, Any], field: str) -> int:
     return value
 
 
+def _bounded_u8(command: Mapping[str, Any], field: str, maximum: int) -> int:
+    value = _u8(command, field)
+    if value > maximum:
+        raise ChapterScriptError(f"{field} must be in 0..{maximum}")
+    return value
+
+
 def encode_script(commands: Sequence[Mapping[str, Any]]) -> bytes:
     """Encode the safe subset and require exactly one terminal END command."""
     if not isinstance(commands, Sequence) or isinstance(commands, (str, bytes, bytearray)):
@@ -148,7 +224,32 @@ def encode_script(commands: Sequence[Mapping[str, Any]]) -> bytes:
         if ended:
             raise ChapterScriptError(f"command remains after end at index {index}")
         name = command.get("name")
-        if name == "set_battle":
+        if name == "render_text":
+            encoded_text_hex = command.get("encoded_text_hex")
+            if not isinstance(encoded_text_hex, str):
+                raise ChapterScriptError("encoded_text_hex must be a hexadecimal string")
+            try:
+                encoded_text = bytes.fromhex(encoded_text_hex)
+            except ValueError as exc:
+                raise ChapterScriptError("encoded_text_hex must be valid hexadecimal") from exc
+            candidate = encoded_text + b"\x00"
+            try:
+                terminator = find_render_text_end(candidate, 0)
+            except ChapterScriptError as exc:
+                raise ChapterScriptError(f"invalid encoded_text_hex: {exc}") from exc
+            if terminator != len(encoded_text):
+                raise ChapterScriptError("encoded_text_hex contains an early text terminator")
+            output.extend((OP_RENDER_TEXT,))
+            output.extend(candidate)
+        elif name in ("show_portrait", "update_portrait"):
+            opcode = OP_SHOW_PORTRAIT if name == "show_portrait" else OP_UPDATE_PORTRAIT
+            output.extend((
+                opcode,
+                _bounded_u8(command, "portrait_slot", 1),
+                _bounded_u8(command, "portrait_id", 62),
+                _bounded_u8(command, "expression_id", 5),
+            ))
+        elif name == "set_battle":
             output.extend((OP_SET_BATTLE, _u8(command, "battle_id"), _u8(command, "mode")))
         elif name == "audio_cue":
             mode = command.get("mode")
