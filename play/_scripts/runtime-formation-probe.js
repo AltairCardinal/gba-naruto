@@ -237,6 +237,51 @@ async function persistSaveExport(page) {
   return { path: outputPath, size: exported.length };
 }
 
+async function persistMemoryDump(page) {
+  const outputPath = process.env.PROBE_MEMORY_DUMP;
+  if (!outputPath) return null;
+  const address = Number(process.env.PROBE_MEMORY_ADDRESS || 0x02000000);
+  const length = Number(process.env.PROBE_MEMORY_LENGTH || 0x40000);
+  const bytes = await readGbaBytes(page, address, length);
+  fs.writeFileSync(outputPath, Buffer.from(bytes));
+  return { path: outputPath, address, length };
+}
+
+async function persistStateExport(page) {
+  const outputPath = process.env.PROBE_STATE_DUMP;
+  if (!outputPath) return null;
+  const state = await page.evaluate(async () => {
+    const gba = window.__mGBA;
+    const slot = 9;
+    const saved = gba.saveState(slot);
+    if (!saved) throw new Error(`saveState(${slot}) failed`);
+    await new Promise(resolve => setTimeout(resolve, 250));
+    const name = gba.FS.readdir('/data/states/').find(item => item.endsWith(`.ss${slot}`));
+    if (!name) throw new Error(`state slot ${slot} file missing`);
+    return { slot, name, data: Array.from(gba.FS.readFile(`/data/states/${name}`)) };
+  });
+  fs.writeFileSync(outputPath, Buffer.from(state.data));
+  return { path: outputPath, slot: state.slot, name: state.name, size: state.data.length };
+}
+
+async function loadStateCheckpoint(page) {
+  const inputPath = process.env.PROBE_STATE_LOAD;
+  if (!inputPath) return null;
+  const absolutePath = path.resolve(inputPath);
+  const data = fs.readFileSync(absolutePath);
+  const result = await page.evaluate(async bytes => {
+    const gba = window.__mGBA;
+    const slot = 9;
+    const name = `naruto-sequel-dev.ss${slot}`;
+    gba.FS.writeFile(`/data/states/${name}`, Uint8Array.from(bytes));
+    const loaded = gba.loadState(slot);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    return { slot, name, loaded };
+  }, Array.from(data));
+  if (!result.loaded) throw new Error(`loadState(${result.slot}) failed for ${absolutePath}`);
+  return { path: absolutePath, size: data.length, ...result };
+}
+
 async function installProbeRomRoute(page, romPath) {
   if (!romPath) return null;
   const absolutePath = path.resolve(romPath);
@@ -277,6 +322,8 @@ async function captureScreenMetrics(page) {
     let pale = 0;
     let green = 0;
     let dark = 0;
+    let edges = 0;
+    let edgeSamples = 0;
     const count = pixels.length / 4;
     for (let i = 0; i < pixels.length; i += 4) {
       const r = pixels[i]; const g = pixels[i + 1]; const b = pixels[i + 2];
@@ -284,8 +331,14 @@ async function captureScreenMetrics(page) {
       if (r > 150 && g > 160 && b < 170) pale += 1;
       if (g > r * 1.15 && g > b * 1.15 && g > 80) green += 1;
       if (r < 30 && g < 30 && b < 30) dark += 1;
+      const pixel = i / 4;
+      if (pixel % 480 !== 0) {
+        const previous = i - 4;
+        if (Math.abs(r - pixels[previous]) + Math.abs(g - pixels[previous + 1]) + Math.abs(b - pixels[previous + 2]) > 60) edges += 1;
+        edgeSamples += 1;
+      }
     }
-    return { grayRatio: gray / count, paleRatio: pale / count, greenRatio: green / count, darkRatio: dark / count };
+    return { grayRatio: gray / count, paleRatio: pale / count, greenRatio: green / count, darkRatio: dark / count, edgeRatio: edges / edgeSamples };
   }, base64);
 }
 
@@ -309,6 +362,7 @@ async function main() {
       && document.querySelector('.speed-btn[data-speed="1"]')?.disabled === false
       && window.__mGBA._readGbaByte(0x08000000) !== -1
     ), { timeout: 90000, polling: 1000 });
+    const stateLoad = await loadStateCheckpoint(page);
     await page.evaluate(() => document.querySelector('.speed-btn[data-speed="4"]')?.click());
     const initialSaveRecords = await readSaveRecords(page);
     const plan = buildNavigationPlan({
@@ -320,6 +374,7 @@ async function main() {
       keyHoldMs: Number(process.env.PROBE_KEY_HOLD_MS ?? 125),
       tailDelayMs: Number(process.env.PROBE_TAIL_DELAY_MS ?? 600),
       tailKeys: (process.env.PROBE_TAIL_KEYS || '').split(',').map(key => key.trim()).filter(Boolean),
+      skipNewGame: process.env.PROBE_SKIP_NEW_GAME === '1',
     });
     const settlePlan = buildSettlePlan({
       count: Number(process.env.PROBE_SETTLE_COUNT ?? 20),
@@ -401,6 +456,9 @@ async function main() {
         if (STOP_ON_MATCH && arrival.arrived) {
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
+          lastDiagnostic.stateLoad = stateLoad;
+          lastDiagnostic.stateExport = await persistStateExport(page);
+          lastDiagnostic.memoryDump = await persistMemoryDump(page);
           await page.screenshot({ path: artifacts.finalScreenshotPath });
           fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: arrival.reason, stages, final: lastDiagnostic, match }), null, 2)}\n`);
           return;
@@ -410,6 +468,9 @@ async function main() {
       }
       const nextPhase = plan[index + 1]?.phase;
       if (nextPhase !== action.phase) {
+        if (process.env.PROBE_STATE_DUMP_PHASE === action.phase) {
+          lastDiagnostic.stateExport = await persistStateExport(page);
+        }
         const screenshotPath = artifacts.phaseScreenshot(action.phase);
         await page.screenshot({ path: screenshotPath });
         stages.push({ ...lastDiagnostic, screenshotPath });
@@ -419,6 +480,9 @@ async function main() {
     if (!STOP_ON_MATCH && lastDiagnostic?.arrival?.arrived) {
       lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
       lastDiagnostic.saveExport = await persistSaveExport(page);
+      lastDiagnostic.stateLoad = stateLoad;
+      lastDiagnostic.stateExport = await persistStateExport(page);
+      lastDiagnostic.memoryDump = await persistMemoryDump(page);
       await page.screenshot({ path: artifacts.finalScreenshotPath });
       fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-full-plan', stages, final: lastDiagnostic, match: latestMatch }), null, 2)}\n`);
       return;
@@ -478,6 +542,9 @@ async function main() {
           }
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
+          lastDiagnostic.stateLoad = stateLoad;
+          lastDiagnostic.stateExport = await persistStateExport(page);
+          lastDiagnostic.memoryDump = await persistMemoryDump(page);
           const screenshotPath = artifacts.phaseScreenshot('settle');
           await page.screenshot({ path: screenshotPath });
           stages.push({ ...lastDiagnostic, screenshotPath });

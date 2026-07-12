@@ -100,6 +100,13 @@
   `0x080732B4` 的 state `0xF400`。首战开始自然命中为0，强制 state/gate 会卡在
   更早的结果 UI 阶段，不能代替真实胜利转换；下一有效路线是自动完成首战或取得
   genuine post-victory state 后命中 `0x08074F2C`
+- 首战已建立可恢复的 WASM slot-9 checkpoint 闭环：稳定真地图重载仍得到 battle
+  ID 40、map `[36,44,9,22]`、唯一 slot 1 `(4,4)`；新增 EWRAM dump 证明光标是
+  `0x02026A78/79`，与单位记录 `+0xC4/+0xC5` 不同。地图/面板门禁改以纹理
+  `edgeRatio` 为主，稳定地图约 `0.3435`、角色面板约 `0.1263`。当前 A→单步 Down
+  只令光标到 `(4,8)`，单位未移动、natural-save hook 仍为0，故不得升级 SRAM
+  结论；下一步必须闭合教程的真实 unit-action 子状态后再验证保存与冷加载。详见
+  `notes/first-battle-savestate-checkpoints-20260712.md`
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）

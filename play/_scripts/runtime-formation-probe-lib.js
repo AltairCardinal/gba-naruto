@@ -25,12 +25,13 @@ function buildNavigationPlan(options = {}) {
   const holdMs = boundedInteger(options.keyHoldMs, DEFAULTS.keyHoldMs, 'keyHoldMs');
   const tailDelayMs = boundedInteger(options.tailDelayMs, DEFAULTS.tailDelayMs, 'tailDelayMs');
   const tailKeys = options.tailKeys || [];
+  const skipNewGame = options.skipNewGame === true;
   if (!Array.isArray(tailKeys) || tailKeys.some(key => typeof key !== 'string' || key.length === 0)) {
     throw new TypeError('tailKeys must be an array of non-empty key names');
   }
   return [
     ...Array.from({ length: startCount }, () => ({ phase: 'boot', key: 'Enter', delayMs: startDelayMs, holdMs })),
-    { phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs },
+    ...(skipNewGame ? [] : [{ phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs }]),
     ...Array.from({ length: advanceCount }, () => ({ phase: 'story', key: 'KeyZ', delayMs: advanceDelayMs, holdMs })),
     ...tailKeys.map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
   ];
@@ -108,11 +109,19 @@ function decodeChapterScriptProbe(bytes) {
 }
 
 function classifyScreenMetrics(metrics) {
+  const dark = metrics.darkRatio || 0;
+  // Texture density is the primary discriminator.  The isometric map can be
+  // almost full-frame after the camera moves, so the old "black corners"
+  // heuristic alone is not stable across camera positions.
+  if ((metrics.edgeRatio || 0) > 0.2 && dark < 0.5) return 'battle-map';
   if (metrics.paleRatio > 0.3) return 'prebattle-menu';
   // Battle maps are diamond-shaped and leave large black viewport corners.
   // Character panels fill the viewport with green UI and almost no black.
-  if ((metrics.darkRatio || 0) < 0.05 && metrics.greenRatio > 0.18) return 'character-panel';
-  if ((metrics.darkRatio || 0) > 0.12 && metrics.paleRatio < 0.2) return 'battle-map';
+  if (dark < 0.05 && metrics.greenRatio > 0.18) return 'character-panel';
+  if (metrics.paleRatio < 0.2 && (
+    (dark > 0.12 && dark < 0.5)
+    || (dark < 0.05 && metrics.greenRatio < 0.18)
+  )) return 'battle-map';
   return 'other';
 }
 

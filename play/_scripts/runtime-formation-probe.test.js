@@ -224,10 +224,16 @@ test('decodeChapterScriptProbe exposes the live script cursor and chapter operan
 });
 
 test('classifyScreenMetrics recognizes the character panel without OCR', () => {
-  assert.equal(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01 }), 'character-panel');
-  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.46, greenRatio: 0.291, darkRatio: 0.05 }), 'prebattle-menu');
-  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.11, greenRatio: 0.07, darkRatio: 0.2 }), 'battle-map');
-  assert.notEqual(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01 }), 'battle-map');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01, edgeRatio: 0.126 }), 'character-panel');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.46, greenRatio: 0.291, darkRatio: 0.05, edgeRatio: 0.09 }), 'prebattle-menu');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.61, greenRatio: 0.4, darkRatio: 0.01, edgeRatio: 0.344 }), 'battle-map');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0, greenRatio: 0, darkRatio: 0.82, edgeRatio: 0.01 }), 'other');
+  assert.notEqual(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01, edgeRatio: 0.126 }), 'battle-map');
+});
+
+test('buildNavigationPlan can skip the implicit new-game confirm for loaded states', () => {
+  const plan = buildNavigationPlan({ startCount: 0, advanceCount: 0, skipNewGame: true });
+  assert.deepEqual(plan, []);
 });
 
 test('strict battle arrival rejects preloaded formation during dialogue', () => {

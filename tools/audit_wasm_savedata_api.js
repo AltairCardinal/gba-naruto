@@ -13,7 +13,11 @@ async function main() {
     const page = await browser.newPage();
     await page.goto(process.env.PROBE_URL || 'https://sh.kibox.com.cn/gba-naruto/play/', { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.click('#playBtn');
-    await page.waitForFunction(() => typeof window.__mGBA?._readGbaByte === 'function', { timeout: 90000 });
+    await page.waitForFunction(() => (
+      typeof window.__mGBA?._readGbaByte === 'function'
+      && document.querySelector('.speed-btn[data-speed="1"]')?.disabled === false
+      && window.__mGBA._readGbaByte(0x08000000) !== -1
+    ), { timeout: 90000 });
     const report = await page.evaluate(() => {
       const gba = window.__mGBA;
       const keys = [];
@@ -24,12 +28,33 @@ async function main() {
       }
       const unique = [...new Set(keys)].sort();
       return {
-        matchingKeys: unique.filter(key => /save|sram|battery|export|data/i.test(key)),
+        romFirstByte: gba._readGbaByte(0x08000000),
+        matchingKeys: unique.filter(key => /save|sram|battery|export|data|state|freeze|serialize/i.test(key)),
         allCallableUnderscoreKeys: unique.filter(key => key.startsWith('_') && typeof gba[key] === 'function'),
         callableSources: Object.fromEntries(
-          ['getSave', 'listSaves', 'uploadSaveOrSaveState'].filter(key => typeof gba[key] === 'function')
+          unique.filter(key => /save|state|freeze|serialize/i.test(key) && typeof gba[key] === 'function')
             .map(key => [key, String(gba[key]).slice(0, 1000)]),
         ),
+      };
+    });
+    report.stateSlotProbe = await page.evaluate(async () => {
+      const gba = window.__mGBA;
+      const before = gba.FS.readdir('/data/states/');
+      gba.buttonPress('Start');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      gba.buttonUnpress('Start');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const saved = gba.saveState(9);
+      const savedWithFlags = gba.saveStateSlot(9, 63);
+      await new Promise(resolve => setTimeout(resolve, 250));
+      const after = gba.FS.readdir('/data/states/');
+      const created = after.filter(name => !before.includes(name));
+      return {
+        saved,
+        savedWithFlags,
+        before,
+        after,
+        created: created.map(name => ({ name, size: gba.FS.readFile(`/data/states/${name}`).length })),
       };
     });
     console.log(JSON.stringify(report, null, 2));

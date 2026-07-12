@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-12T08:01:03.478248+00:00`
+生成时间：`2026-07-12T09:01:49.745157+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -40,13 +40,13 @@
 | `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (32) | ✅ (423) | ✅ | — |
 | `menu-ui` | ✅ `0x5A5774` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
 | `palettes` | ✅ `0x53F138` | ✅ | ✅ (88) | ✅ `static_verified` | ✅ (15) | ✅ (88) | ✅ | — |
-| `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (21) | ✅ (10368) | ✅ | — |
+| `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (22) | ✅ (10368) | ✅ | — |
 | `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
 | `sappy-engine` | ✅ `0x09AE3C` | ✅ | ✅ (1) | ✅ `code_verified` | ✅ (6) | ✅ (1) | ✅ | — |
 | `save-state` | ✅ `0x53D848` | ✅ | ✅ (10) | ✅ `code_verified` | ✅ (13) | ✅ (20) | ✅ | — |
 | `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `code_verified` | ✅ (13) | ✅ (1504) | ✅ | — |
 | `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (38) | ✅ `static_verified` | ✅ (9) | ✅ (38) | ✅ | — |
-| `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (29) | ✅ (56) | ✅ | — |
+| `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (30) | ✅ (56) | ✅ | — |
 | `story-b` | ✅ `0x060D54` | ✅ | ✅ (56) | ✅ `code_verified` | ✅ (11) | ✅ (56) | ✅ | — |
 | `story-c` | ✅ `0x538FF0` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (13) | ✅ (0) | ✅ | — |
 | `story-d` | ✅ `0x53AB78` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |

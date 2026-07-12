@@ -105,3 +105,17 @@ team/equipment and one at the special-chest tutorial instruction page. Both had
 zero natural-save hook hits. The latter establishes that START is not the final
 confirmation; the route must select “start mission” and then dismiss the
 tutorial with A. No SRAM conclusion is upgraded by these navigation failures.
+
+## Savestate-driven battle-state audit
+
+The follow-up established a deterministic slot-9 load/dump pipeline and a
+stable genuine-map checkpoint.  Battle ID 40, map runtime `[36,44,9,22]`, the
+single player unit at `(4,4)`, and a texture-edge-based visual gate now survive
+a no-input checkpoint reload.  Cursor A/B dumps identify `0x02026A78/79` and
+prove it is distinct from unit record coordinates at `+0xC4/+0xC5`.
+
+Attempts to select Naruto and confirm cursor `(4,8)` did not alter the unit
+record or hit the natural-save observer.  This is a navigation-state result,
+not save evidence.  Details and reproducible environment variables are in
+`notes/first-battle-savestate-checkpoints-20260712.md`.  The acceptance gate at
+the top of this document remains unchanged.
