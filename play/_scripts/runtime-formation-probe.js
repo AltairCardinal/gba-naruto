@@ -308,6 +308,29 @@ async function persistMemoryDump(page) {
   return { path: outputPath, address, length };
 }
 
+function mapResourceDumpSpecs() {
+  return [
+    { name: 'ewram.bin', address: 0x02000000, length: 0x40000 },
+    { name: 'palette-ram.bin', address: 0x05000000, length: 0x400 },
+    { name: 'vram.bin', address: 0x06000000, length: 0x18000 },
+  ];
+}
+
+async function persistMapResourceDumps(page) {
+  const outputDir = process.env.PROBE_MAP_RESOURCE_DUMP_DIR;
+  if (!outputDir) return null;
+  const absoluteDir = path.resolve(outputDir);
+  fs.mkdirSync(absoluteDir, { recursive: true });
+  const results = [];
+  for (const spec of mapResourceDumpSpecs()) {
+    const bytes = await readGbaBytes(page, spec.address, spec.length);
+    const outputPath = path.join(absoluteDir, spec.name);
+    fs.writeFileSync(outputPath, Buffer.from(bytes));
+    results.push({ ...spec, path: outputPath });
+  }
+  return results;
+}
+
 async function persistStateExport(page) {
   const outputPath = process.env.PROBE_STATE_DUMP;
   if (!outputPath) return null;
@@ -546,6 +569,7 @@ async function main() {
         lastDiagnostic.saveLoad = saveLoad;
         lastDiagnostic.stateExport = await persistStateExport(page);
         lastDiagnostic.memoryDump = await persistMemoryDump(page);
+        lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
         await page.screenshot({ path: artifacts.finalScreenshotPath });
         fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({
           outcome: 'verified',
@@ -568,6 +592,7 @@ async function main() {
           lastDiagnostic.saveLoad = saveLoad;
           lastDiagnostic.stateExport = await persistStateExport(page);
           lastDiagnostic.memoryDump = await persistMemoryDump(page);
+          lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
           await page.screenshot({ path: artifacts.finalScreenshotPath });
           fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: arrival.reason, stages, final: lastDiagnostic, match }), null, 2)}\n`);
           return;
@@ -593,6 +618,7 @@ async function main() {
       lastDiagnostic.saveLoad = saveLoad;
       lastDiagnostic.stateExport = await persistStateExport(page);
       lastDiagnostic.memoryDump = await persistMemoryDump(page);
+      lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
       await page.screenshot({ path: artifacts.finalScreenshotPath });
       fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-full-plan', stages, final: lastDiagnostic, match: latestMatch }), null, 2)}\n`);
       return;
@@ -658,6 +684,7 @@ async function main() {
           lastDiagnostic.saveLoad = saveLoad;
           lastDiagnostic.stateExport = await persistStateExport(page);
           lastDiagnostic.memoryDump = await persistMemoryDump(page);
+          lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
           const screenshotPath = artifacts.phaseScreenshot('settle');
           await page.screenshot({ path: screenshotPath });
           stages.push({ ...lastDiagnostic, screenshotPath });
@@ -682,6 +709,7 @@ async function main() {
       lastDiagnostic.saveLoad = saveLoad;
       lastDiagnostic.stateExport = await persistStateExport(page);
       lastDiagnostic.memoryDump = await persistMemoryDump(page);
+      lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
     }
     await page.screenshot({ path: artifacts.finalScreenshotPath });
     if (lastDiagnostic?.alternateChapterProbe?.evidence?.verified) {
@@ -712,6 +740,7 @@ module.exports = {
   matchTemplatesToCharacterDefinitions,
   matchTemplatesToUnits,
   captureAlternateChapterEvidence,
+  mapResourceDumpSpecs,
   shouldStopForAlternateChapter,
   readGbaBytes,
   readSaveRecords,

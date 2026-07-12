@@ -7,30 +7,35 @@ Known addresses for graphics, palette, and audio resources in the ROM.
 Defined in the map header table at ROM `0x0853D910` (47 entries × 32 bytes).
 Entry access: `base_file = 0x53D910 + map_id * 32`.
 
-### Corrected Entry Field Order (32 bytes = 8 × u32)
+### Consumer-proven entry field order (32 bytes)
 
 | Offset | Field | Type | Description |
 |---|---|---|---|
-| +0x00 | tile_gfx_ptr | u32 ARM ptr | LZ77 compressed 4bpp tile graphics |
-| +0x04 | tilemap_ptr | u32 ARM ptr | LZ77 compressed tilemap layout |
-| +0x08 | tilemap_alt_ptr | u32 ARM ptr | LZ77 compressed alternate tilemap |
-| +0x0C | extra_ptr | u32 ARM ptr | Optional extra data (0 = absent) |
-| +0x10 | palette_ptr | u32 ARM ptr | LZ77 compressed BG palette (actual colors) |
-| +0x14 | palette2_ptr | u32 ARM ptr | LZ77 compressed attribute data (all 0x8000, not colors) |
-| +0x18 | flags | u32 | 0x01=normal, 0x02=alt, 0x102=special |
-| +0x1C | packed_dims | u32 | u16 width_tiles (low) + u16 height_tiles (high) |
+| +0x00 | width/height | u16+u16 | map dimensions |
+| +0x04 | tile_gfx_ptr | u32 ARM ptr | LZ77 gfx → VRAM buffer |
+| +0x08 | bg_palette_ptr | u32 ARM ptr | LZ77 BG palette → `0x05000000` |
+| +0x0C | primary_layout_ptr | u32 ARM ptr | coarse layout → `0x0201BE2C` |
+| +0x10 | alternate_layout_ptr | u32 ARM ptr | optional coarse layout → `0x0201CE2C` |
+| +0x14 | metatile_attributes_ptr | u32 ARM ptr | metatile definitions → `0x0201DE2C` |
+| +0x18 | collision_grid_ptr | u32 ARM ptr | passability grid → `0x02021E2C` |
+| +0x1C | flags | u32 | byte `+0x1D` selects a display-register value |
 
-> **Note**: earlier notes had `u16+u16 dim` at +0x00 — that was wrong. Dimensions are at +0x1C.
+> **2026-07-12 correction**: the earlier shifted `base+4` view was wrong.
+> `0x08068FB4/0x08068FF0/0x08069264` all agree on the unshifted row above.
 
 ### Palette Notes
 
-- `palette_ptr` (fields[4]) decompresses to the actual 4bpp BG palette:
+- header `+8` decompresses to the actual 4bpp BG palette:
   - BGR555 u16 values, bit 15 = transparency flag (must be masked off: `bgr &= 0x7FFF`)
   - Contains 16 sub-palettes of 16 colors each = 256 colors = 512 bytes minimum
   - Entry 0 palette decompresses to 6160 bytes (may include tilemap attributes appended)
-- `palette2_ptr` (fields[5]) is **not** a color palette — decompresses to all 0x8000 values, likely transparency/attribute data for the secondary layer.
+- header `+14` is metatile/attribute data, not colors; header `+18` is the
+  collision/passability grid.
 
-### Per-Entry Addresses
+### Historical per-entry addresses (revoked shifted IDs)
+
+The table below predates the 47-row correction and is retained only to explain
+old artifact names. Do not use its IDs or palette column for new probes.
 
 | chapter_id | tile_gfx_ptr (file) | palette_ptr (file) | tiles | map dims |
 |---|---|---|---|---|

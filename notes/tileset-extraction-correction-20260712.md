@@ -8,9 +8,11 @@ packed width/height, fields 1..6 are resource pointers, and field 7 is flags.
 
 `tools/extract_tileset.py` now parses that layout, validates GBA ROM pointers,
 LZ-decompresses tile graphics and exports all 47 tile atlases. The default is
-grayscale raw palette indices. A colored atlas would be misleading because the
-per-tile subpalette selector is not present in the tile-gfx stream; experimental
-palette application is therefore opt-in.
+grayscale raw palette indices. The opt-in colored atlas now loads header `+8`,
+which `0x08069060..66` sends to BIOS LZ77 VRAM decompression with destination
+`0x05000000`. The old extractor incorrectly used `+14` as a palette; that
+stream is metatile/attribute definitions. Palette application remains opt-in
+because the tile-gfx stream alone has no per-tile subpalette selector.
 
 ## Result
 
@@ -42,5 +44,5 @@ decompressed sizes for all six non-null resource pointers before emitting one
 refresh, targets `0x53DE10`, and preserves the remaining 30 bytes. It also
 tests stale base, invalid dimension and non-LZ pointer rejection. This is a
 safe lossless header path; only width/height currently have controlled runtime
-A/B evidence. Pointer field identities remain code/format evidence plus
-successful resource decompression, not six independent runtime A/B results.
+A/B evidence. Pointer identities now have exact consumer/destination evidence
+plus cross-row size invariants, but not six independent runtime A/B results.

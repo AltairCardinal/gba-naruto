@@ -66,3 +66,37 @@ ROM，因此无需重新部署。只缩小逻辑边界比扩大尺寸或修改�
 `width >> 2` 派生值按预期变化，同时 height 与 `height >> 1` 保持不变。因此 maps
 row 40 的 width/height runtime 字段链已满足动态验证门禁。资源指针字段仍只由代码链
 证明，未因本次 A/B 获得独立字段语义。
+
+## 2026-07-12 资源字段静态语义修正
+
+以未移位 row `0x0853D910 + map_id*0x20` 为准：`+0` 是尺寸，`+4..+18`
+是六个 LZ 指针，`+1C` 是 flags。旧的 `base+4` shifted descriptor 文档把相邻
+row 的尺寸误当末字段，已废弃。
+
+- `+4`：tile gfx，`LZ77UnCompVram` → `0x06000000 + buffer_index*0x4000`；
+- `+8`：BG palette，`LZ77UnCompVram` → `0x05000000`；
+- `+0C`：primary coarse-grid layout，`LZ77UnCompWram` → `0x0201BE2C`；
+- `+10`：可选 alternate layout，非零时 → `0x0201CE2C`；
+- `+14`：metatile/attribute definitions → `0x0201DE2C`；
+- `+18`：collision/passability grid，由 `0x08069264` → `0x02021E2C`；
+- `+1D`：由 `0x0806922A` 读取，选择显示寄存器值。
+
+47/47 行均满足 primary/alternate layout 解压长度等于
+`(width>>2)*(height>>1)*4`，collision grid 等于同一单元数×2。row 40 的
+对应大小为 `792 / 0 / 1376 / 396` 字节。当前 bank 保留旧数据库列名以兼容编辑器，
+但字段 description 与 `tools/extract_tileset.py` 已使用消费者证明的语义；整体
+`maps` 仍不因静态修正提前升级。
+
+为下一次 strict battle capture，runner 新增
+`PROBE_MAP_RESOURCE_DUMP_DIR=<dir>`，会在同一诊断边界保存完整 EWRAM、palette
+RAM 与 VRAM。随后运行：
+
+```bash
+python3 tools/verify_map_resource_buffers.py \
+  rom/base.gba 40 <dir>/ewram.bin <dir>/palette-ram.bin <dir>/vram.bin
+```
+
+verifier 会按 VRAM buffer index 比对 tile gfx，并逐字节比对 BG palette、主/可选
+layout、metatile attributes 与 collision grid。row 40 的 `+10` 为零，因此预期
+明确记录为 skipped；任何一个目标 byte 不同都会失败。当前尚缺可靠的 loader 前
+checkpoint，不能用旧的“查看战场”假阳性替代这次 capture。

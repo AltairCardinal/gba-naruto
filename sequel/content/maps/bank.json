@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "description": "Map header table discovered at ROM offset 0x53D910. 47 entries of 32-byte map headers containing dimensions, tileset/tilemap pointers, and palette pointers.",
   "table_offset": 5495056,
   "table_offset_hex": "0x53D910",
@@ -26,49 +26,49 @@
         "size": 4,
         "name": "tileset_ptr",
         "type": "u32",
-        "description": "Pointer to tile graphics data"
+        "description": "LZ77 tile graphics; 0x08068FF0 decompresses to 0x06000000 + buffer_index*0x4000"
       },
       {
         "offset": 8,
         "size": 4,
         "name": "tilemap_ptr",
         "type": "u32",
-        "description": "Pointer to primary tilemap data"
+        "description": "Legacy column name; actually LZ77 BG palette, decompressed to 0x05000000"
       },
       {
         "offset": 12,
         "size": 4,
         "name": "tilemap_alt_ptr",
         "type": "u32",
-        "description": "Pointer to alternate tilemap (0 if none)"
+        "description": "Legacy column name; actually primary coarse-grid layout, decompressed to 0x0201BE2C; size=(width>>2)*(height>>1)*4"
       },
       {
         "offset": 16,
         "size": 4,
         "name": "extra_ptr",
         "type": "u32",
-        "description": "Pointer to extra map data"
+        "description": "Legacy column name; optional alternate coarse-grid layout, decompressed to 0x0201CE2C when nonzero; same size as primary layout"
       },
       {
         "offset": 20,
         "size": 4,
         "name": "palette_ptr",
         "type": "u32",
-        "description": "Pointer to palette data"
+        "description": "Legacy column name; metatile/attribute definitions, decompressed to 0x0201DE2C"
       },
       {
         "offset": 24,
         "size": 4,
         "name": "palette2_ptr",
         "type": "u32",
-        "description": "Pointer to secondary palette"
+        "description": "Legacy column name; collision/passability grid, decompressed by 0x08069264 to 0x02021E2C; size=(width>>2)*(height>>1)*2"
       },
       {
         "offset": 28,
         "size": 4,
         "name": "flags",
         "type": "u32",
-        "description": "Map configuration flags"
+        "description": "Map configuration flags; byte +0x1D is consumed at 0x0806922A to select a display-register value"
       }
     ]
   },

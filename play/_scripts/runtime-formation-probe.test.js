@@ -26,6 +26,7 @@ const {
   captureAlternateChapterEvidence,
   extractOccupiedUnitSummaries,
   shouldStopForAlternateChapter,
+  mapResourceDumpSpecs,
 } = require('./runtime-formation-probe');
 
 test('extractOccupiedUnitSummaries preserves raw stat and coordinate evidence', () => {
@@ -284,6 +285,14 @@ test('alternate chapter completion stops before later input overwrites terminal 
   assert.equal(shouldStopForAlternateChapter({ evidence: { verified: true } }), true);
   assert.equal(shouldStopForAlternateChapter({ evidence: { verified: false } }), false);
   assert.equal(shouldStopForAlternateChapter(null), false);
+});
+
+test('map resource dump captures every loader destination at one boundary', () => {
+  assert.deepEqual(mapResourceDumpSpecs(), [
+    { name: 'ewram.bin', address: 0x02000000, length: 0x40000 },
+    { name: 'palette-ram.bin', address: 0x05000000, length: 0x400 },
+    { name: 'vram.bin', address: 0x06000000, length: 0x18000 },
+  ]);
 });
 
 test('alternate chapter evidence requires fresh selector and dispatch hits through opcode 00', () => {

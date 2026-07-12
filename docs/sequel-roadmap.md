@@ -79,6 +79,9 @@
   `0x60C74/0x60D54`，并有独立安全写回
 - maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
+- maps 资源字段静态语义已纠正：`+8` 是 BG palette（旧 extractor 错用 `+14`），
+  `+0C/+10` 是主/可选 coarse layout，`+14` 是 metatile attributes，`+18` 是
+  collision grid；47 行长度公式全部通过测试。独立 runtime 目标缓冲比对仍待闭合
 - battle configs、units、chapters、skills、story beats、legacy audio、maps、levels、
   character_stats、battle_config_data、encounter_zones、items 等无 ROM 身份的
   legacy 危险回写已禁用，只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为

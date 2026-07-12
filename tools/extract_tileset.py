@@ -5,7 +5,7 @@ Reads the map table at 0x0853D910 (47 entries × 32 bytes),
 LZ77-decompresses tile graphics data, and renders tile atlas PNGs.
 
 Usage:
-    python tools/extract_tileset.py rom.gba               # all 8 entries
+    python tools/extract_tileset.py rom.gba               # all 47 entries
     python tools/extract_tileset.py rom.gba --entry 0     # single entry
     python tools/extract_tileset.py rom.gba --output-dir tiles/
     python tools/extract_tileset.py rom.gba --no-palette  # grayscale only
@@ -92,6 +92,13 @@ def read_map_entries(data: bytes) -> list[dict]:
             "map_id":          map_id,
             "file_offset":     base,
             "tile_gfx_ptr":    to_file(fields[1]),
+            # Consumer-derived names. Keep the historical keys below for DB
+            # compatibility, but do not use them to infer resource semantics.
+            "bg_palette_ptr":  to_file(fields[2]),
+            "primary_layout_ptr": to_file(fields[3]),
+            "alternate_layout_ptr": to_file(fields[4]) if fields[4] != 0 else None,
+            "metatile_attributes_ptr": to_file(fields[5]),
+            "collision_grid_ptr": to_file(fields[6]),
             "tilemap_ptr":     to_file(fields[2]),
             "tilemap_alt_ptr": to_file(fields[3]),
             "extra_ptr":       to_file(fields[4]) if fields[4] != 0 else None,
@@ -102,6 +109,54 @@ def read_map_entries(data: bytes) -> list[dict]:
             "height_tiles":    height_tiles,
         })
     return entries
+
+
+def analyze_map_resource_semantics(data: bytes, entry: dict) -> dict:
+    """Describe loader-proven destinations and size invariants for one map row."""
+    coarse_cells = (entry["width_tiles"] >> 2) * (entry["height_tiles"] >> 1)
+
+    def size(pointer_name: str) -> int | None:
+        offset = entry[pointer_name]
+        return None if offset is None else len(lz77_decompress(data, offset))
+
+    alternate_size = size("alternate_layout_ptr")
+    return {
+        "map_id": entry["map_id"],
+        "coarse_grid_cells": coarse_cells,
+        "tile_gfx": {
+            "header_offset": 4,
+            "decompressed_size": size("tile_gfx_ptr"),
+            "destination": "0x06000000 + buffer_index*0x4000",
+        },
+        "bg_palette": {
+            "header_offset": 8,
+            "decompressed_size": size("bg_palette_ptr"),
+            "destination": "0x05000000",
+        },
+        "primary_layout": {
+            "header_offset": 12,
+            "decompressed_size": size("primary_layout_ptr"),
+            "destination": "0x0201BE2C",
+            "bytes_per_coarse_cell": 4,
+        },
+        "alternate_layout": None if alternate_size is None else {
+            "header_offset": 16,
+            "decompressed_size": alternate_size,
+            "destination": "0x0201CE2C",
+            "bytes_per_coarse_cell": 4,
+        },
+        "metatile_attributes": {
+            "header_offset": 20,
+            "decompressed_size": size("metatile_attributes_ptr"),
+            "destination": "0x0201DE2C",
+        },
+        "collision_grid": {
+            "header_offset": 24,
+            "decompressed_size": size("collision_grid_ptr"),
+            "destination": "0x02021E2C",
+            "bytes_per_coarse_cell": 2,
+        },
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -250,16 +305,18 @@ def extract_entry(
     palette: list[tuple[int, int, int]] = make_default_palette(16)
     pal_source = "default_grayscale"
 
-    # Use palette_ptr (fields[4]): LZ77-compressed BG tile palette (16 sub-palettes × 16 colors).
+    # Header +8 is passed to LZ77UnCompVram with destination 0x05000000,
+    # proving it is the compressed BG palette. The historical `palette_ptr`
+    # alias names header +14, which is metatile/attribute data instead.
     # Bit 15 in each BGR555 value is the GBA transparency flag; mask it off before converting.
     # palette2_ptr (fields[5]) contains attribute/flag data (all 0x8000), not displayable colors.
-    if use_palette and entry["palette_ptr"] is not None:
+    if use_palette and entry["bg_palette_ptr"] is not None:
         try:
-            pal_data = lz77_decompress(data, entry["palette_ptr"])
+            pal_data = lz77_decompress(data, entry["bg_palette_ptr"])
             palette = parse_palette(pal_data)
-            pal_source = f"palette_ptr ({len(pal_data)} bytes, {len(palette)} colors)"
+            pal_source = f"bg_palette_ptr ({len(pal_data)} bytes, {len(palette)} colors)"
         except Exception as e:
-            pal_source = f"palette_ptr_error: {e}"
+            pal_source = f"bg_palette_ptr_error: {e}"
 
     # Render and write PNG
     rgb_bytes, w_px, h_px = render_tile_atlas(tiles, palette, scale=scale)
