@@ -110,6 +110,53 @@ function decodeChapterScriptProbe(bytes) {
   };
 }
 
+function decodeAlternateChapterProbe(bytes, chapterState = 0) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 32) {
+    throw new TypeError('alternate chapter probe must be a 32-byte Uint8Array');
+  }
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const magic = view.getUint32(0, true);
+  const lastOpcodeCursor = view.getUint32(20, true);
+  return {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    magicValid: magic === 0x52504341,
+    selectorHitCount: view.getUint32(4, true),
+    scenarioId: view.getUint32(8, true),
+    selectedScriptStart: view.getUint32(12, true),
+    opcodeHitCount: view.getUint32(16, true),
+    lastOpcodeCursor,
+    lastOpcodeCursorHex: `0x${lastOpcodeCursor.toString(16).toUpperCase().padStart(8, '0')}`,
+    opcodeBytesHex: Buffer.from(bytes.subarray(24, 28)).toString('hex'),
+    opcode: bytes[24],
+    chapterState,
+  };
+}
+
+function evaluateAlternateChapterEvidence({
+  baseline, current, expectedScenarioId, expectedScriptStart, expectedScriptEnd,
+  romOpcodeBytesHex,
+}) {
+  const terminated = current.opcode === 0;
+  const checks = {
+    magicValid: current.magicValid === true,
+    freshSelectorHit: current.selectorHitCount > baseline.selectorHitCount,
+    scenarioMatches: current.scenarioId === expectedScenarioId,
+    selectedScriptMatches: current.selectedScriptStart === expectedScriptStart,
+    freshOpcodeHit: current.opcodeHitCount > baseline.opcodeHitCount,
+    cursorInScript: current.lastOpcodeCursor >= expectedScriptStart
+      && current.lastOpcodeCursor <= expectedScriptEnd,
+    opcodeMatchesRom: current.opcodeBytesHex === romOpcodeBytesHex,
+    stateChangedOrTerminated: current.chapterState !== baseline.chapterState || terminated,
+  };
+  const verified = Object.values(checks).every(Boolean);
+  return {
+    verified,
+    reason: verified && terminated ? 'alternate-script-terminated'
+      : verified ? 'alternate-script-updated-state' : 'alternate-script-not-verified',
+    checks,
+  };
+}
+
 function classifyScreenMetrics(metrics) {
   const dark = metrics.darkRatio || 0;
   // Texture density is the primary discriminator.  The isometric map can be
@@ -247,5 +294,5 @@ module.exports = {
   buildArtifactPaths, buildProbeResult, buildSettlePlan, decodeBattleControl,
   decodeMapRuntime, classifyScreenMetrics, tailTransitionDecision, shouldRetryBack,
   decodeSaveRecord, compareSaveRecords, saveChecksum, evaluateBattleArrival,
-  decodeChapterScriptProbe,
+  decodeChapterScriptProbe, decodeAlternateChapterProbe, evaluateAlternateChapterEvidence,
 };

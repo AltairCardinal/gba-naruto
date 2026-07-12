@@ -9,10 +9,19 @@ alternate-table path. It also reuses the opcode tracer at `0x08097C78`.
 Only the two-byte selector branch, four-byte hook, and checked zero-filled
 diagnostic stub may differ from the immutable base ROM.
 
+That first implementation is now superseded. Static decoding proved scenario
+39's alternate script is `0x08031281..0x0803142E` and contains no opcode
+`0x1A`, so the old hook could never satisfy “hit inside the target script”. The
+corrected probe captures `r4`/`r0` at `0x0808F5CC` and hooks generic interpreter
+dispatch at `0x080977D8`.
+
 ## Attempts and result
 
 Probe ROM SHA-256:
 `c98e2d2c02e4e0235e14e584a5a423a20a079db897b85fa09adea7ef0a93e6a4`.
+
+Corrected probe ROM SHA-256:
+`d125d8965a2c4c5b25a177d4ae0b551350c976f42c455f7ebd0eba188576dd4c`.
 
 Two automated routes were attempted:
 
@@ -41,6 +50,31 @@ transition, select prebattle “start mission”, then require all of:
   through another explicitly decoded opcode.
 
 Until that gate passes, `story-b` remains `code_verified`.
+
+## Gate closure (supersedes the pending status above)
+
+The script SHA-256 is
+`42b97435ebd486da839b23976059f8d66c2e3f8765b4493ef4baca23d0cdb976`.
+Its opcode distribution is `1B×1, 02×5, 08×8, 01×8, 04×2, 00×1`. The final
+`00` at `0x0803142E` dispatches to `0x08097916` and exits through `0x08097E34`
+at zero interpreter call depth. The script does not write state `+0x18/+0x16`,
+so no battle state is the intended result.
+
+Starting from `alternate-mission-selection.ss9`, keyboard input
+`A, Down, A, A×7` at 1.4-second spacing stopped at input step 10 with:
+
+- selector hit count `1`, scenario `39`, selected pointer `0x08031281`;
+- dispatch hit count `25`;
+- final cursor `0x0803142E`, live bytes `00001b04`, equal to ROM;
+- all eight evidence checks true and reason `alternate-script-terminated`.
+
+Full result SHA-256:
+`2739ff82adac85075d3b9f5e020c7391e64bbdbd92f3a613adc9699d86a9916f`.
+Screenshot SHA-256:
+`25e0fcc3f406b0cc7e84293a8c07ac5dd1008b85b107480d8f4b345b701001fa`.
+Compact evidence is stored at
+`artifacts/runtime-checkpoints/alternate-story-b-runtime-evidence.json`.
+This closes all four gates and upgrades `story-b` to `runtime_verified`.
 
 ## Checkpoint replay correction
 
@@ -94,6 +128,5 @@ With the browser-key mapping fixed, one A deterministically changed the
 - Up+A there opens the character-information overview.
 
 `PROBE_TAIL_REPEAT` now repeats a verified tail key sequence without manually
-duplicating environment input. The selector hook remains at hit count 0 because
-the current checkpoint chain has not yet exited character management into the
-actual mission-start controller. `story-b` therefore remains code-verified.
+duplicating environment input. The old zero-hit conclusion is historical and
+is superseded by the generic-dispatch closure above.

@@ -58,11 +58,29 @@ Artifacts:
 - result SHA-256 `51ed2851bdcd33a82c0afebd27e192a10bb0405528a69d7c169fcd8a6d902cb2`;
 - screenshot SHA-256 `e4b6bb23b7c4b76f1d2ab83c4e749737029fd6308aad1d9215f31b45835bf8b5`.
 
+## Live alternate-table evidence
+
+The first alternate probe incorrectly hooked only opcode `0x1A`. Scenario 39's
+alternate script `0x08031281..0x0803142E` has no `0x1A`, so the corrected probe
+captures selector `r4/r0` at `0x0808F5CC` and every interpreter dispatch at
+`0x080977D8`.
+
+Starting from the mission-selection checkpoint, the live run recorded:
+
+- selector scenario 39 and `0x08060D54[39] = 0x08031281`;
+- 25 dispatches, ending at cursor `0x0803142E`;
+- terminal bytes `00 00 1B 04`, equal to ROM;
+- opcode `00` returning normally through `0x08097916 -> 0x08097E34` at zero
+  call depth, explaining why this dialogue-only script creates no battle ID.
+
+The compact result is
+`artifacts/runtime-checkpoints/alternate-story-b-runtime-evidence.json`.
+
 ## Repository changes
 
 - `tools/extract_chapter_flow_tables.py` extracts both 56-entry tables.
 - `story/bank.json` now represents the primary table and is runtime verified.
-- `story-b/bank.json` represents the alternate table and is code verified.
+- `story-b/bank.json` represents the alternate table and is runtime verified.
 - `story-c`, `story-d`, and `story-e` remain disproved tombstones for their
   former false identities.
 

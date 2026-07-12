@@ -63,8 +63,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   bit-accurate mixing and audible cue names. Instrument/sample and drum mapping
   are now complete for the executed one-loop corpus; MIDI remains an audition
   artifact rather than final audio.
-- Runtime-close the alternate chapter table `0x60D54` and remaining map
-  resource-pointer semantics.
+- Alternate chapter table `0x60D54` is runtime-closed for scenario 39 via a
+  selector + generic-dispatch trace ending at decoded opcode `00`. Remaining
+  P0 work is map resource-pointer semantics.
 - Correlate remaining unit/growth/skill fields with player-visible UI labels.
 - Review the 17 static banks individually; byte fidelity proves extraction
   accuracy, not complete runtime semantics.

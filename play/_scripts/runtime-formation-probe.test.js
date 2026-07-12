@@ -15,12 +15,18 @@ const {
   classifyScreenMetrics,
   evaluateBattleArrival,
   decodeChapterScriptProbe,
+  decodeAlternateChapterProbe,
+  evaluateAlternateChapterEvidence,
   tailTransitionDecision,
   shouldRetryBack,
   decodeSaveRecord,
   compareSaveRecords,
 } = require('./runtime-formation-probe-lib');
-const { extractOccupiedUnitSummaries } = require('./runtime-formation-probe');
+const {
+  captureAlternateChapterEvidence,
+  extractOccupiedUnitSummaries,
+  shouldStopForAlternateChapter,
+} = require('./runtime-formation-probe');
 
 test('extractOccupiedUnitSummaries preserves raw stat and coordinate evidence', () => {
   const bytes = new Uint8Array(0x1D4 * 2);
@@ -221,6 +227,130 @@ test('decodeChapterScriptProbe exposes the live script cursor and chapter operan
     chapterBattleId: 40,
     hitCount: 3,
     pointerInRom: true,
+  });
+});
+
+test('alternate probe decoder exposes selector, dispatch and chapter-state evidence', () => {
+  const bytes = new Uint8Array(32);
+  const view = new DataView(bytes.buffer);
+  view.setUint32(0, 0x52504341, true);
+  view.setUint32(4, 8, true);
+  view.setUint32(8, 39, true);
+  view.setUint32(12, 0x08031281, true);
+  view.setUint32(16, 45, true);
+  view.setUint32(20, 0x0803142E, true);
+  bytes.set([0, 0, 0, 0], 24);
+  assert.deepEqual(decodeAlternateChapterProbe(bytes, 0), {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    magicValid: true,
+    selectorHitCount: 8,
+    scenarioId: 39,
+    selectedScriptStart: 0x08031281,
+    opcodeHitCount: 45,
+    lastOpcodeCursor: 0x0803142E,
+    lastOpcodeCursorHex: '0x0803142E',
+    opcodeBytesHex: '00000000',
+    opcode: 0,
+    chapterState: 0,
+  });
+});
+
+test('runtime wiring reads ROM bytes and verifies fresh alternate-script termination', async () => {
+  const scratch = new Uint8Array(32);
+  const view = new DataView(scratch.buffer);
+  view.setUint32(0, 0x52504341, true);
+  view.setUint32(4, 1, true);
+  view.setUint32(8, 39, true);
+  view.setUint32(12, 0x08031281, true);
+  view.setUint32(16, 25, true);
+  view.setUint32(20, 0x0803142E, true);
+  const memory = new Map([
+    ['33816496:32', Array.from(scratch)],
+    ['33755626:1', [0]],
+    ['134419502:4', [0, 0, 0, 0]],
+  ]);
+  const page = { evaluate: async (_callback, { address, length }) => memory.get(`${address}:${length}`) };
+  const result = await captureAlternateChapterEvidence(page, {
+    selectorHitCount: 0,
+    opcodeHitCount: 0,
+    chapterState: 0,
+  });
+  assert.equal(result.romOpcodeBytesHex, '00000000');
+  assert.equal(result.evidence.verified, true);
+  assert.equal(result.evidence.reason, 'alternate-script-terminated');
+});
+
+test('alternate chapter completion stops before later input overwrites terminal evidence', () => {
+  assert.equal(shouldStopForAlternateChapter({ evidence: { verified: true } }), true);
+  assert.equal(shouldStopForAlternateChapter({ evidence: { verified: false } }), false);
+  assert.equal(shouldStopForAlternateChapter(null), false);
+});
+
+test('alternate chapter evidence requires fresh selector and dispatch hits through opcode 00', () => {
+  const baseline = { selectorHitCount: 7, opcodeHitCount: 20, chapterState: 0 };
+  const current = {
+    magicValid: true,
+    selectorHitCount: 8,
+    scenarioId: 39,
+    selectedScriptStart: 0x08031281,
+    opcodeHitCount: 45,
+    lastOpcodeCursor: 0x0803142E,
+    opcode: 0,
+    opcodeBytesHex: '00000000',
+    chapterState: 0,
+  };
+  assert.deepEqual(evaluateAlternateChapterEvidence({
+    baseline, current,
+    expectedScenarioId: 39,
+    expectedScriptStart: 0x08031281,
+    expectedScriptEnd: 0x0803142E,
+    romOpcodeBytesHex: '00000000',
+  }), {
+    verified: true,
+    reason: 'alternate-script-terminated',
+    checks: {
+      magicValid: true,
+      freshSelectorHit: true,
+      scenarioMatches: true,
+      selectedScriptMatches: true,
+      freshOpcodeHit: true,
+      cursorInScript: true,
+      opcodeMatchesRom: true,
+      stateChangedOrTerminated: true,
+    },
+  });
+});
+
+test('alternate chapter evidence rejects stale, wrong-table and out-of-range captures', () => {
+  const baseline = { selectorHitCount: 7, opcodeHitCount: 20, chapterState: 0 };
+  const current = {
+    magicValid: true,
+    selectorHitCount: 7,
+    scenarioId: 38,
+    selectedScriptStart: 0x08031020,
+    opcodeHitCount: 20,
+    lastOpcodeCursor: 0x080317A9,
+    opcode: 0,
+    opcodeBytesHex: '01020304',
+    chapterState: 0,
+  };
+  const result = evaluateAlternateChapterEvidence({
+    baseline, current,
+    expectedScenarioId: 39,
+    expectedScriptStart: 0x08031281,
+    expectedScriptEnd: 0x0803142E,
+    romOpcodeBytesHex: '00000000',
+  });
+  assert.equal(result.verified, false);
+  assert.deepEqual(result.checks, {
+    magicValid: true,
+    freshSelectorHit: false,
+    scenarioMatches: false,
+    selectedScriptMatches: false,
+    freshOpcodeHit: false,
+    cursorInScript: false,
+    opcodeMatchesRom: false,
+    stateChangedOrTerminated: true,
   });
 });
 

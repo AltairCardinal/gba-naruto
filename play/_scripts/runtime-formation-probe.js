@@ -18,6 +18,8 @@ const {
   tailTransitionDecision, shouldRetryBack, decodeSaveRecord, compareSaveRecords,
   evaluateBattleArrival,
   decodeChapterScriptProbe,
+  decodeAlternateChapterProbe,
+  evaluateAlternateChapterEvidence,
 } = require('./runtime-formation-probe-lib');
 
 const URL = process.env.PROBE_URL || 'https://sh.kibox.com.cn/gba-naruto/play/';
@@ -57,6 +59,10 @@ const SAVE_RECORDS = [
 const SAVE_PROBE_RESULT = 0x0203FFF0;
 const EFFECT_PROBE_RESULT = 0x0203FFD0;
 const CHAPTER_SCRIPT_PROBE_RESULT = 0x0203FFB0;
+const CHAPTER_STATE = 0x020311EA;
+const ALTERNATE_SCENARIO_ID = 39;
+const ALTERNATE_SCRIPT_START = 0x08031281;
+const ALTERNATE_SCRIPT_END = 0x0803142E;
 const SAVE_GROUP_PROBE_RESULT = 0x0203FFA0;
 const GBA_KEYS = {
   Enter: 'Start',
@@ -227,6 +233,38 @@ async function readGbaBytes(page, address, length) {
       gba._free(pointer);
     }
   }, { address, length }));
+}
+
+async function readAlternateChapterProbe(page) {
+  const bytes = await readGbaBytes(page, CHAPTER_SCRIPT_PROBE_RESULT, 32);
+  const chapterState = (await readGbaBytes(page, CHAPTER_STATE, 1))[0];
+  return decodeAlternateChapterProbe(bytes, chapterState);
+}
+
+async function captureAlternateChapterEvidence(page, baseline) {
+  const current = await readAlternateChapterProbe(page);
+  let romOpcodeBytesHex = null;
+  if (current.lastOpcodeCursor >= ALTERNATE_SCRIPT_START
+      && current.lastOpcodeCursor <= ALTERNATE_SCRIPT_END) {
+    romOpcodeBytesHex = Buffer.from(await readGbaBytes(page, current.lastOpcodeCursor, 4)).toString('hex');
+  }
+  return {
+    ...current,
+    baseline,
+    romOpcodeBytesHex,
+    evidence: evaluateAlternateChapterEvidence({
+      baseline,
+      current,
+      expectedScenarioId: ALTERNATE_SCENARIO_ID,
+      expectedScriptStart: ALTERNATE_SCRIPT_START,
+      expectedScriptEnd: ALTERNATE_SCRIPT_END,
+      romOpcodeBytesHex,
+    }),
+  };
+}
+
+function shouldStopForAlternateChapter(probe) {
+  return probe?.evidence?.verified === true;
 }
 
 async function readSaveRecords(page) {
@@ -412,6 +450,7 @@ async function main() {
     ), { timeout: 90000, polling: 1000 });
     const saveLoad = await loadSaveExport(page);
     const stateLoad = await loadStateCheckpoint(page);
+    const alternateChapterBaseline = await readAlternateChapterProbe(page);
     const probeSpeed = String(process.env.PROBE_SPEED || '4');
     await page.evaluate(speed => document.querySelector(`.speed-btn[data-speed="${speed}"]`)?.click(), probeSpeed);
     const initialSaveRecords = await readSaveRecords(page);
@@ -489,6 +528,7 @@ async function main() {
         saveProbeHex: Buffer.from(await readGbaBytes(page, SAVE_PROBE_RESULT, 2)).toString('hex'),
         effectProbeHex: Buffer.from(await readGbaBytes(page, EFFECT_PROBE_RESULT, 16)).toString('hex'),
         chapterScriptProbe: decodeChapterScriptProbe(await readGbaBytes(page, CHAPTER_SCRIPT_PROBE_RESULT, 12)),
+        alternateChapterProbe: await captureAlternateChapterEvidence(page, alternateChapterBaseline),
         saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
         audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
         naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
@@ -499,6 +539,22 @@ async function main() {
         screenState,
         adaptiveRetries,
       };
+      if (shouldStopForAlternateChapter(lastDiagnostic.alternateChapterProbe)) {
+        lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+        lastDiagnostic.saveExport = await persistSaveExport(page);
+        lastDiagnostic.stateLoad = stateLoad;
+        lastDiagnostic.saveLoad = saveLoad;
+        lastDiagnostic.stateExport = await persistStateExport(page);
+        lastDiagnostic.memoryDump = await persistMemoryDump(page);
+        await page.screenshot({ path: artifacts.finalScreenshotPath });
+        fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({
+          outcome: 'verified',
+          reason: lastDiagnostic.alternateChapterProbe.evidence.reason,
+          stages,
+          final: lastDiagnostic,
+        }), null, 2)}\n`);
+        return;
+      }
       if (runtimePositions.length > 0) {
         const match = matchFormationPositions(BANK.entries, runtimePositions);
         latestMatch = match;
@@ -575,6 +631,7 @@ async function main() {
         saveProbeHex: Buffer.from(await readGbaBytes(page, SAVE_PROBE_RESULT, 2)).toString('hex'),
         effectProbeHex: Buffer.from(await readGbaBytes(page, EFFECT_PROBE_RESULT, 16)).toString('hex'),
         chapterScriptProbe: decodeChapterScriptProbe(await readGbaBytes(page, CHAPTER_SCRIPT_PROBE_RESULT, 12)),
+        alternateChapterProbe: await captureAlternateChapterEvidence(page, alternateChapterBaseline),
         saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
         audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
         naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
@@ -627,6 +684,16 @@ async function main() {
       lastDiagnostic.memoryDump = await persistMemoryDump(page);
     }
     await page.screenshot({ path: artifacts.finalScreenshotPath });
+    if (lastDiagnostic?.alternateChapterProbe?.evidence?.verified) {
+      const result = buildProbeResult({
+        outcome: 'verified',
+        reason: lastDiagnostic.alternateChapterProbe.evidence.reason,
+        stages,
+        final: lastDiagnostic,
+      });
+      fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(result, null, 2)}\n`);
+      return;
+    }
     const result = buildProbeResult({ outcome: 'not-found', reason: 'settle-exhausted', stages, final: lastDiagnostic });
     fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(result, null, 2)}\n`);
     throw new Error(`navigation and settle polling ended before a unique formation was observed; result=${artifacts.resultPath}; screenshot=${artifacts.finalScreenshotPath}; last=${JSON.stringify(lastDiagnostic)}`);
@@ -644,6 +711,8 @@ module.exports = {
   focusGameSurface,
   matchTemplatesToCharacterDefinitions,
   matchTemplatesToUnits,
+  captureAlternateChapterEvidence,
+  shouldStopForAlternateChapter,
   readGbaBytes,
   readSaveRecords,
 };

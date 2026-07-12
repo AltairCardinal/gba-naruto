@@ -10,7 +10,7 @@ from pathlib import Path
 ROM_BASE = 0x08000000
 TABLES = {
     "story": (0x60C74, "runtime_verified"),
-    "story-b": (0x60D54, "code_verified"),
+    "story-b": (0x60D54, "runtime_verified"),
 }
 ENTRY_COUNT = 56
 
@@ -60,11 +60,14 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "verification": verification,
         "verification_method": (
             "0x0808F544 indexes scenario_id*4 from 0x08060C74 or 0x08060D54 according to state +0x18, then calls interpreter 0x080977B8. Live primary scenario 39 selected 0x08031020; opcode 0x1A at 0x08031070 supplied battle ID 40."
+            if slug == "story" else
+            "A forced-alternate runtime probe captured selector scenario 39 choosing 0x08060D54[39] = 0x08031281, then 25 generic interpreter dispatches ending at opcode 0x00 at 0x0803142E. ROM bytes matched at the live cursor; opcode 0x00 returns normally at zero call depth, so no battle ID is expected."
         ),
         "consumer": {
             "selector": "0x0808F544",
             "interpreter": "0x080977B8",
             "chapter_operand_handler": "0x08097C78",
+            "opcode_dispatch": "0x080977D8",
             "state_selector": "0x020311EC (+0x18)",
         },
         "runtime_sample": ({
@@ -73,7 +76,16 @@ def build_bank(rom: bytes, slug: str) -> dict:
             "opcode_address": "0x08031070",
             "opcode_bytes": "1a280200",
             "battle_id": 40,
-        } if slug == "story" else None),
+        } if slug == "story" else {
+            "scenario_id": 39,
+            "script_ptr": "0x08031281",
+            "dispatch_hit_count": 25,
+            "terminal_opcode_address": "0x0803142E",
+            "terminal_opcode_bytes": "00001b04",
+            "termination": "opcode 0x00 returns from the interpreter at zero call depth",
+            "battle_id": 0,
+            "forced_alternate_selector": True,
+        }),
         "writeback": "lossless pointer mirror requires immutable-base and ROM-range checks; semantic script editing remains disabled",
         "entries": entries,
     }

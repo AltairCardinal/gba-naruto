@@ -16,7 +16,7 @@ python3 tools/build_alternate_chapter_runtime_probe.py \
 ```
 
 Expected probe-ROM SHA-256:
-`c98e2d2c02e4e0235e14e584a5a423a20a079db897b85fa09adea7ef0a93e6a4`.
+`d125d8965a2c4c5b25a177d4ae0b551350c976f42c455f7ebd0eba188576dd4c`.
 
 ## Checkpoints
 
@@ -61,20 +61,23 @@ env \
   node play/_scripts/runtime-formation-probe.js
 ```
 
-The command intentionally exits nonzero because no formation is expected. The
-screenshot must show the mission-selection page and the JSON must show chapter
-hook hit count 0. Continue from a selected checkpoint with keyboard input only;
+The command intentionally exits nonzero because no formation or new chapter
+dispatch is expected. The screenshot must show the mission-selection page.
+Continue from a selected checkpoint with keyboard input only;
 the fixed driver maps `KeyZ→z`, `KeyX→x`, and clears latched buttons after load.
 
-## Current acceptance gate
+## Alternate-table runtime closure
 
-`story-b` remains `code_verified`. Do not upgrade it until a run records:
+The 2026-07-12 run satisfied the gate and upgraded `story-b` to
+`runtime_verified`:
 
-1. chapter opcode tracer hit count greater than zero;
-2. captured script pointer belonging to alternate table entry
-   `0x60D54[scenario_id]` (scenario 39 points to `0x08031281`);
-3. opcode bytes inside that alternate script;
-4. a resulting nonzero chapter/battle state, or a decoded alternate termination
-   opcode explaining why no battle state is created.
+1. selector hit count 1, runtime scenario 39, selected pointer `0x08031281`;
+2. 25 generic interpreter dispatches;
+3. last cursor `0x0803142E`, with live bytes `00 00 1B 04` matching ROM;
+4. opcode `00` is the decoded normal interpreter return at zero call depth, so
+   this dialogue-only alternate script intentionally creates no battle state.
+
+The compact durable evidence is
+`artifacts/runtime-checkpoints/alternate-story-b-runtime-evidence.json`.
 
 Investigation log: `notes/alternate-chapter-runtime-probe-20260712.md`.

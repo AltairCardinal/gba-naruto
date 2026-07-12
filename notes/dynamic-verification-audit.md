@@ -19,8 +19,8 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under the current bank-level grading the repository has **6 runtime/dynamic,
-4 code, 17 static, and 5 disproved aliases** after the 2026-07-12 identity
+Under the current bank-level grading the repository has **8 runtime/dynamic,
+2 code, 17 static, and 5 disproved aliases** after the 2026-07-12 identity
 corrections. This is deliberately stricter than treating extraction success as
 runtime proof. The `maps` bank additionally has runtime evidence for dimensions
 but remains static at whole-bank level because its resource pointers are not
@@ -57,7 +57,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 24 | skills (`0x545BE4`) | code | `0x0806D910` indexes `0x08545BE4 + skill_id*16` and copies bytes `0..9` into a runtime skill structure. The corrected table is 94 records ending at positions base `0x5461C4`; field UI meanings and a live selected-skill capture remain pending. |
 | 25 | sprite-animations (`0x53E200`) | static | Valid 38-entry animation pointer/frame structures only; no frame traversal hit. |
 | 26 | story (`0x60C74`) | dynamic | `0x0808F544` selected primary entry 39 → script `0x08031020`; live hook at `0x08097C78` captured opcode `1A 28 02 00` at `0x08031070`, which writes battle ID 40 through state `+0x16` to `0x02026805`. |
-| 27 | story-b (`0x60D54`) | code | Same `0x0808F544` consumer selects this alternate 56-entry table when state `+0x18` is nonzero; no alternate-route runtime sample yet. |
+| 27 | story-b (`0x60D54`) | runtime | A forced-alternate causal probe captured selector scenario 39 choosing table entry `0x08031281`, then 25 generic interpreter dispatches ending at `0x0803142E` opcode `00`; live opcode bytes matched ROM. Static control flow proves `00` normally returns at zero call depth, explaining the intentional zero battle state. |
 | 28 | story-c (`0x538FF0`) | disproved | Descriptor `0x538FEC + 4`, header `0x80000009`; resource-set slice. |
 | 29 | story-d (`0x53AB78`) | disproved | Descriptor `0x53AB74 + 4`, header `0x8000000A`; resource-set slice. |
 | 30 | story-e (`0x53C3C0`) | disproved | Descriptor `0x53C3BC + 4`, header `0x80000008`; resource-set slice. |

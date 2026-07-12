@@ -27,7 +27,9 @@ class ChapterFlowTablesTest(unittest.TestCase):
         self.assertEqual(bank["table_offset"], 0x60D54)
         self.assertEqual(len(bank["entries"]), 56)
         self.assertEqual(bank["entries"][39]["script_ptr"], 0x08031281)
-        self.assertEqual(bank["verification"], "code_verified")
+        self.assertEqual(bank["verification"], "runtime_verified")
+        self.assertEqual(bank["runtime_sample"]["terminal_opcode_address"], "0x0803142E")
+        self.assertEqual(bank["runtime_sample"]["dispatch_hit_count"], 25)
 
 
 if __name__ == "__main__":

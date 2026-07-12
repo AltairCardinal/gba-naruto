@@ -116,18 +116,17 @@
   把 payload/checksum 起点提前19字节，旧“冷加载必须命中 0x08068AF0”也混淆了
   optional battle restore caller，均已纠正。详见
   `notes/tutorial-victory-save-load-runtime-20260712.md`
-- 已新增 `0x60D54` 受控运行时探针：仅将 `0x0808F5A4` 的 selector 分支改为
-  fall-through alternate path，并复用 opcode tracer。两次自动路线分别停在前置对白
-  与人物页，hook hit=0，因此严格不升级 story-b；实验哈希、假阳性边界和下一接受
-  门槛见 `notes/alternate-chapter-runtime-probe-20260712.md`。
+- `0x60D54` 受控运行时探针已从无效的 `0x1A` 专用 hook 改为 selector + 通用
+  dispatch 追踪。scenario 39 运行时选中 `0x08031281`，共执行 25 次 dispatch，
+  最终在 `0x0803142E` 的 opcode `00` 正常返回；live bytes 与 ROM 一致。该脚本
+  不产生 battle state 是已解码的预期行为，story-b 已升为 runtime_verified。
 - 备用章节实验的 checkpoint 导出已修正：旧实现可能复制同槽旧文件，现保存前
   清理 `.ss9` 候选并要求唯一新文件，加载后也显式释放全部 GBA 键。新的
   `木叶里 / 对战` 任务选择 checkpoint 已通过独立零输入重放；下一段从该页 A
   进入卡卡西对白，继续追到 selector hook。
-- 浏览器键盘映射又修正了 `KeyZ` 字面值无效的问题，现显式映射为 `z/x/...`；
-  `PROBE_TAIL_REPEAT` 可复现重复选择。有效运行已证明 Down+A 回环、Up+A 前进至
-  装备页，并厘清装备页 B 返回的是人物信息子菜单而非木叶顶层；selector 尚未
-  命中，story-b 保持 code_verified。
+- 浏览器键盘映射修正后，`PROBE_TAIL_REPEAT` 可复现重复选择。后续通用 dispatch
+  探针证明该分支本身就是备用章节对白消费链，而不是必须进入战斗才算成功；runner
+  现在会在终止证据出现时立即固化，避免后续输入覆盖最后 cursor。
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）
@@ -136,7 +135,7 @@
 |------|------|------|
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
-| 章节流程入口 | ✅ 主链已定位 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→script `0x31020`→opcode `0x1A` operand 40 已 runtime 闭环；alternate 分支为 code 证据 |
+| 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→opcode `0x1A` operand 40；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
 | 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset atlas、217 条音频 track blob 与 79 个 pointer-reachable WAV 已导出；track opcode 解析、整曲渲染和 cue 命名未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
@@ -240,7 +239,7 @@
 - WASM hook 捕获 primary scenario 39 → `0x08031020`，脚本游标
   `0x08031070` 的 `1A 28 02 00` 将 battle ID 40 写入状态并最终到
   `0x02026805`；
-- `story` bank 已迁移为 primary/runtime，`story-b` 为 alternate/code；
+- `story` bank 已迁移为 primary/runtime，`story-b` 为 alternate/runtime；
   旧 late-ROM `story*` 资源切片结论已撤销。
 
 **已完成：**
@@ -349,8 +348,8 @@
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
 - 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：27 个有效 bank 必须有非空 entries 和 ROM fidelity；5 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 验证分布现为 30 个 `static_verified`、1 个 `code_verified`、1 个
-  `runtime_verified`（positions）；仍不能作为“100% 完成”的单独证据。
+- 最新严格审计分布为 17 个 `static_verified`、2 个 `code_verified`、8 个
+  `runtime_verified`、5 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
 
