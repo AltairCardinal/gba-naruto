@@ -64,6 +64,12 @@ const GBA_KEYS = {
   KeyA: 'L',
   KeyS: 'R',
 };
+const BROWSER_KEYS = {
+  Enter: 'Enter', KeyZ: 'z', KeyX: 'x',
+  ArrowUp: 'ArrowUp', ArrowDown: 'ArrowDown',
+  ArrowLeft: 'ArrowLeft', ArrowRight: 'ArrowRight',
+  ShiftLeft: 'Shift', ShiftRight: 'Shift', KeyA: 'a', KeyS: 's',
+};
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -76,9 +82,11 @@ async function pressGbaKey(page, key, holdMs) {
   if (!gbaKey) throw new Error(`unsupported GBA key mapping: ${key}`);
   if (process.env.PROBE_INPUT_MODE === 'keyboard') {
     await focusGameSurface(page);
-    await page.keyboard.down(key);
+    const browserKey = BROWSER_KEYS[key];
+    if (!browserKey) throw new Error(`unsupported browser key mapping: ${key}`);
+    await page.keyboard.down(browserKey);
     await sleep(holdMs);
-    await page.keyboard.up(key);
+    await page.keyboard.up(browserKey);
     return;
   }
   await page.evaluate(gbaKey => window.__mGBA.buttonPress(gbaKey), gbaKey);
@@ -408,6 +416,7 @@ async function main() {
       advanceDelayMs: Number(process.env.PROBE_ADVANCE_DELAY_MS ?? 3000),
       keyHoldMs: Number(process.env.PROBE_KEY_HOLD_MS ?? 125),
       tailDelayMs: Number(process.env.PROBE_TAIL_DELAY_MS ?? 600),
+      tailRepeat: Number(process.env.PROBE_TAIL_REPEAT ?? 1),
       tailKeys: (process.env.PROBE_TAIL_KEYS || '').split(',').map(key => key.trim()).filter(Boolean),
       skipNewGame: process.env.PROBE_SKIP_NEW_GAME === '1',
     });

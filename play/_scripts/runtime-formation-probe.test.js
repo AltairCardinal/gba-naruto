@@ -322,6 +322,17 @@ test('buildNavigationPlan appends a configurable menu-tail key sequence', () => 
   ]);
 });
 
+test('buildNavigationPlan can repeat a verified tail interaction sequence', () => {
+  const plan = buildNavigationPlan({
+    startCount: 0, advanceCount: 0, skipNewGame: true,
+    tailKeys: ['ArrowDown', 'KeyZ'], tailRepeat: 3,
+    tailDelayMs: 500, keyHoldMs: 100,
+  });
+  assert.deepEqual(plan.map(action => action.key), [
+    'ArrowDown', 'KeyZ', 'ArrowDown', 'KeyZ', 'ArrowDown', 'KeyZ',
+  ]);
+});
+
 test('buildArtifactPaths keeps every phase artifact under configured paths', () => {
   const paths = buildArtifactPaths('/tmp/probe.json', '/tmp/final.png');
   assert.equal(paths.resultPath, '/tmp/probe.json');

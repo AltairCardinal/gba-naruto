@@ -71,3 +71,29 @@ screen successfully:
 The replay screen is the `木叶里 / 对战` mission-selection view. Keyboard A
 continues forward into Kakashi dialogue; B returns to earlier dialogue. This
 replaces the earlier incorrect assumption that the screen was a character page.
+
+The subsequent 260-input replay proved another driver defect: Puppeteer was
+given DOM-style codes such as the literal string `KeyZ`, while the game page
+listens for browser key values such as `z`. The unchanged screenshot, zero hook
+hits, and unchanged WRAM make this a rejected input run. Keyboard mode now maps
+GBA input codes explicitly (`KeyZ→z`, `KeyX→x`, arrows, Shift, `a`, and `s`).
+
+## Valid keyboard navigation after the corrections
+
+With the browser-key mapping fixed, one A deterministically changed the
+`木叶里 / 对战` mission-selection screen into Kakashi dialogue. The earlier
+260-input no-op run is rejected. The following UI facts are now reproducible:
+
+- plain A at Kakashi's prompt is ignored because the state expects a directional
+  choice;
+- repeated Down+A eventually loops to earlier Naruto/Kakashi dialogue;
+- repeated Up+A advances through the alternate choice and reaches the equipment
+  page;
+- one B from equipment reaches the character-information submenu, not the
+  Konoha top-level menu;
+- Up+A there opens the character-information overview.
+
+`PROBE_TAIL_REPEAT` now repeats a verified tail key sequence without manually
+duplicating environment input. The selector hook remains at hit count 0 because
+the current checkpoint chain has not yet exited character management into the
+actual mission-start controller. `story-b` therefore remains code-verified.

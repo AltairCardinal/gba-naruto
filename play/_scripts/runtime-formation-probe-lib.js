@@ -24,6 +24,7 @@ function buildNavigationPlan(options = {}) {
   const advanceDelayMs = boundedInteger(options.advanceDelayMs, DEFAULTS.advanceDelayMs, 'advanceDelayMs');
   const holdMs = boundedInteger(options.keyHoldMs, DEFAULTS.keyHoldMs, 'keyHoldMs');
   const tailDelayMs = boundedInteger(options.tailDelayMs, DEFAULTS.tailDelayMs, 'tailDelayMs');
+  const tailRepeat = boundedInteger(options.tailRepeat, 1, 'tailRepeat');
   const tailKeys = options.tailKeys || [];
   const skipNewGame = options.skipNewGame === true;
   if (!Array.isArray(tailKeys) || tailKeys.some(key => typeof key !== 'string' || key.length === 0)) {
@@ -33,7 +34,8 @@ function buildNavigationPlan(options = {}) {
     ...Array.from({ length: startCount }, () => ({ phase: 'boot', key: 'Enter', delayMs: startDelayMs, holdMs })),
     ...(skipNewGame ? [] : [{ phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs }]),
     ...Array.from({ length: advanceCount }, () => ({ phase: 'story', key: 'KeyZ', delayMs: advanceDelayMs, holdMs })),
-    ...tailKeys.map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
+    ...Array.from({ length: tailRepeat }, () => tailKeys).flat()
+      .map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
   ];
 }
 
