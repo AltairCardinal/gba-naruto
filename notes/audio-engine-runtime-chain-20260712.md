@@ -22,11 +22,30 @@ already empty-descriptor data at `0x466068`. There are 80 non-empty IDs:
 Master row (8 bytes): descriptor pointer at `+0`, player index u16 at `+4`,
 and a losslessly retained, not-yet-named u16 at `+6`.
 
-Song descriptor: byte 0 track count; byte 1 conventional reverb field (A/B
-still needed); byte 2 priority; byte 3 flags; `+4` sequence pointer; `+8`
-contains `track_count` track pointers. This corrects the old `0x800000NN`
+Song descriptor is an m4a `SongHeader`: byte 0 track count; byte 1 block count
+(the earlier “reverb” label is withdrawn); byte 2 priority; byte 3 reverb;
+`+4` is the voicegroup/tone-table pointer; `+8` contains `track_count` track
+sequence pointers. This corrects both the old `0x800000NN`
 interpretation: count is byte 0, not the low 24 bits. ID 51 starts
 `07 00 0A 80`; the old interpretation would yield impossible count `0x0A0007`.
+
+## Reachable track and wave extraction
+
+`tools/extract_audio_assets.py` follows the corrected pointer graph instead of
+scanning arbitrary ROM byte patterns. On the base ROM it reproducibly exports:
+
+- 80 active songs/SFX descriptors;
+- 217 exact track command blobs, bounded by the next track or descriptor;
+- 23 referenced voicegroup starts and 387 structurally valid tone records;
+- 79 unique non-empty DirectSound waves reachable from type-0 tones.
+
+The wave header is 16 bytes: u16 type, u16 status, u32 fixed-point frequency,
+u32 loop start, u32 sample count, then signed 8-bit PCM. For example wave
+`0x46606C` has frequency `0x00DAC000 / 1024 = 14000 Hz`, loop start 10505,
+20789 samples, and PCM begins at `0x46607C`. WAV export converts signed ROM PCM
+to the unsigned 8-bit representation required by RIFF. Outputs and a manifest
+are in `build/audio-v2/`. The legacy `tools/extract_audio.py` 12-byte heuristic
+is explicitly superseded.
 
 ## Runtime proof
 
@@ -50,7 +69,8 @@ or prove every descriptor field.
 
 ## Durable artifacts and important ranges
 
-- `tools/extract_audio_resource_sets.py`, `tools/extract_audio_engine.py`
+- `tools/extract_audio_resource_sets.py`, `tools/extract_audio_engine.py`,
+  `tools/extract_audio_assets.py`
 - `tools/build_audio_runtime_probe.py`
 - `sequel/content/audio/bank.json`, `sequel/content/sappy-engine/bank.json`
 - persistent editor mirror `rom_audio_sound_ids`; refresh uses INSERT OR IGNORE

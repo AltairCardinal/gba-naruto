@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Heuristically scan for DirectSound-like byte patterns (unverified).
+"""Legacy heuristic DirectSound scanner (superseded and unverified).
 
-WARNING: the ten historical hits have no aligned ROM pointer references and
-are not proven audio. This legacy diagnostic must not be used as the canonical
-extractor. Use ``extract_audio_resource_sets.py`` to follow the proven engine
-tables. WAV export remains available only for investigating a candidate.
+WARNING: this assumes the wrong 12-byte wave header and does not convert signed
+ROM PCM to unsigned RIFF PCM. It is retained only to reproduce old diagnostics.
+Use ``extract_audio_assets.py`` for the pointer-reachable 16-byte m4a header,
+track, voicegroup, and WAV extraction path.
 
 GBA m4a/mp2k audio driver sample format:
   +0x00  u8   type        0x00 = uncompressed signed 8-bit PCM

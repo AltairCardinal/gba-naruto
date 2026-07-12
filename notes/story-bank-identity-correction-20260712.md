@@ -13,8 +13,8 @@ and 14 point respectively to `0x536368`, `0x536BC4`, `0x538FEC`, `0x53AB74`,
 and `0x53C3BC`—exactly four bytes before the former bank starts.
 
 Each object is a song descriptor. Byte 0 is `track_count`, byte 2 is priority,
-byte 3 is flags, `+4` is a sequence pointer, and `+8` begins track pointers.
-The old banks sliced at `+4`, so their pointer count was one sequence pointer
+byte 3 is reverb, `+4` is a voicegroup pointer, and `+8` begins track sequence
+pointers. The old banks sliced at `+4`, so their pointer count was one voicegroup pointer
 plus `track_count` track pointers:
 
 | legacy bank | real descriptor | track count | former pointer count |

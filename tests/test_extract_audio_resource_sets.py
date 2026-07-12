@@ -18,10 +18,10 @@ class AudioResourceSetsTest(unittest.TestCase):
             off = MASTER_OFFSET + entry["sound_id"] * 8
             self.assertEqual(entry["raw_hex"], self.rom[off:off + 8].hex())
 
-    def test_every_descriptor_has_sequence_and_track_pointers(self):
+    def test_every_descriptor_has_voicegroup_and_track_pointers(self):
         for entry in self.bank["entries"]:
             self.assertEqual(len(entry["track_ptrs"]), entry["track_count"])
-            self.assertTrue(0x08000000 <= entry["sequence_ptr"] < 0x08600000)
+            self.assertTrue(0x08000000 <= entry["voicegroup_ptr"] < 0x08600000)
             self.assertTrue(all(0x08000000 <= p < 0x08600000 for p in entry["track_ptrs"]))
 
     def test_runtime_observed_id_118_resolves_to_captured_descriptor(self):

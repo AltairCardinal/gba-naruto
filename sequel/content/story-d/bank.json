@@ -7,11 +7,11 @@
   "entry_count": 0,
   "entry_size": 4,
   "entry_format": {
-    "description": "No story entries. Former u32 pointers are the sequence pointer followed by per-track pointers in one song descriptor."
+    "description": "No story entries. Former u32 pointers are the voicegroup pointer followed by per-track sequence pointers in one song descriptor."
   },
   "verification": "disproved",
-  "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. Descriptor byte 0 is track_count; +4 is sequence_ptr; +8 begins track_ptrs.",
-  "notes": "Sound ID 11 descriptor starts at 0x53AB74; this address is its +4 sequence pointer. Empty tombstone and disabled writeback prevent the audio payload from being edited as story data.",
+  "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. The m4a SongHeader has track_count at byte 0, voicegroup_ptr at +4, and track sequence pointers at +8.",
+  "notes": "Sound ID 11 descriptor starts at 0x53AB74; this address is its +4 voicegroup pointer. Empty tombstone and disabled writeback prevent audio payload from being edited as story data.",
   "former_claim": {
     "kind": "story/chapter pointer table",
     "offset": 5483384

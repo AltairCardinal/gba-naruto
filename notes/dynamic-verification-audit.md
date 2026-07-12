@@ -19,17 +19,19 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under this definition the current repository has **5 runtime/dynamic, 5 code,
-20 static, and 2 disproved aliases** after the skill-table identity correction
-was closed on 2026-07-11. This is deliberately stricter than the `verification`
-strings in the banks. In particular, the successful dialogue watchpoint traces
+Under the current bank-level grading the repository has **6 runtime/dynamic,
+4 code, 17 static, and 5 disproved aliases** after the 2026-07-12 identity
+corrections. This is deliberately stricter than treating extraction success as
+runtime proof. The `maps` bank additionally has runtime evidence for dimensions
+but remains static at whole-bank level because its resource pointers are not
+runtime-closed. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
 ## Evidence table
 
 | # | Structure (important ROM offset) | Level | Strongest durable evidence and limitation |
 |---:|---|---|---|
-| 1 | message commands (legacy `audio` slug, `0x599634`) | code | The former audio identity is revoked. `0x08079668` indexes 100 message pointers and calls `0x08066758 → 0x0806626C` text parsing/object creation. `0x53F138` belongs to palettes. Actual audio resources remain unresolved outside this legacy slug. |
+| 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. Pointer-reachable extraction now yields 217 track blobs, 23 voicegroups, 387 valid tones and 79 DirectSound WAVs. Track opcode semantics, full-song rendering and audible cue names remain open. |
 | 2 | battle-effect templates (`0x545458`) | runtime | A live caller consumed effect 2. A controlled level-2 A/B changed only record 2 growth `+0x0E:1→2`; the type-4 runtime destination byte `+7` changed `4→5`, while other output bytes remained stable. |
 | 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |
@@ -47,11 +49,11 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 16 | maps (`0x53D910`) | dynamic | `notes/maps-runtime-fields-20260711.md` records the loader field chain plus a controlled width A/B: baseline row 40 produces runtime `[36,44,9,22]`; changing only file `0x53DE10` width `36 -> 32` produces `[32,44,8,22]` on the same WASM route. Resource pointer semantics remain code-level only. |
 | 17 | map-sprites (`0x53E1DC`) | static | Pointer-table consistency and animation-shaped targets only. |
 | 18 | menu-ui (`0x5A5774`) | static | Alternating pointer pattern and UI-like targets only; no menu route/table access trace. |
-| 19 | palettes (`0x53F138`) | static | Valid RGB555-looking targets only. It shares the claimed table offset with `audio`, an unresolved identity conflict. |
+| 19 | palettes (`0x53F138`) | static | Valid RGB555-looking targets only. The former conflict is resolved: audio moved to its real master table at `0x465B70`; palette consumer/runtime A/B is still missing. |
 | 20 | positions (`0x5461C4`) | dynamic | WASM navigation reached the first battle; WRAM slot 1 x/y `(4,4)` uniquely matches group 40 / variant 0 / record 0 at ROM `0x588CA8`. Static code independently proves record `+2/+3` feeds unit coordinates. |
 | 21 | resource-pointers (`0x596F0C`) | static | Twenty valid nested resource pointers only; no consumer or visible controlled edit. |
-| 22 | sappy-engine (`0x079268`) | code | Handler disassembly and command ranges/callers are documented in the bank/results. No runtime command hit/audio-state change is recorded. |
-| 23 | save-state (`0x086248`) | code | Deep disassembly establishes handler `0x08068684`, save wrapper `0x080689A4`, and its sole UI caller `0x08074F2C`. WASM traces show no automatic first-battle save; an all-caller diagnostic hook proves the wrapper executes but returns 0 without the UI's preparation, leaving SRAM erased. Explicit UI save remains required. |
+| 22 | sappy-engine (`0x09AE3C`) | code | Disassembly proves FIFO/DMA sound initialization and connects the public wrapper, dispatcher and track initializer. No controlled engine-code A/B is required or enabled. |
+| 23 | save-state (`0x53D848`) | code | Descriptor layout and checksum code are closed. The natural caller is postbattle controller `0x080732B4`, state `0xF400`, via `0x08074F2C → 0x080689A4`; first-battle entry does not save, and forced state/gates stall before the genuine result transition. Actual victory/post-victory SRAM evidence remains required. |
 | 24 | skills (`0x545BE4`) | code | `0x0806D910` indexes `0x08545BE4 + skill_id*16` and copies bytes `0..9` into a runtime skill structure. The corrected table is 94 records ending at positions base `0x5461C4`; field UI meanings and a live selected-skill capture remain pending. |
 | 25 | sprite-animations (`0x53E200`) | static | Valid 38-entry animation pointer/frame structures only; no frame traversal hit. |
 | 26 | story (`0x60C74`) | dynamic | `0x0808F544` selected primary entry 39 → script `0x08031020`; live hook at `0x08097C78` captured opcode `1A 28 02 00` at `0x08031070`, which writes battle ID 40 through state `+0x16` to `0x02026805`. |

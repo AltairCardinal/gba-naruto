@@ -37,11 +37,11 @@ def extract(rom: bytes) -> dict:
             raise ValueError(f"active sound ID {sound_id} unexpectedly uses the empty descriptor")
         descriptor_offset = _offset(descriptor_ptr, len(rom))
 
-        track_count, reverb, priority, flags = struct.unpack_from("<BBBB", rom, descriptor_offset)
+        track_count, block_count, priority, reverb = struct.unpack_from("<BBBB", rom, descriptor_offset)
         if not 1 <= track_count <= 16:
             raise ValueError(f"sound ID {sound_id} has implausible track count {track_count}")
-        sequence_ptr = struct.unpack_from("<I", rom, descriptor_offset + 4)[0]
-        _offset(sequence_ptr, len(rom))
+        voicegroup_ptr = struct.unpack_from("<I", rom, descriptor_offset + 4)[0]
+        _offset(voicegroup_ptr, len(rom))
         track_ptrs = list(struct.unpack_from(
             f"<{track_count}I", rom, descriptor_offset + 8
         ))
@@ -65,11 +65,11 @@ def extract(rom: bytes) -> dict:
             "player_index": player_config & 0xFFFF,
             "player_config_high": player_config >> 16,
             "track_count": track_count,
-            "reverb": reverb,
+            "block_count": block_count,
             "priority": priority,
-            "flags": flags,
-            "sequence_ptr": sequence_ptr,
-            "sequence_ptr_hex": f"0x{sequence_ptr:08X}",
+            "reverb": reverb,
+            "voicegroup_ptr": voicegroup_ptr,
+            "voicegroup_ptr_hex": f"0x{voicegroup_ptr:08X}",
             "track_ptrs": track_ptrs,
             "track_ptrs_hex": [f"0x{x:08X}" for x in track_ptrs],
             "descriptor_raw_hex": rom[
@@ -97,10 +97,10 @@ def extract(rom: bytes) -> dict:
         "descriptor_format": {
             "fields": [
                 {"offset": 0, "size": 1, "name": "track_count", "type": "u8"},
-                {"offset": 1, "size": 1, "name": "reverb", "type": "u8"},
+                {"offset": 1, "size": 1, "name": "block_count", "type": "u8"},
                 {"offset": 2, "size": 1, "name": "priority", "type": "u8"},
-                {"offset": 3, "size": 1, "name": "flags", "type": "u8"},
-                {"offset": 4, "size": 4, "name": "sequence_ptr", "type": "u32"},
+                {"offset": 3, "size": 1, "name": "reverb", "type": "u8"},
+                {"offset": 4, "size": 4, "name": "voicegroup_ptr", "type": "u32"},
                 {"offset": 8, "size": "track_count*4", "name": "track_ptrs", "type": "u32[]"},
             ]
         },

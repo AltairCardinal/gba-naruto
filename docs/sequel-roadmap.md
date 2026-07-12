@@ -70,8 +70,8 @@
   diagnostic-only；skills 真表已纠正为 `0x545BE4` 的 94×16-byte 模板，
   `0x0806D910` 按 skill ID 复制前 10 字节，旧 `0x546100` 是 record 81 起的尾部切片
 - 五个旧 late-ROM `story*` 候选其实是 `0x465B70` 音频主表所指 song descriptor
-  的 `+4` 切片；byte 0 是 track count，`+4` 是 sequence pointer，`+8` 是 track
-  pointers。`story-c/d/e` 保持 tombstone；`story/story-b` 已迁移为真实章节表
+  的 `+4` 切片；m4a SongHeader byte 0 是 track count，`+4` 是 voicegroup，
+  `+8` 是 track sequence pointers。`story-c/d/e` 保持 tombstone；`story/story-b` 已迁移为真实章节表
   `0x60C74/0x60D54`，并有独立安全写回
 - maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
@@ -83,8 +83,9 @@
   `0x08079668` 是消息表/分发器。真实 sound-ID 主表为 `0x465B70`，域 0..158，
   80 个非空 descriptor；dispatcher `0x0809AAC0`、track initializer
   `0x0809B1F4`、FIFO/DMA initializer `0x0809AE3C` 已闭合。运行时 hook 命中
-  230 次并证明 ID 118→`0x0853D06C`，audio 升级 runtime；每个 cue 的可听名称、
-  sequence opcode 和真实 sample 导出仍待完成。sound-ID 主表已有持久
+  230 次并证明 ID 118→`0x0853D06C`，audio 升级 runtime；真实指针可达提取器
+  已导出 217 条 track blob、23 个 voicegroup、387 个 tone 和 79 个合法 WAV；
+  每个 cue 的可听名称及 track opcode 语义仍待完成。sound-ID 主表已有持久
   `rom_audio_sound_ids` 镜像和 immutable-base、精确 offset、ROM 范围/对齐、
   descriptor track-count 门禁的 8-byte 安全写回
 - save descriptor 第二字段已纠正为 payload length/累计 stride，而非独立 SRAM
@@ -103,7 +104,7 @@
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 主链已定位 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→script `0x31020`→opcode `0x1A` operand 40 已 runtime 闭环；alternate 分支为 code 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset 图块 atlas 已导出；音频主表/descriptor 已提取，真实 sample/可播放序列导出未完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset atlas、217 条音频 track blob 与 79 个 pointer-reachable WAV 已导出；track opcode 解析、整曲渲染和 cue 命名未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -233,17 +234,22 @@
 
 ### P0-Step 5｜资源提取链路（图片/音频）
 
+**状态：⚠️ 资源字节提取完成，语义/整曲渲染部分完成**
+
 **现状：**
-- tileset 地址已知（`0x596D5C` 的 tile data 指针），提取脚本未完成
+- 47/47 tileset atlas 已由真实 descriptor 指针导出
+- m4a SongHeader 已纠正：`+4` voicegroup，`+8` track sequences
+- 已导出 217 条 track blob、23 个 voicegroup、387 个 tone、79 个 WAV
+- 待完成 track opcode 解码、整曲混音/渲染和可听 cue 命名
 
 **方法：**
-1. 从 `0x596D5C` 提取 tileset 指针，用 Python 导出为 PNG
-2. 搜索音频数据段（MIDI-like 结构 或 PCM 段）
-3. 编写 `tools/extract_tileset.py` 和 `tools/extract_audio.py`
+1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
+2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
+3. 解码 m4a track opcode 并构建多轨可播放导出（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
-- `tools/extract_audio.py`
+- `tools/extract_audio_assets.py`
 - `notes/resource-locations.md`
 
 ---

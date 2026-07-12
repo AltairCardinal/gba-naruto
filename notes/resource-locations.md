@@ -89,5 +89,8 @@ The heuristic `tools/extract_audio.py` scan found byte patterns resembling
 DirectSound headers, but neither those headers nor their `+12` data addresses
 have aligned pointer references. They are false-positive candidates and must
 not be presented as samples, BGM, durations, or successful WAV extraction.
-Real extraction must follow the proven sequence and track pointers. Full chain
-and runtime evidence: `notes/audio-engine-runtime-chain-20260712.md`.
+Real extraction now follows the m4a SongHeader voicegroup and track pointers.
+`tools/extract_audio_assets.py` exports 217 bounded track blobs and 79 unique
+pointer-reachable DirectSound WAV files under `build/audio-v2/`; the 16-byte
+wave header and signed-to-unsigned PCM conversion are tested. Full chain and
+runtime evidence: `notes/audio-engine-runtime-chain-20260712.md`.

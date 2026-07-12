@@ -19,7 +19,7 @@ class AudioResourceSetsCompatibilityTest(unittest.TestCase):
         first = self.result["entries"][0]
         self.assertEqual(first["descriptor_offset"], 0x536368)
         self.assertEqual(first["track_count"], 8)
-        self.assertEqual(first["sequence_ptr"], 0x0846480C)
+        self.assertEqual(first["voicegroup_ptr"], 0x0846480C)
         self.assertEqual(len(first["track_ptrs"]), 8)
 
     def test_high_descriptor_bytes_are_not_misread_as_pointer_count(self):

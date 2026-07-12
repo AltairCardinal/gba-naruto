@@ -23,9 +23,10 @@ def build_tombstone(slug: str, descriptor: dict) -> dict:
         "table_offset_hex": f"0x{false_offset:06X}",
         "entry_count": 0,
         "entry_size": 4,
-        "entry_format": {"description": "No story entries. Former u32 pointers are the sequence pointer followed by per-track pointers in one song descriptor."},
+        "entry_format": {"description": "No story entries. Former u32 pointers are the voicegroup pointer followed by per-track sequence pointers in one song descriptor."},
         "verification": "disproved",
-        "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. Descriptor byte 0 is track_count; +4 is sequence_ptr; +8 begins track_ptrs.",
+        "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. The m4a SongHeader has track_count at byte 0, voicegroup_ptr at +4, and track sequence pointers at +8.",
+        "notes": f"Sound ID {descriptor['sound_id']} descriptor starts at 0x{descriptor['descriptor_offset']:06X}; this address is its +4 voicegroup pointer. Empty tombstone and disabled writeback prevent audio payload from being edited as story data.",
         "former_claim": {"kind": "story/chapter pointer table", "offset": false_offset},
         "actual_container": {
             "master_table_offset": 0x465B70,
