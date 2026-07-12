@@ -100,6 +100,15 @@
       }
     ]
   },
+  "player_visible_semantics": {
+    "template_02": "attack_power",
+    "template_03": "defense_power",
+    "template_04": "agility",
+    "template_05": "movement",
+    "template_0a": "hand_seals",
+    "template_0e": "max_hp",
+    "template_10": "experience"
+  },
   "format": {
     "address_formula": "0x54241C + character_id*0xB4",
     "character_id_range": "0..62",
@@ -121,7 +130,7 @@
     "address": "0x020240C0",
     "stride": 468
   },
-  "notes": "Character_id is the table index used by code, not a byte read from the record. Runtime evidence connects character_id=1 to ROM record 0x5424D0, proves template-to-battle-slot copying, and shows byte 0x5424D1 changes runtime template payload byte +1. Field semantics Player-facing stat labels remain unproven; structural field destinations and guarded lossless record writeback are now available.",
+  "notes": "Character_id is the table index used by code, not a byte read from the record. Runtime evidence connects character_id=1 to ROM record 0x5424D0, proves template-to-battle-slot copying, and shows byte 0x5424D1 changes runtime template payload byte +1. A same-boundary character overview screenshot and EWRAM dump correlate attack, defense, agility, movement, hand seals, max HP and experience. Template +6/+8 remain deliberately unnamed until a one-byte UI A/B disambiguates shuriken and chakra.",
   "entries": [
     {
       "id": "character_00",

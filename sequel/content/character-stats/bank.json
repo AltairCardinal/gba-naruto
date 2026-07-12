@@ -21,7 +21,8 @@
         "size": 2,
         "name": "template_0e_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x0E as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x0E as value * (level - 1) / 100",
+        "player_label": "max_hp"
       },
       {
         "offset": 2,
@@ -35,28 +36,32 @@
         "size": 2,
         "name": "template_02_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x02 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x02 as value * (level - 1) / 100",
+        "player_label": "attack_power"
       },
       {
         "offset": 6,
         "size": 2,
         "name": "template_03_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x03 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x03 as value * (level - 1) / 100",
+        "player_label": "defense_power"
       },
       {
         "offset": 8,
         "size": 2,
         "name": "template_04_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x04 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x04 as value * (level - 1) / 100",
+        "player_label": "agility"
       },
       {
         "offset": 10,
         "size": 2,
         "name": "template_05_growth",
         "type": "u16",
-        "description": "Added to runtime template +0x05 as value * (level - 1) / 100"
+        "description": "Added to runtime template +0x05 as value * (level - 1) / 100",
+        "player_label": "movement"
       },
       {
         "offset": 12,
@@ -74,7 +79,7 @@
       }
     ]
   },
-  "notes": "Fields are growth increments per 100 levels, applied with integer division to level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. Player-facing stat names remain conservative until visual/runtime A/B proof.",
+  "notes": "Fields are growth increments per 100 levels, applied with integer division to level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. A same-boundary character overview screenshot/EWRAM dump identifies max HP, attack, defense, agility and movement. Template +6/+8 remain unnamed until a controlled UI A/B disambiguates shuriken capacity from chakra capacity.",
   "entries": [
     {
       "character_id": 0,

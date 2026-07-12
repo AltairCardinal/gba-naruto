@@ -36,6 +36,13 @@ FIELDS = (
 )
 
 SPECIAL_GROWTH_RECORDS = {57: 8, 58: 15}
+PLAYER_LABELS = {
+    0x00: "max_hp",
+    0x04: "attack_power",
+    0x06: "defense_power",
+    0x08: "agility",
+    0x0A: "movement",
+}
 
 
 def extract_entries(rom: bytes) -> list[dict[str, Any]]:
@@ -73,15 +80,16 @@ def build_bank(rom: bytes) -> dict[str, Any]:
                 f"Added to runtime template +0x{target:02X} as "
                 "value * (level - 1) / 100"
             )
-        fields.append(
-            {
+        field = {
                 "offset": index * 2,
                 "size": 2,
                 "name": name,
                 "type": "u16",
                 "description": description,
             }
-        )
+        if index * 2 in PLAYER_LABELS:
+            field["player_label"] = PLAYER_LABELS[index * 2]
+        fields.append(field)
     return {
         "version": 2,
         "description": "Per-character level-growth records consumed by Thumb function 0x0806D964.",
@@ -104,7 +112,9 @@ def build_bank(rom: bytes) -> dict[str, Any]:
         "notes": (
             "Fields are growth increments per 100 levels, applied with integer division to "
             "level-1. IDs 57 and 58 use physical records 8 and 15 at runtime. "
-            "Player-facing stat names remain conservative until visual/runtime A/B proof."
+            "A same-boundary character overview screenshot/EWRAM dump identifies max HP, "
+            "attack, defense, agility and movement. Template +6/+8 remain unnamed until "
+            "a controlled UI A/B disambiguates shuriken capacity from chakra capacity."
         ),
         "entries": extract_entries(rom),
     }

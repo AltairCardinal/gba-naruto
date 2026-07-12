@@ -127,5 +127,7 @@ CAPSTONE_PYTHON_PATH=/private/tmp/gba-capstone \
 - `sequel/content/character-stats/bank.json`：迁移到真实表；
 - `sequel/content/character-stats-b/bank.json`：disproved tombstone。
 
-后续仍需：给 `template +2/+3/+4/+5/+6/+8/+0E` 建立可靠的玩家界面名称；迁移
-editor DB schema 到 63 条 lossless growth records；之后才可恢复字段级安全写回。
+人物信息页同边界截图/EWRAM 已命名 growth `+0` 体力、`+4` 攻击、`+6` 防御、
+`+8` 敏捷、`+A` 移动。growth `+2/+C` 对应 template `+8/+6`，仍需单字节 UI
+A/B 排定查克拉与手里剑容量；`+E` 仍未读。editor DB 仍需迁移到 63 条 lossless
+growth records，之后才可恢复字段级安全写回。

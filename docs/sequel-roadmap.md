@@ -365,6 +365,10 @@
   会令正常增量为零，因此使用严格两因素插桩 A/B 避免伪阴性。
 - character 1 record `+4` 从 100→200 后，template 与 battle slot 唯一变化为
   `+2: 15→16`，结构升级为 runtime_verified。
+- 人物信息页与同边界 EWRAM 已把 template `+2/+3/+4/+5/+0A/+0C/+0E/+10`
+  分别关联为攻击/防御/敏捷/移动/印/当前体力/体力上限/经验；growth 的体力、
+  攻击、防御、敏捷、移动字段可同步命名。`+6/+8` 因同为 5，仍需单字节 UI A/B
+  排定手里剑与查克拉容量，未提前猜测
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

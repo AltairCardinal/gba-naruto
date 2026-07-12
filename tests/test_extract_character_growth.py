@@ -37,6 +37,17 @@ class CharacterGrowthExtractionTests(unittest.TestCase):
         for character_id, record_id in SPECIAL_GROWTH_RECORDS.items():
             self.assertIn(character_id, bank["entries"][record_id]["also_used_by_character_ids"])
 
+    def test_records_player_visible_growth_names(self):
+        bank = build_bank(self.fixture_rom())
+        fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
+        self.assertEqual(fields[0]["player_label"], "max_hp")
+        self.assertEqual(fields[4]["player_label"], "attack_power")
+        self.assertEqual(fields[6]["player_label"], "defense_power")
+        self.assertEqual(fields[8]["player_label"], "agility")
+        self.assertEqual(fields[10]["player_label"], "movement")
+        self.assertNotIn("player_label", fields[2])
+        self.assertNotIn("player_label", fields[12])
+
 
 if __name__ == "__main__":
     unittest.main()

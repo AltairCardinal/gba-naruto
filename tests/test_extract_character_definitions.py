@@ -82,7 +82,8 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
         self.assertEqual(samples[62]["raw_hex"][:32], "011405280306030005000a0001030000")
 
     def test_loader_derived_fields_and_slot_arrays_are_exposed(self):
-        entry = extract_character_definitions(BASE_ROM.read_bytes())["entries"][1]
+        bank = extract_character_definitions(BASE_ROM.read_bytes())
+        entry = bank["entries"][1]
         self.assertEqual(entry["active_flag"], 1)
         self.assertEqual(entry["template_02_base"], 14)
         self.assertEqual(entry["template_0a_base"], 15)
@@ -91,6 +92,15 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
         self.assertEqual(len(entry["secondary_slots"]), 24)
         self.assertEqual(entry["primary_slots"][0], {
             "slot": 0, "id": 2, "initial_state": 1, "unlock_level": 0, "reserved": 0,
+        })
+        self.assertEqual(bank["player_visible_semantics"], {
+            "template_02": "attack_power",
+            "template_03": "defense_power",
+            "template_04": "agility",
+            "template_05": "movement",
+            "template_0a": "hand_seals",
+            "template_0e": "max_hp",
+            "template_10": "experience",
         })
 
     def test_cli_writes_bank_compatible_json(self):
