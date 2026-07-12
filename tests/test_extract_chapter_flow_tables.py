@@ -33,6 +33,8 @@ class ChapterFlowTablesTest(unittest.TestCase):
         self.assertEqual(bank["verification"], "runtime_verified")
         self.assertEqual(bank["runtime_sample"]["terminal_opcode_address"], "0x0803142E")
         self.assertEqual(bank["runtime_sample"]["dispatch_hit_count"], 25)
+        self.assertEqual(len(bank["runtime_sample"]["observed_commands"]), 25)
+        self.assertEqual(bank["runtime_sample"]["observed_commands"][-1]["name"], "end")
 
 
 if __name__ == "__main__":

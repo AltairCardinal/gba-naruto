@@ -49,6 +49,18 @@ class ChapterScriptCodecTests(unittest.TestCase):
             bytes.fromhex("1aff0000"),
         )
 
+    def test_audio_cue_and_speaker_label_subset_round_trips(self):
+        data = bytes.fromhex("1b0400080700")
+        commands = decode_script(data)
+        self.assertEqual(commands[0]["name"], "audio_cue")
+        self.assertEqual(commands[0]["cue_id"], 4)
+        self.assertEqual(commands[0]["mode"], "play")
+        self.assertEqual(commands[1]["name"], "set_speaker_label")
+        self.assertEqual(commands[1]["speaker_label_id"], 7)
+        self.assertEqual(encode_script(commands), data)
+        with self.assertRaisesRegex(ChapterScriptError, "audio mode"):
+            encode_script([{"name": "audio_cue", "cue_id": 4, "mode": "loop"}, {"name": "end"}])
+
     def test_decode_rejects_truncation_and_bytes_after_end(self):
         with self.assertRaisesRegex(TruncatedCommandError, "set_battle"):
             decode_script(bytes.fromhex("1a28"))

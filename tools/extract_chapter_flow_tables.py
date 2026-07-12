@@ -9,8 +9,10 @@ from pathlib import Path
 
 try:
     from tools.chapter_script_codec import decode_script
+    from tools.chapter_script_analyzer import analyze_observed_script
 except ModuleNotFoundError:
     from chapter_script_codec import decode_script
+    from chapter_script_analyzer import analyze_observed_script
 
 ROM_BASE = 0x08000000
 TABLES = {
@@ -54,7 +56,7 @@ def build_bank(rom: bytes, slug: str) -> dict:
         "Alternate scenario/chapter flow script pointer table selected when state +0x18 is nonzero."
     )
     return {
-        "version": 4,
+        "version": 5,
         "description": description,
         "structure_kind": "chapter-flow-script-pointer-table",
         "table_offset": table_offset,
@@ -72,6 +74,10 @@ def build_bank(rom: bytes, slug: str) -> dict:
             "selector": "0x0808F544",
             "interpreter": "0x080977B8",
             "set_battle_handler": "0x08097C6C",
+            "audio_cue_handler": "0x08097C9C",
+            "audio_cue_helper": "0x08097140",
+            "speaker_label_handler": "0x080979E8",
+            "speaker_label_table": "0x085A57C4",
             "end_handler": "0x08097916",
             "opcode_dispatch": "0x080977D8",
             "state_selector": "0x020311EC (+0x18)",
@@ -92,10 +98,14 @@ def build_bank(rom: bytes, slug: str) -> dict:
             "termination": "opcode 0x00 returns from the interpreter at zero call depth",
             "battle_id": 0,
             "forced_alternate_selector": True,
+            "observed_commands": analyze_observed_script(
+                rom[0x31281:0x3142F], base_address=0x08031281
+            ),
         }),
         "writeback": (
             "Lossless pointer mirror requires immutable-base and ROM-range checks. The strict "
-            "chapter_script_codec currently authors only code-proven END/SET_BATTLE scripts; "
+            "chapter_script_codec currently authors only code-proven END, SET_SPEAKER_LABEL, "
+            "SET_BATTLE, and AUDIO_CUE scripts; "
             "production script allocation and atomic pointer+payload writeback remain disabled."
         ),
         "entries": entries,

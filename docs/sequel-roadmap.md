@@ -371,11 +371,19 @@
   攻击、防御、敏捷、移动字段可同步命名。随后以 `0x08089AE0` 的标签行和数值读取
   行直接闭合 `template +8 = 查克拉容量`、`template +6 = 忍具数上限`，对应 growth
   `+2/+C`；两个运行值同为 5 不再构成歧义，也不再需要 UI A/B
-- 章节最小语义创作链新增严格 codec，只开放已证明的 `End(00)` 与三字节
-  `SetBattle(1A,id,mode)`；受控 primary scenario 39 探针选择 codec 输出
+- 章节最小语义创作链新增严格 codec；在 `End(00)` 与三字节
+  `SetBattle(1A,id,mode)` 基础上，进一步沿 handler 闭合并开放
+  `SetSpeakerLabel(08,label_id)` 与 `AudioCue(1B,cue_id,mode)`。受控 primary
+  scenario 39 探针选择 codec 输出
   `0x0809E800: 1A 28 02 | 00`，恰好 dispatch 两次并将章节/战斗状态 39→40。
   这证明 authoring bytes 的运行时因果，但生产 allocator、pointer+payload 原子回写和
   对话 opcode 子集仍未完成，短路线也未冒充 strict battle-map arrival
+- alternate scenario 39 已由 control-aware text walker 完整拆成 25 条 command，边界与
+  runtime 分布 `1B×1/02×5/08×8/01×8/04×2/00×1` 一致，末端精确落在
+  `0x0803142E`。`1B` 已由 `0x08097C9C→0x08097140` 闭合为播放/等待/停止音频，
+  `08` 已由 `0x080979E8` 与 12-byte 表 `0x085A57C4` 闭合为说话人标签选择；
+  `02/04` 以及 `01` 的安全创作语义仍未完成，故完整只读 analyzer 与受限可写 codec
+  继续保持分离
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
   原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
   byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified
