@@ -34,10 +34,14 @@
   runtime 验证
 - WASM 探针现会记录 `0x02026804` 的 8 字节控制区、`0x02026805` 标识和
   `0x0201BE28..2B` map runtime；baseline 得到 `[36,44,9,22]`
-- WASM 到达判据已从“唯一编成”收紧为四因素门禁：唯一完整编成、非零 battle ID、
-  非零且派生一致的 map runtime、截图分类 `battle-map`。基准路线在步骤 286
-  拒绝了已预载内存的对白/转场状态，直到步骤 306 真正地图画面才通过；详见
+- WASM 到达判据仍要求唯一完整编成、非零 battle ID、派生一致 map runtime 和
+  真实地图截图，但旧颜色分类已纠正：旧 step 306 实际是角色详情面板假阳性；
+  真正地图在 tail 阶段，菱形黑角 `darkRatio=0.200625`，面板仅 `0.003125`。
+  分类器现用黑角比例区分，必须以新 live run 重新签发 strict-arrival 结果；详见
   `notes/strict-battle-arrival-gate-20260712.md`
+- 纠正后两次重跑分别停在“队伍・装备”和“特别宝箱”教程说明页，均被正确拒绝且
+  save hook 为 0；菜单已确认包含“开始任务”，START 不能关闭教程，下一导航器须
+  选择开始任务后用 A 关闭说明，再以黑角门禁确认战场
 - 独立 A/B 仅把 maps 第 40 行 `0x53DE10` 的 width 36→32，同路线得到
   `[32,44,8,22]`，因此 maps width/height 字段链已升级为 runtime；
   资源指针字段仍保持 code 验证。47 行已有持久 `rom_map_headers` 镜像和

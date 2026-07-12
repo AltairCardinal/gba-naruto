@@ -1,5 +1,32 @@
 # Strict WASM battle-arrival gate (2026-07-12)
 
+## Visual-gate correction
+
+The original color classifier is withdrawn. It classified the genuine tail
+battle-map screenshot as `other`, then classified the later character detail
+panel as `battle-map`. Consequently the old “step 306 strict arrival” label is
+a false positive and must not be used as proof.
+
+The route did pass through a real battle map: the durable tail screenshot shows
+the diamond map and chest before settle confirmations opened the character
+panel. Offline pixel measurement over the game viewport gives
+`darkRatio=0.200625` for the real map and `0.003125` for the panel.
+
+The corrected classifier uses the diamond map's black corners (`darkRatio >
+0.12`, low pale ratio) and separately identifies a full green UI panel
+(`darkRatio < 0.05`, high green ratio). A new live run is required before using
+the `strict-battle-arrival` reason again. ROM→WRAM A/B observations remain
+valid, but their historical screen-state label is superseded by this section.
+
+Two corrected-classifier reruns produced no false success. The first drifted to
+the team/equipment page and ended on a character panel with zero battle/map
+state. The second replaced the last A with START and stopped on the “special
+chest” tutorial instruction page; it also ended without battle/map state. Both
+were correctly rejected. The screen reveals the relevant menu order: team and
+equipment, view map, start mission, save. START does not dismiss the tutorial;
+the next deterministic navigator must select start mission and then confirm the
+tutorial page with A before evaluating the black-corner map gate.
+
 ## Problem
 
 The old probe returned success as soon as runtime coordinates uniquely matched

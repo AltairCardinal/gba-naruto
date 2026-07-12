@@ -84,3 +84,24 @@ The SRAM verifier now accepts the real 32 KiB `getSave()` container as well as
 64 KiB dumps, provided the file covers the descriptor span. Its previous
 64-KiB-only requirement contradicted the observed WASM API; checksum validation
 remains mandatory.
+
+## Visual-gate correction and battle-roster observation
+
+A later audit found that the old step-306 `battle-map` classification was a
+character detail panel false positive. The actual battle map occurred at the
+end of the tail phase and has diamond black corners. The corrected classifier
+adds `darkRatio`; measured values are `0.200625` for the real map and
+`0.003125` for the panel.
+
+A 30-poll read-only delay after the false-positive panel showed only player
+slot 1 (`characterId=1`, candidate values `+0x0C/+0x0E = 80`) and no enemy
+slots. Because the delay was taken on the panel rather than the corrected map
+state, it does not prove that the scenario has no enemies. No natural save hit
+was recorded. The next run must stop on the corrected tail map gate before
+attempting tutorial inputs.
+
+Two subsequent corrected-gate runs were safely rejected before battle: one at
+team/equipment and one at the special-chest tutorial instruction page. Both had
+zero natural-save hook hits. The latter establishes that START is not the final
+confirmation; the route must select “start mission” and then dismiss the
+tutorial with A. No SRAM conclusion is upgraded by these navigation failures.

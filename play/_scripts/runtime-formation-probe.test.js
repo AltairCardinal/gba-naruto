@@ -20,6 +20,25 @@ const {
   decodeSaveRecord,
   compareSaveRecords,
 } = require('./runtime-formation-probe-lib');
+const { extractOccupiedUnitSummaries } = require('./runtime-formation-probe');
+
+test('extractOccupiedUnitSummaries preserves raw stat and coordinate evidence', () => {
+  const bytes = new Uint8Array(0x1D4 * 2);
+  const base = 0x1D4;
+  bytes[base] = 7;
+  bytes[base + 0x0C] = 0x34;
+  bytes[base + 0x0D] = 0x12;
+  bytes[base + 0x0E] = 0x78;
+  bytes[base + 0x0F] = 0x56;
+  bytes[base + 0xC4] = 9;
+  bytes[base + 0xC5] = 10;
+  const result = extractOccupiedUnitSummaries(bytes);
+  assert.equal(result.length, 1);
+  assert.deepEqual(
+    { slot: result[0].slot, characterId: result[0].characterId, value0c: result[0].value0c, value0e: result[0].value0e, x: result[0].x, y: result[0].y },
+    { slot: 1, characterId: 7, value0c: 0x1234, value0e: 0x5678, x: 9, y: 10 },
+  );
+});
 const {
   extractRuntimePositions,
   extractRuntimeTemplates,
@@ -205,9 +224,10 @@ test('decodeChapterScriptProbe exposes the live script cursor and chapter operan
 });
 
 test('classifyScreenMetrics recognizes the character panel without OCR', () => {
-  assert.equal(classifyScreenMetrics({ grayRatio: 0.344, paleRatio: 0.033, greenRatio: 0.18 }), 'character-panel');
-  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.46, greenRatio: 0.291 }), 'prebattle-menu');
-  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.08, greenRatio: 0.23 }), 'battle-map');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01 }), 'character-panel');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.46, greenRatio: 0.291, darkRatio: 0.05 }), 'prebattle-menu');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.11, greenRatio: 0.07, darkRatio: 0.2 }), 'battle-map');
+  assert.notEqual(classifyScreenMetrics({ grayRatio: 0.01, paleRatio: 0.12, greenRatio: 0.26, darkRatio: 0.01 }), 'battle-map');
 });
 
 test('strict battle arrival rejects preloaded formation during dialogue', () => {

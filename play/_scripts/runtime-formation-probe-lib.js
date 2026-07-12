@@ -108,9 +108,11 @@ function decodeChapterScriptProbe(bytes) {
 }
 
 function classifyScreenMetrics(metrics) {
-  if (metrics.grayRatio > 0.2) return 'character-panel';
   if (metrics.paleRatio > 0.3) return 'prebattle-menu';
-  if (metrics.greenRatio > 0.18 && metrics.paleRatio < 0.12) return 'battle-map';
+  // Battle maps are diamond-shaped and leave large black viewport corners.
+  // Character panels fill the viewport with green UI and almost no black.
+  if ((metrics.darkRatio || 0) < 0.05 && metrics.greenRatio > 0.18) return 'character-panel';
+  if ((metrics.darkRatio || 0) > 0.12 && metrics.paleRatio < 0.2) return 'battle-map';
   return 'other';
 }
 

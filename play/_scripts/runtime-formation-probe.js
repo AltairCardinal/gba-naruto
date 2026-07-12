@@ -21,6 +21,7 @@ const NATURAL_SAVE_PROBE_RESULT = 0x0203FF40;
 const POSTBATTLE_PROBE_LATCH = 0x0203FF30;
 const FORCED_SAVE_CASE_HIT = 0x0203FF20;
 const STOP_ON_MATCH = process.env.PROBE_STOP_ON_MATCH !== '0';
+const POST_ARRIVAL_POLLS = Number(process.env.PROBE_POST_ARRIVAL_POLLS || 0);
 const ROOT = path.resolve(__dirname, '..', '..');
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
 const UNITS_BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/units/bank.json'), 'utf8'));
@@ -92,6 +93,27 @@ function extractRuntimePositions(snapshot) {
     }
   }
   return positions;
+}
+
+function extractOccupiedUnitSummaries(snapshot) {
+  const units = [];
+  for (let slot = 0; slot < SLOT_COUNT; slot += 1) {
+    const start = slot * UNIT_STRIDE;
+    const record = snapshot.subarray(start, start + UNIT_STRIDE);
+    if (!record.some(byte => byte !== 0)) continue;
+    units.push({
+      slot,
+      characterId: record[0],
+      first32Hex: Buffer.from(record.subarray(0, 32)).toString('hex'),
+      value0c: record[0x0C] | (record[0x0D] << 8),
+      value0e: record[0x0E] | (record[0x0F] << 8),
+      x: record[0xC4],
+      y: record[0xC5],
+      initialX: record[0xC7],
+      initialY: record[0xC8],
+    });
+  }
+  return units;
 }
 
 function extractRuntimeTemplates(snapshot) {
@@ -254,14 +276,16 @@ async function captureScreenMetrics(page) {
     let gray = 0;
     let pale = 0;
     let green = 0;
+    let dark = 0;
     const count = pixels.length / 4;
     for (let i = 0; i < pixels.length; i += 4) {
       const r = pixels[i]; const g = pixels[i + 1]; const b = pixels[i + 2];
       if (Math.abs(r - g) < 12 && Math.abs(g - b) < 12 && r > 60 && r < 220) gray += 1;
       if (r > 150 && g > 160 && b < 170) pale += 1;
       if (g > r * 1.15 && g > b * 1.15 && g > 80) green += 1;
+      if (r < 30 && g < 30 && b < 30) dark += 1;
     }
-    return { grayRatio: gray / count, paleRatio: pale / count, greenRatio: green / count };
+    return { grayRatio: gray / count, paleRatio: pale / count, greenRatio: green / count, darkRatio: dark / count };
   }, base64);
 }
 
@@ -306,6 +330,7 @@ async function main() {
     let previous = null;
     let lastDiagnostic = null;
     let latestMatch = null;
+    let arrivalFirstPoll = null;
     const stages = [];
     for (let index = 0; index < plan.length; index += 1) {
       const action = plan[index];
@@ -349,6 +374,7 @@ async function main() {
         nonzeroBytes: snapshot.reduce((count, byte) => count + (byte !== 0), 0),
         firstBytesHex: Buffer.from(snapshot.subarray(0, 16)).toString('hex'),
         runtimePositions,
+        occupiedUnitSummaries: extractOccupiedUnitSummaries(snapshot),
         runtimeTemplates,
         templateMatches,
         characterDefinitionMatches,
@@ -399,7 +425,7 @@ async function main() {
     }
     for (const settle of settlePlan) {
       await sleep(settle.delayMs);
-      if (settle.key) {
+      if (settle.key && arrivalFirstPoll === null) {
         await pressGbaKey(page, settle.key, settle.holdMs);
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
@@ -422,6 +448,7 @@ async function main() {
         nonzeroBytes: snapshot.reduce((count, byte) => count + (byte !== 0), 0),
         firstBytesHex: Buffer.from(snapshot.subarray(0, 16)).toString('hex'),
         runtimePositions,
+        occupiedUnitSummaries: extractOccupiedUnitSummaries(snapshot),
         runtimeTemplates,
         templateMatches,
         characterDefinitionMatches,
@@ -444,6 +471,11 @@ async function main() {
         lastDiagnostic.arrival = arrival;
         console.log(JSON.stringify({ ...lastDiagnostic, match, arrival }));
         if (arrival.arrived) {
+          if (arrivalFirstPoll === null) arrivalFirstPoll = settle.poll;
+          if (settle.poll - arrivalFirstPoll < POST_ARRIVAL_POLLS) {
+            previous = snapshot;
+            continue;
+          }
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
           const screenshotPath = artifacts.phaseScreenshot('settle');
@@ -476,6 +508,7 @@ if (require.main === module) main().catch(error => { console.error(error.stack |
 
 module.exports = {
   extractRuntimePositions,
+  extractOccupiedUnitSummaries,
   extractRuntimeTemplates,
   focusGameSurface,
   matchTemplatesToCharacterDefinitions,
