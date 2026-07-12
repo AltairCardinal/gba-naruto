@@ -25,8 +25,8 @@ Current verified baseline (updated 2026-07-12):
   the former `0x53D914` claim was wrong.
 - Lossless ROM mirror write-back is guarded by immutable-base preconditions and
   conflict detection; unsafe legacy battle-config template writes are rejected.
-- Six banks currently carry reproducible runtime evidence; four are code
-  verified, 17 are static verified, and five are disproved. These bank labels are not a
+- Ten banks currently carry reproducible runtime evidence; thirteen are code
+  verified and nine are disproved aliases. These bank labels are not a
   claim that every field or safe write-back path is complete.
 - The old audio conclusion is revoked: the real sound-ID table is `0x465B70`;
   runtime observes ID 118 resolving to descriptor `0x53D06C`. Playable

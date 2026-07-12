@@ -237,11 +237,30 @@ def populate_menu_ui(rom: bytes):
         entries.append(entry)
     update_bank_json(
         "menu-ui", entries,
-        {"special_variant_5": {
-            "gfx_ptr": struct.unpack_from("<I", rom, 0x5A4DE4)[0],
-            "palette_ptr": struct.unpack_from("<I", rom, 0x5A4DE8)[0],
-        }},
-        force=True, verification="code_verified",
+        {
+            "version": 4,
+            "verification_method": (
+                "0x08096138 computes record_id*40 + variant*8. A controlled runtime A/B "
+                "replaced only record 7 variant 0 with record 3 variant 0; the same "
+                "ShowPortrait(1,7,0) step visibly changed Kakashi to Sakura."
+            ),
+            "runtime_sample": {
+                "record_id": 7,
+                "variant": 0,
+                "command": "ShowPortrait(1,7,0)",
+                "control_pair_hex": "888a4108c8964108",
+                "replacement_source_record_id": 3,
+                "replacement_pair_hex": "d41c410884294108",
+                "control_visible_portrait": "Kakashi",
+                "changed_visible_portrait": "Sakura",
+                "evidence": "artifacts/runtime-checkpoints/visual-variant-runtime-evidence.json",
+            },
+            "special_variant_5": {
+                "gfx_ptr": struct.unpack_from("<I", rom, 0x5A4DE4)[0],
+                "palette_ptr": struct.unpack_from("<I", rom, 0x5A4DE8)[0],
+            },
+        },
+        force=True, verification="runtime_verified",
     )
 
 

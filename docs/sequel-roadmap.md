@@ -12,7 +12,7 @@
 
 > 2026-07-13 当前调查闭合审计为 32/32：23 个有效数据 bank 均通过元数据和
 > 基准 ROM fidelity，另 9 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 9 / code 14 / static 0 / disproved 9。32/32 只表示
+> tombstone。分布为 runtime 10 / code 13 / static 0 / disproved 9。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -428,7 +428,9 @@
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
-  variant 5 pair；旧20项是records 61–62，现已升级 code_verified。当前无 static bank。
+  variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
+  又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
+  当前无 static bank。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、

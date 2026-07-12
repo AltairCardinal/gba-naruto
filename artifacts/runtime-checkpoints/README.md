@@ -51,6 +51,10 @@ writing the same complete 430-byte alternate scenario 39 script at
 `0x085F8000`, the selector consuming that relocated pointer, 25 dispatches,
 and terminal opcode `00` at `0x085F81AD`.
 
+`visual-variant-runtime-evidence.json` records the controlled record 7 /
+variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame
+from Kakashi to Sakura without changing scenario, script cursor, or dispatch count.
+
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
 

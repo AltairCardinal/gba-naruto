@@ -36,7 +36,13 @@ index dimension. Function `0x08096138` proves the canonical formula:
 for variants 0..4. Variant 5 returns the special pair at `0x085A4DE4`.
 Therefore the main table is 63 records × five LZ-gfx/RGB555-palette pairs,
 ending at `0x5A57C4`; record 0 is intentionally all zero. The historical
-`menu-ui@0x5A5774` view flattened canonical records 61 and 62. The corrected
-bank is now `code_verified`.
+`menu-ui@0x5A5774` view flattened canonical records 61 and 62.
+
+A controlled runtime A/B then replaced only record 7 / variant 0 at `0x5A4F04`
+with the valid record 3 / variant 0 pair. At the same scenario 39
+`ShowPortrait(1,7,0)` step, with the same relocated script cursor and fourth
+dispatch, the visible portrait changed from Kakashi to Sakura. The corrected
+bank is now `runtime_verified`; compact evidence is stored in
+`artifacts/runtime-checkpoints/visual-variant-runtime-evidence.json`.
 
 All four legacy partial editor schemas are diagnostic-only.

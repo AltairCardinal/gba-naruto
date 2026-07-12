@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 4,
     "description": "Sixty-three records of five graphics/palette visual variants selected by record ID and variant; historical menu-ui slug retained for compatibility.",
     "table_offset": 5918188,
     "table_offset_hex": "0x5A4DEC",
@@ -69,8 +69,8 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "0x08096138 returns 0x085A4DEC + record_id*40 + variant*8 for variants 0..4; variant 5 returns the special pair at 0x085A4DE4. This closes 63 records ending at 0x5A57C4.",
+    "verification": "runtime_verified",
+    "verification_method": "0x08096138 computes record_id*40 + variant*8. A controlled runtime A/B replaced only record 7 variant 0 with record 3 variant 0; the same ShowPortrait(1,7,0) step visibly changed Kakashi to Sakura.",
     "former_claim": "20 menu/UI pointers at 0x5A5774",
     "notes": "The old bank flattened records 61 and 62. Record 0 is an intentional all-zero record; nonzero gfx targets are LZ77 and companion targets are RGB555-shaped palettes. Legacy rows remain diagnostic-only.",
     "special_variant_5": {
@@ -1590,5 +1590,16 @@
             "palette_ptr_4": 138679076,
             "palette_ptr_4_hex": "24134408"
         }
-    ]
+    ],
+    "runtime_sample": {
+        "record_id": 7,
+        "variant": 0,
+        "command": "ShowPortrait(1,7,0)",
+        "control_pair_hex": "888a4108c8964108",
+        "replacement_source_record_id": 3,
+        "replacement_pair_hex": "d41c410884294108",
+        "control_visible_portrait": "Kakashi",
+        "changed_visible_portrait": "Sakura",
+        "evidence": "artifacts/runtime-checkpoints/visual-variant-runtime-evidence.json"
+    }
 }
