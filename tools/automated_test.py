@@ -320,6 +320,11 @@ ROM_TABLE_GENERATORS = {
     "rom_story_c": "generate_story_c_patches",
     "rom_story_d": "generate_story_d_patches",
     "rom_story_e": "generate_story_e_patches",
+    "rom_chapter_flow_primary": "generate_chapter_flow_primary_patches",
+    "rom_chapter_flow_alternate": "generate_chapter_flow_alternate_patches",
+    "rom_audio_sound_ids": "generate_audio_sound_id_patches",
+    "rom_character_definitions": "generate_character_definition_patches",
+    "rom_map_headers": "generate_map_header_patches",
     "rom_tile_assets": "generate_tile_asset_patches",
 }
 
@@ -589,9 +594,11 @@ def suite_reverse_engineering(runner: TestRunner) -> None:
             report["issues"]
         )
         assert report["entry_count"] == 10, report["entry_count"]
-        assert report["unique_entry_count"] == 7, report["unique_entry_count"]
+        assert report["payload_lengths"] == [4732, 4732, 20, 4732, 20, 8, 24, 6084, 1404, 512], report["payload_lengths"]
+        assert report["record_offsets"][3:] == [0x2548, 0x37D8, 0x3800, 0x381C, 0x3848, 0x5020, 0x55B0], report["record_offsets"]
+        assert report["total_sram_span"] == 0x57C4, report["total_sram_span"]
 
-    runner.run("save-state table matches base ROM and unique SRAM fields", suite,
+    runner.run("save-state table matches base ROM and cumulative variable records", suite,
                test_save_state_table_matches_base_rom)
 
     def test_battle_config_table_matches_base_rom() -> None:
@@ -620,7 +627,7 @@ def suite_reverse_engineering(runner: TestRunner) -> None:
                 report["issues"]
             )
 
-    runner.run("character-stats tables match base ROM u16 records", suite,
+    runner.run("character-growth table matches base ROM u16 records", suite,
                test_character_stats_tables_match_base_rom)
 
 

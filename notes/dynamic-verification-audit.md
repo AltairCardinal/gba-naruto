@@ -19,8 +19,8 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under this definition the current repository has **3 dynamic, 4 code, 24
-static, and 1 none** after the units character-record byte A/B runtime probe
+Under this definition the current repository has **5 runtime/dynamic, 5 code,
+20 static, and 2 disproved aliases** after the skill-table identity correction
 was closed on 2026-07-11. This is deliberately stricter than the `verification`
 strings in the banks. In particular, the successful dialogue watchpoint traces
 prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
@@ -29,19 +29,19 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
 | # | Structure (important ROM offset) | Level | Strongest durable evidence and limitation |
 |---:|---|---|---|
-| 1 | audio (`0x53F138`) | code | `sequel/content/audio/bank.json` records dispatcher `0x08079668`, indexed table `0x08599634`, and call sites. No audio command/table access was captured live. The bank offset also collides with `palettes`, so the bank identity needs correction before a dynamic patch test. |
-| 2 | battle-config (`0x545458`) | code | `notes/battle-config-format.md` records code reference `0x0806D866 -> 0x08545458`. Existing runtime section says blocked; it contains no successful hit. |
+| 1 | message commands (legacy `audio` slug, `0x599634`) | code | The former audio identity is revoked. `0x08079668` indexes 100 message pointers and calls `0x08066758 → 0x0806626C` text parsing/object creation. `0x53F138` belongs to palettes. Actual audio resources remain unresolved outside this legacy slug. |
+| 2 | battle-effect templates (`0x545458`) | runtime | A live caller consumed effect 2. A controlled level-2 A/B changed only record 2 growth `+0x0E:1→2`; the type-4 runtime destination byte `+7` changed `4→5`, while other output bytes remained stable. |
 | 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |
-| 5 | character-stats (`0x54507A`) | static | Parsed table only. The old WRAM observation in `notes/character-stats-addresses.md` is now known to alias template pool slot 1 (`0x02022E34 + 1*0xBC = 0x02022EF0`), not an independent stats block. Direct pointer-reference scans for `0x0854507A` and `0x08545200` currently find no references, so table identity and consumer remain unproved. |
-| 6 | character-stats-b (`0x545200`) | static | Consistent table and pointer/reference inspection only. |
+| 5 | character-stats / growth (`0x545068`) | runtime | `0x0806D964` computes `0x08545068 + id*0x10` and applies seven growth fields as `value*(level-1)/100` to template destinations. A two-factor first-battle probe changed character 1 physical record `+4` from 100 to 200 and changed only template/battle-slot `+2` from 15 to 16. See `notes/character-growth-runtime-chain-20260711.md`. |
+| 6 | character-stats-b (`0x545200`) | disproved | Not an independent structure: `0x545200 = 0x545068 + 25*0x10 + 8`, halfway through physical growth record 25. Bank retained only as a tombstone; legacy bytes write-back is disabled. |
 | 7 | cutscene-scripts (`0x53DF70`) | static | Valid pointers into `0x12xxxx` script-like data only; no script fetch/scene correlation trace. |
 | 8 | data-table-a (`0x5A14A4`) | static | Repeating valid pointers and encoded target blocks only; semantics and consumer remain unproved. |
 | 9 | data-table-b (`0x5A2120`) | static | Repeating valid pointers and encoded target blocks only; semantics and consumer remain unproved. |
 | 10 | encounter-zones (`0x53D610`) | static | Parsed fields/correlation only. No controlled zone transition or table-read hit. |
 | 11 | fonts (`0x53E5B4`) | static | Width-table shape in the bank. `notes/dialogue-font-table-discovery-20260703.md` and dialogue watch logs concern a different font lookup table at `0x53D644` and therefore do not dynamically verify this bank. |
 | 12 | function-pointers (`0x53D5F4`) | code | Disassembly identifies 11 small Thumb functions and their common-call parameter pattern (`docs/rom-reverse-engineering-results.md`). No live hit identifies a selected entry. |
-| 13 | items (`0x546100`) | none | `notes/unknown-item-inventory.md` explicitly says dynamic analysis is required and no standalone item table is confirmed. The offset duplicates `skills`, so the current bank is not evidence of an independent item structure. |
+| 13 | items (`0x546100`) | disproved | The former bank was byte-for-byte identical to `skills` and had no independent consumer. It is now a tombstone; legacy item writes remain diagnostic-only. |
 | 14 | levels (`0x5459B4`) | static | Regular progression/experience values and parsed entries only; no level-up runtime delta tied to the table. |
 | 15 | map-events (`0x53EB08`) | static | 47 valid Thumb pointers and reuse by map indices only; no event dispatch hit. |
 | 16 | maps (`0x53D910`) | dynamic | `notes/maps-runtime-fields-20260711.md` records the loader field chain plus a controlled width A/B: baseline row 40 produces runtime `[36,44,9,22]`; changing only file `0x53DE10` width `36 -> 32` produces `[32,44,8,22]` on the same WASM route. Resource pointer semantics remain code-level only. |
@@ -51,14 +51,14 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 | 20 | positions (`0x5461C4`) | dynamic | WASM navigation reached the first battle; WRAM slot 1 x/y `(4,4)` uniquely matches group 40 / variant 0 / record 0 at ROM `0x588CA8`. Static code independently proves record `+2/+3` feeds unit coordinates. |
 | 21 | resource-pointers (`0x596F0C`) | static | Twenty valid nested resource pointers only; no consumer or visible controlled edit. |
 | 22 | sappy-engine (`0x079268`) | code | Handler disassembly and command ranges/callers are documented in the bank/results. No runtime command hit/audio-state change is recorded. |
-| 23 | save-state (`0x086248`) | code | Deep disassembly of handler `0x08068684` establishes 19 data bytes plus checksum and EWRAM/SRAM mapping (`sequel/content/save-state/bank.json`). No before/after SRAM trace validates field semantics. |
-| 24 | skills (`0x546100`) | static | Parsed skill-shaped rows and correlations only; no battle action/table-read observation. Offset collision with `items` must be resolved. |
+| 23 | save-state (`0x086248`) | code | Deep disassembly establishes handler `0x08068684`, save wrapper `0x080689A4`, and its sole UI caller `0x08074F2C`. WASM traces show no automatic first-battle save; an all-caller diagnostic hook proves the wrapper executes but returns 0 without the UI's preparation, leaving SRAM erased. Explicit UI save remains required. |
+| 24 | skills (`0x545BE4`) | code | `0x0806D910` indexes `0x08545BE4 + skill_id*16` and copies bytes `0..9` into a runtime skill structure. The corrected table is 94 records ending at positions base `0x5461C4`; field UI meanings and a live selected-skill capture remain pending. |
 | 25 | sprite-animations (`0x53E200`) | static | Valid 38-entry animation pointer/frame structures only; no frame traversal hit. |
-| 26 | story (`0x53636C`) | static | Nine chapter-data pointers and byte-pattern similarity only. The opening-route runtime logs do not identify this table or one of its targets. |
-| 27 | story-b (`0x536BC8`) | static | Eleven chapter-like pointers only; no route/table selection evidence. |
-| 28 | story-c (`0x538FF0`) | static | Ten chapter-like pointers only; no route/table selection evidence. |
-| 29 | story-d (`0x53AB78`) | static | Eleven chapter-like pointers only; no route/table selection evidence. |
-| 30 | story-e (`0x53C3C0`) | static | Nine chapter-like pointers only; no route/table selection evidence. |
+| 26 | story (`0x60C74`) | dynamic | `0x0808F544` selected primary entry 39 → script `0x08031020`; live hook at `0x08097C78` captured opcode `1A 28 02 00` at `0x08031070`, which writes battle ID 40 through state `+0x16` to `0x02026805`. |
+| 27 | story-b (`0x60D54`) | code | Same `0x0808F544` consumer selects this alternate 56-entry table when state `+0x18` is nonzero; no alternate-route runtime sample yet. |
+| 28 | story-c (`0x538FF0`) | disproved | Descriptor `0x538FEC + 4`, header `0x80000009`; resource-set slice. |
+| 29 | story-d (`0x53AB78`) | disproved | Descriptor `0x53AB74 + 4`, header `0x8000000A`; resource-set slice. |
+| 30 | story-e (`0x53C3C0`) | disproved | Descriptor `0x53C3BC + 4`, header `0x80000008`; resource-set slice. |
 | 31 | tile-assets (`0x5A3218`) | static | Six valid pointers to tile/map-like data only; no decompressor/read hit or controlled visual change. |
 | 32 | units (`0x54241C`) | dynamic | `tools/extract_character_definitions.py` extracts 63×`0xB4` records from the character definition table. `notes/character-definition-source-20260711.md` records a WASM first-battle sample where runtime template slot 1 (`characterId=1`) is copied byte-for-byte into battle slot 1, plus a controlled `PROBE_ROM` A/B changing file `0x5424D1` from `0x0e` to `0x0f`; the runtime template payload changes from `010e0d...` to `010f0d...` on the same route. This dynamically proves at least one raw record field enters the template and unit slot. Remaining per-field semantics and safe semantic writeback are not yet proven. |
 
@@ -130,15 +130,15 @@ legacy `0x0853D910` scenario descriptor path, but it does not upgrade
 `battle-config` to `dynamic`; that still requires a runtime hit at the
 `0x0806D866` consumer path.
 
-The two character-stats banks also have executable static byte-fidelity checks:
+The corrected character-growth bank has an executable byte-fidelity check:
 
 ```sh
 python3 tools/verify_character_stats_records.py --rom rom/base.gba
 ```
 
-This keeps the primary `0x0854507A` ordering separate from the B-table
-`0x08545200` ordering. It still does not prove runtime consumption; direct
-pointer scans for `0x08545078`, `0x0854507A`, and `0x08545200` find no refs.
+This now validates the single 63-record table at `0x08545068`. The former
+`0x0854507A` and `0x08545200` bases were misaligned slices and are not separate
+tables; runtime consumption is proven separately by the two-factor probe.
 
 ### 2. Maps: catch the already-disassembled table consumer (`code` -> `dynamic`)
 
@@ -157,12 +157,11 @@ chapter ID, and dump the corresponding 32-byte entry at
 it does **not** verify `positions` unless a source-to-unit-array write is also
 captured.
 
-### 3. Character stats: first re-establish table identity (`static` -> `code/dynamic`)
+### 3. Character growth: completed (`runtime`)
 
-Do not use `0x02022EF0` as the target: it aliases runtime template slot 1.
-Start by finding a real consumer or by proving a controlled ROM byte affects a
-non-template runtime field. A direct pointer scan currently returns no hits for
-`0x0854507A` or `0x08545200`.
+The prior exact-address scan failed because both guessed bank bases were
+misaligned. A range scan found literal `0x08545068` at `0x0806D998`; disassembly
+and controlled A/B then closed the table to template slot 1 and battle slot 1.
 
 If a new candidate write target is found, use a state immediately before
 battle/unit initialization:
@@ -173,9 +172,9 @@ python3 tools/mgba-headless-snapshot.py --rom <ROM> --mode watch \
   --output notes/character-stats-load-watch.json
 ```
 
-A pass requires a non-BIOS writer PC plus register/source evidence resolving to
-`0x0854507A` (or a documented intermediate copy). A mere WRAM value match is
-only correlation.
+Do not rerun the obsolete watch command as the primary next action. The next
+stats work is field naming and editor migration; retain the existing two-factor
+probe as the regression method.
 
 ### 4. Story: attach a ROM target to the proven opening route (`static` -> `dynamic`)
 

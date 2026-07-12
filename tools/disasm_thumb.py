@@ -2,12 +2,16 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 VENDOR = ROOT / "tools" / "_vendor"
-if str(VENDOR) not in sys.path:
+CAPSTONE_PYTHON_PATH = os.environ.get("CAPSTONE_PYTHON_PATH")
+if CAPSTONE_PYTHON_PATH:
+    sys.path.insert(0, CAPSTONE_PYTHON_PATH)
+elif str(VENDOR) not in sys.path:
     sys.path.insert(0, str(VENDOR))
 
 from capstone import CS_ARCH_ARM, CS_MODE_THUMB, Cs  # type: ignore

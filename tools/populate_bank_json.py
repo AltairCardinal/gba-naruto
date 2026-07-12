@@ -92,27 +92,8 @@ def populate_battle_handlers(rom: bytes):
 
 
 def populate_character_stats_b(rom: bytes):
-    """Character stats B at 0x545200: 18 entries × 16 bytes."""
-    off = 0x545200
-    entries = []
-    for i in range(18):
-        e_off = off + i * 16
-        fields = struct.unpack_from("<HHHHHHHH", rom, e_off)
-        entries.append({
-            "id": f"char_b_{i:02d}",
-            "index": i,
-            "offset": e_off,
-            "offset_hex": fmt_hex(e_off),
-            "field0": fields[0],
-            "field1": fields[1],
-            "field2": fields[2],
-            "field3": fields[3],
-            "field4": fields[4],
-            "field5": fields[5],
-            "field6": fields[6],
-            "field7": fields[7],
-        })
-    update_bank_json("character-stats-b", entries)
+    """Preserve the disproved B-bank tombstone; never recreate the false table."""
+    return None
 
 
 def populate_cutscene_scripts(rom: bytes):
@@ -311,71 +292,23 @@ def populate_sprite_animations(rom: bytes):
 
 
 def populate_story_b(rom: bytes):
-    """Story B at 0x536BC8: 11 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x536BC8
-    entries = []
-    for i in range(11):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_b_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-b", entries)
+    """Preserve disproved tombstone; this slice belongs to a resource set."""
+    return None
 
 
 def populate_story_c(rom: bytes):
-    """Story C at 0x538FF0: 10 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x538FF0
-    entries = []
-    for i in range(10):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_c_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-c", entries)
+    """Preserve disproved tombstone; this slice belongs to a resource set."""
+    return None
 
 
 def populate_story_d(rom: bytes):
-    """Story D at 0x53AB78: 11 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x53AB78
-    entries = []
-    for i in range(11):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_d_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-d", entries)
+    """Preserve disproved tombstone; this slice belongs to a resource set."""
+    return None
 
 
 def populate_story_e(rom: bytes):
-    """Story E at 0x53C3C0: 9 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x53C3C0
-    entries = []
-    for i in range(9):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_e_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-e", entries)
+    """Preserve disproved tombstone; this slice belongs to a resource set."""
+    return None
 
 
 def populate_tile_assets(rom: bytes):
@@ -416,62 +349,20 @@ def populate_encounter_zones(rom: bytes):
 
 
 def populate_save_state(rom: bytes):
-    """Save state at 0x53D848: 10 entries × 8 bytes (u32 ewram_addr, u32 sram_offset)."""
-    off = 0x53D848
-    entries = []
-    for i in range(10):
-        e_off = off + i * 8
-        ewram, sram = struct.unpack_from("<II", rom, e_off)
-        entries.append({
-            "id": f"save_{i:02d}",
-            "index": i,
-            "offset": e_off,
-            "offset_hex": fmt_hex(e_off),
-            "ewram_addr": ewram,
-            "ewram_addr_hex": fmt_hex(ewram),
-            "sram_offset": sram,
-        })
-    update_bank_json("save-state", entries)
+    """Regenerate variable-length save descriptors from the proven consumer."""
+    from tools.extract_save_descriptors import build_bank
+    write_json_atomic(ROOT / "sequel/content/save-state/bank.json", build_bank(rom))
 
 
 def populate_audio(rom: bytes):
-    """Audio at 0x53F138: 88 entries × 4 bytes (u32 audio pointers)."""
-    off = 0x53F138
-    entries = []
-    for i in range(88):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"audio_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "audio_ptr": ptr,
-            "audio_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("audio", entries)
+    """Regenerate the real sound-ID/descriptor table, not the message table."""
+    from tools.extract_audio_resource_sets import extract
+    write_json_atomic(ROOT / "sequel/content/audio/bank.json", extract(rom))
 
 
 def populate_items(rom: bytes):
-    """Items at 0x546100: 12 entries × 16 bytes (same as skills table)."""
-    off = 0x546100
-    entries = []
-    for i in range(12):
-        e_off = off + i * 16
-        fields = struct.unpack_from("<IHHHHHH", rom, e_off)
-        entries.append({
-            "id": f"item_{i:02d}",
-            "index": i,
-            "offset": e_off,
-            "offset_hex": fmt_hex(e_off),
-            "padding": fields[0],
-            "count": fields[1],
-            "type_id": fields[2],
-            "skill_id": fields[3],
-            "value": fields[4],
-            "flags": fields[5],
-            "extra_id": fields[6],
-        })
-    update_bank_json("items", entries)
+    """Preserve the disproved item-bank tombstone; never clone skills into it."""
+    return None
 
 
 def populate_units(rom: bytes):
@@ -483,7 +374,7 @@ def populate_units(rom: bytes):
 
 
 def populate_sappy_engine(rom: bytes):
-    """Sappy engine code at 0x079668: code region (not a data table)."""
+    """Message dispatcher at 0x079668 under the legacy sappy-engine slug."""
     off = 0x079668
     code_bytes = rom[off:off + 256]
     entries = [{
@@ -491,10 +382,10 @@ def populate_sappy_engine(rom: bytes):
         "offset": off,
         "offset_hex": fmt_hex(off),
         "code_hex": code_bytes.hex()[:64],
-        "description": "Custom Sappy audio dispatcher (not standard m4aSongNumStart)",
+        "description": "Message-selection dispatcher; legacy sappy-engine slug",
         "commands": {
-            "0x64-0x67": "BGM channel control",
-            "0x80-0xE3": "Indexed lookup into 100-entry pointer table at 0x08599634"
+            "0x64-0x67": "Select pointer fields from caller state",
+            "0x80-0xE3": "Select message pointer from table at 0x08599634"
         }
     }]
     update_bank_json("sappy-engine", entries, {
@@ -535,7 +426,7 @@ def main():
     populate_sappy_engine(rom)
 
     # Also update already-populated ones with verification
-    for name in ["battle-config", "character-stats", "levels", "maps", "positions", "skills", "story"]:
+    for name in ["battle-config", "character-stats", "levels", "maps", "positions", "skills"]:
         update_bank_json(name, [])
 
     print("\nDone!")

@@ -13,8 +13,12 @@ const {
   decodeBattleControl,
   decodeMapRuntime,
   classifyScreenMetrics,
+  evaluateBattleArrival,
+  decodeChapterScriptProbe,
   tailTransitionDecision,
   shouldRetryBack,
+  decodeSaveRecord,
+  compareSaveRecords,
 } = require('./runtime-formation-probe-lib');
 const {
   extractRuntimePositions,
@@ -44,6 +48,32 @@ test('focusGameSurface restores keyboard focus to the emulator viewport', async 
   const clicks = [];
   await focusGameSurface({ mouse: { click: async (x, y) => clicks.push([x, y]) } });
   assert.deepEqual(clicks, [[480, 215]]);
+});
+
+test('decodeSaveRecord validates the 19-byte NOT-sum checksum', () => {
+  const bytes = Buffer.alloc(20, 0);
+  bytes[0] = 1;
+  bytes[19] = 0xFE;
+  assert.deepEqual(decodeSaveRecord(0x1C, bytes), {
+    sramOffset: 0x1C,
+    sramOffsetHex: '0x001C',
+    rawHex: `01${'00'.repeat(18)}fe`,
+    erased: false,
+    payloadLength: 19,
+    checksum: 0xFE,
+    expectedChecksum: 0xFE,
+    checksumValid: true,
+  });
+});
+
+test('compareSaveRecords identifies changed SRAM records', () => {
+  const before = [decodeSaveRecord(0x1C, Buffer.alloc(20, 0xFF))];
+  const changed = Buffer.alloc(20, 0);
+  changed[19] = 0xFF;
+  const result = compareSaveRecords(before, [decodeSaveRecord(0x1C, changed)]);
+  assert.equal(result[0].changed, true);
+  assert.equal(result[0].checksumValid, true);
+  assert.equal(result[0].beforeRawHex, 'ff'.repeat(20));
 });
 
 test('extractRuntimeTemplates reports non-empty character templates', () => {
@@ -160,10 +190,52 @@ test('decodeMapRuntime exposes dimensions and their loader-derived grid sizes', 
   });
 });
 
+test('decodeChapterScriptProbe exposes the live script cursor and chapter operand', () => {
+  const bytes = Uint8Array.from([0x34, 0x12, 0x59, 0x08, 0x2a, 0x28, 0x01, 0x00, 0x03, 0, 0, 0]);
+  assert.deepEqual(decodeChapterScriptProbe(bytes), {
+    rawHex: '341259082a28010003000000',
+    scriptPointer: 0x08591234,
+    scriptPointerHex: '0x08591234',
+    opcodeBytesHex: '2a280100',
+    opcode: 0x2a,
+    chapterBattleId: 40,
+    hitCount: 3,
+    pointerInRom: true,
+  });
+});
+
 test('classifyScreenMetrics recognizes the character panel without OCR', () => {
   assert.equal(classifyScreenMetrics({ grayRatio: 0.344, paleRatio: 0.033, greenRatio: 0.18 }), 'character-panel');
   assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.46, greenRatio: 0.291 }), 'prebattle-menu');
-  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.08, greenRatio: 0.23 }), 'other');
+  assert.equal(classifyScreenMetrics({ grayRatio: 0, paleRatio: 0.08, greenRatio: 0.23 }), 'battle-map');
+});
+
+test('strict battle arrival rejects preloaded formation during dialogue', () => {
+  const match = { best: { missing: 0 }, unique: true };
+  const battleControl = { chapterBattleId: 40 };
+  const mapRuntime = { width: 36, height: 44, derivationConsistent: true };
+  const dialogue = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState: 'other' });
+  assert.equal(dialogue.arrived, false);
+  assert.equal(dialogue.checks.battleMapVisible, false);
+  const battle = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState: 'battle-map' });
+  assert.equal(battle.arrived, true);
+  assert.equal(battle.reason, 'strict-battle-arrival');
+});
+
+test('strict battle arrival requires every independent evidence factor', () => {
+  const result = evaluateBattleArrival({
+    match: { best: { missing: 0 }, unique: false },
+    battleControl: { chapterBattleId: 0 },
+    mapRuntime: { width: 0, height: 0, derivationConsistent: true },
+    screenState: 'battle-map',
+  });
+  assert.equal(result.arrived, false);
+  assert.deepEqual(result.checks, {
+    uniqueCompleteFormation: false,
+    battleIdPresent: false,
+    mapLoaded: false,
+    battleMapVisible: true,
+  });
 });
 
 test('tailTransitionDecision waits through transition frames before menu input', () => {

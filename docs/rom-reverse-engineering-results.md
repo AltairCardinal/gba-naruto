@@ -2,6 +2,10 @@
 
 This document lists all discovered ROM offsets and data structures for the Naruto GBA sequel project.
 
+> Correction (2026-07-11): the character-stat sections at `0x54507A` and
+> `0x545200` are historical, misaligned interpretations. The authoritative
+> growth table is 63×`0x10` at `0x545068`; there is no independent B table.
+
 ## Summary
 
 - **Total structures discovered**: 32

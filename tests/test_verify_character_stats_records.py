@@ -17,10 +17,9 @@ def fixture_bank(table: str) -> dict:
     entries = []
     for index in range(spec["entry_count"]):
         values = [0] * 8
-        values[spec["fields"].index("hp")] = 100
-        values[spec["fields"].index("attack")] = 100
-        values[spec["fields"].index("defense")] = 100
-        values[spec["fields"].index("max_value")] = 1500
+        values[spec["fields"].index("template_0e_growth")] = 1500
+        values[spec["fields"].index("template_02_growth")] = 100
+        values[spec["fields"].index("template_03_growth")] = 100
         entry = {"_raw_offset": spec["offset"] + index * spec["entry_size"]}
         for name, value in zip(spec["fields"], values):
             entry[name] = value
@@ -53,22 +52,13 @@ class CharacterStatsVerificationTests(unittest.TestCase):
         report = validate_bank(bank, TABLE_SPECS["character-stats"], fixture_rom(bank, "character-stats"))
 
         self.assertTrue(report["ok"], report["issues"])
-        self.assertEqual(20, report["entry_count"])
-
-    def test_validate_bank_accepts_b_table_field_order(self):
-        bank = fixture_bank("character-stats-b")
-        report = validate_bank(
-            bank, TABLE_SPECS["character-stats-b"], fixture_rom(bank, "character-stats-b")
-        )
-
-        self.assertTrue(report["ok"], report["issues"])
-        self.assertEqual(18, report["entry_count"])
+        self.assertEqual(63, report["entry_count"])
 
     def test_validate_bank_rejects_field_order_mismatch(self):
-        bank = fixture_bank("character-stats-b")
+        bank = fixture_bank("character-stats")
         bank["entry_format"]["fields"][0]["name"] = "char_type"
 
-        report = validate_bank(bank, TABLE_SPECS["character-stats-b"])
+        report = validate_bank(bank, TABLE_SPECS["character-stats"])
 
         self.assertFalse(report["ok"])
         self.assertIn("field order mismatch", "\n".join(report["issues"]))

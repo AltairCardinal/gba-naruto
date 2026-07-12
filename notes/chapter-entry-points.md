@@ -2,7 +2,12 @@
 
 ## Status
 
-**Partial - runtime verification blocked by environment limitations, static analysis documented.**
+**Primary chapter-flow selection resolved and runtime verified on 2026-07-12.**
+
+The historical attempts below predate the browser WASM input/memory probe.
+The real tables are `0x60C74` and `0x60D54`; primary scenario 39 was observed
+selecting script `0x08031020`, whose opcode at `0x08031070` writes battle ID
+40. See `notes/chapter-flow-runtime-chain-20260712.md`.
 
 ## Runtime Verification Attempts
 

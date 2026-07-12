@@ -27,10 +27,12 @@ import struct
 from pathlib import Path
 from typing import Any, Callable
 
-# Reserved region: 0x5E0000 .. 0x600000 (128 KiB) — was 0xFF padding in base ROM
+# Reserved audit region. 0x5F0000..0x600000 is exclusively allocated to
+# variable-length dialogue so audit rows can never overwrite live text.
 RESERVED_REGION_START = 0x5E0000
+RESERVED_REGION_END = 0x5F0000
 ROW_SIZE = 64
-MAX_ROWS = (0x600000 - RESERVED_REGION_START) // ROW_SIZE  # 2048 rows max
+MAX_ROWS = (RESERVED_REGION_END - RESERVED_REGION_START) // ROW_SIZE  # 1024 rows
 
 # Sentinel magic for DB-derived patches (helps grep/distinguish from real patches)
 DB_SENTINEL = 0xDB5B0001
@@ -40,6 +42,7 @@ DB_SENTINEL = 0xDB5B0001
 # turn an editor typo into an indirect branch/read outside the cartridge.
 ROM_POINTER_MIN = 0x08000000
 ROM_POINTER_MAX = 0x085FFFFF
+BASE_ROM_PATH = Path(__file__).resolve().parent.parent / "rom" / "base.gba"
 
 # Per-table key fields: (column_A, column_B, identifier_column)
 # identifier_column is the unique-ish string we put in bytes 32-63.
@@ -432,6 +435,123 @@ def generate_unit_position_patches(db_path: Path) -> list[dict[str, Any]]:
     return patches
 
 
+def generate_character_definition_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Write complete 0xB4 records with immutable provenance and sentinels."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, base_raw_hex, raw_hex "
+            "FROM rom_character_definitions ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close(); return []
+    conn.close()
+    base_rom = BASE_ROM_PATH.read_bytes()
+    patches = []
+    seen = set()
+    for row in rows:
+        index = int(row['_idx'])
+        try:
+            if not 0 <= index < 63:
+                raise ValueError(f"character ID {index} outside 0..62")
+            if index in seen:
+                raise ValueError(f"duplicate character ID {index}")
+            seen.add(index)
+            offset = 0x54241C + index * 0xB4
+            if int(row['_rom_offset']) != offset:
+                raise ValueError(f"stale _rom_offset; expected 0x{offset:X}")
+            imported_base = bytes.fromhex(str(row['base_raw_hex']))
+            actual_base = base_rom[offset:offset + 0xB4]
+            if len(imported_base) != 0xB4 or imported_base != actual_base:
+                raise ValueError("immutable base record mismatch")
+            payload = bytes.fromhex(str(row['raw_hex']))
+            if len(payload) != 0xB4:
+                raise ValueError(f"record must be exactly 0xB4 bytes, got {len(payload)}")
+            if index == 0:
+                if any(payload):
+                    raise ValueError("sentinel character 0 must remain all zero")
+            elif payload[0] != 1:
+                raise ValueError("active character record byte +0 must remain 1")
+            patches.append({
+                'type': 'bytes', 'offset': offset, 'after_hex': payload.hex(),
+                'length': 0xB4,
+                'description': f"DB[rom_character_definitions] character_id={index}: lossless record",
+                'db_table': 'rom_character_definitions', 'db_row_id': index,
+            })
+        except Exception as exc:
+            patches.append({
+                'type': 'db_character_definition_error',
+                'db_table': 'rom_character_definitions', 'db_row_id': index,
+                'error': str(exc),
+                'description': f"DB[rom_character_definitions] character_id={index}: {exc}",
+            })
+    return patches
+
+
+def generate_audio_sound_id_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate guarded, lossless writes for non-empty sound-ID master rows."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, base_descriptor_ptr, descriptor_ptr, "
+            "base_player_config, player_config FROM rom_audio_sound_ids ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close(); return []
+    conn.close()
+    base_rom = BASE_ROM_PATH.read_bytes()
+    patches = []
+    seen = set()
+    for row in rows:
+        sound_id = int(row['_idx'])
+        try:
+            if not 0 <= sound_id <= 158:
+                raise ValueError(f"sound ID {sound_id} outside 0..158")
+            if sound_id in seen:
+                raise ValueError(f"duplicate sound ID {sound_id}")
+            seen.add(sound_id)
+            expected_offset = 0x465B70 + sound_id * 8
+            if int(row['_rom_offset']) != expected_offset:
+                raise ValueError(
+                    f"stale _rom_offset 0x{int(row['_rom_offset']):X}; expected 0x{expected_offset:X}"
+                )
+            actual_descriptor, actual_config = struct.unpack_from('<II', base_rom, expected_offset)
+            if int(row['base_descriptor_ptr']) != actual_descriptor:
+                raise ValueError("immutable base descriptor mismatch")
+            if int(row['base_player_config']) != actual_config:
+                raise ValueError("immutable base player config mismatch")
+            descriptor = int(row['descriptor_ptr'])
+            config = int(row['player_config'])
+            if not ROM_POINTER_MIN <= descriptor <= ROM_POINTER_MAX:
+                raise ValueError(f"descriptor 0x{descriptor:08X} outside 48 Mbit ROM")
+            if descriptor & 3:
+                raise ValueError("descriptor pointer must be word aligned")
+            if not 0 <= config <= 0xFFFFFFFF:
+                raise ValueError("player config must fit u32")
+            descriptor_offset = descriptor - ROM_POINTER_MIN
+            track_count = base_rom[descriptor_offset]
+            if not 1 <= track_count <= 16:
+                raise ValueError("descriptor target lacks a valid track count")
+            patches.append({
+                'type': 'bytes', 'offset': expected_offset,
+                'after_hex': struct.pack('<II', descriptor, config).hex(),
+                'length': 8,
+                'description': f"DB[rom_audio_sound_ids] sound_id={sound_id}: master row",
+                'db_table': 'rom_audio_sound_ids', 'db_row_id': sound_id,
+            })
+        except Exception as exc:
+            patches.append({
+                'type': 'db_audio_sound_id_error', 'db_table': 'rom_audio_sound_ids',
+                'db_row_id': sound_id, 'error': str(exc),
+                'description': f"DB[rom_audio_sound_ids] sound_id={sound_id}: {exc}",
+            })
+    return patches
+
+
 def generate_map_patches(db_path: Path) -> list[dict[str, Any]]:
     """Reject legacy map rows without a lossless ROM header record key."""
     return _reject_unproven_legacy_rows(
@@ -445,6 +565,73 @@ def generate_map_patches(db_path: Path) -> list[dict[str, Any]]:
             "skipped unsafe synthesized 32-byte map header write"
         ),
     )
+
+
+def generate_map_header_patches(db_path: Path) -> list[dict[str, Any]]:
+    """Generate exact 32-byte map headers with base and LZ-pointer guards."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    columns = (
+        "_idx, _rom_offset, base_raw_hex, width, height, tileset_ptr, "
+        "tilemap_ptr, tilemap_alt_ptr, extra_ptr, palette_ptr, palette2_ptr, flags"
+    )
+    try:
+        rows = conn.execute(f"SELECT {columns} FROM rom_map_headers ORDER BY _idx").fetchall()
+    except sqlite3.OperationalError:
+        conn.close(); return []
+    conn.close()
+    base_rom = BASE_ROM_PATH.read_bytes(); patches = []; seen = set()
+    pointer_names = (
+        'tileset_ptr', 'tilemap_ptr', 'tilemap_alt_ptr',
+        'extra_ptr', 'palette_ptr', 'palette2_ptr',
+    )
+    for row in rows:
+        index = int(row['_idx'])
+        try:
+            if not 0 <= index < 47:
+                raise ValueError(f"map index {index} outside 0..46")
+            if index in seen:
+                raise ValueError(f"duplicate map index {index}")
+            seen.add(index)
+            offset = 0x53D910 + index * 32
+            if int(row['_rom_offset']) != offset:
+                raise ValueError(f"stale _rom_offset; expected 0x{offset:X}")
+            imported_base = bytes.fromhex(str(row['base_raw_hex']))
+            if len(imported_base) != 32 or imported_base != base_rom[offset:offset + 32]:
+                raise ValueError("immutable base map header mismatch")
+            width, height = int(row['width']), int(row['height'])
+            if not 1 <= width <= 128 or not 1 <= height <= 128:
+                raise ValueError("map dimensions must be within 1..128")
+            pointers = []
+            for name in pointer_names:
+                pointer = int(row[name]); pointers.append(pointer)
+                if pointer == 0 and name == 'extra_ptr':
+                    continue
+                if not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX or pointer & 3:
+                    raise ValueError(f"{name} must be an aligned 48 Mbit ROM pointer")
+                target = pointer - ROM_POINTER_MIN
+                if base_rom[target] != 0x10:
+                    raise ValueError(f"{name} target does not begin with GBA LZ header 0x10")
+                unpacked_size = int.from_bytes(base_rom[target + 1:target + 4], 'little')
+                if not 1 <= unpacked_size <= 0x20000:
+                    raise ValueError(f"{name} has implausible decompressed size {unpacked_size}")
+            flags = int(row['flags'])
+            if not 0 <= flags <= 0xFFFFFFFF:
+                raise ValueError("flags must fit u32")
+            payload = struct.pack('<HH6II', width, height, *pointers, flags)
+            patches.append({
+                'type': 'bytes', 'offset': offset, 'after_hex': payload.hex(),
+                'length': 32, 'description': f"DB[rom_map_headers] map={index}: header",
+                'db_table': 'rom_map_headers', 'db_row_id': index,
+            })
+        except Exception as exc:
+            patches.append({
+                'type': 'db_map_header_error', 'db_table': 'rom_map_headers',
+                'db_row_id': index, 'error': str(exc),
+                'description': f"DB[rom_map_headers] map={index}: {exc}",
+            })
+    return patches
 
 
 def generate_level_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -523,13 +710,7 @@ def generate_item_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_audio_event_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for audio event configuration.
-
-    Each audio_event row writes the audio command byte into the
-    indexed command table at 0x08599634 (file offset 0x599634).
-    Commands 0x80-0xE3 index into this 100-entry table of Sappy
-    audio pointers.
-    """
+    """Reject legacy audio-event rows; 0x599634 is a message table."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -547,10 +728,8 @@ def generate_audio_event_patches(db_path: Path) -> list[dict[str, Any]]:
         try:
             audio_cmd = int(row["audio_cmd"]) if row["audio_cmd"] is not None else 0
             event_id = int(row["event_id"]) if row["event_id"] is not None else 0
-            # The audio command at config_struct[0x770] determines which
-            # indexed table entry to use. Write to the reserved region as
-            # an audit trail since we can't modify the indexed table without
-            # knowing the correct Sappy pointer.
+            # Diagnostic-only compatibility record. Never write 0x599634:
+            # it contains message pointers, not audio event configuration.
             audit_offset = 0x5E8000 + int(row["id"]) * 64
             payload = bytearray(64)
             payload[0:13] = b"audio_events"[:13]
@@ -791,22 +970,21 @@ def generate_battle_handler_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for character stats B rows.
+    """Reject the disproved legacy ``character_stats_b`` write path.
 
-    Each row writes to the character stat B table at 0x545200 (stride 16 bytes).
-    This is a secondary character stat table with different field ordering.
+    ``0x545200`` is not a record boundary.  It lies eight bytes into physical
+    growth record 25 of the single table based at ``0x545068``.  Until the
+    editor schema is migrated to lossless 63-record growth rows, writing this
+    legacy shape would corrupt two adjacent game-consumed records.
     """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     patches: list[dict[str, Any]] = []
-    TABLE_OFFSET = 0x545200
-    ENTRY_SIZE = 16
     try:
         rows = conn.execute(
-            "SELECT _idx, _rom_offset, hp, padding1, padding2, padding3, "
-            "max_value, char_type, attack, defense FROM rom_character_stats_b "
+            "SELECT _idx, _rom_offset FROM rom_character_stats_b "
             "ORDER BY _idx"
         ).fetchall()
     except sqlite3.OperationalError:
@@ -814,25 +992,14 @@ def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
         return []
     for row in rows:
         try:
-            char_index = int(row["_idx"])
-            if not 0 <= char_index < 18:
-                raise ValueError(f"index {char_index} outside 0..17")
-            table_offset = TABLE_OFFSET + char_index * ENTRY_SIZE
-            if int(row["_rom_offset"]) != table_offset:
-                raise ValueError("stale _rom_offset")
-            fields = [int(row[name] or 0) for name in (
-                "hp", "padding1", "padding2", "padding3", "max_value",
-                "char_type", "attack", "defense",
-            )]
-            stat_data = struct.pack("<HHHHHHHH", *fields)
             patches.append({
-                "type": "bytes",
-                "offset": table_offset,
-                "after_hex": stat_data.hex(),
-                "length": ENTRY_SIZE,
-                "description": f"DB[rom_character_stats_b] idx={char_index}: stat entry",
+                "type": "db_character_stats_b_disproved",
+                "description": (
+                    f"DB[rom_character_stats_b] idx={row['_idx']}: rejected; "
+                    "0x545200 legacy base is mid-record in growth table 0x545068"
+                ),
                 "db_table": "rom_character_stats_b",
-                "db_row_id": char_index,
+                "db_row_id": int(row["_idx"]),
             })
         except Exception as exc:
             patches.append({
@@ -1097,11 +1264,7 @@ def generate_resource_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for sappy engine rows.
-
-    The sappy engine is a code region at 0x079668 (not a data table).
-    We write an audit trail entry to the reserved region.
-    """
+    """Keep legacy rows diagnostic-only; 0x079668 is message code, not Sappy."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -1211,55 +1374,102 @@ def generate_sprite_animation_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story B byte-stream pointers.
+    """Reject the false story-B mirror; it is a resource descriptor slice."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id, _idx FROM rom_story_b', "db_story_b_disproved",
+        "rom_story_b", "0x536BC8 is descriptor 0x536BC4 + 4, not story data",
+        lambda row: f"DB[rom_story_b] idx={row['_idx']}: skipped disproved story write",
+    )
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story B table at 0x536BC8 contains 11 entries of u32 pointers
-    to chapter data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_story_b", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x536BC8,
-        entry_count=11, pointer_kind="rom",
+
+def _generate_chapter_flow_pointer_patches(
+    db_path: Path, *, table: str, table_offset: int
+) -> list[dict[str, Any]]:
+    """Generate guarded pointers from an editable chapter-flow mirror."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path)); conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            f"SELECT _idx, _rom_offset, base_script_ptr, script_ptr FROM {table} ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close(); return []
+    conn.close()
+    base_rom = BASE_ROM_PATH.read_bytes()
+    patches = []
+    seen = set()
+    for row in rows:
+        index = int(row['_idx'])
+        try:
+            if not 0 <= index < 56:
+                raise ValueError(f"index {index} outside 0..55")
+            if index in seen:
+                raise ValueError(f"duplicate index {index}")
+            seen.add(index)
+            expected_offset = table_offset + index * 4
+            if int(row['_rom_offset']) != expected_offset:
+                raise ValueError(f"stale _rom_offset 0x{int(row['_rom_offset']):X}; expected 0x{expected_offset:X}")
+            imported_base = int(row['base_script_ptr'])
+            actual_base = struct.unpack_from('<I', base_rom, expected_offset)[0]
+            if imported_base != actual_base:
+                raise ValueError(
+                    f"immutable base pointer mismatch: DB 0x{imported_base:08X}, ROM 0x{actual_base:08X}"
+                )
+            pointer = int(row['script_ptr'])
+            if index == 0:
+                if pointer != 0:
+                    raise ValueError("sentinel index 0 must remain null")
+            elif not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
+                raise ValueError(f"pointer 0x{pointer:08X} outside 48 Mbit ROM address range")
+            patches.append({
+                'type': 'bytes', 'offset': expected_offset,
+                'after_hex': struct.pack('<I', pointer).hex(), 'length': 4,
+                'description': f"DB[{table}] scenario={index}: guarded chapter script pointer",
+                'db_table': table, 'db_row_id': index,
+            })
+        except (TypeError, ValueError) as exc:
+            patches.append({
+                'type': 'db_chapter_flow_pointer_error', 'db_table': table,
+                'db_row_id': index, 'error': str(exc),
+                'description': f"DB[{table}] scenario={index} rejected: {exc}",
+            })
+    return patches
+
+
+def generate_chapter_flow_primary_patches(db_path: Path) -> list[dict[str, Any]]:
+    return _generate_chapter_flow_pointer_patches(
+        db_path, table='rom_chapter_flow_primary', table_offset=0x60C74,
+    )
+
+
+def generate_chapter_flow_alternate_patches(db_path: Path) -> list[dict[str, Any]]:
+    return _generate_chapter_flow_pointer_patches(
+        db_path, table='rom_chapter_flow_alternate', table_offset=0x60D54,
     )
 
 def generate_story_c_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story C byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story C table at 0x538FF0 contains 10 entries of u32 pointers
-    to chapter data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_story_c", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x538FF0,
-        entry_count=10, pointer_kind="rom",
+    """Reject the false story-C mirror; it is a resource descriptor slice."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id, _idx FROM rom_story_c', "db_story_c_disproved",
+        "rom_story_c", "0x538FF0 is descriptor 0x538FEC + 4, not story data",
+        lambda row: f"DB[rom_story_c] idx={row['_idx']}: skipped disproved story write",
     )
 
 def generate_story_d_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story D byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story D table at 0x53AB78 contains 11 entries of u32 pointers
-    to chapter data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_story_d", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x53AB78,
-        entry_count=11, pointer_kind="rom",
+    """Reject the false story-D mirror; it is a resource descriptor slice."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id, _idx FROM rom_story_d', "db_story_d_disproved",
+        "rom_story_d", "0x53AB78 is descriptor 0x53AB74 + 4, not story data",
+        lambda row: f"DB[rom_story_d] idx={row['_idx']}: skipped disproved story write",
     )
 
 def generate_story_e_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story E byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story E table at 0x53C3C0 contains 9 entries of u32 pointers
-    to chapter data.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_story_e", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x53C3C0,
-        entry_count=9, pointer_kind="rom",
+    """Reject the false story-E mirror; it is a resource descriptor slice."""
+    return _reject_unproven_legacy_rows(
+        db_path, 'SELECT _idx AS id, _idx FROM rom_story_e', "db_story_e_disproved",
+        "rom_story_e", "0x53C3C0 is descriptor 0x53C3BC + 4, not story data",
+        lambda row: f"DB[rom_story_e] idx={row['_idx']}: skipped disproved story write",
     )
 
 def generate_tile_asset_patches(db_path: Path) -> list[dict[str, Any]]:

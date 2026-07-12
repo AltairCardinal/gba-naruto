@@ -2,6 +2,10 @@
 
 This file records confirmed and suspected ROM offsets.
 
+> Correction (2026-07-11): the later `0x54507A` / `0x545200` entries are
+> superseded historical guesses. Use the 63×`0x10` growth table at `0x545068`
+> and `notes/character-growth-runtime-chain-20260711.md`.
+
 ## Confirmed
 
 - `0x0000A0`: internal title area contains `NARUTOKONOHA`

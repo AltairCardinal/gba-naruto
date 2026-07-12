@@ -42,14 +42,19 @@ def build_pointer_redirect(
     }
 
 
-FREE_SPACE_START = 0x5DFBEC  # first 0xFF-filled byte after all game data (128 KB free)
-FREE_SPACE_END   = 0x5FFFFF  # last byte of ROM
+ROM_BASE = 0x08000000
+FREE_SPACE_START = 0x5F0000
+FREE_SPACE_END = 0x600000  # exclusive; final 64 KiB, partitioned from audit rows
 
 
 def import_dialogue_variable(
     bank_path: Path,
     content_path: Path,
     free_space_start: int = FREE_SPACE_START,
+    free_space_end: int = FREE_SPACE_END,
+    *,
+    rom: bytes | None = None,
+    overrides: dict[str, str] | None = None,
 ) -> list[dict]:
     """Generate patches for variable-length dialogue entries.
 
@@ -64,8 +69,16 @@ def import_dialogue_variable(
     content = load_json(content_path)
     bank_map = {entry["id"]: entry for entry in bank["entries"]}
 
+    if rom is None:
+        rom = (ROOT / "rom/base.gba").read_bytes()
+    if not 0 <= free_space_start < free_space_end <= len(rom):
+        raise ValueError("dialogue free-space partition is outside ROM")
+    if any(byte != 0xFF for byte in rom[free_space_start:free_space_end]):
+        raise ValueError("dialogue free-space partition is not entirely 0xFF")
+
     patches = []
     text_cursor = free_space_start
+    seen_tables: set[int] = set()
 
     for entry in content["entries"]:
         entry_id = entry["id"]
@@ -74,8 +87,10 @@ def import_dialogue_variable(
 
         bank_entry = bank_map[entry_id]
         encoding = bank_entry.get("encoding", "cp932")
-        text = entry["text"]
+        text = overrides.get(entry_id, entry["text"]) if overrides else entry["text"]
         encoded = text.encode(encoding)
+        if b"\x00" in encoded:
+            raise ValueError(f"dialogue entry {entry_id} encodes an embedded NUL")
         max_bytes = int(bank_entry["max_bytes"])
 
         text_offset = int(bank_entry["offset"])
@@ -107,17 +122,34 @@ def import_dialogue_variable(
                     f"dialogue entry {entry_id} needs variable-length import "
                     f"but has no table_offset in bank"
                 )
+            if table_offset in seen_tables:
+                raise ValueError(f"duplicate dialogue pointer table offset 0x{table_offset:X}")
+            seen_tables.add(table_offset)
+            if not 0 <= table_offset <= len(rom) - 4:
+                raise ValueError(f"dialogue pointer offset 0x{table_offset:X} outside ROM")
+            actual_old_ptr = struct.unpack_from("<I", rom, table_offset)[0]
+            expected_old_ptr = ROM_BASE + old_text_offset
+            if actual_old_ptr != expected_old_ptr:
+                raise ValueError(
+                    f"dialogue {entry_id} base pointer mismatch: table has "
+                    f"0x{actual_old_ptr:08X}, bank expects 0x{expected_old_ptr:08X}"
+                )
 
             # Align to 4 bytes
             text_cursor = (text_cursor + 3) & ~3
 
             after_bytes = encoded + b"\x00"
+            if text_cursor + len(after_bytes) > free_space_end:
+                raise ValueError(
+                    f"dialogue free-space exhausted by {entry_id}: need {len(after_bytes)} "
+                    f"bytes at 0x{text_cursor:X}, end is 0x{free_space_end:X}"
+                )
             patches.append(
                 {
                     "id": f"dialogue.{entry_id}.write_text",
                     "type": "bytes",
                     "offset": text_cursor,
-                    "before_hex": "ff" * len(after_bytes),  # free space is 0xFF-filled
+                    "before_hex": rom[text_cursor:text_cursor + len(after_bytes)].hex(),
                     "after_hex": after_bytes.hex(),
                     "encoding": encoding,
                     "text": text,
@@ -126,7 +158,7 @@ def import_dialogue_variable(
                 }
             )
 
-            old_ptr = ROM_BASE + old_text_offset
+            old_ptr = actual_old_ptr
             new_ptr = ROM_BASE + text_cursor
             patches.append(
                 {
@@ -158,11 +190,12 @@ def main() -> int:
         help="Start offset for free space in ROM (hex)",
     )
     parser.add_argument("--output", help="Optional output JSON path")
+    parser.add_argument("--free-space-end", default=hex(FREE_SPACE_END))
     args = parser.parse_args()
 
     free_start = int(args.free_space_start, 0)
     patches = import_dialogue_variable(
-        ROOT / args.bank, ROOT / args.content, free_start
+        ROOT / args.bank, ROOT / args.content, free_start, int(args.free_space_end, 0)
     )
     text = json.dumps({"patches": patches}, ensure_ascii=False, indent=2) + "\n"
     if args.output:

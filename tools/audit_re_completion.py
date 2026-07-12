@@ -25,7 +25,7 @@ FORMAT_FIELDS = (
     "animation_frame_format",
     "audio_table",
 )
-VALID_VERIFICATION = {"static_verified", "code_verified", "runtime_verified"}
+VALID_VERIFICATION = {"static_verified", "code_verified", "runtime_verified", "disproved"}
 
 
 def nonempty(value: Any) -> bool:
@@ -90,7 +90,14 @@ def audit_bank(
 
     format_fields = [field for field in FORMAT_FIELDS if nonempty(data.get(field))]
     entries = data.get("entries")
-    entries_ok = isinstance(entries, list) and len(entries) > 0
+    is_tombstone = data.get("verification") == "disproved"
+    # A disproved catalog identity must stay empty. Requiring fabricated entries
+    # would reintroduce the unsafe alias that the tombstone exists to prevent.
+    entries_ok = (
+        isinstance(entries, list) and len(entries) == 0
+        if is_tombstone
+        else isinstance(entries, list) and len(entries) > 0
+    )
     declared_count = data.get("entry_count")
     count_ok = declared_count is None or (
         isinstance(declared_count, int) and isinstance(entries, list) and declared_count == len(entries)
@@ -98,6 +105,8 @@ def audit_bank(
 
     verification = data.get("verification")
     verification_ok = verification in VALID_VERIFICATION
+    if is_tombstone:
+        verification_ok = verification_ok and nonempty(data.get("verification_method")) and nonempty(data.get("notes"))
     docs = documentation_matches(root, bank, data, documents)
     fidelity_checked = 0
     fidelity_errors: list[str] = []
@@ -146,7 +155,9 @@ def audit_bank(
                     fidelity_errors.append(
                         f"entry {index}.{name}={hex_value} != base ROM {expected_hex} at 0x{start:X}"
                     )
-    fidelity_ok = fidelity_checked > 0 and not fidelity_errors
+    # ROM-field fidelity is not applicable to an explicitly empty disproved
+    # alias. Its evidence is the documented negative consumer/identity result.
+    fidelity_ok = (is_tombstone and not entries) or (fidelity_checked > 0 and not fidelity_errors)
     checks = {
         "table_offset": offset_ok and hex_ok,
         "format": bool(format_fields),
@@ -164,7 +175,10 @@ def audit_bank(
     if not format_fields:
         issues.append("no non-empty recognized format field")
     if not entries_ok:
-        issues.append("entries is missing, not an array, or empty")
+        if is_tombstone:
+            issues.append("disproved tombstone entries must be an empty array")
+        else:
+            issues.append("entries is missing, not an array, or empty")
     elif not count_ok:
         issues.append(f"entry_count={declared_count} but entries has {len(entries)} records")
     if not verification_ok:
@@ -207,6 +221,8 @@ def build_report(root: Path, output_md: Path, rom_path: Path | None = None) -> d
         "expected_banks": 32,
         "all_expected_banks_found": len(results) == 32,
         "fully_satisfying_metadata_scope": sum(item["complete"] for item in results),
+        "active_data_banks": sum(item.get("verification") != "disproved" for item in results),
+        "disproved_tombstones": sum(item.get("verification") == "disproved" for item in results),
         "checks_passing": {
             name: sum(item["checks"][name] for item in results) for name in check_names
         },
@@ -236,6 +252,7 @@ def markdown(report: dict[str, Any]) -> str:
         "",
         f"- 发现 `{summary['banks_found']}` / 预期 `{summary['expected_banks']}` 个 bank。",
         f"- 同时满足六项元数据与字节检查：`{summary['fully_satisfying_metadata_scope']}` / `{summary['banks_found']}`。",
+        f"- 有效数据 bank：`{summary['active_data_banks']}`；已证伪且保持空条目的安全 tombstone：`{summary['disproved_tombstones']}`。",
     ]
     for name, count in summary["checks_passing"].items():
         lines.append(f"- `{name}`：`{count}` / `{summary['banks_found']}`。")
@@ -260,10 +277,10 @@ def markdown(report: dict[str, Any]) -> str:
     lines.extend([
         "- `table_offset`：必须为非负整数；若有 `table_offset_hex`，两者必须一致。",
         "- `format`：`format`、`entry_format` 或已知领域格式字段至少一个非空。",
-        "- `entries`：必须是非空数组；若声明 `entry_count`，必须与实际数量一致。",
-        "- `verification`：必须是 `static_verified`、`code_verified` 或 `runtime_verified`。",
+        "- `entries`：有效 bank 必须是非空数组；`disproved` tombstone 必须保持空数组；若声明 `entry_count`，必须与实际数量一致。",
+        "- `verification`：必须是 `static_verified`、`code_verified`、`runtime_verified` 或带方法与说明的 `disproved`。",
         "- 文档覆盖：`docs/*.md` 或 `notes/*.md` 至少一处提到结构目录名、bank 路径或表偏移。",
-        "- `rom_fidelity`：已提取字段的 `*_hex` 必须与校验过的基准 ROM 对应字节一致。",
+        "- `rom_fidelity`：有效 bank 已提取字段的 `*_hex` 必须与校验过的基准 ROM 对应字节一致；空的 `disproved` tombstone 记为不适用。",
         "",
     ])
     return "\n".join(lines)

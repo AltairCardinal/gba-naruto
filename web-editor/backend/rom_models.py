@@ -114,6 +114,41 @@ def init_rom_tables(conn: sqlite3.Connection):
         col_defs = ', '.join(cols)
         ddl = f"CREATE TABLE IF NOT EXISTS {table_name(structure)} ({col_defs}, PRIMARY KEY (_idx))"
         conn.execute(ddl)
+    # Editable, identity-stable mirrors for the two proven chapter-flow tables.
+    # Unlike generic display mirrors these keep user-edited script_ptr values
+    # across refreshes while retaining the imported immutable base pointer.
+    for table in ('rom_chapter_flow_primary', 'rom_chapter_flow_alternate'):
+        conn.execute(f"""CREATE TABLE IF NOT EXISTS {table} (
+            _idx INTEGER PRIMARY KEY,
+            _rom_offset INTEGER NOT NULL,
+            base_script_ptr INTEGER NOT NULL,
+            script_ptr INTEGER NOT NULL
+        )""")
+    # Sparse, editable mirror of the proven sound-ID master. Base values are
+    # immutable provenance; edited values survive bank refreshes.
+    conn.execute("""CREATE TABLE IF NOT EXISTS rom_audio_sound_ids (
+        _idx INTEGER PRIMARY KEY,
+        _rom_offset INTEGER NOT NULL,
+        base_descriptor_ptr INTEGER NOT NULL,
+        descriptor_ptr INTEGER NOT NULL,
+        base_player_config INTEGER NOT NULL,
+        player_config INTEGER NOT NULL
+    )""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS rom_character_definitions (
+        _idx INTEGER PRIMARY KEY,
+        _rom_offset INTEGER NOT NULL,
+        base_raw_hex TEXT NOT NULL,
+        raw_hex TEXT NOT NULL
+    )""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS rom_map_headers (
+        _idx INTEGER PRIMARY KEY, _rom_offset INTEGER NOT NULL,
+        base_raw_hex TEXT NOT NULL,
+        width INTEGER NOT NULL, height INTEGER NOT NULL,
+        tileset_ptr INTEGER NOT NULL, tilemap_ptr INTEGER NOT NULL,
+        tilemap_alt_ptr INTEGER NOT NULL, extra_ptr INTEGER NOT NULL,
+        palette_ptr INTEGER NOT NULL, palette2_ptr INTEGER NOT NULL,
+        flags INTEGER NOT NULL
+    )""")
     conn.commit()
 
 
@@ -155,4 +190,51 @@ def populate_rom_tables(conn: sqlite3.Connection, structures=None):
             )
         conn.commit()
         summary[structure] = len(entries)
+    for slug, table in (
+        ('story', 'rom_chapter_flow_primary'),
+        ('story-b', 'rom_chapter_flow_alternate'),
+    ):
+        entries = get_entries(slug)
+        for entry in entries:
+            conn.execute(
+                f"INSERT OR IGNORE INTO {table} "
+                "(_idx, _rom_offset, base_script_ptr, script_ptr) VALUES (?, ?, ?, ?)",
+                (entry['_index'], entry['_raw_offset'], entry['script_ptr'], entry['script_ptr']),
+            )
+        conn.commit()
+        summary[table] = len(entries)
+    for entry in get_entries('audio'):
+        player_config = int(entry['player_index']) | (int(entry['player_config_high']) << 16)
+        conn.execute(
+            "INSERT OR IGNORE INTO rom_audio_sound_ids "
+            "(_idx, _rom_offset, base_descriptor_ptr, descriptor_ptr, "
+            "base_player_config, player_config) VALUES (?, ?, ?, ?, ?, ?)",
+            (entry['sound_id'], entry['_raw_offset'], entry['descriptor_ptr'],
+             entry['descriptor_ptr'], player_config, player_config),
+        )
+    conn.commit()
+    summary['rom_audio_sound_ids'] = len(get_entries('audio'))
+    for entry in get_entries('units'):
+        conn.execute(
+            "INSERT OR IGNORE INTO rom_character_definitions "
+            "(_idx, _rom_offset, base_raw_hex, raw_hex) VALUES (?, ?, ?, ?)",
+            (entry['character_id'], entry['_raw_offset'], entry['raw_hex'], entry['raw_hex']),
+        )
+    conn.commit()
+    summary['rom_character_definitions'] = len(get_entries('units'))
+    for entry in get_entries('maps'):
+        raw_hex = ''.join((
+            entry['width_hex'], entry['height_hex'], entry['tileset_ptr_hex'],
+            entry['tilemap_ptr_hex'], entry['tilemap_alt_ptr_hex'],
+            entry['extra_ptr_hex'], entry['palette_ptr_hex'],
+            entry['palette2_ptr_hex'], entry['flags_hex'],
+        ))
+        conn.execute(
+            "INSERT OR IGNORE INTO rom_map_headers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (entry['_index'], entry['_raw_offset'], raw_hex, entry['width'], entry['height'],
+             entry['tileset_ptr'], entry['tilemap_ptr'], entry['tilemap_alt_ptr'],
+             entry['extra_ptr'], entry['palette_ptr'], entry['palette2_ptr'], entry['flags']),
+        )
+    conn.commit()
+    summary['rom_map_headers'] = len(get_entries('maps'))
     return summary

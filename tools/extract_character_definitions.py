@@ -24,7 +24,7 @@ CHARACTER_DEFINITIONS_END = (
     CHARACTER_DEFINITIONS_FILE
     + CHARACTER_DEFINITION_COUNT * CHARACTER_DEFINITION_STRIDE
 )
-NEXT_GROWTH_TABLE_FILE = 0x54507A
+NEXT_GROWTH_TABLE_FILE = 0x545068
 POST_TABLE_GAP_SIZE = NEXT_GROWTH_TABLE_FILE - CHARACTER_DEFINITIONS_END
 
 WRAM_TEMPLATE_POOL = 0x02022E34
@@ -61,21 +61,51 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
                 "_raw_offset": offset,
                 "rom_offset": offset,
                 "rom_offset_hex": f"0x{offset:06X}",
-                "field_00": raw[0],
-                "field_00_hex": raw[0:1].hex(),
-                "field_01": raw[1],
-                "field_01_hex": raw[1:2].hex(),
-                "field_02": raw[2],
-                "field_02_hex": raw[2:3].hex(),
-                "field_03": raw[3],
-                "field_03_hex": raw[3:4].hex(),
+                "active_flag": raw[0],
+                "active_flag_hex": raw[0:1].hex(),
+                "template_02_base": raw[1],
+                "template_02_base_hex": raw[1:2].hex(),
+                "template_03_base": raw[2],
+                "template_03_base_hex": raw[2:3].hex(),
+                "template_04_base": raw[3],
+                "template_04_base_hex": raw[3:4].hex(),
+                "template_05_base": raw[4],
+                "template_05_base_hex": raw[4:5].hex(),
+                "template_06_base": raw[5],
+                "template_06_base_hex": raw[5:6].hex(),
+                "template_08_base": raw[6],
+                "template_08_base_hex": raw[6:7].hex(),
+                "reserved_07": raw[7],
+                "reserved_07_hex": raw[7:8].hex(),
+                "template_0a_base": int.from_bytes(raw[8:10], "little"),
+                "template_0a_base_hex": raw[8:10].hex(),
+                "template_0e_base": int.from_bytes(raw[10:12], "little"),
+                "template_0e_base_hex": raw[10:12].hex(),
+                "primary_slots_raw_hex": raw[0x0C:0x48].hex(),
+                "secondary_slots_raw_hex": raw[0x48:0xA8].hex(),
+                "filtered_candidate_ids_hex": raw[0xA8:0xB1].hex(),
+                "tail_raw_hex": raw[0xB1:0xB4].hex(),
+                "primary_slots": [
+                    {"slot": i, "id": raw[0x0C + i * 4],
+                     "initial_state": raw[0x0D + i * 4],
+                     "unlock_level": raw[0x0E + i * 4],
+                     "reserved": raw[0x0F + i * 4]}
+                    for i in range(15)
+                ],
+                "secondary_slots": [
+                    {"slot": i, "id": raw[0x48 + i * 4],
+                     "initial_state": raw[0x49 + i * 4],
+                     "unlock_level": raw[0x4A + i * 4],
+                     "reserved": raw[0x4B + i * 4]}
+                    for i in range(24)
+                ],
                 "raw_hex": raw.hex(),
                 "active": any(raw),
             }
         )
 
     return {
-        "version": 2,
+        "version": 3,
         "description": (
             "ROM-backed character definition records. This replaces the legacy "
             "0x53F298 units identity, whose character-ID interpretation was disproven."
@@ -87,14 +117,24 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
         "entry_format": {
             "description": (
                 "Lossless 0xB4 character definition records indexed by character_id. "
-                "Only the first four bytes are exposed as conservative raw fields; "
-                "remaining bytes are retained in raw_hex until field semantics are proven."
+                "Base-value destinations and the two four-byte slot arrays are proven by "
+                "0x0806D4A0/0x0806D964. Player-facing stat names remain deliberately unset."
             ),
             "fields": [
-                {"name": "field_00", "type": "u8", "offset": 0, "size": 1},
-                {"name": "field_01", "type": "u8", "offset": 1, "size": 1},
-                {"name": "field_02", "type": "u8", "offset": 2, "size": 1},
-                {"name": "field_03", "type": "u8", "offset": 3, "size": 1},
+                {"name": "active_flag", "type": "u8", "offset": 0, "size": 1},
+                {"name": "template_02_base", "type": "u8", "offset": 1, "size": 1},
+                {"name": "template_03_base", "type": "u8", "offset": 2, "size": 1},
+                {"name": "template_04_base", "type": "u8", "offset": 3, "size": 1},
+                {"name": "template_05_base", "type": "u8", "offset": 4, "size": 1},
+                {"name": "template_06_base", "type": "u8", "offset": 5, "size": 1},
+                {"name": "template_08_base", "type": "u8", "offset": 6, "size": 1},
+                {"name": "reserved_07", "type": "u8", "offset": 7, "size": 1},
+                {"name": "template_0a_base", "type": "u16", "offset": 8, "size": 2},
+                {"name": "template_0e_base", "type": "u16", "offset": 10, "size": 2},
+                {"name": "primary_slots_raw_hex", "type": "bytes", "offset": 12, "size": 60},
+                {"name": "secondary_slots_raw_hex", "type": "bytes", "offset": 72, "size": 96},
+                {"name": "filtered_candidate_ids_hex", "type": "bytes", "offset": 168, "size": 9},
+                {"name": "tail_raw_hex", "type": "bytes", "offset": 177, "size": 3},
                 {"name": "raw_hex", "type": "bytes", "offset": 0, "size": CHARACTER_DEFINITION_STRIDE},
             ],
         },
@@ -124,7 +164,8 @@ def extract_character_definitions(rom: bytes) -> dict[str, Any]:
             "the record. Runtime evidence connects character_id=1 to ROM record "
             "0x5424D0, proves template-to-battle-slot copying, and shows byte "
             "0x5424D1 changes runtime template payload byte +1. Field semantics "
-            "and safe semantic writeback remain unproven."
+            "Player-facing stat labels remain unproven; structural field destinations and "
+            "guarded lossless record writeback are now available."
         ),
         "entries": entries,
         "verification": "runtime_verified",

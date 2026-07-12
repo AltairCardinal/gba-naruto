@@ -5,7 +5,8 @@
 真实角色定义表位于 ROM `0x0854241C`（file `0x54241C`），共 63 条（ID 0..62），
 stride `0xB4`。末条从 `0x544FB4` 开始，表结束于 `0x545068`。`0x545068..0x545079`
 是 18 字节 gap，实际字节为 `00000000000000000000000000000000aa05`：前 16 字节为零，
-末 2 字节不是零。现有成长表 bank 仍从 `0x54507A` 开始，因此不能再把整段 gap 记为
+末 2 字节不是零。后续调查已证明真实成长表从 `0x545068` 原地开始；旧
+`0x54507A` bank 是错位切片，因此这里不存在独立 gap，不能再把该区域记为
 “18 字节零填充”。
 
 旧 `units` bank 所称 `0x53F298` 角色 ID 表已撤销；该地址唯一消费者属于对象/渲染
@@ -102,6 +103,28 @@ ID×`0xB4` 读取，后续提取器必须保留全部 63 条原始记录。
 - stride：`0xB4`；
 - 地址公式：`0x54241C + character_id*0xB4`；
 - `character_id` 是代码使用的表索引，不是记录内首字节；
-- 每条记录保留完整 `raw_hex`，仅暴露 `field_00..field_03` 为保守原始字段。
+- 每条记录保留完整 `raw_hex`。`0x0806D4A0/0x0806D964` 已证明并暴露：
+  `+0` active flag；`+1..+6/+8/+A` 到模板
+  `+2/+3/+4/+5/+6/+8/+E` 的 base values；`+0C..+47` 的 15 个主槽；
+  `+48..+A7` 的 24 个次槽；`+A8..+B0` 的 9 个过滤候选 ID。
+
+## 2026-07-12 字段结构与安全写回
+
+主槽和次槽都是四字节记录：ID、initial state、unlock level、保留字节。
+初始化器把主槽复制到模板 `+0x14/+0x15`，共 15 项；把次槽复制到模板
+`+0x50/+0x51`，共 24 项。当状态为 `0xFF` 且 unlock level 非零且不高于角色
+等级时，runtime state 被置零。`+0xA8..+0xB0` 的九个 ID 经
+`0x0808FA34` 过滤后写入模板 `+0xB1..`，计数写入 `+0xB0`。
+
+这些是代码直接证明的结构语义；攻击、防御等玩家界面名称仍不从数值形状猜测。
+
+新增持久镜像 `rom_character_definitions`，保存 immutable `base_raw_hex` 和可编辑
+`raw_hex`。`generate_character_definition_patches` 仅在以下门禁全部满足时写一条
+精确的 `0xB4` 记录：ID 0..62、无重复、精确 `_rom_offset`、基准记录与
+`rom/base.gba` 一致、payload 恰为 `0xB4`、record 0 保持全零、有效记录 `+0`
+保持 1。刷新使用 INSERT OR IGNORE，已编辑 raw bytes 不会被重新导入覆盖。
+
+覆盖测试：`tests/test_character_definition_writeback.py`。重要范围仍为
+`0x54241C..0x545067`。
 
 覆盖测试：`tests/test_extract_character_definitions.py`。

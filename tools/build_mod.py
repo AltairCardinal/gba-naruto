@@ -208,8 +208,17 @@ def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> lis
 
     bank = ROOT / patch["bank"]
     content = ROOT / patch["content"]
-    free_start = int(patch.get("free_space_start", "0x5DFBEC"), 0)
-    return import_dialogue_variable(bank, content, free_start)
+    free_start = int(patch.get("free_space_start", "0x5F0000"), 0)
+    free_end = int(patch.get("free_space_end", "0x600000"), 0)
+    overrides = {}
+    editor_db_path = ROOT / "sequel" / "editor.db"
+    if editor_db_path.exists():
+        from build_db_patches import generate_editor_dialogue_overrides
+        overrides = generate_editor_dialogue_overrides(editor_db_path)
+    return import_dialogue_variable(
+        bank, content, free_start, free_end,
+        rom=(ROOT / "rom/base.gba").read_bytes(), overrides=overrides,
+    )
 
 
 def apply_patch(
@@ -247,11 +256,14 @@ def build(project_path: Path) -> dict:
             generate_battle_config_patches,
             generate_chapter_patches,
             generate_unit_patches,
+            generate_character_definition_patches,
             generate_skill_patches,
             generate_story_beat_patches,
             generate_audio_patches,
+            generate_audio_sound_id_patches,
             generate_unit_position_patches,
             generate_map_patches,
+            generate_map_header_patches,
             generate_level_patches,
             generate_character_stat_patches,
             generate_battle_config_data_patches,
@@ -278,16 +290,21 @@ def build(project_path: Path) -> dict:
             generate_story_c_patches,
             generate_story_d_patches,
             generate_story_e_patches,
+            generate_chapter_flow_primary_patches,
+            generate_chapter_flow_alternate_patches,
             generate_tile_asset_patches,
         )
         db_real_patches.extend(generate_battle_config_patches(editor_db_path))
         db_real_patches.extend(generate_chapter_patches(editor_db_path))
         db_real_patches.extend(generate_unit_patches(editor_db_path))
+        db_real_patches.extend(generate_character_definition_patches(editor_db_path))
         db_real_patches.extend(generate_skill_patches(editor_db_path))
         db_real_patches.extend(generate_story_beat_patches(editor_db_path))
         db_real_patches.extend(generate_audio_patches(editor_db_path))
+        db_real_patches.extend(generate_audio_sound_id_patches(editor_db_path))
         db_real_patches.extend(generate_unit_position_patches(editor_db_path))
         db_real_patches.extend(generate_map_patches(editor_db_path))
+        db_real_patches.extend(generate_map_header_patches(editor_db_path))
         db_real_patches.extend(generate_level_patches(editor_db_path))
         db_real_patches.extend(generate_character_stat_patches(editor_db_path))
         db_real_patches.extend(generate_battle_config_data_patches(editor_db_path))
@@ -314,6 +331,8 @@ def build(project_path: Path) -> dict:
         db_real_patches.extend(generate_story_c_patches(editor_db_path))
         db_real_patches.extend(generate_story_d_patches(editor_db_path))
         db_real_patches.extend(generate_story_e_patches(editor_db_path))
+        db_real_patches.extend(generate_chapter_flow_primary_patches(editor_db_path))
+        db_real_patches.extend(generate_chapter_flow_alternate_patches(editor_db_path))
         db_real_patches.extend(generate_tile_asset_patches(editor_db_path))
         db_audit_patches = generate_db_patches(editor_db_path)
     ctx = load_context(project_path)

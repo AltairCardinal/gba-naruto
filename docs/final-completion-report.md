@@ -4,6 +4,11 @@
 **ROM:** 火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba  
 **SHA-1:** `26f60795fa5e63b4f0264b84e453beffd56b9f7d`
 
+> Character-growth correction (2026-07-11): rows claiming independent tables
+> at `0x54507A` and `0x545200` are superseded. The real code/runtime-verified
+> table is 63×`0x10` at `0x545068`; the B table is disproved and write-disabled.
+> See `notes/character-growth-runtime-chain-20260711.md`.
+
 ## Status correction (2026-07-10)
 
 This document originally declared the reverse engineering 100% complete. That
@@ -11,17 +16,21 @@ claim is now **withdrawn**. The evidence audit found that passing extract/build
 tests did not prove runtime consumption, and several generators were either
 audit-only, silently empty, or used unsafe inferred offsets.
 
-Current verified baseline:
+Current verified baseline (updated 2026-07-12):
 
-- 32/32 banks pass metadata and base-ROM byte-fidelity checks.
+- The identity audit is **32/32 closed** under a dual rule: 27 active data banks
+  require entries and base-ROM fidelity, while five disproved aliases must be
+  documented, empty, and write-disabled. This is not 32/32 runtime verification.
 - The positions source is now corrected to the formation matrix at `0x5461C4`;
   the former `0x53D914` claim was wrong.
 - Lossless ROM mirror write-back is guarded by immutable-base preconditions and
   conflict detection; unsafe legacy battle-config template writes are rejected.
-- Positions now has reproducible runtime evidence from the first-battle WASM
-  probe. Bank labels currently distribute as 1 runtime / 1 code / 30 static;
-  the stricter evidence audit distributes as 1 dynamic / 6 code / 24 static /
-  1 none.
+- Six banks currently carry reproducible runtime evidence; four are code
+  verified, 17 are static verified, and five are disproved. These bank labels are not a
+  claim that every field or safe write-back path is complete.
+- The old audio conclusion is revoked: the real sound-ID table is `0x465B70`;
+  runtime observes ID 118 resolving to descriptor `0x53D06C`. Playable
+  sequence/sample export and audible cue naming remain unresolved.
 - Runtime evidence for the other structures remains incomplete. See `notes/dynamic-verification-audit.md`
   and `docs/sequel-roadmap.md` for the active completion gates.
 

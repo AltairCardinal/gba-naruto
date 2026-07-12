@@ -7,6 +7,7 @@ import unittest
 
 from tools.verify_battle_config_records import (
     EXPECTED_ENTRY_SIZE,
+    EXPECTED_FIELDS,
     EXPECTED_FIELD_NAMES,
     EXPECTED_TABLE_OFFSET,
     validate_bank,
@@ -14,17 +15,14 @@ from tools.verify_battle_config_records import (
 
 
 def fixture_bank() -> dict:
-    fields = [
-        {"offset": index * 2, "size": 2, "name": name, "type": "u16"}
-        for index, name in enumerate(EXPECTED_FIELD_NAMES)
-    ]
+    fields = [{"offset": offset, "size": size, "name": name} for name, offset, size in EXPECTED_FIELDS]
     entries = []
     for index in range(32):
-        values = [0] * 8 if index == 0 else [index, 2, 3, 4, 5, 6, 7, 8]
+        values = [0] * len(EXPECTED_FIELDS) if index == 0 else [index & 0xFF] * 14 + [0x1234]
         entry = {"_raw_offset": EXPECTED_TABLE_OFFSET + index * EXPECTED_ENTRY_SIZE}
-        for name, value in zip(EXPECTED_FIELD_NAMES, values):
+        for (name, _offset, size), value in zip(EXPECTED_FIELDS, values):
             entry[name] = value
-            entry[f"{name}_hex"] = value.to_bytes(2, "little").hex()
+            entry[f"{name}_hex"] = value.to_bytes(size, "little").hex()
         entries.append(entry)
     return {
         "table_offset": EXPECTED_TABLE_OFFSET,
@@ -39,15 +37,13 @@ def fixture_rom(bank: dict) -> bytes:
     rom = bytearray(EXPECTED_TABLE_OFFSET + 32 * EXPECTED_ENTRY_SIZE)
     for entry in bank["entries"]:
         offset = entry["_raw_offset"]
-        for index, name in enumerate(EXPECTED_FIELD_NAMES):
-            rom[offset + index * 2:offset + index * 2 + 2] = entry[name].to_bytes(
-                2, "little"
-            )
+        for name, field_offset, size in EXPECTED_FIELDS:
+            rom[offset + field_offset:offset + field_offset + size] = entry[name].to_bytes(size, "little")
     return bytes(rom)
 
 
 class BattleConfigVerificationTests(unittest.TestCase):
-    def test_validate_bank_accepts_matching_u16_table(self):
+    def test_validate_bank_accepts_matching_effect_template_table(self):
         bank = fixture_bank()
         report = validate_bank(bank, fixture_rom(bank))
 
@@ -67,8 +63,8 @@ class BattleConfigVerificationTests(unittest.TestCase):
 
     def test_validate_bank_rejects_non_null_entry_zero(self):
         bank = fixture_bank()
-        bank["entries"][0]["config_id"] = 1
-        bank["entries"][0]["config_id_hex"] = "0100"
+        bank["entries"][0]["byte_00"] = 1
+        bank["entries"][0]["byte_00_hex"] = "01"
 
         report = validate_bank(bank, fixture_rom(fixture_bank()))
 

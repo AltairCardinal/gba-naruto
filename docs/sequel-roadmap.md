@@ -10,9 +10,20 @@
 
 ## 现状总览
 
+> 2026-07-12 当前调查闭合审计为 32/32：27 个有效数据 bank 均通过元数据和
+> 基准 ROM fidelity，另 5 个是带负证据、空 entries、禁写回的 `disproved`
+> tombstone。分布为 runtime 6 / code 4 / static 17 / disproved 5。32/32 只表示
+> bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
+> save-state 自然保存仍明确保持 code_verified。
+
 ### ✅ 已打通
 - 对白 → ROM 写入闭环（dialogue patch pipeline）
 - 5 段对话已验证写入 ROM
+- 变长对白现已使用独占 `0x5F0000..0x5FFFFF` allocator，校验基准指针、FF
+  空间、编码/NUL、对齐和容量；`group0.label2` 已从 6-byte slot 重定位到
+  `0x5F0000`，构建 ROM 的 `0x461CF0` 指针和目标文本逐字节验证通过；该 ROM
+  已在 WASM 路线 step 306 通过完整 strict battle arrival，变长重定位的构建→启动→
+  文本流程→首战 no-crash E2E 已闭环
 - 构建流水线支持 5 种 patch 类型（bytes/dialogue/pointer_redirect/map/battle_config）
 - mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
 - mGBA PC/读取探针已加入：断点真实命中后可在同一上下文抓取 ROM 与 WRAM；
@@ -23,24 +34,66 @@
   runtime 验证
 - WASM 探针现会记录 `0x02026804` 的 8 字节控制区、`0x02026805` 标识和
   `0x0201BE28..2B` map runtime；baseline 得到 `[36,44,9,22]`
+- WASM 到达判据已从“唯一编成”收紧为四因素门禁：唯一完整编成、非零 battle ID、
+  非零且派生一致的 map runtime、截图分类 `battle-map`。基准路线在步骤 286
+  拒绝了已预载内存的对白/转场状态，直到步骤 306 真正地图画面才通过；详见
+  `notes/strict-battle-arrival-gate-20260712.md`
 - 独立 A/B 仅把 maps 第 40 行 `0x53DE10` 的 width 36→32，同路线得到
   `[32,44,8,22]`，因此 maps width/height 字段链已升级为 runtime；
-  资源指针字段仍保持 code 验证
+  资源指针字段仍保持 code 验证。47 行已有持久 `rom_map_headers` 镜像和
+  immutable-base、精确 offset、尺寸、ROM 对齐、LZ header/解压长度门禁的
+  32-byte 安全写回
 - units 旧结论已撤销：`0x0806E654` 实为读取单位 x/y，`0x53F298` 唯一消费者
-  将其作为 u16 偏移查找；legacy units 回写已安全禁用，真实角色记录映射待定位
+  将其作为 u16 偏移查找；legacy units 回写已安全禁用，真实角色记录已迁移到
+  `0x54241C`；loader-derived base destinations、两组槽数组和过滤 ID 区已命名，
+  完整记录安全写回已建立；玩家界面属性名称仍待 UI correlation
 - 真实角色定义表已定位并迁移到 units bank：`0x54241C`，63×`0xB4`；
   `tools/extract_character_definitions.py` 可重复提取；formation character ID 经
   `0x02022E34` 模板池复制到 `0x1D4` 战斗槽；WASM 首战样本已证明
   template slot 1 → battle slot 1 的前 `0xBC` 字节复制，但 template payload 与
   ROM raw record `0x5424D0` 仅前 7 字节一致，raw record 字段转换仍待 PC/LR 或
   受控 A/B 证明；后续 `0x5424D1` byte `0x0e→0x0f` A/B 已证明 raw record byte `+1`
-  进入 runtime template 和 battle slot，units 结构身份达到 runtime 证据
+  进入 runtime template 和 battle slot，units 结构身份达到 runtime 证据；
+  后续静态闭合 7 个 base value、15×4 主槽、24×4 次槽和 9 个候选 ID，
+  `rom_character_definitions` 镜像支持带 immutable-base、精确 offset/length、
+  sentinel/active flag 门禁的整条 `0xB4` 写回
+- character-stats 旧两表结论已撤销：真实成长表为 `0x545068`，63×`0x10`，
+  `0x0806D964` 按角色 ID 读取并以 `growth*(level-1)/100` 写入模板；受控首战
+  两因素 A/B 已证明 record 1 `+4` 进入 template/battle slot `+2`。
+  `0x54507A` 和 `0x545200` 都是错位切片，后者 legacy 回写已禁用
+- `battle-config@0x545458` 的旧 u16 场景配置解释已撤销：真实结构是
+  32×16-byte 战斗技能/效果模板，`0x0806D85C` 按 effect ID 复制记录，并用
+  byte `+0x0C` 与 u16 `+0x0E` 应用等级成长；effect 2 的 level-2 A/B 已证明
+  growth `1→2` 只令 type-4 输出 `+7:4→5`，升级 runtime；地图场景表仍是 `0x53D910`
+- items 与 skills 的 `0x546100` 冲突已拆分：两者 entries 原本逐字节相同，且无
+  独立 item consumer；items 已改为 disproved tombstone，legacy item 写回保持
+  diagnostic-only；skills 真表已纠正为 `0x545BE4` 的 94×16-byte 模板，
+  `0x0806D910` 按 skill ID 复制前 10 字节，旧 `0x546100` 是 record 81 起的尾部切片
+- 五个旧 late-ROM `story*` 候选其实是 `0x465B70` 音频主表所指 song descriptor
+  的 `+4` 切片；byte 0 是 track count，`+4` 是 sequence pointer，`+8` 是 track
+  pointers。`story-c/d/e` 保持 tombstone；`story/story-b` 已迁移为真实章节表
+  `0x60C74/0x60D54`，并有独立安全写回
 - maps width/height 消费链已定位到 `0x0201BE28..2B`，并通过 width 36→32
   A/B 从 `[36,44,9,22]` 变为 `[32,44,8,22]`
-- battle configs、units、chapters、skills、story beats、audio、maps、levels、
+- battle configs、units、chapters、skills、story beats、legacy audio、maps、levels、
   character_stats、battle_config_data、encounter_zones、items 等无 ROM 身份的
   legacy 危险回写已禁用，只输出 unmapped 诊断；lossless `rom_*` mirror 继续作为
   安全写回入口
+- audio/palette/message 身份已拆分：`0x53F138` 是 palette 表，`0x599634` /
+  `0x08079668` 是消息表/分发器。真实 sound-ID 主表为 `0x465B70`，域 0..158，
+  80 个非空 descriptor；dispatcher `0x0809AAC0`、track initializer
+  `0x0809B1F4`、FIFO/DMA initializer `0x0809AE3C` 已闭合。运行时 hook 命中
+  230 次并证明 ID 118→`0x0853D06C`，audio 升级 runtime；每个 cue 的可听名称、
+  sequence opcode 和真实 sample 导出仍待完成。sound-ID 主表已有持久
+  `rom_audio_sound_ids` 镜像和 immutable-base、精确 offset、ROM 范围/对齐、
+  descriptor track-count 门禁的 8-byte 安全写回
+- save descriptor 第二字段已纠正为 payload length/累计 stride，而非独立 SRAM
+  offset；group 3..9 累计起点为 `0x2548..0x55B0`。WASM 已改用 `getSave()`
+  导出真实 32KiB `.sav`。裸 group 均返回1并改变七处，但 wrapper 在战斗初始化
+  上下文仍返回0且记录校验不成立；自然 caller 已归属 postbattle controller
+  `0x080732B4` 的 state `0xF400`。首战开始自然命中为0，强制 state/gate 会卡在
+  更早的结果 UI 阶段，不能代替真实胜利转换；下一有效路线是自动完成首战或取得
+  genuine post-victory state 后命中 `0x08074F2C`
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）
@@ -49,8 +102,8 @@
 |------|------|------|
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
-| 章节流程入口 | ❌ 未定位 | 需 runtime 调试 |
-| 资源提取（图片/音频） | ⚠️ 部分 | tileset 地址已知，提取未完成 |
+| 章节流程入口 | ✅ 主链已定位 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→script `0x31020`→opcode `0x1A` operand 40 已 runtime 闭环；alternate 分支为 code 证据 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset 图块 atlas 已导出；音频主表/descriptor 已提取，真实 sample/可播放序列导出未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -100,7 +153,7 @@
 
 ### P0-Step 3｜定位战斗配置与角色定义
 
-**状态：⚠️ 部分完成**（positions 与 maps width/height 已运行时验证；角色定义仍待动态闭环）
+**状态：⚠️ 部分完成**（positions、maps width/height、角色定义及成长表已有运行时闭环；units 已有结构字段和安全 lossless 写回，剩余玩家属性命名与 maps 指针字段运行时证据未完成）
 
 **已确认 ROM 数据表：**
 - ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
@@ -108,7 +161,8 @@
 - ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；
   `tools/extract_character_definitions.py` 已建立，`sequel/content/units/bank.json`
   已迁移；runtime 样本已把战斗槽 character ID 和模板槽闭合到 ID 1 / ROM
-  `0x5424D0`；`0x5424D1` 单字节 A/B 已动态闭合 raw record byte `+1` 到模板字段
+  `0x5424D0`；`0x5424D1` 单字节 A/B 已动态闭合 raw record byte `+1` 到模板字段；
+  两组槽数组及过滤候选区已按 loader 命名，整条记录可受保护写回
 - ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
   - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
   - ptr1：12 字节头 + 原始 tile 数据（u16/tile）
@@ -144,7 +198,16 @@
 
 ### P0-Step 4｜定位章节流程入口（Phase 3 收尾）
 
-**状态：⚠️ 部分完成 - 静态分析完成，runtime 验证受限于环境**
+**状态：✅ 主流程入口已完成；脚本 opcode 全语义仍属后续字段工作**
+
+**2026-07-12 纠正：**
+- `0x0808F544` 根据状态 `+0x18` 在 `0x60C74` / `0x60D54` 两张
+  56-entry script pointer table 之间选择，并按 scenario ID 索引；
+- WASM hook 捕获 primary scenario 39 → `0x08031020`，脚本游标
+  `0x08031070` 的 `1A 28 02 00` 将 battle ID 40 写入状态并最终到
+  `0x02026805`；
+- `story` bank 已迁移为 primary/runtime，`story-b` 为 alternate/code；
+  旧 late-ROM `story*` 资源切片结论已撤销。
 
 **已完成：**
 - 静态分析：遍历 38 个 late-ROM 表候选，全部为视觉/资源描述表
@@ -240,9 +303,33 @@
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
-- 首次审计结果为 23/32；随后已纠正 7 个偏移错误并从校验过的基准 ROM 重新提取，同时补齐 3 个格式描述。当前元数据检查为 32/32，但这仍不代表动态语义或真实回写完成。
+- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：27 个有效 bank 必须有非空 entries 和 ROM fidelity；5 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
 - 验证分布现为 30 个 `static_verified`、1 个 `code_verified`、1 个
   `runtime_verified`（positions）；仍不能作为“100% 完成”的单独证据。
+
+### 2026-07-11 Character growth 消费链修正
+
+- 从精确地址零引用改为扫描 `0x545000..0x545458` 邻域，找到
+  `0x0806D998 -> 0x08545068`，并反汇编闭合 `0x0806D964` 消费者。
+- 真实表为 63×`0x10`，地址公式 `0x545068 + character_id*0x10`；ID 57/58
+  分别复用 physical record 8/15。
+- 七个 u16 成长字段写入模板 `+0x0E/+0x08/+0x02..+0x06`；首战 level 1
+  会令正常增量为零，因此使用严格两因素插桩 A/B 避免伪阴性。
+- character 1 record `+4` 从 100→200 后，template 与 battle slot 唯一变化为
+  `+2: 15→16`，结构升级为 runtime_verified。
+- `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
+  disproved tombstone；错误 bytes 写回已改为 diagnostic。
+- 交付：`tools/extract_character_growth.py`、
+  `tools/build_character_growth_probe.py`、验证器和回归测试；完整证据见
+  `notes/character-growth-runtime-chain-20260711.md`。
+
+### 2026-07-11 Save-state 首战 SRAM 负结果
+
+- WASM 探针现会在导航前后读取七个已知 SRAM 记录并验证 19+1 checksum；
+- 标题→新游戏→首战路线成功，但七条记录均保持 `FF×20`，证明该路线不自动保存；
+- save-state 仍为 code 证据，下一步必须定位并执行显式保存菜单，或在
+  `0x08068684` 捕获真实写处理器调用；
+- 结果与哈希见 `notes/save-state-wasm-probe-20260711.md`。
 
 ### 2026-07-10 u32 指针表回写进展
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import struct
 import sys
 from pathlib import Path
 from typing import Any
@@ -15,24 +14,15 @@ DEFAULT_BANK = Path("sequel/content/battle-config/bank.json")
 EXPECTED_TABLE_OFFSET = 0x545458
 EXPECTED_ENTRY_COUNT = 32
 EXPECTED_ENTRY_SIZE = 16
-EXPECTED_FIELD_NAMES = (
-    "config_id",
-    "param1",
-    "param2",
-    "value",
-    "flag1",
-    "flag2",
-    "flag3",
-    "flag4",
+EXPECTED_FIELDS = tuple((f"byte_{i:02x}", i, 1) for i in range(12)) + (
+    ("growth_target_type", 12, 1), ("byte_0d", 13, 1),
+    ("per_level_growth", 14, 2),
 )
+EXPECTED_FIELD_NAMES = tuple(field[0] for field in EXPECTED_FIELDS)
 
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def read_u16le(raw: bytes, offset: int) -> int:
-    return struct.unpack_from("<H", raw, offset)[0]
 
 
 def validate_bank(bank: dict[str, Any], rom: bytes | None = None) -> dict[str, Any]:
@@ -61,13 +51,12 @@ def validate_bank(bank: dict[str, Any], rom: bytes | None = None) -> dict[str, A
     field_names = tuple(field.get("name") for field in fields if isinstance(field, dict))
     if field_names != EXPECTED_FIELD_NAMES:
         issues.append(f"field order mismatch: {field_names!r}")
-    for expected_offset, field in enumerate(fields):
+    for (name, byte_offset, size), field in zip(EXPECTED_FIELDS, fields):
         if not isinstance(field, dict):
             continue
-        byte_offset = expected_offset * 2
-        if field.get("offset") != byte_offset or field.get("size") != 2:
+        if field.get("offset") != byte_offset or field.get("size") != size:
             issues.append(
-                f"field {field.get('name', expected_offset)!r} must be u16 at +0x{byte_offset:X}"
+                f"field {field.get('name', name)!r} must be {size} byte(s) at +0x{byte_offset:X}"
             )
 
     entry_summaries = []
@@ -83,35 +72,35 @@ def validate_bank(bank: dict[str, Any], rom: bytes | None = None) -> dict[str, A
             )
 
         values = []
-        for field_index, field_name in enumerate(EXPECTED_FIELD_NAMES):
+        for field_name, field_offset, field_size in EXPECTED_FIELDS:
             value = entry.get(field_name)
-            if not isinstance(value, int) or not (0 <= value <= 0xFFFF):
-                issues.append(f"entry {index}.{field_name} must be a u16, got {value!r}")
+            if not isinstance(value, int) or not (0 <= value < 1 << (field_size * 8)):
+                issues.append(f"entry {index}.{field_name} does not fit {field_size} byte(s): {value!r}")
                 continue
             values.append(value)
             hex_value = entry.get(f"{field_name}_hex")
-            expected_hex = value.to_bytes(2, "little").hex()
+            expected_hex = value.to_bytes(field_size, "little").hex()
             if hex_value != expected_hex:
                 issues.append(
                     f"entry {index}.{field_name}_hex must be {expected_hex}, got {hex_value!r}"
                 )
             if rom is not None:
-                rom_offset = expected_raw_offset + field_index * 2
-                if rom_offset + 2 > len(rom):
+                rom_offset = expected_raw_offset + field_offset
+                if rom_offset + field_size > len(rom):
                     issues.append(f"entry {index}.{field_name} exceeds ROM at 0x{rom_offset:X}")
                     continue
-                rom_value = read_u16le(rom, rom_offset)
+                rom_value = int.from_bytes(rom[rom_offset:rom_offset + field_size], "little")
                 if rom_value != value:
                     issues.append(
                         f"entry {index}.{field_name} mismatch at 0x{rom_offset:X}: "
-                        f"bank=0x{value:04X} rom=0x{rom_value:04X}"
+                        f"bank=0x{value:X} rom=0x{rom_value:X}"
                     )
 
         entry_summaries.append(
             {
                 "index": index,
                 "rom_offset": f"0x{expected_raw_offset:X}",
-                "values": [f"0x{value:04X}" for value in values],
+                "values": [f"0x{value:X}" for value in values],
             }
         )
 

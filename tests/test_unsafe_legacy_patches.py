@@ -12,12 +12,17 @@ from tools.build_db_patches import (
     generate_battle_config_data_patches,
     generate_chapter_patches,
     generate_character_stat_patches,
+    generate_character_stats_b_patches,
     generate_encounter_zone_patches,
     generate_item_patches,
     generate_level_patches,
     generate_map_patches,
     generate_skill_patches,
     generate_story_beat_patches,
+    generate_story_b_patches,
+    generate_story_c_patches,
+    generate_story_d_patches,
+    generate_story_e_patches,
 )
 from build_mod import classify_db_patch
 
@@ -42,6 +47,20 @@ class UnsafeLegacyPatchesTest(unittest.TestCase):
             "INSERT INTO story_beats VALUES (1, 1, 7, 'beat')",
             "db_story_beat_unmapped",
         ),
+        *(
+            (
+                generator,
+                f"CREATE TABLE rom_story_{suffix} (_idx INTEGER)",
+                f"INSERT INTO rom_story_{suffix} VALUES (0)",
+                f"db_story_{suffix}_disproved",
+            )
+            for generator, suffix in (
+                (generate_story_b_patches, "b"),
+                (generate_story_c_patches, "c"),
+                (generate_story_d_patches, "d"),
+                (generate_story_e_patches, "e"),
+            )
+        ),
         (
             generate_audio_patches,
             "CREATE TABLE audio_files (id INTEGER, rom_offset INTEGER, size INTEGER, name TEXT)",
@@ -65,6 +84,12 @@ class UnsafeLegacyPatchesTest(unittest.TestCase):
             "CREATE TABLE character_stats (id INTEGER, name TEXT, char_type INTEGER, hp INTEGER, attack INTEGER, defense INTEGER, max_value INTEGER)",
             "INSERT INTO character_stats VALUES (1, 'stat', 8, 100, 20, 10, 1500)",
             "db_character_stat_unmapped",
+        ),
+        (
+            generate_character_stats_b_patches,
+            "CREATE TABLE rom_character_stats_b (_idx INTEGER, _rom_offset INTEGER)",
+            "INSERT INTO rom_character_stats_b VALUES (0, 5526016)",
+            "db_character_stats_b_disproved",
         ),
         (
             generate_battle_config_data_patches,

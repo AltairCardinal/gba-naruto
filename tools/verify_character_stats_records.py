@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the two reverse-engineered character-stats tables."""
+"""Verify the code-referenced character growth table."""
 
 from __future__ import annotations
 
@@ -14,34 +14,18 @@ from typing import Any
 TABLE_SPECS = {
     "character-stats": {
         "bank": Path("sequel/content/character-stats/bank.json"),
-        "offset": 0x54507A,
-        "entry_count": 20,
+        "offset": 0x545068,
+        "entry_count": 63,
         "entry_size": 16,
         "fields": (
-            "char_type",
-            "hp",
-            "attack",
-            "defense",
-            "padding1",
-            "padding2",
-            "padding3",
-            "max_value",
-        ),
-    },
-    "character-stats-b": {
-        "bank": Path("sequel/content/character-stats-b/bank.json"),
-        "offset": 0x545200,
-        "entry_count": 18,
-        "entry_size": 16,
-        "fields": (
-            "hp",
-            "padding1",
-            "padding2",
-            "padding3",
-            "max_value",
-            "char_type",
-            "attack",
-            "defense",
+            "template_0e_growth",
+            "template_08_growth",
+            "template_02_growth",
+            "template_03_growth",
+            "template_04_growth",
+            "template_05_growth",
+            "template_06_growth",
+            "unused_0e",
         ),
     },
 }
@@ -147,7 +131,7 @@ def validate_bank(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Verify character-stats banks against a base ROM."
+        description="Verify the character growth bank against a base ROM."
     )
     parser.add_argument(
         "--table",

@@ -89,10 +89,47 @@ function decodeMapRuntime(bytes) {
   };
 }
 
+function decodeChapterScriptProbe(bytes) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 12) {
+    throw new TypeError('chapter script probe must be a 12-byte Uint8Array');
+  }
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const scriptPointer = view.getUint32(0, true);
+  return {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    scriptPointer,
+    scriptPointerHex: `0x${scriptPointer.toString(16).toUpperCase().padStart(8, '0')}`,
+    opcodeBytesHex: Buffer.from(bytes.subarray(4, 8)).toString('hex'),
+    opcode: bytes[4],
+    chapterBattleId: bytes[5],
+    hitCount: bytes[8],
+    pointerInRom: scriptPointer >= 0x08000000 && scriptPointer < 0x0E000000,
+  };
+}
+
 function classifyScreenMetrics(metrics) {
   if (metrics.grayRatio > 0.2) return 'character-panel';
   if (metrics.paleRatio > 0.3) return 'prebattle-menu';
+  if (metrics.greenRatio > 0.18 && metrics.paleRatio < 0.12) return 'battle-map';
   return 'other';
+}
+
+function evaluateBattleArrival({ match, battleControl, mapRuntime, screenState }) {
+  const checks = {
+    uniqueCompleteFormation: Boolean(match?.best && match.best.missing === 0 && match.unique),
+    battleIdPresent: Number(battleControl?.chapterBattleId || 0) !== 0,
+    mapLoaded: Boolean(
+      mapRuntime?.width > 0
+      && mapRuntime?.height > 0
+      && mapRuntime?.derivationConsistent,
+    ),
+    battleMapVisible: screenState === 'battle-map',
+  };
+  return {
+    arrived: Object.values(checks).every(Boolean),
+    checks,
+    reason: Object.values(checks).every(Boolean) ? 'strict-battle-arrival' : 'arrival-evidence-incomplete',
+  };
 }
 
 function tailTransitionDecision(screenState) {
@@ -159,8 +196,38 @@ function buildProbeResult({ outcome, reason, stages, final, match = null }) {
   return { schemaVersion: 1, outcome, reason, stages, final, match };
 }
 
+function saveChecksum(bytes) {
+  return (~bytes.reduce((sum, byte) => (sum + byte) & 0xFF, 0)) & 0xFF;
+}
+
+function decodeSaveRecord(offset, bytes) {
+  const data = Array.from(bytes);
+  if (data.length < 2) throw new Error(`save record at 0x${offset.toString(16)} must contain payload and checksum`);
+  const payloadLength = data.length - 1;
+  const expectedChecksum = saveChecksum(data.slice(0, payloadLength));
+  return {
+    sramOffset: offset,
+    sramOffsetHex: `0x${offset.toString(16).toUpperCase().padStart(4, '0')}`,
+    rawHex: Buffer.from(data).toString('hex'),
+    erased: data.every(byte => byte === 0xFF),
+    payloadLength,
+    checksum: data[payloadLength],
+    expectedChecksum,
+    checksumValid: data[payloadLength] === expectedChecksum,
+  };
+}
+
+function compareSaveRecords(before, after) {
+  return after.map(record => {
+    const old = before.find(candidate => candidate.sramOffset === record.sramOffset);
+    return { ...record, changed: Boolean(old && old.rawHex !== record.rawHex), beforeRawHex: old?.rawHex || null };
+  });
+}
+
 module.exports = {
   buildNavigationPlan, classifyMemorySnapshot, matchFormationPositions,
   buildArtifactPaths, buildProbeResult, buildSettlePlan, decodeBattleControl,
   decodeMapRuntime, classifyScreenMetrics, tailTransitionDecision, shouldRetryBack,
+  decodeSaveRecord, compareSaveRecords, saveChecksum, evaluateBattleArrival,
+  decodeChapterScriptProbe,
 };

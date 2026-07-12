@@ -5,6 +5,10 @@
 **ROM:** 火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba  
 **SHA-1:** `26f60795fa5e63b4f0264b84e453beffd56b9f7d`
 
+> Correction (2026-07-11): `character-stats-b` is not a completed structure;
+> it is a disproved mid-record alias. Character growth is one runtime-verified
+> 63×`0x10` table at `0x545068`.
+
 ## Executive Summary
 
 Phase 3 successfully reverse-engineered all 4 remaining structures. **3 of 4

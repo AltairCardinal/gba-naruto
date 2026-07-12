@@ -4,8 +4,8 @@ Known addresses for graphics, palette, and audio resources in the ROM.
 
 ## Battle Map Tilesets
 
-Defined in battle config table at ROM `0x0853D910` (8 entries × 32 bytes).
-Entry access: `base_file = 0x53D914 + chapter_id * 32`.
+Defined in the map header table at ROM `0x0853D910` (47 entries × 32 bytes).
+Entry access: `base_file = 0x53D910 + map_id * 32`.
 
 ### Corrected Entry Field Order (32 bytes = 8 × u32)
 
@@ -72,41 +72,22 @@ Format: u16 per tile — bits 9-0 = tile ID (0-311), bit 10 = H-flip, bit 11 = V
 
 ## Audio
 
-**Status**: 10 PCM samples located and exported as WAV.
+**Status**: real engine, 159-ID master domain, 80 non-empty descriptors and one
+live sound ID are located. The former 10 heuristic PCM hits are revoked.
 
-### DirectSound Sample Format
+### Proven locations
 
-```
-+0x00  u8   type        0x00 = uncompressed signed 8-bit PCM
-+0x01  u8   loop_flag   0x00 = no loop, 0x40 = loop
-+0x02  u16  freq        natural pitch / frequency (Hz)
-+0x04  u32  loop_start  sample index where loop begins
-+0x08  u32  size        total sample count
-+0x0C  s8[] data        signed 8-bit mono PCM
-```
+- sound-ID master: `0x465B70`, IDs 0..158
+- non-empty IDs: 1..18, 51..54, 101..158
+- descriptor/data range currently important: `0x536368..0x53D58B`
+- public wrapper: `0x08061E6C`
+- ID dispatch: `0x0809AAC0`
+- song/track initialization: `0x0809B1F4`
+- sound/FIFO/DMA initialization: `0x0809AE3C`
 
-GBA m4a base playback rate: **13379 Hz**. Exported WAV uses this rate by default.
-
-### Found Samples
-
-| # | File offset | Freq | Size | Loop | Notes |
-|---|---|---|---|---|---|
-| 0 | `0x09E208` | 12284 Hz | 12284 | no | Short SFX/instrument |
-| 1 | `0x0A1F5C` | 16383 Hz | 16383 | no | Short SFX/instrument |
-| 2 | `0x0ED268` | 8202 Hz | 129040 | **YES** (pos 15) | BGM loop layer |
-| 3 | `0x177560` | 8944 Hz | 65520 | no | Medium SFX |
-| 4 | `0x1AA5A4` | 8176 Hz | 983040 | no | Large BGM track (~2 min) |
-| 5 | `0x2DA7F8` | 26495 Hz | 4081 | no | Short SFX |
-| 6 | `0x2DDBD8` | 3840 Hz | 61815 | no | Medium SFX |
-| 7 | `0x2ED2FC` | 21573 Hz | 1911 | no | Very short SFX |
-| 8 | `0x2F333C` | 4671 Hz | 999713 | no | Large BGM (~3.5 min) |
-| 9 | `0x3ED624` | 4120 Hz | 850944 | no | Large BGM (~3.4 min) |
-
-Total extracted: ~3 MB PCM data. Extraction tool: `tools/extract_audio.py`.
-
-### Notes
-
-- No standard sound driver signature found (MP2000/Sappy/GAX not present)
-- Likely uses a custom or early Nintendo sound driver
-- Samples 4, 8, 9 are long background music tracks at low sample rates (4–8 kHz)
-- WAV export quality is limited by the original low sample rate; expected to sound rough
+The heuristic `tools/extract_audio.py` scan found byte patterns resembling
+DirectSound headers, but neither those headers nor their `+12` data addresses
+have aligned pointer references. They are false-positive candidates and must
+not be presented as samples, BGM, durations, or successful WAV extraction.
+Real extraction must follow the proven sequence and track pointers. Full chain
+and runtime evidence: `notes/audio-engine-runtime-chain-20260712.md`.

@@ -105,8 +105,9 @@ u16 对象/渲染偏移查找，不能继续写 editor `char_id`。
 真实角色定义：
 
 - file `0x54241C`，63 条（ID 0..62），stride `0xB4`；
-- 表结束 `0x545068`；到现有成长表 bank `0x54507A` 前有 18 字节 gap，
-  实际为 16 字节零后接 `aa05`，不能再称为全零填充；
+- 表结束 `0x545068`，并在同一地址直接接 63×`0x10` 成长表；旧“到
+  `0x54507A` 有 18 字节 gap”结论是把成长表 record 0 和 record 1 前两字节
+  误认成 gap，现已撤销；
 - WRAM 模板池 `0x02022E34`，24×`0xBC`；
 - formation record `+0` 与模板 `+0` 匹配；
 - `0x0806AC70 → 0x0806AA64` 把模板前 `0xBC` 字节复制到
@@ -253,13 +254,14 @@ mirror 恢复安全字段编辑。
 
 1. save-state；
 2. battle-config；
-3. character-stats / character-stats-b：先重建表身份；不要再把 `0x02022EF0`
-   当作 stats WRAM，它是 template slot 1；
-4. story / cutscene-scripts / map-events；
-5. skills/items 身份拆分；
-6. audio/palettes 身份拆分；
-7. units 字段语义和安全语义写回；
-8. 资源、动画、后续章节和未知表。
+3. ✅ character growth：真实表 `0x545068`、63×`0x10` 已由
+   `0x0806D964` 和两因素首战 A/B 升级 runtime；`0x545200` B 表已否定并禁写；
+4. character growth 字段 UI 命名与 63 行 editor schema 安全迁移；
+5. story / cutscene-scripts / map-events；
+6. skills/items 身份拆分；
+7. audio/palettes 身份拆分；
+8. units 字段语义和安全语义写回；
+9. 资源、动画、后续章节和未知表。
 
 ## 6. 100% 完成门槛
 

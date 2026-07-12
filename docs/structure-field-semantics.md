@@ -9,39 +9,34 @@ reverse-engineered data structures.
 
 ---
 
-## 1. Audio (0x53F138)
+## 1. Message command table (legacy `audio` slug, 0x599634)
 
-**Format:** u32[88] — 88 pointers to Sappy audio entries  
+**Format:** u32[100] — pointers selected by command bytes `0x80..0xE3`
 **Entry Size:** 4 bytes  
-**Semantics:** Each entry is a pointer (0x08XXXXXX) to a Sappy audio structure
-containing instrument data, note sequences, and playback parameters. The
-custom Sappy dispatcher at 0x079668 reads these pointers when commands
-0x80-0xE3 are issued. Commands 0x64-0x67 handle BGM channel control.
+**Evidence:** code verified at `0x08079668 → 0x08066758 → 0x0806626C`
+
+Each entry points to zero-terminated encoded message data. The former audio
+identity was false: `0x53F138` belongs to palettes, while the actual music/SFX
+engine and tables remain unresolved. The directory slug is retained only for
+compatibility and must not be treated as an audio serializer.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| audio_ptr | u32 | Pointer to Sappy audio entry in ROM |
+| message_ptr | u32 | Pointer to encoded message data in ROM |
 
 ---
 
-## 2. Battle Config (0x545458)
+## 2. Battle Effect Templates (0x545458)
 
-**Format:** u16[8] × 32 — 32 battle configuration entries  
-**Entry Size:** 16 bytes  
-**Semantics:** Each entry configures a battle scenario with skill parameters.
-Referenced from battle init code at 0x06D866. The value field often contains
-612, matching the skill table at 0x546100.
+**Format:** 32 × 16-byte effect templates
+**Entry Size:** 16 bytes
+**Evidence:** code verified at `0x0806D85C`
 
-| Field | Type | Description |
-|-------|------|-------------|
-| config_id | u16 | Configuration ID or type identifier |
-| param1 | u16 | First parameter (often 0) |
-| param2 | u16 | Second parameter (often 0) |
-| value | u16 | Skill value (commonly 612) |
-| flag1 | u16 | Configuration flag 1 |
-| flag2 | u16 | Configuration flag 2 |
-| flag3 | u16 | Configuration flag 3 (usually 0) |
-| flag4 | u16 | Configuration flag 4 (usually 0) |
+The consumer copies the selected record byte-for-byte into a runtime effect
+structure. Byte `+0x0C` chooses a level-growth destination (`+4..+9` for types
+1..6); u16 `+0x0E` is the increment multiplied by `level-1`. Type 7 performs
+no growth adjustment. Bytes `+0x00..+0x0B` and `+0x0D` remain conservatively
+unnamed pending action-specific runtime tests.
 
 ---
 
@@ -74,7 +69,31 @@ share the same handler), indicating 3 distinct event processing modes.
 
 ---
 
-## 5. Character Stats (0x54507A)
+## 5. Character Growth (0x545068)
+
+**Format:** 63 × 16-byte records, indexed by character ID
+**Evidence:** runtime verified
+
+`0x0806D964` computes the ordinary source as
+`0x08545068 + character_id*0x10`. Each consumed u16 is multiplied by
+`level-1`, divided by 100, then added to a base field from the character
+definition record. The table ends exactly at `0x545458`, the next known table.
+
+| ROM field | Runtime template destination | Proven operation |
+|---|---:|---|
+| `+0x00` | `+0x0E` | `base_u16 + growth*(level-1)/100` |
+| `+0x02` | `+0x08` | `base_u8 + growth*(level-1)/100` |
+| `+0x04` | `+0x02` | same; runtime A/B verified |
+| `+0x06` | `+0x03` | same |
+| `+0x08` | `+0x04` | same |
+| `+0x0A` | `+0x05` | same |
+| `+0x0C` | `+0x06` | same |
+| `+0x0E` | — | not read by the known path |
+
+IDs 57 and 58 are special: they use character-definition records 57/58 but
+growth records 8/15. A diagnostic first-battle A/B changed character 1 record
+`+0x04` from 100 to 200 and changed only template and battle-slot `+0x02`
+from 15 to 16.
 
 **Format:** u16[8] × 20 — 20 character stat entries  
 **Entry Size:** 16 bytes  
@@ -96,7 +115,12 @@ or stat scaling factor.
 
 ---
 
-## 6. Character Stats B (0x545200)
+## 6. Character Stats B (0x545200) — disproved
+
+This is not an independent table. `0x545200` equals
+`0x545068 + 25*0x10 + 8`, so the old bank began halfway through physical
+growth record 25. Its write-back generator is disabled and the bank is retained
+only as a migration tombstone.
 
 **Format:** u16[8] × 18 — 18 secondary stat entries  
 **Entry Size:** 16 bytes  
@@ -204,21 +228,12 @@ game state changes.
 
 ## 13. Items (0x546100)
 
-**Format:** u16[8] × 12 — 12 item/technique entries (same table as Skills)  
-**Entry Size:** 16 bytes  
-**Semantics:** In this tactical RPG, items share the skill table. Each entry
-defines a technique/item with type, effect, cost, and flags. The item_id
-field is the primary key for editor integration.
+**Status:** disproved independent alias. The former bank duplicated Skills
+byte-for-byte and is retained only as a tombstone. No separate item table has
+been located; `0x546100` must not be written through an item schema.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| padding | u32 | Always 0 |
-| count | u16 | Usage count (typically 5) |
-| type_id | u16 | Item/technique type (0x0120, 0x0122) |
-| skill_id | u16 | Skill/technique ID |
-| value | u16 | Effect value (often 612) |
-| flags | u16 | Item flags (0x0401) |
-| extra_id | u16 | Extra identifier |
+The 12×16-byte data previously shown here belongs solely to the unresolved
+technique/skills candidate. Sharing an address does not create an item schema.
 
 ---
 
@@ -345,16 +360,15 @@ These may contain graphics, sound effects, or other game resources.
 
 ---
 
-## 22. Sappy Engine (0x079668)
+## 22. Message dispatcher code (legacy `sappy-engine` slug, 0x079668)
 
 **Format:** Code region (not a data table)  
 **Entry Size:** N/A  
-**Semantics:** Custom Sappy audio dispatcher at 0x08079668 (file offset
-0x079668). Not the standard GBA `m4aSongNumStart`. Supports:
-- Commands 0x64-0x67: BGM channel control
-- Commands 0x80-0xE3: Indexed lookup into 100-entry pointer table at 0x08599634
-- 15 BL call sites from 6 unique functions
-- Per-scenario BGM assigned via `config_struct[0x770]`
+**Semantics:** Message-selection dispatcher at `0x08079668` (file offset
+`0x079668`). Values `0x80..0xE3` index the 100-entry table at `0x08599634`;
+the selected pointer is passed to message-object setup at `0x08066758` and
+text parsing at `0x0806626C`. Values `0x64..0x67` select four pointers from the
+caller's state. The former Sappy/audio interpretation is revoked.
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -379,23 +393,16 @@ save (mode 0) and load (mode 1).
 
 ---
 
-## 24. Skills (0x546100)
+## 24. Skills (0x545BE4)
 
-**Format:** u16[8] × 12 — 12 skill/technique entries  
-**Entry Size:** 16 bytes  
-**Semantics:** Skill/technique definitions. Referenced from battle init code
-at 0x06E6D2 (LDR R1, =0x085461C4). The pointer 0x5461C4 is the base for
-indexing into this table.
+**Format:** 94 × 16-byte skill/technique templates
+**Entry Size:** 16 bytes
+**Evidence:** code verified at `0x0806D910`
 
-| Field | Type | Description |
-|-------|------|-------------|
-| padding | u32 | Always 0 |
-| count | u16 | Usage count (typically 5) |
-| type_id | u16 | Skill type (0x0120=normal, 0x0122=special) |
-| skill_id | u16 | Unique skill identifier |
-| value | u16 | Skill power/effect value (often 612) |
-| flags | u16 | Skill flags (0x0401) |
-| extra_id | u16 | Extra identifier |
+The consumer indexes `0x08545BE4 + skill_id*16` and copies bytes `+0..+9` to
+the runtime structure. Bytes `+0x0A..+0x0F` are preserved losslessly but are
+not copied by this initializer. Previous u16 field names derived from the
+misbased `0x546100` slice are revoked pending runtime UI/action correlation.
 
 ---
 
@@ -413,31 +420,29 @@ references.
 
 ---
 
-## 26. Story (0x53636C)
+## 26. Primary chapter-flow scripts (0x60C74)
 
-**Format:** u32 × 9 — 9 pointers to chapter data  
-**Entry Size:** 4 bytes  
-**Semantics:** Primary story/chapter pointer table. Chapter 0 has a different
-structure (header with scene pointers). Chapters 1-8 have encoded beat data
-starting with 0xBE 0x69 0xBC 0x00.
+**Format:** 56 × u32 script pointer; entry 0 is null
 
-| Field | Type | Description |
-|-------|------|-------------|
-| chapter_ptr | u32 | Pointer to chapter data |
+`0x0808F544` indexes this table by scenario ID when chapter state `+0x18` is
+zero and passes the script to `0x080977B8`. Runtime scenario 39 selected
+`0x08031020`; opcode `1A 28 02 00` at `0x08031070` wrote battle ID 40.
 
 ---
 
-## 27-30. Story B/C/D/E (0x536BC8, 0x538FF0, 0x53AB78, 0x53C3C0)
+## 27. Alternate chapter-flow scripts (0x60D54)
 
-**Format:** u32 × 9-11 — Chapter pointer tables  
-**Entry Size:** 4 bytes  
-**Semantics:** Additional story/chapter pointer tables. These likely represent
-different story routes, alternate timelines, or post-game content. Each
-table has slightly different entry counts (9-11).
+Same 56-entry format and consumer, selected when state `+0x18` is nonzero.
+The table identity is code verified; an alternate-route live sample is pending.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| chapter_ptr | u32 | Pointer to chapter data |
+## 28-30. Disproved Story C/D/E slices
+
+These also begin at real descriptor `+4`. Their `0x800000NN` headers at
+`0x538FEC`, `0x53AB74`, and `0x53C3BC` exactly account for the
+former pointer counts. `0x0809AAC0`-family consumers select them through the
+`0x465B70` object/resource master table. These three banks are write-disabled
+tombstones. The equivalent old `story`/`story-b` slices are also disproved, but
+their catalog slugs have been reused for the real flow tables above.
 
 ---
 
@@ -467,8 +472,18 @@ that table is a separate u16 object/rendering offset lookup.
 | Field | Type | Description |
 |-------|------|-------------|
 | character_id | derived | Table index, not stored as a record byte |
-| field_00..field_03 | u8 | Conservative raw fields pending semantics |
-| raw_hex | bytes | Complete 0xB4 record retained losslessly |
+| active_flag | u8 +0 | 0 for sentinel row 0, 1 for active definitions |
+| template_02/03/04/05/06/08_base | u8 +1..+6 | Base values consumed by `0x0806D964`; names preserve proven template destinations |
+| template_0a_base | u16 +8 | Copied to runtime template +0x0A |
+| template_0e_base | u16 +0x0A | Added to growth result and written to template +0x0E |
+| primary_slots | 15×4 bytes +0x0C | ID, initial state, unlock level, reserved; copied to template +0x14 array |
+| secondary_slots | 24×4 bytes +0x48 | Same layout; copied to template +0x50 array |
+| filtered candidate IDs | 9 bytes +0xA8 | Filtered through `0x0808FA34` into template +0xB1 list |
+| raw_hex | bytes | Complete 0xB4 record retained losslessly and guarded for writeback |
+
+Player-facing stat labels remain intentionally unset. The persistent
+`rom_character_definitions` mirror supports exact-record writes only after
+immutable-base, offset, length, sentinel and active-flag checks.
 
 ---
 

@@ -37,8 +37,8 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
         self.assertEqual(CHARACTER_DEFINITION_COUNT, 63)
         self.assertEqual(CHARACTER_DEFINITION_STRIDE, 0x00B4)
         self.assertEqual(CHARACTER_DEFINITIONS_END, 0x545068)
-        self.assertEqual(NEXT_GROWTH_TABLE_FILE, 0x54507A)
-        self.assertEqual(POST_TABLE_GAP_SIZE, 18)
+        self.assertEqual(NEXT_GROWTH_TABLE_FILE, 0x545068)
+        self.assertEqual(POST_TABLE_GAP_SIZE, 0)
         self.assertEqual(WRAM_TEMPLATE_POOL, 0x02022E34)
         self.assertEqual(WRAM_TEMPLATE_COUNT, 24)
         self.assertEqual(WRAM_TEMPLATE_STRIDE, 0x00BC)
@@ -54,8 +54,8 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
         self.assertEqual(bank["format"]["table_end"], CHARACTER_DEFINITIONS_END)
         self.assertEqual(bank["format"]["next_growth_table"], NEXT_GROWTH_TABLE_FILE)
         self.assertEqual(bank["format"]["post_table_gap_size"], POST_TABLE_GAP_SIZE)
-        self.assertEqual(bank["format"]["post_table_gap_hex"], "00000000000000000000000000000000aa05")
-        self.assertEqual(bank["format"]["post_table_zero_prefix"], 16)
+        self.assertEqual(bank["format"]["post_table_gap_hex"], "")
+        self.assertEqual(bank["format"]["post_table_zero_prefix"], 0)
 
     def test_record_offsets_are_unique_and_lossless(self):
         rom = BASE_ROM.read_bytes()
@@ -80,6 +80,18 @@ class ExtractCharacterDefinitionsTests(unittest.TestCase):
         self.assertEqual(samples[40]["raw_hex"][:32], "010f0a0a0300000000004b0055010000")
         self.assertEqual(samples[62]["rom_offset"], 0x544FB4)
         self.assertEqual(samples[62]["raw_hex"][:32], "011405280306030005000a0001030000")
+
+    def test_loader_derived_fields_and_slot_arrays_are_exposed(self):
+        entry = extract_character_definitions(BASE_ROM.read_bytes())["entries"][1]
+        self.assertEqual(entry["active_flag"], 1)
+        self.assertEqual(entry["template_02_base"], 14)
+        self.assertEqual(entry["template_0a_base"], 15)
+        self.assertEqual(entry["template_0e_base"], 80)
+        self.assertEqual(len(entry["primary_slots"]), 15)
+        self.assertEqual(len(entry["secondary_slots"]), 24)
+        self.assertEqual(entry["primary_slots"][0], {
+            "slot": 0, "id": 2, "initial_state": 1, "unlock_level": 0, "reserved": 0,
+        })
 
     def test_cli_writes_bank_compatible_json(self):
         with tempfile.TemporaryDirectory() as tmp:

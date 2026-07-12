@@ -8,12 +8,19 @@ const {
   buildNavigationPlan, classifyMemorySnapshot, matchFormationPositions,
   buildArtifactPaths, buildProbeResult,
   buildSettlePlan, decodeBattleControl, decodeMapRuntime, classifyScreenMetrics,
-  tailTransitionDecision, shouldRetryBack,
+  tailTransitionDecision, shouldRetryBack, decodeSaveRecord, compareSaveRecords,
+  evaluateBattleArrival,
+  decodeChapterScriptProbe,
 } = require('./runtime-formation-probe-lib');
 
 const URL = process.env.PROBE_URL || 'https://sh.kibox.com.cn/gba-naruto/play/';
 const BROWSER_EXECUTABLE = process.env.PROBE_BROWSER || '/usr/bin/chromium';
 const PROBE_ROM = process.env.PROBE_ROM || '';
+const AUDIO_PROBE_RESULT = 0x0203FF60;
+const NATURAL_SAVE_PROBE_RESULT = 0x0203FF40;
+const POSTBATTLE_PROBE_LATCH = 0x0203FF30;
+const FORCED_SAVE_CASE_HIT = 0x0203FF20;
+const STOP_ON_MATCH = process.env.PROBE_STOP_ON_MATCH !== '0';
 const ROOT = path.resolve(__dirname, '..', '..');
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
 const UNITS_BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/units/bank.json'), 'utf8'));
@@ -29,6 +36,19 @@ const TEMPLATE_COUNT = 24;
 const SLOT_COUNT = 21;
 const BATTLE_CONTROL = 0x02026804;
 const MAP_RUNTIME = 0x0201BE28;
+const SAVE_RECORDS = [
+  { index: 3, offset: 0x2548, length: 4732 },
+  { index: 4, offset: 0x37D8, length: 20 },
+  { index: 5, offset: 0x3800, length: 8 },
+  { index: 6, offset: 0x381C, length: 24 },
+  { index: 7, offset: 0x3848, length: 6084 },
+  { index: 8, offset: 0x5020, length: 1404 },
+  { index: 9, offset: 0x55B0, length: 512 },
+];
+const SAVE_PROBE_RESULT = 0x0203FFF0;
+const EFFECT_PROBE_RESULT = 0x0203FFD0;
+const CHAPTER_SCRIPT_PROBE_RESULT = 0x0203FFB0;
+const SAVE_GROUP_PROBE_RESULT = 0x0203FFA0;
 const GBA_KEYS = {
   Enter: 'Start',
   KeyZ: 'A',
@@ -164,6 +184,37 @@ async function readGbaBytes(page, address, length) {
   }, { address, length }));
 }
 
+async function readSaveRecords(page) {
+  const exported = await page.evaluate(() => {
+    const save = window.__mGBA?.getSave?.();
+    return save ? Array.from(save) : null;
+  });
+  const exportAvailable = Array.isArray(exported) && exported.length > 0;
+  const saveBytes = exportAvailable ? Uint8Array.from(exported) : new Uint8Array(0x10000).fill(0xFF);
+  const records = [];
+  for (const record of SAVE_RECORDS) {
+    if (record.offset + record.length + 1 > saveBytes.length) {
+      throw new Error(`exported save is too short for descriptor ${record.index}: ${saveBytes.length} bytes`);
+    }
+    records.push({
+      descriptorIndex: record.index,
+      payloadLength: record.length,
+      saveExportAvailable: exportAvailable,
+      saveFileSize: saveBytes.length,
+      ...decodeSaveRecord(record.offset, saveBytes.subarray(record.offset, record.offset + record.length + 1)),
+    });
+  }
+  return records;
+}
+
+async function persistSaveExport(page) {
+  const outputPath = process.env.PROBE_SAVE_DUMP;
+  if (!outputPath) return null;
+  const exported = await page.evaluate(() => Array.from(window.__mGBA?.getSave?.() || []));
+  fs.writeFileSync(outputPath, Buffer.from(exported));
+  return { path: outputPath, size: exported.length };
+}
+
 async function installProbeRomRoute(page, romPath) {
   if (!romPath) return null;
   const absolutePath = path.resolve(romPath);
@@ -235,6 +286,7 @@ async function main() {
       && window.__mGBA._readGbaByte(0x08000000) !== -1
     ), { timeout: 90000, polling: 1000 });
     await page.evaluate(() => document.querySelector('.speed-btn[data-speed="4"]')?.click());
+    const initialSaveRecords = await readSaveRecords(page);
     const plan = buildNavigationPlan({
       startCount: Number(process.env.PROBE_START_COUNT ?? 30),
       advanceCount: Number(process.env.PROBE_ADVANCE_COUNT ?? 80),
@@ -253,15 +305,18 @@ async function main() {
     });
     let previous = null;
     let lastDiagnostic = null;
+    let latestMatch = null;
     const stages = [];
     for (let index = 0; index < plan.length; index += 1) {
       const action = plan[index];
       await sleep(action.delayMs);
       await pressGbaKey(page, action.key, action.holdMs);
+      let screenMetrics = null;
       let screenState = null;
       let adaptiveRetries = 0;
       if (action.phase === 'tail' && action.key === 'KeyX') {
-        screenState = classifyScreenMetrics(await captureScreenMetrics(page));
+        screenMetrics = await captureScreenMetrics(page);
+        screenState = classifyScreenMetrics(screenMetrics);
         let decision = tailTransitionDecision(screenState);
         while (decision !== 'ready' && adaptiveRetries < 20) {
           adaptiveRetries += 1;
@@ -269,9 +324,14 @@ async function main() {
           if (shouldRetryBack(decision, adaptiveRetries)) {
             await pressGbaKey(page, action.key, action.holdMs);
           }
-          screenState = classifyScreenMetrics(await captureScreenMetrics(page));
+          screenMetrics = await captureScreenMetrics(page);
+          screenState = classifyScreenMetrics(screenMetrics);
           decision = tailTransitionDecision(screenState);
         }
+      }
+      if (screenState === null) {
+        screenMetrics = await captureScreenMetrics(page);
+        screenState = classifyScreenMetrics(screenMetrics);
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
       const templateSnapshot = await readGbaBytes(page, TEMPLATE_POOL, TEMPLATE_STRIDE * TEMPLATE_COUNT);
@@ -294,15 +354,29 @@ async function main() {
         characterDefinitionMatches,
         battleControl,
         mapRuntime,
+        saveProbeHex: Buffer.from(await readGbaBytes(page, SAVE_PROBE_RESULT, 2)).toString('hex'),
+        effectProbeHex: Buffer.from(await readGbaBytes(page, EFFECT_PROBE_RESULT, 16)).toString('hex'),
+        chapterScriptProbe: decodeChapterScriptProbe(await readGbaBytes(page, CHAPTER_SCRIPT_PROBE_RESULT, 12)),
+        saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
+        audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
+        naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
+        postbattleProbeLatchHex: Buffer.from(await readGbaBytes(page, POSTBATTLE_PROBE_LATCH, 4)).toString('hex'),
+        forcedSaveCaseHitHex: Buffer.from(await readGbaBytes(page, FORCED_SAVE_CASE_HIT, 4)).toString('hex'),
+        screenMetrics,
         screenState,
         adaptiveRetries,
       };
       if (runtimePositions.length > 0) {
         const match = matchFormationPositions(BANK.entries, runtimePositions);
-        console.log(JSON.stringify({ step: index + 1, phase: action.phase, status, runtimePositions, match }));
-        if (match.best && match.best.missing === 0 && match.unique) {
+        latestMatch = match;
+        const arrival = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState });
+        lastDiagnostic.arrival = arrival;
+        console.log(JSON.stringify({ step: index + 1, phase: action.phase, status, runtimePositions, match, screenState, arrival }));
+        if (STOP_ON_MATCH && arrival.arrived) {
+          lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+          lastDiagnostic.saveExport = await persistSaveExport(page);
           await page.screenshot({ path: artifacts.finalScreenshotPath });
-          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'unique-formation', stages, final: lastDiagnostic, match }), null, 2)}\n`);
+          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: arrival.reason, stages, final: lastDiagnostic, match }), null, 2)}\n`);
           return;
         }
       } else if (status.state === 'changed') {
@@ -315,6 +389,13 @@ async function main() {
         stages.push({ ...lastDiagnostic, screenshotPath });
       }
       previous = snapshot;
+    }
+    if (!STOP_ON_MATCH && lastDiagnostic?.arrival?.arrived) {
+      lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+      lastDiagnostic.saveExport = await persistSaveExport(page);
+      await page.screenshot({ path: artifacts.finalScreenshotPath });
+      fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-full-plan', stages, final: lastDiagnostic, match: latestMatch }), null, 2)}\n`);
+      return;
     }
     for (const settle of settlePlan) {
       await sleep(settle.delayMs);
@@ -330,6 +411,8 @@ async function main() {
       const runtimeTemplates = extractRuntimeTemplates(templateSnapshot);
       const templateMatches = matchTemplatesToUnits(templateSnapshot, snapshot, runtimePositions);
       const characterDefinitionMatches = matchTemplatesToCharacterDefinitions(templateSnapshot, UNITS_BANK);
+      const screenMetrics = await captureScreenMetrics(page);
+      const screenState = classifyScreenMetrics(screenMetrics);
       lastDiagnostic = {
         step: plan.length + settle.poll,
         phase: settle.phase,
@@ -344,16 +427,30 @@ async function main() {
         characterDefinitionMatches,
         battleControl,
         mapRuntime,
+        saveProbeHex: Buffer.from(await readGbaBytes(page, SAVE_PROBE_RESULT, 2)).toString('hex'),
+        effectProbeHex: Buffer.from(await readGbaBytes(page, EFFECT_PROBE_RESULT, 16)).toString('hex'),
+        chapterScriptProbe: decodeChapterScriptProbe(await readGbaBytes(page, CHAPTER_SCRIPT_PROBE_RESULT, 12)),
+        saveGroupProbeHex: Buffer.from(await readGbaBytes(page, SAVE_GROUP_PROBE_RESULT, 8)).toString('hex'),
+        audioProbeHex: Buffer.from(await readGbaBytes(page, AUDIO_PROBE_RESULT, 16)).toString('hex'),
+        naturalSaveProbeHex: Buffer.from(await readGbaBytes(page, NATURAL_SAVE_PROBE_RESULT, 4)).toString('hex'),
+        postbattleProbeLatchHex: Buffer.from(await readGbaBytes(page, POSTBATTLE_PROBE_LATCH, 4)).toString('hex'),
+        forcedSaveCaseHitHex: Buffer.from(await readGbaBytes(page, FORCED_SAVE_CASE_HIT, 4)).toString('hex'),
+        screenMetrics,
+        screenState,
       };
       if (runtimePositions.length > 0) {
         const match = matchFormationPositions(BANK.entries, runtimePositions);
-        console.log(JSON.stringify({ ...lastDiagnostic, match }));
-        if (match.best && match.best.missing === 0 && match.unique) {
+        const arrival = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState });
+        lastDiagnostic.arrival = arrival;
+        console.log(JSON.stringify({ ...lastDiagnostic, match, arrival }));
+        if (arrival.arrived) {
+          lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+          lastDiagnostic.saveExport = await persistSaveExport(page);
           const screenshotPath = artifacts.phaseScreenshot('settle');
           await page.screenshot({ path: screenshotPath });
           stages.push({ ...lastDiagnostic, screenshotPath });
           await page.screenshot({ path: artifacts.finalScreenshotPath });
-          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'unique-formation-after-settle', stages, final: lastDiagnostic, match }), null, 2)}\n`);
+          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-settle', stages, final: lastDiagnostic, match }), null, 2)}\n`);
           return;
         }
       } else if (status.state === 'changed') {
@@ -384,4 +481,5 @@ module.exports = {
   matchTemplatesToCharacterDefinitions,
   matchTemplatesToUnits,
   readGbaBytes,
+  readSaveRecords,
 };

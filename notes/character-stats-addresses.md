@@ -7,6 +7,13 @@
 `runtimeTemplates[slot=1]` 完全一致。下面的字段表只能作为历史假设保留，不能作为
 `character-stats` bank `0x54507A` 的动态证据。
 
+**结论更新（2026-07-11，后续调查）：** 旧 `0x54507A` bank 也已撤销。
+真正的成长表是 file `0x545068`，63×`0x10`，由 `0x0806D964` 直接消费；
+`0x54507A` 是 character ID 1 记录的 `+2`，不是表头。旧 `0x545200`
+“B 表”位于 character ID 25 记录的 `+8`，同样不是独立表。权威消费链和动态
+A/B 结果见 `notes/character-growth-runtime-chain-20260711.md`。下面的 WRAM 字段表
+只作为第三方历史材料保留。
+
 旧假设 WRAM 地址范围：`0x02022EF0` - `0x02022FDF`（每角色 0x50 字节）
 
 ---
