@@ -116,6 +116,10 @@
   把 payload/checksum 起点提前19字节，旧“冷加载必须命中 0x08068AF0”也混淆了
   optional battle restore caller，均已纠正。详见
   `notes/tutorial-victory-save-load-runtime-20260712.md`
+- 已新增 `0x60D54` 受控运行时探针：仅将 `0x0808F5A4` 的 selector 分支改为
+  fall-through alternate path，并复用 opcode tracer。两次自动路线分别停在前置对白
+  与人物页，hook hit=0，因此严格不升级 story-b；实验哈希、假阳性边界和下一接受
+  门槛见 `notes/alternate-chapter-runtime-probe-20260712.md`。
 - Phase 1/2/6 框架级完成
 
 ### 🔴 核心瓶颈（P0 — 逆向工程阶段）
