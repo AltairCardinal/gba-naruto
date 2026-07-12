@@ -240,12 +240,14 @@
 - 47/47 tileset atlas 已由真实 descriptor 指针导出
 - m4a SongHeader 已纠正：`+4` voicegroup，`+8` track sequences
 - 已导出 217 条 track blob、23 个 voicegroup、387 个 tone、79 个 WAV
-- 待完成 track opcode 解码、整曲混音/渲染和可听 cue 命名
+- 217 条 track 已结构化解码为 18,090 条命令和 6,750 个 note/tie；1,287 个
+  控制流目标全部落在已知 track 范围
+- 待完成 pattern/timing 执行、整曲混音/渲染和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 解码 m4a track opcode 并构建多轨可播放导出（下一步）
+3. 执行 m4a pattern/timing 并构建多轨可播放导出（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

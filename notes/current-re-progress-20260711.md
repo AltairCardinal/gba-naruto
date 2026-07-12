@@ -37,8 +37,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   code-verified.
 - Audio dispatcher/track/FIFO chain is mapped and sound-ID mirror writeback is
   guarded. The corrected m4a extractor exports 217 track blobs, 23 voicegroups,
-  387 tones and 79 pointer-reachable WAVs. Forty-seven of 47 tileset atlases
-  are exported.
+  387 tones and 79 pointer-reachable WAVs. All tracks structurally decode to
+  18,090 commands and 6,750 note/tie events with 1,287/1,287 valid control-flow
+  targets. Forty-seven of 47 tileset atlases are exported.
 - Variable dialogue uses audited partition `0x5F0000..0x5FFFFF`; a real 6→20
   byte relocation at pointer `0x461CF0` survived build, boot, dialogue and strict
   first-battle arrival.
@@ -53,8 +54,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   A normal first-battle-entry route does not save. Forced state/gates stall in
   earlier result UI/resource stages and are not accepted as proof. The valid
   next experiment is an actual battle victory or genuine post-victory state.
-- Decode track opcodes, render complete multi-track songs and assign audible
-  cue names. Raw track streams and reachable samples are now extracted.
+- Execute track timing/pattern semantics, render complete multi-track songs and
+  assign audible cue names. Raw streams, opcode boundaries, control targets and
+  reachable samples are now extracted.
 - Runtime-close the alternate chapter table `0x60D54` and remaining map
   resource-pointer semantics.
 - Correlate remaining unit/growth/skill fields with player-visible UI labels.

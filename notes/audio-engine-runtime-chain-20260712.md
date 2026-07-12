@@ -47,6 +47,27 @@ to the unsigned 8-bit representation required by RIFF. Outputs and a manifest
 are in `build/audio-v2/`. The legacy `tools/extract_audio.py` 12-byte heuristic
 is explicitly superseded.
 
+## Track command structural decode
+
+`tools/decode_m4a_tracks.py` implements the command IDs and parameter widths
+from pret/pokeemerald's primary `sound/MPlayDef.s` definition, then validates
+them against this ROM rather than assuming game compatibility. The source used
+is <https://github.com/pret/pokeemerald/blob/master/sound/MPlayDef.s>.
+
+All 217 extracted tracks decode without an unknown opcode or truncated command:
+
+- 18,090 structural commands;
+- 6,750 note/tie events;
+- 1,287 GOTO/PATT/REPT control-flow targets;
+- zero targets outside known track ranges;
+- all 217 tracks contain FINE; 138 also contain GOTO loops.
+
+The durable output is `build/audio-v2/tracks-decoded.json`. This closes command
+boundaries, running-note status and control-flow pointer identity. It does not
+yet execute PATT/REPT timing, resolve multi-level voicegroups, synthesize PSG
+tones, or render a complete song, so MIDI/audio rendering remains a separate
+completion gate.
+
 ## Runtime proof
 
 `tools/build_audio_runtime_probe.py` replaces only the checked BL at
