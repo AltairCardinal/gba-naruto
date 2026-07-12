@@ -30,3 +30,8 @@ the runtime-state index or each callback's player-visible purpose.
 Legacy `rom_map_events` rows are diagnostic-only. They cannot be safely mapped
 to the complete pair schema. A future editor migration needs 256 rows with
 explicit primary and secondary columns plus Thumb-pointer validation.
+
+The historical `battle-handlers@0x53E6D8` bank is another alias of this same
+table: `0x53E6D8 = 0x53E698 + 8*8`, and its fourteen words flatten pair records
+8..14. It is retained as an empty, write-disabled tombstone; its legacy editor
+rows are also diagnostic-only.

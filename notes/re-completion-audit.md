@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-12T16:34:01.319216+00:00`
+生成时间：`2026-07-12T16:38:01.123302+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -8,14 +8,14 @@
 
 - 发现 `32` / 预期 `32` 个 bank。
 - 同时满足六项元数据与字节检查：`32` / `32`。
-- 有效数据 bank：`26`；已证伪且保持空条目的安全 tombstone：`6`。
+- 有效数据 bank：`25`；已证伪且保持空条目的安全 tombstone：`7`。
 - `table_offset`：`32` / `32`。
 - `format`：`32` / `32`。
 - `entries`：`32` / `32`。
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=6, `disproved`=6, `runtime_verified`=9, `static_verified`=11。
+- verification 分布：`code_verified`=6, `disproved`=7, `runtime_verified`=9, `static_verified`=10。
 
 ## 逐结构结果
 
@@ -24,7 +24,7 @@
 | `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (21) | ✅ (240) | ✅ | — |
 | `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `runtime_verified` | ✅ (18) | ✅ (480) | ✅ | — |
 | `battle-encounters` | ✅ `0x54229C` | ✅ | ✅ (24) | ✅ `code_verified` | ✅ (11) | ✅ (96) | ✅ | — |
-| `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (14) | ✅ `static_verified` | ✅ (10) | ✅ (14) | ✅ | — |
+| `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (12) | ✅ (0) | ✅ | — |
 | `character-stats` | ✅ `0x545068` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (15) | ✅ (504) | ✅ | — |
 | `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
 | `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `code_verified` | ✅ (12) | ✅ (16) | ✅ | — |

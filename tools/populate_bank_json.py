@@ -82,25 +82,8 @@ def populate_battle_encounters(rom: bytes):
 
 
 def populate_battle_handlers(rom: bytes):
-    """Battle handlers at 0x53E6D8: 14 entries × 4 bytes (u32 code pointers)."""
-    off = 0x53E6D8
-    entries = []
-    unique_ptrs = set()
-    for i in range(14):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        unique_ptrs.add(ptr)
-        entries.append({
-            "id": f"handler_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "handler_ptr": ptr,
-            "handler_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("battle-handlers", entries, {
-        "unique_handler_count": len(unique_ptrs),
-        "unique_handlers": [fmt_hex(p) for p in sorted(unique_ptrs)]
-    })
+    """Preserve the disproved battle-handler alias tombstone."""
+    return None
 
 
 def populate_character_stats_b(rom: bytes):

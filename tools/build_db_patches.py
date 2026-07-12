@@ -979,17 +979,31 @@ def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_battle_handler_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for battle handler pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The battle handler table at 0x53E6D8 contains 14 entries of u32
-    pointers to Thumb event handler code.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_battle_handlers", index_column="_idx",
-        pointer_column="handler_ptr", table_offset=0x53E6D8,
-        entry_count=14, pointer_kind="thumb",
-    )
+    """Reject rows from the disproved handler-pair alias."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            'SELECT _idx, _rom_offset, handler_ptr FROM "rom_battle_handlers" '
+            'ORDER BY _idx'
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    patches = [
+        {
+            "type": "db_battle_handler_unmapped",
+            "db_table": "rom_battle_handlers",
+            "db_row_id": int(row["_idx"]),
+            "error": "legacy bank duplicates canonical handler-pair records 8..14",
+            "description": f"DB[rom_battle_handlers] row={int(row['_idx'])}: diagnostic only",
+        }
+        for row in rows
+    ]
+    conn.close()
+    return patches
 
 def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
     """Reject the disproved legacy ``character_stats_b`` write path.

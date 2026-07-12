@@ -71,7 +71,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 1 | Audio | 0x53F138 | u32 × 88 | 88 | static_verified | ✅ |
 | 2 | Battle Config | 0x545458 | u16[8] × 32 | 16 | static_verified | ✅ |
 | 3 | Story visual descriptors | 0x54229C | 3 LZ pointers + config × 24 | 24 | code_verified | legacy writes disabled |
-| 4 | Battle Handlers | 0x53E6D8 | u32 × 14 | 14 | static_verified | ✅ |
+| 4 | Battle Handlers | 0x53E6D8 | alias of handler pairs 8..14 | 0 | disproved | disabled |
 | 5 | Character Stats | 0x54507A | u16[8] × 20 | 20 | static_verified | ✅ |
 | 6 | Character Stats B | 0x545200 | u16[8] × 18 | 18 | static_verified | ✅ |
 | 7 | Cutscene visual resources | 0x53DF70 | pointer pair × 8 | 8 | code_verified | ✅ |

@@ -10,9 +10,9 @@
 
 ## 现状总览
 
-> 2026-07-12 当前调查闭合审计为 32/32：26 个有效数据 bank 均通过元数据和
-> 基准 ROM fidelity，另 6 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 9 / code 6 / static 11 / disproved 6。32/32 只表示
+> 2026-07-12 当前调查闭合审计为 32/32：25 个有效数据 bank 均通过元数据和
+> 基准 ROM fidelity，另 7 个是带负证据、空 entries、禁写回的 `disproved`
+> tombstone。分布为 runtime 9 / code 6 / static 10 / disproved 7。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -351,9 +351,9 @@
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
-- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：26 个有效 bank 必须有非空 entries 和 ROM fidelity；6 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 11 个 `static_verified`、6 个 `code_verified`、9 个
-  `runtime_verified`、6 个 `disproved`；仍不能作为“100% 完成”的单独证据。
+- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：25 个有效 bank 必须有非空 entries 和 ROM fidelity；7 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
+- 最新严格审计分布为 10 个 `static_verified`、6 个 `code_verified`、9 个
+  `runtime_verified`、7 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
 
@@ -386,6 +386,8 @@
 - 历史 `map-events@0x53EB08` 已纠正为完整 `0x53E698` 256×8-byte handler
   pair 表的 index 142 起始切片；消费者按 runtime state byte 同时选择 primary /
   secondary callback，因此升级 code_verified，旧47行 editor view 禁写。
+- `battle-handlers@0x53E6D8` 又被证明是同一 handler-pair 表的 records 8..14
+  重复视图，现为空、禁写的 disproved tombstone。
 - `character-stats-b@0x545200` 被证明是 record 25 `+8` 的错位别名，保留
   disproved tombstone；错误 bytes 写回已改为 diagnostic。
 - 交付：`tools/extract_character_growth.py`、
