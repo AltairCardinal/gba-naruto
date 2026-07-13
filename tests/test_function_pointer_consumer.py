@@ -18,7 +18,14 @@ class FunctionPointerConsumerTest(unittest.TestCase):
         self.assertEqual(pointers, [entry["func_ptr"] for entry in self.bank["entries"]])
         self.assertEqual(self.rom[0x61DD4:0x61DDE].hex(), "094ba000c01800680860")
         self.assertEqual(struct.unpack_from("<I", self.rom, 0x61DFC)[0], 0x0853D5F0)
-        self.assertEqual(self.bank["verification"], "code_verified")
+        self.assertEqual(self.bank["verification"], "runtime_verified")
+        self.assertIn("natural cold-load profile route hit callback ID 2", self.bank["verification_method"])
+        evidence = json.loads(
+            (ROOT / "artifacts/runtime-checkpoints/function-pointer-runtime-evidence.json").read_text()
+        )
+        self.assertEqual(evidence["control"]["callback_2_entry"], "0x0853D5F8")
+        self.assertEqual(evidence["control"]["callback_2_selected_pointer"], "0x08061C99")
+        self.assertEqual(evidence["single_factor_patch"]["size"], 4)
         self.assertEqual(self.bank["consumer"]["callback_load"], "0x08061DD4..0x08061DDC")
 
     def test_wrappers_encode_one_based_callback_ids(self):

@@ -193,6 +193,11 @@ dialogue glyph lookup is the separate `0x53D644` chain.
 
 ## 12. Function Pointers (0x53D5F4)
 
+**Status:** runtime verified. Natural profile navigation selected callback ID 2
+twice from `0x0853D5F8` and read `0x08061C99`. Replacing only that entry with
+the adjacent valid wrapper changed the visible UI task transition. Arbitrary targets
+remain unsafe: write-back must preserve the Thumb bit and the validated code range.
+
 **Format:** u32 × 11 — 11 pointers to Thumb code  
 **Entry Size:** 4 bytes  
 **Semantics:** Table of function pointers used by the game's event system.

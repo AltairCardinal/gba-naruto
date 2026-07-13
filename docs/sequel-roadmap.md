@@ -354,7 +354,7 @@
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
 - 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：23 个有效 bank 必须有非空 entries 和 ROM fidelity；9 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 0 个 `static_verified`、14 个 `code_verified`、9 个
+- 最新严格审计分布为 0 个 `static_verified`、11 个 `code_verified`、12 个
   `runtime_verified`、9 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
@@ -410,7 +410,11 @@
   可见差异，因此作为路径验证保留，skills 仍严格为 code_verified
 - function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
   `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
-  11个 wrapper 均把对应 ID 传给 `0x08061C58`，因此升级为 code_verified
+  11个 wrapper 均把对应 ID 传给 `0x08061C58`。自然冷启动人物资料路线两次命中
+  ID 2 / entry `0x0853D5F8` / pointer `0x08061C99`；只把该四字节槽替换为相邻
+  wrapper 3 后，同一输入提前分叉并留下未完成资料面板，因此升级 runtime_verified。
+  variant 在再次 dispatch ID 2 前已分叉，其专用 scratch 为零，证据不把它误写成
+  第二次 pointer hit
 - `encounter-zones` 已证伪：其47行完整重复 maps，所谓 `zone_id` 实为已运行时
   追踪的 map `flags`/渲染配置字段；旧 bank 现为空且禁写。
 - 历史 `cutscene-scripts@0x53DF70` 已修正为两个相邻的四记录视觉资源表：
