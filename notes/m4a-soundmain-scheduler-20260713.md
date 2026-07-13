@@ -62,7 +62,9 @@ player order, the gate-1 silent boundary, ring wrap and positive/negative
 reverb seeds. Compact evidence is
 `artifacts/audio/mixer-scheduler-evidence.json`.
 
-The remaining final renderer work is the persistent command VM and channel
-allocator: execute runtime GOTO/PATT/REPT, propagate track state, schedule note
-gates/envelopes, combine every active DirectSound channel, and advance the
-already-modeled noise oscillator on the same 264-frame timeline.
+The persistent control VM is now closed in `notes/m4a-command-vm-20260713.md`:
+all 217 tracks execute WAIT/GOTO/PATT/REPT across a bounded runtime without the
+MIDI loop cutoff. Remaining final renderer work is the musical-state/channel
+allocator: propagate track state, schedule note gates/envelopes, combine every
+active DirectSound channel, and advance the already-modeled noise oscillator
+on the same 264-frame timeline.

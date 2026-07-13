@@ -123,7 +123,8 @@ sample, loop/end, reverb seed and modulo-256 buffer arithmetic are closed in
 `notes/directsound-mixer-runtime-chain-20260713.md`. The exact tempo accumulator,
 linked-player ordering, 264-frame SoundMain cadence and six-chunk DMA/reverb
 ring are closed in `notes/m4a-soundmain-scheduler-20260713.md`. The persistent
-command VM/channel allocator and combined PSG/DirectSound song render remain open.
+WAIT/GOTO/PATT/REPT VM now runs all 217 tracks beyond loop edges; musical-state
+channel allocation and the combined PSG/DirectSound song render remain open.
 
 ## Runtime proof
 

@@ -98,3 +98,16 @@ story-only，并有意转入故事后的队伍/任务准备 UI。
 `A880=3`、Naruto level 2、分配前 `+BA=1`，并命中
 `0x0808E16E→0x08093698`。紧凑证据见
 `artifacts/runtime-checkpoints/natural-scenario-41-runtime-evidence.json`。
+
+## scenario 41 终止后的队伍 UI 状态边界
+
+从 terminal 后稳定菜单逐键采样，chapter selector 始终为 2 hits / scenario 41，
+opcode count 44；outer state `+0x12=0x0100/+0x16=41/+0x18=1`、battle=0、A880=0
+均不变。A 或 Up+A 进入队伍页；Down+A、Down×2+A、Down×3+A、Start、B 会进入不同
+子页/黑屏转场，但没有一个产生新 selector 或 SetBattle。变化集中在 UI 子状态：A882/
+A884 会从 1 变 2，部分返回路径变 0，A885 可变为 `0xFC`。
+
+这证明 chapter outer state 只保留章节级状态，不能判断队伍配置条件。第二战入口不在
+“菜单直接触发 selector”，必须先满足队伍 UI 内部条件。下一探针应记录 A882/A884/
+A885 writer 的调用返回，同时保留 selector `0x0808F5CC` 与 SetBattle
+`0x08097C78`；不得继续靠固定方向键或截图猜选中项。
