@@ -27,6 +27,12 @@ palette source 从 `0x08170F90` 安全移到 `0x08170F98`。control 经过真实
 Start overlay、教学对白和目标选择仍为零命中。因此该表不属于入场 HUD/教学加载，
 继续保持 `code_verified`；下一次应在实际状态/overlay 动作边界使用此探针。
 
+自然 high-bit skill 入口闭合后又从
+`artifacts/runtime-checkpoints/skill-list-pre-controller.ss9` 打开鸣人的“术列表”。
+页面确实命中 skills initializer 并完整显示技能详情，但 resource-pointer scratch
+`0x0203FE40` 仍为 48 字节全零。因此这五条 descriptor 也不属于人物术列表/详情面板
+创建链；后续只在实际战斗 overlay/effect 对象阶段继续追踪，避免重复探测静态详情 UI。
+
 ### skills `0x545BE4`
 
 `tools/build_skill_relation_runtime_probe.py` 包装 `0x0808E4A4 → 0x0808FF24`，

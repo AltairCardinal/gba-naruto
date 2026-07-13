@@ -27,6 +27,7 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
     volume = 127
     pan = 64
     repeat_state: dict[int, int] = {}
+    open_ties: dict[int, dict] = {}
     stop_reason = ""
     for step in range(max_steps):
         command = command_map.get(pc)
@@ -81,7 +82,14 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
         elif name == "BEND":
             events.append({"tick": tick, "type": "bend", "value": command["value"]})
         elif name == "EOT":
-            events.append({"tick": tick, "type": "end_tie", "key": command.get("key", key)})
+            tie_key = command.get("key", key)
+            tied_note = open_ties.pop(tie_key, None)
+            if tied_note is not None:
+                tied_note["duration"] = tick - tied_note["tick"]
+            events.append({
+                "tick": tick, "type": "end_tie", "key": tie_key,
+                "matched": tied_note is not None,
+            })
         elif name == "TIE" or name.startswith("N"):
             args = command.get("args", [])
             if len(args) >= 1:
@@ -90,16 +98,21 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                 velocity = args[1]
             gate = args[2] if len(args) >= 3 else 0
             duration = None if name == "TIE" else _ticks(name) + gate
-            events.append({
+            note_event = {
                 "tick": tick, "type": "note", "key": key, "velocity": velocity,
                 "duration": duration, "voice": voice, "volume": volume, "pan": pan,
-            })
+                "tied": name == "TIE",
+            }
+            events.append(note_event)
+            if name == "TIE":
+                open_ties[key] = note_event
         pc = next_pc
     else:
         raise ValueError(f"track 0x{track['offset']:X} exceeded {max_steps} steps")
     return {
         "offset": track["offset"], "duration_ticks": tick, "steps": step + 1,
         "stop_reason": stop_reason, "stop_offset": pc, "events": events,
+        "open_tie_keys": sorted(open_ties),
     }
 
 
@@ -157,6 +170,7 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
     tracks_by_offset = {track["offset"]: track for track in decoded["tracks"]}
     output_dir.mkdir(parents=True, exist_ok=True)
     songs = []
+    tie_lifecycle = Counter()
     for entry in bank["entries"]:
         rendered = []
         for pointer in entry["track_ptrs"]:
@@ -165,18 +179,33 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
         sound_id = entry["sound_id"]
         path = output_dir / f"sound_{sound_id:03d}.mid"
         path.write_bytes(midi_file(rendered))
+        tied_notes = [
+            event
+            for track in rendered for event in track["events"]
+            if event["type"] == "note" and event.get("tied")
+        ]
+        tie_lifecycle["total"] += len(tied_notes)
+        tie_lifecycle["closed_by_eot"] += sum(
+            event["duration"] is not None for event in tied_notes
+        )
+        tie_lifecycle["left_open_at_loop_end"] += sum(
+            event["duration"] is None for event in tied_notes
+        )
         songs.append({
             "sound_id": sound_id,
             "track_count": len(rendered),
             "duration_ticks": max(track["duration_ticks"] for track in rendered),
             "event_count": sum(len(track["events"]) for track in rendered),
             "stop_reasons": dict(Counter(track["stop_reason"] for track in rendered)),
+            "tie_count": len(tied_notes),
+            "closed_tie_count": sum(event["duration"] is not None for event in tied_notes),
             "midi": path.name,
         })
     result = {
         "format": "MP2K one-loop structural MIDI export",
         "ppqn": PPQN,
         "song_count": len(songs),
+        "tie_lifecycle": dict(tie_lifecycle),
         "songs": songs,
     }
     (output_dir / "manifest.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

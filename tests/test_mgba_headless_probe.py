@@ -130,6 +130,23 @@ class MgbaReadProbeTests(unittest.TestCase):
         self.assertTrue(result["timed_out"])
         self.assertEqual("0x08068FF0", result["breakpoint"])
 
+    @patch.object(mgba.subprocess, "run")
+    @patch.object(mgba, "find_mgba", return_value="/fake/mgba")
+    def test_mode_snapshot_keeps_memory_emitted_before_process_timeout(self, _find, run):
+        run.side_effect = subprocess.TimeoutExpired(
+            cmd=["/fake/mgba"],
+            timeout=60,
+            output="0x02026804: 00002900 00000000 00000000 00000000\n",
+            stderr="fixture timeout",
+        )
+        result = mgba.mode_snapshot(
+            "fixture.gba", [(0x02026804, 16)], 0, "battle.ss9", timeout=3
+        )
+        self.assertTrue(result["timed_out"])
+        self.assertEqual(result["memory_dumps"][0]["words"][0], "0x00002900")
+        self.assertEqual(result["stderr"], "fixture timeout")
+        self.assertEqual(run.call_args.kwargs["timeout"], 3)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -434,7 +434,7 @@ def mode_diff(rom, region_addr, region_size, num_frames, savestate):
     }
 
 
-def mode_snapshot(rom, dumps, frames, savestate):
+def mode_snapshot(rom, dumps, frames, savestate, timeout=60):
     """Snapshot mode: advance N frames, dump memory."""
     mgba = find_mgba()
     if not mgba:
@@ -455,13 +455,23 @@ def mode_snapshot(rom, dumps, frames, savestate):
 
     script = "\n".join(cmds) + "\n"
 
-    proc = subprocess.run(
-        build_mgba_command(mgba, rom, savestate),
-        input=script, capture_output=True, text=True,
-        timeout=60 + frames, env=env,
-    )
-
-    output = proc.stdout
+    try:
+        proc = subprocess.run(
+            build_mgba_command(mgba, rom, savestate),
+            input=script, capture_output=True, text=True,
+            timeout=timeout + frames, env=env,
+        )
+        output = proc.stdout
+        stderr = proc.stderr
+        timed_out = False
+    except subprocess.TimeoutExpired as exc:
+        output = exc.stdout or exc.output or ""
+        stderr = exc.stderr or ""
+        if isinstance(output, bytes):
+            output = output.decode(errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode(errors="replace")
+        timed_out = True
     reg_state = parse_registers(output)
 
     mem_dumps = []
@@ -480,6 +490,8 @@ def mode_snapshot(rom, dumps, frames, savestate):
         "frames_advanced": frames,
         "registers": reg_state,
         "memory_dumps": mem_dumps,
+        "stderr": stderr,
+        "timed_out": timed_out,
     }
 
 
@@ -564,7 +576,10 @@ def main():
                 addr = int(parts[0], 16)
                 size = int(parts[1], 16) if parts[1].startswith("0x") else int(parts[1])
                 dumps.append((addr, size))
-            result = mode_snapshot(args.rom, dumps, args.frames, args.savestate)
+            result = mode_snapshot(
+                args.rom, dumps, args.frames, args.savestate,
+                timeout=min(args.timeout, 60),
+            )
 
         json_str = json.dumps(result, indent=2, ensure_ascii=False)
 

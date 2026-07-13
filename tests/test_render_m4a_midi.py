@@ -28,6 +28,29 @@ class RenderM4AMidiTests(unittest.TestCase):
         self.assertEqual(result["stop_reason"], "fine")
         self.assertEqual(result["duration_ticks"], 1)
 
+    def test_tie_is_sustained_until_matching_eot(self):
+        commands = decode_track(bytes.fromhex("cf3c648cce3cb1"), 0x600)
+        result = execute_track(
+            {"offset": 0x600}, {item["offset"]: item for item in commands}
+        )
+        notes = [event for event in result["events"] if event["type"] == "note"]
+        self.assertEqual(len(notes), 1)
+        self.assertEqual(notes[0]["key"], 60)
+        self.assertTrue(notes[0]["tied"])
+        self.assertEqual(notes[0]["duration"], 12)
+        midi = midi_file([result])
+        self.assertIn(bytes((0x90, 60, 100)), midi)
+        self.assertIn(bytes((0x80, 60, 0)), midi)
+
+    def test_unkeyed_eot_closes_the_running_tie_key(self):
+        commands = decode_track(bytes.fromhex("cf40648cceb1"), 0x700)
+        result = execute_track(
+            {"offset": 0x700}, {item["offset"]: item for item in commands}
+        )
+        note = next(event for event in result["events"] if event["type"] == "note")
+        self.assertEqual(note["key"], 64)
+        self.assertEqual(note["duration"], 12)
+
     def test_all_sound_ids_render_nonempty_standard_midi(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = render(
@@ -37,6 +60,10 @@ class RenderM4AMidiTests(unittest.TestCase):
             self.assertTrue(all(song["duration_ticks"] > 0 for song in result["songs"]))
             self.assertTrue(all(song["event_count"] > 0 for song in result["songs"]))
             self.assertTrue(all((Path(tmp) / song["midi"]).read_bytes().startswith(b"MThd") for song in result["songs"]))
+            self.assertEqual(
+                result["tie_lifecycle"],
+                {"total": 90, "closed_by_eot": 25, "left_open_at_loop_end": 65},
+            )
 
 
 if __name__ == "__main__":

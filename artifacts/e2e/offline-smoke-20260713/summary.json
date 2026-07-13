@@ -1,0 +1,76 @@
+{
+  "format": "offline build-to-native-mGBA E2E smoke",
+  "generated_at": "2026-07-13T00:30:53.737631+00:00",
+  "status": "passed",
+  "stages": {
+    "build_tests": {
+      "command": [
+        "/usr/bin/python3",
+        "tools/automated_test.py",
+        "--json-output",
+        "/root/gba-naruto/artifacts/e2e/offline-smoke-20260713/build-tests.json"
+      ],
+      "returncode": 0,
+      "stdout": "\n[PASS] 25/25 tests passed\n",
+      "stderr": ""
+    },
+    "build_identity": {
+      "sha1_matches": true,
+      "size_matches": true,
+      "rom": "build/naruto-sequel-dev.gba",
+      "sha1": "8018d23fe80efe15f8f55c01aa8eb04f3ccb921f",
+      "size": 6291456,
+      "build_report": "build/naruto-sequel-build-report.json"
+    },
+    "native_mgba": {
+      "command": [
+        "/usr/bin/python3",
+        "tools/mgba-headless-snapshot.py",
+        "--rom",
+        "/root/gba-naruto/build/naruto-sequel-dev.gba",
+        "--mode",
+        "snapshot",
+        "--savestate",
+        "/root/gba-naruto/artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+        "--frames",
+        "1",
+        "--timeout",
+        "15",
+        "--dump",
+        "0x02026804:16",
+        "--dump",
+        "0x0201BE28:16",
+        "--dump",
+        "0x02024358:16",
+        "--dump",
+        "0x0202452C:16",
+        "--output",
+        "/root/gba-naruto/artifacts/e2e/offline-smoke-20260713/runtime.json"
+      ],
+      "returncode": 0,
+      "stdout": "Output written to /root/gba-naruto/artifacts/e2e/offline-smoke-20260713/runtime.json\n  4 memory dumps\n",
+      "stderr": ""
+    },
+    "runtime_assertions": {
+      "battle_id": 41,
+      "map": {
+        "width": 36,
+        "height": 44,
+        "grid_width": 9,
+        "grid_height": 22
+      },
+      "naruto": {
+        "x": 4,
+        "y": 10
+      },
+      "iruka": {
+        "x": 4,
+        "y": 4
+      }
+    }
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+    "sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac"
+  }
+}

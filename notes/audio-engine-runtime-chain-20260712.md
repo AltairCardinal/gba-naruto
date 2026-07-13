@@ -88,8 +88,11 @@ All 80 active sound IDs now produce standard format-1 MIDI files at 24 PPQN:
 
 Outputs are under `build/audio-v2/midi/`. The MIDI is a structural audition
 artifact, not a bit-accurate renderer: DirectSound sample mapping, 0x80 drum
-voicegroups, PSG synthesis, envelope/LFO behavior, tie release and exact mixer
-behavior remain to be implemented before audio playback can be called complete.
+voicegroups, PSG synthesis, envelope/LFO behavior, cross-loop tie release and exact
+mixer behavior remain to be implemented before audio playback can be called complete.
+The later TIE/EOT pass now emits the 25 explicitly paired releases and reports the
+remaining 65 open ties without inventing a loop-boundary release; see
+`notes/audio-tie-lifecycle-20260713.md`.
 
 ## Executed instrument coverage
 
