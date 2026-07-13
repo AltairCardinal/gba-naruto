@@ -30,6 +30,7 @@ class NoteRequest:
     tied: bool
     pitch_key: int
     pitch_fine: int
+    pitch_key_delta: int
     track_right: int
     track_left: int
 
@@ -73,16 +74,20 @@ class MPlayMusicalState:
             "tune": self.tune,
         }
 
-    def _pitch(self) -> tuple[int, int]:
+    def pitch_offset(self) -> tuple[int, int]:
         modulation = (self.mod_value << 4) if self.mod_type == 0 else 0
         total = (
             ((self.tune + self.bend * self.bend_range) << 2)
             + (self.key_shift << 8)
             + modulation
         )
-        return max(0, self.key + (total >> 8)), total & 0xFF
+        return total >> 8, total & 0xFF
 
-    def _mix(self) -> tuple[int, int]:
+    def _pitch(self) -> tuple[int, int]:
+        key_delta, fine = self.pitch_offset()
+        return max(0, self.key + key_delta), fine
+
+    def mix_coefficients(self) -> tuple[int, int]:
         return _track_mix_coefficients(
             self.volume,
             self.volume_multiplier,
@@ -153,7 +158,8 @@ class MPlayMusicalState:
             gate = args[2] if len(args) >= 3 else 0
             self.lfo_countdown = self.lfo_delay
             pitch_key, pitch_fine = self._pitch()
-            right, left = self._mix()
+            pitch_key_delta, _ = self.pitch_offset()
+            right, left = self.mix_coefficients()
             tied = name == "TIE"
             self.note_requests.append(NoteRequest(
                 tick=tick,
@@ -165,6 +171,7 @@ class MPlayMusicalState:
                 tied=tied,
                 pitch_key=pitch_key,
                 pitch_fine=pitch_fine,
+                pitch_key_delta=pitch_key_delta,
                 track_right=right,
                 track_left=left,
             ))

@@ -314,13 +314,17 @@
   tie-break、steal、newest-first track chain 与 same-key EOT 已代码锁定
 - persistent TEMPO/PRIO/VOICE/VOL/PAN/pitch/LFO registers 已让全部 track 在 2048 ticks
   产生 17546 NoteRequest、21 EOT、79 FINE stop，复用现有 decoded commands/整数公式
-- 待完成 request→terminal tone→allocated channel wiring、PSG/noise 与 DirectSound 联合 PCM 输出、
-  跨循环 TIE 执行和可听 cue 命名
+- request→terminal tone→allocated channel 已闭合：全库 17546 请求全部到达解析/分配
+  路径；真实 sound 1 DirectSound 与 sound 144 CGB noise 向量、drum-root pitch、
+  mid-note pitch/mix dirty 传播、自然停止后的 track unlink 和首个 264-frame PCM hash
+  均已测试。bounded allocator rejection 不能冒充真实 SoundMain 丢音统计
+- 待完成 player 级整曲 SoundMain、CGB envelope/noise 与 DirectSound 联合 PCM 输出、
+  跨循环 TIE 执行、emulator buffer 差分和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a NoteRequest→terminal tone→channel wiring 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 player 级 SoundMain 调度与 PSG 联合 PCM，构建忠实多轨整曲渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

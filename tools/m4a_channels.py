@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 DIRECT_CHANNEL_COUNT = 10
 CGB_CHANNEL_COUNT = 4
@@ -19,6 +19,32 @@ class Channel:
     midi_key: int = 0
     prev: int | None = None
     next: int | None = None
+    gate_time: int | None = None
+    tone_offset: int = 0
+    tone_type: int = 0
+    pitch_key: int = 0
+    pitch_base_key: int = 0
+    pitch_fine: int = 0
+    wave_frequency_raw: int = 0
+    track_right: int = 0
+    track_left: int = 0
+    velocity: int = 0
+    tone_pan: int = 0
+    wave_offset: int = 0
+    sample_count: int = 0
+    loop_start: int = 0
+    step: int = 0
+    adsr: tuple[int, int, int, int] = (0, 0, 0, 0)
+    envelope: object | None = None
+    registers: dict[str, int] = field(default_factory=dict)
+    data_offset: int = 0
+    sample_index: int = 0
+    remaining: int = 0
+    phase: int = 0
+    pre_right: int = 0
+    pre_left: int = 0
+    echo_length: int = 0
+    echo_volume: int = 0
 
 
 @dataclass

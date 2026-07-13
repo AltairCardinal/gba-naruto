@@ -127,7 +127,10 @@ WAIT/GOTO/PATT/REPT VM now runs all 217 tracks beyond loop edges; musical-state
 channel selection/steal and track-chain semantics are also code-locked for the
 ROM's 10 DirectSound + 4 CGB channels. Persistent TEMPO/VOICE/VOL/PAN/pitch/LFO
 registers now emit runtime NoteRequest/EOT/FINE requests for all 217 tracks.
-Terminal-tone→allocated-channel initialization and the combined render remain open.
+Terminal-tone→allocated-channel initialization, drum pitch offsets, active-note
+pitch/mix propagation, natural-stop unlink and the first real 264-frame DirectSound
+chunk are now connected; see `notes/m4a-runtime-channel-wiring-20260713.md`.
+Player-level full-song scheduling and the DirectSound+CGB combined render remain open.
 
 ## Runtime proof
 
