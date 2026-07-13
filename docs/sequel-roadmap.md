@@ -312,13 +312,15 @@
   39825 commands、163 次真实 GOTO，79 条 FINE 终止、138 条在时长边界继续运行
 - 10 DirectSound pool + 4 fixed CGB 的 free/released/active 选择、priority/track-address
   tie-break、steal、newest-first track chain 与 same-key EOT 已代码锁定
-- 待完成 persistent musical registers→channel wiring、PSG/noise 与 DirectSound 的联合 PCM 输出、
+- persistent TEMPO/PRIO/VOICE/VOL/PAN/pitch/LFO registers 已让全部 track 在 2048 ticks
+  产生 17546 NoteRequest、21 EOT、79 FINE stop，复用现有 decoded commands/整数公式
+- 待完成 request→terminal tone→allocated channel wiring、PSG/noise 与 DirectSound 联合 PCM 输出、
   跨循环 TIE 执行和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a musical register→channel wiring 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 m4a NoteRequest→terminal tone→channel wiring 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
@@ -486,9 +488,9 @@
 - levels 的真正 Continue 已复现：Naruto level 1、经验100/250、训练点`+BA=0`；
   自然 selector 证明“移动→对战→木叶丸对白”消费 primary scenario 41 脚本
   `0x08031A12..0x08031D5F`，44 次 dispatch 后 opcode 00 正常终止、无 SetBattle，
-  随后 UI 是 story 后任务准备而非标题图鉴。stale 菜单需 `A→B` 激活，再
-  `Down×2→A` 可重复进入 strict battle 41（36×44、Naruto/Iruka formation）；下一步
-  完成该战并捕获战后升级，目标仍是 A880=3 / level2 / 分配前训练点1
+  随后 UI 是 story 后任务准备而非标题图鉴。`A→B→Down×2→A` 曾产生瞬时 battle41，
+  但完整 settle 回到 battle/map=0 的队伍页，已作为控制器假阳性撤销；真正入口必须
+  settle 后仍可操作。目标仍是 A880=3 / level2 / 分配前训练点1
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special

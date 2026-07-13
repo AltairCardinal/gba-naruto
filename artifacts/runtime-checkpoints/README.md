@@ -59,11 +59,12 @@ from the genuine Konoha save state. Move/Battle naturally selected primary
 `0x08031D5F` opcode `00` without SetBattle. The outer-state transition proves
 the following preparation UI belongs to scenario 41, not the title encyclopedia.
 
-`natural-scenario-41-battle-entry-evidence.json` records the required stale-menu
-activation (`A, B`) followed by `Down, Down, A`. It reaches strict battle 41
-without a new selector: map 36×44, Naruto `(4,10)`, Iruka `(4,4)`. This closes
-the natural route from scenario 41's story terminal to the tracked actionable
-battle identity; battle completion and level-up remain separate gates.
+`natural-scenario-41-transient-battle-false-positive.json` revokes an early-stop
+false positive. `A, B, Down, Down, A` briefly exposed battle-41 memory/map, but
+a forced full settle returned to battle/map zero and the team/equipment panel;
+the transient checkpoint's first A also opened team UI, not a battle action
+menu. It must not be used as a battle-start checkpoint. A valid replacement
+must remain a strict battle after settle and accept an actionable battle input.
 
 `visual-variant-runtime-evidence.json` records the controlled record 7 /
 variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame

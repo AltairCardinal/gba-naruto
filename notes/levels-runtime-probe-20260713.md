@@ -112,16 +112,17 @@ A884 会从 1 变 2，部分返回路径变 0，A885 可变为 `0xFC`。
 A885 writer 的调用返回，同时保留 selector `0x0808F5CC` 与 SetBattle
 `0x08097C78`；不得继续靠固定方向键或截图猜选中项。
 
-随后同一会话确认了条件：terminal 菜单的画面是 stale，必须先 `A` 进入队伍页，再
-`B` 返回，菜单控制器才接受方向键。精确序列
-`A, B, Down, Down, A`（每键前 2500 ms）直接进入 battle 41；没有新的 selector hit。
-因此第二战入口是 scenario 41 post-story UI 直接设置 battle control，不是新 scenario。
+一次 `A, B, Down, Down, A` 运行曾在 step 5 短暂读到 battle 41/map 36×44；默认
+`PROBE_STOP_ON_MATCH` 随即提前返回，造成“自然入口已闭合”的假阳性。关闭提前停止并
+设置 `PROBE_FORCE_SETTLE=1` 后，同一输入最终为 battle=0、map=0、无 units，画面回到
+“队伍·装备”character-panel。短暂 checkpoint 零输入显示战场，但第一下 A 立即打开
+队伍装备页而非战斗行动菜单，证明前台控制器从未进入可操作战斗。
 
-独立重放得到 battle raw `00 29 00 00 00 00 00 00`、map `36×44/grid 9×22`、
-Naruto ID1 `(4,10)`、Iruka ID30 `(4,4)`，strict arrival 四项全过；A880/A882/A884/
-A88C 均为 1。outer state 仅新增 `+0x0F=0x80`，章节字段保持不变。这与 tracked
-`actionable-move-grid.ss9` 的战斗身份一致。紧凑证据见
-`artifacts/runtime-checkpoints/natural-scenario-41-battle-entry-evidence.json`。
+该错误结论已撤销；负证据保存在
+`artifacts/runtime-checkpoints/natural-scenario-41-transient-battle-false-positive.json`。
+真正入口的新门槛是：完整 settle 后 battle/map/formation 仍成立，并且下一下 A 打开
+可操作战斗菜单，而不是队伍装备 UI。tracked `actionable-move-grid.ss9` 仍是真战斗，
+但它处于教程锁定的空目标范围，A/B 只能弹范围提示，不能作为自然通关起点。
 
-下一步已不再是寻找入口，而是完成 battle 41 并捕获战后 EXP/level/训练点；只有跨过
-经验阈值并满足原升级判据，levels 才能从 `code_verified` 升级。
+因此下一步仍是从 scenario 41 preparation UI 找到真正“开始任务”控制路径，再完成
+battle 并捕获战后 EXP/level/训练点；levels 严格保持 `code_verified`。
