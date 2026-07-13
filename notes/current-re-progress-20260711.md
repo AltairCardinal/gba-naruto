@@ -1,18 +1,18 @@
-# Current reverse-engineering progress (updated 2026-07-12)
+# Current reverse-engineering progress (updated 2026-07-13)
 
 This is the factual completion snapshot after rerunning the repository audit
 and all automated tests. It supersedes historical “100% complete” summaries.
 
 ## Reproducible checks
 
-- Python: 116 tests pass.
+- Python: 338 tests pass.
 - Repository automated checks: 25/25 pass.
-- Node/WASM probe helpers: 27 tests pass.
+- Node/WASM probe helpers: 34 tests pass.
 - `git diff --check`: pass.
 - Catalog identity audit: 32/32 investigations closed. This consists of 23
   active data banks with ROM fidelity plus 9 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 9 runtime, 14 code, 0 static, 9 disproved.
+- Evidence labels: 13 runtime, 10 code, 0 static, 9 disproved.
 
 ## Runtime-closed chains
 
@@ -28,13 +28,20 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 6. Primary chapter flow: table `0x60C74`, scenario 39 → script `0x31020` →
    opcode `0x1A` operand 40 → live battle ID 40.
 7. Audio bank runtime identity is additionally closed: master sound-ID table
-   `0x465B70`; hook observes ID 118 → descriptor `0x53D06C`. It is counted in
-   the six runtime bank labels; this list separates chains rather than banks.
+   `0x465B70`; hook observes ID 118 → descriptor `0x53D06C`.
+8. Alternate chapter flow: table `0x60D54`, scenario 39 → script `0x31281` →
+   25 runtime dispatches → opcode `00` normal termination at `0x3142E`.
+9. Save-state: natural UI Save writes valid descriptors/checksums and cold boot
+   restores the Konoha state.
+10. Skills: natural technique UI and controlled row-1 `+4:6→7` A/B change the
+    visible attack value `6x3→7x3`.
+11. Menu portrait, encyclopedia pointer/callback and the remaining bank-level
+    runtime identities are recorded in `notes/re-completion-audit.json`.
 
 ## Other completed implementation closures
 
-- Skills corrected to 94×16 bytes at `0x545BE4`; consumer `0x0806D910` is
-  code-verified.
+- Skills corrected to 94×16 bytes at `0x545BE4`; consumer `0x0806D910` and a
+  natural UI/control A/B are runtime-verified.
 - Audio dispatcher/track/FIFO chain is mapped and sound-ID mirror writeback is
   guarded. The corrected m4a extractor exports 217 track blobs, 23 voicegroups,
   387 tones and 79 pointer-reachable WAVs. All tracks structurally decode to
@@ -70,13 +77,17 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   WAVs, including CGB+Direct hardware-scale PCM and all first-GOTO loop boundaries.
   Independent mGBA differential now matches all 79 sound-101 Direct FIFO chunks
   byte-for-byte and all 68 sound-144 visible CGB register/channel-status snapshots.
-  Player-slot concurrency and cue naming remain.
+  Follow-up probes match active same-slot hard replacement 27/27, linked-player
+  DirectSound sharing 25/25 and cross-player fixed-CGB competition 68/68. Cue
+  semantics remain: four A-grade and four B-grade candidates have callsite evidence,
+  while 72 entries deliberately remain `unknown` and no official names are claimed.
 - Alternate chapter table `0x60D54` and all six map resource streams are now
-  runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
-  skill fields, followed by individual semantic review of the remaining static banks.
-- Correlate remaining unit/growth/skill fields with player-visible UI labels.
+  runtime-closed. Next P0 is player-visible naming for remaining unit and skill
+  fields, followed by individual semantic review of the code-verified banks.
+- Character growth field semantics are closed. Remaining field work is the full
+  unit `0xB4` player-visible mapping and skills `+2/+3/+9`.
 - All formerly static banks now have a consumer or negative identity proof.
-  The 14 code-verified banks still require prioritized controlled runtime and
+  The 10 code-verified banks still require prioritized controlled runtime and
   player-visible semantic closure; code evidence alone is not a “100%” claim.
 
 ## Durable evidence and next route
@@ -87,5 +98,8 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   `notes/battle-effect-template-consumer-20260711.md`,
   `notes/chapter-flow-runtime-chain-20260712.md`, and
   `notes/audio-engine-runtime-chain-20260712.md`.
+- Audio player runtime evidence:
+  `notes/m4a-player-slot-runtime-differential-20260713.md`; cue callsite/semantic
+  boundary: `notes/audio-cue-semantics-20260713.md`.
 - Current execution order and gates: `docs/sequel-roadmap.md`.
 - Machine-readable identity audit: `notes/re-completion-audit.json`.

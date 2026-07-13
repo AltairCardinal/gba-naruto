@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from tools.compare_mgba_audio_capture import compare_capture
+from tools.build_controlled_audio_runtime_probe import build_probe
 from tools.m4a_song_engine import M4ASongEngine
 
 
@@ -42,14 +43,19 @@ class CompareMgbaAudioCaptureTests(unittest.TestCase):
         }
 
     def test_accepts_byte_exact_real_engine_chunk(self):
+        probe_rom = build_probe(self.rom, sound_ids=(101,))
         result = compare_capture(
             self.rom, self.bank, self.decoded,
             self.capture_for_first_sound101_invocation(),
+            captured_rom=probe_rom,
+            dispatch_sequence=(101,),
         )
 
         self.assertTrue(result["all_chunks_match"])
         self.assertTrue(result["combined_pcm_match"])
         self.assertEqual(result["matched_chunk_count"], 1)
+        self.assertTrue(result["probe_rom_match"])
+        self.assertTrue(result["verification_passed"])
 
     def test_recomputes_capture_hash_and_reports_corruption(self):
         capture = self.capture_for_first_sound101_invocation()
@@ -57,11 +63,45 @@ class CompareMgbaAudioCaptureTests(unittest.TestCase):
 
         result = compare_capture(
             self.rom, self.bank, self.decoded, capture,
+            captured_rom=build_probe(self.rom, sound_ids=(101,)),
+            dispatch_sequence=(101,),
         )
 
         self.assertFalse(result["all_chunks_match"])
         self.assertEqual(result["first_mismatch_invocation"], 0)
         self.assertFalse(result["capture_hashes_valid"])
+
+    def test_binds_controlled_dispatch_sequence_to_probe_rom(self):
+        capture = self.capture_for_first_sound101_invocation()
+        probe_rom = build_probe(self.rom, sound_ids=(102, 101))
+
+        result = compare_capture(
+            self.rom, self.bank, self.decoded, capture,
+            captured_rom=probe_rom,
+            dispatch_sequence=(102, 101),
+        )
+
+        self.assertEqual(result["dispatch_sequence"], [102, 101])
+        self.assertEqual(result["final_sound_id"], 101)
+        self.assertTrue(result["probe_rom_match"])
+
+        wrong = compare_capture(
+            self.rom, self.bank, self.decoded, capture,
+            captured_rom=build_probe(self.rom, sound_ids=(101,)),
+            dispatch_sequence=(102, 101),
+        )
+        self.assertFalse(wrong["probe_rom_match"])
+        self.assertFalse(wrong["verification_passed"])
+
+    def test_rejects_invalid_counter_sequence(self):
+        capture = self.capture_for_first_sound101_invocation()
+        capture["counter_sequence_valid"] = False
+        result = compare_capture(
+            self.rom, self.bank, self.decoded, capture,
+            captured_rom=build_probe(self.rom, sound_ids=(101,)),
+            dispatch_sequence=(101,),
+        )
+        self.assertFalse(result["verification_passed"])
 
 
 if __name__ == "__main__":

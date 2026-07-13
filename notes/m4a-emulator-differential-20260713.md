@@ -16,8 +16,9 @@
 这组证据动态覆盖 ID 101 已执行路径中的 player tick、ADSR、gain/pan、23-bit sample
 phase、forward-linear interpolation、264-frame buffer、6-slot ring 和左右路 modulo-256
 混合；也覆盖 ID 144 的三档 `NR42`、`NR43=0x14`、`NR51=0x88`、release stop 与固定
-CGB channel-4 生命周期。它不代替同 player slot retrigger/stop、多个 linked player
-并发或跨 player 的全局 CGB pool 竞争测试。
+CGB channel-4 生命周期。同 player slot hard replacement、多个 linked player 并发及
+跨 player 的全局 CGB pool 竞争已在后续
+`notes/m4a-player-slot-runtime-differential-20260713.md` 中独立闭合。
 
 ## 关键地址纠正
 
@@ -102,8 +103,10 @@ write-only trigger 的可观察边界。
 
 ## 剩余音频门槛
 
-- 同一 player slot 新 cue 对旧 cue 的 retrigger/stop 行为；
-- 多个 linked player 同时更新的递归顺序与全局 10+4 channel 竞争；
-- 跨 player 的固定 CGB channel steal/retrigger；
 - 80 个 sound ID 的有来源、玩家可理解 cue 名称；
 - 旧网页音频 CRUD 与真实 ROM 安全写回的产品边界。
+
+player 行为方面，活跃同-slot hard replacement、linked-player DirectSound 共享池和
+跨-player 固定 CGB channel tie-break 已 runtime-verified。精确的四 slot callback
+逐指令顺序仍由静态控制流直接证明；显式 `MPlayStop`/FINE A/B 是可选补充，而不是
+当前已闭合行为的前置门槛。

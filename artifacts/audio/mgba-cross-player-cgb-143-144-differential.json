@@ -1,0 +1,657 @@
+{
+  "format": "gba-naruto-mgba-cross-player-cgb-differential-v1",
+  "source_sound_id": 144,
+  "source_player_slot": 2,
+  "clone_sound_id": 143,
+  "clone_player_slot": 1,
+  "clone_track_owner": "0x03006178",
+  "source_track_owner": "0x030061C8",
+  "expected_winning_track_owner": "0x03006178",
+  "losing_track_owner": "0x030061C8",
+  "invocation_count": 68,
+  "counter_sequence_valid": true,
+  "capture_state_hashes_valid": true,
+  "capture_hashes_valid": true,
+  "expected_probe_rom_sha256": "b1e5b58730942c21c01831dd3095cd8ee76ab98439026c4ae364429d0753fd16",
+  "captured_probe_rom_sha256": "b1e5b58730942c21c01831dd3095cd8ee76ab98439026c4ae364429d0753fd16",
+  "probe_rom_match": true,
+  "all_visible_registers_match": true,
+  "matched_visible_register_count": 68,
+  "all_channel_statuses_match": true,
+  "direct_fifo_silent": true,
+  "all_player_clocks_match": true,
+  "first_clock_mismatch_invocation": null,
+  "all_active_owners_match": true,
+  "first_owner_mismatch_invocation": null,
+  "competition_observed": true,
+  "expected_nr44_trigger_writes": [
+    1,
+    7,
+    13,
+    19,
+    25,
+    31,
+    37,
+    43,
+    49,
+    55,
+    61
+  ],
+  "offline_engine_finished": true,
+  "tie_break_boundary": "Both priority-255 players advance on every invocation. Static allocator control flow uses old_owner >= new_owner for equal-priority replacement, so the lower track address 0x03006178 is the stable owner; this capture verifies the final owner for the configured simultaneous request, not both possible temporal arrival orders.",
+  "comparisons": [
+    {
+      "invocation": 0,
+      "clone_player_clock": 1,
+      "source_player_clock": 1,
+      "player_clocks_match": true,
+      "channel_status": 0,
+      "channel_owner": "0x00000000",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 1,
+      "clone_player_clock": 2,
+      "source_player_clock": 2,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 2,
+      "clone_player_clock": 3,
+      "source_player_clock": 3,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 3,
+      "clone_player_clock": 4,
+      "source_player_clock": 4,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 4,
+      "clone_player_clock": 5,
+      "source_player_clock": 5,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 5,
+      "clone_player_clock": 6,
+      "source_player_clock": 6,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 6,
+      "clone_player_clock": 7,
+      "source_player_clock": 7,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 7,
+      "clone_player_clock": 8,
+      "source_player_clock": 8,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 8,
+      "clone_player_clock": 9,
+      "source_player_clock": 9,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 9,
+      "clone_player_clock": 10,
+      "source_player_clock": 10,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 10,
+      "clone_player_clock": 11,
+      "source_player_clock": 11,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 11,
+      "clone_player_clock": 12,
+      "source_player_clock": 12,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 12,
+      "clone_player_clock": 13,
+      "source_player_clock": 13,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 13,
+      "clone_player_clock": 14,
+      "source_player_clock": 14,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 14,
+      "clone_player_clock": 15,
+      "source_player_clock": 15,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 15,
+      "clone_player_clock": 16,
+      "source_player_clock": 16,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 16,
+      "clone_player_clock": 17,
+      "source_player_clock": 17,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 17,
+      "clone_player_clock": 18,
+      "source_player_clock": 18,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 18,
+      "clone_player_clock": 19,
+      "source_player_clock": 19,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 19,
+      "clone_player_clock": 20,
+      "source_player_clock": 20,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 20,
+      "clone_player_clock": 21,
+      "source_player_clock": 21,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 21,
+      "clone_player_clock": 22,
+      "source_player_clock": 22,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 22,
+      "clone_player_clock": 23,
+      "source_player_clock": 23,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 23,
+      "clone_player_clock": 24,
+      "source_player_clock": 24,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 24,
+      "clone_player_clock": 25,
+      "source_player_clock": 25,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 25,
+      "clone_player_clock": 26,
+      "source_player_clock": 26,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 26,
+      "clone_player_clock": 27,
+      "source_player_clock": 27,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 27,
+      "clone_player_clock": 28,
+      "source_player_clock": 28,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 28,
+      "clone_player_clock": 29,
+      "source_player_clock": 29,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 29,
+      "clone_player_clock": 30,
+      "source_player_clock": 30,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 30,
+      "clone_player_clock": 31,
+      "source_player_clock": 31,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 31,
+      "clone_player_clock": 32,
+      "source_player_clock": 32,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 32,
+      "clone_player_clock": 33,
+      "source_player_clock": 33,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 33,
+      "clone_player_clock": 34,
+      "source_player_clock": 34,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 34,
+      "clone_player_clock": 35,
+      "source_player_clock": 35,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 35,
+      "clone_player_clock": 36,
+      "source_player_clock": 36,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 36,
+      "clone_player_clock": 37,
+      "source_player_clock": 37,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 37,
+      "clone_player_clock": 38,
+      "source_player_clock": 38,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 38,
+      "clone_player_clock": 39,
+      "source_player_clock": 39,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 39,
+      "clone_player_clock": 40,
+      "source_player_clock": 40,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 40,
+      "clone_player_clock": 41,
+      "source_player_clock": 41,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 41,
+      "clone_player_clock": 42,
+      "source_player_clock": 42,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 42,
+      "clone_player_clock": 43,
+      "source_player_clock": 43,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 43,
+      "clone_player_clock": 44,
+      "source_player_clock": 44,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 44,
+      "clone_player_clock": 45,
+      "source_player_clock": 45,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 45,
+      "clone_player_clock": 46,
+      "source_player_clock": 46,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 46,
+      "clone_player_clock": 47,
+      "source_player_clock": 47,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 47,
+      "clone_player_clock": 48,
+      "source_player_clock": 48,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 48,
+      "clone_player_clock": 49,
+      "source_player_clock": 49,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 49,
+      "clone_player_clock": 50,
+      "source_player_clock": 50,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 50,
+      "clone_player_clock": 51,
+      "source_player_clock": 51,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 51,
+      "clone_player_clock": 52,
+      "source_player_clock": 52,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 52,
+      "clone_player_clock": 53,
+      "source_player_clock": 53,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 53,
+      "clone_player_clock": 54,
+      "source_player_clock": 54,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 54,
+      "clone_player_clock": 55,
+      "source_player_clock": 55,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 55,
+      "clone_player_clock": 56,
+      "source_player_clock": 56,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 56,
+      "clone_player_clock": 57,
+      "source_player_clock": 57,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 57,
+      "clone_player_clock": 58,
+      "source_player_clock": 58,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 58,
+      "clone_player_clock": 59,
+      "source_player_clock": 59,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 59,
+      "clone_player_clock": 60,
+      "source_player_clock": 60,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 60,
+      "clone_player_clock": 61,
+      "source_player_clock": 61,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 61,
+      "clone_player_clock": 62,
+      "source_player_clock": 62,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 62,
+      "clone_player_clock": 63,
+      "source_player_clock": 63,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 63,
+      "clone_player_clock": 64,
+      "source_player_clock": 64,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 64,
+      "clone_player_clock": 65,
+      "source_player_clock": 65,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 65,
+      "clone_player_clock": 66,
+      "source_player_clock": 66,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 66,
+      "clone_player_clock": 67,
+      "source_player_clock": 67,
+      "player_clocks_match": true,
+      "channel_status": 1,
+      "channel_owner": "0x03006178",
+      "active_owner_match": true
+    },
+    {
+      "invocation": 67,
+      "clone_player_clock": 68,
+      "source_player_clock": 68,
+      "player_clocks_match": true,
+      "channel_status": 0,
+      "channel_owner": "0x00000000",
+      "active_owner_match": true
+    }
+  ],
+  "verification_passed": true
+}

@@ -12,7 +12,7 @@
 
 > 2026-07-13 当前调查闭合审计为 32/32：23 个有效数据 bank 均通过元数据和
 > 基准 ROM fidelity，另 9 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 11 / code 12 / static 0 / disproved 9。32/32 只表示
+> tombstone。分布为 runtime 13 / code 10 / static 0 / disproved 9。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -28,8 +28,8 @@
   dialogue_var/chapter_script）
 - mGBA headless 调试环境稳定（`tools/mgba-headless-snapshot.py`）
 - mGBA PC/读取探针已加入：断点真实命中后可在同一上下文抓取 ROM 与 WRAM；
-  复位 PC smoke test 已通过；maps width/height 已由 WASM A/B 闭合，资源指针仍需
-  PC/LR 或独立字段实验
+  复位 PC smoke test 已通过；maps width/height 与六类资源流均已由 WASM/mGBA
+  同边界 A/B 闭合
 - 网页 WASM 首战导航与编成探针已可复现：单位槽 1 坐标 `(4,4)` 唯一对应
   positions group 40 / variant 0 / record 0（ROM `0x588CA8`），positions 已完成
   runtime 验证
@@ -97,8 +97,9 @@
   `0x0809B1F4`、FIFO/DMA initializer `0x0809AE3C` 已闭合。运行时 hook 命中
   230 次并证明 ID 118→`0x0853D06C`，audio 升级 runtime；真实指针可达提取器
   已导出 217 条 track blob、23 个 voicegroup、387 个 tone 和 79 个合法 WAV；
-  track opcode/控制流已结构化解码并生成单循环 MIDI；每个 cue 的可听名称及
-  忠实 instrument/mixer 语义仍待完成。sound-ID 主表已有持久
+  track opcode/控制流已结构化解码并生成单循环 MIDI；player 级 mixer、同-slot
+  硬替换和跨-player 共享池已有运行时差分，每个 cue 的可听名称仍待完成。
+  sound-ID 主表已有持久
   `rom_audio_sound_ids` 镜像和 immutable-base、精确 offset、ROM 范围/对齐、
   descriptor track-count 门禁的 8-byte 安全写回
 - save descriptor 第二字段已纠正为 payload length/累计 stride，而非独立 SRAM
@@ -144,7 +145,7 @@
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset atlas、217 条音频 track blob 与 79 个 pointer-reachable WAV 已导出；track opcode 解析、整曲渲染和 cue 命名未完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 tileset atlas、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；track opcode、mixer/player 并发已闭合，cue 语义命名仍未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -274,7 +275,7 @@
 
 ### P0-Step 5｜资源提取链路（图片/音频）
 
-**状态：⚠️ 资源字节提取完成，语义/整曲渲染部分完成**
+**状态：⚠️ 字节提取、整曲渲染及 player 运行时完成，cue 语义部分完成**
 
 **现状：**
 - 47/47 tileset atlas 已由真实 descriptor 指针导出
@@ -325,13 +326,18 @@
   GOTO track 均跨过首次 GOTO；首次 GOTO 上 21 个 active TIE 保持跨边界
 - 独立 mGBA 差分已闭合：sound 101 的 79/79 个 Direct FIFO 块逐字节一致，sound 144
   的 68/68 组可读 CGB register/channel-4 status 一致；两条路径均自然结束
-- 待完成同 player retrigger/stop 与 linked-player 并发、全局 CGB pool 竞争和
-  80 个可听 cue 命名
+- player-slot 差分已闭合：活跃同-slot sound 101→102 硬替换 27/27、slot 1/2
+  linked-player DirectSound 共享池 25/25、跨-player 固定 CGB channel 竞争 68/68；
+  equal-priority active owner 稳定为低地址 `0x03006178`
+- 播放 wrapper 共 290 个 callsite：278 个立即数调用覆盖 38 个有效 ID，12 个动态
+  来源；仅四个 A 级与四个 B 级语义候选有当前证据，72 个仍保持 `unknown`，尚无
+  官方名称来源
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 闭合同 player retrigger/stop、linked-player 并发和全局 CGB pool 竞争（下一步）
+3. 闭合同 player hard replacement、linked-player 并发和全局 CGB pool 竞争（已完成）
+4. 动态对照显式 `MPlayStop` 与 FINE release，并为 80 个 cue 建立有来源语义名称（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
@@ -339,9 +345,21 @@
 - `tools/build_controlled_audio_runtime_probe.py`
 - `tools/compare_mgba_audio_capture.py`
 - `tools/compare_mgba_cgb_capture.py`
+- `tools/build_delayed_audio_retrigger_probe.py`
+- `tools/compare_mgba_retrigger_capture.py`
+- `tools/compare_mgba_linked_audio_capture.py`
+- `tools/build_cross_player_cgb_probe.py`
+- `tools/compare_mgba_cross_player_cgb_capture.py`
+- `tools/extract_audio_cue_calls.py`
 - `artifacts/audio/mgba-sound101-full-differential.json`
 - `artifacts/audio/mgba-sound144-cgb-differential.json`
+- `artifacts/audio/mgba-same-player-101-102-differential.json`
+- `artifacts/audio/mgba-active-retrigger-101-102-differential.json`
+- `artifacts/audio/mgba-linked-player-101-106-differential.json`
+- `artifacts/audio/mgba-cross-player-cgb-143-144-differential.json`
 - `notes/m4a-emulator-differential-20260713.md`
+- `notes/m4a-player-slot-runtime-differential-20260713.md`
+- `notes/audio-cue-semantics-20260713.md`
 - `notes/resource-locations.md`
 
 ---

@@ -23,8 +23,18 @@ STUB_OFFSET = STUB - ROM_BASE
 STUB_SIZE = 16
 
 
-def build_probe(base: bytes, *, sound_id: int) -> bytes:
-    if not 0 <= sound_id <= 0xFF:
+def build_probe(
+    base: bytes,
+    *,
+    sound_id: int | None = None,
+    sound_ids: tuple[int, ...] | None = None,
+) -> bytes:
+    if (sound_id is None) == (sound_ids is None):
+        raise ValueError("provide exactly one sound ID argument form")
+    selected = (sound_id,) if sound_id is not None else tuple(sound_ids or ())
+    if not selected:
+        raise ValueError("at least one sound ID is required")
+    if any(not 0 <= value <= 0xFF for value in selected):
         raise ValueError("sound ID must fit in one byte")
     digest = hashlib.sha1(base).hexdigest()
     if digest != BASE_SHA1:
@@ -35,18 +45,20 @@ def build_probe(base: bytes, *, sound_id: int) -> bytes:
     expected = encode_thumb_bl(HOOK, SOUND_INIT)
     if rom[hook_offset:hook_offset + 4] != expected:
         raise ValueError("m4a initialization call-site bytes do not match")
-    if any(rom[STUB_OFFSET:STUB_OFFSET + STUB_SIZE]):
+    stub_size = 10 + 6 * len(selected)
+    if any(rom[STUB_OFFSET:STUB_OFFSET + stub_size]):
         raise ValueError("controlled audio stub region is not zero-filled")
 
     stub = struct.pack("<H", 0xB500)  # push {lr}
     stub += encode_thumb_bl(STUB + len(stub), SOUND_INIT)
-    stub += struct.pack("<H", 0x2000 | sound_id)  # movs r0, #sound_id
-    stub += encode_thumb_bl(STUB + len(stub), SOUND_DISPATCH)
+    for selected_id in selected:
+        stub += struct.pack("<H", 0x2000 | selected_id)  # movs r0, #sound_id
+        stub += encode_thumb_bl(STUB + len(stub), SOUND_DISPATCH)
     stub += struct.pack("<HH", 0xBC01, 0x4700)  # pop {r0}; bx r0
-    if len(stub) != STUB_SIZE:
+    if len(stub) != stub_size:
         raise AssertionError(len(stub))
 
-    rom[STUB_OFFSET:STUB_OFFSET + STUB_SIZE] = stub
+    rom[STUB_OFFSET:STUB_OFFSET + stub_size] = stub
     rom[hook_offset:hook_offset + 4] = encode_thumb_bl(HOOK, STUB)
     return bytes(rom)
 
@@ -55,9 +67,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("base_rom", type=Path)
     parser.add_argument("output_rom", type=Path)
-    parser.add_argument("--sound-id", type=lambda value: int(value, 0), required=True)
+    parser.add_argument(
+        "--sound-id", type=lambda value: int(value, 0), action="append", required=True,
+        help="Sound ID to dispatch; repeat to start multiple cues in order",
+    )
     args = parser.parse_args()
-    output = build_probe(args.base_rom.read_bytes(), sound_id=args.sound_id)
+    output = build_probe(
+        args.base_rom.read_bytes(), sound_ids=tuple(args.sound_id)
+    )
     args.output_rom.write_bytes(output)
     print(f"wrote {args.output_rom}: sha256={hashlib.sha256(output).hexdigest()}")
     return 0

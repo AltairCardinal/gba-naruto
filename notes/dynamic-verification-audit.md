@@ -1,6 +1,6 @@
 # Dynamic Verification Evidence Audit
 
-Date: 2026-07-11
+Date: 2026-07-13
 
 ## Scope and grading rule
 
@@ -19,18 +19,18 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under the current bank-level grading the repository has **9 runtime/dynamic,
-3 code, 15 static, and 5 disproved aliases** after the 2026-07-12 identity
-corrections. This is deliberately stricter than treating extraction success as
-runtime proof. The `maps` bank now has same-boundary runtime buffer matches for
-its dimensions and resource streams. In particular, the successful dialogue watchpoint traces
-prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
+Under the current bank-level grading the repository has **13 runtime/dynamic,
+10 code, 0 static, and 9 disproved aliases** after the 2026-07-13 identity and
+runtime corrections. This is deliberately stricter than treating extraction
+success as runtime proof. The `maps` bank has same-boundary runtime buffer matches
+for its dimensions and six resource streams. The former `fonts` candidate at
+`0x53E5B4` is disproved rather than awaiting a visual test.
 
 ## Evidence table
 
 | # | Structure (important ROM offset) | Level | Strongest durable evidence and limitation |
 |---:|---|---|---|
-| 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. All 217 tracks structurally decode and runtime NoteRequest reaches terminal tone plus 10+4 allocation. Player-level SoundMain emits 80/80 non-silent bounded WAVs: 62 one-shots naturally finish and 18 loop songs cross all 138 GOTO tracks. Independent mGBA differential matches all 79 sound-101 Direct FIFO chunks byte-for-byte and all 68 sound-144 visible CGB register/channel-status snapshots. First-GOTO snapshots retain 21 active TIE channels. Player-slot concurrency and audible cue names remain open. |
+| 1 | audio (`0x465B70`) | runtime | `0x0809AAC0` indexes the sound-ID master table and initializes m4a tracks; a live wrapper probe captured ID 118 resolving to descriptor `0x53D06C`. All 217 tracks structurally decode and runtime NoteRequest reaches terminal tone plus 10+4 allocation. Player-level SoundMain emits 80/80 non-silent bounded WAVs: 62 one-shots naturally finish and 18 loop songs cross all 138 GOTO tracks. Independent mGBA differential matches all 79 sound-101 Direct FIFO chunks and all 68 sound-144 visible CGB snapshots. Follow-up captures match active same-slot hard replacement 27/27, linked-player shared DirectSound pool 25/25 and synthetic cross-player fixed-CGB competition 68/68; active owner `0x03006178` beats `0x030061C8`. First-GOTO snapshots retain 21 active TIE channels. Cue semantics remain open: 72 entries are still `unknown`, with no official names claimed. |
 | 2 | battle-effect templates (`0x545458`) | runtime | A live caller consumed effect 2. A controlled level-2 A/B changed only record 2 growth `+0x0E:1→2`; the type-4 runtime destination byte `+7` changed `4→5`, while other output bytes remained stable. |
 | 3 | battle-encounters (historical slug; real base `0x54229C`) | code | Corrected to 24 visual descriptors. Story opcode chain `0x0808FA2C→0x0808A69C→0x08087C9C` indexes all records and decompresses three LZ77 streams; no encounter semantics remain. |
 | 4 | battle-handlers (`0x53E6D8`) | disproved | Exact seven-pair slice `entries[8:15]` of the canonical 256×8 handler table at `0x53E698`; no independent bank identity or write path remains. |
@@ -86,7 +86,15 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
   the historical hard-coded macOS output directory and should be parameterized
   before treating their commands as portable.
 
-## Cheapest next dynamic-verification targets
+## Historical next-target plan (superseded 2026-07-13)
+
+The save, maps, growth, story and fonts targets below are retained only as an
+investigation history. They have since been closed or disproved and must not be
+used as the current execution queue. Current priority is the 10 code-verified
+banks (`battle-encounters`, `cutscene-scripts`, `data-table-b`, `levels`,
+`map-events`, `map-sprites`, `palettes`, `resource-pointers`, `sappy-engine`,
+`tile-assets`), remaining unit/skill field semantics, audio cue semantics and
+long-route player-visible regression evidence.
 
 The following are ordered by expected effort and reuse of current assets. Each
 test must preserve the raw JSON/log and a short result note. `<ROM>` should be a
