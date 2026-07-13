@@ -484,8 +484,9 @@
 - levels 的真正 Continue 已复现：Naruto level 1、经验100/250、训练点`+BA=0`；
   自然 selector 证明“移动→对战→木叶丸对白”消费 primary scenario 41 脚本
   `0x08031A12..0x08031D5F`，44 次 dispatch 后 opcode 00 正常终止、无 SetBattle，
-  随后 UI 是 story 后任务准备而非标题图鉴。下一步从队伍确认寻找新 selector/第二战；
-  目标仍是 A880=3 / level2 / 分配前训练点1
+  随后 UI 是 story 后任务准备而非标题图鉴。stale 菜单需 `A→B` 激活，再
+  `Down×2→A` 可重复进入 strict battle 41（36×44、Naruto/Iruka formation）；下一步
+  完成该战并捕获战后升级，目标仍是 A880=3 / level2 / 分配前训练点1
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special

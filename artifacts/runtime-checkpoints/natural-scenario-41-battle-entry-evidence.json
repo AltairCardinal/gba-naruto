@@ -1,0 +1,32 @@
+{
+  "source_state": "scenario 41 terminal preparation menu",
+  "input_mode": "keyboard",
+  "per_key_delay_ms": 2500,
+  "input_sequence": ["KeyZ", "KeyX", "ArrowDown", "ArrowDown", "KeyZ"],
+  "input_meaning": ["enter team page", "return and activate menu", "move down", "select Start Mission", "confirm"],
+  "stale_menu_boundary": "Directional input is ignored before the A->B team-page round trip activates the menu controller.",
+  "chapter_trace": {
+    "selector_hit_count": 2,
+    "scenario_id": 41,
+    "script": "0x08031A12",
+    "opcode_hit_count": 44,
+    "terminal_cursor": "0x08031D5F",
+    "new_selector_hit": false
+  },
+  "outer_state_0x020311D4_hex": "000000000000000000000000000000800a000001000129270100000001020000",
+  "battle_control_hex": "0029000000000000",
+  "battle_id": 41,
+  "map": {"width": 36, "height": 44, "grid_width": 9, "grid_height": 22},
+  "units": [
+    {"slot": 1, "character_id": 1, "x": 4, "y": 10},
+    {"slot": 2, "character_id": 30, "x": 4, "y": 4}
+  ],
+  "strict_arrival_checks": {
+    "unique_complete_formation": true,
+    "battle_id_present": true,
+    "map_loaded": true,
+    "battle_map_visible": true
+  },
+  "menu_state_at_battle": {"A880": 1, "A882": 1, "A884": 1, "A88C": 1},
+  "conclusion": "Scenario 41's post-story UI directly enters battle 41 after menu activation; it does not dispatch a new chapter selector."
+}

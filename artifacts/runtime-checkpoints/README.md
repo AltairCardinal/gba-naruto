@@ -59,6 +59,12 @@ from the genuine Konoha save state. Move/Battle naturally selected primary
 `0x08031D5F` opcode `00` without SetBattle. The outer-state transition proves
 the following preparation UI belongs to scenario 41, not the title encyclopedia.
 
+`natural-scenario-41-battle-entry-evidence.json` records the required stale-menu
+activation (`A, B`) followed by `Down, Down, A`. It reaches strict battle 41
+without a new selector: map 36×44, Naruto `(4,10)`, Iruka `(4,4)`. This closes
+the natural route from scenario 41's story terminal to the tracked actionable
+battle identity; battle completion and level-up remain separate gates.
+
 `visual-variant-runtime-evidence.json` records the controlled record 7 /
 variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame
 from Kakashi to Sakura without changing scenario, script cursor, or dispatch count.

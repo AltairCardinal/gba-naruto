@@ -111,3 +111,17 @@ A884 会从 1 变 2，部分返回路径变 0，A885 可变为 `0xFC`。
 “菜单直接触发 selector”，必须先满足队伍 UI 内部条件。下一探针应记录 A882/A884/
 A885 writer 的调用返回，同时保留 selector `0x0808F5CC` 与 SetBattle
 `0x08097C78`；不得继续靠固定方向键或截图猜选中项。
+
+随后同一会话确认了条件：terminal 菜单的画面是 stale，必须先 `A` 进入队伍页，再
+`B` 返回，菜单控制器才接受方向键。精确序列
+`A, B, Down, Down, A`（每键前 2500 ms）直接进入 battle 41；没有新的 selector hit。
+因此第二战入口是 scenario 41 post-story UI 直接设置 battle control，不是新 scenario。
+
+独立重放得到 battle raw `00 29 00 00 00 00 00 00`、map `36×44/grid 9×22`、
+Naruto ID1 `(4,10)`、Iruka ID30 `(4,4)`，strict arrival 四项全过；A880/A882/A884/
+A88C 均为 1。outer state 仅新增 `+0x0F=0x80`，章节字段保持不变。这与 tracked
+`actionable-move-grid.ss9` 的战斗身份一致。紧凑证据见
+`artifacts/runtime-checkpoints/natural-scenario-41-battle-entry-evidence.json`。
+
+下一步已不再是寻找入口，而是完成 battle 41 并捕获战后 EXP/level/训练点；只有跨过
+经验阈值并满足原升级判据，levels 才能从 `code_verified` 升级。
