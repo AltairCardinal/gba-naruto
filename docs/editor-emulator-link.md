@@ -10,7 +10,7 @@ puppeteer 端到端 18/18 检查全过，连续 3 次运行稳定。
 
 | 层 | 文件 | 关键改动 |
 |----|------|---------|
-| Backend (FastAPI) | `web-editor/backend/routers/build.py` | 单例 → `dict<build_id, BuildState>`；新增 `/api/public/rom/{build_id}` 公开 endpoint；WS 支持 `?build_id=`；build 输出到 `build/users/<user>/<build_id>/` |
+| Backend (FastAPI) | `web-editor/backend/routers/build.py` | 单例 → `dict<build_id, BuildState>`；新增 `/api/public/rom/{build_id}` 公开 endpoint；WS 首帧认证并绑定 owner/build ID；build 输出到 `build/users/<user>/<build_id>/` |
 | Backend (FastAPI) | `web-editor/backend/routers/auth.py` | 新增 `POST /api/auth/login`（用户名密码 → JWT） |
 | Backend (FastAPI) | `web-editor/backend/main.py` | 挂载 auth router |
 | Build pipeline | `tools/build_mod.py` | 支持 `BUILD_OUTPUT_DIR` 环境变量（默认回退到 `build/`） |
@@ -99,7 +99,7 @@ gba.loadGame                  gba.loadGame
 | GET | `/api/build/status?build_id=xxx` | JWT | 查 build 状态（不传 → 当前用户最新） |
 | GET | `/api/build/download?build_id=xxx` | JWT | 私有下载 ROM（带 token） |
 | GET | `/api/public/rom/<build_id>` | **无** | **公开 ROM — editor → emulator 用这个** |
-| WS | `/ws/build?build_id=xxx` | 无（前端走 query） | build 日志流 |
+| WS | `/ws/build` | 首帧 JWT + build ID | owner 专属 build 日志流 |
 
 ---
 

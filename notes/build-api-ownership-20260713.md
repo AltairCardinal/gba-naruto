@@ -14,12 +14,19 @@ private marker。根因是查到 `BuildState` 后没有比较 `state.user_id` �
 - 未指定 build ID 时按 `build_states` 的插入顺序选该用户最新 running/done build，
   不再错误地把随机 UUID v4 字典序当创建时间。
 
-## 尚未闭合
+## 浏览器鉴权闭合
 
-`/ws/build` 当前没有鉴权，且缺 build ID 时会跨用户选择全局 build；修复需要前端把
-JWT 通过 WebSocket 可验证的握手参数传入并增加 UI wiring 测试。私有 download 的
-前端仍用裸 `<a>` 导航，无法附带 Bearer header，也需在建立前端测试能力后改为
-带 auth header 的 fetch/blob 下载。真实 subprocess 的 `DB_PATH`、外部
-`BUILD_OUTPUT_DIR` 与当前 build-ID automated report 已闭合；详见
-`notes/editor-isolated-writeback-smoke-20260713.md`。trigger 现使用 SQLite backup
-API 固化 build-ID 专属 DB snapshot；仍开放的是 WebSocket 与前端下载鉴权 wiring。
+前端 token 现统一来自 `authStore`，`apiFetch` 与地图读写不再读取旧的
+`access_token` key。私有下载改为携带 Bearer 的 fetch→blob；按钮在请求期间显示
+“下载中…”，401 会清理登录态，其他失败把服务端原因展示在构建页。
+
+`/ws/build` 现要求连接后的第一帧携带 JWT 与显式 build ID。缺 ID、无效 token、
+跨用户和未知 build 分别以 4400/4401/4403/4404 关闭；缺 ID 时不再选择全局 build。
+服务端只向已验证 owner 推送，payload 去除了绝对 `rom_path`。BuildView 先读取当前
+用户最新状态，再订阅该 build ID。
+
+后端 TestClient 固化 HTTP/WS owner 隔离，前端 Vitest/jsdom 固化共享 token、认证
+下载、WebSocket 首帧和地图 wiring。真实 subprocess 的 `DB_PATH`、外部
+`BUILD_OUTPUT_DIR` 与当前 build-ID automated report 仍由
+`notes/editor-isolated-writeback-smoke-20260713.md` 覆盖。公开
+`/api/public/rom/{build_id}` 的 UUID capability 边界本轮不变。

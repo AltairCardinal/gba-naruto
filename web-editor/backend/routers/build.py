@@ -11,7 +11,7 @@ import threading
 import uuid
 from pathlib import Path
 
-from .auth import get_current_user, User
+from .auth import decode_access_token, get_current_user, User
 from dependencies import require_permission
 from database import _get_db_path
 
@@ -185,7 +185,7 @@ async def _broadcast(build_id: str, payload: dict):
     dead = []
     for ws in subs:
         try:
-            await ws.send_json(payload)
+            await ws.send_json(_websocket_payload(payload))
         except Exception:
             dead.append(ws)
     for ws in dead:
@@ -193,6 +193,11 @@ async def _broadcast(build_id: str, payload: dict):
             subs.remove(ws)
         except ValueError:
             pass
+
+
+def _websocket_payload(payload: dict) -> dict:
+    """Expose browser-relevant build state without leaking server paths."""
+    return {key: value for key, value in payload.items() if key != "rom_path"}
 
 
 @router.post("/api/build/trigger")
@@ -303,34 +308,43 @@ async def public_get_rom(build_id: str):
 # updates in real time.
 # ────────────────────────────────────────────────────────────────────────────
 @router.websocket("/ws/build")
-async def websocket_build(websocket: WebSocket, build_id: Optional[str] = None):
-    """Per-build log/status stream. If build_id is omitted, subscribes to the
-    latest build across all users (best-effort, used by the legacy frontend)."""
+async def websocket_build(websocket: WebSocket):
+    """Authenticate the first frame, then stream only the caller's build."""
     await websocket.accept()
 
-    if build_id is None:
-        # Fallback: pick any running build, else the most recent.
-        running = [bid for bid, st in build_states.items() if st.status == "running"]
-        if running:
-            build_id = running[0]
-        elif build_states:
-            build_id = sorted(build_states.keys())[-1]
-        else:
-            await websocket.send_json({"type": "error", "detail": "no builds available"})
-            await websocket.close()
-            return
+    try:
+        auth_message = await asyncio.wait_for(websocket.receive_json(), timeout=5)
+    except (asyncio.TimeoutError, WebSocketDisconnect, ValueError):
+        await websocket.close(code=4401, reason="authentication required")
+        return
+
+    build_id = auth_message.get("build_id") if isinstance(auth_message, dict) else None
+    if not isinstance(build_id, str) or not build_id:
+        await websocket.close(code=4400, reason="explicit build_id required")
+        return
+    token = auth_message.get("token")
+    if not isinstance(token, str) or not token:
+        await websocket.close(code=4401, reason="authentication required")
+        return
+    try:
+        user = decode_access_token(token)
+    except HTTPException:
+        await websocket.close(code=4401, reason="invalid or expired token")
+        return
 
     state = build_states.get(build_id)
     if state is None:
-        await websocket.send_json({"type": "error", "detail": f"unknown build_id {build_id}"})
-        await websocket.close()
+        await websocket.close(code=4404, reason="unknown build_id")
+        return
+    if state.user_id != user.username:
+        await websocket.close(code=4403, reason="build belongs to another user")
         return
 
     build_websockets.setdefault(build_id, []).append(websocket)
 
     try:
         # Initial snapshot
-        await websocket.send_json({
+        await websocket.send_json(_websocket_payload({
             "type": "status",
             "build_id": state.build_id,
             "status": state.status,
@@ -338,7 +352,7 @@ async def websocket_build(websocket: WebSocket, build_id: Optional[str] = None):
             "progress": state.progress,
             "rom_path": state.rom_path,
             "error": state.error,
-        })
+        }))
 
         last_log_count = len(state.logs)
         while True:
@@ -346,7 +360,7 @@ async def websocket_build(websocket: WebSocket, build_id: Optional[str] = None):
             # Only send a delta if something changed
             if len(state.logs) != last_log_count or state.status in ("done", "error"):
                 last_log_count = len(state.logs)
-                await websocket.send_json({
+                await websocket.send_json(_websocket_payload({
                     "type": "log",
                     "build_id": state.build_id,
                     "status": state.status,
@@ -354,10 +368,10 @@ async def websocket_build(websocket: WebSocket, build_id: Optional[str] = None):
                     "progress": state.progress,
                     "rom_path": state.rom_path,
                     "error": state.error,
-                })
+                }))
                 if state.status in ("done", "error"):
                     # Send one more terminal snapshot and stop polling
-                    await websocket.send_json({
+                    await websocket.send_json(_websocket_payload({
                         "type": "status",
                         "build_id": state.build_id,
                         "status": state.status,
@@ -365,7 +379,7 @@ async def websocket_build(websocket: WebSocket, build_id: Optional[str] = None):
                         "progress": state.progress,
                         "rom_path": state.rom_path,
                         "error": state.error,
-                    })
+                    }))
                     break
     except WebSocketDisconnect:
         pass

@@ -13,12 +13,13 @@ from unittest.mock import patch
 
 from fastapi import FastAPI, Header
 from fastapi.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
 BACKEND = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BACKEND))
 os.environ.setdefault("SECRET_KEY", "test-only-build-api-secret")
 
-from routers.auth import User, get_current_user  # noqa: E402
+from routers.auth import User, create_access_token, get_current_user  # noqa: E402
 from routers import build  # noqa: E402
 
 
@@ -142,6 +143,54 @@ class BuildApiOwnershipTests(unittest.TestCase):
             self.assertEqual(captured["env"]["BUILD_OUTPUT_DIR"], str(output))
             self.assertEqual(captured["env"]["DB_PATH"], str(request_db))
             self.assertEqual(state.status, "done")
+
+    def _websocket_close_code(self, message: dict) -> int:
+        with self.assertRaises(WebSocketDisconnect) as caught:
+            with self.client.websocket_connect("/ws/build") as websocket:
+                websocket.send_json(message)
+                websocket.receive_json()
+        return caught.exception.code
+
+    def test_websocket_requires_explicit_build_id(self):
+        token = create_access_token({"sub": "alice", "role": "editor"})
+        self.assertEqual(
+            self._websocket_close_code({"type": "auth", "token": token}),
+            4400,
+        )
+
+    def test_websocket_rejects_missing_token(self):
+        self.assertEqual(
+            self._websocket_close_code({"type": "auth", "build_id": "alice-build"}),
+            4401,
+        )
+
+    def test_websocket_rejects_another_users_build(self):
+        state = build.BuildState("alice-build", "alice")
+        state.status = "running"
+        build.build_states[state.build_id] = state
+        token = create_access_token({"sub": "bob", "role": "editor"})
+        self.assertEqual(
+            self._websocket_close_code({
+                "type": "auth", "token": token, "build_id": "alice-build"
+            }),
+            4403,
+        )
+
+    def test_websocket_streams_only_owned_build_without_server_path(self):
+        state = build.BuildState("alice-build", "alice")
+        state.status = "running"
+        state.logs = ["private build log"]
+        state.rom_path = "/tmp/private-alice.gba"
+        build.build_states[state.build_id] = state
+        token = create_access_token({"sub": "alice", "role": "editor"})
+        with self.client.websocket_connect("/ws/build") as websocket:
+            websocket.send_json({
+                "type": "auth", "token": token, "build_id": "alice-build"
+            })
+            snapshot = websocket.receive_json()
+        self.assertEqual(snapshot["build_id"], "alice-build")
+        self.assertEqual(snapshot["logs"], ["private build log"])
+        self.assertNotIn("rom_path", snapshot)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,9 @@
  *   1. Pick a base: API_V1 or API_PLAIN
  *   2. Use apiFetch<T>() — never raw fetch() in stores
  *   3. If the type doesn't exist yet, add it to types.ts
- */
+*/
+
+import { useAuthStore } from '../stores/authStore'
 
 export const API_V1 = '/api/v1'
 export const API_PLAIN = '/api'
@@ -28,8 +30,7 @@ export class ApiError extends Error {
 }
 
 function authHeaders(): Record<string, string> {
-  const token = localStorage.getItem('access_token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
+  return useAuthStore().authHeaders()
 }
 
 export interface ApiFetchOptions {
@@ -67,6 +68,7 @@ export async function apiFetch<T>(path: string, opts: ApiFetchOptions = {}): Pro
     body: body !== undefined ? JSON.stringify(body) : undefined,
   })
   if (!res.ok) {
+    if (res.status === 401) useAuthStore().logout()
     let errBody: unknown
     try {
       errBody = await res.json()
