@@ -75,6 +75,15 @@ class MapM4AInstrumentTests(unittest.TestCase):
         self.assertEqual(result["invalid_envelope_parameter_count"], 0)
         self.assertEqual(result["nonzero_decay_note_count"], 837)
         self.assertEqual(result["nonzero_release_note_count"], 326)
+        self.assertEqual(result["psg_note_count"], 11)
+        self.assertEqual(result["psg_terminal_type_counts"], {"0x0C": 11})
+        self.assertEqual(result["psg_sound_ids"], [144])
+        self.assertEqual(result["psg_velocity_counts"], {"12": 2, "32": 2, "52": 7})
+        self.assertEqual(result["psg_nr43_counts"], {"0x14": 11})
+        self.assertEqual(
+            [(row["NR42"], row["note_count"]) for row in result["psg_register_vectors"]],
+            [(0x18, 2), (0x28, 2), (0x48, 7)],
+        )
 
 
 if __name__ == "__main__":

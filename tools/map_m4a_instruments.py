@@ -9,10 +9,12 @@ from pathlib import Path
 
 try:
     from tools.extract_audio_assets import parse_wave
+    from tools.m4a_psg import noise_start_registers
     from tools.m4a_pitch_step import midi_key_to_step
     from tools.render_m4a_midi import execute_track
 except ModuleNotFoundError:  # direct ``python tools/...`` execution
     from extract_audio_assets import parse_wave
+    from m4a_psg import noise_start_registers
     from m4a_pitch_step import midi_key_to_step
     from render_m4a_midi import execute_track
 
@@ -85,6 +87,11 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     invalid_mid_note_mix_updates = []
     envelope_parameters: Counter[tuple[int, int, int, int]] = Counter()
     invalid_envelope_parameters = []
+    psg_types: Counter[int] = Counter()
+    psg_sound_ids: set[int] = set()
+    psg_velocities: Counter[int] = Counter()
+    psg_tone_offsets: Counter[int] = Counter()
+    psg_register_vectors: Counter[tuple[int, int, int, int, int]] = Counter()
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -112,6 +119,26 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                 if resolved["drum"]:
                     drum_notes += 1
                     song_drums += 1
+                if terminal["type"] != 0:
+                    psg_types[terminal["type"]] += 1
+                    psg_sound_ids.add(song["sound_id"])
+                    psg_velocities[event["velocity"]] += 1
+                    psg_tone_offsets[terminal["offset"]] += 1
+                    if terminal["type"] == 0x0C:
+                        registers = noise_start_registers(
+                            rom,
+                            key=event["pitch_key"],
+                            length=terminal["length"],
+                            pointer=terminal["pointer"],
+                            attack=terminal["attack"],
+                            sustain=terminal["sustain"],
+                            track_right=event["track_mix_right"],
+                            track_left=event["track_mix_left"],
+                            velocity=event["velocity"],
+                        )
+                        psg_register_vectors[
+                            tuple(registers[name] for name in ("NR41", "NR42", "NR43", "NR44", "NR51"))
+                        ] += 1
                 if terminal["type"] == 0:
                     wave_offset = terminal["pointer"] - ROM_BASE
                     wave = parse_wave(rom, wave_offset)
@@ -385,6 +412,45 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
             "Tone ADSR bytes are copied to SoundChannel +4..+7. Their mixer-time "
             "state machine is implemented in tools/m4a_envelope.py; mapping MP2K "
             "track time to SoundMain buffer invocations and final PCM remains separate."
+        ),
+        "psg_note_count": sum(psg_types.values()),
+        "psg_terminal_type_counts": {
+            f"0x{key:02X}": value for key, value in sorted(psg_types.items())
+        },
+        "psg_sound_ids": sorted(psg_sound_ids),
+        "psg_velocity_counts": {
+            str(key): value for key, value in sorted(psg_velocities.items())
+        },
+        "psg_tone_offsets": [
+            {
+                "offset": offset,
+                "offset_hex": f"0x{offset:06X}",
+                "note_count": count,
+            }
+            for offset, count in sorted(psg_tone_offsets.items())
+        ],
+        "psg_nr43_counts": {
+            f"0x{registers[2]:02X}": sum(
+                count for vector, count in psg_register_vectors.items()
+                if vector[2] == registers[2]
+            )
+            for registers in sorted(psg_register_vectors)
+        },
+        "psg_register_vectors": [
+            {
+                "NR41": registers[0],
+                "NR42": registers[1],
+                "NR43": registers[2],
+                "NR44": registers[3],
+                "NR51": registers[4],
+                "note_count": count,
+            }
+            for registers, count in sorted(psg_register_vectors.items())
+        ],
+        "psg_boundary": (
+            "All executed non-DirectSound tones are channel-4 noise and their CGB "
+            "register vectors are modeled. Final noise waveform rendering into the "
+            "combined PCM/WAV output remains separate."
         ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,

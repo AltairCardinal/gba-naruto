@@ -1,0 +1,19 @@
+{
+  "sound_id": 144,
+  "note_count": 11,
+  "tone_offset": "0x46597C",
+  "tone_type": "0x0C",
+  "voice": 43,
+  "key": 72,
+  "duration": 6,
+  "velocity_counts": {"12": 2, "32": 2, "52": 7},
+  "nr43": "0x14",
+  "noise_clock_hz": 32768,
+  "start_register_vectors": [
+    {"velocity": 12, "note_count": 2, "NR41": 0, "NR42": 24, "NR43": 20, "NR44": 128, "NR51": 136},
+    {"velocity": 32, "note_count": 2, "NR41": 0, "NR42": 40, "NR43": 20, "NR44": 128, "NR51": 136},
+    {"velocity": 52, "note_count": 7, "NR41": 0, "NR42": 72, "NR43": 20, "NR44": 128, "NR51": 136}
+  ],
+  "release_registers": {"NR42": 8, "NR44": 128},
+  "coverage_boundary": "The ROM's executed PSG corpus is code-locked through channel-4 register writes and LFSR semantics; final combined PCM/WAV rendering remains open."
+}

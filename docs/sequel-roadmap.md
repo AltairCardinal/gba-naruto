@@ -301,13 +301,15 @@
 - DirectSound ADSR/release/pseudo-echo 与 master gain 状态机已按
   `0x08099EC8..0x08099F82` 代码锁定；16169/16169 note 共 4 种有效 tuple，零非法。
   状态按 SoundMain mixer invocation 而非 MP2K tick 推进
-- 待完成 PSG/noise 合成、跨循环 sample/TIE 执行、
+- 11/11 PSG note 已闭合至 CGB channel-4 寄存器向量、NR43 时钟和 15/7-bit
+  LFSR；实际语料均为 sound ID 144、NR43=`0x14`，三档 NR42 向量已代码锁定
+- 待完成 PSG/noise 与 DirectSound 的联合 PCM 输出、跨循环 sample/TIE 执行、
   精确混音和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a PSG/sample-loop/mixer-buffer 语义并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 m4a sample-loop/mixer-buffer 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

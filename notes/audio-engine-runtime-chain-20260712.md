@@ -116,8 +116,10 @@ executed DirectSound note. The later `notes/directsound-pitch-step-20260713.md`
 closes the ROM-table integer pitch-step, nominal all-note coverage and 23-bit mixer
 phase. MODT=0 track pitch automation, the two-stage volume/pan gain chain, and the
 ADSR/release/pseudo-echo/master-gain state machine are now modeled; MODT=1/2 are
-synthetic-only because this corpus has no MODT commands. PSG/noise synthesis and
-mixer saturation remain open.
+synthetic-only because this corpus has no MODT commands. The remaining 11 notes'
+CGB channel-4 register and LFSR semantics are closed in
+`notes/psg-noise-runtime-chain-20260713.md`. Scheduling that oscillator into the
+combined PCM/WAV output and mixer saturation remain open.
 
 ## Runtime proof
 
