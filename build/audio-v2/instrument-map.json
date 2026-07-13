@@ -42,6 +42,24 @@
     "max": 42264
   },
   "mid_note_pitch_boundary": "Applies KEYSH/BEND/BENDR/TUNE commands and MODT=0 pitch LFO ticks while a DirectSound note is active. Open ties are bounded by the one-loop track duration. MODT=1 volume and MODT=2 pan automation remain separate.",
+  "channel_mix_note_count": 16169,
+  "invalid_channel_mix_note_count": 0,
+  "invalid_channel_mix_notes": [],
+  "channel_mix_right_range": {
+    "min": 0,
+    "max": 139
+  },
+  "channel_mix_left_range": {
+    "min": 0,
+    "max": 146
+  },
+  "mid_note_mix_update_count": 39,
+  "mid_note_mix_update_command_counts": {
+    "VOL": 39
+  },
+  "invalid_mid_note_mix_update_count": 0,
+  "invalid_mid_note_mix_updates": [],
+  "channel_mix_boundary": "Reproduces 0x0809B3E0 track right/left gain caching and 0x0809A6D8 velocity plus drum-tone-pan propagation. The ROM corpus has no MODT or LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope scaling from channel gains to final mixer gains remains separate.",
   "wave_usage": [
     {
       "offset": 4612204,

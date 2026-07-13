@@ -30,12 +30,14 @@
 
 ## 尚未闭合的完整 E2E
 
-本轮只闭合“正式构建 → 原生模拟器加载 → 已知战斗态 → 持久机器报告”，不包含：
+本轮 runtime smoke 只闭合“正式构建 → 原生模拟器加载 → 已知战斗态 → 持久机器报告”。
+后续 `tests/test_editor_build_integration.py` 已另行闭合完整 mirror DB 中 map-header
+单字段编辑的隔离正式 build，但仍不包含：
 
-- 编辑器 UI 修改 → 隔离 build ID → 下载 ROM；
+- 浏览器编辑器 UI/API 修改 → 隔离 build ID → 下载 ROM；
 - 玩家可见中文文本 OCR；
 - 完整剧情、战斗、存档长程回归；
-- 后端隔离构建验证读取自身产物（当前 automated test 仍有全局 build 路径耦合）；
+- 后端 build-ID API 验证读取自身产物；
 - Linux 可用的中文 OCR（仓内现有 helper 是 macOS Mach-O）。
 
 因此 P0-Step 7 只是完成“离线无 OCR runtime smoke”子项，不能宣称全面 E2E 完成。

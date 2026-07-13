@@ -83,8 +83,9 @@ All 80 active sound IDs now produce standard format-1 MIDI files at 24 PPQN:
 - 217/217 track executions terminate deliberately: 79 by FINE, 138 after one
   GOTO loop;
 - 17,202 original emitted timeline events; explicit state plus per-tick MODT=0
-  pitch-LFO processing adds 21,328 pitch-state events for 38,530 structured events
-  without changing note count;
+  pitch-LFO processing adds 21,328 pitch-state events; exact track/channel volume-pan
+  processing adds 449 mix-state events, for 38,979 structured events without changing
+  note count;
 - no zero-duration or eventless sound IDs;
 - representative files are recognized as standard MIDI containers.
 
@@ -113,8 +114,9 @@ The durable coverage report is `build/audio-v2/instrument-map.json`. This
 closes song → voicegroup → voice/key → terminal tone → wave identity for every
 executed DirectSound note. The later `notes/directsound-pitch-step-20260713.md`
 closes the ROM-table integer pitch-step, nominal all-note coverage and 23-bit mixer
-phase. MODT=0 track pitch automation is now modeled; ADSR/pan-sweep behavior,
-MODT=1/2 volume/pan automation, PSG/noise synthesis and
+phase. MODT=0 track pitch automation and the two-stage volume/pan gain chain are now
+modeled; MODT=1/2 are synthetic-only because this corpus has no MODT commands. ADSR,
+PSG/noise synthesis and
 mixer saturation remain open.
 
 ## Runtime proof

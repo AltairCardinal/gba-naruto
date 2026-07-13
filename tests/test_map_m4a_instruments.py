@@ -3,13 +3,31 @@ import json
 import unittest
 from pathlib import Path
 
-from tools.map_m4a_instruments import analyze, resolve_tone
+from tools.map_m4a_instruments import (
+    _channel_mix_coefficients,
+    analyze,
+    resolve_tone,
+)
 
 
 class MapM4AInstrumentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.rom = Path("rom/base.gba").read_bytes()
+
+    def test_channel_mix_coefficients_match_chn_vol_set_asm(self):
+        self.assertEqual(
+            _channel_mix_coefficients(127, 126, velocity=127, tone_pan=0),
+            (126, 124),
+        )
+        self.assertEqual(
+            _channel_mix_coefficients(127, 126, velocity=127, tone_pan=126),
+            (250, 0),
+        )
+        self.assertEqual(
+            _channel_mix_coefficients(127, 126, velocity=127, tone_pan=-128),
+            (0, 249),
+        )
 
     def test_drum_key_resolves_to_directsound_child(self):
         result = resolve_tone(self.rom, 0x46480C, 4, 46)
@@ -47,6 +65,11 @@ class MapM4AInstrumentTests(unittest.TestCase):
         )
         self.assertGreater(result["mid_note_pitch_update_command_counts"]["LFO"], 0)
         self.assertGreater(result["mid_note_pitch_update_command_counts"]["BEND"], 0)
+        self.assertEqual(result["channel_mix_note_count"], 16169)
+        self.assertEqual(result["invalid_channel_mix_note_count"], 0)
+        self.assertEqual(result["mid_note_mix_update_count"], 39)
+        self.assertEqual(result["invalid_mid_note_mix_update_count"], 0)
+        self.assertEqual(result["mid_note_mix_update_command_counts"], {"VOL": 39})
 
 
 if __name__ == "__main__":

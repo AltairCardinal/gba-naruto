@@ -4,10 +4,29 @@ import unittest
 from pathlib import Path
 
 from tools.decode_m4a_tracks import decode_track
-from tools.render_m4a_midi import execute_track, midi_file, render
+from tools.render_m4a_midi import (
+    _track_mix_coefficients,
+    execute_track,
+    midi_file,
+    render,
+)
 
 
 class RenderM4AMidiTests(unittest.TestCase):
+    def test_track_mix_coefficients_match_trk_vol_pit_set(self):
+        self.assertEqual(
+            _track_mix_coefficients(100, 80, 64, mod_type=0, mod_value=0),
+            (125, 124),
+        )
+        self.assertEqual(
+            _track_mix_coefficients(100, 80, 64, mod_type=1, mod_value=64),
+            (187, 186),
+        )
+        self.assertEqual(
+            _track_mix_coefficients(100, 80, 64, mod_type=2, mod_value=32),
+            (156, 92),
+        )
+
     def test_executes_pattern_and_stops_on_second_loop_entry(self):
         # Main: note, pattern call, wait, backward loop, FINE. Pattern: note/PEND.
         raw = bytes.fromhex("d33c640081b31101000881b200010008b1d3406400b4")
@@ -65,6 +84,9 @@ class RenderM4AMidiTests(unittest.TestCase):
             note["pitch_components"],
             {"key_shift": -2, "bend": -32, "bend_range": 12, "tune": 4},
         )
+        self.assertEqual(
+            (note["track_mix_right"], note["track_mix_left"]), (127, 126)
+        )
 
     def test_mid_note_bend_emits_timed_pitch_state(self):
         # N12 C4, wait 6, bend down one semitone with default range 2.
@@ -96,6 +118,24 @@ class RenderM4AMidiTests(unittest.TestCase):
             [(1, 4, 0), (2, 0, 0), (3, -4, 0), (4, 0, 0)],
         )
 
+    def test_volume_lfo_emits_exact_track_mix_update(self):
+        # MODT=volume, LFOS=64, MOD depth=64, then one MP2K tick.
+        commands = decode_track(bytes.fromhex("c501c240c440db3c6481b1"), 0xB00)
+        result = execute_track(
+            {"offset": 0xB00}, {item["offset"]: item for item in commands}
+        )
+        updates = [
+            event for event in result["events"] if event["type"] == "mix_state"
+        ]
+        self.assertEqual(
+            [
+                (event["tick"], event["track_right"], event["track_left"])
+                for event in updates
+                if event["command"] == "LFO"
+            ],
+            [(1, 190, 189)],
+        )
+
     def test_all_sound_ids_render_nonempty_standard_midi(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = render(
@@ -109,8 +149,9 @@ class RenderM4AMidiTests(unittest.TestCase):
                 result["tie_lifecycle"],
                 {"total": 90, "closed_by_eot": 25, "left_open_at_loop_end": 65},
             )
-            self.assertEqual(result["total_event_count"], 38530)
+            self.assertEqual(result["total_event_count"], 38979)
             self.assertEqual(result["event_type_counts"]["pitch_state"], 21328)
+            self.assertEqual(result["event_type_counts"]["mix_state"], 449)
 
 
 if __name__ == "__main__":

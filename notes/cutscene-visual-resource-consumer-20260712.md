@@ -36,5 +36,7 @@ Direct calls observed statically are:
 `0x53DFB0` is independently referenced from literal `0x08075C0C` and is not a
 ninth pointer-pair record. `tools/populate_bank_json.py` now preserves the
 8-byte pairing so regeneration cannot recreate the false 16-script model.
-Legacy editor rows still address the same sixteen pointer words; their old
-`script_ptr` column name is compatibility-only, not semantic evidence.
+The editor mirror and real-ROM generator now use the corrected eight rows with
+`primary_ptr/secondary_ptr`. The old 16-row `script_ptr` generator was removed
+after a full isolated DB build reproduced its schema crash. The historical
+cutscene slug remains compatibility-only and is not semantic script evidence.

@@ -58,7 +58,8 @@ DirectSound note 共重算 30937 次 step（BEND 323、LFO 30413、MOD 201），
 范围 437..42264。duration 已知的 note 以真实 note-off 为界；仍 open 的 TIE 只追踪
 到单循环 track duration，不伪造跨循环释放。
 
-MODT=1 volume 与 MODT=2 pan automation 尚未接入；结构化 MIDI 仍是试听产物，不编码
-这些 ROM-exact pitch-state 事件，因此不能把 MIDI 文件宣称为整曲 bit-accurate 输出。
+MODT=1 volume 与 MODT=2 pan 的整数链已由合成向量锁定，但实际曲目没有 MODT
+命令；详见 `notes/directsound-volume-pan-20260713.md`。结构化 MIDI 仍是试听产物，
+不编码这些 ROM-exact pitch/mix-state 事件，因此不能宣称整曲 bit-accurate 输出。
 
 紧凑证据：`artifacts/audio/pitch-step-evidence.json`。

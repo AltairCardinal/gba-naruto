@@ -293,8 +293,12 @@
   note，971 条 noncenter，零无效 step
 - MP2K triangle LFO/LFODL/MOD 的逐 tick pitch automation 已闭合；对活跃 note 共
   产生 30937 次有效 step 更新（BEND 323、LFO 30413、MOD 201），零无效；open TIE
-  只追踪到单循环边界。timeline 现为 38530 events，其中 21328 条 pitch-state 元数据
-- 待完成 MODT=1 volume / MODT=2 pan automation、PSG/noise 合成、包络、跨循环 tie release、
+  只追踪到单循环边界
+- `TrkVolPitSet→ChnVolSetAsm` 的两级 volume/pan 整数链已闭合；16169/16169
+  DirectSound note 均得到有效双声道系数，活跃 note 内 39 次 VOL 更新全部有效；
+  MODT=1/2 由合成向量锁定，但实际 track 中 MODT/LFODL 均为 0 次。timeline 现为
+  38979 events（21328 pitch-state、449 mix-state）
+- 待完成 PSG/noise 合成、包络、跨循环 tie release、
   精确混音和可听 cue 命名
 
 **方法：**
@@ -332,14 +336,19 @@
   输出 SHA-1，并用原生 mGBA + tracked checkpoint 断言 battle 41、map 36×44、
   Naruto `(4,10)`、Iruka `(4,4)`；持久报告在
   `artifacts/e2e/offline-smoke-20260713/`
-- 编辑器隔离构建、玩家可见 OCR 与剧情→战斗→存档长程回归仍未完成
+- 编辑器 DB 隔离正式构建已闭合：完整 mirror DB 中只改 map 40 width 36→32，正式
+  build 后 reserved region 之前仅 `0x53DE10:0x24→0x20`；测试同时修复了旧
+  cutscene 16×pointer generator 与 8×pair schema 不一致、以及未编辑 chapter mirror
+  与 scenario 39 semantic relocation 冲突
+- 浏览器 UI/API 下载、玩家可见 OCR 与剧情→战斗→存档长程回归仍未完成
 
 **方法：**
-1. 在现有离线 runtime smoke 上追加编辑器隔离 build 与跨平台 OCR
+1. 在现有离线 runtime smoke 与 editor DB 隔离 build 上追加浏览器 API 与跨平台 OCR
 2. 每完成一个格式的 patch 生成，都要跑一遍 checklist
 
 **交付物：**
 - `tools/run_offline_e2e.py`（当前无 OCR runtime smoke）
+- `tests/test_editor_build_integration.py`（临时 DB 与临时 build ROOT）
 - 后续跨平台 mGBA + OCR 验证
 - 所有格式的验证报告
 

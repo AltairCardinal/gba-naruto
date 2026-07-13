@@ -36,3 +36,26 @@ scratch SHA-256 `6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0
 
 重要地址：table `0x5459C8..0x545BE3`；pair query `0x0806DDA4`；升级 consumer
 `0x080932CA`。
+
+## 自然升级入口补充
+
+`0x080932CA` 属于角色升级后的修炼点分配 UI，不是普通术列表。自然链为：
+
+```text
+[0x0200A880] == 3
+  -> 0x0808E16E calls 0x08093698
+  -> 0x080937DE calls training-list controller 0x0809337C
+  -> confirm row at 0x08093670 calls 0x08093070
+  -> 0x080932CA consumes record +6 per_level_a
+```
+
+训练点字段纠正为 character template `+0xBA`；旧资料中的 `+0xAA` 是笔误。Naruto
+template slot 1 基址 `0x02022EF0`，所以自然训练点地址是 `0x02022FAA`。现有所有
+tracked ss9 的 `0x0200A880` 都不是 3，且 Naruto `+0xBA=0`，不能直接命中。
+
+最短自然路线是从 `tutorial-ui-save.sav` 继续完成下一场足以令 Naruto 从经验
+100/250 升级的战斗，等待游戏自动进入 state 3，再在分配前固化 checkpoint。成功
+证据必须同时包含：`A880==3`、`template+BA>0`、`0x0808E16E/0x08093698` 命中、
+训练 row type 4 与有效 levels ID；确认后还需 `0x08093070/0x080932CA` 命中、训练点
+恰减 1、对应次槽等级加 1，并记录 `0x5459C8+ID*12` 与读出的 `+6` 值。最后只对
+自然命中 record 的 `+6:n→n+1` 做 A/B。

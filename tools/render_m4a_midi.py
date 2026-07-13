@@ -19,6 +19,28 @@ def _signed8(value: int) -> int:
     return value - 0x100 if value & 0x80 else value
 
 
+def _track_mix_coefficients(
+    volume: int,
+    volume_multiplier: int,
+    pan: int,
+    *,
+    mod_type: int,
+    mod_value: int,
+    pan_extra: int = 0,
+) -> tuple[int, int]:
+    """Reproduce the track right/left gain cache at 0x0809B3E0."""
+    base = (volume * volume_multiplier) >> 5
+    if mod_type == 1:
+        base = (base * (mod_value + 128)) >> 7
+    signed_pan = ((pan - 0x40) << 1) + pan_extra
+    if mod_type == 2:
+        signed_pan += mod_value
+    signed_pan = max(-128, min(127, signed_pan))
+    right = ((signed_pan + 128) * base >> 8) & 0xFF
+    left = ((127 - signed_pan) * base >> 8) & 0xFF
+    return right, left
+
+
 def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 200_000) -> dict:
     pc = track["offset"]
     tick = 0
@@ -29,7 +51,9 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
     velocity = 100
     voice = 0
     volume = 127
+    volume_multiplier = 64
     pan = 64
+    pan_extra = 0
     key_shift = 0
     bend = 0
     bend_range = 2
@@ -63,6 +87,25 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             },
         })
 
+    def append_mix_state(command_name: str) -> None:
+        right, left = _track_mix_coefficients(
+            volume,
+            volume_multiplier,
+            pan,
+            mod_type=mod_type,
+            mod_value=mod_value,
+            pan_extra=pan_extra,
+        )
+        events.append({
+            "tick": tick,
+            "type": "mix_state",
+            "command": command_name,
+            "track_right": right,
+            "track_left": left,
+            "modulation": mod_value if mod_type in (1, 2) else 0,
+            "mod_type": mod_type,
+        })
+
     def advance_pitch_lfo() -> None:
         nonlocal lfo_countdown, lfo_phase, mod_value
         if lfo_speed == 0 or mod_depth == 0:
@@ -81,6 +124,8 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
         mod_value = next_mod
         if mod_type == 0:
             append_pitch_state("LFO")
+        elif mod_type in (1, 2):
+            append_mix_state("LFO")
     for step in range(max_steps):
         command = command_map.get(pc)
         if command is None:
@@ -130,9 +175,11 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
         elif name == "VOL":
             volume = command["value"]
             events.append({"tick": tick, "type": "volume", "value": volume})
+            append_mix_state(name)
         elif name == "PAN":
             pan = command["value"]
             events.append({"tick": tick, "type": "pan", "value": pan})
+            append_mix_state(name)
         elif name == "KEYSH":
             key_shift = _signed8(command["value"])
             append_pitch_state(name)
@@ -151,7 +198,10 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             if lfo_speed == 0:
                 mod_value = 0
                 lfo_phase = 0
-                append_pitch_state(name)
+                if mod_type == 0:
+                    append_pitch_state(name)
+                elif mod_type in (1, 2):
+                    append_mix_state(name)
         elif name == "LFODL":
             lfo_delay = command["value"]
         elif name == "MOD":
@@ -159,10 +209,17 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             if mod_depth == 0:
                 mod_value = 0
                 lfo_phase = 0
-                append_pitch_state(name)
+                if mod_type == 0:
+                    append_pitch_state(name)
+                elif mod_type in (1, 2):
+                    append_mix_state(name)
         elif name == "MODT":
+            previous_mod_type = mod_type
             mod_type = command["value"]
-            append_pitch_state(name)
+            if previous_mod_type == 0 or mod_type == 0:
+                append_pitch_state(name)
+            if previous_mod_type in (1, 2) or mod_type in (1, 2):
+                append_mix_state(name)
         elif name == "EOT":
             tie_key = command.get("key", key)
             tied_note = open_ties.pop(tie_key, None)
@@ -187,6 +244,14 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                 + (key_shift << 8)
                 + modulation
             )
+            track_right, track_left = _track_mix_coefficients(
+                volume,
+                volume_multiplier,
+                pan,
+                mod_type=mod_type,
+                mod_value=mod_value,
+                pan_extra=pan_extra,
+            )
             note_event = {
                 "tick": tick, "type": "note", "key": key, "velocity": velocity,
                 "duration": duration, "voice": voice, "volume": volume, "pan": pan,
@@ -200,6 +265,8 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                     "bend_range": bend_range,
                     "tune": tune,
                 },
+                "track_mix_right": track_right,
+                "track_mix_left": track_left,
             }
             events.append(note_event)
             if name == "TIE":

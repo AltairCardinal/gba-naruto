@@ -20,6 +20,19 @@ ROM_BASE = 0x08000000
 TONE_SIZE = 12
 
 
+def _channel_mix_coefficients(
+    track_right: int,
+    track_left: int,
+    *,
+    velocity: int,
+    tone_pan: int,
+) -> tuple[int, int]:
+    """Reproduce the pre-envelope channel gains at 0x0809A6D8."""
+    right = min(255, (velocity * (tone_pan + 128) * track_right) >> 14)
+    left = min(255, (velocity * (127 - tone_pan) * track_left) >> 14)
+    return right, left
+
+
 def parse_tone(rom: bytes, offset: int) -> dict:
     if not 0 <= offset <= len(rom) - TONE_SIZE:
         raise ValueError(f"tone offset 0x{offset:X} outside ROM")
@@ -65,6 +78,11 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     mid_note_pitch_steps: list[int] = []
     mid_note_pitch_update_commands: Counter[str] = Counter()
     invalid_mid_note_pitch_updates = []
+    channel_mix_notes: list[tuple[int, int]] = []
+    invalid_channel_mix_notes = []
+    mid_note_mix_updates: list[tuple[int, int]] = []
+    mid_note_mix_update_commands: Counter[str] = Counter()
+    invalid_mid_note_mix_updates = []
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -76,6 +94,11 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                 (index, event)
                 for index, event in enumerate(timeline["events"])
                 if event["type"] == "pitch_state"
+            ]
+            mix_states = [
+                (index, event)
+                for index, event in enumerate(timeline["events"])
+                if event["type"] == "mix_state"
             ]
             for event_index, event in enumerate(timeline["events"]):
                 if event["type"] != "note":
@@ -96,6 +119,31 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                         wave_counts[wave_offset] += 1
                         song_waves[wave_offset] += 1
                         pitch_key = terminal["key"] if resolved["drum"] else event["key"]
+                        tone_pan = (
+                            (terminal["pan_sweep"] - 0xC0) << 1
+                            if resolved["drum"] and terminal["pan_sweep"] & 0x80
+                            else 0
+                        )
+                        channel_mix = _channel_mix_coefficients(
+                            event["track_mix_right"],
+                            event["track_mix_left"],
+                            velocity=event["velocity"],
+                            tone_pan=tone_pan,
+                        )
+                        if all(0 <= value <= 0xFF for value in channel_mix):
+                            channel_mix_notes.append(channel_mix)
+                        else:
+                            invalid_channel_mix_notes.append({
+                                "sound_id": song["sound_id"],
+                                "voice": event["voice"],
+                                "event_key": event["key"],
+                                "track_mix": [
+                                    event["track_mix_right"], event["track_mix_left"]
+                                ],
+                                "velocity": event["velocity"],
+                                "tone_pan": tone_pan,
+                                "channel_mix": list(channel_mix),
+                            })
                         step = midi_key_to_step(
                             rom, wave["frequency_raw"], key=pitch_key, fine=0
                         )
@@ -185,6 +233,33 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                                         "update_fine": update["pitch_fine"],
                                         "step": update_step,
                                     })
+                        for update_index, update in mix_states:
+                            if update_index <= event_index:
+                                continue
+                            if not event["tick"] <= update["tick"] < note_end:
+                                continue
+                            update_mix = _channel_mix_coefficients(
+                                update["track_right"],
+                                update["track_left"],
+                                velocity=event["velocity"],
+                                tone_pan=tone_pan,
+                            )
+                            if all(0 <= value <= 0xFF for value in update_mix):
+                                mid_note_mix_updates.append(update_mix)
+                                mid_note_mix_update_commands[update["command"]] += 1
+                            else:
+                                invalid_mid_note_mix_updates.append({
+                                    "sound_id": song["sound_id"],
+                                    "voice": event["voice"],
+                                    "event_key": event["key"],
+                                    "update_tick": update["tick"],
+                                    "track_mix": [
+                                        update["track_right"], update["track_left"]
+                                    ],
+                                    "velocity": event["velocity"],
+                                    "tone_pan": tone_pan,
+                                    "channel_mix": list(update_mix),
+                                })
         song_rows.append({
             "sound_id": song["sound_id"],
             "note_count": sum(song_types.values()),
@@ -243,6 +318,29 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
             "Applies KEYSH/BEND/BENDR/TUNE commands and MODT=0 pitch LFO ticks while "
             "a DirectSound note is active. Open ties are bounded by the one-loop track "
             "duration. MODT=1 volume and MODT=2 pan automation remain separate."
+        ),
+        "channel_mix_note_count": len(channel_mix_notes),
+        "invalid_channel_mix_note_count": len(invalid_channel_mix_notes),
+        "invalid_channel_mix_notes": invalid_channel_mix_notes,
+        "channel_mix_right_range": {
+            "min": min((item[0] for item in channel_mix_notes), default=None),
+            "max": max((item[0] for item in channel_mix_notes), default=None),
+        },
+        "channel_mix_left_range": {
+            "min": min((item[1] for item in channel_mix_notes), default=None),
+            "max": max((item[1] for item in channel_mix_notes), default=None),
+        },
+        "mid_note_mix_update_count": len(mid_note_mix_updates),
+        "mid_note_mix_update_command_counts": dict(
+            sorted(mid_note_mix_update_commands.items())
+        ),
+        "invalid_mid_note_mix_update_count": len(invalid_mid_note_mix_updates),
+        "invalid_mid_note_mix_updates": invalid_mid_note_mix_updates,
+        "channel_mix_boundary": (
+            "Reproduces 0x0809B3E0 track right/left gain caching and 0x0809A6D8 "
+            "velocity plus drum-tone-pan propagation. The ROM corpus has no MODT or "
+            "LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope scaling "
+            "from channel gains to final mixer gains remains separate."
         ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,

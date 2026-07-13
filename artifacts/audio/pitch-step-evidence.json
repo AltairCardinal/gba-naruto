@@ -71,6 +71,20 @@
     "MODT": "0x0809A39D",
     "TUNE": "0x0809A3B5"
   },
+  "volume_pan_chain": {
+    "track_gain_function": "0x0809B3E0..0x0809B492",
+    "channel_gain_function": "0x0809A6D8..0x0809A706",
+    "executed_directsound_notes": 16169,
+    "valid_channel_gain_pairs": 16169,
+    "invalid_channel_gain_pairs": 0,
+    "right_range": [0, 139],
+    "left_range": [0, 146],
+    "active_note_updates": 39,
+    "observed_update_commands": {"VOL": 39},
+    "corpus_modt_commands": 0,
+    "corpus_lfodelay_commands": 0,
+    "synthetic_modt_1_2_vectors_locked": true
+  },
   "mixer": {
     "body": "0x0809A0E8",
     "phase_step_instructions": "0x0809A0EC..0x0809A130",
@@ -79,5 +93,5 @@
     "phase_bits": 23,
     "formula": "phase += div_freq * step; advance = phase >> 23; phase &= 0x7fffff"
   },
-  "boundary": "Nominal coverage remains available for comparison. Track note-on and mid-note coverage apply KEYSH plus centered BEND/TUNE, unsigned BENDR and the MP2K triangle LFO for MODT=0 pitch; normal tones use the MIDI note and drum children use their child root key. MODT=1 volume and MODT=2 pan automation remain separate, and the structural MIDI does not encode these ROM-exact pitch-state events."
+  "boundary": "Nominal coverage remains available for comparison. Track note-on and mid-note coverage apply KEYSH plus centered BEND/TUNE, unsigned BENDR and the MP2K triangle LFO for MODT=0 pitch; normal tones use the MIDI note and drum children use their child root key. MODT=1 volume and MODT=2 pan formulas are code-locked by synthetic vectors but unused by this ROM corpus. The structural MIDI does not encode these ROM-exact pitch or mix-state events."
 }

@@ -1050,18 +1050,70 @@ def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_cutscene_script_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for cutscene script rows.
+    """Generate validated patches for the corrected 8x8 visual-resource pairs."""
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, primary_ptr, secondary_ptr "
+            "FROM rom_cutscene_scripts ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The legacy table exposes the sixteen pointer words that now correspond to
-    eight visual-resource pairs. ``script_ptr`` is retained as a compatibility
-    column name; it does not imply script semantics.
-    """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_cutscene_scripts", index_column="_idx",
-        pointer_column="script_ptr", table_offset=0x53DF70,
-        entry_count=16, pointer_kind="data",
-    )
+    patches: list[dict[str, Any]] = []
+    seen_indices: set[int] = set()
+    for row in rows:
+        index = int(row["_idx"])
+        try:
+            expected_offset = 0x53DF70 + index * 8
+            if not 0 <= index < 8:
+                raise ValueError(f"index {index} outside 0..7")
+            if index in seen_indices:
+                raise ValueError(f"duplicate index {index}")
+            seen_indices.add(index)
+            if int(row["_rom_offset"]) != expected_offset:
+                raise ValueError(
+                    f"stale _rom_offset 0x{int(row['_rom_offset']):X}; "
+                    f"expected 0x{expected_offset:X}"
+                )
+            for field_index, field in enumerate(("primary_ptr", "secondary_ptr")):
+                pointer = int(row[field])
+                if not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
+                    raise ValueError(
+                        f"{field} 0x{pointer:08X} outside 48 Mbit ROM address range"
+                    )
+                if pointer & 1:
+                    raise ValueError(f"{field} data pointer 0x{pointer:08X} has bit 0 set")
+                patches.append({
+                    "id": f"db_real_rom_cutscene_scripts_{index}_{field}",
+                    "type": "bytes",
+                    "offset": expected_offset + field_index * 4,
+                    "after_hex": struct.pack("<I", pointer).hex(),
+                    "length": 4,
+                    "description": (
+                        f"DB[rom_cutscene_scripts] index={index} {field}: "
+                        "visual-resource data pointer"
+                    ),
+                    "db_table": "rom_cutscene_scripts",
+                    "db_row_id": index,
+                    "db_field": field,
+                })
+        except (TypeError, ValueError) as exc:
+            patches.append({
+                "type": "db_pointer_pair_error",
+                "db_table": "rom_cutscene_scripts",
+                "db_row_id": index,
+                "error": str(exc),
+                "description": (
+                    f"DB[rom_cutscene_scripts] row={index} rejected: {exc}"
+                ),
+            })
+    conn.close()
+    return patches
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -1427,9 +1479,10 @@ def _generate_chapter_flow_pointer_patches(
                     "pointer-only writeback is disabled; use the semantic chapter importer"
                 )
             patches.append({
-                'type': 'bytes', 'offset': expected_offset,
-                'after_hex': struct.pack('<I', pointer).hex(), 'length': 4,
-                'description': f"DB[{table}] scenario={index}: guarded chapter script pointer",
+                'type': 'db_chapter_flow_unchanged',
+                'description': (
+                    f"DB[{table}] scenario={index}: unchanged guarded chapter pointer"
+                ),
                 'db_table': table, 'db_row_id': index,
             })
         except (TypeError, ValueError) as exc:
