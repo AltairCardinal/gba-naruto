@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-13T03:29:16.630566+00:00`
+生成时间：`2026-07-13T03:38:22.983737+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -21,7 +21,7 @@
 
 | 结构 | table_offset | format | entries | verification | 文档覆盖 | ROM字节 | 完整 | 问题 |
 |---|---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
-| `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (29) | ✅ (240) | ✅ | — |
+| `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (30) | ✅ (240) | ✅ | — |
 | `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `runtime_verified` | ✅ (18) | ✅ (480) | ✅ | — |
 | `battle-encounters` | ✅ `0x54229C` | ✅ | ✅ (24) | ✅ `code_verified` | ✅ (12) | ✅ (96) | ✅ | — |
 | `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (12) | ✅ (0) | ✅ | — |
@@ -52,7 +52,7 @@
 | `story-d` | ✅ `0x53AB78` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
 | `story-e` | ✅ `0x53C3C0` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
 | `tile-assets` | ✅ `0x5A320C` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (6) | ✅ (1343) | ✅ | — |
-| `units` | ✅ `0x54241C` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (21) | ✅ (630) | ✅ | — |
+| `units` | ✅ `0x54241C` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (22) | ✅ (630) | ✅ | — |
 
 ## 判定规则
 
