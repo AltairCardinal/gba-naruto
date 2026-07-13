@@ -126,3 +126,20 @@ A885 writer 的调用返回，同时保留 selector `0x0808F5CC` 与 SetBattle
 
 因此下一步仍是从 scenario 41 preparation UI 找到真正“开始任务”控制路径，再完成
 battle 并捕获战后 EXP/level/训练点；levels 严格保持 `code_verified`。
+
+## “开始任务？”后的稳定 battle 41 边界
+
+preparation menu 的真实映射已确认：A 是队伍/装备，Down,A 是查看战场，
+Down,Down,A 是“开始任务？”，Down,Down,Down,A 是保存。选择“开始任务？”
+的默认“是”后，battle 41、map 36×44、Naruto (4,10)、Iruka (4,4)
+及 battle-map 画面连续六次采样都稳定，严格 arrival 四项全部通过。该状态明显强于
+旧 transient 假阳性。
+
+不过当前仍像开场自动交战/表现：Naruto 仍为 level 1 / EXP 100，A880=0，
++BA=0，尚无玩家行动、胜利或升级证据。加载提示 checkpoint 后 start/lineup/
+deploy hook 全零，已确认是 checkpoint 位于调用之后，而非 ss9 覆盖新 ROM。
+完整边界见 notes/scenario-41-battle-entry-runtime-20260713.md 与
+artifacts/runtime-checkpoints/scenario-41-battle-entry-evidence.json。
+
+所以下一步从“寻找开始任务入口”收窄为“找到 battle 41 开场表现到玩家控制或胜利的
+交接点”；levels 继续严格保持 `code_verified`。

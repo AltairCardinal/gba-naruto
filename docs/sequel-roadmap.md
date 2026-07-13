@@ -16,6 +16,26 @@
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
+### 2026-07-13 最新执行边界
+
+- scenario 41 任务准备菜单已确认：`A` 为队伍/装备，`Down,A` 为查看战场，
+  `Down,Down,A` 为“开始任务？”，`Down,Down,Down,A` 为保存；
+- 确认“开始任务？”后，battle ID 41、map 36×44、Naruto `(4,10)`、Iruka
+  `(4,4)` 和 battle-map 画面连续六次采样保持稳定，strict arrival 四项全过；
+- 该边界仍未证明玩家接管、胜利、EXP 或升级：Naruto 仍为 level 1 / EXP 100，
+  训练点 `+BA=0`、`A880=0`，因此 `levels` 继续保持 `code_verified`；
+- 下一 P0 不再寻找“开始任务”入口，而是依次命中玩家单位选择 `0x08073940`、
+  MOVEDONE `0x080722A8`、胜负谓词 `0x080777FC`、结果写入 `0x02026807` 和
+  postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；
+- 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`，
+  本次稳定入场不会改变 bank 状态。
+
+资源约束：当前执行机只有 4 GiB RAM / 2 GiB swap。全 ROM Capstone 扫描曾单进程
+膨胀到 3 GiB 以上并触发 OOM、swap thrashing 和 I/O pressure。后续禁止并发运行
+`find_thumb_calls.py` 全 ROM 扫描；必须优先 bounded disasm/编码搜索，一次只运行一个
+Chromium runtime probe，并为长任务设置超时。完整原因和恢复策略见
+`docs/reverse-engineering-handoff-20260711.md` 第 0.5 节。
+
 ### ✅ 已打通
 - 对白 → ROM 写入闭环（dialogue patch pipeline）
 - 5 段对话已验证写入 ROM

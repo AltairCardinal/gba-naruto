@@ -1,11 +1,159 @@
 # GBA 木叶战记逆向工程交接（2026-07-11）
 
-> 2026-07-12 continuation: the current alternate chapter-table experiment,
-> replayable savestates, dependency setup, hashes, and exact resume command are
-> preserved in `artifacts/runtime-checkpoints/README.md`. Read
-> `notes/alternate-chapter-runtime-probe-20260712.md` before running; several
-> visually plausible states were rejected, and `story-b` is still
-> `code_verified`.
+> 2026-07-13 continuation：本文前半保留历史调查脉络；最新事实以本节、
+> notes/current-re-progress-20260711.md、docs/sequel-roadmap.md 和
+> artifacts/runtime-checkpoints/README.md 为准。story-b 已闭合为
+> runtime_verified；当前主线已转到 scenario 41 真实战斗、战后升级和 levels bank。
+
+## 0. 2026-07-13 当前交接快照
+
+### 0.1 Git 与总体完成度
+
+- 工作分支：task/units-character-definitions；
+- Draft PR：https://github.com/AltairCardinal/gba-naruto/pull/1；
+- 本轮开始时 HEAD：59dba83 feat(audio): verify player slot runtime behavior；
+- 调查闭合审计：32/32；
+- 其中 23 个有效数据 bank、9 个 disproved 且禁写回的 tombstone；
+- 证据分布：13 runtime_verified / 10 code_verified / 9 disproved；
+- 运行时 bank 覆盖率为 13/23，约 56.5%，不能写成整个逆向工程已完成 56.5%，
+  更不能把 32/32 审计写成运行时 100%。
+
+仍为 code_verified 的十项：
+
+1. battle-encounters；
+2. cutscene-scripts；
+3. data-table-b；
+4. levels；
+5. map-events；
+6. map-sprites；
+7. palettes；
+8. resource-pointers；
+9. sappy-engine；
+10. tile-assets。
+
+### 0.2 scenario 41 新进展
+
+story-only scenario 41 终止后的 preparation menu 已完成逐项映射：
+
+- A：队伍/装备；
+- Down,A：查看战场；
+- Down,Down,A：“开始任务？”；
+- Down,Down,Down,A：保存。
+
+在“开始任务？”默认“是”上输入 A 后，连续六个采样周期稳定保持：
+
+- battle ID 41；
+- map 36×44 / grid 9×22；
+- Naruto slot 1 (4,10)；
+- Iruka slot 2 (4,4)；
+- strict battle arrival 四项全过。
+
+该结果比已撤销的 transient battle-map 强，但仍只证明稳定战斗表现，不证明玩家已
+接管、胜利或升级。当前 Naruto 仍为 level 1 / EXP 100，A880=0，template
++0xBA=0，secondary levels 仍为 FF；levels 必须继续保持 code_verified。
+
+紧凑证据：
+
+- artifacts/runtime-checkpoints/scenario-41-battle-entry-evidence.json；
+- notes/scenario-41-battle-entry-runtime-20260713.md；
+- notes/levels-runtime-probe-20260713.md。
+
+### 0.3 新诊断工具与已排除误区
+
+tools/build_battle_start_runtime_probe.py 覆盖 prebattle menu、start-task、lineup、
+lineup exit 和 deployment 边界。caller wrapper 的 lineup 计数位于 scratch +0x20，
+exit hook 已使用独立 scratch +0x40，避免一次正常返回被误计为两个调用。当前构建
+SHA-256：
+
+ca701983f5d566dc468f57e49e00ae2d61d8ef659395ed84284057514e1d52f5
+
+从“开始任务？”checkpoint 加载新 probe ROM 后，上述早期 hook 仍为零。调查已证明：
+
+- ss9 的 gbAs 数据不包含 ROM pages；
+- loadState 后 0x0808F894 仍读到新 probe BL；
+- 零计数是 checkpoint 已越过调用，或恢复于函数内部 continuation；
+- 不需要也不应开发“savestate 后重注入 ROM”。
+
+下一 hook 必须放到 checkpoint 恢复后必经的更近边界。
+
+### 0.4 玩家控制、移动事件与胜利链
+
+只读静态分析给出后续最小探针链：
+
+- 0x080732B4：战斗主控制器；
+- 0x080738C0：判断玩家/AI 行动方；
+- 0x08073940：玩家单位选择，命中即可证明玩家控制；
+- 0x080739D0：当前单位确定；
+- 0x08073A04：行动菜单；
+- 0x080722A8：行动/MOVEDONE 事件队列；
+- 0x0807444E：玩家行动结算后的胜负检查；
+- 0x080777FC：实际胜负谓词；
+- 0x08073068：结果写入 0x02026807；
+- 0x08074FDA：战斗控制器终止；
+- 0x08074EE6：postbattle state 0xF400。
+
+scenario 41 的胜负描述符位于 ROM file 0x596804。类型 1 条件会扫描 slot 1..12：
+unit+0xC0 bit 0 是队伍，bit 0x80 表示不再作为有效存活单位。当前 Iruka
+unit+0xC0=0x11，仍是有效队伍 1 单位，所以现有 checkpoint 尚未满足胜利条件。
+教程已知自然路线仍是第一回合移动到 (4,7)，第二回合移动到宝箱 (4,11) 上方
+(4,10) 并结束行动。应捕获：
+
+MOVEDONE → 0x0807444E → 0x080777FC → 0x02026807 → 0x08074FDA
+
+胜利后再观察 Naruto level 2、EXP、template +0xBA 和 A880==3，随后捕获
+0x0808E16E → 0x08093698 → 0x08093070 → 0x080932CA，最后只对自然命中的
+levels record +6 做受控 A/B。
+
+### 0.5 机器资源事故与强制约束
+
+2026-07-13 调查期间机器两次进入严重 swap thrashing。系统日志证据：
+
+- 22:37:56：OOM kill python3，anon RSS 3,143,600 KiB；
+- 23:19:52：OOM kill python3，anon RSS 3,496,848 KiB；
+- 两次均为 4 GiB RAM 接近耗尽、2 GiB swap 完全耗尽；
+- systemd-journald、SSH session 与 proxima watchdog 同时超时；
+- 内核 I/O pressure 在事故后五分钟窗口仍显示 full avg300 约 25%。
+
+直接原因是多个未受限的 tools/find_thumb_calls.py 全 ROM Capstone 线性反汇编扫描
+长期驻留并并发；该工具对 6 MiB ROM 从 0x08000000 连续启用 detail/skipdata，
+在当前 4 GiB 机器上单进程可膨胀到 3 GiB 以上。同期又并发启动四个
+runtime-formation-probe/Chromium，进一步压缩可用内存，最终让 swap I/O 看起来像
+“磁盘读写占满”。磁盘本身没有 I/O error，文件系统也不是写满；当前根分区约 95%
+使用、仍有约 2.2 GiB 空间，但这会降低抖动余量。
+
+后续接手必须遵守：
+
+1. 禁止对 find_thumb_calls.py 做全 ROM 并发扫描；
+2. 优先搜索 Thumb BL 编码、literal 引用或使用 bounded disasm；
+3. 如必须全 ROM 扫描，只允许单进程，并先为工具增加范围/超时/内存门禁；
+4. runtime-formation-probe/Chromium 一次只运行一个；
+5. 所有长命令必须有明确 timeout，60 秒没有有效输出就终止并换方法；
+6. 并行子代理只并行推理/局部只读检查，不并行启动高内存运行时或全 ROM 反汇编；
+7. 每批运行前后检查 free -h、swap 与 /proc/pressure/io。
+
+### 0.6 后续执行顺序
+
+P0：
+
+1. 从稳定 battle 41 checkpoint 证明 0x08073940 玩家控制边界；
+2. 完成两回合教程自然输入并捕获 MOVEDONE/胜负链；
+3. 固化真实 victory/postbattle checkpoint；
+4. 捕获 Naruto level 2、训练点 +BA>0 与 A880==3；
+5. 进入训练分配 UI，命中 levels consumer 并完成 record +6 的单因素 A/B；
+6. levels 达到全部门槛后才更新 bank.json 和 roadmap 状态。
+
+P1：
+
+1. 使用同一次有效战斗事件复用 data-table-b、resource-pointers 与技能执行探针；
+2. 再按 player-visible 价值处理 units 未命名字段和 skills +2/+3/+9；
+3. 对其余 code_verified bank 逐项执行“自然 selector → ROM 目标一致 →
+   可见/行为差异”的运行时升级。
+
+P2：
+
+1. 完成 72 个仍为 unknown 的 audio cue 语义；
+2. 完成 legacy web CRUD 与真实 ROM mirror 的边界；
+3. 最后进行逐要求 completion audit；在所有门槛闭合前 Draft PR 不转 Ready、不合并。
 
 ## 1. 交接结论
 

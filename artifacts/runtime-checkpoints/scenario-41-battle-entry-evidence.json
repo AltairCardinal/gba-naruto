@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-07-13",
+  "scope": "scenario 41 start-task prompt to stable strict battle arrival; this does not prove player control, victory, EXP, level-up, or training-point allocation",
+  "route": {
+    "prebattle_menu_input": ["Down", "Down", "A"],
+    "prompt_text": "开始任务？",
+    "prompt_choice_input": ["A"],
+    "prompt_checkpoint_sha256": "8b94de1a84b4a5aff775bd783237a2fa1ab651d945de8bc3518c66fd1899967b",
+    "battle_checkpoint_sha256": "5d12491887f858cf49e92f665f322788258c623c4283a79dcf0f458d7c0120cb"
+  },
+  "diagnostic_rom": {
+    "builder": "tools/build_battle_start_runtime_probe.py",
+    "sha256": "ca701983f5d566dc468f57e49e00ae2d61d8ef659395ed84284057514e1d52f5"
+  },
+  "stable_samples": 6,
+  "runtime": {
+    "battle_id": 41,
+    "map": {
+      "width": 36,
+      "height": 44,
+      "grid_width": 9,
+      "grid_height": 22
+    },
+    "formation": [
+      {"slot": 1, "character_id": 1, "x": 4, "y": 10},
+      {"slot": 2, "character_id": 30, "x": 4, "y": 4}
+    ],
+    "screen_state": "battle-map",
+    "strict_arrival_checks": {
+      "unique_complete_formation": true,
+      "battle_id_present": true,
+      "map_loaded": true,
+      "battle_map_visible": true
+    }
+  },
+  "levels_boundary": {
+    "a880": 0,
+    "naruto_level": 1,
+    "naruto_exp": 100,
+    "naruto_training_points_ba": 0,
+    "secondary_levels_remain_ff": true
+  },
+  "probe_boundary": {
+    "menu_call_count": 0,
+    "start_call_count": 0,
+    "lineup_caller_count": 0,
+    "deployment_count": 0,
+    "lineup_exit_count": 0,
+    "interpretation": "The loaded prompt checkpoint is already after the patched calls, or resumes on a different continuation path. Zero scratch is not evidence that the diagnostic ROM was replaced by the savestate."
+  },
+  "next_gate": "Prove a transition from the stable battle presentation into player-controlled actions and complete the battle before using it as levels runtime evidence."
+}

@@ -66,6 +66,12 @@ the transient checkpoint's first A also opened team UI, not a battle action
 menu. It must not be used as a battle-start checkpoint. A valid replacement
 must remain a strict battle after settle and accept an actionable battle input.
 
+scenario-41-battle-entry-evidence.json records the corrected preparation-menu
+route Down,Down,A to the “开始任务？” prompt and one A to a battle-41
+presentation that remains a strict 36×44 battle for six polls. Its scope stops
+before player-control, victory, EXP and level-up proof; it must not be used to
+promote the levels bank by itself.
+
 `visual-variant-runtime-evidence.json` records the controlled record 7 /
 variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame
 from Kakashi to Sakura without changing scenario, script cursor, or dispatch count.
