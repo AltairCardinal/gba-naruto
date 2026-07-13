@@ -21,7 +21,7 @@ def scan_calls(
 ) -> list[tuple[int, str, str]]:
     data = rom_path.read_bytes()
     return [
-        (branch.address, branch.mnemonic, branch.op_str)
+        (branch.address, branch.mnemonic, f"#0x{branch.target:x}")
         for branch in find_thumb_branches(
             data,
             target,
