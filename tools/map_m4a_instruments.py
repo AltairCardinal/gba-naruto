@@ -9,9 +9,11 @@ from pathlib import Path
 
 try:
     from tools.extract_audio_assets import parse_wave
+    from tools.m4a_pitch_step import midi_key_to_step
     from tools.render_m4a_midi import execute_track
 except ModuleNotFoundError:  # direct ``python tools/...`` execution
     from extract_audio_assets import parse_wave
+    from m4a_pitch_step import midi_key_to_step
     from render_m4a_midi import execute_track
 
 ROM_BASE = 0x08000000
@@ -55,6 +57,8 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     song_rows = []
     drum_notes = 0
     missing = []
+    center_pitch_steps: list[int] = []
+    invalid_center_pitch_steps = []
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -80,6 +84,21 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                     else:
                         wave_counts[wave_offset] += 1
                         song_waves[wave_offset] += 1
+                        pitch_key = terminal["key"] if resolved["drum"] else event["key"]
+                        step = midi_key_to_step(
+                            rom, wave["frequency_raw"], key=pitch_key, fine=0
+                        )
+                        if step > 0:
+                            center_pitch_steps.append(step)
+                        else:
+                            invalid_center_pitch_steps.append({
+                                "sound_id": song["sound_id"],
+                                "voice": event["voice"],
+                                "event_key": event["key"],
+                                "pitch_key": pitch_key,
+                                "wave_offset": wave_offset,
+                                "step": step,
+                            })
         song_rows.append({
             "sound_id": song["sound_id"],
             "note_count": sum(song_types.values()),
@@ -100,6 +119,17 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
         "unique_wave_count": len(wave_counts),
         "missing_wave_count": len(missing),
         "missing_waves": missing,
+        "center_pitch_step_count": len(center_pitch_steps),
+        "invalid_center_pitch_step_count": len(invalid_center_pitch_steps),
+        "invalid_center_pitch_steps": invalid_center_pitch_steps,
+        "center_pitch_step_range": {
+            "min": min(center_pitch_steps) if center_pitch_steps else None,
+            "max": max(center_pitch_steps) if center_pitch_steps else None,
+        },
+        "center_pitch_step_boundary": (
+            "Nominal note-on key with fine=0. Drum tones use the child root key. "
+            "Track bend/tune/modulation and mid-note automation remain separate."
+        ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,
     }

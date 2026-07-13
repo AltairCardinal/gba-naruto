@@ -109,8 +109,10 @@ is validated against the ROM. The one-loop corpus gives:
 
 The durable coverage report is `build/audio-v2/instrument-map.json`. This
 closes song → voicegroup → voice/key → terminal tone → wave identity for every
-executed DirectSound note. It does not yet prove the pitch-step formula,
-ADSR/pan-sweep behavior, PSG/noise synthesis or mixer saturation.
+executed DirectSound note. The later `notes/directsound-pitch-step-20260713.md`
+closes the ROM-table integer pitch-step, nominal all-note coverage and 23-bit mixer
+phase. Track pitch automation, ADSR/pan-sweep behavior, PSG/noise synthesis and
+mixer saturation remain open.
 
 ## Runtime proof
 

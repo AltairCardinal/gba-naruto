@@ -286,8 +286,11 @@
   79/79 waves，其中 5,340 个经 drum table；剩余 11 个明确为 0x0C PSG/noise
 - TIE/EOT 生命周期已闭合可明确配对的 25/90 条延音并写入 MIDI note-off；剩余
   65 条在单循环边界仍活跃，明确保留为 open tie，不能伪造释放
-- 待完成 pitch-step、PSG/noise 合成、包络/LFO、跨循环 tie release、精确混音和
-  可听 cue 命名
+- DirectSound nominal pitch-step 已按 `0x0809A998` 的 ROM 两表与 UMULL high32
+  精确整数公式闭合；16169/16169 DirectSound note、79/79 waves 均产生正 step，
+  23-bit mixer phase 与本 ROM 15768 Hz / divFreq 532 也已代码锁定
+- 待完成 track bend/tune/modulation 与 mid-note pitch automation、PSG/noise 合成、
+  包络/LFO、跨循环 tie release、精确混音和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）

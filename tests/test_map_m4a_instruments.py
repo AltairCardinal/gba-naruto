@@ -30,6 +30,13 @@ class MapM4AInstrumentTests(unittest.TestCase):
         self.assertEqual(result["terminal_type_counts"], {"0x00": 16169, "0x0C": 11})
         self.assertEqual(result["unique_wave_count"], 79)
         self.assertEqual(result["missing_wave_count"], 0)
+        self.assertEqual(result["center_pitch_step_count"], 16169)
+        self.assertEqual(result["invalid_center_pitch_step_count"], 0)
+        self.assertGreater(result["center_pitch_step_range"]["min"], 0)
+        self.assertGreaterEqual(
+            result["center_pitch_step_range"]["max"],
+            result["center_pitch_step_range"]["min"],
+        )
 
 
 if __name__ == "__main__":
