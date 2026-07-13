@@ -310,13 +310,15 @@
   每次 264-frame mix 与 6×264 DMA/reverb ring 已代码锁定；多 tick 间不得插入混音
 - 持久 WAIT/GOTO/PATT/REPT command VM 已让 217/217 track 各运行 2048 ticks：累计
   39825 commands、163 次真实 GOTO，79 条 FINE 终止、138 条在时长边界继续运行
-- 待完成 musical state/channel allocation、PSG/noise 与 DirectSound 的联合 PCM 输出、
+- 10 DirectSound pool + 4 fixed CGB 的 free/released/active 选择、priority/track-address
+  tie-break、steal、newest-first track chain 与 same-key EOT 已代码锁定
+- 待完成 persistent musical registers→channel wiring、PSG/noise 与 DirectSound 的联合 PCM 输出、
   跨循环 TIE 执行和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a musical state/channel allocation 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 m4a musical register→channel wiring 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

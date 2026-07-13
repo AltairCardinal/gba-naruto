@@ -124,7 +124,9 @@ sample, loop/end, reverb seed and modulo-256 buffer arithmetic are closed in
 linked-player ordering, 264-frame SoundMain cadence and six-chunk DMA/reverb
 ring are closed in `notes/m4a-soundmain-scheduler-20260713.md`. The persistent
 WAIT/GOTO/PATT/REPT VM now runs all 217 tracks beyond loop edges; musical-state
-channel allocation and the combined PSG/DirectSound song render remain open.
+channel selection/steal and track-chain semantics are also code-locked for the
+ROM's 10 DirectSound + 4 CGB channels. Persistent musical registers connecting
+commands to those slots, and the combined song render, remain open.
 
 ## Runtime proof
 

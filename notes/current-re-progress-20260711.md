@@ -62,8 +62,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   `0x08068AF0`. See `notes/tutorial-victory-save-load-runtime-20260712.md`.
 - Complete MP2K musical-state/channel allocation, PSG/DirectSound combined PCM
   output and audible cue names. The persistent control VM now runs all 217 ROM
-  tracks through runtime loop edges; pitch, gain, envelope, DirectSound mixer,
-  tempo/SoundMain and DMA/reverb are code-locked. MIDI is still only an audition.
+  tracks through runtime loop edges; 10+4 channel selection/steal/chains, pitch,
+  gain, envelope, DirectSound mixer, tempo/SoundMain and DMA/reverb are code-locked.
+  Musical-register wiring remains; MIDI is still only an audition.
 - Alternate chapter table `0x60D54` and all six map resource streams are now
   runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
   skill fields, followed by individual semantic review of the remaining static banks.

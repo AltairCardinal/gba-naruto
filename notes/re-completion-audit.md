@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-13T03:18:23.723226+00:00`
+生成时间：`2026-07-13T03:29:16.630566+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -21,7 +21,7 @@
 
 | 结构 | table_offset | format | entries | verification | 文档覆盖 | ROM字节 | 完整 | 问题 |
 |---|---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
-| `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (28) | ✅ (240) | ✅ | — |
+| `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (29) | ✅ (240) | ✅ | — |
 | `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `runtime_verified` | ✅ (18) | ✅ (480) | ✅ | — |
 | `battle-encounters` | ✅ `0x54229C` | ✅ | ✅ (24) | ✅ `code_verified` | ✅ (12) | ✅ (96) | ✅ | — |
 | `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (12) | ✅ (0) | ✅ | — |
@@ -37,7 +37,7 @@
 | `levels` | ✅ `0x5459C8` | ✅ | ✅ (45) | ✅ `code_verified` | ✅ (14) | ✅ (315) | ✅ | — |
 | `map-events` | ✅ `0x53E698` | ✅ | ✅ (256) | ✅ `code_verified` | ✅ (13) | ✅ (512) | ✅ | — |
 | `map-sprites` | ✅ `0x53F140` | ✅ | ✅ (43) | ✅ `code_verified` | ✅ (8) | ✅ (86) | ✅ | — |
-| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `runtime_verified` | ✅ (34) | ✅ (423) | ✅ | — |
+| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `runtime_verified` | ✅ (35) | ✅ (423) | ✅ | — |
 | `menu-ui` | ✅ `0x5A4DEC` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (9) | ✅ (630) | ✅ | — |
 | `palettes` | ✅ `0x53EE98` | ✅ | ✅ (15) | ✅ `code_verified` | ✅ (14) | ✅ (75) | ✅ | — |
 | `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (22) | ✅ (10368) | ✅ | — |
