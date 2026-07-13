@@ -437,7 +437,7 @@
   取代，不能再用旧诊断的零可见差异否定新证据
 - function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
   `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
-  11个 wrapper 均把对应 ID 传给 `0x08061C58`。自然冷启动人物资料路线两次命中
+  11个 wrapper 均把对应 ID 传给 `0x08061C58`。自然标题人物图鉴路线两次命中
   ID 2 / entry `0x0853D5F8` / pointer `0x08061C99`；只把该四字节槽替换为相邻
   wrapper 3 后，同一输入提前分叉并留下未完成资料面板，因此升级 runtime_verified。
   variant 在再次 dispatch ID 2 前已分叉，其专用 scratch 为零，证据不把它误写成
@@ -467,11 +467,13 @@
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
   当前无 static bank。
-- `data-table-a` 的 selected-pointer hook 已通过自然存档冷启动闭合。恢复到 outer
-  state `0x10` 后，两边均在 `0x0808B1A4` 命中一次 character 0 / entry
+- `data-table-a` 的 selected-pointer hook 已通过自然标题人物图鉴闭合。两边均在
+  `0x0808B1A4` 命中一次 character 0 / entry
   `0x085A143C`；只替换该四字节指针为 entry 7 后，目标从 `0x0859F988` 变为
   `0x0859FDE8`，可见多行人物简介同步改变，因此升级 runtime_verified。旧 state
   `0x20` checkpoint 属于另一套三栏 UI，不再作为此 reader 的前置状态。
+  后续复放确认原输入没有加载随附 save；该纠正不影响 reader A/B，但禁止把它当作
+  存档进度或 levels 入口
 - 已新增 base-ROM 可独立重放的真实 battle 41 actionable checkpoint：Naruto
   `(4,10)`、Iruka `(4,4)`、map 36×44，strict arrival 全过。基于该边界的三条
   专属探针进一步排除了入场期 `resource-pointers`、普通忍术下的组合关系 reader、

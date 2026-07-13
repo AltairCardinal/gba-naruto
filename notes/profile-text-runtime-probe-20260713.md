@@ -19,7 +19,7 @@ scratch `0x0203FE80` 布局：
 
 control ROM SHA-256：
 `a51636f1326c34fb68d41cb450eafc2914b9cbba281f7996c96586cfc1beee8a`。
-最终 runtime 证明纠正了旧 character ID 假设：自然存档中的鸣人在该 reader 使用
+最终 runtime 证明纠正了旧 character ID 假设：标题人物图鉴中的鸣人在该 reader 使用
 character 0 / file `0x5A143C`，不是 character 1。variant 只把该四字节表项从
 `0x0859F988` 改为同表 character 7 的 `0x0859FDE8`，正式 ROM SHA-256：
 `66c9dbc60c2ab1962ea6d08b189bb0118668f069a93e133080fc8a5046bae74a`。
@@ -38,11 +38,12 @@ character 0 / file `0x5A143C`，不是 character 1。variant 只把该四字节�
    注入一次确认，令方向键/B 路线看似随机跳页。回归测试先复现点击，再把聚焦改为
    `document.body.focus()`，不再产生隐式游戏输入。
 
-## 2026-07-13 冷启动运行时闭合
+## 2026-07-13 标题人物图鉴运行时闭合与归因纠正
 
-使用 `tutorial-ui-save.sav` 冷启动，而不是加载旧 state `0x20` savestate。输入
-`A×5, Start, Down, A, A` 后，“继续游戏”恢复到 outer state `0x10`，并自然渲染
-真正的多行人物资料卡。
+运行时提供了 `tutorial-ui-save.sav`，但输入 `A×5, Start, Down, A, A` 实际进入
+标题菜单的“人物图鉴”，自然渲染多行人物资料卡；后续复放确认 B 会直接返回标题，
+outer state 为 1，而非存档恢复后的游戏状态。这条路线没有加载存档，旧“继续游戏
+冷加载”归因撤销。
 
 - control ROM SHA-256
   `a51636f1326c34fb68d41cb450eafc2914b9cbba281f7996c96586cfc1beee8a`；
@@ -53,6 +54,10 @@ character 0 / file `0x5A143C`，不是 character 1。variant 只把该四字节�
 
 `data-table-a` 已升级为 `runtime_verified`。紧凑证据在
 `artifacts/runtime-checkpoints/profile-text-runtime-evidence.json`。
+
+verification 保持不变，因为自然 reader 命中、精确 entry/pointer 与单四字节可见
+A/B 均成立；被撤销的只有 save-load 前置归因。该路线不得再用作 levels 或其他
+依赖存档进度的入口证据。
 
 重要地址：table `0x5A143C`；selected-pointer consumer
 `0x0808B19E..0x0808B1B2`；list builder `0x0808A6AC..0x0808A6F8`。

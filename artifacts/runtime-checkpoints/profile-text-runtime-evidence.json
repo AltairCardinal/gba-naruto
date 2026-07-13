@@ -5,7 +5,9 @@
   "hook": "0x0808B1A4",
   "scratch": "0x0203FE80",
   "input_mode": "keyboard",
-  "cold_load_save": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "save_file_supplied": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "save_load_observed": false,
+  "route": "title-menu character encyclopedia",
   "navigation": [
     "A",
     "A",
@@ -44,5 +46,5 @@
     "size": 4,
     "source_entry": 7
   },
-  "result": "Both runs cold-loaded the same natural save and hit the same reader once. The four-byte entry-0 pointer replacement changed the selected target and the visible multi-line profile text. The longer replacement redraw also overwrites more of the diagnostic frame, so only the text-consumer claim is made."
+  "result": "Both runs followed the same natural title-menu character-encyclopedia route and hit the same reader once. Later replay proved the supplied save was not loaded by this input sequence. The four-byte entry-0 pointer replacement changed the selected target and the visible multi-line profile text. The longer replacement redraw also overwrites more of the diagnostic frame, so only the text-consumer claim is made."
 }

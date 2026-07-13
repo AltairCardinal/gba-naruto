@@ -6,7 +6,9 @@
   "hooks": ["0x08061D84", "0x0807C61C"],
   "scratch": "0x0203F1C0",
   "input_mode": "keyboard",
-  "cold_load_save": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "save_file_supplied": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "save_load_observed": false,
+  "route": "title-menu character encyclopedia",
   "navigation": ["A", "A", "A", "A", "A", "Start", "Down", "A", "A"],
   "control": {
     "rom_sha256": "cfff79311cb2f68f0f2dde276fdd599076b4cb4b05cca2c93b081468c69be376",
@@ -48,5 +50,5 @@
     "ratio": 0.219765625,
     "bounding_box": [241, 56, 823, 513]
   },
-  "result": "The natural control route selected callback ID 2 twice from the exact table entry and rendered the full profile. Changing only that four-byte slot to the adjacent valid wrapper caused the same input route to diverge before callback 2 was dispatched again and left the panel incomplete. The variant zero callback-2 trace is retained as a causal boundary, not presented as a second selected-pointer hit."
+  "result": "The natural title-menu character-encyclopedia route selected callback ID 2 twice from the exact table entry and rendered the full profile. Later replay proved the supplied save was not loaded by this input sequence. Changing only that four-byte slot to the adjacent valid wrapper caused the same input route to diverge before callback 2 was dispatched again and left the panel incomplete. The variant zero callback-2 trace is retained as a causal boundary, not presented as a second selected-pointer hit."
 }

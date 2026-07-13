@@ -7,8 +7,9 @@
 dispatcher 的两个直接调用点 `0x08061D84`、`0x0807C61C`，记录一基 callback ID、
 两个参数、精确表项地址与读出的函数指针。
 
-使用 `tutorial-ui-save.sav` 冷启动，键盘输入
-`A×5, Start, Down, A, A` 自然进入鸣人人物资料页。control 共命中 dispatcher 4 次，
+键盘输入 `A×5, Start, Down, A, A` 自然进入标题菜单的鸣人人物图鉴页。运行时虽
+提供了 `tutorial-ui-save.sav`，后续复放确认该序列并未加载存档。control 共命中
+dispatcher 4 次，
 其中 callback 2 命中 2 次：entry `0x0853D5F8`，selected pointer
 `0x08061C99`，与基础 ROM 完全一致；页面最终完整显示头像和资料正文。
 
@@ -35,3 +36,6 @@ dispatcher 创建 ID 2 任务之前改变了状态机路径。严格证据由以
 重要地址：table `0x0853D5F4`；sentinel base `0x0853D5F0`；dispatcher
 `0x08061D8C`；task callback store `0x08061DD4..0x08061DDC`；scratch
 `0x0203F1C0`。
+
+归因纠正不改变 verification：自然 callback hit、精确表项读取与单因素 UI 分叉都
+成立；撤销的仅是“冷加载存档”说法。这条标题路线不能作为存档进度或 levels 入口。
