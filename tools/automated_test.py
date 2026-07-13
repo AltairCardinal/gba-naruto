@@ -22,6 +22,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sqlite3
 import struct
 import sys
@@ -105,8 +106,29 @@ def sha1_bytes(b: bytes) -> str:
 from tools.lib import load_json
 
 
+def build_context():
+    from tools import build_mod
+    return build_mod.load_context(ROOT / "sequel/project.json")
+
+
+def build_report_path() -> Path:
+    return build_context().report_path
+
+
+def output_rom_path() -> Path:
+    return build_context().output_rom_path
+
+
+def editor_db_path() -> Path:
+    configured = os.environ.get("DB_PATH")
+    if configured:
+        path = Path(configured)
+        return path if path.is_absolute() else ROOT / path
+    return ROOT / "sequel/editor.db"
+
+
 def load_build_report() -> dict:
-    path = ROOT / "build/naruto-sequel-build-report.json"
+    path = build_report_path()
     assert path.exists(), f"build report not found: {path}"
     return load_json(path)
 
@@ -136,14 +158,13 @@ def suite_build(runner: TestRunner) -> None:
         assert result.returncode == 0, f"build_mod.py exited {result.returncode}\n{result.stderr}"
 
     def test_output_rom_exists() -> None:
-        project = load_project()
-        out = ROOT / project["build"]["output_rom"]
+        out = output_rom_path()
         assert out.exists(), f"output ROM not found: {out}"
 
     def test_output_rom_size() -> None:
         project = load_project()
         base_path = ROOT / project["base_rom"]["path"]
-        out_path = ROOT / project["build"]["output_rom"]
+        out_path = output_rom_path()
         assert base_path.exists(), f"base ROM not found: {base_path}"
         assert out_path.exists(), f"output ROM not found: {out_path}"
         assert base_path.stat().st_size == out_path.stat().st_size, \
@@ -151,7 +172,7 @@ def suite_build(runner: TestRunner) -> None:
 
     def test_report_exists() -> None:
         project = load_project()
-        rp = ROOT / project["build"]["report"]
+        rp = build_report_path()
         assert rp.exists(), f"build report not found: {rp}"
 
     def test_report_has_patches() -> None:
@@ -236,8 +257,7 @@ def suite_patches(runner: TestRunner) -> None:
     suite = "patches"
 
     def _get_output_rom() -> bytes:
-        project = load_project()
-        out_path = ROOT / project["build"]["output_rom"]
+        out_path = output_rom_path()
         assert out_path.exists(), f"output ROM not found: run build first"
         return out_path.read_bytes()
 
@@ -357,7 +377,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
     def test_populated_rom_tables_have_generator_output() -> None:
         from tools import build_db_patches
 
-        db_path = ROOT / "sequel/editor.db"
+        db_path = editor_db_path()
         if not db_path.exists():
             # editor.db is intentionally ignored; clean checkouts verify the
             # wrappers through unit tests instead of a local mutable database.
@@ -380,10 +400,9 @@ def suite_db_integrity(runner: TestRunner) -> None:
                     continue
                 generator = getattr(build_db_patches, generator_name)
                 patches = generator(db_path)
-                byte_patches = [p for p in patches if p.get("type") == "bytes"]
-                if not byte_patches:
+                if not patches:
                     errors.append(
-                        f"{generator_name}: returned no byte patches for "
+                        f"{generator_name}: returned no patch or diagnostic rows for "
                         f"{table} ({row_count} rows); check the queried table name"
                     )
         finally:
@@ -448,7 +467,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
         report = load_build_report()
         project = load_project()
         base = (ROOT / project["base_rom"]["path"]).read_bytes()
-        output = (ROOT / project["build"]["output_rom"]).read_bytes()
+        output = output_rom_path().read_bytes()
         errors = []
         for patch in report.get("applied_patches", []):
             if patch.get("patch_source") != "db_real" or patch.get("type") != "bytes":

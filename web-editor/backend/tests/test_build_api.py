@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import asyncio
 import os
 import pathlib
+import sqlite3
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from fastapi import FastAPI, Header
 from fastapi.testclient import TestClient
@@ -83,6 +86,62 @@ class BuildApiOwnershipTests(unittest.TestCase):
         build.build_states[older.build_id] = older
         build.build_states[newer.build_id] = newer
         self.assertEqual(build._resolve_latest_build_for_user("alice"), "a-newer")
+
+    def test_editor_db_snapshot_uses_sqlite_backup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = pathlib.Path(tmp) / "source.db"
+            destination = pathlib.Path(tmp) / "build" / "editor.db"
+            conn = sqlite3.connect(source)
+            conn.execute("CREATE TABLE marker (value TEXT)")
+            conn.execute("INSERT INTO marker VALUES ('stable')")
+            conn.commit()
+            conn.close()
+            build._snapshot_editor_db(source, destination)
+            copied = sqlite3.connect(destination)
+            value = copied.execute("SELECT value FROM marker").fetchone()[0]
+            copied.close()
+            self.assertEqual(value, "stable")
+
+    def test_run_build_uses_injected_cwd_and_persists_all_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            output = root / "output"
+            state = build.BuildState("isolated-build", "alice")
+            state.output_dir = str(output)
+            request_db = root / "request-editor.db"
+            request_db.write_bytes(b"sqlite-snapshot")
+            state.db_path = str(request_db)
+            captured = {}
+
+            class FakeProcess:
+                returncode = 0
+                stdout = []
+
+                def __init__(self, command, **kwargs):
+                    captured["command"] = command
+                    captured.update(kwargs)
+                    output.mkdir(parents=True, exist_ok=True)
+                    (output / "naruto-sequel-dev.gba").write_bytes(b"rom")
+                    (output / "naruto-sequel-build-report.json").write_text("{}")
+                    (output / "automated-test-report.json").write_text("{}")
+
+                def wait(self):
+                    return self.returncode
+
+            with patch.dict(os.environ, {"BUILD_CWD": str(root)}), patch.object(
+                build.subprocess, "Popen", FakeProcess
+            ):
+                asyncio.run(build.run_build(state))
+
+            self.assertEqual(captured["cwd"], str(root))
+            self.assertEqual(captured["command"][0], sys.executable)
+            self.assertEqual(
+                captured["command"][-2:],
+                ["--json-output", str(output / "automated-test-report.json")],
+            )
+            self.assertEqual(captured["env"]["BUILD_OUTPUT_DIR"], str(output))
+            self.assertEqual(captured["env"]["DB_PATH"], str(request_db))
+            self.assertEqual(state.status, "done")
 
 
 if __name__ == "__main__":

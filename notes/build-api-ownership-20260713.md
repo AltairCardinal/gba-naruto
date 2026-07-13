@@ -19,6 +19,7 @@ private marker。根因是查到 `BuildState` 后没有比较 `state.user_id` �
 `/ws/build` 当前没有鉴权，且缺 build ID 时会跨用户选择全局 build；修复需要前端把
 JWT 通过 WebSocket 可验证的握手参数传入并增加 UI wiring 测试。私有 download 的
 前端仍用裸 `<a>` 导航，无法附带 Bearer header，也需在建立前端测试能力后改为
-带 auth header 的 fetch/blob 下载。真实 subprocess 仍需让 `DB_PATH` 进入
-`build_mod.py`，并让 automated checks 验证当前 build-ID 产物。这些边界不能被当前
-HTTP 所有权修复掩盖。
+带 auth header 的 fetch/blob 下载。真实 subprocess 的 `DB_PATH`、外部
+`BUILD_OUTPUT_DIR` 与当前 build-ID automated report 已闭合；详见
+`notes/editor-isolated-writeback-smoke-20260713.md`。trigger 现使用 SQLite backup
+API 固化 build-ID 专属 DB snapshot；仍开放的是 WebSocket 与前端下载鉴权 wiring。

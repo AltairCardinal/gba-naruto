@@ -4,19 +4,29 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict
 import asyncio
 import os
+import sqlite3
 import subprocess
+import sys
 import threading
 import uuid
 from pathlib import Path
 
 from .auth import get_current_user, User
 from dependencies import require_permission
+from database import _get_db_path
 
 router = APIRouter(tags=["build"])
 
 # Where build outputs land. Per-build subdirs are created underneath this.
 # build/users/<user_id>/<build_id>/naruto-sequel-dev.gba
 BUILD_ROOT = Path(os.environ.get("BUILD_ROOT", "/root/gba-naruto/build/users"))
+
+
+def _resolve_build_cwd() -> Path:
+    configured = os.environ.get("BUILD_CWD") or os.environ.get("PROJECT_ROOT")
+    if configured:
+        return Path(configured)
+    return Path(__file__).resolve().parents[3]
 
 
 class BuildState:
@@ -32,6 +42,7 @@ class BuildState:
         self.progress: int = 0
         self.rom_path: Optional[str] = None
         self.output_dir: str = str(BUILD_ROOT / user_id / build_id)
+        self.db_path: Optional[str] = None
         self.error: Optional[str] = None
 
 
@@ -70,6 +81,18 @@ def _require_build_owner(state: BuildState, user: User) -> None:
         raise HTTPException(status_code=403, detail="Build belongs to another user")
 
 
+def _snapshot_editor_db(source: Path, destination: Path) -> None:
+    """Take a transactionally consistent SQLite snapshot for one build ID."""
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    source_conn = sqlite3.connect(f"file:{source}?mode=ro", uri=True)
+    destination_conn = sqlite3.connect(destination)
+    try:
+        source_conn.backup(destination_conn)
+    finally:
+        destination_conn.close()
+        source_conn.close()
+
+
 async def run_build(state: BuildState):
     """Run automated_test.py in a subprocess. Writes ROM into the per-build
     output dir so concurrent users never collide. Reads BUILD_OUTPUT_DIR from
@@ -82,13 +105,21 @@ async def run_build(state: BuildState):
 
     env = os.environ.copy()
     env["BUILD_OUTPUT_DIR"] = state.output_dir
+    if state.db_path:
+        env["DB_PATH"] = state.db_path
     # Pass through so build_mod.py can find sequel/project.json etc.
     env.setdefault("PYTHONUNBUFFERED", "1")
 
     try:
+        automated_report = Path(state.output_dir) / "automated-test-report.json"
         process = subprocess.Popen(
-            ["python3", "tools/automated_test.py"],
-            cwd="/root/gba-naruto",
+            [
+                sys.executable,
+                "tools/automated_test.py",
+                "--json-output",
+                str(automated_report),
+            ],
+            cwd=str(_resolve_build_cwd()),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -111,14 +142,21 @@ async def run_build(state: BuildState):
 
         if process.returncode == 0:
             rom_path = Path(state.output_dir) / "naruto-sequel-dev.gba"
-            if rom_path.exists():
+            build_report = Path(state.output_dir) / "naruto-sequel-build-report.json"
+            missing = [
+                path for path in (rom_path, build_report, automated_report)
+                if not path.exists()
+            ]
+            if not missing:
                 state.rom_path = str(rom_path)
                 state.status = "done"
                 state.progress = 100
                 state.logs.append(f"[BUILD {state.build_id}] success: {state.rom_path}")
             else:
                 state.status = "error"
-                state.error = f"ROM file not produced at {rom_path}"
+                state.error = "build artifact(s) not produced: " + ", ".join(
+                    str(path) for path in missing
+                )
                 state.logs.append(f"[BUILD {state.build_id}] ERROR: {state.error}")
         else:
             state.status = "error"
@@ -164,6 +202,12 @@ async def trigger_build(user: User = Depends(require_permission("trigger_build")
     each gets its own state + ROM path."""
     build_id = str(uuid.uuid4())
     state = BuildState(build_id=build_id, user_id=user.username)
+    source_db = Path(_get_db_path())
+    if not source_db.exists():
+        raise HTTPException(status_code=500, detail="Editor database is unavailable")
+    snapshot_path = Path(state.output_dir) / "editor.db"
+    _snapshot_editor_db(source_db, snapshot_path)
+    state.db_path = str(snapshot_path)
     build_states[build_id] = state
 
     # Background thread for the subprocess. We use a fresh event loop in the

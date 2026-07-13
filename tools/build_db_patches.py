@@ -901,19 +901,14 @@ def _generate_u32_pointer_table_patches(
 
 
 def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Reject legacy rows from the disproved 0x542384 encounter model.
-
-    The old rows start at visual descriptor 14 + 8 and do not map one-to-one
-    onto the corrected 24×0x10 resource records. Silent write-back would also
-    cross the real table boundary, so migration must be explicit.
-    """
+    """Keep the corrected 24x0x10 visual-descriptor mirror read-only."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     try:
         rows = conn.execute(
-            'SELECT _idx, _rom_offset, entry FROM "rom_battle_encounters" '
+            'SELECT _idx, _rom_offset FROM "rom_battle_encounters" '
             'ORDER BY _idx'
         ).fetchall()
     except sqlite3.OperationalError:
@@ -924,10 +919,10 @@ def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
             "type": "db_battle_encounter_unmapped",
             "db_table": "rom_battle_encounters",
             "db_row_id": int(row["_idx"]),
-            "error": "legacy 0x542384 mixed row has no safe mapping to 24 visual descriptors",
+            "error": "corrected visual descriptor mirror is read-only",
             "description": (
                 f"DB[rom_battle_encounters] row={int(row['_idx'])}: "
-                "diagnostic only after table identity correction"
+                "diagnostic-only visual descriptor mirror"
             ),
         }
         for row in rows
@@ -1200,14 +1195,14 @@ def generate_function_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Reject legacy 47-row map-handler writes after identity correction."""
+    """Keep the corrected 256x8 handler-pair mirror read-only."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     try:
         rows = conn.execute(
-            'SELECT _idx, _rom_offset, handler_ptr FROM "rom_map_events" '
+            'SELECT _idx, _rom_offset FROM "rom_map_events" '
             'ORDER BY _idx'
         ).fetchall()
     except sqlite3.OperationalError:
@@ -1218,10 +1213,10 @@ def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
             "type": "db_map_event_unmapped",
             "db_table": "rom_map_events",
             "db_row_id": int(row["_idx"]),
-            "error": "legacy 47-row view has no safe mapping to 256 handler pairs",
+            "error": "corrected 256-row handler-pair mirror is read-only",
             "description": (
                 f"DB[rom_map_events] row={int(row['_idx'])}: diagnostic only "
-                "after handler-pair identity correction"
+                "for the canonical handler-pair table"
             ),
         }
         for row in rows
@@ -1362,7 +1357,7 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
 
     Each row writes one validated u32 directly to the game-consumed table.
     The save state table at 0x53D848 contains 10 entries of 8 bytes
-    (u32 ewram_addr + u32 sram_offset).
+    (u32 ewram_addr + u32 payload_length).
     """
     if not db_path.exists():
         return []
@@ -1371,7 +1366,7 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
     patches: list[dict[str, Any]] = []
     try:
         rows = conn.execute(
-            "SELECT _idx, _rom_offset, ewram_buffer, sram_offset_field "
+            "SELECT _idx, _rom_offset, ewram_buffer, payload_length "
             "FROM rom_save_state ORDER BY _idx"
         ).fetchall()
     except sqlite3.OperationalError:
@@ -1386,8 +1381,8 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
             if int(row["_rom_offset"]) != offset:
                 raise ValueError("stale _rom_offset")
             ewram_addr = int(row["ewram_buffer"] or 0)
-            sram_offset = int(row["sram_offset_field"] or 0)
-            payload = struct.pack("<II", ewram_addr, sram_offset)
+            payload_length = int(row["payload_length"] or 0)
+            payload = struct.pack("<II", ewram_addr, payload_length)
             patches.append({
                 "type": "bytes",
                 "offset": offset,

@@ -4,12 +4,14 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import sqlite3
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -45,28 +47,33 @@ class EditorBuildIntegrationTests(unittest.TestCase):
             project_path.write_text(json.dumps(project), encoding="utf-8")
 
             original_root = build_mod.ROOT
-            original_output_override = build_mod._BUILD_OUTPUT_DIR_ENV
             build_mod.ROOT = root
-            build_mod._BUILD_OUTPUT_DIR_ENV = None
             try:
-                baseline_report = build_mod.build(project_path)
-                baseline = (root / baseline_report["output_rom"]["path"]).read_bytes()
+                with patch.dict(os.environ):
+                    os.environ.pop("BUILD_OUTPUT_DIR", None)
+                    os.environ.pop("DB_PATH", None)
+                    baseline_report = build_mod.build(project_path)
+                    baseline = (
+                        root / baseline_report["output_rom"]["path"]
+                    ).read_bytes()
 
-                db_path = root / "sequel" / "editor.db"
-                conn = sqlite3.connect(db_path)
-                rom_models.init_rom_tables(conn)
-                rom_models.populate_rom_tables(conn)
-                conn.execute(
-                    "UPDATE rom_map_headers SET width=32 WHERE _idx=40"
-                )
-                conn.commit()
-                conn.close()
+                    db_path = root / "request-editor.db"
+                    conn = sqlite3.connect(db_path)
+                    rom_models.init_rom_tables(conn)
+                    rom_models.populate_rom_tables(conn)
+                    conn.execute(
+                        "UPDATE rom_map_headers SET width=32 WHERE _idx=40"
+                    )
+                    conn.commit()
+                    conn.close()
 
-                edited_report = build_mod.build(project_path)
-                edited = (root / edited_report["output_rom"]["path"]).read_bytes()
+                    os.environ["DB_PATH"] = str(db_path)
+                    edited_report = build_mod.build(project_path)
+                    edited = (
+                        root / edited_report["output_rom"]["path"]
+                    ).read_bytes()
             finally:
                 build_mod.ROOT = original_root
-                build_mod._BUILD_OUTPUT_DIR_ENV = original_output_override
 
             changed_game_offsets = [
                 index

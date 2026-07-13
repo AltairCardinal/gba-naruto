@@ -346,6 +346,10 @@
 - 私有 build-ID HTTP 所有权已闭合：owner 可查状态/下载，其他登录用户得到 403；
   “最新 build”改按创建插入顺序而非随机 UUID 字典序。公开 UUID ROM endpoint 保持
   显式 capability URL；WebSocket 鉴权与前端 Bearer 下载仍开放
+- build-ID 子进程隔离已闭合：`DB_PATH` 贯穿 dialogue 与全部 generator，外部
+  `BUILD_OUTPUT_DIR` 的 ROM/build report/automated report 三件套均被当前请求验证，
+  全局 build 哈希不变；backend 支持注入 BUILD_CWD/PROJECT_ROOT，并在 trigger 时用
+  SQLite backup 固化 build-ID 专属 DB snapshot
 - 浏览器 UI/API 下载、玩家可见 OCR 与剧情→战斗→存档长程回归仍未完成
 
 **方法：**
@@ -467,6 +471,10 @@
 - `fonts` 旧表跨入 handler pairs，已证伪；`levels` 修正为 `0x5459C8`
   45×12 effect/stat progression records；`resource-pointers` 修正为5×16嵌套
   descriptor。后两者均由消费者升级 code_verified。
+- levels 的真正 Continue 已复现：Naruto level 1、经验100/250、训练点`+BA=0`；
+  下一事件是木叶丸长对白→队伍·装备而非立即战斗。自然升级探针下一步从队伍确认后
+  继续导航；“开始任务”当前会回队伍配置，需先满足队伍前置。目标仍是 A880=3 /
+  level2 / 分配前训练点1
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
