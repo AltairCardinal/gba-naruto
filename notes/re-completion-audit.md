@@ -34,7 +34,7 @@
 | `fonts` | ✅ `0x53E5B4` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (10) | ✅ (0) | ✅ | — |
 | `function-pointers` | ✅ `0x53D5F4` | ✅ | ✅ (11) | ✅ `runtime_verified` | ✅ (11) | ✅ (11) | ✅ | — |
 | `items` | ✅ `0x546100` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
-| `levels` | ✅ `0x5459C8` | ✅ | ✅ (45) | ✅ `code_verified` | ✅ (12) | ✅ (315) | ✅ | — |
+| `levels` | ✅ `0x5459C8` | ✅ | ✅ (45) | ✅ `code_verified` | ✅ (14) | ✅ (315) | ✅ | — |
 | `map-events` | ✅ `0x53E698` | ✅ | ✅ (256) | ✅ `code_verified` | ✅ (12) | ✅ (512) | ✅ | — |
 | `map-sprites` | ✅ `0x53F140` | ✅ | ✅ (43) | ✅ `code_verified` | ✅ (8) | ✅ (86) | ✅ | — |
 | `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `runtime_verified` | ✅ (34) | ✅ (423) | ✅ | — |

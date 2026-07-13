@@ -56,14 +56,18 @@ class BuildStatusResponse(BaseModel):
 def _resolve_latest_build_for_user(user_id: str) -> Optional[str]:
     """Most-recently-created build_id for this user. Used as a default when
     callers don't pass a build_id (e.g. legacy `?` checks)."""
-    candidates = [
-        (bid, st) for bid, st in build_states.items()
-        if st.user_id == user_id and st.status in ("running", "done")
-    ]
-    if not candidates:
-        return None
-    # Build ids are UUIDs; lex order == creation order for v4 in practice
-    return sorted(candidates, key=lambda kv: kv[0])[-1][0]
+    # ``dict`` preserves insertion order; UUID v4 lexical order is random and
+    # cannot represent creation time.
+    for build_id, state in reversed(build_states.items()):
+        if state.user_id == user_id and state.status in ("running", "done"):
+            return build_id
+    return None
+
+
+def _require_build_owner(state: BuildState, user: User) -> None:
+    """Keep authenticated private build endpoints scoped to their creator."""
+    if state.user_id != user.username:
+        raise HTTPException(status_code=403, detail="Build belongs to another user")
 
 
 async def run_build(state: BuildState):
@@ -193,6 +197,7 @@ async def get_build_status(build_id: Optional[str] = None, user: User = Depends(
     state = build_states.get(build_id)
     if state is None:
         raise HTTPException(status_code=404, detail=f"build_id {build_id} not found")
+    _require_build_owner(state, user)
     return BuildStatusResponse(
         build_id=state.build_id,
         status=state.status,
@@ -212,7 +217,10 @@ async def download_rom(build_id: Optional[str] = None, user: User = Depends(get_
         if build_id is None:
             raise HTTPException(status_code=400, detail="No builds found for user")
     state = build_states.get(build_id)
-    if state is None or state.status != "done" or not state.rom_path:
+    if state is None:
+        raise HTTPException(status_code=400, detail="ROM not ready")
+    _require_build_owner(state, user)
+    if state.status != "done" or not state.rom_path:
         raise HTTPException(status_code=400, detail="ROM not ready")
     return FileResponse(
         state.rom_path,

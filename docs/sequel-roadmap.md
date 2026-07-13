@@ -340,6 +340,9 @@
   build 后 reserved region 之前仅 `0x53DE10:0x24→0x20`；测试同时修复了旧
   cutscene 16×pointer generator 与 8×pair schema 不一致、以及未编辑 chapter mirror
   与 scenario 39 semantic relocation 冲突
+- 私有 build-ID HTTP 所有权已闭合：owner 可查状态/下载，其他登录用户得到 403；
+  “最新 build”改按创建插入顺序而非随机 UUID 字典序。公开 UUID ROM endpoint 保持
+  显式 capability URL；WebSocket 鉴权与前端 Bearer 下载仍开放
 - 浏览器 UI/API 下载、玩家可见 OCR 与剧情→战斗→存档长程回归仍未完成
 
 **方法：**
