@@ -41,8 +41,10 @@
   分类器现用黑角比例区分，必须以新 live run 重新签发 strict-arrival 结果；详见
   `notes/strict-battle-arrival-gate-20260712.md`
 - 纠正后两次重跑分别停在“队伍・装备”和“特别宝箱”教程说明页，均被正确拒绝且
-  save hook 为 0；菜单已确认包含“开始任务”，START 不能关闭教程，下一导航器须
-  选择开始任务后用 A 关闭说明，再以黑角门禁确认战场
+  save hook 为 0；菜单已确认包含“开始任务”，START 不能关闭教程。静态追踪现已
+  确认队伍页只是 normalized selector 2 的嵌套页；真实路径必须退回外层选 selector 4，
+  经 `0x08086A54` 成功后由 `0x080871BE..C4` 建立 battle control，再以黑角与下一 A
+  打开真实行动菜单的双门禁确认战场
 - 独立 A/B 仅把 maps 第 40 行 `0x53DE10` 的 width 36→32，同路线得到
   `[32,44,8,22]`，因此 maps width/height 字段链已升级为 runtime；
   资源指针字段仍保持 code 验证。47 行已有持久 `rom_map_headers` 镜像和
@@ -321,17 +323,25 @@
 - player 级整曲 SoundMain 与 DirectSound+CGB 联合 PCM 已闭合：80/80 sound ID
   均生成非静音 WAV，62 个 one-shot 自然结束，18 个 loop song 的全部 138 条
   GOTO track 均跨过首次 GOTO；首次 GOTO 上 21 个 active TIE 保持跨边界
-- 待完成 emulator FIFO/NR4x/sample-phase 差分、同 player retrigger/stop 与 linked-player
-  并发、全局 CGB pool 竞争和 80 个可听 cue 命名
+- 独立 mGBA 差分已闭合：sound 101 的 79/79 个 Direct FIFO 块逐字节一致，sound 144
+  的 68/68 组可读 CGB register/channel-4 status 一致；两条路径均自然结束
+- 待完成同 player retrigger/stop 与 linked-player 并发、全局 CGB pool 竞争和
+  80 个可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 对整曲 renderer 做 emulator FIFO/PSG differential，并闭合 player-slot 并发语义（下一步）
+3. 闭合同 player retrigger/stop、linked-player 并发和全局 CGB pool 竞争（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
 - `tools/extract_audio_assets.py`
+- `tools/build_controlled_audio_runtime_probe.py`
+- `tools/compare_mgba_audio_capture.py`
+- `tools/compare_mgba_cgb_capture.py`
+- `artifacts/audio/mgba-sound101-full-differential.json`
+- `artifacts/audio/mgba-sound144-cgb-differential.json`
+- `notes/m4a-emulator-differential-20260713.md`
 - `notes/resource-locations.md`
 
 ---
@@ -498,6 +508,11 @@
   随后 UI 是 story 后任务准备而非标题图鉴。`A→B→Down×2→A` 曾产生瞬时 battle41，
   但完整 settle 回到 battle/map=0 的队伍页，已作为控制器假阳性撤销；真正入口必须
   settle 后仍可操作。目标仍是 A880=3 / level2 / 分配前训练点1
+- scenario 41 开始任务控制流已纠正：`0x08097C78` 是 opcode `0x1A` handler 的
+  中间指令而非 SetBattle 函数入口；story-only script 已留下 battle ID，正常开战由
+  selector 4 → `0x08086A54 return 1` → `0x080871BE..C4` 复制到 battle control，
+  不要求新增 selector/opcode hit。下一运行探针按该三段链路签发，详见
+  `notes/battle-start-control-flow-20260713.md`
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special

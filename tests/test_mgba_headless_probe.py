@@ -2,6 +2,7 @@ import importlib.util
 import subprocess
 import sys
 import unittest
+import hashlib
 from pathlib import Path
 from unittest.mock import patch
 
@@ -33,6 +34,12 @@ class CompletedProcessFixture:
 
 
 class MgbaReadProbeTests(unittest.TestCase):
+    @patch.object(mgba.os.path, "isfile", return_value=True)
+    @patch.object(mgba.os, "access", return_value=True)
+    @patch.dict(mgba.os.environ, {"MGBA_BIN": "/custom/mgba-qt"})
+    def test_find_mgba_prefers_explicit_environment_binary(self, _access, _isfile):
+        self.assertEqual(mgba.find_mgba(), "/custom/mgba-qt")
+
     def test_build_mgba_command_loads_savestate_before_rom(self):
         self.assertEqual(
             [
@@ -47,6 +54,81 @@ class MgbaReadProbeTests(unittest.TestCase):
                 "fixture.gba",
             ],
             mgba.build_mgba_command("/fake/mgba", "fixture.gba", "battle.ss0"),
+        )
+
+    @patch.object(mgba.subprocess, "run", return_value=CompletedProcessFixture())
+    def test_qt_command_runner_receives_the_xvfb_display(self, run):
+        mgba.run_mgba_commands(
+            "/custom/mgba-qt", "fixture.gba", ["quit"], timeout=3
+        )
+        self.assertEqual(run.call_args.kwargs["env"]["DISPLAY"], mgba.XVFB_DISPLAY)
+
+    def test_audio_capture_starts_at_chunk_zero_after_clean_dispatch(self):
+        self.assertEqual(
+            [mgba.audio_chunk_index(i) for i in range(8)],
+            [0, 1, 2, 3, 4, 5, 0, 1],
+        )
+        commands = mgba.build_audio_capture_commands(2)
+        self.assertEqual(
+            commands[:3],
+            ["b 0x0809AABA", "continue", "status"],
+        )
+        self.assertIn("x/4 0x030068C0", commands)
+        self.assertIn("x/4 0x03006EF0", commands)
+        self.assertIn("x/4 0x030069C8", commands)
+
+    def test_audio_capture_parser_keeps_counter_zero_chunk_and_decodes_fifo_bytes(self):
+        def dump(address, data):
+            data = data + bytes((-len(data)) % 16)
+            lines = []
+            for offset in range(0, len(data), 16):
+                words = [
+                    int.from_bytes(data[offset + word:offset + word + 4], "little")
+                    for word in range(0, 16, 4)
+                ]
+                lines.append(
+                    f"0x{address + offset:08X}: "
+                    + " ".join(f"{word:08X}" for word in words)
+                )
+            return "\n".join(lines) + "\n"
+
+        def capture(counter, chunk, right_prefix, left_prefix):
+            sound_info = bytearray(mgba.SOUND_INFO_SIZE)
+            sound_info[:4] = mgba.MP2K_MAGIC.to_bytes(4, "little")
+            sound_info[4] = counter
+            right = right_prefix + bytes(mgba.BUFFER_FRAMES - len(right_prefix))
+            left = left_prefix + bytes(mgba.BUFFER_FRAMES - len(left_prefix))
+            return "".join((
+                dump(mgba.SOUND_INFO, bytes(sound_info)),
+                dump(mgba.CGB_STATE, bytes(mgba.CGB_STATE_SIZE)),
+                dump(mgba.PLAYER_STATE, bytes(mgba.PLAYER_STATE_SIZE)),
+                dump(mgba.DIRECT_RIGHT + chunk * mgba.BUFFER_FRAMES, right),
+                dump(mgba.DIRECT_LEFT + chunk * mgba.BUFFER_FRAMES, left),
+                dump(mgba.CGB_IO, bytes(mgba.CGB_IO_SIZE)),
+            ))
+
+        raw = "".join((
+            "Hit breakpoint 1 at 0x0809AABA\n",
+            capture(0, 0, b"\x01\x02\x03\x04", b"\x05\x06\x07\x08"),
+            "Hit breakpoint 1 at 0x0809AABA\n",
+            capture(6, 1, b"\x09", b"\x0A"),
+        ))
+
+        result = mgba.parse_audio_capture_output(raw, 2)
+
+        self.assertEqual(result["initial_counter"], 0)
+        self.assertEqual([row["counter"] for row in result["captures"]], [0, 6])
+        self.assertEqual(result["captures"][0]["right_hex"][:8], "01020304")
+        self.assertEqual(result["captures"][0]["left_hex"][:8], "05060708")
+        expected_pcm = bytearray()
+        for right, left in zip(
+            bytes.fromhex(result["captures"][0]["right_hex"]),
+            bytes.fromhex(result["captures"][0]["left_hex"]),
+        ):
+            expected_pcm.extend((right, left))
+        self.assertEqual(
+            result["captures"][0]["pcm_sha256"],
+            hashlib.sha256(expected_pcm).hexdigest(),
         )
 
     def test_build_probe_commands_breaks_then_reads_rom_and_wram(self):

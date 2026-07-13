@@ -5,11 +5,12 @@ mGBA headless watchpoint debugger.
 Launches mgba-qt (or mgba-sdl) under Xvfb, feeds the built-in CLI debugger
 commands via stdin, parses structured output, and produces JSON logs.
 
-Supports four modes:
+Supports five modes:
   --mode watch   Set hardware watchpoints, continue until hit (best for rare writes)
   --mode diff    Frame-by-frame, diff memory each frame (best for frequent writes)
   --mode snapshot Just advance N frames and dump memory (no watchpoints)
   --mode probe   Break at a ROM PC, then read ROM/WRAM in the stopped context
+  --mode audio   Capture chronological MP2K FIFO chunks from a controlled ROM
 
 Usage:
   # Watchpoint mode - stops at each write to target address
@@ -48,6 +49,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -80,9 +82,28 @@ RE_BREAKPOINT_HIT = re.compile(r"Hit breakpoint (\d+) at 0x([0-9A-Fa-f]+)")
 
 RE_MEMORY_LINE = re.compile(r"(0x[0-9A-Fa-f]+):\s+((?:[0-9A-Fa-f]{8}\s*)+)")
 
+MP2K_MAGIC = 0x68736D53
+SOUND_MAIN_RETURN = 0x0809AABA
+SOUND_INFO = 0x03006570
+SOUND_INFO_HEADER_SIZE = 0x50
+SOUND_INFO_SIZE = 0x350
+DIRECT_RIGHT = SOUND_INFO + 0x350
+DIRECT_LEFT = SOUND_INFO + 0x980
+CGB_STATE = 0x030075B0
+CGB_STATE_SIZE = 0x100
+PLAYER_STATE = 0x030076B0
+PLAYER_STATE_SIZE = 0x110
+CGB_IO = 0x04000060
+CGB_IO_SIZE = 0x30
+BUFFER_FRAMES = 264
+PCM_RING_CHUNKS = 6
+
 
 def find_mgba():
     """Prefer SDL version (works with SDL_VIDEODRIVER=dummy, no Xvfb needed)."""
+    explicit = os.environ.get("MGBA_BIN")
+    if explicit and os.path.isfile(explicit) and os.access(explicit, os.X_OK):
+        return explicit
     for path in [MGBA_SDL, MGBA_QT]:
         if os.path.isfile(path) and os.access(path, os.X_OK):
             return path
@@ -122,13 +143,20 @@ def build_mgba_command(mgba_bin, rom_path, savestate=None):
     return cmd
 
 
-def run_mgba_commands(mgba_bin, rom_path, commands, env_extra=None, timeout=60, savestate=None):
-    """Run mGBA debugger with given commands, return raw output."""
+def build_mgba_env(mgba_bin, env_extra=None):
     env = os.environ.copy()
     env["SDL_VIDEODRIVER"] = "dummy"
     env["SDL_AUDIODRIVER"] = "dummy"
+    if "qt" in os.path.basename(mgba_bin).lower():
+        env.setdefault("DISPLAY", XVFB_DISPLAY)
     if env_extra:
         env.update(env_extra)
+    return env
+
+
+def run_mgba_commands(mgba_bin, rom_path, commands, env_extra=None, timeout=60, savestate=None):
+    """Run mGBA debugger with given commands, return raw output."""
+    env = build_mgba_env(mgba_bin, env_extra)
 
     script = "\n".join(commands) + "\n"
     cmd = build_mgba_command(mgba_bin, rom_path, savestate)
@@ -271,6 +299,162 @@ def parse_probe_output(raw, breakpoint_addr, reads):
     }
 
 
+def audio_chunk_index(invocation):
+    """Return the physical FIFO chunk for a clean controlled dispatch."""
+    if invocation < 0:
+        raise ValueError("audio invocation must be non-negative")
+    return invocation % PCM_RING_CHUNKS
+
+
+def build_audio_capture_commands(invocations):
+    if invocations <= 0:
+        raise ValueError("audio invocation count must be positive")
+    commands = [f"b 0x{SOUND_MAIN_RETURN:08X}"]
+    for invocation in range(invocations):
+        chunk = audio_chunk_index(invocation)
+        commands.extend(("continue", "status"))
+        commands.extend(build_mem_read_commands(SOUND_INFO, SOUND_INFO_SIZE))
+        commands.extend(build_mem_read_commands(CGB_STATE, CGB_STATE_SIZE))
+        commands.extend(build_mem_read_commands(PLAYER_STATE, PLAYER_STATE_SIZE))
+        commands.extend(build_mem_read_commands(
+            DIRECT_RIGHT + chunk * BUFFER_FRAMES, BUFFER_FRAMES,
+        ))
+        commands.extend(build_mem_read_commands(
+            DIRECT_LEFT + chunk * BUFFER_FRAMES, BUFFER_FRAMES,
+        ))
+        commands.extend(build_mem_read_commands(CGB_IO, CGB_IO_SIZE))
+    commands.append("quit")
+    return commands
+
+
+def _parse_region_bytes(raw, base_addr, size):
+    data = bytearray()
+    for addr in range(base_addr, base_addr + size, 16):
+        words = parse_mem_block(raw, f"0x{addr:08X}")
+        if words is None:
+            raise ValueError(f"missing mGBA memory row at 0x{addr:08X}")
+        for word in words:
+            data.extend(word.to_bytes(4, "little"))
+    return bytes(data[:size])
+
+
+def _audio_hit_segments(raw):
+    matches = [
+        match for match in RE_BREAKPOINT_HIT.finditer(raw)
+        if int(match.group(2), 16) == SOUND_MAIN_RETURN
+    ]
+    return [
+        raw[match.end():matches[index + 1].start() if index + 1 < len(matches) else len(raw)]
+        for index, match in enumerate(matches)
+    ]
+
+
+def parse_audio_capture_output(raw, invocations):
+    """Parse chronological FIFO/state reads after a clean controlled dispatch."""
+    segments = _audio_hit_segments(raw)
+    if len(segments) < invocations:
+        raise ValueError(
+            f"expected {invocations} SoundMain hits, found {len(segments)}"
+        )
+
+    captures = []
+    combined_pcm = bytearray()
+    for invocation, segment in enumerate(segments[:invocations]):
+        chunk = audio_chunk_index(invocation)
+        sound_info = _parse_region_bytes(segment, SOUND_INFO, SOUND_INFO_SIZE)
+        if int.from_bytes(sound_info[:4], "little") != MP2K_MAGIC:
+            raise ValueError(
+                f"SoundInfo magic does not match MP2K at invocation {invocation}"
+            )
+        cgb_state = _parse_region_bytes(segment, CGB_STATE, CGB_STATE_SIZE)
+        player_state = _parse_region_bytes(segment, PLAYER_STATE, PLAYER_STATE_SIZE)
+        right = _parse_region_bytes(
+            segment, DIRECT_RIGHT + chunk * BUFFER_FRAMES, BUFFER_FRAMES
+        )
+        left = _parse_region_bytes(
+            segment, DIRECT_LEFT + chunk * BUFFER_FRAMES, BUFFER_FRAMES
+        )
+        cgb_io = _parse_region_bytes(segment, CGB_IO, CGB_IO_SIZE)
+        pcm = bytearray()
+        for right_sample, left_sample in zip(right, left):
+            pcm.extend((right_sample, left_sample))
+        combined_pcm.extend(pcm)
+        captures.append({
+            "invocation": invocation,
+            "chunk_index": chunk,
+            "counter": sound_info[4],
+            "sound_info_header_hex": sound_info[:SOUND_INFO_HEADER_SIZE].hex(),
+            "direct_channels_hex": sound_info[SOUND_INFO_HEADER_SIZE:].hex(),
+            "direct_channels_sha256": hashlib.sha256(
+                sound_info[SOUND_INFO_HEADER_SIZE:]
+            ).hexdigest(),
+            "cgb_state_hex": cgb_state.hex(),
+            "cgb_state_sha256": hashlib.sha256(cgb_state).hexdigest(),
+            "player_state_hex": player_state.hex(),
+            "player_state_sha256": hashlib.sha256(player_state).hexdigest(),
+            "cgb_io_hex": cgb_io.hex(),
+            "right_hex": right.hex(),
+            "left_hex": left.hex(),
+            "pcm_sha256": hashlib.sha256(pcm).hexdigest(),
+            "nonzero_frames": sum(
+                right_sample != 0 or left_sample != 0
+                for right_sample, left_sample in zip(right, left)
+            ),
+        })
+    expected_counters = [0] + [
+        PCM_RING_CHUNKS - (invocation - 1) % PCM_RING_CHUNKS
+        for invocation in range(1, invocations)
+    ]
+    observed_counters = [capture["counter"] for capture in captures]
+    return {
+        "format": "gba-naruto-mgba-mp2k-capture-v1",
+        "initial_counter": captures[0]["counter"],
+        "invocation_count": invocations,
+        "counter_sequence_valid": observed_counters == expected_counters,
+        "combined_pcm_sha256": hashlib.sha256(combined_pcm).hexdigest(),
+        "combined_nonzero_frames": sum(
+            capture["nonzero_frames"] for capture in captures
+        ),
+        "captures": captures,
+    }
+
+
+def mode_audio(rom, sound_id, invocations, timeout):
+    mgba = find_mgba()
+    if not mgba:
+        return {"error": "No mGBA binary found"}
+    commands = build_audio_capture_commands(invocations)
+    try:
+        stdout, stderr = run_mgba_commands(
+            mgba, rom, commands, timeout=timeout,
+        )
+        timed_out = False
+    except subprocess.TimeoutExpired as exc:
+        stdout = exc.stdout or exc.output or ""
+        stderr = exc.stderr or ""
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode(errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode(errors="replace")
+        timed_out = True
+    try:
+        result = parse_audio_capture_output(stdout, invocations)
+    except ValueError as exc:
+        result = {
+            "format": "gba-naruto-mgba-mp2k-capture-v1",
+            "error": str(exc),
+            "soundmain_hits": len(_audio_hit_segments(stdout)),
+        }
+    result.update({
+        "mode": "audio",
+        "sound_id": sound_id,
+        "rom": rom,
+        "stderr": stderr,
+        "timed_out": timed_out,
+    })
+    return result
+
+
 def mode_probe(rom, breakpoint_addr, reads, frames, timeout, savestate=None):
     """Stop at a known PC and capture ROM/WRAM reads in the same process."""
     mgba = find_mgba()
@@ -315,9 +499,7 @@ def mode_watch(rom, watch_addr, max_hits, frames_advance, per_hit_timeout, saves
     cmds.append("status")
 
     # Run first batch
-    env = os.environ.copy()
-    env["SDL_VIDEODRIVER"] = "dummy"
-    env["SDL_AUDIODRIVER"] = "dummy"
+    env = build_mgba_env(mgba)
 
     script = "\n".join(cmds) + "\n"
 
@@ -365,9 +547,7 @@ def mode_diff(rom, region_addr, region_size, num_frames, savestate):
             cmds.append("frame")
     cmds.append("quit")
 
-    env = os.environ.copy()
-    env["SDL_VIDEODRIVER"] = "dummy"
-    env["SDL_AUDIODRIVER"] = "dummy"
+    env = build_mgba_env(mgba)
 
     script = "\n".join(cmds) + "\n"
 
@@ -449,9 +629,7 @@ def mode_snapshot(rom, dumps, frames, savestate, timeout=60):
         cmds.extend(build_mem_read_commands(addr, size))
     cmds.append("quit")
 
-    env = os.environ.copy()
-    env["SDL_VIDEODRIVER"] = "dummy"
-    env["SDL_AUDIODRIVER"] = "dummy"
+    env = build_mgba_env(mgba)
 
     script = "\n".join(cmds) + "\n"
 
@@ -498,7 +676,7 @@ def mode_snapshot(rom, dumps, frames, savestate, timeout=60):
 def main():
     parser = argparse.ArgumentParser(description="mGBA headless watchpoint debugger")
     parser.add_argument("--rom", required=True, help="Path to GBA ROM file")
-    parser.add_argument("--mode", choices=["watch", "diff", "snapshot", "probe"], default="snapshot",
+    parser.add_argument("--mode", choices=["watch", "diff", "snapshot", "probe", "audio"], default="snapshot",
                         help="Operation mode (default: snapshot)")
     parser.add_argument("--watch", type=str, default=None,
                         help="Watchpoint address for watch mode (hex)")
@@ -519,6 +697,10 @@ def main():
     parser.add_argument("--timeout", type=int, default=300, help="Timeout seconds")
     parser.add_argument("--per-hit-timeout", type=int, default=30,
                         help="Timeout per watchpoint hit (watch mode)")
+    parser.add_argument("--sound-id", type=lambda value: int(value, 0), default=None,
+                        help="Controlled sound ID label for audio mode")
+    parser.add_argument("--invocations", type=int, default=8,
+                        help="SoundMain FIFO chunks to capture in audio mode")
 
     args = parser.parse_args()
 
@@ -567,6 +749,14 @@ def main():
             result = mode_probe(
                 args.rom, int(args.breakpoint, 16), reads, args.frames, args.timeout,
                 args.savestate,
+            )
+
+        elif args.mode == "audio":
+            if args.sound_id is None:
+                print("ERROR: --sound-id required for audio mode", file=sys.stderr)
+                sys.exit(1)
+            result = mode_audio(
+                args.rom, args.sound_id, args.invocations, args.timeout,
             )
 
         else:  # snapshot

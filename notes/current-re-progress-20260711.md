@@ -68,7 +68,9 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   terminal-tone/channel initialization plus active-note pitch/mix propagation are
   connected. Player-level full-song scheduling now emits 80/80 non-silent bounded
   WAVs, including CGB+Direct hardware-scale PCM and all first-GOTO loop boundaries.
-  Emulator buffer/register differential, player-slot concurrency and cue naming remain.
+  Independent mGBA differential now matches all 79 sound-101 Direct FIFO chunks
+  byte-for-byte and all 68 sound-144 visible CGB register/channel-status snapshots.
+  Player-slot concurrency and cue naming remain.
 - Alternate chapter table `0x60D54` and all six map resource streams are now
   runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
   skill fields, followed by individual semantic review of the remaining static banks.

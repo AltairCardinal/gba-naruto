@@ -53,9 +53,9 @@ PSG volume mode=2 时，channel-4 当前 0..15 volume 映射到 DirectSound byte
 
 ## 尚未闭合的强门槛
 
-本实现是 ROM 代码和硬件公开公式驱动的离线模型，但仍缺少独立动态差分：至少需
-从 emulator 捕获同一 sound ID 的 Direct FIFO 264-frame buffer、NR4x 写入时间线和
-合并采样相位进行对照。此外，当前批量工具按“单 cue、隔离 player”渲染；同一
-player slot 的 retrigger/stop、多个 linked player 同时播放、全局 CGB pool 竞争仍需
-单独闭合。80 个 cue 的玩家可见语义命名也尚未完成。因此不得把音频或全项目提前
-标为 100%。
+独立动态差分现已闭合：sound 101 的 79/79 个 264-frame 双声道 Direct FIFO 块与
+离线引擎逐字节一致；sound 144 的 68/68 组可读 NR4x/NR51 和 channel-4 status
+时间线一致，详见 `notes/m4a-emulator-differential-20260713.md`。当前批量工具仍按
+“单 cue、隔离 player”渲染；同一 player slot 的 retrigger/stop、多个 linked player
+同时播放、全局 CGB pool 竞争仍需单独闭合。80 个 cue 的玩家可见语义命名也尚未
+完成。因此不得把音频或全项目提前标为 100%。
