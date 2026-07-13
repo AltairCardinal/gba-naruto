@@ -53,6 +53,12 @@ writing the same complete 430-byte alternate scenario 39 script at
 `0x085F8000`, the selector consuming that relocated pointer, 25 dispatches,
 and terminal opcode `00` at `0x085F81AD`.
 
+`natural-scenario-41-runtime-evidence.json` records an unforced selector run
+from the genuine Konoha save state. Move/Battle naturally selected primary
+`0x60C74[41] -> 0x08031A12`, executed 44 captured opcodes and terminated at
+`0x08031D5F` opcode `00` without SetBattle. The outer-state transition proves
+the following preparation UI belongs to scenario 41, not the title encyclopedia.
+
 `visual-variant-runtime-evidence.json` records the controlled record 7 /
 variant 0 resource-pair A/B that changed the same `ShowPortrait(1,7,0)` frame
 from Kakashi to Sakura without changing scenario, script cursor, or dispatch count.

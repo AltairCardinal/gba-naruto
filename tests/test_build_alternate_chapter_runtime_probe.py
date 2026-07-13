@@ -50,6 +50,16 @@ class AlternateChapterRuntimeProbeTest(unittest.TestCase):
         script = self.base[scenario_39 - ROM_BASE:0x0803142F - ROM_BASE]
         self.assertNotIn(0x1A, script)
 
+    def test_natural_mode_preserves_primary_alternate_selector_branch(self):
+        patched = build_probe(self.base, force_alternate=False)
+        self.assertEqual(
+            patched[SELECTOR_OFFSET:SELECTOR_OFFSET + 2],
+            self.base[SELECTOR_OFFSET:SELECTOR_OFFSET + 2],
+        )
+        for hook in (SELECTOR_CAPTURE_HOOK, DISPATCH_HOOK):
+            offset = hook - ROM_BASE
+            self.assertNotEqual(patched[offset:offset + 4], self.base[offset:offset + 4])
+
     def test_rejects_selector_mismatch(self):
         modified = bytearray(self.base)
         modified[SELECTOR_OFFSET] ^= 1

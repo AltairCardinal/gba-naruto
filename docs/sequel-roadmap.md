@@ -480,8 +480,9 @@
   45×12 effect/stat progression records；`resource-pointers` 修正为5×16嵌套
   descriptor。后两者均由消费者升级 code_verified。
 - levels 的真正 Continue 已复现：Naruto level 1、经验100/250、训练点`+BA=0`；
-  “移动→对战→木叶丸对白”后的队伍/菜单已证伪为标题人物图鉴/存档上下文，不是下一
-  任务准备链。下一步从真实木叶恢复态 hook chapter selector/outer-state 写入再找第二战；
+  自然 selector 证明“移动→对战→木叶丸对白”消费 primary scenario 41 脚本
+  `0x08031A12..0x08031D5F`，44 次 dispatch 后 opcode 00 正常终止、无 SetBattle，
+  随后 UI 是 story 后任务准备而非标题图鉴。下一步从队伍确认寻找新 selector/第二战；
   目标仍是 A880=3 / level2 / 分配前训练点1
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。

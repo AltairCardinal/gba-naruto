@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-13T03:08:22.259529+00:00`
+生成时间：`2026-07-13T03:13:16.995787+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -46,7 +46,7 @@
 | `save-state` | ✅ `0x53D848` | ✅ | ✅ (10) | ✅ `runtime_verified` | ✅ (16) | ✅ (20) | ✅ | — |
 | `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `runtime_verified` | ✅ (19) | ✅ (1504) | ✅ | — |
 | `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
-| `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (37) | ✅ (56) | ✅ | — |
+| `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (38) | ✅ (56) | ✅ | — |
 | `story-b` | ✅ `0x060D54` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (17) | ✅ (56) | ✅ | — |
 | `story-c` | ✅ `0x538FF0` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (13) | ✅ (0) | ✅ | — |
 | `story-d` | ✅ `0x53AB78` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |

@@ -80,13 +80,21 @@ KeyZ -> 关闭完成提示，进入木叶主界面
 slot1 level `+0x51=FF`。这与标题人物图鉴路线明确区分。
 
 从恢复态选择“移动→对战”后先进入 Naruto/木叶丸长对白；期间没有战斗、经验或
-`A880` 变化。继续逐键探索纠正了上一版判断：相似的“队伍·装备/四项菜单”最终会
-进入标题存档读取页，属于标题人物图鉴/队伍展示上下文，并不是下一任务准备流程。
-Right 只移动到空卡位，A 对鸣人打开人物信息/术/装备、对空位无效，Start 短暂黑屏后
-回原页；B 后继续操作会回标题存档页。所有相关 `/tmp` ss9 均不得固化成战斗 checkpoint。
+`A880` 变化。截图一度令该队伍/菜单界面被误判成标题人物图鉴；自然 selector 探针
+现已撤销该判断。`tools/build_alternate_chapter_runtime_probe.py --natural-selector`
+保留原始 primary/alternate 分支，只安装 selector/opcode hook。两次 selector hit 均
+捕获 scenario 41 选择 primary `0x60C74[41] = 0x08031A12`。
 
-因此“Continue 后立即下一战”和“该队伍页可开始下一任务”均被否决。下一步必须从
-真实木叶恢复态 hook chapter selector 与 outer-state 写入，用 state variables 区分
-标题人物图鉴与任务控制器，再寻找第二战入口，不能再用相似截图和盲按推断。升级
-checkpoint 判据保持：`A880=3`、Naruto level 2、分配前 `+BA=1`，并命中
-`0x0808E16E→0x08093698`。
+从 Konoha 恢复态输入“移动→对战”后，最初捕获 13 次 opcode；outer state
+`0x020311D4` 的 `+0x12:0x20→0x30`、`+0x16:40→41`、`+0x17:0→39`。继续约 20 次
+确认后累计 44 次 opcode，在 `0x08031D5F` 捕获与 ROM 一致的 `00 1B 08 00`；
+`+0x12(u16)=0x0100`、`+0x16=41`、`+0x17=39`、`+0x18=1`。battle state 与 A880
+仍为零。该脚本以 opcode 00 正常终止且没有 SetBattle，因此 scenario 41 本来就是
+story-only，并有意转入故事后的队伍/任务准备 UI。
+
+所以“Continue 后立即下一战”仍被否决，但“该 UI 属于标题图鉴”也被更强的 selector
+证据否决。下一步继续在队伍页逐键采样同一 outer state；新的 selector hit（scenario
+大于 41）或 `0x08097C78` SetBattle hit 才是第二战入口。升级 checkpoint 判据保持：
+`A880=3`、Naruto level 2、分配前 `+BA=1`，并命中
+`0x0808E16E→0x08093698`。紧凑证据见
+`artifacts/runtime-checkpoints/natural-scenario-41-runtime-evidence.json`。

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Force table 0x60D54 and trace selector plus every interpreter opcode."""
+"""Trace chapter selection/opcodes, optionally forcing alternate table 0x60D54."""
 from __future__ import annotations
 
 import argparse
@@ -76,7 +76,7 @@ def _dispatch_stub() -> bytes:
     return struct.pack("<20H2I", *halfwords, SCRATCH, MAGIC)
 
 
-def build_probe(base: bytes) -> bytes:
+def build_probe(base: bytes, *, force_alternate: bool = True) -> bytes:
     if base[SELECTOR_OFFSET:SELECTOR_OFFSET + 2] != EXPECTED_BRANCH:
         raise ValueError("alternate selector branch bytes do not match")
 
@@ -101,7 +101,8 @@ def build_probe(base: bytes) -> bytes:
         raise AssertionError((len(selector_stub), len(dispatch_stub)))
 
     rom = bytearray(base)
-    rom[SELECTOR_OFFSET:SELECTOR_OFFSET + 2] = FORCE_ALTERNATE
+    if force_alternate:
+        rom[SELECTOR_OFFSET:SELECTOR_OFFSET + 2] = FORCE_ALTERNATE
     rom[selector_hook_offset:selector_hook_offset + 4] = encode_thumb_bl(SELECTOR_CAPTURE_HOOK, SELECTOR_STUB)
     rom[dispatch_hook_offset:dispatch_hook_offset + 4] = encode_thumb_bl(DISPATCH_HOOK, DISPATCH_STUB)
     rom[SELECTOR_STUB_OFFSET:SELECTOR_STUB_OFFSET + SELECTOR_STUB_SIZE] = selector_stub
@@ -113,8 +114,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("base_rom", type=Path)
     parser.add_argument("output_rom", type=Path)
+    parser.add_argument(
+        "--natural-selector",
+        action="store_true",
+        help="trace the ROM's natural primary/alternate decision without forcing it",
+    )
     args = parser.parse_args()
-    output = build_probe(args.base_rom.read_bytes())
+    output = build_probe(
+        args.base_rom.read_bytes(), force_alternate=not args.natural_selector
+    )
     args.output_rom.write_bytes(output)
     print(f"wrote {args.output_rom}: sha256={hashlib.sha256(output).hexdigest()}")
     return 0
