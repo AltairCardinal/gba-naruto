@@ -22,11 +22,20 @@ ROM_BASE = 0x08000000
 def read_window(
     rom_path: Path, gba_addr: int, before: int, size: int
 ) -> tuple[int, bytes]:
+    if before < 0:
+        raise ValueError("before must be non-negative")
+    if size <= 0:
+        raise ValueError("size must be positive")
+    rom_size = rom_path.stat().st_size
+    if not ROM_BASE <= gba_addr < ROM_BASE + rom_size:
+        raise ValueError("focus address must be inside the mapped ROM")
     start_addr = max(ROM_BASE, gba_addr - before)
     start_off = start_addr - ROM_BASE
-    data = rom_path.read_bytes()
-    end_off = min(len(data), start_off + size)
-    return start_addr, data[start_off:end_off]
+    read_size = min(size, rom_size - start_off)
+    with rom_path.open("rb") as rom:
+        rom.seek(start_off)
+        data = rom.read(read_size)
+    return start_addr, data
 
 
 def main() -> int:

@@ -8,6 +8,11 @@ import hashlib
 import struct
 from pathlib import Path
 
+try:
+    from tools.thumb_branch import encode_thumb_bl
+except ModuleNotFoundError:  # pragma: no cover - direct script execution
+    from thumb_branch import encode_thumb_bl
+
 
 BASE_SHA1 = "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
 ROM_BASE = 0x08000000
@@ -22,19 +27,6 @@ GROWTH_CALL_SITES = (
     0x08077D3A, 0x0807D820, 0x08085D7A, 0x08089B68,
     0x08089B76, 0x080931C6, 0x08093868, 0x08097714,
 )
-
-
-def encode_thumb_bl(source: int, target: int) -> bytes:
-    displacement = target - (source + 4)
-    if displacement & 1:
-        raise ValueError("Thumb BL target must be halfword aligned")
-    if not -(1 << 22) <= displacement < (1 << 22):
-        raise ValueError("Thumb BL target is outside ARMv4T range")
-    encoded = displacement & 0x7FFFFF
-    first = 0xF000 | ((encoded >> 12) & 0x07FF)
-    second = 0xF800 | ((encoded >> 1) & 0x07FF)
-    return struct.pack("<HH", first, second)
-
 
 def build_probe(base: bytes) -> bytes:
     digest = hashlib.sha1(base).hexdigest()

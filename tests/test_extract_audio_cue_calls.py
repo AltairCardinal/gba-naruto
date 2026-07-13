@@ -4,9 +4,13 @@ import unittest
 from pathlib import Path
 
 from tools.extract_audio_cue_calls import encode_thumb_bl, scan_calls
+from tools.thumb_branch import encode_thumb_bl as shared_encode_thumb_bl
 
 
 class AudioCueCallExtractionTests(unittest.TestCase):
+    def test_public_encoder_is_shared(self):
+        self.assertIs(encode_thumb_bl, shared_encode_thumb_bl)
+
     def test_thumb_bl_round_trip_and_immediate_sound_id(self):
         base = 0x08000000
         target = 0x08000100

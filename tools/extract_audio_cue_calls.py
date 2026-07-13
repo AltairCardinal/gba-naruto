@@ -14,31 +14,13 @@ import struct
 from collections import Counter
 from pathlib import Path
 
+try:
+    from tools.thumb_branch import decode_thumb_bl, encode_thumb_bl
+except ModuleNotFoundError:  # pragma: no cover - direct script execution
+    from thumb_branch import decode_thumb_bl, encode_thumb_bl
+
 ROM_BASE = 0x08000000
 PLAY_WRAPPER = 0x08061E6C
-
-
-def encode_thumb_bl(callsite: int, target: int) -> bytes:
-    """Encode an ARMv4T two-halfword BL, primarily for regression fixtures."""
-    displacement = target - (callsite + 4)
-    if displacement & 1:
-        raise ValueError("Thumb BL target must be halfword aligned")
-    if not -(1 << 22) <= displacement < (1 << 22):
-        raise ValueError("Thumb BL target is outside ARMv4T range")
-    encoded = displacement & 0x7FFFFF
-    return struct.pack(
-        "<HH", 0xF000 | ((encoded >> 12) & 0x7FF),
-        0xF800 | ((encoded >> 1) & 0x7FF),
-    )
-
-
-def _thumb_bl_target(callsite: int, first: int, second: int) -> int | None:
-    if first & 0xF800 != 0xF000 or second & 0xF800 != 0xF800:
-        return None
-    displacement = ((first & 0x7FF) << 12) | ((second & 0x7FF) << 1)
-    if displacement & 0x400000:
-        displacement -= 0x800000
-    return callsite + 4 + displacement
 
 
 def scan_calls(
@@ -48,7 +30,7 @@ def scan_calls(
     for offset in range(0, len(rom) - 3, 2):
         first, second = struct.unpack_from("<HH", rom, offset)
         callsite = rom_base + offset
-        if _thumb_bl_target(callsite, first, second) != target:
+        if decode_thumb_bl(callsite, first, second) != target:
             continue
         previous = struct.unpack_from("<H", rom, offset - 2)[0] if offset >= 2 else -1
         immediate = previous & 0xFF if previous & 0xFF00 == 0x2000 else None

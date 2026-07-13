@@ -187,7 +187,11 @@ python3 tools/disasm_thumb.py \
 
 ## `find_thumb_calls.py`
 
-Scans the ROM for Thumb `bl`/`blx`/direct `b` instructions that target a specific ROM address.
+Scans for candidate ARMv4T Thumb direct branches that target a specific ROM address.
+The scanner recognizes two-halfword `bl` and unconditional `b` encodings without
+constructing Capstone instruction objects. Immediate `blx` is not supported because
+the GBA's ARM7TDMI uses ARMv4T, where that encoding is unavailable. Use the optional
+exclusive `--start`/`--end` ROM-address bounds to limit a search region.
 
 Example:
 
@@ -195,6 +199,8 @@ Example:
 python3 tools/find_thumb_calls.py \
   build/naruto-sequel-dev.gba \
   0x08066D14 \
+  --start 0x08060000 \
+  --end 0x08070000 \
   --output notes/calls-08066D14.txt
 ```
 
