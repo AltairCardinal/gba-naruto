@@ -120,8 +120,10 @@ synthetic-only because this corpus has no MODT commands. The remaining 11 notes'
 CGB channel-4 register and LFSR semantics are closed in
 `notes/psg-noise-runtime-chain-20260713.md`. The normal DirectSound forward
 sample, loop/end, reverb seed and modulo-256 buffer arithmetic are closed in
-`notes/directsound-mixer-runtime-chain-20260713.md`. Full MP2K-to-SoundMain
-scheduling and a combined PSG/DirectSound song render remain open.
+`notes/directsound-mixer-runtime-chain-20260713.md`. The exact tempo accumulator,
+linked-player ordering, 264-frame SoundMain cadence and six-chunk DMA/reverb
+ring are closed in `notes/m4a-soundmain-scheduler-20260713.md`. The persistent
+command VM/channel allocator and combined PSG/DirectSound song render remain open.
 
 ## Runtime proof
 

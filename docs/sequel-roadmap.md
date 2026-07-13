@@ -306,13 +306,15 @@
 - DirectSound 16169/16169 note 的 forward-linear 插值、跨 sample/loop、非循环
   停止、reverb seed、signed-byte modulo-256（非饱和）累加和 stereo WAV 写入已锁定；
   8442 条非循环、7727 条循环语料全部走此路径
-- 待完成 MP2K tick→SoundMain 调度、PSG/noise 与 DirectSound 的联合 PCM 输出、
+- MP2K tempo threshold=150、同一 SoundMain 内 0/1/多 tick、linked-player 递归顺序、
+  每次 264-frame mix 与 6×264 DMA/reverb ring 已代码锁定；多 tick 间不得插入混音
+- 待完成持久 command VM/channel allocation、PSG/noise 与 DirectSound 的联合 PCM 输出、
   跨循环 TIE 执行和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a tick/mixer invocation 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 m4a command VM/channel allocation 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`
