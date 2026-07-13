@@ -130,7 +130,10 @@ registers now emit runtime NoteRequest/EOT/FINE requests for all 217 tracks.
 Terminal-tone→allocated-channel initialization, drum pitch offsets, active-note
 pitch/mix propagation, natural-stop unlink and the first real 264-frame DirectSound
 chunk are now connected; see `notes/m4a-runtime-channel-wiring-20260713.md`.
-Player-level full-song scheduling and the DirectSound+CGB combined render remain open.
+Player-level full-song scheduling, all 80 bounded WAV outputs, first-GOTO loop
+continuation and the DirectSound+CGB hardware-scale combined render are now connected;
+see `notes/m4a-full-song-render-20260713.md`. Emulator FIFO/NR4x differential,
+player-slot concurrency and audible cue names remain open.
 
 ## Runtime proof
 

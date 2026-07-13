@@ -318,13 +318,16 @@
   路径；真实 sound 1 DirectSound 与 sound 144 CGB noise 向量、drum-root pitch、
   mid-note pitch/mix dirty 传播、自然停止后的 track unlink 和首个 264-frame PCM hash
   均已测试。bounded allocator rejection 不能冒充真实 SoundMain 丢音统计
-- 待完成 player 级整曲 SoundMain、CGB envelope/noise 与 DirectSound 联合 PCM 输出、
-  跨循环 TIE 执行、emulator buffer 差分和可听 cue 命名
+- player 级整曲 SoundMain 与 DirectSound+CGB 联合 PCM 已闭合：80/80 sound ID
+  均生成非静音 WAV，62 个 one-shot 自然结束，18 个 loop song 的全部 138 条
+  GOTO track 均跨过首次 GOTO；首次 GOTO 上 21 个 active TIE 保持跨边界
+- 待完成 emulator FIFO/NR4x/sample-phase 差分、同 player retrigger/stop 与 linked-player
+  并发、全局 CGB pool 竞争和 80 个可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 player 级 SoundMain 调度与 PSG 联合 PCM，构建忠实多轨整曲渲染（下一步）
+3. 对整曲 renderer 做 emulator FIFO/PSG differential，并闭合 player-slot 并发语义（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

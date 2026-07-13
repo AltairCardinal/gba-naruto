@@ -25,11 +25,17 @@ try:
     from tools.extract_audio_assets import parse_wave
     from tools.m4a_envelope import EnvelopeState
     from tools.m4a_pitch_step import midi_key_to_step
-    from tools.m4a_psg import noise_register, noise_start_registers
+    from tools.m4a_psg import (
+        noise_clock_hz,
+        noise_lfsr_step,
+        noise_register,
+        noise_start_registers,
+        noise_stop_registers,
+    )
     from tools.map_m4a_instruments import _channel_mix_coefficients
     from tools.m4a_envelope import advance_envelope, mixer_gains
     from tools.m4a_pcm import DirectSoundState, mix_sample_wrap, render_forward
-    from tools.m4a_scheduler import BUFFER_FRAMES, PcmRing
+    from tools.m4a_scheduler import BUFFER_FRAMES, PCM_RATE, PcmRing
 except ModuleNotFoundError:  # direct ``python tools/...`` execution
     from m4a_channels import (
         ACTIVE_MASK,
@@ -50,11 +56,17 @@ except ModuleNotFoundError:  # direct ``python tools/...`` execution
     from extract_audio_assets import parse_wave
     from m4a_envelope import EnvelopeState
     from m4a_pitch_step import midi_key_to_step
-    from m4a_psg import noise_register, noise_start_registers
+    from m4a_psg import (
+        noise_clock_hz,
+        noise_lfsr_step,
+        noise_register,
+        noise_start_registers,
+        noise_stop_registers,
+    )
     from map_m4a_instruments import _channel_mix_coefficients
     from m4a_envelope import advance_envelope, mixer_gains
     from m4a_pcm import DirectSoundState, mix_sample_wrap, render_forward
-    from m4a_scheduler import BUFFER_FRAMES, PcmRing
+    from m4a_scheduler import BUFFER_FRAMES, PCM_RATE, PcmRing
 
 
 @dataclass(frozen=True)
@@ -149,6 +161,7 @@ class M4AChannelRuntime:
         channel.track_right = request.track_right
         channel.track_left = request.track_left
         channel.velocity = request.velocity
+        channel.tied = request.tied
         channel.adsr = (
             terminal["attack"], terminal["decay"],
             terminal["sustain"], terminal["release"],
@@ -177,6 +190,9 @@ class M4AChannelRuntime:
         )
         channel.echo_length = 0
         channel.echo_volume = 0
+        channel.noise_lfsr = 0x7FFF
+        channel.noise_phase = 0
+        channel.noise_output = 0
         if kind == "direct":
             wave_offset = terminal["pointer"] - 0x08000000
             wave = parse_wave(self.rom, wave_offset)
@@ -280,6 +296,19 @@ class M4AChannelRuntime:
             if global_index < DIRECT_CHANNEL_COUNT
             else global_index - DIRECT_CHANNEL_COUNT
         )
+
+    def active_tied_keys(self, track_ptr: int) -> list[int]:
+        track = self.tracks.get(track_ptr)
+        if track is None:
+            return []
+        keys = []
+        index = track.head
+        while index is not None:
+            channel = self.channels[index]
+            if channel.status & ACTIVE_MASK and channel.tied:
+                keys.append(channel.midi_key)
+            index = channel.next
+        return keys
 
     def scan_gates(self, track_ptr: int) -> list[int]:
         track = self.tracks.get(track_ptr)
@@ -385,6 +414,50 @@ class M4AChannelRuntime:
         ring.left[start:start + BUFFER_FRAMES] = left
         return right, left
 
+    def render_cgb_chunk(
+        self, *, frames: int = BUFFER_FRAMES
+    ) -> tuple[list[int], list[int]]:
+        """Advance the executed channel-4 path and return hardware-scale PCM."""
+        if frames < 0:
+            raise ValueError("CGB frame count must be non-negative")
+        right = [0] * frames
+        left = [0] * frames
+        for channel in self.cgb:
+            if channel.status == 0 or (channel.tone_type & 7) != 4:
+                continue
+            if channel.status & 0x40:
+                channel.registers.update(noise_stop_registers())
+                channel.status = 0
+                channel.noise_output = 0
+                continue
+            if channel.status & 0x80:
+                channel.status = 1
+
+            nr43 = channel.registers["NR43"]
+            frequency = int(noise_clock_hz(nr43))
+            width7 = bool(nr43 & 0x08)
+            volume = (channel.registers["NR42"] >> 4) & 0xF
+            route = channel.registers["NR51"]
+            contribution = volume * 4
+            for frame in range(frames):
+                sample = channel.noise_output * contribution
+                if route & 0x08:
+                    right[frame] += sample
+                if route & 0x80:
+                    left[frame] += sample
+                channel.noise_phase += frequency
+                steps, channel.noise_phase = divmod(
+                    channel.noise_phase, PCM_RATE
+                )
+                for _ in range(steps):
+                    channel.noise_lfsr = noise_lfsr_step(
+                        channel.noise_lfsr, width7=width7
+                    )
+                    channel.noise_output = 1 - (
+                        (channel.noise_lfsr >> 14) & 1
+                    )
+        return right, left
+
 
 class M4ATrackRunner:
     """Connect one persistent command VM and register state to channel requests."""
@@ -403,12 +476,20 @@ class M4ATrackRunner:
         self.gate_releases: list[int] = []
         self.eot_releases: list[int] = []
         self.stop_releases: list[int] = []
+        self.tempo_updates: list[int] = []
+        self.goto_tie_snapshots: list[list[int]] = []
 
     def _command(self, command: dict) -> None:
         note_count = len(self.state.note_requests)
         release_count = len(self.state.release_keys)
         stop_before = self.state.stop_requested
         self.state.handle_command(command, tick=self.vm.tick)
+        if command["name"] == "TEMPO":
+            self.tempo_updates.append(self.state.tempo_raw)
+        elif command["name"] == "GOTO":
+            self.goto_tie_snapshots.append(
+                self.channels.active_tied_keys(self.state.track_ptr)
+            )
         for request in self.state.note_requests[note_count:]:
             result = self.channels.allocate(
                 request, track_priority=self.state.priority

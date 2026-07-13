@@ -30,6 +30,7 @@ class Channel:
     track_left: int = 0
     velocity: int = 0
     tone_pan: int = 0
+    tied: bool = False
     wave_offset: int = 0
     sample_count: int = 0
     loop_start: int = 0
@@ -45,6 +46,9 @@ class Channel:
     pre_left: int = 0
     echo_length: int = 0
     echo_volume: int = 0
+    noise_lfsr: int = 0x7FFF
+    noise_phase: int = 0
+    noise_output: int = 0
 
 
 @dataclass
