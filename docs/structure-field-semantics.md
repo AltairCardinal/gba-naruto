@@ -349,12 +349,16 @@ an in-game slot-1 save and cold restore are runtime verified.
 
 **Format:** 94 × 16-byte skill/technique templates
 **Entry Size:** 16 bytes
-**Evidence:** code verified at `0x0806D910`
+**Evidence:** runtime verified through the natural high-bit technique list and
+`0x08070906→0x0806D910`
 
 The consumer indexes `0x08545BE4 + skill_id*16` and copies bytes `+0..+9` to
 the runtime structure. Bytes `+0x0A..+0x0F` are preserved losslessly but are
 not copied by this initializer. Previous u16 field names derived from the
-misbased `0x546100` slice are revoked pending runtime UI/action correlation.
+misbased `0x546100` slice are revoked. Natural skill 1 maps `+4` attack power,
+`+5` distance, `+6` success-rate percentage, packed `+7` hit count/line shape,
+and `+8` range. A single-byte `+4:6→7` patch changed only visible `6x3→7x3`.
+Offsets `+2/+3/+9` remain unnamed.
 
 ---
 

@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-13T00:04:31.895108+00:00`
+生成时间：`2026-07-13T00:19:43.261894+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -15,7 +15,7 @@
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=11, `disproved`=9, `runtime_verified`=12。
+- verification 分布：`code_verified`=10, `disproved`=9, `runtime_verified`=13。
 
 ## 逐结构结果
 
@@ -44,7 +44,7 @@
 | `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (5) | ✅ `code_verified` | ✅ (12) | ✅ (20) | ✅ | — |
 | `sappy-engine` | ✅ `0x09AE3C` | ✅ | ✅ (1) | ✅ `code_verified` | ✅ (6) | ✅ (1) | ✅ | — |
 | `save-state` | ✅ `0x53D848` | ✅ | ✅ (10) | ✅ `runtime_verified` | ✅ (15) | ✅ (20) | ✅ | — |
-| `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `code_verified` | ✅ (18) | ✅ (1504) | ✅ | — |
+| `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `runtime_verified` | ✅ (19) | ✅ (1504) | ✅ | — |
 | `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
 | `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (37) | ✅ (56) | ✅ | — |
 | `story-b` | ✅ `0x060D54` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (17) | ✅ (56) | ✅ | — |

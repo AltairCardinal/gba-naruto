@@ -354,7 +354,7 @@
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
 - 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：23 个有效 bank 必须有非空 entries 和 ROM fidelity；9 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 0 个 `static_verified`、11 个 `code_verified`、12 个
+- 最新严格审计分布为 0 个 `static_verified`、10 个 `code_verified`、13 个
   `runtime_verified`、9 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
@@ -398,16 +398,18 @@
   实际选择 `0x085F8000`、25 次 dispatch，并在 `0x085F81AD` 的 `00` 正常终止，
   allocator→pointer→payload→interpreter 因果链已闭合
 - skills initializer 字段链已纠正为 source `+0→runtime+1`、`+1` skip、`+2..+9`
-  原位复制，`+A/+B` 另有 consumer；技能列表 UI 已到达，但现有 checkpoint 的 ROM
-  byte A/B 未进入数值区，initializer hook 也未命中，因此 skills 严格保持 code_verified
+  原位复制，`+A/+B` 另有 consumer。自然“术列表”控制器把 skill ID 1 与 `0x80`
+  合并并命中 initializer；只改 row 1 `+4:6→7` 后，runtime `+4` 与可见攻击力
+  `6×3→7×3` 同步改变，因此 skills 升级 runtime_verified
 - skills 的非详情字段进一步闭合：`+0` 是战斗显示/动画族；`+A/+B` 构建前置技能到
   可联动候选的映射；`+C/+D` 是最多两个 ID 的资格白名单。它们均有明确消费者与
-  错误反馈路径，但不等于详情页的威力/距离/范围/成功率，仍不升级验证等级
+  错误反馈路径。自然详情另闭合 `+4` 攻击力、`+5` 距离、`+6` 成功率、packed
+  `+7` 次数/直线和 `+8` 范围；`+2/+3/+9` 继续保持未知
 - 战斗动作详情渲染器已锁定为 `0x080708BC`：action ID 高位清零时调用 effect
   initializer `0x0806D85C`，置位时才在 `0x08070906` 调 skills initializer
   `0x0806D910`。教程“忍者组合拳”是低位 effect 2，解释了旧 skills 探针零命中。
-  强制 high-bit 诊断 A/B 只令 skill 2 source/runtime `+4` 从 6 变 7，未产生稳定
-  可见差异，因此作为路径验证保留，skills 仍严格为 code_verified
+  旧强制 high-bit 诊断只作为负边界保留；现已由自然术列表 skill 1 的稳定可见 A/B
+  取代，不能再用旧诊断的零可见差异否定新证据
 - function-pointers 已从“11个看似有效 Thumb 指针”推进到真实 dispatcher 消费链：
   `0x08061D8C` 从 sentinel base `0x53D5F0` 按一基 ID 取表项并写入 task callback，
   11个 wrapper 均把对应 ID 传给 `0x08061C58`。自然冷启动人物资料路线两次命中

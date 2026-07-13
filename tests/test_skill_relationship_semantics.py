@@ -25,6 +25,22 @@ class SkillRelationshipSemanticsTests(unittest.TestCase):
         self.assertEqual(bank["entries"][2]["parent_skill_id"], 1)
         self.assertEqual(bank["entries"][2]["eligible_candidate_id"], 3)
 
+    def test_extractor_records_natural_detail_panel_semantics(self):
+        bank = build_bank(BASE_ROM.read_bytes())
+        fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
+        self.assertEqual(bank["verification"], "runtime_verified")
+        self.assertEqual(fields[4]["semantic"], "attack_power")
+        self.assertEqual(fields[5]["semantic"], "distance")
+        self.assertEqual(fields[6]["semantic"], "success_rate_percent")
+        self.assertEqual(fields[7]["semantic"], "hit_count_and_line_shape")
+        self.assertEqual(fields[8]["semantic"], "range")
+        skill = bank["entries"][1]
+        self.assertEqual(skill["attack_power"], 6)
+        self.assertEqual(skill["distance"], 3)
+        self.assertEqual(skill["success_rate_percent"], 90)
+        self.assertEqual(skill["hit_count_and_line_shape"], 0x83)
+        self.assertEqual(skill["range"], 1)
+
     def test_parent_child_consumer_reads_offsets_0a_and_0b(self):
         rom = BASE_ROM.read_bytes()
         self.assertEqual(rom[0x8FFC4:0x8FFC8], (0x08545BE4).to_bytes(4, "little"))

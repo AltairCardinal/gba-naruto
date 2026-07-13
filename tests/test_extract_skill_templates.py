@@ -12,7 +12,7 @@ class SkillTemplateExtractionTests(unittest.TestCase):
             start = TABLE_OFFSET + index * ENTRY_SIZE
             rom[start:start + ENTRY_SIZE] = bytes((index + n) & 0xFF for n in range(ENTRY_SIZE))
         bank = build_bank(bytes(rom))
-        self.assertEqual("code_verified", bank["verification"])
+        self.assertEqual("runtime_verified", bank["verification"])
         self.assertEqual(bytes(rom[TABLE_OFFSET:TABLE_OFFSET + 16]).hex(), bank["entries"][0]["raw_hex"])
         self.assertEqual(TABLE_END - ENTRY_SIZE, bank["entries"][-1]["_raw_offset"])
 

@@ -41,6 +41,7 @@ Expected SHA-256:
 | `alternate-character-overview.ss9` | `209bf3c7321fedc93a6c957fb2c7b46f0d48aa56ea5c4bb3858fce93d0a336f6` | character-information overview |
 | `tutorial-ui-save.sav` | `9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b` | natural 32-KiB UI save used for cold-load proof |
 | `actionable-move-grid.ss9` | `4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac` | real actionable tutorial battle target-selection grid; base-ROM replay passes the strict battle gate |
+| `skill-list-pre-controller.ss9` | `b5e26b7bfeb765b7f50a77fe4a6513abf206159695f61a02af19cfb55ce60d1a` | Naruto submenu before the natural high-bit technique-list controller and initializer |
 
 Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, which records
 the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at
@@ -76,6 +77,9 @@ runtime evidence.
 formation diagnostics that move Iruka adjacent to Naruto. It preserves both
 the rejected enemy-target route and the ally-triggered tutorial-dialogue false
 positive, including the zero-hit skill-relation scratch.
+
+`skill-detail-runtime-evidence.json` records the natural Naruto technique-list
+high-bit action and the one-byte skill-1 attack-power A/B (`6x3` to `7x3`).
 
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
