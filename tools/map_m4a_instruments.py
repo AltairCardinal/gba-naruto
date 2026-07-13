@@ -62,6 +62,9 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     track_pitch_steps: list[int] = []
     invalid_track_pitch_steps = []
     noncenter_track_pitch_notes = 0
+    mid_note_pitch_steps: list[int] = []
+    mid_note_pitch_update_commands: Counter[str] = Counter()
+    invalid_mid_note_pitch_updates = []
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -69,7 +72,12 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
         song_drums = 0
         for pointer in song["track_ptrs"]:
             timeline = execute_track(tracks[pointer - ROM_BASE], command_map)
-            for event in timeline["events"]:
+            pitch_states = [
+                (index, event)
+                for index, event in enumerate(timeline["events"])
+                if event["type"] == "pitch_state"
+            ]
+            for event_index, event in enumerate(timeline["events"]):
                 if event["type"] != "note":
                     continue
                 resolved = resolve_tone(rom, voicegroup, event["voice"], event["key"])
@@ -135,6 +143,48 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                                     "track_fine": track_fine,
                                     "step": track_step,
                                 })
+                        note_end = (
+                            event["tick"] + event["duration"]
+                            if event["duration"] is not None
+                            else timeline["duration_ticks"]
+                        )
+                        for update_index, update in pitch_states:
+                            if update_index <= event_index:
+                                continue
+                            if not event["tick"] <= update["tick"] < note_end:
+                                continue
+                            update_key = max(0, pitch_key + update["pitch_key_delta"])
+                            try:
+                                update_step = midi_key_to_step(
+                                    rom,
+                                    wave["frequency_raw"],
+                                    key=update_key,
+                                    fine=update["pitch_fine"],
+                                )
+                            except ValueError as exc:
+                                invalid_mid_note_pitch_updates.append({
+                                    "sound_id": song["sound_id"],
+                                    "voice": event["voice"],
+                                    "event_key": event["key"],
+                                    "update_tick": update["tick"],
+                                    "update_key": update_key,
+                                    "update_fine": update["pitch_fine"],
+                                    "error": str(exc),
+                                })
+                            else:
+                                if update_step > 0:
+                                    mid_note_pitch_steps.append(update_step)
+                                    mid_note_pitch_update_commands[update["command"]] += 1
+                                else:
+                                    invalid_mid_note_pitch_updates.append({
+                                        "sound_id": song["sound_id"],
+                                        "voice": event["voice"],
+                                        "event_key": event["key"],
+                                        "update_tick": update["tick"],
+                                        "update_key": update_key,
+                                        "update_fine": update["pitch_fine"],
+                                        "step": update_step,
+                                    })
         song_rows.append({
             "sound_id": song["sound_id"],
             "note_count": sum(song_types.values()),
@@ -175,8 +225,24 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
             "max": max(track_pitch_steps) if track_pitch_steps else None,
         },
         "track_pitch_step_boundary": (
-            "Applies note-on KEYSH, BEND, BENDR and TUNE state. LFO/MOD and "
-            "commands occurring while a note is already sounding remain separate automation."
+            "Applies note-on KEYSH, BEND, BENDR, TUNE and current MODT=0 pitch-LFO "
+            "state. Commands occurring while a note is already sounding are counted "
+            "separately as mid-note automation."
+        ),
+        "mid_note_pitch_update_count": len(mid_note_pitch_steps),
+        "mid_note_pitch_update_command_counts": dict(
+            sorted(mid_note_pitch_update_commands.items())
+        ),
+        "invalid_mid_note_pitch_update_count": len(invalid_mid_note_pitch_updates),
+        "invalid_mid_note_pitch_updates": invalid_mid_note_pitch_updates,
+        "mid_note_pitch_step_range": {
+            "min": min(mid_note_pitch_steps) if mid_note_pitch_steps else None,
+            "max": max(mid_note_pitch_steps) if mid_note_pitch_steps else None,
+        },
+        "mid_note_pitch_boundary": (
+            "Applies KEYSH/BEND/BENDR/TUNE commands and MODT=0 pitch LFO ticks while "
+            "a DirectSound note is active. Open ties are bounded by the one-loop track "
+            "duration. MODT=1 volume and MODT=2 pan automation remain separate."
         ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,

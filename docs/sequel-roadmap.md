@@ -289,10 +289,13 @@
 - DirectSound nominal pitch-step 已按 `0x0809A998` 的 ROM 两表与 UMULL high32
   精确整数公式闭合；16169/16169 DirectSound note、79/79 waves 均产生正 step，
   23-bit mixer phase 与本 ROM 15768 Hz / divFreq 532 也已代码锁定
-- KEYSH/BEND/BENDR/TUNE 的精确 track note-on 状态已接入 16169 条 DirectSound
-  note，312 条 noncenter，零无效 step；真实 229 个 BEND 不再被完全忽略
-- 待完成 LFO/MOD 与 mid-note pitch automation、PSG/noise 合成、包络、跨循环
-  tie release、精确混音和可听 cue 命名
+- KEYSH/BEND/BENDR/TUNE 与当前 MODT=0 LFO 状态已接入 16169 条 DirectSound
+  note，971 条 noncenter，零无效 step
+- MP2K triangle LFO/LFODL/MOD 的逐 tick pitch automation 已闭合；对活跃 note 共
+  产生 30937 次有效 step 更新（BEND 323、LFO 30413、MOD 201），零无效；open TIE
+  只追踪到单循环边界。timeline 现为 38530 events，其中 21328 条 pitch-state 元数据
+- 待完成 MODT=1 volume / MODT=2 pan automation、PSG/noise 合成、包络、跨循环 tie release、
+  精确混音和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）

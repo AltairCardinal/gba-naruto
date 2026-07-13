@@ -23,7 +23,9 @@
 - TIE 总数：90；
 - 被 EOT 明确关闭：25；
 - 单循环边界仍活跃：65，分布在 12 条 track；
-- 总时间线事件仍为 17202，80/80 MIDI 均正常生成。
+- 原始总时间线事件为 17202，80/80 MIDI 均正常生成；后续显式状态与逐 tick
+  MODT=0 pitch-LFO pass 添加 21328 条 pitch-state 元数据，当前结构化事件总数为
+  38530，note/TIE 数量不变。
 
 剩余 65 条不能武断地在 `GOTO` 单循环截断处释放；它们可能跨 loop 持续，或依赖
 track/voice 停止语义。当前仍保留 duration `None` 和 `open_tie_keys`，不会伪造

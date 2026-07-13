@@ -66,6 +66,36 @@ class RenderM4AMidiTests(unittest.TestCase):
             {"key_shift": -2, "bend": -32, "bend_range": 12, "tune": 4},
         )
 
+    def test_mid_note_bend_emits_timed_pitch_state(self):
+        # N12 C4, wait 6, bend down one semitone with default range 2.
+        commands = decode_track(bytes.fromhex("db3c6486c02086b1"), 0x900)
+        result = execute_track(
+            {"offset": 0x900}, {item["offset"]: item for item in commands}
+        )
+        updates = [
+            event for event in result["events"] if event["type"] == "pitch_state"
+        ]
+        self.assertEqual(len(updates), 1)
+        self.assertEqual(updates[0]["tick"], 6)
+        self.assertEqual(updates[0]["pitch_key_delta"], -1)
+        self.assertEqual(updates[0]["pitch_fine"], 0)
+
+    def test_pitch_lfo_emits_exact_triangle_updates_each_tick(self):
+        # LFOS=64, MOD depth=64, MODT defaults to pitch; phase is 64/128/192/0.
+        commands = decode_track(bytes.fromhex("c240c440db3c6484b1"), 0xA00)
+        result = execute_track(
+            {"offset": 0xA00}, {item["offset"]: item for item in commands}
+        )
+        updates = [
+            event
+            for event in result["events"]
+            if event["type"] == "pitch_state" and event["command"] == "LFO"
+        ]
+        self.assertEqual(
+            [(event["tick"], event["pitch_key_delta"], event["pitch_fine"]) for event in updates],
+            [(1, 4, 0), (2, 0, 0), (3, -4, 0), (4, 0, 0)],
+        )
+
     def test_all_sound_ids_render_nonempty_standard_midi(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = render(
@@ -79,6 +109,8 @@ class RenderM4AMidiTests(unittest.TestCase):
                 result["tie_lifecycle"],
                 {"total": 90, "closed_by_eot": 25, "left_open_at_loop_end": 65},
             )
+            self.assertEqual(result["total_event_count"], 38530)
+            self.assertEqual(result["event_type_counts"]["pitch_state"], 21328)
 
 
 if __name__ == "__main__":

@@ -23,12 +23,25 @@
   "track_pitch_step_count": 16169,
   "invalid_track_pitch_step_count": 0,
   "invalid_track_pitch_steps": [],
-  "noncenter_track_pitch_note_count": 312,
+  "noncenter_track_pitch_note_count": 971,
   "track_pitch_step_range": {
     "min": 437,
     "max": 689951
   },
-  "track_pitch_step_boundary": "Applies note-on KEYSH, BEND, BENDR and TUNE state. LFO/MOD and commands occurring while a note is already sounding remain separate automation.",
+  "track_pitch_step_boundary": "Applies note-on KEYSH, BEND, BENDR, TUNE and current MODT=0 pitch-LFO state. Commands occurring while a note is already sounding are counted separately as mid-note automation.",
+  "mid_note_pitch_update_count": 30937,
+  "mid_note_pitch_update_command_counts": {
+    "BEND": 323,
+    "LFO": 30413,
+    "MOD": 201
+  },
+  "invalid_mid_note_pitch_update_count": 0,
+  "invalid_mid_note_pitch_updates": [],
+  "mid_note_pitch_step_range": {
+    "min": 437,
+    "max": 42264
+  },
+  "mid_note_pitch_boundary": "Applies KEYSH/BEND/BENDR/TUNE commands and MODT=0 pitch LFO ticks while a DirectSound note is active. Open ties are bounded by the one-loop track duration. MODT=1 volume and MODT=2 pan automation remain separate.",
   "wave_usage": [
     {
       "offset": 4612204,

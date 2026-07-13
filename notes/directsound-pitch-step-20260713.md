@@ -49,11 +49,16 @@ signed s8；BEND/TUNE 以 `0x40` 为中心；BENDR 是 unsigned semitone range�
 是 fine；负 key 在 `0x0809A8A4` 钳为 0。ROM jump table `0x08464534` 的八个 handler
 指针也由测试锁定。
 
-全库 16169/16169 DirectSound notes 都得到有效 track note-on step，其中 312 条为
-noncenter，范围 437..689951。真实 229 个 BEND 因而不再被完全忽略。
+全库 16169/16169 DirectSound notes 都得到有效 track note-on step；加上当前
+MODT=0 LFO 状态后，其中 971 条为 noncenter，范围 437..689951。
 
-这仍不是完整动态 pitch timeline：LFO/MOD，以及音符已经发声后才发生的
-KEYSH/BEND/TUNE 命令尚未输出 automation。不能把 note-on coverage 宣称为整曲
-bit-accurate pitch。
+动态 pitch timeline 现按每个 MP2K wait tick 推进 ROM 的 triangle LFO：遵守 LFOS、
+LFODL、MOD depth、MODT=0、8-bit phase wrap 和 signed arithmetic shift。对仍活跃的
+DirectSound note 共重算 30937 次 step（BEND 323、LFO 30413、MOD 201），零无效，
+范围 437..42264。duration 已知的 note 以真实 note-off 为界；仍 open 的 TIE 只追踪
+到单循环 track duration，不伪造跨循环释放。
+
+MODT=1 volume 与 MODT=2 pan automation 尚未接入；结构化 MIDI 仍是试听产物，不编码
+这些 ROM-exact pitch-state 事件，因此不能把 MIDI 文件宣称为整曲 bit-accurate 输出。
 
 紧凑证据：`artifacts/audio/pitch-step-evidence.json`。

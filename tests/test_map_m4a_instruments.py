@@ -39,7 +39,14 @@ class MapM4AInstrumentTests(unittest.TestCase):
         )
         self.assertEqual(result["track_pitch_step_count"], 16169)
         self.assertEqual(result["invalid_track_pitch_step_count"], 0)
-        self.assertGreater(result["noncenter_track_pitch_note_count"], 0)
+        self.assertEqual(result["noncenter_track_pitch_note_count"], 971)
+        self.assertEqual(result["mid_note_pitch_update_count"], 30937)
+        self.assertEqual(result["invalid_mid_note_pitch_update_count"], 0)
+        self.assertEqual(
+            sum(result["mid_note_pitch_update_command_counts"].values()), 30937
+        )
+        self.assertGreater(result["mid_note_pitch_update_command_counts"]["LFO"], 0)
+        self.assertGreater(result["mid_note_pitch_update_command_counts"]["BEND"], 0)
 
 
 if __name__ == "__main__":

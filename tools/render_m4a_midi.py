@@ -34,9 +34,53 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
     bend = 0
     bend_range = 2
     tune = 0
+    lfo_speed = 22
+    lfo_delay = 0
+    lfo_countdown = 0
+    lfo_phase = 0
+    mod_depth = 0
+    mod_type = 0
+    mod_value = 0
     repeat_state: dict[int, int] = {}
     open_ties: dict[int, dict] = {}
     stop_reason = ""
+
+    def append_pitch_state(command_name: str) -> None:
+        modulation = (mod_value << 4) if mod_type == 0 else 0
+        total = ((tune + bend * bend_range) << 2) + (key_shift << 8) + modulation
+        events.append({
+            "tick": tick,
+            "type": "pitch_state",
+            "command": command_name,
+            "pitch_key_delta": total >> 8,
+            "pitch_fine": total & 0xFF,
+            "pitch_modulation": mod_value if mod_type == 0 else 0,
+            "pitch_components": {
+                "key_shift": key_shift,
+                "bend": bend,
+                "bend_range": bend_range,
+                "tune": tune,
+            },
+        })
+
+    def advance_pitch_lfo() -> None:
+        nonlocal lfo_countdown, lfo_phase, mod_value
+        if lfo_speed == 0 or mod_depth == 0:
+            return
+        if lfo_countdown:
+            lfo_countdown = (lfo_countdown - 1) & 0xFF
+            return
+        lfo_phase = (lfo_phase + lfo_speed) & 0xFF
+        if 0x40 <= lfo_phase <= 0xBF:
+            triangle = 0x80 - lfo_phase
+        else:
+            triangle = _signed8(lfo_phase)
+        next_mod = (mod_depth * triangle) >> 6
+        if (next_mod & 0xFF) == (mod_value & 0xFF):
+            return
+        mod_value = next_mod
+        if mod_type == 0:
+            append_pitch_state("LFO")
     for step in range(max_steps):
         command = command_map.get(pc)
         if command is None:
@@ -45,7 +89,9 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
         name = command["name"]
         next_pc = pc + command["size"]
         if name.startswith("W"):
-            tick += _ticks(name)
+            for _ in range(_ticks(name)):
+                tick += 1
+                advance_pitch_lfo()
         elif name == "FINE":
             stop_reason = "fine"
             break
@@ -89,13 +135,34 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             events.append({"tick": tick, "type": "pan", "value": pan})
         elif name == "KEYSH":
             key_shift = _signed8(command["value"])
+            append_pitch_state(name)
         elif name == "BEND":
             bend = command["value"] - 0x40
             events.append({"tick": tick, "type": "bend", "value": command["value"]})
+            append_pitch_state(name)
         elif name == "BENDR":
             bend_range = command["value"]
+            append_pitch_state(name)
         elif name == "TUNE":
             tune = command["value"] - 0x40
+            append_pitch_state(name)
+        elif name == "LFOS":
+            lfo_speed = command["value"]
+            if lfo_speed == 0:
+                mod_value = 0
+                lfo_phase = 0
+                append_pitch_state(name)
+        elif name == "LFODL":
+            lfo_delay = command["value"]
+        elif name == "MOD":
+            mod_depth = command["value"]
+            if mod_depth == 0:
+                mod_value = 0
+                lfo_phase = 0
+                append_pitch_state(name)
+        elif name == "MODT":
+            mod_type = command["value"]
+            append_pitch_state(name)
         elif name == "EOT":
             tie_key = command.get("key", key)
             tied_note = open_ties.pop(tie_key, None)
@@ -112,14 +179,21 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             if len(args) >= 2:
                 velocity = args[1]
             gate = args[2] if len(args) >= 3 else 0
+            lfo_countdown = lfo_delay
             duration = None if name == "TIE" else _ticks(name) + gate
-            pitch_total = ((tune + bend * bend_range) << 2) + (key_shift << 8)
+            modulation = (mod_value << 4) if mod_type == 0 else 0
+            pitch_total = (
+                ((tune + bend * bend_range) << 2)
+                + (key_shift << 8)
+                + modulation
+            )
             note_event = {
                 "tick": tick, "type": "note", "key": key, "velocity": velocity,
                 "duration": duration, "voice": voice, "volume": volume, "pan": pan,
                 "tied": name == "TIE",
                 "pitch_key": max(0, key + (pitch_total >> 8)),
                 "pitch_fine": pitch_total & 0xFF,
+                "pitch_modulation": mod_value if mod_type == 0 else 0,
                 "pitch_components": {
                     "key_shift": key_shift,
                     "bend": bend,
@@ -195,6 +269,7 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
     output_dir.mkdir(parents=True, exist_ok=True)
     songs = []
     tie_lifecycle = Counter()
+    event_type_counts = Counter()
     for entry in bank["entries"]:
         rendered = []
         for pointer in entry["track_ptrs"]:
@@ -208,6 +283,9 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
             for track in rendered for event in track["events"]
             if event["type"] == "note" and event.get("tied")
         ]
+        event_type_counts.update(
+            event["type"] for track in rendered for event in track["events"]
+        )
         tie_lifecycle["total"] += len(tied_notes)
         tie_lifecycle["closed_by_eot"] += sum(
             event["duration"] is not None for event in tied_notes
@@ -229,6 +307,8 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
         "format": "MP2K one-loop structural MIDI export",
         "ppqn": PPQN,
         "song_count": len(songs),
+        "total_event_count": sum(event_type_counts.values()),
+        "event_type_counts": dict(sorted(event_type_counts.items())),
         "tie_lifecycle": dict(tie_lifecycle),
         "songs": songs,
     }
@@ -243,7 +323,10 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=Path("build/audio-v2/midi"))
     args = parser.parse_args()
     result = render(args.input_dir, args.audio_bank, args.output_dir)
-    print(json.dumps({"song_count": result["song_count"], "total_events": sum(song["event_count"] for song in result["songs"])}, indent=2))
+    print(json.dumps({
+        "song_count": result["song_count"],
+        "total_events": result["total_event_count"],
+    }, indent=2))
     return 0
 
 
