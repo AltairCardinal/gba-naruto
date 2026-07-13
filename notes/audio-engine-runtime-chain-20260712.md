@@ -118,8 +118,10 @@ phase. MODT=0 track pitch automation, the two-stage volume/pan gain chain, and t
 ADSR/release/pseudo-echo/master-gain state machine are now modeled; MODT=1/2 are
 synthetic-only because this corpus has no MODT commands. The remaining 11 notes'
 CGB channel-4 register and LFSR semantics are closed in
-`notes/psg-noise-runtime-chain-20260713.md`. Scheduling that oscillator into the
-combined PCM/WAV output and mixer saturation remain open.
+`notes/psg-noise-runtime-chain-20260713.md`. The normal DirectSound forward
+sample, loop/end, reverb seed and modulo-256 buffer arithmetic are closed in
+`notes/directsound-mixer-runtime-chain-20260713.md`. Full MP2K-to-SoundMain
+scheduling and a combined PSG/DirectSound song render remain open.
 
 ## Runtime proof
 

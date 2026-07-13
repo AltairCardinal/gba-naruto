@@ -303,13 +303,16 @@
   状态按 SoundMain mixer invocation 而非 MP2K tick 推进
 - 11/11 PSG note 已闭合至 CGB channel-4 寄存器向量、NR43 时钟和 15/7-bit
   LFSR；实际语料均为 sound ID 144、NR43=`0x14`，三档 NR42 向量已代码锁定
-- 待完成 PSG/noise 与 DirectSound 的联合 PCM 输出、跨循环 sample/TIE 执行、
-  精确混音和可听 cue 命名
+- DirectSound 16169/16169 note 的 forward-linear 插值、跨 sample/loop、非循环
+  停止、reverb seed、signed-byte modulo-256（非饱和）累加和 stereo WAV 写入已锁定；
+  8442 条非循环、7727 条循环语料全部走此路径
+- 待完成 MP2K tick→SoundMain 调度、PSG/noise 与 DirectSound 的联合 PCM 输出、
+  跨循环 TIE 执行和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a sample-loop/mixer-buffer 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
+3. 完成 m4a tick/mixer invocation 与 PSG 联合调度并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

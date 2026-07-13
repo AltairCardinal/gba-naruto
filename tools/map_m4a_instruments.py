@@ -87,6 +87,9 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     invalid_mid_note_mix_updates = []
     envelope_parameters: Counter[tuple[int, int, int, int]] = Counter()
     invalid_envelope_parameters = []
+    directsound_wave_types: Counter[int] = Counter()
+    directsound_loop_notes = 0
+    directsound_nonloop_notes = 0
     psg_types: Counter[int] = Counter()
     psg_sound_ids: set[int] = set()
     psg_velocities: Counter[int] = Counter()
@@ -147,6 +150,11 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                     else:
                         wave_counts[wave_offset] += 1
                         song_waves[wave_offset] += 1
+                        directsound_wave_types[wave["type_flags"]] += 1
+                        if wave["status"] & 0x4000:
+                            directsound_loop_notes += 1
+                        else:
+                            directsound_nonloop_notes += 1
                         envelope = (
                             terminal["attack"], terminal["decay"],
                             terminal["sustain"], terminal["release"],
@@ -412,6 +420,23 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
             "Tone ADSR bytes are copied to SoundChannel +4..+7. Their mixer-time "
             "state machine is implemented in tools/m4a_envelope.py; mapping MP2K "
             "track time to SoundMain buffer invocations and final PCM remains separate."
+        ),
+        "directsound_wave_type_counts": {
+            f"0x{key:04X}": value
+            for key, value in sorted(directsound_wave_types.items())
+        },
+        "directsound_nonloop_note_count": directsound_nonloop_notes,
+        "directsound_loop_note_count": directsound_loop_notes,
+        "song_reverb_counts": {
+            str(key): value
+            for key, value in sorted(Counter(
+                song["reverb"] for song in bank["entries"]
+            ).items())
+        },
+        "directsound_pcm_boundary": (
+            "All executed DirectSound tones and wave headers use the normal forward "
+            "linear path. tools/m4a_pcm.py models its 23-bit interpolation, loop/end, "
+            "signed-byte wrap accumulation, reverb seed and WAV byte conversion."
         ),
         "psg_note_count": sum(psg_types.values()),
         "psg_terminal_type_counts": {

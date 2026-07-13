@@ -1,0 +1,26 @@
+{
+  "directsound_note_count": 16169,
+  "wave_count": 79,
+  "wave_type_counts": {"0x0000": 79},
+  "nonloop_wave_count": 70,
+  "nonloop_note_count": 8442,
+  "loop_wave_count": 9,
+  "loop_note_count": 7727,
+  "song_reverb_counts": {"0": 58, "128": 22},
+  "phase_bits": 23,
+  "div_freq": 532,
+  "sample_rate_hz": 15768,
+  "mix_accumulation": "signed 8-bit modulo-256 wrap; no saturation",
+  "interpolation_vectors": [
+    {"sample0": -128, "sample1": 127, "phase": 0, "output": -128},
+    {"sample0": -128, "sample1": 127, "phase": 4194304, "output": -1},
+    {"sample0": -128, "sample1": 127, "phase": 8388607, "output": 126},
+    {"sample0": 127, "sample1": -128, "phase": 4194304, "output": -1}
+  ],
+  "wrap_vectors": [
+    {"existing": 100, "contribution": 80, "output": -76},
+    {"existing": -100, "contribution": -80, "output": 76},
+    {"existing": 127, "contribution": 1, "output": -128}
+  ],
+  "coverage_boundary": "Forward-linear sample, loop/end, reverb seed, byte-wrap accumulation and stereo RIFF conversion are code-locked. Full MP2K tick-to-SoundMain scheduling and complete song rendering remain open."
+}

@@ -97,6 +97,16 @@
     }
   ],
   "envelope_boundary": "Tone ADSR bytes are copied to SoundChannel +4..+7. Their mixer-time state machine is implemented in tools/m4a_envelope.py; mapping MP2K track time to SoundMain buffer invocations and final PCM remains separate.",
+  "directsound_wave_type_counts": {
+    "0x0000": 16169
+  },
+  "directsound_nonloop_note_count": 8442,
+  "directsound_loop_note_count": 7727,
+  "song_reverb_counts": {
+    "0": 58,
+    "128": 22
+  },
+  "directsound_pcm_boundary": "All executed DirectSound tones and wave headers use the normal forward linear path. tools/m4a_pcm.py models its 23-bit interpolation, loop/end, signed-byte wrap accumulation, reverb seed and WAV byte conversion.",
   "psg_note_count": 11,
   "psg_terminal_type_counts": {
     "0x0C": 11

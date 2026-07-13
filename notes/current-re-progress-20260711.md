@@ -60,10 +60,10 @@ and all automated tests. It supersedes historical “100% complete” summaries.
   payload + checksum. Tutorial completion bypasses optional postbattle wrapper
   `0x08074F2C`; title loading likewise does not use optional wrapper
   `0x08068AF0`. See `notes/tutorial-victory-save-load-runtime-20260712.md`.
-- Complete sample-loop scheduling, PSG/DirectSound combined PCM output,
-  bit-accurate mixing and audible cue names. Pitch, gain, envelope and the 11
-  executed CGB noise register/LFSR paths are now code-locked; MIDI remains an
-  audition artifact rather than final audio.
+- Complete MP2K tick-to-SoundMain scheduling, PSG/DirectSound combined PCM
+  output and audible cue names. Pitch, gain, envelope, the 11 executed CGB noise
+  paths, and the DirectSound forward sample/loop/reverb/wrap mixer arithmetic
+  are now code-locked; MIDI remains an audition artifact rather than final audio.
 - Alternate chapter table `0x60D54` and all six map resource streams are now
   runtime-closed. Next P0 is player-visible naming for remaining unit/growth/
   skill fields, followed by individual semantic review of the remaining static banks.
