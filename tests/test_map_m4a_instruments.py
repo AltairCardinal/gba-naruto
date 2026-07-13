@@ -37,6 +37,9 @@ class MapM4AInstrumentTests(unittest.TestCase):
             result["center_pitch_step_range"]["max"],
             result["center_pitch_step_range"]["min"],
         )
+        self.assertEqual(result["track_pitch_step_count"], 16169)
+        self.assertEqual(result["invalid_track_pitch_step_count"], 0)
+        self.assertGreater(result["noncenter_track_pitch_note_count"], 0)
 
 
 if __name__ == "__main__":

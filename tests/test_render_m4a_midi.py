@@ -51,6 +51,21 @@ class RenderM4AMidiTests(unittest.TestCase):
         self.assertEqual(note["key"], 64)
         self.assertEqual(note["duration"], 12)
 
+    def test_note_snapshots_exact_track_pitch_state(self):
+        # KEYSH=-2, BEND=-32, BENDR=12, TUNE=+4.
+        commands = decode_track(bytes.fromhex("bcfec020c10cc844d33c64b1"), 0x800)
+        result = execute_track(
+            {"offset": 0x800}, {item["offset"]: item for item in commands}
+        )
+        note = next(event for event in result["events"] if event["type"] == "note")
+        self.assertEqual(note["key"], 60)
+        self.assertEqual(note["pitch_key"], 52)
+        self.assertEqual(note["pitch_fine"], 16)
+        self.assertEqual(
+            note["pitch_components"],
+            {"key_shift": -2, "bend": -32, "bend_range": 12, "tune": 4},
+        )
+
     def test_all_sound_ids_render_nonempty_standard_midi(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = render(

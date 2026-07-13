@@ -43,9 +43,17 @@ phase &= 0x7fffff
 center step：普通 tone 使用 MIDI note；drum 使用 child tone root key。79/79 waves
 全部覆盖，零无效/零 step，范围 437..671241。
 
-这仍不是完整动态 pitch timeline：当前 corpus 汇总使用 fine=0，尚未应用 track
-bend/tune/modulation，也未生成持续音中的 pitch automation。真实 corpus 有 229 个
-BEND，因此下一步必须把 `TrkVolPitSet 0x0809B3E0` 的 track 状态与 note timeline
-结合，不能把本轮 nominal coverage 宣称为整曲 bit-accurate pitch。
+后续已把 `TrkVolPitSet 0x0809B3E0` 的 note-on 状态接入 timeline：KEYSH 是原始
+signed s8；BEND/TUNE 以 `0x40` 为中心；BENDR 是 unsigned semitone range，默认 2。
+精确组合为 `(tune+bend*bendr)<<2 + keyShift<<8`，高位是 signed key delta、低 8 位
+是 fine；负 key 在 `0x0809A8A4` 钳为 0。ROM jump table `0x08464534` 的八个 handler
+指针也由测试锁定。
+
+全库 16169/16169 DirectSound notes 都得到有效 track note-on step，其中 312 条为
+noncenter，范围 437..689951。真实 229 个 BEND 因而不再被完全忽略。
+
+这仍不是完整动态 pitch timeline：LFO/MOD，以及音符已经发声后才发生的
+KEYSH/BEND/TUNE 命令尚未输出 automation。不能把 note-on coverage 宣称为整曲
+bit-accurate pitch。
 
 紧凑证据：`artifacts/audio/pitch-step-evidence.json`。

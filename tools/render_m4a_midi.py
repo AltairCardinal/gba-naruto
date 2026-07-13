@@ -15,6 +15,10 @@ def _ticks(name: str) -> int:
     return int(name[1:])
 
 
+def _signed8(value: int) -> int:
+    return value - 0x100 if value & 0x80 else value
+
+
 def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 200_000) -> dict:
     pc = track["offset"]
     tick = 0
@@ -26,6 +30,10 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
     voice = 0
     volume = 127
     pan = 64
+    key_shift = 0
+    bend = 0
+    bend_range = 2
+    tune = 0
     repeat_state: dict[int, int] = {}
     open_ties: dict[int, dict] = {}
     stop_reason = ""
@@ -79,8 +87,15 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
         elif name == "PAN":
             pan = command["value"]
             events.append({"tick": tick, "type": "pan", "value": pan})
+        elif name == "KEYSH":
+            key_shift = _signed8(command["value"])
         elif name == "BEND":
+            bend = command["value"] - 0x40
             events.append({"tick": tick, "type": "bend", "value": command["value"]})
+        elif name == "BENDR":
+            bend_range = command["value"]
+        elif name == "TUNE":
+            tune = command["value"] - 0x40
         elif name == "EOT":
             tie_key = command.get("key", key)
             tied_note = open_ties.pop(tie_key, None)
@@ -98,10 +113,19 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                 velocity = args[1]
             gate = args[2] if len(args) >= 3 else 0
             duration = None if name == "TIE" else _ticks(name) + gate
+            pitch_total = ((tune + bend * bend_range) << 2) + (key_shift << 8)
             note_event = {
                 "tick": tick, "type": "note", "key": key, "velocity": velocity,
                 "duration": duration, "voice": voice, "volume": volume, "pan": pan,
                 "tied": name == "TIE",
+                "pitch_key": max(0, key + (pitch_total >> 8)),
+                "pitch_fine": pitch_total & 0xFF,
+                "pitch_components": {
+                    "key_shift": key_shift,
+                    "bend": bend,
+                    "bend_range": bend_range,
+                    "tune": tune,
+                },
             }
             events.append(note_event)
             if name == "TIE":

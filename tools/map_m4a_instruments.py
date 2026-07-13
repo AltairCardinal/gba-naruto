@@ -59,6 +59,9 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     missing = []
     center_pitch_steps: list[int] = []
     invalid_center_pitch_steps = []
+    track_pitch_steps: list[int] = []
+    invalid_track_pitch_steps = []
+    noncenter_track_pitch_notes = 0
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -99,6 +102,39 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                                 "wave_offset": wave_offset,
                                 "step": step,
                             })
+                        pitch_delta = event.get("pitch_key", event["key"]) - event["key"]
+                        track_key = max(0, pitch_key + pitch_delta)
+                        track_fine = event.get("pitch_fine", 0)
+                        if pitch_delta or track_fine:
+                            noncenter_track_pitch_notes += 1
+                        try:
+                            track_step = midi_key_to_step(
+                                rom,
+                                wave["frequency_raw"],
+                                key=track_key,
+                                fine=track_fine,
+                            )
+                        except ValueError as exc:
+                            invalid_track_pitch_steps.append({
+                                "sound_id": song["sound_id"],
+                                "voice": event["voice"],
+                                "event_key": event["key"],
+                                "track_key": track_key,
+                                "track_fine": track_fine,
+                                "error": str(exc),
+                            })
+                        else:
+                            if track_step > 0:
+                                track_pitch_steps.append(track_step)
+                            else:
+                                invalid_track_pitch_steps.append({
+                                    "sound_id": song["sound_id"],
+                                    "voice": event["voice"],
+                                    "event_key": event["key"],
+                                    "track_key": track_key,
+                                    "track_fine": track_fine,
+                                    "step": track_step,
+                                })
         song_rows.append({
             "sound_id": song["sound_id"],
             "note_count": sum(song_types.values()),
@@ -129,6 +165,18 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
         "center_pitch_step_boundary": (
             "Nominal note-on key with fine=0. Drum tones use the child root key. "
             "Track bend/tune/modulation and mid-note automation remain separate."
+        ),
+        "track_pitch_step_count": len(track_pitch_steps),
+        "invalid_track_pitch_step_count": len(invalid_track_pitch_steps),
+        "invalid_track_pitch_steps": invalid_track_pitch_steps,
+        "noncenter_track_pitch_note_count": noncenter_track_pitch_notes,
+        "track_pitch_step_range": {
+            "min": min(track_pitch_steps) if track_pitch_steps else None,
+            "max": max(track_pitch_steps) if track_pitch_steps else None,
+        },
+        "track_pitch_step_boundary": (
+            "Applies note-on KEYSH, BEND, BENDR and TUNE state. LFO/MOD and "
+            "commands occurring while a note is already sounding remain separate automation."
         ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,

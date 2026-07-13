@@ -20,6 +20,15 @@
     "max": 671241
   },
   "center_pitch_step_boundary": "Nominal note-on key with fine=0. Drum tones use the child root key. Track bend/tune/modulation and mid-note automation remain separate.",
+  "track_pitch_step_count": 16169,
+  "invalid_track_pitch_step_count": 0,
+  "invalid_track_pitch_steps": [],
+  "noncenter_track_pitch_note_count": 312,
+  "track_pitch_step_range": {
+    "min": 437,
+    "max": 689951
+  },
+  "track_pitch_step_boundary": "Applies note-on KEYSH, BEND, BENDR and TUNE state. LFO/MOD and commands occurring while a note is already sounding remain separate automation.",
   "wave_usage": [
     {
       "offset": 4612204,

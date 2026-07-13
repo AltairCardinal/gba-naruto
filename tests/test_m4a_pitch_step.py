@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import struct
 import unittest
 from pathlib import Path
 
@@ -53,6 +54,27 @@ class M4APitchStepTests(unittest.TestCase):
         total = 0x7FFFF0 + 14000 * 532
         self.assertEqual(advance, total >> 23)
         self.assertEqual(phase, total & 0x7FFFFF)
+
+    def test_track_pitch_command_jump_table_matches_handlers(self):
+        table = 0x464534
+        expected = {
+            0xBC: 0x0809A2FD,
+            0xC0: 0x0809A369,
+            0xC1: 0x0809A37D,
+            0xC2: 0x0809A971,
+            0xC3: 0x0809A391,
+            0xC4: 0x0809A985,
+            0xC5: 0x0809A39D,
+            0xC8: 0x0809A3B5,
+        }
+        for opcode, pointer in expected.items():
+            with self.subTest(opcode=hex(opcode)):
+                self.assertEqual(
+                    struct.unpack_from(
+                        "<I", self.rom, table + (opcode - 0xB1) * 4
+                    )[0],
+                    pointer,
+                )
 
 
 if __name__ == "__main__":
