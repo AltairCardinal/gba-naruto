@@ -138,6 +138,10 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                 tick += 1
                 advance_pitch_lfo()
         elif name == "FINE":
+            for tied_note in open_ties.values():
+                tied_note["duration"] = tick - tied_note["tick"]
+                tied_note["release_reason"] = "fine"
+            open_ties.clear()
             stop_reason = "fine"
             break
         elif name == "PATT":
@@ -225,6 +229,7 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
             tied_note = open_ties.pop(tie_key, None)
             if tied_note is not None:
                 tied_note["duration"] = tick - tied_note["tick"]
+                tied_note["release_reason"] = "eot"
             events.append({
                 "tick": tick, "type": "end_tie", "key": tie_key,
                 "matched": tied_note is not None,
@@ -256,6 +261,7 @@ def execute_track(track: dict, command_map: dict[int, dict], max_steps: int = 20
                 "tick": tick, "type": "note", "key": key, "velocity": velocity,
                 "duration": duration, "voice": voice, "volume": volume, "pan": pan,
                 "tied": name == "TIE",
+                "release_reason": None if name == "TIE" else "gate",
                 "pitch_key": max(0, key + (pitch_total >> 8)),
                 "pitch_fine": pitch_total & 0xFF,
                 "pitch_modulation": mod_value if mod_type == 0 else 0,
@@ -355,7 +361,10 @@ def render(input_dir: Path, audio_bank: Path, output_dir: Path) -> dict:
         )
         tie_lifecycle["total"] += len(tied_notes)
         tie_lifecycle["closed_by_eot"] += sum(
-            event["duration"] is not None for event in tied_notes
+            event.get("release_reason") == "eot" for event in tied_notes
+        )
+        tie_lifecycle["closed_by_fine"] += sum(
+            event.get("release_reason") == "fine" for event in tied_notes
         )
         tie_lifecycle["left_open_at_loop_end"] += sum(
             event["duration"] is None for event in tied_notes

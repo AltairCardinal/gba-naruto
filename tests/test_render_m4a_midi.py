@@ -70,6 +70,28 @@ class RenderM4AMidiTests(unittest.TestCase):
         self.assertEqual(note["key"], 64)
         self.assertEqual(note["duration"], 12)
 
+    def test_fine_releases_all_open_ties_but_loop_boundary_does_not(self):
+        fine_commands = decode_track(bytes.fromhex("cf3c648cb1"), 0x780)
+        fine = execute_track(
+            {"offset": 0x780},
+            {item["offset"]: item for item in fine_commands},
+        )
+        fine_note = next(event for event in fine["events"] if event["type"] == "note")
+        self.assertEqual(fine_note["duration"], 12)
+        self.assertEqual(fine_note["release_reason"], "fine")
+        self.assertEqual(fine["open_tie_keys"], [])
+
+        loop_commands = decode_track(
+            bytes.fromhex("cf3c648cb280070008"), 0x780
+        )
+        loop = execute_track(
+            {"offset": 0x780},
+            {item["offset"]: item for item in loop_commands},
+        )
+        loop_note = next(event for event in loop["events"] if event["type"] == "note")
+        self.assertIsNone(loop_note["duration"])
+        self.assertEqual(loop["open_tie_keys"], [60])
+
     def test_note_snapshots_exact_track_pitch_state(self):
         # KEYSH=-2, BEND=-32, BENDR=12, TUNE=+4.
         commands = decode_track(bytes.fromhex("bcfec020c10cc844d33c64b1"), 0x800)
@@ -147,7 +169,12 @@ class RenderM4AMidiTests(unittest.TestCase):
             self.assertTrue(all((Path(tmp) / song["midi"]).read_bytes().startswith(b"MThd") for song in result["songs"]))
             self.assertEqual(
                 result["tie_lifecycle"],
-                {"total": 90, "closed_by_eot": 25, "left_open_at_loop_end": 65},
+                {
+                    "total": 90,
+                    "closed_by_eot": 25,
+                    "closed_by_fine": 19,
+                    "left_open_at_loop_end": 46,
+                },
             )
             self.assertEqual(result["total_event_count"], 38979)
             self.assertEqual(result["event_type_counts"]["pitch_state"], 21328)

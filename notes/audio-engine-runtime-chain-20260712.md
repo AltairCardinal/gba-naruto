@@ -93,8 +93,8 @@ Outputs are under `build/audio-v2/midi/`. The MIDI is a structural audition
 artifact, not a bit-accurate renderer: DirectSound sample mapping, 0x80 drum
 voicegroups, PSG synthesis, envelope and volume/pan LFO behavior, cross-loop tie release and exact
 mixer behavior remain to be implemented before audio playback can be called complete.
-The later TIE/EOT pass now emits the 25 explicitly paired releases and reports the
-remaining 65 open ties without inventing a loop-boundary release; see
+The corrected lifecycle emits 25 EOT releases and 19 FINE releases, and reports
+the remaining 46 GOTO-boundary open ties without inventing a loop release; see
 `notes/audio-tie-lifecycle-20260713.md`.
 
 ## Executed instrument coverage
@@ -114,9 +114,9 @@ The durable coverage report is `build/audio-v2/instrument-map.json`. This
 closes song → voicegroup → voice/key → terminal tone → wave identity for every
 executed DirectSound note. The later `notes/directsound-pitch-step-20260713.md`
 closes the ROM-table integer pitch-step, nominal all-note coverage and 23-bit mixer
-phase. MODT=0 track pitch automation and the two-stage volume/pan gain chain are now
-modeled; MODT=1/2 are synthetic-only because this corpus has no MODT commands. ADSR,
-PSG/noise synthesis and
+phase. MODT=0 track pitch automation, the two-stage volume/pan gain chain, and the
+ADSR/release/pseudo-echo/master-gain state machine are now modeled; MODT=1/2 are
+synthetic-only because this corpus has no MODT commands. PSG/noise synthesis and
 mixer saturation remain open.
 
 ## Runtime proof

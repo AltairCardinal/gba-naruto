@@ -83,6 +83,8 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
     mid_note_mix_updates: list[tuple[int, int]] = []
     mid_note_mix_update_commands: Counter[str] = Counter()
     invalid_mid_note_mix_updates = []
+    envelope_parameters: Counter[tuple[int, int, int, int]] = Counter()
+    invalid_envelope_parameters = []
     for song in bank["entries"]:
         voicegroup = song["voicegroup_ptr"] - ROM_BASE
         song_types: Counter[int] = Counter()
@@ -118,6 +120,20 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
                     else:
                         wave_counts[wave_offset] += 1
                         song_waves[wave_offset] += 1
+                        envelope = (
+                            terminal["attack"], terminal["decay"],
+                            terminal["sustain"], terminal["release"],
+                        )
+                        if all(0 <= value <= 0xFF for value in envelope):
+                            envelope_parameters[envelope] += 1
+                        else:
+                            invalid_envelope_parameters.append({
+                                "sound_id": song["sound_id"],
+                                "voice": event["voice"],
+                                "event_key": event["key"],
+                                "tone_offset": terminal["offset"],
+                                "parameters": list(envelope),
+                            })
                         pitch_key = terminal["key"] if resolved["drum"] else event["key"]
                         tone_pan = (
                             (terminal["pan_sweep"] - 0xC0) << 1
@@ -339,8 +355,36 @@ def analyze(rom: bytes, bank: dict, decoded: dict) -> dict:
         "channel_mix_boundary": (
             "Reproduces 0x0809B3E0 track right/left gain caching and 0x0809A6D8 "
             "velocity plus drum-tone-pan propagation. The ROM corpus has no MODT or "
-            "LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope scaling "
-            "from channel gains to final mixer gains remains separate."
+            "LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope and "
+            "master scaling primitives are modeled separately in tools/m4a_envelope.py."
+        ),
+        "envelope_note_count": sum(envelope_parameters.values()),
+        "envelope_parameter_tuple_count": len(envelope_parameters),
+        "invalid_envelope_parameter_count": len(invalid_envelope_parameters),
+        "invalid_envelope_parameters": invalid_envelope_parameters,
+        "nonzero_decay_note_count": sum(
+            count for (_attack, decay, _sustain, _release), count
+            in envelope_parameters.items() if decay != 0
+        ),
+        "nonzero_release_note_count": sum(
+            count for (_attack, _decay, _sustain, release), count
+            in envelope_parameters.items() if release != 0
+        ),
+        "envelope_parameter_counts": [
+            {
+                "attack": attack,
+                "decay": decay,
+                "sustain": sustain,
+                "release": release,
+                "note_count": count,
+            }
+            for (attack, decay, sustain, release), count
+            in sorted(envelope_parameters.items())
+        ],
+        "envelope_boundary": (
+            "Tone ADSR bytes are copied to SoundChannel +4..+7. Their mixer-time "
+            "state machine is implemented in tools/m4a_envelope.py; mapping MP2K "
+            "track time to SoundMain buffer invocations and final PCM remains separate."
         ),
         "wave_usage": [{"offset": offset, "offset_hex": f"0x{offset:06X}", "note_count": count} for offset, count in sorted(wave_counts.items())],
         "songs": song_rows,

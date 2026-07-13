@@ -21,15 +21,17 @@
 80 个 sound ID / 217 条 track 重渲染结果：
 
 - TIE 总数：90；
-- 被 EOT 明确关闭：25；
-- 单循环边界仍活跃：65，分布在 12 条 track；
+- 被 EOT 明确释放：25；
+- 在 FINE 被整轨释放：19；
+- 单循环 GOTO 边界仍活跃：46；
 - 原始总时间线事件为 17202，80/80 MIDI 均正常生成；后续显式状态与逐 tick
   MODT=0 pitch-LFO pass 添加 21328 条 pitch-state 元数据，当前结构化事件总数为
   38530；volume/pan pass 再添加 449 条 mix-state，当前为 38979，note/TIE 数量不变。
 
-剩余 65 条不能武断地在 `GOTO` 单循环截断处释放；它们可能跨 loop 持续，或依赖
+剩余 46 条不能武断地在 `GOTO` 单循环截断处释放；它们可能跨 loop 持续，或依赖
 track/voice 停止语义。当前仍保留 duration `None` 和 `open_tie_keys`，不会伪造
-note-off。后续 envelope/release 实现必须先决定这些跨循环 TIE 的生命周期。
+note-off。ADSR/release 状态机已经闭合；后续 PCM renderer 必须继续执行下一 loop、
+匹配未来 EOT/FINE、sample 耗尽或 channel steal，不能在分析边界擅自结束。
 
 验证：`python3 -m unittest tests.test_render_m4a_midi`；真实 corpus 断言固定为
-`90 / 25 / 65`。
+`90 / 25 EOT / 19 FINE / 46 open`。

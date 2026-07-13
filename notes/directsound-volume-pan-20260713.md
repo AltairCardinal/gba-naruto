@@ -7,7 +7,8 @@
 - `ChnVolSetAsm 0x0809A6D8..0x0809A706`：把上述缓存与每个 channel 的
   note velocity、drum tone pan 合成为 pre-envelope 增益 `channel+2/+3`。
 - `0x08099F74..0x08099F82`：再以实时 envelope scalar 缩放到 mixer 使用的
-  `channel+0x0A/+0x0B`；该 envelope 状态机仍需单独闭合。
+`channel+0x0A/+0x0B`；该 envelope 状态机现见
+`notes/directsound-envelope-20260713.md`。
 
 `VOL 0xBE` 在 `0x0809A340` 原样写 track `+0x12`；`PAN 0xBF` 在
 `0x0809A354` 把 `raw-0x40` 写入 signed track `+0x14`。默认 volX 为 64、panX

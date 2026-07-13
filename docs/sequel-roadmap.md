@@ -284,8 +284,8 @@
   217 条 track 共发出 17,202 个时间线事件
 - 16,180/16,180 note 已解析 terminal tone：16,169 个 DirectSound note 覆盖
   79/79 waves，其中 5,340 个经 drum table；剩余 11 个明确为 0x0C PSG/noise
-- TIE/EOT 生命周期已闭合可明确配对的 25/90 条延音并写入 MIDI note-off；剩余
-  65 条在单循环边界仍活跃，明确保留为 open tie，不能伪造释放
+- TIE 生命周期已纠正为 90 条：25 条由 EOT 释放、19 条由 FINE 进入 release、
+  46 条在单循环 GOTO 边界仍活跃；只保留后 46 条为 open tie，不伪造释放
 - DirectSound nominal pitch-step 已按 `0x0809A998` 的 ROM 两表与 UMULL high32
   精确整数公式闭合；16169/16169 DirectSound note、79/79 waves 均产生正 step，
   23-bit mixer phase 与本 ROM 15768 Hz / divFreq 532 也已代码锁定
@@ -298,13 +298,16 @@
   DirectSound note 均得到有效双声道系数，活跃 note 内 39 次 VOL 更新全部有效；
   MODT=1/2 由合成向量锁定，但实际 track 中 MODT/LFODL 均为 0 次。timeline 现为
   38979 events（21328 pitch-state、449 mix-state）
-- 待完成 PSG/noise 合成、包络、跨循环 tie release、
+- DirectSound ADSR/release/pseudo-echo 与 master gain 状态机已按
+  `0x08099EC8..0x08099F82` 代码锁定；16169/16169 note 共 4 种有效 tuple，零非法。
+  状态按 SoundMain mixer invocation 而非 MP2K tick 推进
+- 待完成 PSG/noise 合成、跨循环 sample/TIE 执行、
   精确混音和可听 cue 命名
 
 **方法：**
 1. 从 `0x596D5C` descriptor 链提取 tileset PNG（已完成）
 2. 从 `0x465B70` sound-ID → SongHeader → voicegroup/track/wave（已完成）
-3. 完成 m4a pitch/envelope/PSG/mixer 语义并构建忠实多轨音频渲染（下一步）
+3. 完成 m4a PSG/sample-loop/mixer-buffer 语义并构建忠实多轨 PCM 渲染（下一步）
 
 **交付物：**
 - `tools/extract_tileset.py`

@@ -70,6 +70,11 @@ class MapM4AInstrumentTests(unittest.TestCase):
         self.assertEqual(result["mid_note_mix_update_count"], 39)
         self.assertEqual(result["invalid_mid_note_mix_update_count"], 0)
         self.assertEqual(result["mid_note_mix_update_command_counts"], {"VOL": 39})
+        self.assertEqual(result["envelope_note_count"], 16169)
+        self.assertEqual(result["envelope_parameter_tuple_count"], 4)
+        self.assertEqual(result["invalid_envelope_parameter_count"], 0)
+        self.assertEqual(result["nonzero_decay_note_count"], 837)
+        self.assertEqual(result["nonzero_release_note_count"], 326)
 
 
 if __name__ == "__main__":

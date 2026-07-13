@@ -59,7 +59,44 @@
   },
   "invalid_mid_note_mix_update_count": 0,
   "invalid_mid_note_mix_updates": [],
-  "channel_mix_boundary": "Reproduces 0x0809B3E0 track right/left gain caching and 0x0809A6D8 velocity plus drum-tone-pan propagation. The ROM corpus has no MODT or LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope scaling from channel gains to final mixer gains remains separate.",
+  "channel_mix_boundary": "Reproduces 0x0809B3E0 track right/left gain caching and 0x0809A6D8 velocity plus drum-tone-pan propagation. The ROM corpus has no MODT or LFODL commands; synthetic tests lock MODT=1/2 behavior. Envelope and master scaling primitives are modeled separately in tools/m4a_envelope.py.",
+  "envelope_note_count": 16169,
+  "envelope_parameter_tuple_count": 4,
+  "invalid_envelope_parameter_count": 0,
+  "invalid_envelope_parameters": [],
+  "nonzero_decay_note_count": 837,
+  "nonzero_release_note_count": 326,
+  "envelope_parameter_counts": [
+    {
+      "attack": 255,
+      "decay": 0,
+      "sustain": 231,
+      "release": 89,
+      "note_count": 155
+    },
+    {
+      "attack": 255,
+      "decay": 0,
+      "sustain": 231,
+      "release": 127,
+      "note_count": 171
+    },
+    {
+      "attack": 255,
+      "decay": 0,
+      "sustain": 255,
+      "release": 0,
+      "note_count": 15006
+    },
+    {
+      "attack": 255,
+      "decay": 127,
+      "sustain": 231,
+      "release": 0,
+      "note_count": 837
+    }
+  ],
+  "envelope_boundary": "Tone ADSR bytes are copied to SoundChannel +4..+7. Their mixer-time state machine is implemented in tools/m4a_envelope.py; mapping MP2K track time to SoundMain buffer invocations and final PCM remains separate.",
   "wave_usage": [
     {
       "offset": 4612204,
