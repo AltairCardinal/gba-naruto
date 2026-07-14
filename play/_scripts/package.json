@@ -1,6 +1,10 @@
 {
   "private": true,
   "description": "Runtime probe dependencies for the GBA reverse-engineering harness",
+  "scripts": {
+    "test": "node --test runtime-formation-probe.test.js",
+    "probe:guarded": "python ../../tools/run_guarded.py --summary ../../build/resource-guard/runtime-probe.json --lock-file ../../build/resource-guard/heavy.lock -- node runtime-formation-probe.js"
+  },
   "dependencies": {
     "puppeteer-core": "25.3.0"
   }

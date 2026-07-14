@@ -121,15 +121,35 @@ runtime-formation-probe/Chromium，进一步压缩可用内存，最终让 swap 
 “磁盘读写占满”。磁盘本身没有 I/O error，文件系统也不是写满；当前根分区约 95%
 使用、仍有约 2.2 GiB 空间，但这会降低抖动余量。
 
-后续接手必须遵守：
+截至 2026-07-14，以上约束已从文档约定升级为代码门禁：
 
-1. 禁止对 find_thumb_calls.py 做全 ROM 并发扫描；
-2. 优先搜索 Thumb BL 编码、literal 引用或使用 bounded disasm；
-3. 如必须全 ROM 扫描，只允许单进程，并先为工具增加范围/超时/内存门禁；
-4. runtime-formation-probe/Chromium 一次只运行一个；
-5. 所有长命令必须有明确 timeout，60 秒没有有效输出就终止并换方法；
-6. 并行子代理只并行推理/局部只读检查，不并行启动高内存运行时或全 ROM 反汇编；
-7. 每批运行前后检查 free -h、swap 与 /proc/pressure/io。
+1. `find_thumb_calls.py` 已改为逐 halfword 的恒定内存 ARMv4T Thumb 编码扫描，不再对
+   整份 ROM 调用 `Capstone.disasm(..., count=0)`；候选仍须用 bounded disasm 复核；
+2. `tools/run_guarded.py` 为静态重任务和 Chromium probe 共用同一个非阻塞 `heavy`
+   锁，并在启动子进程前执行可用物理内存准入；
+3. 默认门槛为：可用内存至少 1024 MiB、owned process tree RSS 最多 1536 MiB、
+   wall timeout 600 秒、无完整输出行 idle timeout 60 秒、1 秒采样、5 秒终止宽限；
+4. Windows 只终止本次 Job Object，POSIX 只终止本次新建 process group；禁止任何
+   `pkill`、`killall`、`taskkill /IM` 或按进程名清理；
+5. Chromium probe 必须从 `play/_scripts` 运行 `npm run probe:guarded`；它在六类真实
+   生命周期边界输出可解析 `resource-progress` JSON 行，npm 脚本显式传入仓库根目录的
+   `--lock-file ../../build/resource-guard/heavy.lock`，不能依赖子目录 cwd 的默认锁路径；
+6. 退出码 75 表示锁忙/准入拒绝，124 表示 wall/idle timeout，125 表示内存、启动或
+   保护失败；每次运行原子写入包含 PID、峰值 RSS、backend 与原因的 JSON 摘要；
+7. 每批运行前后仍需检查系统内存，只能处理本项目守卫拥有的进程树，不能清理无关进程。
+
+受守卫的实际入口：
+
+```powershell
+python tools/run_guarded.py --summary build/resource-guard/thumb-calls.json -- python tools/find_thumb_calls.py build/naruto-sequel-dev.gba 0x08066D14 --start 0x08060000 --end 0x08070000 --output notes/calls-08066D14.txt
+Set-Location play/_scripts
+npm run probe:guarded
+```
+
+2026-07-14 验证：资源守卫 35/35、聚焦 Python 59/59、Node probe 37/37 均通过；
+干净 headless WSL 下，同一 393 项全量套件经 POSIX guard 返回 0，峰值 owned-tree RSS
+379.5 MiB。完成度审计保持 32/32、13 runtime / 10 code / 9 disproved。Windows 原生全量
+仍有 6 项既有路径/OCR/临时数据库环境差异，不属于本轮资源安全回归。
 
 ### 0.6 后续执行顺序
 

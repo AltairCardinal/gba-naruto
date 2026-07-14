@@ -25,9 +25,54 @@ const {
 const {
   captureAlternateChapterEvidence,
   extractOccupiedUnitSummaries,
+  formatProgress,
   shouldStopForAlternateChapter,
   mapResourceDumpSpecs,
 } = require('./runtime-formation-probe');
+
+test('formatProgress emits one parseable resource-progress JSON line', () => {
+  const line = formatProgress(
+    'browser-launched',
+    { pid: 123 },
+    () => new Date('2026-07-14T00:00:00.000Z'),
+  );
+  assert.equal(line.includes('\n'), false);
+  assert.deepEqual(JSON.parse(line), {
+    type: 'resource-progress',
+    stage: 'browser-launched',
+    timestamp: '2026-07-14T00:00:00.000Z',
+    details: { pid: 123 },
+  });
+});
+
+test('runtime probe wires progress to every required lifecycle boundary only', () => {
+  const source = require('node:fs').readFileSync(require.resolve('./runtime-formation-probe'), 'utf8');
+  const wiredStages = [...source.matchAll(/emitProgress\('([^']+)'/g)].map(match => match[1]);
+  const requiredStages = [
+    'browser-launched',
+    'page-loaded',
+    'core-ready',
+    'checkpoint-loaded',
+    'phase-start',
+    'result-written',
+  ];
+  assert.deepEqual([...new Set(wiredStages)].sort(), requiredStages.sort());
+  for (const stage of requiredStages) assert.ok(wiredStages.includes(stage), `missing ${stage}`);
+  assert.match(
+    source,
+    /if \(stateLoad \|\| saveLoad\) emitProgress\('checkpoint-loaded'/,
+    'checkpoint-loaded must only be emitted after an actual state/save load',
+  );
+});
+
+test('package exposes the shared guarded runtime-probe entry', () => {
+  const packageJson = require('./package.json');
+  assert.equal(packageJson.scripts.test, 'node --test runtime-formation-probe.test.js');
+  assert.equal(
+    packageJson.scripts['probe:guarded'],
+    'python ../../tools/run_guarded.py --summary ../../build/resource-guard/runtime-probe.json --lock-file ../../build/resource-guard/heavy.lock -- node runtime-formation-probe.js',
+  );
+});
 
 test('extractOccupiedUnitSummaries preserves raw stat and coordinate evidence', () => {
   const bytes = new Uint8Array(0x1D4 * 2);

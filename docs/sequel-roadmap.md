@@ -30,11 +30,13 @@
 - 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`，
   本次稳定入场不会改变 bank 状态。
 
-资源约束：当前执行机只有 4 GiB RAM / 2 GiB swap。全 ROM Capstone 扫描曾单进程
-膨胀到 3 GiB 以上并触发 OOM、swap thrashing 和 I/O pressure。后续禁止并发运行
-`find_thumb_calls.py` 全 ROM 扫描；必须优先 bounded disasm/编码搜索，一次只运行一个
-Chromium runtime probe，并为长任务设置超时。完整原因和恢复策略见
-`docs/reverse-engineering-handoff-20260711.md` 第 0.5 节。
+资源约束：全 ROM Capstone 对象扫描曾单进程膨胀到 3 GiB 以上并触发 OOM、swap
+thrashing 和 I/O pressure；该路径现已替换为恒定内存 Thumb 编码扫描。静态重任务与
+Chromium probe 必须统一经 `tools/run_guarded.py` 的共享 `heavy` 锁、内存准入、树级 RSS、
+wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
+`play/_scripts` 下的 `npm run probe:guarded`。禁止按进程名清理。当前 bank 分布仍为
+13 runtime / 10 code / 9 disproved；资源安全实现不改变逆向证据等级。完整门槛、退出码和
+命令见 `docs/reverse-engineering-handoff-20260711.md` 第 0.5 节。
 
 ### ✅ 已打通
 - 对白 → ROM 写入闭环（dialogue patch pipeline）

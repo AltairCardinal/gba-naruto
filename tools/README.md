@@ -204,6 +204,48 @@ python3 tools/find_thumb_calls.py \
   --output notes/calls-08066D14.txt
 ```
 
+## Resource guard for heavy tools and runtime probes
+
+Long-running reverse-engineering commands must enter through `run_guarded.py`. The
+literal `--` separator is required; everything after it is the one owned child command.
+For example, run a bounded static scan from the repository root with:
+
+```bash
+python tools/run_guarded.py \
+  --summary build/resource-guard/thumb-calls.json \
+  -- python tools/find_thumb_calls.py \
+  build/naruto-sequel-dev.gba 0x08066D14 \
+  --start 0x08060000 --end 0x08070000 \
+  --output notes/calls-08066D14.txt
+```
+
+Run the Chromium probe through its guarded package entry (from `play/_scripts`):
+
+```bash
+npm run probe:guarded
+```
+
+Both commands use the same non-blocking project `heavy` lock. Defaults are 1024 MiB
+minimum available physical memory, 1536 MiB maximum owned process-tree RSS, 600 seconds
+wall timeout, 60 seconds without a complete stdout/stderr progress line, 1 second RSS
+sampling, and 5 seconds termination grace. Runtime probes emit parseable
+`resource-progress` JSON lines at browser, page, core, checkpoint, phase, and result
+boundaries.
+
+The npm entry pins `--lock-file ../../build/resource-guard/heavy.lock`; do not remove or
+relocate that argument, because the npm working directory is `play/_scripts` while static
+guarded commands run from the repository root.
+
+Exit code 75 means lock contention or admission rejection; 124 means wall/idle timeout;
+125 means memory-limit, launch, or protection failure. Ordinary completion returns the
+child exit code. Each run atomically writes the requested JSON summary with child PID,
+peak owned-tree RSS, backend, reason, and degradation state.
+
+Cleanup is exact-tree only: a Windows Job Object or POSIX process group created for that
+run. Never add `pkill`, `killall`, `taskkill /IM`, `Stop-Process` by name, or any other
+process-name cleanup. Missing isolation or monitoring fails closed unless an explicitly
+audited degraded run is requested and recorded.
+
 ## `mgba_trace_function_entries.lua`
 
 Experimental script-side execution breakpoint tracer for selected dialogue functions.

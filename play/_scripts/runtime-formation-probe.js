@@ -33,6 +33,24 @@ const FORCED_SAVE_CASE_HIT = 0x0203FF20;
 const STOP_ON_MATCH = process.env.PROBE_STOP_ON_MATCH !== '0';
 const POST_ARRIVAL_POLLS = Number(process.env.PROBE_POST_ARRIVAL_POLLS || 0);
 const ROOT = path.resolve(__dirname, '..', '..');
+
+function formatProgress(stage, details = {}, clock = () => new Date()) {
+  return JSON.stringify({
+    type: 'resource-progress',
+    stage,
+    timestamp: clock().toISOString(),
+    details,
+  });
+}
+
+function emitProgress(stage, details = {}) {
+  console.log(formatProgress(stage, details));
+}
+
+function writeProbeResult(resultPath, result) {
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  emitProgress('result-written', { outcome: result.outcome, reason: result.reason });
+}
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
 const UNITS_BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/units/bank.json'), 'utf8'));
 const WRAM_BASE = 0x020240C0;
@@ -471,18 +489,22 @@ async function main() {
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--enable-features=SharedArrayBuffer'],
     defaultViewport: { width: 960, height: 720 },
   });
+  emitProgress('browser-launched');
   const page = await browser.newPage();
   try {
     await installProbeRomRoute(page, PROBE_ROM);
     await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    emitProgress('page-loaded');
     await page.click('#playBtn');
     await page.waitForFunction(() => (
       typeof window.__mGBA?._readGbaByte === 'function'
       && document.querySelector('.speed-btn[data-speed="1"]')?.disabled === false
       && window.__mGBA._readGbaByte(0x08000000) !== -1
     ), { timeout: 90000, polling: 1000 });
+    emitProgress('core-ready');
     const saveLoad = await loadSaveExport(page);
     const stateLoad = await loadStateCheckpoint(page);
+    if (stateLoad || saveLoad) emitProgress('checkpoint-loaded', { kind: stateLoad ? 'state' : 'save' });
     const alternateChapterBaseline = await readAlternateChapterProbe(page);
     const probeSpeed = String(process.env.PROBE_SPEED || '4');
     await page.evaluate(speed => document.querySelector(`.speed-btn[data-speed="${speed}"]`)?.click(), probeSpeed);
@@ -512,6 +534,7 @@ async function main() {
     const stages = [];
     for (let index = 0; index < plan.length; index += 1) {
       const action = plan[index];
+      emitProgress('phase-start', { phase: action.phase, step: index + 1 });
       await sleep(action.delayMs);
       await pressGbaKey(page, action.key, action.holdMs);
       let screenMetrics = null;
@@ -581,12 +604,12 @@ async function main() {
         lastDiagnostic.memoryDump = await persistMemoryDump(page);
         lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
         await page.screenshot({ path: artifacts.finalScreenshotPath });
-        fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({
+        writeProbeResult(artifacts.resultPath, buildProbeResult({
           outcome: 'verified',
           reason: lastDiagnostic.alternateChapterProbe.evidence.reason,
           stages,
           final: lastDiagnostic,
-        }), null, 2)}\n`);
+        }));
         return;
       }
       if (runtimePositions.length > 0) {
@@ -604,7 +627,7 @@ async function main() {
           lastDiagnostic.memoryDump = await persistMemoryDump(page);
           lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
           await page.screenshot({ path: artifacts.finalScreenshotPath });
-          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: arrival.reason, stages, final: lastDiagnostic, match }), null, 2)}\n`);
+          writeProbeResult(artifacts.resultPath, buildProbeResult({ outcome: 'matched', reason: arrival.reason, stages, final: lastDiagnostic, match }));
           return;
         }
       } else if (status.state === 'changed') {
@@ -630,10 +653,11 @@ async function main() {
       lastDiagnostic.memoryDump = await persistMemoryDump(page);
       lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
       await page.screenshot({ path: artifacts.finalScreenshotPath });
-      fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-full-plan', stages, final: lastDiagnostic, match: latestMatch }), null, 2)}\n`);
+      writeProbeResult(artifacts.resultPath, buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-full-plan', stages, final: lastDiagnostic, match: latestMatch }));
       return;
     }
     for (const settle of settlePlan) {
+      emitProgress('phase-start', { phase: settle.phase, step: plan.length + settle.poll });
       await sleep(settle.delayMs);
       if (settle.key && arrivalFirstPoll === null) {
         await pressGbaKey(page, settle.key, settle.holdMs);
@@ -699,7 +723,7 @@ async function main() {
           await page.screenshot({ path: screenshotPath });
           stages.push({ ...lastDiagnostic, screenshotPath });
           await page.screenshot({ path: artifacts.finalScreenshotPath });
-          fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-settle', stages, final: lastDiagnostic, match }), null, 2)}\n`);
+          writeProbeResult(artifacts.resultPath, buildProbeResult({ outcome: 'matched', reason: 'strict-battle-arrival-after-settle', stages, final: lastDiagnostic, match }));
           return;
         }
       } else if (status.state === 'changed') {
@@ -729,11 +753,11 @@ async function main() {
         stages,
         final: lastDiagnostic,
       });
-      fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(result, null, 2)}\n`);
+      writeProbeResult(artifacts.resultPath, result);
       return;
     }
     const result = buildProbeResult({ outcome: 'not-found', reason: 'settle-exhausted', stages, final: lastDiagnostic });
-    fs.writeFileSync(artifacts.resultPath, `${JSON.stringify(result, null, 2)}\n`);
+    writeProbeResult(artifacts.resultPath, result);
     throw new Error(`navigation and settle polling ended before a unique formation was observed; result=${artifacts.resultPath}; screenshot=${artifacts.finalScreenshotPath}; last=${JSON.stringify(lastDiagnostic)}`);
   } finally {
     await browser.close();
@@ -743,6 +767,7 @@ async function main() {
 if (require.main === module) main().catch(error => { console.error(error.stack || error); process.exitCode = 1; });
 
 module.exports = {
+  formatProgress,
   extractRuntimePositions,
   extractOccupiedUnitSummaries,
   extractRuntimeTemplates,

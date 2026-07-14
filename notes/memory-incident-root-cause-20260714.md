@@ -127,3 +127,27 @@ OOM kill，并通过 swap I/O 拖慢系统服务。
 被 detail/skipdata 放大，再被多进程扫描和多 Chromium 并发叠加**。最有效的避免方式不是单纯
 增加 swap，而是取消默认全 ROM Capstone 路径，改用编码/literal 候选搜索和 bounded disasm，
 并以互斥锁、内存上限和 timeout 把文档约束变成工具强制约束。
+
+## 2026-07-14 实施与验证结果
+
+- `tools/thumb_branch.py` 现以逐 halfword、恒定内存方式识别 ARMv4T Thumb `BL` 和无条件
+  `B`；`find_thumb_calls.py` 与相关 trace builder 已迁移，生产代码中不再存在整份 ROM
+  `Capstone.disasm(..., count=0)` 发现路径；
+- `tools/run_guarded.py` 与 `tools/project_resource_guard.py` 为所有重任务提供同一个
+  `heavy` 锁、1024 MiB 启动准入、1536 MiB owned-tree RSS 上限、wall/idle timeout、
+  原子 JSON 摘要，以及 Windows Job Object / POSIX process group 精确清理；
+- 资源守卫不会按名称查找或终止 Python/Chromium。真实集成测试证明超时后 child 与
+  grandchild 消失，而无关的同名 Python sentinel 保持存活；closed/broken `stderr` 也不能
+  中断 fail-closed 清理或覆盖已知 PID；
+- `runtime-formation-probe.js` 在 browser-launched、page-loaded、core-ready、
+  checkpoint-loaded、phase-start 和 result-written 边界输出单行 JSON 进度；其正式入口为
+  `play/_scripts` 下的 `npm run probe:guarded`，并显式把 lock file 固定到仓库根目录
+  `build/resource-guard/heavy.lock`，不能通过子目录 cwd 或 npm 参数绕过共享锁；
+- 本轮严格资源守卫测试 35/35、聚焦 Python 测试 59/59、Node probe 测试 37/37 通过；
+  依赖安装本身也经 guard 执行，峰值 owned-tree RSS 约 369 MiB；
+- Windows 全量 393 项暴露 6 项既有平台/环境差异（POSIX `/tmp` 路径断言、路径分隔符、
+  OCR/tesseract 与临时数据库路径），本轮相关测试不在失败项中；在 WSL 干净 headless 环境
+  移除宿主注入的 `DISPLAY=:0` 后，同一全量套件由 POSIX guard 完成并返回 0，峰值 owned-tree
+  RSS 379.5 MiB；
+- `tools/audit_re_completion.py` 复核仍为 32/32：13 runtime_verified、10 code_verified、
+  9 disproved。资源安全工作不改变任何 bank 证据等级。
