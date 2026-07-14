@@ -64,9 +64,20 @@ scenario 41 start-confirm prompt.
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate
 and rejected `build/` paths may be absent in another checkout; accepted state
-and ROM paths must exist and match their hashes. This boundary prevents a
-later checkpoint from being used to claim player control, MOVEDONE, victory or
-postbattle events that occurred before capture.
+paths and every ROM path must be repo-relative regular files inside the checkout
+and match their hashes. Candidate/rejected state paths are restricted to
+repo-relative `build/` sources; they may be absent, but an existing directory is
+never a valid state. The validator accepts only `schema_version: 1` and canonical
+eight-digit uppercase hook addresses. Evidence requires these exact pre-hooks:
+
+- `player-control`: `0x08073946`, `0x080739D8`
+- `movedone`: `0x0807443C`, `0x08074918`
+- `victory`: `0x0807444E`, `0x08074458`
+- `postbattle`: `0x080735C2`
+
+Unknown evidence names are rejected. This boundary prevents a later checkpoint
+from being used to claim player control, MOVEDONE, victory or postbattle events
+that occurred before capture.
 
 Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, which records
 the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at

@@ -77,6 +77,38 @@ class PublishedCallObserverTests(unittest.TestCase):
         self.assertEqual(scratch_writes[0], (self.player.scratch, 4, 0))
         self.assertEqual(scratch_writes[-1], (self.player.scratch, 4, self.player.magic))
 
+    def test_second_valid_hit_increments_existing_hit_count(self):
+        stub = observer.build_observer_stub(self.player, self.event_counter, 96)
+        first = execute_stub(stub, memory={self.event_counter: 10})
+        second = execute_stub(stub, memory_bytes=first.memory)
+
+        self.assertEqual(second.read_u32(self.player.scratch + 4), 2)
+        self.assertEqual(second.read_u32(self.event_counter), 12)
+        self.assertEqual(second.read_u32(self.player.scratch + 16), 12)
+        scratch_writes = [
+            write
+            for write in second.writes
+            if self.player.scratch <= write[0] < self.player.scratch + 24
+        ]
+        self.assertEqual(scratch_writes[0], (self.player.scratch, 4, 0))
+        self.assertEqual(scratch_writes[-1], (self.player.scratch, 4, self.player.magic))
+
+    def test_hit_count_and_shared_sequence_wrap_to_zero(self):
+        memory = {
+            self.event_counter: 0xFFFFFFFF,
+            self.player.scratch: self.player.magic,
+            self.player.scratch + 4: 0xFFFFFFFF,
+        }
+        state = execute_stub(
+            observer.build_observer_stub(self.player, self.event_counter, 96),
+            memory=memory,
+        )
+
+        self.assertEqual(state.read_u32(self.player.scratch + 4), 0)
+        self.assertEqual(state.read_u32(self.event_counter), 0)
+        self.assertEqual(state.read_u32(self.player.scratch + 16), 0)
+        self.assertEqual(state.read_u32(self.player.scratch), self.player.magic)
+
     def test_stub_restores_r0_through_r4_sp_and_lr_then_tail_branches(self):
         initial = {
             "r0": 0x10,

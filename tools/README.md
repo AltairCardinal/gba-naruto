@@ -249,10 +249,14 @@ audited degraded run is requested and recorded.
 ## `mgba_gdb_probe.py`
 
 Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
-`--read address:size` 区域；在启动 mGBA 前确认 GDB 端口未被占用，连接后将
-`0x08000000` 与断点处的确定性 ROM 窗口和输入 ROM 比对，避免把其他 GDB
-端点误认成本次会话。只有收到 trap 信号 5，且停止 PC 等于 Thumb 断点地址
-或该地址加 2 时，输出才会标记为 `verified`。
+`--read address:size` 区域。mGBA 0.10.5 的 `--gdb` 固定监听
+`127.0.0.1:2345`，因此工具不提供看似可配置但无法传给 mGBA 的 `--port`。
+启动前会确认 2345 未被占用；连接后还会确认 owned `Popen` 仍存活，并通过
+Windows TCP owner PID 表证明 2345 listener 正是该 PID。无法证明归属时结果
+只能是 `error`/`not-proven`，绝不会成为 `verified`。归属成立后，工具再将
+`0x08000000` 与断点处的确定性 ROM 窗口和输入 ROM 比对。只有收到 trap 信号
+5，且停止 PC 等于 Thumb 断点地址或该地址加 2 时，输出才会标记为
+`verified`。
 
 ```powershell
 python tools/run_guarded.py `
@@ -267,9 +271,12 @@ python tools/run_guarded.py `
 ```
 
 结果 JSON 记录模拟器、ROM、可选 savestate 的路径和 SHA-256，模拟器版本、
-实际命令与端口、原始停止包、预期/实际 PC、寄存器、ROM 指纹窗口、读取区域，
-以及最多 16 KiB 的 stdout/stderr 尾部。超时为 `not-proven`，不会冒充动态命中；
-其他失败为 `error`，两者都保留可操作上下文。
+实际命令、固定端口、listener owner PID、原始停止包、预期/实际 PC、寄存器、
+ROM 指纹窗口、读取区域，以及最多 16 KiB 的 stdout/stderr 尾部。每个内存子块
+必须精确返回请求长度；零/负长度、32 位越界、畸形 hex、短块或长块都会让整个
+逻辑读取失败。哈希、raw stop 和每个已完成读取会增量保留；进度输出或清理失败
+只能附加诊断，不能覆盖主错误。超时为 `not-proven`，不会冒充动态命中；其他
+失败为 `error`，两者都保留可操作上下文。
 
 边界：该工具不注入按键、不枚举窗口、不发送 `PostMessage`、不提供 KEYINPUT
 写监视点，也不会向 GDB 远端发送 `k`。探针只终止自己创建的 mGBA `Popen`

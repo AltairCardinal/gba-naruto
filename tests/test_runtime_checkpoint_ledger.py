@@ -36,6 +36,7 @@ class RuntimeCheckpointLedgerTests(unittest.TestCase):
 
     def make_ledger(self):
         return {
+            "schema_version": 1,
             "checkpoints": [
                 self.make_record(
                     name="tutorial-ui-save",
@@ -78,9 +79,9 @@ class RuntimeCheckpointLedgerTests(unittest.TestCase):
                 record = self.make_record(
                     status=status,
                     path="build/unavailable.ss9",
-                    rom="build/unavailable.gba",
+                    rom="base.gba",
                     sha256="1" * 64,
-                    rom_sha256="2" * 64,
+                    rom_sha256=hashlib.sha256(b"rom").hexdigest(),
                     stable_zero_input=False,
                     allowed_evidence=[],
                     before_hooks=[],
@@ -113,6 +114,149 @@ class RuntimeCheckpointLedgerTests(unittest.TestCase):
 
         self.assertTrue(any("status" in error for error in errors))
         self.assertTrue(any("movedone" in error for error in errors))
+
+    def test_requires_exact_hooks_and_rejects_unknown_evidence(self):
+        required = {
+            "player-control": ["0x08073946", "0x080739D8"],
+            "movedone": ["0x0807443C", "0x08074918"],
+            "victory": ["0x0807444E", "0x08074458"],
+            "postbattle": ["0x080735C2"],
+        }
+        for evidence, hooks in required.items():
+            with self.subTest(evidence=evidence):
+                self.assertEqual(
+                    validate_record(
+                        self.make_record(allowed_evidence=[evidence], before_hooks=hooks),
+                        self.root,
+                    ),
+                    [],
+                )
+                errors = validate_record(
+                    self.make_record(
+                        allowed_evidence=[evidence], before_hooks=["0xDEADBEEF"]
+                    ),
+                    self.root,
+                )
+                self.assertTrue(any(evidence in error for error in errors))
+
+        errors = validate_record(
+            self.make_record(allowed_evidence=["typo-or-unknown"]), self.root
+        )
+        self.assertTrue(any("unknown evidence" in error for error in errors))
+
+    def test_rejects_noncanonical_hook_addresses(self):
+        for hook in ("08073946", "0x8073946", "0X08073946", "0x08073946 ", 0x08073946):
+            with self.subTest(hook=hook):
+                errors = validate_record(
+                    self.make_record(before_hooks=[hook]), self.root
+                )
+                self.assertTrue(any("before_hooks" in error for error in errors))
+
+    def test_paths_are_repo_relative_contained_and_regular_files(self):
+        outside = self.root.parent / "outside.ss9"
+        outside.write_bytes(b"state")
+        self.addCleanup(outside.unlink, missing_ok=True)
+        for path in (str(outside), "../outside.ss9", ""):
+            with self.subTest(path=path):
+                errors = validate_record(self.make_record(path=path), self.root)
+                self.assertTrue(any("path" in error for error in errors))
+
+        (self.root / "state-dir").mkdir()
+        errors = validate_record(self.make_record(path="state-dir"), self.root)
+        self.assertTrue(any("regular file" in error for error in errors))
+
+        for path in (
+            "candidate.ss9",
+            "artifacts/candidate.ss9",
+            "../build/candidate.ss9",
+            "build/../candidate.ss9",
+        ):
+            with self.subTest(candidate_path=path):
+                errors = validate_record(
+                    self.make_record(
+                        status="candidate",
+                        path=path,
+                        sha256="1" * 64,
+                        stable_zero_input=False,
+                        allowed_evidence=[],
+                        before_hooks=[],
+                    ),
+                    self.root,
+                )
+                self.assertTrue(any("build/" in error or "path" in error for error in errors))
+
+        (self.root / "build").mkdir(exist_ok=True)
+        (self.root / "build" / "directory.ss9").mkdir()
+        errors = validate_record(
+            self.make_record(
+                status="rejected",
+                path="build/directory.ss9",
+                sha256="1" * 64,
+                stable_zero_input=False,
+                allowed_evidence=[],
+                before_hooks=[],
+            ),
+            self.root,
+        )
+        self.assertTrue(any("directory" in error for error in errors))
+
+    def test_candidate_rom_must_exist_inside_checkout_and_match_hash(self):
+        errors = validate_record(
+            self.make_record(
+                status="candidate",
+                path="build/unavailable.ss9",
+                sha256="1" * 64,
+                rom="build/unavailable.gba",
+                rom_sha256="2" * 64,
+                stable_zero_input=False,
+                allowed_evidence=[],
+                before_hooks=[],
+            ),
+            self.root,
+        )
+        self.assertTrue(any("ROM" in error for error in errors))
+
+    def test_malformed_json_types_return_errors_without_tracebacks(self):
+        malformed = self.make_record(
+            name=[],
+            status=[],
+            path=1,
+            rom={},
+            parent=[],
+            inputs="Down",
+            screen=[],
+            stable_zero_input=1,
+            before_hooks="0x08073946",
+            allowed_evidence={"player-control": True},
+        )
+
+        errors = validate_ledger(
+            {"schema_version": 1, "checkpoints": [malformed]}, self.root
+        )
+
+        for field in (
+            "name",
+            "status",
+            "path",
+            "rom",
+            "parent",
+            "inputs",
+            "screen",
+            "stable_zero_input",
+            "before_hooks",
+            "allowed_evidence",
+        ):
+            self.assertTrue(any(field in error for error in errors), field)
+
+    def test_requires_supported_schema_version(self):
+        for payload in (
+            {"checkpoints": []},
+            {"schema_version": "1", "checkpoints": []},
+            {"schema_version": 999, "checkpoints": []},
+        ):
+            with self.subTest(payload=payload):
+                errors = validate_ledger(payload, self.root)
+                self.assertTrue(any("schema_version" in error for error in errors))
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ import os
 import socket
 import subprocess
 import tempfile
+import threading
 import unittest
 from contextlib import redirect_stderr
 from pathlib import Path
@@ -31,15 +32,168 @@ class ScriptedSocket:
         pass
 
 
+class FakeRspServer:
+    def __init__(self, handler):
+        self.handler = handler
+        self.commands = []
+        self.listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if os.name == "nt":
+            self.listener.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        else:
+            self.listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.listener.bind(("127.0.0.1", 2345))
+        self.listener.listen(1)
+        self.listener.settimeout(1)
+        self.connection = None
+        self.thread = threading.Thread(target=self._serve, daemon=True)
+        self.thread.start()
+
+    def _recv_byte(self):
+        data = self.connection.recv(1)
+        if not data:
+            raise EOFError
+        return data
+
+    def _serve(self):
+        try:
+            self.connection, _ = self.listener.accept()
+            while True:
+                byte = self._recv_byte()
+                while byte != b"$":
+                    byte = self._recv_byte()
+                payload = bytearray()
+                while True:
+                    byte = self._recv_byte()
+                    if byte == b"#":
+                        break
+                    payload.extend(byte)
+                self._recv_byte()
+                self._recv_byte()
+                command = payload.decode("ascii")
+                self.commands.append(command)
+                response = self.handler(command)
+                self.connection.sendall(b"+" + probe.encode_packet(response))
+        except (EOFError, OSError, socket.timeout):
+            return
+
+    def close(self):
+        if self.connection is not None:
+            try:
+                self.connection.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            self.connection.close()
+        self.listener.close()
+        self.thread.join(timeout=1)
+
+
+class FakeProcess:
+    def __init__(self, server=None, *, pid=4242, returncode=None):
+        self.server = server
+        self.pid = pid
+        self.returncode = returncode
+        self.stdout = io.StringIO("fake stdout")
+        self.stderr = io.StringIO("fake stderr")
+
+    def poll(self):
+        return self.returncode
+
+    def terminate(self):
+        if self.server is not None:
+            self.server.close()
+        self.returncode = 0 if self.returncode is None else self.returncode
+
+    def kill(self):
+        self.terminate()
+
+    def wait(self, timeout=None):
+        return self.returncode
+
+
 class MgbaGdbProbeTests(unittest.TestCase):
     def setUp(self):
         temporary_rom = tempfile.NamedTemporaryFile(delete=False)
         temporary_rom.write(bytes(range(256)) * 4)
         temporary_rom.close()
         self.rom_path = Path(temporary_rom.name)
+        temporary_mgba = tempfile.NamedTemporaryFile(delete=False)
+        temporary_mgba.write(b"fake-mgba")
+        temporary_mgba.close()
+        self.mgba_path = Path(temporary_mgba.name)
 
     def tearDown(self):
         self.rom_path.unlink(missing_ok=True)
+        self.mgba_path.unlink(missing_ok=True)
+
+    def make_args(self, **overrides):
+        values = {
+            "mgba": self.mgba_path,
+            "rom": self.rom_path,
+            "savestate": None,
+            "breakpoint": 0x08000020,
+            "read": [(0x02000000, 4)],
+            "timeout": 0.5,
+        }
+        values.update(overrides)
+        return argparse.Namespace(**values)
+
+    def make_rsp_handler(self, *, pc=0x08000022, wrong_rom=False, register_error=False, second_read_error=False):
+        rom = self.rom_path.read_bytes()
+        read_count = 0
+
+        def handler(command):
+            nonlocal read_count
+            if command == "?":
+                return "S05"
+            if command.startswith("Z0,"):
+                return "OK"
+            if command == "c":
+                return "S05"
+            if command == "g":
+                if register_error:
+                    return "E01"
+                registers = list(range(17))
+                registers[15] = pc
+                return b"".join(value.to_bytes(4, "little") for value in registers).hex()
+            if command.startswith("m"):
+                address_text, size_text = command[1:].split(",", 1)
+                address = int(address_text, 16)
+                size = int(size_text, 16)
+                if 0x08000000 <= address < 0x08000000 + len(rom):
+                    data = rom[address - 0x08000000 : address - 0x08000000 + size]
+                    if wrong_rom:
+                        data = bytes([data[0] ^ 0xFF]) + data[1:]
+                    return data.hex()
+                read_count += 1
+                if second_read_error and read_count == 2:
+                    return "E06"
+                return (bytes([read_count]) * size).hex()
+            raise AssertionError(f"unexpected RSP command: {command}")
+
+        return handler
+
+    def run_fake_rsp(self, handler, *, args=None, process_pid=4242, owner_pids=None):
+        holder = {}
+
+        def launch(*unused_args, **unused_kwargs):
+            server = FakeRspServer(handler)
+            process = FakeProcess(server, pid=process_pid)
+            holder["server"] = server
+            holder["process"] = process
+            return process
+
+        with (
+            patch.object(probe.subprocess, "Popen", side_effect=launch),
+            patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
+            patch.object(
+                probe,
+                "listener_owner_pids",
+                return_value={process_pid} if owner_pids is None else owner_pids,
+                create=True,
+            ),
+        ):
+            result = probe.run_probe(args or self.make_args())
+        return result, holder
 
     def test_build_command_uses_gdb_and_loads_state_before_rom(self):
         self.assertEqual(
@@ -127,6 +281,28 @@ class MgbaGdbProbeTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "E06"):
             client.read_memory(0x02000000, 600)
 
+    def test_memory_read_rejects_short_long_and_malformed_subchunks(self):
+        for payload in ("00", bytes(257).hex(), "xyz"):
+            with self.subTest(payload=payload[:8]):
+                client = probe.GdbRemoteClient.__new__(probe.GdbRemoteClient)
+                client.command = Mock(return_value=payload)
+                with self.assertRaisesRegex(RuntimeError, "memory|hex|chunk"):
+                    client.read_memory(0x02000000, 256)
+
+    def test_memory_read_rejects_nonpositive_and_overflowing_ranges(self):
+        client = probe.GdbRemoteClient.__new__(probe.GdbRemoteClient)
+        client.command = Mock()
+        for address, size in (
+            (0x02000000, 0),
+            (0x02000000, -1),
+            (-1, 1),
+            (0xFFFFFFFF, 2),
+        ):
+            with self.subTest(address=address, size=size):
+                with self.assertRaisesRegex(ValueError, "range|size|address"):
+                    client.read_memory(address, size)
+        client.command.assert_not_called()
+
     def test_stop_reply_parses_signal_trap_and_exit(self):
         signal = probe.parse_stop_reply("S05")
         trap = probe.parse_stop_reply("T05thread:1;20:34120708;")
@@ -159,24 +335,114 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 probe.ensure_port_available("127.0.0.1", port)
 
     def test_run_probe_checks_port_before_launcher(self):
-        with socket.socket() as listener:
-            listener.bind(("127.0.0.1", 0))
-            listener.listen()
-            args = argparse.Namespace(
-                mgba=Path("mGBA.exe"),
-                rom=self.rom_path,
-                savestate=None,
-                breakpoint=0x08000020,
-                read=[],
-                port=listener.getsockname()[1],
-                timeout=0.1,
-            )
-            with patch.object(probe.subprocess, "Popen") as launcher:
-                result = probe.run_probe(args)
+        args = self.make_args(read=[])
+        with (
+            patch.object(
+                probe,
+                "ensure_port_available",
+                side_effect=RuntimeError("GDB port 127.0.0.1:2345 is already in use"),
+            ) as precheck,
+            patch.object(probe.subprocess, "Popen") as launcher,
+            patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
+        ):
+            result = probe.run_probe(args)
 
         launcher.assert_not_called()
+        precheck.assert_called_once_with("127.0.0.1", 2345)
         self.assertEqual(result["outcome"], "error")
         self.assertIn("already in use", result["error"])
+
+    def test_parser_rejects_configurable_port(self):
+        parser = probe.build_parser()
+        with redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                parser.parse_args(
+                    [
+                        "--mgba", "mGBA.exe",
+                        "--rom", "probe.gba",
+                        "--output", "result.json",
+                        "--breakpoint", "0x08000000",
+                        "--port", "3456",
+                    ]
+                )
+
+    def test_full_fake_rsp_wiring_verifies_owned_session_and_all_gates(self):
+        result, holder = self.run_fake_rsp(self.make_rsp_handler())
+
+        self.assertEqual(result["outcome"], "verified")
+        self.assertEqual(result["listenerOwnerPid"], 4242)
+        self.assertEqual(result["rawStop"], "S05")
+        self.assertEqual(result["actualPc"], 0x08000022)
+        self.assertEqual(result["readRegions"][0]["hex"], "01010101")
+        commands = holder["server"].commands
+        self.assertIn("m8000000,20", commands)
+        self.assertIn("m8000020,20", commands)
+        self.assertIn("c", commands)
+        self.assertIn("g", commands)
+        self.assertIn("m2000000,4", commands)
+
+    def test_external_same_rom_endpoint_is_not_owned(self):
+        result, _ = self.run_fake_rsp(
+            self.make_rsp_handler(), process_pid=4242, owner_pids={9999}
+        )
+
+        self.assertEqual(result["outcome"], "error")
+        self.assertIn("owner", result["error"].lower())
+
+    def test_owned_child_bind_failure_is_not_verified(self):
+        dead = FakeProcess(returncode=1)
+        with (
+            patch.object(probe.subprocess, "Popen", return_value=dead),
+            patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
+        ):
+            result = probe.run_probe(self.make_args(timeout=0.05))
+
+        self.assertEqual(result["outcome"], "error")
+        self.assertIn("exited", result["error"])
+
+    def test_full_wiring_rejects_wrong_rom_and_wrong_stop_pc(self):
+        wrong_rom, _ = self.run_fake_rsp(self.make_rsp_handler(wrong_rom=True))
+        self.assertEqual(wrong_rom["outcome"], "error")
+        self.assertIn("ROM fingerprint", wrong_rom["error"])
+
+        wrong_pc, _ = self.run_fake_rsp(self.make_rsp_handler(pc=0x08000080))
+        self.assertEqual(wrong_pc["outcome"], "error")
+        self.assertIn("expected PC", wrong_pc["error"])
+
+    def test_failure_evidence_keeps_raw_stop_and_each_completed_read(self):
+        register_failure, _ = self.run_fake_rsp(
+            self.make_rsp_handler(register_error=True), args=self.make_args(read=[])
+        )
+        self.assertEqual(register_failure["outcome"], "error")
+        self.assertEqual(register_failure["rawStop"], "S05")
+
+        second_read_failure, _ = self.run_fake_rsp(
+            self.make_rsp_handler(second_read_error=True),
+            args=self.make_args(read=[(0x02000000, 4), (0x02000010, 4)]),
+        )
+        self.assertEqual(second_read_failure["outcome"], "error")
+        self.assertEqual(len(second_read_failure["readRegions"]), 1)
+        self.assertEqual(second_read_failure["readRegions"][0]["address"], 0x02000000)
+
+    def test_file_hashes_are_kept_when_port_precheck_fails(self):
+        args = self.make_args()
+        with (
+            patch.object(probe, "ensure_port_available", side_effect=RuntimeError("occupied")),
+            patch.object(probe.subprocess, "Popen") as launcher,
+            patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
+        ):
+            result = probe.run_probe(args)
+
+        launcher.assert_not_called()
+        self.assertEqual(result["emulator"]["sha256"], probe.sha256_file(self.mgba_path))
+        self.assertEqual(result["rom"]["sha256"], probe.sha256_file(self.rom_path))
+
+    def test_broken_progress_pipe_does_not_replace_probe_result(self):
+        with patch.object(probe, "emit_progress", side_effect=BrokenPipeError("closed")):
+            result, _ = self.run_fake_rsp(self.make_rsp_handler())
+
+        self.assertEqual(result["outcome"], "verified")
+        self.assertTrue(result["progressErrors"])
 
     def test_cleanup_never_sends_remote_kill(self):
         client = Mock()

@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
 import hashlib
 import json
 import os
 import socket
 import subprocess
+import struct
 import threading
 import time
 from dataclasses import dataclass
@@ -20,6 +22,8 @@ MGBA_GDB_MAX_MEMORY_READ = 256
 ROM_BASE = 0x08000000
 ROM_FINGERPRINT_WINDOW = 32
 CHILD_OUTPUT_TAIL_LIMIT = 16 * 1024
+GDB_HOST = "127.0.0.1"
+MGBA_GDB_PORT = 2345
 
 
 @dataclass(frozen=True)
@@ -84,7 +88,10 @@ def decode_registers(payload: str) -> dict[str, int]:
 def parse_memory(payload: str) -> bytes:
     if payload.startswith("E"):
         raise RuntimeError(f"GDB memory read failed: {payload}")
-    return bytes.fromhex(payload)
+    try:
+        return bytes.fromhex(payload)
+    except ValueError as error:
+        raise RuntimeError(f"malformed GDB memory hex payload: {payload}") from error
 
 
 def parse_stop_reply(payload: str) -> StopReply:
@@ -154,6 +161,53 @@ def ensure_port_available(host: str, port: int) -> None:
         raise RuntimeError(f"GDB port {host}:{port} is already in use") from error
 
 
+def listener_owner_pids(host: str, port: int) -> set[int]:
+    """Return Windows PIDs owning the requested IPv4 listening endpoint."""
+    if os.name != "nt":
+        raise RuntimeError("GDB listener ownership can only be proven on Windows")
+
+    af_inet = 2
+    tcp_table_owner_pid_listener = 3
+    insufficient_buffer = 122
+    size = ctypes.c_ulong(0)
+    api = ctypes.windll.iphlpapi.GetExtendedTcpTable
+    result = api(
+        None,
+        ctypes.byref(size),
+        False,
+        af_inet,
+        tcp_table_owner_pid_listener,
+        0,
+    )
+    if result != insufficient_buffer:
+        raise RuntimeError(f"TCP owner query sizing failed with Windows error {result}")
+    buffer = ctypes.create_string_buffer(size.value)
+    result = api(
+        buffer,
+        ctypes.byref(size),
+        False,
+        af_inet,
+        tcp_table_owner_pid_listener,
+        0,
+    )
+    if result != 0:
+        raise RuntimeError(f"TCP owner query failed with Windows error {result}")
+
+    data = buffer.raw[: size.value]
+    count = struct.unpack_from("<I", data, 0)[0]
+    row = struct.Struct("<6I")
+    owners: set[int] = set()
+    for index in range(count):
+        _, local_address, local_port, _, _, owner_pid = row.unpack_from(
+            data, 4 + index * row.size
+        )
+        address = socket.inet_ntoa(struct.pack("<I", local_address))
+        decoded_port = socket.ntohs(local_port & 0xFFFF)
+        if decoded_port == port and address in {host, "0.0.0.0"}:
+            owners.add(owner_pid)
+    return owners
+
+
 class GdbRemoteClient:
     def __init__(self, sock: socket.socket):
         self.sock = sock
@@ -218,15 +272,71 @@ class GdbRemoteClient:
         return decode_registers(self.command("g"))
 
     def read_memory(self, address: int, size: int) -> bytes:
+        if type(address) is not int or address < 0 or address > 0xFFFFFFFF:
+            raise ValueError("GDB memory address is outside the 32-bit range")
+        if type(size) is not int or size <= 0:
+            raise ValueError("GDB memory read size must be positive")
+        if address + size > 0x100000000:
+            raise ValueError("GDB memory range exceeds the 32-bit address space")
         chunks = []
         for offset in range(0, size, MGBA_GDB_MAX_MEMORY_READ):
             chunk_size = min(MGBA_GDB_MAX_MEMORY_READ, size - offset)
-            chunks.append(parse_memory(self.command(f"m{address + offset:x},{chunk_size:x}")))
+            chunk = parse_memory(self.command(f"m{address + offset:x},{chunk_size:x}"))
+            if len(chunk) != chunk_size:
+                raise RuntimeError(
+                    f"GDB memory chunk length mismatch at 0x{address + offset:08X}: "
+                    f"received {len(chunk)}, expected {chunk_size}"
+                )
+            chunks.append(chunk)
         return b"".join(chunks)
 
 
+def connect_owned_endpoint(
+    host: str,
+    port: int,
+    timeout: float,
+    process: subprocess.Popen[str],
+) -> tuple[GdbRemoteClient, set[int]]:
+    deadline = time.monotonic() + timeout
+    last_error: OSError | None = None
+    while time.monotonic() < deadline:
+        returncode = process.poll()
+        if returncode is not None:
+            raise RuntimeError(
+                f"owned mGBA exited with code {returncode} before binding GDB port {port}"
+            )
+        try:
+            sock = socket.create_connection((host, port), timeout=min(0.2, timeout))
+            sock.settimeout(timeout)
+        except OSError as error:
+            last_error = error
+            time.sleep(0.05)
+            continue
+
+        try:
+            if process.poll() is not None:
+                raise RuntimeError("owned mGBA exited while GDB endpoint was connecting")
+            owners = listener_owner_pids(host, port)
+            if process.pid not in owners:
+                owner_text = ",".join(str(pid) for pid in sorted(owners)) or "none"
+                raise RuntimeError(
+                    f"GDB listener owner mismatch: expected PID {process.pid}, found {owner_text}"
+                )
+            if process.poll() is not None:
+                raise RuntimeError("owned mGBA exited before GDB ownership was proven")
+            return GdbRemoteClient(sock), owners
+        except BaseException:
+            sock.close()
+            raise
+    raise TimeoutError(f"mGBA GDB endpoint did not open on {host}:{port}") from last_error
+
+
 def verify_rom_fingerprint(
-    client: GdbRemoteClient, rom: Path, stop_point: int | None = None
+    client: GdbRemoteClient,
+    rom: Path,
+    stop_point: int | None = None,
+    *,
+    evidence_windows: list[dict[str, object]] | None = None,
 ) -> list[dict[str, object]]:
     rom_bytes = rom.read_bytes()
     offsets = [0]
@@ -248,14 +358,15 @@ def verify_rom_fingerprint(
                 f"ROM fingerprint mismatch at 0x{address:08X}: "
                 f"expected {expected.hex()}, received {actual.hex()}"
             )
-        windows.append(
-            {
-                "address": address,
-                "addressHex": f"0x{address:08X}",
-                "size": size,
-                "sha256": hashlib.sha256(expected).hexdigest(),
-            }
-        )
+        window = {
+            "address": address,
+            "addressHex": f"0x{address:08X}",
+            "size": size,
+            "sha256": hashlib.sha256(expected).hexdigest(),
+        }
+        windows.append(window)
+        if evidence_windows is not None:
+            evidence_windows.append(window)
     return windows
 
 
@@ -285,8 +396,14 @@ def close_owned_session(
 
 
 def parse_region(value: str) -> tuple[int, int]:
-    address_text, size_text = value.split(":", 1)
-    return int(address_text, 0), int(size_text, 0)
+    try:
+        address_text, size_text = value.split(":", 1)
+        address, size = int(address_text, 0), int(size_text, 0)
+    except (ValueError, TypeError) as error:
+        raise argparse.ArgumentTypeError("read region must be ADDRESS:SIZE") from error
+    if address < 0 or address > 0xFFFFFFFF or size <= 0 or address + size > 0x100000000:
+        raise argparse.ArgumentTypeError("read region must be a positive in-range 32-bit span")
+    return address, size
 
 
 def emit_progress(event: str, **details: object) -> None:
@@ -343,7 +460,9 @@ def initial_evidence(args: argparse.Namespace) -> dict[str, object]:
             else None
         ),
         "command": command,
-        "port": args.port,
+        "port": MGBA_GDB_PORT,
+        "listenerOwnerPid": None,
+        "listenerOwnerPids": [],
         "rawStop": None,
         "expectedPc": args.breakpoint,
         "expectedPcHex": f"0x{args.breakpoint:08X}",
@@ -355,6 +474,7 @@ def initial_evidence(args: argparse.Namespace) -> dict[str, object]:
         "stdoutTail": "",
         "stderrTail": "",
         "childReturncode": None,
+        "progressErrors": [],
     }
 
 
@@ -381,13 +501,19 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
     drain_threads: list[threading.Thread] = []
     primary_error: BaseException | None = None
 
+    def progress(event: str, **details: object) -> None:
+        try:
+            emit_progress(event, **details)
+        except BaseException as error:
+            evidence["progressErrors"].append(f"{type(error).__name__}: {error}")
+
     try:
-        ensure_port_available("127.0.0.1", args.port)
         emulator = file_evidence(args.mgba)
         emulator["version"] = read_mgba_version(args.mgba)
         evidence["emulator"] = emulator
         evidence["rom"] = file_evidence(args.rom)
         evidence["savestate"] = file_evidence(args.savestate) if args.savestate else None
+        ensure_port_available(GDB_HOST, MGBA_GDB_PORT)
 
         env = os.environ.copy()
         if "sdl" in args.mgba.name.lower():
@@ -407,37 +533,46 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
             drain_threads.append(start_pipe_drain(process.stdout, stdout_tail))
         if process.stderr is not None:
             drain_threads.append(start_pipe_drain(process.stderr, stderr_tail))
-        emit_progress("mgba-launched", pid=process.pid)
+        progress("mgba-launched", pid=process.pid)
 
-        client = GdbRemoteClient.connect("127.0.0.1", args.port, args.timeout)
-        emit_progress("gdb-connected", port=args.port)
-        evidence["romFingerprint"] = verify_rom_fingerprint(client, args.rom, args.breakpoint)
-        emit_progress("rom-fingerprint-verified", windows=len(evidence["romFingerprint"]))
+        client, owner_pids = connect_owned_endpoint(
+            GDB_HOST, MGBA_GDB_PORT, args.timeout, process
+        )
+        evidence["listenerOwnerPid"] = process.pid
+        evidence["listenerOwnerPids"] = sorted(owner_pids)
+        progress("gdb-connected", port=MGBA_GDB_PORT, ownerPid=process.pid)
+        verify_rom_fingerprint(
+            client,
+            args.rom,
+            args.breakpoint,
+            evidence_windows=evidence["romFingerprint"],
+        )
+        progress("rom-fingerprint-verified", windows=len(evidence["romFingerprint"]))
 
         client.command("?")
         response = client.command(f"Z0,{args.breakpoint:x},2")
         if response != "OK":
             raise RuntimeError(f"mGBA rejected breakpoint: {response}")
-        emit_progress("stop-point-set", kind="breakpoint", address=f"0x{args.breakpoint:08X}")
+        progress("stop-point-set", kind="breakpoint", address=f"0x{args.breakpoint:08X}")
 
-        stop = parse_stop_reply(client.command("c"))
+        raw_stop = client.command("c")
+        evidence["rawStop"] = raw_stop
+        stop = parse_stop_reply(raw_stop)
         registers = client.registers()
         actual_pc = registers["pc"] & ~1
         evidence.update(
             {
-                "rawStop": stop.raw,
                 "actualPc": actual_pc,
                 "actualPcHex": f"0x{actual_pc:08X}",
                 "registers": registers,
             }
         )
         validate_breakpoint_stop(stop, registers, args.breakpoint)
-        emit_progress("stop-point-verified", response=stop.raw, actualPc=f"0x{actual_pc:08X}")
+        progress("stop-point-verified", response=stop.raw, actualPc=f"0x{actual_pc:08X}")
 
-        regions = []
         for address, size in args.read:
             data = client.read_memory(address, size)
-            regions.append(
+            evidence["readRegions"].append(
                 {
                     "address": address,
                     "addressHex": f"0x{address:08X}",
@@ -445,7 +580,6 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
                     "hex": data.hex(),
                 }
             )
-        evidence["readRegions"] = regions
     except BaseException as error:
         primary_error = error
     finally:
@@ -459,7 +593,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
             for thread in drain_threads:
                 thread.join(timeout=1)
             evidence["childReturncode"] = process.returncode
-            emit_progress("mgba-exited", returncode=process.returncode)
+            progress("mgba-exited", returncode=process.returncode)
         evidence["stdoutTail"] = stdout_tail.value()
         evidence["stderrTail"] = stderr_tail.value()
 
@@ -476,7 +610,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--breakpoint", required=True, type=lambda value: int(value, 0))
     parser.add_argument("--read", action="append", type=parse_region, default=[])
-    parser.add_argument("--port", type=int, default=2345)
     parser.add_argument("--timeout", type=float, default=15.0)
     return parser
 
@@ -494,15 +627,21 @@ def main(argv: list[str] | None = None) -> int:
 
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     if result["outcome"] == "verified":
-        emit_progress("result-written", output=str(args.output), outcome="verified")
+        try:
+            emit_progress("result-written", output=str(args.output), outcome="verified")
+        except (BrokenPipeError, OSError):
+            pass
         return 0
-    emit_progress(
-        "probe-failed",
-        output=str(args.output),
-        outcome=result["outcome"],
-        errorType=result["errorType"],
-        error=result["error"],
-    )
+    try:
+        emit_progress(
+            "probe-failed",
+            output=str(args.output),
+            outcome=result["outcome"],
+            errorType=result["errorType"],
+            error=result["error"],
+        )
+    except (BrokenPipeError, OSError):
+        pass
     return 1
 
 

@@ -35,13 +35,16 @@ def execute_stub(
     *,
     registers: dict[str, int] | None = None,
     memory: dict[int, int] | None = None,
+    memory_bytes: dict[int, int] | None = None,
 ) -> MachineState:
     """Execute exactly the instructions emitted by ``build_observer_stub``."""
     register_values = {f"r{index}": 0 for index in range(13)}
     register_values.update({"sp": 0x03007F00, "lr": 0x08000005})
     if registers:
         register_values.update(registers)
-    state = MachineState(register_values, {})
+    if memory is not None and memory_bytes is not None:
+        raise ValueError("provide memory or memory_bytes, not both")
+    state = MachineState(register_values, dict(memory_bytes or {}))
     for address, value in (memory or {}).items():
         for index in range(4):
             state.memory[address + index] = (value >> (index * 8)) & 0xFF
