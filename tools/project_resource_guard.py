@@ -657,11 +657,9 @@ def _run_while_locked(
             bufsize=1,
         )
     except _OwnedProcessProtectionError as error:
-        print(
+        _best_effort_stderr(
             f"resource guard ownership setup failed for child PID "
-            f"{error.child_pid}: {error}",
-            file=sys.stderr,
-            flush=True,
+            f"{error.child_pid}: {error}"
         )
         return GuardResult(
             "protection-failure",
@@ -1003,11 +1001,16 @@ def _confirm_stopped(process, timeout: float, stage: str) -> bool:
 
 def _report_stop_failure(stage: str, outcome: _BoundedCallResult) -> None:
     error = outcome.error or RuntimeError("bounded process action did not complete")
-    print(
-        f"resource guard stop step {stage} failed: {type(error).__name__}: {error}",
-        file=sys.stderr,
-        flush=True,
+    _best_effort_stderr(
+        f"resource guard stop step {stage} failed: {type(error).__name__}: {error}"
     )
+
+
+def _best_effort_stderr(message: str) -> None:
+    try:
+        print(message, file=sys.stderr, flush=True)
+    except Exception:
+        pass
 
 
 def _utc_timestamp() -> str:

@@ -496,6 +496,67 @@ class ProjectResourceGuardTests(unittest.TestCase):
             self.assertLess(events.index("stream-close"), events.index("summary"))
             self.assertLess(events.index("summary"), events.index("protection-close"))
 
+    def test_closed_stderr_cannot_interrupt_owned_tree_cleanup(self):
+        class OwnedFakeProcess(FakeProcess):
+            protection_backend = "fake-owned-tree"
+
+            def __init__(self):
+                super().__init__(polls_before_exit=100)
+                self.protection_closed = False
+
+            def poll(self):
+                if self.killed:
+                    return 125
+                raise OSError("injected poll failure")
+
+            def close_protection(self):
+                self.protection_closed = True
+
+        process = OwnedFakeProcess()
+        closed_stderr = io.StringIO()
+        closed_stderr.close()
+        with tempfile.TemporaryDirectory() as tmp:
+            summary_path = Path(tmp) / "summary.json"
+            with (
+                mock.patch.object(guard_module, "_monitor_started_process", side_effect=RuntimeError("monitor failed")),
+                mock.patch.object(guard_module.sys, "stderr", closed_stderr),
+            ):
+                result = run_guarded(
+                    ["fake-command"],
+                    cwd=tmp,
+                    summary_path=summary_path,
+                    launcher=RecordingLauncher(process),
+                    memory_reader=lambda: 4096,
+                    tree_rss_reader=lambda pid: 1.0,
+                )
+            summary = json.loads(summary_path.read_text())
+            self.assertTrue(process.killed)
+            self.assertTrue(process.protection_closed)
+            self.assertEqual(result.child_pid, process.pid)
+            self.assertEqual(summary["child_pid"], process.pid)
+
+    def test_closed_stderr_preserves_owned_setup_failure_pid_and_result(self):
+        error = guard_module._OwnedProcessProtectionError(
+            "injected assignment failure", 4343, "windows-job-object"
+        )
+        closed_stderr = io.StringIO()
+        closed_stderr.close()
+        with tempfile.TemporaryDirectory() as tmp:
+            summary_path = Path(tmp) / "summary.json"
+            with mock.patch.object(guard_module.sys, "stderr", closed_stderr):
+                result = run_guarded(
+                    ["fake-command"],
+                    cwd=tmp,
+                    summary_path=summary_path,
+                    launcher=RecordingLauncher(error=error),
+                    memory_reader=lambda: 4096,
+                    tree_rss_reader=lambda pid: 1.0,
+                    protection_backend="windows-job-object",
+                )
+            summary = json.loads(summary_path.read_text())
+            self.assertEqual((result.reason, result.child_pid), ("protection-failure", 4343))
+            self.assertEqual(summary["child_pid"], 4343)
+
     def test_base_exception_writes_summary_and_closes_protection_before_reraise(self):
         class OwnedFakeProcess(FakeProcess):
             protection_backend = "fake-owned-tree"
