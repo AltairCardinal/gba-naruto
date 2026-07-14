@@ -1,0 +1,387 @@
+import ctypes
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+from pathlib import Path
+from unittest import mock
+
+from tools import project_resource_guard as guard
+
+
+ROOT = Path(__file__).resolve().parents[1]
+CLI = ROOT / "tools" / "run_guarded.py"
+SLEEP_COMMAND = [sys.executable, "-c", "import time; time.sleep(30)"]
+
+
+def _stop_exact_process(process: subprocess.Popen) -> None:
+    if process.poll() is None:
+        process.terminate()
+        try:
+            process.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=3)
+    try:
+        process.communicate(timeout=1)
+    except (subprocess.TimeoutExpired, ValueError):
+        pass
+    for stream in (process.stdout, process.stderr, process.stdin):
+        if stream is not None:
+            stream.close()
+
+
+def _pid_is_alive(pid: int) -> bool:
+    if os.name == "nt":
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.OpenProcess.argtypes = [ctypes.c_uint32, ctypes.c_int, ctypes.c_uint32]
+        kernel32.OpenProcess.restype = ctypes.c_void_p
+        kernel32.GetExitCodeProcess.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32)]
+        kernel32.GetExitCodeProcess.restype = ctypes.c_int
+        kernel32.CloseHandle.argtypes = [ctypes.c_void_p]
+        handle = kernel32.OpenProcess(0x1000, False, pid)
+        if not handle:
+            return False
+        try:
+            exit_code = ctypes.c_uint32()
+            if not kernel32.GetExitCodeProcess(handle, ctypes.byref(exit_code)):
+                return False
+            return exit_code.value == 259
+        finally:
+            kernel32.CloseHandle(handle)
+
+    stat_path = Path("/proc") / str(pid) / "stat"
+    try:
+        state = stat_path.read_text(encoding="ascii").rsplit(")", 1)[1].split()[0]
+    except (FileNotFoundError, ProcessLookupError):
+        return False
+    return state != "Z"
+
+
+def _wait_pid_gone(pid: int, timeout: float = 3.0) -> bool:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if not _pid_is_alive(pid):
+            return True
+        time.sleep(0.02)
+    return not _pid_is_alive(pid)
+
+
+class RunGuardedCliTests(unittest.TestCase):
+    def _run_cli(self, args, *, timeout=8):
+        return subprocess.run(
+            [sys.executable, str(CLI), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            timeout=timeout,
+            check=False,
+        )
+
+    def test_timeout_removes_child_and_grandchild_and_writes_full_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pid_file = root / "tree.json"
+            summary_path = root / "summary.json"
+            helper = (
+                "import json, os, subprocess, sys, time; "
+                "from pathlib import Path; "
+                "grandchild=subprocess.Popen([sys.executable, '-c', "
+                "'import time; time.sleep(30)']); "
+                f"Path({str(pid_file)!r}).write_text(json.dumps([os.getpid(), grandchild.pid])); "
+                "time.sleep(30)"
+            )
+
+            completed = self._run_cli(
+                [
+                    "--summary",
+                    str(summary_path),
+                    "--lock-file",
+                    str(root / "heavy.lock"),
+                    "--min-available-mib",
+                    "0",
+                    "--max-tree-rss-mib",
+                    "256",
+                    "--wall-timeout-s",
+                    "0.8",
+                    "--idle-timeout-s",
+                    "5",
+                    "--sample-interval-s",
+                    "0.05",
+                    "--grace-period-s",
+                    "0.2",
+                    "--",
+                    sys.executable,
+                    "-c",
+                    helper,
+                ]
+            )
+
+            self.assertEqual(completed.returncode, 124, completed.stderr)
+            pids = json.loads(pid_file.read_text(encoding="utf-8"))
+            self.assertEqual(len(pids), 2)
+            self.assertTrue(all(_wait_pid_gone(pid) for pid in pids), pids)
+
+            stdout_lines = completed.stdout.splitlines()
+            self.assertEqual(len(stdout_lines), 1, completed.stdout)
+            printed = json.loads(stdout_lines[0])
+            written = json.loads(summary_path.read_text(encoding="utf-8"))
+            self.assertEqual(printed, written)
+            required = {
+                "child_pid",
+                "peak_tree_rss_mib",
+                "protection_backend",
+                "command",
+                "cwd",
+                "started_at",
+                "finished_at",
+                "reason",
+                "exit_code",
+            }
+            self.assertTrue(required.issubset(written), written.keys())
+            self.assertEqual(written["child_pid"], pids[0])
+            self.assertEqual(written["reason"], "wall-timeout")
+            self.assertEqual(
+                written["protection_backend"],
+                "windows-job-object" if os.name == "nt" else "posix-process-group",
+            )
+
+    def test_unrelated_same_name_python_sentinel_survives_tree_cleanup(self):
+        sentinel = subprocess.Popen(SLEEP_COMMAND)
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                completed = self._run_cli(
+                    [
+                        "--summary",
+                        str(root / "summary.json"),
+                        "--lock-file",
+                        str(root / "heavy.lock"),
+                        "--min-available-mib",
+                        "0",
+                        "--wall-timeout-s",
+                        "0.3",
+                        "--idle-timeout-s",
+                        "5",
+                        "--sample-interval-s",
+                        "0.05",
+                        "--grace-period-s",
+                        "0.1",
+                        "--",
+                        *SLEEP_COMMAND,
+                    ]
+                )
+                self.assertEqual(completed.returncode, 124, completed.stderr)
+                self.assertIsNone(sentinel.poll(), "unrelated sentinel was terminated")
+        finally:
+            _stop_exact_process(sentinel)
+
+
+class RunGuardedCliAndPosixTests(unittest.TestCase):
+    _run_cli = RunGuardedCliTests._run_cli
+
+    def test_posix_launcher_uses_new_session_and_exact_process_group(self):
+        recorded = {}
+
+        class StubProcess:
+            pid = 4321
+            stdout = None
+            stderr = None
+
+        def launcher(command, **kwargs):
+            recorded["command"] = command
+            recorded.update(kwargs)
+            return StubProcess()
+
+        owned = guard._launch_posix_owned_process(
+            ["python", "helper.py"],
+            cwd=ROOT,
+            launcher=launcher,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        self.assertTrue(recorded["start_new_session"])
+        self.assertEqual(recorded["cwd"], ROOT)
+        self.assertEqual(recorded["command"], ["python", "helper.py"])
+
+        with (
+            mock.patch.object(guard.os, "killpg", create=True) as killpg,
+            mock.patch.object(guard.signal, "SIGKILL", 9, create=True),
+        ):
+            owned.terminate()
+            owned.kill()
+            owned.close_protection()
+        self.assertEqual(
+            killpg.call_args_list,
+            [
+                mock.call(4321, guard.signal.SIGTERM),
+                mock.call(4321, 9),
+                mock.call(4321, 9),
+            ],
+        )
+
+    def test_posix_rss_sums_only_rooted_descendants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            proc_root = Path(tmp)
+
+            def write_process(pid, parent, resident_pages):
+                directory = proc_root / str(pid)
+                directory.mkdir()
+                (directory / "stat").write_text(
+                    f"{pid} (fixture) S {parent} 0 0 0\n", encoding="ascii"
+                )
+                (directory / "statm").write_text(
+                    f"100 {resident_pages} 0 0 0 0 0\n", encoding="ascii"
+                )
+
+            write_process(100, 1, 2)
+            write_process(101, 100, 3)
+            write_process(102, 101, 4)
+            write_process(999, 1, 50)
+
+            rss = guard._posix_descendant_rss_mib(
+                100,
+                proc_root=proc_root,
+                page_size=1024 * 1024,
+            )
+        self.assertEqual(rss, 9.0)
+
+    def test_missing_or_empty_command_is_rejected_by_argparse(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            summary = str(Path(tmp) / "summary.json")
+            for args in (["--summary", summary], ["--summary", summary, "--"]):
+                with self.subTest(args=args):
+                    completed = self._run_cli(args)
+                    self.assertNotEqual(completed.returncode, 0)
+                    self.assertIn("usage:", completed.stderr.lower())
+
+    def test_shared_lock_returns_75_without_launching_second_child(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_file = root / "heavy.lock"
+            first_marker = root / "first.txt"
+            second_marker = root / "second.txt"
+            first_helper = (
+                "import time; from pathlib import Path; "
+                f"Path({str(first_marker)!r}).write_text('started'); time.sleep(30)"
+            )
+            first = subprocess.Popen(
+                [
+                    sys.executable,
+                    str(CLI),
+                    "--summary",
+                    str(root / "first-summary.json"),
+                    "--lock-file",
+                    str(lock_file),
+                    "--min-available-mib",
+                    "0",
+                    "--wall-timeout-s",
+                    "30",
+                    "--idle-timeout-s",
+                    "30",
+                    "--sample-interval-s",
+                    "0.05",
+                    "--",
+                    sys.executable,
+                    "-c",
+                    first_helper,
+                ],
+                cwd=ROOT,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            try:
+                deadline = time.monotonic() + 4
+                while time.monotonic() < deadline and not first_marker.exists():
+                    if first.poll() is not None:
+                        self.fail(first.communicate(timeout=1)[1])
+                    time.sleep(0.02)
+                self.assertTrue(first_marker.exists(), "first guarded child did not start")
+
+                second_helper = (
+                    "from pathlib import Path; "
+                    f"Path({str(second_marker)!r}).write_text('launched')"
+                )
+                completed = self._run_cli(
+                    [
+                        "--summary",
+                        str(root / "second-summary.json"),
+                        "--lock-file",
+                        str(lock_file),
+                        "--min-available-mib",
+                        "0",
+                        "--",
+                        sys.executable,
+                        "-c",
+                        second_helper,
+                    ]
+                )
+                self.assertEqual(completed.returncode, 75, completed.stderr)
+                self.assertFalse(second_marker.exists(), "second child was launched")
+                summary = json.loads((root / "second-summary.json").read_text(encoding="utf-8"))
+                self.assertEqual(summary["reason"], "lock-busy")
+                self.assertIsNone(summary["child_pid"])
+            finally:
+                _stop_exact_process(first)
+
+    def test_static_source_contains_no_broad_process_cleanup(self):
+        source = "\n".join(
+            path.read_text(encoding="utf-8").lower()
+            for path in (ROOT / "tools" / "project_resource_guard.py", CLI)
+            if path.exists()
+        )
+        forbidden = (
+            "pkill",
+            "killall",
+            "taskkill /im",
+            "win32_process",
+            "get-ciminstance",
+            "process_iter(",
+            "tasklist",
+        )
+        for pattern in forbidden:
+            with self.subTest(pattern=pattern):
+                self.assertNotIn(pattern, source)
+
+    @unittest.skipUnless(os.name == "nt", "Windows Job Object failure path")
+    def test_assignment_failure_cleans_only_created_child_and_keeps_sentinel(self):
+        sentinel = subprocess.Popen(SLEEP_COMMAND)
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                summary_path = root / "summary.json"
+                self.assertTrue(hasattr(guard, "_windows_assign_process"))
+                with mock.patch.object(
+                    guard,
+                    "_windows_assign_process",
+                    side_effect=OSError("injected assignment failure"),
+                ):
+                    result = guard.run_guarded(
+                        SLEEP_COMMAND,
+                        cwd=root,
+                        summary_path=summary_path,
+                        lock_path=root / "heavy.lock",
+                        config=guard.GuardConfig(
+                            min_available_mib=0,
+                            wall_timeout_s=5,
+                            idle_timeout_s=5,
+                            sample_interval_s=0.05,
+                            grace_period_s=0.1,
+                        ),
+                    )
+                self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+                self.assertIsNotNone(result.child_pid)
+                self.assertTrue(_wait_pid_gone(result.child_pid))
+                self.assertIsNone(sentinel.poll(), "unrelated sentinel was terminated")
+                summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                self.assertEqual(summary["reason"], "protection-failure")
+        finally:
+            _stop_exact_process(sentinel)
+
+
+if __name__ == "__main__":
+    unittest.main()

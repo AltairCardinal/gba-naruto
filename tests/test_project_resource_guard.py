@@ -408,12 +408,54 @@ class ProjectResourceGuardTests(unittest.TestCase):
             self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
             self.assertEqual(json.loads(summary_path.read_text())["reason"], "protection-failure")
 
+    def test_owned_protection_is_closed_when_monitor_raises(self):
+        class OwnedFakeProcess(FakeProcess):
+            protection_backend = "fake-owned-tree"
+
+            def __init__(self):
+                super().__init__(polls_before_exit=100)
+                self.protection_closed = False
+
+            def tree_rss_mib(self, pid):
+                return 1.0
+
+            def close_protection(self):
+                self.protection_closed = True
+
+        process = OwnedFakeProcess()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary_path = root / "summary.json"
+            with (
+                mock.patch(
+                    "tools.project_resource_guard._launch_owned_process",
+                    return_value=process,
+                ),
+                mock.patch(
+                    "tools.project_resource_guard._monitor_started_process",
+                    side_effect=RuntimeError("monitor crashed"),
+                ),
+            ):
+                result = run_guarded(
+                    ["fake-command"],
+                    cwd=root,
+                    summary_path=summary_path,
+                    memory_reader=lambda: 4096,
+                )
+
+            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            self.assertTrue(process.protection_closed)
+            self.assertEqual(json.loads(summary_path.read_text())["reason"], "protection-failure")
+
     def test_every_summary_contains_all_result_fields_and_no_temp_file(self):
         result, summary, remaining = self._run(
             launcher=RecordingLauncher(FakeProcess()),
             include_remaining=True,
         )
-        self.assertEqual(set(summary), set(GuardResult.__dataclass_fields__))
+        self.assertTrue(set(GuardResult.__dataclass_fields__).issubset(summary))
+        self.assertTrue(
+            {"command", "cwd", "started_at", "finished_at"}.issubset(summary)
+        )
         self.assertEqual(summary["reason"], result.reason)
         self.assertEqual(remaining, ["summary.json", "task.lock"])
 

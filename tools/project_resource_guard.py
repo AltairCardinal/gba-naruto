@@ -7,12 +7,14 @@ import errno
 import json
 import os
 import queue
+import signal
 import subprocess
 import sys
 import threading
 import time
 import uuid
 from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
 
@@ -144,6 +146,363 @@ def available_physical_memory_mib() -> MemorySnapshot:
     raise RuntimeError(f"physical memory reader is unsupported on {sys.platform}")
 
 
+class _OwnedProcessProtectionError(RuntimeError):
+    def __init__(self, message: str, child_pid: int | None, protection_backend: str):
+        super().__init__(message)
+        self.child_pid = child_pid
+        self.protection_backend = protection_backend
+
+
+def _platform_backend_name() -> str:
+    return "windows-job-object" if os.name == "nt" else "posix-process-group"
+
+
+def _launch_owned_process(command, **kwargs):
+    if os.name == "nt":
+        return _launch_windows_owned_process(command, **kwargs)
+    return _launch_posix_owned_process(command, **kwargs)
+
+
+class _PosixOwnedProcess:
+    protection_backend = "posix-process-group"
+
+    def __init__(self, process):
+        self._process = process
+        self.pid = process.pid
+        self.stdout = process.stdout
+        self.stderr = process.stderr
+
+    def poll(self):
+        root_exit = self._process.poll()
+        if root_exit is None:
+            return None
+        try:
+            os.killpg(self.pid, 0)
+        except ProcessLookupError:
+            return root_exit
+        except PermissionError:
+            return None
+        return None
+
+    def wait(self, timeout=None):
+        started = time.monotonic()
+        root_exit = self._process.wait(timeout=timeout)
+        while True:
+            try:
+                os.killpg(self.pid, 0)
+            except ProcessLookupError:
+                return root_exit
+            if timeout is not None and time.monotonic() - started >= timeout:
+                raise subprocess.TimeoutExpired(self._process.args, timeout)
+            time.sleep(0.01)
+
+    def terminate(self):
+        try:
+            os.killpg(self.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+
+    def kill(self):
+        try:
+            os.killpg(self.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+
+    def tree_rss_mib(self, _root_pid: int) -> float:
+        return _posix_descendant_rss_mib(self.pid)
+
+    def close_protection(self) -> None:
+        self.kill()
+
+
+def _launch_posix_owned_process(
+    command,
+    *,
+    cwd,
+    launcher=subprocess.Popen,
+    **popen_kwargs,
+):
+    process = launcher(
+        list(command),
+        cwd=cwd,
+        start_new_session=True,
+        **popen_kwargs,
+    )
+    return _PosixOwnedProcess(process)
+
+
+def _posix_descendant_rss_mib(
+    root_pid: int,
+    *,
+    proc_root: Path = Path("/proc"),
+    page_size: int | None = None,
+) -> float:
+    parents: dict[int, int] = {}
+    for entry in proc_root.iterdir():
+        if not entry.name.isdigit():
+            continue
+        try:
+            stat = (entry / "stat").read_text(encoding="ascii")
+            fields = stat[stat.rfind(")") + 1 :].split()
+            parents[int(entry.name)] = int(fields[1])
+        except (FileNotFoundError, PermissionError, ProcessLookupError, ValueError, IndexError):
+            continue
+
+    descendants = {root_pid}
+    changed = True
+    while changed:
+        changed = False
+        for pid, parent_pid in parents.items():
+            if parent_pid in descendants and pid not in descendants:
+                descendants.add(pid)
+                changed = True
+
+    resident_pages = 0
+    for pid in descendants:
+        try:
+            fields = (proc_root / str(pid) / "statm").read_text(encoding="ascii").split()
+            resident_pages += int(fields[1])
+        except (FileNotFoundError, PermissionError, ProcessLookupError, ValueError, IndexError):
+            continue
+    effective_page_size = page_size if page_size is not None else os.sysconf("SC_PAGE_SIZE")
+    return resident_pages * effective_page_size / (1024 * 1024)
+
+
+class _WinIoCounters(ctypes.Structure):
+    _fields_ = [
+        ("ReadOperationCount", ctypes.c_ulonglong),
+        ("WriteOperationCount", ctypes.c_ulonglong),
+        ("OtherOperationCount", ctypes.c_ulonglong),
+        ("ReadTransferCount", ctypes.c_ulonglong),
+        ("WriteTransferCount", ctypes.c_ulonglong),
+        ("OtherTransferCount", ctypes.c_ulonglong),
+    ]
+
+
+class _WinBasicLimitInformation(ctypes.Structure):
+    _fields_ = [
+        ("PerProcessUserTimeLimit", ctypes.c_longlong),
+        ("PerJobUserTimeLimit", ctypes.c_longlong),
+        ("LimitFlags", ctypes.c_uint32),
+        ("MinimumWorkingSetSize", ctypes.c_size_t),
+        ("MaximumWorkingSetSize", ctypes.c_size_t),
+        ("ActiveProcessLimit", ctypes.c_uint32),
+        ("Affinity", ctypes.c_size_t),
+        ("PriorityClass", ctypes.c_uint32),
+        ("SchedulingClass", ctypes.c_uint32),
+    ]
+
+
+class _WinExtendedLimitInformation(ctypes.Structure):
+    _fields_ = [
+        ("BasicLimitInformation", _WinBasicLimitInformation),
+        ("IoInfo", _WinIoCounters),
+        ("ProcessMemoryLimit", ctypes.c_size_t),
+        ("JobMemoryLimit", ctypes.c_size_t),
+        ("PeakProcessMemoryUsed", ctypes.c_size_t),
+        ("PeakJobMemoryUsed", ctypes.c_size_t),
+    ]
+
+
+class _WinBasicAccountingInformation(ctypes.Structure):
+    _fields_ = [
+        ("TotalUserTime", ctypes.c_longlong),
+        ("TotalKernelTime", ctypes.c_longlong),
+        ("ThisPeriodTotalUserTime", ctypes.c_longlong),
+        ("ThisPeriodTotalKernelTime", ctypes.c_longlong),
+        ("TotalPageFaultCount", ctypes.c_uint32),
+        ("TotalProcesses", ctypes.c_uint32),
+        ("ActiveProcesses", ctypes.c_uint32),
+        ("TotalTerminatedProcesses", ctypes.c_uint32),
+    ]
+
+
+def _windows_api(name, argtypes, restype):
+    function = getattr(ctypes.WinDLL("kernel32", use_last_error=True), name)
+    function.argtypes = argtypes
+    function.restype = restype
+    return function
+
+
+def _windows_create_job() -> int:
+    create_job = _windows_api(
+        "CreateJobObjectW",
+        [ctypes.c_void_p, ctypes.c_wchar_p],
+        ctypes.c_void_p,
+    )
+    job = create_job(None, None)
+    if not job:
+        raise ctypes.WinError(ctypes.get_last_error())
+    information = _WinExtendedLimitInformation()
+    information.BasicLimitInformation.LimitFlags = 0x00002000
+    set_information = _windows_api(
+        "SetInformationJobObject",
+        [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32],
+        ctypes.c_int,
+    )
+    if not set_information(job, 9, ctypes.byref(information), ctypes.sizeof(information)):
+        error = ctypes.WinError(ctypes.get_last_error())
+        _windows_close_handle(job)
+        raise error
+    return job
+
+
+def _windows_assign_process(job: int, process_handle: int) -> None:
+    assign = _windows_api(
+        "AssignProcessToJobObject",
+        [ctypes.c_void_p, ctypes.c_void_p],
+        ctypes.c_int,
+    )
+    if not assign(job, process_handle):
+        raise ctypes.WinError(ctypes.get_last_error())
+
+
+def _windows_resume_process(process_handle: int) -> None:
+    ntdll = ctypes.WinDLL("ntdll", use_last_error=True)
+    resume = ntdll.NtResumeProcess
+    resume.argtypes = [ctypes.c_void_p]
+    resume.restype = ctypes.c_long
+    status = resume(process_handle)
+    if status != 0:
+        raise OSError(status, "NtResumeProcess failed")
+
+
+def _windows_terminate_job(job: int, exit_code: int = 1) -> None:
+    terminate = _windows_api(
+        "TerminateJobObject",
+        [ctypes.c_void_p, ctypes.c_uint32],
+        ctypes.c_int,
+    )
+    if not terminate(job, exit_code):
+        raise ctypes.WinError(ctypes.get_last_error())
+
+
+def _windows_close_handle(handle: int) -> None:
+    close = _windows_api("CloseHandle", [ctypes.c_void_p], ctypes.c_int)
+    if not close(handle):
+        raise ctypes.WinError(ctypes.get_last_error())
+
+
+def _windows_query_job(job: int, information_class: int, structure):
+    query = _windows_api(
+        "QueryInformationJobObject",
+        [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32, ctypes.c_void_p],
+        ctypes.c_int,
+    )
+    if not query(job, information_class, ctypes.byref(structure), ctypes.sizeof(structure), None):
+        raise ctypes.WinError(ctypes.get_last_error())
+    return structure
+
+
+class _WindowsJobOwnedProcess:
+    protection_backend = "windows-job-object"
+
+    def __init__(self, process, job: int):
+        self._process = process
+        self._job = job
+        self.pid = process.pid
+        self.stdout = process.stdout
+        self.stderr = process.stderr
+
+    def poll(self):
+        root_exit = self._process.poll()
+        accounting = _windows_query_job(self._job, 1, _WinBasicAccountingInformation())
+        if accounting.ActiveProcesses:
+            return None
+        if root_exit is None:
+            try:
+                root_exit = self._process.wait(timeout=0)
+            except subprocess.TimeoutExpired:
+                return None
+        return root_exit
+
+    def wait(self, timeout=None):
+        started = time.monotonic()
+        while True:
+            accounting = _windows_query_job(self._job, 1, _WinBasicAccountingInformation())
+            if not accounting.ActiveProcesses:
+                remaining = None
+                if timeout is not None:
+                    remaining = max(0.0, timeout - (time.monotonic() - started))
+                return self._process.wait(timeout=remaining)
+            if timeout is not None and time.monotonic() - started >= timeout:
+                raise subprocess.TimeoutExpired(self._process.args, timeout)
+            time.sleep(0.01)
+
+    def terminate(self):
+        _windows_terminate_job(self._job)
+
+    def kill(self):
+        _windows_terminate_job(self._job)
+
+    def tree_rss_mib(self, _root_pid: int) -> float:
+        information = _windows_query_job(self._job, 9, _WinExtendedLimitInformation())
+        return information.PeakJobMemoryUsed / (1024 * 1024)
+
+    def close_protection(self) -> None:
+        if self._job is None:
+            return
+        job = self._job
+        self._job = None
+        _windows_close_handle(job)
+
+
+def _cleanup_windows_launch_failure(process, job: int, assigned: bool) -> None:
+    try:
+        if assigned:
+            _windows_terminate_job(job, 125)
+        else:
+            process.kill()
+        process.wait(timeout=1)
+    except (OSError, subprocess.TimeoutExpired):
+        try:
+            process.kill()
+            process.wait(timeout=1)
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    finally:
+        _close_process_streams(process)
+
+
+def _launch_windows_owned_process(
+    command,
+    *,
+    cwd,
+    launcher=subprocess.Popen,
+    **popen_kwargs,
+):
+    backend = "windows-job-object"
+    try:
+        job = _windows_create_job()
+    except Exception as error:
+        raise _OwnedProcessProtectionError(str(error), None, backend) from error
+
+    creationflags = popen_kwargs.pop("creationflags", 0) | getattr(
+        subprocess, "CREATE_SUSPENDED", 0x00000004
+    )
+    try:
+        process = launcher(
+            list(command),
+            cwd=cwd,
+            creationflags=creationflags,
+            **popen_kwargs,
+        )
+    except Exception:
+        _windows_close_handle(job)
+        raise
+
+    assigned = False
+    try:
+        _windows_assign_process(job, int(process._handle))
+        assigned = True
+        _windows_resume_process(int(process._handle))
+    except Exception as error:
+        _cleanup_windows_launch_failure(process, job, assigned)
+        _windows_close_handle(job)
+        raise _OwnedProcessProtectionError(str(error), process.pid, backend) from error
+    return _WindowsJobOwnedProcess(process, job)
+
+
 def run_guarded(
     command: Sequence[str],
     *,
@@ -151,17 +510,21 @@ def run_guarded(
     summary_path: str | Path,
     config: GuardConfig = GuardConfig(),
     lock_path: str | Path | None = None,
-    launcher: Callable[..., object] = subprocess.Popen,
+    launcher: Callable[..., object] | None = None,
     memory_reader: Callable[[], MemorySnapshot | float] = available_physical_memory_mib,
     tree_rss_reader: Callable[[int], float] | None = None,
     clock: Callable[[], float] = time.monotonic,
     sleeper: Callable[[float], None] = time.sleep,
-    protection_backend: str = "process-tree-rss",
+    protection_backend: str | None = None,
 ) -> GuardResult:
     """Run one owned child under lock, admission, and resource monitoring."""
 
     summary_path = Path(summary_path)
     cwd_path = Path.cwd() if cwd is None else Path(cwd)
+    owned_tree = launcher is None
+    effective_launcher = _launch_owned_process if owned_tree else launcher
+    effective_backend = protection_backend or _platform_backend_name()
+    started_at = _utc_timestamp()
     effective_lock_path = (
         Path(lock_path)
         if lock_path is not None
@@ -173,18 +536,25 @@ def run_guarded(
                 command,
                 cwd=cwd_path,
                 config=config,
-                launcher=launcher,
+                launcher=effective_launcher,
                 memory_reader=memory_reader,
                 tree_rss_reader=tree_rss_reader,
                 clock=clock,
                 sleeper=sleeper,
-                protection_backend=protection_backend,
+                protection_backend=effective_backend,
+                owned_tree=owned_tree,
             )
     except _HeavyResourceLockBusy:
-        result = GuardResult("lock-busy", 75, None, 0.0, protection_backend, False)
+        result = GuardResult("lock-busy", 75, None, 0.0, effective_backend, False)
     except Exception:
-        result = GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
-    _write_summary_atomic(summary_path, result)
+        result = GuardResult("protection-failure", 125, None, 0.0, effective_backend, False)
+    metadata = {
+        "command": list(command),
+        "cwd": str(cwd_path.resolve()),
+        "started_at": started_at,
+        "finished_at": _utc_timestamp(),
+    }
+    _write_summary_atomic(summary_path, result, metadata)
     return result
 
 
@@ -199,6 +569,7 @@ def _run_while_locked(
     clock: Callable[[], float],
     sleeper: Callable[[float], None],
     protection_backend: str,
+    owned_tree: bool,
 ) -> GuardResult:
     degraded = False
     try:
@@ -217,7 +588,7 @@ def _run_while_locked(
     if memory is not None and memory.available_physical_mib < config.min_available_mib:
         return GuardResult("admission-rejected", 75, None, 0.0, protection_backend, degraded)
 
-    if tree_rss_reader is None:
+    if tree_rss_reader is None and not owned_tree:
         if not config.allow_degraded:
             return GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
         degraded = True
@@ -231,10 +602,78 @@ def _run_while_locked(
             text=True,
             bufsize=1,
         )
+    except _OwnedProcessProtectionError as error:
+        return GuardResult(
+            "protection-failure",
+            125,
+            error.child_pid,
+            0.0,
+            error.protection_backend,
+            False,
+        )
     except Exception:
         return GuardResult("launch-error", 125, None, 0.0, protection_backend, degraded)
 
     child_pid = process.pid
+    if owned_tree:
+        protection_backend = process.protection_backend
+        tree_rss_reader = process.tree_rss_mib
+    result = None
+    monitor_error = None
+    try:
+        result = _monitor_started_process(
+            process,
+            child_pid=child_pid,
+            config=config,
+            tree_rss_reader=tree_rss_reader,
+            clock=clock,
+            sleeper=sleeper,
+            protection_backend=protection_backend,
+            degraded=degraded,
+        )
+    except BaseException as error:
+        monitor_error = error
+    _close_process_streams(process)
+    close_protection = getattr(process, "close_protection", None)
+    if close_protection is not None:
+        closed = _bounded_call(close_protection, max(0.0, config.grace_period_s))
+        if not closed.completed or closed.error is not None:
+            _report_stop_failure("close-protection", closed)
+            return GuardResult(
+                "protection-failure",
+                125,
+                child_pid,
+                result.peak_tree_rss_mib if result is not None else 0.0,
+                protection_backend,
+                result.degraded if result is not None else degraded,
+            )
+    if monitor_error is not None:
+        raise monitor_error
+    return result
+
+
+def _close_process_streams(process) -> None:
+    for stream in (getattr(process, "stdout", None), getattr(process, "stderr", None)):
+        close = getattr(stream, "close", None)
+        if close is None:
+            continue
+        try:
+            close()
+        except (OSError, ValueError):
+            pass
+
+
+def _monitor_started_process(
+    process,
+    *,
+    child_pid: int,
+    config: GuardConfig,
+    tree_rss_reader: Callable[[int], float] | None,
+    clock: Callable[[], float],
+    sleeper: Callable[[float], None],
+    protection_backend: str,
+    degraded: bool,
+) -> GuardResult:
     started_at = clock()
     progress = _ProgressTracker(clock, started_at)
     drainers = _start_output_drainers(process, progress)
@@ -242,7 +681,20 @@ def _run_while_locked(
     rss_enabled = tree_rss_reader is not None
 
     while True:
-        child_exit = process.poll()
+        try:
+            child_exit = process.poll()
+        except Exception:
+            return _stop_with_result(
+                process,
+                drainers,
+                "protection-failure",
+                125,
+                child_pid,
+                peak_rss,
+                protection_backend,
+                degraded,
+                config,
+            )
         if child_exit is not None:
             _finish_output_drainers(drainers, config.grace_period_s)
             reason = "completed" if child_exit == 0 else "child-exit"
@@ -429,11 +881,18 @@ def _report_stop_failure(stage: str, outcome: _BoundedCallResult) -> None:
     )
 
 
-def _write_summary_atomic(path: Path, result: GuardResult) -> None:
+def _utc_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _write_summary_atomic(path: Path, result: GuardResult, metadata=None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+    payload = asdict(result)
+    if metadata:
+        payload.update(metadata)
     try:
-        temporary.write_text(json.dumps(asdict(result), indent=2) + "\n", encoding="utf-8")
+        temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         temporary.replace(path)
     finally:
         temporary.unlink(missing_ok=True)
