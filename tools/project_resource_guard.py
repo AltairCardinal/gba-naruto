@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ctypes
+import errno
 import json
 import os
 import queue
@@ -46,8 +47,9 @@ class GuardResult:
 class ProjectLock:
     """Cross-platform non-blocking one-byte file lock."""
 
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path, label: str = "heavy"):
         self.path = Path(path)
+        self.label = label
         self._file = None
 
     def __enter__(self) -> ProjectLock:
@@ -59,17 +61,12 @@ class ProjectLock:
             lock_file.flush()
         lock_file.seek(0)
         try:
-            if os.name == "nt":
-                import msvcrt
-
-                msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
-            else:
-                import fcntl
-
-                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except (OSError, BlockingIOError) as error:
+            _acquire_file_lock(lock_file)
+        except OSError as error:
             lock_file.close()
-            raise BlockingIOError("heavy resource lock is busy") from error
+            if _is_lock_contention(error):
+                raise _HeavyResourceLockBusy(f"{self.label} resource lock is busy") from error
+            raise
         self._file = lock_file
         return self
 
@@ -90,6 +87,27 @@ class ProjectLock:
                 fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
         finally:
             lock_file.close()
+
+
+class _HeavyResourceLockBusy(BlockingIOError):
+    """Identify only an operating-system lock contention condition."""
+
+
+def _acquire_file_lock(lock_file) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+
+def _is_lock_contention(error: OSError) -> bool:
+    if error.errno in {errno.EACCES, errno.EAGAIN}:
+        return True
+    return os.name == "nt" and getattr(error, "winerror", None) in {33, 36}
 
 
 def available_physical_memory_mib() -> MemorySnapshot:
@@ -129,12 +147,13 @@ def available_physical_memory_mib() -> MemorySnapshot:
 def run_guarded(
     command: Sequence[str],
     *,
-    lock_path: str | Path,
+    cwd: str | Path | None = None,
     summary_path: str | Path,
     config: GuardConfig = GuardConfig(),
+    lock_path: str | Path | None = None,
     launcher: Callable[..., object] = subprocess.Popen,
-    memory_reader: Callable[[], MemorySnapshot] = available_physical_memory_mib,
-    tree_rss_reader: Callable[[int], float],
+    memory_reader: Callable[[], MemorySnapshot | float] = available_physical_memory_mib,
+    tree_rss_reader: Callable[[int], float] | None = None,
     clock: Callable[[], float] = time.monotonic,
     sleeper: Callable[[float], None] = time.sleep,
     protection_backend: str = "process-tree-rss",
@@ -142,31 +161,45 @@ def run_guarded(
     """Run one owned child under lock, admission, and resource monitoring."""
 
     summary_path = Path(summary_path)
-    result: GuardResult
+    cwd_path = Path.cwd() if cwd is None else Path(cwd)
+    effective_lock_path = (
+        Path(lock_path)
+        if lock_path is not None
+        else cwd_path / "build" / "resource-guard" / "heavy.lock"
+    )
+    effective_tree_rss_reader = tree_rss_reader or _unconfigured_tree_rss_reader
     try:
-        with ProjectLock(lock_path):
+        with ProjectLock(effective_lock_path, "heavy"):
             result = _run_while_locked(
                 command,
+                cwd=cwd_path,
                 config=config,
                 launcher=launcher,
                 memory_reader=memory_reader,
-                tree_rss_reader=tree_rss_reader,
+                tree_rss_reader=effective_tree_rss_reader,
                 clock=clock,
                 sleeper=sleeper,
                 protection_backend=protection_backend,
             )
-    except BlockingIOError:
+    except _HeavyResourceLockBusy:
         result = GuardResult("lock-busy", 75, None, 0.0, protection_backend, False)
+    except Exception:
+        result = GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
     _write_summary_atomic(summary_path, result)
     return result
+
+
+def _unconfigured_tree_rss_reader(child_pid: int) -> float:
+    raise RuntimeError("process-tree RSS protection backend is not configured")
 
 
 def _run_while_locked(
     command: Sequence[str],
     *,
+    cwd: Path,
     config: GuardConfig,
     launcher: Callable[..., object],
-    memory_reader: Callable[[], MemorySnapshot],
+    memory_reader: Callable[[], MemorySnapshot | float],
     tree_rss_reader: Callable[[int], float],
     clock: Callable[[], float],
     sleeper: Callable[[float], None],
@@ -174,7 +207,12 @@ def _run_while_locked(
 ) -> GuardResult:
     degraded = False
     try:
-        memory = memory_reader()
+        memory_value = memory_reader()
+        memory = (
+            memory_value
+            if isinstance(memory_value, MemorySnapshot)
+            else MemorySnapshot(float(memory_value), "injected-memory-reader")
+        )
     except Exception:
         if not config.allow_degraded:
             return GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
@@ -187,6 +225,7 @@ def _run_while_locked(
     try:
         process = launcher(
             list(command),
+            cwd=cwd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -196,17 +235,13 @@ def _run_while_locked(
         return GuardResult("launch-error", 125, None, 0.0, protection_backend, degraded)
 
     child_pid = process.pid
-    progress = queue.SimpleQueue()
-    drainers = _start_output_drainers(process, progress)
     started_at = clock()
-    last_progress = started_at
+    progress = _ProgressTracker(clock, started_at)
+    drainers = _start_output_drainers(process, progress)
     peak_rss = 0.0
     rss_enabled = True
 
     while True:
-        if _discard_progress(progress):
-            last_progress = clock()
-
         child_exit = process.poll()
         if child_exit is not None:
             _finish_output_drainers(drainers, config.grace_period_s)
@@ -218,7 +253,7 @@ def _run_while_locked(
             return _stop_with_result(
                 process, drainers, "wall-timeout", 124, child_pid, peak_rss, protection_backend, degraded, config
             )
-        if now - last_progress >= config.idle_timeout_s:
+        if progress.is_idle(now, config.idle_timeout_s):
             return _stop_with_result(
                 process, drainers, "idle-timeout", 124, child_pid, peak_rss, protection_backend, degraded, config
             )
@@ -260,7 +295,23 @@ def _run_while_locked(
         sleeper(config.sample_interval_s)
 
 
-def _start_output_drainers(process, progress: queue.SimpleQueue) -> list[threading.Thread]:
+class _ProgressTracker:
+    def __init__(self, clock: Callable[[], float], started_at: float):
+        self._clock = clock
+        self._last_progress = started_at
+        self._lock = threading.Lock()
+
+    def record_complete_line(self) -> None:
+        observed_at = self._clock()
+        with self._lock:
+            self._last_progress = max(self._last_progress, observed_at)
+
+    def is_idle(self, now: float, timeout: float) -> bool:
+        with self._lock:
+            return now - self._last_progress >= timeout
+
+
+def _start_output_drainers(process, progress: _ProgressTracker) -> list[threading.Thread]:
     threads = []
     for stream in (getattr(process, "stdout", None), getattr(process, "stderr", None)):
         if stream is None:
@@ -271,23 +322,13 @@ def _start_output_drainers(process, progress: queue.SimpleQueue) -> list[threadi
     return threads
 
 
-def _drain_stream(stream, progress: queue.SimpleQueue) -> None:
+def _drain_stream(stream, progress: _ProgressTracker) -> None:
     try:
         for line in iter(stream.readline, ""):
             if line.endswith("\n"):
-                progress.put(None)
+                progress.record_complete_line()
     except (OSError, ValueError):
         return
-
-
-def _discard_progress(progress: queue.SimpleQueue) -> bool:
-    found = False
-    while True:
-        try:
-            progress.get_nowait()
-            found = True
-        except queue.Empty:
-            return found
 
 
 def _finish_output_drainers(threads: Iterable[threading.Thread], timeout: float) -> None:
@@ -306,20 +347,69 @@ def _stop_with_result(
     degraded: bool,
     config: GuardConfig,
 ) -> GuardResult:
-    _stop_child(process, config.grace_period_s)
+    stopped = _stop_child(process, config.grace_period_s)
     _finish_output_drainers(drainers, config.grace_period_s)
+    if not stopped:
+        return GuardResult(
+            "protection-failure",
+            125,
+            child_pid,
+            peak_rss,
+            protection_backend,
+            degraded,
+        )
     return GuardResult(reason, exit_code, child_pid, peak_rss, protection_backend, degraded)
 
 
-def _stop_child(process, grace_period_s: float) -> None:
-    try:
-        process.terminate()
-        process.wait(timeout=max(0.0, grace_period_s))
-    except subprocess.TimeoutExpired:
-        process.kill()
-        process.wait()
-    except (OSError, ProcessLookupError):
-        return
+def _stop_child(process, grace_period_s: float) -> bool:
+    timeout = max(0.0, grace_period_s)
+    terminate = _bounded_call(process.terminate, timeout)
+    if not terminate.completed or terminate.error is not None:
+        return _confirm_stopped(process, timeout)
+
+    wait_after_terminate = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
+    if wait_after_terminate.completed and wait_after_terminate.error is None:
+        return _confirm_stopped(process, timeout)
+    if not isinstance(wait_after_terminate.error, subprocess.TimeoutExpired):
+        return _confirm_stopped(process, timeout)
+
+    kill = _bounded_call(process.kill, timeout)
+    if not kill.completed or kill.error is not None:
+        return _confirm_stopped(process, timeout)
+
+    wait_after_kill = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
+    if not wait_after_kill.completed or wait_after_kill.error is not None:
+        return _confirm_stopped(process, timeout)
+    return _confirm_stopped(process, timeout)
+
+
+@dataclass(frozen=True)
+class _BoundedCallResult:
+    completed: bool
+    value: object = None
+    error: BaseException | None = None
+
+
+def _bounded_call(action: Callable[[], object], timeout: float) -> _BoundedCallResult:
+    outcomes: queue.Queue[_BoundedCallResult] = queue.Queue(maxsize=1)
+
+    def invoke() -> None:
+        try:
+            outcomes.put(_BoundedCallResult(True, value=action()))
+        except BaseException as error:
+            outcomes.put(_BoundedCallResult(True, error=error))
+
+    thread = threading.Thread(target=invoke, daemon=True)
+    thread.start()
+    thread.join(timeout=max(0.0, timeout))
+    if thread.is_alive():
+        return _BoundedCallResult(False, error=TimeoutError("bounded process action timed out"))
+    return outcomes.get_nowait()
+
+
+def _confirm_stopped(process, timeout: float) -> bool:
+    outcome = _bounded_call(process.poll, timeout)
+    return outcome.completed and outcome.error is None and outcome.value is not None
 
 
 def _write_summary_atomic(path: Path, result: GuardResult) -> None:
