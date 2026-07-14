@@ -43,6 +43,31 @@ Expected SHA-256:
 | `actionable-move-grid.ss9` | `4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac` | real actionable tutorial battle target-selection grid; base-ROM replay passes the strict battle gate |
 | `skill-list-pre-controller.ss9` | `b5e26b7bfeb765b7f50a77fe4a6513abf206159695f61a02af19cfb55ce60d1a` | Naruto submenu before the natural high-bit technique-list controller and initializer |
 
+## Scenario 41 checkpoint ledger
+
+`scenario-41-checkpoints.json` is the durable lineage and acceptance ledger for
+the scenario 41 player-control through postbattle proof. Validate it from the
+repository root with:
+
+```bash
+python tools/runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/scenario-41-checkpoints.json
+```
+
+The initial ledger accepts the tracked `tutorial-ui-save.sav` as its immutable
+cold-load root. `build/natural-s41-menu-index2.ss9` remains a candidate for the
+scenario 41 “start mission” row: its measured SHA-256 is retained, but the file
+is not copied into `artifacts/` until a later zero-input stability and UI-
+identity check accepts it. `build/natural-s41-start-prompt.ss9` is explicitly
+rejected because inspection showed the team/equipment page rather than the
+scenario 41 start-confirm prompt.
+
+Every record carries its ROM hash, parent, input suffix, observed screen,
+zero-input status, pre-hook boundary and permitted evidence scope. Candidate
+and rejected `build/` paths may be absent in another checkout; accepted state
+and ROM paths must exist and match their hashes. This boundary prevents a
+later checkpoint from being used to claim player control, MOVEDONE, victory or
+postbattle events that occurred before capture.
+
 Compact JSON evidence also includes `chapter-semantic-codec-evidence.json`, which records
 the codec-authored primary scenario 39 script `1A 28 02 | 00` being selected at
 `0x0809E800`, dispatched exactly twice, and changing chapter/battle state from 39 to 40.
