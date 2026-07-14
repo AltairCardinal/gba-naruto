@@ -602,7 +602,7 @@ def run_guarded(
         write_summary(result)
     except BaseException as error:
         result = GuardResult("protection-failure", 125, None, 0.0, effective_backend, False)
-        if not summary_state["written"]:
+        if not summary_state["written"] or summary_state["result"] != result:
             write_summary(result)
         if not isinstance(error, Exception):
             fatal_error = error
@@ -657,6 +657,12 @@ def _run_while_locked(
             bufsize=1,
         )
     except _OwnedProcessProtectionError as error:
+        print(
+            f"resource guard ownership setup failed for child PID "
+            f"{error.child_pid}: {error}",
+            file=sys.stderr,
+            flush=True,
+        )
         return GuardResult(
             "protection-failure",
             125,
@@ -691,12 +697,7 @@ def _run_while_locked(
             "protection-failure", 125, child_pid, 0.0, protection_backend, degraded
         )
 
-    summary_error = None
-    try:
-        summary_writer(result)
-    except BaseException as error:
-        summary_error = error
-    shutdown_ok = _shutdown_owned_protection(
+    shutdown_ok = _ensure_owned_tree_stopped(
         process, max(0.0, config.grace_period_s)
     )
     streams_closed = _bounded_call(
@@ -706,6 +707,24 @@ def _run_while_locked(
         _report_stop_failure("close-streams", streams_closed)
         shutdown_ok = False
     if not shutdown_ok:
+        result = GuardResult(
+            "protection-failure",
+            125,
+            child_pid,
+            result.peak_tree_rss_mib,
+            protection_backend,
+            result.degraded,
+        )
+
+    summary_error = None
+    try:
+        summary_writer(result)
+    except BaseException as error:
+        summary_error = error
+    protection_closed = _close_owned_protection_handle(
+        process, max(0.0, config.grace_period_s)
+    )
+    if not protection_closed:
         result = GuardResult(
             "protection-failure",
             125,
@@ -727,7 +746,7 @@ def _run_while_locked(
     return result
 
 
-def _shutdown_owned_protection(process, timeout: float) -> bool:
+def _ensure_owned_tree_stopped(process, timeout: float) -> bool:
     confirmed_stopped = False
     initial_poll = _bounded_call(process.poll, timeout)
     if initial_poll.completed and initial_poll.error is None:
@@ -748,14 +767,18 @@ def _shutdown_owned_protection(process, timeout: float) -> bool:
         else:
             confirmed_stopped = final_poll.value is not None
 
+    return confirmed_stopped
+
+
+def _close_owned_protection_handle(process, timeout: float) -> bool:
     close_protection = getattr(process, "close_protection", None)
     if close_protection is None:
-        return confirmed_stopped
+        return True
     closed = _bounded_call(close_protection, timeout)
     if not closed.completed or closed.error is not None:
         _report_stop_failure("close-protection", closed)
         return False
-    return confirmed_stopped
+    return True
 
 
 def _close_process_streams(process) -> None:

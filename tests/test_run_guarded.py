@@ -1,4 +1,6 @@
 import ctypes
+import contextlib
+import io
 import json
 import os
 import subprocess
@@ -504,10 +506,14 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                 root = Path(tmp)
                 summary_path = root / "summary.json"
                 self.assertTrue(hasattr(guard, "_windows_assign_process"))
-                with mock.patch.object(
-                    guard,
-                    "_windows_assign_process",
-                    side_effect=OSError("injected assignment failure"),
+                diagnostics = io.StringIO()
+                with (
+                    contextlib.redirect_stderr(diagnostics),
+                    mock.patch.object(
+                        guard,
+                        "_windows_assign_process",
+                        side_effect=OSError("injected assignment failure"),
+                    ),
                 ):
                     result = guard.run_guarded(
                         SLEEP_COMMAND,
@@ -528,6 +534,8 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                 self.assertIsNone(sentinel.poll(), "unrelated sentinel was terminated")
                 summary = json.loads(summary_path.read_text(encoding="utf-8"))
                 self.assertEqual(summary["reason"], "protection-failure")
+                self.assertIn(str(result.child_pid), diagnostics.getvalue())
+                self.assertIn("injected assignment failure", diagnostics.getvalue())
         finally:
             _stop_exact_process(sentinel)
 

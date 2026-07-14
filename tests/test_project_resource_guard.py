@@ -409,6 +409,30 @@ class ProjectResourceGuardTests(unittest.TestCase):
             self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
             self.assertEqual(json.loads(summary_path.read_text())["reason"], "protection-failure")
 
+    def test_lock_release_failure_rewrites_summary_to_match_returned_result(self):
+        original_exit = ProjectLock.__exit__
+
+        def fail_after_release(lock, exc_type, exc_value, traceback):
+            original_exit(lock, exc_type, exc_value, traceback)
+            raise OSError("injected unlock failure")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary_path = root / "summary.json"
+            with mock.patch.object(ProjectLock, "__exit__", fail_after_release):
+                result = run_guarded(
+                    ["fake-command"],
+                    cwd=root,
+                    summary_path=summary_path,
+                    launcher=RecordingLauncher(FakeProcess()),
+                    memory_reader=lambda: 4096,
+                    tree_rss_reader=lambda pid: 1.0,
+                )
+            summary = json.loads(summary_path.read_text())
+            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            self.assertEqual(summary["reason"], result.reason)
+            self.assertEqual(summary["exit_code"], result.exit_code)
+
     def test_owned_protection_is_closed_when_monitor_raises(self):
         class OwnedFakeProcess(FakeProcess):
             protection_backend = "fake-owned-tree"
@@ -426,6 +450,10 @@ class ProjectResourceGuardTests(unittest.TestCase):
             def close_protection(self):
                 self.events.append("protection-close")
                 self.protection_closed = True
+
+            def kill(self):
+                self.events.append("tree-kill")
+                super().kill()
 
         events = []
         process = OwnedFakeProcess(events)
@@ -464,8 +492,9 @@ class ProjectResourceGuardTests(unittest.TestCase):
             summary = json.loads(summary_path.read_text())
             self.assertEqual(summary["reason"], "protection-failure")
             self.assertEqual(summary["child_pid"], process.pid)
+            self.assertLess(events.index("tree-kill"), events.index("stream-close"))
+            self.assertLess(events.index("stream-close"), events.index("summary"))
             self.assertLess(events.index("summary"), events.index("protection-close"))
-            self.assertLess(events.index("protection-close"), events.index("stream-close"))
 
     def test_base_exception_writes_summary_and_closes_protection_before_reraise(self):
         class OwnedFakeProcess(FakeProcess):
