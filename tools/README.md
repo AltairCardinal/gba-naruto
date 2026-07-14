@@ -246,6 +246,36 @@ run. Never add `pkill`, `killall`, `taskkill /IM`, `Stop-Process` by name, or an
 process-name cleanup. Missing isolation or monitoring fails closed unless an explicitly
 audited degraded run is requested and recorded.
 
+## `mgba_gdb_probe.py`
+
+Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
+`--read address:size` 区域；在启动 mGBA 前确认 GDB 端口未被占用，连接后将
+`0x08000000` 与断点处的确定性 ROM 窗口和输入 ROM 比对，避免把其他 GDB
+端点误认成本次会话。只有收到 trap 信号 5，且停止 PC 等于 Thumb 断点地址
+或该地址加 2 时，输出才会标记为 `verified`。
+
+```powershell
+python tools/run_guarded.py `
+  --summary build/resource-guard/mgba-strict-smoke.json `
+  -- python tools/mgba_gdb_probe.py `
+  --mgba C:\path\to\mGBA.exe `
+  --rom rom/base.gba `
+  --savestate artifacts/runtime-checkpoints/actionable-move-grid.ss9 `
+  --breakpoint 0x080732B4 `
+  --read 0x02026804:8 `
+  --output build/mgba-strict-smoke.json
+```
+
+结果 JSON 记录模拟器、ROM、可选 savestate 的路径和 SHA-256，模拟器版本、
+实际命令与端口、原始停止包、预期/实际 PC、寄存器、ROM 指纹窗口、读取区域，
+以及最多 16 KiB 的 stdout/stderr 尾部。超时为 `not-proven`，不会冒充动态命中；
+其他失败为 `error`，两者都保留可操作上下文。
+
+边界：该工具不注入按键、不枚举窗口、不发送 `PostMessage`、不提供 KEYINPUT
+写监视点，也不会向 GDB 远端发送 `k`。探针只终止自己创建的 mGBA `Popen`
+子进程；完整进程树的所有权与超时清理由外层 `run_guarded.py` 的 Windows Job
+Object 承担。不得直接运行原生烟雾，也不得按进程名做宽泛清理。
+
 ## `mgba_trace_function_entries.lua`
 
 Experimental script-side execution breakpoint tracer for selected dialogue functions.
