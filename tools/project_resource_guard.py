@@ -167,7 +167,6 @@ def run_guarded(
         if lock_path is not None
         else cwd_path / "build" / "resource-guard" / "heavy.lock"
     )
-    effective_tree_rss_reader = tree_rss_reader or _unconfigured_tree_rss_reader
     try:
         with ProjectLock(effective_lock_path, "heavy"):
             result = _run_while_locked(
@@ -176,7 +175,7 @@ def run_guarded(
                 config=config,
                 launcher=launcher,
                 memory_reader=memory_reader,
-                tree_rss_reader=effective_tree_rss_reader,
+                tree_rss_reader=tree_rss_reader,
                 clock=clock,
                 sleeper=sleeper,
                 protection_backend=protection_backend,
@@ -189,10 +188,6 @@ def run_guarded(
     return result
 
 
-def _unconfigured_tree_rss_reader(child_pid: int) -> float:
-    raise RuntimeError("process-tree RSS protection backend is not configured")
-
-
 def _run_while_locked(
     command: Sequence[str],
     *,
@@ -200,7 +195,7 @@ def _run_while_locked(
     config: GuardConfig,
     launcher: Callable[..., object],
     memory_reader: Callable[[], MemorySnapshot | float],
-    tree_rss_reader: Callable[[int], float],
+    tree_rss_reader: Callable[[int], float] | None,
     clock: Callable[[], float],
     sleeper: Callable[[float], None],
     protection_backend: str,
@@ -222,6 +217,11 @@ def _run_while_locked(
     if memory is not None and memory.available_physical_mib < config.min_available_mib:
         return GuardResult("admission-rejected", 75, None, 0.0, protection_backend, degraded)
 
+    if tree_rss_reader is None:
+        if not config.allow_degraded:
+            return GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
+        degraded = True
+
     try:
         process = launcher(
             list(command),
@@ -239,7 +239,7 @@ def _run_while_locked(
     progress = _ProgressTracker(clock, started_at)
     drainers = _start_output_drainers(process, progress)
     peak_rss = 0.0
-    rss_enabled = True
+    rss_enabled = tree_rss_reader is not None
 
     while True:
         child_exit = process.poll()
@@ -365,22 +365,27 @@ def _stop_child(process, grace_period_s: float) -> bool:
     timeout = max(0.0, grace_period_s)
     terminate = _bounded_call(process.terminate, timeout)
     if not terminate.completed or terminate.error is not None:
-        return _confirm_stopped(process, timeout)
-
-    wait_after_terminate = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
-    if wait_after_terminate.completed and wait_after_terminate.error is None:
-        return _confirm_stopped(process, timeout)
-    if not isinstance(wait_after_terminate.error, subprocess.TimeoutExpired):
-        return _confirm_stopped(process, timeout)
+        _report_stop_failure("terminate", terminate)
+        if _confirm_stopped(process, timeout, "poll-after-terminate"):
+            return True
+    else:
+        wait_after_terminate = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
+        if wait_after_terminate.completed and wait_after_terminate.error is None:
+            if _confirm_stopped(process, timeout, "poll-after-terminate-wait"):
+                return True
+        else:
+            _report_stop_failure("graceful-wait", wait_after_terminate)
+            if _confirm_stopped(process, timeout, "poll-after-terminate-wait"):
+                return True
 
     kill = _bounded_call(process.kill, timeout)
     if not kill.completed or kill.error is not None:
-        return _confirm_stopped(process, timeout)
-
-    wait_after_kill = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
-    if not wait_after_kill.completed or wait_after_kill.error is not None:
-        return _confirm_stopped(process, timeout)
-    return _confirm_stopped(process, timeout)
+        _report_stop_failure("kill", kill)
+    else:
+        wait_after_kill = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
+        if not wait_after_kill.completed or wait_after_kill.error is not None:
+            _report_stop_failure("final-wait", wait_after_kill)
+    return _confirm_stopped(process, timeout, "final-poll")
 
 
 @dataclass(frozen=True)
@@ -407,9 +412,21 @@ def _bounded_call(action: Callable[[], object], timeout: float) -> _BoundedCallR
     return outcomes.get_nowait()
 
 
-def _confirm_stopped(process, timeout: float) -> bool:
+def _confirm_stopped(process, timeout: float, stage: str) -> bool:
     outcome = _bounded_call(process.poll, timeout)
+    if not outcome.completed or outcome.error is not None:
+        _report_stop_failure(stage, outcome)
+        return False
     return outcome.completed and outcome.error is None and outcome.value is not None
+
+
+def _report_stop_failure(stage: str, outcome: _BoundedCallResult) -> None:
+    error = outcome.error or RuntimeError("bounded process action did not complete")
+    print(
+        f"resource guard stop step {stage} failed: {type(error).__name__}: {error}",
+        file=sys.stderr,
+        flush=True,
+    )
 
 
 def _write_summary_atomic(path: Path, result: GuardResult) -> None:
