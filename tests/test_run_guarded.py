@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
 from pathlib import Path
@@ -68,6 +69,32 @@ def _wait_pid_gone(pid: int, timeout: float = 3.0) -> bool:
             return True
         time.sleep(0.02)
     return not _pid_is_alive(pid)
+
+
+def _terminate_exact_pid(pid: int) -> None:
+    if not _pid_is_alive(pid):
+        return
+    if os.name == "nt":
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.OpenProcess.argtypes = [ctypes.c_uint32, ctypes.c_int, ctypes.c_uint32]
+        kernel32.OpenProcess.restype = ctypes.c_void_p
+        kernel32.TerminateProcess.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+        kernel32.TerminateProcess.restype = ctypes.c_int
+        kernel32.CloseHandle.argtypes = [ctypes.c_void_p]
+        handle = kernel32.OpenProcess(0x0001, False, pid)
+        if not handle:
+            return
+        try:
+            kernel32.TerminateProcess(handle, 125)
+        finally:
+            kernel32.CloseHandle(handle)
+        _wait_pid_gone(pid)
+        return
+    try:
+        os.kill(pid, 9)
+    except ProcessLookupError:
+        return
+    _wait_pid_gone(pid)
 
 
 class RunGuardedCliTests(unittest.TestCase):
@@ -179,6 +206,98 @@ class RunGuardedCliTests(unittest.TestCase):
         finally:
             _stop_exact_process(sentinel)
 
+    def test_root_exit_does_not_abandon_live_grandchild(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pid_file = root / "natural-root.json"
+            summary_path = root / "summary.json"
+            helper = (
+                "import json, os, subprocess, sys; "
+                "from pathlib import Path; "
+                "grandchild=subprocess.Popen([sys.executable, '-c', "
+                "'import time; time.sleep(30)']); "
+                f"Path({str(pid_file)!r}).write_text(json.dumps([os.getpid(), grandchild.pid]))"
+            )
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary_path),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--wall-timeout-s", "0.8",
+                    "--idle-timeout-s", "5",
+                    "--sample-interval-s", "0.05",
+                    "--grace-period-s", "0.2",
+                    "--", sys.executable, "-c", helper,
+                ]
+            )
+            self.assertEqual(completed.returncode, 124, completed.stderr)
+            root_pid, grandchild_pid = json.loads(pid_file.read_text())
+            self.assertTrue(_wait_pid_gone(root_pid))
+            self.assertTrue(_wait_pid_gone(grandchild_pid))
+            self.assertEqual(json.loads(summary_path.read_text())["reason"], "wall-timeout")
+
+    def test_monitor_exception_with_blocked_pipe_kills_exact_owned_tree(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pid_file = root / "exception-tree.json"
+            summary_path = root / "summary.json"
+            helper = (
+                "import json, os, subprocess, sys, time; "
+                "from pathlib import Path; "
+                "grandchild=subprocess.Popen([sys.executable, '-c', "
+                "'import time; time.sleep(30)']); "
+                f"Path({str(pid_file)!r}).write_text(json.dumps([os.getpid(), grandchild.pid])); "
+                "time.sleep(30)"
+            )
+            reader_threads = []
+
+            def crash_after_reader_blocks(process, **kwargs):
+                reader = threading.Thread(target=process.stdout.readline, daemon=True)
+                reader.start()
+                reader_threads.append(reader)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline and not pid_file.exists():
+                    time.sleep(0.01)
+                if not pid_file.exists():
+                    raise AssertionError("owned child did not publish PIDs")
+                raise RuntimeError("injected monitor crash")
+
+            pids = []
+            try:
+                started = time.monotonic()
+                with mock.patch.object(
+                    guard,
+                    "_monitor_started_process",
+                    side_effect=crash_after_reader_blocks,
+                ):
+                    result = guard.run_guarded(
+                        [sys.executable, "-c", helper],
+                        cwd=root,
+                        summary_path=summary_path,
+                        lock_path=root / "heavy.lock",
+                        config=guard.GuardConfig(
+                            min_available_mib=0,
+                            wall_timeout_s=5,
+                            idle_timeout_s=5,
+                            sample_interval_s=0.05,
+                            grace_period_s=0.5,
+                        ),
+                    )
+                self.assertLess(time.monotonic() - started, 5)
+                pids = json.loads(pid_file.read_text())
+                self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+                self.assertEqual(result.child_pid, pids[0])
+                self.assertTrue(all(_wait_pid_gone(pid) for pid in pids), pids)
+                for reader in reader_threads:
+                    reader.join(timeout=1)
+                    self.assertFalse(reader.is_alive(), "pipe reader remained blocked")
+                summary = json.loads(summary_path.read_text())
+                self.assertEqual(summary["child_pid"], pids[0])
+                self.assertEqual(summary["reason"], "protection-failure")
+            finally:
+                for pid in pids:
+                    _terminate_exact_pid(pid)
+
 
 class RunGuardedCliAndPosixTests(unittest.TestCase):
     _run_cli = RunGuardedCliTests._run_cli
@@ -258,6 +377,22 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                     self.assertNotEqual(completed.returncode, 0)
                     self.assertIn("usage:", completed.stderr.lower())
 
+    def test_command_without_literal_separator_is_rejected_without_launch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "must-not-launch.txt"
+            helper = f"from pathlib import Path; Path({str(marker)!r}).write_text('bad')"
+            completed = self._run_cli(
+                [
+                    "--summary", str(root / "summary.json"),
+                    "--min-available-mib", "0",
+                    sys.executable, "-c", helper,
+                ]
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn("usage:", completed.stderr.lower())
+            self.assertFalse(marker.exists())
+
     def test_shared_lock_returns_75_without_launching_second_child(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -265,8 +400,8 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
             first_marker = root / "first.txt"
             second_marker = root / "second.txt"
             first_helper = (
-                "import time; from pathlib import Path; "
-                f"Path({str(first_marker)!r}).write_text('started'); time.sleep(30)"
+                "import os, time; from pathlib import Path; "
+                f"Path({str(first_marker)!r}).write_text(str(os.getpid())); time.sleep(30)"
             )
             first = subprocess.Popen(
                 [
@@ -279,7 +414,7 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                     "--min-available-mib",
                     "0",
                     "--wall-timeout-s",
-                    "30",
+                    "2",
                     "--idle-timeout-s",
                     "30",
                     "--sample-interval-s",
@@ -326,7 +461,21 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                 self.assertEqual(summary["reason"], "lock-busy")
                 self.assertIsNone(summary["child_pid"])
             finally:
-                _stop_exact_process(first)
+                try:
+                    first.communicate(timeout=4)
+                except subprocess.TimeoutExpired:
+                    _stop_exact_process(first)
+                first_pid = int(first_marker.read_text()) if first_marker.exists() else None
+                if first_pid is not None:
+                    if not _wait_pid_gone(first_pid):
+                        if os.name != "nt":
+                            try:
+                                os.killpg(first_pid, 9)
+                            except ProcessLookupError:
+                                pass
+                        else:
+                            _terminate_exact_pid(first_pid)
+                    self.assertTrue(_wait_pid_gone(first_pid), first_pid)
 
     def test_static_source_contains_no_broad_process_cleanup(self):
         source = "\n".join(
@@ -381,6 +530,30 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                 self.assertEqual(summary["reason"], "protection-failure")
         finally:
             _stop_exact_process(sentinel)
+
+    def test_assignment_failure_cleanup_does_not_swallow_exact_child_failure(self):
+        class UnkillableProcess:
+            pid = 2468
+            stdout = None
+            stderr = None
+
+            def __init__(self):
+                self.kill_calls = 0
+
+            def kill(self):
+                self.kill_calls += 1
+                raise OSError("injected exact-child kill failure")
+
+            def wait(self, timeout=None):
+                raise subprocess.TimeoutExpired("fixture", timeout)
+
+            def poll(self):
+                return None
+
+        process = UnkillableProcess()
+        with self.assertRaisesRegex(RuntimeError, "2468.*cleanup"):
+            guard._cleanup_windows_launch_failure(process, 0, False)
+        self.assertGreaterEqual(process.kill_calls, 2)
 
 
 if __name__ == "__main__":

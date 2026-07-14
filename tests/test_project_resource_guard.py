@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from tools import project_resource_guard as guard_module
 from tools.project_resource_guard import (
     GuardConfig,
     GuardResult,
@@ -412,6 +413,64 @@ class ProjectResourceGuardTests(unittest.TestCase):
         class OwnedFakeProcess(FakeProcess):
             protection_backend = "fake-owned-tree"
 
+            def __init__(self, events):
+                super().__init__(polls_before_exit=100)
+                self.events = events
+                self.protection_closed = False
+                self.stdout = mock.Mock()
+                self.stdout.close.side_effect = lambda: self.events.append("stream-close")
+
+            def tree_rss_mib(self, pid):
+                return 1.0
+
+            def close_protection(self):
+                self.events.append("protection-close")
+                self.protection_closed = True
+
+        events = []
+        process = OwnedFakeProcess(events)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary_path = root / "summary.json"
+            original_write = guard_module._write_summary_atomic
+
+            def record_summary(*args, **kwargs):
+                events.append("summary")
+                return original_write(*args, **kwargs)
+
+            with (
+                mock.patch(
+                    "tools.project_resource_guard._launch_owned_process",
+                    return_value=process,
+                ),
+                mock.patch(
+                    "tools.project_resource_guard._monitor_started_process",
+                    side_effect=RuntimeError("monitor crashed"),
+                ),
+                mock.patch(
+                    "tools.project_resource_guard._write_summary_atomic",
+                    side_effect=record_summary,
+                ),
+            ):
+                result = run_guarded(
+                    ["fake-command"],
+                    cwd=root,
+                    summary_path=summary_path,
+                    memory_reader=lambda: 4096,
+                )
+
+            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            self.assertTrue(process.protection_closed)
+            summary = json.loads(summary_path.read_text())
+            self.assertEqual(summary["reason"], "protection-failure")
+            self.assertEqual(summary["child_pid"], process.pid)
+            self.assertLess(events.index("summary"), events.index("protection-close"))
+            self.assertLess(events.index("protection-close"), events.index("stream-close"))
+
+    def test_base_exception_writes_summary_and_closes_protection_before_reraise(self):
+        class OwnedFakeProcess(FakeProcess):
+            protection_backend = "fake-owned-tree"
+
             def __init__(self):
                 super().__init__(polls_before_exit=100)
                 self.protection_closed = False
@@ -433,19 +492,57 @@ class ProjectResourceGuardTests(unittest.TestCase):
                 ),
                 mock.patch(
                     "tools.project_resource_guard._monitor_started_process",
-                    side_effect=RuntimeError("monitor crashed"),
+                    side_effect=KeyboardInterrupt(),
                 ),
             ):
-                result = run_guarded(
-                    ["fake-command"],
-                    cwd=root,
-                    summary_path=summary_path,
-                    memory_reader=lambda: 4096,
-                )
+                with self.assertRaises(KeyboardInterrupt):
+                    run_guarded(
+                        ["fake-command"],
+                        cwd=root,
+                        summary_path=summary_path,
+                        memory_reader=lambda: 4096,
+                    )
 
-            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            summary = json.loads(summary_path.read_text())
+            self.assertEqual(summary["reason"], "protection-failure")
+            self.assertEqual(summary["child_pid"], process.pid)
             self.assertTrue(process.protection_closed)
-            self.assertEqual(json.loads(summary_path.read_text())["reason"], "protection-failure")
+
+    def test_summary_write_failure_still_closes_owned_protection(self):
+        class OwnedFakeProcess(FakeProcess):
+            protection_backend = "fake-owned-tree"
+
+            def __init__(self):
+                super().__init__()
+                self.protection_closed = False
+
+            def tree_rss_mib(self, pid):
+                return 1.0
+
+            def close_protection(self):
+                self.protection_closed = True
+
+        process = OwnedFakeProcess()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with (
+                mock.patch(
+                    "tools.project_resource_guard._launch_owned_process",
+                    return_value=process,
+                ),
+                mock.patch(
+                    "tools.project_resource_guard._write_summary_atomic",
+                    side_effect=OSError("injected summary failure"),
+                ),
+            ):
+                with self.assertRaisesRegex(OSError, "injected summary failure"):
+                    run_guarded(
+                        ["fake-command"],
+                        cwd=root,
+                        summary_path=root / "summary.json",
+                        memory_reader=lambda: 4096,
+                    )
+        self.assertTrue(process.protection_closed)
 
     def test_every_summary_contains_all_result_fields_and_no_temp_file(self):
         result, summary, remaining = self._run(

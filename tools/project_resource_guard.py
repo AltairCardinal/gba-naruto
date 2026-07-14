@@ -153,6 +153,13 @@ class _OwnedProcessProtectionError(RuntimeError):
         self.protection_backend = protection_backend
 
 
+class _GuardInterrupted(BaseException):
+    def __init__(self, original: BaseException, result: GuardResult):
+        super().__init__(str(original))
+        self.original = original
+        self.result = result
+
+
 def _platform_backend_name() -> str:
     return "windows-job-object" if os.name == "nt" else "posix-process-group"
 
@@ -448,20 +455,26 @@ class _WindowsJobOwnedProcess:
 
 
 def _cleanup_windows_launch_failure(process, job: int, assigned: bool) -> None:
+    errors = []
     try:
-        if assigned:
-            _windows_terminate_job(job, 125)
-        else:
-            process.kill()
-        process.wait(timeout=1)
-    except (OSError, subprocess.TimeoutExpired):
-        try:
-            process.kill()
-            process.wait(timeout=1)
-        except (OSError, subprocess.TimeoutExpired):
-            pass
+        for attempt in range(2):
+            try:
+                if assigned:
+                    _windows_terminate_job(job, 125)
+                else:
+                    process.kill()
+                process.wait(timeout=1)
+            except (OSError, subprocess.TimeoutExpired) as error:
+                errors.append(f"attempt {attempt + 1}: {type(error).__name__}: {error}")
+            try:
+                if process.poll() is not None:
+                    return
+            except OSError as error:
+                errors.append(f"poll: {type(error).__name__}: {error}")
     finally:
         _close_process_streams(process)
+    detail = "; ".join(errors) or "child remained active after exact-handle cleanup"
+    raise RuntimeError(f"exact child PID {process.pid} cleanup could not be confirmed: {detail}")
 
 
 def _launch_windows_owned_process(
@@ -497,9 +510,22 @@ def _launch_windows_owned_process(
         assigned = True
         _windows_resume_process(int(process._handle))
     except Exception as error:
-        _cleanup_windows_launch_failure(process, job, assigned)
-        _windows_close_handle(job)
-        raise _OwnedProcessProtectionError(str(error), process.pid, backend) from error
+        cleanup_error = None
+        close_error = None
+        try:
+            _cleanup_windows_launch_failure(process, job, assigned)
+        except Exception as caught:
+            cleanup_error = caught
+        try:
+            _windows_close_handle(job)
+        except Exception as caught:
+            close_error = caught
+        details = [str(error)]
+        if cleanup_error is not None:
+            details.append(str(cleanup_error))
+        if close_error is not None:
+            details.append(f"job close failed: {close_error}")
+        raise _OwnedProcessProtectionError("; ".join(details), process.pid, backend) from error
     return _WindowsJobOwnedProcess(process, job)
 
 
@@ -525,36 +551,63 @@ def run_guarded(
     effective_launcher = _launch_owned_process if owned_tree else launcher
     effective_backend = protection_backend or _platform_backend_name()
     started_at = _utc_timestamp()
+    summary_state = {"written": False, "result": None}
+
+    def write_summary(result: GuardResult) -> None:
+        metadata = {
+            "command": list(command),
+            "cwd": str(cwd_path.resolve()),
+            "started_at": started_at,
+            "finished_at": _utc_timestamp(),
+        }
+        _write_summary_atomic(summary_path, result, metadata)
+        summary_state["written"] = True
+        summary_state["result"] = result
+
     effective_lock_path = (
         Path(lock_path)
         if lock_path is not None
         else cwd_path / "build" / "resource-guard" / "heavy.lock"
     )
+    fatal_error = None
     try:
         with ProjectLock(effective_lock_path, "heavy"):
-            result = _run_while_locked(
-                command,
-                cwd=cwd_path,
-                config=config,
-                launcher=effective_launcher,
-                memory_reader=memory_reader,
-                tree_rss_reader=tree_rss_reader,
-                clock=clock,
-                sleeper=sleeper,
-                protection_backend=effective_backend,
-                owned_tree=owned_tree,
-            )
+            try:
+                result = _run_while_locked(
+                    command,
+                    cwd=cwd_path,
+                    config=config,
+                    launcher=effective_launcher,
+                    memory_reader=memory_reader,
+                    tree_rss_reader=tree_rss_reader,
+                    clock=clock,
+                    sleeper=sleeper,
+                    protection_backend=effective_backend,
+                    owned_tree=owned_tree,
+                    summary_writer=write_summary,
+                )
+            except _GuardInterrupted as interrupted:
+                result = interrupted.result
+                fatal_error = interrupted.original
+            except BaseException as error:
+                result = GuardResult(
+                    "protection-failure", 125, None, 0.0, effective_backend, False
+                )
+                if not isinstance(error, Exception):
+                    fatal_error = error
+            if not summary_state["written"] or summary_state["result"] != result:
+                write_summary(result)
     except _HeavyResourceLockBusy:
         result = GuardResult("lock-busy", 75, None, 0.0, effective_backend, False)
-    except Exception:
+        write_summary(result)
+    except BaseException as error:
         result = GuardResult("protection-failure", 125, None, 0.0, effective_backend, False)
-    metadata = {
-        "command": list(command),
-        "cwd": str(cwd_path.resolve()),
-        "started_at": started_at,
-        "finished_at": _utc_timestamp(),
-    }
-    _write_summary_atomic(summary_path, result, metadata)
+        if not summary_state["written"]:
+            write_summary(result)
+        if not isinstance(error, Exception):
+            fatal_error = error
+    if fatal_error is not None:
+        raise fatal_error
     return result
 
 
@@ -570,6 +623,7 @@ def _run_while_locked(
     sleeper: Callable[[float], None],
     protection_backend: str,
     owned_tree: bool,
+    summary_writer: Callable[[GuardResult], None],
 ) -> GuardResult:
     degraded = False
     try:
@@ -633,23 +687,75 @@ def _run_while_locked(
         )
     except BaseException as error:
         monitor_error = error
-    _close_process_streams(process)
-    close_protection = getattr(process, "close_protection", None)
-    if close_protection is not None:
-        closed = _bounded_call(close_protection, max(0.0, config.grace_period_s))
-        if not closed.completed or closed.error is not None:
-            _report_stop_failure("close-protection", closed)
-            return GuardResult(
-                "protection-failure",
-                125,
-                child_pid,
-                result.peak_tree_rss_mib if result is not None else 0.0,
-                protection_backend,
-                result.degraded if result is not None else degraded,
-            )
+        result = GuardResult(
+            "protection-failure", 125, child_pid, 0.0, protection_backend, degraded
+        )
+
+    summary_error = None
+    try:
+        summary_writer(result)
+    except BaseException as error:
+        summary_error = error
+    shutdown_ok = _shutdown_owned_protection(
+        process, max(0.0, config.grace_period_s)
+    )
+    streams_closed = _bounded_call(
+        lambda: _close_process_streams(process), max(0.0, config.grace_period_s)
+    )
+    if not streams_closed.completed or streams_closed.error is not None:
+        _report_stop_failure("close-streams", streams_closed)
+        shutdown_ok = False
+    if not shutdown_ok:
+        result = GuardResult(
+            "protection-failure",
+            125,
+            child_pid,
+            result.peak_tree_rss_mib,
+            protection_backend,
+            result.degraded,
+        )
+        if summary_error is None:
+            summary_writer(result)
+    if summary_error is not None:
+        if isinstance(summary_error, Exception):
+            raise summary_error
+        raise _GuardInterrupted(summary_error, result)
     if monitor_error is not None:
-        raise monitor_error
+        if isinstance(monitor_error, Exception):
+            return result
+        raise _GuardInterrupted(monitor_error, result)
     return result
+
+
+def _shutdown_owned_protection(process, timeout: float) -> bool:
+    confirmed_stopped = False
+    initial_poll = _bounded_call(process.poll, timeout)
+    if initial_poll.completed and initial_poll.error is None:
+        confirmed_stopped = initial_poll.value is not None
+    else:
+        _report_stop_failure("protection-poll", initial_poll)
+
+    if not confirmed_stopped:
+        killed = _bounded_call(process.kill, timeout)
+        if not killed.completed or killed.error is not None:
+            _report_stop_failure("protection-kill", killed)
+        waited = _bounded_call(lambda: process.wait(timeout=timeout), timeout)
+        if not waited.completed or waited.error is not None:
+            _report_stop_failure("protection-wait", waited)
+        final_poll = _bounded_call(process.poll, timeout)
+        if not final_poll.completed or final_poll.error is not None:
+            _report_stop_failure("protection-final-poll", final_poll)
+        else:
+            confirmed_stopped = final_poll.value is not None
+
+    close_protection = getattr(process, "close_protection", None)
+    if close_protection is None:
+        return confirmed_stopped
+    closed = _bounded_call(close_protection, timeout)
+    if not closed.completed or closed.error is not None:
+        _report_stop_failure("close-protection", closed)
+        return False
+    return confirmed_stopped
 
 
 def _close_process_streams(process) -> None:

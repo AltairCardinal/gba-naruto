@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 try:
@@ -32,16 +33,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sample-interval-s", type=float, default=defaults.sample_interval_s)
     parser.add_argument("--grace-period-s", type=float, default=defaults.grace_period_s)
     parser.add_argument("--allow-degraded", action="store_true")
-    parser.add_argument("command", nargs=argparse.REMAINDER)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
-    command = list(args.command)
-    if command and command[0] == "--":
-        command.pop(0)
+    raw_argv = list(sys.argv[1:] if argv is None else argv)
+    if "--" not in raw_argv:
+        parser.error("a literal -- separator is required before the command")
+    separator = raw_argv.index("--")
+    args = parser.parse_args(raw_argv[:separator])
+    command = raw_argv[separator + 1 :]
     if not command:
         parser.error("a command is required after --")
 
