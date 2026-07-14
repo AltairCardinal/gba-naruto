@@ -18,6 +18,24 @@ GDB 客户端 MUST 将逻辑内存读取拆为不超过 256 字节的请求，�
 - **WHEN** mGBA 对某个分块返回 `E..` 错误
 - **THEN** 整个逻辑读取 MUST 失败并在输出 JSON 中保留错误类型与消息
 
+### Requirement: GDB 会话必须属于本次探针运行
+原生 mGBA 探针 MUST 在启动前拒绝已被占用的 GDB 端口，在连接后验证请求 ROM 的运行时指纹，并且只清理本次启动的进程树。探针 MUST NOT 向身份不明的 GDB endpoint 发送远端终止命令。
+
+#### Scenario: 端口已被其他进程占用
+- **WHEN** 预定 GDB 端口在启动本次 mGBA 前已经监听
+- **THEN** 探针 SHALL 在创建子进程前失败，记录端口冲突，并且不得连接或终止现有 endpoint
+
+#### Scenario: 运行时 ROM 指纹不匹配
+- **WHEN** GDB 读取的 ROM 固定区间与请求 ROM 的对应字节不一致
+- **THEN** 探针 MUST 将会话判为不属于本次实验、关闭客户端连接并只清理自己启动的进程树
+
+### Requirement: 停止事件必须与目标边界一致
+断点或 watchpoint 运行 SHALL 严格解析 GDB stop packet，并验证停止类型、寄存器 PC 以及适用时的访问地址与请求目标一致；任意其他暂停、异常或 trap 不得记为目标命中。
+
+#### Scenario: 非目标 trap 或 PC 不匹配
+- **WHEN** continue 返回 stop packet，但原因或 PC 不对应请求断点
+- **THEN** 结果 MUST 为失败并保留 stop packet、实际 PC 与期望地址
+
 ### Requirement: 运行必须受项目资源守卫约束
 每个 mGBA 或浏览器 probe SHALL 在项目资源守卫下运行，并只清理守卫拥有的进程树。
 

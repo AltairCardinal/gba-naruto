@@ -22,6 +22,21 @@
 - **WHEN** 从已位于目标网格之后的快照加载 observer ROM 且 scratch 为零
 - **THEN** 系统 MUST 只记录“该快照未执行 hook”，不得据此否定玩家控制链
 
+### Requirement: Observer 命中必须相对 checkpoint 基线保持新鲜
+运行时证据 MUST 在加载 checkpoint 后、发送目标输入前读取每个 observer 的基线，并且只接受 magic 有效、命中计数相对基线递增且事件顺序与控制链一致的新样本。证据计划 SHALL 明确列出每个输入，禁止未记录的 adaptive confirm、recovery key 或自动 settle 输入参与正结论。
+
+#### Scenario: 单一开始任务输入产生新命中
+- **WHEN** 从已验证的“开始任务”行或确认框 checkpoint 读取零/旧基线后，只发送清单中的一次 A 并进入玩家回合
+- **THEN** 玩家选择 observer 的命中计数 SHALL 相对基线递增，事件序号早于后续当前单位/行动事件，且证据保留输入和前后样本
+
+#### Scenario: Savestate 携带旧 observer 样本
+- **WHEN** checkpoint 加载后已经包含有效 magic 和非零命中计数，但本次输入后计数没有递增
+- **THEN** 该样本 MUST 判为陈旧，不得用于证明本次自然控制流
+
+#### Scenario: 自动恢复输入形成假阳性
+- **WHEN** runtime driver 在清单外自动发送 A、B 或方向键后才出现命中
+- **THEN** 该运行 MUST 判为导航或诊断样本，而不是玩家控制正证据
+
 ### Requirement: 行动与胜利必须沿自然控制链闭合
 系统 SHALL 通过玩家输入自然完成 scenario 41 教程行动，并依次证明 MOVEDONE、胜负谓词、结果写入与 battle controller 退出。
 

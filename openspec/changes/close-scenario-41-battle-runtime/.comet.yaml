@@ -1,5 +1,5 @@
 workflow: full
-phase: open
+phase: build
 context_compression: off
 build_mode: null
 build_pause: null
@@ -10,7 +10,7 @@ isolation: null
 verify_mode: null
 auto_transition: true
 base_ref: b7ee9b4f388b874ee11e725c1880807b3e14755e
-design_doc: null
+design_doc: docs/superpowers/specs/2026-07-15-scenario-41-battle-runtime-design.md
 plan: null
 verify_result: pending
 verification_report: null
@@ -18,3 +18,5 @@ branch_status: pending
 created_at: 2026-07-14
 verified_at: null
 archived: false
+handoff_context: openspec/changes/close-scenario-41-battle-runtime/.comet/handoff/design-context.json
+handoff_hash: 6f55878b22770e0f1fc1c835f864ffafe14c2d9676ed5f2c4b4a9baa7e71e26f
