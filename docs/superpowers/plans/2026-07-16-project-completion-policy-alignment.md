@@ -165,11 +165,11 @@ Task 1 已完成两轮有界修复，代码提交为 `e06966a`、`c3a7eab`、`65
 - Consumes: Task 1 project policy audit.
 - Produces: policy-valid repository with no active or unfinished push completion requirements.
 
-- [ ] **Step 1: 保存当前项目 RED 结果摘要**
+- [x] **Step 1: 保存当前项目 RED 结果摘要**
 
 从 `build/comet-project-policy-before.json` 记录冲突总数和路径到实现报告；不得提交 `build/` 文件。
 
-- [ ] **Step 2: 最小修改项目 policy**
+- [x] **Step 2: 最小修改项目 policy**
 
 删除 `.comet/policy.yaml` 的 `activation` 段，并把头部注释改为：
 
@@ -180,7 +180,7 @@ Task 1 已完成两轮有界修复，代码提交为 `e06966a`、`c3a7eab`、`65
 
 保留 `schema_version: 1`、`enforcement: strict` 和其余项目字段；`git.commit: prompt`、`git.push: deny` 不变。
 
-- [ ] **Step 3: 对齐 scenario 41 当前与未来任务**
+- [x] **Step 3: 对齐 scenario 41 当前与未来任务**
 
 把 proposal、design、Design Doc 和计划全局约束中的“提交并推送”改为“创建范围明确的本地 commit”。
 
@@ -191,13 +191,13 @@ Task 1 已完成两轮有界修复，代码提交为 `e06966a`、`c3a7eab`、`65
 - 最终 sync step 不得包含 `git push`；
 - OpenSpec task 7.4 改为检查状态并创建聚焦本地 commit。
 
-- [ ] **Step 4: 对齐剩余 bank 与最终 completion change**
+- [x] **Step 4: 对齐剩余 bank 与最终 completion change**
 
 把所有未完成批次和 normative spec 的 push 要求改为本地 commit + 本地 commit hash 可追溯。最终 completion gate 不得要求远端分支或“已推送 commit”，但仍必须要求同一 commit 上的测试、构建、mGBA 和文档一致性。
 
 `verify-levels-runtime` 没有 push 门禁，只由预检确认，不制造无关 diff。
 
-- [ ] **Step 5: 运行项目 GREEN**
+- [x] **Step 5: 运行项目 GREEN**
 
 Run:
 
@@ -207,7 +207,7 @@ python3 tools/check_comet_project_policy.py --root . --json build/comet-project-
 
 Expected: exit 0；`policy_valid=true`、`push_denied=true`、`active_change_push_conflicts=[]`，并输出 Goal active、commit authorization 等 required platform checks。
 
-- [ ] **Step 6: 运行四个 change 的严格验证**
+- [x] **Step 6: 运行四个 change 的严格验证**
 
 Run:
 
@@ -221,13 +221,15 @@ git diff --check
 
 Expected: all commands exit 0；不得把其他 dirty 文件混入验证结论。
 
-- [ ] **Step 7: 提交项目对齐**
+- [x] **Step 7: 提交项目对齐**
 
 仅暂存本 Task 列出的 policy/change/design/plan 文件和本计划 checkbox 更新：
 
 ```bash
 git commit -m "chore(comet): align project gates with local-only delivery"
 ```
+
+Implementation commit: `fe93ab9`；parent policy audit GREEN；四个 OpenSpec strict validate PASS；task review `Spec ✅ / Quality ✅`。Minor 报告分类笔误已在 ignored report 中更正。
 
 ---
 
