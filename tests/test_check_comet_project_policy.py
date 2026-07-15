@@ -285,6 +285,46 @@ limits:
             [("openspec/changes/demo/design.md", 1)],
         )
 
+    def test_negative_marker_scope_splits_commas_and_connectors(self) -> None:
+        self.write_change_file(
+            "demo",
+            "design.md",
+            "不得跳过验证，但验证后必须推送。\n"
+            "禁止绕过检查, but then must push release.\n"
+            "历史 push 已完成，然后新版本必须 push。\n",
+        )
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [
+                ("openspec/changes/demo/design.md", 1),
+                ("openspec/changes/demo/design.md", 2),
+                ("openspec/changes/demo/design.md", 3),
+            ],
+        )
+
+    def test_only_exempts_contextual_game_ui_push_start(self) -> None:
+        self.write_change_file(
+            "demo",
+            "design.md",
+            "从 PUSH START 界面继续。\n"
+            "零输入复验 PUSH START、Continue 与标题画面。\n"
+            "发布前必须 push start release。\n"
+            "发布前必须 PUSH START RELEASE。\n",
+        )
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [
+                ("openspec/changes/demo/design.md", 3),
+                ("openspec/changes/demo/design.md", 4),
+            ],
+        )
+
     def test_agents_separate_authorization_is_compatible_but_auto_push_is_not(self) -> None:
         compatible = audit_project(self.root, active_changes=[])
         self.assertFalse(
@@ -323,6 +363,22 @@ limits:
 
         self.assertTrue(
             any("AGENTS.md:1" in item for item in report["errors"]), report
+        )
+
+    def test_agents_separate_authorization_and_mixed_clause_semantics(self) -> None:
+        (self.root / "AGENTS.md").write_text(
+            "允许在获得单独授权后 push。\n"
+            "不得跳过验证；允许 writer 自动 push。\n",
+            encoding="utf-8",
+        )
+
+        report = audit_project(self.root, active_changes=[])
+
+        self.assertEqual(
+            [item for item in report["errors"] if "AGENTS.md" in item],
+            [
+                "AGENTS.md:2: explicitly allows automatic push while policy denies push"
+            ],
         )
 
     def test_audit_uses_only_active_changes_and_their_nonempty_comet_plans(self) -> None:
@@ -383,6 +439,28 @@ limits:
 
         report = audit_project(self.root, active_changes=["../outside"])
         self.assertTrue(any("active change" in item for item in report["errors"]))
+
+    def test_rejects_changes_root_symlink_escape(self) -> None:
+        external_tempdir = tempfile.TemporaryDirectory()
+        self.addCleanup(external_tempdir.cleanup)
+        external_changes = Path(external_tempdir.name) / "changes"
+        external_change = external_changes / "demo"
+        external_change.mkdir(parents=True)
+        (external_change / "design.md").write_text(
+            "发布前必须 git push。\n", encoding="utf-8"
+        )
+        openspec = self.root / "openspec"
+        openspec.mkdir()
+        (openspec / "changes").symlink_to(
+            external_changes, target_is_directory=True
+        )
+
+        with self.assertRaisesRegex(ValueError, "active change"):
+            find_push_conflicts(self.root, ["demo"], [])
+
+        report = audit_project(self.root, active_changes=["demo"])
+        self.assertTrue(any("active change" in item for item in report["errors"]))
+        self.assertEqual(report["active_change_push_conflicts"], [])
 
     def test_audit_surfaces_artifact_read_failure(self) -> None:
         self.write_change("demo")

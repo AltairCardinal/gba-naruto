@@ -55,8 +55,20 @@ EXPECTED_POLICY: dict[str, object] = {
 
 CHECKBOX_RE = re.compile(r"^\s*[-*]\s+\[([ xX])\]")
 PUSH_RE = re.compile(r"\bpush\b|推送", re.IGNORECASE)
-PUSH_START_UI_RE = re.compile(r"\bpush\s+start\b", re.IGNORECASE)
+PUSH_START_UI_RE = re.compile(r"\bPUSH START\b(?![ \t]+[A-Za-z0-9_-])")
+GAME_UI_CONTEXT_RE = re.compile(
+    r"游戏|标题|界面|画面|\bUI\b|文案|提示|按键|按钮|菜单|快照|Continue",
+    re.IGNORECASE,
+)
 NORMATIVE_EXEMPTIONS = ("历史", "曾", "不再运行", "不得", "禁止", "不执行")
+CLAUSE_SPLIT_RE = re.compile(
+    r"[；;。.!?！？，,]|\b(?:but|then)\b|(?<!不)但|然后", re.IGNORECASE
+)
+SEPARATE_AUTHORIZATION_RE = re.compile(
+    r"(?:获得|(?<!未)经|(?<![不无])需要|(?<![不无])需|必须|(?<![不无])须)"
+    r".{0,12}(?:单独|明确|用户)?.{0,8}(?:授权|确认|询问)",
+    re.IGNORECASE,
+)
 
 
 def _scalar(value: str, line_number: int) -> object:
@@ -217,7 +229,12 @@ def _validated_change_path(root: Path, name: str) -> Path:
         or name in {".", ".."}
     ):
         raise ValueError(f"invalid active change name: {name!r}")
-    changes_root = (root / "openspec/changes").resolve()
+    root_resolved = root.resolve()
+    changes_root = (root_resolved / "openspec/changes").resolve()
+    try:
+        changes_root.relative_to(root_resolved)
+    except ValueError as exc:
+        raise ValueError("active changes root escapes repository") from exc
     change = (changes_root / name).resolve()
     try:
         change.relative_to(changes_root)
@@ -239,11 +256,13 @@ def _validated_plan_path(root: Path, path: Path) -> Path:
 def _contains_push(text: str) -> bool:
     if re.search(r"\bgit\s+push\b", text, re.IGNORECASE):
         return True
-    return PUSH_RE.search(PUSH_START_UI_RE.sub("", text)) is not None
+    if GAME_UI_CONTEXT_RE.search(text):
+        text = PUSH_START_UI_RE.sub("", text)
+    return PUSH_RE.search(text) is not None
 
 
 def _normative_push_required(text: str) -> bool:
-    for clause in re.split(r"[；;。.!?！？]", text):
+    for clause in CLAUSE_SPLIT_RE.split(text):
         if _contains_push(clause) and not any(
             marker in clause for marker in NORMATIVE_EXEMPTIONS
         ):
@@ -423,12 +442,16 @@ def _agents_push_conflicts(root: Path, push_denied: bool) -> list[str]:
             r"(?:允许|allow).{0,30}(?:自动|automatic|auto)", text, re.IGNORECASE
         ):
             candidate = f"{text} {lines[index + 1]}"
-        if any(marker in candidate for marker in ("不允许", "禁止", "不得")):
-            continue
-        if any(pattern.search(candidate) for pattern in allow_patterns):
-            errors.append(
-                f"AGENTS.md:{index + 1}: explicitly allows automatic push while policy denies push"
-            )
+        for clause in CLAUSE_SPLIT_RE.split(candidate):
+            if any(marker in clause for marker in ("不允许", "禁止", "不得")):
+                continue
+            if SEPARATE_AUTHORIZATION_RE.search(clause):
+                continue
+            if any(pattern.search(clause) for pattern in allow_patterns):
+                errors.append(
+                    f"AGENTS.md:{index + 1}: explicitly allows automatic push while policy denies push"
+                )
+                break
     return errors
 
 
