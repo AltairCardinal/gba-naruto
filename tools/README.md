@@ -256,6 +256,48 @@ malformed, failed, or owned-PGID-free `vm_stat`/`ps` responses fail closed. The 
 runtime preflight and the guarded mGBA 0.10.5 CLI evidence are recorded in
 [`notes/macos-intel-runtime-preflight-20260715.md`](../notes/macos-intel-runtime-preflight-20260715.md).
 
+## Pinned macOS Intel mGBA Qt script backport
+
+`build_macos_mgba.py` builds one explicitly identified local runtime:
+`mGBA 0.10.5 + Qt script backport`. It accepts only a clean checkout at tag `0.10.5`
+and commit `26b7884bc25a5933960f3cdcd98bac1ae14d42e2`. The versioned patch is the
+two-file Qt CLI change from upstream commit
+`7cacae126207de5499857439b9c7919bf8e882c2`; its repository SHA-256 is
+`e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6`.
+
+The builder rejects a wrong tag/commit, any source dirt, an unexpected patch path, or a
+failed `git apply --check`. It clones the clean cache into a new independent cache
+checkout, applies the patch there, and never writes to the clean cache or the user's
+`/Users/altair/github/mgba-src` tree. Prepare/copy, configure, build, `--help`, version,
+and the real Lua sentinel all use `run_guarded.py` with the same heavy lock, 4096 MiB
+admission floor, 1536 MiB owned-tree RSS ceiling, and non-degraded PGID ownership. An
+admission rejection is reported as `BLOCKED`; the memory floor is never lowered.
+
+Example (all work/build outputs remain outside the repository or under ignored
+`build/` evidence):
+
+```bash
+python3 tools/build_macos_mgba.py \
+  --source-cache /Users/altair/.cache/codex-tools/mgba/0.10.5-src \
+  --workspace /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-src \
+  --build-dir /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-qt \
+  --rom rom/base.gba \
+  --evidence-dir build/resource-guard/mgba-0.10.5-script-backport \
+  --manifest build/mgba-0.10.5-script-backport-manifest.json
+```
+
+The configure fingerprint is Release + Qt 5 at `/usr/local/opt/qt@5`, scripting ON,
+Qt ON, SDL OFF, CMake policy minimum 3.5, Ninja, and build parallelism 2. Success
+requires all guard summaries to be `completed/0`, help to contain `--script`, the binary
+to be Mach-O x86_64, and a Lua script to execute on the first frame of a staged copy of
+`rom/base.gba` before exiting normally. ROM staging keeps mGBA save-file side effects
+inside the ignored evidence directory. The manifest records the version/source/backport
+commits, patch and binary SHA-256 values, architecture, flags, and complete summaries.
+
+Boundary: this tool only produces and proves the Step 1 runtime. It does not perform
+checkpoint replay, accept scenario evidence, update the runtime ledger, or execute any
+Task 4.6 Step 2/3 behavior.
+
 ## `mgba_gdb_probe.py`
 
 Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干

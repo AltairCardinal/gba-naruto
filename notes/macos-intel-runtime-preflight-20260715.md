@@ -8,11 +8,66 @@ a single PGID-aware `ps` snapshot. The launcher continues to create one POSIX
 session/process group and cleanup targets only that owned group. No process-name cleanup
 is allowed.
 
-The official mGBA 0.10.5 Qt build has scripting support and Lua compiled in, but its CLI
-does **not** support `--script`. This is an upstream 0.10.5 frontend capability boundary,
-not a failed local build. This preflight does not modify the external mGBA source. A later
-runtime task must use a separately proven interface (for example the existing GDB path)
-or explicitly scope a different frontend/version; it must not assume `mGBA --script`.
+The official, unpatched mGBA 0.10.5 Qt build has scripting support and Lua compiled in,
+but its CLI does **not** support `--script`. This remains the official 0.10.5 frontend
+capability boundary, not a failed local build. Task 4.6 Step 1 has now separately proven
+an explicitly identified `mGBA 0.10.5 + Qt script backport` runtime. Callers must use its
+recorded patch/binary identity and must not treat an arbitrary official 0.10.5 binary as
+script-capable.
+
+## Task 4.6 Step 1 Qt script backport (2026-07-15)
+
+The upstream two-file change was recovered from official commit
+`7cacae126207de5499857439b9c7919bf8e882c2` and saved as
+`tools/patches/mgba-0.10.5-qt-script-cli.patch`. It changes only:
+
+- `src/platform/qt/ConfigController.cpp`, which registers and parses repeatable
+  `--script FILE` arguments and advertises them in Qt frontend help;
+- `src/platform/qt/Window.cpp`, which opens the scripting controller and loads the
+  requested scripts after a game controller starts.
+
+Patch SHA-256 is
+`e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6`.
+`git apply --check` succeeded against the clean cached 0.10.5 commit
+`26b7884bc25a5933960f3cdcd98bac1ae14d42e2`; the clean cache remained unchanged, while
+the independent backport workspace reported exactly those two modified paths.
+
+The guarded build used Qt 5 `/usr/local/opt/qt@5`, Release, scripting ON, Qt ON, SDL
+OFF, CMake policy minimum 3.5, Ninja, and parallelism 2. All phases used the project
+heavy lock, a 4096 MiB admission floor, a 1536 MiB owned-tree RSS ceiling, and
+non-degraded POSIX process-group ownership:
+
+| Phase | Result | Peak RSS | Child/PGID | Final exact PGID query |
+|---|---|---:|---:|---|
+| prepare/local clone + apply check/apply | completed/0 | 68.7578125 MiB | 60856 | clean |
+| configure | completed/0 | 13.4765625 MiB | 61147 | clean |
+| build (`--parallel 2`) | completed/0 | 10.90234375 MiB | 62291 | clean |
+| `--help` | completed/0 | 0.95703125 MiB | 64862 | clean |
+| `--version` | completed/0 | 0.81640625 MiB | 64886 | clean |
+| staged base-ROM Lua sentinel (final) | completed/0 | 18.12109375 MiB | 67483 | clean |
+
+The produced binary is:
+
+- path:
+  `/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-qt-20260715-1/qt/mGBA.app/Contents/MacOS/mGBA`;
+- version: `mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)`, where
+  `-dirty` records the intentional two-file uncommitted backport in the isolated clone;
+- identity label: `mGBA 0.10.5 + Qt script backport`;
+- binary SHA-256:
+  `af6ab51a2ff63d6067908938aa74181fe2bbad0c441e231f3c4dbc80e7d6fe5d`;
+- file identity: `Mach-O 64-bit executable x86_64`;
+- help capability: `--script FILE Script file to load on start`.
+
+The final sentinel copied `rom/base.gba` into the ignored guarded evidence directory,
+loaded a generated Lua script through the patched Qt CLI, observed its first frame and
+PC (`140299572`), wrote `{"script_loaded":true,"frame":1,...}`, and exited 0. Staging
+is important: the first diagnostic run opened the repository ROM directly and mGBA
+created `rom/base.sav`; the generated file was identified from the before/after status,
+removed, and a RED/GREEN regression now confines this save side effect to `build/`.
+
+This result proves only the backported Qt script interface and base-ROM execution. It
+does not prove checkpoint replay, frame-80 capture, or acceptance of the scenario-41
+prebattle candidate; those remain outside Step 1.
 
 ## Test host and guard behavior
 
