@@ -236,6 +236,8 @@ Implementation commit: `fe93ab9`；parent policy audit GREEN；四个 OpenSpec s
 ### Task 3: 接入最终门禁并恢复真实 Comet 断点
 
 **Files:**
+- Modify: `tools/check_comet_project_policy.py`
+- Modify: `tests/test_check_comet_project_policy.py`
 - Modify: `openspec/changes/close-reverse-engineering-completion-gaps/tasks.md`
 - Modify: `openspec/changes/close-reverse-engineering-completion-gaps/specs/reverse-engineering-completion-gate/spec.md`
 - Modify: `openspec/changes/close-scenario-41-battle-runtime/.comet/subagent-progress.md`
