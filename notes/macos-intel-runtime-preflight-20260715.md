@@ -140,6 +140,41 @@ or accept the prebattle menu, task 2 resume PC, unwind chain, or `[0x0202680C]`;
 not update the checkpoint ledger and must not be used as evidence for controller entry.
 No Down, A, or other input was sent.
 
+### Thorough review fix round 1: caller pins and evidence modes
+
+The first thorough review found that the earlier runner trusted any self-consistent
+manifest/binary pair and described the pre-script order smoke too close to zero-input
+acceptance evidence. The corrected CLI now requires the Step 1 caller pins before any
+old output is removed:
+
+- build manifest SHA-256:
+  `9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d`;
+- binary SHA-256:
+  `20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408`;
+- fixed zero-input replay SHA-256:
+  `d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af`.
+
+The strict Step 3 reuse directory was refreshed in `zero-input` mode with no pre-script:
+
+- run ID `be8e11738e43f276b0c31798061e63fc`;
+- frame-80 state SHA-256
+  `53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65`;
+- screenshot SHA-256
+  `6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0`;
+- audit/sentinel SHA-256
+  `e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae`;
+- guard summary SHA-256
+  `17a8c5abfe3e12f829e85119a5ebd3d9f576df6f3e51d5a0adee67651a1a4c2c`;
+- `completed/0`, peak RSS `51.94921875 MiB`, PGID `20050` clean,
+  `evidence_mode=zero-input`, `zero_input_verified=true`, `inputs=[]`, and no pre-script.
+
+The order directory was separately refreshed as `script-order-diagnostic`. Marker `12`
+and its SHA-256 remain unchanged, while the finalized record now says
+`zero_input_verified=false` and authenticates both pre-script paths and hashes. Its run
+ID is `9225277d9d4bb278989cfc38352f030d`, guard peak RSS is `51.8984375 MiB`, and PGID
+`20807` is clean. This diagnostic is evidence only for repeated Qt `--script` ordering;
+it is explicitly ineligible for Step 3 acceptance.
+
 ## Test host and guard behavior
 
 - Host: macOS 14.8.4 (23J319), `MacBookPro16,1`, `x86_64`.

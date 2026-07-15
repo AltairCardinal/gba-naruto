@@ -91,3 +91,56 @@ query. Its audit remained `inputs=[]`.
 
 Boundary: the smoke proves only fresh replay outputs. Menu image equivalence, resume PC,
 unwind, WRAM and candidate acceptance remain Step 3 work.
+
+## Thorough review fix round 1/2
+
+The review raised three Important provenance/mode/wiring findings plus a Minor timeout
+fixture mismatch. The first RED added nine main-level integration tests (25 total Step 2
+tests after updating the prior coverage). They failed at the real CLI boundary because
+the required caller SHA pins and evidence mode did not exist. The tests also require
+stale staged `.sav` removal before fake child launch; reject post-launch drift in the
+binary, manifest, ROM, input state, replay and every pre-script; reject exact owned-PGID
+residuals; and ensure bad wrapper/summary, real timeout exit `124`, memory-limit and
+protection failures never finalize an enriched audit.
+
+During GREEN, the replay-drift fixture exposed and then fixed a test-isolation defect:
+it had temporarily changed the repository replay file. The test now saves the original
+bytes and restores them in `try/finally`. The full Step 2 suite passed twice in immediate
+succession, and the replay SHA remained
+`d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af`
+before, between and after both runs.
+
+The corrected real smokes are:
+
+- strict zero-input: run `be8e11738e43f276b0c31798061e63fc`, state
+  `53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65`,
+  PNG `6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0`,
+  audit/sentinel `e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae`,
+  peak RSS `51.94921875 MiB`, PGID `20050` clean, caller pins present, no pre-script,
+  and `zero_input_verified=true`;
+- script-order diagnostic: run `9225277d9d4bb278989cfc38352f030d`, marker remains
+  exactly `12`, peak RSS `51.8984375 MiB`, PGID `20807` clean, both pre-script hashes
+  present, and `zero_input_verified=false`.
+
+No Step 3 inspector/acceptance work, ledger/roadmap update, controller input or source
+ROM save side effect was performed.
+
+Final verification after both refreshed smokes:
+
+```text
+python3 -m unittest tests.test_run_macos_mgba_replay \
+  tests.test_build_macos_mgba tests.test_project_resource_guard \
+  tests.test_run_guarded -v
+Ran 88 tests in 7.325s
+OK (skipped=1)  # Windows-only Job Object path
+
+python3 -m py_compile tools/run_macos_mgba_replay.py \
+  tests/test_run_macos_mgba_replay.py
+PASS
+
+git diff --check
+PASS
+```
+
+The repository replay SHA was checked again after the aggregate run and remained the
+pinned value; `rom/base.sav` remained absent.

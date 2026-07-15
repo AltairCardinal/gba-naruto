@@ -312,12 +312,21 @@ Task 4.6 Step 2/3 behavior.
 ## macOS guarded checkpoint replay
 
 `run_macos_mgba_replay.py` and `mgba_checkpoint_replay.lua` provide the Task 4.6 Step 2
-zero-input replay boundary. The Python runner accepts an explicitly identified backport
-binary and build manifest, source ROM/state plus their expected SHA-256 values, a staged
-ROM path, frame-state/PNG/audit/sentinel/guard-summary outputs, a capture frame, optional
-repeatable `--pre-script` arguments, and the replay script. Every pre-script is emitted
-as a Qt `--script` argument in CLI order; the zero-input replay script is always last.
-Missing scripts fail before any output is removed or created.
+checkpoint replay boundary. The Python runner requires caller-pinned SHA-256 values for
+both the backport binary and its build manifest, in addition to the source ROM/state
+hashes. It verifies those pins and the manifest's fixed label/version/source/backport/
+patch/x86_64 fields before removing any old output. A forged self-consistent manifest
+paired with an arbitrary binary therefore cannot become replay provenance.
+
+The default `zero-input` evidence mode accepts only the repository
+`mgba_checkpoint_replay.lua` at its pinned SHA-256, rejects every `--pre-script` and
+custom replay before output side effects, and finalizes evidence only with
+`evidence_mode=zero-input`, `zero_input_verified=true`, and `inputs=[]`.
+`script-order-diagnostic` is a separate non-acceptance mode that permits repeatable
+pre-scripts for Qt CLI-order testing. Every pre-script is emitted as a `--script`
+argument before the replay script, but finalized evidence is explicitly marked
+`zero_input_verified=false`; it must never be used for checkpoint acceptance. Missing
+scripts fail before any output is removed or created.
 
 All input and output paths are canonicalized before side effects. Final-component
 symlinks, duplicate or ancestor/descendant aliases, input/output overlap, and an output
@@ -330,8 +339,9 @@ input, script, state, PNG, audit, sentinel or summary. The source ROM is copied 
 declared staged path and stale staged `.sav` data is removed, so mGBA cannot create
 `rom/base.sav`.
 
-The runner verifies the binary SHA against the manifest and pins the Step 1 label,
-version, source commit, backport commit, patch SHA and x86_64 architecture. It launches
+The runner verifies the caller-pinned manifest and binary identities against each other
+and pins the Step 1 label, version, source commit, backport commit, patch SHA and x86_64
+architecture. It launches
 exactly one mGBA command through the shared heavy lock with a 4096 MiB admission floor,
 1536 MiB owned-PGID RSS ceiling, caller-visible wall/idle timeouts, non-degraded POSIX
 process-group ownership, and forced `QT_QPA_PLATFORM=offscreen`. Success requires the
@@ -348,8 +358,11 @@ injection. Both JSON records bind the run ID,
 frame, input/output paths, ROM/state hashes and success state. After validation, the
 runner adds output, binary, patch, staged-ROM and summary hashes plus peak RSS and the
 clean PGID result to both records. Immediately before finalizing those records, the
-runner rehashes the binary, source ROM, input state and staged ROM; post-launch drift
-fails closed instead of being recorded as new provenance.
+runner rehashes the manifest, binary, source ROM, input state, staged ROM, replay script
+and every pre-script; post-launch drift fails closed instead of being recorded as new
+provenance. Final audit and sentinel records include the manifest, binary and replay
+SHA-256 values plus `{path, sha256}` objects for pre-scripts, rather than unauthenticated
+paths.
 
 Example:
 
@@ -357,6 +370,8 @@ Example:
 python3 tools/run_macos_mgba_replay.py \
   --binary /absolute/mGBA.app/Contents/MacOS/mGBA \
   --build-manifest /absolute/mgba-build-manifest.json \
+  --expected-build-manifest-sha256 9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d \
+  --expected-binary-sha256 20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408 \
   --rom rom/base.gba \
   --state artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9 \
   --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
@@ -367,13 +382,16 @@ python3 tools/run_macos_mgba_replay.py \
   --audit build/replay/audit.json \
   --sentinel build/replay/sentinel.json \
   --guard-summary build/replay/guard-summary.json \
-  --capture-frame 80
+  --capture-frame 80 \
+  --evidence-mode zero-input
 ```
 
-This runner proves only that a zero-input checkpoint can be replayed and freshly
-captured. It does not inspect the menu image, task PC/unwind, WRAM, or accept a candidate
-in the checkpoint ledger; those are separate Step 3 gates. It never sends Down, A, or
-any other input.
+Only a finalized `zero-input` run proves that a checkpoint can be replayed and freshly
+captured without input. A `script-order-diagnostic` run proves CLI ordering only, even
+when its replay payload still contains `inputs=[]`. Neither mode inspects the menu image,
+task PC/unwind or WRAM, nor accepts a candidate in the checkpoint ledger; those are
+separate Step 3 gates. The fixed zero-input replay never sends Down, A, or any other
+input.
 
 ## `mgba_gdb_probe.py`
 

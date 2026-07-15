@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GUARD_SCRIPT = ROOT / "tools" / "run_guarded.py"
 HEAVY_LOCK = ROOT / "build" / "resource-guard" / "heavy.lock"
 DEFAULT_REPLAY_SCRIPT = ROOT / "tools" / "mgba_checkpoint_replay.lua"
+EXPECTED_REPLAY_SCRIPT_SHA256 = "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
 SOURCE_COMMIT = "26b7884bc25a5933960f3cdcd98bac1ae14d42e2"
 BACKPORT_COMMIT = "7cacae126207de5499857439b9c7919bf8e882c2"
 EXPECTED_PATCH_SHA256 = "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6"
@@ -113,15 +114,23 @@ def validate_expected_hash(path: Path, expected: str, label: str) -> str:
     return actual
 
 
-def revalidate_critical_inputs(
-    args: argparse.Namespace, manifest: Mapping[str, object]
-) -> None:
-    expected_binary = manifest.get("binary_sha256")
-    if sha256_file(args.binary) != expected_binary:
-        raise ReplayError("mGBA binary SHA-256 changed during replay")
+def revalidate_critical_inputs(args: argparse.Namespace) -> None:
+    validate_expected_hash(
+        args.build_manifest,
+        args.expected_build_manifest_sha256,
+        "build manifest",
+    )
+    validate_expected_hash(args.binary, args.expected_binary_sha256, "mGBA binary")
     validate_expected_hash(args.rom, args.expected_rom_sha256, "ROM")
     validate_expected_hash(args.state, args.expected_state_sha256, "state")
     validate_expected_hash(args.staged_rom, args.expected_rom_sha256, "staged ROM")
+    validate_expected_hash(
+        args.replay_script,
+        args.expected_replay_script_sha256,
+        "replay script",
+    )
+    for script, expected_sha in zip(args.pre_script, args.expected_pre_script_sha256):
+        validate_expected_hash(script, expected_sha, "pre-script")
 
 
 def _load_json(path: Path, label: str) -> dict[str, object]:
@@ -135,8 +144,16 @@ def _load_json(path: Path, label: str) -> dict[str, object]:
     return payload
 
 
-def validate_build_manifest(path: Path, binary: Path) -> dict[str, object]:
+def validate_build_manifest(
+    path: Path, binary: Path, expected_binary_sha256: str | None = None
+) -> dict[str, object]:
     payload = _load_json(path, "build manifest")
+    binary_sha256 = sha256_file(binary)
+    if expected_binary_sha256 is not None and binary_sha256 != expected_binary_sha256:
+        raise ReplayError(
+            "mGBA binary SHA-256 mismatch: "
+            f"expected {expected_binary_sha256}, got {binary_sha256}"
+        )
     expected = {
         "label": EXPECTED_LABEL,
         "version": "0.10.5",
@@ -144,7 +161,7 @@ def validate_build_manifest(path: Path, binary: Path) -> dict[str, object]:
         "backport_commit": BACKPORT_COMMIT,
         "patch_sha256": EXPECTED_PATCH_SHA256,
         "architecture": "x86_64",
-        "binary_sha256": sha256_file(binary),
+        "binary_sha256": binary_sha256,
     }
     for key, value in expected.items():
         if payload.get(key) != value:
@@ -276,6 +293,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--build-manifest", type=Path, required=True)
+    parser.add_argument("--expected-build-manifest-sha256", required=True)
+    parser.add_argument("--expected-binary-sha256", required=True)
     parser.add_argument("--rom", type=Path, required=True)
     parser.add_argument("--state", type=Path, required=True)
     parser.add_argument("--expected-rom-sha256", required=True)
@@ -287,6 +306,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sentinel", type=Path, required=True)
     parser.add_argument("--guard-summary", type=Path, required=True)
     parser.add_argument("--capture-frame", type=int, default=80)
+    parser.add_argument(
+        "--evidence-mode",
+        choices=("zero-input", "script-order-diagnostic"),
+        default="zero-input",
+    )
     parser.add_argument("--pre-script", type=Path, action="append", default=[])
     parser.add_argument("--replay-script", type=Path, default=DEFAULT_REPLAY_SCRIPT)
     parser.add_argument("--wall-timeout-s", type=float, default=120)
@@ -307,6 +331,22 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
         "replay_script": canonical_input(args.replay_script, "replay script"),
     }
     pre_scripts = [canonical_input(path, f"pre-script {index + 1}") for index, path in enumerate(args.pre_script)]
+    default_replay = DEFAULT_REPLAY_SCRIPT.resolve(strict=True)
+    if args.evidence_mode == "zero-input":
+        if inputs["replay_script"] != default_replay:
+            raise ReplayError(
+                f"zero-input mode requires the repository replay script: {default_replay}"
+            )
+        args.expected_replay_script_sha256 = EXPECTED_REPLAY_SCRIPT_SHA256
+    else:
+        args.expected_replay_script_sha256 = sha256_file(inputs["replay_script"])
+    validate_expected_hash(
+        inputs["replay_script"],
+        args.expected_replay_script_sha256,
+        "replay script",
+    )
+    if args.evidence_mode == "zero-input" and pre_scripts:
+        raise ReplayError("zero-input mode forbids pre-scripts")
     declared_outputs = [
         args.staged_rom,
         args.output_state,
@@ -344,9 +384,16 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
     args.staged_save = canonical_staged_save
     if not os.access(args.binary, os.X_OK):
         raise ReplayError(f"mGBA binary is not executable: {args.binary}")
-    args.build_manifest_payload = validate_build_manifest(
-        args.build_manifest, args.binary
+    validate_expected_hash(
+        args.build_manifest,
+        args.expected_build_manifest_sha256,
+        "build manifest",
     )
+    validate_expected_hash(args.binary, args.expected_binary_sha256, "mGBA binary")
+    args.build_manifest_payload = validate_build_manifest(
+        args.build_manifest, args.binary, args.expected_binary_sha256
+    )
+    args.expected_pre_script_sha256 = [sha256_file(path) for path in args.pre_script]
     validate_expected_hash(args.rom, args.expected_rom_sha256, "ROM")
     validate_expected_hash(args.state, args.expected_state_sha256, "state")
     return args
@@ -395,11 +442,18 @@ def _finalize_payloads(
     summary: Mapping[str, object],
 ) -> dict[str, object]:
     additions = {
-        "binary_sha256": args.build_manifest_payload["binary_sha256"],
+        "evidence_mode": args.evidence_mode,
+        "zero_input_verified": args.evidence_mode == "zero-input",
+        "binary_sha256": args.expected_binary_sha256,
         "patch_sha256": EXPECTED_PATCH_SHA256,
         "build_manifest": str(args.build_manifest),
+        "build_manifest_sha256": args.expected_build_manifest_sha256,
         "replay_script": str(args.replay_script),
-        "pre_scripts": [str(path) for path in args.pre_script],
+        "replay_script_sha256": args.expected_replay_script_sha256,
+        "pre_scripts": [
+            {"path": str(path), "sha256": sha256}
+            for path, sha256 in zip(args.pre_script, args.expected_pre_script_sha256)
+        ],
         "output_state_sha256": bundle["state_sha256"],
         "output_png_sha256": bundle["png_sha256"],
         "guard_summary_sha256": sha256_file(args.guard_summary),
@@ -445,7 +499,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     bundle = validate_output_bundle(
         args.output_state, args.output_png, args.audit, args.sentinel, expected
     )
-    revalidate_critical_inputs(args, args.build_manifest_payload)
+    revalidate_critical_inputs(args)
     finalized = _finalize_payloads(args, bundle, summary)
     print(json.dumps(finalized, indent=2, sort_keys=True))
     return 0

@@ -8,7 +8,7 @@ import stat
 import subprocess
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
@@ -191,20 +191,29 @@ class ReplayRunnerContractTests(unittest.TestCase):
                 path.write_bytes(data)
             args = argparse.Namespace(
                 binary=binary,
+                build_manifest=root / "manifest.json",
                 rom=rom,
                 state=state,
                 staged_rom=staged,
+                replay_script=root / "replay.lua",
+                pre_script=[],
+                expected_pre_script_sha256=[],
+                expected_build_manifest_sha256="",
+                expected_binary_sha256=runner.sha256_file(binary),
                 expected_rom_sha256=runner.sha256_file(rom),
                 expected_state_sha256=runner.sha256_file(state),
             )
-            manifest = {"binary_sha256": runner.sha256_file(binary)}
-            runner.revalidate_critical_inputs(args, manifest)
-            for path in (binary, rom, state, staged):
+            args.build_manifest.write_bytes(b"manifest")
+            args.replay_script.write_bytes(b"replay")
+            args.expected_build_manifest_sha256 = runner.sha256_file(args.build_manifest)
+            args.expected_replay_script_sha256 = runner.sha256_file(args.replay_script)
+            runner.revalidate_critical_inputs(args)
+            for path in (binary, args.build_manifest, rom, state, staged, args.replay_script):
                 with self.subTest(path=path.name):
                     original = path.read_bytes()
                     path.write_bytes(b"drift")
                     with self.assertRaises(runner.ReplayError):
-                        runner.revalidate_critical_inputs(args, manifest)
+                        runner.revalidate_critical_inputs(args)
                     path.write_bytes(original)
 
     def test_stale_regular_output_is_removed_and_cannot_be_reused(self):
@@ -233,8 +242,8 @@ class ReplayRunnerContractTests(unittest.TestCase):
         cases = (
             (9, good),
             (1, {**good, "reason": "child-exit", "exit_code": 1}),
-            (125, {**good, "reason": "wall-timeout", "exit_code": 125}),
-            (125, {**good, "reason": "idle-timeout", "exit_code": 125}),
+            (124, {**good, "reason": "wall-timeout", "exit_code": 124}),
+            (124, {**good, "reason": "idle-timeout", "exit_code": 124}),
             (125, {**good, "reason": "memory-limit", "exit_code": 125}),
             (125, {**good, "reason": "protection-failure", "exit_code": 125}),
             (0, {**good, "degraded": True}),
@@ -402,6 +411,8 @@ class ReplayRunnerContractTests(unittest.TestCase):
 
             argv = [
                 "--binary", str(binary), "--build-manifest", str(manifest),
+                "--expected-build-manifest-sha256", runner.sha256_file(manifest),
+                "--expected-binary-sha256", runner.sha256_file(binary),
                 "--rom", str(rom), "--state", str(state),
                 "--expected-rom-sha256", runner.sha256_file(rom),
                 "--expected-state-sha256", runner.sha256_file(state),
@@ -410,6 +421,7 @@ class ReplayRunnerContractTests(unittest.TestCase):
                 "--sentinel", str(paths["sentinel"]), "--guard-summary", str(paths["summary"]),
                 "--capture-frame", "80", "--pre-script", str(pre1),
                 "--pre-script", str(pre2), "--replay-script", str(replay),
+                "--evidence-mode", "script-order-diagnostic",
             ]
             with mock.patch.object(runner.subprocess, "run", side_effect=fake_wrapper), \
                     mock.patch.object(runner, "read_ps_snapshot", return_value="1 1\n"), \
@@ -423,7 +435,11 @@ class ReplayRunnerContractTests(unittest.TestCase):
             self.assertEqual(finalized["patch_sha256"], runner.EXPECTED_PATCH_SHA256)
             self.assertEqual(finalized["build_manifest"], str(manifest.resolve()))
             self.assertEqual(finalized["replay_script"], str(replay.resolve()))
-            self.assertEqual(finalized["pre_scripts"], [str(pre1.resolve()), str(pre2.resolve())])
+            self.assertEqual(finalized["replay_script_sha256"], runner.sha256_file(replay))
+            self.assertEqual(finalized["pre_scripts"], [
+                {"path": str(pre1.resolve()), "sha256": runner.sha256_file(pre1)},
+                {"path": str(pre2.resolve()), "sha256": runner.sha256_file(pre2)},
+            ])
             self.assertEqual(finalized["staged_rom_sha256"], runner.sha256_file(paths["staged"]))
 
     def test_main_rejects_missing_scripts_before_any_output_side_effect(self):
@@ -442,6 +458,8 @@ class ReplayRunnerContractTests(unittest.TestCase):
             output_state.write_text("must-survive", encoding="utf-8")
             base = [
                 "--binary", str(binary), "--build-manifest", str(manifest),
+                "--expected-build-manifest-sha256", "0" * 64,
+                "--expected-binary-sha256", "0" * 64,
                 "--rom", str(rom), "--state", str(state),
                 "--expected-rom-sha256", "0" * 64,
                 "--expected-state-sha256", "0" * 64,
@@ -462,6 +480,284 @@ class ReplayRunnerContractTests(unittest.TestCase):
                     with self.assertRaisesRegex(runner.ReplayError, label):
                         runner.validate_args(args)
                     self.assertEqual(output_state.read_text(encoding="utf-8"), "must-survive")
+
+
+class ReplayRunnerReviewFixIntegrationTests(unittest.TestCase):
+    def _fixture(self, root: Path, *, mode: str = "zero-input"):
+        runner = importlib.import_module("tools.run_macos_mgba_replay")
+        binary = root / "mGBA"
+        binary.write_bytes(b"binary")
+        os.chmod(binary, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+        binary_sha = runner.sha256_file(binary)
+        manifest = root / "manifest.json"
+        manifest.write_text(
+            json.dumps(
+                {
+                    "label": runner.EXPECTED_LABEL,
+                    "version": "0.10.5",
+                    "source_commit": runner.SOURCE_COMMIT,
+                    "backport_commit": runner.BACKPORT_COMMIT,
+                    "patch_sha256": runner.EXPECTED_PATCH_SHA256,
+                    "binary_sha256": binary_sha,
+                    "architecture": "x86_64",
+                }
+            ),
+            encoding="utf-8",
+        )
+        manifest_sha = runner.sha256_file(manifest)
+        source = root / "source"
+        source.mkdir()
+        rom = source / "base.gba"
+        state = source / "input.ss9"
+        rom.write_bytes(b"rom")
+        state.write_bytes(b"state")
+        out = root / "out"
+        paths = {
+            "binary": binary,
+            "manifest": manifest,
+            "rom": rom,
+            "input_state": state,
+            "replay": runner.DEFAULT_REPLAY_SCRIPT.resolve(),
+            "staged": out / "staged.gba",
+            "staged_save": out / "staged.sav",
+            "state": out / "frame80.ss9",
+            "png": out / "frame80.png",
+            "audit": out / "audit.json",
+            "sentinel": out / "sentinel.json",
+            "summary": out / "guard.json",
+        }
+        argv = [
+            "--binary", str(binary),
+            "--build-manifest", str(manifest),
+            "--expected-build-manifest-sha256", manifest_sha,
+            "--expected-binary-sha256", binary_sha,
+            "--rom", str(rom),
+            "--state", str(state),
+            "--expected-rom-sha256", runner.sha256_file(rom),
+            "--expected-state-sha256", runner.sha256_file(state),
+            "--staged-rom", str(paths["staged"]),
+            "--output-state", str(paths["state"]),
+            "--output-png", str(paths["png"]),
+            "--audit", str(paths["audit"]),
+            "--sentinel", str(paths["sentinel"]),
+            "--guard-summary", str(paths["summary"]),
+            "--capture-frame", "80",
+            "--evidence-mode", mode,
+        ]
+        return runner, paths, argv, manifest_sha, binary_sha
+
+    def _fake_wrapper(
+        self,
+        runner,
+        paths,
+        *,
+        reason="completed",
+        summary_rc=0,
+        wrapper_rc=0,
+        mutate=None,
+    ):
+        def run(command, **kwargs):
+            self.assertFalse(
+                paths["staged_save"].exists(),
+                "stale staged .sav must be removed before launching mGBA",
+            )
+            child = command[command.index("--") + 1 :]
+            env = kwargs["env"]
+            payload = {
+                "run_id": env["MGBA_REPLAY_RUN_ID"],
+                "frame": 80,
+                "capture_frame": 80,
+                "inputs": [],
+                "success": True,
+                "status": "capture-complete",
+                "input_state": str(paths["input_state"].resolve()),
+                "output_state": str(paths["state"].resolve()),
+                "output_png": str(paths["png"].resolve()),
+                "audit": str(paths["audit"].resolve()),
+                "sentinel": str(paths["sentinel"].resolve()),
+                "rom_sha256": runner.sha256_file(paths["rom"]),
+                "input_state_sha256": runner.sha256_file(paths["input_state"]),
+            }
+            paths["state"].write_bytes(b"\x89PNG\r\n\x1a\nnew")
+            paths["png"].write_bytes(b"\x89PNG\r\n\x1a\nnew")
+            paths["audit"].write_text(json.dumps(payload), encoding="utf-8")
+            paths["sentinel"].write_text(json.dumps(payload), encoding="utf-8")
+            paths["summary"].write_text(
+                json.dumps(
+                    {
+                        "reason": reason,
+                        "exit_code": summary_rc,
+                        "child_pid": 987,
+                        "peak_tree_rss_mib": 12.5,
+                        "protection_backend": "posix-process-group",
+                        "degraded": reason == "protection-failure",
+                        "command": child,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            if mutate is not None:
+                mutate()
+            return subprocess.CompletedProcess(command, wrapper_rc)
+
+        return run
+
+    def _run(self, runner, argv, fake_wrapper, *, ps="1 1\n"):
+        with mock.patch.object(runner.subprocess, "run", side_effect=fake_wrapper), \
+                mock.patch.object(runner, "read_ps_snapshot", return_value=ps), \
+                redirect_stdout(io.StringIO()):
+            return runner.main(argv)
+
+    def _assert_not_enriched(self, path: Path):
+        if not path.exists():
+            return
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        self.assertNotIn("build_manifest_sha256", payload)
+
+    def test_cli_requires_manifest_and_binary_sha256(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner, _, argv, _, _ = self._fixture(Path(tmp))
+            for option in (
+                "--expected-build-manifest-sha256",
+                "--expected-binary-sha256",
+            ):
+                with self.subTest(option=option):
+                    shortened = list(argv)
+                    index = shortened.index(option)
+                    del shortened[index:index + 2]
+                    with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                        runner.build_parser().parse_args(shortened)
+
+    def test_forged_manifest_and_arbitrary_binary_fail_before_output_removal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner, paths, argv, _, _ = self._fixture(Path(tmp))
+            paths["audit"].parent.mkdir(parents=True)
+            paths["audit"].write_text("must-survive", encoding="utf-8")
+            index = argv.index("--expected-build-manifest-sha256") + 1
+            argv[index] = "0" * 64
+            with self.assertRaisesRegex(runner.ReplayError, "build manifest SHA-256"):
+                runner.main(argv)
+            self.assertEqual(paths["audit"].read_text(encoding="utf-8"), "must-survive")
+
+    def test_zero_input_mode_rejects_pre_or_custom_replay_before_side_effects(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            runner, paths, argv, _, _ = self._fixture(root)
+            paths["audit"].parent.mkdir(parents=True)
+            paths["audit"].write_text("must-survive", encoding="utf-8")
+            key_script = root / "key.lua"
+            key_script.write_text('emu:addKey("A")\n', encoding="utf-8")
+            cases = (
+                ["--pre-script", str(key_script)],
+                ["--replay-script", str(key_script)],
+            )
+            for extra in cases:
+                with self.subTest(extra=extra):
+                    with self.assertRaises(runner.ReplayError):
+                        runner.main([*argv, *extra])
+                    self.assertEqual(paths["audit"].read_text(encoding="utf-8"), "must-survive")
+
+    def test_zero_input_main_finalizes_all_pinned_hashes_and_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner, paths, argv, manifest_sha, binary_sha = self._fixture(Path(tmp))
+            paths["staged_save"].parent.mkdir(parents=True)
+            paths["staged_save"].write_text("stale-save", encoding="utf-8")
+            fake = self._fake_wrapper(runner, paths)
+            self.assertEqual(self._run(runner, argv, fake), 0)
+            final = json.loads(paths["audit"].read_text(encoding="utf-8"))
+            self.assertEqual(final["evidence_mode"], "zero-input")
+            self.assertIs(final["zero_input_verified"], True)
+            self.assertEqual(final["inputs"], [])
+            self.assertEqual(final["build_manifest_sha256"], manifest_sha)
+            self.assertEqual(final["binary_sha256"], binary_sha)
+            self.assertEqual(
+                final["replay_script_sha256"], runner.EXPECTED_REPLAY_SCRIPT_SHA256
+            )
+            self.assertEqual(final["pre_scripts"], [])
+
+    def test_script_order_diagnostic_is_explicitly_not_zero_input_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            runner, paths, argv, _, _ = self._fixture(
+                root, mode="script-order-diagnostic"
+            )
+            pre = root / "pre.lua"
+            pre.write_text("-- diagnostic marker only\n", encoding="utf-8")
+            argv.extend(("--pre-script", str(pre)))
+            fake = self._fake_wrapper(runner, paths)
+            self.assertEqual(self._run(runner, argv, fake), 0)
+            final = json.loads(paths["audit"].read_text(encoding="utf-8"))
+            self.assertEqual(final["evidence_mode"], "script-order-diagnostic")
+            self.assertIs(final["zero_input_verified"], False)
+            self.assertEqual(
+                final["pre_scripts"],
+                [{"path": str(pre.resolve()), "sha256": runner.sha256_file(pre)}],
+            )
+
+    def test_main_rejects_every_critical_input_drift_without_finalizing(self):
+        drift_names = ("binary", "manifest", "rom", "input_state", "replay")
+        for name in drift_names:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                runner, paths, argv, _, _ = self._fixture(Path(tmp))
+                original = paths[name].read_bytes()
+                fake = self._fake_wrapper(
+                    runner,
+                    paths,
+                    mutate=lambda path=paths[name]: path.write_bytes(b"drift"),
+                )
+                try:
+                    with self.assertRaises(runner.ReplayError):
+                        self._run(runner, argv, fake)
+                finally:
+                    paths[name].write_bytes(original)
+                self._assert_not_enriched(paths["audit"])
+
+    def test_main_rejects_pre_script_drift_without_finalizing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            runner, paths, argv, _, _ = self._fixture(
+                root, mode="script-order-diagnostic"
+            )
+            pre = root / "pre.lua"
+            pre.write_text("-- diagnostic marker only\n", encoding="utf-8")
+            argv.extend(("--pre-script", str(pre)))
+            fake = self._fake_wrapper(
+                runner, paths, mutate=lambda: pre.write_text("-- drift\n", encoding="utf-8")
+            )
+            with self.assertRaises(runner.ReplayError):
+                self._run(runner, argv, fake)
+            self._assert_not_enriched(paths["audit"])
+
+    def test_main_failure_paths_never_finalize_enriched_audit(self):
+        cases = (
+            ("completed", 0, 9),
+            ("child-exit", 1, 1),
+            ("wall-timeout", 124, 124),
+            ("idle-timeout", 124, 124),
+            ("memory-limit", 125, 125),
+            ("protection-failure", 125, 125),
+        )
+        for reason, summary_rc, wrapper_rc in cases:
+            with self.subTest(reason=reason), tempfile.TemporaryDirectory() as tmp:
+                runner, paths, argv, _, _ = self._fixture(Path(tmp))
+                fake = self._fake_wrapper(
+                    runner,
+                    paths,
+                    reason=reason,
+                    summary_rc=summary_rc,
+                    wrapper_rc=wrapper_rc,
+                )
+                with self.assertRaises(runner.ReplayError):
+                    self._run(runner, argv, fake)
+                self._assert_not_enriched(paths["audit"])
+
+    def test_main_owned_pgid_residual_never_finalizes_enriched_audit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner, paths, argv, _, _ = self._fixture(Path(tmp))
+            fake = self._fake_wrapper(runner, paths)
+            with self.assertRaisesRegex(runner.ReplayError, "PGID 987"):
+                self._run(runner, argv, fake, ps="987 987\n")
+            self._assert_not_enriched(paths["audit"])
 
 
 if __name__ == "__main__":
