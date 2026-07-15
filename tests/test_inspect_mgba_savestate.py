@@ -1,3 +1,4 @@
+import hashlib
 import json
 import struct
 import tempfile
@@ -5,7 +6,12 @@ import unittest
 import zlib
 from pathlib import Path
 
-from tools.inspect_mgba_savestate import inspect_savestate, load_gba_state
+from tools.inspect_mgba_savestate import (
+    inspect_savestate,
+    load_gba_state,
+    png_screen_fingerprint,
+)
+from tools.thumb_branch import encode_thumb_bl
 
 
 def png_chunk(tag: bytes, payload: bytes) -> bytes:
@@ -15,6 +21,29 @@ def png_chunk(tag: bytes, payload: bytes) -> bytes:
         + payload
         + struct.pack(">I", zlib.crc32(tag + payload) & 0xFFFFFFFF)
     )
+
+
+def _chunk_payload(png: bytes, wanted: bytes) -> bytes:
+    cursor = 8
+    while cursor + 12 <= len(png):
+        size = struct.unpack_from(">I", png, cursor)[0]
+        tag = png[cursor + 4 : cursor + 8]
+        if tag == wanted:
+            return bytes(png[cursor + 8 : cursor + 8 + size])
+        cursor += size + 12
+    raise AssertionError(f"missing test chunk {wanted!r}")
+
+
+def _replace_chunk(png: bytes, wanted: bytes, payload: bytes) -> bytes:
+    cursor = 8
+    while cursor + 12 <= len(png):
+        size = struct.unpack_from(">I", png, cursor)[0]
+        tag = png[cursor + 4 : cursor + 8]
+        chunk_end = cursor + size + 12
+        if tag == wanted:
+            return bytes(png[:cursor]) + png_chunk(tag, payload) + bytes(png[chunk_end:])
+        cursor = chunk_end
+    raise AssertionError(f"missing test chunk {wanted!r}")
 
 
 def fixture_savestate() -> bytes:
@@ -40,7 +69,53 @@ def fixture_savestate() -> bytes:
     )
 
 
+def screen_png(scanlines: bytes = b"\x00\x01\x02\x03") -> bytes:
+    ihdr = struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + png_chunk(b"IHDR", ihdr)
+        + png_chunk(b"IDAT", zlib.compress(scanlines))
+        + png_chunk(b"IEND", b"")
+    )
+
+
 class InspectMgbaSavestateTests(unittest.TestCase):
+    def test_fingerprints_png_screen_from_validated_ihdr_and_scanlines(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "screen.png"
+            path.write_bytes(screen_png())
+
+            fingerprint = png_screen_fingerprint(path)
+
+        self.assertEqual(fingerprint["width"], 1)
+        self.assertEqual(fingerprint["height"], 1)
+        self.assertEqual(fingerprint["ihdr_sha256"], hashlib.sha256(
+            struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
+        ).hexdigest())
+        self.assertEqual(
+            fingerprint["decompressed_scanlines_sha256"],
+            hashlib.sha256(b"\x00\x01\x02\x03").hexdigest(),
+        )
+
+    def test_screen_fingerprint_fails_closed_on_crc_and_shape_errors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corrupt_crc = root / "crc.png"
+            payload = bytearray(screen_png())
+            payload[-1] ^= 1
+            corrupt_crc.write_bytes(payload)
+            truncated = root / "truncated.png"
+            truncated.write_bytes(screen_png()[:-3])
+            wrong_shape = root / "wrong-shape.png"
+            wrong_shape.write_bytes(screen_png(b"\x00\x01"))
+
+            with self.assertRaisesRegex(ValueError, "CRC"):
+                png_screen_fingerprint(corrupt_crc)
+            with self.assertRaisesRegex(ValueError, "truncated|IEND"):
+                png_screen_fingerprint(truncated)
+            with self.assertRaisesRegex(ValueError, "scanline"):
+                png_screen_fingerprint(wrong_shape)
+
     def test_loads_gbas_chunk_and_maps_gba_memory(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "fixture.ss9"
@@ -73,6 +148,79 @@ class InspectMgbaSavestateTests(unittest.TestCase):
             },
         )
         self.assertEqual(report["tasks"][1]["type"], 8)
+
+    def test_reports_only_explicit_stack_returns_validated_as_thumb_bl(self):
+        state_bytes = bytearray(fixture_savestate())
+        state = bytearray(zlib.decompress(_chunk_payload(state_bytes, b"gbAs")))
+        state[0x21000 + 0x2680C] = 0
+        task_context = 0x19000 + 0x0A88 + 0x4C
+        state[task_context] = 8
+        struct.pack_into("<I", state, task_context + 4, 0x030011D8)
+        struct.pack_into("<I", state, task_context + 8, 0x08067D03)
+        returns = (
+            (0x03001220, 0x080885C1, 0x08067158),
+            (0x03001240, 0x08088F9F, 0x080884DC),
+            (0x03001278, 0x0808F92D, 0x08088F10),
+        )
+        for stack_address, raw_return, _ in returns:
+            struct.pack_into(
+                "<I", state, 0x19000 + stack_address - 0x03000000, raw_return
+            )
+        savestate = _replace_chunk(state_bytes, b"gbAs", zlib.compress(state))
+        rom = bytearray(0x90000)
+        for _, raw_return, target in returns:
+            callsite = raw_return - 5
+            offset = callsite - 0x08000000
+            rom[offset : offset + 4] = encode_thumb_bl(callsite, target)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "fixture.ss9"
+            rom_path = root / "base.gba"
+            path.write_bytes(savestate)
+            rom_path.write_bytes(rom)
+
+            report = inspect_savestate(
+                path,
+                rom_path=rom_path,
+                task_slot=2,
+                unwind_frames=[(address, target) for address, _, target in returns],
+                memory_bytes=[0x0202680C],
+            )
+
+        self.assertEqual(report["tasks"][1]["resume_pc"], "0x08067D02")
+        self.assertEqual(
+            report["active_unwind"]["raw_return_words"],
+            ["0x080885C1", "0x08088F9F", "0x0808F92D"],
+        )
+        self.assertEqual(
+            [frame["stack_address"] for frame in report["active_unwind"]["frames"]],
+            ["0x03001220", "0x03001240", "0x03001278"],
+        )
+        self.assertEqual(report["memory_bytes"]["0x0202680C"], 0)
+
+    def test_rejects_explicit_unwind_when_stack_or_bl_target_does_not_match(self):
+        state_bytes = bytearray(fixture_savestate())
+        state = bytearray(zlib.decompress(_chunk_payload(state_bytes, b"gbAs")))
+        struct.pack_into("<I", state, 0x19000 + 0x1200, 0x08001005)
+        savestate = _replace_chunk(state_bytes, b"gbAs", zlib.compress(state))
+        rom = bytearray(0x2000)
+        rom[0x1000:0x1004] = encode_thumb_bl(0x08001000, 0x08001100)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "fixture.ss9"
+            rom_path = root / "base.gba"
+            path.write_bytes(savestate)
+            rom_path.write_bytes(rom)
+
+            with self.assertRaisesRegex(ValueError, "target"):
+                inspect_savestate(
+                    path,
+                    rom_path=rom_path,
+                    task_slot=1,
+                    unwind_frames=[(0x03001200, 0x08001200)],
+                )
 
     def test_rejects_missing_or_wrong_sized_gbas_chunk(self):
         with tempfile.TemporaryDirectory() as tmp:

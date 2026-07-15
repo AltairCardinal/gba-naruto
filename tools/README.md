@@ -393,6 +393,47 @@ task PC/unwind or WRAM, nor accepts a candidate in the checkpoint ledger; those 
 separate Step 3 gates. The fixed zero-input replay never sends Down, A, or any other
 input.
 
+## Offline prebattle checkpoint acceptance
+
+`inspect_mgba_savestate.py` can now bind an explicitly selected task stack chain to
+the base ROM instead of treating arbitrary ROM-looking stack words as frames. Each
+`--unwind-return STACK_ADDRESS:BL_TARGET` reads that exact IWRAM slot, derives the
+Thumb callsite from the raw return word, and requires `thumb_branch.decode_thumb_bl`
+to recover the declared target. Stack slots must be ordered at or above the selected
+task SP. `--memory-byte` adds explicit WRAM/IWRAM byte observations. For example:
+
+```bash
+python3 tools/inspect_mgba_savestate.py \
+  build/macos-prebattle-frame80-step2-20260715/frame80.ss9 \
+  --rom rom/base.gba \
+  --task-slot 2 \
+  --unwind-return 0x03001220:0x08067158 \
+  --unwind-return 0x03001240:0x080884DC \
+  --unwind-return 0x03001278:0x08088F10 \
+  --memory-byte 0x0202680C
+```
+
+`accept_prebattle_candidate.py` is the fail-closed Task 4.6 Step 3 gate. It consumes
+the already captured strict frame-80 directory and does not run mGBA or inject keys.
+Using only the Python standard library, it validates every PNG chunk CRC, requires
+RGB8 240×160 IHDRs, and compares the decompressed pre-unfilter scanline SHA-256 of the
+tracked candidate and frame-80 screenshot. It then authenticates the base/staged ROM,
+input/output states, screenshot, replay script, manifest, emulator binary and the
+base64-embedded upstream patch from their actual bytes; validates strict zero-input
+mode, `completed/0` non-degraded guard output, task 2 PC/SP, the three explicit BL
+frames, the negative controller boundary and `[0x0202680C]`; and finally performs
+read-only exact-PGID plus mGBA-listener residue checks. Evidence is written only if
+every gate succeeds:
+
+```bash
+python3 tools/accept_prebattle_candidate.py
+```
+
+The resulting acceptance proves a stable prebattle menu only. In particular it does
+not prove `0x0808F952 → 0x080732B4` controller entry, player control, MOVEDONE,
+victory, or postbattle. It never kills processes and must not be used to justify Down/A
+input unless a later, separately reviewed task explicitly authorizes that input.
+
 ## `mgba_gdb_probe.py`
 
 Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干

@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "verdict": "accepted",
+  "checkpoint": {
+    "name": "scenario-41-prebattle-menu",
+    "path": "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
+    "sha256": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+    "screen": "scenario-41-prebattle-menu",
+    "stable_zero_input": true
+  },
+  "screen_identity": {
+    "method": "validated PNG IHDR plus decompressed pre-unfilter scanline SHA-256",
+    "candidate": {
+      "width": 240,
+      "height": 160,
+      "bit_depth": 8,
+      "color_type": 2,
+      "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+      "decompressed_scanlines_length": 115360,
+      "decompressed_scanlines_sha256": "18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b"
+    },
+    "frame80": {
+      "width": 240,
+      "height": 160,
+      "bit_depth": 8,
+      "color_type": 2,
+      "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+      "decompressed_scanlines_length": 115360,
+      "decompressed_scanlines_sha256": "18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b"
+    },
+    "identical": true
+  },
+  "savestate": {
+    "output": {
+      "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/frame80.ss9",
+      "sha256": "53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65"
+    },
+    "task_2": {
+      "slot": 2,
+      "type": 2,
+      "delay": 1,
+      "sp": "0x030011D8",
+      "lr": "0x08067D03",
+      "resume_pc": "0x08067D02"
+    },
+    "active_unwind": {
+      "task_slot": 2,
+      "task_sp": "0x030011D8",
+      "selection": "explicit-stack-slots-with-static-thumb-bl-validation",
+      "raw_return_words": [
+        "0x080885C1",
+        "0x08088F9F",
+        "0x0808F92D"
+      ],
+      "frames": [
+        {
+          "stack_address": "0x03001220",
+          "raw_return_word": "0x080885C1",
+          "resume_pc": "0x080885C0",
+          "callsite": "0x080885BC",
+          "decoded_target": "0x08067158"
+        },
+        {
+          "stack_address": "0x03001240",
+          "raw_return_word": "0x08088F9F",
+          "resume_pc": "0x08088F9E",
+          "callsite": "0x08088F9A",
+          "decoded_target": "0x080884DC"
+        },
+        {
+          "stack_address": "0x03001278",
+          "raw_return_word": "0x0808F92D",
+          "resume_pc": "0x0808F92C",
+          "callsite": "0x0808F928",
+          "decoded_target": "0x08088F10"
+        }
+      ]
+    },
+    "controller_negative_boundary": {
+      "raw_return_word": "0x0808F957",
+      "callsite": "0x0808F952",
+      "decoded_target": "0x080732B4"
+    },
+    "controller_return_absent": true,
+    "memory_bytes": {
+      "0x0202680C": 0
+    }
+  },
+  "strict_replay": {
+    "run_id": "be8e11738e43f276b0c31798061e63fc",
+    "audit": {
+      "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/audit.json",
+      "sha256": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae"
+    },
+    "sentinel": {
+      "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/sentinel.json",
+      "sha256": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae"
+    },
+    "zero_input_verified": true,
+    "evidence_mode": "zero-input",
+    "inputs": [],
+    "pre_scripts": [],
+    "capture_frame": 80,
+    "files": {
+      "input_state": {
+        "path": "/Users/altair/github/gba-naruto/artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
+        "sha256": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078"
+      },
+      "output_state": {
+        "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/frame80.ss9",
+        "sha256": "53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65"
+      },
+      "output_png": {
+        "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/frame80.png",
+        "sha256": "6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0"
+      },
+      "staged_rom": {
+        "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/staged-base.gba",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "replay_script": {
+        "path": "/Users/altair/github/gba-naruto/tools/mgba_checkpoint_replay.lua",
+        "sha256": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
+      },
+      "build_manifest": {
+        "path": "/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json",
+        "sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d"
+      },
+      "base_rom": {
+        "path": "/Users/altair/github/gba-naruto/rom/base.gba",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      }
+    },
+    "emulator": {
+      "path": "/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA",
+      "sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "version": "0.10.5",
+      "architecture": "x86_64",
+      "source_commit": "26b7884bc25a5933960f3cdcd98bac1ae14d42e2",
+      "backport_commit": "7cacae126207de5499857439b9c7919bf8e882c2",
+      "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6"
+    },
+    "guard": {
+      "path": "/Users/altair/github/gba-naruto/build/macos-prebattle-frame80-step2-20260715/guard-summary.json",
+      "sha256": "17a8c5abfe3e12f829e85119a5ebd3d9f576df6f3e51d5a0adee67651a1a4c2c",
+      "reason": "completed",
+      "exit_code": 0,
+      "degraded": false,
+      "child_pgid": 20050,
+      "peak_tree_rss_mib": 51.94921875,
+      "protection_backend": "posix-process-group"
+    }
+  },
+  "runtime_residue": {
+    "checked_pgid": 20050,
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ],
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "checked_at": "2026-07-15T16:01:59.663053Z"
+  },
+  "scope": {
+    "proves": [
+      "stable zero-input scenario 41 prebattle menu"
+    ],
+    "does_not_prove": [
+      "battle controller entry",
+      "player control",
+      "MOVEDONE",
+      "victory",
+      "postbattle"
+    ]
+  },
+  "generated_at": "2026-07-15T16:01:59.664075Z"
+}

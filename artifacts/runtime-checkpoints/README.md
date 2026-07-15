@@ -42,6 +42,7 @@ Expected SHA-256:
 | `tutorial-ui-save.sav` | `9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b` | natural 32-KiB UI save used for cold-load proof |
 | `actionable-move-grid.ss9` | `4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac` | real actionable tutorial battle target-selection grid; base-ROM replay passes the strict battle gate |
 | `skill-list-pre-controller.ss9` | `b5e26b7bfeb765b7f50a77fe4a6513abf206159695f61a02af19cfb55ce60d1a` | Naruto submenu before the natural high-bit technique-list controller and initializer |
+| `scenario-41-prebattle-menu-candidate.ss9` | `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078` | accepted stable scenario 41 prebattle menu after strict mGBA 0.10.5 zero-input frame-80 replay; still before controller entry |
 
 ## Scenario 41 checkpoint ledger
 
@@ -73,6 +74,18 @@ records `not-proven`, and no `scenario-41-player-turn.ss9` exists.
 `build/natural-s41-start-prompt.ss9` remains explicitly rejected because
 inspection showed the team/equipment page rather than the scenario 41
 start-confirm prompt.
+
+`scenario-41-prebattle-menu-candidate.ss9` is now accepted without replaying the
+prologue again. Strict run `be8e11738e43f276b0c31798061e63fc` held it for 80 frames
+with `inputs=[]`; validated IHDR and decompressed scanline hashes are identical before
+and after. The frame-80 task 2 resumes at `0x08067D02`, SP `0x030011D8`. Only the
+explicit stack slots `0x03001220/0x03001240/0x03001278` are in the accepted unwind;
+their raw returns `0x080885C1/0x08088F9F/0x0808F92D` each decode as the expected
+Thumb BL in `rom/base.gba`. The controller return `0x0808F957` is absent and
+`[0x0202680C]=0`. `scenario-41-prebattle-menu-evidence.json` authenticates all inputs,
+outputs, emulator/manifest/patch provenance, `completed/0` non-degraded guard result,
+and a fresh clean PGID/listener check. This is reusable prebattle-menu state only; it
+does not prove controller entry, player control, MOVEDONE, victory, or postbattle.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate

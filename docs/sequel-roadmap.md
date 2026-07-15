@@ -30,13 +30,16 @@
   `actionable-move-grid.ss9` 的零输入 baseline 和显式 `B,Down,Down,A,A` final dump
   逐字节相同，`0x08073946` 与四个 `0x08073A04` 分支均无 fresh record。正对照未成立，
   因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；
-- 2026-07-15 原生 mGBA 0.10.5 Lua 已证明：从 accepted 白框 state 对 GBA B 做
-  8-frame hold 可到达战前菜单。输出 task 2 resume PC 为 `0x08067D02`，活动 unwind
-  为 `0x080885C1 → 0x08088F9F → 0x0808F92D`，仍不含 controller return
-  `0x0808F957`。该 state 已随 Git 固化为 prebattle candidate，等待 macOS Intel
-  零输入复放后才可 accepted；
-- 下一 P0 先完成 lineup/deployment，并以 task 栈含 `0x0808F957` 或 fresh entry observer
-  命中 `0x0808F952 → 0x080732B4` 证明真实 controller entry；随后依次命中玩家单位选择 `0x08073940`、
+- 2026-07-15 macOS Intel 已复用严格 mGBA 0.10.5 frame-80 零输入结果验收战前菜单：
+  candidate 与输出的 240×160 RGB8 decompressed scanlines 逐哈希相同，task 2 resume PC
+  为 `0x08067D02`，三个显式栈槽经 base ROM Thumb BL 静态校验后得到活动 unwind
+  `0x080885C1 → 0x08088F9F → 0x0808F92D`，`[0x0202680C]=0`，仍不含 controller
+  return `0x0808F957`。strict audit/ROM/state/emulator/patch 全部通过哈希校验，guard
+  为非降级 `completed/0`，最终 PGID 与 mGBA listener 均无残留；该 state 现已作为
+  `scenario-41-prebattle-menu` accepted，可直接重载用于后续分段调试；
+- 下一 P0 从 accepted prebattle menu 继续完成 lineup/deployment，并以 task 栈含
+  `0x0808F957` 或 fresh entry observer 命中 `0x0808F952 → 0x080732B4` 证明真实
+  controller entry；随后依次命中玩家单位选择 `0x08073940`、
   MOVEDONE `0x080722A8`、胜负谓词 `0x080777FC`、结果写入 `0x02026807` 和
   postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；
 - 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`；
