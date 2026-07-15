@@ -138,11 +138,11 @@
 - **THEN** 该结论 MUST 保持未验收，且不得更新 bank 的验证等级
 
 ### Requirement: 阶段性同步与最终审计
-每个完成的 bank 或共享运行时事件 SHALL 在同一工作周期更新 bank 元数据、稳定证据文档、`docs/sequel-roadmap.md` 和完成度审计。阶段性成果 MUST 经过审查与验证后独立提交并推送远端，最终验收 MUST 逐项说明九个 bank 的证据等级和未决限制。
+每个完成的 bank 或共享运行时事件 SHALL 在同一工作周期更新 bank 元数据、稳定证据文档、`docs/sequel-roadmap.md` 和完成度审计。阶段性成果 MUST 经过审查与验证后创建范围明确的本地 commit 并记录 commit hash，最终验收 MUST 逐项说明九个 bank 的证据等级和未决限制。
 
 #### Scenario: 单项 bank 闭环
 - **WHEN** 某个 bank 满足运行时门禁，或严格负证据证明它应作为非独立结构改为 `disproved`
-- **THEN** 同一阶段提交 MUST 包含对应证据、元数据、路线图和审计更新，并在推送前通过范围匹配的测试
+- **THEN** 同一阶段的本地 commit MUST 包含对应证据、元数据、路线图和审计更新，并在创建 commit 前通过范围匹配的测试，且记录 commit hash
 
 #### Scenario: 共享事件闭合多个 bank
 - **WHEN** scenario 41 或其他自然事件同时为多个 bank 提供独立可判定的证据

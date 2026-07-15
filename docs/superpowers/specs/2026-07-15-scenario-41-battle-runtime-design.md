@@ -135,9 +135,9 @@ victory 与 postbattle 分别保存 checkpoint；最终 postbattle 在 base ROM 
 - 每个阶段运行 base ROM control 与 observer ROM，使用同 checkpoint、同输入和同采样窗口；
 - 最终运行相关 Python/Node/集成测试、OpenSpec strict validate、`git diff --check`，并由独立子代理审查 ABI、checkpoint 来源、正负证据和资源清理。
 
-## 8. 阶段提交
+## 8. 阶段本地提交
 
-按可独立审查的证据闭环提交并推送：
+按可独立审查的证据闭环创建范围明确的本地 commit：
 
 1. 严格 mGBA GDB + 双 observer 工具与测试；
 2. canonical start-row/start-confirm + 玩家控制证据；

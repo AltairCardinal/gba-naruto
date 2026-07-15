@@ -25,7 +25,7 @@ base-ref: 9352dcadaa7f4650a65ae575286a2dd264b7b1ef
 - prebattle 后的 Down/A 必须拆成独立 single-input run；每个中间 candidate 先零输入复验，未通过时禁止下一键。
 - strict battle arrival、已越过 hook 的零 scratch、savestate 携带旧 magic 或清单外自动输入均不得证明玩家控制。
 - 本 change 不证明 EXP、level 2、训练点或 levels record，不改变任何 bank verification 状态。
-- 每个可独立证据阶段提交并推送 `origin/task/units-character-definitions`；临时 ROM/PNG/GDB 日志保留在忽略的 `build/`。
+- 每个可独立证据阶段创建范围明确的本地 commit 并记录 commit hash；临时 ROM/PNG/GDB 日志保留在忽略的 `build/`。
 
 ---
 
@@ -856,15 +856,16 @@ From `scenario-41-player-turn.ss9`, sample the actual controlled unit and target
 
 Acceptance requires fresh MOVEDONE at either checked call, matching controlled-unit before/after coordinates and action/round state, no automatic inputs, and a base-ROM control replay. Then accept `scenario-41-turn-1-complete.ss9` in the ledger.
 
-- [ ] **Step 6: Persist, verify, commit and push**
+- [ ] **Step 6: Persist, verify, and create a focused local commit**
 
 Run all Task 6 Python/Node tests, ledger validation, `git diff --check`, and check the guard summary/memory. Persist the exact input list, event site, sequence, unit/round before-after and failed routes.
 
 ```powershell
 git add tools/build_action_submit_runtime_probe.py tests/test_build_action_submit_runtime_probe.py play/_scripts/scenario-41-runtime-evidence.js play/_scripts/scenario-41-runtime-evidence.test.js artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9 artifacts/runtime-checkpoints/scenario-41-movedone-evidence.json artifacts/runtime-checkpoints/scenario-41-checkpoints.json notes/scenario-41-movedone-runtime-20260715.md openspec/changes/close-scenario-41-battle-runtime/tasks.md
 git commit -m "feat(re): prove scenario 41 MOVEDONE transition"
-git push origin task/units-character-definitions
 ```
+
+Record the resulting local commit hash in the stage evidence.
 
 ---
 
@@ -960,15 +961,16 @@ Run a base-ROM zero-input replay of postbattle and a base-ROM control of the sam
 
 The compact JSON records checkpoint/ROM hashes, explicit input steps, all event baselines/finals, predicate/write/exit/postbattle addresses, result byte, controller state, unit survival transition, screenshots/frame hashes, base controls and resource peaks. The note records every failed or ambiguous route.
 
-- [ ] **Step 7: Verify, commit and push**
+- [ ] **Step 7: Verify and create a focused local commit**
 
 Run all Task 7 tests, all earlier focused tests, ledger validation, native mGBA read-only replay of victory/postbattle, and `git diff --check`.
 
 ```powershell
 git add tools/build_battle_completion_runtime_probe.py tests/test_build_battle_completion_runtime_probe.py play/_scripts/scenario-41-runtime-evidence.js play/_scripts/scenario-41-runtime-evidence.test.js artifacts/runtime-checkpoints/scenario-41-victory.ss9 artifacts/runtime-checkpoints/scenario-41-postbattle.ss9 artifacts/runtime-checkpoints/scenario-41-completion-evidence.json artifacts/runtime-checkpoints/scenario-41-checkpoints.json notes/scenario-41-completion-runtime-20260715.md openspec/changes/close-scenario-41-battle-runtime/tasks.md
 git commit -m "feat(re): close scenario 41 victory and postbattle"
-git push origin task/units-character-definitions
 ```
+
+Record the resulting local commit hash in the stage evidence.
 
 ---
 
@@ -1035,7 +1037,8 @@ git status --short
 git add tools/README.md artifacts/runtime-checkpoints/README.md docs/reverse-engineering-handoff-20260711.md docs/sequel-roadmap.md notes/re-completion-audit.md notes/re-completion-audit.json notes/scenario-41-player-control-runtime-20260715.md notes/scenario-41-movedone-runtime-20260715.md notes/scenario-41-completion-runtime-20260715.md openspec/changes/close-scenario-41-battle-runtime
 git diff --cached --check
 git commit -m "docs(re): hand off scenario 41 runtime closure"
-git push origin task/units-character-definitions
 ```
+
+Record the resulting local commit hash before running the Comet build guard.
 
 Before committing, inspect cached names and unstage any unrelated user or temporary build file. Then run the Comet build guard; only all-green output may transition the change to Verify.

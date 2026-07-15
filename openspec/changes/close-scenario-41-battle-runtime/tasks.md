@@ -47,4 +47,4 @@
 - [ ] 7.1 运行相关 Python、Node、集成、格式与 `git diff --check` 验证，并保存资源守卫摘要
 - [ ] 7.2 对 probe ABI、快照来源、正负证据和资源清理做独立子代理审查并处理结论
 - [ ] 7.3 清理仅由本轮创建的临时 build 诊断文件，保留已选定的持久快照和证据
-- [ ] 7.4 检查 `git status`，按阶段创建聚焦提交并推送 `origin/task/units-character-definitions`
+- [ ] 7.4 检查 `git status`，按阶段创建聚焦的本地 commit，并记录 commit hash

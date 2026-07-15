@@ -9,7 +9,7 @@ scenario 41 已能稳定进入 battle 41 表现，但现有可操作快照位于
 - 在 `0x08073940/0x08073946` 玩家单位选择、当前单位、行动菜单、MOVEDONE、胜负检查、结果写入和 battle 退出边界收集可复现的运行时证据。
 - 自然完成 scenario 41 两回合教程，并固化 victory 与 postbattle 检查点。
 - 所有重任务统一经过资源守卫、共享锁和精确 owned-process-tree 清理；定期记录系统可用内存与进程树峰值。
-- 同步交接文档、路线图、紧凑证据和回归测试；阶段成果独立提交并推送远端。
+- 同步交接文档、路线图、紧凑证据和回归测试；阶段成果创建范围明确的本地 commit。
 - 本 change 不宣称 levels 已验证，也不升级其余 `code_verified` bank。
 
 ## Capabilities

@@ -59,12 +59,12 @@ completion audit MUST 聚合 audio cue semantic closure、legacy ROM mirror boun
 - **WHEN** 守卫检测本次拥有的进程树超过 RSS/timeout 门槛
 - **THEN** 守卫 SHALL 只终止该 Job Object/process group、写入原因与峰值摘要，且不得按名称批量终止 Python、Chrome 或其他全局进程
 
-### Requirement: 阶段成果必须持久化并同步远端
-每个可独立验收的证据批次 SHALL 在相关测试通过后同步 bank/notes/docs/roadmap，检查变更范围，再以聚焦提交推送当前远端分支；不得把无关用户改动或临时模拟器产物混入提交。
+### Requirement: 阶段成果必须持久化并以本地 commit 可追溯
+每个可独立验收的证据批次 SHALL 在相关测试通过后同步 bank/notes/docs/roadmap，检查变更范围，再创建范围明确的本地 commit 并记录 commit hash；不得把无关用户改动或临时模拟器产物混入提交。
 
 #### Scenario: 一个 P2 批次通过
 - **WHEN** 一组 cue、字段或 CRUD 边界达到其独立验收门槛
-- **THEN** 仓库 SHALL 包含对应持久证据、测试和文档更新，且远端分支可定位到该阶段提交
+- **THEN** 仓库 SHALL 包含对应持久证据、测试和文档更新，且记录的本地 commit hash 可定位到该阶段提交
 
 ### Requirement: 100% 声明和最终报告必须 fail closed
 系统 MUST 仅在全部 required gate 为 `pass` 时设置 `completion_claim_allowed=true`、更新 `docs/final-completion-report.md` 为 100% 并允许 Draft PR 进入后续发布决策；`fail`、`not_proven`、证据缺失或报告不一致均 SHALL 保持非完成状态。

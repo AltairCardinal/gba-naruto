@@ -4,7 +4,7 @@
 - [ ] 1.2 盘点当前 80 个有效 audio cue、legacy CRUD/mirror 字段、玩家可见字段与 32-bank 权威清单，保存本 change 的输入版本和缺口清单
 - [ ] 1.3 先写 dependency/baseline 缺失或状态漂移时失败的红测，确认因正确原因失败，再实现最小依赖门禁并重构复验
 - [ ] 1.4 核对 mGBA 快照索引、ROM/状态哈希与 `run_guarded.py` 共享锁/owned-tree 清理入口，记录实施前系统内存基线
-- [ ] 1.5 同步基线调查到 `notes/` 与路线图，运行聚焦测试后形成首个独立提交并推送远端
+- [ ] 1.5 同步基线调查到 `notes/` 与路线图，运行聚焦测试后形成首个范围明确的本地 commit，并记录 commit hash
 
 ## 2. Audio cue 语义闭合
 
@@ -28,7 +28,7 @@
 - [ ] 2.18 闭合 unknown cue 150–154，不可达或证据冲突时保留失败并继续调查，不降低门槛
 - [ ] 2.19 闭合 unknown cue 155–158，并核对 system/gameplay 家族与实际事件边界
 - [ ] 2.20 运行 80/80 覆盖审计，确认零 unknown、零重复、零无来源语义且所有非官方标签为 `official_name_known=false`
-- [ ] 2.21 安排独立审查 audio 证据等级与命名边界，修正问题后同步 bank/notes/docs/roadmap、运行聚焦回归并提交推送该阶段成果
+- [ ] 2.21 安排独立审查 audio 证据等级与命名边界，修正问题后同步 bank/notes/docs/roadmap、运行聚焦回归并将该阶段成果创建为范围明确的本地 commit，记录 commit hash
 
 ## 3. 玩家可见字段与语义写回
 
@@ -42,7 +42,7 @@
 - [ ] 3.8 为每个新 serializer 运行正式 build 单字段 diff 和同快照 mGBA control/variant，确认可见或行为差异方向符合预期
 - [ ] 3.9 建立字段能力清单，使语义、serializer、build diff、集成测试或 mGBA 证据任一缺失时字段自动保持 denied
 - [ ] 3.10 运行玩家可见字段覆盖审计，确认无已暴露 unknown、无无证据开放字段，并安排独立审查语义与写回边界
-- [ ] 3.11 同步字段 schema、bank、notes、交接文档和路线图，运行聚焦测试后形成独立提交并推送远端
+- [ ] 3.11 同步字段 schema、bank、notes、交接文档和路线图，运行聚焦测试后形成范围明确的本地 commit，并记录 commit hash
 
 ## 4. Legacy CRUD 与 ROM mirror 边界
 
@@ -55,7 +55,7 @@
 - [ ] 4.7 对每个 allowlisted 字段族执行完整 mirror DB 单字段构建，断言 ROM diff 只包含声明范围、全局 DB/build 哈希不变且报告哈希匹配
 - [ ] 4.8 故意破坏 CRUD 列、mirror identity、offset 和 serializer，确认对应集成测试均会失败且没有 silent skip
 - [ ] 4.9 运行 legacy 边界覆盖审计，确认每个输入字段恰有一个 editable/denied 决定、无悬空映射和无旧模板/合成写入
-- [ ] 4.10 安排独立安全审查 patch allowlist、immutable-base 与冲突门禁，修正后同步 notes/docs/roadmap、运行聚焦回归并提交推送
+- [ ] 4.10 安排独立安全审查 patch allowlist、immutable-base 与冲突门禁，修正后同步 notes/docs/roadmap、运行聚焦回归并创建范围明确的本地 commit，记录 commit hash
 
 ## 5. 最终 100% 完成门禁
 
@@ -69,5 +69,5 @@
 - [ ] 5.8 从已追踪 mGBA 快照复放 scenario 41、levels、剩余 bank 与字段写回的代表性验收链，核对 ROM/状态/输入/结果哈希和资源报告
 - [ ] 5.9 安排独立审查 32 行证据矩阵、全量测试覆盖和完成布尔逻辑；所有审查问题解决并重新验证前保持非完成状态
 - [ ] 5.10 仅依据最终机器报告更新 `docs/final-completion-report.md`、交接文档和路线图；若任一门禁失败，报告明确列出缺口且不恢复 100% 声明
-- [ ] 5.11 检查 `git status`、`git diff --check` 与变更范围，排除临时 mGBA/build 产物和无关用户改动，提交并推送最终审计批次
-- [ ] 5.12 在已推送 commit 上复核远端分支、持久报告哈希和全部 required gate；只有全为 `pass` 时才设置 `completion_claim_allowed=true` 并进入 Comet verify/归档流程
+- [ ] 5.11 检查 `git status`、`git diff --check` 与变更范围，排除临时 mGBA/build 产物和无关用户改动，为最终审计批次创建范围明确的本地 commit，并记录 commit hash
+- [ ] 5.12 在 5.11 记录的本地 commit hash 上复核持久报告哈希和全部 required gate；只有全为 `pass` 时才设置 `completion_claim_allowed=true` 并进入 Comet verify/归档流程

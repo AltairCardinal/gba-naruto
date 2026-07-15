@@ -1,0 +1,48 @@
+# Comet 项目级策略。由 Goal、AGENTS.md 和 tools/check_comet_project_policy.py
+# 在当前仓库内共同执行；不要求 Comet 插件原生解析。
+
+schema_version: 1
+enforcement: strict
+
+goal:
+  required: true
+  require_active_before_write: true
+  revoke_writer_on_user_prompt: true
+
+change:
+  require_explicit_selection: true
+  allow_first_active_fallback: false
+
+git:
+  commit: prompt
+  push: deny
+
+agents:
+  max_writers: 1
+  reviewer_read_only: true
+  sidecar_read_only: true
+  require_parent_verification: true
+
+resources:
+  runner:
+    - python3
+    - tools/run_guarded.py
+  heavy_lock: build/resource-guard/heavy.lock
+  monitor_owned_tree_rss: true
+
+rom:
+  require_verified_snapshot: true
+  prefer_latest_verified_snapshot: true
+  require_single_input: true
+  require_zero_input_control: true
+
+evidence:
+  immutable_runs: true
+  require_unique_run_id: true
+  require_manifest: true
+  require_input_hashes: true
+  preserve_superseded_results: true
+
+limits:
+  stop_after_no_new_evidence_cycles: 3
+  stop_after_unchanged_waits: 3

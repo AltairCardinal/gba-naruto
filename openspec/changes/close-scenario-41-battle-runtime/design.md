@@ -12,7 +12,7 @@
 - 自然完成两回合教程，捕获 MOVEDONE、胜负检查、结果写入、battle 退出与 postbattle 状态。
 - 形成 Windows 原生 mGBA 的有界 GDB 读取和断点工具，并与浏览器实例内输入互补。
 - 为每个正结论保留紧凑 JSON、关键地址、输入路线、ROM/快照哈希和资源峰值。
-- 以 TDD、集成测试、独立审查、阶段提交和推送维持可持续调查链路。
+- 以 TDD、集成测试、独立审查和范围明确的本地 commit 维持可持续调查链路。
 
 **Non-Goals:**
 
@@ -65,7 +65,7 @@ mGBA GDB 对大于 256 字节的单个 memory packet 返回 `E06`。逻辑读取
 1. 完成并审查 mGBA GDB 与玩家控制 observer 的测试和工具说明。
 2. 从真实存档重建并验证最早必要快照，删除或忽略仅用于导航的临时 build 产物。
 3. 从任务准备快照命中玩家控制，固化首个正证据与新前置快照。
-4. 沿自然教程逐段扩展到 MOVEDONE、victory 和 postbattle，逐阶段提交并推送。
+4. 沿自然教程逐段扩展到 MOVEDONE、victory 和 postbattle，逐阶段创建范围明确的本地 commit。
 5. 更新交接、路线图和 checkpoint README；将 levels 留给后续 change。
 
 回滚仅删除本 change 新增的探针、测试和证据，不改动基础 ROM，也不回滚用户已有工作。
