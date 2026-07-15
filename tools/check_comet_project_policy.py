@@ -60,7 +60,17 @@ GAME_UI_CONTEXT_RE = re.compile(
     r"游戏|标题|界面|画面|\bUI\b|文案|提示|按键|按钮|菜单|快照|Continue",
     re.IGNORECASE,
 )
-NORMATIVE_EXEMPTIONS = ("历史", "曾", "不再运行", "不得", "禁止", "不执行")
+EXEMPT_PUSH_RE = re.compile(
+    r"(?:"
+    r"历史\s*(?:git\s+push|push|推送)"
+    r"|曾(?:经)?\s*(?:运行\s*)?(?:git\s+push|push|推送)"
+    r"|不再运行\s*(?:git\s+push|push|推送)"
+    r"|不得\s*(?:运行\s*)?(?:git\s+push|push|推送)"
+    r"|禁止\s*(?:运行\s*)?(?:git\s+push|push|推送)"
+    r"|不执行\s*(?:git\s+push|push|推送)"
+    r")",
+    re.IGNORECASE,
+)
 CLAUSE_SPLIT_RE = re.compile(
     r"[；;。.!?！？，,]|\b(?:but|then)\b|(?<!不)但|然后", re.IGNORECASE
 )
@@ -240,7 +250,18 @@ def _validated_change_path(root: Path, name: str) -> Path:
         change.relative_to(changes_root)
     except ValueError as exc:
         raise ValueError(f"active change escapes repository: {name!r}") from exc
+    if not change.is_dir():
+        raise ValueError(f"active change does not exist: {name!r}")
     return change
+
+
+def _validated_artifact_path(change: Path, path: Path) -> Path:
+    resolved = path.resolve()
+    try:
+        resolved.relative_to(change)
+    except ValueError as exc:
+        raise ValueError(f"artifact escapes active change: {path}") from exc
+    return resolved
 
 
 def _validated_plan_path(root: Path, path: Path) -> Path:
@@ -262,12 +283,7 @@ def _contains_push(text: str) -> bool:
 
 
 def _normative_push_required(text: str) -> bool:
-    for clause in CLAUSE_SPLIT_RE.split(text):
-        if _contains_push(clause) and not any(
-            marker in clause for marker in NORMATIVE_EXEMPTIONS
-        ):
-            return True
-    return False
+    return _contains_push(EXEMPT_PUSH_RE.sub("", text.replace("`", "")))
 
 
 def _scan_push_lines(
@@ -319,14 +335,20 @@ def find_push_conflicts(
     conflicts: list[dict[str, object]] = []
     for name in active_changes:
         change = _validated_change_path(root, name)
-        normative_paths = [change / "proposal.md", change / "design.md"]
-        specs = change / "specs"
+        normative_paths = [
+            _validated_artifact_path(change, change / "proposal.md"),
+            _validated_artifact_path(change, change / "design.md"),
+        ]
+        specs = _validated_artifact_path(change, change / "specs")
         if specs.exists():
-            normative_paths.extend(sorted(specs.rglob("*.md")))
+            normative_paths.extend(
+                _validated_artifact_path(change, path)
+                for path in sorted(specs.rglob("*.md"))
+            )
         for path in normative_paths:
             if path.is_file():
                 conflicts.extend(_scan_push_lines(root, path, checkbox_aware=False))
-        tasks = change / "tasks.md"
+        tasks = _validated_artifact_path(change, change / "tasks.md")
         if tasks.is_file():
             conflicts.extend(_scan_push_lines(root, tasks, checkbox_aware=True))
 
@@ -351,13 +373,23 @@ def _load_active_changes(root: Path) -> list[str]:
     changes = payload.get("changes")
     if not isinstance(changes, list):
         raise ValueError("openspec list --json did not return a changes list")
-    return [
-        item["name"]
-        for item in changes
-        if isinstance(item, dict)
-        and isinstance(item.get("name"), str)
-        and item.get("status") not in {"completed", "archived"}
-    ]
+    active: list[str] = []
+    for index, item in enumerate(changes):
+        if not isinstance(item, dict):
+            raise ValueError(f"openspec changes[{index}] must be an object")
+        name = item.get("name")
+        status = item.get("status")
+        if not isinstance(name, str) or not name:
+            raise ValueError(
+                f"openspec changes[{index}].name must be a nonempty string"
+            )
+        if not isinstance(status, str) or not status:
+            raise ValueError(
+                f"openspec changes[{index}].status must be a nonempty string"
+            )
+        if status not in {"completed", "archived"}:
+            active.append(name)
+    return active
 
 
 def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path], list[str]]:
@@ -366,7 +398,12 @@ def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path
     errors: list[str] = []
     root_resolved = root.resolve()
     for name in active_changes:
-        comet = _validated_change_path(root, name) / ".comet.yaml"
+        change = _validated_change_path(root, name)
+        try:
+            comet = _validated_artifact_path(change, change / ".comet.yaml")
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
         if not comet.is_file():
             continue
         try:
@@ -500,7 +537,7 @@ def audit_project(
     errors.extend(plan_errors)
     try:
         conflicts = find_push_conflicts(root, validated_changes, plans)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         errors.append(f"cannot scan active artifacts: {exc}")
         conflicts = []
     return {

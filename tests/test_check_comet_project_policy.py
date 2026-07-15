@@ -305,6 +305,25 @@ limits:
             ],
         )
 
+    def test_exemption_must_directly_govern_push_phrase(self) -> None:
+        self.write_change_file(
+            "demo",
+            "design.md",
+            "不得跳过验证并且验证后必须推送。\n"
+            "不得不推送。\n"
+            "历史 push 已完成；新版本必须 push。\n"
+            "不得 push；也不执行推送。\n",
+        )
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [
+                ("openspec/changes/demo/design.md", 1),
+                ("openspec/changes/demo/design.md", 2),
+                ("openspec/changes/demo/design.md", 3),
+            ],
+        )
+
     def test_only_exempts_contextual_game_ui_push_start(self) -> None:
         self.write_change_file(
             "demo",
@@ -462,6 +481,34 @@ limits:
         self.assertTrue(any("active change" in item for item in report["errors"]))
         self.assertEqual(report["active_change_push_conflicts"], [])
 
+    def test_rejects_missing_change_and_artifact_symlink_escape(self) -> None:
+        outside = Path(self.tempdir.name).parent / f"{self.root.name}-artifact"
+        outside.mkdir()
+        self.addCleanup(lambda: outside.rmdir())
+        proposal = outside / "proposal.md"
+        proposal.write_text("必须 push。\n", encoding="utf-8")
+        self.addCleanup(proposal.unlink)
+        self.write_change("demo")
+        local = self.root / "openspec/changes/demo/proposal.md"
+        local.symlink_to(proposal)
+        with self.assertRaisesRegex(ValueError, "artifact escapes active change"):
+            find_push_conflicts(self.root, ["demo"], [])
+        missing = audit_project(self.root, active_changes=["missing"])
+        self.assertTrue(any("does not exist" in item for item in missing["errors"]))
+
+    def test_audit_rejects_comet_artifact_symlink_escape(self) -> None:
+        outside = Path(self.tempdir.name).parent / f"{self.root.name}-comet"
+        outside.write_text("plan: docs/outside.md\n", encoding="utf-8")
+        self.addCleanup(outside.unlink)
+        self.write_change("demo")
+        comet = self.root / "openspec/changes/demo/.comet.yaml"
+        comet.symlink_to(outside)
+        report = audit_project(self.root, active_changes=["demo"])
+        self.assertTrue(
+            any("artifact escapes active change" in item for item in report["errors"]),
+            report,
+        )
+
     def test_audit_surfaces_artifact_read_failure(self) -> None:
         self.write_change("demo")
         self.write_change_file("demo", "proposal.md", "必须 git push。\n")
@@ -543,6 +590,25 @@ limits:
                 )
                 self.assertEqual(
                     completed.stdout, report_path.read_text(encoding="utf-8")
+                )
+
+    def test_cli_rejects_malformed_openspec_change_records(self) -> None:
+        payloads = (
+            '{"changes": [3]}\n',
+            '{"changes": [{"name": 123, "status": "in-progress"}]}\n',
+            '{"changes": [{"name": "demo", "status": 3}]}\n',
+        )
+        for payload in payloads:
+            with self.subTest(payload=payload):
+                completed = self.run_cli(payload)
+                report = json.loads(completed.stdout)
+                self.assertEqual(completed.returncode, 1, completed.stderr)
+                self.assertTrue(
+                    any(
+                        "cannot load active OpenSpec changes" in item
+                        for item in report["errors"]
+                    ),
+                    report,
                 )
 
     def test_deduplicates_plan_referenced_by_multiple_active_changes(self) -> None:
