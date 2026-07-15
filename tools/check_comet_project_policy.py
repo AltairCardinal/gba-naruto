@@ -243,6 +243,16 @@ def _relative_path(root: Path, path: Path) -> str:
         return str(path)
 
 
+def _read_utf8_lines(root: Path, path: Path) -> list[str]:
+    display_path = _relative_path(root, path)
+    try:
+        return path.read_text(encoding="utf-8").splitlines()
+    except UnicodeError as exc:
+        raise ValueError(f"{display_path}: is not valid UTF-8") from exc
+    except OSError as exc:
+        raise OSError(f"{display_path}: cannot read: {exc}") from exc
+
+
 def _validated_change_path(root: Path, name: str) -> Path:
     name_path = Path(name)
     if (
@@ -310,10 +320,7 @@ def _scan_push_lines(
     checkbox_unfinished: bool | None = None
     fenced_code_char: str | None = None
     fenced_code_length = 0
-    try:
-        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
-    except OSError as exc:
-        raise OSError(f"{_relative_path(root, path)}: {exc}") from exc
+    lines = _read_utf8_lines(root, path)
 
     for line_number, text in enumerate(lines, 1):
         if checkbox_aware:
@@ -440,9 +447,9 @@ def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path
         if not comet_exists:
             continue
         try:
-            lines = comet.read_text(encoding="utf-8", errors="replace").splitlines()
-        except OSError as exc:
-            errors.append(f"{_relative_path(root, comet)}: {exc}")
+            lines = _read_utf8_lines(root, comet)
+        except (OSError, ValueError) as exc:
+            errors.append(str(exc))
             continue
         plan_values = [
             line.split(":", 1)[1].strip()
@@ -513,7 +520,10 @@ def _agents_push_conflicts(root: Path, push_denied: bool) -> list[str]:
         re.compile(r"\bpush\s*:\s*allow\b", re.IGNORECASE),
     )
     errors: list[str] = []
-    lines = agents_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    try:
+        lines = _read_utf8_lines(root, agents_path)
+    except (OSError, ValueError) as exc:
+        return [str(exc)]
     for index, text in enumerate(lines):
         candidate = text
         if index + 1 < len(lines) and re.search(

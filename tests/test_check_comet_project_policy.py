@@ -547,6 +547,58 @@ limits:
             ],
         )
 
+    def test_audit_surfaces_agents_read_failure_as_structured_error(self) -> None:
+        agents = self.root / "AGENTS.md"
+        original_read_text = Path.read_text
+
+        def fail_agents_read(path: Path, *args: object, **kwargs: object) -> str:
+            if path.resolve() == agents.resolve():
+                raise OSError("agents disappeared")
+            return original_read_text(path, *args, **kwargs)
+
+        try:
+            with mock.patch.object(Path, "read_text", fail_agents_read):
+                report = audit_project(self.root, active_changes=[])
+        except (OSError, UnicodeError) as exc:
+            self.fail(f"audit raised instead of returning a structured error: {exc}")
+
+        self.assertIn("AGENTS.md: cannot read: agents disappeared", report["errors"])
+
+    def test_audit_rejects_non_utf8_agents_text(self) -> None:
+        (self.root / "AGENTS.md").write_bytes(b"\xff")
+
+        report = audit_project(self.root, active_changes=[])
+
+        self.assertIn("AGENTS.md: is not valid UTF-8", report["errors"])
+
+    def test_audit_rejects_non_utf8_active_artifact(self) -> None:
+        self.write_change("demo")
+        artifact = self.root / "openspec/changes/demo/proposal.md"
+        artifact.write_bytes(b"\xff")
+
+        try:
+            report = audit_project(self.root, active_changes=["demo"])
+        except UnicodeError as exc:
+            self.fail(f"audit raised instead of returning a structured error: {exc}")
+
+        self.assertIn(
+            "cannot scan active artifacts: "
+            "openspec/changes/demo/proposal.md: is not valid UTF-8",
+            report["errors"],
+        )
+
+    def test_audit_rejects_non_utf8_comet_artifact(self) -> None:
+        self.write_change("demo")
+        comet = self.root / "openspec/changes/demo/.comet.yaml"
+        comet.write_bytes(b"\xff")
+
+        report = audit_project(self.root, active_changes=["demo"])
+
+        self.assertIn(
+            "openspec/changes/demo/.comet.yaml: is not valid UTF-8",
+            report["errors"],
+        )
+
     def test_audit_uses_only_active_changes_and_their_nonempty_comet_plans(self) -> None:
         self.write_change("active", tasks="- [ ] 本地验证\n")
         self.write_change("inactive", tasks="- [ ] 必须 push\n")
@@ -737,6 +789,25 @@ limits:
             any("saved policy report is missing" in item for item in report["errors"]),
             report,
         )
+
+    def test_cli_verify_valid_report_fails_closed_on_current_audit_error(self) -> None:
+        saved = self.root / "passing.json"
+        self.write_saved_report(saved)
+        (self.root / "AGENTS.md").write_bytes(b"\xff")
+
+        completed = self.run_cli(
+            '{"changes": []}\n', ["--verify-report", str(saved)]
+        )
+        try:
+            report = json.loads(completed.stdout)
+        except json.JSONDecodeError as exc:
+            self.fail(
+                f"CLI did not return a machine-readable report: {exc}; "
+                f"stderr={completed.stderr!r}"
+            )
+
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        self.assertIn("AGENTS.md: is not valid UTF-8", report["errors"])
 
     def test_rejects_active_change_and_plan_path_escapes(self) -> None:
         outside = Path(self.tempdir.name).parent / f"{self.root.name}-outside"
