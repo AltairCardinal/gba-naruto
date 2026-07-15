@@ -54,7 +54,8 @@ EXPECTED_POLICY: dict[str, object] = {
 }
 
 CHECKBOX_RE = re.compile(r"^\s*[-*]\s+\[([ xX])\]")
-PUSH_RE = re.compile(r"\bpush\b(?!\s+start\b)|推送", re.IGNORECASE)
+PUSH_RE = re.compile(r"\bpush\b|推送", re.IGNORECASE)
+PUSH_START_UI_RE = re.compile(r"\bpush\s+start\b", re.IGNORECASE)
 NORMATIVE_EXEMPTIONS = ("历史", "曾", "不再运行", "不得", "禁止", "不执行")
 
 
@@ -207,25 +208,75 @@ def _relative_path(root: Path, path: Path) -> str:
         return str(path)
 
 
+def _validated_change_path(root: Path, name: str) -> Path:
+    name_path = Path(name)
+    if (
+        not name
+        or name_path.is_absolute()
+        or len(name_path.parts) != 1
+        or name in {".", ".."}
+    ):
+        raise ValueError(f"invalid active change name: {name!r}")
+    changes_root = (root / "openspec/changes").resolve()
+    change = (changes_root / name).resolve()
+    try:
+        change.relative_to(changes_root)
+    except ValueError as exc:
+        raise ValueError(f"active change escapes repository: {name!r}") from exc
+    return change
+
+
+def _validated_plan_path(root: Path, path: Path) -> Path:
+    candidate = path if path.is_absolute() else root / path
+    plan = candidate.resolve()
+    try:
+        plan.relative_to(root.resolve())
+    except ValueError as exc:
+        raise ValueError(f"plan path escapes repository: {path}") from exc
+    return plan
+
+
+def _contains_push(text: str) -> bool:
+    if re.search(r"\bgit\s+push\b", text, re.IGNORECASE):
+        return True
+    return PUSH_RE.search(PUSH_START_UI_RE.sub("", text)) is not None
+
+
+def _normative_push_required(text: str) -> bool:
+    for clause in re.split(r"[；;。.!?！？]", text):
+        if _contains_push(clause) and not any(
+            marker in clause for marker in NORMATIVE_EXEMPTIONS
+        ):
+            return True
+    return False
+
+
 def _scan_push_lines(
     root: Path, path: Path, checkbox_aware: bool
 ) -> list[dict[str, object]]:
     conflicts: list[dict[str, object]] = []
     checkbox_unfinished: bool | None = None
+    checkbox_indent: int | None = None
     try:
         lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
-    except OSError:
-        return conflicts
+    except OSError as exc:
+        raise OSError(f"{_relative_path(root, path)}: {exc}") from exc
 
     for line_number, text in enumerate(lines, 1):
         checkbox = CHECKBOX_RE.match(text) if checkbox_aware else None
         if checkbox:
             checkbox_unfinished = checkbox.group(1) == " "
-        if not PUSH_RE.search(text):
+            checkbox_indent = len(text) - len(text.lstrip())
+        elif checkbox_unfinished is not None and text.strip():
+            line_indent = len(text) - len(text.lstrip())
+            if checkbox_indent is not None and line_indent <= checkbox_indent:
+                checkbox_unfinished = None
+                checkbox_indent = None
+        if checkbox_aware and not _contains_push(text):
+            continue
+        if not checkbox_aware and not _normative_push_required(text):
             continue
         if checkbox_aware and checkbox_unfinished is False:
-            continue
-        if not checkbox_aware and any(marker in text for marker in NORMATIVE_EXEMPTIONS):
             continue
         conflicts.append(
             {
@@ -248,7 +299,7 @@ def find_push_conflicts(
     """Find active normative and unfinished plan requirements to push."""
     conflicts: list[dict[str, object]] = []
     for name in active_changes:
-        change = root / "openspec/changes" / name
+        change = _validated_change_path(root, name)
         normative_paths = [change / "proposal.md", change / "design.md"]
         specs = change / "specs"
         if specs.exists():
@@ -260,7 +311,8 @@ def find_push_conflicts(
         if tasks.is_file():
             conflicts.extend(_scan_push_lines(root, tasks, checkbox_aware=True))
 
-    for path in plan_paths:
+    for raw_path in plan_paths:
+        path = _validated_plan_path(root, raw_path)
         if path.is_file():
             conflicts.extend(_scan_push_lines(root, path, checkbox_aware=True))
     return conflicts
@@ -275,6 +327,8 @@ def _load_active_changes(root: Path) -> list[str]:
         text=True,
     )
     payload = json.loads(completed.stdout)
+    if not isinstance(payload, dict):
+        raise ValueError("openspec list --json did not return a top-level object")
     changes = payload.get("changes")
     if not isinstance(changes, list):
         raise ValueError("openspec list --json did not return a changes list")
@@ -289,10 +343,11 @@ def _load_active_changes(root: Path) -> list[str]:
 
 def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path], list[str]]:
     plans: list[Path] = []
+    seen_plans: set[Path] = set()
     errors: list[str] = []
     root_resolved = root.resolve()
     for name in active_changes:
-        comet = root / "openspec/changes" / name / ".comet.yaml"
+        comet = _validated_change_path(root, name) / ".comet.yaml"
         if not comet.is_file():
             continue
         try:
@@ -321,7 +376,9 @@ def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path
                 f"{_relative_path(root, comet)}: plan does not exist: {plan_values[0]}"
             )
             continue
-        plans.append(plan)
+        if plan not in seen_plans:
+            seen_plans.add(plan)
+            plans.append(plan)
     return plans, errors
 
 
@@ -359,12 +416,18 @@ def _agents_push_conflicts(root: Path, push_denied: bool) -> list[str]:
         re.compile(r"\bpush\s*:\s*allow\b", re.IGNORECASE),
     )
     errors: list[str] = []
-    for line_number, text in enumerate(
-        agents_path.read_text(encoding="utf-8", errors="replace").splitlines(), 1
-    ):
-        if any(pattern.search(text) for pattern in allow_patterns):
+    lines = agents_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    for index, text in enumerate(lines):
+        candidate = text
+        if index + 1 < len(lines) and re.search(
+            r"(?:允许|allow).{0,30}(?:自动|automatic|auto)", text, re.IGNORECASE
+        ):
+            candidate = f"{text} {lines[index + 1]}"
+        if any(marker in candidate for marker in ("不允许", "禁止", "不得")):
+            continue
+        if any(pattern.search(candidate) for pattern in allow_patterns):
             errors.append(
-                f"AGENTS.md:{line_number}: explicitly allows automatic push while policy denies push"
+                f"AGENTS.md:{index + 1}: explicitly allows automatic push while policy denies push"
             )
     return errors
 
@@ -401,9 +464,22 @@ def audit_project(
             errors.append(f"cannot load active OpenSpec changes: {exc}")
             active_changes = []
 
-    plans, plan_errors = _active_plan_paths(root, active_changes)
+    validated_changes: list[str] = []
+    for name in active_changes:
+        try:
+            _validated_change_path(root, name)
+        except ValueError as exc:
+            errors.append(str(exc))
+        else:
+            validated_changes.append(name)
+
+    plans, plan_errors = _active_plan_paths(root, validated_changes)
     errors.extend(plan_errors)
-    conflicts = find_push_conflicts(root, active_changes, plans)
+    try:
+        conflicts = find_push_conflicts(root, validated_changes, plans)
+    except OSError as exc:
+        errors.append(f"cannot scan active artifacts: {exc}")
+        conflicts = []
     return {
         "policy_valid": not policy_errors,
         "required_platform_checks": _required_platform_checks(policy),

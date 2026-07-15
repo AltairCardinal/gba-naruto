@@ -3,9 +3,14 @@
 
 from __future__ import annotations
 
+import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from tools.check_comet_project_policy import (
     audit_project,
@@ -76,6 +81,36 @@ limits:
         path = self.root / "openspec/changes" / name / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
+
+    def run_cli(self, openspec_payload: str) -> subprocess.CompletedProcess[str]:
+        executable = self.root / "bin/openspec"
+        executable.parent.mkdir(parents=True, exist_ok=True)
+        executable.write_text(
+            "#!/usr/bin/env python3\n"
+            "import sys\n"
+            f"sys.stdout.write({openspec_payload!r})\n",
+            encoding="utf-8",
+        )
+        executable.chmod(0o755)
+        report_path = self.root / "audit.json"
+        report_path.unlink(missing_ok=True)
+        env = os.environ.copy()
+        env["PATH"] = f"{executable.parent}{os.pathsep}{env.get('PATH', '')}"
+        script = Path(__file__).resolve().parents[1] / "tools/check_comet_project_policy.py"
+        return subprocess.run(
+            [
+                sys.executable,
+                str(script),
+                "--root",
+                str(self.root),
+                "--json",
+                str(report_path),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            env=env,
+        )
 
     def test_parses_current_schema_scalars_and_runner_list(self) -> None:
         policy = parse_policy(self.valid_policy)
@@ -177,6 +212,19 @@ limits:
         self.assertNotIn(("openspec/changes/demo/tasks.md", 1), locations)
         self.assertNotIn(("docs/superpowers/plans/demo.md", 2), locations)
 
+    def test_completed_checkbox_does_not_hide_push_after_heading(self) -> None:
+        self.write_change(
+            "demo",
+            tasks="- [x] 历史 push\n\n## 发布\n\n```sh\ngit push origin demo\n```\n",
+        )
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("openspec/changes/demo/tasks.md", 6)],
+        )
+
     def test_exempts_only_explicit_historical_or_negative_normative_text(self) -> None:
         self.write_change_file(
             "demo",
@@ -211,6 +259,32 @@ limits:
             [("openspec/changes/demo/design.md", 2)],
         )
 
+    def test_git_push_to_start_remote_is_not_ui_text(self) -> None:
+        self.write_change_file(
+            "demo", "design.md", "发布时运行 git push start release。\n"
+        )
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("openspec/changes/demo/design.md", 1)],
+        )
+
+    def test_negative_marker_only_exempts_its_push_clause(self) -> None:
+        self.write_change_file(
+            "demo",
+            "design.md",
+            "不得跳过验证；验证后必须推送。\n不得 push；也不执行推送。\n",
+        )
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("openspec/changes/demo/design.md", 1)],
+        )
+
     def test_agents_separate_authorization_is_compatible_but_auto_push_is_not(self) -> None:
         compatible = audit_project(self.root, active_changes=[])
         self.assertFalse(
@@ -226,6 +300,29 @@ limits:
         self.assertTrue(
             any("AGENTS.md" in item for item in conflicting["errors"]),
             conflicting,
+        )
+
+    def test_agents_explicit_auto_push_deny_is_compatible(self) -> None:
+        (self.root / "AGENTS.md").write_text(
+            "不允许 writer 自动 push。\n禁止自动推送。\n不得 push。\n",
+            encoding="utf-8",
+        )
+
+        report = audit_project(self.root, active_changes=[])
+
+        self.assertFalse(
+            any("AGENTS.md" in item for item in report["errors"]), report
+        )
+
+    def test_agents_adjacent_line_auto_push_allow_conflicts(self) -> None:
+        (self.root / "AGENTS.md").write_text(
+            "允许 writer 自动执行以下操作：\n- push\n", encoding="utf-8"
+        )
+
+        report = audit_project(self.root, active_changes=[])
+
+        self.assertTrue(
+            any("AGENTS.md:1" in item for item in report["errors"]), report
         )
 
     def test_audit_uses_only_active_changes_and_their_nonempty_comet_plans(self) -> None:
@@ -261,6 +358,133 @@ limits:
         )
         self.assertIn("goal_status_active", report["required_platform_checks"])
         self.assertIn("local_commit_authorization", report["required_platform_checks"])
+
+    def test_rejects_active_change_and_plan_path_escapes(self) -> None:
+        outside = Path(self.tempdir.name).parent / f"{self.root.name}-outside"
+        outside.mkdir()
+        self.addCleanup(lambda: outside.rmdir())
+        outside_plan = outside / "plan.md"
+        outside_plan.write_text("- [ ] git push origin demo\n", encoding="utf-8")
+        self.addCleanup(outside_plan.unlink)
+
+        for name in ("../outside", str(outside)):
+            with self.subTest(active_change=name):
+                with self.assertRaisesRegex(ValueError, "active change"):
+                    find_push_conflicts(self.root, [name], [])
+
+        changes = self.root / "openspec/changes"
+        changes.mkdir(parents=True)
+        (changes / "linked").symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "active change"):
+            find_push_conflicts(self.root, ["linked"], [])
+
+        with self.assertRaisesRegex(ValueError, "plan path"):
+            find_push_conflicts(self.root, [], [outside_plan])
+
+        report = audit_project(self.root, active_changes=["../outside"])
+        self.assertTrue(any("active change" in item for item in report["errors"]))
+
+    def test_audit_surfaces_artifact_read_failure(self) -> None:
+        self.write_change("demo")
+        self.write_change_file("demo", "proposal.md", "必须 git push。\n")
+        artifact = self.root / "openspec/changes/demo/proposal.md"
+        original_read_text = Path.read_text
+
+        def fail_artifact_read(path: Path, *args: object, **kwargs: object) -> str:
+            if path.resolve() == artifact.resolve():
+                raise OSError("artifact disappeared")
+            return original_read_text(path, *args, **kwargs)
+
+        with mock.patch.object(Path, "read_text", fail_artifact_read):
+            report = audit_project(self.root, active_changes=["demo"])
+
+        self.assertTrue(
+            any(
+                "openspec/changes/demo/proposal.md" in item
+                and "artifact disappeared" in item
+                for item in report["errors"]
+            ),
+            report,
+        )
+
+    def test_cli_success_stdout_matches_json_file(self) -> None:
+        completed = self.run_cli('{"changes": []}\n')
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            (self.root / "audit.json").read_text(encoding="utf-8"),
+        )
+
+    def test_cli_invalid_policy_exits_one_with_json_report(self) -> None:
+        policy = self.root / ".comet/policy.yaml"
+        policy.write_text(
+            self.valid_policy.replace("push: deny", "push: allow"), encoding="utf-8"
+        )
+
+        completed = self.run_cli('{"changes": []}\n')
+        report = json.loads(completed.stdout)
+
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        self.assertFalse(report["policy_valid"])
+        self.assertEqual(
+            completed.stdout,
+            (self.root / "audit.json").read_text(encoding="utf-8"),
+        )
+
+    def test_cli_push_conflict_exits_one_with_json_report(self) -> None:
+        self.write_change("demo", tasks="- [ ] git push origin demo\n")
+
+        completed = self.run_cli(
+            '{"changes": [{"name": "demo", "status": "active"}]}\n'
+        )
+        report = json.loads(completed.stdout)
+
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        self.assertTrue(report["active_change_push_conflicts"])
+        self.assertEqual(
+            completed.stdout,
+            (self.root / "audit.json").read_text(encoding="utf-8"),
+        )
+
+    def test_cli_malformed_openspec_top_level_exits_one_with_json_report(self) -> None:
+        for payload in ("[]\n", '"scalar"\n'):
+            with self.subTest(payload=payload.strip()):
+                completed = self.run_cli(payload)
+                report_path = self.root / "audit.json"
+
+                self.assertEqual(completed.returncode, 1, completed.stderr)
+                self.assertTrue(report_path.is_file(), completed.stderr)
+                report = json.loads(completed.stdout)
+                self.assertTrue(
+                    any(
+                        "cannot load active OpenSpec changes" in item
+                        for item in report["errors"]
+                    ),
+                    report,
+                )
+                self.assertEqual(
+                    completed.stdout, report_path.read_text(encoding="utf-8")
+                )
+
+    def test_deduplicates_plan_referenced_by_multiple_active_changes(self) -> None:
+        plan = self.root / "docs/plans/shared.md"
+        plan.parent.mkdir(parents=True)
+        plan.write_text("- [ ] git push origin demo\n", encoding="utf-8")
+        for name in ("first", "second"):
+            self.write_change(name)
+            self.write_change_file(
+                name, ".comet.yaml", "plan: docs/plans/shared.md\n"
+            )
+
+        report = audit_project(self.root, active_changes=["first", "second"])
+        shared_conflicts = [
+            item
+            for item in report["active_change_push_conflicts"]
+            if item["path"] == "docs/plans/shared.md"
+        ]
+
+        self.assertEqual(len(shared_conflicts), 1, report)
 
 
 if __name__ == "__main__":
