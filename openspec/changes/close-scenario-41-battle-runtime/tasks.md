@@ -8,7 +8,7 @@
 
 - [x] 2.1 以红绿重构完成 GDB RSP 寄存器、严格断点、错误输出和 256 字节分块读取测试
 - [x] 2.2 以红绿重构完成玩家单位选择与当前单位双 observer 的精确机器码、literal、call-site/cave 和错误 ROM 测试
-- [ ] 2.3 让浏览器 runtime decoder 在 plan 与 settle 循环读取两个 observer，并补齐 wiring 回归测试
+- [x] 2.3 让浏览器 runtime decoder 在 plan 与 settle 循环读取两个 observer，并补齐 wiring 回归测试
 - [ ] 2.4 更新工具 README，说明原生 mGBA、混合输入、快照和资源守卫使用方法与失败边界
 
 ## 3. 建立 scenario 41 前置快照阶梯

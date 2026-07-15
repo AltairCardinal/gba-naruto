@@ -358,7 +358,7 @@ git push origin task/units-character-definitions
 - Consumes: 24-byte observer records, checkpoint-time baselines, battle/map/unit/screen diagnostics and explicit input audit.
 - Produces: `decodePublishedCall(bytes, expectedMagic)`, `evaluatePlayerControlEvidence(input)`, driver field `playerControlEvidence`.
 
-- [ ] **Step 1: Write decoder/evaluator RED tests**
+- [x] **Step 1: Write decoder/evaluator RED tests**
 
 ```javascript
 test('accepts only a fresh ordered player-control chain', () => {
@@ -384,13 +384,13 @@ test('rejects stale, reversed and automatic-input samples', () => {
 
 Add a wiring test that injects a fake `readGbaBytes` and proves both the post-checkpoint baseline and plan/settle diagnostics read exactly 24 bytes from `0x0203F060` and `0x0203F080`. Source regex count is not sufficient.
 
-- [ ] **Step 2: Run Node tests and verify RED**
+- [x] **Step 2: Run Node tests and verify RED**
 
 Run: `node --test play/_scripts/scenario-41-runtime-evidence.test.js play/_scripts/runtime-formation-probe.test.js`
 
 Expected: FAIL because the evidence module and baseline wiring do not exist.
 
-- [ ] **Step 3: Implement the pure evidence module**
+- [x] **Step 3: Implement the pure evidence module**
 
 ```javascript
 function decodePublishedCall(bytes, expectedMagic) {
@@ -416,17 +416,17 @@ function isFresh(after, before) {
 
 `evaluatePlayerControlEvidence` checks fresh player/current events, sequence order, event codes, battle 41, nonzero map, foreground battle screen, controlled character/slot consistency and zero unlisted inputs. It returns `{verified, reason, checks}` without throwing on evidence failure.
 
-- [ ] **Step 4: Wire baseline and explicit-input audit**
+- [x] **Step 4: Wire baseline and explicit-input audit**
 
 Immediately after checkpoint load, read both observer records as immutable baselines. Record every `pressGbaKey` call as explicit or automatic. With `PROBE_EVIDENCE_MODE=player-control`, run the evaluator after each plan/settle diagnostic and stop only when it returns `verified`; settle with `PROBE_SETTLE_CONFIRM_EVERY=0` performs no input.
 
-- [ ] **Step 5: Run GREEN and full driver regression**
+- [x] **Step 5: Run GREEN and full driver regression**
 
 Run: `node --test play/_scripts/scenario-41-runtime-evidence.test.js play/_scripts/runtime-formation-probe.test.js`
 
 Expected: all tests PASS; existing 39 runtime tests remain green plus new evaluator tests.
 
-- [ ] **Step 6: Commit and push**
+- [x] **Step 6: Commit and push the evidence wiring**
 
 ```powershell
 git add play/_scripts/scenario-41-runtime-evidence.js play/_scripts/scenario-41-runtime-evidence.test.js play/_scripts/runtime-formation-probe.js play/_scripts/runtime-formation-probe.test.js openspec/changes/close-scenario-41-battle-runtime/tasks.md
