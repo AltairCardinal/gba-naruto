@@ -36,6 +36,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
             Path(__file__).resolve().parents[1]
             / "tools/patches/mgba-0.10.5-qt-script-cli.patch"
         ).read_bytes()
+        (root / "tracked.patch").write_bytes(patch)
         manifest = {
             "label": "mGBA 0.10.5 + Qt script backport",
             "version": "0.10.5",
@@ -126,8 +127,13 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
             "replay_script": root / "replay.lua",
             "build_manifest": root / "manifest.json",
             "binary": root / "mGBA",
+            "tracked_patch": root / "tracked.patch",
         }
-        hashes = {name: acceptance.sha256_file(path) for name, path in paths.items()}
+        hashes = {
+            name: acceptance.sha256_file(path)
+            for name, path in paths.items()
+            if name != "tracked_patch"
+        }
         manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
         hashes["patch"] = manifest["patch_sha256"]
         return paths, hashes
@@ -355,6 +361,22 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                     caller_hashes=caller_hashes,
                 )
 
+    def test_caller_mode_rejects_tracked_patch_bytes_that_differ_from_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audit_path, rom_path = self.make_strict_replay(root)
+            caller_paths, caller_hashes = self.strict_expectations(root)
+            (root / "tracked.patch").write_bytes(b"self-consistent-looking replacement")
+
+            with self.assertRaisesRegex(ValueError, "tracked patch"):
+                acceptance.validate_strict_replay(
+                    audit_path,
+                    rom_path,
+                    root / "guard.json",
+                    caller_paths=caller_paths,
+                    caller_hashes=caller_hashes,
+                )
+
     def test_rejects_drifted_outputs(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -485,6 +507,17 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
         self.assertEqual(
             evidence["screen_identity"]["method"],
             "strict PNG decode to normalized RGB8 pixel SHA-256",
+        )
+        self.assertIn("tracked_patch", evidence["strict_replay"]["files"])
+        self.assertEqual(
+            evidence["strict_replay"]["files"]["tracked_patch"],
+            {
+                "path": str(
+                    ROOT / "tools/patches/mgba-0.10.5-qt-script-cli.patch"
+                ),
+                "repo_relative_path": "tools/patches/mgba-0.10.5-qt-script-cli.patch",
+                "sha256": acceptance.STEP2_SHA256["patch"],
+            },
         )
 
         with mock.patch.object(

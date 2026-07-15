@@ -51,6 +51,7 @@ STEP2_BINARY_PATH = Path(
     "0.10.5-script-backport-build-fix1-20260715/qt/"
     "mGBA.app/Contents/MacOS/mGBA"
 )
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 STEP2_SHA256 = {
     "audit": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
     "sentinel": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
@@ -82,6 +83,7 @@ def step2_paths(root: Path) -> dict[str, Path]:
         "replay_script": root / "tools/mgba_checkpoint_replay.lua",
         "build_manifest": STEP2_MANIFEST_PATH,
         "binary": STEP2_BINARY_PATH,
+        "tracked_patch": root / "tools/patches/mgba-0.10.5-qt-script-cli.patch",
     }
 
 
@@ -116,7 +118,10 @@ def _require_path(actual: Path | str, expected: Path, label: str) -> None:
 def _authenticated_file(
     path_value: object, expected_hash: object, label: str
 ) -> dict[str, str]:
-    _require(isinstance(path_value, str) and bool(path_value), f"{label} path missing")
+    _require(
+        isinstance(path_value, (str, Path)) and bool(str(path_value)),
+        f"{label} path missing",
+    )
     _require(isinstance(expected_hash, str), f"{label} hash missing")
     path = Path(path_value)
     _require(path.is_file(), f"{label} file missing: {path}")
@@ -207,6 +212,25 @@ def validate_strict_replay(
         ),
     }
     if caller_paths is not None:
+        _require(
+            caller_hashes is not None and "patch" in caller_hashes,
+            "caller-known tracked patch hash missing",
+        )
+        tracked_patch = _authenticated_file(
+            caller_paths["tracked_patch"],
+            caller_hashes["patch"],
+            "tracked patch",
+        )
+        tracked_patch_path = Path(tracked_patch["path"]).resolve()
+        try:
+            repo_relative_patch = str(tracked_patch_path.relative_to(PROJECT_ROOT))
+        except ValueError:
+            repo_relative_patch = tracked_patch_path.name
+        files["tracked_patch"] = {
+            **tracked_patch,
+            "repo_relative_path": repo_relative_patch,
+        }
+    if caller_paths is not None:
         for label in (
             "input_state",
             "output_state",
@@ -267,6 +291,11 @@ def validate_strict_replay(
     patch_hash = hashlib.sha256(patch).hexdigest()
     _require(patch_hash == audit.get("patch_sha256"), "audit patch hash mismatch")
     _require(patch_hash == manifest.get("patch_sha256"), "manifest patch hash mismatch")
+    if caller_paths is not None:
+        _require(
+            Path(files["tracked_patch"]["path"]).read_bytes() == patch,
+            "tracked patch bytes differ from manifest embedded patch payload",
+        )
 
     guard_hash = sha256_file(guard_summary_path)
     _require(guard_hash == audit.get("guard_summary_sha256"), "guard summary hash mismatch")

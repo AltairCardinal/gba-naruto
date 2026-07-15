@@ -111,3 +111,8 @@ revalidation needs the pinned machine-local Step 1/2 files.
 Final review-fix verification ran 130 related tests successfully with one documented
 Windows-only skip. The acceptance CLI also generated a separate compact result at
 `/tmp/scenario-41-prebattle-menu-evidence-fix1.json` without launching mGBA.
+
+Review fix round 2 adds the final tracked-patch binding. Its RED proved that caller
+mode ignored a replaced tracked patch and omitted it from actual evidence. GREEN now
+pins the repository patch path/hash, requires byte identity with the manifest's
+embedded payload, and records both repository-relative and absolute paths.

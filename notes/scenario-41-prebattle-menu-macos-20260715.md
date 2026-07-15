@@ -70,6 +70,12 @@ fixed paths. The guard is revalidated through the replay runner's existing POSIX
 process-group contract, with an additional finite-positive peak RSS requirement and
 exact audit equality.
 
+Review fix round 2 closes the remaining patch-source gap: caller mode now requires the
+tracked `tools/patches/mgba-0.10.5-qt-script-cli.patch` at its fixed repository path,
+checks its fixed SHA-256, and compares its actual bytes directly with the manifest's
+embedded base64 payload. Evidence records the tracked patch's relative and absolute
+paths instead of leaving the patch represented only by a hash.
+
 The PNG and savestate readers share one CRC/IEND/no-trailing chunk parser and bounded
 `decompressobj` checks for EOF, unused data and unconsumed tails. Screen identity is now
 based on normalized RGB bytes after reversing all standard PNG filters, not on encoded

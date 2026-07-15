@@ -89,7 +89,11 @@ does not prove controller entry, player control, MOVEDONE, victory, or postbattl
 Absolute `build/` and `.cache/` paths in the compact JSON identify the historical local
 raw evidence; those raw files are not distributed by the repository. The tracked
 candidate and compact JSON are the durable handoff. Revalidation from raw bytes needs
-the original machine-local Step 1/2 files at their pinned paths.
+the original machine-local Step 1/2 files at their pinned paths. Unlike those raw
+files, the exact Qt backport patch is tracked at
+`tools/patches/mgba-0.10.5-qt-script-cli.patch`; compact evidence records both its
+repository-relative and absolute path, and verifies its bytes equal the manifest's
+embedded patch payload.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate

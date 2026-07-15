@@ -427,6 +427,9 @@ sentinel, guard summary, base/staged ROM, candidate, frame-80 state/PNG and repl
 plus the authenticated Step 1 manifest and x86_64 binary paths. It does not accept a
 self-consistent rewrite of those JSON files and hashes. The sentinel must exist at its
 fixed path, match the fixed hash, and be byte-semantically identical to the audit. It
+also authenticates the tracked
+`tools/patches/mgba-0.10.5-qt-script-cli.patch` at its fixed repository path and requires
+its actual bytes to equal the manifest's embedded base64 patch payload and hash. It
 also requires a positive child PGID, POSIX process-group backend, a finite positive
 peak RSS equal to the audit value, strict zero-input fields, task 2 PC/SP, the three
 explicit BL frames, the negative controller boundary and `[0x0202680C]`; finally it
