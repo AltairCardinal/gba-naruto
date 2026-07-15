@@ -30,12 +30,21 @@
   `actionable-move-grid.ss9` 的零输入 baseline 和显式 `B,Down,Down,A,A` final dump
   逐字节相同，`0x08073946` 与四个 `0x08073A04` 分支均无 fresh record。正对照未成立，
   因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；
+- 2026-07-15 原生 mGBA 0.10.5 Lua 已证明：从 accepted 白框 state 对 GBA B 做
+  8-frame hold 可到达战前菜单。输出 task 2 resume PC 为 `0x08067D02`，活动 unwind
+  为 `0x080885C1 → 0x08088F9F → 0x0808F92D`，仍不含 controller return
+  `0x0808F957`。该 state 已随 Git 固化为 prebattle candidate，等待 macOS Intel
+  零输入复放后才可 accepted；
 - 下一 P0 先完成 lineup/deployment，并以 task 栈含 `0x0808F957` 或 fresh entry observer
   命中 `0x0808F952 → 0x080732B4` 证明真实 controller entry；随后依次命中玩家单位选择 `0x08073940`、
   MOVEDONE `0x080722A8`、胜负谓词 `0x080777FC`、结果写入 `0x02026807` 和
   postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；
 - 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`；
   本次纠正的是 scenario 41 功能边界，不改变 bank 状态。
+
+Windows 前台 runtime 到此停止，后续转移到 macOS Intel。迁移、mGBA 0.10.5、Lua
+8-frame 输入、candidate 零输入验收和进程守卫要求见
+`docs/reverse-engineering-macos-intel-handoff-20260715.md`。
 
 资源约束：全 ROM Capstone 对象扫描曾单进程膨胀到 3 GiB 以上并触发 OOM、swap
 thrashing 和 I/O pressure；该路径现已替换为恒定内存 Thumb 编码扫描。静态重任务与
