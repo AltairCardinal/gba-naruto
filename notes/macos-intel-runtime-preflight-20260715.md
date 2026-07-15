@@ -4,8 +4,9 @@
 
 The shared resource guard now admits and monitors owned commands on the tested Intel
 Mac. Darwin available memory is derived from `vm_stat`; process-tree RSS is derived from
-a single `ps` snapshot. The launcher continues to create one POSIX session/process group
-and cleanup targets only that owned group. No process-name cleanup is allowed.
+a single PGID-aware `ps` snapshot. The launcher continues to create one POSIX
+session/process group and cleanup targets only that owned group. No process-name cleanup
+is allowed.
 
 The official mGBA 0.10.5 Qt build has scripting support and Lua compiled in, but its CLI
 does **not** support `--script`. This is an upstream 0.10.5 frontend capability boundary,
@@ -18,12 +19,14 @@ or explicitly scope a different frontend/version; it must not assume `mGBA --scr
 - Host: macOS 14.8.4 (23J319), `MacBookPro16,1`, `x86_64`.
 - Admission source: `vm_stat`; available pages are `Pages free`, `Pages inactive`, and
   `Pages speculative`, multiplied by the page size reported in the header.
-- RSS source: `ps -axo pid=,ppid=,rss=`; the root PID and all transitively rooted
-  descendants are summed, while unrelated rows are excluded.
+- RSS source: `ps -axo pid=,pgid=,rss=`; every row in the launched owned PGID is summed,
+  including reparented descendants after the root exits, while unrelated groups are
+  excluded.
 - Ownership backend: `posix-process-group`. The child starts a new session, and timeout,
   memory-limit, interruption, and final cleanup address only that exact group.
-- Failure behavior: missing/malformed Darwin counters or a failed `vm_stat`/`ps` command
-  fails closed through the existing protection-failure path (exit 125).
+- Failure behavior: missing/malformed Darwin counters, an empty/all-malformed snapshot,
+  a snapshot without the owned PGID, or a failed `vm_stat`/`ps` command fails closed
+  through the existing protection-failure path (exit 125).
 
 The TDD RED was reproduced without rolling back the shared worktree: a temporary
 `git archive HEAD` received the current two modified test modules while retaining the
@@ -31,8 +34,9 @@ HEAD production guard. The three focused tests then failed for the intended reas
 
 1. Darwin available memory raised `physical memory reader is unsupported on darwin`.
 2. Darwin RSS attempted `/proc` and raised `FileNotFoundError`.
-3. The real Darwin CLI integration returned 125 instead of 0 because monitoring could
-   not establish protection.
+3. The old real Darwin CLI integration returned 125 at Darwin admission because
+   `available_physical_memory_mib()` was unsupported; it did not reach RSS wiring. The
+   focused RSS unit RED independently proved the `/proc` implementation gap.
 
 Running those same three tests against the current worktree passed. The complete guard
 suite also passed (commands and counts are in the task report).
@@ -44,6 +48,11 @@ its marker, slept long enough for sampling, and completed with:
 - backend `posix-process-group`, degraded `false`;
 - peak owned-tree RSS `9.23828125 MiB`;
 - child/PGID `31095`, with no row left in an exact `ps` PGID query after completion.
+
+The review-fix integration additionally lets the launched root exit, waits before a
+grandchild in the same owned PGID allocates 48 MiB, and enforces a 32 MiB limit. The real
+guard result was `memory-limit`/125 with peak owned-group RSS `57.23828125 MiB`; root PID
+and PGID `45851`, grandchild PID `45853`, and the final exact PGID query was clean.
 
 ## Official mGBA 0.10.5 provenance
 
@@ -92,7 +101,19 @@ SHA-256: 30b2ed9065123405463ab6e372cf43e1e6febfaa9598d77cc8684cde61cdaae2
 `--help` exits successfully and lists the generic debugger/GDB, ROM, graphics, `--ecard`,
 and `--mb` options. It contains no `--script`. Running
 `mGBA --script /tmp/nonexistent-task45.lua` reproducibly exits 1 and prints
-`mGBA: unrecognized option '--script'` plus usage.
+`mGBA: unrecognized option '--script'` plus usage. These three capability checks were
+rerun through `tools/run_guarded.py` after the PGID fix:
+
+| Guarded command | Guard result | Peak owned-PGID RSS | Child/PGID | Final exact PGID check |
+|---|---|---:|---:|---|
+| `mGBA --version` | completed/0 | 4.03125 MiB | 44642 | clean |
+| `mGBA --help` | completed/0 | 0.16796875 MiB | 45016 | clean |
+| `mGBA --script /tmp/nonexistent-task45.lua` | child-exit/1 | 0.171875 MiB | 45390 | clean |
+
+The `--script` result is the expected child capability rejection, not a guard failure;
+all summaries report `posix-process-group` and `degraded: false`. The ignored evidence
+files are `build/resource-guard/mgba-{version,help,script}-darwin-fixed.json` and are not
+committed.
 
 Systematic source tracing explains the mismatch:
 

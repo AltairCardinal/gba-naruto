@@ -247,12 +247,13 @@ process-name cleanup. Missing isolation or monitoring fails closed unless an exp
 audited degraded run is requested and recorded.
 
 On macOS, admission reads `vm_stat` and treats free, inactive, and speculative pages as
-available physical memory. Owned-tree RSS comes from one `ps` PID/PPID/RSS snapshot per
-sample and includes only the launched root and descendants rooted at it. Launch and
-cleanup use a new POSIX session/process group, exactly as on other POSIX hosts; never
-replace that ownership boundary with process-name matching. A missing or malformed
-`vm_stat`/`ps` response fails closed. The Intel runtime preflight and the pinned mGBA
-0.10.5 binary evidence are recorded in
+available physical memory. Owned-tree RSS comes from one `ps` PID/PGID/RSS snapshot per
+sample and sums every process whose PGID equals the launched owned group. This keeps
+monitoring descendants after the root exits and they are reparented. Launch and cleanup
+use that same new POSIX session/process group, exactly as on other POSIX hosts; never
+replace the ownership boundary with PPID ancestry or process-name matching. Empty,
+malformed, failed, or owned-PGID-free `vm_stat`/`ps` responses fail closed. The Intel
+runtime preflight and the guarded mGBA 0.10.5 CLI evidence are recorded in
 [`notes/macos-intel-runtime-preflight-20260715.md`](../notes/macos-intel-runtime-preflight-20260715.md).
 
 ## `mgba_gdb_probe.py`

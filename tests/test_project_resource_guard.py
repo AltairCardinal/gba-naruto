@@ -180,12 +180,12 @@ Pages wired down:                        3000.
             timeout=5,
         )
 
-    def test_darwin_rss_sums_only_rooted_descendants_from_ps_snapshot(self):
-        ps_snapshot = """  PID  PPID    RSS
-  100     1   2048
+    def test_darwin_rss_sums_only_owned_process_group_from_ps_snapshot(self):
+        ps_snapshot = """  PID  PGID    RSS
+  100   100   2048
   101   100   3072
-  102   101   4096
-  999     1  51200
+  102   100   4096
+  999   999  51200
 """
         completed = subprocess.CompletedProcess(
             ["ps"], 0, stdout=ps_snapshot, stderr=""
@@ -201,12 +201,54 @@ Pages wired down:                        3000.
 
         self.assertEqual(rss, 9.0)
         run.assert_called_once_with(
-            ["ps", "-axo", "pid=,ppid=,rss="],
+            ["ps", "-axo", "pid=,pgid=,rss="],
             check=True,
             capture_output=True,
             text=True,
             timeout=5,
         )
+
+    def test_darwin_rss_keeps_counting_owned_group_after_root_exits(self):
+        ps_snapshot = """  PID  PGID    RSS
+  102   100  40960
+  999   999  51200
+"""
+        completed = subprocess.CompletedProcess(
+            ["ps"], 0, stdout=ps_snapshot, stderr=""
+        )
+
+        with (
+            mock.patch.object(guard_module.sys, "platform", "darwin"),
+            mock.patch.object(
+                guard_module.subprocess, "run", return_value=completed
+            ),
+        ):
+            rss = guard_module._posix_descendant_rss_mib(100)
+
+        self.assertEqual(rss, 40.0)
+
+    def test_darwin_rss_fails_closed_for_unusable_ps_snapshots(self):
+        snapshots = {
+            "empty": "",
+            "malformed": "PID PGID RSS\nnot process data\n",
+            "owned group absent": "999 999 51200\n",
+        }
+
+        for label, ps_snapshot in snapshots.items():
+            with self.subTest(label=label):
+                completed = subprocess.CompletedProcess(
+                    ["ps"], 0, stdout=ps_snapshot, stderr=""
+                )
+                with (
+                    mock.patch.object(guard_module.sys, "platform", "darwin"),
+                    mock.patch.object(
+                        guard_module.subprocess, "run", return_value=completed
+                    ),
+                    self.assertRaisesRegex(
+                        RuntimeError, "ps output has no owned process group"
+                    ),
+                ):
+                    guard_module._posix_descendant_rss_mib(100)
 
     def test_guard_config_has_exact_defaults(self):
         self.assertEqual(

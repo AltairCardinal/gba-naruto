@@ -304,6 +304,27 @@ class RunGuardedCliTests(unittest.TestCase):
 class RunGuardedCliAndPosixTests(unittest.TestCase):
     _run_cli = RunGuardedCliTests._run_cli
 
+    def _darwin_process_group_members(self, pgid):
+        completed = subprocess.run(
+            ["ps", "-axo", "pid=,pgid="],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        members = []
+        for line in completed.stdout.splitlines():
+            fields = line.split()
+            if len(fields) != 2:
+                continue
+            try:
+                pid, candidate_pgid = (int(field) for field in fields)
+            except ValueError:
+                continue
+            if candidate_pgid == pgid:
+                members.append(pid)
+        return members
+
     @unittest.skipUnless(sys.platform == "darwin", "macOS resource integration")
     def test_darwin_cli_launches_and_monitors_an_owned_child(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -311,8 +332,9 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
             marker = root / "launched.txt"
             summary_path = root / "summary.json"
             helper = (
-                "from pathlib import Path; "
-                f"Path({str(marker)!r}).write_text('launched')"
+                "import os, time; from pathlib import Path; "
+                f"Path({str(marker)!r}).write_text(f'{{os.getpid()}} {{os.getpgrp()}}'); "
+                "time.sleep(0.3)"
             )
 
             completed = self._run_cli(
@@ -329,11 +351,61 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
             )
 
             self.assertEqual(completed.returncode, 0, completed.stderr)
-            self.assertEqual(marker.read_text(), "launched")
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
             self.assertEqual(summary["reason"], "completed")
             self.assertEqual(summary["protection_backend"], "posix-process-group")
             self.assertGreater(summary["peak_tree_rss_mib"], 0)
+            child_pid, pgid = (int(value) for value in marker.read_text().split())
+            self.assertEqual(summary["child_pid"], child_pid)
+            self.assertEqual(pgid, child_pid)
+            self.assertEqual(self._darwin_process_group_members(pgid), [])
+
+    @unittest.skipUnless(sys.platform == "darwin", "macOS resource integration")
+    def test_darwin_root_exit_grandchild_in_owned_group_hits_memory_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pid_file = root / "root-exit.json"
+            allocated = root / "allocated.txt"
+            summary_path = root / "summary.json"
+            grandchild = (
+                "import os, time; from pathlib import Path; "
+                "time.sleep(0.25); "
+                "payload=bytearray(48 * 1024 * 1024); "
+                f"\nPath({str(allocated)!r}).write_text(str(len(payload))); "
+                "\ntime.sleep(30)"
+            )
+            helper = (
+                "import json, os, subprocess, sys; from pathlib import Path; "
+                f"grandchild=subprocess.Popen([sys.executable, '-c', {grandchild!r}]); "
+                f"Path({str(pid_file)!r}).write_text(json.dumps("
+                "[os.getpid(), os.getpgrp(), grandchild.pid]))"
+            )
+
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary_path),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--max-tree-rss-mib", "32",
+                    "--wall-timeout-s", "5",
+                    "--idle-timeout-s", "5",
+                    "--sample-interval-s", "0.05",
+                    "--grace-period-s", "0.5",
+                    "--", sys.executable, "-c", helper,
+                ],
+                timeout=8,
+            )
+
+            self.assertEqual(completed.returncode, 125, completed.stderr)
+            root_pid, pgid, grandchild_pid = json.loads(pid_file.read_text())
+            self.assertEqual(pgid, root_pid)
+            self.assertTrue(allocated.exists(), "grandchild did not allocate after root exit")
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            self.assertEqual(summary["reason"], "memory-limit")
+            self.assertGreater(summary["peak_tree_rss_mib"], 32)
+            self.assertFalse(_pid_is_alive(root_pid))
+            self.assertFalse(_pid_is_alive(grandchild_pid))
+            self.assertEqual(self._darwin_process_group_members(pgid), [])
 
     def test_posix_launcher_uses_new_session_and_exact_process_group(self):
         recorded = {}
@@ -374,6 +446,29 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                 mock.call(4321, 9),
             ],
         )
+
+    def test_posix_wait_retries_transient_permission_while_group_is_being_reaped(self):
+        class ExitedRoot:
+            pid = 4321
+            stdout = None
+            stderr = None
+            args = ["python", "helper.py"]
+
+            def wait(self, timeout=None):
+                return 0
+
+        owned = guard._PosixOwnedProcess(ExitedRoot())
+        with (
+            mock.patch.object(
+                guard.os,
+                "killpg",
+                side_effect=[PermissionError(1, "not permitted"), ProcessLookupError()],
+            ),
+            mock.patch.object(guard.time, "sleep") as sleep,
+        ):
+            self.assertEqual(owned.wait(timeout=1), 0)
+
+        sleep.assert_called_once_with(0.01)
 
     def test_posix_rss_sums_only_rooted_descendants(self):
         with tempfile.TemporaryDirectory() as tmp:

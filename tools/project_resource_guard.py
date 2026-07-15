@@ -227,6 +227,8 @@ class _PosixOwnedProcess:
                 os.killpg(self.pid, 0)
             except ProcessLookupError:
                 return root_exit
+            except PermissionError:
+                pass
             if timeout is not None and time.monotonic() - started >= timeout:
                 raise subprocess.TimeoutExpired(self._process.args, timeout)
             time.sleep(0.01)
@@ -273,7 +275,7 @@ def _posix_descendant_rss_mib(
     page_size: int | None = None,
 ) -> float:
     if sys.platform == "darwin" and proc_root == Path("/proc"):
-        return _darwin_descendant_rss_mib(root_pid)
+        return _darwin_process_group_rss_mib(root_pid)
 
     parents: dict[int, int] = {}
     for entry in proc_root.iterdir():
@@ -306,36 +308,30 @@ def _posix_descendant_rss_mib(
     return resident_pages * effective_page_size / (1024 * 1024)
 
 
-def _darwin_descendant_rss_mib(root_pid: int) -> float:
+def _darwin_process_group_rss_mib(process_group_id: int) -> float:
     completed = subprocess.run(
-        ["ps", "-axo", "pid=,ppid=,rss="],
+        ["ps", "-axo", "pid=,pgid=,rss="],
         check=True,
         capture_output=True,
         text=True,
         timeout=5,
     )
-    parents: dict[int, int] = {}
-    resident_kib: dict[int, int] = {}
+    owned_resident_kib = []
     for line in completed.stdout.splitlines():
         fields = line.split()
         if len(fields) != 3:
             continue
         try:
-            pid, parent_pid, rss_kib = (int(field) for field in fields)
+            pid, candidate_group_id, rss_kib = (int(field) for field in fields)
         except ValueError:
             continue
-        parents[pid] = parent_pid
-        resident_kib[pid] = rss_kib
-
-    descendants = {root_pid}
-    changed = True
-    while changed:
-        changed = False
-        for pid, parent_pid in parents.items():
-            if parent_pid in descendants and pid not in descendants:
-                descendants.add(pid)
-                changed = True
-    return sum(resident_kib.get(pid, 0) for pid in descendants) / 1024
+        if pid <= 0 or candidate_group_id <= 0 or rss_kib < 0:
+            continue
+        if candidate_group_id == process_group_id:
+            owned_resident_kib.append(rss_kib)
+    if not owned_resident_kib:
+        raise RuntimeError("ps output has no owned process group")
+    return sum(owned_resident_kib) / 1024
 
 
 class _WinIoCounters(ctypes.Structure):
