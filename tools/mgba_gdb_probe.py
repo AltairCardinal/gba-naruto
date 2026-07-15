@@ -35,6 +35,14 @@ class StopReply:
     raw: str
 
 
+@dataclass(frozen=True)
+class TcpOwnerRow:
+    state: int
+    local: tuple[str, int]
+    remote: tuple[str, int]
+    owner_pid: int
+
+
 class BoundedTextTail:
     """Thread-safe tail buffer that never retains more than ``limit`` characters."""
 
@@ -85,9 +93,21 @@ def decode_registers(payload: str) -> dict[str, int]:
     }
 
 
-def parse_memory(payload: str) -> bytes:
+def parse_memory(payload: str, expected_size: int | None = None) -> bytes:
     if payload.startswith("E"):
         raise RuntimeError(f"GDB memory read failed: {payload}")
+    if expected_size is None:
+        expected_size = len(payload) // 2
+    expected_hex_length = expected_size * 2
+    if (
+        not payload
+        or len(payload) != expected_hex_length
+        or any(character not in "0123456789abcdefABCDEF" for character in payload)
+    ):
+        raise RuntimeError(
+            f"malformed GDB memory hex payload: expected {expected_hex_length} "
+            f"continuous hex characters, received {payload!r}"
+        )
     try:
         return bytes.fromhex(payload)
     except ValueError as error:
@@ -161,13 +181,11 @@ def ensure_port_available(host: str, port: int) -> None:
         raise RuntimeError(f"GDB port {host}:{port} is already in use") from error
 
 
-def listener_owner_pids(host: str, port: int) -> set[int]:
-    """Return Windows PIDs owning the requested IPv4 listening endpoint."""
+def _windows_tcp_owner_rows(table_class: int) -> list[TcpOwnerRow]:
     if os.name != "nt":
-        raise RuntimeError("GDB listener ownership can only be proven on Windows")
+        raise RuntimeError("GDB TCP ownership can only be proven on Windows")
 
     af_inet = 2
-    tcp_table_owner_pid_listener = 3
     insufficient_buffer = 122
     size = ctypes.c_ulong(0)
     api = ctypes.windll.iphlpapi.GetExtendedTcpTable
@@ -176,7 +194,7 @@ def listener_owner_pids(host: str, port: int) -> set[int]:
         ctypes.byref(size),
         False,
         af_inet,
-        tcp_table_owner_pid_listener,
+        table_class,
         0,
     )
     if result != insufficient_buffer:
@@ -187,7 +205,7 @@ def listener_owner_pids(host: str, port: int) -> set[int]:
         ctypes.byref(size),
         False,
         af_inet,
-        tcp_table_owner_pid_listener,
+        table_class,
         0,
     )
     if result != 0:
@@ -196,16 +214,57 @@ def listener_owner_pids(host: str, port: int) -> set[int]:
     data = buffer.raw[: size.value]
     count = struct.unpack_from("<I", data, 0)[0]
     row = struct.Struct("<6I")
-    owners: set[int] = set()
+    rows: list[TcpOwnerRow] = []
     for index in range(count):
-        _, local_address, local_port, _, _, owner_pid = row.unpack_from(
-            data, 4 + index * row.size
+        (
+            state,
+            local_address,
+            local_port,
+            remote_address,
+            remote_port,
+            owner_pid,
+        ) = row.unpack_from(data, 4 + index * row.size)
+        rows.append(
+            TcpOwnerRow(
+                state=state,
+                local=(
+                    socket.inet_ntoa(struct.pack("<I", local_address)),
+                    socket.ntohs(local_port & 0xFFFF),
+                ),
+                remote=(
+                    socket.inet_ntoa(struct.pack("<I", remote_address)),
+                    socket.ntohs(remote_port & 0xFFFF),
+                ),
+                owner_pid=owner_pid,
+            )
         )
-        address = socket.inet_ntoa(struct.pack("<I", local_address))
-        decoded_port = socket.ntohs(local_port & 0xFFFF)
-        if decoded_port == port and address in {host, "0.0.0.0"}:
-            owners.add(owner_pid)
+    return rows
+
+
+def listener_owner_pids(host: str, port: int) -> set[int]:
+    """Return Windows PIDs owning the requested IPv4 listening endpoint."""
+    tcp_table_owner_pid_listener = 3
+    owners: set[int] = set()
+    for row in _windows_tcp_owner_rows(tcp_table_owner_pid_listener):
+        if row.local[1] == port and row.local[0] in {host, "0.0.0.0"}:
+            owners.add(row.owner_pid)
     return owners
+
+
+def connection_owner_pids(
+    server_local: tuple[str, int],
+    server_remote: tuple[str, int],
+) -> list[int]:
+    """Return owners of the exact established server-side IPv4 TCP row."""
+    tcp_table_owner_pid_connections = 4
+    mib_tcp_state_established = 5
+    return [
+        row.owner_pid
+        for row in _windows_tcp_owner_rows(tcp_table_owner_pid_connections)
+        if row.state == mib_tcp_state_established
+        and row.local == server_local
+        and row.remote == server_remote
+    ]
 
 
 class GdbRemoteClient:
@@ -281,7 +340,10 @@ class GdbRemoteClient:
         chunks = []
         for offset in range(0, size, MGBA_GDB_MAX_MEMORY_READ):
             chunk_size = min(MGBA_GDB_MAX_MEMORY_READ, size - offset)
-            chunk = parse_memory(self.command(f"m{address + offset:x},{chunk_size:x}"))
+            chunk = parse_memory(
+                self.command(f"m{address + offset:x},{chunk_size:x}"),
+                chunk_size,
+            )
             if len(chunk) != chunk_size:
                 raise RuntimeError(
                     f"GDB memory chunk length mismatch at 0x{address + offset:08X}: "
@@ -296,7 +358,13 @@ def connect_owned_endpoint(
     port: int,
     timeout: float,
     process: subprocess.Popen[str],
-) -> tuple[GdbRemoteClient, set[int]]:
+) -> tuple[
+    GdbRemoteClient,
+    set[int],
+    list[int],
+    tuple[str, int],
+    tuple[str, int],
+]:
     deadline = time.monotonic() + timeout
     last_error: OSError | None = None
     while time.monotonic() < deadline:
@@ -317,14 +385,35 @@ def connect_owned_endpoint(
             if process.poll() is not None:
                 raise RuntimeError("owned mGBA exited while GDB endpoint was connecting")
             owners = listener_owner_pids(host, port)
-            if process.pid not in owners:
+            if process.poll() is not None:
+                raise RuntimeError("owned mGBA exited during GDB listener ownership query")
+            if owners != {process.pid}:
                 owner_text = ",".join(str(pid) for pid in sorted(owners)) or "none"
                 raise RuntimeError(
                     f"GDB listener owner mismatch: expected PID {process.pid}, found {owner_text}"
                 )
+            client_local = (str(sock.getsockname()[0]), int(sock.getsockname()[1]))
+            client_peer = (str(sock.getpeername()[0]), int(sock.getpeername()[1]))
             if process.poll() is not None:
-                raise RuntimeError("owned mGBA exited before GDB ownership was proven")
-            return GdbRemoteClient(sock), owners
+                raise RuntimeError("owned mGBA exited before GDB connection ownership query")
+            connection_owners = connection_owner_pids(client_peer, client_local)
+            if process.poll() is not None:
+                raise RuntimeError("owned mGBA exited during GDB connection ownership query")
+            if connection_owners != [process.pid]:
+                owner_text = ",".join(str(pid) for pid in connection_owners) or "none"
+                raise RuntimeError(
+                    "GDB connection owner mismatch for "
+                    f"{client_peer[0]}:{client_peer[1]} <- "
+                    f"{client_local[0]}:{client_local[1]}: "
+                    f"expected PID {process.pid}, found {owner_text}"
+                )
+            return (
+                GdbRemoteClient(sock),
+                owners,
+                connection_owners,
+                client_local,
+                client_peer,
+            )
         except BaseException:
             sock.close()
             raise
@@ -463,6 +552,10 @@ def initial_evidence(args: argparse.Namespace) -> dict[str, object]:
         "port": MGBA_GDB_PORT,
         "listenerOwnerPid": None,
         "listenerOwnerPids": [],
+        "connectionOwnerPid": None,
+        "connectionOwnerPids": [],
+        "connectionLocalEndpoint": None,
+        "connectionPeerEndpoint": None,
         "rawStop": None,
         "expectedPc": args.breakpoint,
         "expectedPcHex": f"0x{args.breakpoint:08X}",
@@ -535,11 +628,25 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
             drain_threads.append(start_pipe_drain(process.stderr, stderr_tail))
         progress("mgba-launched", pid=process.pid)
 
-        client, owner_pids = connect_owned_endpoint(
-            GDB_HOST, MGBA_GDB_PORT, args.timeout, process
-        )
+        (
+            client,
+            owner_pids,
+            connection_owner_ids,
+            client_local,
+            client_peer,
+        ) = connect_owned_endpoint(GDB_HOST, MGBA_GDB_PORT, args.timeout, process)
         evidence["listenerOwnerPid"] = process.pid
         evidence["listenerOwnerPids"] = sorted(owner_pids)
+        evidence["connectionOwnerPid"] = connection_owner_ids[0]
+        evidence["connectionOwnerPids"] = connection_owner_ids
+        evidence["connectionLocalEndpoint"] = {
+            "address": client_local[0],
+            "port": client_local[1],
+        }
+        evidence["connectionPeerEndpoint"] = {
+            "address": client_peer[0],
+            "port": client_peer[1],
+        }
         progress("gdb-connected", port=MGBA_GDB_PORT, ownerPid=process.pid)
         verify_rom_fingerprint(
             client,

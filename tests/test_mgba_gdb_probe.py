@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 import threading
 import unittest
-from contextlib import redirect_stderr
+from contextlib import nullcontext, redirect_stderr
 from pathlib import Path
 from unittest.mock import Mock, call, patch
 
@@ -33,8 +33,9 @@ class ScriptedSocket:
 
 
 class FakeRspServer:
-    def __init__(self, handler):
+    def __init__(self, handler, *, close_listener_after_accept=False):
         self.handler = handler
+        self.close_listener_after_accept = close_listener_after_accept
         self.commands = []
         self.listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if os.name == "nt":
@@ -45,6 +46,8 @@ class FakeRspServer:
         self.listener.listen(1)
         self.listener.settimeout(1)
         self.connection = None
+        self.server_local = None
+        self.server_remote = None
         self.thread = threading.Thread(target=self._serve, daemon=True)
         self.thread.start()
 
@@ -57,6 +60,10 @@ class FakeRspServer:
     def _serve(self):
         try:
             self.connection, _ = self.listener.accept()
+            self.server_local = self.connection.getsockname()
+            self.server_remote = self.connection.getpeername()
+            if self.close_listener_after_accept:
+                self.listener.close()
             while True:
                 byte = self._recv_byte()
                 while byte != b"$":
@@ -75,6 +82,9 @@ class FakeRspServer:
                 self.connection.sendall(b"+" + probe.encode_packet(response))
         except (EOFError, OSError, socket.timeout):
             return
+        finally:
+            if self.connection is not None:
+                self.connection.close()
 
     def close(self):
         if self.connection is not None:
@@ -85,6 +95,8 @@ class FakeRspServer:
             self.connection.close()
         self.listener.close()
         self.thread.join(timeout=1)
+        if self.connection is not None:
+            self.connection.close()
 
 
 class FakeProcess:
@@ -137,7 +149,15 @@ class MgbaGdbProbeTests(unittest.TestCase):
         values.update(overrides)
         return argparse.Namespace(**values)
 
-    def make_rsp_handler(self, *, pc=0x08000022, wrong_rom=False, register_error=False, second_read_error=False):
+    def make_rsp_handler(
+        self,
+        *,
+        pc=0x08000022,
+        wrong_rom=False,
+        register_error=False,
+        second_read_error=False,
+        read_payload=None,
+    ):
         rom = self.rom_path.read_bytes()
         read_count = 0
 
@@ -167,21 +187,49 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 read_count += 1
                 if second_read_error and read_count == 2:
                     return "E06"
+                if read_payload is not None:
+                    return read_payload
                 return (bytes([read_count]) * size).hex()
             raise AssertionError(f"unexpected RSP command: {command}")
 
         return handler
 
-    def run_fake_rsp(self, handler, *, args=None, process_pid=4242, owner_pids=None):
+    def run_fake_rsp(
+        self,
+        handler,
+        *,
+        args=None,
+        process_pid=4242,
+        owner_pids=None,
+        connection_owner_pids=None,
+        connection_owner_side_effect=None,
+        use_real_connection_owner=False,
+        close_listener_after_accept=False,
+    ):
         holder = {}
 
         def launch(*unused_args, **unused_kwargs):
-            server = FakeRspServer(handler)
+            server = FakeRspServer(
+                handler,
+                close_listener_after_accept=close_listener_after_accept,
+            )
             process = FakeProcess(server, pid=process_pid)
             holder["server"] = server
             holder["process"] = process
             return process
 
+        connection_owner_query = patch.object(
+            probe,
+            "connection_owner_pids",
+            return_value=(
+                [process_pid] if connection_owner_pids is None else connection_owner_pids
+            ),
+            side_effect=connection_owner_side_effect,
+            create=True,
+        )
+        connection_owner_context = (
+            nullcontext() if use_real_connection_owner else connection_owner_query
+        )
         with (
             patch.object(probe.subprocess, "Popen", side_effect=launch),
             patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
@@ -191,8 +239,11 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 return_value={process_pid} if owner_pids is None else owner_pids,
                 create=True,
             ),
+            connection_owner_context as connection_owner_mock,
         ):
             result = probe.run_probe(args or self.make_args())
+        if not use_real_connection_owner:
+            holder["connection_owner_query"] = connection_owner_mock
         return result, holder
 
     def test_build_command_uses_gdb_and_loads_state_before_rom(self):
@@ -289,6 +340,14 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "memory|hex|chunk"):
                     client.read_memory(0x02000000, 256)
 
+    def test_memory_read_rejects_whitespace_empty_and_odd_length_hex(self):
+        for payload in ("00 00", "00\t00", "00\r00", "00\n00", "", "000"):
+            with self.subTest(payload=repr(payload)):
+                client = probe.GdbRemoteClient.__new__(probe.GdbRemoteClient)
+                client.command = Mock(return_value=payload)
+                with self.assertRaisesRegex(RuntimeError, "memory|hex|chunk"):
+                    client.read_memory(0x02000000, 2)
+
     def test_memory_read_rejects_nonpositive_and_overflowing_ranges(self):
         client = probe.GdbRemoteClient.__new__(probe.GdbRemoteClient)
         client.command = Mock()
@@ -371,6 +430,8 @@ class MgbaGdbProbeTests(unittest.TestCase):
 
         self.assertEqual(result["outcome"], "verified")
         self.assertEqual(result["listenerOwnerPid"], 4242)
+        self.assertEqual(result["connectionOwnerPid"], 4242)
+        self.assertEqual(result["connectionOwnerPids"], [4242])
         self.assertEqual(result["rawStop"], "S05")
         self.assertEqual(result["actualPc"], 0x08000022)
         self.assertEqual(result["readRegions"][0]["hex"], "01010101")
@@ -380,6 +441,107 @@ class MgbaGdbProbeTests(unittest.TestCase):
         self.assertIn("c", commands)
         self.assertIn("g", commands)
         self.assertIn("m2000000,4", commands)
+        holder["connection_owner_query"].assert_called_once_with(
+            holder["server"].server_local,
+            holder["server"].server_remote,
+        )
+        self.assertEqual(
+            result["connectionLocalEndpoint"],
+            {
+                "address": holder["server"].server_remote[0],
+                "port": holder["server"].server_remote[1],
+            },
+        )
+        self.assertEqual(
+            result["connectionPeerEndpoint"],
+            {
+                "address": holder["server"].server_local[0],
+                "port": holder["server"].server_local[1],
+            },
+        )
+
+    def test_mixed_listener_owners_are_not_verified(self):
+        result, _ = self.run_fake_rsp(
+            self.make_rsp_handler(),
+            owner_pids={4242, 9999},
+            connection_owner_pids=[4242],
+        )
+
+        self.assertEqual(result["outcome"], "error")
+        self.assertIn("listener owner", result["error"].lower())
+
+    def test_connection_owner_query_failures_are_not_verified(self):
+        cases = (
+            ([], None),
+            ([4242, 4242], None),
+            ([4242, 9999], None),
+            (None, RuntimeError("TCP owner query failed with Windows error 5")),
+        )
+        for owner_pids, query_error in cases:
+            with self.subTest(owner_pids=owner_pids, query_error=query_error):
+                result, _ = self.run_fake_rsp(
+                    self.make_rsp_handler(),
+                    connection_owner_pids=owner_pids,
+                    connection_owner_side_effect=query_error,
+                )
+
+                self.assertEqual(result["outcome"], "error")
+                self.assertNotEqual(result["outcome"], "verified")
+
+    def test_owned_child_exit_during_connection_owner_query_is_not_verified(self):
+        holder = {}
+
+        def exit_owned_process(*unused_args):
+            holder["process"].returncode = 1
+            return [4242]
+
+        def launch(*unused_args, **unused_kwargs):
+            server = FakeRspServer(self.make_rsp_handler())
+            process = FakeProcess(server, pid=4242)
+            holder["process"] = process
+            return process
+
+        with (
+            patch.object(probe.subprocess, "Popen", side_effect=launch),
+            patch.object(probe, "read_mgba_version", return_value="mGBA 0.10.5"),
+            patch.object(probe, "listener_owner_pids", return_value={4242}),
+            patch.object(probe, "connection_owner_pids", side_effect=exit_owned_process),
+        ):
+            result = probe.run_probe(self.make_args())
+
+        self.assertEqual(result["outcome"], "error")
+        self.assertIn("exited", result["error"])
+
+    @unittest.skipUnless(os.name == "nt", "Windows TCP owner table is required")
+    def test_listener_handoff_to_owned_pid_does_not_verify_external_connection(self):
+        result, _ = self.run_fake_rsp(
+            self.make_rsp_handler(),
+            owner_pids={4242},
+            use_real_connection_owner=True,
+            close_listener_after_accept=True,
+        )
+
+        self.assertEqual(result["outcome"], "error")
+        self.assertIn("connection owner", result["error"].lower())
+
+    @unittest.skipUnless(os.name == "nt", "Windows TCP owner table is required")
+    def test_windows_connection_owner_query_finds_real_loopback_server_pid(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
+            listener.bind(("127.0.0.1", 0))
+            listener.listen(1)
+            with socket.create_connection(listener.getsockname()) as client:
+                server, _ = listener.accept()
+                with server:
+                    self.assertTrue(
+                        hasattr(probe, "connection_owner_pids"),
+                        "production connection owner query is missing",
+                    )
+                    owners = probe.connection_owner_pids(
+                        server.getsockname(),
+                        server.getpeername(),
+                    )
+
+        self.assertEqual(owners, [os.getpid()])
 
     def test_external_same_rom_endpoint_is_not_owned(self):
         result, _ = self.run_fake_rsp(
@@ -423,6 +585,16 @@ class MgbaGdbProbeTests(unittest.TestCase):
         self.assertEqual(second_read_failure["outcome"], "error")
         self.assertEqual(len(second_read_failure["readRegions"]), 1)
         self.assertEqual(second_read_failure["readRegions"][0]["address"], 0x02000000)
+
+    def test_malformed_memory_region_never_writes_success_evidence(self):
+        for payload in ("00 00", "00\t00", "00\r00", "00\n00", "", "000"):
+            with self.subTest(payload=repr(payload)):
+                result, _ = self.run_fake_rsp(
+                    self.make_rsp_handler(read_payload=payload),
+                )
+
+                self.assertEqual(result["outcome"], "error")
+                self.assertEqual(result["readRegions"], [])
 
     def test_file_hashes_are_kept_when_port_precheck_fails(self):
         args = self.make_args()
