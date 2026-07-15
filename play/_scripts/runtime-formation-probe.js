@@ -21,11 +21,19 @@ const {
   decodeAlternateChapterProbe,
   evaluateAlternateChapterEvidence,
 } = require('./runtime-formation-probe-lib');
+const {
+  decodePublishedCall,
+  evaluatePlayerControlEvidence,
+} = require('./scenario-41-runtime-evidence');
 
 const URL = process.env.PROBE_URL || 'https://sh.kibox.com.cn/gba-naruto/play/';
 const BROWSER_EXECUTABLE = process.env.PROBE_BROWSER || '/usr/bin/chromium';
 const PROBE_ROM = process.env.PROBE_ROM || '';
 const AUDIO_PROBE_RESULT = 0x0203FF60;
+const PLAYER_CURRENT_UNIT_PROBE_RESULT = 0x0203F060;
+const PLAYER_CURRENT_UNIT_MAGIC = 0x31554350;
+const PLAYER_CONTROL_PROBE_RESULT = 0x0203F080;
+const PLAYER_CONTROL_MAGIC = 0x314F4350;
 const NATURAL_SAVE_PROBE_RESULT = 0x0203FF40;
 const NATURAL_LOAD_PROBE_RESULT = 0x0E007FF0;
 const POSTBATTLE_PROBE_LATCH = 0x0203FF30;
@@ -50,6 +58,19 @@ function emitProgress(stage, details = {}) {
 function writeProbeResult(resultPath, result) {
   fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
   emitProgress('result-written', { outcome: result.outcome, reason: result.reason });
+}
+
+function decodePlayerControlProbe(bytes, expectedMagic = 0x314F4350) {
+  const data = Buffer.from(bytes);
+  const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
+  return {
+    rawHex: data.toString('hex'),
+    magicValid: view.getUint32(0, true) === expectedMagic,
+    hitCount: view.getUint32(4, true),
+    argument0: view.getUint32(8, true),
+    argument1: view.getUint16(12, true),
+    argument2: view.getUint16(14, true),
+  };
 }
 const BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/positions/bank.json'), 'utf8'));
 const UNITS_BANK = JSON.parse(fs.readFileSync(path.join(ROOT, 'sequel/content/units/bank.json'), 'utf8'));
@@ -117,9 +138,15 @@ async function focusGameSurface(page) {
   });
 }
 
-async function pressGbaKey(page, key, holdMs) {
+async function pressGbaKey(page, key, holdMs, inputAudit, inputKind) {
   const gbaKey = GBA_KEYS[key];
   if (!gbaKey) throw new Error(`unsupported GBA key mapping: ${key}`);
+  if (inputAudit) {
+    if (inputKind !== 'explicit' && inputKind !== 'automatic') {
+      throw new Error(`input audit kind must be explicit or automatic, got ${inputKind}`);
+    }
+    inputAudit[`${inputKind}Inputs`].push(key);
+  }
   if (process.env.PROBE_INPUT_MODE === 'keyboard') {
     await focusGameSurface(page);
     const browserKey = BROWSER_KEYS[key];
@@ -132,6 +159,63 @@ async function pressGbaKey(page, key, holdMs) {
   await page.evaluate(gbaKey => window.__mGBA.buttonPress(gbaKey), gbaKey);
   await sleep(holdMs);
   await page.evaluate(gbaKey => window.__mGBA.buttonUnpress(gbaKey), gbaKey);
+}
+
+function createPlayerControlEvidenceTracker({
+  page,
+  readGbaBytes: readBytes = readGbaBytes,
+  inputAudit,
+}) {
+  let baseline = null;
+
+  async function readRecords() {
+    const player = decodePublishedCall(
+      await readBytes(page, PLAYER_CONTROL_PROBE_RESULT, 24),
+      PLAYER_CONTROL_MAGIC,
+    );
+    const current = decodePublishedCall(
+      await readBytes(page, PLAYER_CURRENT_UNIT_PROBE_RESULT, 24),
+      PLAYER_CURRENT_UNIT_MAGIC,
+    );
+    return { player, current };
+  }
+
+  return {
+    async captureBaseline() {
+      const records = await readRecords();
+      baseline = Object.freeze({
+        player: Object.freeze(records.player),
+        current: Object.freeze(records.current),
+      });
+      return baseline;
+    },
+    async attachEvidence(diagnostic) {
+      if (!baseline) throw new Error('player-control baseline must be captured first');
+      const final = await readRecords();
+      const controlledSlot = final.player.argument0;
+      const controlledUnit = diagnostic.occupiedUnitSummaries
+        ?.find(unit => unit.slot === controlledSlot);
+      const auditSnapshot = Object.freeze({
+        explicitInputs: Object.freeze([...(inputAudit?.explicitInputs || [])]),
+        automaticInputs: Object.freeze([...(inputAudit?.automaticInputs || [])]),
+      });
+      diagnostic.playerControlProbe = final.player;
+      diagnostic.playerCurrentUnitProbe = final.current;
+      diagnostic.inputAudit = auditSnapshot;
+      diagnostic.playerControlEvidence = evaluatePlayerControlEvidence({
+        baseline,
+        final,
+        battleId: diagnostic.battleControl?.chapterBattleId,
+        mapLoaded: diagnostic.mapRuntime?.width > 0 && diagnostic.mapRuntime?.height > 0,
+        screenState: diagnostic.screenState,
+        controlledCharacterId: controlledUnit?.characterId,
+        controlledSlot: controlledUnit?.slot,
+        explicitInputs: auditSnapshot.explicitInputs,
+        automaticInputs: auditSnapshot.automaticInputs,
+      });
+      return diagnostic;
+    },
+  };
 }
 
 function extractRuntimePositions(snapshot) {
@@ -293,6 +377,10 @@ async function captureAlternateChapterEvidence(page, baseline, config = CHAPTER_
 
 function shouldStopForAlternateChapter(probe) {
   return probe?.evidence?.verified === true;
+}
+
+function allowsLegacyEvidenceStop(evidenceMode) {
+  return evidenceMode !== 'player-control';
 }
 
 async function readSaveRecords(page) {
@@ -505,6 +593,14 @@ async function main() {
     const saveLoad = await loadSaveExport(page);
     const stateLoad = await loadStateCheckpoint(page);
     if (stateLoad || saveLoad) emitProgress('checkpoint-loaded', { kind: stateLoad ? 'state' : 'save' });
+    const inputAudit = { explicitInputs: [], automaticInputs: [] };
+    const playerControlEvidenceTracker = createPlayerControlEvidenceTracker({
+      page,
+      inputAudit,
+    });
+    await playerControlEvidenceTracker.captureBaseline();
+    const evidenceMode = process.env.PROBE_EVIDENCE_MODE || '';
+    const legacyEvidenceStop = allowsLegacyEvidenceStop(evidenceMode);
     const alternateChapterBaseline = await readAlternateChapterProbe(page);
     const probeSpeed = String(process.env.PROBE_SPEED || '4');
     await page.evaluate(speed => document.querySelector(`.speed-btn[data-speed="${speed}"]`)?.click(), probeSpeed);
@@ -536,7 +632,7 @@ async function main() {
       const action = plan[index];
       emitProgress('phase-start', { phase: action.phase, step: index + 1 });
       await sleep(action.delayMs);
-      await pressGbaKey(page, action.key, action.holdMs);
+      await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'explicit');
       let screenMetrics = null;
       let screenState = null;
       let adaptiveRetries = 0;
@@ -548,7 +644,7 @@ async function main() {
           adaptiveRetries += 1;
           await sleep(action.delayMs);
           if (shouldRetryBack(decision, adaptiveRetries)) {
-            await pressGbaKey(page, action.key, action.holdMs);
+            await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'automatic');
           }
           screenMetrics = await captureScreenMetrics(page);
           screenState = classifyScreenMetrics(screenMetrics);
@@ -595,7 +691,25 @@ async function main() {
         screenState,
         adaptiveRetries,
       };
-      if (shouldStopForAlternateChapter(lastDiagnostic.alternateChapterProbe)) {
+      await playerControlEvidenceTracker.attachEvidence(lastDiagnostic);
+      if (evidenceMode === 'player-control' && lastDiagnostic.playerControlEvidence.verified) {
+        lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+        lastDiagnostic.saveExport = await persistSaveExport(page);
+        lastDiagnostic.stateLoad = stateLoad;
+        lastDiagnostic.saveLoad = saveLoad;
+        lastDiagnostic.stateExport = await persistStateExport(page);
+        lastDiagnostic.memoryDump = await persistMemoryDump(page);
+        lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
+        await page.screenshot({ path: artifacts.finalScreenshotPath });
+        writeProbeResult(artifacts.resultPath, buildProbeResult({
+          outcome: 'verified',
+          reason: lastDiagnostic.playerControlEvidence.reason,
+          stages,
+          final: lastDiagnostic,
+        }));
+        return;
+      }
+      if (legacyEvidenceStop && shouldStopForAlternateChapter(lastDiagnostic.alternateChapterProbe)) {
         lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
         lastDiagnostic.saveExport = await persistSaveExport(page);
         lastDiagnostic.stateLoad = stateLoad;
@@ -618,7 +732,7 @@ async function main() {
         const arrival = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState });
         lastDiagnostic.arrival = arrival;
         console.log(JSON.stringify({ step: index + 1, phase: action.phase, status, runtimePositions, match, screenState, arrival }));
-        if (STOP_ON_MATCH && arrival.arrived) {
+        if (legacyEvidenceStop && STOP_ON_MATCH && arrival.arrived) {
           lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
           lastDiagnostic.saveExport = await persistSaveExport(page);
           lastDiagnostic.stateLoad = stateLoad;
@@ -644,7 +758,8 @@ async function main() {
       }
       previous = snapshot;
     }
-    if (!STOP_ON_MATCH && process.env.PROBE_FORCE_SETTLE !== '1' && lastDiagnostic?.arrival?.arrived) {
+    if (legacyEvidenceStop && !STOP_ON_MATCH
+        && process.env.PROBE_FORCE_SETTLE !== '1' && lastDiagnostic?.arrival?.arrived) {
       lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
       lastDiagnostic.saveExport = await persistSaveExport(page);
       lastDiagnostic.stateLoad = stateLoad;
@@ -660,7 +775,7 @@ async function main() {
       emitProgress('phase-start', { phase: settle.phase, step: plan.length + settle.poll });
       await sleep(settle.delayMs);
       if (settle.key && arrivalFirstPoll === null) {
-        await pressGbaKey(page, settle.key, settle.holdMs);
+        await pressGbaKey(page, settle.key, settle.holdMs, inputAudit, 'automatic');
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
       const templateSnapshot = await readGbaBytes(page, TEMPLATE_POOL, TEMPLATE_STRIDE * TEMPLATE_COUNT);
@@ -701,12 +816,33 @@ async function main() {
         screenMetrics,
         screenState,
       };
+      await playerControlEvidenceTracker.attachEvidence(lastDiagnostic);
+      if (evidenceMode === 'player-control' && lastDiagnostic.playerControlEvidence.verified) {
+        lastDiagnostic.saveRecords = compareSaveRecords(initialSaveRecords, await readSaveRecords(page));
+        lastDiagnostic.saveExport = await persistSaveExport(page);
+        lastDiagnostic.stateLoad = stateLoad;
+        lastDiagnostic.saveLoad = saveLoad;
+        lastDiagnostic.stateExport = await persistStateExport(page);
+        lastDiagnostic.memoryDump = await persistMemoryDump(page);
+        lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
+        const screenshotPath = artifacts.phaseScreenshot('settle');
+        await page.screenshot({ path: screenshotPath });
+        stages.push({ ...lastDiagnostic, screenshotPath });
+        await page.screenshot({ path: artifacts.finalScreenshotPath });
+        writeProbeResult(artifacts.resultPath, buildProbeResult({
+          outcome: 'verified',
+          reason: lastDiagnostic.playerControlEvidence.reason,
+          stages,
+          final: lastDiagnostic,
+        }));
+        return;
+      }
       if (runtimePositions.length > 0) {
         const match = matchFormationPositions(BANK.entries, runtimePositions);
         const arrival = evaluateBattleArrival({ match, battleControl, mapRuntime, screenState });
         lastDiagnostic.arrival = arrival;
         console.log(JSON.stringify({ ...lastDiagnostic, match, arrival }));
-        if (arrival.arrived) {
+        if (legacyEvidenceStop && arrival.arrived) {
           if (arrivalFirstPoll === null) arrivalFirstPoll = settle.poll;
           if (settle.poll - arrivalFirstPoll < POST_ARRIVAL_POLLS) {
             previous = snapshot;
@@ -746,7 +882,7 @@ async function main() {
       lastDiagnostic.mapResourceDumps = await persistMapResourceDumps(page);
     }
     await page.screenshot({ path: artifacts.finalScreenshotPath });
-    if (lastDiagnostic?.alternateChapterProbe?.evidence?.verified) {
+    if (legacyEvidenceStop && lastDiagnostic?.alternateChapterProbe?.evidence?.verified) {
       const result = buildProbeResult({
         outcome: 'verified',
         reason: lastDiagnostic.alternateChapterProbe.evidence.reason,
@@ -767,6 +903,9 @@ async function main() {
 if (require.main === module) main().catch(error => { console.error(error.stack || error); process.exitCode = 1; });
 
 module.exports = {
+  allowsLegacyEvidenceStop,
+  createPlayerControlEvidenceTracker,
+  decodePlayerControlProbe,
   formatProgress,
   extractRuntimePositions,
   extractOccupiedUnitSummaries,
@@ -776,6 +915,7 @@ module.exports = {
   matchTemplatesToUnits,
   captureAlternateChapterEvidence,
   mapResourceDumpSpecs,
+  pressGbaKey,
   shouldStopForAlternateChapter,
   readGbaBytes,
   readSaveRecords,

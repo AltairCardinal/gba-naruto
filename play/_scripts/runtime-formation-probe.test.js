@@ -24,11 +24,122 @@ const {
 } = require('./runtime-formation-probe-lib');
 const {
   captureAlternateChapterEvidence,
+  createPlayerControlEvidenceTracker,
+  decodePlayerControlProbe,
   extractOccupiedUnitSummaries,
   formatProgress,
+  pressGbaKey,
   shouldStopForAlternateChapter,
   mapResourceDumpSpecs,
+  allowsLegacyEvidenceStop,
 } = require('./runtime-formation-probe');
+
+test('decodePlayerControlProbe validates the dedicated published sample', () => {
+  const bytes = Buffer.from('50434f31030000000900000000000100', 'hex');
+  assert.deepEqual(decodePlayerControlProbe(bytes), {
+    rawHex: '50434f31030000000900000000000100',
+    magicValid: true,
+    hitCount: 3,
+    argument0: 9,
+    argument1: 0,
+    argument2: 1,
+  });
+  bytes[0] = 0;
+  assert.equal(decodePlayerControlProbe(bytes).magicValid, false);
+
+  const currentUnit = Buffer.from('50435531010000000100000000000000', 'hex');
+  assert.equal(decodePlayerControlProbe(currentUnit, 0x31554350).magicValid, true);
+});
+
+test('runtime evidence wiring reads immutable 24-byte baseline and plan/settle diagnostics', async () => {
+  const reads = [];
+  const counters = new Map();
+  const fakeReadGbaBytes = async (_page, address, length) => {
+    reads.push({ address, length });
+    const hitCount = counters.get(address) || 0;
+    counters.set(address, hitCount + 1);
+    const bytes = Buffer.alloc(24);
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    const player = address === 0x0203F080;
+    view.setUint32(0, player ? 0x314F4350 : 0x31554350, true);
+    view.setUint32(4, hitCount, true);
+    view.setUint32(8, 1, true);
+    view.setUint16(14, 1, true);
+    view.setUint32(16, hitCount === 0 ? 0 : (hitCount * 2) - (player ? 1 : 0), true);
+    view.setUint32(20, player ? 1 : 2, true);
+    return bytes;
+  };
+  const inputAudit = { explicitInputs: ['KeyZ'], automaticInputs: [] };
+  const tracker = createPlayerControlEvidenceTracker({
+    page: {},
+    readGbaBytes: fakeReadGbaBytes,
+    inputAudit,
+  });
+  const baseline = await tracker.captureBaseline();
+  assert.equal(Object.isFrozen(baseline), true);
+
+  const diagnostic = phase => ({
+    phase,
+    battleControl: { chapterBattleId: 41 },
+    mapRuntime: { width: 36, height: 44, derivationConsistent: true },
+    screenState: 'battle-map',
+    occupiedUnitSummaries: [{ slot: 1, characterId: 1 }],
+  });
+  const plan = await tracker.attachEvidence(diagnostic('tail'));
+  inputAudit.automaticInputs.push('KeyZ');
+  const settle = await tracker.attachEvidence(diagnostic('settle'));
+
+  assert.equal(plan.playerControlEvidence.verified, true);
+  assert.deepEqual(plan.inputAudit, { explicitInputs: ['KeyZ'], automaticInputs: [] });
+  assert.equal(settle.playerControlEvidence.verified, false);
+  assert.equal(settle.playerControlEvidence.reason, 'unlisted-input-used');
+  assert.deepEqual(settle.inputAudit, {
+    explicitInputs: ['KeyZ'],
+    automaticInputs: ['KeyZ'],
+  });
+  assert.deepEqual(reads, [
+    { address: 0x0203F080, length: 24 },
+    { address: 0x0203F060, length: 24 },
+    { address: 0x0203F080, length: 24 },
+    { address: 0x0203F060, length: 24 },
+    { address: 0x0203F080, length: 24 },
+    { address: 0x0203F060, length: 24 },
+  ]);
+});
+
+test('pressGbaKey audits plan/tail input as explicit and recovery input as automatic', async () => {
+  const pressed = [];
+  const page = {
+    evaluate: async (_callback, gbaKey) => pressed.push(gbaKey),
+  };
+  const audit = { explicitInputs: [], automaticInputs: [] };
+
+  await pressGbaKey(page, 'KeyZ', 0, audit, 'explicit');
+  await pressGbaKey(page, 'KeyX', 0, audit, 'explicit');
+  await pressGbaKey(page, 'KeyX', 0, audit, 'automatic');
+  await pressGbaKey(page, 'KeyZ', 0, audit, 'automatic');
+
+  assert.deepEqual(audit, {
+    explicitInputs: ['KeyZ', 'KeyX'],
+    automaticInputs: ['KeyX', 'KeyZ'],
+  });
+  assert.equal(pressed.length, 8);
+});
+
+test('settle confirm interval zero produces no audited input', async () => {
+  const audit = { explicitInputs: [], automaticInputs: [] };
+  const settlePlan = buildSettlePlan({ count: 3, delayMs: 0, confirmEvery: 0 });
+  for (const settle of settlePlan) {
+    if (settle.key) await pressGbaKey({}, settle.key, 0, audit, 'automatic');
+  }
+  assert.deepEqual(audit, { explicitInputs: [], automaticInputs: [] });
+});
+
+test('player-control evidence mode rejects every legacy arrival success path', () => {
+  assert.equal(allowsLegacyEvidenceStop('player-control'), false);
+  assert.equal(allowsLegacyEvidenceStop(''), true);
+  assert.equal(allowsLegacyEvidenceStop('alternate-chapter'), true);
+});
 
 test('formatProgress emits one parseable resource-progress JSON line', () => {
   const line = formatProgress(
