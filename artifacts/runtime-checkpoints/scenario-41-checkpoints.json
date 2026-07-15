@@ -17,8 +17,8 @@
     },
     {
       "name": "scenario-41-start-row",
-      "status": "candidate",
-      "path": "build/natural-s41-menu-index2.ss9",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
       "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
       "rom": "rom/base.gba",
       "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -28,12 +28,14 @@
         "Down"
       ],
       "screen": "scenario-41-start-row",
-      "stable_zero_input": false,
-      "before_hooks": [
-        "0x08073946",
-        "0x080739D8"
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "build/task5-zero-replay-1.json",
+        "build/task5-zero-replay-2.json"
       ],
-      "allowed_evidence": []
+      "runtime_boundary": "A single explicit A reaches stable battle 41, but the published player-control/current-unit hooks remain zero; this checkpoint is not authorized to prove player control."
     },
     {
       "name": "natural-s41-start-prompt",

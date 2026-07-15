@@ -53,13 +53,26 @@ repository root with:
 python tools/runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/scenario-41-checkpoints.json
 ```
 
-The initial ledger accepts the tracked `tutorial-ui-save.sav` as its immutable
-cold-load root. `build/natural-s41-menu-index2.ss9` remains a candidate for the
-scenario 41 “start mission” row: its measured SHA-256 is retained, but the file
-is not copied into `artifacts/` until a later zero-input stability and UI-
-identity check accepts it. `build/natural-s41-start-prompt.ss9` is explicitly
-rejected because inspection showed the team/equipment page rather than the
-scenario 41 start-confirm prompt.
+The ledger accepts the tracked `tutorial-ui-save.sav` as its immutable cold-load
+root. `scenario-41-start-row.ss9` is the accepted scenario 41 “开始任务” row:
+two guarded base-ROM replays with zero start, advance, tail, adaptive-back and
+settle-confirm input stayed on the same selected row for eight settle polls.
+Both runs kept battle/map/formation absent, every declared non-visual WRAM field
+identical, both player observer records zero and the input audit empty. Their
+ignored raw reports are `build/task5-zero-replay-1.json` and
+`build/task5-zero-replay-2.json`; the accepted checkpoint SHA-256 is
+`e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81`.
+The browser chrome/FPS pixels are not part of the game-state identity check.
+This acceptance proves only the stable visible start row and its lineage. It
+does **not** claim that the state is dynamically known to precede
+`0x08073946`/`0x080739D8`, so the ledger leaves `before_hooks` and
+`allowed_evidence` empty. A single audited A reached stable battle 41 on both
+the observer and base ROM, but neither published observer produced a fresh
+sample. The compact `scenario-41-player-control-evidence.json` therefore
+records `not-proven`, and no `scenario-41-player-turn.ss9` exists.
+`build/natural-s41-start-prompt.ss9` remains explicitly rejected because
+inspection showed the team/equipment page rather than the scenario 41
+start-confirm prompt.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate
