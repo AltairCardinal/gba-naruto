@@ -34,6 +34,8 @@ const PLAYER_CURRENT_UNIT_PROBE_RESULT = 0x0203F060;
 const PLAYER_CURRENT_UNIT_MAGIC = 0x31554350;
 const PLAYER_CONTROL_PROBE_RESULT = 0x0203F080;
 const PLAYER_CONTROL_MAGIC = 0x314F4350;
+const OBSERVER_EVENT_COUNTER = 0x0203F040;
+const OBSERVER_SNAPSHOT_LENGTH = 0x58;
 const NATURAL_SAVE_PROBE_RESULT = 0x0203FF40;
 const NATURAL_LOAD_PROBE_RESULT = 0x0E007FF0;
 const POSTBATTLE_PROBE_LATCH = 0x0203FF30;
@@ -138,46 +140,65 @@ async function focusGameSurface(page) {
   });
 }
 
-async function pressGbaKey(page, key, holdMs, inputAudit, inputKind) {
+async function pressGbaKey(page, key, holdMs, inputAudit, inputKind, context = {}) {
   const gbaKey = GBA_KEYS[key];
   if (!gbaKey) throw new Error(`unsupported GBA key mapping: ${key}`);
+  if (inputKind !== 'explicit' && inputKind !== 'automatic') {
+    throw new Error(`input audit kind must be explicit or automatic, got ${inputKind}`);
+  }
+  let event = null;
   if (inputAudit) {
-    if (inputKind !== 'explicit' && inputKind !== 'automatic') {
-      throw new Error(`input audit kind must be explicit or automatic, got ${inputKind}`);
-    }
-    inputAudit[`${inputKind}Inputs`].push(key);
+    if (!Array.isArray(inputAudit.events)) throw new TypeError('input audit events must be an array');
+    event = {
+      phase: context.phase,
+      step: context.step,
+      logicalKey: key,
+      gbaButton: gbaKey,
+      holdMs,
+      classification: inputKind,
+      downCompleted: false,
+      upCompleted: false,
+    };
+    inputAudit.events.push(event);
   }
   if (process.env.PROBE_INPUT_MODE === 'keyboard') {
     await focusGameSurface(page);
     const browserKey = BROWSER_KEYS[key];
     if (!browserKey) throw new Error(`unsupported browser key mapping: ${key}`);
     await page.keyboard.down(browserKey);
+    if (event) event.downCompleted = true;
     await sleep(holdMs);
     await page.keyboard.up(browserKey);
+    if (event) event.upCompleted = true;
     return;
   }
   await page.evaluate(gbaKey => window.__mGBA.buttonPress(gbaKey), gbaKey);
+  if (event) event.downCompleted = true;
   await sleep(holdMs);
   await page.evaluate(gbaKey => window.__mGBA.buttonUnpress(gbaKey), gbaKey);
+  if (event) event.upCompleted = true;
 }
 
 function createPlayerControlEvidenceTracker({
   page,
   readGbaBytes: readBytes = readGbaBytes,
   inputAudit,
+  expectedInputPlan,
 }) {
   let baseline = null;
 
   async function readRecords() {
-    const player = decodePublishedCall(
-      await readBytes(page, PLAYER_CONTROL_PROBE_RESULT, 24),
-      PLAYER_CONTROL_MAGIC,
+    const snapshot = Buffer.from(
+      await readBytes(page, OBSERVER_EVENT_COUNTER, OBSERVER_SNAPSHOT_LENGTH),
     );
-    const current = decodePublishedCall(
-      await readBytes(page, PLAYER_CURRENT_UNIT_PROBE_RESULT, 24),
-      PLAYER_CURRENT_UNIT_MAGIC,
-    );
-    return { player, current };
+    if (snapshot.length !== OBSERVER_SNAPSHOT_LENGTH) {
+      throw new RangeError(`observer snapshot must be ${OBSERVER_SNAPSHOT_LENGTH} bytes, got ${snapshot.length}`);
+    }
+    return {
+      sequenceBoundary: snapshot.readUInt32LE(0),
+      current: decodePublishedCall(snapshot.subarray(0x20, 0x38), PLAYER_CURRENT_UNIT_MAGIC),
+      player: decodePublishedCall(snapshot.subarray(0x40, 0x58), PLAYER_CONTROL_MAGIC),
+    };
   }
 
   return {
@@ -186,22 +207,24 @@ function createPlayerControlEvidenceTracker({
       baseline = Object.freeze({
         player: Object.freeze(records.player),
         current: Object.freeze(records.current),
+        sequenceBoundary: records.sequenceBoundary,
       });
       return baseline;
     },
     async attachEvidence(diagnostic) {
       if (!baseline) throw new Error('player-control baseline must be captured first');
       const final = await readRecords();
-      const controlledSlot = final.player.argument0;
-      const controlledUnit = diagnostic.occupiedUnitSummaries
-        ?.find(unit => unit.slot === controlledSlot);
+      const controlledCandidates = (diagnostic.occupiedUnitSummaries || [])
+        .filter(unit => unit.active === true && unit.affiliation === 0);
+      const controlledUnit = controlledCandidates.length === 1 ? controlledCandidates[0] : null;
+      const events = (inputAudit?.events || []).map(item => Object.freeze({ ...item }));
       const auditSnapshot = Object.freeze({
-        explicitInputs: Object.freeze([...(inputAudit?.explicitInputs || [])]),
-        automaticInputs: Object.freeze([...(inputAudit?.automaticInputs || [])]),
+        events: Object.freeze(events),
       });
       diagnostic.playerControlProbe = final.player;
       diagnostic.playerCurrentUnitProbe = final.current;
       diagnostic.inputAudit = auditSnapshot;
+      diagnostic.controlledUnitDiagnostic = controlledUnit ? Object.freeze({ ...controlledUnit }) : null;
       diagnostic.playerControlEvidence = evaluatePlayerControlEvidence({
         baseline,
         final,
@@ -210,8 +233,9 @@ function createPlayerControlEvidenceTracker({
         screenState: diagnostic.screenState,
         controlledCharacterId: controlledUnit?.characterId,
         controlledSlot: controlledUnit?.slot,
-        explicitInputs: auditSnapshot.explicitInputs,
-        automaticInputs: auditSnapshot.automaticInputs,
+        controlledAffiliation: controlledUnit?.affiliation,
+        expectedInputPlan,
+        inputEvents: auditSnapshot.events,
       });
       return diagnostic;
     },
@@ -244,6 +268,8 @@ function extractOccupiedUnitSummaries(snapshot) {
     units.push({
       slot,
       characterId: record[0],
+      affiliation: record[0xC0] & 1,
+      active: (record[0xC0] & 0x80) === 0,
       first32Hex: Buffer.from(record.subarray(0, 32)).toString('hex'),
       value0c: record[0x0C] | (record[0x0D] << 8),
       value0e: record[0x0E] | (record[0x0F] << 8),
@@ -593,10 +619,18 @@ async function main() {
     const saveLoad = await loadSaveExport(page);
     const stateLoad = await loadStateCheckpoint(page);
     if (stateLoad || saveLoad) emitProgress('checkpoint-loaded', { kind: stateLoad ? 'state' : 'save' });
-    const inputAudit = { explicitInputs: [], automaticInputs: [] };
+    const inputAudit = { events: [] };
+    const playerControlExpectedInputPlan = Object.freeze([Object.freeze({
+      phase: 'tail',
+      step: 1,
+      logicalKey: 'KeyZ',
+      gbaButton: 'A',
+      holdMs: Number(process.env.PROBE_KEY_HOLD_MS ?? 125),
+    })]);
     const playerControlEvidenceTracker = createPlayerControlEvidenceTracker({
       page,
       inputAudit,
+      expectedInputPlan: playerControlExpectedInputPlan,
     });
     await playerControlEvidenceTracker.captureBaseline();
     const evidenceMode = process.env.PROBE_EVIDENCE_MODE || '';
@@ -632,7 +666,9 @@ async function main() {
       const action = plan[index];
       emitProgress('phase-start', { phase: action.phase, step: index + 1 });
       await sleep(action.delayMs);
-      await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'explicit');
+      await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'explicit', {
+        phase: action.phase, step: index + 1,
+      });
       let screenMetrics = null;
       let screenState = null;
       let adaptiveRetries = 0;
@@ -644,7 +680,9 @@ async function main() {
           adaptiveRetries += 1;
           await sleep(action.delayMs);
           if (shouldRetryBack(decision, adaptiveRetries)) {
-            await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'automatic');
+            await pressGbaKey(page, action.key, action.holdMs, inputAudit, 'automatic', {
+              phase: action.phase, step: index + 1,
+            });
           }
           screenMetrics = await captureScreenMetrics(page);
           screenState = classifyScreenMetrics(screenMetrics);
@@ -775,7 +813,9 @@ async function main() {
       emitProgress('phase-start', { phase: settle.phase, step: plan.length + settle.poll });
       await sleep(settle.delayMs);
       if (settle.key && arrivalFirstPoll === null) {
-        await pressGbaKey(page, settle.key, settle.holdMs, inputAudit, 'automatic');
+        await pressGbaKey(page, settle.key, settle.holdMs, inputAudit, 'automatic', {
+          phase: settle.phase, step: plan.length + settle.poll,
+        });
       }
       const snapshot = await readGbaBytes(page, WRAM_BASE, UNIT_STRIDE * SLOT_COUNT);
       const templateSnapshot = await readGbaBytes(page, TEMPLATE_POOL, TEMPLATE_STRIDE * TEMPLATE_COUNT);
