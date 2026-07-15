@@ -14,7 +14,7 @@
 - call-site/target 必须是设计文档列出的五组精确地址；错误 ROM、错误 BL、非零 cave、重叠范围全部 fail closed。
 - counter=`0x0203F040`，records=`0x0203F060/80/A0/C0/E0`，stubs=`0x0809E800/880/900/980/EA00`，record size=24，stub size=96。
 - 不修改 `runtime-formation-probe.js` 的成功判定；使用现有 `PROBE_MEMORY_DUMP` 一次读取 `0x0203F040`、长度 `0xC0`。
-- 所有浏览器/mGBA 运行串行经过 `run_guarded.py`；最多三轮，每轮峰值预算 700 MiB，并保存 Job Object/raw exit/peak。
+- 所有浏览器/mGBA 运行串行经过 `run_guarded.py`；最多四轮，每轮峰值预算 700 MiB，并保存 Job Object/raw exit/peak。
 - 使用现有 savestate 直接进入边界，不重复从标题或主菜单导航。
 - 任意 hit 只定位 checked call-site，不证明玩家控制；Task 5 在 evaluator 门禁通过前保持 `not-proven`。
 
@@ -182,29 +182,35 @@ git push origin task/units-character-definitions
 
 Record available physical memory, heavy-lock availability, project-owned PID tree and port 2345; require no owned residue before launch. Recompute SHA-256 for ROM and both checkpoints. Abort the run if available memory is below the existing guard threshold or a project owner/listener remains.
 
-- [ ] **Step 2: Run the actionable positive control**
+- [ ] **Step 2: Run the actionable zero-input baseline**
 
-Use the diagnostic ROM and existing actionable savestate. Set `PROBE_MEMORY_DUMP=build/controller-path-positive.bin`, `PROBE_MEMORY_ADDRESS=0x0203F040`, `PROBE_MEMORY_LENGTH=192`, disable adaptive/settle automatic input, and use the exact explicit tail `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`. Run through `run_guarded.py`, then decode the dump.
+Use the diagnostic ROM and existing actionable savestate with empty tail and every automatic input disabled. Set `PROBE_MEMORY_DUMP=build/controller-path-positive-zero.bin`, `PROBE_MEMORY_ADDRESS=0x0203F040`, and `PROBE_MEMORY_LENGTH=192`, then run through `run_guarded.py`.
+
+Expected: stable actionable battle diagnostics, empty input audit, and a complete immutable baseline dump. A valid record in this single dump is only `valid_records`, never fresh evidence.
+
+- [ ] **Step 3: Run the actionable positive control**
+
+Use the same ROM/checkpoint. Set `PROBE_MEMORY_DUMP=build/controller-path-positive.bin`, disable adaptive/settle automatic input, and use the exact explicit tail `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`. Run through `run_guarded.py`, then call `compare controller-path-positive-zero.bin controller-path-positive.bin`.
 
 Expected: at least one valid `AC01..AC04` fresh record and no automatic input. If no action record is fresh, persist `positive-control-not-proven` and stop without running scenario 41.
 
-- [ ] **Step 3: Run scenario 41 zero-input baseline**
+- [ ] **Step 4: Run scenario 41 zero-input baseline**
 
 From `build/task5-after-start-a.ss9`, use the same ROM with empty tail, all automatic input disabled, and dump `build/controller-path-s41-zero.bin`.
 
 Expected: stable battle 41/36x44/Naruto+Iruka boundary, empty audit, and records usable only as immutable baseline. Old nonzero magic from savestate must not count as fresh.
 
-- [ ] **Step 4: Run scenario 41 independent single A**
+- [ ] **Step 5: Run scenario 41 independent single A**
 
 From the same checkpoint, use exactly one explicit `KeyZ/A`, automatic input disabled, and dump `build/controller-path-s41-a.bin`. Compare each final record with the zero-input baseline by hit count and uint32 sequence.
 
 Expected: either a bounded ordered list of fresh checked events, or all-five `not-proven`. Do not add another key or another run after the defined stop condition.
 
-- [ ] **Step 5: Persist evidence and update durable memory**
+- [ ] **Step 6: Persist evidence and update durable memory**
 
 Write compact JSON with exact command/env provenance, ROM/checkpoint/result/screenshot/dump/guard hashes, input audit, baseline/final records, sequence ordering, raw guard reason/exit/peak and postcheck provenance. The note records attempts, learned call-site boundary, key addresses and rejected hypotheses. Update the player-control note, handoff and roadmap without claiming player control unless the existing Task 4 evaluator later passes.
 
-- [ ] **Step 6: Verify, independently review, commit and push**
+- [ ] **Step 7: Verify, independently review, commit and push**
 
 Run:
 

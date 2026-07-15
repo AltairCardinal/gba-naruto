@@ -58,9 +58,10 @@ guard summary 一起持久化。
 运行分两类，均从 savestate 直接进入边界，避免重复导航：
 
 1. **正对照**：从 `artifacts/runtime-checkpoints/actionable-move-grid.ss9` 启动诊断 ROM，
-   使用交接中已有的短显式序列 `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`。它只用于证明至少
-   一个 action-dispatch observer 能在已知可行动教程链发布 fresh record；不能回溯证明
-   player-selection hook。
+   先做独立零输入 dump，再从同一 checkpoint 使用交接中已有的短显式序列
+   `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`，并只接受 baseline/final compare 产生的 fresh
+   record。它只用于证明至少一个 action-dispatch observer 能在已知可行动教程链发布新记录；
+   不能回溯证明 player-selection hook。
 2. **scenario 41 诊断**：从 `build/task5-after-start-a.ss9` 启动同一 ROM，先零输入建立
    scratch baseline，再在独立运行中只发一个完整 `KeyZ/A`。只有相对 baseline 新增的
    record 才能定位该白框后缀经过的 checked call-site。
@@ -86,6 +87,6 @@ raw record、sequence、screen/WRAM、guard raw reason/exit/peak 和证据来源
   再实现最小 builder 与 decoder。
 - 运行前后检查可用内存、heavy lock、owned PID tree 和端口；所有浏览器/mGBA 任务必须经
   `run_guarded.py` 串行执行。
-- 预算最多三轮 guarded browser（正对照、scenario 零输入、scenario 单 A），每轮预期峰值
+- 预算最多四轮 guarded browser（正对照零输入、正对照短序列、scenario 零输入、scenario 单 A），每轮预期峰值
   不超过 700 MiB；达到停止条件后不得继续猜键。
 - 阶段成果必须记录到 `notes/`，同步当前 Task 5 边界，并单独提交推送远端。
