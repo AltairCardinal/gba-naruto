@@ -39,7 +39,7 @@ execution: subagent-driven-development
 - Produces: `audit_project(root: Path, active_changes: list[str] | None = None) -> dict[str, object]`
 - CLI: `python3 tools/check_comet_project_policy.py [--root PATH] [--json PATH]`
 
-- [ ] **Step 1: 编写 parser 与 schema RED 测试**
+- [x] **Step 1: 编写 parser 与 schema RED 测试**
 
 在 `tests/test_check_comet_project_policy.py` 创建临时仓库 fixture，覆盖：
 
@@ -56,7 +56,7 @@ def test_rejects_unknown_duplicate_and_mistyped_policy_fields(self):
 
 fixture 的有效 policy 必须与项目 schema 一致：`schema_version=1`、`enforcement=strict`，并包含 `goal/change/git/agents/resources/rom/evidence/limits`；不得包含 `activation`。
 
-- [ ] **Step 2: 运行测试并确认 RED**
+- [x] **Step 2: 运行测试并确认 RED**
 
 Run:
 
@@ -66,7 +66,7 @@ python3 -m unittest tests.test_check_comet_project_policy -v
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'tools.check_comet_project_policy'`。
 
-- [ ] **Step 3: 编写 push 冲突与历史豁免 RED 测试**
+- [x] **Step 3: 编写 push 冲突与历史豁免 RED 测试**
 
 增加 fixture：
 
@@ -89,7 +89,7 @@ def test_reports_only_active_normative_or_unfinished_push_requirements(self):
 
 另外覆盖：policy 中存在 `activation.require_policy_support` 必须报 unsupported；`git.push` 不是 `deny` 必须失败；当前 AGENTS 的“push 始终需要单独授权”与 `deny` 不冲突；显式允许自动 push 必须冲突。
 
-- [ ] **Step 4: 实现最小 parser、schema 和审计器**
+- [x] **Step 4: 实现最小 parser、schema 和审计器**
 
 实现受限 YAML：
 
@@ -103,7 +103,7 @@ def test_reports_only_active_normative_or_unfinished_push_requirements(self):
 - proposal/design/spec 的 push 词只在带 `历史`、`曾`、`不再运行`、`不得`、`禁止` 或 `不执行` 时豁免；
 - 输出 JSON 中包含 `policy_valid`、`required_platform_checks`、`push_denied`、`active_change_push_conflicts`、`errors`。
 
-- [ ] **Step 5: 运行 GREEN 与 CLI fixture 测试**
+- [x] **Step 5: 运行 GREEN 与 CLI fixture 测试**
 
 Run:
 
@@ -114,7 +114,7 @@ python3 -m py_compile tools/check_comet_project_policy.py
 
 Expected: all tests PASS，compile exit 0。
 
-- [ ] **Step 6: 对当前仓库运行预检并确认它因真实冲突失败**
+- [x] **Step 6: 对当前仓库运行预检并确认它因真实冲突失败**
 
 Run:
 
@@ -124,24 +124,24 @@ python3 tools/check_comet_project_policy.py --root . --json build/comet-project-
 
 Expected: exit 1；报告至少包含不受支持的 `activation` 和 active artifacts 中的强制 push，证明工具不是空检查。
 
-- [ ] **Step 7: 提交工具与测试**
+- [x] **Step 7: 提交工具与测试**
 
 ```bash
 git add tools/check_comet_project_policy.py tests/test_check_comet_project_policy.py
 git commit -m "test(comet): audit project policy conflicts"
 ```
 
-#### 执行阻塞记录（2026-07-16）
+#### 历史阻塞与解除记录（2026-07-16）
 
 Task 1 已完成两轮有界修复，代码提交为 `e06966a`、`c3a7eab`、`656080c`。父代理复验 25/25 单元测试、`py_compile` 和 `git diff --check` 通过；当前仓库负向审计仍正确报告 34 条真实 push 冲突与不受支持的 `activation`，并且没有把游戏 UI `PUSH START` 误报为 push 门禁。
 
-最终只读审查未批准，修复轮次已达到 `2/2`，因此本 Task 保持未勾选并停止进入 Task 2/3。剩余 Important：
+初次最终只读审查未批准，修复轮次达到 `2/2` 后曾停止进入 Task 2/3。当时剩余 Important：
 
 1. 否定/历史豁免仍可能被“并且”连接或“不得不推送”等语义绕过，未严格证明豁免词支配 push 分句。
 2. active change 的子 artifact symlink、缺失 change 目录和 `.comet.yaml` 读取边界尚未全部 fail-closed。
 3. `openspec list --json` 的 `changes` 数组中畸形成员会被静默丢弃，可能把无效 active change 集合解释为空并成功退出。
 
-恢复条件：新开一个范围仅含审计工具与测试的修复任务，逐项补 RED fixture；重新通过父级验证和全新只读审查后，方可勾选 Task 1 并进入 Task 2。
+上述问题已通过独立修复计划 `docs/superpowers/plans/2026-07-16-project-policy-audit-repair.md` 关闭。补充提交为 `47f7cf1`、`1b12124`、`64a9f40`、`be2099e`；父代理最终复验 35/35 单元测试、`py_compile` 与 `git diff --check` 通过，真实仓库审计只保留 28 条未来/未完成 push 冲突和既有 unsupported `activation`，已完成历史与 UI `PUSH START` 不再误报。两个修复 Task 均获独立 reviewer `Spec ✅ / Quality ✅`，因此解除阻塞并进入 Task 2。
 
 ---
 

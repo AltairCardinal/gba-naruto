@@ -220,7 +220,7 @@ Task 1 implementation commits: `47f7cf1`, `1b12124`；parent verification 31/31 
 - Preserves: `_scan_push_lines(root: Path, path: Path, checkbox_aware: bool) -> list[dict[str, object]]`
 - Changes internal state boundary: checkbox 状态持续到下一个 checkbox、Markdown heading 或 horizontal rule，而不是被普通零缩进段落/代码围栏重置。
 
-- [ ] **Step 1: 编写已完成 section 历史代码块 RED**
+- [x] **Step 1: 编写已完成 section 历史代码块 RED**
 
 ```python
 def test_completed_checkbox_exempts_its_unindented_code_block_until_section_boundary(self) -> None:
@@ -246,7 +246,7 @@ def test_completed_checkbox_exempts_its_unindented_code_block_until_section_boun
     )
 ```
 
-- [ ] **Step 2: 运行聚焦测试并确认 RED**
+- [x] **Step 2: 运行聚焦测试并确认 RED**
 
 Run:
 
@@ -257,7 +257,7 @@ python3 -m unittest \
 
 Expected: FAIL；实际额外报告 completed section 内的历史 `git push`，证明当前 indent reset 过早。
 
-- [ ] **Step 3: 用 Markdown section 边界替代普通缩进重置**
+- [x] **Step 3: 用 Markdown section 边界替代普通缩进重置**
 
 新增：
 
@@ -277,7 +277,7 @@ elif checkbox_aware and MARKDOWN_SECTION_BOUNDARY_RE.match(text):
 
 删除 `checkbox_indent` 及“普通非空行同级/低缩进即重置”的逻辑。新 checkbox 始终覆盖前一状态；heading/horizontal rule 在扫描该行 push 之前重置。不得用具体行号或当前计划文件名硬编码。
 
-- [ ] **Step 4: 运行 GREEN 与真实仓库分类验证**
+- [x] **Step 4: 运行 GREEN 与真实仓库分类验证**
 
 Run:
 
@@ -290,7 +290,7 @@ git diff --check
 
 Expected: tests、compile、diff check 通过；仓库审计仍因 `activation` 与未来/未完成 push 要求 exit 1，但不再报告当前 scenario 计划中已完成 Step 的历史代码块或历史说明。全局约束与未完成 Task 6/7/8 push 仍必须报告。
 
-- [ ] **Step 5: 仅提交工具与测试并通过独立审查**
+- [x] **Step 5: 仅提交工具与测试并通过独立审查**
 
 ```bash
 git add tools/check_comet_project_policy.py tests/test_check_comet_project_policy.py
@@ -299,3 +299,5 @@ git commit -m "fix(comet): preserve completed plan history"
 ```
 
 Expected staged paths exactly equal the two文件；不得 push。父代理复验后派全新只读 reviewer，只有 `Spec ✅ / Quality ✅` 且无 Critical/Important 才能完成本 Task。
+
+Task 2 implementation commits: `64a9f40`, `be2099e`；parent verification 35/35 PASS；task review `Spec ✅ / Quality ✅`。
