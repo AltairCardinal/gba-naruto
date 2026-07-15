@@ -178,17 +178,17 @@ git push origin task/units-character-definitions
 - Consumes: `build/scenario-41-controller-path.gba`, `decode_dump(data)`, `artifacts/runtime-checkpoints/actionable-move-grid.ss9`, `build/task5-after-start-a.ss9`.
 - Produces: checked call-site hit ordering or a bounded `not-proven` result, with exact commands/hashes/input audits/guard data.
 
-- [ ] **Step 1: Run resource and hash preflight**
+- [x] **Step 1: Run resource and hash preflight**
 
 Record available physical memory, heavy-lock availability, project-owned PID tree and port 2345; require no owned residue before launch. Recompute SHA-256 for ROM and both checkpoints. Abort the run if available memory is below the existing guard threshold or a project owner/listener remains.
 
-- [ ] **Step 2: Run the actionable zero-input baseline**
+- [x] **Step 2: Run the actionable zero-input baseline**
 
 Use the diagnostic ROM and existing actionable savestate with empty tail and every automatic input disabled. Set `PROBE_MEMORY_DUMP=build/controller-path-positive-zero.bin`, `PROBE_MEMORY_ADDRESS=0x0203F040`, and `PROBE_MEMORY_LENGTH=192`, then run through `run_guarded.py`.
 
 Expected: stable actionable battle diagnostics, empty input audit, and a complete immutable baseline dump. A valid record in this single dump is only `valid_records`, never fresh evidence.
 
-- [ ] **Step 3: Run the actionable positive control**
+- [x] **Step 3: Run the actionable positive control**
 
 Use the same ROM/checkpoint. Set `PROBE_MEMORY_DUMP=build/controller-path-positive.bin`, disable adaptive/settle automatic input, and use the exact explicit tail `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`. Run through `run_guarded.py`, then call `compare controller-path-positive-zero.bin controller-path-positive.bin`.
 
@@ -206,11 +206,11 @@ From the same checkpoint, use exactly one explicit `KeyZ/A`, automatic input dis
 
 Expected: either a bounded ordered list of fresh checked events, or all-five `not-proven`. Do not add another key or another run after the defined stop condition.
 
-- [ ] **Step 6: Persist evidence and update durable memory**
+- [x] **Step 6: Persist evidence and update durable memory**
 
 Write compact JSON with exact command/env provenance, ROM/checkpoint/result/screenshot/dump/guard hashes, input audit, baseline/final records, sequence ordering, raw guard reason/exit/peak and postcheck provenance. The note records attempts, learned call-site boundary, key addresses and rejected hypotheses. Update the player-control note, handoff and roadmap without claiming player control unless the existing Task 4 evaluator later passes.
 
-- [ ] **Step 7: Verify, independently review, commit and push**
+- [x] **Step 7: Verify, independently review, commit and push**
 
 Run:
 
