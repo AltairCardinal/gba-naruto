@@ -1,6 +1,7 @@
 ---
 change: close-scenario-41-battle-runtime
 design-doc: docs/superpowers/specs/2026-07-15-scenario-41-battle-runtime-design.md
+design-addendum: docs/superpowers/specs/2026-07-15-scenario-41-prebattle-to-controller-design.md
 base-ref: 9352dcadaa7f4650a65ae575286a2dd264b7b1ef
 ---
 
@@ -10,9 +11,9 @@ base-ref: 9352dcadaa7f4650a65ae575286a2dd264b7b1ef
 
 **Goal:** 从自然 scenario 41 “开始任务”边界建立可复放快照阶梯，并以新鲜运行时地址证据证明玩家控制、MOVEDONE、胜利结果和 `0xF400` postbattle。
 
-**Architecture:** 浏览器模拟器只负责实例内输入、截图与 savestate 生产；Windows mGBA 只负责严格归属的 GDB breakpoint/寄存器/只读内存；小型分阶段 observer ROM 使用共享 published-call 协议记录自然控制链。每个结论由 checkpoint 基线后的新鲜事件、场景/单位/屏幕状态、base-ROM control 和资源守卫摘要共同验收。
+**Architecture:** macOS Intel 上严格 mGBA 0.10.5 Lua runner 负责低内存零输入复放与单键分段快照；浏览器模拟器仅保留已存在的实例内输入/历史证据路径；Windows mGBA 负责严格归属的 GDB breakpoint/寄存器/只读内存；小型分阶段 observer ROM 使用共享 published-call 协议记录自然控制链。每个结论由 checkpoint 基线后的新鲜事件、场景/单位/屏幕状态、base-ROM control 和资源守卫摘要共同验收。
 
-**Tech Stack:** Python 3 `unittest`、ARMv4T Thumb 机器码、Node.js `node:test`、Playwright/mGBA WASM driver、Windows mGBA 0.10.5 GDB RSP、项目 `run_guarded.py`/Windows Job Object、OpenSpec/Comet。
+**Tech Stack:** Python 3 `unittest`、mGBA 0.10.5 Lua、ARMv4T Thumb 机器码、Node.js `node:test`、Playwright/mGBA WASM driver、Windows mGBA 0.10.5 GDB RSP、项目 `run_guarded.py`/POSIX process group/Windows Job Object、OpenSpec/Comet。
 
 ## Global Constraints
 
@@ -21,6 +22,7 @@ base-ref: 9352dcadaa7f4650a65ae575286a2dd264b7b1ef
 - 所有 Chromium、mGBA 和高开销静态命令通过同一个 `tools/run_guarded.py` heavy lock；只清理本次 owned process tree。
 - mGBA 单个 GDB memory packet 最大 256 bytes；任一分块失败使整个逻辑读取失败。
 - 快照只有在来源、ROM/状态 SHA-256、零输入稳定性、前台画面和关键 WRAM 一致时才进入 `artifacts/runtime-checkpoints/`。
+- prebattle 后的 Down/A 必须拆成独立 single-input run；每个中间 candidate 先零输入复验，未通过时禁止下一键。
 - strict battle arrival、已越过 hook 的零 scratch、savestate 携带旧 magic 或清单外自动输入均不得证明玩家控制。
 - 本 change 不证明 EXP、level 2、训练点或 levels record，不改变任何 bank verification 状态。
 - 每个可独立证据阶段提交并推送 `origin/task/units-character-definitions`；临时 ROM/PNG/GDB 日志保留在忽略的 `build/`。
@@ -498,38 +500,242 @@ Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 
 
 ---
 
-### Task 5: Canonical start checkpoint 与玩家控制运行时正证据
+### Task 4.7: 从 accepted prebattle menu 分段进入 controller
+
+设计边界见 `docs/superpowers/specs/2026-07-15-scenario-41-prebattle-to-controller-design.md`。
 
 **Files:**
-- Create: `artifacts/runtime-checkpoints/scenario-41-start-row.ss9`
-- Create when reached: `artifacts/runtime-checkpoints/scenario-41-start-confirm.ss9`
-- Create: `artifacts/runtime-checkpoints/scenario-41-player-turn.ss9`
-- Create: `artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json`
-- Create: `notes/scenario-41-player-control-runtime-20260715.md`
+- Create: `tools/mgba_single_input_replay.lua`
+- Create: `tools/run_macos_mgba_single_input.py`
+- Create: `tools/macos_mgba_runtime_residue.py`
+- Create: `tests/test_run_macos_mgba_single_input.py`
+- Create: `tests/test_macos_mgba_runtime_residue.py`
+- Create when accepted: `artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9`
+- Create: `artifacts/runtime-checkpoints/scenario-41-prebattle-down-evidence.json`
+- Create when reached: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`
+- Create when reached: `artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json`
+- Create: `notes/scenario-41-prebattle-to-controller-macos-20260715.md`
 - Modify: `artifacts/runtime-checkpoints/scenario-41-checkpoints.json`
 - Modify: `artifacts/runtime-checkpoints/README.md`
+- Modify: `tools/README.md`
+- Modify: `docs/sequel-roadmap.md`
 - Modify: `openspec/changes/close-scenario-41-battle-runtime/tasks.md`
 
 **Interfaces:**
-- Consumes: Task 1 ledger, Task 2 observer ROM, Task 4 evaluator, candidate `build/natural-s41-menu-index2.ss9`.
-- Produces: accepted pre-hook and player-turn checkpoints plus compact player-control evidence.
+- Consumes: accepted `scenario-41-prebattle-menu-candidate.ss9`; strict mGBA 0.10.5 manifest/binary/patch; `run_macos_mgba_replay` provenance/path/guard helpers; offline savestate inspector.
+- Produces: `validate_single_input(key: str, down_frame: int, up_frame: int, capture_frame: int) -> None`, shared read-only `probe_runtime_residue(pgid: int) -> dict[str, object]`, one fixed single-input Lua contract, guarded state/PNG/audit/sentinel output, an accepted Down snapshot only after zero-input stability, and optionally a controller-entry checkpoint.
+- Global stop gate: A is forbidden until Down candidate is accepted; player-control work is forbidden until raw `0x0808F957` is in the statically validated active unwind or a fresh entry observer proves `0x0808F952 → 0x080732B4`.
 
-- [ ] **Step 1: Prove the candidate is stable before copying it**
+- [ ] **Step 1: 以 TDD 实现独立 single-input native runner**
+
+先写 `tests/test_run_macos_mgba_single_input.py`。RED 必须覆盖：
+
+```python
+def test_only_down_or_a_and_strict_frame_order():
+    for key in ("B", "Up", "Down+A", ""):
+        with self.assertRaises(ReplayError):
+            validate_single_input(key, 5, 13, 80)
+    for frames in ((13, 5, 80), (5, 5, 80), (5, 80, 80), (0, 13, 80)):
+        with self.assertRaises(ReplayError):
+            validate_single_input("Down", *frames)
+
+def test_payload_has_one_explicit_event_and_no_automatic_inputs():
+    payload = {
+        "evidence_mode": "single-input",
+        "zero_input_verified": False,
+        "inputs": [{"key": "Down", "down_frame": 5, "up_frame": 13, "hold_frames": 8}],
+        "automatic_inputs": [],
+        "recovery_inputs": [],
+        "frame": 80,
+        "capture_frame": 80,
+    }
+    validate_single_input_payload(payload, key="Down", down_frame=5, up_frame=13, capture_frame=80)
+    self.assertEqual(payload["inputs"], [{"key": "Down", "down_frame": 5, "up_frame": 13, "hold_frames": 8}])
+    self.assertEqual(payload["automatic_inputs"], [])
+    self.assertEqual(payload["recovery_inputs"], [])
+    self.assertFalse(payload["zero_input_verified"])
+
+def test_residue_rejects_owned_pgid_or_mgba_listener():
+    with self.assertRaises(RuntimeResidueError):
+        validate_runtime_residue(20050, "22 20050 mGBA\n", "", lsof_exit_code=1)
+    with self.assertRaises(RuntimeResidueError):
+        validate_runtime_residue(20050, "", "p22\ncmGBA\nn*:2345\n", lsof_exit_code=0)
+```
+
+静态 Lua contract 还必须证明只有一次 `emu:addKey`/`clearKey`，只映射
+`C.GBA_KEY.DOWN/A`，没有循环补键、adaptive/recovery/settle 输入。运行 focused test，确认因模块/函数缺失而 RED。
+
+最小 GREEN 使用独立 `tools/run_macos_mgba_single_input.py`，只 import/reuse
+`ReplayError`、`sha256_file`、`canonical_input`、`validate_output_paths`、
+`prepare_fresh_output`、`validate_expected_hash`、`validate_build_manifest`、
+`emulator_command`、`guarded_command`、`validate_guard_summary`、`read_ps_snapshot` 与
+`validate_owned_pgid_clean`。禁止 `--pre-script` 和 custom Lua；固定 `QT_QPA_PLATFORM=offscreen`、
+heavy lock、4096 MiB admission、1536 MiB RSS、fresh output、post-run rehash、staged `.sav`
+隔离及 exact PGID/listener clean。把 `accept_prebattle_candidate.py` 已验证的只读 `ps`/`lsof`
+逻辑抽到 `macos_mgba_runtime_residue.py` 并保持兼容 import，禁止按进程名 kill。现有
+zero-input runner/Lua 及其 SHA 不得修改。
+
+Run:
+
+```bash
+python3 -m unittest tests.test_run_macos_mgba_single_input tests.test_run_macos_mgba_replay tests.test_run_guarded -v
+```
+
+Expected: PASS；1 个既有 Windows-only test 可 skip。
+
+- [ ] **Step 2: guarded 单 Down 捕获 candidate，不发送 A**
+
+从 accepted prebattle menu 运行固定 `Down`、frames `5/13/80`。输出使用 fresh 目录
+`build/scenario-41-prebattle-down-20260715/`，并记录 binary/manifest/patch/ROM/input state/Lua
+SHA、唯一 input event、state/PNG/audit/sentinel/guard、peak RSS、PGID 与 listener。命令必须显式给出
+accepted input hash `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078`；
+运行前后 `rom/base.sav` 必须不存在。
+
+Run:
+
+```bash
+python3 tools/run_macos_mgba_single_input.py \
+  --binary /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json \
+  --expected-build-manifest-sha256 9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d \
+  --expected-binary-sha256 20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408 \
+  --rom rom/base.gba --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --state artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9 \
+  --expected-state-sha256 b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078 \
+  --key Down --down-frame 5 --up-frame 13 --capture-frame 80 \
+  --staged-rom build/scenario-41-prebattle-down-20260715/staged-base.gba \
+  --output-state build/scenario-41-prebattle-down-20260715/after-down.ss9 \
+  --output-png build/scenario-41-prebattle-down-20260715/after-down.png \
+  --audit build/scenario-41-prebattle-down-20260715/audit.json \
+  --sentinel build/scenario-41-prebattle-down-20260715/sentinel.json \
+  --guard-summary build/scenario-41-prebattle-down-20260715/guard-summary.json
+```
+
+Expected: guard `completed/0`、non-degraded POSIX process group、`inputs` 恰为一个 Down。
+人工查看 PNG，并用 `png_screen_fingerprint` 与离线 inspector 记录变化；此步只生成 build
+candidate，不登记 accepted。若画面未变化、离开 prebattle、task context 无法受约束解释或任何
+资源/来源门失败，记录 not-proven 并停止，不执行 Step 3/4。
+
+- [ ] **Step 3: 零输入复验 Down candidate 后才固化快照**
+
+使用现有 `run_macos_mgba_replay.py --evidence-mode zero-input` 从 Down candidate 再运行 80 帧，
+写入独立 fresh 目录。验收同时要求：candidate/replay normalized RGB pixels 相同；task 2
+resume PC、显式 active-unwind slots 和 `[0x0202680C]` 相同；zero-input audit 为 `inputs=[]`；
+所有 caller-known hash 正确；guard completed/0；PGID/listener clean。
+
+Run（先从 Step 2 产物实算 hash，不能从文件名推断）：
+
+```bash
+DOWN_SHA256="$(shasum -a 256 build/scenario-41-prebattle-down-20260715/after-down.ss9 | awk '{print $1}')"
+python3 tools/run_macos_mgba_replay.py \
+  --binary /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json \
+  --expected-build-manifest-sha256 9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d \
+  --expected-binary-sha256 20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408 \
+  --rom rom/base.gba --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --state build/scenario-41-prebattle-down-20260715/after-down.ss9 \
+  --expected-state-sha256 "$DOWN_SHA256" --capture-frame 80 --evidence-mode zero-input \
+  --staged-rom build/scenario-41-prebattle-down-zero-20260715/staged-base.gba \
+  --output-state build/scenario-41-prebattle-down-zero-20260715/frame80.ss9 \
+  --output-png build/scenario-41-prebattle-down-zero-20260715/frame80.png \
+  --audit build/scenario-41-prebattle-down-zero-20260715/audit.json \
+  --sentinel build/scenario-41-prebattle-down-zero-20260715/sentinel.json \
+  --guard-summary build/scenario-41-prebattle-down-zero-20260715/guard-summary.json
+```
+
+只有全部成立才复制为 `artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9`，将 ledger
+状态设 accepted，并写 compact evidence/note/README/roadmap。若不成立，保留 build candidate
+和失败 note，不复制、不登记 accepted，并停止 A。
+
+- [ ] **Step 4: 只从 accepted Down snapshot 发送单 A**
+
+输入必须是 Step 3 tracked snapshot 的实算 SHA；仍使用 frames `5/13/80`、唯一 A、fresh
+目录与同一 provenance/guard 门。不得同轮附加第二个 A、方向键、B 或恢复输入。捕获后先离线
+列出 task 2 SP/resume PC 与受约束的 return slots；再对该 candidate 做独立 zero-input 80-frame
+复验。任一不稳定或无法解释即保持 not-proven 并停止。
+
+Run:
+
+```bash
+DOWN_ACCEPTED_SHA256="$(shasum -a 256 artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9 | awk '{print $1}')"
+python3 tools/run_macos_mgba_single_input.py \
+  --binary /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json \
+  --expected-build-manifest-sha256 9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d \
+  --expected-binary-sha256 20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408 \
+  --rom rom/base.gba --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --state artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9 \
+  --expected-state-sha256 "$DOWN_ACCEPTED_SHA256" \
+  --key A --down-frame 5 --up-frame 13 --capture-frame 80 \
+  --staged-rom build/scenario-41-controller-a-20260715/staged-base.gba \
+  --output-state build/scenario-41-controller-a-20260715/after-a.ss9 \
+  --output-png build/scenario-41-controller-a-20260715/after-a.png \
+  --audit build/scenario-41-controller-a-20260715/audit.json \
+  --sentinel build/scenario-41-controller-a-20260715/sentinel.json \
+  --guard-summary build/scenario-41-controller-a-20260715/guard-summary.json
+```
+
+- [ ] **Step 5: 只按 controller 门槛接纳，不用画面分类替代**
+
+controller acceptance 仅有两条合法路径：
+
+1. 当前 task 2 active unwind 的显式栈槽包含 raw `0x0808F957`，且 base ROM 静态解码
+   `0x0808F952 → 0x080732B4`；或
+2. 独立 observer 在 post-load baseline 后 fresh 命中该 entry call。
+
+`battle_id`、map、formation、白框或 battle-map 画面只能补充。门槛通过才固化
+`scenario-41-controller-entry.ss9`；否则 compact evidence 记录 candidate/not-proven，明确没有
+controller entry/player control，并停止 Task 6。
+
+- [ ] **Step 6: 验证、独立审查并同步 OpenSpec**
+
+Run:
+
+```bash
+python3 -m unittest tests.test_run_macos_mgba_single_input tests.test_run_macos_mgba_replay tests.test_inspect_mgba_savestate tests.test_runtime_checkpoint_ledger tests.test_run_guarded -v
+python3 -m unittest tests.test_macos_mgba_runtime_residue tests.test_accept_prebattle_candidate -v
+python3 tools/runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/scenario-41-checkpoints.json
+python3 -m py_compile tools/run_macos_mgba_single_input.py tools/inspect_mgba_savestate.py
+git diff --check
+```
+
+Expected: tests/ledger/compile/diff PASS；所有运行目录记录 peak RSS 且无 owned PGID/listener；
+`rom/base.sav` 不存在。thorough reviewer 必须检查 input 数量、zero-input 分段、活动 unwind、
+snapshot lineage 与 not-proven 边界；通过后才勾选对应 plan/OpenSpec。
+
+---
+
+### Task 5: Canonical start checkpoint 历史运行（已执行，结果 not-proven）
+
+**Files:**
+- Persisted: `artifacts/runtime-checkpoints/scenario-41-start-row.ss9`
+- Persisted: `artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json`
+- Persisted: `notes/scenario-41-player-control-runtime-20260715.md`
+- Updated: `artifacts/runtime-checkpoints/scenario-41-checkpoints.json`
+- Updated: `artifacts/runtime-checkpoints/README.md`
+- Not produced: `artifacts/runtime-checkpoints/scenario-41-start-confirm.ss9`
+- Not produced: `artifacts/runtime-checkpoints/scenario-41-player-turn.ss9`
+
+**Interfaces:**
+- Consumes: Task 1 ledger, Task 2 observer ROM, Task 4 evaluator, candidate `build/natural-s41-menu-index2.ss9`.
+- Produces: accepted start-row、pre-controller negative checkpoint 与 compact `not-proven` evidence；没有 player-turn checkpoint。
+
+- [x] **Step 1: Prove the candidate is stable before copying it（历史执行）**
 
 Run two guarded zero-input replays on base ROM with `START_COUNT=0`, `ADVANCE_COUNT=0`, empty `TAIL_KEYS`, `SETTLE_CONFIRM_EVERY=0`, `ADAPTIVE_BACK=0`, `STOP_ON_MATCH=0`, `FORCE_SETTLE=1`. Both runs must show the same “开始任务” selected row, battle/map/formation absent, no observer samples and identical declared WRAM fields.
 
-Expected: two stable summaries; if the UI or memory differs, leave the record `candidate` and rebuild from its accepted parent instead of copying it.
+历史结果：compact evidence 记录两轮 UI/声明 WRAM 相同，tracked start-row 内嵌画面与 hash 可离线复核。raw build JSON/PNG 已不在仓库，guard 当时为 `child-exit/1` 且 residue/listener 未记录，因此只保留历史证据上限，不把它改写为当前可复核 PASS，也不重跑缺失 candidate。
 
-- [ ] **Step 2: Copy only the accepted checkpoint and update hashes**
+- [x] **Step 2: Copy only the accepted checkpoint and update hashes（历史执行）**
 
 ```powershell
 Copy-Item -LiteralPath build\natural-s41-menu-index2.ss9 -Destination artifacts\runtime-checkpoints\scenario-41-start-row.ss9
 python tools/runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/scenario-41-checkpoints.json
 ```
 
-Update the ledger path/hash/status and include the two zero-input evidence paths. Expected ledger: exit 0, `scenario-41-start-row` accepted and before both player hooks.
+实际结果：`scenario-41-start-row` 已 accepted，SHA-256 为 `e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81`。后续证据无法证明保存点位于两个 hook 之前，因此 ledger 保守使用 `before_hooks=[]`、`allowed_evidence=[]`。
 
-- [ ] **Step 3: Run one explicit A from start-row with the observer ROM**
+- [x] **Step 3: Run one explicit A from start-row with the observer ROM（历史执行）**
 
 ```powershell
 $env:PROBE_ROM='build/scenario-41-player-control.gba'
@@ -544,17 +750,23 @@ python tools/run_guarded.py --summary build/resource-guard/scenario-41-after-sta
 
 If this run only opens “开始任务？”, verify the screenshot and absent hook, then copy the exported state to `scenario-41-start-confirm.ss9`, add it to the ledger, and rerun the same command from that state with exactly one A. Do not add a second A to the same plan.
 
-- [ ] **Step 4: Require a fresh player-control result and base control**
+历史结果：唯一 A 到达后来经 task 栈复核的 pre-controller lineup/deployment；没有追加第二 A，也没有 distinct start-confirm checkpoint。
+
+- [x] **Step 4: Require a fresh player-control result and base control（按失败分支完成）**
 
 Acceptance requires: `PCO1` and `PCU1` counts increase from post-load baselines; player sequence precedes current-unit sequence; arguments match the captured controllable slot/character/affiliation; battle ID 41, map and foreground battle screen agree; automatic input list is empty. Replay the same checkpoint/input on `rom/base.gba` and compare user-visible screen plus declared non-target WRAM.
 
 If strict battle arrival occurs with zero fresh hit, persist it as `not-proven` and return to the earlier checkpoint; do not promote the evidence.
 
-- [ ] **Step 5: Persist player-turn checkpoint and compact evidence**
+实际结果：observer/base 可见行为一致，但 `PCO1/PCU1` baseline/final 均为零；evaluator 为 `player-observer-not-fresh`，因此按计划持久化 `not-proven`。
+
+- [x] **Step 5: Persist compact not-proven evidence；不创建 player-turn**
 
 Copy only the accepted player-turn state, record all ROM/checkpoint hashes, input `KeyZ`, before/after observer records, controlled unit, screenshot hash, base-control comparison and guard peak in `scenario-41-player-control-evidence.json`. The note must list failed/misnamed checkpoints and explain why zero scratch after a crossed hook is inconclusive.
 
-- [ ] **Step 6: Verify, commit and push**
+失败分支结果已写入 `scenario-41-player-control-evidence.json` 与调查 note；没有创建或接纳 `scenario-41-player-turn.ss9`。
+
+- [x] **Step 6: Verify and commit historical not-proven result**
 
 Run:
 
@@ -565,16 +777,9 @@ node --test play/_scripts/scenario-41-runtime-evidence.test.js play/_scripts/run
 git diff --check
 ```
 
-Expected: all commands PASS and resource summaries show only owned process trees.
+历史提交为 `2bd9760`，provenance hardening 为 `ce67a8a`，task-context 收窄为 `4949a86`。旧 raw summaries 没有 durable residue/owned-tree/listener postcheck，因此不得补写该部分为 PASS；当前分支 push 状态也不在本计划中声称。
 
-```powershell
-git add artifacts/runtime-checkpoints/scenario-41-start-row.ss9 artifacts/runtime-checkpoints/scenario-41-player-turn.ss9 artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json artifacts/runtime-checkpoints/scenario-41-checkpoints.json artifacts/runtime-checkpoints/README.md notes/scenario-41-player-control-runtime-20260715.md openspec/changes/close-scenario-41-battle-runtime/tasks.md
-if (Test-Path artifacts/runtime-checkpoints/scenario-41-start-confirm.ss9) { git add artifacts/runtime-checkpoints/scenario-41-start-confirm.ss9 }
-git commit -m "feat(re): prove scenario 41 player control"
-git push origin task/units-character-definitions
-```
-
-If no distinct confirm checkpoint exists, omit that path from `git add`; all other paths remain required.
+不再运行旧计划中的 player-turn `git add/push` 命令；该 checkpoint 从未通过门槛，也不存在。
 
 ---
 

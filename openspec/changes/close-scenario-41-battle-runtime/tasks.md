@@ -19,6 +19,7 @@
 - [ ] 3.2 自然进入 scenario 41，捕获 opcode `0x08031D5F` 终止并固化任务准备菜单快照
 - [x] 3.3 行为、内存与离线 task 栈共同确认“查看战场”和“开始任务”边界，保留 pre-controller 白框为负证据
 - [ ] 3.4 固化位于玩家选择 hook 之前的“开始任务”或开场教学快照，并记录输入、ROM/状态哈希
+- [ ] 3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind `0x0808F957` 或 fresh entry observer 接纳 controller entry
 
 ## 4. 证明玩家控制边界
 
