@@ -89,4 +89,3 @@ raw record、sequence、screen/WRAM、guard raw reason/exit/peak 和证据来源
 - 预算最多三轮 guarded browser（正对照、scenario 零输入、scenario 单 A），每轮预期峰值
   不超过 700 MiB；达到停止条件后不得继续猜键。
 - 阶段成果必须记录到 `notes/`，同步当前 Task 5 边界，并单独提交推送远端。
-
