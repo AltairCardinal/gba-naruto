@@ -35,7 +35,27 @@
         "build/task5-zero-replay-1.json",
         "build/task5-zero-replay-2.json"
       ],
-      "runtime_boundary": "A single explicit A reaches stable battle 41, but the published player-control/current-unit hooks remain zero; this checkpoint is not authorized to prove player control."
+      "runtime_boundary": "From this checkpoint, a single explicit A reaches stable scenario 41 lineup/deployment. Offline analysis of the resulting savestate proves only that its current suspended task chain is outside 0x080732B4; this checkpoint is not authorized to prove controller entry or player control."
+    },
+    {
+      "name": "scenario-41-pre-controller-lineup",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
+      "sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-start-row",
+      "inputs": [
+        "A"
+      ],
+      "screen": "scenario-41-pre-controller-lineup",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
+      ],
+      "runtime_boundary": "The saved current task-2 chain resumes in 0x0806F718 and unwinds through 0x0807509C, 0x08088F10 and 0x0808F928. Its active unwind does not contain the controller caller return 0x0808F957, so this state is accepted only as a stable pre-controller lineup/deployment checkpoint and negative boundary evidence."
     },
     {
       "name": "natural-s41-start-prompt",

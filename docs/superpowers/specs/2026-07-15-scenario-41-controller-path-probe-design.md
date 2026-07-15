@@ -3,7 +3,7 @@
 ## 目的与边界
 
 Task 5 已固化稳定的 `scenario-41-start-row.ss9`，并从其导出的
-`build/task5-after-start-a.ss9` 复现 battle 41 白框边界；但既有
+`artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9` 复现 battle 41 白框边界；但既有
 `0x08073946` 与 `0x080739D8` observer 在零输入和独立单 A 后均无 fresh hit。
 本设计只定位白框状态实际经过的 controller/action-dispatch 分支，不证明玩家控制、
 MOVEDONE、胜利或 postbattle，也不修改游戏行为。
@@ -62,7 +62,7 @@ guard summary 一起持久化。
    `KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ`，并只接受 baseline/final compare 产生的 fresh
    record。它只用于证明至少一个 action-dispatch observer 能在已知可行动教程链发布新记录；
    不能回溯证明 player-selection hook。
-2. **scenario 41 诊断**：从 `build/task5-after-start-a.ss9` 启动同一 ROM，先零输入建立
+2. **scenario 41 诊断**：从 `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9` 启动同一 ROM，先零输入建立
    scratch baseline，再在独立运行中只发一个完整 `KeyZ/A`。只有相对 baseline 新增的
    record 才能定位该白框后缀经过的 checked call-site。
 

@@ -69,3 +69,13 @@ checked upstream dispatcher。继续在 scenario 41 白框上猜 A/方向键没�
 没有把人工记录冒充 guard raw。fresh 验证为 controller probe 32/32、ledger
 `accepted=2/candidate=0/rejected=1/errors=0`、OpenSpec strict 有效、diff check 通过，终检
 owned project runtime 与 2345 连接均为 0。
+
+## 2026-07-15 savestate task-context 纠正
+
+后续离线解压 `.ss9` 的 `gbAs` 并恢复 `0x03000A88` 协作任务表后，确认
+`artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9` 的 task 2 resume PC 为 `0x0806F996`，当前活动栈返回链含
+`0x0807513F/0x08089029/0x0808F92D`，不含真正 controller caller 的返回点
+`0x0808F957`。因此该 state 保存时位于 pre-controller lineup/deployment，不能作为
+battle-controller entry 证据；旧 `battle-map` screen classifier 只识别资源/画面，不足以证明
+`0x080732B4` 已调用。完整纠正证据见
+`artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json`。

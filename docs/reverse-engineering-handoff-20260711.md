@@ -46,17 +46,23 @@ story-only scenario 41 终止后的 preparation menu 已完成逐项映射：
 - map 36×44 / grid 9×22；
 - Naruto slot 1 (4,10)；
 - Iruka slot 2 (4,4)；
-- strict battle arrival 四项全过。
+- 旧 `strict battle arrival` 四项全过。
 
-该结果比已撤销的 transient battle-map 强，但仍只证明稳定战斗表现，不证明玩家已
-接管、胜利或升级。当前 Naruto 仍为 level 1 / EXP 100，A880=0，template
-+0xBA=0，secondary levels 仍为 FF；levels 必须继续保持 code_verified。
+2026-07-15 对 `.ss9` 的 CPU/IWRAM/EWRAM 与协作任务栈复核推翻了“已经进入战斗
+控制器”的语义：该白框 state 的 task 2 链为 `0x0808F928 → 0x08088F10 →
+0x0807509C → 0x0806F718`，当前活动 unwind 中没有 `0x0808F957`，因此保存时位于 pre-controller
+lineup/deployment。旧 strict predicate 只能识别 battle/map 资源已装载，不能识别
+`0x080732B4` 已启动。当前边界不证明真实战斗入口、玩家接管、胜利或升级；Naruto 仍为
+level 1 / EXP 100，A880=0，template +0xBA=0，secondary levels 仍为 FF；levels 必须继续
+保持 code_verified。
 
 紧凑证据：
 
 - artifacts/runtime-checkpoints/scenario-41-battle-entry-evidence.json；
 - notes/scenario-41-battle-entry-runtime-20260713.md；
-- notes/levels-runtime-probe-20260713.md。
+- notes/levels-runtime-probe-20260713.md；
+- artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json；
+- notes/scenario-41-savestate-context-reanalysis-20260715.md。
 
 ### 0.3 新诊断工具与已排除误区
 
@@ -67,14 +73,16 @@ SHA-256：
 
 ca701983f5d566dc468f57e49e00ae2d61d8ef659395ed84284057514e1d52f5
 
-从“开始任务？”checkpoint 加载新 probe ROM 后，上述早期 hook 仍为零。调查已证明：
+从“开始任务？”checkpoint 加载新 probe ROM 后，上述早期 hook 仍为零。最新调查已证明：
 
 - ss9 的 gbAs 数据不包含 ROM pages；
 - loadState 后 0x0808F894 仍读到新 probe BL；
-- 零计数是 checkpoint 已越过调用，或恢复于函数内部 continuation；
+- `.ss9` 中的游戏 task context 可离线恢复；白框 checkpoint 的当前活动链明确恢复在
+  `0x0806F718` continuation，且不在 `0x080732B4` 调用内；这不否定保存前的历史调用；
 - 不需要也不应开发“savestate 后重注入 ROM”。
 
-下一 hook 必须放到 checkpoint 恢复后必经的更近边界。
+下一门槛必须先完成 lineup/deployment，并以 task 栈出现 `0x0808F957` 或 entry observer
+fresh 命中 `0x0808F952 → 0x080732B4` 证明真实 controller entry。
 
 ### 0.4 玩家控制、移动事件与胜利链
 
@@ -96,8 +104,9 @@ ca701983f5d566dc468f57e49e00ae2d61d8ef659395ed84284057514e1d52f5
 `0x08073A16/2E/3E/4A` 四条 checked BL。`actionable-move-grid.ss9` 零输入 baseline 与显式
 `B,Down,Down,A,A` final 的 192-byte observer dump 逐字节相同，baseline/final compare
 没有 fresh record。由于正对照未证明，按停止条件没有运行 scenario 41 白框诊断；这不否定
-其他教程控制路径，也不证明玩家控制。下一步先固化一个确实穿过 `0x08073A04` 的更早
-savestate，或把 observer 上移到 checked upstream dispatcher，禁止继续对白框盲试按键。
+其他教程控制路径，也不证明玩家控制。后续离线任务栈复核又确认白框 state 保存时的活动链
+不在 `0x080732B4` 内。下一步先完成 pre-controller lineup/deployment，固化含 `0x0808F957`
+的真实 controller checkpoint；在此之前禁止继续对白框盲试 action-dispatch 按键。
 
 scenario 41 的胜负描述符位于 ROM file 0x596804。类型 1 条件会扫描 slot 1..12：
 unit+0xC0 bit 0 是队伍，bit 0x80 表示不再作为有效存活单位。当前 Iruka
@@ -162,12 +171,14 @@ npm run probe:guarded
 
 P0：
 
-1. 从稳定 battle 41 checkpoint 证明 0x08073940 玩家控制边界；
-2. 完成两回合教程自然输入并捕获 MOVEDONE/胜负链；
-3. 固化真实 victory/postbattle checkpoint；
-4. 捕获 Naruto level 2、训练点 +BA>0 与 A880==3；
-5. 进入训练分配 UI，命中 levels consumer 并完成 record +6 的单因素 A/B；
-6. levels 达到全部门槛后才更新 bank.json 和 roadmap 状态。
+1. 完成 scenario 41 的 pre-controller lineup/deployment，以 task 栈 `0x0808F957`
+   或 fresh entry observer 证明 `0x0808F952 → 0x080732B4`；
+2. 从真实 controller checkpoint 证明 0x08073940 玩家控制边界；
+3. 完成两回合教程自然输入并捕获 MOVEDONE/胜负链；
+4. 固化真实 victory/postbattle checkpoint；
+5. 捕获 Naruto level 2、训练点 +BA>0 与 A880==3；
+6. 进入训练分配 UI，命中 levels consumer 并完成 record +6 的单因素 A/B；
+7. levels 达到全部门槛后才更新 bank.json 和 roadmap 状态。
 
 P1：
 

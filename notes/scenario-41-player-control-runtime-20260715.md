@@ -4,12 +4,13 @@
 
 本轮接纳了稳定的 scenario 41 “开始任务”行 checkpoint，但玩家控制仍是
 `not-proven`。从该行发送一次、且仅一次实例内 `KeyZ/A`，observer ROM 与 base ROM
-都自然进入 battle 41；两者的前台画面、map、formation、单位与声明的非目标 WRAM
+都自然进入相同的 scenario 41 pre-controller lineup/deployment；两者的前台画面、map、formation、单位与声明的非目标 WRAM
 逐字段一致。然而 `0x08073946 -> 0x0806F718` 的 `PCO1` 和
 `0x080739D8 -> 0x08069DB8` 的 `PCU1` 在 post-load baseline 与最终样本中都保持
 24-byte 全零，所以 Task 4 evaluator 正确返回 `player-observer-not-fresh`。
 
-这证明了稳定入场和 observer ROM 的行为等价性，不证明玩家接管、动作提交、胜利、
+这证明了稳定 pre-controller 画面和 observer ROM 的行为等价性，不证明真实 battle-controller
+entry、玩家接管、动作提交、胜利、
 EXP 或升级。没有创建或接纳 `scenario-41-player-turn.ss9`。
 
 ## 资源预检与执行约束
@@ -108,15 +109,16 @@ natural-load/postbattle probes、screen state 与 input audit 逐字段全部相
 
 关键文件：
 
-- observer：`build/task5-after-start-a.json`、`build/task5-after-start-a-settle.png`、
-  `build/task5-after-start-a.ss9`；
+- observer：`build/task5-after-start-a.json`、`build/task5-after-start-a-settle.png`；其
+  state 已持久化为 `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9`；
 - base control：`build/task5-base-control-start-a.json`、
   `build/task5-base-control-start-a-settle.png`、
   `build/task5-base-control-start-a.ss9`。
 
 ## 实验 3：临时 battle-entry candidate
 
-`build/task5-after-start-a.ss9` 仅作为 build candidate，不进入 artifacts。零输入重放
+`build/task5-after-start-a.ss9` 在实验当时仅作为 build candidate；复核后同哈希副本已作为
+pre-controller 负边界固化为 `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9`。零输入重放
 8 polls 后仍为同一 battle/map/formation/白框画面，两个 scratch 仍全零，input events
 为空。随后从该 candidate 另起一个独立计划，仅发送一次 A；20 polls 后 UI/WRAM 没有
 形成可验收的新边界，两个 observer 仍全零，evaluator 仍为
@@ -133,8 +135,9 @@ player-turn。
 ## 已知错误命名与证据边界
 
 - `build/natural-s41-start-prompt.ss9` 实际是队伍/装备页，ledger 保持 rejected。
-- `build/task5-after-start-a.ss9` 只证明 strict battle-entry/白框边界，不是已经证明的
-  player turn。
+- `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9` 经离线 task 栈复核只证明保存时活动链位于 pre-controller
+  lineup/deployment：其链为 `0x0808F928 → 0x08088F10 → 0x0807509C →
+  0x0806F718`，活动 unwind 没有 `0x0808F957`，不能作为 battle-controller entry 或 player turn 证据。
 - `artifacts/runtime-checkpoints/actionable-move-grid.ss9` 已位于旧玩家选择 hook 之后，
   只能用于后续行动导航或负对照，不能倒推本轮 fresh player-control call。
 - 对可能已越过 hook 的 savestate，加载 observer ROM 后 scratch 为零只表示“加载后的
@@ -146,8 +149,8 @@ player-turn。
 
 ## 下一步
 
-不要继续猜按键。应先用静态调用图/严格 native breakpoint 定位 scenario 41 教程白框
-状态实际消费 A/方向键的入口，再把 observer 移到该直接调用点或函数入口；新的正证据仍
+不要继续猜 action-dispatch 按键。应先完成白框所在的 lineup/deployment，并用 task 栈
+`0x0808F957` 或 fresh observer 证明 `0x0808F952 → 0x080732B4`；新的正证据仍
 必须使用 post-load baseline、单一显式输入、fresh shared sequence、独立 controlled-unit
 诊断、foreground battle screen 和 base-ROM control 的同一组门禁。
 
@@ -157,5 +160,7 @@ strict-GDB 探针没有受审计输入通道，因此没有执行无输入推动
 改用五点 published-call observer 后，`actionable-move-grid.ss9` 的零输入 baseline 与显式
 `KeyX,Down,Down,A,A` final dump 逐字节相同，compare 的 `fresh_records=[]`。由于预设
 正对照没有成立，scenario 41 白框的零输入/单 A 两轮未执行，玩家控制继续为
-`not-proven`。下一步应寻找真正穿过 `0x08073A04` 的更早 checkpoint 或它的上游 dispatcher，
-而不是继续给白框猜键。详见 `notes/scenario-41-controller-path-runtime-20260715.md`。
+`not-proven`。随后离线 task 栈复核确认白框 state 保存时的活动链不在 `0x080732B4` 内，所以应先关闭
+pre-controller 门，再寻找穿过 `0x08073A04` 的 controller checkpoint。详见
+`notes/scenario-41-controller-path-runtime-20260715.md` 与
+`notes/scenario-41-savestate-context-reanalysis-20260715.md`。

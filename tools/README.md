@@ -399,3 +399,17 @@ Example:
 ```bash
 python3 tools/automated_test.py
 ```
+
+# mGBA savestate context inspection
+
+`inspect_mgba_savestate.py` reads the zlib-compressed `gbAs` chunk embedded in an mGBA
+`.ss9` without launching the emulator. It reports serialized CPU registers and the eight
+game-specific cooperative task contexts at `0x03000A88`:
+
+```powershell
+python tools/inspect_mgba_savestate.py artifacts/runtime-checkpoints/actionable-move-grid.ss9
+python tools/inspect_mgba_savestate.py artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9 --output build/task5-context.json
+```
+
+The memory reader intentionally supports only EWRAM and IWRAM from the fixed mGBA 0.10.5
+state layout. It rejects missing, malformed, unsupported-version, and wrong-sized states.

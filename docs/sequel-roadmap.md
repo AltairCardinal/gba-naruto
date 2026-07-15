@@ -21,19 +21,21 @@
 - scenario 41 任务准备菜单已确认：`A` 为队伍/装备，`Down,A` 为查看战场，
   `Down,Down,A` 为“开始任务？”，`Down,Down,Down,A` 为保存；
 - 确认“开始任务？”后，battle ID 41、map 36×44、Naruto `(4,10)`、Iruka
-  `(4,4)` 和 battle-map 画面连续六次采样保持稳定，strict arrival 四项全过；
-- 该边界仍未证明玩家接管、胜利、EXP 或升级：Naruto 仍为 level 1 / EXP 100，
+  `(4,4)` 和白框画面连续六次采样保持稳定；但 2026-07-15 离线任务栈复核证明其保存时的活动链位于
+  `0x0808F928 → 0x08088F10 → 0x0807509C → 0x0806F718` 的 pre-controller
+  lineup/deployment，且不含 controller caller return；旧 strict arrival 对“该 state 证明 battle controller entry”产生了语义假阳性；
+- 该边界尚未证明真实战斗入口、玩家接管、胜利、EXP 或升级：Naruto 仍为 level 1 / EXP 100，
   训练点 `+BA=0`、`A880=0`，因此 `levels` 继续保持 `code_verified`；
 - 2026-07-15 五点 controller-path probe 已完成 builder/decoder 与 guarded A/B，但
   `actionable-move-grid.ss9` 的零输入 baseline 和显式 `B,Down,Down,A,A` final dump
   逐字节相同，`0x08073946` 与四个 `0x08073A04` 分支均无 fresh record。正对照未成立，
-  因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；下一步必须从确实穿过
-  action-dispatch 的更早 savestate 或 checked upstream dispatcher 继续；
-- 下一 P0 不再寻找“开始任务”入口，而是依次命中玩家单位选择 `0x08073940`、
+  因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；
+- 下一 P0 先完成 lineup/deployment，并以 task 栈含 `0x0808F957` 或 fresh entry observer
+  命中 `0x0808F952 → 0x080732B4` 证明真实 controller entry；随后依次命中玩家单位选择 `0x08073940`、
   MOVEDONE `0x080722A8`、胜负谓词 `0x080777FC`、结果写入 `0x02026807` 和
   postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；
-- 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`，
-  本次稳定入场不会改变 bank 状态。
+- 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`；
+  本次纠正的是 scenario 41 功能边界，不改变 bank 状态。
 
 资源约束：全 ROM Capstone 对象扫描曾单进程膨胀到 3 GiB 以上并触发 OOM、swap
 thrashing 和 I/O pressure；该路径现已替换为恒定内存 Thumb 编码扫描。静态重任务与

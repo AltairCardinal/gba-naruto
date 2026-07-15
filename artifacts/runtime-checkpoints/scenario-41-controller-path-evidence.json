@@ -2,6 +2,11 @@
   "schema_version": 1,
   "date": "2026-07-15",
   "scope": "bounded runtime validation of five checked controller/action-dispatch call-site observers; this does not prove player control, MOVEDONE, victory, EXP, level-up, or postbattle",
+  "posthoc_reanalysis": {
+    "date": "2026-07-15",
+    "conclusion": "The scenario 41 white-grid savestate's current suspended task chain is pre-controller lineup/deployment; the actionable checkpoint is in 0x080732B4 but suspended on a different controller state. This does not rule out calls before the white-grid state was saved.",
+    "evidence": "artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json"
+  },
   "conclusion": "positive-control-not-proven",
   "scenario_41_runs_executed": false,
   "stop_reason": "the actionable positive-control final dump was byte-identical to its zero-input baseline and compare produced no fresh AC01..AC04 records",

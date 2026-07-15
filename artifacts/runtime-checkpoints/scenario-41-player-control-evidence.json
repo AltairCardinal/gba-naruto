@@ -3,6 +3,11 @@
   "outcome": "not-proven",
   "reason": "published-player-observers-not-fresh",
   "scope": "scenario-41-player-control",
+  "posthoc_reanalysis": {
+    "date": "2026-07-15",
+    "conclusion": "The white-grid savestate's current suspended task chain is pre-controller lineup/deployment; this state is not battle-controller-entry evidence and does not rule out earlier historical calls.",
+    "evidence": "artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json"
+  },
   "roms": {
     "base": {
       "path": "rom/base.gba",
@@ -62,6 +67,7 @@
       "screenshot_sha256": "8e6a0d70ac1d502dfd9a98c6982b3d36822f9eea795c95cd82b2f562139062b8",
       "candidate_state": "build/task5-after-start-a.ss9",
       "candidate_state_sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "persisted_state": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
       "player_before": "000000000000000000000000000000000000000000000000",
       "player_after": "000000000000000000000000000000000000000000000000",
       "current_before": "000000000000000000000000000000000000000000000000",

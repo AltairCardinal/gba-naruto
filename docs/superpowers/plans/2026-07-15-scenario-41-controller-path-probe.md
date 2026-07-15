@@ -175,7 +175,7 @@ git push origin task/units-character-definitions
 - Modify: `docs/reverse-engineering-handoff-20260711.md`
 
 **Interfaces:**
-- Consumes: `build/scenario-41-controller-path.gba`, `decode_dump(data)`, `artifacts/runtime-checkpoints/actionable-move-grid.ss9`, `build/task5-after-start-a.ss9`.
+- Consumes: `build/scenario-41-controller-path.gba`, `decode_dump(data)`, `artifacts/runtime-checkpoints/actionable-move-grid.ss9`, `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9`.
 - Produces: checked call-site hit ordering or a bounded `not-proven` result, with exact commands/hashes/input audits/guard data.
 
 - [x] **Step 1: Run resource and hash preflight**
@@ -196,7 +196,7 @@ Expected: at least one valid `AC01..AC04` fresh record and no automatic input. I
 
 - [ ] **Step 4: Run scenario 41 zero-input baseline**
 
-From `build/task5-after-start-a.ss9`, use the same ROM with empty tail, all automatic input disabled, and dump `build/controller-path-s41-zero.bin`.
+From `artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9`, use the same ROM with empty tail, all automatic input disabled, and dump `build/controller-path-s41-zero.bin`.
 
 Expected: stable battle 41/36x44/Naruto+Iruka boundary, empty audit, and records usable only as immutable baseline. Old nonzero magic from savestate must not count as fresh.
 
