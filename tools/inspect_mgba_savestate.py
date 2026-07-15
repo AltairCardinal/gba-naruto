@@ -62,21 +62,13 @@ class GbaState:
 
 
 def _gbas_payload(png: bytes) -> bytes:
-    if not png.startswith(PNG_SIGNATURE):
-        raise ValueError("mGBA savestate is not a PNG container")
-    cursor = len(PNG_SIGNATURE)
-    while cursor + 12 <= len(png):
-        size = struct.unpack_from(">I", png, cursor)[0]
-        payload_start = cursor + 8
-        payload_end = payload_start + size
-        chunk_end = payload_end + 4
-        if chunk_end > len(png):
-            raise ValueError("truncated PNG chunk in mGBA savestate")
-        tag = png[cursor + 4 : cursor + 8]
-        if tag == b"gbAs":
-            return png[payload_start:payload_end]
-        cursor = chunk_end
-    raise ValueError("mGBA savestate has no gbAs chunk")
+    chunks = _validated_png_chunks(png)
+    payloads = [payload for tag, payload in chunks if tag == b"gbAs"]
+    if len(payloads) != 1:
+        raise ValueError(
+            f"mGBA savestate must contain exactly one gbAs chunk; found {len(payloads)}"
+        )
+    return payloads[0]
 
 
 def _validated_png_chunks(png: bytes) -> list[tuple[bytes, bytes]]:
@@ -103,6 +95,8 @@ def _validated_png_chunks(png: bytes) -> list[tuple[bytes, bytes]]:
         chunks.append((tag, payload))
         cursor = chunk_end
         if tag == b"IEND":
+            if payload:
+                raise ValueError("PNG IEND chunk must be empty")
             saw_iend = True
             if cursor != len(png):
                 raise ValueError("PNG contains data after IEND")
@@ -112,8 +106,82 @@ def _validated_png_chunks(png: bytes) -> list[tuple[bytes, bytes]]:
     return chunks
 
 
+def _strict_zlib_decompress(
+    payload: bytes, *, expected_size: int, label: str
+) -> bytes:
+    decompressor = zlib.decompressobj()
+    try:
+        data = decompressor.decompress(payload, expected_size + 1)
+        if decompressor.unconsumed_tail:
+            raise ValueError(f"{label} exceeds its expected decompressed size")
+        data += decompressor.flush()
+    except zlib.error as error:
+        raise ValueError(f"invalid compressed {label}: {error}") from error
+    if not decompressor.eof:
+        raise ValueError(f"truncated compressed {label}")
+    if decompressor.unused_data:
+        raise ValueError(f"compressed {label} has trailing unused data")
+    if decompressor.unconsumed_tail:
+        raise ValueError(f"compressed {label} has an unconsumed tail")
+    if len(data) != expected_size:
+        raise ValueError(
+            f"decompressed {label} is {len(data)} bytes; expected {expected_size}"
+        )
+    return data
+
+
+def _paeth_predictor(left: int, up: int, upper_left: int) -> int:
+    estimate = left + up - upper_left
+    left_distance = abs(estimate - left)
+    up_distance = abs(estimate - up)
+    upper_left_distance = abs(estimate - upper_left)
+    if left_distance <= up_distance and left_distance <= upper_left_distance:
+        return left
+    if up_distance <= upper_left_distance:
+        return up
+    return upper_left
+
+
+def _unfilter_rgb8(scanlines: bytes, *, width: int, height: int) -> bytes:
+    bytes_per_pixel = 3
+    stride = width * bytes_per_pixel
+    pixels = bytearray()
+    previous = bytes(stride)
+    cursor = 0
+    for row_index in range(height):
+        filter_type = scanlines[cursor]
+        cursor += 1
+        if filter_type not in range(5):
+            raise ValueError(
+                f"PNG row {row_index} has invalid filter type {filter_type}"
+            )
+        encoded = scanlines[cursor : cursor + stride]
+        cursor += stride
+        row = bytearray(stride)
+        for index, value in enumerate(encoded):
+            left = row[index - bytes_per_pixel] if index >= bytes_per_pixel else 0
+            up = previous[index]
+            upper_left = (
+                previous[index - bytes_per_pixel] if index >= bytes_per_pixel else 0
+            )
+            if filter_type == 0:
+                predictor = 0
+            elif filter_type == 1:
+                predictor = left
+            elif filter_type == 2:
+                predictor = up
+            elif filter_type == 3:
+                predictor = (left + up) // 2
+            else:
+                predictor = _paeth_predictor(left, up, upper_left)
+            row[index] = (value + predictor) & 0xFF
+        pixels.extend(row)
+        previous = row
+    return bytes(pixels)
+
+
 def png_screen_fingerprint(path: Path | str) -> dict[str, object]:
-    """Hash validated, decompressed RGB8 PNG scanlines without external codecs."""
+    """Hash normalized RGB pixels from a strictly validated PNG container."""
 
     chunks = _validated_png_chunks(Path(path).read_bytes())
     ihdr_chunks = [payload for tag, payload in chunks if tag == b"IHDR"]
@@ -132,37 +200,29 @@ def png_screen_fingerprint(path: Path | str) -> dict[str, object]:
         raise ValueError("PNG dimensions must be positive")
     if (bit_depth, color_type, compression, filtering, interlace) != (8, 2, 0, 0, 0):
         raise ValueError("screen fingerprint requires non-interlaced RGB8 PNG")
-    try:
-        scanlines = zlib.decompress(b"".join(idat_chunks))
-    except zlib.error as error:
-        raise ValueError(f"invalid compressed PNG IDAT: {error}") from error
     expected_size = height * (1 + width * 3)
-    if len(scanlines) != expected_size:
-        raise ValueError(
-            f"decompressed PNG scanlines are {len(scanlines)} bytes; "
-            f"expected {expected_size}"
-        )
+    scanlines = _strict_zlib_decompress(
+        b"".join(idat_chunks),
+        expected_size=expected_size,
+        label="PNG IDAT scanlines",
+    )
+    pixels = _unfilter_rgb8(scanlines, width=width, height=height)
     return {
         "width": width,
         "height": height,
         "bit_depth": bit_depth,
         "color_type": color_type,
         "ihdr_sha256": hashlib.sha256(ihdr).hexdigest(),
-        "decompressed_scanlines_length": len(scanlines),
-        "decompressed_scanlines_sha256": hashlib.sha256(scanlines).hexdigest(),
+        "rgb_pixels_length": len(pixels),
+        "rgb_pixels_sha256": hashlib.sha256(pixels).hexdigest(),
     }
 
 
 def load_gba_state(path: Path | str) -> GbaState:
     payload = _gbas_payload(Path(path).read_bytes())
-    try:
-        state = zlib.decompress(payload)
-    except zlib.error as error:
-        raise ValueError(f"invalid compressed gbAs chunk: {error}") from error
-    if len(state) != GBA_STATE_SIZE:
-        raise ValueError(
-            f"decompressed gbAs state is {len(state)} bytes; expected {GBA_STATE_SIZE}"
-        )
+    state = _strict_zlib_decompress(
+        payload, expected_size=GBA_STATE_SIZE, label="gbAs state"
+    )
     version = struct.unpack_from("<I", state, 0)[0]
     if not 0x01000000 <= version <= 0x01000007:
         raise ValueError(f"unsupported GBA savestate version magic 0x{version:08X}")

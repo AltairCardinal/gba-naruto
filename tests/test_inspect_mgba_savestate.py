@@ -79,8 +79,51 @@ def screen_png(scanlines: bytes = b"\x00\x01\x02\x03") -> bytes:
     )
 
 
+def _paeth(left: int, up: int, upper_left: int) -> int:
+    estimate = left + up - upper_left
+    distances = (
+        abs(estimate - left),
+        abs(estimate - up),
+        abs(estimate - upper_left),
+    )
+    return (left, up, upper_left)[distances.index(min(distances))]
+
+
+def filtered_screen_png(
+    pixels: bytes, *, width: int, height: int, filters: list[int]
+) -> bytes:
+    stride = width * 3
+    if len(pixels) != stride * height or len(filters) != height:
+        raise AssertionError("invalid filtered PNG test fixture")
+    filtered = bytearray()
+    previous = bytes(stride)
+    for row_index, filter_type in enumerate(filters):
+        row = pixels[row_index * stride : (row_index + 1) * stride]
+        filtered.append(filter_type)
+        for index, value in enumerate(row):
+            left = row[index - 3] if index >= 3 else 0
+            up = previous[index]
+            upper_left = previous[index - 3] if index >= 3 else 0
+            predictors = {
+                0: 0,
+                1: left,
+                2: up,
+                3: (left + up) // 2,
+                4: _paeth(left, up, upper_left),
+            }
+            filtered.append((value - predictors[filter_type]) & 0xFF)
+        previous = row
+    ihdr = struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0)
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + png_chunk(b"IHDR", ihdr)
+        + png_chunk(b"IDAT", zlib.compress(filtered))
+        + png_chunk(b"IEND", b"")
+    )
+
+
 class InspectMgbaSavestateTests(unittest.TestCase):
-    def test_fingerprints_png_screen_from_validated_ihdr_and_scanlines(self):
+    def test_fingerprints_png_screen_from_normalized_rgb_pixels(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "screen.png"
             path.write_bytes(screen_png())
@@ -92,9 +135,32 @@ class InspectMgbaSavestateTests(unittest.TestCase):
         self.assertEqual(fingerprint["ihdr_sha256"], hashlib.sha256(
             struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
         ).hexdigest())
+        self.assertIn("rgb_pixels_sha256", fingerprint)
         self.assertEqual(
-            fingerprint["decompressed_scanlines_sha256"],
-            hashlib.sha256(b"\x00\x01\x02\x03").hexdigest(),
+            fingerprint["rgb_pixels_sha256"],
+            hashlib.sha256(b"\x01\x02\x03").hexdigest(),
+        )
+        self.assertEqual(fingerprint["rgb_pixels_length"], 3)
+
+    def test_all_legal_png_filters_normalize_to_the_same_rgb_pixels(self):
+        pixels = bytes(range(1, 31))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            unfiltered = root / "unfiltered.png"
+            mixed = root / "mixed.png"
+            unfiltered.write_bytes(
+                filtered_screen_png(pixels, width=2, height=5, filters=[0] * 5)
+            )
+            mixed.write_bytes(
+                filtered_screen_png(pixels, width=2, height=5, filters=[0, 1, 2, 3, 4])
+            )
+
+            plain_fingerprint = png_screen_fingerprint(unfiltered)
+            mixed_fingerprint = png_screen_fingerprint(mixed)
+
+        self.assertEqual(plain_fingerprint, mixed_fingerprint)
+        self.assertEqual(
+            mixed_fingerprint["rgb_pixels_sha256"], hashlib.sha256(pixels).hexdigest()
         )
 
     def test_screen_fingerprint_fails_closed_on_crc_and_shape_errors(self):
@@ -108,6 +174,17 @@ class InspectMgbaSavestateTests(unittest.TestCase):
             truncated.write_bytes(screen_png()[:-3])
             wrong_shape = root / "wrong-shape.png"
             wrong_shape.write_bytes(screen_png(b"\x00\x01"))
+            invalid_filter = root / "invalid-filter.png"
+            invalid_filter.write_bytes(screen_png(b"\x05\x01\x02\x03"))
+            trailing_zlib = root / "trailing-zlib.png"
+            valid = screen_png()
+            trailing_zlib.write_bytes(
+                _replace_chunk(
+                    valid,
+                    b"IDAT",
+                    _chunk_payload(valid, b"IDAT") + b"GARBAGE",
+                )
+            )
 
             with self.assertRaisesRegex(ValueError, "CRC"):
                 png_screen_fingerprint(corrupt_crc)
@@ -115,6 +192,10 @@ class InspectMgbaSavestateTests(unittest.TestCase):
                 png_screen_fingerprint(truncated)
             with self.assertRaisesRegex(ValueError, "scanline"):
                 png_screen_fingerprint(wrong_shape)
+            with self.assertRaisesRegex(ValueError, "filter"):
+                png_screen_fingerprint(invalid_filter)
+            with self.assertRaisesRegex(ValueError, "trailing|unused"):
+                png_screen_fingerprint(trailing_zlib)
 
     def test_loads_gbas_chunk_and_maps_gba_memory(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -237,6 +318,40 @@ class InspectMgbaSavestateTests(unittest.TestCase):
                 load_gba_state(missing)
             with self.assertRaisesRegex(ValueError, "397312"):
                 load_gba_state(short)
+
+    def test_savestate_container_rejects_crc_duplicate_truncation_and_trailing_data(self):
+        valid = fixture_savestate()
+        gbas_payload = _chunk_payload(valid, b"gbAs")
+        gbas_chunk = png_chunk(b"gbAs", gbas_payload)
+        iend_offset = valid.rfind(png_chunk(b"IEND", b""))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corrupt_crc = root / "corrupt-crc.ss9"
+            corrupt = bytearray(valid)
+            gbas_offset = valid.find(gbas_chunk)
+            corrupt[gbas_offset + len(gbas_chunk) - 1] ^= 1
+            corrupt_crc.write_bytes(corrupt)
+            duplicate = root / "duplicate.ss9"
+            duplicate.write_bytes(valid[:iend_offset] + gbas_chunk + valid[iend_offset:])
+            truncated = root / "truncated.ss9"
+            truncated.write_bytes(valid[:-3])
+            trailing_container = root / "trailing-container.ss9"
+            trailing_container.write_bytes(valid + b"GARBAGE")
+            trailing_zlib = root / "trailing-zlib.ss9"
+            trailing_zlib.write_bytes(
+                _replace_chunk(valid, b"gbAs", gbas_payload + b"GARBAGE")
+            )
+
+            with self.assertRaisesRegex(ValueError, "CRC"):
+                load_gba_state(corrupt_crc)
+            with self.assertRaisesRegex(ValueError, "exactly one|duplicate"):
+                load_gba_state(duplicate)
+            with self.assertRaisesRegex(ValueError, "truncated|IEND"):
+                load_gba_state(truncated)
+            with self.assertRaisesRegex(ValueError, "after IEND|trailing"):
+                load_gba_state(trailing_container)
+            with self.assertRaisesRegex(ValueError, "trailing|unused"):
+                load_gba_state(trailing_zlib)
 
     def test_reads_persisted_pre_controller_and_controller_checkpoints(self):
         root = Path(__file__).resolve().parents[1]

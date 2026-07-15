@@ -9,15 +9,15 @@
     "stable_zero_input": true
   },
   "screen_identity": {
-    "method": "validated PNG IHDR plus decompressed pre-unfilter scanline SHA-256",
+    "method": "strict PNG decode to normalized RGB8 pixel SHA-256",
     "candidate": {
       "width": 240,
       "height": 160,
       "bit_depth": 8,
       "color_type": 2,
       "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
-      "decompressed_scanlines_length": 115360,
-      "decompressed_scanlines_sha256": "18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b"
+      "rgb_pixels_length": 115200,
+      "rgb_pixels_sha256": "bf0ffd7484bc0d4c8e2f94af623b265f8f462a891133a0bccf67f757c849d035"
     },
     "frame80": {
       "width": 240,
@@ -25,8 +25,8 @@
       "bit_depth": 8,
       "color_type": 2,
       "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
-      "decompressed_scanlines_length": 115360,
-      "decompressed_scanlines_sha256": "18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b"
+      "rgb_pixels_length": 115200,
+      "rgb_pixels_sha256": "bf0ffd7484bc0d4c8e2f94af623b265f8f462a891133a0bccf67f757c849d035"
     },
     "identical": true
   },
@@ -101,6 +101,20 @@
     "inputs": [],
     "pre_scripts": [],
     "capture_frame": 80,
+    "caller_known_sha256": {
+      "audit": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
+      "sentinel": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
+      "guard_summary": "17a8c5abfe3e12f829e85119a5ebd3d9f576df6f3e51d5a0adee67651a1a4c2c",
+      "input_state": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+      "output_state": "53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65",
+      "output_png": "6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0",
+      "replay_script": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af",
+      "build_manifest": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "binary": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "patch": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+      "base_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "staged_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+    },
     "files": {
       "input_state": {
         "path": "/Users/altair/github/gba-naruto/artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
@@ -173,7 +187,7 @@
       "-Fpcn"
     ],
     "lsof_exit_code": 1,
-    "checked_at": "2026-07-15T16:01:59.663053Z"
+    "checked_at": "2026-07-15T16:32:34.626477Z"
   },
   "scope": {
     "proves": [
@@ -187,5 +201,5 @@
       "postbattle"
     ]
   },
-  "generated_at": "2026-07-15T16:01:59.664075Z"
+  "generated_at": "2026-07-15T16:32:34.626889Z"
 }

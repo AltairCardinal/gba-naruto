@@ -31,7 +31,7 @@
   逐字节相同，`0x08073946` 与四个 `0x08073A04` 分支均无 fresh record。正对照未成立，
   因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；
 - 2026-07-15 macOS Intel 已复用严格 mGBA 0.10.5 frame-80 零输入结果验收战前菜单：
-  candidate 与输出的 240×160 RGB8 decompressed scanlines 逐哈希相同，task 2 resume PC
+  candidate 与输出的 240×160 RGB8 normalized pixels 逐哈希相同，task 2 resume PC
   为 `0x08067D02`，三个显式栈槽经 base ROM Thumb BL 静态校验后得到活动 unwind
   `0x080885C1 → 0x08088F9F → 0x0808F92D`，`[0x0202680C]=0`，仍不含 controller
   return `0x0808F957`。strict audit/ROM/state/emulator/patch 全部通过哈希校验，guard

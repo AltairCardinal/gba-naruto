@@ -77,7 +77,7 @@ start-confirm prompt.
 
 `scenario-41-prebattle-menu-candidate.ss9` is now accepted without replaying the
 prologue again. Strict run `be8e11738e43f276b0c31798061e63fc` held it for 80 frames
-with `inputs=[]`; validated IHDR and decompressed scanline hashes are identical before
+with `inputs=[]`; strictly decoded, normalized RGB pixel hashes are identical before
 and after. The frame-80 task 2 resumes at `0x08067D02`, SP `0x030011D8`. Only the
 explicit stack slots `0x03001220/0x03001240/0x03001278` are in the accepted unwind;
 their raw returns `0x080885C1/0x08088F9F/0x0808F92D` each decode as the expected
@@ -86,6 +86,10 @@ Thumb BL in `rom/base.gba`. The controller return `0x0808F957` is absent and
 outputs, emulator/manifest/patch provenance, `completed/0` non-degraded guard result,
 and a fresh clean PGID/listener check. This is reusable prebattle-menu state only; it
 does not prove controller entry, player control, MOVEDONE, victory, or postbattle.
+Absolute `build/` and `.cache/` paths in the compact JSON identify the historical local
+raw evidence; those raw files are not distributed by the repository. The tracked
+candidate and compact JSON are the durable handoff. Revalidation from raw bytes needs
+the original machine-local Step 1/2 files at their pinned paths.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate

@@ -416,14 +416,22 @@ python3 tools/inspect_mgba_savestate.py \
 `accept_prebattle_candidate.py` is the fail-closed Task 4.6 Step 3 gate. It consumes
 the already captured strict frame-80 directory and does not run mGBA or inject keys.
 Using only the Python standard library, it validates every PNG chunk CRC, requires
-RGB8 240×160 IHDRs, and compares the decompressed pre-unfilter scanline SHA-256 of the
-tracked candidate and frame-80 screenshot. It then authenticates the base/staged ROM,
-input/output states, screenshot, replay script, manifest, emulator binary and the
-base64-embedded upstream patch from their actual bytes; validates strict zero-input
-mode, `completed/0` non-degraded guard output, task 2 PC/SP, the three explicit BL
-frames, the negative controller boundary and `[0x0202680C]`; and finally performs
-read-only exact-PGID plus mGBA-listener residue checks. Evidence is written only if
-every gate succeeds:
+RGB8 240×160 IHDRs, rejects incomplete or trailing zlib streams, accepts only PNG row
+filters 0..4, implements Sub/Up/Average/Paeth reversal, and compares normalized RGB
+pixel SHA-256 values for the tracked candidate and frame-80 screenshot. Savestate
+loading uses the same strict chunk parser, requires exactly one `gbAs`, and rejects bad
+CRC, truncated chunks, trailing container bytes, or non-exact compressed state length.
+
+The acceptance builder pins the caller-known Step 2 hashes and fixed paths for audit,
+sentinel, guard summary, base/staged ROM, candidate, frame-80 state/PNG and replay Lua,
+plus the authenticated Step 1 manifest and x86_64 binary paths. It does not accept a
+self-consistent rewrite of those JSON files and hashes. The sentinel must exist at its
+fixed path, match the fixed hash, and be byte-semantically identical to the audit. It
+also requires a positive child PGID, POSIX process-group backend, a finite positive
+peak RSS equal to the audit value, strict zero-input fields, task 2 PC/SP, the three
+explicit BL frames, the negative controller boundary and `[0x0202680C]`; finally it
+performs read-only exact-PGID plus mGBA-listener residue checks. Evidence is written
+only if every gate succeeds:
 
 ```bash
 python3 tools/accept_prebattle_candidate.py
@@ -433,6 +441,12 @@ The resulting acceptance proves a stable prebattle menu only. In particular it d
 not prove `0x0808F952 → 0x080732B4` controller entry, player control, MOVEDONE,
 victory, or postbattle. It never kills processes and must not be used to justify Down/A
 input unless a later, separately reviewed task explicitly authorizes that input.
+
+The compact evidence intentionally preserves absolute `build/` and cache paths from
+the local historical run so its origin is unambiguous. Those raw frame-80/cache files
+are machine-local and are not repository-distributed artifacts. Git distributes the
+tracked candidate and compact evidence JSON; re-running the builder requires the
+original local Step 1/2 raw evidence at the pinned paths.
 
 ## `mgba_gdb_probe.py`
 

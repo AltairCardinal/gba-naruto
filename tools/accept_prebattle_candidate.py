@@ -8,16 +8,28 @@ import base64
 import binascii
 import hashlib
 import json
+import math
 import struct
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Mapping
 
 try:
     from tools.inspect_mgba_savestate import inspect_savestate, png_screen_fingerprint
+    from tools.run_macos_mgba_replay import (
+        ReplayError,
+        validate_build_manifest,
+        validate_guard_summary,
+    )
     from tools.thumb_branch import decode_thumb_bl
 except ModuleNotFoundError:
     from inspect_mgba_savestate import inspect_savestate, png_screen_fingerprint
+    from run_macos_mgba_replay import (
+        ReplayError,
+        validate_build_manifest,
+        validate_guard_summary,
+    )
     from thumb_branch import decode_thumb_bl
 
 
@@ -30,6 +42,47 @@ EXPECTED_UNWIND = (
 )
 CONTROLLER_RETURN = 0x0808F957
 CONTROLLER_TARGET = 0x080732B4
+STEP2_MANIFEST_PATH = Path(
+    "/Users/altair/.cache/codex-tools/mgba/"
+    "0.10.5-script-backport-manifest-fix1-20260715.json"
+)
+STEP2_BINARY_PATH = Path(
+    "/Users/altair/.cache/codex-tools/mgba/"
+    "0.10.5-script-backport-build-fix1-20260715/qt/"
+    "mGBA.app/Contents/MacOS/mGBA"
+)
+STEP2_SHA256 = {
+    "audit": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
+    "sentinel": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
+    "guard_summary": "17a8c5abfe3e12f829e85119a5ebd3d9f576df6f3e51d5a0adee67651a1a4c2c",
+    "input_state": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+    "output_state": "53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65",
+    "output_png": "6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0",
+    "replay_script": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af",
+    "build_manifest": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "binary": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "patch": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+    "base_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "staged_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+}
+
+
+def step2_paths(root: Path) -> dict[str, Path]:
+    replay_dir = root / "build/macos-prebattle-frame80-step2-20260715"
+    return {
+        "audit": replay_dir / "audit.json",
+        "sentinel": replay_dir / "sentinel.json",
+        "guard_summary": replay_dir / "guard-summary.json",
+        "base_rom": root / "rom/base.gba",
+        "input_state": root
+        / "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
+        "output_state": replay_dir / "frame80.ss9",
+        "output_png": replay_dir / "frame80.png",
+        "staged_rom": replay_dir / "staged-base.gba",
+        "replay_script": root / "tools/mgba_checkpoint_replay.lua",
+        "build_manifest": STEP2_MANIFEST_PATH,
+        "binary": STEP2_BINARY_PATH,
+    }
 
 
 def sha256_file(path: Path | str) -> str:
@@ -53,6 +106,11 @@ def _load_json(path: Path) -> dict[str, object]:
 def _require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def _require_path(actual: Path | str, expected: Path, label: str) -> None:
+    if Path(actual).resolve() != expected.resolve():
+        raise ValueError(f"{label} path mismatch")
 
 
 def _authenticated_file(
@@ -81,13 +139,25 @@ def _decode_manifest_patch(manifest: dict[str, object]) -> bytes:
 
 
 def validate_strict_replay(
-    audit_path: Path | str, rom_path: Path | str, guard_summary_path: Path | str
+    audit_path: Path | str,
+    rom_path: Path | str,
+    guard_summary_path: Path | str,
+    *,
+    caller_paths: Mapping[str, Path] | None = None,
+    caller_hashes: Mapping[str, str] | None = None,
 ) -> dict[str, object]:
     audit_path = Path(audit_path)
     rom_path = Path(rom_path)
     guard_summary_path = Path(guard_summary_path)
     audit = _load_json(audit_path)
     guard = _load_json(guard_summary_path)
+
+    if caller_paths is not None:
+        _require_path(audit_path, caller_paths["audit"], "audit")
+        _require_path(rom_path, caller_paths["base_rom"], "base ROM")
+        _require_path(
+            guard_summary_path, caller_paths["guard_summary"], "guard summary"
+        )
 
     _require(audit.get("success") is True, "strict replay did not succeed")
     _require(audit.get("status") == "capture-complete", "strict replay is incomplete")
@@ -103,6 +173,16 @@ def validate_strict_replay(
         "strict replay is not a frame-80 capture",
     )
     _require(audit.get("pgid_clean") is True, "replay did not report a clean PGID")
+    _require_path(audit.get("audit", ""), audit_path, "audit payload")
+
+    sentinel_value = audit.get("sentinel")
+    _require(
+        isinstance(sentinel_value, str) and bool(sentinel_value),
+        "strict replay sentinel path missing",
+    )
+    sentinel_path = Path(sentinel_value)
+    if caller_paths is not None:
+        _require_path(sentinel_path, caller_paths["sentinel"], "sentinel")
 
     files = {
         "input_state": _authenticated_file(
@@ -126,13 +206,24 @@ def validate_strict_replay(
             "build manifest",
         ),
     }
+    if caller_paths is not None:
+        for label in (
+            "input_state",
+            "output_state",
+            "output_png",
+            "staged_rom",
+            "replay_script",
+            "build_manifest",
+        ):
+            _require_path(files[label]["path"], caller_paths[label], label)
     _require(rom_path.is_file(), f"base ROM file missing: {rom_path}")
     rom_hash = sha256_file(rom_path)
     _require(rom_hash == audit.get("rom_sha256"), "base ROM hash mismatch")
     _require(files["staged_rom"]["sha256"] == rom_hash, "staged ROM differs from base ROM")
     files["base_rom"] = {"path": str(rom_path), "sha256": rom_hash}
 
-    manifest = _load_json(Path(files["build_manifest"]["path"]))
+    manifest_path = Path(files["build_manifest"]["path"])
+    manifest = _load_json(manifest_path)
     _require(
         manifest.get("version") == "0.10.5",
         "emulator manifest is not mGBA 0.10.5",
@@ -147,6 +238,23 @@ def validate_strict_replay(
     command = guard.get("command")
     _require(isinstance(command, list) and len(command) == 4, "guard command is incomplete")
     binary = _authenticated_file(command[0], audit.get("binary_sha256"), "emulator binary")
+    if caller_paths is not None:
+        _require_path(binary["path"], caller_paths["binary"], "emulator binary")
+        try:
+            manifest_binary = manifest["guard"]["summaries"]["sentinel"]["command"][3]
+        except (KeyError, IndexError, TypeError) as error:
+            raise ValueError(
+                "manifest has no authenticated sentinel binary path"
+            ) from error
+        _require_path(
+            manifest_binary,
+            caller_paths["binary"],
+            "manifest authenticated binary",
+        )
+    try:
+        validate_build_manifest(manifest_path, Path(binary["path"]), binary["sha256"])
+    except ReplayError as error:
+        raise ValueError(f"build manifest validation failed: {error}") from error
     _require(
         binary["sha256"] == manifest.get("binary_sha256"),
         "manifest binary hash mismatch",
@@ -162,23 +270,51 @@ def validate_strict_replay(
 
     guard_hash = sha256_file(guard_summary_path)
     _require(guard_hash == audit.get("guard_summary_sha256"), "guard summary hash mismatch")
-    _require(guard.get("reason") == "completed", "guard did not complete")
-    _require(guard.get("exit_code") == 0, "guard exit code is not zero")
-    _require(guard.get("degraded") is False, "guard ran in degraded mode")
+    try:
+        validate_guard_summary(guard, command, 0)
+    except ReplayError as error:
+        raise ValueError(f"guard validation failed: {error}") from error
+    peak = guard.get("peak_tree_rss_mib")
+    _require(
+        isinstance(peak, (int, float))
+        and not isinstance(peak, bool)
+        and math.isfinite(peak)
+        and peak > 0,
+        "guard peak RSS must be finite and positive",
+    )
     _require(
         guard.get("child_pid") == audit.get("child_pgid"),
         "guard child/PGID mismatch",
     )
+    _require(audit.get("peak_tree_rss_mib") == peak, "audit/guard peak RSS mismatch")
 
-    sentinel_record = None
-    if "sentinel" in audit:
-        sentinel_path = Path(str(audit["sentinel"]))
-        sentinel = _load_json(sentinel_path)
-        _require(sentinel == audit, "sentinel content differs from final audit")
-        sentinel_record = {
-            "path": str(sentinel_path),
-            "sha256": sha256_file(sentinel_path),
-        }
+    sentinel = _load_json(sentinel_path)
+    _require(sentinel == audit, "sentinel content differs from final audit")
+    sentinel_record = {
+        "path": str(sentinel_path),
+        "sha256": sha256_file(sentinel_path),
+    }
+
+    actual_hashes = {
+        "audit": sha256_file(audit_path),
+        "sentinel": sentinel_record["sha256"],
+        "guard_summary": guard_hash,
+        "base_rom": rom_hash,
+        "input_state": files["input_state"]["sha256"],
+        "output_state": files["output_state"]["sha256"],
+        "output_png": files["output_png"]["sha256"],
+        "staged_rom": files["staged_rom"]["sha256"],
+        "replay_script": files["replay_script"]["sha256"],
+        "build_manifest": files["build_manifest"]["sha256"],
+        "binary": binary["sha256"],
+        "patch": patch_hash,
+    }
+    if caller_hashes is not None:
+        for label, expected_hash in caller_hashes.items():
+            _require(
+                actual_hashes.get(label) == expected_hash,
+                f"caller-known {label} hash mismatch",
+            )
 
     return {
         "run_id": audit.get("run_id"),
@@ -189,6 +325,7 @@ def validate_strict_replay(
         "inputs": [],
         "pre_scripts": [],
         "capture_frame": 80,
+        "caller_known_sha256": dict(caller_hashes or actual_hashes),
         "files": files,
         "emulator": {
             **binary,
@@ -284,17 +421,45 @@ def _validated_controller_boundary(rom_path: Path) -> dict[str, str]:
     }
 
 
+def validate_prebattle_state(
+    report: Mapping[str, object],
+) -> tuple[dict[str, object], dict[str, object]]:
+    try:
+        task = report["tasks"][1]
+        unwind = report["active_unwind"]
+        raw_return_words = unwind["raw_return_words"]
+        battle_control = report["memory_bytes"]["0x0202680C"]
+    except (KeyError, IndexError, TypeError) as error:
+        raise ValueError("prebattle savestate report is incomplete") from error
+    expected_words = [f"0x{raw:08X}" for _, raw, _ in EXPECTED_UNWIND]
+    _require(task.get("sp") == "0x030011D8", "task 2 SP mismatch")
+    _require(task.get("resume_pc") == "0x08067D02", "task 2 resume PC mismatch")
+    _require(raw_return_words == expected_words, "active unwind mismatch")
+    _require(
+        f"0x{CONTROLLER_RETURN:08X}" not in raw_return_words,
+        "controller return is present in prebattle unwind",
+    )
+    _require(battle_control == 0, "battle-control byte is not zero")
+    return task, unwind
+
+
 def build_prebattle_evidence(root: Path | str) -> dict[str, object]:
     root = Path(root).resolve()
-    candidate = root / "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9"
-    replay_dir = root / "build/macos-prebattle-frame80-step2-20260715"
-    output_state = replay_dir / "frame80.ss9"
-    output_png = replay_dir / "frame80.png"
-    audit_path = replay_dir / "audit.json"
-    guard_path = replay_dir / "guard-summary.json"
-    rom_path = root / "rom/base.gba"
+    paths = step2_paths(root)
+    candidate = paths["input_state"]
+    output_state = paths["output_state"]
+    output_png = paths["output_png"]
+    audit_path = paths["audit"]
+    guard_path = paths["guard_summary"]
+    rom_path = paths["base_rom"]
 
-    strict = validate_strict_replay(audit_path, rom_path, guard_path)
+    strict = validate_strict_replay(
+        audit_path,
+        rom_path,
+        guard_path,
+        caller_paths=paths,
+        caller_hashes=STEP2_SHA256,
+    )
     _require(
         Path(strict["files"]["input_state"]["path"]).resolve() == candidate,
         "audit input is not the tracked candidate",
@@ -323,17 +488,7 @@ def build_prebattle_evidence(root: Path | str) -> dict[str, object]:
         unwind_frames=[(address, target) for address, _, target in EXPECTED_UNWIND],
         memory_bytes=[0x0202680C],
     )
-    task = report["tasks"][1]
-    unwind = report["active_unwind"]
-    expected_words = [f"0x{raw:08X}" for _, raw, _ in EXPECTED_UNWIND]
-    _require(task["sp"] == "0x030011D8", "task 2 SP mismatch")
-    _require(task["resume_pc"] == "0x08067D02", "task 2 resume PC mismatch")
-    _require(unwind["raw_return_words"] == expected_words, "active unwind mismatch")
-    _require(
-        f"0x{CONTROLLER_RETURN:08X}" not in unwind["raw_return_words"],
-        "controller return is present in prebattle unwind",
-    )
-    _require(report["memory_bytes"]["0x0202680C"] == 0, "battle-control byte is not zero")
+    task, unwind = validate_prebattle_state(report)
     controller = _validated_controller_boundary(rom_path)
     residue = probe_runtime_residue(strict["guard"]["child_pgid"])
 
@@ -348,7 +503,7 @@ def build_prebattle_evidence(root: Path | str) -> dict[str, object]:
             "stable_zero_input": True,
         },
         "screen_identity": {
-            "method": "validated PNG IHDR plus decompressed pre-unfilter scanline SHA-256",
+            "method": "strict PNG decode to normalized RGB8 pixel SHA-256",
             "candidate": candidate_screen,
             "frame80": replay_screen,
             "identical": True,

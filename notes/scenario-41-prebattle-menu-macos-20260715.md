@@ -29,8 +29,8 @@ evidence is `artifacts/runtime-checkpoints/scenario-41-prebattle-menu-evidence.j
   `53ab750fe1c91d8ee2d47dee212aafcd3c3625059d349b2b3a2aa2eb59d23b65`;
 - frame-80 PNG SHA-256:
   `6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0`;
-- candidate and output are RGB8 240×160 and share decompressed pre-unfilter scanline
-  SHA-256 `18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b`;
+- candidate and output are RGB8 240×160 and share normalized RGB pixel SHA-256
+  `bf0ffd7484bc0d4c8e2f94af623b265f8f462a891133a0bccf67f757c849d035`;
 - task 2 SP/resume PC: `0x030011D8` / `0x08067D02`;
 - `[0x0202680C]=0`;
 - final read-only residue probe found no exact PGID `20050` row and no mGBA TCP
@@ -59,3 +59,23 @@ prebattle menu for 80 zero-input frames. It does not prove battle controller ent
 player control, MOVEDONE, victory, result storage, postbattle, EXP, or level growth.
 Future input experiments must start as a separate reviewed task and preserve this
 accepted snapshot as their reload point.
+
+## Thorough-review hardening
+
+The acceptance gate now treats the Step 2 caller-known values as immutable pins rather
+than trusting a mutually consistent audit/sentinel rewrite. Audit, sentinel, guard,
+candidate, output state/PNG, ROM/staged ROM, Lua, manifest, binary and patch all have
+fixed SHA-256 values; repo inputs/outputs and external Step 1 manifest/binary also have
+fixed paths. The guard is revalidated through the replay runner's existing POSIX
+process-group contract, with an additional finite-positive peak RSS requirement and
+exact audit equality.
+
+The PNG and savestate readers share one CRC/IEND/no-trailing chunk parser and bounded
+`decompressobj` checks for EOF, unused data and unconsumed tails. Screen identity is now
+based on normalized RGB bytes after reversing all standard PNG filters, not on encoded
+pre-unfilter rows.
+
+The compact evidence retains absolute `build/` and `.cache/` paths because it describes
+one historical local raw run. The repository does not distribute those machine-local
+raw outputs; it distributes the tracked candidate and compact JSON. Rebuilding the
+compact evidence from raw bytes therefore requires the pinned local Step 1/2 files.

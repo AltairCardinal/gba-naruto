@@ -57,15 +57,15 @@ The focused test
 `test_rejects_wrong_capture_frame_and_guard_rom_wiring` first failed because a
 capture-frame drift to 79 was not rejected. The gate now requires both frame fields to
 be 80 and requires the exact four-argument guard command to end in the authenticated
-staged ROM. The focused test then passed. The final combined inspector/acceptance suite
-contains 13 tests.
+staged ROM. The focused test then passed. The combined inspector/acceptance suite for
+the initial implementation contained 13 tests.
 
 ## Acceptance result
 
 - candidate SHA-256:
   `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078`;
-- candidate/frame80 validated scanline SHA-256:
-  `18e7c077c88ed3308a1eee3353f40cd2edc611ffd7b7e7146a67cf6c0f7e994b`;
+- candidate/frame80 normalized RGB pixel SHA-256:
+  `bf0ffd7484bc0d4c8e2f94af623b265f8f462a891133a0bccf67f757c849d035`;
 - task 2: SP `0x030011D8`, resume PC `0x08067D02`;
 - explicit BL-validated raw unwind:
   `0x080885C1 → 0x08088F9F → 0x0808F92D`;
@@ -84,3 +84,30 @@ The prebattle menu snapshot is now an accepted reusable reload point, eliminatin
 need to replay the prologue for the next debugging segment. This step does not claim
 controller entry, player control, MOVEDONE, victory, postbattle, EXP, or levels, and it
 does not authorize or perform Down/A input.
+
+## Thorough review fix round 1
+
+The review identified three Important gaps and all were exercised through additional
+RED → GREEN cycles:
+
+1. Caller-known provenance: three focused tests first failed because the validator had
+   no caller-pin API. The GREEN implementation fixes every Step 2 path/hash, requires a
+   fixed and identical sentinel, and reuses the replay runner's manifest/guard
+   validators. A fully self-consistent multi-file drift is still rejected.
+2. Strict image/state decoding: the inspector RED had four expected failures for the
+   missing normalized pixel field, filter-dependent identity, unvalidated `gbAs` CRC,
+   and accepted filter 5. The GREEN implementation shares strict chunk/zlib parsing,
+   reverses PNG filters 0..4 including Paeth, and hashes normalized RGB bytes.
+3. Integration boundaries: the actual builder was run against local Step 2 raw files
+   with only the read-only residue probe mocked. Focused REDs exposed the missing
+   standalone state boundary and stale pre-unfilter method. GREEN tests now cover bad
+   controller chain, WRAM flag, guard/pin failure, residue, every zero-input field,
+   missing sentinel, path/provenance drift, and ledger lineage/scope.
+
+Absolute `build/` and cache paths in the compact JSON are historical local provenance.
+The repository distributes only the tracked candidate and compact evidence; raw
+revalidation needs the pinned machine-local Step 1/2 files.
+
+Final review-fix verification ran 130 related tests successfully with one documented
+Windows-only skip. The acceptance CLI also generated a separate compact result at
+`/tmp/scenario-41-prebattle-menu-evidence-fix1.json` without launching mGBA.
