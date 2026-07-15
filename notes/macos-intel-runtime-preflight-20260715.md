@@ -89,8 +89,17 @@ manifest, a staged copy of `rom/base.gba`, the shared heavy lock, a 4096 MiB adm
 floor, a 1536 MiB owned-PGID RSS ceiling, non-degraded POSIX process-group protection,
 and `QT_QPA_PLATFORM=offscreen`.
 
-The final fresh run is retained under the ignored directory
-`build/macos-prebattle-frame80-step2-20260715/` for direct reuse by Step 3:
+### Superseded pre-review smokes (historical diagnostics)
+
+These superseded pre-review smokes are historical diagnostics only. Their two output
+directories were later overwritten in place by the reviewed strict run
+`be8e11738e43f276b0c31798061e63fc` and script-order diagnostic
+`9225277d9d4bb278989cfc38352f030d` documented below. Therefore the old hashes in this
+subsection no longer describe the files now stored at those paths and are ineligible as
+Step 3 reuse evidence.
+
+The pre-review zero-input diagnostic ran under the ignored directory
+`build/macos-prebattle-frame80-step2-20260715/`:
 
 - run ID: `b1cd4bb851a2be94c60bc48f4a28d82c`;
 - input state SHA-256:
@@ -106,11 +115,12 @@ The final fresh run is retained under the ignored directory
 - guard summary SHA-256:
   `c9c08e2274687a4d1a42895565deb08719172cd36bf34c1cf0f4ac326afab42c`;
 - guard result: `completed/0`, peak owned RSS `52.0234375 MiB`, child/PGID
-  `7013`, `degraded=false`, and a clean exact final PGID query.
+  `7013`, `degraded=false`, and a clean exact closing PGID query.
 
-Both the state and screenshot are 240x160 PNG containers. The runner was deliberately
-rerun over earlier regular outputs; they were removed before launch and replaced with a
-new run ID and state hash. The source ROM directory still has no `base.sav` sidecar.
+Both the state and screenshot were 240x160 PNG containers. At that pre-review point,
+the runner had removed still earlier regular outputs before launch and replaced them
+with the historical run ID and state hash above. The source ROM directory still had no
+`base.sav` sidecar.
 
 During integration testing, rejecting every ancestor symlink incorrectly rejected the
 normal macOS `/var -> /private/var` path used by `tempfile`. The durable rule is now to
@@ -118,15 +128,16 @@ canonicalize ancestor aliases, reject final-component symlinks and unsafe resolv
 overlap, and fail closed on directory/FIFO outputs. This preserves alias safety without
 hard-coding an operating-system path exception.
 
-Three additional fail-closed boundaries were verified before the final smoke. Lua now
+Three additional fail-closed boundaries were verified before that smoke. Lua now
 asserts both `emu:loadStateFile` and `emu:saveStateFile` BOOL results; screenshot remains
 a void API and is checked through the fresh PNG output. The derived staged `.sav` is
 reserved in canonical uniqueness/overlap validation. After mGBA exits, the runner
-rehashes binary, source ROM, input state and staged ROM before writing final provenance.
+rehashes binary, source ROM, input state and staged ROM before writing completed
+provenance.
 
-Repeatable Qt `--script` order was also proven in the real backported frontend, not only
-at argv construction. Two no-input pre-scripts wrote `1` and then asserted that value
-before appending `2`; the retained
+Repeatable Qt `--script` order was also proven in the pre-review real backported
+frontend run, not only at argv construction. Two no-input pre-scripts wrote `1` and
+then asserted that value before appending `2`; the then-produced
 `build/macos-prebattle-frame80-step2-order-20260715/order-proof.txt` contains exactly
 `12` with SHA-256
 `6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918`.
@@ -140,7 +151,7 @@ or accept the prebattle menu, task 2 resume PC, unwind chain, or `[0x0202680C]`;
 not update the checkpoint ledger and must not be used as evidence for controller entry.
 No Down, A, or other input was sent.
 
-### Thorough review fix round 1: caller pins and evidence modes
+### Current reviewed evidence: caller pins and evidence modes
 
 The first thorough review found that the earlier runner trusted any self-consistent
 manifest/binary pair and described the pre-script order smoke too close to zero-input
@@ -154,7 +165,8 @@ old output is removed:
 - fixed zero-input replay SHA-256:
   `d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af`.
 
-The strict Step 3 reuse directory was refreshed in `zero-input` mode with no pre-script:
+The current strict Step 3 reuse directory is retained from the latest refresh in
+`zero-input` mode with no pre-script:
 
 - run ID `be8e11738e43f276b0c31798061e63fc`;
 - frame-80 state SHA-256
@@ -168,8 +180,8 @@ The strict Step 3 reuse directory was refreshed in `zero-input` mode with no pre
 - `completed/0`, peak RSS `51.94921875 MiB`, PGID `20050` clean,
   `evidence_mode=zero-input`, `zero_input_verified=true`, `inputs=[]`, and no pre-script.
 
-The order directory was separately refreshed as `script-order-diagnostic`. Marker `12`
-and its SHA-256 remain unchanged, while the finalized record now says
+The current order directory was separately refreshed as `script-order-diagnostic`.
+Marker `12` and its SHA-256 remain unchanged, while the finalized record now says
 `zero_input_verified=false` and authenticates both pre-script paths and hashes. Its run
 ID is `9225277d9d4bb278989cfc38352f030d`, guard peak RSS is `51.8984375 MiB`, and PGID
 `20807` is clean. This diagnostic is evidence only for repeated Qt `--script` ordering;
