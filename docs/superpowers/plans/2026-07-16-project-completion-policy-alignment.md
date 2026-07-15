@@ -98,6 +98,7 @@ def test_reports_only_active_normative_or_unfinished_push_requirements(self):
 - 重复键、跳级缩进、tab、空 key 和当前 schema 外的结构抛出 `ValueError`；
 - `validate_policy` 精确校验设计文档列出的字段和枚举；
 - `audit_project` 通过 `openspec list --json` 获取 active change，测试可显式传入列表；
+- 未显式传入 `plan_paths` 时，只读取每个 active change `.comet.yaml` 中非空 `plan` 字段指向的计划；不得扫描全部历史 plan；
 - 计划扫描跟踪最近 checkbox 状态，使已完成 section 内的历史 `git push` 不误报；
 - proposal/design/spec 的 push 词只在带 `历史`、`曾`、`不再运行`、`不得`、`禁止` 或 `不执行` 时豁免；
 - 输出 JSON 中包含 `policy_valid`、`required_platform_checks`、`push_denied`、`active_change_push_conflicts`、`errors`。
