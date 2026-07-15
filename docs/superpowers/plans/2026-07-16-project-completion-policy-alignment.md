@@ -131,6 +131,18 @@ git add tools/check_comet_project_policy.py tests/test_check_comet_project_polic
 git commit -m "test(comet): audit project policy conflicts"
 ```
 
+#### 执行阻塞记录（2026-07-16）
+
+Task 1 已完成两轮有界修复，代码提交为 `e06966a`、`c3a7eab`、`656080c`。父代理复验 25/25 单元测试、`py_compile` 和 `git diff --check` 通过；当前仓库负向审计仍正确报告 34 条真实 push 冲突与不受支持的 `activation`，并且没有把游戏 UI `PUSH START` 误报为 push 门禁。
+
+最终只读审查未批准，修复轮次已达到 `2/2`，因此本 Task 保持未勾选并停止进入 Task 2/3。剩余 Important：
+
+1. 否定/历史豁免仍可能被“并且”连接或“不得不推送”等语义绕过，未严格证明豁免词支配 push 分句。
+2. active change 的子 artifact symlink、缺失 change 目录和 `.comet.yaml` 读取边界尚未全部 fail-closed。
+3. `openspec list --json` 的 `changes` 数组中畸形成员会被静默丢弃，可能把无效 active change 集合解释为空并成功退出。
+
+恢复条件：新开一个范围仅含审计工具与测试的修复任务，逐项补 RED fixture；重新通过父级验证和全新只读审查后，方可勾选 Task 1 并进入 Task 2。
+
 ---
 
 ### Task 2: 对齐 policy 与四个 active change
