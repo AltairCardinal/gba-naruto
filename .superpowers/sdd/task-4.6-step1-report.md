@@ -50,7 +50,7 @@ FAIL: error: corrupt patch at line 26
 
 ```text
 python3 -m unittest tests.test_build_macos_mgba -v
-Ran 13 tests — OK
+Ran 20 tests — OK
 python3 -m py_compile tools/build_macos_mgba.py tests/test_build_macos_mgba.py
 exit 0
 ```
@@ -60,6 +60,16 @@ patch 恰好两个路径且 unified diff 有效、SHA-256 防篡改、unpatched 
 `--script`、固定 CMake/guard/build summary 指纹、manifest 身份、Lua post-load
 first-frame marker，以及 ROM staging 不污染输入目录。
 
+thorough review 第 1/2 轮的五类 Important 均先形成 RED：旧 summary 与非零 wrapper
+可冒充成功、patch inspect/apply/manifest 存在路径重读窗口、输入输出 path 可重叠、
+旧 sentinel marker 没有 current-run 身份，以及版本化 mail patch 的原始尾随空白会
+让 range `git diff --check` 失败。随后最小 GREEN 将 patch 固定为单次读取的 verified
+bytes 并通过 stdin check/apply，增加全路径 canonical overlap gate、fresh output 删除、
+wrapper/summary 一致性、sentinel run ID、post-sentinel clean-cache 复验，以及只对该精确
+patch 路径关闭 whitespace diagnostics。新增 wiring 集成测试真实走过
+`main → _run_phase → _sentinel`，证明 mGBA 收到 staged ROM，旧 marker 不可冒充，
+manifest sentinel summary 与本次 run ID 一致。最终测试数为 `20/20 PASS`。
+
 ## 实际 guarded build / sentinel
 
 共同约束：`build/resource-guard/heavy.lock`、minimum available 4096 MiB、maximum
@@ -67,12 +77,12 @@ owned-tree RSS 1536 MiB、non-degraded POSIX process group、Ninja parallel 2。
 
 | Phase | Summary | Peak RSS | Child/PGID | 完成后 PGID |
 |---|---|---:|---:|---|
-| prepare/local clone + apply | completed/0 | 68.7578125 MiB | 60856 | clean |
-| configure | completed/0 | 13.4765625 MiB | 61147 | clean |
-| build | completed/0 | 10.90234375 MiB | 62291 | clean |
-| help | completed/0 | 0.95703125 MiB | 64862 | clean |
-| version | completed/0 | 0.81640625 MiB | 64886 | clean |
-| final staged Lua sentinel | completed/0 | 18.12109375 MiB | 67483 | clean |
+| prepare/local clone + apply | completed/0 | 73.09765625 MiB | 80958 | clean |
+| configure | completed/0 | 12.9140625 MiB | 81096 | clean |
+| build | completed/0 | 10.80859375 MiB | 82069 | clean |
+| help | completed/0 | 0.796875 MiB | 83519 | clean |
+| version | completed/0 | 0.91796875 MiB | 83524 | clean |
+| final staged Lua sentinel | completed/0 | 0.8984375 MiB | 83529 | clean |
 
 Configure 指纹：Qt5 `/usr/local/opt/qt@5`、Release、`ENABLE_SCRIPTING=ON`、
 `BUILD_QT=ON`、`BUILD_SDL=OFF`、`CMAKE_POLICY_VERSION_MINIMUM=3.5`。
@@ -83,13 +93,15 @@ Configure 指纹：Qt5 `/usr/local/opt/qt@5`、Release、`ENABLE_SCRIPTING=ON`�
 - source commit：`26b7884bc25a5933960f3cdcd98bac1ae14d42e2`
 - upstream/backport commit：`7cacae126207de5499857439b9c7919bf8e882c2`
 - patch SHA-256：`e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6`
-- binary SHA-256：`af6ab51a2ff63d6067908938aa74181fe2bbad0c441e231f3c4dbc80e7d6fe5d`
+- binary SHA-256：`20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408`
 - version：`mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)`；
   `-dirty` 只表示独立 clone 中的两文件 backport
 - file：`Mach-O 64-bit executable x86_64`
 - help：包含 `--script FILE Script file to load on start`
 - sentinel：从 `rom/base.gba` 暂存副本启动，第一帧写出
-  `{"script_loaded":true,"frame":1,"pc":"140299572"}` 并正常退出
+  `{"script_loaded":true,"frame":1,"pc":"140299572",` 与 fresh run ID
+  `41af6df222612f6bd22f0f5499be1fdd`，并正常退出；manifest sentinel summary
+  带同一 run ID
 
 clean cache `/Users/altair/.cache/codex-tools/mgba/0.10.5-src` 最终 status 为空；
 独立 workspace diff 恰好是 `ConfigController.cpp` 与 `Window.cpp`。所有 source、
@@ -103,6 +115,7 @@ status 不含该文件。
   SHA-1；实际哈希见最终交付消息）
 - 变更文件：
   - `tools/patches/mgba-0.10.5-qt-script-cli.patch`
+  - `.gitattributes`（仅精确 patch 路径禁用 whitespace diagnostics）
   - `tools/build_macos_mgba.py`
   - `tests/test_build_macos_mgba.py`
   - `tools/README.md`

@@ -266,8 +266,14 @@ two-file Qt CLI change from upstream commit
 `e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6`.
 
 The builder rejects a wrong tag/commit, any source dirt, an unexpected patch path, or a
-failed `git apply --check`. It clones the clean cache into a new independent cache
-checkout, applies the patch there, and never writes to the clean cache or the user's
+failed `git apply --check`. Before creating or deleting anything, it canonicalizes every
+source, ROM, patch, workspace, build, evidence, and manifest path and rejects equality,
+ancestor/descendant overlap, and symlink aliases. It reads the pinned patch exactly once,
+verifies its SHA and metadata, transports those exact bytes to the guarded prepare child,
+and supplies the same verified metadata to the manifest. Both `git apply --check` and
+`git apply` consume that in-memory byte payload over stdin; a mutable patch pathname is
+never reopened. It clones the clean cache into a new independent cache checkout, applies
+the patch there, and never writes to the clean cache or the user's
 `/Users/altair/github/mgba-src` tree. Prepare/copy, configure, build, `--help`, version,
 and the real Lua sentinel all use `run_guarded.py` with the same heavy lock, 4096 MiB
 admission floor, 1536 MiB owned-tree RSS ceiling, and non-degraded PGID ownership. An
@@ -288,11 +294,16 @@ python3 tools/build_macos_mgba.py \
 
 The configure fingerprint is Release + Qt 5 at `/usr/local/opt/qt@5`, scripting ON,
 Qt ON, SDL OFF, CMake policy minimum 3.5, Ninja, and build parallelism 2. Success
-requires all guard summaries to be `completed/0`, help to contain `--script`, the binary
+requires fresh guard summaries from the current wrapper invocation to be `completed/0`,
+help to contain `--script`, the binary
 to be Mach-O x86_64, and a Lua script to execute on the first frame of a staged copy of
 `rom/base.gba` before exiting normally. ROM staging keeps mGBA save-file side effects
-inside the ignored evidence directory. The manifest records the version/source/backport
-commits, patch and binary SHA-256 values, architecture, flags, and complete summaries.
+inside the ignored evidence directory; prior staged ROM sidecars are removed before the
+copy. Help/version outputs, summaries, and the sentinel marker are removed before their
+phase, and the sentinel result must carry a newly generated run ID that is also attached
+to that run's manifest summary. The clean source cache is validated again after the real
+sentinel. The manifest records the version/source/backport commits, patch and binary
+SHA-256 values, architecture, flags, current-run sentinel, and complete summaries.
 
 Boundary: this tool only produces and proves the Step 1 runtime. It does not perform
 checkpoint replay, accept scenario evidence, update the runtime ledger, or execute any

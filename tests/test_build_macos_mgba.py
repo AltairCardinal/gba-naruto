@@ -1,10 +1,14 @@
+import base64
+import contextlib
 import hashlib
+import io
 import json
 import os
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from tools import build_macos_mgba as builder
 
@@ -14,6 +18,165 @@ PATCH = ROOT / "tools" / "patches" / "mgba-0.10.5-qt-script-cli.patch"
 
 
 class BuildMacosMgbaTests(unittest.TestCase):
+    def test_run_phase_cannot_reuse_stale_summary_when_wrapper_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = Path(tmp)
+            summary = evidence / "probe.json"
+            summary.write_text(
+                json.dumps(
+                    {
+                        "reason": "completed",
+                        "exit_code": 0,
+                        "child_pid": 123,
+                        "peak_tree_rss_mib": 1,
+                        "protection_backend": "posix-process-group",
+                        "degraded": False,
+                        "command": ["fresh-command"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            def failed_wrapper(*args, **kwargs):
+                self.assertFalse(summary.exists(), "stale summary survived before launch")
+                return subprocess.CompletedProcess(args[0], 9)
+
+            with mock.patch.object(builder.subprocess, "run", side_effect=failed_wrapper):
+                with self.assertRaisesRegex(builder.BuildError, "wrapper.*9"):
+                    builder._run_phase(
+                        "probe",
+                        ["fresh-command"],
+                        cwd=evidence,
+                        evidence_dir=evidence,
+                    )
+
+    def test_run_phase_preserves_admission_rejected_as_blocked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = Path(tmp)
+
+            def rejected_wrapper(*args, **kwargs):
+                (evidence / "probe.json").write_text(
+                    json.dumps(
+                        {
+                            "reason": "admission-rejected",
+                            "exit_code": 75,
+                            "command": ["fresh-command"],
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                return subprocess.CompletedProcess(args[0], 75)
+
+            with mock.patch.object(builder.subprocess, "run", side_effect=rejected_wrapper):
+                with self.assertRaisesRegex(builder.BuildError, "BLOCKED.*4096"):
+                    builder._run_phase(
+                        "probe",
+                        ["fresh-command"],
+                        cwd=evidence,
+                        evidence_dir=evidence,
+                    )
+
+    def test_verified_patch_bytes_bind_inspection_check_apply_and_manifest_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            copied_patch = Path(tmp) / "backport.patch"
+            original = PATCH.read_bytes()
+            copied_patch.write_bytes(original)
+            verified = builder.load_verified_patch(copied_patch)
+            copied_patch.write_bytes(b"changed after verification")
+
+            calls = []
+
+            def record_run(command, **kwargs):
+                calls.append((command, kwargs))
+                return subprocess.CompletedProcess(command, 0, stdout=b"", stderr=b"")
+
+            with mock.patch.object(builder.subprocess, "run", side_effect=record_run):
+                builder.apply_patch_checked(Path(tmp), verified.data)
+
+            self.assertEqual([call[1]["input"] for call in calls], [original, original])
+            self.assertEqual(verified.metadata.sha256, hashlib.sha256(original).hexdigest())
+
+    def test_invocation_paths_are_canonical_disjoint_before_side_effects(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            rom = root / "rom" / "base.gba"
+            rom.parent.mkdir()
+            rom.write_bytes(b"rom")
+            patch = root / "patch.diff"
+            patch.write_bytes(b"patch")
+            workspace = root / "cache" / "workspace"
+            build = root / "cache" / "build"
+            evidence = root / "repo-build" / "evidence"
+            manifest = root / "repo-build" / "manifest.json"
+            builder.validate_invocation_paths(
+                source=source,
+                workspace=workspace,
+                build=build,
+                evidence=evidence,
+                manifest=manifest,
+                rom=rom,
+                patch=patch,
+            )
+            alias = root / "source-alias"
+            alias.symlink_to(source, target_is_directory=True)
+            with self.assertRaisesRegex(builder.BuildError, "overlap"):
+                builder.validate_invocation_paths(
+                    source=source,
+                    workspace=alias,
+                    build=build,
+                    evidence=evidence,
+                    manifest=manifest,
+                    rom=rom,
+                    patch=patch,
+                )
+            with self.assertRaisesRegex(builder.BuildError, "overlap"):
+                builder.validate_invocation_paths(
+                    source=source,
+                    workspace=workspace,
+                    build=workspace / "nested-build",
+                    evidence=evidence,
+                    manifest=manifest,
+                    rom=rom,
+                    patch=patch,
+                )
+
+    def test_sentinel_marker_must_match_the_current_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            marker = Path(tmp) / "sentinel.json"
+            marker.write_text(
+                json.dumps(
+                    {
+                        "script_loaded": True,
+                        "frame": 1,
+                        "pc": "0x08000000",
+                        "run_id": "old-run",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(builder.BuildError, "current run"):
+                builder.validate_sentinel(marker, "fresh-run")
+
+    def test_only_versioned_patch_disables_git_whitespace_diagnostics(self):
+        patch_attr = subprocess.run(
+            ["git", "check-attr", "whitespace", "--", str(PATCH.relative_to(ROOT))],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            check=True,
+        ).stdout
+        builder_attr = subprocess.run(
+            ["git", "check-attr", "whitespace", "--", "tools/build_macos_mgba.py"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            check=True,
+        ).stdout
+        self.assertTrue(patch_attr.rstrip().endswith("whitespace: unset"), patch_attr)
+        self.assertTrue(builder_attr.rstrip().endswith("whitespace: unspecified"), builder_attr)
+
     def test_rejects_wrong_commit_and_tag(self):
         with self.assertRaisesRegex(builder.BuildError, "commit"):
             builder.validate_git_identity("deadbeef", "0.10.5", "")
@@ -75,10 +238,10 @@ class BuildMacosMgbaTests(unittest.TestCase):
                 "@@ -1 +1 @@\n-old\n+new\n",
                 encoding="utf-8",
             )
-            builder.apply_patch_checked(root, patch)
+            builder.apply_patch_checked(root, patch.read_bytes())
             self.assertEqual(target.read_text(encoding="utf-8"), "new\n")
             with self.assertRaisesRegex(builder.BuildError, "apply --check"):
-                builder.apply_patch_checked(root, patch)
+                builder.apply_patch_checked(root, patch.read_bytes())
             self.assertEqual(target.read_text(encoding="utf-8"), "new\n")
 
     def test_guard_command_pins_heavy_lock_and_resource_limits(self):
@@ -143,17 +306,24 @@ class BuildMacosMgbaTests(unittest.TestCase):
     def test_real_sentinel_contract_requires_loaded_script_frame_and_clean_exit_marker(self):
         with tempfile.TemporaryDirectory() as tmp:
             marker = Path(tmp) / "sentinel.json"
-            lua = builder.sentinel_lua(marker)
+            lua = builder.sentinel_lua(marker, "current-run")
             self.assertIn('callbacks:add("frame"', lua)
             self.assertIn("emu:readRegister", lua)
             self.assertIn("os.exit(0)", lua)
             with self.assertRaisesRegex(builder.BuildError, "sentinel"):
-                builder.validate_sentinel(marker)
+                builder.validate_sentinel(marker, "current-run")
             marker.write_text(
-                json.dumps({"script_loaded": True, "frame": 1, "pc": "0x08000000"}),
+                json.dumps(
+                    {
+                        "script_loaded": True,
+                        "frame": 1,
+                        "pc": "0x08000000",
+                        "run_id": "current-run",
+                    }
+                ),
                 encoding="utf-8",
             )
-            builder.validate_sentinel(marker)
+            builder.validate_sentinel(marker, "current-run")
 
     def test_sentinel_stages_base_rom_without_writing_save_next_to_original(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -171,6 +341,8 @@ class BuildMacosMgbaTests(unittest.TestCase):
             )
             os.chmod(fake_mgba, 0o755)
             staged = root / "evidence" / "sentinel-base.gba"
+            staged.parent.mkdir()
+            staged.with_suffix(".sav").write_bytes(b"stale-save")
             exit_code = builder._run_staged_sentinel(
                 fake_mgba,
                 root / "sentinel.lua",
@@ -183,18 +355,164 @@ class BuildMacosMgbaTests(unittest.TestCase):
             self.assertEqual(staged.read_bytes(), b"rom")
             self.assertEqual(staged.with_suffix(".sav").read_bytes(), b"save")
 
+    def test_main_wires_fresh_run_id_through_guarded_staged_sentinel_and_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            workspace = root / "cache" / "workspace"
+            build = root / "cache" / "build"
+            rom = root / "input" / "base.gba"
+            rom.parent.mkdir()
+            rom.write_bytes(b"fresh-rom")
+            evidence = root / "repo-build" / "evidence"
+            evidence.mkdir(parents=True)
+            (evidence / "help.txt").write_text(
+                "--script FILE stale help", encoding="utf-8"
+            )
+            (evidence / "version.txt").write_text(
+                f"mGBA 0.10.5 ({builder.SOURCE_COMMIT}) stale", encoding="utf-8"
+            )
+            (evidence / "sentinel-result.json").write_text(
+                json.dumps(
+                    {
+                        "script_loaded": True,
+                        "frame": 99,
+                        "pc": "old",
+                        "run_id": "old-run",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            manifest = root / "repo-build" / "manifest.json"
+            rom_log = root / "invoked-rom.txt"
+            fake_guard = root / "fake_guard.py"
+            fake_guard.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json, os, pathlib, subprocess, sys\n"
+                "args = sys.argv[1:]\n"
+                "summary = pathlib.Path(args[args.index('--summary') + 1])\n"
+                "command = args[args.index('--') + 1:]\n"
+                "result = subprocess.run(command)\n"
+                "summary.write_text(json.dumps({'reason': 'completed' if result.returncode == 0 else 'child-exit', 'exit_code': result.returncode, 'child_pid': os.getpid(), 'peak_tree_rss_mib': 1, 'protection_backend': 'posix-process-group', 'degraded': False, 'command': command}))\n"
+                "raise SystemExit(result.returncode)\n",
+                encoding="utf-8",
+            )
+            fake_guard.chmod(0o755)
+            original_run_phase = builder._run_phase
+            source_validations = []
+            manifest_inputs = {}
+
+            def fake_phase(name, command, *, cwd, evidence_dir):
+                if name == "prepare":
+                    self.assertEqual(base64.b64decode(command[-1]), PATCH.read_bytes())
+                    workspace.mkdir(parents=True)
+                elif name == "configure":
+                    build.mkdir(parents=True)
+                elif name == "build":
+                    binary = build / "qt" / "mGBA.app" / "Contents" / "MacOS" / "mGBA"
+                    binary.parent.mkdir(parents=True)
+                    binary.write_text(
+                        "#!/usr/bin/env python3\n"
+                        "import json, os, pathlib, re, sys\n"
+                        "if '--help' in sys.argv: print('--script FILE Script file to load on start'); raise SystemExit(0)\n"
+                        f"if '--version' in sys.argv: print('mGBA 0.10.5 ({builder.SOURCE_COMMIT})'); raise SystemExit(0)\n"
+                        "script = pathlib.Path(sys.argv[sys.argv.index('--script') + 1]).read_text()\n"
+                        "marker = pathlib.Path(json.loads(re.search(r'^local marker = (.+)$', script, re.M).group(1)))\n"
+                        "run_id = json.loads(re.search(r'^local run_id = (.+)$', script, re.M).group(1))\n"
+                        "marker.write_text(json.dumps({'script_loaded': True, 'frame': 1, 'pc': 'fake-pc', 'run_id': run_id}))\n"
+                        "pathlib.Path(os.environ['FAKE_MGBA_ROM_LOG']).write_text(sys.argv[-1])\n",
+                        encoding="utf-8",
+                    )
+                    binary.chmod(0o755)
+                elif name in {"help", "version"}:
+                    self.assertFalse(Path(command[3]).exists(), f"stale {name} was reused")
+                    self.assertEqual(builder._internal_main(command[2:]), 0)
+                elif name == "sentinel":
+                    return original_run_phase(
+                        name,
+                        command,
+                        cwd=cwd,
+                        evidence_dir=evidence_dir,
+                    )
+                return {
+                    "reason": "completed",
+                    "exit_code": 0,
+                    "child_pid": 1,
+                    "peak_tree_rss_mib": 1,
+                    "protection_backend": "posix-process-group",
+                    "degraded": False,
+                    "command": list(command),
+                }
+
+            def record_source_validation(path):
+                source_validations.append(path)
+
+            def fake_manifest(**kwargs):
+                manifest_inputs.update(kwargs)
+                self.assertEqual(
+                    kwargs["patch_metadata"].sha256,
+                    hashlib.sha256(PATCH.read_bytes()).hexdigest(),
+                )
+                return {
+                    "sentinel": dict(kwargs["sentinel_result"]),
+                    "guard": {"summaries": dict(kwargs["summaries"])},
+                }
+
+            file_result = subprocess.CompletedProcess(
+                ["file"], 0, stdout="Mach-O 64-bit executable x86_64\n"
+            )
+            real_subprocess_run = subprocess.run
+            with (
+                mock.patch.object(builder, "GUARD_SCRIPT", fake_guard),
+                mock.patch.object(builder, "_run_phase", side_effect=fake_phase),
+                mock.patch.object(builder, "validate_source_checkout", side_effect=record_source_validation),
+                mock.patch.object(builder, "make_manifest", side_effect=fake_manifest),
+                mock.patch.object(builder.subprocess, "run", wraps=subprocess.run) as run_mock,
+                mock.patch.dict(os.environ, {"FAKE_MGBA_ROM_LOG": str(rom_log)}),
+            ):
+                run_mock.side_effect = lambda command, **kwargs: (
+                    file_result if command[0] == "file" else real_subprocess_run(command, **kwargs)
+                )
+                with contextlib.redirect_stdout(io.StringIO()):
+                    result = builder.main(
+                        [
+                            "--source-cache", str(source),
+                            "--workspace", str(workspace),
+                            "--build-dir", str(build),
+                            "--rom", str(rom),
+                            "--evidence-dir", str(evidence),
+                            "--manifest", str(manifest),
+                        ]
+                    )
+            self.assertEqual(result, 0)
+            staged = evidence / "sentinel-base.gba"
+            self.assertEqual(Path(rom_log.read_text()).resolve(), staged.resolve())
+            self.assertEqual(staged.read_bytes(), rom.read_bytes())
+            current_run_id = manifest_inputs["sentinel_result"]["run_id"]
+            self.assertNotEqual(current_run_id, "old-run")
+            self.assertEqual(
+                manifest_inputs["summaries"]["sentinel"]["sentinel_run_id"],
+                current_run_id,
+            )
+            self.assertEqual(source_validations, [source.resolve(), source.resolve()])
+
     def test_manifest_identifies_backport_and_binary_provenance(self):
         with tempfile.TemporaryDirectory() as tmp:
             binary = Path(tmp) / "mGBA"
             binary.write_bytes(b"binary")
-            patch = Path(tmp) / "backport.patch"
-            patch.write_bytes(b"patch")
+            patch_metadata = builder.PatchMetadata(
+                commit=builder.BACKPORT_COMMIT,
+                paths=builder.EXPECTED_PATCH_PATHS,
+                sha256=hashlib.sha256(b"patch").hexdigest(),
+            )
             manifest = builder.make_manifest(
                 binary=binary,
-                patch=patch,
+                patch_metadata=patch_metadata,
                 version_output=f"mGBA 0.10.5 ({builder.SOURCE_COMMIT})",
                 file_output="Mach-O 64-bit executable x86_64",
                 summaries={"build": {"peak_tree_rss_mib": 1.5}},
+                sentinel_result={"run_id": "current-run", "frame": 1},
             )
             self.assertEqual(manifest["label"], "mGBA 0.10.5 + Qt script backport")
             self.assertEqual(manifest["source_commit"], builder.SOURCE_COMMIT)
@@ -205,10 +523,11 @@ class BuildMacosMgbaTests(unittest.TestCase):
             with self.assertRaisesRegex(builder.BuildError, "version"):
                 builder.make_manifest(
                     binary=binary,
-                    patch=patch,
+                    patch_metadata=patch_metadata,
                     version_output="mGBA 0.11",
                     file_output="Mach-O arm64",
                     summaries={},
+                    sentinel_result={},
                 )
 
 

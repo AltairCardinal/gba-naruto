@@ -4,10 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
 import re
+import secrets
 import shutil
 import subprocess
 import sys
@@ -44,6 +46,12 @@ class PatchMetadata:
     commit: str
     paths: tuple[str, ...]
     sha256: str
+
+
+@dataclass(frozen=True)
+class VerifiedPatch:
+    data: bytes
+    metadata: PatchMetadata
 
 
 def sha256_file(path: Path) -> str:
@@ -106,25 +114,51 @@ def inspect_patch(text: str) -> PatchMetadata:
     return PatchMetadata(match.group(1), tuple(paths), patch_sha256)
 
 
-def apply_patch_checked(worktree: Path, patch: Path) -> None:
+def load_verified_patch(path: Path) -> VerifiedPatch:
+    data = path.read_bytes()
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise BuildError(f"patch is not UTF-8: {error}") from error
+    return VerifiedPatch(data=data, metadata=inspect_patch(text))
+
+
+def apply_patch_checked(worktree: Path, patch_data: bytes) -> None:
     check = subprocess.run(
-        ["git", "-C", str(worktree), "apply", "--check", str(patch)],
-        text=True,
+        ["git", "-C", str(worktree), "apply", "--check", "-"],
+        input=patch_data,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
     )
     if check.returncode:
-        raise BuildError(f"git apply --check failed: {check.stderr.strip()}")
+        raise BuildError(
+            f"git apply --check failed: {check.stderr.decode(errors='replace').strip()}"
+        )
     applied = subprocess.run(
-        ["git", "-C", str(worktree), "apply", str(patch)],
-        text=True,
+        ["git", "-C", str(worktree), "apply", "-"],
+        input=patch_data,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=False,
     )
     if applied.returncode:
-        raise BuildError(f"git apply failed after successful check: {applied.stderr.strip()}")
+        raise BuildError(
+            "git apply failed after successful check: "
+            f"{applied.stderr.decode(errors='replace').strip()}"
+        )
+
+
+def validate_invocation_paths(**paths: Path) -> dict[str, Path]:
+    canonical = {name: path.resolve(strict=False) for name, path in paths.items()}
+    items = list(canonical.items())
+    for index, (left_name, left) in enumerate(items):
+        for right_name, right in items[index + 1 :]:
+            if left == right or left in right.parents or right in left.parents:
+                raise BuildError(
+                    f"path overlap is unsafe: {left_name}={left} and {right_name}={right}"
+                )
+    return canonical
 
 
 def guarded_command(summary: Path, cwd: Path, command: Sequence[str]) -> list[str]:
@@ -196,9 +230,11 @@ def validate_guard_summary(summary: Mapping[str, object], expected_command: Sequ
         raise BuildError("guard summary command fingerprint does not match")
 
 
-def sentinel_lua(marker: Path) -> str:
+def sentinel_lua(marker: Path, run_id: str) -> str:
     marker_literal = json.dumps(str(marker))
+    run_literal = json.dumps(run_id)
     return f'''local marker = {marker_literal}
+local run_id = {run_literal}
 local frame = 0
 
 local function write_marker(payload)
@@ -207,17 +243,17 @@ local function write_marker(payload)
     out:close()
 end
 
-write_marker('{{"script_loaded":true,"frame":0,"pc":"loaded"}}')
+write_marker(string.format('{{"script_loaded":true,"frame":0,"pc":"loaded","run_id":"%s"}}', run_id))
 callbacks:add("frame", function()
     frame = frame + 1
     local pc = tostring(emu:readRegister("pc"))
-    write_marker(string.format('{{"script_loaded":true,"frame":%d,"pc":"%s"}}', frame, pc))
+    write_marker(string.format('{{"script_loaded":true,"frame":%d,"pc":"%s","run_id":"%s"}}', frame, pc, run_id))
     os.exit(0)
 end)
 '''
 
 
-def validate_sentinel(marker: Path) -> None:
+def validate_sentinel(marker: Path, run_id: str) -> dict[str, object]:
     try:
         payload = json.loads(marker.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError) as error:
@@ -226,17 +262,20 @@ def validate_sentinel(marker: Path) -> None:
         payload.get("script_loaded") is not True
         or payload.get("frame", 0) < 1
         or not payload.get("pc")
+        or payload.get("run_id") != run_id
     ):
-        raise BuildError(f"Lua sentinel did not execute after ROM startup: {payload}")
+        raise BuildError(f"Lua sentinel is not from the current run: {payload}")
+    return payload
 
 
 def make_manifest(
     *,
     binary: Path,
-    patch: Path,
+    patch_metadata: PatchMetadata,
     version_output: str,
     file_output: str,
     summaries: Mapping[str, Mapping[str, object]],
+    sentinel_result: Mapping[str, object],
 ) -> dict[str, object]:
     if f"mGBA {SOURCE_TAG}" not in version_output or SOURCE_COMMIT not in version_output:
         raise BuildError(
@@ -249,7 +288,7 @@ def make_manifest(
         "version": SOURCE_TAG,
         "source_commit": SOURCE_COMMIT,
         "backport_commit": BACKPORT_COMMIT,
-        "patch_sha256": sha256_file(patch),
+        "patch_sha256": patch_metadata.sha256,
         "binary_sha256": sha256_file(binary),
         "architecture": "x86_64",
         "cmake_flags": cmake_configure_command(Path("SOURCE"), Path("BUILD"))[7:],
@@ -262,6 +301,7 @@ def make_manifest(
         },
         "version_output": version_output.strip(),
         "file_output": file_output.strip(),
+        "sentinel": dict(sentinel_result),
         "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
 
@@ -274,21 +314,40 @@ def _run_phase(
     evidence_dir: Path,
 ) -> dict[str, object]:
     summary_path = evidence_dir / f"{name}.json"
+    if summary_path.exists() or summary_path.is_symlink():
+        if not summary_path.is_file() and not summary_path.is_symlink():
+            raise BuildError(f"stale guard summary is not a file: {summary_path}")
+        summary_path.unlink()
     wrapped = guarded_command(summary_path, cwd, command)
     env = os.environ.copy()
     env["QT_QPA_PLATFORM"] = "offscreen"
     completed = subprocess.run(wrapped, cwd=ROOT, env=env, check=False)
     if not summary_path.is_file():
+        if completed.returncode:
+            raise BuildError(
+                f"guard wrapper exited {completed.returncode} without a fresh {name} summary"
+            )
         raise BuildError(f"guard did not write {name} summary")
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    if completed.returncode != summary.get("exit_code"):
+        raise BuildError(
+            "guard wrapper/result mismatch: "
+            f"wrapper={completed.returncode}, summary={summary.get('exit_code')}"
+        )
     if completed.returncode == 75 and summary.get("reason") == "admission-rejected":
         raise BuildError(f"BLOCKED: available memory is below {MIN_AVAILABLE_MIB} MiB")
+    if completed.returncode != 0:
+        raise BuildError(f"guard wrapper exited {completed.returncode} for {name}")
     validate_guard_summary(summary, command)
     return summary
 
 
-def _prepare(source: Path, workspace: Path, patch: Path) -> int:
+def _prepare(source: Path, workspace: Path, patch_data: bytes) -> int:
     validate_source_checkout(source)
+    verified_patch = VerifiedPatch(
+        data=patch_data,
+        metadata=inspect_patch(patch_data.decode("utf-8")),
+    )
     if workspace.exists():
         raise BuildError(f"independent workspace already exists: {workspace}")
     workspace.parent.mkdir(parents=True, exist_ok=True)
@@ -299,7 +358,7 @@ def _prepare(source: Path, workspace: Path, patch: Path) -> int:
     if cloned.returncode:
         raise BuildError("local source clone failed")
     validate_source_checkout(workspace)
-    apply_patch_checked(workspace, patch)
+    apply_patch_checked(workspace, verified_patch.data)
     return 0
 
 
@@ -318,6 +377,10 @@ def _capture(output: Path, command: Sequence[str]) -> int:
 
 def _run_staged_sentinel(binary: Path, script: Path, source_rom: Path, staged_rom: Path) -> int:
     staged_rom.parent.mkdir(parents=True, exist_ok=True)
+    for stale in staged_rom.parent.glob(f"{staged_rom.stem}.*"):
+        if not stale.is_file() and not stale.is_symlink():
+            raise BuildError(f"stale sentinel sidecar is not a file: {stale}")
+        stale.unlink()
     shutil.copy2(source_rom, staged_rom)
     completed = subprocess.run(
         [str(binary), "--script", str(script), str(staged_rom)],
@@ -331,8 +394,12 @@ def _internal_main(argv: Sequence[str]) -> int | None:
         return None
     if argv[0] == "_prepare":
         if len(argv) != 4:
-            raise BuildError("_prepare requires SOURCE WORKSPACE PATCH")
-        return _prepare(Path(argv[1]), Path(argv[2]), Path(argv[3]))
+            raise BuildError("_prepare requires SOURCE WORKSPACE PATCH_BASE64")
+        try:
+            patch_data = base64.b64decode(argv[3], validate=True)
+        except ValueError as error:
+            raise BuildError(f"_prepare patch payload is not valid base64: {error}") from error
+        return _prepare(Path(argv[1]), Path(argv[2]), patch_data)
     if argv[0] == "_sentinel":
         if len(argv) != 5:
             raise BuildError("_sentinel requires BINARY SCRIPT SOURCE_ROM STAGED_ROM")
@@ -363,12 +430,34 @@ def main(argv: Sequence[str] | None = None) -> int:
     if internal is not None:
         return internal
     args = build_parser().parse_args(raw)
+    canonical = validate_invocation_paths(
+        source=args.source_cache,
+        workspace=args.workspace,
+        build=args.build_dir,
+        evidence=args.evidence_dir,
+        manifest=args.manifest,
+        rom=args.rom,
+        patch=args.patch,
+    )
+    args.source_cache = canonical["source"]
+    args.workspace = canonical["workspace"]
+    args.build_dir = canonical["build"]
+    args.evidence_dir = canonical["evidence"]
+    args.manifest = canonical["manifest"]
+    args.rom = canonical["rom"]
+    args.patch = canonical["patch"]
     validate_source_checkout(args.source_cache)
-    inspect_patch(args.patch.read_text(encoding="utf-8"))
+    verified_patch = load_verified_patch(args.patch)
     if not args.rom.is_file():
         raise BuildError(f"base ROM does not exist: {args.rom}")
     if args.build_dir.exists():
         raise BuildError(f"build directory already exists: {args.build_dir}")
+    if args.workspace.exists():
+        raise BuildError(f"independent workspace already exists: {args.workspace}")
+    if args.manifest.exists() or args.manifest.is_symlink():
+        if not args.manifest.is_file() and not args.manifest.is_symlink():
+            raise BuildError(f"manifest path is not a file: {args.manifest}")
+        args.manifest.unlink()
     args.evidence_dir.mkdir(parents=True, exist_ok=True)
 
     summaries: dict[str, dict[str, object]] = {}
@@ -378,7 +467,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "_prepare",
         str(args.source_cache),
         str(args.workspace),
-        str(args.patch),
+        base64.b64encode(verified_patch.data).decode("ascii"),
     ]
     summaries["prepare"] = _run_phase("prepare", prepare, cwd=ROOT, evidence_dir=args.evidence_dir)
     configure = cmake_configure_command(args.workspace, args.build_dir)
@@ -392,6 +481,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not binary.is_file():
         raise BuildError(f"built Qt binary is missing: {binary}")
     help_output = args.evidence_dir / "help.txt"
+    help_output.unlink(missing_ok=True)
     help_command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -404,6 +494,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     summaries["help"] = _run_phase("help", help_command, cwd=ROOT, evidence_dir=args.evidence_dir)
     validate_help(help_output.read_text(encoding="utf-8"))
     version_output = args.evidence_dir / "version.txt"
+    version_output.unlink(missing_ok=True)
     version_command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -419,7 +510,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     sentinel_path = args.evidence_dir / "sentinel.lua"
     marker_path = args.evidence_dir / "sentinel-result.json"
-    sentinel_path.write_text(sentinel_lua(marker_path), encoding="utf-8")
+    marker_path.unlink(missing_ok=True)
+    run_id = secrets.token_hex(16)
+    sentinel_path.write_text(sentinel_lua(marker_path, run_id), encoding="utf-8")
     staged_rom = args.evidence_dir / "sentinel-base.gba"
     sentinel_command = [
         sys.executable,
@@ -430,20 +523,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         str(args.rom),
         str(staged_rom),
     ]
-    summaries["sentinel"] = _run_phase(
+    sentinel_summary = _run_phase(
         "sentinel", sentinel_command, cwd=ROOT, evidence_dir=args.evidence_dir
     )
-    validate_sentinel(marker_path)
+    sentinel_result = validate_sentinel(marker_path, run_id)
+    sentinel_summary["sentinel_run_id"] = run_id
+    summaries["sentinel"] = sentinel_summary
+
+    validate_source_checkout(args.source_cache)
 
     file_output = subprocess.run(
         ["file", str(binary)], text=True, stdout=subprocess.PIPE, check=True
     ).stdout
     manifest = make_manifest(
         binary=binary,
-        patch=args.patch,
+        patch_metadata=verified_patch.metadata,
         version_output=version_output.read_text(encoding="utf-8"),
         file_output=file_output,
         summaries=summaries,
+        sentinel_result=sentinel_result,
     )
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

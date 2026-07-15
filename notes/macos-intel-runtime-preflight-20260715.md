@@ -39,31 +39,42 @@ non-degraded POSIX process-group ownership:
 
 | Phase | Result | Peak RSS | Child/PGID | Final exact PGID query |
 |---|---|---:|---:|---|
-| prepare/local clone + apply check/apply | completed/0 | 68.7578125 MiB | 60856 | clean |
-| configure | completed/0 | 13.4765625 MiB | 61147 | clean |
-| build (`--parallel 2`) | completed/0 | 10.90234375 MiB | 62291 | clean |
-| `--help` | completed/0 | 0.95703125 MiB | 64862 | clean |
-| `--version` | completed/0 | 0.81640625 MiB | 64886 | clean |
-| staged base-ROM Lua sentinel (final) | completed/0 | 18.12109375 MiB | 67483 | clean |
+| prepare/local clone + apply check/apply | completed/0 | 73.09765625 MiB | 80958 | clean |
+| configure | completed/0 | 12.9140625 MiB | 81096 | clean |
+| build (`--parallel 2`) | completed/0 | 10.80859375 MiB | 82069 | clean |
+| `--help` | completed/0 | 0.796875 MiB | 83519 | clean |
+| `--version` | completed/0 | 0.91796875 MiB | 83524 | clean |
+| staged base-ROM Lua sentinel (final) | completed/0 | 0.8984375 MiB | 83529 | clean |
 
 The produced binary is:
 
 - path:
-  `/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-qt-20260715-1/qt/mGBA.app/Contents/MacOS/mGBA`;
+  `/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA`;
 - version: `mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)`, where
   `-dirty` records the intentional two-file uncommitted backport in the isolated clone;
 - identity label: `mGBA 0.10.5 + Qt script backport`;
 - binary SHA-256:
-  `af6ab51a2ff63d6067908938aa74181fe2bbad0c441e231f3c4dbc80e7d6fe5d`;
+  `20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408`;
 - file identity: `Mach-O 64-bit executable x86_64`;
 - help capability: `--script FILE Script file to load on start`.
 
 The final sentinel copied `rom/base.gba` into the ignored guarded evidence directory,
 loaded a generated Lua script through the patched Qt CLI, observed its first frame and
-PC (`140299572`), wrote `{"script_loaded":true,"frame":1,...}`, and exited 0. Staging
+PC (`140299572`), wrote a marker with fresh run ID
+`41af6df222612f6bd22f0f5499be1fdd`, and exited 0. The same run ID is attached to the
+sentinel summary in the manifest, so an old successful marker cannot satisfy a new run.
+The source and staged ROM hashes both remained
+`1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`. Staging
 is important: the first diagnostic run opened the repository ROM directly and mGBA
 created `rom/base.sav`; the generated file was identified from the before/after status,
 removed, and a RED/GREEN regression now confines this save side effect to `build/`.
+
+The review-fix run additionally rejects all canonical path overlap before side effects,
+passes one SHA-verified patch byte payload through check/apply/manifest without reopening
+the source path, deletes stale phase outputs and staged-ROM sidecars, requires wrapper
+return code and fresh summary to agree, and revalidates the clean source cache after the
+sentinel. The final cache status was empty; the isolated workspace changed exactly the
+two declared Qt files, and all six owned PGIDs above were absent after completion.
 
 This result proves only the backported Qt script interface and base-ROM execution. It
 does not prove checkpoint replay, frame-80 capture, or acceptance of the scenario-41
