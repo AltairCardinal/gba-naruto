@@ -150,3 +150,12 @@ player-turn。
 状态实际消费 A/方向键的入口，再把 observer 移到该直接调用点或函数入口；新的正证据仍
 必须使用 post-load baseline、单一显式输入、fresh shared sequence、独立 controlled-unit
 诊断、foreground battle screen 和 base-ROM control 的同一组门禁。
+
+## 2026-07-15 controller-path 后续
+
+strict-GDB 探针没有受审计输入通道，因此没有执行无输入推动的 2×5 breakpoint 矩阵。
+改用五点 published-call observer 后，`actionable-move-grid.ss9` 的零输入 baseline 与显式
+`KeyX,Down,Down,A,A` final dump 逐字节相同，compare 的 `fresh_records=[]`。由于预设
+正对照没有成立，scenario 41 白框的零输入/单 A 两轮未执行，玩家控制继续为
+`not-proven`。下一步应寻找真正穿过 `0x08073A04` 的更早 checkpoint 或它的上游 dispatcher，
+而不是继续给白框猜键。详见 `notes/scenario-41-controller-path-runtime-20260715.md`。

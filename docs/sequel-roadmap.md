@@ -24,6 +24,11 @@
   `(4,4)` 和 battle-map 画面连续六次采样保持稳定，strict arrival 四项全过；
 - 该边界仍未证明玩家接管、胜利、EXP 或升级：Naruto 仍为 level 1 / EXP 100，
   训练点 `+BA=0`、`A880=0`，因此 `levels` 继续保持 `code_verified`；
+- 2026-07-15 五点 controller-path probe 已完成 builder/decoder 与 guarded A/B，但
+  `actionable-move-grid.ss9` 的零输入 baseline 和显式 `B,Down,Down,A,A` final dump
+  逐字节相同，`0x08073946` 与四个 `0x08073A04` 分支均无 fresh record。正对照未成立，
+  因此没有运行 scenario 41 白框两轮，也没有提升玩家控制状态；下一步必须从确实穿过
+  action-dispatch 的更早 savestate 或 checked upstream dispatcher 继续；
 - 下一 P0 不再寻找“开始任务”入口，而是依次命中玩家单位选择 `0x08073940`、
   MOVEDONE `0x080722A8`、胜负谓词 `0x080777FC`、结果写入 `0x02026807` 和
   postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；

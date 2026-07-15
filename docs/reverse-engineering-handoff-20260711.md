@@ -92,6 +92,13 @@ ca701983f5d566dc468f57e49e00ae2d61d8ef659395ed84284057514e1d52f5
 - 0x08074FDA：战斗控制器终止；
 - 0x08074EE6：postbattle state 0xF400。
 
+2026-07-15 的五点 controller-path probe 观察了 `0x08073946` 和
+`0x08073A16/2E/3E/4A` 四条 checked BL。`actionable-move-grid.ss9` 零输入 baseline 与显式
+`B,Down,Down,A,A` final 的 192-byte observer dump 逐字节相同，baseline/final compare
+没有 fresh record。由于正对照未证明，按停止条件没有运行 scenario 41 白框诊断；这不否定
+其他教程控制路径，也不证明玩家控制。下一步先固化一个确实穿过 `0x08073A04` 的更早
+savestate，或把 observer 上移到 checked upstream dispatcher，禁止继续对白框盲试按键。
+
 scenario 41 的胜负描述符位于 ROM file 0x596804。类型 1 条件会扫描 slot 1..12：
 unit+0xC0 bit 0 是队伍，bit 0x80 表示不再作为有效存活单位。当前 Iruka
 unit+0xC0=0x11，仍是有效队伍 1 单位，所以现有 checkpoint 尚未满足胜利条件。
