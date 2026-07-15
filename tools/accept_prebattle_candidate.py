@@ -52,6 +52,9 @@ STEP2_BINARY_PATH = Path(
     "mGBA.app/Contents/MacOS/mGBA"
 )
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_TRACKED_PATCH_PATH = (
+    PROJECT_ROOT / "tools/patches/mgba-0.10.5-qt-script-cli.patch"
+)
 STEP2_SHA256 = {
     "audit": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
     "sentinel": "e2263354cf9f9a0a5b2e532e5b754b246697f9a73c607284ad686a174ab32eae",
@@ -83,7 +86,7 @@ def step2_paths(root: Path) -> dict[str, Path]:
         "replay_script": root / "tools/mgba_checkpoint_replay.lua",
         "build_manifest": STEP2_MANIFEST_PATH,
         "binary": STEP2_BINARY_PATH,
-        "tracked_patch": root / "tools/patches/mgba-0.10.5-qt-script-cli.patch",
+        "tracked_patch": PROJECT_TRACKED_PATCH_PATH,
     }
 
 
@@ -150,6 +153,7 @@ def validate_strict_replay(
     *,
     caller_paths: Mapping[str, Path] | None = None,
     caller_hashes: Mapping[str, str] | None = None,
+    canonical_tracked_patch_path: Path | str = PROJECT_TRACKED_PATCH_PATH,
 ) -> dict[str, object]:
     audit_path = Path(audit_path)
     rom_path = Path(rom_path)
@@ -215,6 +219,11 @@ def validate_strict_replay(
         _require(
             caller_hashes is not None and "patch" in caller_hashes,
             "caller-known tracked patch hash missing",
+        )
+        _require_path(
+            caller_paths["tracked_patch"],
+            Path(canonical_tracked_patch_path),
+            "tracked patch",
         )
         tracked_patch = _authenticated_file(
             caller_paths["tracked_patch"],

@@ -150,6 +150,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                 root / "guard.json",
                 caller_paths=caller_paths,
                 caller_hashes=caller_hashes,
+                canonical_tracked_patch_path=root / "tracked.patch",
             )
 
         self.assertEqual(result["run_id"], "strict-run")
@@ -210,6 +211,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                     root / "guard.json",
                     caller_paths=caller_paths,
                     caller_hashes=caller_hashes,
+                    canonical_tracked_patch_path=root / "tracked.patch",
                 )
 
     def test_rejects_wrong_script_binary_patch_manifest_guard_and_staged_path(self):
@@ -262,6 +264,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                         guard_path,
                         caller_paths=caller_paths,
                         caller_hashes=caller_hashes,
+                        canonical_tracked_patch_path=root / "tracked.patch",
                     )
 
     def test_guard_requires_positive_pgid_backend_finite_rss_and_audit_match(self):
@@ -315,6 +318,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                     root / "guard.json",
                     caller_paths=caller_paths,
                     caller_hashes=caller_hashes,
+                    canonical_tracked_patch_path=root / "tracked.patch",
                 )
 
             self.make_strict_replay(root)
@@ -333,6 +337,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                     root / "guard.json",
                     caller_paths=caller_paths,
                     caller_hashes=caller_hashes,
+                    canonical_tracked_patch_path=root / "tracked.patch",
                 )
 
     def test_step1_manifest_must_authenticate_the_fixed_binary_path(self):
@@ -359,6 +364,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
                     root / "guard.json",
                     caller_paths=caller_paths,
                     caller_hashes=caller_hashes,
+                    canonical_tracked_patch_path=root / "tracked.patch",
                 )
 
     def test_caller_mode_rejects_tracked_patch_bytes_that_differ_from_manifest(self):
@@ -369,6 +375,25 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
             (root / "tracked.patch").write_bytes(b"self-consistent-looking replacement")
 
             with self.assertRaisesRegex(ValueError, "tracked patch"):
+                acceptance.validate_strict_replay(
+                    audit_path,
+                    rom_path,
+                    root / "guard.json",
+                    caller_paths=caller_paths,
+                    caller_hashes=caller_hashes,
+                    canonical_tracked_patch_path=root / "tracked.patch",
+                )
+
+    def test_caller_mode_rejects_tracked_patch_at_wrong_location(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audit_path, rom_path = self.make_strict_replay(root)
+            caller_paths, caller_hashes = self.strict_expectations(root)
+            wrong_location = root / "copied-tracked.patch"
+            wrong_location.write_bytes((root / "tracked.patch").read_bytes())
+            caller_paths["tracked_patch"] = wrong_location
+
+            with self.assertRaisesRegex(ValueError, "tracked patch path mismatch"):
                 acceptance.validate_strict_replay(
                     audit_path,
                     rom_path,
