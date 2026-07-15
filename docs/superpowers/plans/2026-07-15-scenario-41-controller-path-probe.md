@@ -32,7 +32,7 @@
 - Consumes: `published_call_observer.ObserverSite`, `assert_non_overlapping_sites`, `patch_observer` and immutable `rom/base.gba` SHA-1 `26f60795fa5e63b4f0264b84e453beffd56b9f7d`.
 - Produces: `build_probe(base: bytes, verify_sha1: bool = True) -> bytes`, `decode_dump(data: bytes) -> dict`, CLI builder and JSON decoder.
 
-- [ ] **Step 1: Write builder RED tests**
+- [x] **Step 1: Write builder RED tests**
 
 Add tests that assert the exact immutable layout:
 
@@ -55,7 +55,7 @@ def test_sites_match_checked_layout(self):
 
 Also require tests for exact base bytes/decoded targets, five patched BLs only, five zero caves, stub literals/event codes, pairwise record/stub/call-site non-overlap, wrong SHA-1, one corrupted call-site, and one nonzero cave.
 
-- [ ] **Step 2: Run builder tests and verify RED**
+- [x] **Step 2: Run builder tests and verify RED**
 
 Run:
 
@@ -65,7 +65,7 @@ python -m unittest tests.test_build_controller_path_runtime_probe -v
 
 Expected: FAIL because `tools.build_controller_path_runtime_probe` does not exist.
 
-- [ ] **Step 3: Implement the minimal builder**
+- [x] **Step 3: Implement the minimal builder**
 
 Define immutable sites and reuse the shared patcher:
 
@@ -98,7 +98,7 @@ def build_probe(base: bytes, *, verify_sha1: bool = True) -> bytes:
 
 The CLI accepts `base_rom output_rom`, creates only the parent directory, writes the ROM, and prints SHA-256.
 
-- [ ] **Step 4: Write decoder RED tests**
+- [x] **Step 4: Write decoder RED tests**
 
 Tests must construct one `0xC0`-byte dump whose base address is `0x0203F040`, encode five records at offsets `0x20/40/60/80/A0`, and assert:
 
@@ -111,7 +111,7 @@ self.assertEqual("0x00000008", decoded["records"][0]["sequence"])
 
 Add short dump, wrong magic, event-code/magic mismatch, stale zero record and uint32 fields tests. Wrong/zero records remain decoded diagnostics but never appear in `fresh_records`.
 
-- [ ] **Step 5: Run decoder tests and verify RED**
+- [x] **Step 5: Run decoder tests and verify RED**
 
 Run:
 
@@ -121,7 +121,7 @@ python -m unittest tests.test_decode_controller_path_runtime_probe -v
 
 Expected: FAIL because `tools.decode_controller_path_runtime_probe` does not exist.
 
-- [ ] **Step 6: Implement the minimal decoder**
+- [x] **Step 6: Implement the minimal decoder**
 
 Decode shared ABI fields using `struct.unpack_from` and emit JSON-safe values:
 
@@ -144,7 +144,7 @@ def decode_record(data: bytes, offset: int, site: ObserverSite) -> dict:
 
 `decode_dump()` requires exactly `0xC0` bytes, decodes the counter at offset 0 and records using `site.scratch - 0x0203F040`, sorts valid records by uint32 sequence for diagnostics, and returns `event_counter`, `records`, and `fresh_records`. The CLI accepts `dump.bin output.json`.
 
-- [ ] **Step 7: Run GREEN, build ROM and verify confined diff**
+- [x] **Step 7: Run GREEN, build ROM and verify confined diff**
 
 Run:
 
@@ -157,7 +157,7 @@ git diff --check
 
 Expected: all tests PASS; rebuilt ROM is byte-identical; builder output differs only at five 4-byte BL call-sites and five 96-byte stub ranges.
 
-- [ ] **Step 8: Commit and push the probe**
+- [x] **Step 8: Commit and push the probe**
 
 ```powershell
 git add tools/build_controller_path_runtime_probe.py tools/decode_controller_path_runtime_probe.py tests/test_build_controller_path_runtime_probe.py tests/test_decode_controller_path_runtime_probe.py
