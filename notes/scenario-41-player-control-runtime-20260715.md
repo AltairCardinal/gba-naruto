@@ -18,11 +18,49 @@ EXP 或升级。没有创建或接纳 `scenario-41-player-turn.ss9`。
   通过 `tools/run_guarded.py` 串行启动。
 - 所有计划都禁用了 adaptive back、settle confirm 与其他 recovery 输入。单 A 计划的
   audit 只有 `tail/step 1/KeyZ/A/125 ms/explicit`，down/up 均完成；automatic 列表为空。
-- 每次运行后按命令行归属检查本次 probe tree，并检查 2345 listener；均无残留。
 - 最高 owned-tree RSS 是 `622.47265625 MiB`。该次 observer 运行已先写完结果、截图与
-  savestate，随后停在 browser close，guard 以 `idle-timeout` 精确终止 owned Job；证据
-  文件时间早于 timeout，且 cleanup 后 residue/listener 都为空。此资源退出不把
-  `not-proven` 升级或降级为正证据。
+  savestate，随后 guard 的原始终止值是 `idle-timeout/124`。证据文件时间早于 timeout，
+  但六份 raw guard summary 都没有持久记录 residue、owned-tree postcheck 或 2345 listener
+  postcheck；因此这三项统一标为 `not-recorded`，不能把当时的人工终检当作可复核证据。
+  此资源退出不把 `not-proven` 升级或降级为正证据。
+
+## 持久复现元数据与来源
+
+`artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json` 的 `runs` 为六轮逐轮
+保存 ROM/checkpoint 路径与重算 SHA-256、精确 guard 命令，以及仅含证据相关变量的
+`PROBE_*` allowlist。原始 probe/guard JSON 没有保存环境变量；这些命令和配置来自当时的
+Task 5 操作者记录、执行计划与持久 input audit，明确标为 `operator_recorded`，不声称是
+raw probe 自带元数据。ROM、checkpoint、result、截图、state dump 和 guard 文件哈希均按
+当前文件重新计算核对。
+
+可按 run id 复制配置并执行；例如重放 `observer-start-row-a`：
+
+```powershell
+$evidence = Get-Content -Raw artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json | ConvertFrom-Json
+$run = $evidence.runs | Where-Object id -eq 'observer-start-row-a'
+$run.probe_environment.PSObject.Properties | ForEach-Object { Set-Item -LiteralPath "Env:$($_.Name)" -Value ([string]$_.Value) }
+$parts = $run.exact_command.Split(' ')
+& $parts[0] $parts[1..($parts.Count - 1)]
+```
+
+其余可复制 run id 为 `zero-replay-1`、`zero-replay-2`、`base-start-row-a`、
+`battle-entry-zero` 与 `battle-entry-a`。`PROBE_INPUT_MODE=instance-api` 表示实例内
+`window.__mGBA.buttonPress/buttonUnpress` 路径；`PROBE_KEY_HOLD_MS=125` 固定 audit 中的
+按键持续时间。空的 `PROBE_TAIL_KEYS` 或 `PROBE_STATE_DUMP` 表示该轮没有对应输入或导出。
+
+六轮 raw guard 终止值如下；`interpretation` 与原始值分开，不能把退出状态当成 PASS：
+
+| Run | Raw reason / exit | Peak MiB | Backend | Durable postcheck |
+|---|---|---:|---|---|
+| zero replay 1 | `child-exit / 1` | 568.48828125 | Job Object, non-degraded | `not-recorded` |
+| zero replay 2 | `child-exit / 1` | 539.46484375 | Job Object, non-degraded | `not-recorded` |
+| observer start-row A | `idle-timeout / 124` | 622.47265625 | Job Object, non-degraded | `not-recorded` |
+| base start-row A | `child-exit / 1` | 551.0703125 | Job Object, non-degraded | `not-recorded` |
+| battle-entry zero | `child-exit / 1` | 556.0390625 | Job Object, non-degraded | `not-recorded` |
+| battle-entry A | `child-exit / 1` | 552.1015625 | Job Object, non-degraded | `not-recorded` |
+
+Task 5 的 Node 验证与这六轮 runtime probe 不混算：首次默认 reporter 的 raw guard 是
+`idle-timeout/124`，属于失败；随后 TAP streaming retry 才是 `completed/0`，属于 PASS。
 
 ## 实验 1：start-row 两轮零输入稳定性
 
