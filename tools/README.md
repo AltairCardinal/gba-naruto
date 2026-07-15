@@ -393,6 +393,50 @@ task PC/unwind or WRAM, nor accepts a candidate in the checkpoint ledger; those 
 separate Step 3 gates. The fixed zero-input replay never sends Down, A, or any other
 input.
 
+## Fixed single-input macOS mGBA replay
+
+`run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
+separate Task 4.7 input segment. The CLI accepts exactly one `Down` or `A` event and
+requires `0 < down-frame < up-frame < capture-frame`. It has no custom Lua or
+`--pre-script` option. The fixed Lua contains one `emu:addKey`, one `emu:clearKey` and
+one capture callback; the finalized audit therefore requires one matching event,
+`evidence_mode=single-input`, `zero_input_verified=false`, and empty automatic and
+recovery input lists.
+
+The runner reuses the zero-input runner's canonical input/output checks, pinned mGBA
+0.10.5 manifest/binary/patch/ROM/state hashes, fresh staged ROM and `.sav` isolation,
+heavy resource guard (`4096 MiB` admission, `1536 MiB` tree RSS), non-degraded POSIX
+process group, and post-run hash checks. `macos_mgba_runtime_residue.py` adds a shared,
+read-only final probe: `ps` must show no process in the exact owned PGID and `lsof`
+must show no mGBA TCP listener. Missing tools, malformed output, or probe errors fail
+closed; the module never kills a process. `accept_prebattle_candidate.py` imports the
+same residue functions and retains its existing API.
+
+Example (the caller must supply the approved state and its actual hash):
+
+```bash
+python3 tools/run_macos_mgba_single_input.py \
+  --binary /absolute/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /absolute/mgba-build-manifest.json \
+  --expected-build-manifest-sha256 MANIFEST_SHA256 \
+  --expected-binary-sha256 BINARY_SHA256 \
+  --rom rom/base.gba --expected-rom-sha256 ROM_SHA256 \
+  --state artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9 \
+  --expected-state-sha256 STATE_SHA256 \
+  --key Down --down-frame 5 --up-frame 13 --capture-frame 80 \
+  --staged-rom build/single-input/staged-base.gba \
+  --output-state build/single-input/after-input.ss9 \
+  --output-png build/single-input/after-input.png \
+  --audit build/single-input/audit.json \
+  --sentinel build/single-input/sentinel.json \
+  --guard-summary build/single-input/guard-summary.json
+```
+
+This command only creates a build candidate. It does not accept a checkpoint or prove
+controller entry/player control. A Down candidate must pass a separate zero-input
+stability run before it can authorize an A segment; a failed hash, guard, output,
+PGID, or listener gate leaves the raw candidate unfinalized and forbids that next key.
+
 ## Offline prebattle checkpoint acceptance
 
 `inspect_mgba_savestate.py` can now bind an explicitly selected task stack chain to

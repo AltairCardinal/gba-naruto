@@ -10,13 +10,16 @@ import hashlib
 import json
 import math
 import struct
-import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Mapping
 
 try:
     from tools.inspect_mgba_savestate import inspect_savestate, png_screen_fingerprint
+    from tools.macos_mgba_runtime_residue import (
+        probe_runtime_residue,
+        validate_runtime_residue,
+    )
     from tools.run_macos_mgba_replay import (
         ReplayError,
         validate_build_manifest,
@@ -25,6 +28,10 @@ try:
     from tools.thumb_branch import decode_thumb_bl
 except ModuleNotFoundError:
     from inspect_mgba_savestate import inspect_savestate, png_screen_fingerprint
+    from macos_mgba_runtime_residue import (
+        probe_runtime_residue,
+        validate_runtime_residue,
+    )
     from run_macos_mgba_replay import (
         ReplayError,
         validate_build_manifest,
@@ -384,64 +391,6 @@ def validate_strict_replay(
             "protection_backend": guard.get("protection_backend"),
         },
     }
-
-
-def validate_runtime_residue(
-    pgid: int, ps_output: str, lsof_output: str, *, lsof_exit_code: int
-) -> dict[str, object]:
-    matching_rows = []
-    for line in ps_output.splitlines():
-        columns = line.split(maxsplit=2)
-        if len(columns) >= 2:
-            try:
-                row_pgid = int(columns[1])
-            except ValueError:
-                continue
-            if row_pgid == pgid:
-                matching_rows.append(line.strip())
-    _require(not matching_rows, f"PGID {pgid} still has residual processes")
-    _require(lsof_exit_code in (0, 1), f"lsof failed with exit code {lsof_exit_code}")
-    listeners = [line for line in lsof_output.splitlines() if line.strip()]
-    _require(not listeners and lsof_exit_code == 1, "mGBA listener residue detected")
-    return {
-        "checked_pgid": pgid,
-        "pgid_clean": True,
-        "pgid_matching_rows": [],
-        "mgba_listener_clean": True,
-        "mgba_listener_rows": [],
-        "ps_command": ["ps", "-axo", "pid=,pgid=,comm="],
-        "lsof_command": [
-            "lsof",
-            "-nP",
-            "-iTCP",
-            "-sTCP:LISTEN",
-            "-a",
-            "-c",
-            "mGBA",
-            "-Fpcn",
-        ],
-        "lsof_exit_code": lsof_exit_code,
-    }
-
-
-def probe_runtime_residue(pgid: int) -> dict[str, object]:
-    ps_result = subprocess.run(
-        ["ps", "-axo", "pid=,pgid=,comm="], capture_output=True, text=True, check=True
-    )
-    lsof_result = subprocess.run(
-        ["lsof", "-nP", "-iTCP", "-sTCP:LISTEN", "-a", "-c", "mGBA", "-Fpcn"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    residue = validate_runtime_residue(
-        pgid,
-        ps_result.stdout,
-        lsof_result.stdout or lsof_result.stderr,
-        lsof_exit_code=lsof_result.returncode,
-    )
-    residue["checked_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    return residue
 
 
 def _validated_controller_boundary(rom_path: Path) -> dict[str, str]:
