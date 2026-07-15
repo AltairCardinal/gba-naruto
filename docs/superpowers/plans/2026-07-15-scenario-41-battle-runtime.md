@@ -436,6 +436,67 @@ git push origin task/units-character-definitions
 
 ---
 
+### Task 4.5: macOS Intel runtime 迁移前置
+
+**Files:**
+- Modify: `tools/project_resource_guard.py`
+- Modify: `tests/test_project_resource_guard.py`
+- Modify: `tests/test_run_guarded.py`
+- Modify: `tools/README.md`
+- Create: `notes/macos-intel-runtime-preflight-20260715.md`
+- Modify: `openspec/changes/close-scenario-41-battle-runtime/tasks.md`
+
+**Interfaces:**
+- Consumes: 现有 `run_guarded.py` heavy lock、POSIX process-group 所有权、macOS `vm_stat` / `ps`、官方 mGBA `0.10.5` tag。
+- Produces: Darwin 可用物理内存与 owned-tree RSS 监控、真实 CLI 集成测试、mGBA 0.10.5 x86_64 scripting 构建来源与资源摘要。
+
+- [x] **Step 1: 以 TDD 验收 macOS 资源守卫与 mGBA 0.10.5 前置**
+
+接管当前已归因到本 change 的 Darwin guard 在途 diff。核验已有 RED 证据确实分别来自 `unsupported on darwin`、缺失 `/proc` 和 CLI `protection-failure/125`；运行 GREEN 及完整 guard 回归。记录官方 tag/commit、独立缓存源码与构建路径、版本、架构、二进制 SHA-256、CLI `--script` 能力、配置/构建命令、峰值 RSS 和最终 owned-process 残留检查。更新工具文档，明确 macOS 使用 POSIX process group，不使用按进程名清理。
+
+- [x] **Step 2: 提交迁移前置并同步 OpenSpec 任务**
+
+仅提交上述代码、测试、文档与任务勾选，不提交忽略的 `build/` 诊断文件或外部 mGBA 构建目录。提交前运行 `git diff --check`、相关 Python 单元/集成测试和真实 guard smoke。
+
+---
+
+### Task 4.6: 严格 mGBA 0.10.5 脚本回移与零输入复放
+
+**Files:**
+- Create: `tools/patches/mgba-0.10.5-qt-script-cli.patch`
+- Create: `tools/build_macos_mgba.py`
+- Create: `tests/test_build_macos_mgba.py`
+- Create: `tools/mgba_checkpoint_replay.lua`
+- Create: `tools/run_macos_mgba_replay.py`
+- Create: `tests/test_run_macos_mgba_replay.py`
+- Modify: `tools/inspect_mgba_savestate.py`
+- Modify: `tests/test_inspect_mgba_savestate.py`
+- Modify: `tools/README.md`
+- Create: `artifacts/runtime-checkpoints/scenario-41-prebattle-menu-evidence.json`
+- Modify: `artifacts/runtime-checkpoints/scenario-41-checkpoints.json`
+- Modify: `artifacts/runtime-checkpoints/README.md`
+- Create: `notes/scenario-41-prebattle-menu-macos-20260715.md`
+- Modify: `docs/sequel-roadmap.md`
+- Modify: `openspec/changes/close-scenario-41-battle-runtime/tasks.md`
+
+**Interfaces:**
+- Consumes: clean mGBA `0.10.5` commit `26b7884bc25a5933960f3cdcd98bac1ae14d42e2`、上游 Qt `--script` commit `7cacae126207de5499857439b9c7919bf8e882c2`、base ROM、prebattle candidate、Task 4.5 Darwin guard。
+- Produces: 明确标识的“mGBA 0.10.5 + Qt script backport” x86_64 二进制、参数化零输入 replay、frame-80 state/截图/audit、可离线验收的 prebattle menu evidence 与 accepted ledger 记录。
+
+- [ ] **Step 1: 以 TDD 固化两文件 Qt `--script` 回移与受控构建**
+
+版本化保存上游 `7cacae1` 的原始两文件 patch。构建工具只接受 clean `0.10.5`/`26b7884...` 源码，在独立缓存副本先运行 `git apply --check` 再应用 patch；不得触碰 `/Users/altair/github/mgba-src` 的用户脏树。clone/configure/build/能力检查全部经同一个 heavy guard，记录 patch 与二进制 SHA-256、x86_64、CMake flags、峰值 RSS、退出码和 PGID 残留。RED/GREEN 必须覆盖错误 tag、dirty source、patch 不可应用、缺失 `--script`、重复脚本执行顺序和缺失脚本负例。
+
+- [ ] **Step 2: 以 TDD 实现参数化 frame-80 checkpoint replay**
+
+Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 和 capture frame；零输入模式必须生成 `inputs=[]`，不得调用 `emu:addKey`/`clearKey`，frame 80 保存后 `os.exit(0)`。Python runner 校验 ROM/state/binary/patch 哈希，强制 `QT_QPA_PLATFORM=offscreen`、heavy guard、wall/idle/RSS 上限与 owned PGID 清理；仅当 sentinel、audit、`.ss9`、截图、guard summary 全部存在且一致时返回 0。补缺失脚本、缺失产物、非零 child、超时和残留的失败测试与真实 ROM smoke。
+
+- [ ] **Step 3: 零输入验收 prebattle candidate 并固化快照证据**
+
+在 base ROM 上从 `scenario-41-prebattle-menu-candidate.ss9` 零输入运行 80 帧。验收必须同时证明：截图仍为同一战前菜单；task 2 resume PC 为 `0x08067D02`；活动 unwind 为 `0x080885C1 → 0x08088F9F → 0x0808F92D` 且不含 `0x0808F957`；`[0x0202680C]=0`；ROM/state/emulator/patch 哈希正确；guard completed/0；最终 PGID/监听端口无残留。先以 TDD 扩展离线 inspector 生成这些字段。全部成立才把现有 candidate 记为 accepted 并更新 ledger/evidence/README/notes/roadmap；任一不成立则保持 not-proven，记录失败且不得继续 Down/A。
+
+---
+
 ### Task 5: Canonical start checkpoint 与玩家控制运行时正证据
 
 **Files:**

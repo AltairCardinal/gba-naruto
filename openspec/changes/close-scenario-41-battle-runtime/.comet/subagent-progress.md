@@ -1,0 +1,32 @@
+# Subagent Progress
+
+- plan task: `Step 1: 以 TDD 验收 macOS 资源守卫与 mGBA 0.10.5 前置`
+- openspec task: `1.4 在 macOS Intel 上以 TDD 验收 Darwin 内存/RSS 守卫，记录可脚本化 mGBA 0.10.5 x86_64 来源、哈希与构建资源摘要`
+- stage: `done`
+- review_mode: `thorough`
+- review_fix_round: `1/2`
+- implementation commit: `3a1c788541cff1686b2a6d20026607d642c5ee8d`
+- fix commit: `07b0722`
+- changed files:
+  - `tools/project_resource_guard.py`
+  - `tests/test_project_resource_guard.py`
+  - `tests/test_run_guarded.py`
+  - `tools/README.md`
+  - `notes/macos-intel-runtime-preflight-20260715.md`
+- RED evidence:
+  - `python3 -m unittest ...test_darwin_available_memory... ...test_darwin_rss... ...test_darwin_cli... -v`
+  - before implementation: Darwin memory raised `unsupported on darwin`; RSS raised `FileNotFoundError: /proc`; CLI returned `125` instead of `0`
+- GREEN evidence:
+  - focused 3 tests: passed
+  - `python3 -m unittest tests.test_project_resource_guard tests.test_run_guarded -v`: 38 passed, 1 Windows-only skipped
+  - real guard smoke: `completed/0`, positive RSS, exact PGID clean
+  - post-review full suite: 42 passed, 1 Windows-only skipped
+  - root-exit 48 MiB grandchild: `memory-limit/125`, peak 57.23828125 MiB, PGID clean
+  - guarded mGBA: version `completed/0`; help `completed/0`; script `child-exit/1`; all PGIDs clean
+- reviewer feedback:
+  - Important: Darwin RSS 必须按 owned PGID 而非 PPID 链汇总，覆盖 root 退出后 grandchild 仍存活/超限。
+  - Important: 空、全畸形或缺失 owned PGID 的 `ps` 输出必须 fail closed。
+  - Important: 真实 CLI 测试需让 child 跨越多个采样周期并验证最终 PGID 无残留。
+  - Important: mGBA `--version`/`--help`/`--script` 能力命令也必须经 heavy guard，并记录 summary/RSS/残留。
+  - Minor: 修正 CLI RED 根因叙述，区分 admission 与 RSS wiring。
+- review result: `APPROVED`（Spec compliance 与 Code quality 均无 findings）

@@ -2,7 +2,9 @@
 
 - [ ] 1.1 审计当前未提交 probe、测试和 build 产物，区分可持久证据、临时导航文件与用户既有修改
 - [ ] 1.2 记录 Windows mGBA 0.10.5 来源、版本、SHA-256、源码 commit 和可复现安装位置
-- [ ] 1.3 运行资源与内存基线检查，确认所有后续 mGBA/Chrome 命令使用共享 heavy 锁和 owned-tree guard
+- [x] 1.3 运行资源与内存基线检查，确认所有后续 mGBA/Chrome 命令使用共享 heavy 锁和 owned-tree guard
+- [x] 1.4 在 macOS Intel 上以 TDD 验收 Darwin 内存/RSS 守卫，记录可脚本化 mGBA 0.10.5 x86_64 来源、哈希与构建资源摘要
+- [ ] 1.5 回移上游 Qt `--script` 到严格 mGBA 0.10.5，在 heavy guard 下零输入复放并验收 prebattle menu candidate
 
 ## 2. 完成原生 mGBA 与玩家控制探针
 
