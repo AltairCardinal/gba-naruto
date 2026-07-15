@@ -309,6 +309,72 @@ Boundary: this tool only produces and proves the Step 1 runtime. It does not per
 checkpoint replay, accept scenario evidence, update the runtime ledger, or execute any
 Task 4.6 Step 2/3 behavior.
 
+## macOS guarded checkpoint replay
+
+`run_macos_mgba_replay.py` and `mgba_checkpoint_replay.lua` provide the Task 4.6 Step 2
+zero-input replay boundary. The Python runner accepts an explicitly identified backport
+binary and build manifest, source ROM/state plus their expected SHA-256 values, a staged
+ROM path, frame-state/PNG/audit/sentinel/guard-summary outputs, a capture frame, optional
+repeatable `--pre-script` arguments, and the replay script. Every pre-script is emitted
+as a Qt `--script` argument in CLI order; the zero-input replay script is always last.
+Missing scripts fail before any output is removed or created.
+
+All input and output paths are canonicalized before side effects. Final-component
+symlinks, duplicate or ancestor/descendant aliases, input/output overlap, and an output
+ROM beside the source ROM are rejected. Canonical system aliases such as macOS
+`/var -> /private/var` are resolved instead of being hard-coded or rejected wholesale.
+Existing regular outputs are removed before launch so they cannot satisfy a new run;
+directories, FIFOs, and symlinks fail closed. The derived staged-ROM `.sav` path is
+reserved during the same canonical uniqueness/overlap check, so it cannot alias any
+input, script, state, PNG, audit, sentinel or summary. The source ROM is copied to the
+declared staged path and stale staged `.sav` data is removed, so mGBA cannot create
+`rom/base.sav`.
+
+The runner verifies the binary SHA against the manifest and pins the Step 1 label,
+version, source commit, backport commit, patch SHA and x86_64 architecture. It launches
+exactly one mGBA command through the shared heavy lock with a 4096 MiB admission floor,
+1536 MiB owned-PGID RSS ceiling, caller-visible wall/idle timeouts, non-degraded POSIX
+process-group ownership, and forced `QT_QPA_PLATFORM=offscreen`. Success requires the
+wrapper return code and fresh summary to agree on `completed/0`, an exact command
+fingerprint, a clean final PGID query, and fresh non-empty PNG-container state, PNG,
+audit, and sentinel files.
+
+The Lua script reads all configuration from `MGBA_REPLAY_*` environment variables,
+asserts the BOOL results from checkpoint load/save, counts relative frame callbacks,
+and at exactly the capture frame writes a state, screenshot, `inputs=[]` audit and
+same-run sentinel before calling `os.exit(0)`. Screenshot is a void API and is therefore
+checked by the fresh PNG signature/output validation. The script contains no key
+injection. Both JSON records bind the run ID,
+frame, input/output paths, ROM/state hashes and success state. After validation, the
+runner adds output, binary, patch, staged-ROM and summary hashes plus peak RSS and the
+clean PGID result to both records. Immediately before finalizing those records, the
+runner rehashes the binary, source ROM, input state and staged ROM; post-launch drift
+fails closed instead of being recorded as new provenance.
+
+Example:
+
+```bash
+python3 tools/run_macos_mgba_replay.py \
+  --binary /absolute/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /absolute/mgba-build-manifest.json \
+  --rom rom/base.gba \
+  --state artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9 \
+  --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --expected-state-sha256 b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078 \
+  --staged-rom build/replay/staged-base.gba \
+  --output-state build/replay/frame80.ss9 \
+  --output-png build/replay/frame80.png \
+  --audit build/replay/audit.json \
+  --sentinel build/replay/sentinel.json \
+  --guard-summary build/replay/guard-summary.json \
+  --capture-frame 80
+```
+
+This runner proves only that a zero-input checkpoint can be replayed and freshly
+captured. It does not inspect the menu image, task PC/unwind, WRAM, or accept a candidate
+in the checkpoint ledger; those are separate Step 3 gates. It never sends Down, A, or
+any other input.
+
 ## `mgba_gdb_probe.py`
 
 Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干

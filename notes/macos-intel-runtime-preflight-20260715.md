@@ -80,6 +80,66 @@ This result proves only the backported Qt script interface and base-ROM executio
 does not prove checkpoint replay, frame-80 capture, or acceptance of the scenario-41
 prebattle candidate; those remain outside Step 1.
 
+## Task 4.6 Step 2 guarded frame-80 replay (2026-07-15)
+
+The new `tools/run_macos_mgba_replay.py` runner and
+`tools/mgba_checkpoint_replay.lua` script replayed the repository prebattle candidate
+for 80 relative frames with `inputs=[]`. The real run used the Step 1 fresh binary and
+manifest, a staged copy of `rom/base.gba`, the shared heavy lock, a 4096 MiB admission
+floor, a 1536 MiB owned-PGID RSS ceiling, non-degraded POSIX process-group protection,
+and `QT_QPA_PLATFORM=offscreen`.
+
+The final fresh run is retained under the ignored directory
+`build/macos-prebattle-frame80-step2-20260715/` for direct reuse by Step 3:
+
+- run ID: `b1cd4bb851a2be94c60bc48f4a28d82c`;
+- input state SHA-256:
+  `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078`;
+- staged ROM SHA-256:
+  `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`;
+- frame-80 state SHA-256:
+  `525c05c967ee7daa74f008d195dc3ec7595110167916bacf0c1051d750610c4d`;
+- screenshot SHA-256:
+  `6a4a715a35072b0a5d68b8a33de4076598fc67fb435e816516a9b211bb76e5f0`;
+- audit and sentinel SHA-256:
+  `bd0665741b3770988744eab7d57e73214f8921d5aa3003ef04d53b294e35e259`;
+- guard summary SHA-256:
+  `c9c08e2274687a4d1a42895565deb08719172cd36bf34c1cf0f4ac326afab42c`;
+- guard result: `completed/0`, peak owned RSS `52.0234375 MiB`, child/PGID
+  `7013`, `degraded=false`, and a clean exact final PGID query.
+
+Both the state and screenshot are 240x160 PNG containers. The runner was deliberately
+rerun over earlier regular outputs; they were removed before launch and replaced with a
+new run ID and state hash. The source ROM directory still has no `base.sav` sidecar.
+
+During integration testing, rejecting every ancestor symlink incorrectly rejected the
+normal macOS `/var -> /private/var` path used by `tempfile`. The durable rule is now to
+canonicalize ancestor aliases, reject final-component symlinks and unsafe resolved
+overlap, and fail closed on directory/FIFO outputs. This preserves alias safety without
+hard-coding an operating-system path exception.
+
+Three additional fail-closed boundaries were verified before the final smoke. Lua now
+asserts both `emu:loadStateFile` and `emu:saveStateFile` BOOL results; screenshot remains
+a void API and is checked through the fresh PNG output. The derived staged `.sav` is
+reserved in canonical uniqueness/overlap validation. After mGBA exits, the runner
+rehashes binary, source ROM, input state and staged ROM before writing final provenance.
+
+Repeatable Qt `--script` order was also proven in the real backported frontend, not only
+at argv construction. Two no-input pre-scripts wrote `1` and then asserted that value
+before appending `2`; the retained
+`build/macos-prebattle-frame80-step2-order-20260715/order-proof.txt` contains exactly
+`12` with SHA-256
+`6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918`.
+The guarded command order was pre-1, pre-2, replay; the run completed/0 with run ID
+`67e2a24e11f8f74067d80ac758877591`, peak RSS `52.03125 MiB`, child/PGID `6062`,
+non-degraded protection and a clean exact PGID query. Both pre-scripts contain no key
+API call and the replay audit remained `inputs=[]`.
+
+This Step 2 result proves only the replay and fresh-output chain. It does **not** inspect
+or accept the prebattle menu, task 2 resume PC, unwind chain, or `[0x0202680C]`; it does
+not update the checkpoint ledger and must not be used as evidence for controller entry.
+No Down, A, or other input was sent.
+
 ## Test host and guard behavior
 
 - Host: macOS 14.8.4 (23J319), `MacBookPro16,1`, `x86_64`.
