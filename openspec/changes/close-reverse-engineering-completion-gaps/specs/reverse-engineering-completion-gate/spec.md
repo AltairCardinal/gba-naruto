@@ -67,7 +67,15 @@ completion audit MUST 聚合 audio cue semantic closure、legacy ROM mirror boun
 - **THEN** 仓库 SHALL 包含对应持久证据、测试和文档更新，且记录的本地 commit hash 可定位到该阶段提交
 
 ### Requirement: 100% 声明和最终报告必须 fail closed
-系统 MUST 仅在全部 required gate 为 `pass` 时设置 `completion_claim_allowed=true`、更新 `docs/final-completion-report.md` 为 100% 并允许 Draft PR 进入后续发布决策；`fail`、`not_proven`、证据缺失或报告不一致均 SHALL 保持非完成状态。
+系统 MUST 仅在全部 required gate 为 `pass` 时设置 `completion_claim_allowed=true`、更新 `docs/final-completion-report.md` 为 100% 并允许 Draft PR 进入后续发布决策；最终门禁 MUST 在同一记录 commit 上先生成含当前 `.comet/policy.yaml` SHA-256 与 UTC `generated_at` 的 project policy audit 报告，再用 `--verify-report` 重跑当前 audit 并复核保存报告的 hash、`policy_valid=true`、`push_denied=true`、空 conflicts 与空 errors。`fail`、`not_proven`、证据缺失、报告过期或报告不一致均 SHALL 保持非完成状态。
+
+#### Scenario: 同一 commit 的 policy report 生成并复核通过
+- **WHEN** 最终批次在同一记录 commit 上生成 project policy audit 报告，随后 `--verify-report` 重跑当前 audit 且保存报告的 policy hash 与当前文件一致、`policy_valid` 和 `push_denied` 均为 true、conflicts 与 errors 均为空
+- **THEN** project policy report gate SHALL 通过，并允许系统继续汇总其余 required gate
+
+#### Scenario: policy report 缺失、损坏、过期或失败
+- **WHEN** 最终批次的保存报告缺失、不是有效 JSON、policy hash 与当前文件不同、`policy_valid` 或 `push_denied` 不为 true、conflicts 或 errors 非空，或者当前重跑 audit 失败
+- **THEN** project policy report gate MUST 以机器可读结果失败并设置 `completion_claim_allowed=false`，普通 preflight audit 则 SHALL 不要求预先存在保存报告
 
 #### Scenario: 所有门槛真实通过
 - **WHEN** 依赖、32 结构、audio、字段/写回、完整测试/构建/mGBA 和文档一致性全部为 `pass`

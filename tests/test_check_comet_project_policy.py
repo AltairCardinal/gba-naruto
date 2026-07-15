@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from unittest import mock
 
@@ -82,7 +84,9 @@ limits:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
 
-    def run_cli(self, openspec_payload: str) -> subprocess.CompletedProcess[str]:
+    def run_cli(
+        self, openspec_payload: str, arguments: list[str] | None = None
+    ) -> subprocess.CompletedProcess[str]:
         executable = self.root / "bin/openspec"
         executable.parent.mkdir(parents=True, exist_ok=True)
         executable.write_text(
@@ -97,20 +101,35 @@ limits:
         env = os.environ.copy()
         env["PATH"] = f"{executable.parent}{os.pathsep}{env.get('PATH', '')}"
         script = Path(__file__).resolve().parents[1] / "tools/check_comet_project_policy.py"
+        command = [sys.executable, str(script), "--root", str(self.root)]
+        if arguments is None:
+            command.extend(["--json", str(report_path)])
+        else:
+            command.extend(arguments)
         return subprocess.run(
-            [
-                sys.executable,
-                str(script),
-                "--root",
-                str(self.root),
-                "--json",
-                str(report_path),
-            ],
+            command,
             check=False,
             capture_output=True,
             text=True,
             env=env,
         )
+
+    def write_saved_report(
+        self, path: Path, **overrides: object
+    ) -> dict[str, object]:
+        policy_path = self.root / ".comet/policy.yaml"
+        payload: dict[str, object] = {
+            "policy_sha256": hashlib.sha256(policy_path.read_bytes()).hexdigest(),
+            "generated_at": "2026-07-16T00:00:00Z",
+            "policy_valid": True,
+            "required_platform_checks": [],
+            "push_denied": True,
+            "active_change_push_conflicts": [],
+            "errors": [],
+        }
+        payload.update(overrides)
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        return payload
 
     def test_parses_current_schema_scalars_and_runner_list(self) -> None:
         policy = parse_policy(self.valid_policy)
@@ -552,6 +571,8 @@ limits:
         self.assertEqual(
             set(report),
             {
+                "policy_sha256",
+                "generated_at",
                 "policy_valid",
                 "required_platform_checks",
                 "push_denied",
@@ -561,6 +582,161 @@ limits:
         )
         self.assertIn("goal_status_active", report["required_platform_checks"])
         self.assertIn("local_commit_authorization", report["required_platform_checks"])
+
+    def test_preflight_does_not_require_saved_report_and_emits_fresh_metadata(
+        self,
+    ) -> None:
+        report = audit_project(self.root, active_changes=[])
+
+        expected_hash = hashlib.sha256(
+            (self.root / ".comet/policy.yaml").read_bytes()
+        ).hexdigest()
+        self.assertEqual(report["policy_sha256"], expected_hash)
+        self.assertTrue(str(report["generated_at"]).endswith("Z"))
+        parsed = datetime.fromisoformat(
+            str(report["generated_at"]).replace("Z", "+00:00")
+        )
+        self.assertIsNotNone(parsed.tzinfo)
+        self.assertEqual(report["errors"], [])
+
+    def test_verify_report_rejects_missing_report(self) -> None:
+        report = audit_project(
+            self.root,
+            active_changes=[],
+            report_path=self.root / "missing.json",
+        )
+
+        self.assertTrue(
+            any("saved policy report is missing" in item for item in report["errors"]),
+            report,
+        )
+
+    def test_verify_report_rejects_malformed_json(self) -> None:
+        report_path = self.root / "malformed.json"
+        report_path.write_text("{not-json", encoding="utf-8")
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertTrue(
+            any(
+                "saved policy report is not valid JSON" in item
+                for item in report["errors"]
+            ),
+            report,
+        )
+
+    def test_verify_report_rejects_non_utf8_json(self) -> None:
+        report_path = self.root / "non-utf8.json"
+        report_path.write_bytes(b"\xff")
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertTrue(
+            any(
+                "saved policy report is not valid UTF-8" in item
+                for item in report["errors"]
+            ),
+            report,
+        )
+
+    def test_verify_report_rejects_stale_policy_hash(self) -> None:
+        report_path = self.root / "stale.json"
+        self.write_saved_report(report_path, policy_sha256="0" * 64)
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertTrue(
+            any("policy_sha256 does not match" in item for item in report["errors"]),
+            report,
+        )
+
+    def test_verify_report_rejects_saved_errors(self) -> None:
+        report_path = self.root / "errors.json"
+        self.write_saved_report(report_path, errors=["prior audit failed"])
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertTrue(
+            any(
+                "saved policy report errors must be empty" in item
+                for item in report["errors"]
+            ),
+            report,
+        )
+
+    def test_verify_report_rejects_saved_push_conflicts(self) -> None:
+        report_path = self.root / "conflicts.json"
+        self.write_saved_report(
+            report_path,
+            active_change_push_conflicts=[{"path": "tasks.md", "line": 1}],
+        )
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertTrue(
+            any(
+                "saved policy report active_change_push_conflicts must be empty"
+                in item
+                for item in report["errors"]
+            ),
+            report,
+        )
+
+    def test_verify_report_requires_valid_policy_and_denied_push(self) -> None:
+        cases = (
+            (
+                "policy-invalid.json",
+                {"policy_valid": False},
+                "policy_valid must be true",
+            ),
+            ("push-allowed.json", {"push_denied": False}, "push_denied must be true"),
+        )
+        for filename, overrides, expected in cases:
+            with self.subTest(filename=filename):
+                report_path = self.root / filename
+                self.write_saved_report(report_path, **overrides)
+
+                report = audit_project(
+                    self.root, active_changes=[], report_path=report_path
+                )
+
+                self.assertTrue(
+                    any(expected in item for item in report["errors"]), report
+                )
+
+    def test_verify_report_accepts_current_passing_report(self) -> None:
+        report_path = self.root / "passing.json"
+        self.write_saved_report(report_path)
+
+        report = audit_project(
+            self.root, active_changes=[], report_path=report_path
+        )
+
+        self.assertEqual(report["errors"], [])
+
+    def test_cli_verify_failure_exits_one_with_machine_readable_report(self) -> None:
+        missing = self.root / "missing.json"
+
+        completed = self.run_cli(
+            '{"changes": []}\n', ["--verify-report", str(missing)]
+        )
+        report = json.loads(completed.stdout)
+
+        self.assertEqual(completed.returncode, 1, completed.stderr)
+        self.assertTrue(
+            any("saved policy report is missing" in item for item in report["errors"]),
+            report,
+        )
 
     def test_rejects_active_change_and_plan_path_escapes(self) -> None:
         outside = Path(self.tempdir.name).parent / f"{self.root.name}-outside"

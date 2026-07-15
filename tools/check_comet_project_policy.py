@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -531,8 +533,45 @@ def _agents_push_conflicts(root: Path, push_denied: bool) -> list[str]:
     return errors
 
 
+def _verify_saved_report(
+    root: Path, report_path: Path, policy_sha256: str | None
+) -> list[str]:
+    path = report_path if report_path.is_absolute() else root / report_path
+    display_path = _relative_path(root, path)
+    try:
+        saved = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return [f"saved policy report is missing: {display_path}"]
+    except UnicodeDecodeError as exc:
+        return [f"saved policy report is not valid UTF-8: {display_path}: {exc}"]
+    except json.JSONDecodeError as exc:
+        return [f"saved policy report is not valid JSON: {display_path}: {exc}"]
+    except OSError as exc:
+        return [f"cannot read saved policy report {display_path}: {exc}"]
+
+    if not isinstance(saved, dict):
+        return [f"saved policy report must be a JSON object: {display_path}"]
+
+    errors: list[str] = []
+    if saved.get("policy_sha256") != policy_sha256:
+        errors.append("saved policy report policy_sha256 does not match current policy")
+    if saved.get("policy_valid") is not True:
+        errors.append("saved policy report policy_valid must be true")
+    if saved.get("push_denied") is not True:
+        errors.append("saved policy report push_denied must be true")
+    if saved.get("active_change_push_conflicts") != []:
+        errors.append(
+            "saved policy report active_change_push_conflicts must be empty"
+        )
+    if saved.get("errors") != []:
+        errors.append("saved policy report errors must be empty")
+    return errors
+
+
 def audit_project(
-    root: Path, active_changes: list[str] | None = None
+    root: Path,
+    active_changes: list[str] | None = None,
+    report_path: Path | None = None,
 ) -> dict[str, object]:
     """Audit the policy, platform-required checks, and active push gates."""
     root = root.resolve()
@@ -540,8 +579,11 @@ def audit_project(
     policy: dict[str, object] = {}
     policy_errors: list[str] = []
     policy_path = root / ".comet/policy.yaml"
+    policy_sha256: str | None = None
     try:
-        policy = parse_policy(policy_path.read_text(encoding="utf-8"))
+        policy_bytes = policy_path.read_bytes()
+        policy_sha256 = hashlib.sha256(policy_bytes).hexdigest()
+        policy = parse_policy(policy_bytes.decode("utf-8"))
         policy_errors = validate_policy(policy)
     except (OSError, ValueError) as exc:
         policy_errors = [f".comet/policy.yaml: {exc}"]
@@ -584,7 +626,11 @@ def audit_project(
     except (OSError, ValueError) as exc:
         errors.append(f"cannot scan active artifacts: {exc}")
         conflicts = []
+    if report_path is not None:
+        errors.extend(_verify_saved_report(root, report_path, policy_sha256))
     return {
+        "policy_sha256": policy_sha256,
+        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "policy_valid": not policy_errors,
         "required_platform_checks": _required_platform_checks(policy),
         "push_denied": push_denied,
@@ -597,9 +643,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--json", dest="json_path", type=Path)
+    parser.add_argument("--verify-report", type=Path)
     args = parser.parse_args()
 
-    report = audit_project(args.root)
+    report = audit_project(args.root, report_path=args.verify_report)
     rendered = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
     if args.json_path is not None:
         args.json_path.parent.mkdir(parents=True, exist_ok=True)

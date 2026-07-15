@@ -70,4 +70,4 @@
 - [ ] 5.9 安排独立审查 32 行证据矩阵、全量测试覆盖和完成布尔逻辑；所有审查问题解决并重新验证前保持非完成状态
 - [ ] 5.10 仅依据最终机器报告更新 `docs/final-completion-report.md`、交接文档和路线图；若任一门禁失败，报告明确列出缺口且不恢复 100% 声明
 - [ ] 5.11 检查 `git status`、`git diff --check` 与变更范围，排除临时 mGBA/build 产物和无关用户改动，为最终审计批次创建范围明确的本地 commit，并记录 commit hash
-- [ ] 5.12 在 5.11 记录的本地 commit hash 上复核持久报告哈希和全部 required gate；只有全为 `pass` 时才设置 `completion_claim_allowed=true` 并进入 Comet verify/归档流程
+- [ ] 5.12 在 5.11 记录的同一本地 commit hash 上先运行 `python3 tools/check_comet_project_policy.py --root . --json build/comet-project-policy-final.json` 生成含当前 policy SHA-256 与 UTC 时间的报告，再运行 `python3 tools/check_comet_project_policy.py --root . --verify-report build/comet-project-policy-final.json` 复核当前 audit 与保存报告；报告缺失、JSON 无效、policy hash 过期、`policy_valid`/`push_denied` 失败、存在 conflicts/errors 或任一 required gate 非 `pass` 时均设置 `completion_claim_allowed=false`，只有全部通过时才设置为 `true` 并进入 Comet verify/归档流程
