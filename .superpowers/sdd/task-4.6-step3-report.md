@@ -108,11 +108,24 @@ Absolute `build/` and cache paths in the compact JSON are historical local prove
 The repository distributes only the tracked candidate and compact evidence; raw
 revalidation needs the pinned machine-local Step 1/2 files.
 
-Final review-fix verification ran 130 related tests successfully with one documented
-Windows-only skip. The acceptance CLI also generated a separate compact result at
-`/tmp/scenario-41-prebattle-menu-evidence-fix1.json` without launching mGBA.
+At the end of review fix round 1, verification ran 130 related tests successfully with
+one documented Windows-only skip. The acceptance CLI also generated a separate compact
+result at `/tmp/scenario-41-prebattle-menu-evidence-fix1.json` without launching mGBA;
+these are historical round-1 numbers, not the final verification count.
 
-Review fix round 2 adds the final tracked-patch binding. Its RED proved that caller
-mode ignored a replaced tracked patch and omitted it from actual evidence. GREEN now
-pins the repository patch path/hash, requires byte identity with the manifest's
-embedded payload, and records both repository-relative and absolute paths.
+Review fix round 2 adds the final tracked-patch binding. Its first RED had two focused
+failures: caller mode accepted replaced tracked-patch content and actual evidence
+omitted the tracked patch (`2 FAIL` → `2/2 GREEN`). GREEN pinned the repository patch
+hash, required byte identity with the manifest's embedded payload, and recorded both
+repository-relative and absolute paths. The correction RED then copied the same valid
+bytes to a wrong location and failed because no path mismatch was raised (`1 FAIL`). Its
+GREEN introduced the independent default trust root `PROJECT_TRACKED_PATCH_PATH`;
+generic temporary fixtures may inject their own canonical path, while the actual
+builder uses the repository default. The three focused tracked-patch tests then passed
+`3/3 GREEN`.
+
+Final fix2/correction verification ran 132 related tests successfully with one existing
+Windows-only skip. The actual acceptance CLI generated
+`/tmp/scenario-41-prebattle-menu-evidence-fix2-correction.json`; checkpoint ledger,
+`py_compile`, JSON validation, and `git diff --check` all passed. The final thorough
+rereview result was **APPROVED**.
