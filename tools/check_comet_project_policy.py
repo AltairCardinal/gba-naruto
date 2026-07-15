@@ -54,7 +54,16 @@ EXPECTED_POLICY: dict[str, object] = {
 }
 
 CHECKBOX_RE = re.compile(r"^\s*[-*]\s+\[([ xX])\]")
-MARKDOWN_SECTION_BOUNDARY_RE = re.compile(r"^\s*(?:#{1,6}\s+|-{3,}\s*$)")
+FENCED_CODE_OPEN_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
+FENCED_CODE_CLOSE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})[ \t]*$")
+MARKDOWN_SECTION_BOUNDARY_RE = re.compile(
+    r"^ {0,3}(?:"
+    r"#{1,6}(?:[ \t]+.*|$)"
+    r"|(?:\*[ \t]*){3,}"
+    r"|(?:_[ \t]*){3,}"
+    r"|(?:-[ \t]*){3,}"
+    r")$"
+)
 PUSH_RE = re.compile(r"\bpush\b|推送", re.IGNORECASE)
 PUSH_START_UI_RE = re.compile(r"\bPUSH START\b(?![ \t]+[A-Za-z0-9_-])")
 GAME_UI_CONTEXT_RE = re.compile(
@@ -297,17 +306,37 @@ def _scan_push_lines(
 ) -> list[dict[str, object]]:
     conflicts: list[dict[str, object]] = []
     checkbox_unfinished: bool | None = None
+    fenced_code_char: str | None = None
+    fenced_code_length = 0
     try:
         lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     except OSError as exc:
         raise OSError(f"{_relative_path(root, path)}: {exc}") from exc
 
     for line_number, text in enumerate(lines, 1):
-        checkbox = CHECKBOX_RE.match(text) if checkbox_aware else None
-        if checkbox:
-            checkbox_unfinished = checkbox.group(1) == " "
-        elif checkbox_aware and MARKDOWN_SECTION_BOUNDARY_RE.match(text):
-            checkbox_unfinished = None
+        if checkbox_aware:
+            if fenced_code_char is not None:
+                closing = FENCED_CODE_CLOSE_RE.match(text)
+                if (
+                    closing
+                    and closing.group(1)[0] == fenced_code_char
+                    and len(closing.group(1)) >= fenced_code_length
+                ):
+                    fenced_code_char = None
+                    fenced_code_length = 0
+            else:
+                opening = FENCED_CODE_OPEN_RE.match(text)
+                if opening and not (
+                    opening.group(1)[0] == "`" and "`" in opening.group(2)
+                ):
+                    fenced_code_char = opening.group(1)[0]
+                    fenced_code_length = len(opening.group(1))
+                else:
+                    checkbox = CHECKBOX_RE.match(text)
+                    if checkbox:
+                        checkbox_unfinished = checkbox.group(1) == " "
+                    elif MARKDOWN_SECTION_BOUNDARY_RE.match(text):
+                        checkbox_unfinished = None
         if checkbox_aware and not _contains_push(text):
             continue
         if not checkbox_aware and not _normative_push_required(text):

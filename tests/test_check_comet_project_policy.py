@@ -238,15 +238,109 @@ limits:
             "git commit -m done\n"
             "git push origin historical\n"
             "```\n\n"
-            "---\n\n"
-            "### Next task\n\n"
-            "- [ ] git push origin future\n",
+            "---\n"
+            "git push origin future\n",
             encoding="utf-8",
         )
         conflicts = find_push_conflicts(self.root, [], [plan])
         self.assertEqual(
             [(item["path"], item["line"]) for item in conflicts],
-            [("docs/plan.md", 15)],
+            [("docs/plan.md", 12)],
+        )
+
+    def test_completed_checkbox_ignores_section_markers_inside_fenced_code(
+        self,
+    ) -> None:
+        plan = self.root / "docs/fenced-plan.md"
+        plan.parent.mkdir(parents=True)
+        plan.write_text(
+            "- [x] **Step 1: historical delivery**\n\n"
+            "````sh\n"
+            "---\n"
+            "### comment\n"
+            "- [ ] git push origin fenced-example\n"
+            "```\n"
+            "git push origin historical-short-close\n"
+            "~~~~\n"
+            "git push origin historical-wrong-close\n"
+            "`````\n\n"
+            "   ~~~sh\n"
+            "___\n"
+            "### comment\n"
+            "~~\n"
+            "git push origin historical-short-tilde-close\n"
+            "````\n"
+            "git push origin historical-wrong-tilde-close\n"
+            "   ~~~~\n\n"
+            "- [ ] git push origin future\n",
+            encoding="utf-8",
+        )
+
+        conflicts = find_push_conflicts(self.root, [], [plan])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("docs/fenced-plan.md", 22)],
+        )
+
+    def test_commonmark_section_boundaries_end_completed_checkbox_state(
+        self,
+    ) -> None:
+        boundaries = {
+            "asterisk": "***",
+            "underscore": "___",
+            "spaced_hyphen": "- - -",
+            "three_space_thematic_break": "   * * *",
+            "empty_atx_heading": "###",
+        }
+        for name, boundary in boundaries.items():
+            with self.subTest(boundary=name):
+                plan = self.root / f"docs/{name}.md"
+                plan.parent.mkdir(parents=True, exist_ok=True)
+                plan.write_text(
+                    "- [x] historical delivery\n"
+                    f"{boundary}\n"
+                    "git push origin future\n",
+                    encoding="utf-8",
+                )
+
+                conflicts = find_push_conflicts(self.root, [], [plan])
+
+                self.assertEqual(
+                    [(item["path"], item["line"]) for item in conflicts],
+                    [(f"docs/{name}.md", 3)],
+                )
+
+        indented = self.root / "docs/four-space-thematic-break.md"
+        indented.write_text(
+            "- [x] historical delivery\n"
+            "    ***\n"
+            "git push origin historical\n"
+            "- [ ] git push origin future\n",
+            encoding="utf-8",
+        )
+        conflicts = find_push_conflicts(self.root, [], [indented])
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("docs/four-space-thematic-break.md", 4)],
+        )
+
+    def test_unfinished_checkbox_reports_push_inside_fenced_code(self) -> None:
+        plan = self.root / "docs/unfinished-fenced-plan.md"
+        plan.parent.mkdir(parents=True)
+        plan.write_text(
+            "- [ ] future delivery\n"
+            "```sh\n"
+            "git push origin future\n"
+            "```\n",
+            encoding="utf-8",
+        )
+
+        conflicts = find_push_conflicts(self.root, [], [plan])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("docs/unfinished-fenced-plan.md", 3)],
         )
 
     def test_exempts_only_explicit_historical_or_negative_normative_text(self) -> None:
