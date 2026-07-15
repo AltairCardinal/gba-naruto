@@ -304,6 +304,37 @@ class RunGuardedCliTests(unittest.TestCase):
 class RunGuardedCliAndPosixTests(unittest.TestCase):
     _run_cli = RunGuardedCliTests._run_cli
 
+    @unittest.skipUnless(sys.platform == "darwin", "macOS resource integration")
+    def test_darwin_cli_launches_and_monitors_an_owned_child(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "launched.txt"
+            summary_path = root / "summary.json"
+            helper = (
+                "from pathlib import Path; "
+                f"Path({str(marker)!r}).write_text('launched')"
+            )
+
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary_path),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--wall-timeout-s", "5",
+                    "--idle-timeout-s", "5",
+                    "--sample-interval-s", "0.05",
+                    "--",
+                    sys.executable, "-c", helper,
+                ]
+            )
+
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(marker.read_text(), "launched")
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            self.assertEqual(summary["reason"], "completed")
+            self.assertEqual(summary["protection_backend"], "posix-process-group")
+            self.assertGreater(summary["peak_tree_rss_mib"], 0)
+
     def test_posix_launcher_uses_new_session_and_exact_process_group(self):
         recorded = {}
 

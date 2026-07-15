@@ -123,6 +123,34 @@ def available_physical_memory_mib() -> MemorySnapshot:
                     return MemorySnapshot(available_kib / 1024, "proc-meminfo")
         raise RuntimeError("MemAvailable is absent from /proc/meminfo")
 
+    if sys.platform == "darwin":
+        completed = subprocess.run(
+            ["vm_stat"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        lines = completed.stdout.splitlines()
+        marker = "page size of "
+        if not lines or marker not in lines[0]:
+            raise RuntimeError("vm_stat output has no page size")
+        page_size = int(lines[0].split(marker, 1)[1].split()[0])
+        available_labels = {"Pages free", "Pages inactive", "Pages speculative"}
+        pages = {}
+        for line in lines[1:]:
+            label, separator, raw_value = line.partition(":")
+            if separator and label in available_labels:
+                pages[label] = int(raw_value.strip().rstrip("."))
+        missing = available_labels.difference(pages)
+        if missing:
+            raise RuntimeError(
+                "vm_stat output is missing available page counters: "
+                + ", ".join(sorted(missing))
+            )
+        available_bytes = sum(pages.values()) * page_size
+        return MemorySnapshot(available_bytes / (1024 * 1024), "vm-stat")
+
     if os.name == "nt":
         class MemoryStatusEx(ctypes.Structure):
             _fields_ = [
@@ -244,6 +272,9 @@ def _posix_descendant_rss_mib(
     proc_root: Path = Path("/proc"),
     page_size: int | None = None,
 ) -> float:
+    if sys.platform == "darwin" and proc_root == Path("/proc"):
+        return _darwin_descendant_rss_mib(root_pid)
+
     parents: dict[int, int] = {}
     for entry in proc_root.iterdir():
         if not entry.name.isdigit():
@@ -273,6 +304,38 @@ def _posix_descendant_rss_mib(
             continue
     effective_page_size = page_size if page_size is not None else os.sysconf("SC_PAGE_SIZE")
     return resident_pages * effective_page_size / (1024 * 1024)
+
+
+def _darwin_descendant_rss_mib(root_pid: int) -> float:
+    completed = subprocess.run(
+        ["ps", "-axo", "pid=,ppid=,rss="],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    parents: dict[int, int] = {}
+    resident_kib: dict[int, int] = {}
+    for line in completed.stdout.splitlines():
+        fields = line.split()
+        if len(fields) != 3:
+            continue
+        try:
+            pid, parent_pid, rss_kib = (int(field) for field in fields)
+        except ValueError:
+            continue
+        parents[pid] = parent_pid
+        resident_kib[pid] = rss_kib
+
+    descendants = {root_pid}
+    changed = True
+    while changed:
+        changed = False
+        for pid, parent_pid in parents.items():
+            if parent_pid in descendants and pid not in descendants:
+                descendants.add(pid)
+                changed = True
+    return sum(resident_kib.get(pid, 0) for pid in descendants) / 1024
 
 
 class _WinIoCounters(ctypes.Structure):

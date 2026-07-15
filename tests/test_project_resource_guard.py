@@ -150,6 +150,64 @@ class FailingStopProcess(FakeProcess):
 
 
 class ProjectResourceGuardTests(unittest.TestCase):
+    def test_darwin_available_memory_counts_free_inactive_and_speculative_pages(self):
+        vm_stat = """Mach Virtual Memory Statistics: (page size of 4096 bytes)
+Pages free:                               1000.
+Pages active:                            9000.
+Pages inactive:                          2000.
+Pages speculative:                        500.
+Pages wired down:                        3000.
+"""
+        completed = subprocess.CompletedProcess(
+            ["vm_stat"], 0, stdout=vm_stat, stderr=""
+        )
+
+        with (
+            mock.patch.object(guard_module.sys, "platform", "darwin"),
+            mock.patch.object(
+                guard_module.subprocess, "run", return_value=completed
+            ) as run,
+        ):
+            snapshot = guard_module.available_physical_memory_mib()
+
+        self.assertEqual(snapshot.source, "vm-stat")
+        self.assertEqual(snapshot.available_physical_mib, 13.671875)
+        run.assert_called_once_with(
+            ["vm_stat"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+
+    def test_darwin_rss_sums_only_rooted_descendants_from_ps_snapshot(self):
+        ps_snapshot = """  PID  PPID    RSS
+  100     1   2048
+  101   100   3072
+  102   101   4096
+  999     1  51200
+"""
+        completed = subprocess.CompletedProcess(
+            ["ps"], 0, stdout=ps_snapshot, stderr=""
+        )
+
+        with (
+            mock.patch.object(guard_module.sys, "platform", "darwin"),
+            mock.patch.object(
+                guard_module.subprocess, "run", return_value=completed
+            ) as run,
+        ):
+            rss = guard_module._posix_descendant_rss_mib(100)
+
+        self.assertEqual(rss, 9.0)
+        run.assert_called_once_with(
+            ["ps", "-axo", "pid=,ppid=,rss="],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+
     def test_guard_config_has_exact_defaults(self):
         self.assertEqual(
             GuardConfig(),

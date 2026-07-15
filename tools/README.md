@@ -246,6 +246,15 @@ run. Never add `pkill`, `killall`, `taskkill /IM`, `Stop-Process` by name, or an
 process-name cleanup. Missing isolation or monitoring fails closed unless an explicitly
 audited degraded run is requested and recorded.
 
+On macOS, admission reads `vm_stat` and treats free, inactive, and speculative pages as
+available physical memory. Owned-tree RSS comes from one `ps` PID/PPID/RSS snapshot per
+sample and includes only the launched root and descendants rooted at it. Launch and
+cleanup use a new POSIX session/process group, exactly as on other POSIX hosts; never
+replace that ownership boundary with process-name matching. A missing or malformed
+`vm_stat`/`ps` response fails closed. The Intel runtime preflight and the pinned mGBA
+0.10.5 binary evidence are recorded in
+[`notes/macos-intel-runtime-preflight-20260715.md`](../notes/macos-intel-runtime-preflight-20260715.md).
+
 ## `mgba_gdb_probe.py`
 
 Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
