@@ -15,6 +15,17 @@
     "bytes": 79532,
     "sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac"
   },
+  "preflight": {
+    "provenance": "operator_recorded",
+    "recorded_at": "2026-07-15T10:00:35Z",
+    "free_physical_memory_mib": 7496.828125,
+    "heavy_lock_available": true,
+    "owned_project_processes": [],
+    "listener_2345": [],
+    "rom_sha256_recomputed": "253ab3a7b1fd28c5a70364422982e5032a03b951a2bb1e35c0c930f45ab6b93a",
+    "checkpoint_sha256_recomputed": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+    "raw_preflight_file": "not-recorded"
+  },
   "observer_layout": {
     "event_counter": "0x0203F040",
     "dump_address": "0x0203F040",
@@ -156,5 +167,27 @@
     "Because the positive control was not proven, scenario 41 runs 3 and 4 were intentionally not executed.",
     "Zero fresh records do not prove the checked call-sites are absent from all tutorial control paths and do not prove or disprove player control.",
     "The next probe must start from a checkpoint/input known to cross 0x08073A04 or move to an upstream checked dispatcher; it must not continue guessing keys on the scenario 41 white-box state."
-  ]
+  ],
+  "verification": {
+    "provenance": "operator_recorded_from_fresh_commands",
+    "artifact_hash_consistency": "PASS (13 artifacts)",
+    "python_tests": "PASS (32/32)",
+    "checkpoint_ledger": "accepted=2 candidate=0 rejected=1 errors=0",
+    "openspec_strict": "valid=true issues=[]",
+    "git_diff_check": "PASS",
+    "final_resource_check": {
+      "free_physical_memory_mib": 7497.95,
+      "owned_project_processes": 0,
+      "port_2345_connections": 0
+    },
+    "independent_review": {
+      "report": ".superpowers/sdd/controller-path-task2-review.md",
+      "evidence_integrity": "APPROVED",
+      "claim_boundary": "APPROVED",
+      "critical": 0,
+      "important": 0,
+      "minor": 1,
+      "minor_resolution": "preflight is now persisted with explicit operator_recorded provenance; no raw preflight file is claimed"
+    }
+  }
 }

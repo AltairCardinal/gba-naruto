@@ -63,3 +63,9 @@ scenario 41。所有运行直接加载 savestate，没有重复从标题、木�
 checked upstream dispatcher。继续在 scenario 41 白框上猜 A/方向键没有信息增益。完整命令、
 环境来源、raw hashes 与无法持久证明的 postcheck 字段见
 `artifacts/runtime-checkpoints/scenario-41-controller-path-evidence.json`。
+
+运行前的资源与哈希检查最初只保留在操作者记录中；现已以
+`provenance=operator_recorded` 写入 compact evidence，并明确 `raw_preflight_file` 未记录，
+没有把人工记录冒充 guard raw。fresh 验证为 controller probe 32/32、ledger
+`accepted=2/candidate=0/rejected=1/errors=0`、OpenSpec strict 有效、diff check 通过，终检
+owned project runtime 与 2345 连接均为 0。
