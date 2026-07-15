@@ -254,6 +254,7 @@ git push origin task/units-character-definitions
 - Modify: `tools/mgba_gdb_probe.py`
 - Modify: `tests/test_mgba_gdb_probe.py`
 - Modify: `tools/README.md`
+- Modify: `notes/macos-intel-runtime-preflight-20260715.md`
 
 **Interfaces:**
 - Consumes: mGBA executable, ROM, optional savestate, one stop point and read regions.
@@ -483,13 +484,13 @@ git push origin task/units-character-definitions
 - Consumes: clean mGBA `0.10.5` commit `26b7884bc25a5933960f3cdcd98bac1ae14d42e2`、上游 Qt `--script` commit `7cacae126207de5499857439b9c7919bf8e882c2`、base ROM、prebattle candidate、Task 4.5 Darwin guard。
 - Produces: 明确标识的“mGBA 0.10.5 + Qt script backport” x86_64 二进制、参数化零输入 replay、frame-80 state/截图/audit、可离线验收的 prebattle menu evidence 与 accepted ledger 记录。
 
-- [ ] **Step 1: 以 TDD 固化两文件 Qt `--script` 回移与受控构建**
+- [x] **Step 1: 以 TDD 固化两文件 Qt `--script` 回移与受控构建**
 
-版本化保存上游 `7cacae1` 的原始两文件 patch。构建工具只接受 clean `0.10.5`/`26b7884...` 源码，在独立缓存副本先运行 `git apply --check` 再应用 patch；不得触碰 `/Users/altair/github/mgba-src` 的用户脏树。clone/configure/build/能力检查全部经同一个 heavy guard，记录 patch 与二进制 SHA-256、x86_64、CMake flags、峰值 RSS、退出码和 PGID 残留。RED/GREEN 必须覆盖错误 tag、dirty source、patch 不可应用、缺失 `--script`、重复脚本执行顺序和缺失脚本负例。
+版本化保存上游 `7cacae1` 的原始两文件 patch。构建工具只接受 clean `0.10.5`/`26b7884...` 源码，在独立缓存副本先运行 `git apply --check` 再应用 patch；不得触碰 `/Users/altair/github/mgba-src` 的用户脏树。clone/configure/build/能力检查全部经同一个 heavy guard，记录 patch 与二进制 SHA-256、x86_64、CMake flags、峰值 RSS、退出码和 PGID 残留。RED/GREEN 必须覆盖错误 tag、dirty source、patch 不可应用、缺失 `--script`，并用一个真实 Lua sentinel 证明脚本能在 base ROM 启动后执行。
 
 - [ ] **Step 2: 以 TDD 实现参数化 frame-80 checkpoint replay**
 
-Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 和 capture frame；零输入模式必须生成 `inputs=[]`，不得调用 `emu:addKey`/`clearKey`，frame 80 保存后 `os.exit(0)`。Python runner 校验 ROM/state/binary/patch 哈希，强制 `QT_QPA_PLATFORM=offscreen`、heavy guard、wall/idle/RSS 上限与 owned PGID 清理；仅当 sentinel、audit、`.ss9`、截图、guard summary 全部存在且一致时返回 0。补缺失脚本、缺失产物、非零 child、超时和残留的失败测试与真实 ROM smoke。
+Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 和 capture frame；零输入模式必须生成 `inputs=[]`，不得调用 `emu:addKey`/`clearKey`，frame 80 保存后 `os.exit(0)`。Python runner 校验 ROM/state/binary/patch 哈希，强制 `QT_QPA_PLATFORM=offscreen`、heavy guard、wall/idle/RSS 上限与 owned PGID 清理；仅当 sentinel、audit、`.ss9`、截图、guard summary 全部存在且一致时返回 0。补重复 `--script` 执行顺序、缺失脚本、缺失产物、非零 child、超时和残留的失败测试与真实 ROM smoke。
 
 - [ ] **Step 3: 零输入验收 prebattle candidate 并固化快照证据**
 
