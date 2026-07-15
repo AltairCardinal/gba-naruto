@@ -11,6 +11,7 @@ import os
 import re
 import secrets
 import shutil
+import stat
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -159,6 +160,17 @@ def validate_invocation_paths(**paths: Path) -> dict[str, Path]:
                     f"path overlap is unsafe: {left_name}={left} and {right_name}={right}"
                 )
     return canonical
+
+
+def _prepare_fresh_output(path: Path, label: str) -> None:
+    try:
+        mode = path.lstat().st_mode
+    except FileNotFoundError:
+        return
+    if stat.S_ISREG(mode) or stat.S_ISLNK(mode):
+        path.unlink()
+        return
+    raise BuildError(f"stale {label} is not a regular file or symlink: {path}")
 
 
 def guarded_command(summary: Path, cwd: Path, command: Sequence[str]) -> list[str]:
@@ -314,10 +326,7 @@ def _run_phase(
     evidence_dir: Path,
 ) -> dict[str, object]:
     summary_path = evidence_dir / f"{name}.json"
-    if summary_path.exists() or summary_path.is_symlink():
-        if not summary_path.is_file() and not summary_path.is_symlink():
-            raise BuildError(f"stale guard summary is not a file: {summary_path}")
-        summary_path.unlink()
+    _prepare_fresh_output(summary_path, "guard summary")
     wrapped = guarded_command(summary_path, cwd, command)
     env = os.environ.copy()
     env["QT_QPA_PLATFORM"] = "offscreen"
@@ -363,6 +372,8 @@ def _prepare(source: Path, workspace: Path, patch_data: bytes) -> int:
 
 
 def _capture(output: Path, command: Sequence[str]) -> int:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    _prepare_fresh_output(output, "captured output")
     completed = subprocess.run(
         command,
         text=True,
@@ -370,7 +381,6 @@ def _capture(output: Path, command: Sequence[str]) -> int:
         stderr=subprocess.STDOUT,
         check=False,
     )
-    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(completed.stdout, encoding="utf-8")
     return completed.returncode
 
@@ -454,10 +464,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise BuildError(f"build directory already exists: {args.build_dir}")
     if args.workspace.exists():
         raise BuildError(f"independent workspace already exists: {args.workspace}")
-    if args.manifest.exists() or args.manifest.is_symlink():
-        if not args.manifest.is_file() and not args.manifest.is_symlink():
-            raise BuildError(f"manifest path is not a file: {args.manifest}")
-        args.manifest.unlink()
+    _prepare_fresh_output(args.manifest, "manifest")
     args.evidence_dir.mkdir(parents=True, exist_ok=True)
 
     summaries: dict[str, dict[str, object]] = {}
@@ -481,7 +488,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not binary.is_file():
         raise BuildError(f"built Qt binary is missing: {binary}")
     help_output = args.evidence_dir / "help.txt"
-    help_output.unlink(missing_ok=True)
+    _prepare_fresh_output(help_output, "help output")
     help_command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -494,7 +501,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     summaries["help"] = _run_phase("help", help_command, cwd=ROOT, evidence_dir=args.evidence_dir)
     validate_help(help_output.read_text(encoding="utf-8"))
     version_output = args.evidence_dir / "version.txt"
-    version_output.unlink(missing_ok=True)
+    _prepare_fresh_output(version_output, "version output")
     version_command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -510,7 +517,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     sentinel_path = args.evidence_dir / "sentinel.lua"
     marker_path = args.evidence_dir / "sentinel-result.json"
-    marker_path.unlink(missing_ok=True)
+    _prepare_fresh_output(sentinel_path, "sentinel script")
+    _prepare_fresh_output(marker_path, "sentinel marker")
     run_id = secrets.token_hex(16)
     sentinel_path.write_text(sentinel_lua(marker_path, run_id), encoding="utf-8")
     staged_rom = args.evidence_dir / "sentinel-base.gba"

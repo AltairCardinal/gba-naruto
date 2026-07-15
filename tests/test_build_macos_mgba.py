@@ -18,6 +18,33 @@ PATCH = ROOT / "tools" / "patches" / "mgba-0.10.5-qt-script-cli.patch"
 
 
 class BuildMacosMgbaTests(unittest.TestCase):
+    def test_prepare_fresh_output_only_removes_regular_files_and_symlinks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            victim = root / "victim.txt"
+            victim.write_text("keep", encoding="utf-8")
+            stale_link = root / "stale-link"
+            stale_link.symlink_to(victim)
+            builder._prepare_fresh_output(stale_link, "sentinel script")
+            self.assertFalse(stale_link.exists())
+            self.assertFalse(stale_link.is_symlink())
+            self.assertEqual(victim.read_text(encoding="utf-8"), "keep")
+
+            stale_file = root / "stale-file"
+            stale_file.write_text("remove", encoding="utf-8")
+            builder._prepare_fresh_output(stale_file, "marker")
+            self.assertFalse(stale_file.exists())
+
+            stale_directory = root / "stale-directory"
+            stale_directory.mkdir()
+            with self.assertRaisesRegex(builder.BuildError, "not a regular file or symlink"):
+                builder._prepare_fresh_output(stale_directory, "manifest")
+
+            stale_fifo = root / "stale-fifo"
+            os.mkfifo(stale_fifo)
+            with self.assertRaisesRegex(builder.BuildError, "not a regular file or symlink"):
+                builder._prepare_fresh_output(stale_fifo, "guard summary")
+
     def test_run_phase_cannot_reuse_stale_summary_when_wrapper_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
             evidence = Path(tmp)
@@ -355,7 +382,7 @@ class BuildMacosMgbaTests(unittest.TestCase):
             self.assertEqual(staged.read_bytes(), b"rom")
             self.assertEqual(staged.with_suffix(".sav").read_bytes(), b"save")
 
-    def test_main_wires_fresh_run_id_through_guarded_staged_sentinel_and_manifest(self):
+    def test_main_replaces_stale_sentinel_symlink_without_following_it(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source = root / "source"
@@ -367,6 +394,9 @@ class BuildMacosMgbaTests(unittest.TestCase):
             rom.write_bytes(b"fresh-rom")
             evidence = root / "repo-build" / "evidence"
             evidence.mkdir(parents=True)
+            sentinel_victim = root / "sentinel-victim.txt"
+            sentinel_victim.write_text("must-not-be-overwritten", encoding="utf-8")
+            (evidence / "sentinel.lua").symlink_to(sentinel_victim)
             (evidence / "help.txt").write_text(
                 "--script FILE stale help", encoding="utf-8"
             )
@@ -486,6 +516,11 @@ class BuildMacosMgbaTests(unittest.TestCase):
                         ]
                     )
             self.assertEqual(result, 0)
+            self.assertEqual(
+                sentinel_victim.read_text(encoding="utf-8"),
+                "must-not-be-overwritten",
+            )
+            self.assertFalse((evidence / "sentinel.lua").is_symlink())
             staged = evidence / "sentinel-base.gba"
             self.assertEqual(Path(rom_log.read_text()).resolve(), staged.resolve())
             self.assertEqual(staged.read_bytes(), rom.read_bytes())

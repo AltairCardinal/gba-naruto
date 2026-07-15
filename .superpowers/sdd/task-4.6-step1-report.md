@@ -129,3 +129,7 @@ status 不含该文件。
   SHA-256，不得只按 `0.10.5` 字符串选择 binary。
 - Step 1 只证明 Qt CLI 脚本加载和 base-ROM first-frame 执行，不证明 Step 2 的
   frame-80 replay 或 Step 3 的 prebattle candidate acceptance。
+
+thorough review 第 2/2 轮的 Minor 已用 wiring RED 复现 `sentinel.lua` symlink 覆盖
+victim；统一 fresh-output 清理后 symlink/旧普通文件被安全移除且不跟随，目录/FIFO
+fail-closed，最终 `tests.test_build_macos_mgba` 为 `21/21 PASS`。
