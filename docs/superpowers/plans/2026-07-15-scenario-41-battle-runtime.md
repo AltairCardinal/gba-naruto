@@ -39,7 +39,7 @@ base-ref: 9352dcadaa7f4650a65ae575286a2dd264b7b1ef
 - Consumes: repository-relative checkpoint/ROM paths and SHA-256 values.
 - Produces: `sha256_file(path: Path) -> str`, `validate_record(record: dict[str, object], root: Path) -> list[str]`, `validate_ledger(payload: dict[str, object], root: Path) -> list[str]`, CLI exit 0/1.
 
-- [ ] **Step 1: Write failing schema, hash and boundary tests**
+- [x] **Step 1: Write failing schema, hash and boundary tests**
 
 ```python
 class RuntimeCheckpointLedgerTests(unittest.TestCase):
@@ -75,13 +75,13 @@ class RuntimeCheckpointLedgerTests(unittest.TestCase):
         self.assertTrue(any("player-control" in error for error in errors))
 ```
 
-- [ ] **Step 2: Run the focused test and verify RED**
+- [x] **Step 2: Run the focused test and verify RED**
 
 Run: `python -m unittest tests.test_runtime_checkpoint_ledger -v`
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'tools.runtime_checkpoint_ledger'`.
 
-- [ ] **Step 3: Implement the minimal ledger validator**
+- [x] **Step 3: Implement the minimal ledger validator**
 
 ```python
 REQUIRED_FIELDS = {
@@ -115,13 +115,13 @@ def validate_record(record: dict[str, object], root: Path) -> list[str]:
 
 `validate_ledger` additionally enforces unique names, parent-before-child ordering, existing parents, valid 64-character SHA-256 metadata for every status, and that every `allowed_evidence` hook is listed in `before_hooks` for `player-control`, `movedone`, `victory`, and `postbattle`. Only `accepted` records require the referenced state and ROM to exist in the checkout and match their hashes; `candidate` and `rejected` records may retain an unavailable `build/` source path plus its previously measured hash.
 
-- [ ] **Step 4: Run tests and refactor GREEN**
+- [x] **Step 4: Run tests and refactor GREEN**
 
 Run: `python -m unittest tests.test_runtime_checkpoint_ledger -v`
 
 Expected: all checkpoint ledger tests PASS.
 
-- [ ] **Step 5: Add the initial scenario 41 ledger**
+- [x] **Step 5: Add the initial scenario 41 ledger**
 
 Record the tracked `tutorial-ui-save.sav` as the accepted root and `build/natural-s41-menu-index2.ss9` as `candidate`. Use its actual SHA-256 `e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81`; do not copy it into `artifacts/` until Task 5 proves zero-input stability and UI identity. Add a rejected entry explaining that `natural-s41-start-prompt.ss9` is actually the team/equipment page.
 
@@ -129,7 +129,7 @@ Run: `python tools/runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/sc
 
 Expected: exit 0 with `accepted=1 candidate=1 rejected=1 errors=0`.
 
-- [ ] **Step 6: Commit and push**
+- [x] **Step 6: Commit and push the checkpoint ledger**
 
 ```powershell
 git add tools/runtime_checkpoint_ledger.py tests/test_runtime_checkpoint_ledger.py artifacts/runtime-checkpoints/scenario-41-checkpoints.json artifacts/runtime-checkpoints/README.md openspec/changes/close-scenario-41-battle-runtime/tasks.md
@@ -153,7 +153,7 @@ git push origin task/units-character-definitions
 - Produces: `ObserverSite`, `build_observer_stub(site, event_counter, stub_size) -> bytes`, `patch_observer(rom, site, event_counter, stub_size) -> None`.
 - Record layout: `magic:u32, hit_count:u32, arg0:u32, arg1:u16, arg2:u16, sequence:u32, event_code:u32` (24 bytes).
 
-- [ ] **Step 1: Write RED tests for ABI, ranges and publish ordering**
+- [x] **Step 1: Write RED tests for ABI, ranges and publish ordering**
 
 ```python
 class PublishedCallObserverTests(unittest.TestCase):
@@ -187,13 +187,13 @@ class PublishedCallObserverTests(unittest.TestCase):
 
 Implement `tests/thumb_observer_machine.py` as a deterministic instruction-state interpreter scoped to the emitted Thumb subset. It must execute the generated stub and verify r0-r4, SP and LR restoration rather than only byte equality.
 
-- [ ] **Step 2: Run focused tests and verify RED**
+- [x] **Step 2: Run focused tests and verify RED**
 
 Run: `python -m unittest tests.test_published_call_observer tests.test_build_player_control_runtime_probe -v`
 
 Expected: FAIL because `published_call_observer` and the 24-byte sequence/event layout do not exist.
 
-- [ ] **Step 3: Implement the shared observer builder**
+- [x] **Step 3: Implement the shared observer builder**
 
 ```python
 @dataclass(frozen=True)
@@ -223,13 +223,13 @@ Use dynamic literal fixups as in `build_skill_relation_runtime_probe.py`. The wr
 
 Use `EVENT_COUNTER=0x0203F040`, current-unit scratch `0x0203F060`, player-control scratch `0x0203F080`, stubs `0x0809E800` and `0x0809E880`, and `STUB_SIZE=96`. Build-time range tests must prove these do not overlap.
 
-- [ ] **Step 4: Refactor the player builder onto the shared API and run GREEN**
+- [x] **Step 4: Refactor the player builder onto the shared API and run GREEN**
 
 Run: `python -m unittest tests.test_published_call_observer tests.test_build_player_control_runtime_probe -v`
 
 Expected: all observer/builder tests PASS, including execution-level register/SP/LR equivalence.
 
-- [ ] **Step 5: Build and byte-audit the diagnostic ROM**
+- [x] **Step 5: Build and byte-audit the diagnostic ROM**
 
 ```powershell
 python tools/build_player_control_runtime_probe.py rom/base.gba build/scenario-41-player-control.gba
@@ -238,7 +238,7 @@ python -m unittest tests.test_published_call_observer tests.test_build_player_co
 
 Expected: builder prints a SHA-256; confined-diff test proves only two checked BL sites and two zero-filled caves changed.
 
-- [ ] **Step 6: Commit and push**
+- [x] **Step 6: Commit and push the shared observer**
 
 ```powershell
 git add tools/published_call_observer.py tools/build_player_control_runtime_probe.py tests/thumb_observer_machine.py tests/test_published_call_observer.py tests/test_build_player_control_runtime_probe.py openspec/changes/close-scenario-41-battle-runtime/tasks.md
@@ -259,7 +259,7 @@ git push origin task/units-character-definitions
 - Consumes: mGBA executable, ROM, optional savestate, one stop point and read regions.
 - Produces: `parse_stop_reply(payload: str) -> StopReply`, `ensure_port_available(host, port)`, `verify_rom_fingerprint(client, rom)`, and success/error JSON with hashes and strict stop evidence.
 
-- [ ] **Step 1: Write RED tests for session ownership and strict stop validation**
+- [x] **Step 1: Write RED tests for session ownership and strict stop validation**
 
 ```python
 def test_port_conflict_fails_before_launcher(self):
@@ -290,13 +290,13 @@ def test_rom_fingerprint_rejects_wrong_endpoint(self):
 
 Add fake-RSP cases for ACK/NACK retransmit, checksum mismatch, `S05`, `T05`, `W00`, wrong PC, 600-byte chunking, one `E06` subchunk, and bounded stdout/stderr draining.
 
-- [ ] **Step 2: Run tests and verify RED**
+- [x] **Step 2: Run tests and verify RED**
 
 Run: `python -m unittest tests.test_mgba_gdb_probe -v`
 
 Expected: FAIL because ownership/stop/fingerprint functions are absent and cleanup still sends `k`.
 
-- [ ] **Step 3: Implement minimal strict session behavior**
+- [x] **Step 3: Implement minimal strict session behavior**
 
 ```python
 @dataclass(frozen=True)
@@ -318,17 +318,17 @@ def validate_breakpoint_stop(stop: StopReply, registers: dict[str, int], expecte
 
 Before `Popen`, bind-test the port. After connecting, read deterministic ROM windows including `0x08000000` and the requested stop point bytes and compare to the ROM file. Remove `--key`, window enumeration, `PostMessage`, KEYINPUT watch claims and `client.command("k")`. Drain child output continuously into bounded tails, then terminate only the owned `Popen` child; outer `run_guarded.py` owns the full tree.
 
-- [ ] **Step 4: Add hashes and actionable failure JSON**
+- [x] **Step 4: Add hashes and actionable failure JSON**
 
 Success and failure results include `outcome`, emulator path/SHA-256/version, ROM path/SHA-256, savestate path/SHA-256, command, port, raw stop, expected/actual PC, registers, read regions and capped child output tails. Failure writing must survive cleanup errors.
 
-- [ ] **Step 5: Run unit/fake-server GREEN**
+- [x] **Step 5: Run unit/fake-server GREEN**
 
 Run: `python -m unittest tests.test_mgba_gdb_probe -v`
 
 Expected: all tests PASS with no Windows input tests remaining.
 
-- [ ] **Step 6: Run a guarded native smoke at a known reachable boundary**
+- [x] **Step 6: Run a guarded native smoke at a known reachable boundary**
 
 ```powershell
 python tools/run_guarded.py --summary build/resource-guard/mgba-strict-smoke.json -- python tools/mgba_gdb_probe.py --mgba C:\Users\feeli\.cache\codex-tools\mgba\0.10.5\mGBA-0.10.5-win64\mGBA.exe --rom rom/base.gba --savestate artifacts/runtime-checkpoints/actionable-move-grid.ss9 --breakpoint 0x080732B4 --read 0x02026804:8 --read 0x020240C0:256 --output build/mgba-strict-smoke.json
@@ -336,7 +336,7 @@ python tools/run_guarded.py --summary build/resource-guard/mgba-strict-smoke.jso
 
 Expected: either a verified target stop with matching PC/ROM fingerprint or an explicit bounded `not-proven` timeout; in both cases guard reports `windows-job-object`, owns one process tree, and leaves no mGBA child. A timeout does not block the tool commit if fake-RSP and prior known-stop smoke are green, but must be recorded as runtime-route evidence rather than success.
 
-- [ ] **Step 7: Commit and push**
+- [x] **Step 7: Commit and push**
 
 ```powershell
 git add tools/mgba_gdb_probe.py tests/test_mgba_gdb_probe.py tools/README.md openspec/changes/close-scenario-41-battle-runtime/tasks.md
