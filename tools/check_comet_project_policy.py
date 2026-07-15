@@ -62,15 +62,16 @@ GAME_UI_CONTEXT_RE = re.compile(
 )
 EXEMPT_PUSH_RE = re.compile(
     r"(?:"
-    r"历史\s*(?:git\s+push|push|推送)"
-    r"|曾(?:经)?\s*(?:运行\s*)?(?:git\s+push|push|推送)"
+    r"历史\s*(?:git\s+push|push|推送)(?:\s*已完成)?"
+    r"|曾(?:经)?\s*(?:运行\s*)?(?:git\s+push|push|推送)(?:\s*到远端)?"
     r"|不再运行\s*(?:git\s+push|push|推送)"
     r"|不得\s*(?:运行\s*)?(?:git\s+push|push|推送)"
     r"|禁止\s*(?:运行\s*)?(?:git\s+push|push|推送)"
-    r"|不执行\s*(?:git\s+push|push|推送)"
+    r"|(?:本步骤|也)?不执行\s*(?:git\s+push|push|推送)"
     r")",
     re.IGNORECASE,
 )
+NORMATIVE_CLAUSE_SPLIT_RE = re.compile(r"[；;。.!?！？，,]")
 CLAUSE_SPLIT_RE = re.compile(
     r"[；;。.!?！？，,]|\b(?:but|then)\b|(?<!不)但|然后", re.IGNORECASE
 )
@@ -283,7 +284,11 @@ def _contains_push(text: str) -> bool:
 
 
 def _normative_push_required(text: str) -> bool:
-    return _contains_push(EXEMPT_PUSH_RE.sub("", text.replace("`", "")))
+    for raw_clause in NORMATIVE_CLAUSE_SPLIT_RE.split(text):
+        clause = raw_clause.replace("`", "").strip()
+        if _contains_push(clause) and EXEMPT_PUSH_RE.fullmatch(clause) is None:
+            return True
+    return False
 
 
 def _scan_push_lines(
@@ -398,13 +403,14 @@ def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path
     errors: list[str] = []
     root_resolved = root.resolve()
     for name in active_changes:
-        change = _validated_change_path(root, name)
         try:
+            change = _validated_change_path(root, name)
             comet = _validated_artifact_path(change, change / ".comet.yaml")
-        except ValueError as exc:
-            errors.append(str(exc))
+            comet_exists = comet.is_file()
+        except (OSError, ValueError) as exc:
+            errors.append(f"cannot inspect active plan artifact {name!r}: {exc}")
             continue
-        if not comet.is_file():
+        if not comet_exists:
             continue
         try:
             lines = comet.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -421,13 +427,21 @@ def _active_plan_paths(root: Path, active_changes: list[str]) -> tuple[list[Path
             continue
         if not plan_values or plan_values[0] in {"", "null"}:
             continue
-        plan = (root / plan_values[0]).resolve()
         try:
+            plan = (root / plan_values[0]).resolve()
             plan.relative_to(root_resolved)
         except ValueError:
             errors.append(f"{_relative_path(root, comet)}: plan escapes repository root")
             continue
-        if not plan.is_file():
+        except OSError as exc:
+            errors.append(f"{_relative_path(root, comet)}: {exc}")
+            continue
+        try:
+            plan_exists = plan.is_file()
+        except OSError as exc:
+            errors.append(f"{_relative_path(root, comet)}: {exc}")
+            continue
+        if not plan_exists:
             errors.append(
                 f"{_relative_path(root, comet)}: plan does not exist: {plan_values[0]}"
             )
@@ -528,13 +542,18 @@ def audit_project(
     for name in active_changes:
         try:
             _validated_change_path(root, name)
-        except ValueError as exc:
+        except (OSError, ValueError) as exc:
             errors.append(str(exc))
         else:
             validated_changes.append(name)
 
-    plans, plan_errors = _active_plan_paths(root, validated_changes)
-    errors.extend(plan_errors)
+    try:
+        plans, plan_errors = _active_plan_paths(root, validated_changes)
+    except (OSError, ValueError) as exc:
+        errors.append(f"cannot inspect active plan artifacts: {exc}")
+        plans = []
+    else:
+        errors.extend(plan_errors)
     try:
         conflicts = find_push_conflicts(root, validated_changes, plans)
     except (OSError, ValueError) as exc:

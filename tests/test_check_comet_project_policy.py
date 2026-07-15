@@ -324,6 +324,16 @@ limits:
             ],
         )
 
+    def test_nested_negative_push_phrase_fails_closed(self) -> None:
+        self.write_change_file("demo", "design.md", "禁止不执行推送。\n")
+
+        conflicts = find_push_conflicts(self.root, ["demo"], [])
+
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("openspec/changes/demo/design.md", 1)],
+        )
+
     def test_only_exempts_contextual_game_ui_push_start(self) -> None:
         self.write_change_file(
             "demo",
@@ -506,6 +516,20 @@ limits:
         report = audit_project(self.root, active_changes=["demo"])
         self.assertTrue(
             any("artifact escapes active change" in item for item in report["errors"]),
+            report,
+        )
+
+    def test_audit_surfaces_comet_artifact_path_failure(self) -> None:
+        self.write_change("demo")
+
+        with mock.patch(
+            "tools.check_comet_project_policy._validated_artifact_path",
+            side_effect=OSError("artifact path unavailable"),
+        ):
+            report = audit_project(self.root, active_changes=["demo"])
+
+        self.assertTrue(
+            any("artifact path unavailable" in item for item in report["errors"]),
             report,
         )
 
