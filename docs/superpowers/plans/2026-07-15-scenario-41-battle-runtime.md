@@ -492,7 +492,7 @@ git push origin task/units-character-definitions
 
 Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 和 capture frame；零输入模式必须生成 `inputs=[]`，不得调用 `emu:addKey`/`clearKey`，frame 80 保存后 `os.exit(0)`。Python runner 校验 ROM/state/binary/patch 哈希，强制 `QT_QPA_PLATFORM=offscreen`、heavy guard、wall/idle/RSS 上限与 owned PGID 清理；仅当 sentinel、audit、`.ss9`、截图、guard summary 全部存在且一致时返回 0。补重复 `--script` 执行顺序、缺失脚本、缺失产物、非零 child、超时和残留的失败测试与真实 ROM smoke。
 
-- [ ] **Step 3: 零输入验收 prebattle candidate 并固化快照证据**
+- [x] **Step 3: 零输入验收 prebattle candidate 并固化快照证据**
 
 在 base ROM 上从 `scenario-41-prebattle-menu-candidate.ss9` 零输入运行 80 帧。验收必须同时证明：截图仍为同一战前菜单；task 2 resume PC 为 `0x08067D02`；活动 unwind 为 `0x080885C1 → 0x08088F9F → 0x0808F92D` 且不含 `0x0808F957`；`[0x0202680C]=0`；ROM/state/emulator/patch 哈希正确；guard completed/0；最终 PGID/监听端口无残留。先以 TDD 扩展离线 inspector 生成这些字段。全部成立才把现有 candidate 记为 accepted 并更新 ledger/evidence/README/notes/roadmap；任一不成立则保持 not-proven，记录失败且不得继续 Down/A。
 
