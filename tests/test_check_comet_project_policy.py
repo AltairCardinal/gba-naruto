@@ -225,6 +225,30 @@ limits:
             [("openspec/changes/demo/tasks.md", 6)],
         )
 
+    def test_completed_checkbox_exempts_its_unindented_code_block_until_section_boundary(
+        self,
+    ) -> None:
+        plan = self.root / "docs/plan.md"
+        plan.parent.mkdir(parents=True)
+        plan.write_text(
+            "- [x] **Step 1: historical delivery**\n\n"
+            "当前分支 push 状态也不在本计划中声称。\n"
+            "不再运行旧计划中的 git add/push 命令。\n\n"
+            "```sh\n"
+            "git commit -m done\n"
+            "git push origin historical\n"
+            "```\n\n"
+            "---\n\n"
+            "### Next task\n\n"
+            "- [ ] git push origin future\n",
+            encoding="utf-8",
+        )
+        conflicts = find_push_conflicts(self.root, [], [plan])
+        self.assertEqual(
+            [(item["path"], item["line"]) for item in conflicts],
+            [("docs/plan.md", 15)],
+        )
+
     def test_exempts_only_explicit_historical_or_negative_normative_text(self) -> None:
         self.write_change_file(
             "demo",

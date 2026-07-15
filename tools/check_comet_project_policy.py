@@ -54,6 +54,7 @@ EXPECTED_POLICY: dict[str, object] = {
 }
 
 CHECKBOX_RE = re.compile(r"^\s*[-*]\s+\[([ xX])\]")
+MARKDOWN_SECTION_BOUNDARY_RE = re.compile(r"^\s*(?:#{1,6}\s+|-{3,}\s*$)")
 PUSH_RE = re.compile(r"\bpush\b|推送", re.IGNORECASE)
 PUSH_START_UI_RE = re.compile(r"\bPUSH START\b(?![ \t]+[A-Za-z0-9_-])")
 GAME_UI_CONTEXT_RE = re.compile(
@@ -296,7 +297,6 @@ def _scan_push_lines(
 ) -> list[dict[str, object]]:
     conflicts: list[dict[str, object]] = []
     checkbox_unfinished: bool | None = None
-    checkbox_indent: int | None = None
     try:
         lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     except OSError as exc:
@@ -306,12 +306,8 @@ def _scan_push_lines(
         checkbox = CHECKBOX_RE.match(text) if checkbox_aware else None
         if checkbox:
             checkbox_unfinished = checkbox.group(1) == " "
-            checkbox_indent = len(text) - len(text.lstrip())
-        elif checkbox_unfinished is not None and text.strip():
-            line_indent = len(text) - len(text.lstrip())
-            if checkbox_indent is not None and line_indent <= checkbox_indent:
-                checkbox_unfinished = None
-                checkbox_indent = None
+        elif checkbox_aware and MARKDOWN_SECTION_BOUNDARY_RE.match(text):
+            checkbox_unfinished = None
         if checkbox_aware and not _contains_push(text):
             continue
         if not checkbox_aware and not _normative_push_required(text):
