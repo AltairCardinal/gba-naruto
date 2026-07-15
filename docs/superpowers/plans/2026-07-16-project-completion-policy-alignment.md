@@ -247,11 +247,11 @@ Implementation commit: `fe93ab9`；parent policy audit GREEN；四个 OpenSpec s
 - Consumes: passing project policy audit and commit `f252dbd`.
 - Produces: final completion gate requires a fresh policy report; current subagent checkpoint says implemented-but-unreviewed.
 
-- [ ] **Step 1: 为最终 policy report 门禁编写 RED fixture**
+- [x] **Step 1: 为最终 policy report 门禁编写 RED fixture**
 
-扩展 `tests/test_check_comet_project_policy.py`：`audit_project` 接收可选 `report_path`，当 final-gate 模式下报告缺失、报告的 policy hash 不等于当前文件或报告含 errors 时失败；普通 preflight 不要求已有报告。
+扩展 `tests/test_check_comet_project_policy.py`：为 `--verify-report` 覆盖报告缺失、policy hash 过期、保存报告含 errors，以及保存报告有效但当前审计失败；普通 preflight 不要求已有报告。
 
-- [ ] **Step 2: 运行 RED**
+- [x] **Step 2: 运行 RED**
 
 Run:
 
@@ -261,9 +261,9 @@ python3 -m unittest tests.test_check_comet_project_policy -v
 
 Expected: FAIL because final-gate report validation does not exist。
 
-- [ ] **Step 3: 实现 report freshness 最小逻辑并运行 GREEN**
+- [x] **Step 3: 实现 report freshness 最小逻辑并运行 GREEN**
 
-报告写入 `policy_sha256` 和 `generated_at`；`--verify-report PATH` 只读取并核对当前 policy hash、`policy_valid`、空冲突和空 errors。
+报告写入 `policy_sha256` 和 `generated_at`；`--verify-report PATH` 先读取并核对保存报告的当前 policy hash、`policy_valid`、空冲突和空 errors，再重跑当前项目审计。任一读取、严格 UTF-8 解码或当前审计错误均以机器可读 JSON fail-closed。
 
 Run:
 
@@ -275,11 +275,11 @@ python3 tools/check_comet_project_policy.py --root . --verify-report build/comet
 
 Expected: tests PASS，生成与复核命令 exit 0。
 
-- [ ] **Step 4: 把 policy report 加入最终 completion gate**
+- [x] **Step 4: 把 policy report 加入最终 completion gate**
 
 在最终 change 的 tasks/spec 中要求：同一 commit 上先生成 policy report，再由 `--verify-report` 复核；缺失、过期或失败时 `completion_claim_allowed=false`。
 
-- [ ] **Step 5: 校正当前 subagent checkpoint**
+- [x] **Step 5: 校正当前 subagent checkpoint**
 
 把 `.comet/subagent-progress.md` 从 `dispatching` 改为：
 
@@ -291,7 +291,7 @@ Expected: tests PASS，生成与复核命令 exit 0。
 
 从 `.superpowers/sdd/task-4.7-step1-report.md` 填入实际变更文件和 RED/GREEN 命令摘要；不得勾选 plan 或 OpenSpec task。
 
-- [ ] **Step 6: 运行最终整改验证**
+- [x] **Step 6: 运行最终整改验证**
 
 Run:
 
@@ -308,12 +308,14 @@ git diff --check
 
 Expected: all commands exit 0。
 
-- [ ] **Step 7: 提交最终接入与断点校正**
+- [x] **Step 7: 提交最终接入与断点校正**
 
 ```bash
 git commit -m "chore(comet): gate completion on project policy audit"
 ```
 
-- [ ] **Step 8: 回到 Goal 前置检查**
+- [x] **Step 8: 回到 Goal 前置检查**
 
 父代理重新调用 Goal 状态工具。若仍为 `blocked`，停止写入并请用户恢复 Goal；若为 `active`，加载当前 Comet build 状态并派发一个全新的只读 reviewer 审查 `f252dbd`，不得重新实现 Task 4.7 Step 1。
+
+Implementation commits: `3ce9923`、`95d233a`。RED 新增 5 项按预期失败；GREEN 与父代理复验均为 50/50 PASS。policy report 生成/复验、Python 编译、四个当前 OpenSpec change strict validate、diff 与提交范围检查全部通过。修复后独立复审：Critical/Important/Minor 均为 0，Spec/Quality 均 PASS。未运行 ROM/mGBA、未发送输入、未 push、未勾选 scenario plan 或其 OpenSpec task。
