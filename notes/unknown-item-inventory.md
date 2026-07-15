@@ -2,6 +2,10 @@
 
 ## Status: SUSPECTED (requires dynamic analysis)
 
+Correction (2026-07-11): the character-stat candidates formerly listed at
+`0x54507A` and `0x545200` are unrelated to items. They are misaligned views of
+the runtime-verified growth table at `0x545068`.
+
 ## Why It's Hard to Find
 
 Item/inventory tables are difficult to find via static analysis because:

@@ -18,7 +18,7 @@ sequel/content/
   └── units/
       └── sequel-units.json
 
-         ↓ import_dialogue.py / import_map.py / import_battle_config.py
+         ↓ dialogue / chapter / map / battle importers
 
 sequel/patches/manifest.json   # Patch manifest (references content)
 
@@ -34,6 +34,8 @@ build/naruto-sequel-dev.gba   # Development ROM
 | `bytes` | Direct hex patch | ✓ Always |
 | `dialogue` | `dialogue-patches.json` | ✓ |
 | `pointer_redirect` | Variable-length text | ✓ Framework |
+| `dialogue_var` | Dialogue bank + audited allocator | ✓ |
+| `chapter_script` | Semantic chapter spec + audited allocator | ✓ |
 | `map` | `episode-*-*.json` | ✓ Framework |
 | `battle_config` | `story/` + `units/` | ✓ Framework |
 
@@ -73,5 +75,6 @@ build/naruto-sequel-dev.gba   # Development ROM
 - All dialogue text must encode in cp932 (Shift-JIS)
 - New text longer than `max_bytes` requires `redirect_offset` in bank entry
 - Variable-length text redirect requires verified free ROM space
+- Chapter scripts must use the semantic importer; direct pointer-only editing is rejected
 - All patches must have `enabled: true` in manifest to apply
 - Build verifies base ROM sha1 before applying patches

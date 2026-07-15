@@ -1,0 +1,35 @@
+{
+  "verification": "disproved_transient",
+  "source_state": "scenario 41 terminal preparation menu",
+  "input_sequence": ["KeyZ", "KeyX", "ArrowDown", "ArrowDown", "KeyZ"],
+  "early_stop_observation": {
+    "driver_setting": "PROBE_STOP_ON_MATCH default enabled",
+    "battle_id": 41,
+    "map": "36x44",
+    "reason_rejected": "The probe returned at the first transient strict-arrival sample before the foreground controller settled."
+  },
+  "full_settle_observation": {
+    "driver_settings": ["PROBE_STOP_ON_MATCH=0", "PROBE_FORCE_SETTLE=1", "PROBE_ADAPTIVE_BACK=0"],
+    "outcome": "not-found",
+    "battle_control_hex": "0000000000000000",
+    "battle_id": 0,
+    "map_runtime_hex": "00000000",
+    "unit_count": 0,
+    "screen_state": "character-panel"
+  },
+  "checkpoint_replay": {
+    "checkpoint_sha256": "400aad29546b9b938bb646f57fbc63d910e74f5f60342374dc9432e05bc346b8",
+    "zero_input_screen": "transient battle map",
+    "first_A_result": "team/equipment character panel, not a battle action menu"
+  },
+  "chapter_trace": {
+    "selector_hit_count": 2,
+    "scenario_id": 41,
+    "script": "0x08031A12",
+    "opcode_hit_count": 44,
+    "terminal_cursor": "0x08031D5F",
+    "new_selector_hit": false
+  },
+  "conclusion": "The observed battle-41 memory/map was a transient preparation-controller state. The natural battle entry is not closed and this checkpoint must not be used as a battle-start checkpoint.",
+  "replacement_gate": "Require battle/map/formation after full settle, then prove A opens an actionable battle menu rather than team/equipment UI."
+}

@@ -1,10 +1,10 @@
 {
-  "version": 2,
-  "description": "Save state structure identified through deep Thumb disasm of save handler at 0x08068684. Save table at 0x53D848 contains 10 entries (7 unique) mapping EWRAM buffers to SRAM offsets. Each entry writes 19 data bytes + 1 byte checksum (total 20 bytes) to SRAM.",
+  "version": 3,
+  "description": "Ten save-buffer descriptors consumed by 0x08068684. Each SRAM record is a 19-byte identity header, payload_length bytes, and one NOT-sum payload checksum; starts advance by payload_length+0x14.",
+  "structure_kind": "save-buffer-descriptor-table",
   "table_offset": 5494856,
-  "table_offset_hex": "0x053D848",
+  "table_offset_hex": "0x53D848",
   "entry_count": 10,
-  "unique_field_count": 7,
   "entry_size": 8,
   "entry_format": {
     "fields": [
@@ -12,171 +12,185 @@
         "offset": 0,
         "size": 4,
         "name": "ewram_buffer",
-        "type": "u32",
-        "description": "EWRAM address of source/destination buffer"
+        "type": "u32"
       },
       {
         "offset": 4,
         "size": 4,
-        "name": "sram_offset_field",
-        "type": "u32",
-        "description": "SRAM offset field (real SRAM offset = this + 0x14)"
+        "name": "payload_length",
+        "type": "u32"
       }
     ]
   },
-  "data_size_per_entry": 20,
-  "data_format": {
-    "data_bytes": 19,
-    "checksum_bytes": 1,
-    "checksum_method": "8-bit NOT(sum of bytes)"
-  },
-  "save_handler": {
-    "address": "0x08068684",
-    "mode_0": "save",
-    "mode_1": "load",
-    "size_per_call": "20 bytes"
-  },
-  "unique_save_fields": [
-    {
-      "sram_offset": "0x001C",
-      "ewram_buffer": "0x02026804",
-      "description": "Save field 1 — short data record (19 bytes)"
-    },
-    {
-      "sram_offset": "0x0028",
-      "ewram_buffer": "0x020240AC",
-      "description": "Save field 2 — short data record (19 bytes), referenced twice in table"
-    },
-    {
-      "sram_offset": "0x002C",
-      "ewram_buffer": "0x02026BC8",
-      "description": "Save field 3 — short data record (19 bytes)"
-    },
-    {
-      "sram_offset": "0x0214",
-      "ewram_buffer": "0x02026604",
-      "description": "Save field 4 — medium data record (19 bytes)"
-    },
-    {
-      "sram_offset": "0x0590",
-      "ewram_buffer": "0x02025884",
-      "description": "Save field 5 — medium data record (19 bytes)"
-    },
-    {
-      "sram_offset": "0x1290",
-      "ewram_buffer": "0x02022E30",
-      "description": "Save field 6 — short data record (19 bytes), referenced 3 times in table"
-    },
-    {
-      "sram_offset": "0x17D8",
-      "ewram_buffer": "0x020240C0",
-      "description": "Save field 7 — large data record (19 bytes), near end of 64KB SRAM"
-    }
-  ],
-  "total_save_size_bytes": 140,
-  "sram_region": {
-    "base_address": "0x0E000000",
-    "size": "0x10000",
-    "size_bytes": 65536,
-    "type": "SRAM"
-  },
-  "literal_pool_refs": {
-    "0x080686C8": "0x0853D848 (save table)",
-    "0x080686CC": "0x030077C0 (IWRAM buffer)",
-    "0x080686D0": "0x02002880 (EWRAM buffer)",
-    "0x080686D4": "0x06001C60 (VRAM buffer)"
-  },
-  "verification_method": "Deep Thumb disassembly of save handler at 0x08068684. Trace shows literal pool reference to table at 0x0853D848. Each table entry contains EWRAM buffer address and SRAM offset. Per-entry size 20 bytes derived from `movs r2, #0x13` (19 data bytes) + 1 byte checksum appended in save mode. Checksum = NOT(sum of all 19 data bytes) stored at end of each 20-byte block.",
-  "discovered_by": "Disasm trace Phase 3 (2026-06-26)",
-  "static_verification": "All 10 table entries cross-referenced with EWRAM addresses that appear in EWRAM layout. Save data layout confirmed: 7 unique save fields, each 20 bytes (19 data + 1 checksum).",
-  "notes": "Save state uses 7 unique fields totaling 140 bytes. Table has 10 entries with 3 duplicates — duplicates may indicate save retries or separate field copies. The 7 unique EWRAM buffers are game-state pointers (chapter, unlocks, items, stats, etc.) but specific field semantics require runtime verification (not possible with current mGBA build).",
+  "verification": "runtime_verified",
+  "verification_method": "After genuine tutorial victory, the in-game Save menu wrote a 32 KiB .sav. Active descriptors 0 and 2 contain the 19-byte Naruto-KONOHASENKI identity header and payload checksums matching ~sum(payload); unused records are all-FF. A cold ROM restart recognized slot 1 and restored the saved Konoha overworld. Static disassembly at 0x08068684 proves the same header+payload+checksum layout for every descriptor; group 3..9 wrappers remain code-level subchains.",
+  "handler": "0x08068684",
+  "save_wrapper": "0x080689A4 (groups 3..9)",
+  "load_wrapper": "0x08068AF0 (groups 3..9)",
+  "sram_advance_overhead": 20,
+  "record_header_length": 19,
+  "record_layout": "19-byte identity header + payload_length bytes + 1 checksum byte",
+  "checksum": "bitwise NOT of the 8-bit sum of all payload bytes",
   "entries": [
     {
+      "descriptor_index": 0,
+      "_index": 0,
       "_raw_offset": 5494856,
       "ewram_buffer": 33697328,
       "ewram_buffer_hex": "302e0202",
-      "sram_offset_field": 4732,
-      "sram_offset_field_hex": "7c120000",
-      "_index": 0
+      "payload_length": 4732,
+      "payload_length_hex": "7c120000",
+      "sram_record_offset": 0,
+      "sram_record_offset_hex": "0x0000",
+      "header_offset": 0,
+      "payload_offset": 19,
+      "checksum_offset": 4751,
+      "record_bytes_written": 4752,
+      "next_record_offset": 4752
     },
     {
+      "descriptor_index": 1,
+      "_index": 1,
       "_raw_offset": 5494864,
       "ewram_buffer": 33697328,
       "ewram_buffer_hex": "302e0202",
-      "sram_offset_field": 4732,
-      "sram_offset_field_hex": "7c120000",
-      "_index": 1
+      "payload_length": 4732,
+      "payload_length_hex": "7c120000",
+      "sram_record_offset": 4752,
+      "sram_record_offset_hex": "0x1290",
+      "header_offset": 4752,
+      "payload_offset": 4771,
+      "checksum_offset": 9503,
+      "record_bytes_written": 4752,
+      "next_record_offset": 9504
     },
     {
+      "descriptor_index": 2,
+      "_index": 2,
       "_raw_offset": 5494872,
       "ewram_buffer": 33702060,
       "ewram_buffer_hex": "ac400202",
-      "sram_offset_field": 20,
-      "sram_offset_field_hex": "14000000",
-      "_index": 2
+      "payload_length": 20,
+      "payload_length_hex": "14000000",
+      "sram_record_offset": 9504,
+      "sram_record_offset_hex": "0x2520",
+      "header_offset": 9504,
+      "payload_offset": 9523,
+      "checksum_offset": 9543,
+      "record_bytes_written": 40,
+      "next_record_offset": 9544
     },
     {
+      "descriptor_index": 3,
+      "_index": 3,
       "_raw_offset": 5494880,
       "ewram_buffer": 33697328,
       "ewram_buffer_hex": "302e0202",
-      "sram_offset_field": 4732,
-      "sram_offset_field_hex": "7c120000",
-      "_index": 3
+      "payload_length": 4732,
+      "payload_length_hex": "7c120000",
+      "sram_record_offset": 9544,
+      "sram_record_offset_hex": "0x2548",
+      "header_offset": 9544,
+      "payload_offset": 9563,
+      "checksum_offset": 14295,
+      "record_bytes_written": 4752,
+      "next_record_offset": 14296
     },
     {
+      "descriptor_index": 4,
+      "_index": 4,
       "_raw_offset": 5494888,
       "ewram_buffer": 33702060,
       "ewram_buffer_hex": "ac400202",
-      "sram_offset_field": 20,
-      "sram_offset_field_hex": "14000000",
-      "_index": 4
+      "payload_length": 20,
+      "payload_length_hex": "14000000",
+      "sram_record_offset": 14296,
+      "sram_record_offset_hex": "0x37D8",
+      "header_offset": 14296,
+      "payload_offset": 14315,
+      "checksum_offset": 14335,
+      "record_bytes_written": 40,
+      "next_record_offset": 14336
     },
     {
+      "descriptor_index": 5,
+      "_index": 5,
       "_raw_offset": 5494896,
       "ewram_buffer": 33712132,
       "ewram_buffer_hex": "04680202",
-      "sram_offset_field": 8,
-      "sram_offset_field_hex": "08000000",
-      "_index": 5
+      "payload_length": 8,
+      "payload_length_hex": "08000000",
+      "sram_record_offset": 14336,
+      "sram_record_offset_hex": "0x3800",
+      "header_offset": 14336,
+      "payload_offset": 14355,
+      "checksum_offset": 14363,
+      "record_bytes_written": 28,
+      "next_record_offset": 14364
     },
     {
+      "descriptor_index": 6,
+      "_index": 6,
       "_raw_offset": 5494904,
       "ewram_buffer": 33713096,
       "ewram_buffer_hex": "c86b0202",
-      "sram_offset_field": 24,
-      "sram_offset_field_hex": "18000000",
-      "_index": 6
+      "payload_length": 24,
+      "payload_length_hex": "18000000",
+      "sram_record_offset": 14364,
+      "sram_record_offset_hex": "0x381C",
+      "header_offset": 14364,
+      "payload_offset": 14383,
+      "checksum_offset": 14407,
+      "record_bytes_written": 44,
+      "next_record_offset": 14408
     },
     {
+      "descriptor_index": 7,
+      "_index": 7,
       "_raw_offset": 5494912,
       "ewram_buffer": 33702080,
       "ewram_buffer_hex": "c0400202",
-      "sram_offset_field": 6084,
-      "sram_offset_field_hex": "c4170000",
-      "_index": 7
+      "payload_length": 6084,
+      "payload_length_hex": "c4170000",
+      "sram_record_offset": 14408,
+      "sram_record_offset_hex": "0x3848",
+      "header_offset": 14408,
+      "payload_offset": 14427,
+      "checksum_offset": 20511,
+      "record_bytes_written": 6104,
+      "next_record_offset": 20512
     },
     {
+      "descriptor_index": 8,
+      "_index": 8,
       "_raw_offset": 5494920,
       "ewram_buffer": 33708164,
       "ewram_buffer_hex": "84580202",
-      "sram_offset_field": 1404,
-      "sram_offset_field_hex": "7c050000",
-      "_index": 8
+      "payload_length": 1404,
+      "payload_length_hex": "7c050000",
+      "sram_record_offset": 20512,
+      "sram_record_offset_hex": "0x5020",
+      "header_offset": 20512,
+      "payload_offset": 20531,
+      "checksum_offset": 21935,
+      "record_bytes_written": 1424,
+      "next_record_offset": 21936
     },
     {
+      "descriptor_index": 9,
+      "_index": 9,
       "_raw_offset": 5494928,
       "ewram_buffer": 33711620,
       "ewram_buffer_hex": "04660202",
-      "sram_offset_field": 512,
-      "sram_offset_field_hex": "00020000",
-      "_index": 9
+      "payload_length": 512,
+      "payload_length_hex": "00020000",
+      "sram_record_offset": 21936,
+      "sram_record_offset_hex": "0x55B0",
+      "header_offset": 21936,
+      "payload_offset": 21955,
+      "checksum_offset": 22467,
+      "record_bytes_written": 532,
+      "next_record_offset": 22468
     }
-  ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 10,
-    "rom_offset": 5494856,
-    "rom_offset_hex": "0x53D848"
-  }
+  ]
 }

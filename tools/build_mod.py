@@ -15,6 +15,15 @@ from patch_safety import PatchSafetyGate, with_base_precondition
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def editor_db_path() -> Path:
+    """Resolve a request-scoped editor DB, falling back to the project DB."""
+    configured = os.environ.get("DB_PATH")
+    if not configured:
+        return ROOT / "sequel" / "editor.db"
+    path = Path(configured)
+    return path if path.is_absolute() else ROOT / path
+
+
 def sync_rom_mirrors(db_path: Path) -> dict[str, int]:
     """Refresh read-only ``rom_*`` tables from their canonical bank files.
 
@@ -41,14 +50,6 @@ def sync_rom_mirrors(db_path: Path) -> dict[str, int]:
         except ValueError:
             pass
 
-# Optional env override: when the editor backend kicks off a build via
-# subprocess, it sets BUILD_OUTPUT_DIR to a per-user/per-build subdir so
-# concurrent users never overwrite each other's ROMs. When unset (e.g.
-# running `python3 tools/build_mod.py` by hand) we fall back to the
-# project.json `build.output_rom` path, preserving the historical behaviour.
-_BUILD_OUTPUT_DIR_ENV = os.environ.get("BUILD_OUTPUT_DIR")
-
-
 @dataclass
 class BuildContext:
     project_path: Path
@@ -71,11 +72,12 @@ def load_context(project_path: Path) -> BuildContext:
     base_rom_path = ROOT / project["base_rom"]["path"]
     report_path = ROOT / project["build"]["report"]
 
-    if _BUILD_OUTPUT_DIR_ENV:
+    output_dir = os.environ.get("BUILD_OUTPUT_DIR")
+    if output_dir:
         # Per-build output dir from the editor backend.
         # Both ROM and report live side-by-side in this isolated dir so
         # concurrent users never share files.
-        out_root = Path(_BUILD_OUTPUT_DIR_ENV)
+        out_root = Path(output_dir)
         if not out_root.is_absolute():
             out_root = ROOT / out_root
         output_rom_path = out_root / "naruto-sequel-dev.gba"
@@ -92,6 +94,14 @@ def load_context(project_path: Path) -> BuildContext:
         output_rom_path=output_rom_path,
         report_path=report_path,
     )
+
+
+def display_path(path: Path) -> str:
+    """Prefer project-relative report paths but permit external build roots."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def apply_bytes_patch(
@@ -169,11 +179,11 @@ def resolve_dialogue_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[di
     # via the editor (which lives in sequel/editor.db) replaces whatever is
     # hard-coded in dialogue-patches.json. The map is {entry_id: text}.
     overrides: dict[str, str] = {}
-    editor_db_path = ROOT / "sequel" / "editor.db"
-    if editor_db_path.exists():
+    db_path = editor_db_path()
+    if db_path.exists():
         try:
             from build_db_patches import generate_editor_dialogue_overrides
-            overrides = generate_editor_dialogue_overrides(editor_db_path)
+            overrides = generate_editor_dialogue_overrides(db_path)
         except Exception:
             overrides = {}
     entries = import_dialogue(bank, content, overrides=overrides)
@@ -208,8 +218,31 @@ def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> lis
 
     bank = ROOT / patch["bank"]
     content = ROOT / patch["content"]
-    free_start = int(patch.get("free_space_start", "0x5DFBEC"), 0)
-    return import_dialogue_variable(bank, content, free_start)
+    free_start = int(patch.get("free_space_start", "0x5F0000"), 0)
+    free_end = int(patch.get("free_space_end", "0x600000"), 0)
+    overrides = {}
+    db_path = editor_db_path()
+    if db_path.exists():
+        from build_db_patches import generate_editor_dialogue_overrides
+        overrides = generate_editor_dialogue_overrides(db_path)
+    return import_dialogue_variable(
+        bank, content, free_start, free_end,
+        rom=(ROOT / "rom/base.gba").read_bytes(), overrides=overrides,
+    )
+
+
+def resolve_chapter_script_patch(ctx_roots: tuple[Path, Path], patch: dict) -> list[dict]:
+    from import_chapter_scripts import resolve_chapter_script_patches
+
+    spec = ROOT / patch["spec"]
+    free_start = int(patch.get("free_space_start", "0x5F8000"), 0)
+    free_end = int(patch.get("free_space_end", "0x600000"), 0)
+    return resolve_chapter_script_patches(
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+        free_space_start=free_start,
+        free_space_end=free_end,
+    )
 
 
 def apply_patch(
@@ -237,21 +270,24 @@ def build(project_path: Path) -> dict:
     #   2. Audit-trail patches written into a reserved region (0x5E0000..0x600000).
     #      Every editor.db row gets a 64-byte sentinel-tagged record here so we can
     #      verify the editor's data reached the ROM without depending on game semantics.
-    editor_db_path = ROOT / "sequel" / "editor.db"
+    db_path = editor_db_path()
     db_real_patches: list[dict] = []
     db_audit_patches: list[dict] = []
-    if editor_db_path.exists():
-        sync_rom_mirrors(editor_db_path)
+    if db_path.exists():
+        sync_rom_mirrors(db_path)
         from build_db_patches import (
             generate_db_patches,
             generate_battle_config_patches,
             generate_chapter_patches,
             generate_unit_patches,
+            generate_character_definition_patches,
             generate_skill_patches,
             generate_story_beat_patches,
             generate_audio_patches,
+            generate_audio_sound_id_patches,
             generate_unit_position_patches,
             generate_map_patches,
+            generate_map_header_patches,
             generate_level_patches,
             generate_character_stat_patches,
             generate_battle_config_data_patches,
@@ -278,44 +314,51 @@ def build(project_path: Path) -> dict:
             generate_story_c_patches,
             generate_story_d_patches,
             generate_story_e_patches,
+            generate_chapter_flow_primary_patches,
+            generate_chapter_flow_alternate_patches,
             generate_tile_asset_patches,
         )
-        db_real_patches.extend(generate_battle_config_patches(editor_db_path))
-        db_real_patches.extend(generate_chapter_patches(editor_db_path))
-        db_real_patches.extend(generate_unit_patches(editor_db_path))
-        db_real_patches.extend(generate_skill_patches(editor_db_path))
-        db_real_patches.extend(generate_story_beat_patches(editor_db_path))
-        db_real_patches.extend(generate_audio_patches(editor_db_path))
-        db_real_patches.extend(generate_unit_position_patches(editor_db_path))
-        db_real_patches.extend(generate_map_patches(editor_db_path))
-        db_real_patches.extend(generate_level_patches(editor_db_path))
-        db_real_patches.extend(generate_character_stat_patches(editor_db_path))
-        db_real_patches.extend(generate_battle_config_data_patches(editor_db_path))
-        db_real_patches.extend(generate_encounter_zone_patches(editor_db_path))
-        db_real_patches.extend(generate_item_patches(editor_db_path))
-        db_real_patches.extend(generate_audio_event_patches(editor_db_path))
-        db_real_patches.extend(generate_battle_encounter_patches(editor_db_path))
-        db_real_patches.extend(generate_battle_handler_patches(editor_db_path))
-        db_real_patches.extend(generate_character_stats_b_patches(editor_db_path))
-        db_real_patches.extend(generate_cutscene_script_patches(editor_db_path))
-        db_real_patches.extend(generate_data_table_a_patches(editor_db_path))
-        db_real_patches.extend(generate_data_table_b_patches(editor_db_path))
-        db_real_patches.extend(generate_font_patches(editor_db_path))
-        db_real_patches.extend(generate_function_pointer_patches(editor_db_path))
-        db_real_patches.extend(generate_map_event_patches(editor_db_path))
-        db_real_patches.extend(generate_map_sprite_patches(editor_db_path))
-        db_real_patches.extend(generate_menu_ui_patches(editor_db_path))
-        db_real_patches.extend(generate_palette_patches(editor_db_path))
-        db_real_patches.extend(generate_resource_pointer_patches(editor_db_path))
-        db_real_patches.extend(generate_sappy_engine_patches(editor_db_path))
-        db_real_patches.extend(generate_save_state_patches(editor_db_path))
-        db_real_patches.extend(generate_sprite_animation_patches(editor_db_path))
-        db_real_patches.extend(generate_story_b_patches(editor_db_path))
-        db_real_patches.extend(generate_story_c_patches(editor_db_path))
-        db_real_patches.extend(generate_story_d_patches(editor_db_path))
-        db_real_patches.extend(generate_story_e_patches(editor_db_path))
-        db_real_patches.extend(generate_tile_asset_patches(editor_db_path))
-        db_audit_patches = generate_db_patches(editor_db_path)
+        db_real_patches.extend(generate_battle_config_patches(db_path))
+        db_real_patches.extend(generate_chapter_patches(db_path))
+        db_real_patches.extend(generate_unit_patches(db_path))
+        db_real_patches.extend(generate_character_definition_patches(db_path))
+        db_real_patches.extend(generate_skill_patches(db_path))
+        db_real_patches.extend(generate_story_beat_patches(db_path))
+        db_real_patches.extend(generate_audio_patches(db_path))
+        db_real_patches.extend(generate_audio_sound_id_patches(db_path))
+        db_real_patches.extend(generate_unit_position_patches(db_path))
+        db_real_patches.extend(generate_map_patches(db_path))
+        db_real_patches.extend(generate_map_header_patches(db_path))
+        db_real_patches.extend(generate_level_patches(db_path))
+        db_real_patches.extend(generate_character_stat_patches(db_path))
+        db_real_patches.extend(generate_battle_config_data_patches(db_path))
+        db_real_patches.extend(generate_encounter_zone_patches(db_path))
+        db_real_patches.extend(generate_item_patches(db_path))
+        db_real_patches.extend(generate_audio_event_patches(db_path))
+        db_real_patches.extend(generate_battle_encounter_patches(db_path))
+        db_real_patches.extend(generate_battle_handler_patches(db_path))
+        db_real_patches.extend(generate_character_stats_b_patches(db_path))
+        db_real_patches.extend(generate_cutscene_script_patches(db_path))
+        db_real_patches.extend(generate_data_table_a_patches(db_path))
+        db_real_patches.extend(generate_data_table_b_patches(db_path))
+        db_real_patches.extend(generate_font_patches(db_path))
+        db_real_patches.extend(generate_function_pointer_patches(db_path))
+        db_real_patches.extend(generate_map_event_patches(db_path))
+        db_real_patches.extend(generate_map_sprite_patches(db_path))
+        db_real_patches.extend(generate_menu_ui_patches(db_path))
+        db_real_patches.extend(generate_palette_patches(db_path))
+        db_real_patches.extend(generate_resource_pointer_patches(db_path))
+        db_real_patches.extend(generate_sappy_engine_patches(db_path))
+        db_real_patches.extend(generate_save_state_patches(db_path))
+        db_real_patches.extend(generate_sprite_animation_patches(db_path))
+        db_real_patches.extend(generate_story_b_patches(db_path))
+        db_real_patches.extend(generate_story_c_patches(db_path))
+        db_real_patches.extend(generate_story_d_patches(db_path))
+        db_real_patches.extend(generate_story_e_patches(db_path))
+        db_real_patches.extend(generate_chapter_flow_primary_patches(db_path))
+        db_real_patches.extend(generate_chapter_flow_alternate_patches(db_path))
+        db_real_patches.extend(generate_tile_asset_patches(db_path))
+        db_audit_patches = generate_db_patches(db_path)
     ctx = load_context(project_path)
     expected_sha1 = ctx.project["base_rom"]["sha1"]
     actual_sha1 = sha1_file(ctx.base_rom_path)
@@ -366,6 +409,10 @@ def build(project_path: Path) -> dict:
                 applied.append(apply_patch(data, sp, gate=safety_gate))
         elif patch_type == "dialogue_var":
             sub_patches = resolve_dialogue_var_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                applied.append(apply_patch(data, sp, gate=safety_gate))
+        elif patch_type == "chapter_script":
+            sub_patches = resolve_chapter_script_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
                 applied.append(apply_patch(data, sp, gate=safety_gate))
         else:
@@ -426,11 +473,11 @@ def build(project_path: Path) -> dict:
     report: dict[str, Any] = {
         "project": ctx.project["project_id"],
         "base_rom": {
-            "path": str(ctx.base_rom_path.relative_to(ROOT)),
+            "path": display_path(ctx.base_rom_path),
             "sha1": actual_sha1,
         },
         "output_rom": {
-            "path": str(ctx.output_rom_path.relative_to(ROOT)),
+            "path": display_path(ctx.output_rom_path),
             "sha1": built_sha1,
             "size": len(data),
         },

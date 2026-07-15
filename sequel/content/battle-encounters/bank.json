@@ -1,327 +1,48 @@
 {
-  "version": 1,
-  "description": "Battle encounter table discovered at ROM offset 0x542384. 38 entries with mixed pointers and small numbers, likely defining battle encounters.",
-  "table_offset": 5514116,
-  "table_offset_hex": "0x542384",
-  "entry_count": 38,
-  "entry_size": 4,
+  "version": 2,
+  "description": "Twenty-four visual resource descriptors consumed by the story-opcode slideshow loader; historical battle-encounters name retained for compatibility.",
+  "table_offset": 5513884,
+  "table_offset_hex": "0x54229C",
+  "entry_count": 24,
+  "entry_size": 16,
   "entry_format": {
-    "description": "Mixed table with u32 pointers and u32 small numbers. Pattern: ptr, val, ptr, ptr repeating.",
+    "description": "Three GBA LZ77 resource pointers followed by a small visual/configuration ID.",
     "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "entry",
-        "type": "u32",
-        "description": "Either a pointer to battle data or a small battle ID/count value"
-      }
+      {"offset": 0, "size": 4, "name": "gfx_lz_ptr", "type": "u32"},
+      {"offset": 4, "size": 4, "name": "palette_lz_ptr", "type": "u32"},
+      {"offset": 8, "size": 4, "name": "tilemap_lz_ptr", "type": "u32"},
+      {"offset": 12, "size": 4, "name": "config_id", "type": "u32"}
     ]
   },
-  "notes": "Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region. Referenced from code at 0x542310, 0x542314, and 0x54231C. Located after the skill table (0x546100) and before the level-up table (0x5459D4).",
-  "pattern_analysis": {
-    "entries_per_group": 4,
-    "group_format": "ptr, val, ptr, ptr",
-    "small_values": [
-      48,
-      49,
-      51,
-      52,
-      58,
-      61,
-      74,
-      16,
-      77,
-      5
-    ],
-    "pointer_range": "0x138F74-0x13DE58"
-  },
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5514116,
-      "offset_hex": "0x542384",
-      "type": "pointer",
-      "value": "0x08138F74",
-      "notes": "Battle data pointer"
-    },
-    {
-      "index": 1,
-      "offset": 5514120,
-      "offset_hex": "0x542388",
-      "type": "value",
-      "value": 48,
-      "notes": "Battle ID or count"
-    },
-    {
-      "index": 2,
-      "offset": 5514124,
-      "offset_hex": "0x54238C",
-      "type": "pointer",
-      "value": "0x0813918C",
-      "notes": "Battle data pointer"
-    },
-    {
-      "index": 3,
-      "offset": 5514128,
-      "offset_hex": "0x542390",
-      "type": "pointer",
-      "value": "0x08139A6C",
-      "notes": "Battle data pointer"
-    },
-    {
-      "index": 4,
-      "offset": 5514132,
-      "offset_hex": "0x542394",
-      "type": "pointer",
-      "value": "0x08139A94",
-      "notes": "Battle data pointer"
-    },
-    {
-      "index": 5,
-      "offset": 5514136,
-      "offset_hex": "0x542398",
-      "type": "value",
-      "value": 49,
-      "notes": "Battle ID or count"
-    }
-  ],
-  "verification_method": "Static analysis - found table with 38 entries containing mixed pointers and small numbers. Referenced from code at 0x542310, 0x542314, and 0x54231C.",
-  "discovered_by": "Searching for code references to 0x54xxxx tables",
+  "verification": "code_verified",
+  "verification_method": "Story opcode handler 0x0808FA2C calls 0x0808A69C then 0x08087C9C. Its loop indexes 0x0854229C by r7<<4 for r7=0..23, consumes +0xC as a config byte, and decompresses +0/+4/+8 to 0x0600E800, 0x050001E0 and 0x06001800.",
+  "former_claim": "38 mixed battle encounter pointers and IDs beginning at 0x542384",
+  "notes": "The old offset equals descriptor 14 + 8, so the third pointer and config value were mistaken for a repeating encounter pattern. All 72 resource targets begin with LZ77 header 0x10. This bank does not prove enemy selection or random encounters.",
   "entries": [
-    {
-      "_raw_offset": 5514116,
-      "entry": 135499636,
-      "entry_hex": "748f1308",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5514120,
-      "entry": 48,
-      "entry_hex": "30000000",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5514124,
-      "entry": 135500172,
-      "entry_hex": "8c911308",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5514128,
-      "entry": 135502444,
-      "entry_hex": "6c9a1308",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5514132,
-      "entry": 135502484,
-      "entry_hex": "949a1308",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5514136,
-      "entry": 49,
-      "entry_hex": "31000000",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5514140,
-      "entry": 135502952,
-      "entry_hex": "689c1308",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5514144,
-      "entry": 135506512,
-      "entry_hex": "50aa1308",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5514148,
-      "entry": 135506552,
-      "entry_hex": "78aa1308",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5514152,
-      "entry": 51,
-      "entry_hex": "33000000",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5514156,
-      "entry": 135507144,
-      "entry_hex": "c8ac1308",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5514160,
-      "entry": 135507896,
-      "entry_hex": "b8af1308",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5514164,
-      "entry": 135507936,
-      "entry_hex": "e0af1308",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5514168,
-      "entry": 52,
-      "entry_hex": "34000000",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5514172,
-      "entry": 135508256,
-      "entry_hex": "20b11308",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5514176,
-      "entry": 135509568,
-      "entry_hex": "40b61308",
-      "_index": 15
-    },
-    {
-      "_raw_offset": 5514180,
-      "entry": 135509608,
-      "entry_hex": "68b61308",
-      "_index": 16
-    },
-    {
-      "_raw_offset": 5514184,
-      "entry": 58,
-      "entry_hex": "3a000000",
-      "_index": 17
-    },
-    {
-      "_raw_offset": 5514188,
-      "entry": 135509972,
-      "entry_hex": "d4b71308",
-      "_index": 18
-    },
-    {
-      "_raw_offset": 5514192,
-      "entry": 135511688,
-      "entry_hex": "88be1308",
-      "_index": 19
-    },
-    {
-      "_raw_offset": 5514196,
-      "entry": 135511728,
-      "entry_hex": "b0be1308",
-      "_index": 20
-    },
-    {
-      "_raw_offset": 5514200,
-      "entry": 61,
-      "entry_hex": "3d000000",
-      "_index": 21
-    },
-    {
-      "_raw_offset": 5514204,
-      "entry": 135512152,
-      "entry_hex": "58c01308",
-      "_index": 22
-    },
-    {
-      "_raw_offset": 5514208,
-      "entry": 135513404,
-      "entry_hex": "3cc51308",
-      "_index": 23
-    },
-    {
-      "_raw_offset": 5514212,
-      "entry": 135513444,
-      "entry_hex": "64c51308",
-      "_index": 24
-    },
-    {
-      "_raw_offset": 5514216,
-      "entry": 74,
-      "entry_hex": "4a000000",
-      "_index": 25
-    },
-    {
-      "_raw_offset": 5514220,
-      "entry": 135513816,
-      "entry_hex": "d8c61308",
-      "_index": 26
-    },
-    {
-      "_raw_offset": 5514224,
-      "entry": 135514996,
-      "entry_hex": "74cb1308",
-      "_index": 27
-    },
-    {
-      "_raw_offset": 5514228,
-      "entry": 135515036,
-      "entry_hex": "9ccb1308",
-      "_index": 28
-    },
-    {
-      "_raw_offset": 5514232,
-      "entry": 16,
-      "entry_hex": "10000000",
-      "_index": 29
-    },
-    {
-      "_raw_offset": 5514236,
-      "entry": 135515404,
-      "entry_hex": "0ccd1308",
-      "_index": 30
-    },
-    {
-      "_raw_offset": 5514240,
-      "entry": 135517196,
-      "entry_hex": "0cd41308",
-      "_index": 31
-    },
-    {
-      "_raw_offset": 5514244,
-      "entry": 135517236,
-      "entry_hex": "34d41308",
-      "_index": 32
-    },
-    {
-      "_raw_offset": 5514248,
-      "entry": 77,
-      "entry_hex": "4d000000",
-      "_index": 33
-    },
-    {
-      "_raw_offset": 5514252,
-      "entry": 135517672,
-      "entry_hex": "e8d51308",
-      "_index": 34
-    },
-    {
-      "_raw_offset": 5514256,
-      "entry": 135519792,
-      "entry_hex": "30de1308",
-      "_index": 35
-    },
-    {
-      "_raw_offset": 5514260,
-      "entry": 135519832,
-      "entry_hex": "58de1308",
-      "_index": 36
-    },
-    {
-      "_raw_offset": 5514264,
-      "entry": 5,
-      "entry_hex": "05000000",
-      "_index": 37
-    }
+    {"_index": 0, "_raw_offset": 5513884, "gfx_lz_ptr": 135462736, "gfx_lz_ptr_hex": "50ff1208", "palette_lz_ptr": 135463528, "palette_lz_ptr_hex": "68021308", "tilemap_lz_ptr": 135463568, "tilemap_lz_ptr_hex": "90021308", "config_id": 4, "config_id_hex": "04000000"},
+    {"_index": 1, "_raw_offset": 5513900, "gfx_lz_ptr": 135463912, "gfx_lz_ptr_hex": "e8031308", "palette_lz_ptr": 135466288, "palette_lz_ptr_hex": "300d1308", "tilemap_lz_ptr": 135466328, "tilemap_lz_ptr_hex": "580d1308", "config_id": 10, "config_id_hex": "0a000000"},
+    {"_index": 2, "_raw_offset": 5513916, "gfx_lz_ptr": 135466832, "gfx_lz_ptr_hex": "500f1308", "palette_lz_ptr": 135468948, "palette_lz_ptr_hex": "94171308", "tilemap_lz_ptr": 135468988, "tilemap_lz_ptr_hex": "bc171308", "config_id": 14, "config_id_hex": "0e000000"},
+    {"_index": 3, "_raw_offset": 5513932, "gfx_lz_ptr": 135469464, "gfx_lz_ptr_hex": "98191308", "palette_lz_ptr": 135471780, "palette_lz_ptr_hex": "a4221308", "tilemap_lz_ptr": 135471820, "tilemap_lz_ptr_hex": "cc221308", "config_id": 24, "config_id_hex": "18000000"},
+    {"_index": 4, "_raw_offset": 5513948, "gfx_lz_ptr": 135472276, "gfx_lz_ptr_hex": "94241308", "palette_lz_ptr": 135474080, "palette_lz_ptr_hex": "a02b1308", "tilemap_lz_ptr": 135474120, "tilemap_lz_ptr_hex": "c82b1308", "config_id": 17, "config_id_hex": "11000000"},
+    {"_index": 5, "_raw_offset": 5513964, "gfx_lz_ptr": 135474548, "gfx_lz_ptr_hex": "742d1308", "palette_lz_ptr": 135477520, "palette_lz_ptr_hex": "10391308", "tilemap_lz_ptr": 135477560, "tilemap_lz_ptr_hex": "38391308", "config_id": 18, "config_id_hex": "12000000"},
+    {"_index": 6, "_raw_offset": 5513980, "gfx_lz_ptr": 135478096, "gfx_lz_ptr_hex": "503b1308", "palette_lz_ptr": 135480520, "palette_lz_ptr_hex": "c8441308", "tilemap_lz_ptr": 135480560, "tilemap_lz_ptr_hex": "f0441308", "config_id": 21, "config_id_hex": "15000000"},
+    {"_index": 7, "_raw_offset": 5513996, "gfx_lz_ptr": 135481032, "gfx_lz_ptr_hex": "c8461308", "palette_lz_ptr": 135481884, "palette_lz_ptr_hex": "1c4a1308", "tilemap_lz_ptr": 135481924, "tilemap_lz_ptr_hex": "444a1308", "config_id": 25, "config_id_hex": "19000000"},
+    {"_index": 8, "_raw_offset": 5514012, "gfx_lz_ptr": 135482260, "gfx_lz_ptr_hex": "944b1308", "palette_lz_ptr": 135484236, "palette_lz_ptr_hex": "4c531308", "tilemap_lz_ptr": 135484276, "tilemap_lz_ptr_hex": "74531308", "config_id": 29, "config_id_hex": "1d000000"},
+    {"_index": 9, "_raw_offset": 5514028, "gfx_lz_ptr": 135484708, "gfx_lz_ptr_hex": "24551308", "palette_lz_ptr": 135486560, "palette_lz_ptr_hex": "605c1308", "tilemap_lz_ptr": 135486600, "tilemap_lz_ptr_hex": "885c1308", "config_id": 28, "config_id_hex": "1c000000"},
+    {"_index": 10, "_raw_offset": 5514044, "gfx_lz_ptr": 135487044, "gfx_lz_ptr_hex": "445e1308", "palette_lz_ptr": 135488584, "palette_lz_ptr_hex": "48641308", "tilemap_lz_ptr": 135488624, "tilemap_lz_ptr_hex": "70641308", "config_id": 34, "config_id_hex": "22000000"},
+    {"_index": 11, "_raw_offset": 5514060, "gfx_lz_ptr": 135489044, "gfx_lz_ptr_hex": "14661308", "palette_lz_ptr": 135490600, "palette_lz_ptr_hex": "286c1308", "tilemap_lz_ptr": 135490640, "tilemap_lz_ptr_hex": "506c1308", "config_id": 76, "config_id_hex": "4c000000"},
+    {"_index": 12, "_raw_offset": 5514076, "gfx_lz_ptr": 135491064, "gfx_lz_ptr_hex": "f86d1308", "palette_lz_ptr": 135492972, "palette_lz_ptr_hex": "6c751308", "tilemap_lz_ptr": 135493012, "tilemap_lz_ptr_hex": "94751308", "config_id": 30, "config_id_hex": "1e000000"},
+    {"_index": 13, "_raw_offset": 5514092, "gfx_lz_ptr": 135493468, "gfx_lz_ptr_hex": "5c771308", "palette_lz_ptr": 135495988, "palette_lz_ptr_hex": "34811308", "tilemap_lz_ptr": 135496028, "tilemap_lz_ptr_hex": "5c811308", "config_id": 47, "config_id_hex": "2f000000"},
+    {"_index": 14, "_raw_offset": 5514108, "gfx_lz_ptr": 135496516, "gfx_lz_ptr_hex": "44831308", "palette_lz_ptr": 135499596, "palette_lz_ptr_hex": "4c8f1308", "tilemap_lz_ptr": 135499636, "tilemap_lz_ptr_hex": "748f1308", "config_id": 48, "config_id_hex": "30000000"},
+    {"_index": 15, "_raw_offset": 5514124, "gfx_lz_ptr": 135500172, "gfx_lz_ptr_hex": "8c911308", "palette_lz_ptr": 135502444, "palette_lz_ptr_hex": "6c9a1308", "tilemap_lz_ptr": 135502484, "tilemap_lz_ptr_hex": "949a1308", "config_id": 49, "config_id_hex": "31000000"},
+    {"_index": 16, "_raw_offset": 5514140, "gfx_lz_ptr": 135502952, "gfx_lz_ptr_hex": "689c1308", "palette_lz_ptr": 135506512, "palette_lz_ptr_hex": "50aa1308", "tilemap_lz_ptr": 135506552, "tilemap_lz_ptr_hex": "78aa1308", "config_id": 51, "config_id_hex": "33000000"},
+    {"_index": 17, "_raw_offset": 5514156, "gfx_lz_ptr": 135507144, "gfx_lz_ptr_hex": "c8ac1308", "palette_lz_ptr": 135507896, "palette_lz_ptr_hex": "b8af1308", "tilemap_lz_ptr": 135507936, "tilemap_lz_ptr_hex": "e0af1308", "config_id": 52, "config_id_hex": "34000000"},
+    {"_index": 18, "_raw_offset": 5514172, "gfx_lz_ptr": 135508256, "gfx_lz_ptr_hex": "20b11308", "palette_lz_ptr": 135509568, "palette_lz_ptr_hex": "40b61308", "tilemap_lz_ptr": 135509608, "tilemap_lz_ptr_hex": "68b61308", "config_id": 58, "config_id_hex": "3a000000"},
+    {"_index": 19, "_raw_offset": 5514188, "gfx_lz_ptr": 135509972, "gfx_lz_ptr_hex": "d4b71308", "palette_lz_ptr": 135511688, "palette_lz_ptr_hex": "88be1308", "tilemap_lz_ptr": 135511728, "tilemap_lz_ptr_hex": "b0be1308", "config_id": 61, "config_id_hex": "3d000000"},
+    {"_index": 20, "_raw_offset": 5514204, "gfx_lz_ptr": 135512152, "gfx_lz_ptr_hex": "58c01308", "palette_lz_ptr": 135513404, "palette_lz_ptr_hex": "3cc51308", "tilemap_lz_ptr": 135513444, "tilemap_lz_ptr_hex": "64c51308", "config_id": 74, "config_id_hex": "4a000000"},
+    {"_index": 21, "_raw_offset": 5514220, "gfx_lz_ptr": 135513816, "gfx_lz_ptr_hex": "d8c61308", "palette_lz_ptr": 135514996, "palette_lz_ptr_hex": "74cb1308", "tilemap_lz_ptr": 135515036, "tilemap_lz_ptr_hex": "9ccb1308", "config_id": 16, "config_id_hex": "10000000"},
+    {"_index": 22, "_raw_offset": 5514236, "gfx_lz_ptr": 135515404, "gfx_lz_ptr_hex": "0ccd1308", "palette_lz_ptr": 135517196, "palette_lz_ptr_hex": "0cd41308", "tilemap_lz_ptr": 135517236, "tilemap_lz_ptr_hex": "34d41308", "config_id": 77, "config_id_hex": "4d000000"},
+    {"_index": 23, "_raw_offset": 5514252, "gfx_lz_ptr": 135517672, "gfx_lz_ptr_hex": "e8d51308", "palette_lz_ptr": 135519792, "palette_lz_ptr_hex": "30de1308", "tilemap_lz_ptr": 135519832, "tilemap_lz_ptr_hex": "58de1308", "config_id": 5, "config_id_hex": "05000000"}
   ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 38,
-    "rom_offset": 5514116,
-    "rom_offset_hex": "0x542384"
-  }
+  "extraction": {"tool": "tools/populate_bank_json.py", "extracted_count": 24, "rom_offset": 5513884, "rom_offset_hex": "0x54229C"}
 }

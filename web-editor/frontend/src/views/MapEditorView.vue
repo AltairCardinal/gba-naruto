@@ -63,11 +63,6 @@ import { useAuthStore } from '../stores/authStore'
 
 const auth = useAuthStore()
 
-function authHeaders(): Record<string, string> {
-  const token = localStorage.getItem('access_token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 interface TileData {
   tile_id: number
   hflip: boolean
@@ -107,13 +102,13 @@ const currentTile = computed(() => {
 })
 
 async function fetchMaps() {
-  const res = await fetch('/api/v1/maps', { headers: authHeaders() })
+  const res = await fetch('/api/v1/maps', { headers: auth.authHeaders() })
   if (!res.ok) throw new Error(`maps list failed: ${res.status}`)
   maps.value = await res.json()
 }
 
 async function loadMap() {
-  const res = await fetch(`/api/v1/maps/${selectedMapId.value}`, { headers: authHeaders() })
+  const res = await fetch(`/api/v1/maps/${selectedMapId.value}`, { headers: auth.authHeaders() })
   const data = await res.json()
   currentMap.value = data.tile_grid as TileData[][]
   originalMap.value = JSON.parse(JSON.stringify(currentMap.value))
@@ -203,7 +198,7 @@ async function saveMap() {
   try {
     const res = await fetch(`/api/v1/maps/${selectedMapId.value}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...auth.authHeaders() },
       body: JSON.stringify({ tile_grid: currentMap.value })
     })
     const result = await res.json()

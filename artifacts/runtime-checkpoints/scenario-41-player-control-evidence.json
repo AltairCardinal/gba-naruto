@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "outcome": "not-proven",
+  "reason": "published-player-observers-not-fresh",
+  "scope": "scenario-41-player-control",
+  "posthoc_reanalysis": {
+    "date": "2026-07-15",
+    "conclusion": "The white-grid savestate's current suspended task chain is pre-controller lineup/deployment; this state is not battle-controller-entry evidence and does not rule out earlier historical calls.",
+    "evidence": "artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json"
+  },
+  "roms": {
+    "base": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+    },
+    "observer": {
+      "rebuild_path": "build/scenario-41-player-control.gba",
+      "sha256": "2992a8434da391d6191ddf71119c9409dcf3ca5223010d5f9d405e0b35a96dd8"
+    }
+  },
+  "accepted_start_row": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+    "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+    "screen": "scenario-41-start-row",
+    "authorized_evidence": [],
+    "zero_input_reports": [
+      {
+        "path": "build/task5-zero-replay-1.json",
+        "sha256": "81177ee8281e5ddf89335c46ecc7e48d9e51536a8f00d1690ef33350664b7596",
+        "screenshot": "build/task5-zero-replay-1-settle.png",
+        "screenshot_sha256": "cc31a5aa12505d95795681607a91836ea26123848e22ca6520ccb2b4f1adf0c1"
+      },
+      {
+        "path": "build/task5-zero-replay-2.json",
+        "sha256": "49e7f60f12fa073af19c6b53b460bd325cce6db70cce1b2752602ad76d4b0a82",
+        "screenshot": "build/task5-zero-replay-2-settle.png",
+        "screenshot_sha256": "7132ad46eb745eaef4da8770da3f955ac826b67df26a2a1c734acd1894400d9f"
+      }
+    ],
+    "stable_fields": {
+      "battle_id": 0,
+      "map_raw_hex": "00000000",
+      "formation": [],
+      "player_observer_raw_hex": "000000000000000000000000000000000000000000000000",
+      "current_unit_observer_raw_hex": "000000000000000000000000000000000000000000000000",
+      "input_events": []
+    }
+  },
+  "start_row_single_a": {
+    "input_plan": [
+      {
+        "phase": "tail",
+        "step": 1,
+        "logical_key": "KeyZ",
+        "gba_button": "A",
+        "hold_ms": 125,
+        "classification": "explicit",
+        "down_completed": true,
+        "up_completed": true
+      }
+    ],
+    "automatic_inputs": [],
+    "observer_run": {
+      "result": "build/task5-after-start-a.json",
+      "result_sha256": "513bf551e3f9519231986b301a88c5d3f9cef3d2893d18097a57e2e7db4b7d16",
+      "screenshot": "build/task5-after-start-a-settle.png",
+      "screenshot_sha256": "8e6a0d70ac1d502dfd9a98c6982b3d36822f9eea795c95cd82b2f562139062b8",
+      "candidate_state": "build/task5-after-start-a.ss9",
+      "candidate_state_sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "persisted_state": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
+      "player_before": "000000000000000000000000000000000000000000000000",
+      "player_after": "000000000000000000000000000000000000000000000000",
+      "current_before": "000000000000000000000000000000000000000000000000",
+      "current_after": "000000000000000000000000000000000000000000000000",
+      "evaluator_reason": "player-observer-not-fresh"
+    },
+    "base_control": {
+      "result": "build/task5-base-control-start-a.json",
+      "result_sha256": "41ae137ad7a56fc792eae1578d266ded2e107f089851fd9d96ffabd4c6c07052",
+      "screenshot": "build/task5-base-control-start-a-settle.png",
+      "screenshot_sha256": "e2375e3115d4f0b7b37c5963a686bba029a870c62c92b42047fbe5490088c212",
+      "state": "build/task5-base-control-start-a.ss9",
+      "state_sha256": "fcdac1f8785a9521629b985a750717eac86452c2888648686b7eb7e30a93929a",
+      "visible_screen_matches": true,
+      "declared_non_target_wram_matches": true
+    },
+    "shared_result": {
+      "battle_id": 41,
+      "map_raw_hex": "242c0916",
+      "map_width": 36,
+      "map_height": 44,
+      "screen_state": "battle-map",
+      "controlled_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "x": 4,
+        "y": 10
+      },
+      "other_unit": {
+        "slot": 2,
+        "character_id": 30,
+        "affiliation": 1,
+        "x": 4,
+        "y": 4
+      }
+    }
+  },
+  "battle_entry_candidate": {
+    "status": "temporary-build-candidate",
+    "promoted": false,
+    "zero_input_result": "build/task5-player-selection-zero.json",
+    "zero_input_result_sha256": "8ecfc233109767fa2d1d0fa0d72245840934c051cdc6fb09bf91a1f9ead388a0",
+    "zero_input_screenshot": "build/task5-player-selection-zero-settle.png",
+    "zero_input_screenshot_sha256": "e2375e3115d4f0b7b37c5963a686bba029a870c62c92b42047fbe5490088c212",
+    "zero_input_events": [],
+    "single_a_result": "build/task5-after-selection-a.json",
+    "single_a_result_sha256": "c66c9e4e761f5ac8c77ce6d963f27ff692426c3c8eb94dc245f85e74e66ae112",
+    "single_a_screenshot": "build/task5-after-selection-a-settle.png",
+    "single_a_screenshot_sha256": "cbb9bf8e8e96c0370c9904846f321c22b7d6ff1eb7d674ff39ed58c83eb8334f",
+    "single_a_state": "build/task5-after-selection-a.ss9",
+    "single_a_state_sha256": "99590bb4a124e2011c9e7102cf1a937f9b536f000f4f2abe253190dfcf8e2905",
+    "single_a_input_complete": true,
+    "automatic_inputs": [],
+    "player_before": "000000000000000000000000000000000000000000000000",
+    "player_after": "000000000000000000000000000000000000000000000000",
+    "current_before": "000000000000000000000000000000000000000000000000",
+    "current_after": "000000000000000000000000000000000000000000000000",
+    "evaluator_reason": "player-observer-not-fresh"
+  },
+  "run_metadata_provenance": {
+    "value": "operator_recorded",
+    "scope": "exact_command and probe_environment",
+    "note": "The raw probe and guard JSON files do not capture PROBE_* environment variables. These reproduction records were reconstructed from the Task 5 operator record, plan, and persisted result/input audit; they are not claimed to be raw-probe metadata."
+  },
+  "runs": [
+    {
+      "id": "zero-replay-1",
+      "provenance": "operator_recorded",
+      "rom_path": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "checkpoint_path": "build/natural-s41-menu-index2.ss9",
+      "checkpoint_sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-zero-replay-1.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "rom/base.gba", "PROBE_STATE_LOAD": "build/natural-s41-menu-index2.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "8", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-zero-replay-1.json", "PROBE_SCREENSHOT": "build/task5-zero-replay-1.png", "PROBE_STATE_DUMP": ""
+      }
+    },
+    {
+      "id": "zero-replay-2",
+      "provenance": "operator_recorded",
+      "rom_path": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "checkpoint_path": "build/natural-s41-menu-index2.ss9",
+      "checkpoint_sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-zero-replay-2.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "rom/base.gba", "PROBE_STATE_LOAD": "build/natural-s41-menu-index2.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "8", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-zero-replay-2.json", "PROBE_SCREENSHOT": "build/task5-zero-replay-2.png", "PROBE_STATE_DUMP": ""
+      }
+    },
+    {
+      "id": "observer-start-row-a",
+      "provenance": "operator_recorded",
+      "rom_path": "build/scenario-41-player-control.gba",
+      "rom_sha256": "2992a8434da391d6191ddf71119c9409dcf3ca5223010d5f9d405e0b35a96dd8",
+      "checkpoint_path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+      "checkpoint_sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-after-start-a.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "build/scenario-41-player-control.gba", "PROBE_STATE_LOAD": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "KeyZ", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "20", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-after-start-a.json", "PROBE_SCREENSHOT": "build/task5-after-start-a.png", "PROBE_STATE_DUMP": "build/task5-after-start-a.ss9"
+      }
+    },
+    {
+      "id": "base-start-row-a",
+      "provenance": "operator_recorded",
+      "rom_path": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "checkpoint_path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+      "checkpoint_sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-base-control-start-a.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "rom/base.gba", "PROBE_STATE_LOAD": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "KeyZ", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "20", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-base-control-start-a.json", "PROBE_SCREENSHOT": "build/task5-base-control-start-a.png", "PROBE_STATE_DUMP": "build/task5-base-control-start-a.ss9"
+      }
+    },
+    {
+      "id": "battle-entry-zero",
+      "provenance": "operator_recorded",
+      "rom_path": "build/scenario-41-player-control.gba",
+      "rom_sha256": "2992a8434da391d6191ddf71119c9409dcf3ca5223010d5f9d405e0b35a96dd8",
+      "checkpoint_path": "build/task5-after-start-a.ss9",
+      "checkpoint_sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-player-selection-zero.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "build/scenario-41-player-control.gba", "PROBE_STATE_LOAD": "build/task5-after-start-a.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "8", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-player-selection-zero.json", "PROBE_SCREENSHOT": "build/task5-player-selection-zero.png", "PROBE_STATE_DUMP": ""
+      }
+    },
+    {
+      "id": "battle-entry-a",
+      "provenance": "operator_recorded",
+      "rom_path": "build/scenario-41-player-control.gba",
+      "rom_sha256": "2992a8434da391d6191ddf71119c9409dcf3ca5223010d5f9d405e0b35a96dd8",
+      "checkpoint_path": "build/task5-after-start-a.ss9",
+      "checkpoint_sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "exact_command": "python tools/run_guarded.py --summary build/resource-guard/task5-after-selection-a.json -- node play/_scripts/runtime-formation-probe.js",
+      "probe_environment": {
+        "PROBE_ROM": "build/scenario-41-player-control.gba", "PROBE_STATE_LOAD": "build/task5-after-start-a.ss9", "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0", "PROBE_ADVANCE_COUNT": "0", "PROBE_TAIL_KEYS": "KeyZ", "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0", "PROBE_SETTLE_COUNT": "20", "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_FORCE_SETTLE": "1", "PROBE_STOP_ON_MATCH": "0", "PROBE_EVIDENCE_MODE": "player-control",
+        "PROBE_INPUT_MODE": "instance-api", "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_RESULT": "build/task5-after-selection-a.json", "PROBE_SCREENSHOT": "build/task5-after-selection-a.png", "PROBE_STATE_DUMP": "build/task5-after-selection-a.ss9"
+      }
+    }
+  ],
+  "resource_guards": [
+    {
+      "path": "build/resource-guard/task5-zero-replay-1.json",
+      "sha256": "709139ffa65d0c3caa791dfbe3c758310b29ba03f66972daadb099196ace49ef",
+      "peak_tree_rss_mib": 568.48828125,
+      "raw_reason": "child-exit", "exit_code": 1,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 33684,
+      "started_at": "2026-07-15T08:17:26.176538Z", "finished_at": "2026-07-15T08:18:44.518893Z",
+      "interpretation": "The probe exited after writing its not-found result; exit code 1 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    },
+    {
+      "path": "build/resource-guard/task5-zero-replay-2.json",
+      "sha256": "8f4b2e6ba1c038943e4c538ddb651ac08864fced7da078b6ad1f9f8f67a52253",
+      "peak_tree_rss_mib": 539.46484375,
+      "raw_reason": "child-exit", "exit_code": 1,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 53524,
+      "started_at": "2026-07-15T08:19:53.392194Z", "finished_at": "2026-07-15T08:21:15.952270Z",
+      "interpretation": "The probe exited after writing its not-found result; exit code 1 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    },
+    {
+      "path": "build/resource-guard/task5-after-start-a.json",
+      "sha256": "73f319aadfc2dceb6932eb1209634de5590fa8d3aa6dbc0a1cec9808d1b9fe6e",
+      "peak_tree_rss_mib": 622.47265625,
+      "raw_reason": "idle-timeout", "exit_code": 124,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 52728,
+      "started_at": "2026-07-15T08:24:09.325368Z", "finished_at": "2026-07-15T08:25:37.372273Z",
+      "interpretation": "The guard timed out after result, screenshot, and candidate state were written; timeout 124 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    },
+    {
+      "path": "build/resource-guard/task5-base-control-start-a.json",
+      "sha256": "0f93796c94c9f1b3589a2c3ae1d01b9fbb4dee92334cf483a070d0cf35743ba2",
+      "peak_tree_rss_mib": 551.0703125,
+      "raw_reason": "child-exit", "exit_code": 1,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 1584,
+      "started_at": "2026-07-15T08:27:16.013423Z", "finished_at": "2026-07-15T08:27:39.137882Z",
+      "interpretation": "The probe exited after writing its not-found result; exit code 1 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    },
+    {
+      "path": "build/resource-guard/task5-player-selection-zero.json",
+      "sha256": "4dba18e544f9fad00174ed2cd094eac4231a74e716325e38e2fdc4f66743e260",
+      "peak_tree_rss_mib": 556.0390625,
+      "raw_reason": "child-exit", "exit_code": 1,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 42792,
+      "started_at": "2026-07-15T08:30:47.308002Z", "finished_at": "2026-07-15T08:31:11.578153Z",
+      "interpretation": "The probe exited after writing its not-found result; exit code 1 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    },
+    {
+      "path": "build/resource-guard/task5-after-selection-a.json",
+      "sha256": "a7cf23d133666c165718c56203718c69a0e66e4bde894de6ba2fa92c1ff9e556",
+      "peak_tree_rss_mib": 552.1015625,
+      "raw_reason": "child-exit", "exit_code": 1,
+      "protection_backend": "windows-job-object", "degraded": false, "child_pid": 51624,
+      "started_at": "2026-07-15T08:31:46.528968Z", "finished_at": "2026-07-15T08:32:11.704033Z",
+      "interpretation": "The probe exited after writing its not-found result; exit code 1 is not a PASS verdict.",
+      "residue": "not-recorded", "listener_postcheck": "not-recorded", "owned_tree_postcheck": "not-recorded"
+    }
+  ],
+  "boundaries": [
+    "Strict battle arrival is not player-control evidence.",
+    "Zero scratch after loading a checkpoint that may have crossed a hook cannot disprove the historical call, because savestate load restores memory but cannot replay past execution.",
+    "The observer was active before the accepted start-row A in this run, so the all-zero result proves only that these two instrumented call sites did not execute during the observed suffix.",
+    "No scenario-41-player-turn checkpoint was created or accepted."
+  ]
+}

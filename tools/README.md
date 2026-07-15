@@ -187,7 +187,11 @@ python3 tools/disasm_thumb.py \
 
 ## `find_thumb_calls.py`
 
-Scans the ROM for Thumb `bl`/`blx`/direct `b` instructions that target a specific ROM address.
+Scans for candidate ARMv4T Thumb direct branches that target a specific ROM address.
+The scanner recognizes two-halfword `bl` and unconditional `b` encodings without
+constructing Capstone instruction objects. Immediate `blx` is not supported because
+the GBA's ARM7TDMI uses ARMv4T, where that encoding is unavailable. Use the optional
+exclusive `--start`/`--end` ROM-address bounds to limit a search region.
 
 Example:
 
@@ -195,8 +199,94 @@ Example:
 python3 tools/find_thumb_calls.py \
   build/naruto-sequel-dev.gba \
   0x08066D14 \
+  --start 0x08060000 \
+  --end 0x08070000 \
   --output notes/calls-08066D14.txt
 ```
+
+## Resource guard for heavy tools and runtime probes
+
+Long-running reverse-engineering commands must enter through `run_guarded.py`. The
+literal `--` separator is required; everything after it is the one owned child command.
+For example, run a bounded static scan from the repository root with:
+
+```bash
+python tools/run_guarded.py \
+  --summary build/resource-guard/thumb-calls.json \
+  -- python tools/find_thumb_calls.py \
+  build/naruto-sequel-dev.gba 0x08066D14 \
+  --start 0x08060000 --end 0x08070000 \
+  --output notes/calls-08066D14.txt
+```
+
+Run the Chromium probe through its guarded package entry (from `play/_scripts`):
+
+```bash
+npm run probe:guarded
+```
+
+Both commands use the same non-blocking project `heavy` lock. Defaults are 1024 MiB
+minimum available physical memory, 1536 MiB maximum owned process-tree RSS, 600 seconds
+wall timeout, 60 seconds without a complete stdout/stderr progress line, 1 second RSS
+sampling, and 5 seconds termination grace. Runtime probes emit parseable
+`resource-progress` JSON lines at browser, page, core, checkpoint, phase, and result
+boundaries.
+
+The npm entry pins `--lock-file ../../build/resource-guard/heavy.lock`; do not remove or
+relocate that argument, because the npm working directory is `play/_scripts` while static
+guarded commands run from the repository root.
+
+Exit code 75 means lock contention or admission rejection; 124 means wall/idle timeout;
+125 means memory-limit, launch, or protection failure. Ordinary completion returns the
+child exit code. Each run atomically writes the requested JSON summary with child PID,
+peak owned-tree RSS, backend, reason, and degradation state.
+
+Cleanup is exact-tree only: a Windows Job Object or POSIX process group created for that
+run. Never add `pkill`, `killall`, `taskkill /IM`, `Stop-Process` by name, or any other
+process-name cleanup. Missing isolation or monitoring fails closed unless an explicitly
+audited degraded run is requested and recorded.
+
+## `mgba_gdb_probe.py`
+
+Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
+`--read address:size` 区域。mGBA 0.10.5 的 `--gdb` 固定监听
+`127.0.0.1:2345`，因此工具不提供看似可配置但无法传给 mGBA 的 `--port`。
+启动前会确认 2345 未被占用；连接后还会确认 owned `Popen` 仍存活，并要求
+Windows TCP owner PID 表中的 2345 listener owner 集合精确为该 PID。工具随后
+读取 client socket 的 local/peer tuple，在 connection 表中反向匹配 server-side
+established row，并要求唯一 owner 精确为同一 PID。Windows API 错误、无匹配、
+多匹配、mixed listener owners 或 owner 查询期间子进程退出都会 fail closed；结果
+只能是 `error`/`not-proven`，绝不会成为 `verified`。归属成立后，工具再将
+`0x08000000` 与断点处的确定性 ROM 窗口和输入 ROM 比对。只有收到 trap 信号
+5，且停止 PC 等于 Thumb 断点地址或该地址加 2 时，输出才会标记为
+`verified`。
+
+```powershell
+python tools/run_guarded.py `
+  --summary build/resource-guard/mgba-strict-smoke.json `
+  -- python tools/mgba_gdb_probe.py `
+  --mgba C:\path\to\mGBA.exe `
+  --rom rom/base.gba `
+  --savestate artifacts/runtime-checkpoints/actionable-move-grid.ss9 `
+  --breakpoint 0x080732B4 `
+  --read 0x02026804:8 `
+  --output build/mgba-strict-smoke.json
+```
+
+结果 JSON 记录模拟器、ROM、可选 savestate 的路径和 SHA-256，模拟器版本、
+实际命令、固定端口、listener/established-connection owner PID、client local/peer
+tuple、原始停止包、预期/实际 PC、寄存器、ROM 指纹窗口、读取区域，以及最多
+16 KiB 的 stdout/stderr 尾部。每个内存子块必须精确返回请求长度对应的连续
+`[0-9A-Fa-f]`；零/负长度、32 位越界、空串、奇数长度、任何 ASCII 空白、其他畸形
+hex、短块或长块都会让整个逻辑读取失败，且不会写入该 region 的成功 evidence。
+哈希、raw stop 和每个已完成读取会增量保留；进度输出或清理失败
+只能附加诊断，不能覆盖主错误。超时为 `not-proven`，不会冒充动态命中；其他
+失败为 `error`，两者都保留可操作上下文。
+
+边界：该工具不注入按键、不枚举窗口、不发送 `PostMessage`、不提供 KEYINPUT
+写监视点，也不会向 GDB 远端发送 `k`。探针只终止自己创建的 mGBA `Popen`
+子进程；完整进程树的所有权与超时清理由外层 `run_guarded.py` 的 Windows Job
+Object 承担。不得直接运行原生烟雾，也不得按进程名做宽泛清理。
 
 ## `mgba_trace_function_entries.lua`
 
@@ -309,3 +399,17 @@ Example:
 ```bash
 python3 tools/automated_test.py
 ```
+
+# mGBA savestate context inspection
+
+`inspect_mgba_savestate.py` reads the zlib-compressed `gbAs` chunk embedded in an mGBA
+`.ss9` without launching the emulator. It reports serialized CPU registers and the eight
+game-specific cooperative task contexts at `0x03000A88`:
+
+```powershell
+python tools/inspect_mgba_savestate.py artifacts/runtime-checkpoints/actionable-move-grid.ss9
+python tools/inspect_mgba_savestate.py artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9 --output build/task5-context.json
+```
+
+The memory reader intentionally supports only EWRAM and IWRAM from the fixed mGBA 0.10.5
+state layout. It rejects missing, malformed, unsupported-version, and wrong-sized states.

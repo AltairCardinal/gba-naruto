@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "date": "2026-07-12",
+  "screen": "character overview for character 1 at level 1",
+  "template_address": "0x02022EF0",
+  "template_first32_hex": "01010e0d0803050305000f0050005000640000000201000003ff000004ff0000",
+  "screen_values": {
+    "experience": "100/250",
+    "hp": "80/80",
+    "chakra_capacity": 5,
+    "shuriken_capacity": 5,
+    "attack_power": 14,
+    "defense_power": 13,
+    "movement": 3,
+    "hand_seals": 15,
+    "agility": 8
+  },
+  "strong_correlations": {
+    "template_02": "attack_power",
+    "template_03": "defense_power",
+    "template_04": "agility",
+    "template_05": "movement",
+    "template_06": "ninja_tool_capacity",
+    "template_08": "chakra_capacity",
+    "template_0a": "hand_seals",
+    "template_0c": "current_hp",
+    "template_0e": "max_hp",
+    "template_10": "experience"
+  },
+  "unresolved_order": [],
+  "semantic_resolution": {
+    "method": "character overview renderer label/value row correlation",
+    "function": "0x08089AE0",
+    "label_rows": "0x08089B82..0x08089BF0",
+    "numeric_rows": "0x08089BF4..0x08089C9A",
+    "label_pointer_pool": "0x08089D58..0x08089D73",
+    "conclusion": "The second row label is chakra and reads template +0x08; the seventh row label is ninja-tool count and reads template +0x06."
+  },
+  "result_sha256": "709d4dbbbfcbc5fce375b6668b5f1add433c51245f953f4e6f430e0c5568f282",
+  "screenshot_sha256": "1b1c45b47c00063c061b34e750a2086b0118be6d22bc6c5bd5817a899345dd03",
+  "ewram_sha256": "cd9eec770f86eef9c06cecc09274473eefe09b79df12cbe869358b8ad5587a5a"
+}

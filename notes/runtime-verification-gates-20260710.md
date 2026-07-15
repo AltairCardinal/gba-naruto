@@ -3,8 +3,8 @@
 ## 目的与结论
 
 本文件复核 `notes/dynamic-verification-audit.md` 中 32 个内容结构，并把“动态
-验证”拆成可以执行、可以复核的门禁。经后续 WASM 首战编成探针复核，当前证据为
-**1 dynamic / 6 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
+验证”拆成可以执行、可以复核的门禁。经后续 WASM 首战编成探针和 maps A/B 复核，
+当前证据为 **3 dynamic / 4 code / 24 static / 1 none**；构建、ROM 字节一致或画面中出现
 相关内容均不能替代运行时
 消费证据。
 
@@ -45,8 +45,8 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | `0x080968A0`（已证明开场对白上层入口） | LR、上游活动 ROM 指针、当前截图帧 | 上游指针落入 `0x0853636C` 表某项的目标范围；仅命中该 PC 不通过 | `story` |
 | `0x08068FF0`（地图 loader） | 调用参数、`0x02026805`、`0x0853D914 + id*0x20` 的 32 字节 | 明确命中；运行时 id 与地址公式一致；至少一个描述符字段对应加载结果 | `maps` |
 | 由地图 loader 的子调用记录 ROM 源指针和目标 VRAM/WRAM | 指向 `0x0853E1DC` 的选中指针及目标动画数据 | 表索引和当前 map id 对应，并观察到该目标被遍历/拷贝 | `map-sprites` |
-| 首个地图事件分派点（由 `0x0853EB08` 选中指针反查 PC） | map id、表项地址、间接调用目标 | 间接调用目标等于选中表项 Thumb 地址，且事件在同一帧/邻近帧发生 | `map-events` |
-| cutscene 调度（现有静态引用 ROM `0x072F3C`，表 `0x0853DF70`） | 表索引、目标 `0x0812xxxx`、脚本读取 PC | 运行时从 16 项表选中目标，并至少读取一条脚本命令且对应当前过场 | `cutscene-scripts` |
+| runtime handler pair 分派点（`0x0853E698`） | `sb+0x770` index、primary/secondary 表项、间接调用目标 | 两个表项地址均由同一 index<<3 得出，非零 callback 进入 `0x0809C114` | `map-events` historical slug |
+| 视觉资源调度（历史 `cutscene-scripts` slug，表 `0x0853DF70/0x0853DF90`） | 资源 ID、两组 pair、解压目标和 sprite task 指针 | 运行时捕获 ID 0..3、gfx/palette 解压及对应 sprite pair 安装 | `cutscene-scripts` |
 
 `story-b` 至 `story-e` 不应被首章 `story` 命中顺带升级；只有运行到实际选择各自
 表项的章节，或建立能证明其共同调度器和独立索引的轨迹，才分别通过。
@@ -58,10 +58,10 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | `0x0806D866` 附近（加载 `0x08545458`） | 实际源地址、索引、读出的行、下游 WRAM/参数 | 地址落在 battle-config 表内，行索引与当前战斗一致，并有一字段进入运行时配置 | `battle-config` |
 | `0x0806E41E` 或 `0x0806E71E` | `r5`、`r3[1:2]`、`record[+0..+8]`、调用后 slot | `r5 = 0x085461C4 + group*0x1AAC + variant*0x8E4 + 4 + index*0xB8`；`+2/+3` 等于新单位 `+0xC4/+0xC5` 和 `+0xC7/+0xC8` | `positions` |
 | `0x0806AC70` → `0x0806AA64` | 参数 x/y/type、返回/分配 slot、单位完整前后差异 | 写入目标符合 `0x020240C0 + slot*0x1D4`，并与画面格坐标一致 | 强化 `positions`；提供 `units` 关联上下文但不单独验证 units 表 |
-| 单位 ID 表消费者（静态候选 `0x08080B5C`） | `0x0853F298 + index`、读出的 unit id、创建后单位 id | ROM 表项、运行时单位和画面角色三者一致 | `units` |
-| 角色属性装载写点 `0x02022EF0`（watch） | 非 BIOS writer PC、源 ROM 地址、单位/角色索引、写前后 | 源可解析至 `0x0854507A` 对应行或有完整中间拷贝链，至少一字段落入当前单位 | `character-stats` |
-| 上一 writer 的并行/后续源地址 | 是否解析至 `0x08545200` | 独立证明第二表一字段被读取并进入运行时；第一表命中不自动通过第二表 | `character-stats-b` |
-| encounter 选择入口（从当前 battle id 反查 `0x08542384` 表项） | 表项、指针目标、battle id/敌方编成 | 运行时索引选中该表项且目标决定当前敌方/战斗；单纯 ROM 值匹配不通过 | `battle-encounters` |
+| 角色定义表消费者（`0x0806D4A0` 链） | `0x0854241C + character_id*0xB4`、模板池 `0x02022E34`、创建后单位 slot `+0` | ROM 记录索引、模板 `+0`、战斗槽 `+0` 和画面角色三者一致；旧 `0x0853F298` 只能作为 legacy u16 对象/渲染偏移查找，不再是 units 门禁 | `units` |
+| 角色成长装载 `0x0806D964` | character ID、level、`0x08545068 + id*0x10`、模板写前后 | ✅ 两因素首战 A/B 已证明 record 1 `+4` 进入 template/battle `+2`；其余字段仍需命名 | `character-stats` |
+| legacy B alias | 检查 `0x545200` 相对真实表的对齐 | ✅ 已证明为 physical record 25 `+8`，不是独立表；必须保持禁写 | `character-stats-b` |
+| story visual 资源入口（`0x0854229C`） | record index、三资源指针、config ID、解压目标 | 捕获 opcode 进入 loader 并加载对应三流；不得解释为敌方编成 | `battle-encounters` historical slug |
 | handler 间接调用（表 `0x0853E778`） | 表项索引、目标 PC（3 个唯一 handler 之一）、事件上下文 | 调用目标等于当前表项 Thumb 指针并在对应战斗事件触发 | `battle-handlers` |
 
 首战初始化的最佳暂停顺序是：先命中 `0x0806D866`，随后在
@@ -89,11 +89,11 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 |---:|---|---|---|
 | 1 | audio（当前 bank `0x0853F138`，身份有冲突） | 联合 | 先解决与 palettes 的别名；dispatcher `0x08079668` 实际访问确认后的音频表并产生对应声音状态 |
 | 2 | battle-config (`0x08545458`) | 联合 | `0x0806D866` 路径读取当前战斗行，字段进入运行时配置 |
-| 3 | battle-encounters (`0x08542384`) | 联合 | 当前 battle/encounter id 选中表项并决定敌方或战斗目标 |
+| 3 | battle-encounters (real base `0x0854229C`) | 联合 | 历史名称；捕获 story visual record index 和三条 LZ77 解压流 |
 | 4 | battle-handlers (`0x0853E778`) | 联合 | 间接调用目标等于选中表项，且事件语义对应 |
-| 5 | character-stats (`0x0854507A`) | 联合 | ROM 行到当前单位 WRAM 的可追踪拷贝，至少一字段对应 |
-| 6 | character-stats-b (`0x08545200`) | 联合 | 独立 ROM 行消费链及字段对应 |
-| 7 | cutscene-scripts (`0x0853DF70`) | 联合 | 16 项之一被选中并读取命令，命令对应当前过场 |
+| 5 | character-stats (`0x08545068`) | 联合 | ✅ 63×`0x10` 身份、消费者及 record `+4`→template/battle `+2` 已动态闭合；剩余字段 UI 命名 |
+| 6 | character-stats-b (`0x08545200`) | 否定 | ❌ 非独立结构；是 record 25 `+8` 的错位 alias，保留 tombstone 与禁写门禁 |
+| 7 | cutscene-scripts (`0x0853DF70`) | 联合 | 历史名称；捕获四项视觉资源之一的 gfx/palette 解压和对应 sprite pair 安装 |
 | 8 | data-table-a (`0x085A14A4`) | 专门路线 | 先定位消费者；命中选中表项/目标并证明一个字段用途 |
 | 9 | data-table-b (`0x085A2120`) | 专门路线 | 同上，且不能用 A 的消费者代替 |
 | 10 | encounter-zones (`0x0853D610`) | 条件联合 | 进入/移动至实际触发区域，捕获 zone 索引和遭遇判定；与 maps 同址声明需先拆清边界 |
@@ -101,15 +101,15 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 12 | function-pointers (`0x0853D5F4`) | 专门菜单/UI 路线 | 运行时间接调用选中 11 项之一，参数和可见操作对应 |
 | 13 | items (`0x08546100` 声称值) | 条件联合 | 先与 skills 拆分身份；使用物品时捕获独立表读取和效果字段，否则保持 none |
 | 14 | levels (`0x085459B4`) | 专门升级路线 | 发生升级/经验阈值判断时读取目标条目，阈值与等级变化对应 |
-| 15 | map-events (`0x0853EB08`) | 联合 | 当前 map id 选中表项并间接调用实际事件 handler |
-| 16 | maps (`0x0853D910`, 描述符 `+4`) | 联合 | `0x08068FF0` 命中，id*0x20 描述符字段与加载结果对应 |
+| 15 | map-events (real base `0x0853E698`) | 联合 | 历史名称；捕获 runtime index 及 primary/secondary callback 调度，不再要求等于 map id |
+| 16 | maps (`0x0853D910`, 描述符 `+4`) | 联合 | width/height 已通过 row 40 width 36→32 A/B：runtime `[36,44,9,22]` 变为 `[32,44,8,22]`；资源指针字段仍需独立消费/字段证据 |
 | 17 | map-sprites (`0x0853E1DC`) | 联合 | 当前 map 索引选中目标并遍历/拷贝动画数据 |
 | 18 | menu-ui (`0x085A5774`) | 专门菜单路线 | 菜单操作命中表项消费者，指针目标与可见 UI 元素对应 |
 | 19 | palettes（当前 bank `0x0853F138`） | 专门 A/B | 先与 audio 拆分身份；目标 RGB555 数据实际上传到 palette RAM，单色改动方向符合预期 |
 | 20 | positions (`0x085461C4`) | 联合 | `0x0806E41E/0x0806E71E` 的 r5 公式成立，`+2/+3` 写到 slot 坐标并与画面一致 |
 | 21 | resource-pointers (`0x08596F0C`) | 专门资源路线 | 表项及嵌套目标被加载，目标与具体资源输出对应 |
 | 22 | sappy-engine (`0x08079268` 代码范围) | 联合 | 实际命令 handler 命中且声道状态按命令变化 |
-| 23 | save-state (`0x08086248` 表/数据，handler `0x08068684`) | 专门保存路线 | SRAM 20 字节记录发生预期变化，第 19 字节符合校验算法，字段与操作对应 |
+| 23 | save-state (`0x0853D848`，handler `0x08068684`) | ✅ UI 保存+冷加载 | 真实首战后 slot 1 写出 32KiB；active descriptor 0/2 的 19-byte header + variable payload + checksum 有效，冷启动恢复木叶状态 |
 | 24 | skills (`0x08546100` 声称值) | 条件联合 | 主动技能读取独立已确认表行，至少一参数与实际效果对应；需解决 items 冲突 |
 | 25 | sprite-animations (`0x0853E200`) | 联合 | 当前动作选中表项并遍历帧，帧与角色动作对应 |
 | 26 | story (`0x0853636C`) | 联合 | 开场/战后活动指针落入本表目标并读取剧情数据 |
@@ -118,9 +118,16 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 29 | story-d (`0x0853AB78`) | 后续章节 | 同上 |
 | 30 | story-e (`0x0853C3C0`) | 后续章节 | 同上 |
 | 31 | tile-assets (`0x085A3218`) | 专门资源/A-B | loader/decompressor 消费选中目标并写 VRAM；受控图块改动出现在预期位置 |
-| 32 | units (`0x0853F298`) | 联合 | 表项 unit id 被读取并进入 `0x020240C0 + slot*0x1D4`，与画面角色一致 |
+| 32 | units (`0x0854241C`) | 联合 | `0x0806D4A0` 按 character ID 读取 63×`0xB4` 角色定义记录，进入 `0x02022E34` 模板池，再复制到 `0x020240C0 + slot*0x1D4`；WASM 样本已证明 ID 1 template→battle slot 复制，`0x5424D1` byte `0x0e→0x0f` A/B 已证明具体 ROM record 字段进入模板；剩余门槛是逐字段语义和安全语义写回 |
 
 ## 完成门槛与边界
+
+`save-state` 的 ROM 表和校验规则已有可复跑静态验证：
+`python3 tools/verify_save_state_records.py --bank sequel/content/save-state/bank.json --rom rom/base.gba`
+会检查 10 条 ROM 表记录、7 个唯一 SRAM 字段、`sram_offset_field + 0x14`
+偏移换算和 19+1 字节记录格式。拿到真实 64KB SRAM dump 后，同一工具加
+`--sram-dump <FILE>` 可验证 7 条记录的第 20 字节校验和；但这仍只证明存档
+记录结构，不替代“保存动作前后字段变化”的动态门禁。
 
 要宣称“32 结构动态验证完成”，必须逐行拥有可复查证据；一次首战联合轨迹最多是
 高复用采集入口，不是最终完成证明。尤其以下问题必须先解决：

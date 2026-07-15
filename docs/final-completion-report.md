@@ -4,6 +4,11 @@
 **ROM:** 火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba  
 **SHA-1:** `26f60795fa5e63b4f0264b84e453beffd56b9f7d`
 
+> Character-growth correction (2026-07-11): rows claiming independent tables
+> at `0x54507A` and `0x545200` are superseded. The real code/runtime-verified
+> table is 63×`0x10` at `0x545068`; the B table is disproved and write-disabled.
+> See `notes/character-growth-runtime-chain-20260711.md`.
+
 ## Status correction (2026-07-10)
 
 This document originally declared the reverse engineering 100% complete. That
@@ -11,17 +16,21 @@ claim is now **withdrawn**. The evidence audit found that passing extract/build
 tests did not prove runtime consumption, and several generators were either
 audit-only, silently empty, or used unsafe inferred offsets.
 
-Current verified baseline:
+Current verified baseline (updated 2026-07-12):
 
-- 32/32 banks pass metadata and base-ROM byte-fidelity checks.
+- The identity audit is **32/32 closed** under a dual rule: 27 active data banks
+  require entries and base-ROM fidelity, while five disproved aliases must be
+  documented, empty, and write-disabled. This is not 32/32 runtime verification.
 - The positions source is now corrected to the formation matrix at `0x5461C4`;
   the former `0x53D914` claim was wrong.
 - Lossless ROM mirror write-back is guarded by immutable-base preconditions and
   conflict detection; unsafe legacy battle-config template writes are rejected.
-- Positions now has reproducible runtime evidence from the first-battle WASM
-  probe. Bank labels currently distribute as 1 runtime / 1 code / 30 static;
-  the stricter evidence audit distributes as 1 dynamic / 6 code / 24 static /
-  1 none.
+- Ten banks currently carry reproducible runtime evidence; thirteen are code
+  verified and nine are disproved aliases. These bank labels are not a
+  claim that every field or safe write-back path is complete.
+- The old audio conclusion is revoked: the real sound-ID table is `0x465B70`;
+  runtime observes ID 118 resolving to descriptor `0x53D06C`. Playable
+  sequence/sample export and audible cue naming remain unresolved.
 - Runtime evidence for the other structures remains incomplete. See `notes/dynamic-verification-audit.md`
   and `docs/sequel-roadmap.md` for the active completion gates.
 
@@ -61,29 +70,29 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 |---|-----------|-----------|--------|---------|-------------|-------------------|
 | 1 | Audio | 0x53F138 | u32 × 88 | 88 | static_verified | ✅ |
 | 2 | Battle Config | 0x545458 | u16[8] × 32 | 16 | static_verified | ✅ |
-| 3 | Battle Encounters | 0x542384 | u32 × 38 | 38 | static_verified | ✅ |
-| 4 | Battle Handlers | 0x53E6D8 | u32 × 14 | 14 | static_verified | ✅ |
+| 3 | Story visual descriptors | 0x54229C | 3 LZ pointers + config × 24 | 24 | code_verified | legacy writes disabled |
+| 4 | Battle Handlers | 0x53E6D8 | alias of handler pairs 8..14 | 0 | disproved | disabled |
 | 5 | Character Stats | 0x54507A | u16[8] × 20 | 20 | static_verified | ✅ |
 | 6 | Character Stats B | 0x545200 | u16[8] × 18 | 18 | static_verified | ✅ |
-| 7 | Cutscene Scripts | 0x53DF70 | u32 × 16 | 16 | static_verified | ✅ |
+| 7 | Cutscene visual resources | 0x53DF70 | pointer pair × 8 | 8 | code_verified | ✅ |
 | 8 | Data Table A | 0x5A14A4 | u32 × 20 | 20 | static_verified | ✅ |
 | 9 | Data Table B | 0x5A2120 | u32 × 20 | 20 | static_verified | ✅ |
-| 10 | Encounter Zones | 0x53D910+28 | u32 zone_id × 47 | 47 | static_verified | ✅ |
-| 11 | Fonts | 0x53E5B4 | u8 × 256 | 256 | static_verified | ✅ |
+| 10 | Encounter Zones | 0x53D910 | disproved alias of maps.flags | 0 | disproved | disabled |
+| 11 | Fonts | 0x53E5B4 | disproved crossing range | 0 | disproved | disabled |
 | 12 | Function Pointers | 0x53D5F4 | u32 × 11 | 11 | static_verified | ✅ |
 | 13 | Items | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
-| 14 | Levels | 0x5459D4 | u16[6] × 26 | 26 | static_verified | ✅ |
-| 15 | Map Events | 0x53EB08 | u32 × 47 | 47 | static_verified | ✅ |
+| 14 | Effect/stat progression | 0x5459C8 | 12 bytes × 45 | 45 | code_verified | legacy writes disabled |
+| 15 | Runtime handler pairs | 0x53E698 | 2 callbacks × 256 | 256 | code_verified | legacy writes disabled |
 | 16 | Maps | 0x53D910 | 32 bytes × 47 | 47 | static_verified | ✅ |
-| 17 | Map Sprites | 0x53F1DC | u32 × 47 | 47 | static_verified | ✅ |
-| 18 | Menu UI | 0x5A5774 | u32 × 20 | 20 | static_verified | ✅ |
-| 19 | Palettes | 0x53F138 | u32 × 88 | 88 | static_verified | ✅ |
+| 17 | Sprite definition/animation pairs | 0x53F140 | pointer pair × 43 | 43 | code_verified | legacy writes disabled |
+| 18 | Visual variant matrix | 0x5A4DEC | 5 pairs × 63 | 63 | code_verified | legacy writes disabled |
+| 19 | Motion/effect parameters | 0x53EE98 | s16[5] × 15 | 15 | code_verified | legacy writes disabled |
 | 20 | Positions | 0x53D914 | scenario-dependent | 8 | static_verified | ✅ |
-| 21 | Resource Pointers | 0x596F0C | u32 × 20 | 20 | static_verified | ✅ |
+| 21 | Nested resource descriptors | 0x596F0C | 4 pointers × 5 | 5 | code_verified | legacy writes disabled |
 | 22 | Sappy Engine | 0x079668 | code region | 1 | code_verified | ✅ |
 | 23 | Save State | 0x53D848 | u32[2] × 10 | 10 | static_verified | ✅ |
 | 24 | Skills | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
-| 25 | Sprite Animations | 0x53F200 | u32 × 38 | 38 | static_verified | ✅ |
+| 25 | Sprite Animations | 0x53F200 | alias of sprite pairs 24..42 | 0 | disproved | disabled |
 | 26 | Story | 0x53636C | u32 × 9 | 9 | static_verified | ✅ |
 | 27 | Story B | 0x536BC8 | u32 × 11 | 11 | static_verified | ✅ |
 | 28 | Story C | 0x538FF0 | u32 × 10 | 10 | static_verified | ✅ |
@@ -119,7 +128,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 
 | Function | Table | Offset | Entry Size |
 |----------|-------|--------|-----------|
-| `generate_battle_encounter_patches` | battle_encounters | 0x542384 | 4 |
+| `generate_battle_encounter_patches` | legacy battle_encounters | diagnostic only | — |
 | `generate_battle_handler_patches` | battle_handlers | 0x53E6D8 | 4 |
 | `generate_character_stats_b_patches` | character_stats_b | 0x545200 | 16 |
 | `generate_cutscene_script_patches` | cutscene_scripts | 0x53DF70 | 4 |
@@ -127,14 +136,14 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | `generate_data_table_b_patches` | data_table_b | 0x5A2120 | 4 |
 | `generate_font_patches` | fonts | 0x53E5B4 | 1 |
 | `generate_function_pointer_patches` | function_pointers | 0x53D5F4 | 4 |
-| `generate_map_event_patches` | map_events | 0x53EB08 | 4 |
-| `generate_map_sprite_patches` | map_sprites | 0x53F1DC | 4 |
+| `generate_map_event_patches` | legacy map_events | diagnostic only | — |
+| `generate_map_sprite_patches` | legacy map_sprites | diagnostic only | — |
 | `generate_menu_ui_patches` | menu_ui | 0x5A5774 | 4 |
-| `generate_palette_patches` | palettes | 0x53F138 | 4 |
+| `generate_palette_patches` | legacy palettes | diagnostic only | — |
 | `generate_resource_pointer_patches` | resource_pointers | 0x596F0C | 4 |
 | `generate_sappy_engine_patches` | sappy_engine | 0x079668 | 64 |
 | `generate_save_state_patches` | save_state | 0x53D848 | 8 |
-| `generate_sprite_animation_patches` | sprite_animations | 0x53F200 | 4 |
+| `generate_sprite_animation_patches` | legacy sprite_animations | diagnostic only | — |
 | `generate_story_b_patches` | story_b | 0x536BC8 | 4 |
 | `generate_story_c_patches` | story_c | 0x538FF0 | 4 |
 | `generate_story_d_patches` | story_d | 0x53AB78 | 4 |
@@ -159,10 +168,10 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 - Encounter logic is zone-based, not per-map
 
 ### Save System
-- **7 unique save fields** × 20 bytes (19 data + 1 checksum)
-- Checksum = `~sum(19 bytes)` (bitwise NOT)
-- Table at 0x53D848 with 10 entries (3 duplicates)
-- Handler at 0x08068684 supports save (mode 0) and load (mode 1)
+- 10 descriptors at `0x53D848`; each supplies an EWRAM buffer and variable
+  payload length
+- SRAM record = 19-byte identity header + payload + `~sum(payload)` checksum
+- Handler `0x08068684` supports save/load; UI save and cold load are runtime verified
 
 ### Item/Technique System
 - This SRPG uses skill/technique table at 0x546100 instead of traditional items

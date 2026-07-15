@@ -9,6 +9,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.lib import read_u32_le
 
+ROM_BASE = 0x08000000
+
+
+def parse_target(value: str) -> int:
+    """Parse a ROM file offset or absolute GBA ROM address."""
+    parsed = int(value, 0)
+    if ROM_BASE <= parsed < ROM_BASE + 0x02000000:
+        return parsed - ROM_BASE
+    if 0 <= parsed < 0x02000000:
+        return parsed
+    raise ValueError(
+        f"target must be a ROM file offset or 0x08xxxxxx address, got {value!r}"
+    )
+
 
 def classify_ref_context(buf: bytes, offset: int) -> str:
     if offset >= 8:

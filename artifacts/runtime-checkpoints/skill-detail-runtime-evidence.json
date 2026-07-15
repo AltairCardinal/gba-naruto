@@ -1,0 +1,61 @@
+{
+  "date": "2026-07-13",
+  "bank": "skills",
+  "table": "0x08545BE4",
+  "natural_high_bit_sites": ["0x0807902A", "0x08079076"],
+  "detail_renderer": "0x080708BC",
+  "initializer_call": "0x08070906",
+  "initializer": "0x0806D910",
+  "scratch": "0x0203F300",
+  "input_mode": "keyboard",
+  "checkpoint": "artifacts/runtime-checkpoints/skill-list-pre-controller.ss9",
+  "checkpoint_sha256": "b5e26b7bfeb765b7f50a77fe4a6513abf206159695f61a02af19cfb55ce60d1a",
+  "navigation": ["Down", "A"],
+  "control": {
+    "rom_sha256": "9b973324b2ea047847e647f960a0fd890df934dbb43d0697a2d4d6fb0bf4755c",
+    "scratch_sha256": "cfe4ccfd7b529d88e4fce2722fe1dd57036d06bee81a240fe27764a646405b92",
+    "screenshot_sha256": "6a17c28fbffc2167ae806fde4881a5619adccdb55aa93813fd19146aa465e808",
+    "hit_count": 1,
+    "skill_id": 1,
+    "destination": "0x02026B80",
+    "output_first_16_hex": "0501010206035a830100000000000000",
+    "visible_values": {
+      "attack": "6x3",
+      "distance": 3,
+      "shape": "straight",
+      "range": 1,
+      "success_rate_percent": 90
+    }
+  },
+  "variant": {
+    "rom_sha256": "53f710b43767d09d5b8b5f629bd2c6fc525a8003ac5de4ed313a3943c5dc540e",
+    "scratch_sha256": "7edc552eed2d6a6e84939b35f0f673c53233d6d327eaafeb5f12198f9752e153",
+    "screenshot_sha256": "fe83bd5d847b09739c8c7c366769409e0a2ac1ed477bf3a76c06b3ab02361dd9",
+    "hit_count": 1,
+    "skill_id": 1,
+    "destination": "0x02026B80",
+    "output_first_16_hex": "0501010207035a830100000000000000",
+    "visible_values": {
+      "attack": "7x3",
+      "distance": 3,
+      "shape": "straight",
+      "range": 1,
+      "success_rate_percent": 90
+    }
+  },
+  "single_factor_patch": {
+    "rom_offset": "0x545BF8",
+    "skill_id": 1,
+    "field_offset": 4,
+    "original": 6,
+    "replacement": 7
+  },
+  "game_frame_difference": {
+    "changed_pixels": 192,
+    "total_pixels": 154080,
+    "ratio": 0.0012461059190031153,
+    "bounding_box_absolute": [657, 110, 669, 132]
+  },
+  "savestate_boundary": "The tracked state has the character submenu open but no skill initializer hit. When changing probe ROMs, replay it once with no input and export a normalized temporary state before Down+A; this avoids carrying an active UI transition edge across ROM variants.",
+  "result": "The natural technique-list controller produced action ID 0x80|1 and hit the real skill initializer. A one-byte source +4 change propagated to runtime +4 and changed only the visible attack-power leading digit from 6 to 7."
+}

@@ -1,0 +1,388 @@
+{
+  "format": "gba-naruto-mgba-same-player-retrigger-differential-v1",
+  "first_sound_id": 101,
+  "replacement_sound_id": 102,
+  "player_slot": 1,
+  "switch_after_invocations": 8,
+  "invocation_count": 27,
+  "counter_sequence_valid": true,
+  "capture_hashes_valid": true,
+  "capture_state_hashes_valid": true,
+  "expected_probe_rom_sha256": "fd6909cb5ce4a18fda89e822000a9fb77e2253f5ddfec217988e64424f423bd6",
+  "captured_probe_rom_sha256": "fd6909cb5ce4a18fda89e822000a9fb77e2253f5ddfec217988e64424f423bd6",
+  "probe_rom_match": true,
+  "matched_chunk_count": 27,
+  "all_chunks_match": true,
+  "first_pcm_mismatch_invocation": null,
+  "all_player_clocks_match": true,
+  "first_clock_mismatch_invocation": null,
+  "old_pool_empty_at_switch": true,
+  "switch_active_direct_statuses": [],
+  "captured_combined_pcm_sha256": "a69ec02e03c3adb8048abd849498715c01ddc08bf6df57e16dc3eb1dc44b0aba",
+  "expected_combined_pcm_sha256": "a69ec02e03c3adb8048abd849498715c01ddc08bf6df57e16dc3eb1dc44b0aba",
+  "combined_pcm_match": true,
+  "replacement_engine_finished": true,
+  "comparisons": [
+    {
+      "invocation": 0,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 1,
+      "expected_player_clock": 1,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 1,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "1733f18f4390b06a084dab1096392284277e0a39afadbf5a20ff8acf075ce5f9",
+      "expected_pcm_sha256": "1733f18f4390b06a084dab1096392284277e0a39afadbf5a20ff8acf075ce5f9",
+      "player_clock": 2,
+      "expected_player_clock": 2,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        2
+      ]
+    },
+    {
+      "invocation": 2,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "db3342f585f77507943fda0dec4366976a531ed37ace09e55ace828d68cf0de2",
+      "expected_pcm_sha256": "db3342f585f77507943fda0dec4366976a531ed37ace09e55ace828d68cf0de2",
+      "player_clock": 3,
+      "expected_player_clock": 3,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 3,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "37a9611b40511c6b9981ccdf8559f3ce76af11e2157783682e570de7f7ee921e",
+      "expected_pcm_sha256": "37a9611b40511c6b9981ccdf8559f3ce76af11e2157783682e570de7f7ee921e",
+      "player_clock": 4,
+      "expected_player_clock": 4,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 4,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "66626ae20b558c18e6ded2c449822f570aaf6db5556194dad410beb8c81a76d7",
+      "expected_pcm_sha256": "66626ae20b558c18e6ded2c449822f570aaf6db5556194dad410beb8c81a76d7",
+      "player_clock": 5,
+      "expected_player_clock": 5,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 5,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "7fa7ac3443ef9a4adef53cc47fad5b670ff932cbdc6ad5a95494b84b678fa2b7",
+      "expected_pcm_sha256": "7fa7ac3443ef9a4adef53cc47fad5b670ff932cbdc6ad5a95494b84b678fa2b7",
+      "player_clock": 6,
+      "expected_player_clock": 6,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 6,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "9a1bc1064ce066362ffc80ba894589023d99e0f577f8b452c23ce71399c6abcd",
+      "expected_pcm_sha256": "9a1bc1064ce066362ffc80ba894589023d99e0f577f8b452c23ce71399c6abcd",
+      "player_clock": 7,
+      "expected_player_clock": 7,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 7,
+      "phase": "first",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "12190596dd05d3c4774c4e3392478b8004408317199f49d69d7fdb44d6a9586b",
+      "expected_pcm_sha256": "12190596dd05d3c4774c4e3392478b8004408317199f49d69d7fdb44d6a9586b",
+      "player_clock": 8,
+      "expected_player_clock": 8,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 8,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 1,
+      "expected_player_clock": 1,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 9,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "0d0d14261e2bc2a364a736ff885e0ef54b5a701ff54b2f2a8c5c9807ab3752ff",
+      "expected_pcm_sha256": "0d0d14261e2bc2a364a736ff885e0ef54b5a701ff54b2f2a8c5c9807ab3752ff",
+      "player_clock": 2,
+      "expected_player_clock": 2,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        2
+      ]
+    },
+    {
+      "invocation": 10,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "29a4aac7d753ed2e970710a24b4cc5f4c731986e63e72a8982e38eded8d8f4e0",
+      "expected_pcm_sha256": "29a4aac7d753ed2e970710a24b4cc5f4c731986e63e72a8982e38eded8d8f4e0",
+      "player_clock": 3,
+      "expected_player_clock": 3,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 11,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "5f81cc0d3729060d61a7810916e9b2c12527da22e9d99b8cffd91d4d6992ef6a",
+      "expected_pcm_sha256": "5f81cc0d3729060d61a7810916e9b2c12527da22e9d99b8cffd91d4d6992ef6a",
+      "player_clock": 4,
+      "expected_player_clock": 4,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 12,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "4709b720b02f2148ebb83fbd63989463789d6cf193fba127b9130a6972e7eaaf",
+      "expected_pcm_sha256": "4709b720b02f2148ebb83fbd63989463789d6cf193fba127b9130a6972e7eaaf",
+      "player_clock": 5,
+      "expected_player_clock": 5,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 13,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "6f24d3ae429f43ee325ea5a19207aa4f4ad843c9d20b4ec728729509ae1aa359",
+      "expected_pcm_sha256": "6f24d3ae429f43ee325ea5a19207aa4f4ad843c9d20b4ec728729509ae1aa359",
+      "player_clock": 6,
+      "expected_player_clock": 6,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 14,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "b1fc0c7e5071d0da0a48b1f4ed6af5b8eb047faf99814cd0374785b2fb757c23",
+      "expected_pcm_sha256": "b1fc0c7e5071d0da0a48b1f4ed6af5b8eb047faf99814cd0374785b2fb757c23",
+      "player_clock": 7,
+      "expected_player_clock": 7,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 15,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "87360fa2b054f71224217341342964943fca38c482ad5f236c5066facb95d118",
+      "expected_pcm_sha256": "87360fa2b054f71224217341342964943fca38c482ad5f236c5066facb95d118",
+      "player_clock": 8,
+      "expected_player_clock": 8,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 16,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "ef084c8a0f29258346b8a0f110ec74194646dd77dd0f65c1532a3f6200df2cd0",
+      "expected_pcm_sha256": "ef084c8a0f29258346b8a0f110ec74194646dd77dd0f65c1532a3f6200df2cd0",
+      "player_clock": 9,
+      "expected_player_clock": 9,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 17,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "f635c5a79533302c1b4ea00d61dc733530a962eaf22213d65b6c8391fe4e745f",
+      "expected_pcm_sha256": "f635c5a79533302c1b4ea00d61dc733530a962eaf22213d65b6c8391fe4e745f",
+      "player_clock": 10,
+      "expected_player_clock": 10,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 18,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "d7af1e2225fd79bdb773b596eef9c95cd88f458e0a6678d5265f35f3f1da7e97",
+      "expected_pcm_sha256": "d7af1e2225fd79bdb773b596eef9c95cd88f458e0a6678d5265f35f3f1da7e97",
+      "player_clock": 11,
+      "expected_player_clock": 11,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 19,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "1320cd5794dd6a653136ee6807dfc6e7ba03be5f264255eb00eed7c3ec12ded8",
+      "expected_pcm_sha256": "1320cd5794dd6a653136ee6807dfc6e7ba03be5f264255eb00eed7c3ec12ded8",
+      "player_clock": 12,
+      "expected_player_clock": 12,
+      "player_clock_match": true,
+      "active_direct_statuses": [
+        1
+      ]
+    },
+    {
+      "invocation": 20,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 13,
+      "expected_player_clock": 13,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 21,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 14,
+      "expected_player_clock": 14,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 22,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 15,
+      "expected_player_clock": 15,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 23,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 16,
+      "expected_player_clock": 16,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 24,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 17,
+      "expected_player_clock": 17,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 25,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 18,
+      "expected_player_clock": 18,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    },
+    {
+      "invocation": 26,
+      "phase": "replacement",
+      "pcm_match": true,
+      "capture_hash_valid": true,
+      "captured_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "expected_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a",
+      "player_clock": 19,
+      "expected_player_clock": 19,
+      "player_clock_match": true,
+      "active_direct_statuses": []
+    }
+  ],
+  "verification_passed": true
+}

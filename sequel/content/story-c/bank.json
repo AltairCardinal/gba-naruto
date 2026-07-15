@@ -1,128 +1,28 @@
 {
-  "version": 1,
-  "description": "Third story/chapter pointer table discovered at ROM offset 0x538FF0. 10 entries of u32 pointers to chapter data.",
+  "version": 3,
+  "description": "Disproved tombstone: story-c was a +4 slice of audio song descriptor for sound ID 8, not a story/chapter table.",
+  "structure_kind": "disproved-story-table",
   "table_offset": 5476336,
   "table_offset_hex": "0x538FF0",
-  "entry_count": 10,
+  "entry_count": 0,
   "entry_size": 4,
   "entry_format": {
-    "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "chapter_ptr",
-        "type": "u32",
-        "description": "Pointer to chapter data"
-      }
-    ]
+    "description": "No story entries. Former u32 pointers are the voicegroup pointer followed by per-track sequence pointers in one song descriptor."
   },
-  "notes": "Third story/chapter pointer table with 10 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables at 0x53636C and 0x536BC8. This suggests the game has three separate story/chapter systems. Located in the 0x538xxx region between the other story tables and the map headers. The first entry points to 0x464A40 which has a different structure (starts with 0x003C), suggesting it's a header or special entry.",
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5476336,
-      "offset_hex": "0x538FF0",
-      "chapter_ptr": "0x08464A40",
-      "notes": "Header or special entry"
-    },
-    {
-      "index": 1,
-      "offset": 5476340,
-      "offset_hex": "0x538FF4",
-      "chapter_ptr": "0x085388AC",
-      "notes": "Chapter 1 data"
-    },
-    {
-      "index": 2,
-      "offset": 5476344,
-      "offset_hex": "0x538FF8",
-      "chapter_ptr": "0x0853899E",
-      "notes": "Chapter 2 data"
-    },
-    {
-      "index": 3,
-      "offset": 5476348,
-      "offset_hex": "0x538FFC",
-      "chapter_ptr": "0x08538A85",
-      "notes": "Chapter 3 data"
-    },
-    {
-      "index": 4,
-      "offset": 5476352,
-      "offset_hex": "0x539000",
-      "chapter_ptr": "0x08538B52",
-      "notes": "Chapter 4 data"
-    }
-  ],
-  "verification_method": "Static analysis - found 10 consecutive u32 pointers at 0x538FF0, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data.",
-  "discovered_by": "Examining region 0x538000-0x53A000 between story tables and map headers",
-  "entries": [
-    {
-      "_raw_offset": 5476336,
-      "chapter_ptr": 138824256,
-      "chapter_ptr_hex": "404a4608",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5476340,
-      "chapter_ptr": 139692204,
-      "chapter_ptr_hex": "ac885308",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5476344,
-      "chapter_ptr": 139692446,
-      "chapter_ptr_hex": "9e895308",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5476348,
-      "chapter_ptr": 139692677,
-      "chapter_ptr_hex": "858a5308",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5476352,
-      "chapter_ptr": 139692882,
-      "chapter_ptr_hex": "528b5308",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5476356,
-      "chapter_ptr": 139693139,
-      "chapter_ptr_hex": "538c5308",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5476360,
-      "chapter_ptr": 139693303,
-      "chapter_ptr_hex": "f78c5308",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5476364,
-      "chapter_ptr": 139693604,
-      "chapter_ptr_hex": "248e5308",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5476368,
-      "chapter_ptr": 139693751,
-      "chapter_ptr_hex": "b78e5308",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5476372,
-      "chapter_ptr": 139693849,
-      "chapter_ptr_hex": "198f5308",
-      "_index": 9
-    }
-  ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 10,
-    "rom_offset": 5476336,
-    "rom_offset_hex": "0x538FF0"
-  }
+  "verification": "disproved",
+  "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. The m4a SongHeader has track_count at byte 0, voicegroup_ptr at +4, and track sequence pointers at +8.",
+  "notes": "Sound ID 8 descriptor starts at 0x538FEC; this address is its +4 voicegroup pointer. Empty tombstone and disabled writeback prevent audio payload from being edited as story data.",
+  "former_claim": {
+    "kind": "story/chapter pointer table",
+    "offset": 5476336
+  },
+  "actual_container": {
+    "master_table_offset": 4610928,
+    "master_index": 8,
+    "descriptor_offset": 5476332,
+    "track_count": 9,
+    "priority": 0
+  },
+  "writeback": "disabled",
+  "entries": []
 }

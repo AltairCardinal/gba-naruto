@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-15",
+  "method": "offline mGBA gbAs decompression plus bounded Thumb/ARM and cooperative-task stack analysis",
+  "conclusion": "The persisted lineup savestate's current suspended task chain is pre-controller; it is not evidence of battle-controller entry",
+  "claim_boundary": "This correction does not prove player control, MOVEDONE, victory, EXP, level-up, or postbattle.",
+  "format": {
+    "decompressed_bytes": 397312,
+    "cpu_gpr_offset": "0x20",
+    "iwram_offset": "0x19000",
+    "ewram_offset": "0x21000"
+  },
+  "scheduler": {
+    "thumb_veneer": "0x0809C574",
+    "arm_context_switch": "0x0800026C",
+    "context_base": "0x03000A88",
+    "context_stride": 76,
+    "context_count": 8,
+    "current_context_pointer": "0x03000D18",
+    "main_lr": "0x03002E1C",
+    "main_sp": "0x03002E20"
+  },
+  "checkpoints": [
+    {
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
+      "sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "saved_pc": "0x0806112A",
+      "entry_mode_byte_0x0202680c": 0,
+      "task2_sp": "0x030011FC",
+      "task2_resume_pc": "0x0806F996",
+      "active_unwind_raw_return_words": ["0x0807513F", "0x08089029", "0x0808F92D"],
+      "active_unwind_resume_pcs": ["0x0807513E", "0x08089028", "0x0808F92C"],
+      "active_unwind_contains_controller_return": false
+    },
+    {
+      "path": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+      "sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+      "saved_pc": "0x0806112C",
+      "entry_mode_byte_0x0202680c": 1,
+      "task2_sp": "0x03001154",
+      "active_unwind_raw_return_words": ["0x080718F3", "0x08074197", "0x0808F957"],
+      "active_unwind_resume_pcs": ["0x080718F2", "0x08074196", "0x0808F956"],
+      "stale_or_local_stack_words_excluded_from_active_unwind": ["0x080751A7"],
+      "active_unwind_contains_controller_return": true
+    }
+  ],
+  "pre_controller_chain": [
+    "0x0808F928",
+    "0x08088F10",
+    "0x08089020",
+    "0x08075184",
+    "0x0807509C",
+    "0x0806F718"
+  ],
+  "controller_entry_call": "0x0808F952 -> 0x080732B4",
+  "entry_mode_byte_boundary": "0x0202680C selects the controller's initial local r6 value (0 or 0x1000). Its value is supplementary context, not a required controller-entry gate or persistent dispatcher state.",
+  "dispatcher_states": {
+    "0x1300": "0x080738C0",
+    "0x2000": "0x08073940",
+    "0x1020": "0x080739D0",
+    "0x3000": "0x08073A04"
+  }
+}

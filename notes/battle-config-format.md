@@ -23,6 +23,12 @@
 
 ### Battle Scenario Config Table
 
+> **Superseded layout warning (2026-07-12):** the `base+4`, 8-row descriptor
+> view below is historical and overlaps adjacent real rows. The authoritative
+> format is 47 unshifted rows at `0x53D910 + map_id*0x20`: dimensions at `+0`,
+> resources at `+4..+18`, flags at `+1C`. See
+> `notes/maps-runtime-fields-20260711.md`. Do not patch using the shifted table.
+
 - **ARM address**: `0x0853D910`
 - **File offset**: `0x53D910`
 - **Entry size**: **32 bytes** (CORRECTED from prior 16-byte estimate)

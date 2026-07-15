@@ -1,608 +1,259 @@
 {
-  "version": 1,
-  "description": "Character palette table discovered at ROM offset 0x53F138. 88 entries of u32 pointers to 16-color RGB555 palette data.",
-  "table_offset": 5501240,
-  "table_offset_hex": "0x53F138",
-  "entry_count": 88,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "palette_ptr",
-        "type": "u32",
-        "description": "Pointer to 16-color RGB555 palette data (32 bytes)"
-      }
+    "version": 2,
+    "description": "Fifteen 10-byte motion/effect parameter records consumed by three task update paths; historical palettes slug retained for migration compatibility.",
+    "table_offset": 5500568,
+    "table_offset_hex": "0x53EE98",
+    "entry_count": 15,
+    "entry_size": 10,
+    "entry_format": {
+        "description": "Five signed 16-bit spawn/effect parameters; effect_id=-1 terminates the record chain.",
+        "fields": [
+            {
+                "offset": 0,
+                "size": 2,
+                "name": "effect_id",
+                "type": "s16"
+            },
+            {
+                "offset": 2,
+                "size": 2,
+                "name": "x_offset",
+                "type": "s16"
+            },
+            {
+                "offset": 4,
+                "size": 2,
+                "name": "y_offset",
+                "type": "s16"
+            },
+            {
+                "offset": 6,
+                "size": 2,
+                "name": "render_attributes",
+                "type": "s16"
+            },
+            {
+                "offset": 8,
+                "size": 2,
+                "name": "duration_control",
+                "type": "s16"
+            }
+        ]
+    },
+    "verification": "code_verified",
+    "verification_method": "Functions 0x080806B0, 0x08080764 and 0x08080814 load literal 0x0853EE98, multiply a runtime index by 10, walk 10-byte records, and pass the signed parameters to 0x08080218. Record 14 begins with -1 and terminates the chain.",
+    "former_claim": "88 RGB555 palette pointers beginning at 0x53F138",
+    "notes": "The old palette view began inside unrelated callback data and crossed into the sprite pair table. Legacy palette rows are diagnostic-only; field names remain conservative pending player-visible correlation.",
+    "entries": [
+        {
+            "_index": 0,
+            "_raw_offset": 5500568,
+            "effect_id": 1,
+            "effect_id_hex": "0100",
+            "x_offset": 0,
+            "x_offset_hex": "0000",
+            "y_offset": 0,
+            "y_offset_hex": "0000",
+            "render_attributes": 2,
+            "render_attributes_hex": "0200",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 1,
+            "_raw_offset": 5500578,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": 8,
+            "x_offset_hex": "0800",
+            "y_offset": -10,
+            "y_offset_hex": "f6ff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 2,
+            "_raw_offset": 5500588,
+            "effect_id": 2,
+            "effect_id_hex": "0200",
+            "x_offset": -4,
+            "x_offset_hex": "fcff",
+            "y_offset": 5,
+            "y_offset_hex": "0500",
+            "render_attributes": 0,
+            "render_attributes_hex": "0000",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 3,
+            "_raw_offset": 5500598,
+            "effect_id": 1,
+            "effect_id_hex": "0100",
+            "x_offset": -8,
+            "x_offset_hex": "f8ff",
+            "y_offset": -16,
+            "y_offset_hex": "f0ff",
+            "render_attributes": 2,
+            "render_attributes_hex": "0200",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 4,
+            "_raw_offset": 5500608,
+            "effect_id": 1,
+            "effect_id_hex": "0100",
+            "x_offset": 4,
+            "x_offset_hex": "0400",
+            "y_offset": -24,
+            "y_offset_hex": "e8ff",
+            "render_attributes": 2,
+            "render_attributes_hex": "0200",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 5,
+            "_raw_offset": 5500618,
+            "effect_id": 2,
+            "effect_id_hex": "0200",
+            "x_offset": 7,
+            "x_offset_hex": "0700",
+            "y_offset": 2,
+            "y_offset_hex": "0200",
+            "render_attributes": 0,
+            "render_attributes_hex": "0000",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 6,
+            "_raw_offset": 5500628,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": -16,
+            "x_offset_hex": "f0ff",
+            "y_offset": -24,
+            "y_offset_hex": "e8ff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 7,
+            "_raw_offset": 5500638,
+            "effect_id": 1,
+            "effect_id_hex": "0100",
+            "x_offset": -4,
+            "x_offset_hex": "fcff",
+            "y_offset": -40,
+            "y_offset_hex": "d8ff",
+            "render_attributes": 2,
+            "render_attributes_hex": "0200",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 8,
+            "_raw_offset": 5500648,
+            "effect_id": 1,
+            "effect_id_hex": "0100",
+            "x_offset": -21,
+            "x_offset_hex": "ebff",
+            "y_offset": -48,
+            "y_offset_hex": "d0ff",
+            "render_attributes": 2,
+            "render_attributes_hex": "0200",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 9,
+            "_raw_offset": 5500658,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": 12,
+            "x_offset_hex": "0c00",
+            "y_offset": -40,
+            "y_offset_hex": "d8ff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 10,
+            "_raw_offset": 5500668,
+            "effect_id": 2,
+            "effect_id_hex": "0200",
+            "x_offset": -9,
+            "x_offset_hex": "f7ff",
+            "y_offset": -32,
+            "y_offset_hex": "e0ff",
+            "render_attributes": 0,
+            "render_attributes_hex": "0000",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 11,
+            "_raw_offset": 5500678,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": -12,
+            "x_offset_hex": "f4ff",
+            "y_offset": -54,
+            "y_offset_hex": "caff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 12,
+            "_raw_offset": 5500688,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": 12,
+            "x_offset_hex": "0c00",
+            "y_offset": -62,
+            "y_offset_hex": "c2ff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 4,
+            "duration_control_hex": "0400"
+        },
+        {
+            "_index": 13,
+            "_raw_offset": 5500698,
+            "effect_id": 0,
+            "effect_id_hex": "0000",
+            "x_offset": -28,
+            "x_offset_hex": "e4ff",
+            "y_offset": -68,
+            "y_offset_hex": "bcff",
+            "render_attributes": 1,
+            "render_attributes_hex": "0100",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        },
+        {
+            "_index": 14,
+            "_raw_offset": 5500708,
+            "effect_id": -1,
+            "effect_id_hex": "ffff",
+            "x_offset": 0,
+            "x_offset_hex": "0000",
+            "y_offset": 0,
+            "y_offset_hex": "0000",
+            "render_attributes": 0,
+            "render_attributes_hex": "0000",
+            "duration_control": 0,
+            "duration_control_hex": "0000"
+        }
     ]
-  },
-  "palette_format": {
-    "description": "Each palette is 32 bytes = 16 colors in GBA RGB555 format",
-    "color_format": "u16: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)",
-    "size": 32
-  },
-  "notes": "Character/sprite palette pointer table. Same 88-entry count as audio table. Entries 0-1 point to 0x0808xx region (code?), entries 2+ point to consecutive palette data at 0x12F5xx-0x12FAxx. Each pair of entries (2i, 2i+1) appears to be primary/alternate palette for the same character. The primary palette has transparency at index 4 (31,31,31 = white), alternate has different structure. Referenced from battle/character rendering code.",
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5501240,
-      "offset_hex": "0x53F138",
-      "palette_ptr": "0x080808BD",
-      "notes": "Points to 0x0808xx region (possibly code)"
-    },
-    {
-      "index": 1,
-      "offset": 5501244,
-      "offset_hex": "0x53F13C",
-      "palette_ptr": "0x08080965",
-      "notes": "Points to 0x0808xx region (possibly code)"
-    },
-    {
-      "index": 2,
-      "offset": 5501248,
-      "offset_hex": "0x53F140",
-      "palette_ptr": "0x0812F5B0",
-      "notes": "Character 0 primary palette"
-    },
-    {
-      "index": 3,
-      "offset": 5501252,
-      "offset_hex": "0x53F144",
-      "palette_ptr": "0x0812F5BC",
-      "notes": "Character 0 alternate palette"
-    },
-    {
-      "index": 4,
-      "offset": 5501256,
-      "offset_hex": "0x53F148",
-      "palette_ptr": "0x0812F5D8",
-      "notes": "Character 1 primary palette"
-    },
-    {
-      "index": 5,
-      "offset": 5501260,
-      "offset_hex": "0x53F14C",
-      "palette_ptr": "0x0812F5E4",
-      "notes": "Character 1 alternate palette"
-    }
-  ],
-  "verification_method": "Static analysis - found 88 consecutive u32 pointers at 0x53F138, all pointing to valid ROM addresses. 86 of 88 entries point to data that decodes as valid RGB555 palette data (has dark colors, bright colors, and variety).",
-  "discovered_by": "Searching for palette pointer tables near map headers and character data",
-  "entries": [
-    {
-      "_raw_offset": 5501240,
-      "palette_ptr": 134744253,
-      "palette_ptr_hex": "bd080808",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5501244,
-      "palette_ptr": 134744421,
-      "palette_ptr_hex": "65090808",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5501248,
-      "palette_ptr": 135460272,
-      "palette_ptr_hex": "b0f51208",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5501252,
-      "palette_ptr": 135460284,
-      "palette_ptr_hex": "bcf51208",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5501256,
-      "palette_ptr": 135460312,
-      "palette_ptr_hex": "d8f51208",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5501260,
-      "palette_ptr": 135460324,
-      "palette_ptr_hex": "e4f51208",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5501264,
-      "palette_ptr": 135460352,
-      "palette_ptr_hex": "00f61208",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5501268,
-      "palette_ptr": 135460364,
-      "palette_ptr_hex": "0cf61208",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5501272,
-      "palette_ptr": 135460392,
-      "palette_ptr_hex": "28f61208",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5501276,
-      "palette_ptr": 135460404,
-      "palette_ptr_hex": "34f61208",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5501280,
-      "palette_ptr": 135460432,
-      "palette_ptr_hex": "50f61208",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5501284,
-      "palette_ptr": 135460444,
-      "palette_ptr_hex": "5cf61208",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5501288,
-      "palette_ptr": 135460472,
-      "palette_ptr_hex": "78f61208",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5501292,
-      "palette_ptr": 135460484,
-      "palette_ptr_hex": "84f61208",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5501296,
-      "palette_ptr": 135460512,
-      "palette_ptr_hex": "a0f61208",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5501300,
-      "palette_ptr": 135460524,
-      "palette_ptr_hex": "acf61208",
-      "_index": 15
-    },
-    {
-      "_raw_offset": 5501304,
-      "palette_ptr": 135460552,
-      "palette_ptr_hex": "c8f61208",
-      "_index": 16
-    },
-    {
-      "_raw_offset": 5501308,
-      "palette_ptr": 135460564,
-      "palette_ptr_hex": "d4f61208",
-      "_index": 17
-    },
-    {
-      "_raw_offset": 5501312,
-      "palette_ptr": 135460592,
-      "palette_ptr_hex": "f0f61208",
-      "_index": 18
-    },
-    {
-      "_raw_offset": 5501316,
-      "palette_ptr": 135460604,
-      "palette_ptr_hex": "fcf61208",
-      "_index": 19
-    },
-    {
-      "_raw_offset": 5501320,
-      "palette_ptr": 135460632,
-      "palette_ptr_hex": "18f71208",
-      "_index": 20
-    },
-    {
-      "_raw_offset": 5501324,
-      "palette_ptr": 135460644,
-      "palette_ptr_hex": "24f71208",
-      "_index": 21
-    },
-    {
-      "_raw_offset": 5501328,
-      "palette_ptr": 135461072,
-      "palette_ptr_hex": "d0f81208",
-      "_index": 22
-    },
-    {
-      "_raw_offset": 5501332,
-      "palette_ptr": 135461084,
-      "palette_ptr_hex": "dcf81208",
-      "_index": 23
-    },
-    {
-      "_raw_offset": 5501336,
-      "palette_ptr": 135461112,
-      "palette_ptr_hex": "f8f81208",
-      "_index": 24
-    },
-    {
-      "_raw_offset": 5501340,
-      "palette_ptr": 135461124,
-      "palette_ptr_hex": "04f91208",
-      "_index": 25
-    },
-    {
-      "_raw_offset": 5501344,
-      "palette_ptr": 135461152,
-      "palette_ptr_hex": "20f91208",
-      "_index": 26
-    },
-    {
-      "_raw_offset": 5501348,
-      "palette_ptr": 135461164,
-      "palette_ptr_hex": "2cf91208",
-      "_index": 27
-    },
-    {
-      "_raw_offset": 5501352,
-      "palette_ptr": 135461192,
-      "palette_ptr_hex": "48f91208",
-      "_index": 28
-    },
-    {
-      "_raw_offset": 5501356,
-      "palette_ptr": 135461204,
-      "palette_ptr_hex": "54f91208",
-      "_index": 29
-    },
-    {
-      "_raw_offset": 5501360,
-      "palette_ptr": 135461232,
-      "palette_ptr_hex": "70f91208",
-      "_index": 30
-    },
-    {
-      "_raw_offset": 5501364,
-      "palette_ptr": 135461244,
-      "palette_ptr_hex": "7cf91208",
-      "_index": 31
-    },
-    {
-      "_raw_offset": 5501368,
-      "palette_ptr": 135461272,
-      "palette_ptr_hex": "98f91208",
-      "_index": 32
-    },
-    {
-      "_raw_offset": 5501372,
-      "palette_ptr": 135461284,
-      "palette_ptr_hex": "a4f91208",
-      "_index": 33
-    },
-    {
-      "_raw_offset": 5501376,
-      "palette_ptr": 135461312,
-      "palette_ptr_hex": "c0f91208",
-      "_index": 34
-    },
-    {
-      "_raw_offset": 5501380,
-      "palette_ptr": 135461324,
-      "palette_ptr_hex": "ccf91208",
-      "_index": 35
-    },
-    {
-      "_raw_offset": 5501384,
-      "palette_ptr": 135461352,
-      "palette_ptr_hex": "e8f91208",
-      "_index": 36
-    },
-    {
-      "_raw_offset": 5501388,
-      "palette_ptr": 135461364,
-      "palette_ptr_hex": "f4f91208",
-      "_index": 37
-    },
-    {
-      "_raw_offset": 5501392,
-      "palette_ptr": 135461392,
-      "palette_ptr_hex": "10fa1208",
-      "_index": 38
-    },
-    {
-      "_raw_offset": 5501396,
-      "palette_ptr": 135461404,
-      "palette_ptr_hex": "1cfa1208",
-      "_index": 39
-    },
-    {
-      "_raw_offset": 5501400,
-      "palette_ptr": 135461432,
-      "palette_ptr_hex": "38fa1208",
-      "_index": 40
-    },
-    {
-      "_raw_offset": 5501404,
-      "palette_ptr": 135461444,
-      "palette_ptr_hex": "44fa1208",
-      "_index": 41
-    },
-    {
-      "_raw_offset": 5501408,
-      "palette_ptr": 135461552,
-      "palette_ptr_hex": "b0fa1208",
-      "_index": 42
-    },
-    {
-      "_raw_offset": 5501412,
-      "palette_ptr": 135461564,
-      "palette_ptr_hex": "bcfa1208",
-      "_index": 43
-    },
-    {
-      "_raw_offset": 5501416,
-      "palette_ptr": 135461592,
-      "palette_ptr_hex": "d8fa1208",
-      "_index": 44
-    },
-    {
-      "_raw_offset": 5501420,
-      "palette_ptr": 135461604,
-      "palette_ptr_hex": "e4fa1208",
-      "_index": 45
-    },
-    {
-      "_raw_offset": 5501424,
-      "palette_ptr": 135461632,
-      "palette_ptr_hex": "00fb1208",
-      "_index": 46
-    },
-    {
-      "_raw_offset": 5501428,
-      "palette_ptr": 135461644,
-      "palette_ptr_hex": "0cfb1208",
-      "_index": 47
-    },
-    {
-      "_raw_offset": 5501432,
-      "palette_ptr": 135461672,
-      "palette_ptr_hex": "28fb1208",
-      "_index": 48
-    },
-    {
-      "_raw_offset": 5501436,
-      "palette_ptr": 135461684,
-      "palette_ptr_hex": "34fb1208",
-      "_index": 49
-    },
-    {
-      "_raw_offset": 5501440,
-      "palette_ptr": 135461712,
-      "palette_ptr_hex": "50fb1208",
-      "_index": 50
-    },
-    {
-      "_raw_offset": 5501444,
-      "palette_ptr": 135461724,
-      "palette_ptr_hex": "5cfb1208",
-      "_index": 51
-    },
-    {
-      "_raw_offset": 5501448,
-      "palette_ptr": 135461752,
-      "palette_ptr_hex": "78fb1208",
-      "_index": 52
-    },
-    {
-      "_raw_offset": 5501452,
-      "palette_ptr": 135461764,
-      "palette_ptr_hex": "84fb1208",
-      "_index": 53
-    },
-    {
-      "_raw_offset": 5501456,
-      "palette_ptr": 135461792,
-      "palette_ptr_hex": "a0fb1208",
-      "_index": 54
-    },
-    {
-      "_raw_offset": 5501460,
-      "palette_ptr": 135461804,
-      "palette_ptr_hex": "acfb1208",
-      "_index": 55
-    },
-    {
-      "_raw_offset": 5501464,
-      "palette_ptr": 135461832,
-      "palette_ptr_hex": "c8fb1208",
-      "_index": 56
-    },
-    {
-      "_raw_offset": 5501468,
-      "palette_ptr": 135461844,
-      "palette_ptr_hex": "d4fb1208",
-      "_index": 57
-    },
-    {
-      "_raw_offset": 5501472,
-      "palette_ptr": 135461872,
-      "palette_ptr_hex": "f0fb1208",
-      "_index": 58
-    },
-    {
-      "_raw_offset": 5501476,
-      "palette_ptr": 135461884,
-      "palette_ptr_hex": "fcfb1208",
-      "_index": 59
-    },
-    {
-      "_raw_offset": 5501480,
-      "palette_ptr": 135461912,
-      "palette_ptr_hex": "18fc1208",
-      "_index": 60
-    },
-    {
-      "_raw_offset": 5501484,
-      "palette_ptr": 135461924,
-      "palette_ptr_hex": "24fc1208",
-      "_index": 61
-    },
-    {
-      "_raw_offset": 5501488,
-      "palette_ptr": 135460672,
-      "palette_ptr_hex": "40f71208",
-      "_index": 62
-    },
-    {
-      "_raw_offset": 5501492,
-      "palette_ptr": 135460684,
-      "palette_ptr_hex": "4cf71208",
-      "_index": 63
-    },
-    {
-      "_raw_offset": 5501496,
-      "palette_ptr": 135460712,
-      "palette_ptr_hex": "68f71208",
-      "_index": 64
-    },
-    {
-      "_raw_offset": 5501500,
-      "palette_ptr": 135460724,
-      "palette_ptr_hex": "74f71208",
-      "_index": 65
-    },
-    {
-      "_raw_offset": 5501504,
-      "palette_ptr": 135461472,
-      "palette_ptr_hex": "60fa1208",
-      "_index": 66
-    },
-    {
-      "_raw_offset": 5501508,
-      "palette_ptr": 135461484,
-      "palette_ptr_hex": "6cfa1208",
-      "_index": 67
-    },
-    {
-      "_raw_offset": 5501512,
-      "palette_ptr": 135461512,
-      "palette_ptr_hex": "88fa1208",
-      "_index": 68
-    },
-    {
-      "_raw_offset": 5501516,
-      "palette_ptr": 135461524,
-      "palette_ptr_hex": "94fa1208",
-      "_index": 69
-    },
-    {
-      "_raw_offset": 5501520,
-      "palette_ptr": 135461952,
-      "palette_ptr_hex": "40fc1208",
-      "_index": 70
-    },
-    {
-      "_raw_offset": 5501524,
-      "palette_ptr": 135461964,
-      "palette_ptr_hex": "4cfc1208",
-      "_index": 71
-    },
-    {
-      "_raw_offset": 5501528,
-      "palette_ptr": 135461992,
-      "palette_ptr_hex": "68fc1208",
-      "_index": 72
-    },
-    {
-      "_raw_offset": 5501532,
-      "palette_ptr": 135462004,
-      "palette_ptr_hex": "74fc1208",
-      "_index": 73
-    },
-    {
-      "_raw_offset": 5501536,
-      "palette_ptr": 135460752,
-      "palette_ptr_hex": "90f71208",
-      "_index": 74
-    },
-    {
-      "_raw_offset": 5501540,
-      "palette_ptr": 135460764,
-      "palette_ptr_hex": "9cf71208",
-      "_index": 75
-    },
-    {
-      "_raw_offset": 5501544,
-      "palette_ptr": 135460812,
-      "palette_ptr_hex": "ccf71208",
-      "_index": 76
-    },
-    {
-      "_raw_offset": 5501548,
-      "palette_ptr": 135460824,
-      "palette_ptr_hex": "d8f71208",
-      "_index": 77
-    },
-    {
-      "_raw_offset": 5501552,
-      "palette_ptr": 135460872,
-      "palette_ptr_hex": "08f81208",
-      "_index": 78
-    },
-    {
-      "_raw_offset": 5501556,
-      "palette_ptr": 135460884,
-      "palette_ptr_hex": "14f81208",
-      "_index": 79
-    },
-    {
-      "_raw_offset": 5501560,
-      "palette_ptr": 135460912,
-      "palette_ptr_hex": "30f81208",
-      "_index": 80
-    },
-    {
-      "_raw_offset": 5501564,
-      "palette_ptr": 135460924,
-      "palette_ptr_hex": "3cf81208",
-      "_index": 81
-    },
-    {
-      "_raw_offset": 5501568,
-      "palette_ptr": 135460952,
-      "palette_ptr_hex": "58f81208",
-      "_index": 82
-    },
-    {
-      "_raw_offset": 5501572,
-      "palette_ptr": 135460964,
-      "palette_ptr_hex": "64f81208",
-      "_index": 83
-    },
-    {
-      "_raw_offset": 5501576,
-      "palette_ptr": 135460992,
-      "palette_ptr_hex": "80f81208",
-      "_index": 84
-    },
-    {
-      "_raw_offset": 5501580,
-      "palette_ptr": 135461004,
-      "palette_ptr_hex": "8cf81208",
-      "_index": 85
-    },
-    {
-      "_raw_offset": 5501584,
-      "palette_ptr": 135461032,
-      "palette_ptr_hex": "a8f81208",
-      "_index": 86
-    },
-    {
-      "_raw_offset": 5501588,
-      "palette_ptr": 135461044,
-      "palette_ptr_hex": "b4f81208",
-      "_index": 87
-    }
-  ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 88,
-    "rom_offset": 5501240,
-    "rom_offset_hex": "0x53F138"
-  }
 }

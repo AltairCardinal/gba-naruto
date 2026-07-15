@@ -24,15 +24,18 @@ function buildNavigationPlan(options = {}) {
   const advanceDelayMs = boundedInteger(options.advanceDelayMs, DEFAULTS.advanceDelayMs, 'advanceDelayMs');
   const holdMs = boundedInteger(options.keyHoldMs, DEFAULTS.keyHoldMs, 'keyHoldMs');
   const tailDelayMs = boundedInteger(options.tailDelayMs, DEFAULTS.tailDelayMs, 'tailDelayMs');
+  const tailRepeat = boundedInteger(options.tailRepeat, 1, 'tailRepeat');
   const tailKeys = options.tailKeys || [];
+  const skipNewGame = options.skipNewGame === true;
   if (!Array.isArray(tailKeys) || tailKeys.some(key => typeof key !== 'string' || key.length === 0)) {
     throw new TypeError('tailKeys must be an array of non-empty key names');
   }
   return [
     ...Array.from({ length: startCount }, () => ({ phase: 'boot', key: 'Enter', delayMs: startDelayMs, holdMs })),
-    { phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs },
+    ...(skipNewGame ? [] : [{ phase: 'new-game', key: 'KeyZ', delayMs: confirmDelayMs, holdMs }]),
     ...Array.from({ length: advanceCount }, () => ({ phase: 'story', key: 'KeyZ', delayMs: advanceDelayMs, holdMs })),
-    ...tailKeys.map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
+    ...Array.from({ length: tailRepeat }, () => tailKeys).flat()
+      .map(key => ({ phase: 'tail', key, delayMs: tailDelayMs, holdMs })),
   ];
 }
 
@@ -89,10 +92,104 @@ function decodeMapRuntime(bytes) {
   };
 }
 
+function decodeChapterScriptProbe(bytes) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 12) {
+    throw new TypeError('chapter script probe must be a 12-byte Uint8Array');
+  }
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const scriptPointer = view.getUint32(0, true);
+  return {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    scriptPointer,
+    scriptPointerHex: `0x${scriptPointer.toString(16).toUpperCase().padStart(8, '0')}`,
+    opcodeBytesHex: Buffer.from(bytes.subarray(4, 8)).toString('hex'),
+    opcode: bytes[4],
+    chapterBattleId: bytes[5],
+    hitCount: bytes[8],
+    pointerInRom: scriptPointer >= 0x08000000 && scriptPointer < 0x0E000000,
+  };
+}
+
+function decodeAlternateChapterProbe(bytes, chapterState = 0) {
+  if (!(bytes instanceof Uint8Array) || bytes.length !== 32) {
+    throw new TypeError('alternate chapter probe must be a 32-byte Uint8Array');
+  }
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const magic = view.getUint32(0, true);
+  const lastOpcodeCursor = view.getUint32(20, true);
+  return {
+    rawHex: Buffer.from(bytes).toString('hex'),
+    magicValid: magic === 0x52504341,
+    selectorHitCount: view.getUint32(4, true),
+    scenarioId: view.getUint32(8, true),
+    selectedScriptStart: view.getUint32(12, true),
+    opcodeHitCount: view.getUint32(16, true),
+    lastOpcodeCursor,
+    lastOpcodeCursorHex: `0x${lastOpcodeCursor.toString(16).toUpperCase().padStart(8, '0')}`,
+    opcodeBytesHex: Buffer.from(bytes.subarray(24, 28)).toString('hex'),
+    opcode: bytes[24],
+    chapterState,
+  };
+}
+
+function evaluateAlternateChapterEvidence({
+  baseline, current, expectedScenarioId, expectedScriptStart, expectedScriptEnd,
+  romOpcodeBytesHex, evidenceKind = 'alternate',
+}) {
+  const terminated = current.opcode === 0;
+  const checks = {
+    magicValid: current.magicValid === true,
+    freshSelectorHit: current.selectorHitCount > baseline.selectorHitCount,
+    scenarioMatches: current.scenarioId === expectedScenarioId,
+    selectedScriptMatches: current.selectedScriptStart === expectedScriptStart,
+    freshOpcodeHit: current.opcodeHitCount > baseline.opcodeHitCount,
+    cursorInScript: current.lastOpcodeCursor >= expectedScriptStart
+      && current.lastOpcodeCursor <= expectedScriptEnd,
+    opcodeMatchesRom: current.opcodeBytesHex === romOpcodeBytesHex,
+    stateChangedOrTerminated: current.chapterState !== baseline.chapterState || terminated,
+  };
+  const verified = Object.values(checks).every(Boolean);
+  return {
+    verified,
+    reason: verified && terminated ? `${evidenceKind}-script-terminated`
+      : verified ? `${evidenceKind}-script-updated-state` : `${evidenceKind}-script-not-verified`,
+    checks,
+  };
+}
+
 function classifyScreenMetrics(metrics) {
-  if (metrics.grayRatio > 0.2) return 'character-panel';
+  const dark = metrics.darkRatio || 0;
+  // Texture density is the primary discriminator.  The isometric map can be
+  // almost full-frame after the camera moves, so the old "black corners"
+  // heuristic alone is not stable across camera positions.
+  if ((metrics.edgeRatio || 0) > 0.2 && dark < 0.5) return 'battle-map';
   if (metrics.paleRatio > 0.3) return 'prebattle-menu';
+  // Battle maps are diamond-shaped and leave large black viewport corners.
+  // Character panels fill the viewport with green UI and almost no black.
+  if (dark < 0.05 && metrics.greenRatio > 0.18) return 'character-panel';
+  if (metrics.paleRatio < 0.2 && (
+    (dark > 0.12 && dark < 0.5)
+    || (dark < 0.05 && metrics.greenRatio < 0.18)
+  )) return 'battle-map';
   return 'other';
+}
+
+function evaluateBattleArrival({ match, battleControl, mapRuntime, screenState }) {
+  const checks = {
+    uniqueCompleteFormation: Boolean(match?.best && match.best.missing === 0 && match.unique),
+    battleIdPresent: Number(battleControl?.chapterBattleId || 0) !== 0,
+    mapLoaded: Boolean(
+      mapRuntime?.width > 0
+      && mapRuntime?.height > 0
+      && mapRuntime?.derivationConsistent,
+    ),
+    battleMapVisible: screenState === 'battle-map',
+  };
+  return {
+    arrived: Object.values(checks).every(Boolean),
+    checks,
+    reason: Object.values(checks).every(Boolean) ? 'strict-battle-arrival' : 'arrival-evidence-incomplete',
+  };
 }
 
 function tailTransitionDecision(screenState) {
@@ -159,8 +256,43 @@ function buildProbeResult({ outcome, reason, stages, final, match = null }) {
   return { schemaVersion: 1, outcome, reason, stages, final, match };
 }
 
+function saveChecksum(bytes) {
+  return (~bytes.reduce((sum, byte) => (sum + byte) & 0xFF, 0)) & 0xFF;
+}
+
+function decodeSaveRecord(offset, bytes) {
+  const data = Array.from(bytes);
+  const headerLength = 0x13;
+  if (data.length < headerLength + 2) throw new Error(`save record at 0x${offset.toString(16)} must contain header, payload and checksum`);
+  const payloadLength = data.length - headerLength - 1;
+  const header = data.slice(0, headerLength);
+  const payload = data.slice(headerLength, headerLength + payloadLength);
+  const expectedChecksum = saveChecksum(payload);
+  const erased = data.every(byte => byte === 0xFF);
+  return {
+    sramOffset: offset,
+    sramOffsetHex: `0x${offset.toString(16).toUpperCase().padStart(4, '0')}`,
+    rawHex: Buffer.from(data).toString('hex'),
+    headerHex: Buffer.from(header).toString('hex'),
+    erased,
+    payloadLength,
+    checksum: data[headerLength + payloadLength],
+    expectedChecksum,
+    checksumValid: erased || data[headerLength + payloadLength] === expectedChecksum,
+  };
+}
+
+function compareSaveRecords(before, after) {
+  return after.map(record => {
+    const old = before.find(candidate => candidate.sramOffset === record.sramOffset);
+    return { ...record, changed: Boolean(old && old.rawHex !== record.rawHex), beforeRawHex: old?.rawHex || null };
+  });
+}
+
 module.exports = {
   buildNavigationPlan, classifyMemorySnapshot, matchFormationPositions,
   buildArtifactPaths, buildProbeResult, buildSettlePlan, decodeBattleControl,
   decodeMapRuntime, classifyScreenMetrics, tailTransitionDecision, shouldRetryBack,
+  decodeSaveRecord, compareSaveRecords, saveChecksum, evaluateBattleArrival,
+  decodeChapterScriptProbe, decodeAlternateChapterProbe, evaluateAlternateChapterEvidence,
 };

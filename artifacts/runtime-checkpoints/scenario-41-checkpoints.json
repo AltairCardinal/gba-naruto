@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "checkpoints": [
+    {
+      "name": "tutorial-ui-save",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+      "sha256": "9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": null,
+      "inputs": [],
+      "screen": "natural-konoha-save",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": []
+    },
+    {
+      "name": "scenario-41-start-row",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+      "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "tutorial-ui-save",
+      "inputs": [
+        "Down",
+        "Down"
+      ],
+      "screen": "scenario-41-start-row",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "build/task5-zero-replay-1.json",
+        "build/task5-zero-replay-2.json"
+      ],
+      "runtime_boundary": "From this checkpoint, a single explicit A reaches stable scenario 41 lineup/deployment. Offline analysis of the resulting savestate proves only that its current suspended task chain is outside 0x080732B4; this checkpoint is not authorized to prove controller entry or player control."
+    },
+    {
+      "name": "scenario-41-pre-controller-lineup",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
+      "sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-start-row",
+      "inputs": [
+        "A"
+      ],
+      "screen": "scenario-41-pre-controller-lineup",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
+      ],
+      "runtime_boundary": "The saved current task-2 chain resumes in 0x0806F718 and unwinds through 0x0807509C, 0x08088F10 and 0x0808F928. Its active unwind does not contain the controller caller return 0x0808F957, so this state is accepted only as a stable pre-controller lineup/deployment checkpoint and negative boundary evidence."
+    },
+    {
+      "name": "natural-s41-start-prompt",
+      "status": "rejected",
+      "path": "build/natural-s41-start-prompt.ss9",
+      "sha256": "b980ec18123d0cfd5585ac81709213d313ad3de1af76b559f7dba349ccd4338e",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "tutorial-ui-save",
+      "inputs": [],
+      "screen": "team-equipment-page",
+      "stable_zero_input": false,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "rejection_reason": "Misleading filename: the checkpoint is the team/equipment page, not the scenario 41 start-confirm prompt."
+    }
+  ]
+}

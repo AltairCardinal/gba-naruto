@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "production-chapter-relocation-runtime",
+  "scenario_id": 39,
+  "table_offset": "0x60D54",
+  "pointer_slot_offset": "0x60DF0",
+  "base_script_start": "0x08031281",
+  "relocated_script_start": "0x085F8000",
+  "relocated_terminal_opcode": "0x085F81AD",
+  "script_length": 430,
+  "selector_hit_count": 1,
+  "dispatch_hit_count": 25,
+  "terminal_opcode_bytes": "00ffffff",
+  "chapter_state": 39,
+  "outcome": "verified",
+  "reason": "alternate-script-terminated",
+  "checks": {
+    "magic_valid": true,
+    "fresh_selector_hit": true,
+    "scenario_matches": true,
+    "selected_script_matches": true,
+    "fresh_opcode_hit": true,
+    "cursor_in_script": true,
+    "opcode_matches_rom": true,
+    "state_changed_or_terminated": true
+  },
+  "sha256": {
+    "diagnostic_rom": "392bfcd2570be007d0413da5d9d5d626d245ee6e911d5f3aebb83ec3d9443b50",
+    "full_result": "eb57952ebf414d03495349972a51dbce8abc646600dc8d2ce802d7e98db004ba",
+    "screenshot": "0932561f5032911e543f8474564832d55533f23f68f05201ae90164cf567c869"
+  }
+}

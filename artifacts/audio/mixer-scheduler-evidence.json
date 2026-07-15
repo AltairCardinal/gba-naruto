@@ -1,0 +1,18 @@
+{
+  "sound_main_frames": 264,
+  "pcm_rate_hz": 15768,
+  "dma_ring_chunks": 6,
+  "samples_per_plane": 1584,
+  "tempo_threshold": 150,
+  "tempo_formula": "tempoI=(rawTempo*2*tempoU)>>8; ticks,newC=divmod(oldC+tempoI,150)",
+  "update_order": ["all linked MPlay players and all due ticks", "CgbSound once", "DirectSound ADSR and 264-frame mix once"],
+  "tempo_vectors": [
+    {"oldC": 0, "tempoI": 75, "ticks": 0, "newC": 75},
+    {"oldC": 75, "tempoI": 75, "ticks": 1, "newC": 0},
+    {"oldC": 0, "tempoI": 225, "ticks": 1, "newC": 75},
+    {"oldC": 75, "tempoI": 225, "ticks": 2, "newC": 0}
+  ],
+  "chunk_sequence": [0, 1, 2, 3, 4, 5, 0],
+  "reverb_boundary": "Seed reads old current and next DMA ring chunks (approximately t-6 and t-5), not only the previous output chunk.",
+  "render_boundary": "Clock/ring scheduling is code-locked; the command VM, channel allocation and final combined song render remain open."
+}
