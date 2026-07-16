@@ -69,6 +69,8 @@
 - script-5B37C narrow analyst: `fresh replacement limited to ROM hash + two disassembly windows + pointer transition table; report path unchanged`
 - script-5B37C result: `first two fresh agents cost-stopped without artifact; same-task bounded retry completed after parent supplied verified bytes; 0x0805B2E6 update_portrait -> 0x0805B2EA speaker -> 0x0805B2EC text -> 0x0805B325; 0x0805B325 speaker -> 0x0805B327 text -> 0x0805B37C next speaker; wait 0x08095F12 accepts A|B; deterministic protocol selects A; still not player control`
 - fifth-wait zero gate: `from f04e2c40...58d4 run one 80-frame zero-input replay; require exact task2 0x08095F12, script pointer 0x0805B37C, observer/object/RGB stability and full guard/provenance/residue; no key/retry/cycle`
+- fifth-wait first executor outcome: `cost-stopped after >2 minutes with no runtime/report; no mGBA process or artifact created`
+- fifth-wait executor retry: `same-task agent receives the prior validated replay command with only input/hash/output/capture substitutions; one runtime remains authorized`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
