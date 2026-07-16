@@ -37,7 +37,7 @@ ROM observer 在已静态验证的直接 BL call site 发布 magic、hit count �
 
 ### 3. 输入与调试采用混合路径
 
-Windows mGBA 负责 `.ss9` 快速复放、只读内存、断点和寄存器；浏览器模拟器只负责 mGBA 窗口无法可靠接收的实例内输入。禁止 `SendInput`、焦点抢占和全局按键。若后续证明 mGBA 脚本接口能定向输入，可在不降低隔离性的前提下替换浏览器输入。
+Windows 与 macOS 原生 mGBA 负责 `.ss9` 快速复放、只读内存、断点和寄存器；Windows 用系统 TCP owner table，macOS 用 `lsof` 精确证明 GDB listener/connection 属于本次 child，二者都 fail closed。浏览器模拟器只负责 mGBA 窗口无法可靠接收的实例内输入。禁止 `SendInput`、焦点抢占和全局按键。mGBA 0.10.5 Qt-only `--script` backport 缺少脚本 breakpoint API，不能用空 Lua trace 替代 GDB 地址证据。
 
 ### 4. GDB 大区间读取固定分块
 

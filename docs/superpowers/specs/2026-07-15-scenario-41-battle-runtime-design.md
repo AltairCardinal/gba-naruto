@@ -71,6 +71,12 @@ canonical_spec: openspec
 - 持续排水 stdout/stderr，结果仅保留有界尾部，避免 PIPE 堵塞；
 - 成功或失败 JSON 都包含 emulator/ROM/savestate 哈希、命令、stop packet、实际/期望 PC、读取区间和诊断尾部。
 
+macOS Intel 复用同一 RSP 协议、ROM 指纹、stop 校验和分块读取。Windows 继续通过 TCP owner
+table 证明 listener/connection 都属于启动的 child PID；Darwin 通过系统 `lsof -nP -FpnT`
+解析精确的 LISTEN 与 ESTABLISHED endpoint，并要求唯一 owner 等于 child PID。查询工具缺失、
+输出异常、owner 为空/多义/不匹配都 fail closed。macOS 会话仍必须由 `run_guarded.py` 的 owned
+process group 与 heavy lock 包裹；GDB 只负责断点和只读证据，不负责输入。
+
 Windows 键盘注入、窗口枚举和 KEYINPUT write-watch 不进入正式探针接口。自然输入由浏览器实例 API 完成。
 
 ### 4.3 Published observer protocol

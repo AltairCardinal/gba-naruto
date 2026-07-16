@@ -950,6 +950,12 @@ git diff --check
 - Consumes: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`、既有双 observer builder、macOS guarded replay 与 savestate memory reader。
 - Produces: post-load baseline、fresh `PCO1/PCU1` 有序事件、玩家单位参数绑定；通过后才允许进入 OpenSpec 4.2。
 
+- [ ] **Step 0: 以严格 owner gate 将既有 GDB 探针适配到 macOS Intel**
+
+按 `docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md` 执行。只有 Darwin
+listener/connection owner、ROM fingerprint、精确 breakpoint stop、guard/RSS/residue 全部通过，
+才允许用 GDB 代替已证伪的 Lua breakpoint 旁路定位 `0x08095F12`；GDB 不发送输入。
+
 - [ ] **Step 1: 从 canonical checkpoint 运行双 observer 并证明 fresh ordered hits**
 
 先重建 observer ROM 并校验 confined patch。输入 checkpoint 的 counter 与两个 24-byte
