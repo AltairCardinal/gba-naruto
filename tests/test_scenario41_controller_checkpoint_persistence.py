@@ -136,6 +136,59 @@ class Scenario41ControllerCheckpointPersistenceTests(unittest.TestCase):
             {"B/B/Down", "outer-B-enters-controller", "outer-A-directly-enters-controller"},
         )
 
+    def test_compact_evidence_binds_raw_guard_and_exact_controller_state(self):
+        evidence = json.loads(EVIDENCE.read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            evidence["controller_gate"]["guard"],
+            {
+                "reason": "completed",
+                "exit_code": 0,
+                "completion_trigger": "success-marker",
+                "degraded": False,
+                "peak_tree_rss_mib": 52.078125,
+                "rss_ceiling_mib": 1536,
+            },
+        )
+        exact_state = evidence["zero_input_stability"]["exact_controller_state"]
+        self.assertEqual(
+            exact_state,
+            {
+                "task_2": {
+                    "resume_pc": "0x08073616",
+                    "sp": "0x03001224",
+                    "lr": "0x08073617",
+                },
+                "raw_return_words": ["0x0808F957", "0x08061C71", "0x08061C95"],
+                "memory_bytes": {
+                    "0x0200A880": 0,
+                    "0x0200A882": 1,
+                    "0x0202680C": 0,
+                },
+            },
+        )
+
+    def test_pre_controller_record_marks_old_attempt_superseded_but_keeps_its_boundary(self):
+        ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
+        record = next(
+            record
+            for record in ledger["checkpoints"]
+            if record["name"] == "scenario-41-pre-controller-after-a"
+        )
+
+        self.assertEqual(record["status"], "accepted")
+        self.assertEqual(
+            record["path"],
+            "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
+        )
+        self.assertEqual(record.get("controller_entry_attempt_status"), "superseded")
+        boundary = record["runtime_boundary"]
+        self.assertIn("This checkpoint remains pre-controller only", boundary)
+        self.assertIn("subsequent child", boundary)
+        self.assertIn("0x0808F957", boundary)
+        self.assertIn("224-frame zero-input", boundary)
+        self.assertIn("canonical controller checkpoint", boundary)
+
     def test_ledger_has_one_stable_accepted_controller_entry_record(self):
         ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
         records = [

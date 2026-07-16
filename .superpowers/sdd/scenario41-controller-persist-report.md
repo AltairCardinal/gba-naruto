@@ -81,3 +81,43 @@ The current ledger validator has no `controller-entry` hook token and the brief 
 changing it. The accepted record therefore conservatively uses `allowed_evidence=[]`.
 The compact evidence proves controller entry through the raw/static gate and independent
 zero-input stability; no player-control/MOVEDONE/victory/postbattle token is fabricated.
+
+## Review finding follow-up
+
+- Result: `DONE`
+- Commit: focused local commit `test(re): close controller checkpoint persistence gaps`;
+  the immutable hash is reported from `git log` after creation because a commit cannot
+  embed its own hash.
+- Runtime: not run; this follow-up changed only ledger wording/status and regression tests.
+- Push: not performed.
+
+### RED evidence
+
+The old `scenario-41-pre-controller-after-a` record had no explicit status for its old
+bounded controller attempt. The new focused test failed with:
+
+```text
+AssertionError: None != 'superseded'
+```
+
+The compact evidence coverage gap was independently checked with an in-memory minimal
+fixture break that changed only
+`zero_input_stability.exact_controller_state.task_2.resume_pc` to `0xDEADBEEF`. The new
+test failed against the expected exact value `0x08073616`; the temporary mutation was
+then removed before GREEN. No evidence artifact was modified.
+
+### GREEN evidence
+
+- Focused persistence suite: 5 tests passed.
+- Focused persistence plus ledger integration suite: 17 tests passed.
+- Ledger validator: `accepted=7 candidate=0 rejected=1 errors=0`.
+- Ledger JSON parse: passed.
+- Focused `git diff --check`: passed.
+
+The old record now preserves its accepted status, canonical pre-controller path and its
+own pre-controller evidence boundary, while explicitly marking the obsolete bounded
+attempt as `superseded`. Its runtime boundary records that a corrected subsequent child
+captured raw return `0x0808F957` and passed two independent 224-frame zero-input replays
+to create the canonical controller checkpoint. The compact evidence test now binds the
+raw positive guard (`completed`, exit 0, success marker, non-degraded) and the exact p1/p2
+controller state (task-2 resume/SP/LR, all three raw returns, and A880/A882/2680C).

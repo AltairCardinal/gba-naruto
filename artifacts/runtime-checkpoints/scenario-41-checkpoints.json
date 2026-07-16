@@ -116,7 +116,8 @@
         "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a-evidence.json"
       ],
       "controller_entry_attempt_evidence": "artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json",
-      "runtime_boundary": "Accepted lineage is accepted Down -> unique A -> zero settle 19. Two independent 19-frame zero-input replays preserved the full normalized RGB screen, task-2 resume PC, every explicit statically BL-validated active-unwind slot and 0x0202680C. A later B -> zero -> B -> zero sequence was stable, but both the bounded Down candidate and its only longer-capture retry left the declared task, stack, WRAM and full-screen RGB boundary unchanged. No final A was sent, 0x0808F957 was not captured, and no observer or controller checkpoint was created. This checkpoint remains pre-controller only, does not prove controller entry or player control, and has allowed_evidence=[]."
+      "controller_entry_attempt_status": "superseded",
+      "runtime_boundary": "Accepted lineage is accepted Down -> unique A -> zero settle 19. Two independent 19-frame zero-input replays preserved the full normalized RGB screen, task-2 resume PC, every explicit statically BL-validated active-unwind slot and 0x0202680C. This checkpoint remains pre-controller only, does not prove controller entry or player control, and has allowed_evidence=[]. The old bounded B -> zero -> B -> zero -> Down controller attempt from this state was superseded: a corrected subsequent child path captured the static-BL-valid raw return 0x0808F957, and two independent 224-frame zero-input replays created the canonical controller checkpoint. That later child acceptance does not change this record's own pre-controller status, path or evidence boundary."
     },
     {
       "name": "scenario-41-controller-entry",
