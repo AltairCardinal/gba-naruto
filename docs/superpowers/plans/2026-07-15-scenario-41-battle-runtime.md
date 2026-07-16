@@ -687,7 +687,7 @@ python3 tools/run_macos_mgba_single_input.py \
 `[0x0202680C]` 一致。按原门槛保持 `not-proven`，未进入 Step 5。下一步只能执行已批准的
 `docs/superpowers/specs/2026-07-16-scenario-41-animated-snapshot-stability-design.md`。
 
-- [ ] **Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器**
+- [x] **Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器**
 
 先创建 `tests/test_analyze_mgba_zero_input_cycle.py`。RED 必须同时覆盖 Lua 静态契约和纯分析
 逻辑：

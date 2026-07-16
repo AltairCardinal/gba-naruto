@@ -1,38 +1,50 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 4: 只从 accepted Down snapshot 发送单 A`
+- plan task: `Task 4.7 Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
-- review_fix_round: `0/2`
-- implementer: `/root/scenario41_task47_step4_a_retry`
-- brief: `.superpowers/sdd/task-4.7-step4-brief.md`
-- original dispatch: `/root/scenario41_task47_step4_a at 2026-07-16T14:37:32+08:00; platform-terminated on new user instruction; no outputs or commit`
-- replacement dispatched: `2026-07-16T14:43:16+08:00`
-- post-instruction preflight: `Goal active; no other live agents; Git status audited; no mGBA/QEMU/base.sav; both fresh dirs absent`
-- input checkpoint: `artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9 @ c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449`
-- allowed runtime outputs:
-  - `build/scenario-41-controller-a-20260715/`
-  - `build/scenario-41-controller-a-zero-20260715/`
-- report: `.superpowers/sdd/task-4.7-step4-report.md`
-- input boundary: `one A at frames 5/13, then one zero-input replay; no other input`
-- acceptance boundary: `stable/not-proven candidate only; Step 5 decides controller gate`
-- implementation status: `DONE_WITH_CONCERNS`
-- implementation commit: `none`
-- changed files:
-  - `.superpowers/sdd/task-4.7-step4-report.md` (ignored report)
-  - `notes/scenario-41-prebattle-to-controller-macos-20260715.md` (uncommitted minimal append)
-  - `build/scenario-41-controller-a-20260715/` (raw candidate)
-  - `build/scenario-41-controller-a-zero-20260715/` (raw zero replay)
-- runtime evidence: `A run 189eeecb14a44e5998c8699812c6ffc2 @ 43f19bf7...; zero run 8f5fa1b2e3cc7a9ae72c4238dbc2d2ed @ c1febaec...; both completed/0 and resource clean; task/unwind/WRAM equal`
-- decision: `not-proven because exact normalized RGB differs: candidate 29ad62a2... vs zero 56dd1650...; no Step 5, no acceptance, no extra input`
-- unresolved feedback: `none; design update committed as 0a43918 + 75f7c83 + 738cd1d`
-- parent verification: `60/60 tests; ledger 5/0/1/0; audit/sentinel/guard/process/base.sav PASS; exact diff confirmed at 140 pixels, bbox x102..137/y70..89, localized to animated character sprite`
-- reviewer: `/root/scenario41_task47_step4_review`
-- review inputs: `task-4.7-step4 brief/report; two raw directories; note append; accepted Down lineage`
-- review dispatched: `2026-07-16T14:56:03+08:00`
-- review result: `APPROVED failure branch; Spec PASS; Evidence/Quality PASS; stop boundary PASS; Critical 0, Important 0, Minor 0`
-- review classification: `Step 4 completed by failure branch; Step 5 remained forbidden until design update`
-- checkoff: `Task 4.7 Step 4 checked as failure-branch complete; OpenSpec 3.5 remains deferred until the full chain completes`
-- next task: `Task 4.7 Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器`
-- decision authority: `user explicitly delegated experiment-path choice and responsibility to the reverse-engineering executor; bounded exact-pixel cycle design selected`
+- review_fix_round: `2/2`
+- implementer: `/root/scenario41_cycle_tools`
+- brief: `.superpowers/sdd/task-4.7-step4a-brief.md`
+- report: `.superpowers/sdd/task-4.7-step4a-report.md`
+- dispatched: `2026-07-16T17:05:13+08:00`
+- implementation base: `dd308bb`
+- allowed paths:
+  - `tools/mgba_zero_input_cycle_sample.lua`
+  - `tools/analyze_mgba_zero_input_cycle.py`
+  - `tests/test_analyze_mgba_zero_input_cycle.py`
+  - `tools/README.md`
+  - `.superpowers/sdd/task-4.7-step4a-report.md`
+- forbidden runtime: `no ROM/mGBA/QEMU/Chromium/heavy task in Step 4A`
+- tdd requirement: `implementer must load test-driven-development; report real RED and GREEN commands/results`
+- commit permission: `one focused local commit; no push`
+- implementation status: `DONE`
+- implementation commit: `b4d880a`
+- changed files: `tools/mgba_zero_input_cycle_sample.lua; tools/analyze_mgba_zero_input_cycle.py; tests/test_analyze_mgba_zero_input_cycle.py; tools/README.md`
+- RED evidence: `python3 -m unittest tests.test_analyze_mgba_zero_input_cycle -v failed with expected ImportError for missing tools.analyze_mgba_zero_input_cycle before production files`
+- GREEN evidence: `49/49 PASS for analyzer + replay + single-input; py_compile PASS; git diff --check PASS; first GREEN 3 errors traced via systematic-debugging to an unrequested 240x160 restriction and fixed without weakening tests`
+- parent verification: `fresh 49/49 PASS in 1.817s; py_compile PASS; git diff --check PASS; commit paths exact and no ROM/mGBA run`
+- reviewer: `/root/scenario41_cycle_tools_review`
+- review package: `.superpowers/sdd/review-dd308bb..b4d880a.diff`
+- review dispatched: `2026-07-16T17:19:52+08:00`
+- review result: `Needs fixes`
+- review report: `.superpowers/sdd/task-4.7-step4a-review1.md`
+- fix implementer attempt: `/root/scenario41_cycle_tools_fix1`（读取准备阶段超过约 5 分钟且未形成允许路径 diff，父代理按成本/推进停止条件中止）
+- fix implementer replacement: `/root/scenario41_cycle_tools_fix1b`（同样停滞且无 diff，中止）；随后对原 implementer follow-up 仍无 diff，中止
+- fix execution exception: `子代理执行链连续三次无实现推进；父代理为避免 Comet 编排反向阻塞，按相同 review/TDD 边界接管修复`
+- fix commit: `8d17fda tools: harden cycle evidence analysis`
+- fix changed files: `tools/analyze_mgba_zero_input_cycle.py; tests/test_analyze_mgba_zero_input_cycle.py; tools/README.md`
+- fix RED: `15 tests 中 8 个预期行为失败；另 1 个临时目录测试夹具错误在生产修改前修正；原 RED 108.331s`
+- fix GREEN: `focused 15/15 PASS in 3.408s; analyzer+replay+single-input 53/53 PASS in 3.660s; py_compile/forbidden-API/diff-check PASS`
+- fix runtime boundary: `no ROM/mGBA/QEMU/Chromium/heavy task`
+- final fix implementer: `/root/scenario41_cycle_fix2`
+- final fix commit: `633bd40 tools: prevent cycle report publish clobber`
+- final fix RED/GREEN: `focused RED 1 PASS/1 missing-helper ERROR; focused 2/2 PASS; analyzer 17/17; combined 55/55; compile/forbidden-API/diff-check PASS`
+- final reviewer: `/root/scenario41_cycle_final_review`
+- final review result: `APPROVED with Minor; Critical 0, Important 0`
+- accepted minor: `os.link 的非 FileExistsError 保持 fail-closed 且清理 temp，但 CLI 会显示原始 traceback；当前 Step 4B 位于已验证可写 APFS，同目录 hard link 正常，结构化诊断不阻塞证据安全`
+- parent final verification: `fresh 55/55 PASS in 5.424s; py_compile/forbidden-API/diff-check PASS; commit paths exact; Goal active`
+- checkoff: `plan Step 4A checked; OpenSpec 3.5 intentionally remains unchecked until Step 4B/4C/controller chain completes`
+- unresolved feedback: `none blocking; one accepted diagnostic-only Minor recorded above`
+- next task after approval: `Task 4.7 Step 4B: guarded 采样 600 个零输入动画帧并选择周期`
