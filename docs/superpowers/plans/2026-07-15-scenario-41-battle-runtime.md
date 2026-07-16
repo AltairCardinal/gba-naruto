@@ -818,7 +818,7 @@ PGID/listener/base.sav residue, peak RSS recorded, and analysis returns the smal
 `1 <= p <= 300` with `H[0]=H[p]=H[2p]`. No period is a valid bounded `not-proven` result：record it
 and stop before Step 4C/5.
 
-- [ ] **Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照**
+- [x] **Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照**
 
 从 `cycle-analysis.json` 读取 `p`。第一段从原单 A candidate 运行 `p` 帧，第二段从第一段输出
 state 再运行 `p` 帧；两段都使用现有 `run_macos_mgba_replay.py --evidence-mode zero-input`、

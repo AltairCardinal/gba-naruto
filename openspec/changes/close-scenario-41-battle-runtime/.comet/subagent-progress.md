@@ -1,33 +1,40 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 4B: guarded 采样 600 个零输入动画帧并选择周期`
+- plan task: `Task 4.7 Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_cycle_sample`
-- report: `.superpowers/sdd/task-4.7-step4b-report.md`
+- implementer: `/root/scenario41_cycle_zero_replay`
+- report: `.superpowers/sdd/task-4.7-step4c-report.md`
 - implementation status: `DONE`
-- runtime result: `cycle-found; smallest exact period p=19; H[0]=H[19]=H[38]; p=1..18 rejected`
-- runtime run id: `1203967fc997c4537406ddd3b7e9bd54`
-- runtime guard: `completed/0; non-degraded; peak tree RSS 52.51953125 MiB; owned PGID 13347 clean`
-- runtime evidence: `600/600 regular non-symlink PNG; audit/sentinel byte-identical @ 690e4ea557539e808967492ca7ea9aa6325292e46ba7445a06a9ce32f12c9a15; cycle analysis @ 5ed379e6a83a6471181e5b48d3662a90bae0bd79839e7cc94be73d0ad0c0ee42`
-- parent verification: `fixed hashes unchanged; exact 600 frames and p=19 confirmed with Python stdlib; rom/base.sav absent; no runtime residue; system memory free 68%`
-- reviewer: `/root/scenario41_cycle_sample_review`
-- review dispatched: `2026-07-16T21:27+08:00`
-- review result: `APPROVED; Critical 0, Important 0, blocking Minor 0`
-- review verification: `reviewer independently rehashed all 600 normalized RGB frames, recomputed smallest p=19, verified six pinned inputs, audit/sentinel/guard bindings, freshness, residue, and diagnostic-only boundary`
-- accepted minor: `pre-run fresh-directory/base.sav state cannot be reconstructed from post-run filesystem alone; contemporaneous report plus birthtime/mtime, no-clobber behavior, current residue checks, and parent preflight provide consistent evidence`
-- checkoff: `plan Step 4B checked; OpenSpec 3.5 intentionally remains unchecked until Step 4C/controller chain completes`
-- next task: `Task 4.7 Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照`
+- implementation commit: `e726bc4`
+- review package: `.superpowers/sdd/review-0db9c8d..e726bc4.diff`
+- runtime result: `accepted pre-controller A checkpoint after two independent p=19 zero-input replays`
+- runtime runs: `dae5070e1b87e5d58dae0137888f9c57 then b5fa01bd561aff630ebb88148ad12131`
+- runtime guards: `both completed/0, non-degraded, PGID 24663/25620 clean; peak RSS 0.12890625/0.17578125 MiB`
+- exact acceptance: `candidate/p/2p normalized RGB SHA 29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005; task 2 resume PC 0x0806F996; active slots 0x03001234/40/78; [0x0202680C]=0 all identical`
+- checkpoint: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9 @ 1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646`
+- implementation verification: `81 tests PASS, 1 Windows-only skip; ledger accepted=6 errors=0; diff/hash/JSON/residue/Goal postchecks PASS`
+- reviewer: `/root/scenario41_cycle_zero_review`
+- review result: `APPROVED; Critical 0, Important 0, one accepted Minor`
+- parent verification: `111 relevant tests PASS (1 Windows-only skip); ledger accepted=6 errors=0; state lineage/checkpoint/audit/guard/source SAV/memory PASS`
+- accepted minor: `1s guard sampling interval makes 0.12890625/0.17578125 MiB a coarse startup sample rather than a trustworthy physical peak; guard was functioning and current mechanical RSS gate passed; future short replay evidence should shorten sampling or label coarse peak`
+- checkoff: `plan Step 4C checked; OpenSpec 3.5 remains unchecked because controller entry is not proven`
+- next task: `Task 4.7 Step 5: 只按 controller 门槛接纳，不用画面分类替代`
+- dependency: `Step 4B accepted at 0db9c8d; cycle-analysis status=cycle-found; smallest p=19`
 - input state: `build/scenario-41-controller-a-20260715/after-a.ss9 @ 43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8`
-- baseline PNG: `build/scenario-41-controller-a-20260715/after-a.png @ efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85`
-- sampler: `tools/mgba_zero_input_cycle_sample.lua @ e10a05f7208e4330cbe0dc202a539c9f29506606f697e6658095fc95e75869ec`
-- allowed runtime output: `build/scenario-41-controller-a-cycle-sample-20260716/`
-- forbidden input: `no key/input API; diagnostic pre-script only`
-- guard: `existing replay runner heavy lock; min available 4096 MiB; max tree RSS 1536 MiB; wall 300s; idle 60s`
-- preflight: `Goal active; target fresh; rom/base.sav absent; hashes match; available memory 5533.73 MiB; no owned emulator residue`
-- commit permission: `none; raw runtime output remains untracked; no push`
-- acceptance boundary: `select smallest exact p only; diagnostic cannot accept checkpoint/controller/player control`
-- stop condition: `status=not-proven stops before Step 4C/5; cycle-found returns p to parent for independent Step 4C`
-- previous task: `Step 4A accepted by final reviewer at 633bd40; plan checkoff committed f4b180c`
+- input PNG: `build/scenario-41-controller-a-20260715/after-a.png @ efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85`
+- first runtime output: `build/scenario-41-controller-a-cycle-zero-p19-1-20260716/`
+- second runtime output: `build/scenario-41-controller-a-cycle-zero-p19-2-20260716/`
+- runtime boundary: `two independent 19-frame runs; evidence_mode=zero-input; inputs=[]; pre_scripts=[]; second input is first output state`
+- acceptance boundary: `candidate/png-p/png-2p normalized RGB8 identical; task 2 resume PC/all explicit static-BL-valid unwind slots/[0x0202680C] identical; all pinned hashes/audits/guards/residue pass`
+- accepted output: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9 plus compact evidence/ledger/README/note/roadmap only if every gate passes`
+- rejection boundary: `any mismatch persists not-proven and stops before Step 5; no checkpoint acceptance`
+- evidence claim boundary: `allowed_evidence=[]; this task never proves controller entry or player control`
+- guard: `existing replay runner heavy lock; min available 4096 MiB; max tree RSS 1536 MiB; wall 300s; idle 60s; check memory and residue before/between/after runs`
+- source safety: `rom/base.sav absent before/between/after; only clean owned process tree`
+- preflight adjudication: `pre-existing user Google Chrome PGID 95724 is excluded, not project-owned and not a heavy-lock holder; parent verified heavy.lock free, memory 66%, no relevant listener; it must not be terminated and does not block guarded mGBA`
+- code boundary: `no production-code changes; if existing tooling cannot satisfy the plan, return NEEDS_CONTEXT rather than widening scope`
+- commit permission: `one focused local commit only for accepted compact/tracked artifacts; raw build outputs and ignored report are not committed; no push`
+- previous task: `Step 4B APPROVED, 600/600 frames, p=19, peak RSS 52.51953125 MiB, no residue`
