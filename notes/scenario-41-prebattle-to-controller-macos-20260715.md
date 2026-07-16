@@ -80,3 +80,32 @@ lineage 为 accepted Down → 唯一 A → zero settle 19，compact evidence 为
 `scenario-41-pre-controller-after-a-evidence.json`，ledger 明确
 `allowed_evidence=[]`。活动 unwind 不含 `0x0808F957`；因此该结果仍不证明
 controller entry 或 player control，且本步没有进入 Step 5。
+
+## Task 4.7 Step 5：B/B 后 Down 无状态效果，controller entry 仍 not-proven
+
+2026-07-16 从 accepted `scenario-41-pre-controller-after-a.ss9` 按已静态核对的
+base-ROM 控制流分段执行 B → B → Down。第一 B run
+`f49c95b60c74956e337ca99bfef895c6` 后，以 fresh zero-input run
+`e2262b1d2b884aa0fbe7b93699068d86` 复核；第二 B run
+`56cf8aea33052f3a2f8541255a451bc6` 后，以 fresh zero-input run
+`d6b4f692b5bd34a6bca9dc140d9ee201` 复核。两个边界的全屏 RGB、task 2、显式
+static-BL-valid unwind 和 `[0x0202680C]` 均分别稳定，第二 B 边界 task 2 resume PC 为
+`0x08088628`。
+
+从第二 B 的 zero-verified state 发送唯一 Down（run
+`53a895bae7cd13282d9d8ea8bb5a1a23`，5/13/80）后，task 2、全部 task context、
+`0x03001224..0x030012A3` task stack、`[0x0202680C]` 与 normalized RGB
+`a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0` 均未变化。
+按计划仅允许从相同 input state 延长 capture 重试一次；160-frame run
+`9203a9c0a12b04d2557f8162e8a0e1ce` 仍完全相同，因此不能证明 Down 改变 selection/result。
+
+所有六个 run 均为 base ROM、独立 fresh 目录、guard `completed/0`、非降级 POSIX process
+group；owned PGID/listener 清洁，`rom/base.sav` 前后不存在。peak RSS 为 51.785–52.0 MiB，
+由于固定 runner 没有 guard sampling interval CLI，这些值明确只作为 1 秒粒度 coarse
+sampled peak。base ROM `0x0808F952` 的字节 `e3f7affc` 静态解码到 `0x080732B4`，但
+活动 unwind 没有 raw `0x0808F957`。
+
+因此停止门已触发：未发送 final A、未创建或运行 entry observer、未创建
+`scenario-41-controller-entry.ss9`，也未进入 Step 6。紧凑证据为
+`artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json`；它只证明本次受限
+尝试为 `not-proven`，不证明 controller entry 或 player control。

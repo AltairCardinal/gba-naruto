@@ -54,6 +54,12 @@
   `scenario-41-pre-controller-after-a.ss9`。lineage 为 accepted Down → 唯一 A → zero
   settle 19，`allowed_evidence=[]`；活动 unwind 仍无 `0x0808F957`，所以这只证明稳定
   pre-controller 状态，不证明 controller entry 或 player control，后续仍须独立通过门槛。
+- 2026-07-16 从该稳定 pre-controller state 分段执行 B → zero → B → zero；两个 B
+  边界均稳定。后续唯一 Down 在 80-frame capture 与同 input state 的唯一 160-frame
+  延长重试中，都没有改变 task 2、活动 stack、`[0x0202680C]` 或 normalized full-screen
+  RGB，因此 selection/result 未被证明改变并触发停止门。未发送 final A，未运行 entry
+  observer，未捕获 raw `0x0808F957`，没有 controller checkpoint；controller entry 与
+  player control 继续为 `not-proven`，不进入下一阶段。
 
 Windows 前台 runtime 到此停止，后续转移到 macOS Intel。迁移、mGBA 0.10.5、Lua
 8-frame 输入、candidate 零输入验收和进程守卫要求见

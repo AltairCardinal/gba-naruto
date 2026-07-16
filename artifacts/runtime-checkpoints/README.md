@@ -126,6 +126,16 @@ task 2 resumes at `0x0806F996`, and explicit slots
 `0x0808F957` is absent, so this checkpoint does not prove controller entry or
 player control and cannot bypass the separate Step 5 controller gate.
 
+Step 5 attempted the statically selected base-ROM sequence from that checkpoint as
+independent segments. The first B and second B each passed a fresh 80-frame zero-input
+replay. The following single Down, however, left task 2 at `0x08088628`, preserved the
+task stack and `[0x0202680C]`, and produced the same normalized RGB SHA-256
+`a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0`. The only
+permitted retry from the same input state, with capture extended from 80 to 160 frames,
+was also unchanged. `scenario-41-controller-entry-evidence.json` records this bounded
+`not-proven` result. No final A was sent, raw `0x0808F957` was not captured, no entry
+observer was built, and `scenario-41-controller-entry.ss9` does not exist.
+
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate
 and rejected `build/` paths may be absent in another checkout; accepted state
