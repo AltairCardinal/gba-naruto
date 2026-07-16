@@ -96,22 +96,22 @@ or reinterpret the failed run.
 - Consumes: approved Task 1 adapter, observer ROM SHA `2992a8434da391d6191ddf71119c9409dcf3ca5223010d5f9d405e0b35a96dd8`, state SHA `cdb9ed6489a745ab602a0914afee3251c78e21f57751c207e53e3aa5d20a60e2`.
 - Produces: a compact GDB smoke report proving or rejecting exact stop `0x08095F12`; no reusable output state.
 
-- [ ] **Step 1: Preflight**
+- [x] **Step 1: Preflight**
 
 Require `rom/base.sav` absent, no mGBA/QEMU/GDB listener residue, available memory at least 4096 MiB, fixed binary/manifest/ROM/state hashes, and a fresh output directory. Record the existing crash baseline.
 
-- [ ] **Step 2: Run exactly one guarded probe**
+- [x] **Step 2: Run exactly one guarded probe**
 
 Use `tools/run_guarded.py` with the shared heavy lock, RSS ceiling 1536 MiB, wall/idle bounds, and `tools/mgba_gdb_probe.py` against the exact macOS mGBA binary. Load the fixed observer ROM and state, set breakpoint `0x08095F12`, and read only the task context and observer scratch needed to confirm the stop. Do not send input and do not retry.
 
-- [ ] **Step 3: Validate the result**
+- [x] **Step 3: Validate the result**
 
 Require output `outcome=verified`, listener/connection owner PID equal the owned child, ROM fingerprint match, actual PC accepted by Thumb stop semantics, guard/residue/base.sav/crash clean, and RSS below 1536 MiB. If any gate fails, preserve `not-proven`, stop, and do not delete the Lua files.
 
-- [ ] **Step 4: Retire the invalid Lua breakpoint path only after smoke passes**
+- [x] **Step 4: Retire the invalid Lua breakpoint path only after smoke passes**
 
 Delete the Lua trace and its behavior tests; remove the README section that presents it as usable. Replace it with a short failure-history note stating that the Qt-only 0.10.5 backport loads scripts after the one-shot start callback and lacks breakpoint script exports, so precise native addresses use the strict GDB probe. Run the related GDB/replay/resource tests and `git diff --check`.
 
-- [ ] **Step 5: Commit and review**
+- [x] **Step 5: Commit and review**
 
 Create one focused commit for the retirement/documentation and persist only compact smoke evidence. A fresh reviewer must approve scope, provenance, owner/stop gates, resource cleanup, and the conclusion boundary before Task 5B Step 1 continues.
