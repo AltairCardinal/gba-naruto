@@ -23,7 +23,7 @@
 - breakpoint trace implementation: `2a67339; initial task review CHANGES_REQUESTED (Spec FAIL / Quality CHANGES)`
 - breakpoint trace review findings: `reject non-finite/non-decimal MAX_HITS before opening output; fail closed and close file when setBreakpoint returns invalid ID; verify runtime Lua behavior with a dependency-free stub harness including JSON, hit limit, cleanup, frame progression, and installation failure`
 - breakpoint trace fix result: `a8b502d; behavioral RED 8 tests/7 expected failures; GREEN 35 focused+replay tests PASS; luac and diff checks PASS; parent rerun 35/35 PASS; no mGBA`
-- breakpoint trace re-review: `pending fresh thorough reviewer; package .superpowers/sdd/review-7f8719f..a8b502d.diff`
+- breakpoint trace re-review: `/root/safe_breakpoint_trace_rereview running; package .superpowers/sdd/review-7f8719f..a8b502d.diff`
 - next gate: `fresh fix agent must add failing behavioral tests first, implement the three Important fixes, rerun focused/replay tests, commit, and pass a fresh thorough re-review before any mGBA diagnostic`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
