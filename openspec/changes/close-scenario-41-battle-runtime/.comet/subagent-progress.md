@@ -1,29 +1,28 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 2: guarded 单 Down 捕获 candidate，不发送 A`
+- plan task: `Task 4.7 Step 3: 零输入复验 Down candidate 后才固化快照`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_task47_step2_down`
-- brief: `.superpowers/sdd/task-4.7-step2-brief.md`
-- dispatched: `2026-07-16T13:47:11+08:00`
-- allowed runtime output: `build/scenario-41-prebattle-down-20260715/`
-- report: `.superpowers/sdd/task-4.7-step2-report.md`
-- input boundary: `one Down at frames 5/13, capture 80; A forbidden`
-- snapshot boundary: `build candidate only; no tracked acceptance or Step 3/4`
+- implementer: `/root/scenario41_task47_step3_zero`
+- brief: `.superpowers/sdd/task-4.7-step3-brief.md`
+- dispatched: `2026-07-16T14:09:31+08:00`
+- input candidate: `build/scenario-41-prebattle-down-20260715/after-down.ss9 @ c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449`
+- allowed runtime output: `build/scenario-41-prebattle-down-zero-20260715/`
+- report: `.superpowers/sdd/task-4.7-step3-report.md`
+- input boundary: `zero input only; A forbidden`
+- acceptance boundary: `all visual/task/unwind/WRAM/hash/guard/resource gates must pass before tracked copy`
 - implementation status: `DONE`
-- implementation commit: `none; report is ignored scratch and raw build candidate must not be committed`
-- changed files:
-  - `.superpowers/sdd/task-4.7-step2-report.md` (ignored report)
-  - `build/scenario-41-prebattle-down-20260715/` (fresh raw candidate)
-- runtime evidence: `run e32c5a6229aeec9e406b1d126695799d; completed/0; non-degraded posix-process-group; peak RSS 51.96484375 MiB; one Down 5/13; no A; output state c1a16fa3...; PNG 3f2acc08...; PGID/listener/base.sav clean`
-- offline evidence: `48 changed pixels bbox x72..78/y62..81; task2 resume 0x08067D02; active unwind 0x080885C1→0x08088F9F→0x0808F92D; [0x0202680C]=0; controller not proven`
-- parent verification: `hashes/JSON/audit-sentinel identity/image/base.sav/process residue checked; PASS`
-- reviewer: `/root/scenario41_task47_step2_review`
-- review inputs: `task-4.7-step2-brief.md; task-4.7-step2-report.md; raw fresh candidate directory`
-- review dispatched: `2026-07-16T14:00:31+08:00`
-- review result: `Spec APPROVED / Evidence Quality APPROVED; Critical 0, Important 0, Minor 1`
-- minor finding: `report omits exact png_screen_fingerprint/offline-inspector reproduction commands; raw evidence independently reproduced and consistent; carry to final review`
-- checkoff: `Task 4.7 Step 2 checked; OpenSpec 3.5 remains deferred until the full six-step chain completes`
-- unresolved feedback: `none`
+- implementation commit: `9ac376379e1f228ae80444fc95e61761080c37a6`
+- changed files: `6 tracked accepted-evidence files; raw zero directory and ignored report retained separately`
+- runtime evidence: `zero run 7d378580de56bea13a3d0e09b8bea185; completed/0; PGID 41717; peak 52.09375 MiB; input arrays empty; four RGB hashes 1e68324b...; task/unwind/WRAM equal; resource/base.sav clean`
+- acceptance evidence: `tracked scenario-41-prebattle-down.ss9 @ c1a16fa3...; ledger accepted=5 candidate=0 rejected=1 errors=0; 75/75 tests PASS`
+- unresolved feedback: `none; Step 2 reproduction-command Minor closed by exact commands in Step 3 report`
+- parent verification: `75/75; ledger 5/0/1/0; JSON/hash/four-RGB/evidence/diff/scope/process/base.sav PASS; zero PNG viewed`
+- reviewer: `/root/scenario41_task47_step3_review`
+- review package: `.superpowers/sdd/review-9ac3763-task-4.7-step3.diff`
+- review dispatched: `2026-07-16T14:30:15+08:00`
+- review result: `APPROVED; Spec PASS; Evidence/Quality PASS; Critical 0, Important 0, Minor 0`
+- checkoff: `Task 4.7 Step 3 checked; OpenSpec 3.5 remains deferred until the full six-step chain completes`
+- gate clarification: `zero-input legacy schema requires inputs=[] + pre_scripts=[] + zero_input_verified=true; automatic_inputs/recovery_inputs are not required because plan/design require the existing zero-input runner/Lua to remain unchanged`

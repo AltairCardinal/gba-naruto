@@ -616,7 +616,7 @@ Expected: guard `completed/0`、non-degraded POSIX process group、`inputs` 恰�
 candidate，不登记 accepted。若画面未变化、离开 prebattle、task context 无法受约束解释或任何
 资源/来源门失败，记录 not-proven 并停止，不执行 Step 3/4。
 
-- [ ] **Step 3: 零输入复验 Down candidate 后才固化快照**
+- [x] **Step 3: 零输入复验 Down candidate 后才固化快照**
 
 使用现有 `run_macos_mgba_replay.py --evidence-mode zero-input` 从 Down candidate 再运行 80 帧，
 写入独立 fresh 目录。验收同时要求：candidate/replay normalized RGB pixels 相同；task 2
