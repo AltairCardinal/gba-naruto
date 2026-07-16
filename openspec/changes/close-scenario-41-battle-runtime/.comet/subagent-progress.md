@@ -58,6 +58,7 @@
 - corrected third-A zero result: `run f54f69ad40fee912a592227e79dfebeb; output dcae38f6...762b; task2/SP/LR/resume/script ptr0805B325/object/observer and RGB af6429...ca06 exact; guard completed/0 RSS51.898MiB; stable consumable boundary`
 - next natural input: `from corrected zero output dcae38f6...762b send exactly one A@5..13 capture80; compare script pointer/object/task and fresh ordered PCO1/PCU1; no other key/retry`
 - fourth-A executor: `/root/fourth_a_player_observer`; one fixed A only, no follow-on input/zero/retry in same task`
+- fourth-A preflight recovery: `source ROM sibling player-observer.sav triggered runner fail-closed before runtime; preserve historical sidecar, copy same-hash ROM into fresh sidecar-free build/scenario-41-player-observer-fourth-a-source-20260717, then consume the still-unused single runtime`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
