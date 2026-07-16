@@ -42,6 +42,7 @@
 - macOS GDB Task 2 executor: `/root/macos_gdb_breakpoint_smoke`; one guarded 0x08095F12 smoke only; Lua retirement conditional on every runtime gate passing`
 - macOS GDB Task 2 first smoke: `DONE_WITH_CONCERNS; guard child-exit/1 PID/PGID72977 RSS65.832MiB; parser rejected actual bind-any listener *:2345 before owner/fingerprint/stop/reads; residue/base.sav/crash clean; no retry/deletion/commit`
 - wildcard root cause: `Darwin bind-any listener is *:<port> while ESTABLISHED remains numeric IPv4; accept wildcard only for LISTEN local, keep connection exact; TDD+review required before one new smoke on changed code`
+- wildcard fixer: `/root/macos_gdb_wildcard_fix`; unit + real bind-any Darwin RED, no mGBA`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
