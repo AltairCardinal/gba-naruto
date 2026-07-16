@@ -586,7 +586,8 @@ Windows/macOS mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint
 启动前会确认 2345 未被占用；连接后还会确认 owned `Popen` 仍存活，并要求
 TCP owner 查询中的 2345 listener owner 集合精确为该 PID。Windows 使用
 `GetExtendedTcpTable`；macOS 使用有限超时、无 shell 的 `/usr/sbin/lsof -FpnT`
-并只接受完整的 numeric IPv4 `LISTEN`/`ESTABLISHED` 记录。工具随后
+并只接受完整的 numeric IPv4 `LISTEN`/`ESTABLISHED` 记录；仅 `LISTEN` 本地端点
+额外接受 `lsof` 对 bind-any 的 `*:port` 表示，`ESTABLISHED` 两端仍须精确 numeric IPv4。工具随后
 读取 client socket 的 local/peer tuple，在 connection 表中反向匹配 server-side
 established row，并要求唯一 owner 精确为同一 PID。Windows API 或 `lsof` 错误、无匹配、
 多匹配、mixed listener owners 或 owner 查询期间子进程退出都会 fail closed；结果

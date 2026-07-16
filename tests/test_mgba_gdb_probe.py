@@ -149,6 +149,36 @@ TST=ESTABLISHED
 
 
 class DarwinTcpOwnerTests(unittest.TestCase):
+    def test_lsof_parser_and_listener_filter_accept_bind_any_wildcard(self):
+        output = """\
+p4242
+f3
+n*:2345
+TST=LISTEN
+"""
+
+        records = probe.parse_lsof_tcp_records(output)
+
+        self.assertEqual(
+            [(record.pid, record.state, record.local, record.remote) for record in records],
+            [(4242, "LISTEN", ("*", 2345), None)],
+        )
+        with (
+            patch.object(probe.os, "name", "posix"),
+            patch.object(probe, "_lsof_tcp_owner_records", return_value=records),
+        ):
+            self.assertEqual(probe.listener_owner_pids("127.0.0.1", 2345), {4242})
+
+    def test_lsof_parser_rejects_wildcard_established_endpoints(self):
+        for endpoint in (
+            "*:2345->127.0.0.1:54000",
+            "127.0.0.1:2345->*:54000",
+        ):
+            with self.subTest(endpoint=endpoint):
+                output = f"p4242\nf3\nn{endpoint}\nTST=ESTABLISHED\n"
+                with self.assertRaisesRegex(RuntimeError, "lsof|TCP|endpoint|wildcard"):
+                    probe.parse_lsof_tcp_records(output)
+
     def test_lsof_parser_returns_exact_complete_tcp_records(self):
         records = probe.parse_lsof_tcp_records(LSOF_TCP_FIXTURE)
 
@@ -302,6 +332,17 @@ TST=LISTEN
             if client is not None:
                 client.close()
             listener.close()
+
+    @unittest.skipUnless(sys.platform == "darwin", "Darwin lsof is required")
+    def test_darwin_lsof_finds_real_bind_any_listener_owner(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
+            listener.bind(("0.0.0.0", 0))
+            listener.listen(1)
+
+            self.assertEqual(
+                probe.listener_owner_pids("127.0.0.1", listener.getsockname()[1]),
+                {os.getpid()},
+            )
 
 
 class MgbaGdbProbeTests(unittest.TestCase):

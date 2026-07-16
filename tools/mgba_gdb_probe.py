@@ -252,9 +252,10 @@ def _windows_tcp_owner_rows(table_class: int) -> list[TcpOwnerRow]:
 def _parse_lsof_ipv4_endpoint(value: str) -> tuple[str, int]:
     try:
         address, port_text = value.rsplit(":", 1)
-        socket.inet_aton(address)
-        if socket.inet_ntoa(socket.inet_aton(address)) != address:
-            raise ValueError
+        if address != "*":
+            socket.inet_aton(address)
+            if socket.inet_ntoa(socket.inet_aton(address)) != address:
+                raise ValueError
         if not port_text.isdecimal():
             raise ValueError
         port = int(port_text)
@@ -266,7 +267,7 @@ def _parse_lsof_ipv4_endpoint(value: str) -> tuple[str, int]:
 
 
 def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
-    """Parse complete numeric IPv4 LISTEN/ESTABLISHED records from lsof fields."""
+    """Parse complete numeric IPv4 records plus bind-any wildcard listeners."""
     records: list[LsofTcpRecord] = []
     pid: int | None = None
     endpoint: str | None = None
@@ -287,6 +288,10 @@ def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
             raise RuntimeError("lsof TCP LISTEN record unexpectedly has a remote endpoint")
         if state == "ESTABLISHED" and remote is None:
             raise RuntimeError("lsof TCP ESTABLISHED record is missing a remote endpoint")
+        if (local[0] == "*" or (remote is not None and remote[0] == "*")) and not (
+            state == "LISTEN" and local[0] == "*" and remote is None
+        ):
+            raise RuntimeError("lsof TCP wildcard endpoint is only valid for a local listener")
         records.append(LsofTcpRecord(pid=pid, state=state, local=local, remote=remote))
         endpoint = None
         state = None
@@ -371,7 +376,7 @@ def listener_owner_pids(host: str, port: int) -> set[int]:
             for record in _lsof_tcp_owner_records(port)
             if record.state == "LISTEN"
             and record.local[1] == port
-            and record.local[0] in {host, "0.0.0.0"}
+            and record.local[0] in {host, "0.0.0.0", "*"}
         }
     tcp_table_owner_pid_listener = 3
     owners: set[int] = set()
