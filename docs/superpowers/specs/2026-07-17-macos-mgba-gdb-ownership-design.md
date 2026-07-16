@@ -17,9 +17,11 @@ backport 在一次性 `start` callback 后才加载脚本，而且精确 0.10.5 
 - 保留 RSP packet、`Z0`、stop/PC 校验、256-byte 分块、ROM fingerprint 和有界日志。
 - Windows owner 查询不变。
 - Darwin 调用 `/usr/sbin/lsof -nP -FpnT -iTCP:<port>`，解析 process、endpoint 与 TCP state。
+  numeric IPv4 是默认格式；仅 LISTEN 的本地地址可接受 Darwin 对 bind-any 的规范表示 `*`，
+  ESTABLISHED 的 local/remote 仍必须是精确 numeric IPv4。
 - listener 必须是目标 host/port 的唯一 LISTEN owner；连接必须是 server-local → client-peer 的
   唯一 ESTABLISHED owner；两者都必须等于刚启动的 mGBA PID。
-- `lsof` 缺失、超时、非零且无可解析记录、字段畸形、owner 为空/多义/不匹配都失败。
+- `lsof` 缺失、超时、非零且无可解析记录、字段畸形、非 LISTEN wildcard、owner 为空/多义/不匹配都失败。
 - 实际运行必须再由 `tools/run_guarded.py` 的 shared heavy lock、owned process group、RSS ceiling
   和 success/failure summary 包裹；探针自身只终止直接 child，不清理其他进程。
 - GDB 不发送按键。首次 smoke 只在 observer ROM/state 上断到 `0x08095F12` 并读取少量上下文，
@@ -29,8 +31,8 @@ backport 在一次性 `start` callback 后才加载脚本，而且精确 0.10.5 
 
 - 单元测试覆盖 `lsof -FpnT` 多进程/多 FD 解析、LISTEN 与双向 ESTABLISHED 精确筛选、异常输出、
   owner mismatch、Windows 分支不回归。
-- Darwin 集成测试创建当前 Python 进程拥有的临时 listener/connection，验证真实 `lsof` 查询能
-  返回当前 PID；无 shell 文本解析。
+- Darwin 集成测试分别创建 loopback listener/connection 与 bind-any listener，验证真实 `lsof`
+  的 numeric ESTABLISHED 和 `*:port` LISTEN 都只返回当前 PID；无 shell 文本解析。
 - parent 复跑现有 GDB probe 测试；独立 reviewer 同时给出 Spec 与 Quality verdict。
 - runtime smoke 只允许一次；guard、RSS、ROM/state/binary hash、stop PC、owner PID、residue 和
   `rom/base.sav` 门禁任一失败都停止，不 retry。

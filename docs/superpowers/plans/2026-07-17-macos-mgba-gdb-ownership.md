@@ -12,7 +12,8 @@
 
 - 所有实现严格执行 RED → GREEN → REFACTOR；没有先失败的测试不得修改 production code。
 - Windows `GetExtendedTcpTable` 行为和现有测试保持不变。
-- Darwin owner 证据必须来自精确 endpoint，不接受仅按端口或进程名猜测。
+- Darwin owner 证据必须来自精确 endpoint；只允许 LISTEN local 使用 bind-any `*`，ESTABLISHED
+  两端仍须 numeric IPv4，不接受仅按端口或进程名猜测。
 - `lsof` 缺失、超时、异常/畸形输出、owner 为空/多义/不等于 child PID全部 fail closed。
 - mGBA smoke 必须经过 shared heavy lock、owned process group、RSS ceiling；只允许一次，不 retry、不输入。
 - 不修改用户既有 `AGENTS.md`、`docs/sequel-roadmap.md`，不 push。
@@ -52,11 +53,11 @@ n127.0.0.1:2345->127.0.0.1:54000
 TST=ESTABLISHED
 ```
 
-Run `/usr/sbin/lsof` with an argv list (no shell), `-nP -FpnT -iTCP:<port>`, captured text and a finite timeout. Validate decimal PID, numeric IPv4 endpoint/port, known LISTEN/ESTABLISHED state, and complete records. On `os.name == "nt"`, retain existing table code; on Darwin/POSIX, dispatch to the lsof implementation. Return all exact owners so the existing caller continues to reject zero, multiple, or mismatched PID.
+Run `/usr/sbin/lsof` with an argv list (no shell), `-nP -FpnT -iTCP:<port>`, captured text and a finite timeout. Validate decimal PID, numeric IPv4 endpoint/port, known LISTEN/ESTABLISHED state, and complete records. Accept `*:<port>` only as a LISTEN local endpoint; reject wildcard ESTABLISHED local/remote and any wildcard remote. On `os.name == "nt"`, retain existing table code; on Darwin/POSIX, dispatch to the lsof implementation. Return all exact owners so the existing caller continues to reject zero, multiple, or mismatched PID.
 
 - [x] **Step 4: Add real Darwin integration coverage**
 
-Under `@unittest.skipUnless(sys.platform == "darwin", ...)`, create a loopback listener owned by the current Python PID and assert the real listener query returns that PID. Create one accepted loopback connection and assert the exact server-local/client-peer query returns the current PID. Close all sockets in `finally`.
+Under `@unittest.skipUnless(sys.platform == "darwin", ...)`, create a loopback listener owned by the current Python PID and assert the real listener query returns that PID. Create one accepted loopback connection and assert the exact server-local/client-peer query returns the current PID. Add a separate bind-any listener and assert its real `*:port` record resolves to the current PID. Close all sockets in `finally`.
 
 - [x] **Step 5: Run GREEN and related verification**
 
@@ -78,6 +79,12 @@ Commit only the three scoped files with message `fix(re): verify mGBA GDB owners
 ---
 
 ### Task 2: One guarded breakpoint smoke and retire the invalid Lua path
+
+The first smoke attempt is durably recorded as `child-exit/1`: Darwin `lsof` exposed the mGBA
+bind-any listener as `*:2345`, which the initial numeric-only parser rejected before ROM fingerprint or
+breakpoint installation. It was not retried and did not delete Lua files. After the focused wildcard
+LISTEN fix passes TDD and independent review, run one new smoke against the changed adapter; never reuse
+or reinterpret the failed run.
 
 **Files:**
 - Delete after successful smoke: `tools/mgba_breakpoint_frame_trace.lua`
