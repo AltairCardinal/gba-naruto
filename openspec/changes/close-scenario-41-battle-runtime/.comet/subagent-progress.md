@@ -73,6 +73,8 @@
 - fifth-wait executor retry: `same-task agent receives the prior validated replay command with only input/hash/output/capture substitutions; one runtime remains authorized`
 - fifth-wait zero result: `run a95aadb576d37abd8ceb33e039a9b893; output 329fd384...197f7c; task2/SP/pointer 0x08095F12/0x03001194/0x0805B37C, observer/object/RGB all exact; guard completed/0 RSS52.023MiB; stable consumable wait`
 - fifth-A gate: `from accepted 329fd384...197f7c send exactly one A at 5/13/capture80 on observer ROM; inspect pointer/task/object and fresh ordered PCU1/PCO1; no retry/zero/follow-on key in same task`
+- fifth-A result: `run 1b86eaf5ca658aef1e4053d5d2c502c9; output 4ca19bcc...1b8eb; pointer 0x0805B37C->0x0805B3C5; task2 remains 0x08095F12; object19-byte/RGB change; observer zero; guard completed/0 RSS51.918MiB; new wait, not player control`
+- script-5B3C5 static gate: `same-task analyst receives parent-verified bytes around 0x0805B3C5; determine exact next opcode sequence and whether current A|B wait again justifies deterministic A; no runtime`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
