@@ -79,6 +79,8 @@
 - sixth-wait zero gate: `from fifth-A state 4ca19bcc...1b8eb run one 80-frame zero-input replay; require exact task/pointer/observer/object/RGB and guard/provenance/residue before consuming; no key/retry/cycle`
 - sixth-wait zero result: `run eebaed9ead6a47a2429f2861c31033f1; output 2e15e609...97ed2; task2/SP/pointer 0x08095F12/0x03001194/0x0805B3C5, observer/object/RGB exact; guard completed/0 RSS51.902MiB; stable consumable wait`
 - sixth-A gate: `from accepted 2e15e609...97ed2 send exactly one A at 5/13/capture80; this may begin the final text/end sequence, so inspect observer and all task/pointer boundaries then stop; no zero/retry/follow-on key`
+- sixth-A result: `run 65a641dfbd3562caef2749fb6c019db8; output 97427458...ff568; pointer 0x0805B3C5->0x0805B404 end; task2 remains 0x08095F12; object32-byte/RGB change; observer zero; guard completed/0 RSS51.844MiB; final text wait before script end`
+- end-wait zero gate: `from 97427458...ff568 run one 80-frame zero-input replay; require exact task/pointer 0x0805B404/observer/object/RGB and clean guard before final deterministic A; no retry/cycle`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
