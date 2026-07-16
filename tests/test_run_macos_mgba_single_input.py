@@ -27,8 +27,8 @@ class SingleInputLuaContractTests(unittest.TestCase):
         self.assertEqual(text.count("emu:screenshot"), 1)
         self.assertIn("C.GBA_KEY.DOWN", text)
         self.assertIn("C.GBA_KEY.A", text)
+        self.assertIn("C.GBA_KEY.B", text)
         for forbidden in (
-            "C.GBA_KEY.B",
             "C.GBA_KEY.UP",
             "adaptive",
             "settle",
@@ -72,8 +72,8 @@ class SingleInputValidationTests(unittest.TestCase):
     def setUp(self):
         self.runner = importlib.import_module("tools.run_macos_mgba_single_input")
 
-    def test_only_down_or_a_and_strict_frame_order(self):
-        for key in ("B", "Up", "Down+A", ""):
+    def test_only_down_a_or_b_and_strict_frame_order(self):
+        for key in ("Up", "Down+A", ""):
             with self.subTest(key=key), self.assertRaises(self.runner.ReplayError):
                 self.runner.validate_single_input(key, 5, 13, 80)
         for frames in ((13, 5, 80), (5, 5, 80), (5, 80, 80), (0, 13, 80)):
@@ -81,6 +81,7 @@ class SingleInputValidationTests(unittest.TestCase):
                 self.runner.validate_single_input("Down", *frames)
         self.runner.validate_single_input("Down", 5, 13, 80)
         self.runner.validate_single_input("A", 5, 13, 80)
+        self.runner.validate_single_input("B", 5, 13, 80)
 
     def test_single_and_zero_input_lua_hashes_are_pinned_independently(self):
         zero_runner = importlib.import_module("tools.run_macos_mgba_replay")

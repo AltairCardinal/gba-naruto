@@ -441,7 +441,7 @@ prove controller entry or player control. Those claims require later independent
 ## Fixed single-input macOS mGBA replay
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
-separate Task 4.7 input segment. The CLI accepts exactly one `Down` or `A` event and
+separate Task 4.7 input segment. The CLI accepts exactly one `Down`, `A`, or `B` event and
 requires `0 < down-frame < up-frame < capture-frame`. It has no custom Lua or
 `--pre-script` option. The fixed Lua contains one `emu:addKey`, one `emu:clearKey` and
 one capture callback; the finalized audit therefore requires one matching event,
@@ -478,9 +478,10 @@ python3 tools/run_macos_mgba_single_input.py \
 ```
 
 This command only creates a build candidate. It does not accept a checkpoint or prove
-controller entry/player control. A Down candidate must pass a separate zero-input
-stability run before it can authorize an A segment; a failed hash, guard, output,
-PGID, or listener gate leaves the raw candidate unfinalized and forbids that next key.
+controller entry/player control. Every reusable input boundary must pass a separate
+zero-input stability run before it can authorize the next segment; a failed hash,
+guard, output, PGID, or listener gate leaves the raw candidate unfinalized and forbids
+that next key.
 
 ## Offline prebattle checkpoint acceptance
 
