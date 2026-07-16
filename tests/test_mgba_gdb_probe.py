@@ -127,15 +127,22 @@ class FakeProcess:
 
 LSOF_TCP_FIXTURE = """\
 p4242
+f3
 n127.0.0.1:2345
 TST=LISTEN
+TQR=0
+TQS=0
+f4
 n127.0.0.1:2345->127.0.0.1:54000
 TST=ESTABLISHED
+f5
 n127.0.0.1:9999->127.0.0.1:54001
 TST=ESTABLISHED
 p7777
+f6
 n127.0.0.1:54000->127.0.0.1:2345
 TST=ESTABLISHED
+f7
 n127.0.0.1:2345->127.0.0.1:54000
 TST=ESTABLISHED
 """
@@ -190,6 +197,35 @@ class DarwinTcpOwnerTests(unittest.TestCase):
             with self.subTest(output=output):
                 with self.assertRaisesRegex(RuntimeError, "lsof|TCP|PID|endpoint|state"):
                     probe.parse_lsof_tcp_records(output)
+
+    def test_lsof_parser_rejects_empty_fd_replaced_by_new_pid(self):
+        output = """\
+p4242
+f3
+p7777
+f4
+n127.0.0.1:2345
+TST=LISTEN
+"""
+
+        with self.assertRaisesRegex(RuntimeError, "incomplete lsof TCP record"):
+            probe.parse_lsof_tcp_records(output)
+
+    def test_lsof_parser_rejects_empty_fd_replaced_within_same_pid(self):
+        output = """\
+p4242
+f3
+f4
+n127.0.0.1:2345
+TST=LISTEN
+"""
+
+        with self.assertRaisesRegex(RuntimeError, "incomplete lsof TCP record"):
+            probe.parse_lsof_tcp_records(output)
+
+    def test_lsof_parser_rejects_empty_fd_at_end_of_output(self):
+        with self.assertRaisesRegex(RuntimeError, "incomplete lsof TCP record"):
+            probe.parse_lsof_tcp_records("p4242\nf3\n")
 
     def test_lsof_query_uses_bounded_argv_and_fails_closed(self):
         completed = subprocess.CompletedProcess([], 0, LSOF_TCP_FIXTURE, "")

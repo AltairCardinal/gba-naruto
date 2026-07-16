@@ -619,8 +619,10 @@ hex、短块或长块都会让整个逻辑读取失败，且不会写入该 regi
 
 边界：该工具不注入按键、不枚举窗口、不发送 `PostMessage`、不提供 KEYINPUT
 写监视点，也不会向 GDB 远端发送 `k`。探针只终止自己创建的 mGBA `Popen`
-子进程；完整进程树的所有权与超时清理由外层 `run_guarded.py` 的 Windows Job
-Object 承担。不得直接运行原生烟雾，也不得按进程名做宽泛清理。
+子进程；完整进程树的所有权与超时清理由外层 `run_guarded.py` 承担：Windows
+使用 Job Object，macOS 使用同一 shared heavy lock 下的 owned process group，并受
+owned-tree RSS ceiling 约束。不得直接运行原生烟雾，也不得绕过 `run_guarded.py`
+或按进程名做宽泛清理。
 
 ## `mgba_trace_function_entries.lua`
 

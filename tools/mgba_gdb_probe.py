@@ -271,9 +271,11 @@ def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
     pid: int | None = None
     endpoint: str | None = None
     state: str | None = None
+    fd_started = False
+    fd_complete = False
 
     def finish_record() -> None:
-        nonlocal endpoint, state
+        nonlocal endpoint, state, fd_complete
         if endpoint is None or state is None or pid is None:
             return
         parts = endpoint.split("->")
@@ -288,20 +290,30 @@ def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
         records.append(LsofTcpRecord(pid=pid, state=state, local=local, remote=remote))
         endpoint = None
         state = None
+        if fd_started:
+            fd_complete = True
 
     for line in output.splitlines():
         if not line:
             continue
         if line.startswith("p"):
+            if fd_started and not fd_complete:
+                raise RuntimeError("incomplete lsof TCP record before PID field")
             if endpoint is not None or state is not None:
                 raise RuntimeError("incomplete lsof TCP record before PID field")
             pid_text = line[1:]
             if not pid_text.isdecimal():
                 raise RuntimeError(f"malformed lsof PID: {pid_text!r}")
             pid = int(pid_text)
+            fd_started = False
+            fd_complete = False
         elif line.startswith("f"):
+            if fd_started and not fd_complete:
+                raise RuntimeError("incomplete lsof TCP record before file field")
             if endpoint is not None or state is not None:
                 raise RuntimeError("incomplete lsof TCP record before file field")
+            fd_started = True
+            fd_complete = False
         elif line.startswith("n"):
             if pid is None:
                 raise RuntimeError("lsof TCP endpoint is missing its PID")
@@ -323,7 +335,7 @@ def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
         else:
             raise RuntimeError(f"unexpected lsof TCP field: {line!r}")
 
-    if endpoint is not None or state is not None:
+    if (fd_started and not fd_complete) or endpoint is not None or state is not None:
         raise RuntimeError("incomplete lsof TCP record at end of output")
     if not records:
         raise RuntimeError("lsof returned no complete TCP ownership records")
