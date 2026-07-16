@@ -41,22 +41,25 @@ postbattle 调试所需的可复用前置快照。它继续保留为 controller 
 
 ### 固定 zero-input frame sampler
 
-新增固定 Lua sampler 和 macOS runner。Lua 只加载 caller-known savestate，在 frame 1..600
-逐帧调用 `emu:screenshot`，每 30 帧输出一次进度，frame 600 写出 audit/sentinel 后退出。
-脚本不得出现 `emu:addKey`、`emu:clearKey`、`emu:setKeys`、pre-script、adaptive、recovery 或
-settle 输入。audit 固定记录 `inputs=[]`、`pre_scripts=[]`、`zero_input_verified=true`、
-`evidence_mode=zero-input-cycle-sample` 和 `max_frame=600`。
+新增固定 Lua sampler，作为现有 `tools/run_macos_mgba_replay.py` 的 caller-known diagnostic
+pre-script 使用；不新增第二套 macOS runner。现有 replay Lua 仍负责加载 caller-known
+savestate、在 frame 600 保存最终 state/PNG、写出 audit/sentinel 并退出。sampler 在 frame
+1..600 逐帧调用 `emu:screenshot`，每 30 帧输出一次进度。
+脚本不得出现 `emu:addKey`、`emu:clearKey`、`emu:setKeys`、adaptive、recovery 或 settle
+输入，也不得再串联第二个 pre-script。diagnostic audit 必须记录 `inputs=[]`、sampler 路径与 SHA、
+`zero_input_verified=false`、`evidence_mode=script-order-diagnostic` 和 `capture_frame=600`；
+该运行只用于选取周期，不能被提升为 zero-input 正证据。
 
-Python runner 复用现有 replay 的 caller-known binary/manifest/patch/ROM/state SHA、fresh
-output、staged save 隔离、heavy lock、4096 MiB admission、1536 MiB owned-tree RSS、
-wall/idle timeout、guard summary 与 exact PGID/listener 清理。600 张 PNG 只保存在忽略的
-fresh build 目录；任何缺帧、重复路径、hash drift、非零 child、guard 失败或资源残留均使采样
-失败。
+现有 runner 继续提供 caller-known binary/manifest/patch/ROM/state SHA、fresh output、staged
+save 隔离、heavy lock、4096 MiB admission、1536 MiB owned-tree RSS、wall/idle timeout、
+guard summary 与 exact PGID/listener 清理。600 张 PNG 只保存在忽略的 fresh build 目录；
+任何缺帧、重复路径、hash drift、非零 child、guard 失败或资源残留均使采样失败。
 
 ### 周期分析器
 
-runner 使用现有 strict PNG decode 与 normalized RGB8 fingerprint 逻辑，对 candidate 的
-frame 0 和 600 张采样图建立 hash 序列，选择第一个满足 `H[0] == H[p] == H[2p]` 的 `p`。
+新增的离线分析工具使用现有 strict PNG decode 与 normalized RGB8 fingerprint 逻辑，对
+candidate 的 frame 0 和 600 张采样图建立 hash 序列，选择第一个满足
+`H[0] == H[p] == H[2p]` 的 `p`。
 分析 JSON 记录 caller-known 来源、600 帧完整性、每帧 hash、所选周期和三个匹配点；没有周期
 时显式输出 `not-proven`，不得选择近似匹配或局部像素匹配。
 
@@ -89,9 +92,10 @@ active unwind 或 fresh observer 命中 `0x0808F952 → 0x080732B4` 单独证明
 
 ## TDD 与验收
 
-TDD 必须先覆盖：固定 600 帧、禁止任何输入 API、600 张唯一文件名、每 30 帧进度、缺帧与
+TDD 必须先覆盖：固定 600 帧、禁止任何输入 API、600 张唯一文件名、每 30 帧进度、diagnostic
+audit 绑定 sampler 路径/SHA、缺帧与
 多帧拒绝、normalized RGB8 精确周期选择、无周期、只出现一次匹配、`p > 300`、caller-known
-hash drift、guard/resource/base.sav failure。实现后运行 focused runner/analyzer tests、既有
+hash drift、guard/resource/base.sav failure。实现后运行 focused sampler/analyzer tests、既有
 zero-input/single-input/guard 回归、真实 ROM sampler，再运行两段 acceptance replay。
 
 thorough reviewer 必须独立检查：RED/GREEN 证据、无输入 Lua contract、600 帧完整性、周期
