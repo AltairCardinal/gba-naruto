@@ -71,6 +71,8 @@
 - fifth-wait zero gate: `from f04e2c40...58d4 run one 80-frame zero-input replay; require exact task2 0x08095F12, script pointer 0x0805B37C, observer/object/RGB stability and full guard/provenance/residue; no key/retry/cycle`
 - fifth-wait first executor outcome: `cost-stopped after >2 minutes with no runtime/report; no mGBA process or artifact created`
 - fifth-wait executor retry: `same-task agent receives the prior validated replay command with only input/hash/output/capture substitutions; one runtime remains authorized`
+- fifth-wait zero result: `run a95aadb576d37abd8ceb33e039a9b893; output 329fd384...197f7c; task2/SP/pointer 0x08095F12/0x03001194/0x0805B37C, observer/object/RGB all exact; guard completed/0 RSS52.023MiB; stable consumable wait`
+- fifth-A gate: `from accepted 329fd384...197f7c send exactly one A at 5/13/capture80 on observer ROM; inspect pointer/task/object and fresh ordered PCU1/PCO1; no retry/zero/follow-on key in same task`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
