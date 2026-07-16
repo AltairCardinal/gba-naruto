@@ -346,15 +346,19 @@ exactly one mGBA command through the shared heavy lock with a 4096 MiB admission
 1536 MiB owned-PGID RSS ceiling, caller-visible wall/idle timeouts, non-degraded POSIX
 process-group ownership, and forced `QT_QPA_PLATFORM=offscreen`. Success requires the
 wrapper return code and fresh summary to agree on `completed/0`, an exact command
-fingerprint, a clean final PGID query, and fresh non-empty PNG-container state, PNG,
-audit, and sentinel files.
+fingerprint, `completion_trigger=success-marker`, a clean final PGID query, and fresh
+non-empty PNG-container state, PNG, audit, and sentinel files. Each run derives a fresh
+`<guard-summary>.done.json` marker path and binds its payload to the current 32-hex run
+ID, capture frame, and `capture-complete` status.
 
 The Lua script reads all configuration from `MGBA_REPLAY_*` environment variables,
 asserts the BOOL results from checkpoint load/save, counts relative frame callbacks,
 and at exactly the capture frame writes a state, screenshot, `inputs=[]` audit and
-same-run sentinel before calling `os.exit(0)`. Screenshot is a void API and is therefore
-checked by the fresh PNG signature/output validation. The script contains no key
-injection. Both JSON records bind the run ID,
+same-run sentinel, then writes the completion marker and leaves later callbacks inert.
+Fixed Qt replay scripts must never call `os.exit` from the CPU-thread frame callback;
+the resource guard owns process-tree termination after observing the marker. Screenshot
+is a void API and is therefore checked by the fresh PNG signature/output validation.
+The script contains no key injection. Both JSON records bind the run ID,
 frame, input/output paths, ROM/state hashes and success state. After validation, the
 runner adds output, binary, patch, staged-ROM and summary hashes plus peak RSS and the
 clean PGID result to both records. Immediately before finalizing those records, the
@@ -363,6 +367,14 @@ and every pre-script; post-launch drift fails closed instead of being recorded a
 provenance. Final audit and sentinel records include the manifest, binary and replay
 SHA-256 values plus `{path, sha256}` objects for pre-scripts, rather than unauthenticated
 paths.
+
+The completion marker is only a guard cleanup signal. It never substitutes for the
+audit/sentinel equality and provenance checks, state/PNG signature and hash checks,
+post-run input revalidation, exact-PGID cleanup, listener residue checks, or source and
+staged `.sav` isolation. Missing or mismatched marker payloads and completed summaries
+without the success-marker trigger fail closed. Outputs from a timeout, protection
+failure, marker mismatch, Qt crash, or any run that creates an mGBA crash report remain
+rejected raw artifacts and must not be consumed as a state for another replay.
 
 Example:
 
@@ -401,9 +413,9 @@ directory and `MGBA_CYCLE_MAX_FRAME=600`, then pass the sampler exactly once wit
 `run_macos_mgba_replay.py --capture-frame 600 --evidence-mode
 script-order-diagnostic --pre-script tools/mgba_zero_input_cycle_sample.lua`. It writes
 `frame-0001.png` through `frame-0600.png` and prints progress every 30 frames. The
-sampler never loads or saves state, exits mGBA, or sends input; the unchanged checkpoint
-replay script remains responsible for the frame-600 state, PNG, audit, sentinel, and
-process exit.
+sampler never loads or saves state, terminates mGBA, or sends input; the unchanged
+checkpoint replay script remains responsible for the frame-600 state, PNG, audit,
+sentinel, and completion marker used by the guard.
 
 After a successful guarded diagnostic run, select the smallest exact RGB8 recurrence
 with caller-pinned baseline and sampler hashes:
@@ -456,6 +468,11 @@ read-only final probe: `ps` must show no process in the exact owned PGID and `ls
 must show no mGBA TCP listener. Missing tools, malformed output, or probe errors fail
 closed; the module never kills a process. `accept_prebattle_candidate.py` imports the
 same residue functions and retains its existing API.
+
+Like the zero-input runner, the fixed single-input Lua writes audit and sentinel before
+the bound completion marker and never calls CPU-thread `os.exit`. The guard marker is
+only the owned-tree cleanup trigger; all state/PNG, audit/sentinel, provenance, hash,
+PGID, listener and save-residue gates remain mandatory before the candidate is usable.
 
 Example (the caller must supply the approved state and its actual hash):
 

@@ -43,7 +43,10 @@ class SingleInputLuaContractTests(unittest.TestCase):
         self.assertIn("emu:screenshot", text)
         self.assertIn("write_file(audit_path", text)
         self.assertIn("write_file(sentinel_path", text)
-        self.assertIn("os.exit(0)", text)
+        self.assertNotIn("os.exit", text)
+        self.assertIn("capture_complete", text)
+        self.assertLess(text.index("write_file(audit_path"), text.index("write_file(done_marker_path"))
+        self.assertLess(text.index("write_file(sentinel_path"), text.index("write_file(done_marker_path"))
 
     def test_lua_uses_only_fixed_environment_contract(self):
         text = LUA.read_text(encoding="utf-8")
@@ -57,6 +60,7 @@ class SingleInputLuaContractTests(unittest.TestCase):
             "MGBA_REPLAY_RUN_ID",
             "MGBA_REPLAY_ROM_SHA256",
             "MGBA_REPLAY_INPUT_STATE_SHA256",
+            "MGBA_REPLAY_DONE_MARKER",
             "MGBA_SINGLE_INPUT_KEY",
             "MGBA_SINGLE_INPUT_DOWN_FRAME",
             "MGBA_SINGLE_INPUT_UP_FRAME",
@@ -91,7 +95,7 @@ class SingleInputValidationTests(unittest.TestCase):
         )
         self.assertEqual(
             zero_runner.sha256_file(zero_runner.DEFAULT_REPLAY_SCRIPT),
-            "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af",
+            "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
         )
         self.assertNotEqual(
             self.runner.EXPECTED_SINGLE_INPUT_SCRIPT_SHA256,
@@ -209,6 +213,7 @@ class SingleInputRunnerIntegrationTests(unittest.TestCase):
             "audit": out / "audit.json",
             "sentinel": out / "sentinel.json",
             "summary": out / "guard.json",
+            "marker": out / "guard.json.done.json",
         }
         argv = [
             "--binary", str(binary),
@@ -275,6 +280,11 @@ class SingleInputRunnerIntegrationTests(unittest.TestCase):
                 paths[name].write_bytes(b"\x89PNG\r\n\x1a\nnew")
             paths["audit"].write_text(json.dumps(payload), encoding="utf-8")
             paths["sentinel"].write_text(json.dumps(payload), encoding="utf-8")
+            paths["marker"].write_text(json.dumps({
+                "run_id": env["MGBA_REPLAY_RUN_ID"],
+                "capture_frame": 80,
+                "status": "capture-complete",
+            }), encoding="utf-8")
             paths["summary"].write_text(
                 json.dumps(
                     {
@@ -284,6 +294,7 @@ class SingleInputRunnerIntegrationTests(unittest.TestCase):
                         "peak_tree_rss_mib": 12.5,
                         "protection_backend": "posix-process-group",
                         "degraded": False,
+                        "completion_trigger": "success-marker",
                         "command": child,
                     }
                 ),
@@ -291,9 +302,39 @@ class SingleInputRunnerIntegrationTests(unittest.TestCase):
             )
             if mutate:
                 mutate()
+            self.assertEqual(env["MGBA_REPLAY_DONE_MARKER"], str(paths["marker"].resolve()))
+            self.assertEqual(command[command.index("--success-marker") + 1], str(paths["marker"].resolve()))
             return subprocess.CompletedProcess(command, 0)
 
         return run
+
+    def test_main_rejects_missing_or_wrong_completion_marker(self):
+        cases = (
+            ("missing", lambda paths: paths["marker"].unlink()),
+            ("wrong-frame", lambda paths: paths["marker"].write_text(json.dumps({
+                "run_id": json.loads(paths["audit"].read_text(encoding="utf-8"))["run_id"],
+                "capture_frame": 81,
+                "status": "capture-complete",
+            }), encoding="utf-8")),
+        )
+        for name, mutate_marker in cases:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                runner, paths, argv = self._fixture(Path(tmp))
+                with mock.patch.object(
+                    runner.subprocess,
+                    "run",
+                    side_effect=self._fake_wrapper(
+                        runner, paths, mutate=lambda: mutate_marker(paths)
+                    ),
+                ), mock.patch.object(
+                    runner, "read_ps_snapshot", return_value="1 1\n"
+                ), mock.patch.object(
+                    runner,
+                    "probe_runtime_residue",
+                    return_value={"pgid_clean": True, "mgba_listener_clean": True},
+                ):
+                    with self.assertRaises(runner.ReplayError):
+                        runner.main(argv)
 
     def test_main_wires_single_lua_guard_hashes_residue_and_final_payload(self):
         with tempfile.TemporaryDirectory() as tmp:

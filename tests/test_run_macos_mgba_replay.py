@@ -28,6 +28,7 @@ class ReplayLuaContractTests(unittest.TestCase):
             "MGBA_REPLAY_SENTINEL",
             "MGBA_REPLAY_CAPTURE_FRAME",
             "MGBA_REPLAY_RUN_ID",
+            "MGBA_REPLAY_DONE_MARKER",
         ):
             self.assertIn(name, text)
         self.assertIn('"inputs":[]', text)
@@ -36,7 +37,10 @@ class ReplayLuaContractTests(unittest.TestCase):
         self.assertIn("assert(emu:loadStateFile(input_state)", text)
         self.assertIn("assert(emu:saveStateFile(output_state)", text)
         self.assertIn("emu:screenshot", text)
-        self.assertIn("os.exit(0)", text)
+        self.assertNotIn("os.exit", text)
+        self.assertIn("capture_complete", text)
+        self.assertLess(text.index("write_file(audit_path"), text.index("write_file(done_marker_path"))
+        self.assertLess(text.index("write_file(sentinel_path"), text.index("write_file(done_marker_path"))
         self.assertNotIn("emu:addKey", text)
         self.assertNotIn("emu:clearKey", text)
 
@@ -129,13 +133,15 @@ class ReplayRunnerContractTests(unittest.TestCase):
     def test_guard_command_has_one_lock_strict_limits_and_no_degraded_mode(self):
         runner = importlib.import_module("tools.run_macos_mgba_replay")
         child = ["/bin/mgba", "--script", "/replay.lua", "/stage.gba"]
-        wrapped = runner.guarded_command(Path("/summary.json"), child, 120, 30)
+        marker = Path("/summary.json.done.json")
+        wrapped = runner.guarded_command(Path("/summary.json"), marker, child, 120, 30)
         self.assertEqual(wrapped[:2], [runner.sys.executable, str(runner.GUARD_SCRIPT)])
         self.assertEqual(wrapped.count("--lock-file"), 1)
         self.assertIn(str(runner.HEAVY_LOCK), wrapped)
         self.assertIn("4096", wrapped)
         self.assertIn("1536", wrapped)
         self.assertNotIn("--allow-degraded", wrapped)
+        self.assertEqual(wrapped[wrapped.index("--success-marker") + 1], str(marker))
         self.assertEqual(wrapped[wrapped.index("--") + 1 :], child)
 
     def test_canonical_paths_reject_alias_overlap_and_unsafe_existing_outputs(self):
@@ -236,6 +242,7 @@ class ReplayRunnerContractTests(unittest.TestCase):
             "peak_tree_rss_mib": 4.5,
             "protection_backend": "posix-process-group",
             "degraded": False,
+            "completion_trigger": "success-marker",
             "command": command,
         }
         runner.validate_guard_summary(good, command, 0)
@@ -249,11 +256,37 @@ class ReplayRunnerContractTests(unittest.TestCase):
             (0, {**good, "degraded": True}),
             (0, {**good, "command": ["wrong"]}),
             (0, {**good, "peak_tree_rss_mib": 1537}),
+            (0, {key: value for key, value in good.items() if key != "completion_trigger"}),
+            (0, {**good, "completion_trigger": "child-exit"}),
         )
         for wrapper_rc, payload in cases:
             with self.subTest(wrapper_rc=wrapper_rc, reason=payload.get("reason")):
                 with self.assertRaises(runner.ReplayError):
                     runner.validate_guard_summary(payload, command, wrapper_rc)
+
+    def test_completion_marker_binds_run_frame_and_status(self):
+        runner = importlib.import_module("tools.run_macos_mgba_replay")
+        with tempfile.TemporaryDirectory() as tmp:
+            marker = Path(tmp) / "guard.json.done.json"
+            expected = {
+                "run_id": "a" * 32,
+                "capture_frame": 80,
+                "status": "capture-complete",
+            }
+            marker.write_text(json.dumps(expected), encoding="utf-8")
+            self.assertEqual(runner.validate_completion_marker(marker, expected), expected)
+            for mutation in (
+                {"run_id": "b" * 32},
+                {"capture_frame": 81},
+                {"status": "wrong"},
+                {"extra": True},
+            ):
+                marker.write_text(json.dumps({**expected, **mutation}), encoding="utf-8")
+                with self.subTest(mutation=mutation), self.assertRaises(runner.ReplayError):
+                    runner.validate_completion_marker(marker, expected)
+            marker.unlink()
+            with self.assertRaisesRegex(runner.ReplayError, "marker.*missing"):
+                runner.validate_completion_marker(marker, expected)
 
     def test_exact_owned_pgid_query_must_be_clean(self):
         runner = importlib.import_module("tools.run_macos_mgba_replay")
@@ -368,6 +401,7 @@ class ReplayRunnerContractTests(unittest.TestCase):
                 "audit": out / "audit.json",
                 "sentinel": out / "sentinel.json",
                 "summary": out / "guard.json",
+                "marker": out / "guard.json.done.json",
             }
 
             def fake_wrapper(command, **kwargs):
@@ -402,11 +436,18 @@ class ReplayRunnerContractTests(unittest.TestCase):
                     paths[name].write_bytes(b"\x89PNG\r\n\x1a\nnew")
                 paths["audit"].write_text(json.dumps(payload), encoding="utf-8")
                 paths["sentinel"].write_text(json.dumps(payload), encoding="utf-8")
+                paths["marker"].write_text(json.dumps({
+                    "run_id": env["MGBA_REPLAY_RUN_ID"],
+                    "capture_frame": 80,
+                    "status": "capture-complete",
+                }), encoding="utf-8")
                 paths["summary"].write_text(json.dumps({
                     "reason": "completed", "exit_code": 0, "child_pid": 987,
                     "peak_tree_rss_mib": 12.5, "protection_backend": "posix-process-group",
-                    "degraded": False, "command": child,
+                    "degraded": False, "completion_trigger": "success-marker", "command": child,
                 }), encoding="utf-8")
+                self.assertEqual(env["MGBA_REPLAY_DONE_MARKER"], str(paths["marker"].resolve()))
+                self.assertEqual(command[command.index("--success-marker") + 1], str(paths["marker"].resolve()))
                 return subprocess.CompletedProcess(command, 0)
 
             argv = [
@@ -525,6 +566,7 @@ class ReplayRunnerReviewFixIntegrationTests(unittest.TestCase):
             "audit": out / "audit.json",
             "sentinel": out / "sentinel.json",
             "summary": out / "guard.json",
+            "marker": out / "guard.json.done.json",
         }
         argv = [
             "--binary", str(binary),
@@ -582,6 +624,11 @@ class ReplayRunnerReviewFixIntegrationTests(unittest.TestCase):
             paths["png"].write_bytes(b"\x89PNG\r\n\x1a\nnew")
             paths["audit"].write_text(json.dumps(payload), encoding="utf-8")
             paths["sentinel"].write_text(json.dumps(payload), encoding="utf-8")
+            paths["marker"].write_text(json.dumps({
+                "run_id": env["MGBA_REPLAY_RUN_ID"],
+                "capture_frame": 80,
+                "status": "capture-complete",
+            }), encoding="utf-8")
             paths["summary"].write_text(
                 json.dumps(
                     {
@@ -591,6 +638,7 @@ class ReplayRunnerReviewFixIntegrationTests(unittest.TestCase):
                         "peak_tree_rss_mib": 12.5,
                         "protection_backend": "posix-process-group",
                         "degraded": reason == "protection-failure",
+                        "completion_trigger": "success-marker",
                         "command": child,
                     }
                 ),
@@ -601,6 +649,25 @@ class ReplayRunnerReviewFixIntegrationTests(unittest.TestCase):
             return subprocess.CompletedProcess(command, wrapper_rc)
 
         return run
+
+    def test_main_rejects_missing_or_wrong_completion_marker(self):
+        cases = (
+            ("missing", lambda paths: paths["marker"].unlink()),
+            ("wrong-run", lambda paths: paths["marker"].write_text(json.dumps({
+                "run_id": "0" * 32,
+                "capture_frame": 80,
+                "status": "capture-complete",
+            }), encoding="utf-8")),
+        )
+        for name, mutate_marker in cases:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                runner, paths, argv, _, _ = self._fixture(Path(tmp))
+                fake = self._fake_wrapper(
+                    runner, paths, mutate=lambda: mutate_marker(paths)
+                )
+                with self.assertRaises(runner.ReplayError):
+                    self._run(runner, argv, fake)
+                self._assert_not_enriched(paths["audit"])
 
     def _run(self, runner, argv, fake_wrapper, *, ps="1 1\n"):
         with mock.patch.object(runner.subprocess, "run", side_effect=fake_wrapper), \

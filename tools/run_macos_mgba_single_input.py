@@ -34,6 +34,7 @@ try:
         read_ps_snapshot,
         sha256_file,
         validate_build_manifest,
+        validate_completion_marker,
         validate_expected_hash,
         validate_guard_summary,
         validate_output_paths,
@@ -56,6 +57,7 @@ except ModuleNotFoundError:
         read_ps_snapshot,
         sha256_file,
         validate_build_manifest,
+        validate_completion_marker,
         validate_expected_hash,
         validate_guard_summary,
         validate_output_paths,
@@ -66,7 +68,7 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SINGLE_INPUT_SCRIPT = ROOT / "tools" / "mgba_single_input_replay.lua"
 EXPECTED_SINGLE_INPUT_SCRIPT_SHA256 = (
-    "51b299c978698363c236376636ab7d9c78ffcbe57f2b94254a7b1d2249ea4487"
+    "867f5deff09476d0d50c87830611acece918dba7c72f6815e9662613612db562"
 )
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
@@ -266,6 +268,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
             args.audit,
             args.sentinel,
             args.guard_summary,
+            Path(f"{args.guard_summary}.done.json"),
         ],
         derived=[staged_save],
     )
@@ -293,6 +296,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
         args.audit,
         args.sentinel,
         args.guard_summary,
+        args.done_marker,
     ) = outputs
     args.staged_save = canonical_staged_save
     args.source_save = source_save
@@ -362,6 +366,7 @@ def _environment(args: argparse.Namespace, run_id: str) -> dict[str, str]:
             "MGBA_REPLAY_OUTPUT_PNG": str(args.output_png),
             "MGBA_REPLAY_AUDIT": str(args.audit),
             "MGBA_REPLAY_SENTINEL": str(args.sentinel),
+            "MGBA_REPLAY_DONE_MARKER": str(args.done_marker),
             "MGBA_REPLAY_CAPTURE_FRAME": str(args.capture_frame),
             "MGBA_REPLAY_RUN_ID": run_id,
             "MGBA_REPLAY_ROM_SHA256": args.expected_rom_sha256,
@@ -415,6 +420,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.audit,
         args.sentinel,
         args.guard_summary,
+        args.done_marker,
         args.staged_save,
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -427,13 +433,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.binary, [], args.single_input_script, args.staged_rom
     )
     wrapped = guarded_command(
-        args.guard_summary, child, args.wall_timeout_s, args.idle_timeout_s
+        args.guard_summary,
+        args.done_marker,
+        child,
+        args.wall_timeout_s,
+        args.idle_timeout_s,
     )
     completed = subprocess.run(
         wrapped, cwd=ROOT, env=_environment(args, run_id), check=False
     )
     summary = _load_json(args.guard_summary, "guard summary")
     validate_guard_summary(summary, child, completed.returncode)
+    validate_completion_marker(
+        args.done_marker,
+        {
+            "run_id": run_id,
+            "capture_frame": args.capture_frame,
+            "status": "capture-complete",
+        },
+    )
     child_pgid = summary["child_pid"]
     validate_owned_pgid_clean(child_pgid, read_ps_snapshot())
     residue = probe_runtime_residue(child_pgid)

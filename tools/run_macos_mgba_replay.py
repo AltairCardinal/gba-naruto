@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GUARD_SCRIPT = ROOT / "tools" / "run_guarded.py"
 HEAVY_LOCK = ROOT / "build" / "resource-guard" / "heavy.lock"
 DEFAULT_REPLAY_SCRIPT = ROOT / "tools" / "mgba_checkpoint_replay.lua"
-EXPECTED_REPLAY_SCRIPT_SHA256 = "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
+EXPECTED_REPLAY_SCRIPT_SHA256 = "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659"
 SOURCE_COMMIT = "26b7884bc25a5933960f3cdcd98bac1ae14d42e2"
 BACKPORT_COMMIT = "7cacae126207de5499857439b9c7919bf8e882c2"
 EXPECTED_PATCH_SHA256 = "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6"
@@ -180,13 +180,19 @@ def emulator_command(
 
 
 def guarded_command(
-    summary: Path, child_command: Sequence[str], wall_timeout_s: float, idle_timeout_s: float
+    summary: Path,
+    success_marker: Path,
+    child_command: Sequence[str],
+    wall_timeout_s: float,
+    idle_timeout_s: float,
 ) -> list[str]:
     return [
         sys.executable,
         str(GUARD_SCRIPT),
         "--summary",
         str(summary),
+        "--success-marker",
+        str(success_marker),
         "--lock-file",
         str(HEAVY_LOCK),
         "--cwd",
@@ -214,6 +220,8 @@ def validate_guard_summary(
         )
     if summary.get("reason") != "completed" or summary_exit != 0:
         raise ReplayError(f"guarded replay failed: {summary.get('reason')}/{summary_exit}")
+    if summary.get("completion_trigger") != "success-marker":
+        raise ReplayError("guard summary is missing success-marker completion trigger")
     if not isinstance(summary.get("child_pid"), int) or summary["child_pid"] <= 0:
         raise ReplayError("guard summary is missing a valid owned child PID/PGID")
     if summary.get("protection_backend") != "posix-process-group":
@@ -225,6 +233,17 @@ def validate_guard_summary(
         raise ReplayError(f"guard peak RSS is invalid or above {MAX_TREE_RSS_MIB} MiB")
     if summary.get("command") != list(map(str, expected_command)):
         raise ReplayError("guard summary command does not match requested replay")
+
+
+def validate_completion_marker(
+    path: Path, expected: Mapping[str, object]
+) -> dict[str, object]:
+    payload = _load_json(path, "completion marker")
+    if payload != dict(expected):
+        raise ReplayError(
+            f"completion marker mismatch: expected {dict(expected)}, got {payload}"
+        )
+    return payload
 
 
 def read_ps_snapshot() -> str:
@@ -354,6 +373,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
         args.audit,
         args.sentinel,
         args.guard_summary,
+        Path(f"{args.guard_summary}.done.json"),
     ]
     staged_save = args.staged_rom.with_suffix(".sav")
     outputs = validate_output_paths(
@@ -380,6 +400,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
         args.audit,
         args.sentinel,
         args.guard_summary,
+        args.done_marker,
     ) = outputs
     args.staged_save = canonical_staged_save
     if not os.access(args.binary, os.X_OK):
@@ -427,6 +448,7 @@ def _replay_environment(args: argparse.Namespace, run_id: str) -> dict[str, str]
             "MGBA_REPLAY_OUTPUT_PNG": str(args.output_png),
             "MGBA_REPLAY_AUDIT": str(args.audit),
             "MGBA_REPLAY_SENTINEL": str(args.sentinel),
+            "MGBA_REPLAY_DONE_MARKER": str(args.done_marker),
             "MGBA_REPLAY_CAPTURE_FRAME": str(args.capture_frame),
             "MGBA_REPLAY_RUN_ID": run_id,
             "MGBA_REPLAY_ROM_SHA256": args.expected_rom_sha256,
@@ -480,6 +502,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.audit,
         args.sentinel,
         args.guard_summary,
+        args.done_marker,
         args.staged_save,
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -490,10 +513,24 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     run_id = secrets.token_hex(16)
     child = emulator_command(args.binary, args.pre_script, args.replay_script, args.staged_rom)
-    wrapped = guarded_command(args.guard_summary, child, args.wall_timeout_s, args.idle_timeout_s)
+    wrapped = guarded_command(
+        args.guard_summary,
+        args.done_marker,
+        child,
+        args.wall_timeout_s,
+        args.idle_timeout_s,
+    )
     completed = subprocess.run(wrapped, cwd=ROOT, env=_replay_environment(args, run_id), check=False)
     summary = _load_json(args.guard_summary, "guard summary")
     validate_guard_summary(summary, child, completed.returncode)
+    validate_completion_marker(
+        args.done_marker,
+        {
+            "run_id": run_id,
+            "capture_frame": args.capture_frame,
+            "status": "capture-complete",
+        },
+    )
     validate_owned_pgid_clean(summary["child_pid"], read_ps_snapshot())
     expected = _expected_payload(args, run_id)
     bundle = validate_output_bundle(

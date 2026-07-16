@@ -23,6 +23,7 @@ local output_state = required_env("MGBA_REPLAY_OUTPUT_STATE")
 local output_png = required_env("MGBA_REPLAY_OUTPUT_PNG")
 local audit_path = required_env("MGBA_REPLAY_AUDIT")
 local sentinel_path = required_env("MGBA_REPLAY_SENTINEL")
+local done_marker_path = required_env("MGBA_REPLAY_DONE_MARKER")
 local capture_frame = assert(tonumber(required_env("MGBA_REPLAY_CAPTURE_FRAME")))
 local run_id = required_env("MGBA_REPLAY_RUN_ID")
 local rom_sha256 = required_env("MGBA_REPLAY_ROM_SHA256")
@@ -33,6 +34,7 @@ local up_frame = assert(tonumber(required_env("MGBA_SINGLE_INPUT_UP_FRAME")))
 local keys = { Down = C.GBA_KEY.DOWN, A = C.GBA_KEY.A, B = C.GBA_KEY.B }
 local key = assert(keys[key_name], "input key must be Down, A, or B")
 local frame = 0
+local capture_complete = false
 
 assert(down_frame > 0 and down_frame == math.floor(down_frame), "invalid down frame")
 assert(up_frame == math.floor(up_frame), "invalid up frame")
@@ -41,6 +43,9 @@ assert(down_frame < up_frame and up_frame < capture_frame, "invalid frame order"
 assert(emu:loadStateFile(input_state), "failed to load input state")
 
 callbacks:add("frame", function()
+	if capture_complete then
+		return
+	end
 	frame = frame + 1
 	if frame == down_frame then
 		emu:addKey(key)
@@ -78,6 +83,11 @@ callbacks:add("frame", function()
 		})
 		write_file(audit_path, payload)
 		write_file(sentinel_path, payload)
-		os.exit(0)
+		write_file(done_marker_path, table.concat({
+			'{"run_id":', quoted(run_id),
+			',"capture_frame":', tostring(capture_frame),
+			',"status":"capture-complete"}'
+		}))
+		capture_complete = true
 	end
 end)
