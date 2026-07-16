@@ -52,6 +52,7 @@
 - Lua retirement: `f7b8fea deletes only unsupported breakpoint trace Lua/test and replaces README with 0.10.5 failure history; 124 tests skip3; pending independent Task 2 review`
 - Task 2 reviewer: `/root/macos_gdb_smoke_review`; package .superpowers/sdd/review-1c7eb05..f7b8fea.diff; runtime provenance/residue/retirement gate in review`
 - Task 2 approved: `Spec PASS / Quality APPROVED; no findings; exact macOS GDB stop channel accepted, but does not prove player control`
+- input-phase analysis: `/root/macos_gdb_smoke_review` inspects game scheduler/new_keys timing; `/root/macos_gdb_owner_review` compares GDB+Lua/observer phase instrumentation; both read-only, no mGBA`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
