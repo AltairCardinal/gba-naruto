@@ -5,7 +5,7 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/player_observer_third_a`
+- implementer: `/root/safe_breakpoint_trace_tool`
 - report: `.superpowers/sdd/task-open-4.1-report.md`
 - implementation status: `DONE_WITH_CONCERNS; frame-1 zero-input observer scratch remained all-zero`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
@@ -19,7 +19,8 @@
 - second A static result: `0x08066524 movement helper completes without input; B-held only accelerates; later async global predicates have no finite local bound; protocol permits one bounded 512-frame zero capture and forbids key/retry`
 - zero512 result: `run 4da23dc77a4c2aae6de907b0c9547e59 completed/0 RSS52.004 MiB; task2 progressed 0x08066524 -> 0x08095F12/SP03001194; observer scratch still zero; no retry`
 - zero512 static result: `current resume 0x08095F12 uses hardcoded new_keys&3 after yield; caller r7=0 only affects pre-yield early check; zero cannot complete, A/B equivalent; active return chain 0x08097905/0x0808A601/0x08073785`
-- next gate: `from zero512 state send exactly one A 5..13/capture80; read observer/context and stop; no next key`
+- third A timing result: `run 1fbd7042bd43629f5c60df12586e7cf4 completed/0 RSS51.957 MiB; input/output task2 0x4C context identical at 0x08095F12 and observer scratch zero; A@5 missed the task fresh-key phase; no retry`
+- next gate: `TDD a safe no-input/no-os.exit breakpoint-frame pre-script, then diagnose exact 0x08095F12 scheduling phase before one aligned A`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
