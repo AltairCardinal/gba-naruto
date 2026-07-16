@@ -32,6 +32,7 @@
 - zero-hit root cause: `confirmed at 0.98/0.95: Qt CLI scripts load after one-shot start, so setBreakpoint callback never runs; exact 0.10.5 binary also lacks setBreakpoint/clearBreakpoint/currentCycle exports; target 0x08095F12 and saved resume semantics are correct`
 - remediation decision: `reuse approved native GDB architecture; add strict Darwin lsof owner adapter under TDD, then one guarded 0x08095F12 smoke; do not expand Lua backport`
 - focused design/plan: `docs/superpowers/specs/2026-07-17-macos-mgba-gdb-ownership-design.md; docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md`
+- macOS GDB owner Task 1: `/root/macos_gdb_owner_adapter` implementing from base `6904828`; only probe/test/README; strict TDD; no mGBA`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
