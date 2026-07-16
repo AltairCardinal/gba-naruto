@@ -54,6 +54,7 @@
 - Task 2 approved: `Spec PASS / Quality APPROVED; no findings; exact macOS GDB stop channel accepted, but does not prove player control`
 - input-phase analysis: `/root/macos_gdb_smoke_review` inspects game scheduler/new_keys timing; `/root/macos_gdb_owner_review` compares GDB+Lua/observer phase instrumentation; both read-only, no mGBA`
 - input-phase decision: `game-side evidence 0.99 proves third-A consumed original wait; reject five-file phase-mode expansion as unnecessary; next run is one zero-input validation from third-A state 61ea836a...6629 before any further A`
+- corrected third-A zero executor: `/root/third_a_zero_validation`; one 80-frame zero-input run, no retry/cycle/input; exact script-pointer/task/observer/RGB gate`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
