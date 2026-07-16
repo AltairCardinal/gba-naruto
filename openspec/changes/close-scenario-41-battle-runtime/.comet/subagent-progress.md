@@ -5,7 +5,7 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/player_observer_first_a_cycle`
+- implementer: `/root/player_observer_first_a_p64`
 - report: `.superpowers/sdd/task-open-4.1-report.md`
 - implementation status: `DONE_WITH_CONCERNS; frame-1 zero-input observer scratch remained all-zero`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
@@ -13,7 +13,8 @@
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
 - first A zero result: `run 5486989b400b4be14109059cdafa2a0d; task2/r4/r5/r6=3 and all observer scratch exact, but RGB ff83...2704 -> 1814...cfad; candidate not yet consumable`
-- next gate: `fixed 600-frame zero-input cycle sample from original first-A candidate, then two independent p-frame replays if an exact p exists; no second A`
+- first A cycle result: `run afae6115c824079b0b4d55132c449ae5; 600/600 frames, p=64, H0=H64=H128=ff83...2704; frame600 task2 r6=3/scratch zero; guard completed/0 RSS52.262 MiB`
+- next gate: `two dependent-but-independent p64 zero replays candidate->p1->p2; exact RGB/task/scratch/guard required; only p1 may feed second A`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
