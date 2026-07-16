@@ -78,6 +78,26 @@
       "runtime_boundary": "Strict mGBA 0.10.5 replay held this tracked state for 80 frames with no input and preserved the exact prebattle-menu scanlines. Task 2 resumes at 0x08067D02 and its explicitly slotted, statically BL-validated unwind is 0x080885C1 -> 0x08088F9F -> 0x0808F92D; 0x0808F957 is absent and 0x0202680C remains zero. This checkpoint proves only a stable prebattle menu, not controller entry or player control."
     },
     {
+      "name": "scenario-41-prebattle-down",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9",
+      "sha256": "c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-prebattle-menu",
+      "inputs": [
+        "Down"
+      ],
+      "screen": "scenario-41-prebattle-menu-down-selected",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-prebattle-down-evidence.json"
+      ],
+      "runtime_boundary": "One audited Down from scenario-41-prebattle-menu selected the next prebattle row, and a fresh strict mGBA 0.10.5 zero-input replay preserved its exact normalized RGB screen, task-2 resume PC, explicit statically BL-validated unwind and 0x0202680C value. This accepted checkpoint does not prove battle controller entry or player control, and it does not independently authorize A or bypass the Step 4 A gate."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",

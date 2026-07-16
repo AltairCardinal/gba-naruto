@@ -44,6 +44,10 @@
   postbattle `0x08074EE6`，再对自然命中的 levels record `+6` 做单因素 A/B；
 - 当前证据分布仍为 13 `runtime_verified` / 10 `code_verified` / 9 `disproved`；
   本次纠正的是 scenario 41 功能边界，不改变 bank 状态。
+- 2026-07-16 在限定 review 后，从 accepted prebattle menu 仅发送一次 Down，并以独立
+  fresh 80-frame zero-input 重放固化 `scenario-41-prebattle-down.ss9`。四路 normalized RGB、
+  task 2、显式 Thumb BL unwind、`[0x0202680C]`、guard 和资源门均稳定；该 rung 仍不证明
+  controller entry/player control，也不单独授权 A。Step 4 仍须独立门禁，当前未发送 A。
 
 Windows 前台 runtime 到此停止，后续转移到 macOS Intel。迁移、mGBA 0.10.5、Lua
 8-frame 输入、candidate 零输入验收和进程守卫要求见
