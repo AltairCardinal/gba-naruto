@@ -3,6 +3,7 @@ import io
 import os
 import socket
 import subprocess
+import sys
 import tempfile
 import threading
 import unittest
@@ -88,11 +89,13 @@ class FakeRspServer:
 
     def close(self):
         if self.connection is not None:
-            try:
-                self.connection.shutdown(socket.SHUT_RDWR)
-            except OSError:
-                pass
-            self.connection.close()
+            self.thread.join(timeout=1)
+            if self.thread.is_alive():
+                try:
+                    self.connection.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+                self.connection.close()
         self.listener.close()
         self.thread.join(timeout=1)
         if self.connection is not None:
@@ -120,6 +123,149 @@ class FakeProcess:
 
     def wait(self, timeout=None):
         return self.returncode
+
+
+LSOF_TCP_FIXTURE = """\
+p4242
+n127.0.0.1:2345
+TST=LISTEN
+n127.0.0.1:2345->127.0.0.1:54000
+TST=ESTABLISHED
+n127.0.0.1:9999->127.0.0.1:54001
+TST=ESTABLISHED
+p7777
+n127.0.0.1:54000->127.0.0.1:2345
+TST=ESTABLISHED
+n127.0.0.1:2345->127.0.0.1:54000
+TST=ESTABLISHED
+"""
+
+
+class DarwinTcpOwnerTests(unittest.TestCase):
+    def test_lsof_parser_returns_exact_complete_tcp_records(self):
+        records = probe.parse_lsof_tcp_records(LSOF_TCP_FIXTURE)
+
+        self.assertEqual(
+            [(record.pid, record.state, record.local, record.remote) for record in records],
+            [
+                (4242, "LISTEN", ("127.0.0.1", 2345), None),
+                (
+                    4242,
+                    "ESTABLISHED",
+                    ("127.0.0.1", 2345),
+                    ("127.0.0.1", 54000),
+                ),
+                (
+                    4242,
+                    "ESTABLISHED",
+                    ("127.0.0.1", 9999),
+                    ("127.0.0.1", 54001),
+                ),
+                (
+                    7777,
+                    "ESTABLISHED",
+                    ("127.0.0.1", 54000),
+                    ("127.0.0.1", 2345),
+                ),
+                (
+                    7777,
+                    "ESTABLISHED",
+                    ("127.0.0.1", 2345),
+                    ("127.0.0.1", 54000),
+                ),
+            ],
+        )
+
+    def test_lsof_parser_rejects_malformed_or_incomplete_records(self):
+        cases = (
+            "pnot-a-pid\nn127.0.0.1:2345\nTST=LISTEN\n",
+            "p4242\nTST=LISTEN\n",
+            "p4242\nn127.0.0.1:2345\n",
+            "p4242\nnlocalhost:2345\nTST=LISTEN\n",
+            "p4242\nn127.0.0.1:not-a-port\nTST=LISTEN\n",
+            "p4242\nn127.0.0.1:2345\nTST=CLOSE_WAIT\n",
+            "p4242\nn127.0.0.1:2345\nTST=ESTABLISHED\n",
+        )
+        for output in cases:
+            with self.subTest(output=output):
+                with self.assertRaisesRegex(RuntimeError, "lsof|TCP|PID|endpoint|state"):
+                    probe.parse_lsof_tcp_records(output)
+
+    def test_lsof_query_uses_bounded_argv_and_fails_closed(self):
+        completed = subprocess.CompletedProcess([], 0, LSOF_TCP_FIXTURE, "")
+        with patch.object(probe.subprocess, "run", return_value=completed) as run:
+            records = probe._lsof_tcp_owner_records(2345)
+
+        self.assertEqual(len(records), 5)
+        run.assert_called_once_with(
+            ["/usr/sbin/lsof", "-nP", "-FpnT", "-iTCP:2345"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+
+        failures = (
+            subprocess.TimeoutExpired(["/usr/sbin/lsof"], 3),
+            OSError("lsof unavailable"),
+        )
+        for error in failures:
+            with self.subTest(error=type(error).__name__):
+                with patch.object(probe.subprocess, "run", side_effect=error):
+                    with self.assertRaisesRegex(RuntimeError, "lsof"):
+                        probe._lsof_tcp_owner_records(2345)
+
+        for completed in (
+            subprocess.CompletedProcess([], 1, "", "permission denied"),
+            subprocess.CompletedProcess([], 0, "", ""),
+        ):
+            with self.subTest(returncode=completed.returncode):
+                with patch.object(probe.subprocess, "run", return_value=completed):
+                    with self.assertRaisesRegex(RuntimeError, "lsof"):
+                        probe._lsof_tcp_owner_records(2345)
+
+    def test_darwin_owner_filters_keep_exact_server_direction_and_all_owners(self):
+        records = probe.parse_lsof_tcp_records(LSOF_TCP_FIXTURE)
+        with (
+            patch.object(probe.os, "name", "posix"),
+            patch.object(probe, "_lsof_tcp_owner_records", return_value=records),
+        ):
+            self.assertEqual(probe.listener_owner_pids("127.0.0.1", 2345), {4242})
+            self.assertEqual(
+                probe.connection_owner_pids(
+                    ("127.0.0.1", 2345),
+                    ("127.0.0.1", 54000),
+                ),
+                [4242, 7777],
+            )
+
+    @unittest.skipUnless(sys.platform == "darwin", "Darwin lsof is required")
+    def test_darwin_lsof_finds_real_loopback_listener_and_connection_owner(self):
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client = None
+        server = None
+        try:
+            listener.bind(("127.0.0.1", 0))
+            listener.listen(1)
+            self.assertEqual(
+                probe.listener_owner_pids(*listener.getsockname()),
+                {os.getpid()},
+            )
+
+            client = socket.create_connection(listener.getsockname())
+            server, _ = listener.accept()
+            self.assertEqual(
+                probe.connection_owner_pids(server.getsockname(), server.getpeername()),
+                [os.getpid()],
+            )
+        finally:
+            if server is not None:
+                server.close()
+            if client is not None:
+                client.close()
+            listener.close()
 
 
 class MgbaGdbProbeTests(unittest.TestCase):

@@ -580,13 +580,15 @@ original local Step 1/2 raw evidence at the pinned paths.
 
 ## `mgba_gdb_probe.py`
 
-Windows mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
+Windows/macOS mGBA 的只读 GDB 证据探针。它只接受一个 `--breakpoint` 和若干
 `--read address:size` 区域。mGBA 0.10.5 的 `--gdb` 固定监听
 `127.0.0.1:2345`，因此工具不提供看似可配置但无法传给 mGBA 的 `--port`。
 启动前会确认 2345 未被占用；连接后还会确认 owned `Popen` 仍存活，并要求
-Windows TCP owner PID 表中的 2345 listener owner 集合精确为该 PID。工具随后
+TCP owner 查询中的 2345 listener owner 集合精确为该 PID。Windows 使用
+`GetExtendedTcpTable`；macOS 使用有限超时、无 shell 的 `/usr/sbin/lsof -FpnT`
+并只接受完整的 numeric IPv4 `LISTEN`/`ESTABLISHED` 记录。工具随后
 读取 client socket 的 local/peer tuple，在 connection 表中反向匹配 server-side
-established row，并要求唯一 owner 精确为同一 PID。Windows API 错误、无匹配、
+established row，并要求唯一 owner 精确为同一 PID。Windows API 或 `lsof` 错误、无匹配、
 多匹配、mixed listener owners 或 owner 查询期间子进程退出都会 fail closed；结果
 只能是 `error`/`not-proven`，绝不会成为 `verified`。归属成立后，工具再将
 `0x08000000` 与断点处的确定性 ROM 窗口和输入 ROM 比对。只有收到 trap 信号

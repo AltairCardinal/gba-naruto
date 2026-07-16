@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect strict, read-only evidence from one owned Windows mGBA GDB session."""
+"""Collect strict, read-only evidence from one owned Windows or macOS mGBA GDB session."""
 from __future__ import annotations
 
 import argparse
@@ -41,6 +41,14 @@ class TcpOwnerRow:
     local: tuple[str, int]
     remote: tuple[str, int]
     owner_pid: int
+
+
+@dataclass(frozen=True)
+class LsofTcpRecord:
+    pid: int
+    state: str
+    local: tuple[str, int]
+    remote: tuple[str, int] | None
 
 
 class BoundedTextTail:
@@ -241,8 +249,118 @@ def _windows_tcp_owner_rows(table_class: int) -> list[TcpOwnerRow]:
     return rows
 
 
+def _parse_lsof_ipv4_endpoint(value: str) -> tuple[str, int]:
+    try:
+        address, port_text = value.rsplit(":", 1)
+        socket.inet_aton(address)
+        if socket.inet_ntoa(socket.inet_aton(address)) != address:
+            raise ValueError
+        if not port_text.isdecimal():
+            raise ValueError
+        port = int(port_text)
+        if not 0 <= port <= 65535:
+            raise ValueError
+    except (OSError, ValueError) as error:
+        raise RuntimeError(f"malformed lsof TCP endpoint: {value!r}") from error
+    return address, port
+
+
+def parse_lsof_tcp_records(output: str) -> list[LsofTcpRecord]:
+    """Parse complete numeric IPv4 LISTEN/ESTABLISHED records from lsof fields."""
+    records: list[LsofTcpRecord] = []
+    pid: int | None = None
+    endpoint: str | None = None
+    state: str | None = None
+
+    def finish_record() -> None:
+        nonlocal endpoint, state
+        if endpoint is None or state is None or pid is None:
+            return
+        parts = endpoint.split("->")
+        if len(parts) > 2:
+            raise RuntimeError(f"malformed lsof TCP endpoint: {endpoint!r}")
+        local = _parse_lsof_ipv4_endpoint(parts[0])
+        remote = _parse_lsof_ipv4_endpoint(parts[1]) if len(parts) == 2 else None
+        if state == "LISTEN" and remote is not None:
+            raise RuntimeError("lsof TCP LISTEN record unexpectedly has a remote endpoint")
+        if state == "ESTABLISHED" and remote is None:
+            raise RuntimeError("lsof TCP ESTABLISHED record is missing a remote endpoint")
+        records.append(LsofTcpRecord(pid=pid, state=state, local=local, remote=remote))
+        endpoint = None
+        state = None
+
+    for line in output.splitlines():
+        if not line:
+            continue
+        if line.startswith("p"):
+            if endpoint is not None or state is not None:
+                raise RuntimeError("incomplete lsof TCP record before PID field")
+            pid_text = line[1:]
+            if not pid_text.isdecimal():
+                raise RuntimeError(f"malformed lsof PID: {pid_text!r}")
+            pid = int(pid_text)
+        elif line.startswith("f"):
+            if endpoint is not None or state is not None:
+                raise RuntimeError("incomplete lsof TCP record before file field")
+        elif line.startswith("n"):
+            if pid is None:
+                raise RuntimeError("lsof TCP endpoint is missing its PID")
+            if endpoint is not None:
+                raise RuntimeError("incomplete lsof TCP record before endpoint field")
+            endpoint = line[1:]
+            finish_record()
+        elif line.startswith("TST="):
+            if pid is None:
+                raise RuntimeError("lsof TCP state is missing its PID")
+            if state is not None:
+                raise RuntimeError("duplicate lsof TCP state field")
+            state = line[4:]
+            if state not in {"LISTEN", "ESTABLISHED"}:
+                raise RuntimeError(f"unsupported lsof TCP state: {state!r}")
+            finish_record()
+        elif line.startswith(("TQR=", "TQS=")):
+            continue
+        else:
+            raise RuntimeError(f"unexpected lsof TCP field: {line!r}")
+
+    if endpoint is not None or state is not None:
+        raise RuntimeError("incomplete lsof TCP record at end of output")
+    if not records:
+        raise RuntimeError("lsof returned no complete TCP ownership records")
+    return records
+
+
+def _lsof_tcp_owner_records(port: int) -> list[LsofTcpRecord]:
+    try:
+        completed = subprocess.run(
+            ["/usr/sbin/lsof", "-nP", "-FpnT", f"-iTCP:{port}"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=3,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise RuntimeError(f"lsof TCP owner query failed: {error}") from error
+    if completed.returncode != 0:
+        detail = completed.stderr.strip() or f"exit code {completed.returncode}"
+        raise RuntimeError(f"lsof TCP owner query failed: {detail}")
+    if not completed.stdout.strip():
+        raise RuntimeError("lsof TCP owner query returned empty output")
+    return parse_lsof_tcp_records(completed.stdout)
+
+
 def listener_owner_pids(host: str, port: int) -> set[int]:
-    """Return Windows PIDs owning the requested IPv4 listening endpoint."""
+    """Return PIDs owning the requested IPv4 listening endpoint."""
+    if os.name != "nt":
+        return {
+            record.pid
+            for record in _lsof_tcp_owner_records(port)
+            if record.state == "LISTEN"
+            and record.local[1] == port
+            and record.local[0] in {host, "0.0.0.0"}
+        }
     tcp_table_owner_pid_listener = 3
     owners: set[int] = set()
     for row in _windows_tcp_owner_rows(tcp_table_owner_pid_listener):
@@ -256,6 +374,14 @@ def connection_owner_pids(
     server_remote: tuple[str, int],
 ) -> list[int]:
     """Return owners of the exact established server-side IPv4 TCP row."""
+    if os.name != "nt":
+        return [
+            record.pid
+            for record in _lsof_tcp_owner_records(server_local[1])
+            if record.state == "ESTABLISHED"
+            and record.local == server_local
+            and record.remote == server_remote
+        ]
     tcp_table_owner_pid_connections = 4
     mib_tcp_state_established = 5
     return [
