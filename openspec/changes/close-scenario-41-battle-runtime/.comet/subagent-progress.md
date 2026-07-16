@@ -61,6 +61,7 @@
 - fourth-A preflight recovery: `source ROM sibling player-observer.sav triggered runner fail-closed before runtime; preserve historical sidecar, copy same-hash ROM into fresh sidecar-free build/scenario-41-player-observer-fourth-a-source-20260717, then consume the still-unused single runtime`
 - fourth-A result: `run 2f7d37d7190e8b786d6672c99f313425; output d6527bc5...2484; script ptr0805B325->0805B327; task2 08095F12->08066524; object21-byte diff; observer zero; guard completed/0 RSS51.836MiB; no retry`
 - fourth-A settle gate: `reuse validated 0x08066524 movement-helper boundary; one bounded 512-frame zero-input replay only, then inspect next wait/observer; no key/retry`
+- fourth-A zero512 executor: `/root/fourth_a_zero512`; one zero-input settle only`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
