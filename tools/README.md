@@ -450,6 +450,19 @@ zero-input acceptance evidence, does not accept or update a checkpoint, and does
 prove controller entry or player control. Those claims require later independent
 `zero-input` replay and acceptance gates.
 
+## Read-only breakpoint frame trace pre-script
+
+`mgba_breakpoint_frame_trace.lua` records the frame and CPU context for each execution
+of one caller-selected PC. Set `MGBA_BREAKPOINT_TRACE_TARGET` to exactly `0x` plus eight
+hex digits and `MGBA_BREAKPOINT_TRACE_OUTPUT` to the JSONL output path before passing it
+as a pre-script. `MGBA_BREAKPOINT_TRACE_MAX_HITS` is optional and defaults to 256.
+
+Each JSONL row contains the hit number, frame, cycle, target, PC, LR, and SP. After the
+limit, the script clears only its breakpoint and stops recording; it does not send
+input or terminate mGBA, so the fixed replay and guard remain responsible for normal
+completion. Missing or invalid configuration and an output path that cannot be opened
+fail closed before tracing starts.
+
 ## Fixed single-input macOS mGBA replay
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
