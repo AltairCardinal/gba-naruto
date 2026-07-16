@@ -836,7 +836,7 @@ manifest/patch/Lua hash、guard、PGID/listener/base.sav 全通过。任何失�
 `allowed_evidence=[]`，明确它不证明 controller entry/player control。提交不得包含 600 张 raw
 PNG 或 fresh build 目录。
 
-- [ ] **Step 5: 只按 controller 门槛接纳，不用画面分类替代**
+- [x] **Step 5: 只按 controller 门槛接纳，不用画面分类替代**
 
 controller acceptance 仅有两条合法路径：
 
@@ -848,7 +848,7 @@ controller acceptance 仅有两条合法路径：
 `scenario-41-controller-entry.ss9`；否则 compact evidence 记录 candidate/not-proven，明确没有
 controller entry/player control，并停止 Task 6。
 
-- [ ] **Step 6: 验证、独立审查并同步 OpenSpec**
+- [x] **Step 6: 验证、独立审查并同步 OpenSpec**
 
 Run:
 
@@ -941,6 +941,26 @@ git diff --check
 历史提交为 `2bd9760`，provenance hardening 为 `ce67a8a`，task-context 收窄为 `4949a86`。旧 raw summaries 没有 durable residue/owned-tree/listener postcheck，因此不得补写该部分为 PASS；当前分支 push 状态也不在本计划中声称。
 
 不再运行旧计划中的 player-turn `git add/push` 命令；该 checkpoint 从未通过门槛，也不存在。
+
+---
+
+### Task 5B: 从 canonical controller checkpoint 重新证明玩家控制
+
+**Interfaces:**
+- Consumes: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`、既有双 observer builder、macOS guarded replay 与 savestate memory reader。
+- Produces: post-load baseline、fresh `PCO1/PCU1` 有序事件、玩家单位参数绑定；通过后才允许进入 OpenSpec 4.2。
+
+- [ ] **Step 1: 从 canonical checkpoint 运行双 observer 并证明 fresh ordered hits**
+
+先重建 observer ROM 并校验 confined patch。输入 checkpoint 的 counter 与两个 24-byte
+record 必须全零，作为 load 后执行任何 ROM 指令之前的 baseline。所有 mGBA 运行必须经过现有
+guard/heavy lock，使用 fresh output 目录、成功 marker、固定 ROM/state/binary/manifest hash，且
+`rom/base.sav` 前后均不存在。先做最短零输入捕获；离线读取输出 state 的
+`0x0203F040/0x0203F060/0x0203F080`。只有 `PCO1` 与 `PCU1` 都 fresh、共享 sequence 严格有序，
+并与 scenario 41 当前玩家 slot/character/affiliation 一致时才通过。若零输入未命中，停止并以
+静态控制流决定唯一最小输入；不得盲试按键。`0x08073946 -> 0x0806F718` 是
+`0x08073940` 玩家选择函数内的已验证直接调用点，`0x080739D8 -> 0x08069DB8` 是独立当前单位
+诊断；证据必须分别标注，不能把后者误写成 `0x08073946`。
 
 ---
 

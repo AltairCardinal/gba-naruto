@@ -1,13 +1,13 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 5: 只按 controller 门槛接纳，不用画面分类替代`
-- openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
+- plan task: `Task 5B Step 1: 从 canonical checkpoint 运行双 observer 并证明 fresh ordered hits`
+- openspec task: `4.1 从 hook 前快照运行双 observer，证明 0x08073940/0x08073946 自然命中且参数与玩家单位一致`
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/mgba_safe_termination_guard` (safe termination plan Task 1); completed runtime agents/review/static path recorded below`
-- report: `.superpowers/sdd/task-4.7-step5-report.md`
-- implementation status: `DONE_WITH_CONCERNS`
+- implementer: `fresh grandchild dispatch requested through /root/scenario41_controller_persist_review because root child-thread limit rejected direct spawn`
+- report: `.superpowers/sdd/task-open-4.1-report.md`
+- implementation status: `DISPATCHING`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
