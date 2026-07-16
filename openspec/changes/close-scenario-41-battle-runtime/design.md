@@ -54,6 +54,7 @@ mGBA GDB 对大于 256 字节的单个 memory packet 返回 `E06`。逻辑读取
 ## Risks / Trade-offs
 
 - [快照捕获在按键或 DMA 中间态] → 每个候选快照先零输入重放并等待稳定，再作为前置状态；保留失败快照仅作导航线索。
+- [固定 settle 帧与角色动画周期错位] → 不使用动画遮罩；在最多 600 帧的零输入采样中要求 frame `0/p/2p` 全屏 exact RGB 重现，再用两段独立 `p`-frame replay 复核 task/unwind/WRAM。无周期即保持 `not-proven`。
 - [浏览器与原生 mGBA 时序不同] → 结论绑定 GBA 地址、WRAM 和 ROM bytes，不以宿主帧率作为验收条件。
 - [observer 改变寄存器或返回链] → 对每个 wrapper 做精确机器码、literal、寄存器/SP/LR 保存和错误 ROM 测试，并由独立审查复核。
 - [教程输入复杂导致重复成本] → 快照阶梯只向前扩展，成功边界提交到 `artifacts/runtime-checkpoints/`。

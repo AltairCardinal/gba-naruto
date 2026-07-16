@@ -66,6 +66,16 @@ single-input runner 只能装载仓库固定 single-input Lua；禁止任意 pre
 任一步画面未变化、意外变化、输入数不为 1、hash/guard/PGID/监听失败，或无法给出受约束
 的活动 unwind，都保持 candidate/not-proven 并停止后续按键。
 
+### A 后角色动画的稳定性补充
+
+Step 4 的固定 80-frame replay 已按失败分支完成：task/unwind/WRAM 一致，但 exact RGB 差异
+局限于 140 个 Naruto 动画像素。后续不允许用区域遮罩放宽画面门槛，也不允许跳过快照直接
+追 observer。改用
+`docs/superpowers/specs/2026-07-16-scenario-41-animated-snapshot-stability-design.md`
+定义的 600-frame 零输入有界周期搜索；只有 frame `0/p/2p` 全屏 exact RGB 重现，并由两段
+独立 `p`-frame zero-input replay 同时复核 task/unwind/WRAM 与资源门，才能接纳 A 后稳定
+checkpoint。找不到周期时继续保持 `not-proven`，不得进入 controller gate。
+
 ## 快照、资源与失败处理
 
 - 原始 ROM 旁不得出现 `rom/base.sav`；staged `.sav` 仅在 fresh build 目录。
