@@ -60,6 +60,13 @@
   RGB，因此 selection/result 未被证明改变并触发停止门。未发送 final A，未运行 entry
   observer，未捕获 raw `0x0808F957`，没有 controller checkpoint；controller entry 与
   player control 继续为 `not-proven`，不进入下一阶段。
+- 2026-07-17 上述 B/B/Down 分支已作为 superseded 历史保留：`0x08088628` 是
+  message-box yield，Down 不会选择列表项。纠正后的分段输入 B → B → A → Down → Down →
+  A → inner B → outer A → inner A 捕获 static-BL-valid raw `0x0808F957`；两次独立
+  224-frame zero-input replay 保持 exact RGB、task-2 resume/SP/LR、三条 raw return 与
+  A880/A882/2680C，p1 已固化为 `scenario-41-controller-entry.ss9`。controller entry
+  现为 runtime-proven 且 stable；player control、first turn、MOVEDONE、victory 与
+  postbattle 仍未证明。bank 验证数量和 13/10/9 分布不变。
 
 Windows 前台 runtime 到此停止，后续转移到 macOS Intel。迁移、mGBA 0.10.5、Lua
 8-frame 输入、candidate 零输入验收和进程守卫要求见

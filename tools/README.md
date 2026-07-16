@@ -552,6 +552,13 @@ not prove `0x0808F952 → 0x080732B4` controller entry, player control, MOVEDONE
 victory, or postbattle. It never kills processes and must not be used to justify Down/A
 input unless a later, separately reviewed task explicitly authorizes that input.
 
+The later scenario-41 controller checkpoint is validated through the ordinary ledger
+command above, not by a new acceptance tool. Its compact evidence binds the raw
+`0x0808F952 → 0x080732B4` gate and two 224-frame zero-input replays. Because the current
+ledger schema has no controller-entry hook token, the accepted record keeps
+`allowed_evidence=[]`; do not substitute player-control, MOVEDONE, victory or postbattle
+hooks. Those remain separate runtime gates.
+
 The compact evidence intentionally preserves absolute `build/` and cache paths from
 the local historical run so its origin is unambiguous. Those raw frame-80/cache files
 are machine-local and are not repository-distributed artifacts. Git distributes the

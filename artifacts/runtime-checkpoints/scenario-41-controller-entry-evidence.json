@@ -1,149 +1,156 @@
 {
   "schema_version": 1,
-  "outcome": "not-proven",
-  "reason": "down-after-two-zero-verified-b-segments-had-no-observable-game-state-effect",
+  "outcome": "accepted",
+  "verdict": "accepted",
   "scope": "scenario-41-controller-entry",
-  "accepted_input": {
-    "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
-    "sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646"
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+    "sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6"
   },
-  "caller_known_sha256": {
-    "base_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
-    "binary": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
-    "build_manifest": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
-    "patch": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
-    "single_input_lua": "51b299c978698363c236376636ab7d9c78ffcbe57f2b94254a7b1d2249ea4487",
-    "zero_input_lua": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
+  "accepted_lineage": {
+    "parent": "scenario-41-pre-controller-after-a",
+    "parent_path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
+    "parent_sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+    "segmented_inputs": ["B", "B", "A", "Down", "Down", "A", "B", "A", "A"],
+    "description": "From the accepted pre-controller checkpoint: B, zero; B, zero; A, zero; Down, p24-zero; Down, p24-zero; A, zero; inner B, p23-zero; outer A, zero; inner A, then two p224 zero-input replays. The failed B/B/Down and canceling outer-B branches are not acceptance lineage."
   },
-  "base_rom_entry_call": {
-    "callsite": "0x0808F952",
-    "bytes": "e3f7affc",
-    "decoded_target": "0x080732B4",
-    "static_thumb_bl_valid": true
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+    "single_input_lua_sha256": "867f5deff09476d0d50c87830611acece918dba7c72f6815e9662613612db562",
+    "zero_input_lua_sha256": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659"
   },
-  "segments": [
+  "controller_gate": {
+    "report": ".superpowers/sdd/scenario41-inner-a-controller-gate-report.md",
+    "run_id": "9c4631126d8302ae32bc4f0cc0e487db",
+    "input_path": "build/scenario-41-controller-entry-outer-a-zero-20260717/frame80.ss9",
+    "input_sha256": "975dce1fdf5a55659bdeb5ef81127753ab852a7301273fe1f42499fc2710ec80",
+    "state_path": "build/scenario-41-controller-entry-inner-a-safe-20260717/frame80.ss9",
+    "state_sha256": "7bd7d7b3666162b056c63da9750f531e974353c6083a96e475fbc6f0b4633f81",
+    "input": {"key": "A", "down_frame": 5, "up_frame": 13, "capture_frame": 80},
+    "base_rom_entry_call": {
+      "callsite": "0x0808F952",
+      "bytes": "e3f7affc",
+      "decoded_target": "0x080732B4",
+      "return": "0x0808F957",
+      "static_thumb_bl_valid": true
+    },
+    "task_2": {
+      "resume_pc": "0x08073616",
+      "sp": "0x03001224",
+      "lr": "0x08073617"
+    },
+    "raw_return_words": ["0x0808F957", "0x08061C71", "0x08061C95"],
+    "memory_bytes": {"0x0200A880": 0, "0x0200A882": 1, "0x0202680C": 0},
+    "audit_path": "build/scenario-41-controller-entry-inner-a-safe-20260717/audit.json",
+    "audit_sha256": "dfe8179d29e0560b7e69984aa8a59b318fbea5d192178d1e25a2293482eacc25",
+    "inspection_path": "build/scenario-41-controller-entry-inner-a-safe-20260717/offline-inspection.json",
+    "inspection_sha256": "d5e2391245075cf72faf76cdb64acdbfdb39cd29ca651d25469315e18b5b3b6e",
+    "guard": {
+      "reason": "completed",
+      "exit_code": 0,
+      "completion_trigger": "success-marker",
+      "degraded": false,
+      "peak_tree_rss_mib": 52.078125,
+      "rss_ceiling_mib": 1536
+    }
+  },
+  "zero_input_stability": {
+    "report": ".superpowers/sdd/scenario41-controller-p224-acceptance-report.md",
+    "cycle_report": ".superpowers/sdd/scenario41-controller-cycle-report.md",
+    "period_frames": 224,
+    "normalized_rgb8_sha256": "094b2c4f94ae1bac4141019c559fb06983386ba9b2ad09faa2e723fe8ac97dec",
+    "replays": [
+      {
+        "name": "p1",
+        "run_id": "89a882a2ede41a4ab06f4f2cccc36906",
+        "input_state_path": "build/scenario-41-controller-entry-inner-a-safe-20260717/frame80.ss9",
+        "input_state_sha256": "7bd7d7b3666162b056c63da9750f531e974353c6083a96e475fbc6f0b4633f81",
+        "output_state_path": "build/scenario-41-controller-entry-cycle-zero-p224-1-20260717/frame224.ss9",
+        "output_state_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+        "capture_frame": 224,
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "audit_path": "build/scenario-41-controller-entry-cycle-zero-p224-1-20260717/audit.json",
+        "audit_sha256": "dc6561dd0616aff9183ebd055bb6e45b4f25b1b9271e754401678d97b806628d",
+        "inspection_path": "build/scenario-41-controller-entry-cycle-zero-p224-1-20260717/inspector-frame224.json",
+        "inspection_sha256": "ace58c5ae62a31bbb35d552399906d5efc209c977e034b4ded5968bf9997cbe0",
+        "guard_reason": "completed",
+        "guard_exit_code": 0,
+        "completion_trigger": "success-marker",
+        "degraded": false,
+        "peak_tree_rss_mib": 51.97265625
+      },
+      {
+        "name": "p2",
+        "run_id": "ad079170d922c5297f6556d2a9672a85",
+        "input_state_path": "build/scenario-41-controller-entry-cycle-zero-p224-1-20260717/frame224.ss9",
+        "input_state_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+        "output_state_path": "build/scenario-41-controller-entry-cycle-zero-p224-2-20260717/frame224.ss9",
+        "output_state_sha256": "31337b507f2337fa9cc4946f88ffc16230a8d16bcbf427688efec2a0302add33",
+        "capture_frame": 224,
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "audit_path": "build/scenario-41-controller-entry-cycle-zero-p224-2-20260717/audit.json",
+        "audit_sha256": "6b737413f252d754d0a2fdd63e60c695579dc18d20be2834f2557164ed9eede4",
+        "inspection_path": "build/scenario-41-controller-entry-cycle-zero-p224-2-20260717/inspector-frame224.json",
+        "inspection_sha256": "b10a77fcf2b045108c2b99acd8f5d3890a2672e10ca62fa204453525e2cba677",
+        "guard_reason": "completed",
+        "guard_exit_code": 0,
+        "completion_trigger": "success-marker",
+        "degraded": false,
+        "peak_tree_rss_mib": 52.07421875
+      }
+    ],
+    "exact_controller_state": {
+      "task_2": {"resume_pc": "0x08073616", "sp": "0x03001224", "lr": "0x08073617"},
+      "raw_return_words": ["0x0808F957", "0x08061C71", "0x08061C95"],
+      "memory_bytes": {"0x0200A880": 0, "0x0200A882": 1, "0x0202680C": 0}
+    }
+  },
+  "resource_residue_crash_boundary": {
+    "heavy_lock_used": true,
+    "minimum_available_mib": 4096,
+    "rss_ceiling_mib": 1536,
+    "owned_pgids_clean": true,
+    "mgba_listener_clean": true,
+    "rom_base_sav_absent": true,
+    "new_crash_reports": 0,
+    "existing_crash_report_sha256": "cb810b0efa9393336203eed283892b6b8cd429f7b51d8fbcce82baf2b2e6ce99"
+  },
+  "superseded_history": [
     {
-      "name": "first-b",
-      "run_id": "f49c95b60c74956e337ca99bfef895c6",
-      "input": {"key": "B", "down_frame": 5, "up_frame": 13, "capture_frame": 80},
-      "input_state_sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
-      "output_state_sha256": "4179486eef7c92307a9a1b116473fedd57ff64650094bb9918028193cd633951",
-      "audit_sha256": "297c2205720ac087203e5e6014fe767a75f05452446db31adcd153d3b35a51d5",
-      "guard_summary_sha256": "c77a214585aa4047df3ddebaba26c66d43b2d7ecb61eb32c487beb4ac55871ba",
-      "child_pgid": 40530,
-      "peak_tree_rss_mib": 51.78515625
+      "status": "superseded",
+      "hypothesis": "B/B/Down",
+      "former_outcome": "not-proven",
+      "reason": "Down was a legal no-op at the 0x08088628 message-box yield; the corrected path enters the list and selects result 2 before nested confirmation.",
+      "run_ids": ["f49c95b60c74956e337ca99bfef895c6", "e2262b1d2b884aa0fbe7b93699068d86", "56cf8aea33052f3a2f8541255a451bc6", "d6b4f692b5bd34a6bca9dc140d9ee201", "53a895bae7cd13282d9d8ea8bb5a1a23", "9203a9c0a12b04d2557f8162e8a0e1ce"],
+      "preserved_report": ".superpowers/sdd/task-4.7-step5-report.md"
     },
     {
-      "name": "first-b-zero-control",
-      "run_id": "e2262b1d2b884aa0fbe7b93699068d86",
-      "inputs": [],
-      "capture_frame": 80,
-      "input_state_sha256": "4179486eef7c92307a9a1b116473fedd57ff64650094bb9918028193cd633951",
-      "output_state_sha256": "d48e98a73c3293d0587d6b39598938cd79b1d74514b20772adde42c9a5d9f7a5",
-      "audit_sha256": "e49ea45798ac65a9d4435f9fe18f3fc933b8c2d2cab31a0f4965ae6a24ebacd4",
-      "guard_summary_sha256": "ac2d44cb0f40ae4fc5328d9f59943cc6a1b95ef64f741d054b59daf3417b6aa6",
-      "task_2_resume_pc": "0x08067D02",
-      "rgb_pixels_sha256": "bf0ffd7484bc0d4c8e2f94af623b265f8f462a891133a0bccf67f757c849d035",
-      "declared_boundary_matches_input": true,
-      "child_pgid": 41672,
-      "peak_tree_rss_mib": 51.890625
+      "status": "superseded",
+      "hypothesis": "outer-B-enters-controller",
+      "former_outcome": "not-proven",
+      "reason": "Outer B wrote cancel result A882=2 and yielded at 0x08088628 without raw 0x0808F957; outer A was required.",
+      "run_id": "360f412f6d5d04b8b7e853e25bb59b6c",
+      "preserved_ledger": "openspec/changes/close-scenario-41-battle-runtime/.comet/subagent-progress.md"
     },
     {
-      "name": "second-b",
-      "run_id": "56cf8aea33052f3a2f8541255a451bc6",
-      "input": {"key": "B", "down_frame": 5, "up_frame": 13, "capture_frame": 80},
-      "input_state_sha256": "d48e98a73c3293d0587d6b39598938cd79b1d74514b20772adde42c9a5d9f7a5",
-      "output_state_sha256": "2b8d2697aab25734d7c14f0fa0392293a11b49c6cb9719b7ba5c21373d958ac6",
-      "audit_sha256": "32c13f72f5f3dc671ce85f2e924b2a141f7581b67f9ce5d371342f39aac3b105",
-      "guard_summary_sha256": "97ffe1be6aadf3cc193ccbc0e2da5c53533e16a54a3f6c1868d784a915e6282c",
-      "child_pgid": 42467,
-      "peak_tree_rss_mib": 52.0
-    },
-    {
-      "name": "second-b-zero-control",
-      "run_id": "d6b4f692b5bd34a6bca9dc140d9ee201",
-      "inputs": [],
-      "capture_frame": 80,
-      "input_state_sha256": "2b8d2697aab25734d7c14f0fa0392293a11b49c6cb9719b7ba5c21373d958ac6",
-      "output_state_sha256": "6b047a226bb915b00153ae36243a0f66b0cb5ca271d7ccffd29f4f8e5e551dd6",
-      "audit_sha256": "13f10f1e4a00245b2068f02a3fa4430fa9b5c607da5f83aac12e2d4c4674255b",
-      "guard_summary_sha256": "3f194b7ec736ddac16af90ca1fb17f81e407be4a8cc886928993bcfb6c64db61",
-      "task_2_resume_pc": "0x08088628",
-      "rgb_pixels_sha256": "a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0",
-      "declared_boundary_matches_input": true,
-      "child_pgid": 43167,
-      "peak_tree_rss_mib": 51.953125
-    },
-    {
-      "name": "down-candidate",
-      "run_id": "53a895bae7cd13282d9d8ea8bb5a1a23",
-      "input": {"key": "Down", "down_frame": 5, "up_frame": 13, "capture_frame": 80},
-      "input_state_sha256": "6b047a226bb915b00153ae36243a0f66b0cb5ca271d7ccffd29f4f8e5e551dd6",
-      "output_state_sha256": "fc68177682b4778ff5bb8ddc2d80ad7e69d98240b4bd7f9168218c6779d0d9d3",
-      "audit_sha256": "5d60819cfc69c56888107570d69a91929385f1a0d8355e1f25a31895cf6b4eef",
-      "guard_summary_sha256": "268413fefaf1ed4081967f88e8b09d94918ed94a3982bb55d69513d369221529",
-      "task_2_resume_pc": "0x08088628",
-      "rgb_pixels_sha256": "a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0",
-      "declared_game_state_changed": false,
-      "child_pgid": 44127,
-      "peak_tree_rss_mib": 51.8515625
-    },
-    {
-      "name": "down-long-capture-retry",
-      "run_id": "9203a9c0a12b04d2557f8162e8a0e1ce",
-      "input": {"key": "Down", "down_frame": 5, "up_frame": 13, "capture_frame": 160},
-      "input_state_sha256": "6b047a226bb915b00153ae36243a0f66b0cb5ca271d7ccffd29f4f8e5e551dd6",
-      "output_state_sha256": "8b9575fbe5ab39233779f296690445b4d6cef0b468087891ea25dc9df0e56f50",
-      "audit_sha256": "6db10328d337a1949bf582596fcd829617b13164278fd240927b6096281dfe0c",
-      "guard_summary_sha256": "dfa78306c1e0bbbb9f95fc08e9fbda74c7a27c3920a343ae9a9321e12805b975",
-      "task_2_resume_pc": "0x08088628",
-      "rgb_pixels_sha256": "a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0",
-      "declared_game_state_changed": false,
-      "child_pgid": 45120,
-      "peak_tree_rss_mib": 51.84765625
+      "status": "superseded",
+      "hypothesis": "outer-A-directly-enters-controller",
+      "former_outcome": "not-proven",
+      "reason": "Outer A reached the stable nested 0x08092FCE boundary; one inner A was still required to capture raw 0x0808F957.",
+      "run_id": "059524d42dd1f665aef1b227310fe957",
+      "preserved_ledger": "openspec/changes/close-scenario-41-battle-runtime/.comet/subagent-progress.md"
     }
   ],
-  "second_b_active_unwind": {
-    "selection": "explicit-stack-slots-with-static-thumb-bl-validation",
-    "raw_return_words": ["0x08088F9F", "0x0808F92D", "0x08061C71", "0x08061C95"],
-    "contains_controller_return_0x0808F957": false
-  },
-  "down_comparison": {
-    "task_2_resume_pc_unchanged": true,
-    "all_task_contexts_unchanged": true,
-    "memory_0x0202680C_unchanged": true,
-    "task_stack_0x03001224_through_0x030012A3_unchanged": true,
-    "normalized_full_screen_rgb_unchanged": true,
-    "long_capture_retry_also_unchanged": true
-  },
-  "resources": {
-    "minimum_available_mib": 4096,
-    "available_mib_before": 5617.262,
-    "available_mib_after": 5546.871,
-    "max_tree_rss_mib": 1536,
-    "wall_timeout_s": 300,
-    "idle_timeout_s": 60,
-    "heavy_lock_used": true,
-    "guard_sample_interval_s": 1.0,
-    "peak_rss_interpretation": "coarse sampled peak because the fixed replay runner exposes no sample-interval CLI",
-    "rom_base_sav_absent_before_and_after": true,
-    "all_owned_pgids_and_mgba_listeners_clean": true
-  },
   "scope_boundary": {
-    "proves": [
-      "two separately zero-verified B boundaries were reached from the accepted pre-controller checkpoint",
-      "the attempted Down had no observable game-state effect at either 80 or 160 capture frames"
-    ],
-    "does_not_prove": [
-      "a valid result-2 selection",
-      "the raw controller caller return 0x0808F957",
-      "controller entry",
-      "player control"
-    ],
-    "final_a_sent": false,
-    "entry_observer_built_or_run": false,
-    "controller_checkpoint_created": false,
-    "step_6_authorized": false
+    "proves": ["stable controller entry"],
+    "does_not_prove": ["player control", "first turn", "MOVEDONE", "victory", "postbattle"]
   },
-  "generated_at": "2026-07-16"
+  "generated_at": "2026-07-17"
 }

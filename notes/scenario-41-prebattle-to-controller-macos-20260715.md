@@ -109,3 +109,20 @@ sampled peak。base ROM `0x0808F952` 的字节 `e3f7affc` 静态解码到 `0x080
 `scenario-41-controller-entry.ss9`，也未进入 Step 6。紧凑证据为
 `artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json`；它只证明本次受限
 尝试为 `not-proven`，不证明 controller entry 或 player control。
+
+## Task 4.7 Step 5 补正：controller entry 已稳定接纳
+
+上述 B → B → Down 结论现作为 superseded 历史保留。静态复核确认 `0x08088628` 是
+message-box yield，Down 合法但无效；后续分段实验证明从 accepted
+`scenario-41-pre-controller-after-a.ss9` 的有效输入序列是
+B → B → A → Down → Down → A → inner B → outer A → inner A。outer B 是 cancel，
+outer A 只进入稳定 nested `0x08092FCE`，最后一个 inner A 才使 task 2 进入
+`0x080732B4` 并在活动栈捕获 raw `0x0808F957`。
+
+raw positive run `9c4631126d8302ae32bc4f0cc0e487db` 之后，两次独立 224-frame
+zero-input replay `89a882a2ede41a4ab06f4f2cccc36906` / `ad079170d922c5297f6556d2a9672a85`
+保持 normalized RGB、task-2 resume/SP/LR、三条 raw return 和 A880/A882/2680C
+完全一致。p1 已固化为 `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`
+（SHA-256 `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6`）。
+该 checkpoint 只证明 stable controller entry；player control、first turn、MOVEDONE、
+victory 与 postbattle 仍未证明。

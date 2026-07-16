@@ -10,8 +10,8 @@
 
 - bank 调查闭合审计为 32/32，分布仍是 13 `runtime_verified` / 10
   `code_verified` / 9 `disproved`；
-- scenario 41 已有稳定 pre-controller lineup/deployment，但尚未证明
-  `0x0808F952 → 0x080732B4` controller entry；
+- scenario 41 已固化稳定 controller-entry checkpoint；活动 raw `0x0808F957` 与
+  `0x0808F952 → 0x080732B4` 静态 BL 门通过，并由两次 224-frame zero-input replay 接纳；
 - 玩家控制、MOVEDONE、胜利、EXP、升级与 postbattle 均为 `not-proven`；
 - `levels` 仍是 `code_verified`，总逆向工程尚未完成；
 - `[0x0202680C]` 只决定 controller 初始局部 `r6`，不是 controller-entry 必要条件。
@@ -160,7 +160,20 @@ checkpoint 的验收只接受：
 达到该门后才观察局部 dispatcher `r6=0x2000/0x3000`，再推进玩家控制、MOVEDONE、
 胜负、result、postbattle 和 levels。旧 screen/battle-map classifier 不再能单独接纳入口。
 
-## 7. macOS 资源与进程约束
+## 7. 2026-07-17 controller-entry 持久化补记
+
+旧 B → B → Down 分支已标为 superseded：Down 发生在 `0x08088628` message-box yield，
+并不改变 selection。纠正后的分段输入为 B → B → A → Down → Down → A → inner B →
+outer A → inner A；outer B 是 cancel，outer A 只进入 nested loop，最后的 inner A 才
+捕获 raw `0x0808F957`。accepted p1 已复制为
+`artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`，其 SHA-256 为
+`4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6`。
+
+维护边界：controller entry 现在 runtime-proven 且 zero-input stable；玩家控制、第一回合、
+MOVEDONE、胜利和 postbattle 仍是 `not-proven`。本变化不修改 32/32 bank 验证数量或
+13/10/9 状态分布。
+
+## 8. macOS 资源与进程约束
 
 不要照搬 Windows Job Object。Mac runner 应使用独立进程组，并记录父子 PID、峰值 RSS、
 wall/idle timeout、退出码与最终残留；只清理本轮 owned process group，禁止按 `mGBA`、

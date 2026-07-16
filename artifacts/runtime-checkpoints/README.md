@@ -45,6 +45,7 @@ Expected SHA-256:
 | `scenario-41-prebattle-menu-candidate.ss9` | `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078` | accepted stable scenario 41 prebattle menu after strict mGBA 0.10.5 zero-input frame-80 replay; still before controller entry |
 | `scenario-41-prebattle-down.ss9` | `c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449` | one audited Down from the accepted prebattle menu, independently stable for 80 zero-input frames; still not controller/player-control evidence |
 | `scenario-41-pre-controller-after-a.ss9` | `1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646` | accepted Down → unique A → 19-frame zero settle; stable pre-controller state only, not controller/player-control evidence |
+| `scenario-41-controller-entry.ss9` | `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6` | accepted stable controller-entry state after two exact 224-frame zero-input replays; not player-control evidence |
 
 ## Scenario 41 checkpoint ledger
 
@@ -126,15 +127,18 @@ task 2 resumes at `0x0806F996`, and explicit slots
 `0x0808F957` is absent, so this checkpoint does not prove controller entry or
 player control and cannot bypass the separate Step 5 controller gate.
 
-Step 5 attempted the statically selected base-ROM sequence from that checkpoint as
-independent segments. The first B and second B each passed a fresh 80-frame zero-input
-replay. The following single Down, however, left task 2 at `0x08088628`, preserved the
-task stack and `[0x0202680C]`, and produced the same normalized RGB SHA-256
-`a2673d496209f1147145e3b16cf0edf31a4ddf4e58d09f59b0e53ad94b5310b0`. The only
-permitted retry from the same input state, with capture extended from 80 to 160 frames,
-was also unchanged. `scenario-41-controller-entry-evidence.json` records this bounded
-`not-proven` result. No final A was sent, raw `0x0808F957` was not captured, no entry
-observer was built, and `scenario-41-controller-entry.ss9` does not exist.
+The earlier Step 5 B → zero → B → zero → Down branch remains preserved as superseded
+history: the Down was a legal no-op at the `0x08088628` message-box yield, not a list
+selection. Static/runtime reconciliation corrected the path to B, B, A, Down, Down, A,
+inner B, outer A, inner A, with each reusable animated boundary independently settled.
+The final inner-A run captured task 2 inside `0x080732B4` with the static-BL-valid raw
+return `0x0808F957`; two independent 224-frame zero-input replays then preserved exact
+RGB `094b2c4f94ae1bac4141019c559fb06983386ba9b2ad09faa2e723fe8ac97dec`, task-2
+resume/SP/LR, all three raw returns, and A880/A882/2680C. The accepted p1 state is now
+`scenario-41-controller-entry.ss9`; `scenario-41-controller-entry-evidence.json` binds
+the accepted lineage and marks the B/B/Down, outer-B and direct outer-A hypotheses as
+superseded rather than deleting them. This proves stable controller entry only. Player
+control, first turn, MOVEDONE, victory and postbattle remain unproven.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate

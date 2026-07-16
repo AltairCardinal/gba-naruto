@@ -119,6 +119,34 @@
       "runtime_boundary": "Accepted lineage is accepted Down -> unique A -> zero settle 19. Two independent 19-frame zero-input replays preserved the full normalized RGB screen, task-2 resume PC, every explicit statically BL-validated active-unwind slot and 0x0202680C. A later B -> zero -> B -> zero sequence was stable, but both the bounded Down candidate and its only longer-capture retry left the declared task, stack, WRAM and full-screen RGB boundary unchanged. No final A was sent, 0x0808F957 was not captured, and no observer or controller checkpoint was created. This checkpoint remains pre-controller only, does not prove controller entry or player control, and has allowed_evidence=[]."
     },
     {
+      "name": "scenario-41-controller-entry",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+      "sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-pre-controller-after-a",
+      "inputs": [
+        "B",
+        "B",
+        "A",
+        "Down",
+        "Down",
+        "A",
+        "B",
+        "A",
+        "A"
+      ],
+      "screen": "scenario-41-controller-entry",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json"
+      ],
+      "runtime_boundary": "The corrected segmented path reaches a static-BL-valid active raw return 0x0808F957 and two independent 224-frame zero-input replays preserve exact RGB, task-2 resume/SP/LR, all three explicit raw returns and A880/A882/2680C. This accepted checkpoint proves stable controller entry only. The validator schema has no controller-entry hook token, so allowed_evidence remains conservatively empty; player control, first turn, MOVEDONE, victory and postbattle remain unproven."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",
