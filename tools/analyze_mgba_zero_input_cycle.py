@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import tempfile
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 
@@ -17,6 +19,8 @@ except ModuleNotFoundError:
 
 MAX_FRAME = 600
 MAX_PERIOD = 300
+GBA_SCREEN_WIDTH = 240
+GBA_SCREEN_HEIGHT = 160
 
 
 class CycleAnalysisError(ValueError):
@@ -41,6 +45,10 @@ def _sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _sha256_bytes(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
 def _require_regular_file(path: Path, label: str) -> Path:
     if path.is_symlink():
         raise CycleAnalysisError(f"{label} must not be a symlink: {path}")
@@ -52,19 +60,27 @@ def _require_regular_file(path: Path, label: str) -> Path:
 def _validate_screen_fingerprint(
     fingerprint: Mapping[str, object], label: str
 ) -> str:
+    if (
+        fingerprint.get("width") != GBA_SCREEN_WIDTH
+        or fingerprint.get("height") != GBA_SCREEN_HEIGHT
+    ):
+        raise CycleAnalysisError(f"{label} must be a 240x160 GBA screen")
     rgb_sha256 = fingerprint.get("rgb_pixels_sha256")
     if not isinstance(rgb_sha256, str):
         raise CycleAnalysisError(f"{label} has no normalized RGB8 SHA-256")
     return rgb_sha256
 
 
-def analyze_frame_directory(frame_dir: Path | str) -> dict[int, str]:
-    directory = Path(frame_dir)
+def _require_frame_directory(path: Path | str) -> Path:
+    directory = Path(path)
     if directory.is_symlink():
         raise CycleAnalysisError(f"frame directory must not be a symlink: {directory}")
     if not directory.is_dir():
         raise CycleAnalysisError(f"frame directory does not exist: {directory}")
+    return directory.resolve(strict=True)
 
+
+def _frame_paths(directory: Path) -> list[Path]:
     expected_names = {f"frame-{frame:04d}.png" for frame in range(1, MAX_FRAME + 1)}
     actual_names = {
         entry.name
@@ -74,13 +90,22 @@ def analyze_frame_directory(frame_dir: Path | str) -> dict[int, str]:
     if actual_names != expected_names:
         raise CycleAnalysisError("cycle sample must contain frames 1..600 exactly once")
 
-    hashes: dict[int, str] = {}
+    paths = []
     for frame in range(1, MAX_FRAME + 1):
         path = directory / f"frame-{frame:04d}.png"
         if path.is_symlink():
             raise CycleAnalysisError(f"frame PNG must not be a symlink: {path}")
         if not path.is_file():
             raise CycleAnalysisError(f"frame PNG is not a regular file: {path}")
+        paths.append(path.resolve(strict=True))
+    return paths
+
+
+def analyze_frame_directory(frame_dir: Path | str) -> dict[int, str]:
+    directory = _require_frame_directory(frame_dir)
+    paths = _frame_paths(directory)
+    hashes: dict[int, str] = {}
+    for frame, path in enumerate(paths, start=1):
         try:
             fingerprint = png_screen_fingerprint(path)
         except (OSError, ValueError) as error:
@@ -91,15 +116,16 @@ def analyze_frame_directory(frame_dir: Path | str) -> dict[int, str]:
     return hashes
 
 
-def _load_audit(path: Path) -> tuple[Path, dict[str, object]]:
+def _load_audit(path: Path) -> tuple[Path, dict[str, object], str]:
     canonical = _require_regular_file(path, "audit")
     try:
-        payload = json.loads(canonical.read_text(encoding="utf-8"))
+        raw_payload = canonical.read_bytes()
+        payload = json.loads(raw_payload.decode("utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as error:
         raise CycleAnalysisError(f"invalid audit JSON: {error}") from error
     if not isinstance(payload, dict):
         raise CycleAnalysisError("audit JSON must be an object")
-    return canonical, payload
+    return canonical, payload, _sha256_bytes(raw_payload)
 
 
 def _require_expected_hash(path: Path, expected: str, label: str) -> str:
@@ -129,6 +155,68 @@ def _validate_diagnostic_audit(
             raise CycleAnalysisError(f"diagnostic audit has invalid {field}")
 
 
+def _prepare_output_path(
+    path: Path,
+    *,
+    protected_files: Sequence[Path],
+    frame_directory: Path,
+) -> Path:
+    absolute = Path(os.path.abspath(os.path.expanduser(str(path))))
+    if absolute.is_symlink():
+        raise CycleAnalysisError(f"output must not be a symlink: {absolute}")
+    try:
+        absolute.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        raise CycleAnalysisError(f"output must be fresh and not already exist: {absolute}")
+
+    parent = absolute.parent
+    if parent.is_symlink() or not parent.is_dir():
+        raise CycleAnalysisError(f"output parent must be an existing real directory: {parent}")
+    canonical = absolute.resolve(strict=False)
+    if canonical in {protected.resolve(strict=True) for protected in protected_files}:
+        raise CycleAnalysisError(f"output overlaps an input evidence file: {canonical}")
+    if canonical == frame_directory or frame_directory in canonical.parents:
+        raise CycleAnalysisError(f"output must be outside the frame directory: {canonical}")
+    return canonical
+
+
+def _snapshot_files(paths: Sequence[Path], label: str) -> dict[Path, str]:
+    snapshot: dict[Path, str] = {}
+    for path in paths:
+        canonical = _require_regular_file(path, label)
+        snapshot[canonical] = _sha256_file(canonical)
+    return snapshot
+
+
+def _require_snapshot_unchanged(
+    expected: Mapping[Path, str], label: str
+) -> None:
+    actual = _snapshot_files(list(expected), label)
+    if actual != dict(expected):
+        raise CycleAnalysisError(f"{label} changed during analysis")
+
+
+def _atomic_write_text(path: Path, payload: str) -> None:
+    if path.is_symlink() or path.exists():
+        raise CycleAnalysisError(f"output ceased to be fresh before publish: {path}")
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent, prefix=f".{path.name}.", suffix=".tmp"
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if path.is_symlink() or path.exists():
+            raise CycleAnalysisError(f"output ceased to be fresh before publish: {path}")
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline-png", type=Path, required=True)
@@ -145,15 +233,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     baseline = _require_regular_file(args.baseline_png, "baseline PNG")
     sampler = _require_regular_file(args.sampler, "sampler")
+    audit_input = _require_regular_file(args.audit, "audit")
+    frame_directory = _require_frame_directory(args.frame_dir)
+    frame_paths = _frame_paths(frame_directory)
+    output = _prepare_output_path(
+        args.output,
+        protected_files=(baseline, sampler, audit_input),
+        frame_directory=frame_directory,
+    )
     baseline_file_sha256 = _require_expected_hash(
         baseline, args.expected_baseline_png_sha256, "baseline PNG"
     )
     sampler_sha256 = _require_expected_hash(
         sampler, args.expected_sampler_sha256, "sampler"
     )
-    audit_path, audit = _load_audit(args.audit)
+    audit_path, audit, audit_sha256 = _load_audit(audit_input)
     _validate_diagnostic_audit(audit, sampler, sampler_sha256)
-    audit_sha256 = _sha256_file(audit_path)
+    critical_snapshot = _snapshot_files(
+        [baseline, sampler, audit_path, *frame_paths], "critical input"
+    )
 
     try:
         baseline_fingerprint = png_screen_fingerprint(baseline)
@@ -165,6 +263,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     frame_hashes = analyze_frame_directory(args.frame_dir)
     period = select_exact_period(baseline_rgb_sha256, frame_hashes)
 
+    _require_expected_hash(
+        baseline, args.expected_baseline_png_sha256, "baseline PNG"
+    )
+    _require_expected_hash(sampler, args.expected_sampler_sha256, "sampler")
+    if _sha256_file(audit_path) != audit_sha256:
+        raise CycleAnalysisError("audit changed during analysis")
+    _require_snapshot_unchanged(critical_snapshot, "critical input")
+
     report = {
         "schema_version": 1,
         "status": "cycle-found" if period is not None else "not-proven",
@@ -175,13 +281,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             "file_sha256": baseline_file_sha256,
             "rgb_sha256": baseline_rgb_sha256,
         },
-        "frame_directory": str(Path(args.frame_dir).resolve(strict=True)),
+        "frame_directory": str(frame_directory),
         "frame_rgb_sha256": frame_hashes,
         "sampler": {"path": str(sampler), "sha256": sampler_sha256},
         "audit": {"path": str(audit_path), "sha256": audit_sha256},
     }
-    args.output.write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    _atomic_write_text(
+        output, json.dumps(report, indent=2, sort_keys=True) + "\n"
     )
     return 0
 

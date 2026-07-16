@@ -419,12 +419,18 @@ python3 tools/analyze_mgba_zero_input_cycle.py \
   --output build/cycle-sample/cycle-analysis.json
 ```
 
-The analyzer requires exactly 600 non-symlink `frame-%04d.png` files, reuses the strict
-RGB8 PNG fingerprint decoder, and accepts only an audit with
+The analyzer requires a `240x160` normalized RGB8 baseline plus exactly 600 non-symlink
+`240x160` `frame-%04d.png` files, reuses the strict RGB8 PNG fingerprint decoder, and
+accepts only an audit with
 `evidence_mode=script-order-diagnostic`, `zero_input_verified=false`, `inputs=[]`,
 `capture_frame=600`, and exactly one sampler path/SHA binding. Its JSON records all 600
 RGB hashes, baseline/sampler/audit provenance, and either the smallest period with
 matching frames `[0,p,2p]` or `status=not-proven`.
+
+The output must be a fresh non-symlink path outside the frame directory and must not
+overlap the baseline, sampler, or audit. The analyzer revalidates those inputs and all
+600 frame files before publishing the JSON through an atomic same-directory replace;
+any provenance drift fails closed without replacing input evidence.
 
 Evidence boundary: this diagnostic can only choose a candidate period. It is not
 zero-input acceptance evidence, does not accept or update a checkpoint, and does not
