@@ -2,9 +2,30 @@
 
 - plan task: `Task 4.7 Step 1: 以 TDD 实现独立 single-input native runner`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
-- stage: `quality-review`
+- stage: `done`
 - review_mode: `thorough`
-- review_fix_round: `0/2`
+- review_fix_round: `1/2`
+- reviewer: `/root/scenario41_task47_step1_review`
+- review package: `.superpowers/sdd/review-b5ab04f..f252dbd-task-4.7-step1.diff`
+- review dispatched: `2026-07-16T06:37:00+08:00`
+- review result: `Spec CHANGES REQUESTED / Quality CHANGES REQUESTED`
+- unresolved feedback: `none`
+- fix agent: `/root/scenario41_task47_step1_fix1`
+- fix dispatched: `2026-07-16T13:20:44+08:00`
+- fix result: `DONE`
+- fix commit: `c6841c86258fbd7f58455b55a1b8edc9f192488c`
+- fix changed files:
+  - `.superpowers/sdd/task-4.7-step1-report.md`
+  - `tests/test_run_macos_mgba_single_input.py`
+- fix evidence: `16-test reconstructed RED; post-run source-save mutation RED; focused 17/17 GREEN; combined 72 tests with one expected skip; compile/Lua/hash/diff checks PASS; production runner unchanged`
+- parent verification: `focused 17/17; combined 72 tests with one expected skip; compile/Lua/hash/diff/scope PASS; no mGBA/QEMU residue`
+- re-reviewer: `/root/scenario41_task47_step1_rereview`
+- re-review packages:
+  - `.superpowers/sdd/review-b5ab04f..f252dbd-task-4.7-step1.diff`
+  - `.superpowers/sdd/review-f400544..c6841c8-task-4.7-step1-fix1.diff`
+- re-review dispatched: `2026-07-16T13:39:11+08:00`
+- re-review result: `Spec APPROVED / Quality APPROVED; Critical 0, Important 0, Minor 0`
+- checkoff: `Task 4.7 Step 1 checked; OpenSpec 3.5 deferred until the full six-step Task 4.7 chain is complete`
 - implementation commit: `f252dbd922062294b51fa3da58f4b157751b43ef`
 - changed files:
   - `.superpowers/sdd/task-4.7-step1-report.md`
@@ -17,4 +38,4 @@
   - `tools/run_macos_mgba_single_input.py`
 - RED evidence: `python3 -m unittest tests.test_run_macos_mgba_single_input tests.test_macos_mgba_runtime_residue -v` → expected failure, 14 tests / 15 errors because the fixed Lua and both Python modules did not exist
 - GREEN evidence: focused refactor run passed 16 tests; combined single-input/residue/acceptance/zero-input/resource-guard regression passed 71 tests with one expected Windows-only skip; Python compilation, both Lua syntax checks, pinned hashes, and `git diff --check` passed
-- review note: implementation report exists; no ROM/input run; bounded thorough review pending
+- review note: implementation and review-fix reports exist; no ROM/input run; bounded thorough review passed

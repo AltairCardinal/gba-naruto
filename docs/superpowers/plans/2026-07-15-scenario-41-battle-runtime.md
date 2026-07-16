@@ -526,7 +526,7 @@ Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 
 - Produces: `validate_single_input(key: str, down_frame: int, up_frame: int, capture_frame: int) -> None`, shared read-only `probe_runtime_residue(pgid: int) -> dict[str, object]`, one fixed single-input Lua contract, guarded state/PNG/audit/sentinel output, an accepted Down snapshot only after zero-input stability, and optionally a controller-entry checkpoint.
 - Global stop gate: A is forbidden until Down candidate is accepted; player-control work is forbidden until raw `0x0808F957` is in the statically validated active unwind or a fresh entry observer proves `0x0808F952 → 0x080732B4`.
 
-- [ ] **Step 1: 以 TDD 实现独立 single-input native runner**
+- [x] **Step 1: 以 TDD 实现独立 single-input native runner**
 
 先写 `tests/test_run_macos_mgba_single_input.py`。RED 必须覆盖：
 
