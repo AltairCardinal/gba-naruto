@@ -30,17 +30,17 @@
 - Consumes: existing `listener_owner_pids(host, port)` and `connection_owner_pids(server_local, server_remote)` callers.
 - Produces: the same return types on Darwin (`set[int]` and `list[int]`) without changing `run_probe()` or the evidence schema.
 
-- [ ] **Step 1: Write failing parser/filter tests**
+- [x] **Step 1: Write failing parser/filter tests**
 
 Add tests with an `lsof -FpnT` fixture containing two PIDs, a LISTEN record, the target ESTABLISHED direction, its client-side reverse direction, and unrelated ports. Require a focused parser to return records with exact PID/state/local/remote endpoints; require listener and connection filters to select only the server owner. Add malformed PID, missing endpoint/state, subprocess timeout/failure, and ambiguous-owner cases.
 
-- [ ] **Step 2: Run RED**
+- [x] **Step 2: Run RED**
 
 Run: `python3 -m unittest tests.test_mgba_gdb_probe`
 
 Expected: FAIL because the Darwin lsof record/parser/query functions do not exist and current owner helpers raise the Windows-only error.
 
-- [ ] **Step 3: Implement the minimal Darwin adapter**
+- [x] **Step 3: Implement the minimal Darwin adapter**
 
 Add one immutable record type with `pid`, `state`, `local`, and optional `remote`. Parse only these field records:
 
@@ -54,11 +54,11 @@ TST=ESTABLISHED
 
 Run `/usr/sbin/lsof` with an argv list (no shell), `-nP -FpnT -iTCP:<port>`, captured text and a finite timeout. Validate decimal PID, numeric IPv4 endpoint/port, known LISTEN/ESTABLISHED state, and complete records. On `os.name == "nt"`, retain existing table code; on Darwin/POSIX, dispatch to the lsof implementation. Return all exact owners so the existing caller continues to reject zero, multiple, or mismatched PID.
 
-- [ ] **Step 4: Add real Darwin integration coverage**
+- [x] **Step 4: Add real Darwin integration coverage**
 
 Under `@unittest.skipUnless(sys.platform == "darwin", ...)`, create a loopback listener owned by the current Python PID and assert the real listener query returns that PID. Create one accepted loopback connection and assert the exact server-local/client-peer query returns the current PID. Close all sockets in `finally`.
 
-- [ ] **Step 5: Run GREEN and related verification**
+- [x] **Step 5: Run GREEN and related verification**
 
 Run:
 
@@ -71,7 +71,7 @@ git diff --check
 
 Expected: all pass; Windows-only tests remain skipped only on non-Windows; Darwin integration tests pass on this host.
 
-- [ ] **Step 6: Commit and review**
+- [x] **Step 6: Commit and review**
 
 Commit only the three scoped files with message `fix(re): verify mGBA GDB owners on macOS`. Generate a review package from the recorded base and require fresh reviewer verdicts `Spec PASS` and `Quality APPROVED` before runtime.
 
