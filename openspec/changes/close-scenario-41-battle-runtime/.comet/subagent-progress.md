@@ -1,40 +1,109 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照`
+- plan task: `Task 4.7 Step 5: 只按 controller 门槛接纳，不用画面分类替代`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
-- stage: `done`
+- stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_cycle_zero_replay`
-- report: `.superpowers/sdd/task-4.7-step4c-report.md`
-- implementation status: `DONE`
-- implementation commit: `e726bc4`
-- review package: `.superpowers/sdd/review-0db9c8d..e726bc4.diff`
-- runtime result: `accepted pre-controller A checkpoint after two independent p=19 zero-input replays`
-- runtime runs: `dae5070e1b87e5d58dae0137888f9c57 then b5fa01bd561aff630ebb88148ad12131`
-- runtime guards: `both completed/0, non-degraded, PGID 24663/25620 clean; peak RSS 0.12890625/0.17578125 MiB`
-- exact acceptance: `candidate/p/2p normalized RGB SHA 29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005; task 2 resume PC 0x0806F996; active slots 0x03001234/40/78; [0x0202680C]=0 all identical`
-- checkpoint: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9 @ 1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646`
-- implementation verification: `81 tests PASS, 1 Windows-only skip; ledger accepted=6 errors=0; diff/hash/JSON/residue/Goal postchecks PASS`
-- reviewer: `/root/scenario41_cycle_zero_review`
-- review result: `APPROVED; Critical 0, Important 0, one accepted Minor`
-- parent verification: `111 relevant tests PASS (1 Windows-only skip); ledger accepted=6 errors=0; state lineage/checkpoint/audit/guard/source SAV/memory PASS`
-- accepted minor: `1s guard sampling interval makes 0.12890625/0.17578125 MiB a coarse startup sample rather than a trustworthy physical peak; guard was functioning and current mechanical RSS gate passed; future short replay evidence should shorten sampling or label coarse peak`
-- checkoff: `plan Step 4C checked; OpenSpec 3.5 remains unchecked because controller entry is not proven`
-- next task: `Task 4.7 Step 5: 只按 controller 门槛接纳，不用画面分类替代`
-- dependency: `Step 4B accepted at 0db9c8d; cycle-analysis status=cycle-found; smallest p=19`
-- input state: `build/scenario-41-controller-a-20260715/after-a.ss9 @ 43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8`
-- input PNG: `build/scenario-41-controller-a-20260715/after-a.png @ efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85`
-- first runtime output: `build/scenario-41-controller-a-cycle-zero-p19-1-20260716/`
-- second runtime output: `build/scenario-41-controller-a-cycle-zero-p19-2-20260716/`
-- runtime boundary: `two independent 19-frame runs; evidence_mode=zero-input; inputs=[]; pre_scripts=[]; second input is first output state`
-- acceptance boundary: `candidate/png-p/png-2p normalized RGB8 identical; task 2 resume PC/all explicit static-BL-valid unwind slots/[0x0202680C] identical; all pinned hashes/audits/guards/residue pass`
-- accepted output: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9 plus compact evidence/ledger/README/note/roadmap only if every gate passes`
-- rejection boundary: `any mismatch persists not-proven and stops before Step 5; no checkpoint acceptance`
-- evidence claim boundary: `allowed_evidence=[]; this task never proves controller entry or player control`
-- guard: `existing replay runner heavy lock; min available 4096 MiB; max tree RSS 1536 MiB; wall 300s; idle 60s; check memory and residue before/between/after runs`
-- source safety: `rom/base.sav absent before/between/after; only clean owned process tree`
-- preflight adjudication: `pre-existing user Google Chrome PGID 95724 is excluded, not project-owned and not a heavy-lock holder; parent verified heavy.lock free, memory 66%, no relevant listener; it must not be terminated and does not block guarded mGBA`
-- code boundary: `no production-code changes; if existing tooling cannot satisfy the plan, return NEEDS_CONTEXT rather than widening scope`
-- commit permission: `one focused local commit only for accepted compact/tracked artifacts; raw build outputs and ignored report are not committed; no push`
-- previous task: `Step 4B APPROVED, 600/600 frames, p=19, peak RSS 52.51953125 MiB, no residue`
+- implementer: `/root/mgba_safe_termination_guard` (safe termination plan Task 1); completed runtime agents/review/static path recorded below`
+- report: `.superpowers/sdd/task-4.7-step5-report.md`
+- implementation status: `DONE_WITH_CONCERNS`
+- implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
+- code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
+- code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
+- runtime progress: `first B run f49c95b60c74956e337ca99bfef895c6; only B at 5/13, capture 80; completed/0; PGID 40530 clean; coarse sampled RSS 51.785 MiB; output state 4179486e...3951`
+- current boundary: `first-B offline inspection in progress; task2 SP 0x030011D8, resume PC 0x08067D02, [0x0202680C]=0; no second input authorized until zero-control/context gates pass`
+- first-B acceptance: `zero run e226... preserved task/resume/explicit unwind/[0x0202680C]/full RGB exactly; f49c... remained inside 0x080884DC menu-call cleanup, not a completed outer return`
+- second-B progress: `single-input run 56cf... reached task2 resume 0x08088628 with unwind beginning 0x08088F9F -> 0x080884DC; zero run d6b4... preserved the boundary exactly; guards/residue clean`
+- next input: `single Down from accepted second-B state, then independent zero-control; only after pass may final single A run`
+- final runtime result: `strict not-proven; Down run 53a8... at capture 80 and sole same-input long retry 9203... at capture 160 both left task2 resume 0x08088628, all tasks, task stack 0x03001224..0x030012A3, [0x0202680C], and full RGB a2673d...10b0 unchanged from second-B zero`
+- stop enforcement: `no A sent; no observer built/run; no controller checkpoint; Step 6 not entered`
+- evidence commit: `39afd4d contains five compact not-proven files; no raw build or unrelated user hunk; no push`
+- implementation verification: `64/64 tests PASS; ledger accepted=6 candidate=0 rejected=1 errors=0; JSON/compile/diff/residue/base.sav/controller-checkpoint-absence PASS`
+- reviewer: `/root/scenario41_controller_entry_review`
+- root-cause analyst: `/root/scenario41_down_static_analysis` (read-only, bounded address window; previous broad analyst was cost-stopped without usable output)
+- failure-branch review result: `APPROVED; Critical 0, Important 0; Minor only that report shorthand WRAM means declared [0x0202680C], while timer-like 0x02031204..05 changes with elapsed frames`
+- static root cause: `0x080884DC bounded window tests only A bit 0x0001 at 0x0808857C..98 and B bit 0x0002 at 0x080885A0..B8; 0x08088628 is yield-return cmp r7, not a direction dispatcher; Down 0x0080 is a legal no-op because the UI is a tutorial/message box, not a selection list`
+- parent static verification: `base ROM bytes at 0x0808857C show A mask 01 20/08 40, literal 0x0300000E at 0x0808859C, B mask 02 20/08 40; bytes at 0x08088622 decode movs r0,1; bl; cmp r7,0; bne`
+- revised bounded experiment: `from accepted second-B zero frame80.ss9 @ 6b047a226bb915b00153ae36243a0f66b0cb5ca271d7ccffd29f4f8e5e551dd6 send exactly one A at 5/13/capture80; if valid, independent zero-input replay before acceptance; never consume either invalid Down output`
+- revised acceptance: `only explicit static-BL-valid 0x0808F957 active unwind or post-load fresh entry observer; A/RGB/UI change alone is insufficient`
+- corrected-A run: `fa3e216ebc4989de03f5da5eb479c7d3 from second-B zero; exactly A at 5/13/capture80; output state e99f8895...9521; completed/0; coarse RSS 51.996 MiB; PGID 57698/listener clean`
+- corrected-A result: `real transition: task2 resume/SP 0x08088628/0x03001224 -> 0x08067D02/0x030011D8 and RGB a2673d...10b0 -> 15d0d9...948c; five explicit valid returns 0x080885C1/0x08088F9F/0x0808F92D/0x08061C71/0x08061C95 exclude 0x0808F957`
+- corrected-A boundary: `does not prove controller; no zero-control yet, no observer/checkpoint/tracked evidence; next fresh agent must zero-validate this transitioned menu and bound static direction handling before any new input`
+- corrected-A zero: `run 6b03624e0727dcd3bcf958b8b2298bcd; output state 840f76da4f1a9289214b1b70b238f05abca58db054041621288bfaaa30cda8b8; completed/0; coarse RSS 52.0234375 MiB; PGID 60981/listener clean; tasks/task2/unwind/[0x0202680C]/four RGB fingerprints exact`
+- stable menu boundary: `task2 resume 0x08067D02 inside 0x08067158 list handler; active return 0x080885C1 proves caller 0x080885BC`
+- parent caller-path decision: `handler A path 0x08067F3A..58 writes result byte 1 at 0x0200A880; B path 0x08067F64..8C writes result 2; caller 0x080885C0..D0 waits [0x0200A882]==1 then branches away unless [0x0200A880]==2; therefore next justified input is B, not generic UI-confirm A`
+- next bounded run: `from corrected-A zero output 840f76da...a8b8 send exactly one B at 5/13/capture80; no retry or other input; inspect exact controller gate before any continuation`
+- result2-B diagnostic: `run 2c66b1ab04d86607dcc3d8b263e20ccf from corrected-A zero; B changes task2 0x08067D02 -> 0x08088628 and RGB 15d0d9...948c -> a2673d...10b0; [0x0200A880] remains 0, [0x0200A882] 0 -> 2; no 0x0808F957; output is not consumed`
+- corrected field semantics: `0x0200A882 is the handler result code (A path writes 1, B path writes 2); caller requires code 1 then checks list selection/result byte 0x0200A880 == 2. Therefore B is cancel/result-code 2, not the desired list selection 2`
+- revised list path: `return to corrected-A zero stable list state 840f76da...a8b8 where A880=0/A882=0; send one Down, inspect whether A880 advances, and zero-validate before any second Down or A`
+- list-down1 result: `run cdac3e1a63ef8a48194e4355d58ae4bc; one Down advances A880 0 -> 1 with A882=0; task2/unwind/[0x0202680C] stable; output state 0dce56f3...f2f8b; candidate PNG file SHA 4e34a4f7...f612`
+- list-down1 zero diagnostic: `run 859e7df50eab06d30a54691d6c117156; selection/task/unwind/WRAM stable but exact RGB 210006c6...a062 -> 62efb107...423b; zero output db04bf29...a87835 is not consumable`
+- animation resolution: `reuse reviewed fixed 600-frame cycle sampler/analyzer on original list-down1 candidate, then two independent p-frame zero replays; no masks or relaxed pixel gate`
+- cycle sample input: `build/scenario-41-controller-entry-list-down1-20260716/after-down.ss9 @ 0dce56f3c8fe3e205966fc0332012398d5e9ac579f14dc9a66c621d88d7f2f8b; baseline after-down.png file SHA 4e34a4f79d1390945b9daaa50781e0566c4053193e72986e3a572242da47f612`
+- cycle sample result: `run ea77c979bd05f21a32262bff309b2848; smallest p=24; H0=H24=H48=210006c6...a062; guard completed/0; peak RSS 52.37890625 MiB; 600 regular non-symlink frames; analysis d3f67e3a...2013e; residue clean`
+- cycle acceptance next: `two independent 24-frame zero-input replays: original list-down1 candidate -> p state -> 2p state; require candidate/p/2p exact RGB and selection/task/unwind/declared WRAM plus audit/guard/hash/residue; only first p output may feed second Down`
+- list-down1 cycle acceptance: `run 06334868480a29614b982a19cab8b5ac then 3577999573081ff345ebb4e9edc7aed4; candidate/p/2p six RGB fingerprints 210006c6...a062; A880=1/A882=0/tasks/unwind/2680C exact; guards completed/0 and residue clean`
+- second-Down source: `build/scenario-41-controller-entry-list-down1-cycle-zero-p24-1-20260716/frame24.ss9 @ 9df7b84195e868bc50c5e233872256d403b7c7a5ee621a935954e73d3febec5c`
+- second-Down next: `send exactly one Down; require A880 1 -> 2 and A882=0; perform one independent zero-control only; no A until a full exact-pixel stable selection=2 boundary is accepted`
+- list-down2 result: `run 5fec5defd5293c80d16c5deb6fc4255c; A880 1 -> 2, A882=0; task/unwind/2680C stable; candidate state 534c067e0fe0c421229255a243004221655b637aeb719b8fa70484bb38a1200a; PNG file SHA 945c1eee8c9e3cec40ce6deeb12005d60efd445a55ca5c165f45648f0620f773`
+- list-down2 zero diagnostic: `run 2a3ff038ea4c0370767b341fc697d26c; semantics stable but exact RGB e3d0b83d...df58 -> 66657cb9...8740; output dd7f785a...a6ee is not consumable`
+- selection2 animation resolution: `run fixed 600-frame sample/analyzer from original list-down2 candidate, then two exact p-frame zero replays before A`
+- selection2 cycle result: `run aea30721ae3bf52919baf6ca98d37334; smallest p=24; H0=H24=H48=e3d0b83d25684308521359c86f482e568732059d4efaa87e1ee2f326d646df58; guard completed/0; RSS 52.1953125 MiB; analysis 332640b1...fd3e; residue clean`
+- gated completion sequence: `two p24 zero replays from list-down2 candidate; if exact accepted, send one A from first p state; if A active unwind contains static-valid 0x0808F957, run one controller zero replay and accept checkpoint; otherwise stop for fresh entry observer/static diagnosis`
+- dependency: `Step 4C accepted at e726bc4/17248ac; stable input checkpoint artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9 @ 1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646`
+- execution decision: `follow the checked lineup control-flow with segmented base-ROM B -> B -> Down -> A; zero-input validate every reusable intermediate; test raw-return gate first; use a fresh entry observer only if the entry is too transient to capture`
+- design source: `docs/superpowers/plans/2026-07-15-scenario-41-lineup-to-controller.md plus current Step 5 gate; current macOS segmentation rules override its old combined Down+A/browser mechanics`
+- code scope: `TDD may minimally extend fixed single-input Lua/runner from Down|A to B; update its tests/README; no arbitrary scripts, multiple keys, adaptive/recovery/automatic input`
+- runtime boundary: `one explicit input per guarded run; fresh output dirs; zero-input replay before consuming each intermediate; existing heavy lock and owned-PGID guard; available memory >=4096 MiB; rom/base.sav absent`
+- controller acceptance path 1: `new current task-2 explicit static-BL-valid active-unwind slot contains raw 0x0808F957 and base ROM decodes 0x0808F952 -> 0x080732B4`
+- controller acceptance path 2: `independent entry observer is loaded before the final transition, post-load baseline is explicit, and a fresh hit proves 0x0808F952 -> 0x080732B4`
+- forbidden claims: `battle/map/formation/white-grid classifiers are supplementary only; no controller/player-control acceptance without exact address gate`
+- acceptance output: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9 plus compact evidence/ledger/README/note/roadmap only after gate; does not yet prove player control`
+- stop condition: `any segmented input/zero-control/guard/hash/address gate failure persists candidate/not-proven and stops Task 6; no blind extra key`
+- resource note: `future short replays must use shorter guard sampling interval when existing CLI permits, or label peak_tree_rss_mib as coarse sampled peak; never weaken RSS ceiling`
+- commit permission: `focused local commits for TDD code and accepted compact evidence; no raw build; no push; implementer does not check off plan/OpenSpec or enter Step 6`
+- previous task: `Step 4C APPROVED; 111 tests PASS; ledger accepted=6 errors=0; checkpoint p=19 accepted but controller return absent`
+- selection2 cycle acceptance: `Gate1 runs bc3508d8 and 30abf094; candidate/p/2p six RGB fingerprints e3d0b83d...df58; A880=2/A882=0/tasks/unwind/2680C exact; guards completed/0 and residue clean; first p state a262f179...a2af is the sole final-A input`
+- final-A result: `run 18a53be8233db0250da0b44e9a4b7fcd; exactly one A at 5/13/capture80; output state 56710c1d...4646; task2 moved 0x08067D02/SP 0x030011D8 -> 0x08092FCE/SP 0x030011E8; guard completed/0; RSS 51.92578125 MiB; residue clean`
+- final-A gate: `base ROM statically decodes 0x0808F952 -> 0x080732B4, but active valid returns are 0x080885EF/0x08088F9F/0x0808F92D/0x08061C71/0x08061C95 and exclude 0x0808F957; path1 fails, so no zero replay/checkpoint/tracked evidence/commit was allowed`
+- current stop: `do not consume final-A state until read-only review and bounded static analysis of 0x08092FCE determine the next legal natural transition or justify a fresh pre-transition entry observer`
+- final-A review: `APPROVED after focused re-review; p1 534c...->a262..., p2 and final-A both consume a262...; p1/p2 zero-only; final-A unique A 5/13; three inspectors preserve A880=2/A882=0/2680C=0; final active returns exclude 0x0808F957; guards/residue clean`
+- post-confirm static path: `0x08092FCE inner loop reads 0x0300000E; Left/Right only move, A exits while overwriting selection via A880=sl, B exits while preserving A880=2; return 0x080885EE then outer handler requires a second B so 0x080884DC returns 2, leading 0x0808FA10 state 0x0110 -> 0x0808F92E -> 0x0808F952->0x080732B4`
+- next runtime gate: `before first B, zero-validate final-A state 56710c1d...4646; if exact RGB fails but semantics hold, accept only via one 600-frame cycle sample plus candidate->p->2p exact zero replays; no key/observer during this task`
+- final-A zero acceptance: `run 325cd2197a925afbbecd3b238101a535; input 56710c1d...4646 -> output 1c4b1796...f571; input/output PNG file SHA exact 42594a94...aebd; tasks/task2 0x08092FCE/SP 0x030011E8/unwind/A880=2/A882=0/2680C exact; guard completed/0 RSS 51.953125 MiB; residue/base.sav clean`
+- next unique input: `from accepted final-A zero output 1c4b1796...f571 send exactly one inner B 5/13/capture80 without observer; accept only if it leaves 0x08092FCE while preserving A880=2 and reaches the outer 0x0808857C input boundary, then zero-validate before the observer-equipped second B`
+- rejected inner-B run: `run 5dfb9483ce39c40720e94ab5b9a54aa8 wrote candidate state 325dd862...00e0 but guard child-exit/-6; state is forbidden for consumption even though capture files exist; RSS 51.99609375 MiB and residue/base.sav clean`
+- crash root cause: `macOS crash report mGBA-2026-07-17-000155.ips identifies SIGABRT on CPU Thread: Lua os_exit -> libc exit -> QtGui/QtCore QObjectPrivate destruction -> malloc_zone_error; this is Qt wrong-thread teardown after capture, not ROM crash`
+- safe termination decision: `do not retry the race or weaken guard; optional fresh success-marker makes run_guarded terminate only its owned process group and report completed/0; fixed Lua writes marker last and never calls os.exit; runner still validates marker plus all evidence/provenance/residue`
+- safe termination design/plan: `51de86f docs/re design; 226ba1c implementation plan; Task 1 guard TDD dispatched to /root/mgba_safe_termination_guard; old failed state remains rejected until Task 2 and a fresh real B pass`
+- safe termination Task 1 result: `efaea1c guard marker implementation + cb60018 failure-metadata fix; RED/GREEN evidence in .superpowers/sdd/task-1-report.md; 47 tests PASS, 1 Windows-only skip; independent re-review APPROVED with no findings`
+- safe termination next: `Task 2 implements fixed Lua/runner marker contract under TDD, then reruns inner B in a fresh directory; rejected 325dd862...00e0 remains forbidden`
+- safe termination Task 2 result: `6a6fa4f fixed both Lua/runners; 88 tests PASS + 1 platform skip; unique inner-B run 95e4ff88f28908b10a57b52d32865c00 completed/0 via success-marker, RSS 52.043 MiB, no new crash report, residue/base.sav clean; independent review APPROVED`
+- safe inner-B candidate: `build/scenario-41-controller-entry-inner-b-safe-20260717/frame80.ss9 @ b288b3210dcda6155e614134530a1b6b7419e0fd92135efe4049f3dbab595659; task2 0x08067D02/SP 0x030011D8, returns 0x080885C1/0x08088F9F/0x0808F92D/0x08061C71/0x08061C95, A880=2/A882=0/2680C=0; not consumable until zero-input replay passes`
+- next runtime step: `zero-input replay safe inner-B candidate in a fresh directory; require exact task/unwind/A880/A882/2680C and exact PNG/RGB plus marker/guard/hash/residue; no second B during zero validation`
+- inner-B zero result: `run 16beebb4213f3eb9ff2a33da977c8bf7 completed/0 via success-marker, RSS 52.105 MiB; task2/unwind/A880=2/A882=0/2680C stable, but exact RGB 5c364b...c0b -> e3d0b...f58; output 0755df90...51da is candidate/not accepted; no retry/input/cycle; read-only review APPROVED (Minor: single-run uniqueness is evidence-consistent but not absolute from overwriteable dir)`
+- inner-B animation next: `run the existing fixed 600-frame zero-input sampler/analyzer from original safe inner-B candidate b288b321...5659; diagnostic selects smallest exact p only and cannot accept state; no second B`
+- inner-B cycle result: `run 9e39f18ef342f9482af1fd39681da615; strict 600-frame zero-input diagnostic completed/0 via success-marker, RSS 52.262 MiB; smallest exact period p=23 with H0=H23=H46=5c364b...c0b and p1..22 rejected; independent review APPROVED; frame600 state remains unconsumed`
+- inner-B cycle acceptance next: `two independent 23-frame zero-input replays: original safe inner-B candidate -> p1 -> p2; require candidate/p1/p2 exact normalized RGB plus task2/unwind/A880/A882/2680C and full guard/provenance/residue; only p1 may become stable input for observer-equipped second B`
+- inner-B p23 acceptance: `p1 run 6bc5f68ca2819c46a2fee56006374130 -> 14b711b7...f6df; p2 run 22160c4d39270daa1e6a834dc0d3b1a1 -> d9cd7846...cad4; all three RGB 5c364b...c0b and task2/unwind/A880=2/A882=0/2680C exact; guards/residue/crash clean; p1 accepted as sole stable next input, p2 corroboration; independent review APPROVED with RSS coarse-sampling Minor`
+- second-B gate next: `from p1 14b711b7...f6df on base ROM send exactly one B 5/13/capture80; first test static-valid active-unwind raw 0x0808F957; only if absent consider a separately designed fresh entry observer; no extra input`
+- outer-B rejected branch: `run 360f412f6d5d04b8b7e853e25bb59b6c -> 9b64d571...325a; completed/0 success-marker RSS 51.973 MiB; task2 0x08088628/SP 0x03001224, A880=2/A882=2, returns exclude 0x0808F957; candidate/not-proven; independent evidence review APPROVED`
+- corrected static semantics: `at stable 0x08067D02/A880=2/A882=0, A path 0x08067F4C writes A882=1 and caller 0x080885C4 then captures A880=2; B path 0x08067F7E writes cancel A882=2 and yields 0x08088628. A result propagates 0x080884DC return2 -> 0x08088F10 return2 -> 0x0808FA10 writes state0x0110 -> 0x0808F92E -> 0x0808F952 BL 0x080732B4. Therefore old outer-B hypothesis is disproven; next unique input is A.`
+- corrected controller gate next: `from the same accepted p1 14b711b7...f6df send exactly one A 5/13/capture80 on base ROM; accept only static-valid active raw 0x0808F957, otherwise stop for fresh observer; no extra input`
+- outer-A runtime result: `run 059524d42dd1f665aef1b227310fe957 -> 7fc97ffb...eac2; completed/0 success-marker RSS 52.117 MiB; task2 0x08092FCE/SP 0x030011E8, A880=2/A882=0, raw 0x080885EF present but 0x0808F957 absent; candidate/not-proven; independent evidence review APPROVED`
+- static correction after runtime contradiction: `prior claim that p1 A directly returns result2 was wrong. A first writes A882=1 and saves r8=A880=2, then 0x080885EA synchronously calls 0x08092E80; nested 0x08092FA4 resets A882=0 and yields at 0x08092FCE. B from p1 is only cancel and cannot zero-settle to controller. Runtime and revised disassembly now agree.`
+- nested boundary next: `zero-input replay outer-A candidate 7fc97ffb...eac2 for 80 frames; require exact task2 0x08092FCE/SP0x030011E8, unwind/A8802/A8820/2680C and exact RGB plus full guard/provenance/residue; no input`
+- nested boundary accepted: `zero run 587ba9f5cdb908d5c031cdce983cd088 -> 975dce1f...ec80; exact PNG 42594a...aebd/RGB0bd89a...d89c and task2 0x08092FCE/SP0x030011E8/unwind/A8802/A8820/2680C; completed/0 success-marker RSS51.762 MiB; independent review APPROVED`
+- nested-A static path: `inner cursor sl=0; A writes A882=1 and A880=0, returns from 0x08092E80, but nested frame restores saved outer r8=2. Outer 0x080884DC yields once at 0x08088624 then returns2; 0x08088F10 returns2; outer state0x0110 dispatches 0x0808F92E then 0x0808F952 BL 0x080732B4. No second input is required; a capture may transiently see 0x08088628 before zero settle.`
+- nested-A gate next: `from accepted nested state 975dce1f...ec80 send exactly one A 5/13/capture80 on base ROM; accept raw 0x0808F957 if active, otherwise if only 0x08088628 intermediate do zero settle; no extra input/observer yet`
+- controller entry proven: `inner-A run 9c4631126d8302ae32bc4f0cc0e487db -> 7bd7d7b3...3f81; completed/0 success-marker RSS52.078 MiB; task2 0x08073616/SP0x03001224; explicit slot 0x03001278 raw0x0808F957 and base 0x0808F952 BL0x080732B4; not intermediate; independent review APPROVED. Proves this run entered controller, not player control or reusable checkpoint.`
+- controller settle next: `zero-input replay controller candidate 7bd7d7b3...3f81 for 80 frames; require raw0x0808F957 persists and full guard/provenance/residue; exact task/RGB equality is required for immediate stable acceptance, otherwise record natural transition candidate and stop without input`
+- controller zero1 result: `run 89bdbb2d5f51f4c58173444d8d3309ea -> 53ee651c...6e79; raw0x0808F957, task2 0x08073616/SP0x03001224, three returns, A8800/A8821/2680C0 exact; completed/0 success-marker RSS52.027 MiB; RGB094b...dec->8537...482 differs 276 pixels, so controller-positive/settling candidate only; review APPROVED`
+- controller animation next: `fixed 600-frame zero-input sampler/analyzer from original controller-positive candidate 7bd7d7b3...3f81; require frame600 raw controller/task semantics persist and choose smallest exact p only; no input/checkpoint`
+- controller cycle result: `run a42dfc5685b5861ddc70ce30afb08921; strict600 zero sample completed/0 success-marker RSS52.129 MiB; frame600 controller task/raw8F957/fields exact; unique smallest p=224 with H0=H224=H448=094b...97dec; independent review APPROVED; no checkpoint yet`
+- controller cycle acceptance next: `two independent 224-frame zero replays original controller candidate -> p1 -> p2; require all three exact RGB094b...97dec plus task2/SP/LR/three raw incl8F957/A8800/A8821/2680C0 and full guard/provenance/residue; p1 becomes reusable candidate only if all pass`
+- controller p224 acceptance: `p1 run 89a882a2ede41a4ab06f4f2cccc36906 -> 4569846c...e7cd6; p2 run ad079170d922c5297f6556d2a9672a85 -> 31337b50...add33; original/p1/p2 exact RGB094b...97dec and task2/SP/LR/three raw incl8F957/A8800/A8821/2680C0; guards/RSS/residue/crash clean; independent review APPROVED`
+- controller persistence: `c8f3498 persists artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9 @ 4569846c...e7cd6, accepted compact evidence/ledger/docs and RED->GREEN test; 5a8b9fb fixes two review findings for superseded ledger wording and raw/p1/p2 test coverage; final re-review APPROVED; ledger accepted=7 errors=0`
+- openspec 3.5: `completed after parent verified raw gate, p224 stability, canonical hash, compact evidence, ledger validation and clean task review; controller entry is proven but player control remains pending`
+- next gate: `OpenSpec 4.1 from canonical scenario-41-controller-entry.ss9 run the existing player-select/current-unit observer ROM with explicit post-load baselines; require fresh ordered 0x08073940/0x08073946 events bound to the player unit; do not infer from controller raw alone`
