@@ -1,41 +1,29 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 1: 以 TDD 实现独立 single-input native runner`
+- plan task: `Task 4.7 Step 2: guarded 单 Down 捕获 candidate，不发送 A`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
-- review_fix_round: `1/2`
-- reviewer: `/root/scenario41_task47_step1_review`
-- review package: `.superpowers/sdd/review-b5ab04f..f252dbd-task-4.7-step1.diff`
-- review dispatched: `2026-07-16T06:37:00+08:00`
-- review result: `Spec CHANGES REQUESTED / Quality CHANGES REQUESTED`
-- unresolved feedback: `none`
-- fix agent: `/root/scenario41_task47_step1_fix1`
-- fix dispatched: `2026-07-16T13:20:44+08:00`
-- fix result: `DONE`
-- fix commit: `c6841c86258fbd7f58455b55a1b8edc9f192488c`
-- fix changed files:
-  - `.superpowers/sdd/task-4.7-step1-report.md`
-  - `tests/test_run_macos_mgba_single_input.py`
-- fix evidence: `16-test reconstructed RED; post-run source-save mutation RED; focused 17/17 GREEN; combined 72 tests with one expected skip; compile/Lua/hash/diff checks PASS; production runner unchanged`
-- parent verification: `focused 17/17; combined 72 tests with one expected skip; compile/Lua/hash/diff/scope PASS; no mGBA/QEMU residue`
-- re-reviewer: `/root/scenario41_task47_step1_rereview`
-- re-review packages:
-  - `.superpowers/sdd/review-b5ab04f..f252dbd-task-4.7-step1.diff`
-  - `.superpowers/sdd/review-f400544..c6841c8-task-4.7-step1-fix1.diff`
-- re-review dispatched: `2026-07-16T13:39:11+08:00`
-- re-review result: `Spec APPROVED / Quality APPROVED; Critical 0, Important 0, Minor 0`
-- checkoff: `Task 4.7 Step 1 checked; OpenSpec 3.5 deferred until the full six-step Task 4.7 chain is complete`
-- implementation commit: `f252dbd922062294b51fa3da58f4b157751b43ef`
+- review_fix_round: `0/2`
+- implementer: `/root/scenario41_task47_step2_down`
+- brief: `.superpowers/sdd/task-4.7-step2-brief.md`
+- dispatched: `2026-07-16T13:47:11+08:00`
+- allowed runtime output: `build/scenario-41-prebattle-down-20260715/`
+- report: `.superpowers/sdd/task-4.7-step2-report.md`
+- input boundary: `one Down at frames 5/13, capture 80; A forbidden`
+- snapshot boundary: `build candidate only; no tracked acceptance or Step 3/4`
+- implementation status: `DONE`
+- implementation commit: `none; report is ignored scratch and raw build candidate must not be committed`
 - changed files:
-  - `.superpowers/sdd/task-4.7-step1-report.md`
-  - `tests/test_macos_mgba_runtime_residue.py`
-  - `tests/test_run_macos_mgba_single_input.py`
-  - `tools/README.md`
-  - `tools/accept_prebattle_candidate.py`
-  - `tools/macos_mgba_runtime_residue.py`
-  - `tools/mgba_single_input_replay.lua`
-  - `tools/run_macos_mgba_single_input.py`
-- RED evidence: `python3 -m unittest tests.test_run_macos_mgba_single_input tests.test_macos_mgba_runtime_residue -v` → expected failure, 14 tests / 15 errors because the fixed Lua and both Python modules did not exist
-- GREEN evidence: focused refactor run passed 16 tests; combined single-input/residue/acceptance/zero-input/resource-guard regression passed 71 tests with one expected Windows-only skip; Python compilation, both Lua syntax checks, pinned hashes, and `git diff --check` passed
-- review note: implementation and review-fix reports exist; no ROM/input run; bounded thorough review passed
+  - `.superpowers/sdd/task-4.7-step2-report.md` (ignored report)
+  - `build/scenario-41-prebattle-down-20260715/` (fresh raw candidate)
+- runtime evidence: `run e32c5a6229aeec9e406b1d126695799d; completed/0; non-degraded posix-process-group; peak RSS 51.96484375 MiB; one Down 5/13; no A; output state c1a16fa3...; PNG 3f2acc08...; PGID/listener/base.sav clean`
+- offline evidence: `48 changed pixels bbox x72..78/y62..81; task2 resume 0x08067D02; active unwind 0x080885C1→0x08088F9F→0x0808F92D; [0x0202680C]=0; controller not proven`
+- parent verification: `hashes/JSON/audit-sentinel identity/image/base.sav/process residue checked; PASS`
+- reviewer: `/root/scenario41_task47_step2_review`
+- review inputs: `task-4.7-step2-brief.md; task-4.7-step2-report.md; raw fresh candidate directory`
+- review dispatched: `2026-07-16T14:00:31+08:00`
+- review result: `Spec APPROVED / Evidence Quality APPROVED; Critical 0, Important 0, Minor 1`
+- minor finding: `report omits exact png_screen_fingerprint/offline-inspector reproduction commands; raw evidence independently reproduced and consistent; carry to final review`
+- checkoff: `Task 4.7 Step 2 checked; OpenSpec 3.5 remains deferred until the full six-step chain completes`
+- unresolved feedback: `none`

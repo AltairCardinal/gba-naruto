@@ -583,7 +583,7 @@ python3 -m unittest tests.test_run_macos_mgba_single_input tests.test_run_macos_
 
 Expected: PASS；1 个既有 Windows-only test 可 skip。
 
-- [ ] **Step 2: guarded 单 Down 捕获 candidate，不发送 A**
+- [x] **Step 2: guarded 单 Down 捕获 candidate，不发送 A**
 
 从 accepted prebattle menu 运行固定 `Down`、frames `5/13/80`。输出使用 fresh 目录
 `build/scenario-41-prebattle-down-20260715/`，并记录 binary/manifest/patch/ROM/input state/Lua
