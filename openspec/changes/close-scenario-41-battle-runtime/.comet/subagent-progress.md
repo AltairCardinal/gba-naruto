@@ -37,8 +37,9 @@
 - macOS GDB owner Task 1 review: `FAIL / CHANGES; Important: fully empty/incomplete lsof FD can be silently skipped; Minor: README omits macOS owned process-group cleanup; fix round 1 required before smoke`
 - macOS GDB owner Task 1 fixer: `/root/macos_gdb_owner_fix`; strict RED for empty FD at new p/new f/EOF plus README cleanup boundary; no mGBA`
 - macOS GDB owner Task 1 fix result: `9965f1a; RED47/3 expected failures; GREEN focused47 skip2, related94 skip3; empty FD boundaries and README fixed; no mGBA`
-- macOS GDB owner Task 1 re-review: `/root/macos_gdb_owner_review running; package .superpowers/sdd/review-6904828..9965f1a.diff`
+- macOS GDB owner Task 1 re-review: `PASS / APPROVED; empty FD and README findings closed; no new findings`
 - macOS GDB owner Task 1 approved: `Spec PASS / Quality APPROVED; original Important/Minor closed; no new findings; commits 32dd634 + 9965f1a`
+- macOS GDB Task 2 executor: `/root/macos_gdb_breakpoint_smoke`; one guarded 0x08095F12 smoke only; Lua retirement conditional on every runtime gate passing`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
