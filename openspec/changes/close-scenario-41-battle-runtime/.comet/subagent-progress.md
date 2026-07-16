@@ -19,7 +19,7 @@
 - second A static result: `0x08066524 movement helper completes without input; B-held only accelerates; later async global predicates have no finite local bound; protocol permits one bounded 512-frame zero capture and forbids key/retry`
 - zero512 result: `run 4da23dc77a4c2aae6de907b0c9547e59 completed/0 RSS52.004 MiB; task2 progressed 0x08066524 -> 0x08095F12/SP03001194; observer scratch still zero; no retry`
 - zero512 static result: `current resume 0x08095F12 uses hardcoded new_keys&3 after yield; caller r7=0 only affects pre-yield early check; zero cannot complete, A/B equivalent; active return chain 0x08097905/0x0808A601/0x08073785`
-- third A timing result: `run 1fbd7042bd43629f5c60df12586e7cf4 completed/0 RSS51.957 MiB; input/output task2 0x4C context identical at 0x08095F12 and observer scratch zero; A@5 missed the task fresh-key phase; no retry`
+- third A corrected result: `run 1fbd7042bd43629f5c60df12586e7cf4 completed/0 RSS51.957 MiB; unique A was consumed: task2 caller script pointer 0x030011B4 advanced 0805B2E6->0805B325, object/RGB changed, then a later isomorphic 0x08095F12 wait reproduced the same 0x4C context; prior phase-miss interpretation is superseded`
 - breakpoint trace implementation: `2a67339; initial task review CHANGES_REQUESTED (Spec FAIL / Quality CHANGES)`
 - breakpoint trace review findings: `reject non-finite/non-decimal MAX_HITS before opening output; fail closed and close file when setBreakpoint returns invalid ID; verify runtime Lua behavior with a dependency-free stub harness including JSON, hit limit, cleanup, frame progression, and installation failure`
 - breakpoint trace fix result: `a8b502d; behavioral RED 8 tests/7 expected failures; GREEN 35 focused+replay tests PASS; luac and diff checks PASS; parent rerun 35/35 PASS; no mGBA`
@@ -53,6 +53,7 @@
 - Task 2 reviewer: `/root/macos_gdb_smoke_review`; package .superpowers/sdd/review-1c7eb05..f7b8fea.diff; runtime provenance/residue/retirement gate in review`
 - Task 2 approved: `Spec PASS / Quality APPROVED; no findings; exact macOS GDB stop channel accepted, but does not prove player control`
 - input-phase analysis: `/root/macos_gdb_smoke_review` inspects game scheduler/new_keys timing; `/root/macos_gdb_owner_review` compares GDB+Lua/observer phase instrumentation; both read-only, no mGBA`
+- input-phase decision: `game-side evidence 0.99 proves third-A consumed original wait; reject five-file phase-mode expansion as unnecessary; next run is one zero-input validation from third-A state 61ea836a...6629 before any further A`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
