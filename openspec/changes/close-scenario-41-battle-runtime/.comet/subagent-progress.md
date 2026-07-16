@@ -50,6 +50,7 @@
 - second smoke executor: `/root/macos_gdb_breakpoint_smoke resumed with changed adapter; full preflight and single fresh run`
 - second smoke result: `DONE; guard completed/0 PGID84487 RSS90.461MiB; owned mGBA84524; listener/connection=[84524]; S05k actualPC08095F12; 76/88-byte reads complete; residue/base.sav/crash clean`
 - Lua retirement: `f7b8fea deletes only unsupported breakpoint trace Lua/test and replaces README with 0.10.5 failure history; 124 tests skip3; pending independent Task 2 review`
+- Task 2 reviewer: `/root/macos_gdb_smoke_review`; package .superpowers/sdd/review-1c7eb05..f7b8fea.diff; runtime provenance/residue/retirement gate in review`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
