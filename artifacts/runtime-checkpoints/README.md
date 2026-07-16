@@ -44,6 +44,7 @@ Expected SHA-256:
 | `skill-list-pre-controller.ss9` | `b5e26b7bfeb765b7f50a77fe4a6513abf206159695f61a02af19cfb55ce60d1a` | Naruto submenu before the natural high-bit technique-list controller and initializer |
 | `scenario-41-prebattle-menu-candidate.ss9` | `b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078` | accepted stable scenario 41 prebattle menu after strict mGBA 0.10.5 zero-input frame-80 replay; still before controller entry |
 | `scenario-41-prebattle-down.ss9` | `c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449` | one audited Down from the accepted prebattle menu, independently stable for 80 zero-input frames; still not controller/player-control evidence |
+| `scenario-41-pre-controller-after-a.ss9` | `1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646` | accepted Down → unique A → 19-frame zero settle; stable pre-controller state only, not controller/player-control evidence |
 
 ## Scenario 41 checkpoint ledger
 
@@ -109,6 +110,21 @@ targets are unchanged, and `[0x0202680C]=0`. The compact
 checks. This checkpoint proves only a stable Down-selected prebattle row. It does not
 prove controller entry or player control and does not independently authorize A;
 Step 4 remains a separate gate.
+
+`scenario-41-pre-controller-after-a.ss9` follows the exact lineage accepted Down →
+unique A → zero settle 19. Cycle analysis selected the smallest exact period
+`p=19`; fresh runs `dae5070e1b87e5d58dae0137888f9c57` and
+`b5fa01bd561aff630ebb88148ad12131` replayed `p` frames from the A candidate and
+then another `p` frames from the first output. Both audits have `inputs=[]`,
+`pre_scripts=[]` and `zero_input_verified=true`. Candidate, p and 2p decode to the
+same 240×160 RGB8 full-screen pixel SHA-256
+`29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005`;
+task 2 resumes at `0x0806F996`, and explicit slots
+`0x03001234/0x03001240/0x03001278` remain statically BL-valid with raw returns
+`0x0807513F/0x08089029/0x0808F92D`; `[0x0202680C]=0`. The compact evidence is
+`scenario-41-pre-controller-after-a-evidence.json`. Its `allowed_evidence=[]`:
+`0x0808F957` is absent, so this checkpoint does not prove controller entry or
+player control and cannot bypass the separate Step 5 controller gate.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate

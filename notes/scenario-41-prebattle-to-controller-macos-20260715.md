@@ -49,3 +49,34 @@ output 的 task 2、三个显式 static-BL-valid unwind slots 和 `[0x0202680C]`
 覆盖精确 hash 差异。因此 Step 4 结论为 `not-proven`，未执行 Step 5、未接受/复制 checkpoint、
 未更新 ledger，也不声称 controller 或 player control。完整命令与证据见
 `.superpowers/sdd/task-4.7-step4-report.md`。
+
+## Task 4.7 Step 4C：以周期 19 的双段 zero-input 接受 A 后快照
+
+Step 4B 的 600-frame diagnostic 找到最小 exact period `p=19` 后，2026-07-16
+从原单 A candidate 独立运行 19 帧，再从第一段输出 state 独立运行 19 帧。两段
+run ID 分别为 `dae5070e1b87e5d58dae0137888f9c57` 与
+`b5fa01bd561aff630ebb88148ad12131`，均为现有 replay runner 的
+`evidence_mode=zero-input`，没有 pre-script，audit/sentinel 均确认
+`inputs=[]`、`pre_scripts=[]`、`zero_input_verified=true`。
+
+原 candidate、19 帧与 38 帧 state 内嵌画面及两张输出 PNG 均严格解码为
+240×160 RGB8，115200 bytes，normalized full-screen pixel SHA-256 同为
+`29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005`。
+三状态 task 2 均为 SP `0x030011FC`、resume PC `0x0806F996`；显式 active-unwind
+slots `0x03001234/0x03001240/0x03001278` 的 raw returns 均为
+`0x0807513F/0x08089029/0x0808F92D`，并分别由 base ROM 静态 Thumb BL 解码到
+`0x0806F718/0x0807509C/0x08088F10`；`[0x0202680C]=0`。
+
+两轮 guard 均为非降级 POSIX process group 的 `completed/0`，owned PGID
+`24663/25620` 与 mGBA listener 均清洁；运行前/中/后可用内存分别为
+`5526.672/5448.816/5535.855 MiB`，`rom/base.sav` 始终不存在。预先存在的用户
+Chrome PGID `95724` 不属于项目 owned tree、不持有 heavy lock、没有相关 listener，
+按父级审计结论排除且未终止。
+
+全部门禁通过后，第一段输出已固化为
+`artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9`，SHA-256
+`1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646`。
+lineage 为 accepted Down → 唯一 A → zero settle 19，compact evidence 为
+`scenario-41-pre-controller-after-a-evidence.json`，ledger 明确
+`allowed_evidence=[]`。活动 unwind 不含 `0x0808F957`；因此该结果仍不证明
+controller entry 或 player control，且本步没有进入 Step 5。

@@ -48,6 +48,12 @@
   fresh 80-frame zero-input 重放固化 `scenario-41-prebattle-down.ss9`。四路 normalized RGB、
   task 2、显式 Thumb BL unwind、`[0x0202680C]`、guard 和资源门均稳定；该 rung 仍不证明
   controller entry/player control，也不单独授权 A。Step 4 仍须独立门禁，当前未发送 A。
+- 2026-07-16 cycle diagnostic 选择最小 exact period `p=19` 后，从唯一 A candidate
+  连续执行两段独立 fresh 19-frame zero-input replay。candidate/p/2p 的完整 RGB8 画面、
+  task 2、三个显式 static-BL-valid unwind slots 与 `[0x0202680C]` 全部相同，已固化
+  `scenario-41-pre-controller-after-a.ss9`。lineage 为 accepted Down → 唯一 A → zero
+  settle 19，`allowed_evidence=[]`；活动 unwind 仍无 `0x0808F957`，所以这只证明稳定
+  pre-controller 状态，不证明 controller entry 或 player control，后续仍须独立通过门槛。
 
 Windows 前台 runtime 到此停止，后续转移到 macOS Intel。迁移、mGBA 0.10.5、Lua
 8-frame 输入、candidate 零输入验收和进程守卫要求见

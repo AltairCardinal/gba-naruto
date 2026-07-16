@@ -98,6 +98,26 @@
       "runtime_boundary": "One audited Down from scenario-41-prebattle-menu selected the next prebattle row, and a fresh strict mGBA 0.10.5 zero-input replay preserved its exact normalized RGB screen, task-2 resume PC, explicit statically BL-validated unwind and 0x0202680C value. This accepted checkpoint does not prove battle controller entry or player control, and it does not independently authorize A or bypass the Step 4 A gate."
     },
     {
+      "name": "scenario-41-pre-controller-after-a",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
+      "sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-prebattle-down",
+      "inputs": [
+        "A"
+      ],
+      "screen": "scenario-41-pre-controller-after-a",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a-evidence.json"
+      ],
+      "runtime_boundary": "Accepted lineage is accepted Down -> unique A -> zero settle 19. Two independent 19-frame zero-input replays preserved the full normalized RGB screen, task-2 resume PC, every explicit statically BL-validated active-unwind slot and 0x0202680C. The active unwind does not contain 0x0808F957, so this checkpoint does not prove controller entry or player control and has allowed_evidence=[]."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",

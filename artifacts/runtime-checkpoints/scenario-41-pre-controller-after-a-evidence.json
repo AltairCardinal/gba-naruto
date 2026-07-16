@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "verdict": "accepted",
+  "checkpoint": {
+    "name": "scenario-41-pre-controller-after-a",
+    "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
+    "sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+    "parent": "scenario-41-prebattle-down",
+    "lineage": "accepted Down -> unique A -> zero settle 19",
+    "stable_zero_input": true,
+    "before_hooks": [],
+    "allowed_evidence": []
+  },
+  "cycle_selection": {
+    "analysis_path": "build/scenario-41-controller-a-cycle-sample-20260716/cycle-analysis.json",
+    "analysis_sha256": "5ed379e6a83a6471181e5b48d3662a90bae0bd79839e7cc94be73d0ad0c0ee42",
+    "status": "cycle-found",
+    "period": 19,
+    "match_frames": [0, 19, 38]
+  },
+  "caller_known_sha256": {
+    "base_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "candidate_state": "43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8",
+    "candidate_png": "efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85",
+    "binary": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "patch": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+    "zero_input_lua": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
+  },
+  "zero_input_replays": [
+    {
+      "segment": 1,
+      "run_id": "dae5070e1b87e5d58dae0137888f9c57",
+      "capture_frame": 19,
+      "evidence_mode": "zero-input",
+      "inputs": [],
+      "pre_scripts": [],
+      "zero_input_verified": true,
+      "input_state_sha256": "43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8",
+      "output_state_sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+      "output_png_sha256": "efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85",
+      "audit_sha256": "10c0dbef0f359568ee631d7f2a05eddc15e8ae7a586e488c3c39ecd940762299",
+      "sentinel_sha256": "10c0dbef0f359568ee631d7f2a05eddc15e8ae7a586e488c3c39ecd940762299",
+      "guard_summary_sha256": "189de07c83acdc1a888d1bf5f827c9577ba8ae3f088832d94bac8b9a157ad0bd",
+      "guard": {
+        "reason": "completed",
+        "exit_code": 0,
+        "protection_backend": "posix-process-group",
+        "degraded": false,
+        "child_pgid": 24663,
+        "peak_tree_rss_mib": 0.12890625,
+        "pgid_clean": true,
+        "listener_clean": true
+      }
+    },
+    {
+      "segment": 2,
+      "run_id": "b5fa01bd561aff630ebb88148ad12131",
+      "capture_frame": 19,
+      "evidence_mode": "zero-input",
+      "inputs": [],
+      "pre_scripts": [],
+      "zero_input_verified": true,
+      "input_state_sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+      "output_state_sha256": "c292a487024a05316eb2bdbed5996101f20ccb5e9e45ede30c404d41b46a8294",
+      "output_png_sha256": "efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85",
+      "audit_sha256": "75cea8cd5781feee3842087b3f4d4828bbe3d4f9c1857e544a12efeae185236f",
+      "sentinel_sha256": "75cea8cd5781feee3842087b3f4d4828bbe3d4f9c1857e544a12efeae185236f",
+      "guard_summary_sha256": "6915fd4f9dc31ac641acdc998034c9b145f5e749403cfc0e637c315a259b3008",
+      "guard": {
+        "reason": "completed",
+        "exit_code": 0,
+        "protection_backend": "posix-process-group",
+        "degraded": false,
+        "child_pgid": 25620,
+        "peak_tree_rss_mib": 0.17578125,
+        "pgid_clean": true,
+        "listener_clean": true
+      }
+    }
+  ],
+  "screen_identity": {
+    "method": "strict PNG decode to normalized RGB8 pixel SHA-256",
+    "width": 240,
+    "height": 160,
+    "bit_depth": 8,
+    "color_type": 2,
+    "rgb_pixels_length": 115200,
+    "rgb_pixels_sha256": "29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005",
+    "candidate_state_and_png_identical": true,
+    "frame_p_state_and_png_identical": true,
+    "frame_2p_state_and_png_identical": true,
+    "all_three_positions_identical": true
+  },
+  "savestate_equivalence": {
+    "all_three_states_identical_for_declared_fields": true,
+    "task_2": {
+      "sp": "0x030011FC",
+      "lr": "0x0806F997",
+      "resume_pc": "0x0806F996"
+    },
+    "active_unwind": {
+      "selection": "explicit-stack-slots-with-static-thumb-bl-validation",
+      "raw_return_words": ["0x0807513F", "0x08089029", "0x0808F92D"],
+      "frames": [
+        {
+          "stack_address": "0x03001234",
+          "raw_return_word": "0x0807513F",
+          "callsite": "0x0807513A",
+          "decoded_target": "0x0806F718"
+        },
+        {
+          "stack_address": "0x03001240",
+          "raw_return_word": "0x08089029",
+          "callsite": "0x08089024",
+          "decoded_target": "0x0807509C"
+        },
+        {
+          "stack_address": "0x03001278",
+          "raw_return_word": "0x0808F92D",
+          "callsite": "0x0808F928",
+          "decoded_target": "0x08088F10"
+        }
+      ]
+    },
+    "memory_bytes": {"0x0202680C": 0}
+  },
+  "resources": {
+    "available_mib_before_segment_1": 5526.672,
+    "available_mib_between_segments": 5448.816,
+    "available_mib_after_segment_2": 5535.855,
+    "minimum_required_mib": 4096,
+    "max_tree_rss_mib": 1536,
+    "wall_timeout_s": 300,
+    "idle_timeout_s": 60,
+    "heavy_lock_used": true,
+    "rom_base_sav_absent_before_between_after": true,
+    "owned_pgids_and_mgba_listeners_clean": true,
+    "excluded_preexisting_user_process": "Google Chrome PGID 95724; not project-owned, not a heavy-lock holder, no relevant listener, and not terminated"
+  },
+  "scope": {
+    "proves": [
+      "the unique-A candidate returns to the same full-screen frame after two independent 19-frame zero-input segments",
+      "the declared task-2 and WRAM boundary is unchanged across candidate, p and 2p"
+    ],
+    "does_not_prove": [
+      "battle controller entry",
+      "player control",
+      "MOVEDONE",
+      "victory",
+      "postbattle"
+    ],
+    "controller_gate": "0x0808F957 is absent from the declared active unwind; Step 5 must independently satisfy its controller-entry gate."
+  },
+  "generated_at": "2026-07-16T13:33:00Z"
+}
