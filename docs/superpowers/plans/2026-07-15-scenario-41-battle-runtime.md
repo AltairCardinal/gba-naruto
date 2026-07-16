@@ -772,7 +772,7 @@ git diff --check
 Expected: PASS；既有 zero-input 与 single-input Lua/runner SHA 和行为不变。提交只包含新
 sampler、analyzer、测试与必要的 `tools/README.md` 说明。
 
-- [ ] **Step 4B: guarded 采样 600 个零输入动画帧并选择周期**
+- [x] **Step 4B: guarded 采样 600 个零输入动画帧并选择周期**
 
 输入必须继续使用 Step 4 的单 A candidate，实算并核对 state SHA
 `43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8` 与 baseline PNG file SHA

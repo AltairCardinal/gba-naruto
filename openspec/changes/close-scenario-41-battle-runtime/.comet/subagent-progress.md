@@ -1,50 +1,33 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器`
+- plan task: `Task 4.7 Step 4B: guarded 采样 600 个零输入动画帧并选择周期`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
-- review_fix_round: `2/2`
-- implementer: `/root/scenario41_cycle_tools`
-- brief: `.superpowers/sdd/task-4.7-step4a-brief.md`
-- report: `.superpowers/sdd/task-4.7-step4a-report.md`
-- dispatched: `2026-07-16T17:05:13+08:00`
-- implementation base: `dd308bb`
-- allowed paths:
-  - `tools/mgba_zero_input_cycle_sample.lua`
-  - `tools/analyze_mgba_zero_input_cycle.py`
-  - `tests/test_analyze_mgba_zero_input_cycle.py`
-  - `tools/README.md`
-  - `.superpowers/sdd/task-4.7-step4a-report.md`
-- forbidden runtime: `no ROM/mGBA/QEMU/Chromium/heavy task in Step 4A`
-- tdd requirement: `implementer must load test-driven-development; report real RED and GREEN commands/results`
-- commit permission: `one focused local commit; no push`
+- review_fix_round: `0/2`
+- implementer: `/root/scenario41_cycle_sample`
+- report: `.superpowers/sdd/task-4.7-step4b-report.md`
 - implementation status: `DONE`
-- implementation commit: `b4d880a`
-- changed files: `tools/mgba_zero_input_cycle_sample.lua; tools/analyze_mgba_zero_input_cycle.py; tests/test_analyze_mgba_zero_input_cycle.py; tools/README.md`
-- RED evidence: `python3 -m unittest tests.test_analyze_mgba_zero_input_cycle -v failed with expected ImportError for missing tools.analyze_mgba_zero_input_cycle before production files`
-- GREEN evidence: `49/49 PASS for analyzer + replay + single-input; py_compile PASS; git diff --check PASS; first GREEN 3 errors traced via systematic-debugging to an unrequested 240x160 restriction and fixed without weakening tests`
-- parent verification: `fresh 49/49 PASS in 1.817s; py_compile PASS; git diff --check PASS; commit paths exact and no ROM/mGBA run`
-- reviewer: `/root/scenario41_cycle_tools_review`
-- review package: `.superpowers/sdd/review-dd308bb..b4d880a.diff`
-- review dispatched: `2026-07-16T17:19:52+08:00`
-- review result: `Needs fixes`
-- review report: `.superpowers/sdd/task-4.7-step4a-review1.md`
-- fix implementer attempt: `/root/scenario41_cycle_tools_fix1`（读取准备阶段超过约 5 分钟且未形成允许路径 diff，父代理按成本/推进停止条件中止）
-- fix implementer replacement: `/root/scenario41_cycle_tools_fix1b`（同样停滞且无 diff，中止）；随后对原 implementer follow-up 仍无 diff，中止
-- fix execution exception: `子代理执行链连续三次无实现推进；父代理为避免 Comet 编排反向阻塞，按相同 review/TDD 边界接管修复`
-- fix commit: `8d17fda tools: harden cycle evidence analysis`
-- fix changed files: `tools/analyze_mgba_zero_input_cycle.py; tests/test_analyze_mgba_zero_input_cycle.py; tools/README.md`
-- fix RED: `15 tests 中 8 个预期行为失败；另 1 个临时目录测试夹具错误在生产修改前修正；原 RED 108.331s`
-- fix GREEN: `focused 15/15 PASS in 3.408s; analyzer+replay+single-input 53/53 PASS in 3.660s; py_compile/forbidden-API/diff-check PASS`
-- fix runtime boundary: `no ROM/mGBA/QEMU/Chromium/heavy task`
-- final fix implementer: `/root/scenario41_cycle_fix2`
-- final fix commit: `633bd40 tools: prevent cycle report publish clobber`
-- final fix RED/GREEN: `focused RED 1 PASS/1 missing-helper ERROR; focused 2/2 PASS; analyzer 17/17; combined 55/55; compile/forbidden-API/diff-check PASS`
-- final reviewer: `/root/scenario41_cycle_final_review`
-- final review result: `APPROVED with Minor; Critical 0, Important 0`
-- accepted minor: `os.link 的非 FileExistsError 保持 fail-closed 且清理 temp，但 CLI 会显示原始 traceback；当前 Step 4B 位于已验证可写 APFS，同目录 hard link 正常，结构化诊断不阻塞证据安全`
-- parent final verification: `fresh 55/55 PASS in 5.424s; py_compile/forbidden-API/diff-check PASS; commit paths exact; Goal active`
-- checkoff: `plan Step 4A checked; OpenSpec 3.5 intentionally remains unchecked until Step 4B/4C/controller chain completes`
-- unresolved feedback: `none blocking; one accepted diagnostic-only Minor recorded above`
-- next task after approval: `Task 4.7 Step 4B: guarded 采样 600 个零输入动画帧并选择周期`
+- runtime result: `cycle-found; smallest exact period p=19; H[0]=H[19]=H[38]; p=1..18 rejected`
+- runtime run id: `1203967fc997c4537406ddd3b7e9bd54`
+- runtime guard: `completed/0; non-degraded; peak tree RSS 52.51953125 MiB; owned PGID 13347 clean`
+- runtime evidence: `600/600 regular non-symlink PNG; audit/sentinel byte-identical @ 690e4ea557539e808967492ca7ea9aa6325292e46ba7445a06a9ce32f12c9a15; cycle analysis @ 5ed379e6a83a6471181e5b48d3662a90bae0bd79839e7cc94be73d0ad0c0ee42`
+- parent verification: `fixed hashes unchanged; exact 600 frames and p=19 confirmed with Python stdlib; rom/base.sav absent; no runtime residue; system memory free 68%`
+- reviewer: `/root/scenario41_cycle_sample_review`
+- review dispatched: `2026-07-16T21:27+08:00`
+- review result: `APPROVED; Critical 0, Important 0, blocking Minor 0`
+- review verification: `reviewer independently rehashed all 600 normalized RGB frames, recomputed smallest p=19, verified six pinned inputs, audit/sentinel/guard bindings, freshness, residue, and diagnostic-only boundary`
+- accepted minor: `pre-run fresh-directory/base.sav state cannot be reconstructed from post-run filesystem alone; contemporaneous report plus birthtime/mtime, no-clobber behavior, current residue checks, and parent preflight provide consistent evidence`
+- checkoff: `plan Step 4B checked; OpenSpec 3.5 intentionally remains unchecked until Step 4C/controller chain completes`
+- next task: `Task 4.7 Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照`
+- input state: `build/scenario-41-controller-a-20260715/after-a.ss9 @ 43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8`
+- baseline PNG: `build/scenario-41-controller-a-20260715/after-a.png @ efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85`
+- sampler: `tools/mgba_zero_input_cycle_sample.lua @ e10a05f7208e4330cbe0dc202a539c9f29506606f697e6658095fc95e75869ec`
+- allowed runtime output: `build/scenario-41-controller-a-cycle-sample-20260716/`
+- forbidden input: `no key/input API; diagnostic pre-script only`
+- guard: `existing replay runner heavy lock; min available 4096 MiB; max tree RSS 1536 MiB; wall 300s; idle 60s`
+- preflight: `Goal active; target fresh; rom/base.sav absent; hashes match; available memory 5533.73 MiB; no owned emulator residue`
+- commit permission: `none; raw runtime output remains untracked; no push`
+- acceptance boundary: `select smallest exact p only; diagnostic cannot accept checkpoint/controller/player control`
+- stop condition: `status=not-proven stops before Step 4C/5; cycle-found returns p to parent for independent Step 4C`
+- previous task: `Step 4A accepted by final reviewer at 633bd40; plan checkoff committed f4b180c`
