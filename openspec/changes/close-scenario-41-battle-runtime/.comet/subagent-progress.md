@@ -28,6 +28,7 @@
 - breakpoint diagnostic executor: `/root/player_wait_breakpoint_diagnostic`; `fresh output build/scenario-41-player-observer-breakpoint-trace-20260717; no retry`
 - breakpoint diagnostic result: `run 2c8762c77a7ddd153ebe9f3afabf73be; 128 frames; trace 0 hits; guard completed/0 success-marker; RSS52.078 MiB; residue/base.sav/crash clean; output state forbidden for consumption`
 - breakpoint diagnostic boundary: `zero hits is negative-window evidence only; diagnose pre-script/state-load breakpoint lifetime and Thumb target/execution semantics before any further mGBA run`
+- zero-hit root-cause analysis: `/root/breakpoint_lifecycle_rootcause` inspects CLI/state-load/debugger lifecycle; `/root/scenario41_outer_a_zero_review` independently inspects Thumb target and saved-context resume semantics; both read-only, no mGBA`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
