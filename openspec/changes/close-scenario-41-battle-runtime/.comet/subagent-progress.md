@@ -47,6 +47,7 @@
 - wildcard fix review: `/root/macos_gdb_owner_review running; package .superpowers/sdd/review-6ed08ae..ef35eee.diff`
 - wildcard fix review: `PASS / APPROVED; LISTEN-only wildcard boundary and real Darwin bind-any integration approved; no findings`
 - second smoke gate: `one new guarded run on changed adapter in fresh build/scenario-41-player-observer-gdb-smoke2-20260717; no input/retry; Lua retirement remains conditional on all gates`
+- second smoke executor: `/root/macos_gdb_breakpoint_smoke resumed with changed adapter; full preflight and single fresh run`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
