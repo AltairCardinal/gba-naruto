@@ -393,6 +393,44 @@ task PC/unwind or WRAM, nor accepts a candidate in the checkpoint ledger; those 
 separate Step 3 gates. The fixed zero-input replay never sends Down, A, or any other
 input.
 
+## Fixed zero-input cycle sampler and analyzer
+
+`mgba_zero_input_cycle_sample.lua` is a bounded diagnostic pre-script for the existing
+macOS checkpoint replay runner. Set `MGBA_CYCLE_OUTPUT_DIR` to an existing fresh frame
+directory and `MGBA_CYCLE_MAX_FRAME=600`, then pass the sampler exactly once with
+`run_macos_mgba_replay.py --capture-frame 600 --evidence-mode
+script-order-diagnostic --pre-script tools/mgba_zero_input_cycle_sample.lua`. It writes
+`frame-0001.png` through `frame-0600.png` and prints progress every 30 frames. The
+sampler never loads or saves state, exits mGBA, or sends input; the unchanged checkpoint
+replay script remains responsible for the frame-600 state, PNG, audit, sentinel, and
+process exit.
+
+After a successful guarded diagnostic run, select the smallest exact RGB8 recurrence
+with caller-pinned baseline and sampler hashes:
+
+```bash
+python3 tools/analyze_mgba_zero_input_cycle.py \
+  --baseline-png build/cycle-source/after-a.png \
+  --expected-baseline-png-sha256 "$BASELINE_PNG_SHA256" \
+  --frame-dir build/cycle-sample/frames \
+  --audit build/cycle-sample/audit.json \
+  --sampler tools/mgba_zero_input_cycle_sample.lua \
+  --expected-sampler-sha256 "$SAMPLER_SHA256" \
+  --output build/cycle-sample/cycle-analysis.json
+```
+
+The analyzer requires exactly 600 non-symlink `frame-%04d.png` files, reuses the strict
+RGB8 PNG fingerprint decoder, and accepts only an audit with
+`evidence_mode=script-order-diagnostic`, `zero_input_verified=false`, `inputs=[]`,
+`capture_frame=600`, and exactly one sampler path/SHA binding. Its JSON records all 600
+RGB hashes, baseline/sampler/audit provenance, and either the smallest period with
+matching frames `[0,p,2p]` or `status=not-proven`.
+
+Evidence boundary: this diagnostic can only choose a candidate period. It is not
+zero-input acceptance evidence, does not accept or update a checkpoint, and does not
+prove controller entry or player control. Those claims require later independent
+`zero-input` replay and acceptance gates.
+
 ## Fixed single-input macOS mGBA replay
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
