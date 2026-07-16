@@ -349,6 +349,35 @@ class SingleInputRunnerIntegrationTests(unittest.TestCase):
                 self.assertNotIn("build_manifest_sha256", raw)
                 self.assertNotIn("runtime_residue", raw)
 
+    def test_post_run_source_save_creation_fails_without_finalizing_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner, paths, argv = self._fixture(Path(tmp))
+
+            def create_source_save():
+                paths["rom"].with_suffix(".sav").write_text(
+                    "runtime-source-save", encoding="utf-8"
+                )
+
+            clean = {"pgid_clean": True, "mgba_listener_clean": True}
+            with mock.patch.object(
+                runner.subprocess,
+                "run",
+                side_effect=self._fake_wrapper(
+                    runner, paths, mutate=create_source_save
+                ),
+            ), mock.patch.object(
+                runner, "read_ps_snapshot", return_value="1 1\n"
+            ), mock.patch.object(
+                runner, "probe_runtime_residue", return_value=clean
+            ):
+                with self.assertRaisesRegex(runner.ReplayError, "source ROM save"):
+                    runner.main(argv)
+
+            for payload_path in (paths["audit"], paths["sentinel"]):
+                raw = json.loads(payload_path.read_text(encoding="utf-8"))
+                self.assertNotIn("build_manifest_sha256", raw)
+                self.assertNotIn("runtime_residue", raw)
+
     def test_guard_failure_does_not_finalize(self):
         with tempfile.TemporaryDirectory() as tmp:
             runner, paths, argv = self._fixture(Path(tmp))
