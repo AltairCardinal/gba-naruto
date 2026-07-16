@@ -5,9 +5,9 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `fresh grandchild dispatch requested through /root/scenario41_controller_persist_review because root child-thread limit rejected direct spawn`
+- implementer: `/root/player_observer_runtime_impl`
 - report: `.superpowers/sdd/task-open-4.1-report.md`
-- implementation status: `DISPATCHING`
+- implementation status: `RUNNING`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
