@@ -76,7 +76,7 @@ candidate 的 frame 0 和 600 张采样图建立 hash 序列，选择第一个�
 5. 验证两次 replay 都是 empty input/pre-script、caller-known hash、guard
    `completed/0`、non-degraded POSIX process group、PGID/listener/base.sav clean。
 
-全部成立后，`state-p` 才可作为 `scenario-41-controller-entry-candidate` 的稳定快照写入
+全部成立后，`state-p` 才可作为 `scenario-41-pre-controller-after-a` 的稳定快照写入
 checkpoint ledger。其 lineage 是 accepted Down → 唯一 A → 零输入 settle `p` 帧。该接纳只
 证明稳定的 A 后边界；controller entry 仍必须在下一步由 raw return `0x0808F957` 的静态有效
 active unwind 或 fresh observer 命中 `0x0808F952 → 0x080732B4` 单独证明。
