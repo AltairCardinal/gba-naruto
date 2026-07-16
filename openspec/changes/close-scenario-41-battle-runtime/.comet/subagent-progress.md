@@ -1,28 +1,38 @@
 # Subagent Progress
 
-- plan task: `Task 4.7 Step 3: 零输入复验 Down candidate 后才固化快照`
+- plan task: `Task 4.7 Step 4: 只从 accepted Down snapshot 发送单 A`
 - openspec task: `3.5 从 accepted prebattle menu 将 Down/A 拆成独立原生 mGBA 单键运行，每段先零输入复验并固化快照；仅以活动 unwind 0x0808F957 或 fresh entry observer 接纳 controller entry`
 - stage: `done`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_task47_step3_zero`
-- brief: `.superpowers/sdd/task-4.7-step3-brief.md`
-- dispatched: `2026-07-16T14:09:31+08:00`
-- input candidate: `build/scenario-41-prebattle-down-20260715/after-down.ss9 @ c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449`
-- allowed runtime output: `build/scenario-41-prebattle-down-zero-20260715/`
-- report: `.superpowers/sdd/task-4.7-step3-report.md`
-- input boundary: `zero input only; A forbidden`
-- acceptance boundary: `all visual/task/unwind/WRAM/hash/guard/resource gates must pass before tracked copy`
-- implementation status: `DONE`
-- implementation commit: `9ac376379e1f228ae80444fc95e61761080c37a6`
-- changed files: `6 tracked accepted-evidence files; raw zero directory and ignored report retained separately`
-- runtime evidence: `zero run 7d378580de56bea13a3d0e09b8bea185; completed/0; PGID 41717; peak 52.09375 MiB; input arrays empty; four RGB hashes 1e68324b...; task/unwind/WRAM equal; resource/base.sav clean`
-- acceptance evidence: `tracked scenario-41-prebattle-down.ss9 @ c1a16fa3...; ledger accepted=5 candidate=0 rejected=1 errors=0; 75/75 tests PASS`
-- unresolved feedback: `none; Step 2 reproduction-command Minor closed by exact commands in Step 3 report`
-- parent verification: `75/75; ledger 5/0/1/0; JSON/hash/four-RGB/evidence/diff/scope/process/base.sav PASS; zero PNG viewed`
-- reviewer: `/root/scenario41_task47_step3_review`
-- review package: `.superpowers/sdd/review-9ac3763-task-4.7-step3.diff`
-- review dispatched: `2026-07-16T14:30:15+08:00`
-- review result: `APPROVED; Spec PASS; Evidence/Quality PASS; Critical 0, Important 0, Minor 0`
-- checkoff: `Task 4.7 Step 3 checked; OpenSpec 3.5 remains deferred until the full six-step chain completes`
-- gate clarification: `zero-input legacy schema requires inputs=[] + pre_scripts=[] + zero_input_verified=true; automatic_inputs/recovery_inputs are not required because plan/design require the existing zero-input runner/Lua to remain unchanged`
+- implementer: `/root/scenario41_task47_step4_a_retry`
+- brief: `.superpowers/sdd/task-4.7-step4-brief.md`
+- original dispatch: `/root/scenario41_task47_step4_a at 2026-07-16T14:37:32+08:00; platform-terminated on new user instruction; no outputs or commit`
+- replacement dispatched: `2026-07-16T14:43:16+08:00`
+- post-instruction preflight: `Goal active; no other live agents; Git status audited; no mGBA/QEMU/base.sav; both fresh dirs absent`
+- input checkpoint: `artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9 @ c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449`
+- allowed runtime outputs:
+  - `build/scenario-41-controller-a-20260715/`
+  - `build/scenario-41-controller-a-zero-20260715/`
+- report: `.superpowers/sdd/task-4.7-step4-report.md`
+- input boundary: `one A at frames 5/13, then one zero-input replay; no other input`
+- acceptance boundary: `stable/not-proven candidate only; Step 5 decides controller gate`
+- implementation status: `DONE_WITH_CONCERNS`
+- implementation commit: `none`
+- changed files:
+  - `.superpowers/sdd/task-4.7-step4-report.md` (ignored report)
+  - `notes/scenario-41-prebattle-to-controller-macos-20260715.md` (uncommitted minimal append)
+  - `build/scenario-41-controller-a-20260715/` (raw candidate)
+  - `build/scenario-41-controller-a-zero-20260715/` (raw zero replay)
+- runtime evidence: `A run 189eeecb14a44e5998c8699812c6ffc2 @ 43f19bf7...; zero run 8f5fa1b2e3cc7a9ae72c4238dbc2d2ed @ c1febaec...; both completed/0 and resource clean; task/unwind/WRAM equal`
+- decision: `not-proven because exact normalized RGB differs: candidate 29ad62a2... vs zero 56dd1650...; no Step 5, no acceptance, no extra input`
+- unresolved feedback: `none; design update committed as 0a43918 + 75f7c83 + 738cd1d`
+- parent verification: `60/60 tests; ledger 5/0/1/0; audit/sentinel/guard/process/base.sav PASS; exact diff confirmed at 140 pixels, bbox x102..137/y70..89, localized to animated character sprite`
+- reviewer: `/root/scenario41_task47_step4_review`
+- review inputs: `task-4.7-step4 brief/report; two raw directories; note append; accepted Down lineage`
+- review dispatched: `2026-07-16T14:56:03+08:00`
+- review result: `APPROVED failure branch; Spec PASS; Evidence/Quality PASS; stop boundary PASS; Critical 0, Important 0, Minor 0`
+- review classification: `Step 4 completed by failure branch; Step 5 remained forbidden until design update`
+- checkoff: `Task 4.7 Step 4 checked as failure-branch complete; OpenSpec 3.5 remains deferred until the full chain completes`
+- next task: `Task 4.7 Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器`
+- decision authority: `user explicitly delegated experiment-path choice and responsibility to the reverse-engineering executor; bounded exact-pixel cycle design selected`

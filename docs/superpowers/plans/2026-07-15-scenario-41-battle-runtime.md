@@ -502,16 +502,23 @@ Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 
 
 ### Task 4.7: 从 accepted prebattle menu 分段进入 controller
 
-设计边界见 `docs/superpowers/specs/2026-07-15-scenario-41-prebattle-to-controller-design.md`。
+设计边界见 `docs/superpowers/specs/2026-07-15-scenario-41-prebattle-to-controller-design.md`；
+A 后动画稳定性补充见
+`docs/superpowers/specs/2026-07-16-scenario-41-animated-snapshot-stability-design.md`。
 
 **Files:**
 - Create: `tools/mgba_single_input_replay.lua`
 - Create: `tools/run_macos_mgba_single_input.py`
 - Create: `tools/macos_mgba_runtime_residue.py`
+- Create: `tools/mgba_zero_input_cycle_sample.lua`
+- Create: `tools/analyze_mgba_zero_input_cycle.py`
 - Create: `tests/test_run_macos_mgba_single_input.py`
 - Create: `tests/test_macos_mgba_runtime_residue.py`
+- Create: `tests/test_analyze_mgba_zero_input_cycle.py`
 - Create when accepted: `artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9`
 - Create: `artifacts/runtime-checkpoints/scenario-41-prebattle-down-evidence.json`
+- Create when accepted: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9`
+- Create when accepted: `artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a-evidence.json`
 - Create when reached: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`
 - Create when reached: `artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json`
 - Create: `notes/scenario-41-prebattle-to-controller-macos-20260715.md`
@@ -523,7 +530,7 @@ Lua replay 从显式环境/配置读取输入 state、输出 state/截图/audit 
 
 **Interfaces:**
 - Consumes: accepted `scenario-41-prebattle-menu-candidate.ss9`; strict mGBA 0.10.5 manifest/binary/patch; `run_macos_mgba_replay` provenance/path/guard helpers; offline savestate inspector.
-- Produces: `validate_single_input(key: str, down_frame: int, up_frame: int, capture_frame: int) -> None`, shared read-only `probe_runtime_residue(pgid: int) -> dict[str, object]`, one fixed single-input Lua contract, guarded state/PNG/audit/sentinel output, an accepted Down snapshot only after zero-input stability, and optionally a controller-entry checkpoint.
+- Produces: `validate_single_input(key: str, down_frame: int, up_frame: int, capture_frame: int) -> None`, shared read-only `probe_runtime_residue(pgid: int) -> dict[str, object]`, `select_exact_period(baseline_rgb_sha256: str, frame_hashes: Mapping[int, str]) -> int | None`, fixed single-input/cycle-sampler Lua contracts, guarded state/PNG/audit/sentinel output, accepted Down/post-A snapshots only after zero-input stability, and optionally a controller-entry checkpoint.
 - Global stop gate: A is forbidden until Down candidate is accepted; player-control work is forbidden until raw `0x0808F957` is in the statically validated active unwind or a fresh entry observer proves `0x0808F952 → 0x080732B4`.
 
 - [x] **Step 1: 以 TDD 实现独立 single-input native runner**
@@ -647,7 +654,7 @@ python3 tools/run_macos_mgba_replay.py \
 状态设 accepted，并写 compact evidence/note/README/roadmap。若不成立，保留 build candidate
 和失败 note，不复制、不登记 accepted，并停止 A。
 
-- [ ] **Step 4: 只从 accepted Down snapshot 发送单 A**
+- [x] **Step 4: 只从 accepted Down snapshot 发送单 A（按失败分支完成）**
 
 输入必须是 Step 3 tracked snapshot 的实算 SHA；仍使用 frames `5/13/80`、唯一 A、fresh
 目录与同一 provenance/guard 门。不得同轮附加第二个 A、方向键、B 或恢复输入。捕获后先离线
@@ -674,6 +681,160 @@ python3 tools/run_macos_mgba_single_input.py \
   --sentinel build/scenario-41-controller-a-20260715/sentinel.json \
   --guard-summary build/scenario-41-controller-a-20260715/guard-summary.json
 ```
+
+实际结果：唯一 A 与资源/来源门通过，但随后的独立 80-frame zero-input replay 与 candidate
+存在 140 个 Naruto 动画像素差异；task 2、三个 static-BL-valid unwind slots 和
+`[0x0202680C]` 一致。按原门槛保持 `not-proven`，未进入 Step 5。下一步只能执行已批准的
+`docs/superpowers/specs/2026-07-16-scenario-41-animated-snapshot-stability-design.md`。
+
+- [ ] **Step 4A: 以 TDD 实现固定周期 sampler 与 exact 周期分析器**
+
+先创建 `tests/test_analyze_mgba_zero_input_cycle.py`。RED 必须同时覆盖 Lua 静态契约和纯分析
+逻辑：
+
+```python
+def test_selects_smallest_period_with_two_exact_recurrences():
+    hashes = {frame: f"frame-{frame}" for frame in range(1, 601)}
+    hashes[12] = hashes[24] = "baseline"
+    hashes[18] = hashes[36] = "baseline"
+    self.assertEqual(select_exact_period("baseline", hashes), 12)
+
+def test_requires_complete_600_frames_and_rejects_late_or_single_match():
+    complete = {frame: f"frame-{frame}" for frame in range(1, 601)}
+    with self.assertRaisesRegex(CycleAnalysisError, "frames 1..600"):
+        select_exact_period("baseline", {1: "baseline"})
+    complete[301] = complete[600] = "baseline"
+    self.assertIsNone(select_exact_period("baseline", complete))
+    complete[40] = "baseline"
+    self.assertIsNone(select_exact_period("baseline", complete))
+
+def test_sampler_has_fixed_bound_progress_and_no_input_api():
+    text = SAMPLER.read_text(encoding="utf-8")
+    self.assertIn("max_frame == 600", text)
+    self.assertIn('string.format("%s/frame-%04d.png"', text)
+    self.assertIn("frame % 30 == 0", text)
+    self.assertEqual(text.count("emu:screenshot"), 1)
+    for forbidden in ("emu:addKey", "emu:clearKey", "emu:setKeys"):
+        self.assertNotIn(forbidden, text)
+```
+
+Run RED:
+
+```bash
+python3 -m unittest tests.test_analyze_mgba_zero_input_cycle -v
+```
+
+Expected: FAIL because the module/Lua and `select_exact_period` do not exist.
+
+Minimal GREEN in `tools/analyze_mgba_zero_input_cycle.py` must expose exactly:
+
+```python
+MAX_FRAME = 600
+MAX_PERIOD = 300
+
+class CycleAnalysisError(ValueError):
+    pass
+
+def select_exact_period(
+    baseline_rgb_sha256: str, frame_hashes: Mapping[int, str]
+) -> int | None:
+    if set(frame_hashes) != set(range(1, MAX_FRAME + 1)):
+        raise CycleAnalysisError("cycle sample must contain frames 1..600 exactly once")
+    for period in range(1, MAX_PERIOD + 1):
+        if (
+            frame_hashes[period] == baseline_rgb_sha256
+            and frame_hashes[period * 2] == baseline_rgb_sha256
+        ):
+            return period
+    return None
+```
+
+`analyze_frame_directory(...)` 必须拒绝 symlink、缺帧、`frame-0001.png`..`frame-0600.png`
+之外的 frame PNG，并复用 `tools.inspect_mgba_savestate.png_screen_fingerprint`，不得实现宽松
+PNG decoder。CLI 必须验证 baseline PNG caller-known SHA、diagnostic audit 为
+`script-order-diagnostic`/`inputs=[]`/`capture_frame=600`，且 `pre_scripts` 恰好绑定固定 sampler
+路径与运行前 SHA；输出包含 600 个 frame RGB hash、baseline file/RGB hash、sampler/audit hash、
+`period` 和 `status=cycle-found|not-proven` 的 JSON。
+
+`tools/mgba_zero_input_cycle_sample.lua` 只读取 `MGBA_CYCLE_OUTPUT_DIR` 与
+`MGBA_CYCLE_MAX_FRAME=600`，注册一个 frame callback，逐帧写
+`frame-%04d.png`，每 30 帧 `print` 进度；不加载/保存 state、不退出、不发送输入，frame 600
+的 state/audit/sentinel 仍由未修改的 `mgba_checkpoint_replay.lua` 负责。
+
+Run GREEN/refactor:
+
+```bash
+python3 -m unittest tests.test_analyze_mgba_zero_input_cycle tests.test_run_macos_mgba_replay tests.test_run_macos_mgba_single_input -v
+python3 -m py_compile tools/analyze_mgba_zero_input_cycle.py
+git diff --check
+```
+
+Expected: PASS；既有 zero-input 与 single-input Lua/runner SHA 和行为不变。提交只包含新
+sampler、analyzer、测试与必要的 `tools/README.md` 说明。
+
+- [ ] **Step 4B: guarded 采样 600 个零输入动画帧并选择周期**
+
+输入必须继续使用 Step 4 的单 A candidate，实算并核对 state SHA
+`43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8` 与 baseline PNG file SHA
+`efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85`。fresh 目录必须不存在，
+`rom/base.sav` 必须在前后均不存在：
+
+```bash
+test ! -e build/scenario-41-controller-a-cycle-sample-20260716
+mkdir -p build/scenario-41-controller-a-cycle-sample-20260716/frames
+SAMPLER_SHA256="$(shasum -a 256 tools/mgba_zero_input_cycle_sample.lua | awk '{print $1}')"
+MGBA_CYCLE_OUTPUT_DIR="$PWD/build/scenario-41-controller-a-cycle-sample-20260716/frames" \
+MGBA_CYCLE_MAX_FRAME=600 \
+python3 tools/run_macos_mgba_replay.py \
+  --binary /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-build-fix1-20260715/qt/mGBA.app/Contents/MacOS/mGBA \
+  --build-manifest /Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json \
+  --expected-build-manifest-sha256 9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d \
+  --expected-binary-sha256 20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408 \
+  --rom rom/base.gba --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --state build/scenario-41-controller-a-20260715/after-a.ss9 \
+  --expected-state-sha256 43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8 \
+  --capture-frame 600 --evidence-mode script-order-diagnostic \
+  --pre-script tools/mgba_zero_input_cycle_sample.lua \
+  --staged-rom build/scenario-41-controller-a-cycle-sample-20260716/staged-base.gba \
+  --output-state build/scenario-41-controller-a-cycle-sample-20260716/frame600.ss9 \
+  --output-png build/scenario-41-controller-a-cycle-sample-20260716/frame600.png \
+  --audit build/scenario-41-controller-a-cycle-sample-20260716/audit.json \
+  --sentinel build/scenario-41-controller-a-cycle-sample-20260716/sentinel.json \
+  --guard-summary build/scenario-41-controller-a-cycle-sample-20260716/guard-summary.json \
+  --wall-timeout-s 300 --idle-timeout-s 60
+
+python3 tools/analyze_mgba_zero_input_cycle.py \
+  --baseline-png build/scenario-41-controller-a-20260715/after-a.png \
+  --expected-baseline-png-sha256 efc787f7c8644b63145c3923553775697b99059ff88b003d8af9afc47d659f85 \
+  --frame-dir build/scenario-41-controller-a-cycle-sample-20260716/frames \
+  --audit build/scenario-41-controller-a-cycle-sample-20260716/audit.json \
+  --sampler tools/mgba_zero_input_cycle_sample.lua \
+  --expected-sampler-sha256 "$SAMPLER_SHA256" \
+  --output build/scenario-41-controller-a-cycle-sample-20260716/cycle-analysis.json
+```
+
+Expected: exactly 600 PNGs, audit/sentinel identical before analyzer rewrite, guard `completed/0`, no
+PGID/listener/base.sav residue, peak RSS recorded, and analysis returns the smallest exact period
+`1 <= p <= 300` with `H[0]=H[p]=H[2p]`. No period is a valid bounded `not-proven` result：record it
+and stop before Step 4C/5.
+
+- [ ] **Step 4C: 用两段独立 p-frame zero-input replay 接纳或拒绝 A 后快照**
+
+从 `cycle-analysis.json` 读取 `p`。第一段从原单 A candidate 运行 `p` 帧，第二段从第一段输出
+state 再运行 `p` 帧；两段都使用现有 `run_macos_mgba_replay.py --evidence-mode zero-input`、
+独立 fresh 目录、无 pre-script。禁止重用 Step 4 的旧 80-frame replay 充当其中一段。
+
+验收必须同时满足：candidate、`png-p`、`png-2p` normalized RGB8 全屏像素 SHA 完全相同；
+三个 state 的 task 2 resume PC、所有显式 static-BL-valid unwind slots 和 `[0x0202680C]` 相同；
+两轮 audit 都是 `inputs=[]`/`pre_scripts=[]`/`zero_input_verified=true`；ROM/state/binary/
+manifest/patch/Lua hash、guard、PGID/listener/base.sav 全通过。任何失败都持久记录
+`not-proven` 并停止 Step 5。
+
+全部通过时复制第一段输出为
+`artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9`，新增 compact evidence，
+更新 ledger/README/note/roadmap。lineage 必须记录 accepted Down → 唯一 A → zero settle `p`；
+`allowed_evidence=[]`，明确它不证明 controller entry/player control。提交不得包含 600 张 raw
+PNG 或 fresh build 目录。
 
 - [ ] **Step 5: 只按 controller 门槛接纳，不用画面分类替代**
 

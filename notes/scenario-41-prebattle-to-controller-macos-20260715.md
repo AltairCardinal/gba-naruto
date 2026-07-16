@@ -33,3 +33,19 @@ controller entry 或 player control，也不授权绕过 Step 4 的 A 规则。
 
 完整运行命令、四路 fingerprint 命令、两条离线 inspector 命令、所有来源哈希和接受边界见
 `.superpowers/sdd/task-4.7-step3-report.md`。
+
+## Task 4.7 Step 4：单 A candidate 未通过 exact-pixel 稳定门
+
+2026-07-16 从 tracked accepted Down snapshot 只发送一次 A（frame 5→13，hold 8），
+得到 candidate `build/scenario-41-controller-a-20260715/after-a.ss9`（SHA-256
+`43f19bf7b80f900be6d34bd4da3bdfc4daf206bd78da1e6e68754071bb40f6e8`），再只执行一次独立
+80-frame zero-input replay（run IDs `189eeecb14a44e5998c8699812c6ffc2`、
+`8f5fa1b2e3cc7a9ae72c4238dbc2d2ed`）。两次 input/guard/resource 门均通过；candidate 与 zero
+output 的 task 2、三个显式 static-BL-valid unwind slots 和 `[0x0202680C]` 相同。
+
+但是 candidate 与 zero output 的 normalized RGB8 pixel SHA-256 分别为
+`29ad62a2e213ccb1db042fa73cc23d1c3d157c55e9755298e3daed8de8c1e005` 与
+`56dd1650f49080a733376a92658ba718ab4876a1c69aa225449521f6b633e80f`；人工画面肉眼一致也不能
+覆盖精确 hash 差异。因此 Step 4 结论为 `not-proven`，未执行 Step 5、未接受/复制 checkpoint、
+未更新 ledger，也不声称 controller 或 player control。完整命令与证据见
+`.superpowers/sdd/task-4.7-step4-report.md`。
