@@ -5,7 +5,7 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `waiting for /root/player_observer_zero512_static`
+- implementer: `/root/player_observer_third_a`
 - report: `.superpowers/sdd/task-open-4.1-report.md`
 - implementation status: `DONE_WITH_CONCERNS; frame-1 zero-input observer scratch remained all-zero`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
@@ -18,7 +18,8 @@
 - second A result: `run 9d1534cf1531317d752e169914c04a66 completed/0 RSS51.980 MiB; output 9597d79c...321e; task2 left 0x08073616 and now resumes 0x08066524 inside 0x0808A588 helper, active return 0x08073785; observer scratch still zero`
 - second A static result: `0x08066524 movement helper completes without input; B-held only accelerates; later async global predicates have no finite local bound; protocol permits one bounded 512-frame zero capture and forbids key/retry`
 - zero512 result: `run 4da23dc77a4c2aae6de907b0c9547e59 completed/0 RSS52.004 MiB; task2 progressed 0x08066524 -> 0x08095F12/SP03001194; observer scratch still zero; no retry`
-- next gate: `bounded 0x08095F12 active helper/return analysis before any further zero frames or input`
+- zero512 static result: `current resume 0x08095F12 uses hardcoded new_keys&3 after yield; caller r7=0 only affects pre-yield early check; zero cannot complete, A/B equivalent; active return chain 0x08097905/0x0808A601/0x08073785`
+- next gate: `from zero512 state send exactly one A 5..13/capture80; read observer/context and stop; no next key`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
