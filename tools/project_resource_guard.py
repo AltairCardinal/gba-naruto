@@ -8,6 +8,7 @@ import json
 import os
 import queue
 import signal
+import stat
 import subprocess
 import sys
 import threading
@@ -601,6 +602,7 @@ def run_guarded(
     clock: Callable[[], float] = time.monotonic,
     sleeper: Callable[[float], None] = time.sleep,
     protection_backend: str | None = None,
+    success_marker: str | Path | None = None,
 ) -> GuardResult:
     """Run one owned child under lock, admission, and resource monitoring."""
 
@@ -609,8 +611,10 @@ def run_guarded(
     owned_tree = launcher is None
     effective_launcher = _launch_owned_process if owned_tree else launcher
     effective_backend = protection_backend or _platform_backend_name()
+    success_marker_path = None if success_marker is None else Path(success_marker)
     started_at = _utc_timestamp()
     summary_state = {"written": False, "result": None}
+    completion_state = {"trigger": None}
 
     def write_summary(result: GuardResult) -> None:
         metadata = {
@@ -619,6 +623,8 @@ def run_guarded(
             "started_at": started_at,
             "finished_at": _utc_timestamp(),
         }
+        if completion_state["trigger"] is not None:
+            metadata["completion_trigger"] = completion_state["trigger"]
         _write_summary_atomic(summary_path, result, metadata)
         summary_state["written"] = True
         summary_state["result"] = result
@@ -644,6 +650,8 @@ def run_guarded(
                     protection_backend=effective_backend,
                     owned_tree=owned_tree,
                     summary_writer=write_summary,
+                    success_marker=success_marker_path,
+                    completion_state=completion_state,
                 )
             except _GuardInterrupted as interrupted:
                 result = interrupted.result
@@ -683,6 +691,8 @@ def _run_while_locked(
     protection_backend: str,
     owned_tree: bool,
     summary_writer: Callable[[GuardResult], None],
+    success_marker: Path | None,
+    completion_state: dict[str, str | None],
 ) -> GuardResult:
     degraded = False
     try:
@@ -705,6 +715,9 @@ def _run_while_locked(
         if not config.allow_degraded:
             return GuardResult("protection-failure", 125, None, 0.0, protection_backend, False)
         degraded = True
+
+    if success_marker is not None and os.path.lexists(success_marker):
+        return GuardResult("protection-failure", 125, None, 0.0, protection_backend, degraded)
 
     try:
         process = launcher(
@@ -747,6 +760,8 @@ def _run_while_locked(
             sleeper=sleeper,
             protection_backend=protection_backend,
             degraded=degraded,
+            success_marker=success_marker,
+            completion_state=completion_state,
         )
     except BaseException as error:
         monitor_error = error
@@ -859,6 +874,8 @@ def _monitor_started_process(
     sleeper: Callable[[float], None],
     protection_backend: str,
     degraded: bool,
+    success_marker: Path | None,
+    completion_state: dict[str, str | None],
 ) -> GuardResult:
     started_at = clock()
     progress = _ProgressTracker(clock, started_at)
@@ -885,6 +902,37 @@ def _monitor_started_process(
             _finish_output_drainers(drainers, config.grace_period_s)
             reason = "completed" if child_exit == 0 else "child-exit"
             return GuardResult(reason, child_exit, child_pid, peak_rss, protection_backend, degraded)
+
+        if success_marker is not None:
+            try:
+                marker_ready = stat.S_ISREG(success_marker.lstat().st_mode)
+            except FileNotFoundError:
+                marker_ready = False
+            except OSError:
+                return _stop_with_result(
+                    process,
+                    drainers,
+                    "protection-failure",
+                    125,
+                    child_pid,
+                    peak_rss,
+                    protection_backend,
+                    degraded,
+                    config,
+                )
+            if marker_ready:
+                completion_state["trigger"] = "success-marker"
+                return _stop_with_result(
+                    process,
+                    drainers,
+                    "completed",
+                    0,
+                    child_pid,
+                    peak_rss,
+                    protection_backend,
+                    degraded,
+                    config,
+                )
 
         now = clock()
         if now - started_at >= config.wall_timeout_s:

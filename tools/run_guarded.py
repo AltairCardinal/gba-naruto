@@ -20,6 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
         description="Run one owned process tree with memory and timeout protection."
     )
     parser.add_argument("--summary", required=True, type=Path)
+    parser.add_argument("--success-marker", type=Path)
     parser.add_argument(
         "--lock-file",
         type=Path,
@@ -62,6 +63,7 @@ def main(argv: list[str] | None = None) -> int:
         summary_path=args.summary,
         lock_path=args.lock_file,
         config=config,
+        success_marker=args.success_marker,
     )
     payload = json.loads(args.summary.read_text(encoding="utf-8"))
     print(json.dumps(payload, separators=(",", ":"), ensure_ascii=False))

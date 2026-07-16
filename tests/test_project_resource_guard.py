@@ -353,6 +353,101 @@ Pages wired down:                        3000.
                 self.assertEqual(result.reason, reason)
                 self.assertEqual(result.exit_code, exit_code)
                 self.assertEqual(summary["reason"], reason)
+                self.assertNotIn("completion_trigger", summary)
+
+    def test_preexisting_success_marker_rejects_without_launching_child(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "done.marker"
+            marker.write_text("stale", encoding="utf-8")
+            launcher = RecordingLauncher(FakeProcess(polls_before_exit=100))
+
+            result = run_guarded(
+                ["fake-command"],
+                lock_path=root / "task.lock",
+                summary_path=root / "summary.json",
+                success_marker=marker,
+                launcher=launcher,
+                memory_reader=lambda: MemorySnapshot(4096, "fake-memory"),
+                tree_rss_reader=lambda pid: 1,
+                protection_backend="fake-process-tree",
+            )
+
+            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            self.assertEqual(launcher.calls, [])
+            summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
+            self.assertNotIn("completion_trigger", summary)
+
+    def test_fresh_success_marker_stops_owned_tree_and_reports_trigger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "done.marker"
+            process = FakeProcess(polls_before_exit=100)
+            clock = FakeClock()
+
+            def create_marker_after_first_sample(seconds):
+                clock.sleep(seconds)
+                marker.write_text("done", encoding="utf-8")
+
+            result = run_guarded(
+                ["fake-command"],
+                lock_path=root / "task.lock",
+                summary_path=root / "summary.json",
+                success_marker=marker,
+                config=GuardConfig(
+                    wall_timeout_s=100,
+                    idle_timeout_s=100,
+                    sample_interval_s=1,
+                ),
+                launcher=RecordingLauncher(process),
+                memory_reader=lambda: MemorySnapshot(4096, "fake-memory"),
+                tree_rss_reader=lambda pid: 1,
+                clock=clock,
+                sleeper=create_marker_after_first_sample,
+                protection_backend="fake-process-tree",
+            )
+
+            self.assertEqual((result.reason, result.exit_code), ("completed", 0))
+            self.assertTrue(process.terminated)
+            summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
+            self.assertEqual(summary["completion_trigger"], "success-marker")
+
+    def test_missing_or_symlink_success_marker_still_times_out(self):
+        for marker_kind in ("missing", "symlink"):
+            with self.subTest(marker_kind=marker_kind), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                marker = root / "done.marker"
+                process = FakeProcess(polls_before_exit=100)
+                clock = FakeClock()
+
+                def sample(seconds):
+                    clock.sleep(seconds)
+                    if marker_kind == "symlink" and not marker.is_symlink():
+                        target = root / "target.marker"
+                        target.write_text("done", encoding="utf-8")
+                        marker.symlink_to(target)
+
+                result = run_guarded(
+                    ["fake-command"],
+                    lock_path=root / "task.lock",
+                    summary_path=root / "summary.json",
+                    success_marker=marker,
+                    config=GuardConfig(
+                        wall_timeout_s=2,
+                        idle_timeout_s=100,
+                        sample_interval_s=1,
+                    ),
+                    launcher=RecordingLauncher(process),
+                    memory_reader=lambda: MemorySnapshot(4096, "fake-memory"),
+                    tree_rss_reader=lambda pid: 1,
+                    clock=clock,
+                    sleeper=sample,
+                    protection_backend="fake-process-tree",
+                )
+
+                self.assertEqual((result.reason, result.exit_code), ("wall-timeout", 124))
+                summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
+                self.assertNotIn("completion_trigger", summary)
 
     def test_wall_timeout_stops_only_owned_child(self):
         process = FakeProcess(polls_before_exit=100)

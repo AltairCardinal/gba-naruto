@@ -208,6 +208,48 @@ class RunGuardedCliTests(unittest.TestCase):
         finally:
             _stop_exact_process(sentinel)
 
+    def test_success_marker_stops_owned_tree_and_writes_completion_trigger(self):
+        sentinel = subprocess.Popen(SLEEP_COMMAND)
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                marker = root / "done.marker"
+                pid_file = root / "tree.json"
+                summary_path = root / "summary.json"
+                helper = (
+                    "import json, os, subprocess, sys, time; "
+                    "from pathlib import Path; "
+                    "grandchild=subprocess.Popen([sys.executable, '-c', "
+                    "'import time; time.sleep(30)']); "
+                    f"Path({str(pid_file)!r}).write_text(json.dumps([os.getpid(), grandchild.pid])); "
+                    f"Path({str(marker)!r}).write_text('done'); "
+                    "time.sleep(30)"
+                )
+
+                completed = self._run_cli(
+                    [
+                        "--summary", str(summary_path),
+                        "--success-marker", str(marker),
+                        "--lock-file", str(root / "heavy.lock"),
+                        "--min-available-mib", "0",
+                        "--wall-timeout-s", "5",
+                        "--idle-timeout-s", "5",
+                        "--sample-interval-s", "0.05",
+                        "--grace-period-s", "0.2",
+                        "--", sys.executable, "-c", helper,
+                    ]
+                )
+
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                pids = json.loads(pid_file.read_text(encoding="utf-8"))
+                self.assertTrue(all(_wait_pid_gone(pid) for pid in pids), pids)
+                self.assertIsNone(sentinel.poll(), "unrelated sentinel was terminated")
+                summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                self.assertEqual((summary["reason"], summary["exit_code"]), ("completed", 0))
+                self.assertEqual(summary["completion_trigger"], "success-marker")
+        finally:
+            _stop_exact_process(sentinel)
+
     def test_root_exit_does_not_abandon_live_grandchild(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
