@@ -623,7 +623,11 @@ def run_guarded(
             "started_at": started_at,
             "finished_at": _utc_timestamp(),
         }
-        if completion_state["trigger"] is not None:
+        if (
+            completion_state["trigger"] is not None
+            and result.reason == "completed"
+            and result.exit_code == 0
+        ):
             metadata["completion_trigger"] = completion_state["trigger"]
         _write_summary_atomic(summary_path, result, metadata)
         summary_state["written"] = True

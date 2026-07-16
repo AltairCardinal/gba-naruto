@@ -412,6 +412,40 @@ Pages wired down:                        3000.
             summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
             self.assertEqual(summary["completion_trigger"], "success-marker")
 
+    def test_success_marker_stop_failure_omits_completion_trigger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "done.marker"
+            process = FailingStopProcess("kill")
+            clock = FakeClock()
+
+            def create_marker_after_first_sample(seconds):
+                clock.sleep(seconds)
+                marker.write_text("done", encoding="utf-8")
+
+            result = run_guarded(
+                ["fake-command"],
+                lock_path=root / "task.lock",
+                summary_path=root / "summary.json",
+                success_marker=marker,
+                config=GuardConfig(
+                    wall_timeout_s=100,
+                    idle_timeout_s=100,
+                    sample_interval_s=1,
+                    grace_period_s=0.1,
+                ),
+                launcher=RecordingLauncher(process),
+                memory_reader=lambda: MemorySnapshot(4096, "fake-memory"),
+                tree_rss_reader=lambda pid: 1,
+                clock=clock,
+                sleeper=create_marker_after_first_sample,
+                protection_backend="fake-process-tree",
+            )
+
+            self.assertEqual((result.reason, result.exit_code), ("protection-failure", 125))
+            summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
+            self.assertNotIn("completion_trigger", summary)
+
     def test_missing_or_symlink_success_marker_still_times_out(self):
         for marker_kind in ("missing", "symlink"):
             with self.subTest(marker_kind=marker_kind), tempfile.TemporaryDirectory() as tmp:
