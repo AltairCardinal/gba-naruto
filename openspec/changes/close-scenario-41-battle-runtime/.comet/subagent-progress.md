@@ -64,6 +64,7 @@
 - fourth-A zero512 executor: `/root/fourth_a_zero512`; one zero-input settle only`
 - fourth-A zero512 result: `run b0d91a544af73920fa644a514de75dd8; output f04e2c40...58d4; task2 08066524->08095F12; script ptr0805B327->0805B37C; observer zero; guard completed/0 RSS51.930MiB; new wait, not player control`
 - next static gate: `bounded offline analysis around script pointer 0x0805B37C/interpreter path before authorizing any new key`
+- script-5B37C static analyst: `dispatched fresh read-only agent; no mGBA, no key input, no source edits; report .superpowers/sdd/task-open-4.1-script-5b37c-static.md`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
