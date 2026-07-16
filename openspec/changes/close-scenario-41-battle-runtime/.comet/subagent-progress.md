@@ -55,6 +55,8 @@
 - input-phase analysis: `/root/macos_gdb_smoke_review` inspects game scheduler/new_keys timing; `/root/macos_gdb_owner_review` compares GDB+Lua/observer phase instrumentation; both read-only, no mGBA`
 - input-phase decision: `game-side evidence 0.99 proves third-A consumed original wait; reject five-file phase-mode expansion as unnecessary; next run is one zero-input validation from third-A state 61ea836a...6629 before any further A`
 - corrected third-A zero executor: `/root/third_a_zero_validation`; one 80-frame zero-input run, no retry/cycle/input; exact script-pointer/task/observer/RGB gate`
+- corrected third-A zero result: `run f54f69ad40fee912a592227e79dfebeb; output dcae38f6...762b; task2/SP/LR/resume/script ptr0805B325/object/observer and RGB af6429...ca06 exact; guard completed/0 RSS51.898MiB; stable consumable boundary`
+- next natural input: `from corrected zero output dcae38f6...762b send exactly one A@5..13 capture80; compare script pointer/object/task and fresh ordered PCO1/PCU1; no other key/retry`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
