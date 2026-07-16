@@ -13,9 +13,13 @@ local target = assert(tonumber(target_text:sub(3), 16))
 
 local output_path = required_env("MGBA_BREAKPOINT_TRACE_OUTPUT")
 local max_hits_text = os.getenv("MGBA_BREAKPOINT_TRACE_MAX_HITS") or "256"
+assert(
+	max_hits_text:match("^[1-9][0-9]*$"),
+	"MGBA_BREAKPOINT_TRACE_MAX_HITS must be a positive integer"
+)
 local max_hits = assert(tonumber(max_hits_text), "MGBA_BREAKPOINT_TRACE_MAX_HITS must be a positive integer")
 assert(
-	max_hits > 0 and max_hits == math.floor(max_hits),
+	max_hits < math.huge,
 	"MGBA_BREAKPOINT_TRACE_MAX_HITS must be a positive integer"
 )
 
@@ -24,8 +28,15 @@ local frame = 0
 local hit_count = 0
 local breakpoint_id = nil
 
+local function clear_and_close()
+	assert(emu:clearBreakpoint(breakpoint_id), "failed to clear breakpoint")
+	breakpoint_id = nil
+	assert(f:close(), "failed to close breakpoint trace output")
+end
+
 local function on_breakpoint()
 	if hit_count >= max_hits then
+		clear_and_close()
 		return
 	end
 
@@ -44,14 +55,17 @@ local function on_breakpoint()
 	f:flush()
 
 	if hit_count >= max_hits then
-		emu:clearBreakpoint(breakpoint_id)
-		breakpoint_id = nil
-		f:close()
+		clear_and_close()
 	end
 end
 
 callbacks:add("start", function()
-	breakpoint_id = emu:setBreakpoint(on_breakpoint, target)
+	local installed_id = emu:setBreakpoint(on_breakpoint, target)
+	if type(installed_id) ~= "number" or installed_id < 0 or installed_id ~= math.floor(installed_id) then
+		f:close()
+		error("failed to set breakpoint", 0)
+	end
+	breakpoint_id = installed_id
 end)
 
 callbacks:add("frame", function()
