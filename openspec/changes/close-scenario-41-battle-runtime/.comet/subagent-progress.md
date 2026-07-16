@@ -5,7 +5,7 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/player_observer_second_a`
+- implementer: `waiting for /root/player_observer_second_a_static`
 - report: `.superpowers/sdd/task-open-4.1-report.md`
 - implementation status: `DONE_WITH_CONCERNS; frame-1 zero-input observer scratch remained all-zero`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
@@ -15,7 +15,8 @@
 - first A zero result: `run 5486989b400b4be14109059cdafa2a0d; task2/r4/r5/r6=3 and all observer scratch exact, but RGB ff83...2704 -> 1814...cfad; candidate not yet consumable`
 - first A cycle result: `run afae6115c824079b0b4d55132c449ae5; 600/600 frames, p=64, H0=H64=H128=ff83...2704; frame600 task2 r6=3/scratch zero; guard completed/0 RSS52.262 MiB`
 - first A p64 acceptance: `p1 run 3f8de280b9718bc1aa610e735ac0199c state 3dc4c4a7...7c52; p2 run 48b00dc4d9aa03cc9fd7563923b79d11 state e7efacd1...a430; candidate/p1/p2 exact RGB ff83...2704, task2 r6=3, scratch zero; both guards clean`
-- next gate: `from p1 send exactly one second A 5..13/capture240; record PCO1/PCU1 and stop on any fresh event; no further input`
+- second A result: `run 9d1534cf1531317d752e169914c04a66 completed/0 RSS51.980 MiB; output 9597d79c...321e; task2 left 0x08073616 and now resumes 0x08066524 inside 0x0808A588 helper, active return 0x08073785; observer scratch still zero`
+- next gate: `bounded 0x0808A588/0x08066524 -> caller 0x08073784 -> PCO1 static route; no guessed zero frames or input`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
