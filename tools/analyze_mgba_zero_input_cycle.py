@@ -198,6 +198,15 @@ def _require_snapshot_unchanged(
         raise CycleAnalysisError(f"{label} changed during analysis")
 
 
+def _publish_no_clobber(temporary: Path, output: Path) -> None:
+    try:
+        os.link(temporary, output)
+    except FileExistsError as error:
+        raise CycleAnalysisError(
+            f"output ceased to be fresh before publish: {output}"
+        ) from error
+
+
 def _atomic_write_text(path: Path, payload: str) -> None:
     if path.is_symlink() or path.exists():
         raise CycleAnalysisError(f"output ceased to be fresh before publish: {path}")
@@ -210,9 +219,7 @@ def _atomic_write_text(path: Path, payload: str) -> None:
             stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())
-        if path.is_symlink() or path.exists():
-            raise CycleAnalysisError(f"output ceased to be fresh before publish: {path}")
-        os.replace(temporary, path)
+        _publish_no_clobber(temporary, path)
     finally:
         temporary.unlink(missing_ok=True)
 

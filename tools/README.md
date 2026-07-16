@@ -429,7 +429,8 @@ matching frames `[0,p,2p]` or `status=not-proven`.
 
 The output must be a fresh non-symlink path outside the frame directory and must not
 overlap the baseline, sampler, or audit. The analyzer revalidates those inputs and all
-600 frame files before publishing the JSON through an atomic same-directory replace;
+600 frame files before publishing the JSON through an atomic same-filesystem no-clobber
+hard link;
 any provenance drift fails closed without replacing input evidence.
 
 Evidence boundary: this diagnostic can only choose a candidate period. It is not

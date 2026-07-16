@@ -341,6 +341,50 @@ class CliTests(unittest.TestCase):
                 for label, payload in before.items():
                     self.assertEqual(paths[label].read_bytes(), payload)
 
+    def test_cli_fails_closed_when_critical_input_drifts_during_analysis(self):
+        for label in ("baseline", "sampler", "audit", "frame"):
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as tmp:
+                argv, paths = self._fixture(Path(tmp))
+                target = (
+                    paths["frame_dir"] / "frame-0001.png"
+                    if label == "frame"
+                    else paths[label]
+                )
+                drift = f"{label}-drift".encode("ascii")
+
+                def mutate_then_return_hashes(_frame_dir: Path) -> dict[int, str]:
+                    target.write_bytes(drift)
+                    return {
+                        frame: f"{frame:064x}" for frame in range(1, 601)
+                    }
+
+                with mock.patch.object(
+                    analyzer,
+                    "analyze_frame_directory",
+                    side_effect=mutate_then_return_hashes,
+                ):
+                    with self.assertRaisesRegex(
+                        analyzer.CycleAnalysisError, "changed|SHA-256"
+                    ):
+                        analyzer.main(argv)
+
+                self.assertEqual(target.read_bytes(), drift)
+                self.assertFalse(paths["output"].exists())
+
+    def test_atomic_publish_never_clobbers_a_target_that_already_appeared(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            temporary = root / ".analysis.tmp"
+            temporary.write_bytes(b"new report")
+            output = root / "analysis.json"
+            output.write_bytes(b"concurrent evidence")
+
+            with self.assertRaises(analyzer.CycleAnalysisError):
+                analyzer._publish_no_clobber(temporary, output)
+
+            self.assertEqual(output.read_bytes(), b"concurrent evidence")
+            self.assertEqual(temporary.read_bytes(), b"new report")
+
     def test_cli_writes_not_proven_with_empty_matches_when_no_period_exists(self):
         with tempfile.TemporaryDirectory() as tmp:
             argv, paths = self._fixture(Path(tmp))
