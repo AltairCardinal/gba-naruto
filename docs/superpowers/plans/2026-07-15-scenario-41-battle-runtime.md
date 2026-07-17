@@ -1037,10 +1037,12 @@ def test_patches_both_checked_movedone_calls(self):
 test('MOVEDONE requires a fresh event and matching unit transition', () => {
   assert.equal(evaluateMovedoneEvidence({
     baseline: call(0, 0), final: call(1, 8),
-    beforeUnit: { x: 4, y: 4, moved: false },
-    afterUnit: { x: 4, y: 7, moved: true },
-    explicitInputs: ['ArrowDown', 'ArrowDown', 'ArrowDown', 'KeyZ'],
+    controlledUnit: { slot: 1, characterId: 1, affiliation: 0 },
+    actingUnitBefore: { slot: 2, characterId: 30, affiliation: 1, x: 2, y: 3, moved: false },
+    actingUnitAfter: { slot: 2, characterId: 30, affiliation: 1, x: 2, y: 4, moved: true },
+    explicitInputs: ['ArrowDown', 'KeyZ'],
     automaticInputs: [],
+    automaticGameAction: false,
   }).verified, true);
 });
 ```
@@ -1059,7 +1061,7 @@ Expected: both commands FAIL for missing builder/evaluator.
 
 - [ ] **Step 3: Implement the minimal two-call observer and evaluator**
 
-Use checked base calls `0x0807443C → 0x080722A8` and `0x08074918 → 0x080722A8`, independent slots/event codes and the shared wrapper API. `evaluateMovedoneEvidence` requires one fresh candidate event, explicit input only, same controlled unit identity, coordinate/state transition, and scenario 41.
+Use checked base calls `0x0807443C → 0x080722A8` and `0x08074918 → 0x080722A8`, independent slots/event codes and the shared wrapper API. `0x080722A8` clears entry `r0`, so wrapper arguments cannot identify the acting unit. Each candidate event must instead bind the current-object slot/pointer to its resolved WRAM unit record. `evaluateMovedoneEvidence` keeps the accepted `controlledUnit` identity separate from same-identity `actingUnitBefore/After`, requires one fresh candidate event, a real coordinate/action-or-round transition, scenario 41, and an explicit driver input audit. `automaticInputs` means driver-injected recovery only; game-internal tutorial/AI progression is recorded separately as `automaticGameAction` and must not be inferred from the call arguments.
 
 - [ ] **Step 4: Run GREEN and build the ROM**
 
@@ -1075,9 +1077,9 @@ Expected: all tests PASS; confined diff contains exactly two calls and two caves
 
 - [ ] **Step 5: Execute the first tutorial action in short explicit steps**
 
-From `scenario-41-player-turn.ss9`, sample the actual controlled unit and target `(4,7)`. Send one direction/confirm at a time, export a candidate checkpoint at each stable tutorial prompt, and never use adaptive recovery. Complete direction and defense selections only when the preceding screenshot/WRAM boundary matches the tutorial state.
+From `scenario-41-player-turn.ss9`, first sample the actual controlled and acting-unit object/record boundaries; do not import the old battle-40 `(4,4)→(4,7)→(4,10)` route into battle 41. Send one direction/confirm at a time, export a candidate checkpoint at each stable tutorial prompt, and never use adaptive recovery. The first bounded diagnostic stops after one explicit input whether or not a MOVEDONE site fires; only a fresh hook sample may establish the actual acting unit and next legal transition. Complete later direction and defense selections only when the preceding screenshot/WRAM boundary matches the tutorial state.
 
-Acceptance requires fresh MOVEDONE at either checked call, matching controlled-unit before/after coordinates and action/round state, no automatic inputs, and a base-ROM control replay. Then accept `scenario-41-turn-1-complete.ss9` in the ledger.
+Acceptance requires fresh MOVEDONE at either checked call, a hook-time object slot/pointer resolved to the same acting-unit record before/after, a real coordinate and action/round-state transition, no automatic driver inputs, and a base-ROM control replay. The accepted player-controlled unit remains a separate diagnostic unless the hook-time record proves it is also the acting unit. Then accept `scenario-41-turn-1-complete.ss9` in the ledger.
 
 - [ ] **Step 6: Persist, verify, and create a focused local commit**
 

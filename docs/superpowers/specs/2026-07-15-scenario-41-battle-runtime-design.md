@@ -129,6 +129,10 @@ anchor 重新采样并选择 `p=64`；两段独立 64-frame zero replay 通过�
 
 从已接纳的 player-turn checkpoint 按教程路线继续第一回合；其实际起点为 slot 1 / character 1 /
 affiliation 0 / `(4,10)`，但目标与操作仍以加载后实时状态和教程提示为准，不用旧文档假设替代。
+旧 `(4,4)→(4,7)→(4,10)` 路线来自 battle 40，不得套用到当前 battle 41；MOVEDONE callee
+`0x080722A8` 也不会保留可用于识别单位的入口 `r0`。因此验收将 accepted controlled unit 与
+hook-time `actingUnitBefore/After` 分开，后者必须由 current-object slot/pointer 解引用到同一 WRAM
+record 后再比较坐标和行动状态。driver 自动输入与游戏内部教程/AI 行动分别记录。
 输入拆成短步骤，每个稳定边界保存候选状态。正证据要求 MOVEDONE 新鲜命中以及单位坐标、
 回合/行动状态的前后变化一致；随后固化 turn-1-complete。当前 player-turn 接纳本身不证明
 MOVEDONE、胜利或 postbattle。
