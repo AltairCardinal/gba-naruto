@@ -116,6 +116,10 @@
 - Task2 review result: `Spec PASS / Quality APPROVED; Critical 0, Important 0, Minor 0; parent rerun 13/13 and policy audit valid`
 - Task2 completion: `complete at 35213ea; focused plan Task 2 checked; OpenSpec 4.1 remains unchecked pending canonical runtime evidence`
 - Task3 dispatch: `fresh runtime implementer from base 54f0638; brief .superpowers/sdd/task-3-brief.md; rebuild/audit first, then at most one justified diagnostic boundary at a time; all mGBA via tools/run_guarded.py + heavy lock; baseline four records zero; canonical evidence only from new ROM/controller checkpoint; no blind input; report .superpowers/sdd/task-3-active-current-unit-runtime-report.md`
+- Task3 Step1 result: `new probe SHA256 41d4292e...15c99; confined 243 changed bytes in three hooks/three caves; Python 16/16 + Node 13/13; four-record layout disjoint; no runtime baseline claim from offline audit`
+- Task3 diagnostic result: `cross-probe old2992a843/new41d4292e differs only 81 PCA1 hook/cave bytes; one zero diagnostic 03087fd8 completed/0 RSS52.129MiB; existing PCO1 seq1 exact, PCU1/PCA1 zero, RGB drift; output rejected and no retry/input`
+- Task3 canonical replay result: `post-load baseline 997e7497 has counter/PCO1/PCU1/PCA1 all zero; audited segmented chain through selection A 0813bdb8 completed with fresh PCO1 seq1 args(9,0,1), but PCU1/PCA1 remain zero; evaluator false/current-unit-observer-not-fresh; current stack raw 08073A4F from 08073A4A->08067158 and no 08073BB1; no checkpoint/checkbox/docs/commit`
+- Task3 next gate: `fresh read-only static analysis of action-menu return/result paths to prove one legal transition toward 08073BAC; only then design one guarded GDB pre-transition breakpoint run; no guessed action input`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
