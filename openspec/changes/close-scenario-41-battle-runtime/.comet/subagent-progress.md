@@ -1,14 +1,14 @@
 # Subagent Progress
 
-- plan task: `Task 3 Step 4/5: 验收并持久化首个玩家控制 checkpoint`
-- openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
-- stage: `done`
+- plan task: `Task 6 Step 1-4: MOVEDONE observer/evaluator preflight and TDD implementation`
+- openspec task: `5.1 从玩家控制快照完成第一回合 (4,4)→(4,7)，捕获 MOVEDONE 与回合状态变化`
+- stage: `implementing`
 - review_mode: `thorough`
-- review_fix_round: `2/2`
-- implementer: `/root/scenario41_player_turn_persist`
-- report: `.superpowers/sdd/task-open-4.1-player-turn-persistence-report.md`
-- implementation status: `DONE_WITH_CONCERNS at 91d33a4; strict RED missing checkpoint; GREEN ledger14/14, evaluator19/19, builder/observer/savestate26/26, accepted=8 errors=0, OpenSpec strict and diff clean; absent requested test module replaced by existing tests.test_inspect_mgba_savestate`
-- reviewer: `/root/scenario41_player_turn_scratch_rereview`; `Spec PASS / Quality APPROVED; two review rounds closed all findings; scratch labels and three-site alternative semantics match builder/design; no findings remain`
+- review_fix_round: `0/2`
+- implementer: `pending after preflight semantic audit`
+- report: `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
+- implementation status: `preflight must reconcile accepted controlled unit slot1 at (4,10) with plan/OpenSpec transition (4,4)->(4,7) before encoding evaluator identity semantics`
+- reviewer: `pending`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
