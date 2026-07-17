@@ -73,6 +73,11 @@ function inputMatchesPlan(events, plan) {
   });
 }
 
+const CURRENT_UNIT_SOURCES = new Map([
+  [2, '0x080739D8'],
+  [3, '0x08073BAC'],
+]);
+
 function evaluatePlayerControlEvidence(input = {}) {
   const baseline = input.baseline || {};
   const final = input.final || {};
@@ -82,6 +87,14 @@ function evaluatePlayerControlEvidence(input = {}) {
   const controlledDiagnosticValid = isControlledSlot(input.controlledSlot)
     && isCharacterId(input.controlledCharacterId)
     && isAffiliation(input.controlledAffiliation);
+  const selectorProtocolValid = player.argument0 === 9
+    && player.argument1 === 0
+    && player.argument2 === 1;
+  const currentSourceValid = CURRENT_UNIT_SOURCES.get(current.eventCode)
+    === input.currentSourceHook;
+  const controlledUnitConsistent = input.controlledUnitFromWram === true
+    && controlledDiagnosticValid
+    && current.argument0 === input.controlledCharacterId;
   const immutableExpectedPlan = expectedInputPlanValid(input.expectedInputPlan);
   const checks = {
     playerObserverFresh: isFresh(player, baseline.player),
@@ -90,16 +103,14 @@ function evaluatePlayerControlEvidence(input = {}) {
     currentAfterBaselineBoundary: isBoundedForward(current.sequence, baseline.sequenceBoundary),
     observerOrderValid: isBoundedForward(current.sequence, player.sequence),
     eventCodesValid: player.eventCode === PLAYER_CONTROL_EVENT
-      && current.eventCode === CURRENT_UNIT_EVENT,
+      && CURRENT_UNIT_SOURCES.has(current.eventCode),
+    selectorProtocolValid,
+    currentSourceValid,
     battleIdValid: input.battleId === 41,
     mapLoaded: input.mapLoaded === true,
     battleMapForeground: input.screenState === 'battle-map',
     controlledUnitDiagnosticValid: controlledDiagnosticValid,
-    controlledUnitConsistent: controlledDiagnosticValid
-      && player.argument0 === input.controlledSlot
-      && current.argument0 === input.controlledCharacterId
-      && player.argument2 === input.controlledAffiliation
-      && current.argument2 === input.controlledAffiliation,
+    controlledUnitConsistent,
     expectedInputPlanValid: immutableExpectedPlan,
     noUnlistedInputs: inputEvents.every(event => event?.classification === 'explicit'),
     inputComplete: inputEvents.length > 0
@@ -114,6 +125,8 @@ function evaluatePlayerControlEvidence(input = {}) {
     ['playerAfterBaselineBoundary', 'player-observer-not-after-baseline-boundary'],
     ['currentAfterBaselineBoundary', 'current-unit-observer-not-after-baseline-boundary'],
     ['eventCodesValid', 'observer-event-code-invalid'],
+    ['selectorProtocolValid', 'player-selector-protocol-invalid'],
+    ['currentSourceValid', 'current-unit-source-invalid'],
     ['observerOrderValid', 'observer-order-invalid'],
     ['battleIdValid', 'battle-id-invalid'],
     ['mapLoaded', 'map-not-loaded'],

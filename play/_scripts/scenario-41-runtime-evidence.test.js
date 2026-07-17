@@ -54,15 +54,17 @@ function validSample() {
       sequenceBoundary: 0,
     },
     final: {
-      player: call(1, 4),
-      current: call(1, 5, { eventCode: 2 }),
+      player: call(1, 1, { argument0: 9, argument1: 0, argument2: 1, eventCode: 1 }),
+      current: call(1, 2, { argument0: 0x31, eventCode: 3 }),
     },
+    currentSourceHook: '0x08073BAC',
     battleId: 41,
     mapLoaded: true,
     screenState: 'battle-map',
-    controlledCharacterId: 1,
     controlledSlot: 1,
-    controlledAffiliation: 1,
+    controlledCharacterId: 0x31,
+    controlledAffiliation: 0,
+    controlledUnitFromWram: true,
     expectedInputPlan: expectedInputPlan(),
     inputEvents: [completedInputEvent()],
   };
@@ -109,8 +111,8 @@ test('accepts uint32 hit-count and sequence wrap as bounded forward progress', (
     sequenceBoundary: 0xFFFFFFFF,
   };
   sample.final = {
-    player: call(0, 0),
-    current: call(0, 1, { eventCode: 2 }),
+    player: call(0, 0, { argument0: 9, argument1: 0, argument2: 1, eventCode: 1 }),
+    current: call(0, 1, { argument0: 0x31, eventCode: 3 }),
   };
   assert.equal(evaluatePlayerControlEvidence(sample).verified, true);
 });
@@ -121,6 +123,7 @@ test('rejects stale, reversed and automatic-input samples', () => {
   assert.equal(evaluatePlayerControlEvidence(stale).reason, 'player-observer-not-fresh');
 
   const reversed = validSample();
+  reversed.final.player.sequence = 4;
   reversed.final.current.sequence = 3;
   assert.equal(evaluatePlayerControlEvidence(reversed).reason, 'observer-order-invalid');
 
@@ -155,10 +158,6 @@ test('rejects wrong event codes and inconsistent controlled unit evidence', () =
   wrongCharacter.controlledCharacterId = 7;
   assert.equal(evaluatePlayerControlEvidence(wrongCharacter).reason, 'controlled-unit-inconsistent');
 
-  const wrongAffiliation = validSample();
-  wrongAffiliation.final.current.argument2 = 0;
-  assert.equal(evaluatePlayerControlEvidence(wrongAffiliation).reason, 'controlled-unit-inconsistent');
-
   for (const missing of ['controlledSlot', 'controlledCharacterId', 'controlledAffiliation']) {
     const sample = validSample();
     delete sample[missing];
@@ -168,6 +167,68 @@ test('rejects wrong event codes and inconsistent controlled unit evidence', () =
       `${missing} must fail closed`,
     );
   }
+});
+
+test('rejects any deviation from the exact PCO1 selector protocol', () => {
+  for (const [field, value] of [
+    ['argument0', 1],
+    ['argument1', 1],
+    ['argument2', 0],
+  ]) {
+    const sample = validSample();
+    sample.final.player[field] = value;
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'player-selector-protocol-invalid',
+      `${field} must match the PCO1 (9, 0, 1) protocol`,
+    );
+  }
+});
+
+test('binds each current-unit event to its exact source hook', () => {
+  const wrongEvent2Source = validSample();
+  wrongEvent2Source.final.current.eventCode = 2;
+  assert.equal(
+    evaluatePlayerControlEvidence(wrongEvent2Source).reason,
+    'current-unit-source-invalid',
+  );
+
+  const event2 = validSample();
+  event2.final.current.eventCode = 2;
+  event2.currentSourceHook = '0x080739D8';
+  assert.equal(evaluatePlayerControlEvidence(event2).verified, true);
+
+  const wrongEvent3Source = validSample();
+  wrongEvent3Source.currentSourceHook = '0x080739D8';
+  assert.equal(
+    evaluatePlayerControlEvidence(wrongEvent3Source).reason,
+    'current-unit-source-invalid',
+  );
+});
+
+test('uses the WRAM character diagnostic rather than selector or current register fields', () => {
+  const wrongCharacter = validSample();
+  wrongCharacter.final.current.argument0 = 0x32;
+  assert.equal(evaluatePlayerControlEvidence(wrongCharacter).reason, 'controlled-unit-inconsistent');
+
+  const missingWramSource = validSample();
+  delete missingWramSource.controlledUnitFromWram;
+  assert.equal(
+    evaluatePlayerControlEvidence(missingWramSource).reason,
+    'controlled-unit-inconsistent',
+  );
+
+  const oldSlotSelectorSample = validSample();
+  oldSlotSelectorSample.final.player.argument0 = oldSlotSelectorSample.controlledSlot;
+  assert.equal(
+    evaluatePlayerControlEvidence(oldSlotSelectorSample).reason,
+    'player-selector-protocol-invalid',
+  );
+
+  const ignoredCurrentRegisters = validSample();
+  ignoredCurrentRegisters.final.current.argument1 = 0xFFFF;
+  ignoredCurrentRegisters.final.current.argument2 = 0xFFFF;
+  assert.equal(evaluatePlayerControlEvidence(ignoredCurrentRegisters).verified, true);
 });
 
 test('requires one completed explicit A matching the immutable expected plan', () => {
