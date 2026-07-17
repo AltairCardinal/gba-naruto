@@ -109,6 +109,8 @@
 - Task1 review result: `Spec PASS / Quality APPROVED; Critical 0, Important 0, Minor 1; parent rerun 16/16 and policy audit valid; Minor PCA1-specific machine execution test is non-blocking because all sites share the same branch-free wrapper and published ABI coverage; carry to final review`
 - Task1 completion: `complete at 1d91a8e; focused plan Task 1 checked; OpenSpec 4.1 remains unchecked pending evaluator and canonical runtime evidence`
 - Task2 dispatch: `fresh evaluator implementer from base 6b29cf0; brief .superpowers/sdd/task-2-brief.md; allowed only play/_scripts/scenario-41-runtime-evidence.js + .test.js; strict TDD; report .superpowers/sdd/task-2-active-current-unit-report.md; no mGBA; no plan/OpenSpec edits; one focused commit`
+- Task2 first implementer outcome: `fresh /root/active_current_unit_evaluator cost-stopped after about 2 minutes with no RED/report/diff; interrupted; no repository change`
+- Task2 retry: `fresh implementer receives same brief plus exact evaluator/test line anchors; two-file scope unchanged; strict TDD; one focused commit`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
