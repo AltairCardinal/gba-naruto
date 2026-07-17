@@ -3,6 +3,13 @@ import unittest
 from pathlib import Path
 
 from tools.build_player_control_runtime_probe import (
+    ACTIVE_CURRENT_UNIT_EVENT,
+    ACTIVE_CURRENT_UNIT_HOOK,
+    ACTIVE_CURRENT_UNIT_MAGIC,
+    ACTIVE_CURRENT_UNIT_ORIGINAL,
+    ACTIVE_CURRENT_UNIT_SCRATCH,
+    ACTIVE_CURRENT_UNIT_STUB,
+    ACTIVE_CURRENT_UNIT_STUB_OFFSET,
     BASE_SHA1,
     CURRENT_UNIT_HOOK,
     CURRENT_UNIT_MAGIC,
@@ -88,6 +95,32 @@ class PlayerControlRuntimeProbeTests(unittest.TestCase):
         self.assertIn(CURRENT_UNIT_MAGIC.to_bytes(4, "little"), stub)
         self.assertIn((CURRENT_UNIT_ORIGINAL | 1).to_bytes(4, "little"), stub)
 
+    def test_active_current_unit_call_uses_an_independent_transparent_wrapper(self):
+        base = (ROOT / "rom/base.gba").read_bytes()
+        probe = build_probe(base)
+        hook_offset = ACTIVE_CURRENT_UNIT_HOOK - ROM_BASE
+        stub = probe[
+            ACTIVE_CURRENT_UNIT_STUB_OFFSET : ACTIVE_CURRENT_UNIT_STUB_OFFSET + STUB_SIZE
+        ]
+
+        self.assertEqual(ACTIVE_CURRENT_UNIT_HOOK, 0x08073BAC)
+        self.assertEqual(ACTIVE_CURRENT_UNIT_ORIGINAL, 0x08069DB8)
+        self.assertEqual(ACTIVE_CURRENT_UNIT_STUB, 0x0809E900)
+        self.assertEqual(ACTIVE_CURRENT_UNIT_SCRATCH, 0x0203F0A0)
+        self.assertEqual(ACTIVE_CURRENT_UNIT_MAGIC, int.from_bytes(b"PCA1", "little"))
+        self.assertEqual(ACTIVE_CURRENT_UNIT_EVENT, 3)
+        self.assertEqual(
+            base[hook_offset : hook_offset + 4],
+            encode_thumb_bl(ACTIVE_CURRENT_UNIT_HOOK, ACTIVE_CURRENT_UNIT_ORIGINAL),
+        )
+        self.assertEqual(
+            probe[hook_offset : hook_offset + 4],
+            encode_thumb_bl(ACTIVE_CURRENT_UNIT_HOOK, ACTIVE_CURRENT_UNIT_STUB),
+        )
+        self.assertIn(ACTIVE_CURRENT_UNIT_SCRATCH.to_bytes(4, "little"), stub)
+        self.assertIn(ACTIVE_CURRENT_UNIT_MAGIC.to_bytes(4, "little"), stub)
+        self.assertIn((ACTIVE_CURRENT_UNIT_ORIGINAL | 1).to_bytes(4, "little"), stub)
+
     def test_patch_is_confined_to_checked_hook_and_zero_filled_cave(self):
         base = (ROOT / "rom/base.gba").read_bytes()
         probe = build_probe(base)
@@ -100,6 +133,12 @@ class PlayerControlRuntimeProbeTests(unittest.TestCase):
             or STUB_OFFSET <= index < STUB_OFFSET + STUB_SIZE
             or CURRENT_UNIT_HOOK - ROM_BASE <= index < CURRENT_UNIT_HOOK - ROM_BASE + 4
             or CURRENT_UNIT_STUB_OFFSET <= index < CURRENT_UNIT_STUB_OFFSET + STUB_SIZE
+            or ACTIVE_CURRENT_UNIT_HOOK - ROM_BASE
+            <= index
+            < ACTIVE_CURRENT_UNIT_HOOK - ROM_BASE + 4
+            or ACTIVE_CURRENT_UNIT_STUB_OFFSET
+            <= index
+            < ACTIVE_CURRENT_UNIT_STUB_OFFSET + STUB_SIZE
             for index in changed
         ))
 
@@ -129,6 +168,17 @@ class PlayerControlRuntimeProbeTests(unittest.TestCase):
         base = bytearray((ROOT / "rom/base.gba").read_bytes())
         base[CURRENT_UNIT_STUB - ROM_BASE] = 1
         with self.assertRaisesRegex(ValueError, "current-unit stub region"):
+            build_probe(bytes(base), verify_sha1=False)
+
+    def test_third_hook_and_cave_must_match(self):
+        base = bytearray((ROOT / "rom/base.gba").read_bytes())
+        base[ACTIVE_CURRENT_UNIT_HOOK - ROM_BASE] ^= 1
+        with self.assertRaisesRegex(ValueError, "active-current-unit call-site"):
+            build_probe(bytes(base), verify_sha1=False)
+
+        base = bytearray((ROOT / "rom/base.gba").read_bytes())
+        base[ACTIVE_CURRENT_UNIT_STUB - ROM_BASE] = 1
+        with self.assertRaisesRegex(ValueError, "active-current-unit stub region"):
             build_probe(bytes(base), verify_sha1=False)
 
 
