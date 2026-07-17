@@ -21,6 +21,9 @@ STUB_SIZE = 128
 RECORD_SIZE = 52
 CURRENT_OBJECT = 0x0202680C
 EVENT_COUNTER = 0x0203F0E0
+UNIT_RECORD_BASE = 0x020240C0
+UNIT_RECORD_SIZE = 0x1D4
+MAX_UNIT_SLOT = 20
 
 MOVEDONE_PRIMARY_SITE = ObserverSite(
     "movedone-primary",
@@ -69,12 +72,21 @@ def _validate_layout(base: bytes) -> None:
 def _build_snapshot_stub(site: ObserverSite) -> bytes:
     halfwords: list[int] = []
     literal_loads: list[tuple[int, int, int]] = []
+    branches: list[tuple[int, int, str]] = []
+    labels: dict[str, int] = {}
 
     def emit(*values: int) -> None:
         halfwords.extend(values)
 
     def ldr_literal(register: int, value: int) -> None:
         literal_loads.append((len(halfwords), register, value))
+        halfwords.append(0)
+
+    def label(name: str) -> None:
+        labels[name] = len(halfwords)
+
+    def branch(condition: int, target: str) -> None:
+        branches.append((len(halfwords), condition, target))
         halfwords.append(0)
 
     def ldr_word(destination: int, base: int, byte_offset: int) -> None:
@@ -85,53 +97,75 @@ def _build_snapshot_stub(site: ObserverSite) -> bytes:
 
     emit(0xB4FF)  # push {r0-r7}; preserve all low registers and SP
     ldr_literal(3, site.scratch)
-    ldr_word(0, 3, 0)
-    ldr_literal(4, site.magic)
-    emit(
-        0x42A0,  # cmp r0, r4
-        0xD101,  # bne reset_count
-    )
-    ldr_word(0, 3, 4)
-    emit(
-        0xE000,  # b have_count
-        0x2000,  # reset_count: movs r0, #0
-        0x2100,  # have_count: movs r1, #0
-    )
-    str_word(1, 3, 0)  # invalidate record while publishing
-    emit(0x3001)  # adds r0, #1
-    str_word(0, 3, 4)
+    ldr_literal(5, site.magic)
+    ldr_word(6, 3, 0)  # retain the previous publication state
+    ldr_word(7, 3, 4)
+    emit(0x2400)
+    str_word(4, 3, 0)  # fail closed before inspecting the current object
 
-    ldr_literal(1, EVENT_COUNTER)
-    ldr_word(0, 1, 0)
-    emit(0x3001)
-    str_word(0, 1, 0)
-    str_word(0, 3, 8)
-    ldr_literal(0, site.event_code)
-    str_word(0, 3, 12)
-    ldr_literal(0, site.hook)
-    str_word(0, 3, 16)
+    ldr_literal(4, CURRENT_OBJECT)
+    emit(0xCC05)  # ldmia r4!, {r0, r2}: object word and record pointer
+    emit(
+        0x0E01,  # lsrs r1, r0, #24: current-object slot
+        0x2901,  # cmp r1, #1
+    )
+    branch(3, "tail")  # bcc: slot zero
+    emit(0x2900 | MAX_UNIT_SLOT)  # cmp r1, project unit-table maximum
+    branch(8, "tail")  # bhi: outside the project unit table
+    emit(
+        0x2400 | (UNIT_RECORD_SIZE // 4),  # movs r4, #(0x1D4 / 4)
+        0x00A4,  # lsls r4, r4, #2 -> UNIT_RECORD_SIZE
+        0x4361,  # muls r1, r4
+    )
+    ldr_literal(4, UNIT_RECORD_BASE)
+    emit(
+        0x1909,  # adds r1, r1, r4
+        0x428A,  # cmp r2, r1
+    )
+    branch(1, "tail")  # exact slot/pointer binding also proves EWRAM/alignment
 
-    ldr_literal(1, CURRENT_OBJECT)
-    ldr_word(0, 1, 0)
+    emit(0x42AE)  # cmp r6, r5: prior magic valid?
+    branch(0, "have_count")
+    emit(0x2700)  # reset stale/invalid hit count
+    label("have_count")
+    emit(0x3701)
+
+    ldr_literal(4, EVENT_COUNTER)
+    ldr_word(6, 4, 0)
+    emit(0x3601)
+    str_word(6, 4, 0)
+    str_word(7, 3, 4)
+    str_word(6, 3, 8)
     str_word(0, 3, 20)  # current object +0..+3; slot is byte +3
-    ldr_word(2, 1, 4)
     str_word(2, 3, 24)  # current object +4 record pointer
     str_word(2, 3, 28)  # resolved record address used below
+    emit(0x2000 | site.event_code)
+    str_word(0, 3, 12)
+    ldr_literal(4, site.hook)
+    str_word(4, 3, 16)
     ldr_word(0, 2, 0)
     str_word(0, 3, 32)
     emit(0x32C0)  # adds r2, #0xC0
-    for source_offset, record_offset in ((0, 36), (4, 40), (8, 44), (12, 48)):
-        ldr_word(0, 2, source_offset)
-        str_word(0, 3, record_offset)
+    emit(0xCA53)  # ldmia r2!, {r0, r1, r4, r6}: words C0..CC
+    emit(0x1C1F, 0x3724)  # r7 = scratch + 36
+    emit(0xC753)  # stmia r7!, {r0, r1, r4, r6}
+    str_word(5, 3, 0)  # publish magic last
 
-    ldr_literal(0, site.magic)
-    str_word(0, 3, 0)  # publish magic last
+    label("tail")
     ldr_literal(4, site.original | 1)
     emit(
         0x46A4,  # mov r12, r4
         0xBCFF,  # pop {r0-r7}; restore arguments, registers and SP
         0x4760,  # bx r12; original returns through untouched LR
     )
+
+    for halfword_index, condition, target_name in branches:
+        if target_name not in labels:
+            raise ValueError(f"missing branch label {target_name}")
+        distance = labels[target_name] - (halfword_index + 2)
+        if not -128 <= distance <= 127:
+            raise ValueError(f"branch to {target_name} is outside Thumb range")
+        halfwords[halfword_index] = 0xD000 | (condition << 8) | (distance & 0xFF)
 
     code = bytearray(struct.pack(f"<{len(halfwords)}H", *halfwords))
     if len(code) % 4:

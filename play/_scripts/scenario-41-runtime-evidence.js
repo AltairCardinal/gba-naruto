@@ -242,7 +242,7 @@ function validUnitIdentity(unit = {}) {
 }
 
 function isRawWord(value) {
-  return typeof value === 'string' && /^[0-9a-fA-F]{8}$/.test(value);
+  return typeof value === 'string' && /^[0-9a-f]{8}$/.test(value);
 }
 
 function isByte(value) {
@@ -305,8 +305,28 @@ function snapshotMatchesUnit(snapshot = {}, unit = {}) {
 function evaluateMovedoneEvidence(input = {}) {
   const baselineEvents = Array.isArray(input.baseline?.events) ? input.baseline.events : [];
   const finalEvents = Array.isArray(input.final?.events) ? input.final.events : [];
-  const freshEvents = finalEvents.filter((event, index) => isFresh(event, baselineEvents[index])
-    && isBoundedForward(event.sequence, input.baseline?.sequenceBoundary));
+  const allowedSites = [...MOVEDONE_SOURCES.entries()];
+  const sourcesValid = [baselineEvents, finalEvents].every(events => events.length === 2
+    && events.every(event => MOVEDONE_SOURCES.get(event?.eventCode) === event?.sourceHook));
+  const siteSchemaValid = sourcesValid
+    && [baselineEvents, finalEvents].every(events => allowedSites.every(
+      ([eventCode, sourceHook], index) => events[index]?.eventCode === eventCode
+        && events[index]?.sourceHook === sourceHook,
+    ));
+  const baselineBySite = new Map(baselineEvents.map(
+    event => [`${event?.eventCode}:${event?.sourceHook}`, event],
+  ));
+  const finalBySite = new Map(finalEvents.map(
+    event => [`${event?.eventCode}:${event?.sourceHook}`, event],
+  ));
+  const freshEvents = siteSchemaValid ? allowedSites.flatMap(([eventCode, sourceHook]) => {
+    const key = `${eventCode}:${sourceHook}`;
+    const beforeEvent = baselineBySite.get(key);
+    const afterEvent = finalBySite.get(key);
+    return isFresh(afterEvent, beforeEvent)
+      && isBoundedForward(afterEvent.sequence, input.baseline?.sequenceBoundary)
+      ? [afterEvent] : [];
+  }) : [];
   const event = freshEvents[0] || {};
   const before = input.actingUnitBefore || {};
   const after = input.actingUnitAfter || {};
@@ -314,7 +334,7 @@ function evaluateMovedoneEvidence(input = {}) {
   const expectedPlanValid = expectedInputPlanValid(input.expectedInputPlan);
   const explicitInputs = Array.isArray(input.explicitInputs) ? input.explicitInputs : [];
   const automaticInputs = Array.isArray(input.automaticInputs) ? input.automaticInputs : null;
-  const sourceValid = MOVEDONE_SOURCES.get(event.eventCode) === event.sourceHook;
+  const sourceValid = sourcesValid;
   const actingIdentityValid = validActingUnit(before)
     && validActingUnit(after)
     && sameIdentity(before, after)
@@ -329,10 +349,13 @@ function evaluateMovedoneEvidence(input = {}) {
   const actionChanged = typeof before.actionStateRaw === 'string'
     && typeof after.actionStateRaw === 'string'
     && before.actionStateRaw !== after.actionStateRaw;
-  const roundChanged = typeof input.stateBefore?.roundOrPhaseRaw === 'string'
-    && typeof input.stateAfter?.roundOrPhaseRaw === 'string'
-    && input.stateBefore.roundOrPhaseRaw !== input.stateAfter.roundOrPhaseRaw;
+  const roundContextValid = input.stateBefore?.address === '0x0200A880'
+    && input.stateAfter?.address === '0x0200A880'
+    && isRawWord(input.stateBefore.raw)
+    && isRawWord(input.stateAfter.raw);
+  const roundChanged = roundContextValid && input.stateBefore.raw !== input.stateAfter.raw;
   const checks = {
+    movedoneSiteSchemaValid: siteSchemaValid,
     movedoneEventCountValid: freshEvents.length === 1,
     movedoneSourceValid: sourceValid,
     scenarioValid: input.scenario === 41,
@@ -344,6 +367,7 @@ function evaluateMovedoneEvidence(input = {}) {
     controlledUnitValid: validUnitIdentity(controlled),
     actingUnitControlled: sameIdentity(before, controlled),
     coordinatesChanged,
+    roundContextValid,
     actionOrRoundStateChanged: actionChanged || roundChanged,
     expectedInputPlanValid: expectedPlanValid,
     explicitInputsOnly: explicitInputs.length > 0
@@ -353,10 +377,12 @@ function evaluateMovedoneEvidence(input = {}) {
     inputPlanMatches: expectedPlanValid && inputMatchesPlan(explicitInputs, input.expectedInputPlan),
     noAutomaticDriverInputs: automaticInputs !== null && automaticInputs.length === 0,
     automaticGameActionRecorded: typeof input.automaticGameAction === 'boolean',
+    automaticGameActionManual: input.automaticGameAction === false,
   };
   const failures = [
-    ['movedoneEventCountValid', 'movedone-event-count-invalid'],
     ['movedoneSourceValid', 'movedone-source-invalid'],
+    ['movedoneSiteSchemaValid', 'movedone-site-schema-invalid'],
+    ['movedoneEventCountValid', 'movedone-event-count-invalid'],
     ['scenarioValid', 'scenario-invalid'],
     ['battleIdValid', 'battle-id-invalid'],
     ['mapLoaded', 'map-not-loaded'],
@@ -364,8 +390,8 @@ function evaluateMovedoneEvidence(input = {}) {
     ['battleMapContextValid', 'battle-map-context-invalid'],
     ['actingUnitIdentityValid', 'acting-unit-identity-mismatch'],
     ['controlledUnitValid', 'controlled-unit-invalid'],
-    ['actingUnitControlled', 'acting-unit-not-controlled'],
     ['coordinatesChanged', 'coordinates-unchanged'],
+    ['roundContextValid', 'round-context-invalid'],
     ['actionOrRoundStateChanged', 'action-round-state-unchanged'],
     ['expectedInputPlanValid', 'expected-input-plan-invalid'],
     ['explicitInputsOnly', 'explicit-input-invalid'],
@@ -375,9 +401,23 @@ function evaluateMovedoneEvidence(input = {}) {
     ['automaticGameActionRecorded', 'automatic-game-action-invalid'],
   ];
   const failure = failures.find(([check]) => !checks[check]);
+  const diagnosticVerified = failure === undefined;
+  let classification = diagnosticVerified ? 'player-controlled-manual' : 'invalid';
+  let reason = failure ? failure[1] : 'movedone-verified';
+  if (diagnosticVerified && !checks.actingUnitControlled) {
+    classification = 'non-controlled';
+    reason = 'non-controlled';
+  } else if (diagnosticVerified && !checks.automaticGameActionManual) {
+    classification = 'automatic-game-action';
+    reason = 'automatic-game-action';
+  }
   return {
-    verified: failure === undefined,
-    reason: failure ? failure[1] : 'movedone-verified',
+    diagnosticVerified,
+    verified: diagnosticVerified
+      && checks.actingUnitControlled
+      && checks.automaticGameActionManual,
+    classification,
+    reason,
     checks,
     automaticGameAction: input.automaticGameAction,
   };

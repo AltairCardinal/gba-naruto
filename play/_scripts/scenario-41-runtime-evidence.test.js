@@ -536,6 +536,8 @@ function validMovedoneSample() {
     },
     actingUnitBefore: actingUnit(),
     actingUnitAfter: actingUnit({ x: 5, actionStateRaw: '45556677' }),
+    stateBefore: { address: '0x0200A880', raw: '00000100' },
+    stateAfter: { address: '0x0200A880', raw: '00000100' },
     expectedInputPlan: Object.freeze([Object.freeze({
       phase: 'movedone-diagnostic', step: 1, logicalKey: 'KeyZ', gbaButton: 'A', holdMs: 125,
     })]),
@@ -627,12 +629,17 @@ test('MOVEDONE binds hook snapshot and before/after to one slot pointer and reco
   }
 });
 
-test('MOVEDONE keeps controlled unit separate but requires acting unit to be controlled', () => {
+test('MOVEDONE reports a valid non-controlled diagnostic without accepting the player turn', () => {
   const sample = validMovedoneSample();
   sample.controlledUnit = {
     slot: 2, recordAddress: 0x02024468, characterId: 30, affiliation: 1,
   };
-  assert.equal(evaluateMovedoneEvidence(sample).reason, 'acting-unit-not-controlled');
+  const result = evaluateMovedoneEvidence(sample);
+  assert.equal(result.diagnosticVerified, true);
+  assert.equal(result.verified, false);
+  assert.equal(result.checks.actingUnitControlled, false);
+  assert.equal(result.classification, 'non-controlled');
+  assert.equal(result.reason, 'non-controlled');
 });
 
 test('MOVEDONE requires coordinate change plus action or round transition', () => {
@@ -646,9 +653,54 @@ test('MOVEDONE requires coordinate change plus action or round transition', () =
 
   const roundChanged = validMovedoneSample();
   roundChanged.actingUnitAfter.actionStateRaw = roundChanged.actingUnitBefore.actionStateRaw;
-  roundChanged.stateBefore = { roundOrPhaseRaw: '00000100' };
-  roundChanged.stateAfter = { roundOrPhaseRaw: '00000200' };
+  roundChanged.stateBefore = { address: '0x0200A880', raw: '00000100' };
+  roundChanged.stateAfter = { address: '0x0200A880', raw: '00000200' };
   assert.equal(evaluateMovedoneEvidence(roundChanged).verified, true);
+});
+
+test('MOVEDONE requires complete uniquely paired sites in canonical source order', () => {
+  for (const mutation of [
+    sample => { sample.baseline.events.pop(); },
+    sample => { sample.final.events.pop(); },
+    sample => { sample.baseline.events[1] = { ...sample.baseline.events[0] }; },
+    sample => { sample.final.events[1] = { ...sample.final.events[0] }; },
+    sample => { sample.baseline.events.reverse(); },
+    sample => { sample.final.events.reverse(); },
+    sample => { sample.baseline.events[0].sourceHook = '0x08074918'; },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assert.equal(evaluateMovedoneEvidence(sample).verified, false);
+  }
+
+  const crossSiteIndexTrap = validMovedoneSample();
+  crossSiteIndexTrap.baseline.events.reverse();
+  assert.equal(evaluateMovedoneEvidence(crossSiteIndexTrap).diagnosticVerified, false);
+});
+
+test('MOVEDONE accepts exactly one paired fresh site and rejects dual fresh sites', () => {
+  assert.equal(evaluateMovedoneEvidence(validMovedoneSample()).verified, true);
+  const dualFresh = validMovedoneSample();
+  dualFresh.final.events[1] = movedoneCall(8, 14, {
+    eventCode: 2, sourceHook: '0x08074918',
+  });
+  assert.equal(evaluateMovedoneEvidence(dualFresh).reason, 'movedone-event-count-invalid');
+});
+
+test('MOVEDONE validates exact lowercase round context and action-state words', () => {
+  for (const mutation of [
+    sample => { sample.stateBefore = { address: '0x0200A880', raw: 'x' }; },
+    sample => { sample.stateAfter = { address: '0x0200A880', raw: '0000010' }; },
+    sample => { sample.stateBefore.address = '0x0200A881'; },
+    sample => { sample.stateAfter.raw = '0000010A'; },
+    sample => { sample.stateBefore.raw = 0x100; },
+    sample => { sample.actingUnitBefore.actionStateRaw = '4455667A'; },
+    sample => { sample.actingUnitAfter.actionStateRaw = '4555667A'; },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assert.equal(evaluateMovedoneEvidence(sample).verified, false);
+  }
 });
 
 test('MOVEDONE requires explicit planned input, empty automatic driver inputs and recorded game action', () => {
@@ -666,8 +718,12 @@ test('MOVEDONE requires explicit planned input, empty automatic driver inputs an
 
   const automaticGame = validMovedoneSample();
   automaticGame.automaticGameAction = true;
-  assert.equal(evaluateMovedoneEvidence(automaticGame).verified, true);
-  assert.equal(evaluateMovedoneEvidence(automaticGame).automaticGameAction, true);
+  const result = evaluateMovedoneEvidence(automaticGame);
+  assert.equal(result.diagnosticVerified, true);
+  assert.equal(result.verified, false);
+  assert.equal(result.classification, 'automatic-game-action');
+  assert.equal(result.reason, 'automatic-game-action');
+  assert.equal(result.automaticGameAction, true);
 });
 
 test('MOVEDONE rejects malformed data and wrong battle/map context without throwing', () => {
