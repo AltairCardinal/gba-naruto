@@ -272,6 +272,35 @@ run 的局部 `captureFrame=80` 错误要求为跨事件递增，也不得接受
 
 ---
 
+### Task 2F: 让严格 GDB probe 加载固定输入脚本
+
+Task 4.2 需要在未打 observer 的基础 ROM 上由 GDB 独立命中原始 direct call。现有
+`mgba_gdb_probe.py` 只能零输入启动，无法从已接纳的 A 前快照自然推进到目标地址。只增加受限的
+重复 `--script PATH` 能力，不开放任意 mGBA 参数或 shell 命令。
+
+**Files:**
+- Modify: `tools/mgba_gdb_probe.py`
+- Modify: `tests/test_mgba_gdb_probe.py`
+
+- [ ] **Step 1: RED — 固定脚本命令与 provenance**
+
+先写失败测试，要求 parser 接受重复 `--script`；`build_mgba_command()` 按给定顺序将每个
+`--script PATH` 放在 savestate/ROM 之前；无脚本时命令保持完全兼容。initial/result evidence 必须
+记录每个脚本的 path/SHA-256/size，CLI 必须在启动前拒绝缺失或非普通脚本文件。
+
+- [ ] **Step 2: GREEN — 最小受限实现**
+
+仅增加 `Path` 类型的重复 `--script` 和脚本 file evidence；不得增加任意 argv、shell、端口或环境
+注入接口。运行环境继续只继承父进程，本轮固定 input Lua 所需变量由受守卫的父命令显式提供。
+
+- [ ] **Step 3: 回归、审查与聚焦提交**
+
+运行 `tests.test_mgba_gdb_probe`、相关 guard 测试和 `git diff --check`；聚焦提交后由 fresh thorough
+reviewer 检查命令顺序、provenance、缺文件 fail-closed 与默认兼容性。提交信息：
+`feat(re): load audited scripts in gdb probe`。
+
+---
+
 ### Task 3: 重建 probe 并完成受保护 runtime 复验
 
 **Files:**
