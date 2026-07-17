@@ -99,6 +99,8 @@
 - selection A gate: `from p1 14ec8caf...83454 send exactly one A at 5/13/capture80; require existing PCO1 seq1 plus fresh later PCU1 seq2 and actual selected-unit args, caller progression, guard/provenance/residue; stop after capture`
 - selection A result: `run 91af3856202e3c9f46315468c2deee9f; output 2ea8d89c...52673; task2 0x0806F996->0x08067D02, object296-byte/RGB change; PCO1 stays seq1, PCU1 zero, no fresh event; guard completed/0 RSS51.840MiB`
 - PCU1 path audit gate: `active stack contains statically valid return 0x08073A4F from action-menu call 0x08073A4A->0x08067158; determine whether 0x080739D8 was bypassed and whether any legal menu input can still produce required PCU1, before authorizing runtime or observer redesign`
+- PCU1 path audit result: `current handler returns 0x08073A4E and cannot return to 0x080739D8; A/B cannot补 hit; actual later current-unit callsite 0x08073BAC->0x08069DB8 exists but runtime reach remains to prove; observer-site mismatch, stop input`
+- design correction: `choose additive third observer at 0x08073BAC with independent PCA1/event3/scratch/cave; preserve 0x080739D8; correct evaluator so PCO1(9,0,1) is selector protocol and only current argument0 binds character id, while slot/affiliation come from unit-object diagnostics`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
