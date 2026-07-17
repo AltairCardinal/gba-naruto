@@ -87,6 +87,8 @@
 - post-end static gate: `bounded disassembly 0x080737BE..0x08073946 before runtime; determine whether zero input naturally reaches observer or a new explicit wait, and choose one bounded settle length`
 - post-end static result: `0x080737BE natural poll -> initialization -> <=0x77 zero-progress counter -> unit selection -> 0x08073940 args(9,0,1) -> patched PCO1 0x08073946; no key required; authorize one 512-frame zero settle, static reachability is not runtime proof`
 - post-end zero512 gate: `from 7dc1d377...fc8e3 run one 512-frame zero-input settle; require strict counter/PCO1/PCU1 parsing, task/RGB/object provenance, guard/RSS/residue; stop after capture even on no-hit`
+- post-end zero512 result: `run 3aeab6992df8c700a307e7ebef1e5ff8; output 3cc9e46b...0278e; PCO1 fresh seq1 args(9,0,1), PCU1 zero; task2 0x0806F996/SP0x030011E8; guard completed/0 RSS51.953MiB; proves 0x08073946 only, not dual observer`
+- selection static gate: `bounded 0x0806F718/0x0806F5BC/0x08073940 caller analysis; identify accept key and explain PCO1 args as selector-control parameters, then zero-validate before input`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
