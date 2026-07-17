@@ -5,7 +5,7 @@
 - stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_anchor_cycle` (fresh normative cycle executor); anchor4 completed by `/root/scenario41_action_menu_anchor4`
+- implementer: `/root/scenario41_action_menu_anchor_cycle`; `DONE_WITH_CONCERNS`, one 600-frame runtime; anchor4 completed by `/root/scenario41_action_menu_anchor4`
 - report: `.superpowers/sdd/task-6-action-menu-anchor-cycle-report.md`; anchor4 report remains in `.superpowers/sdd/task-6-action-menu-anchor4-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -43,6 +43,8 @@
 - action-menu anchor result: `run1f45007cb6e25377197c4890a96ef3e8 completed/0; outputc2414449...d87d RGB exact f75f0cc1...e8ff to protected frame4; task2/menu/slot1/unit/action/MOVEDONE exact; RSS0.1328125MiB is coarse sampled lower bound; candidate forbidden pending review`
 - action-menu anchor reviewer: `/root/scenario41_action_menu_anchor4_review`; `Spec PASS / Evidence Quality APPROVED; no findings; capture/protected frame4 byte-identical and semantics exact; authorizes only one normative 600-frame sampler from anchor`
 - action-menu anchor sampler gate: `from anchor statec2414449...d87d with baseline PNG1524b59f...ae91e/RGBf75f0cc1...e8ff run existing fixed600 sampler+unchanged analyzer once; require normative frame0/p/2p, expected but not forced p128; no key/p replay/retry/checkpoint`
+- action-menu anchor cycle result: `run49a68a81725d862705d3dbdb849d127a completed/0 success-marker RSS52.355MiB; 600 regular frames and semantics exact; unchanged analyzer cycle-found p128 matches[0,128,256] RGBf75f0cc1...e8ff; diagnostic-only, no p replay/input/retry`
+- action-menu anchor cycle reviewer: `pending fresh runtime evidence review; p128 acceptance not yet authorized`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
