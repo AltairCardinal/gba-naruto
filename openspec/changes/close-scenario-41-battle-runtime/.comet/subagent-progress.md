@@ -1,14 +1,14 @@
 # Subagent Progress
 
-- plan task: `Task 2G: TDD 扩展玩家控制 checkpoint 证据组合`
+- plan task: `Task 3 Step 4: 验收、持久化与回归（acceptance evidence fix）`
 - openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
-- stage: `done`
+- stage: `quality-review`
 - review_mode: `thorough`
-- review_fix_round: `0/2`
-- implementer: `/root/scenario41_ledger_alternatives`
-- report: `.superpowers/sdd/task-2g-player-control-ledger-report.md`
-- implementation status: `DONE at dc5476a; RED 14 tests/1 expected canonical-PCA failure; GREEN 14/14, real ledger accepted=7 errors=0, diff-check clean; exact two-file scope`
-- reviewer: `/root/scenario41_ledger_alternatives_review`; `Spec PASS / Quality APPROVED; no findings; independently reproduced RED and GREEN, real ledger errors=0`
+- review_fix_round: `1/2`
+- implementer: `pending fresh acceptance-evidence fixer`
+- report: `.superpowers/sdd/task-open-4.1-player-turn-acceptance-report.md`
+- implementation status: `candidate core accepted; first review Spec PASS / Quality CHANGES with two Important evidence-quality findings; no ROM rerun required`
+- reviewer: `/root/scenario41_player_turn_acceptance_review`; `fix transient not-proven reason and bind an independent evaluator review artifact/hash; also add prerequisite hashes and p2 path for self-containment`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
