@@ -1,14 +1,14 @@
 # Subagent Progress
 
-- plan task: `Task 3 Step 4: 验收、持久化与回归（acceptance evidence fix）`
+- plan task: `Task 3 Step 4/5: 验收并持久化首个玩家控制 checkpoint`
 - openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
-- stage: `quality-review`
+- stage: `implementing`
 - review_mode: `thorough`
-- review_fix_round: `1/2`
-- implementer: `pending fresh acceptance-evidence fixer`
-- report: `.superpowers/sdd/task-open-4.1-player-turn-acceptance-report.md`
-- implementation status: `candidate core accepted; first review Spec PASS / Quality CHANGES with two Important evidence-quality findings; no ROM rerun required`
-- reviewer: `/root/scenario41_player_turn_acceptance_review`; `fix transient not-proven reason and bind an independent evaluator review artifact/hash; also add prerequisite hashes and p2 path for self-containment`
+- review_fix_round: `0/2`
+- implementer: `pending fresh persistence writer`
+- report: `.superpowers/sdd/task-open-4.1-player-turn-persistence-report.md`
+- implementation status: `acceptance re-review Spec PASS / Quality APPROVED; candidate p1 ba411ede...6171 is authorized for tracked persistence; no ROM rerun required`
+- reviewer: `/root/scenario41_player_turn_acceptance_rereview`; `first-round two Important and Minor all closed; candidate-only boundary remained intact before persistence`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
