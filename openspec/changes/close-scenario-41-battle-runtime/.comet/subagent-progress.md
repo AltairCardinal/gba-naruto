@@ -130,6 +130,7 @@
 - Task3 diagnostic-only A decision: `zero80 already proves action task/raw73A4F/A8800/A8820/unit13/object/observer stability; authorize one fresh single A from the original canonical action state solely to test PCA1 reachability despite expected RGB animation; output is never consumable/canonical, no second key/retry/checkpoint/checkoff regardless of result`
 - Task3 diagnostic-only A dispatch: `fresh /root/active_action_a_diagnostic from 35caaf4; exactly A 5/13/capture80 from original a645335b state on observer ROM 41d4292e; fresh guarded output only; inspect PCA1/PCU1/PCO/counter/task/raw/unit/object/RGB/guard; stop after one run with no retry/zero/cycle/checkpoint/checkoff/source edit/commit`
 - Task3 diagnostic-only A first agent: `/root/active_action_a_diagnostic cost-stopped after about 3 minutes with no report, fresh build artifact, mGBA/guard process, diff or commit; interrupted before runtime work; one short-context fresh replacement is allowed only after the first agent is stopped`
+- Task3 diagnostic-only A retry: `fresh /root/active_action_a_diagnostic_retry from 1eb0642 with short self-contained prompt; same exact one-A diagnostic and stop gates; no concurrent duplicate agent`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
