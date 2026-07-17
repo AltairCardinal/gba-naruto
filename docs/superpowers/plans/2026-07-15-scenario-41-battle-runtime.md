@@ -1075,7 +1075,7 @@ python tools/build_action_submit_runtime_probe.py rom/base.gba build/scenario-41
 
 Expected: all tests PASS; confined diff contains exactly two calls and two caves.
 
-- [ ] **Task 6 Step 4A: 以 TDD 将固定单键 runner 最小扩展为 GBA L**
+- [x] **Task 6 Step 4A: 以 TDD 将固定单键 runner 最小扩展为 GBA L**
 
 `scenario-41-player-turn.ss9` 的 task 2 在 `0x0806F996` 恢复；静态解码证明随后
 `0x0806F9A0..0x0806F9B4` 只测试 new-keys mask `0x0200`，即 GBA `L`。现有 native
