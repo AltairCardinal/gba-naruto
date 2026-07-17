@@ -13,6 +13,7 @@
 - MOVEDONE runtime gate: `one fresh frame-1 zero-input baseline from accepted scenario-41-player-turn.ss9 on a freshly rebuilt action-submit observer ROM; no input/retry; output diagnostic-only`
 - MOVEDONE zero baseline: `run c37e73c7ac9c4df4b46ce284e83702ab; fresh probe 2e0ef354...1737f; completed/0 via success-marker; input/output counter=0 and both 52-byte MOD1/MOD2 records canonical zero; task2/current object exact; no input/retry; output 930797b8...13df is diagnostic-only and forbidden for later consumption`
 - baseline resource note: `guard peak_tree_rss_mib=0.11328125 is a frame-1 coarse sampled lower bound, not a real mGBA peak claim; PGID/listener/crash/residue and rom/base.sav postchecks clean`
+- baseline review: `/root/scenario41_movedone_baseline_review` independently returned `Spec PASS / Evidence Quality APPROVED`; no findings; approval is baseline-only and does not prove MOVEDONE, acting-unit movement, or turn completion`
 - first action static gate: `accepted state task2 resumes 0x0806F996; 0x0806F9A0..B4 reads new_keys and uniquely tests mask 0x0200 (GBA L); current object slot1 pointer02024294 char1 aff0 at (4,10); MOVEDONE still zero so acting-unit identity remains unproven`
 - runner gap decision: `existing audited single-input surface is Down/A/B only; add exact L under TDD before any explicit input; forbid arbitrary-key API, custom pre-script, browser/manual input, or mGBA during the code task`
 - static analyst: `/root/player_observer_static_route`
