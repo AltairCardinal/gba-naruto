@@ -18,8 +18,8 @@ handler 返回 `0x08073A4E` 后只会重派 action menu 或继续动作，不会
 affiliation。活动路径在 `0x08073BAA` 从 unit object `0x0202680C + 3` 读取 slot，并以该
 slot 作为 `r0` 调用 `0x08069DB8`；后者按
 `0x020240C0 + (r0 & 0xff) * 0x1D4` 定位 WRAM unit record。character id 位于该 record
-的 `+3`，不是 call argument。callee 会覆盖入口 `r1/r2`，因此包装器记录的 `r1/r2`
-不能作为单位属性。
+的 `+0`，不是 call argument；`record+3=13` 是另一字段，不得解释为角色 ID。callee 会覆盖
+入口 `r1/r2`，因此包装器记录的 `r1/r2` 不能作为单位属性。
 
 ## 方案比较与决定
 
@@ -62,9 +62,12 @@ slot 作为 `r0` 调用 `0x08069DB8`；后者按
    sequence 选择最早者并保留 source hook。
 4. current-unit `argument0` 必须等于独立 WRAM unit diagnostic 的 slot；该 slot 必须按
    `0x020240C0 + slot * 0x1D4` 映射到同一 WRAM unit record。
-5. character id 必须从该 record `+3` 读取，affiliation 也必须来自同一 WRAM record 的既有
-   diagnostic；二者都必须通过既有 validity/from-WRAM gate，并与 battle 41 当前玩家单位一致。
-   不得使用 current wrapper 的 `argument1/argument2` 或 PCO1 参数替代。
+5. character id 必须从该 record `+0` 读取，affiliation 必须按既有 runtime unit 解析约定从
+   同一 record 的 `+0xC0` 低位读取。canonical 数据为 `controlledSlot=1`、
+   `controlledCharacterId=1`、`controlledAffiliation=0`；同一 record 的 `record+3=13` 是另一字段，
+   不得解释为角色 ID。character/affiliation 都必须通过既有 validity/from-WRAM gate，并与
+   battle 41 当前玩家单位一致。不得使用 current wrapper 的 `argument1/argument2` 或 PCO1
+   参数替代。
 6. accepted evidence 必须记录 current source hook、magic、event、sequence、character id、
    unit-object slot/affiliation 和显式输入清单。
 
