@@ -29,8 +29,8 @@ class SingleInputLuaContractTests(unittest.TestCase):
         self.assertIn("C.GBA_KEY.A", text)
         self.assertIn("C.GBA_KEY.B", text)
         self.assertIn("L = C.GBA_KEY.L", text)
+        self.assertIn("Up = C.GBA_KEY.UP", text)
         for forbidden in (
-            "C.GBA_KEY.UP",
             "adaptive",
             "settle",
         ):
@@ -77,8 +77,8 @@ class SingleInputValidationTests(unittest.TestCase):
     def setUp(self):
         self.runner = importlib.import_module("tools.run_macos_mgba_single_input")
 
-    def test_only_down_a_b_or_l_and_strict_frame_order(self):
-        for key in ("R", "Up", "Down+L", ""):
+    def test_only_down_a_b_l_or_up_and_strict_frame_order(self):
+        for key in ("R", "Left", "Right", "Down+L", "Up+A", ""):
             with self.subTest(key=key), self.assertRaises(self.runner.ReplayError):
                 self.runner.validate_single_input(key, 5, 13, 80)
         for frames in ((13, 5, 80), (5, 5, 80), (5, 80, 80), (0, 13, 80)):
@@ -88,6 +88,29 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input("A", 5, 13, 80)
         self.runner.validate_single_input("B", 5, 13, 80)
         self.runner.validate_single_input("L", 5, 13, 80)
+        self.runner.validate_single_input("Up", 5, 13, 80)
+
+    def test_up_payload_has_one_exact_explicit_event_and_closed_set_help(self):
+        payload = {
+            "evidence_mode": "single-input",
+            "zero_input_verified": False,
+            "inputs": [
+                {"key": "Up", "down_frame": 5, "up_frame": 13, "hold_frames": 8}
+            ],
+            "automatic_inputs": [],
+            "recovery_inputs": [],
+            "frame": 80,
+            "capture_frame": 80,
+        }
+        self.runner.validate_single_input_payload(
+            payload, key="Up", down_frame=5, up_frame=13, capture_frame=80
+        )
+        self.assertIn("Down, A, B, L, or Up", self.runner.__doc__)
+        self.assertIn("Down, A, B, L, or Up", self.runner.build_parser().format_help())
+        with self.assertRaisesRegex(
+            self.runner.ReplayError, "Down, A, B, L, or Up"
+        ):
+            self.runner.validate_single_input("R", 5, 13, 80)
 
     def test_l_payload_has_one_explicit_event_and_closed_set_help(self):
         payload = {
@@ -104,10 +127,10 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input_payload(
             payload, key="L", down_frame=5, up_frame=13, capture_frame=80
         )
-        self.assertIn("Down, A, B, or L", self.runner.__doc__)
-        self.assertIn("Down, A, B, or L", self.runner.build_parser().format_help())
+        self.assertIn("Down, A, B, L, or Up", self.runner.__doc__)
+        self.assertIn("Down, A, B, L, or Up", self.runner.build_parser().format_help())
         with self.assertRaisesRegex(
-            self.runner.ReplayError, "Down, A, B, or L"
+            self.runner.ReplayError, "Down, A, B, L, or Up"
         ):
             self.runner.validate_single_input("R", 5, 13, 80)
 
