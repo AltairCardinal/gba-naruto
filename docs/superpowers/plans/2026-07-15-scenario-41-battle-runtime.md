@@ -952,7 +952,7 @@ git diff --check
 ### Task 5B: 从 canonical controller checkpoint 重新证明玩家控制
 
 **Interfaces:**
-- Consumes: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`、既有双 observer builder、macOS guarded replay 与 savestate memory reader。
+- Consumes: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`、既有三 site observer builder、macOS guarded replay 与 savestate memory reader。
 - Produces: post-load baseline、fresh `PCO1` 与 legacy `PCU1` 或 canonical `PCA1` 有序事件、玩家单位参数绑定，以及 accepted `scenario-41-player-turn.ss9`。
 
 - [x] **Step 0: 以严格 owner gate 将既有 GDB 探针适配到 macOS Intel**
@@ -963,12 +963,15 @@ listener/connection owner、ROM fingerprint、精确 breakpoint stop、guard/RSS
 
 - [x] **Step 1: 从 canonical checkpoint 运行 observer 并证明 fresh ordered hits**
 
-先重建 observer ROM 并校验 confined patch。输入 checkpoint 的 counter 与两个 24-byte
-record 必须全零，作为 load 后执行任何 ROM 指令之前的 baseline。所有 mGBA 运行必须经过现有
+先重建 observer ROM 并校验 confined patch。输入 checkpoint 的 event counter 与 `PCO1`、`PCU1`、
+`PCA1` 三个 24-byte record 必须全零，作为 load 后执行任何 ROM 指令之前的 baseline。所有 mGBA 运行必须经过现有
 guard/heavy lock，使用 fresh output 目录、成功 marker、固定 ROM/state/binary/manifest hash，且
 `rom/base.sav` 前后均不存在。先做最短零输入捕获；离线读取输出 state 的
-`0x0203F040/0x0203F060/0x0203F080`。只有 `PCO1` 与 `PCU1` 都 fresh、共享 sequence 严格有序，
-并与 scenario 41 当前玩家 slot/character/affiliation 一致时才通过。若零输入未命中，停止并以
+`0x0203F040` event counter、`0x0203F060` PCO scratch、`0x0203F080` PCU scratch 与
+`0x0203F0A0` PCA scratch。只有 fresh `PCO1` selector 加上 fresh current-unit alternative（legacy
+`PCU1` 或 canonical `PCA1`），对应 shared sequence 严格有序、source hook 匹配，并与 scenario 41
+当前玩家 slot/character/affiliation 一致时才通过；canonical evidence 必须是 `PCO1` + `PCA1`，且
+legacy `PCU1=0`。若零输入未命中，停止并以
 静态控制流决定唯一最小输入；不得盲试按键。`0x08073946 -> 0x0806F718` 是
 `0x08073940` 玩家选择函数内的已验证直接调用点，`0x080739D8 -> 0x08069DB8` 是独立当前单位
 诊断；证据必须分别标注，不能把后者误写成 `0x08073946`。
