@@ -302,7 +302,7 @@ Expected: tests PASS；ROM confined diff 仅三个 checked hooks 与三个 caves
 
 Expected: PCA1 fresh 时记录 source `0x08073BAC`、event3、sequence 严格晚于 PCO1，且 `argument0` 等于 unit slot；该 slot 必须通过 `0x020240C0 + slot * 0x1D4` 映射到独立 WRAM diagnostic 读取的同一 unit record。未命中则停止并做 GDB 只读 breakpoint，不追加盲输入。
 
-- [ ] **Step 3: 从 canonical checkpoint 重放最终证据**
+- [x] **Step 3: 从 canonical checkpoint 重放最终证据**
 
 使用新 ROM 从 `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9` 重放已审计的零输入/单 A 链；每个可消费边界均先零输入或周期验收。最终 evidence 必须来自同一新 ROM、全零 baseline、fresh PCO1→PCU1/PCA1 顺序和 WRAM unit diagnostic。
 
