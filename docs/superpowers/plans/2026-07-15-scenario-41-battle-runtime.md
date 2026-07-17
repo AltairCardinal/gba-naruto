@@ -970,7 +970,9 @@ guard/heavy lock，使用 fresh output 目录、成功 marker、固定 ROM/state
 
 ABI 纠错：`0x08069DB8` 的 `r0` 是 unit slot，不是 character id。callee 用
 `0x020240C0 + (r0 & 0xFF) * 0x1D4` 定位 unit record；canonical PCA1 的 `r0=1` 因而精确映射
-到 `0x02024294`，该 record `+3` 才是 character id 13。继续 runtime 前必须先按 correction plan
+到 `0x02024294`。项目既有 runtime unit 解析约定以该 record `+0` 作为 character id，
+canonical slot 1 因而是 character id 1；`record+3=13` 是另一字段，不得再解释为角色 ID。
+继续 runtime 前必须先按 correction plan
 Task 2B 用 TDD 修正 evaluator 与设计文档；不得把 `1 != 13` 当作 observer/hook 失败。
 
 恢复纠错：run `1fbd7042bd43629f5c60df12586e7cf4` 的唯一 A 已使 task2 caller script

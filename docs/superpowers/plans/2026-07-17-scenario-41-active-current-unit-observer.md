@@ -194,8 +194,10 @@ const controlledUnitConsistent = input.controlledUnitFromWram === true
 ```
 
 同步设计文档：`0x08073BAA` 从 `0x0202680C+3` 读取 slot；`0x08069DB8` 以
-`0x020240C0 + slot * 0x1D4` 定位 WRAM record；character id 是该 record `+3`，不是 call
-argument。明确 `r1/r2` 是无关入口寄存器值，wrapper 完整保存/恢复 `r0-r4`。
+`0x020240C0 + slot * 0x1D4` 定位 WRAM record；character id 按项目既有 runtime unit
+解析约定取该 record `+0`，不是 call argument。canonical slot 1 的 `record+0=1`，而
+`record+3=13` 是另一字段，不得解释为角色 ID。明确 `r1/r2` 是无关入口寄存器值，wrapper
+完整保存/恢复 `r0-r4`。
 
 - [x] **Step 3: GREEN、回归与聚焦提交**
 
