@@ -311,19 +311,19 @@ reviewer 检查命令顺序、provenance、缺文件 fail-closed 与默认兼容
 - Modify: `tools/runtime_checkpoint_ledger.py`
 - Modify: `tests/test_runtime_checkpoint_ledger.py`
 
-- [ ] **Step 1: RED — 定义 selector + current-unit 二选一组合**
+- [x] **Step 1: RED — 定义 selector + current-unit 二选一组合**
 
 先写失败测试，要求 `player-control` 接受 `0x08073946 + 0x080739D8`（legacy PCU）或
 `0x08073946 + 0x08073BAC`（canonical PCA）。分别拒绝只有 selector、只有任一 current-unit、
 缺 selector、无关地址，以及把两个 current-unit 地址误当作无需 selector 的组合。运行 focused suite，
 确认旧实现只在 PCA 正例上因正确原因失败。
 
-- [ ] **Step 2: GREEN — 最小向后兼容 evidence alternatives**
+- [x] **Step 2: GREEN — 最小向后兼容 evidence alternatives**
 
 把内部 evidence requirement 表达为可满足的 hook 组合；其他 `movedone/victory/postbattle` 语义保持
 完全不变。保持 `schema_version: 1`、JSON 字段和既有错误边界，不放宽非 canonical 地址或未知 evidence。
 
-- [ ] **Step 3: 回归、审查与聚焦提交**
+- [x] **Step 3: 回归、审查与聚焦提交**
 
 运行 `tests.test_runtime_checkpoint_ledger`、真实 ledger validator 和 `git diff --check`。只提交上述两个
 文件；由 fresh thorough reviewer 核验 legacy compatibility、PCA 正例与 selector fail-closed。提交信息：
