@@ -52,6 +52,34 @@ class RuntimeCheckpointLedgerTests(unittest.TestCase):
     def test_accepts_a_traced_stable_pre_hook_checkpoint(self):
         self.assertEqual(validate_record(self.make_record(), self.root), [])
 
+    def test_player_control_accepts_selector_with_either_current_unit_hook(self):
+        for current_unit_hook in ("0x080739D8", "0x08073BAC"):
+            with self.subTest(current_unit_hook=current_unit_hook):
+                self.assertEqual(
+                    validate_record(
+                        self.make_record(
+                            before_hooks=["0x08073946", current_unit_hook]
+                        ),
+                        self.root,
+                    ),
+                    [],
+                )
+
+    def test_player_control_rejects_incomplete_or_unrelated_hook_combinations(self):
+        invalid_hook_sets = (
+            ["0x08073946"],
+            ["0x080739D8"],
+            ["0x08073BAC"],
+            ["0x080739D8", "0x08073BAC"],
+            ["0xDEADBEEF"],
+        )
+        for hooks in invalid_hook_sets:
+            with self.subTest(hooks=hooks):
+                errors = validate_record(
+                    self.make_record(before_hooks=hooks), self.root
+                )
+                self.assertTrue(any("player-control" in error for error in errors))
+
     def test_rejects_wrong_hash_unknown_parent_and_crossed_hook(self):
         payload = self.make_ledger()
         payload["checkpoints"][0]["sha256"] = "0" * 64

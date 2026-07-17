@@ -26,11 +26,14 @@ REQUIRED_FIELDS = {
     "allowed_evidence",
 }
 VALID_STATUSES = {"accepted", "candidate", "rejected"}
-EVIDENCE_HOOKS = {
-    "player-control": {"0x08073946", "0x080739D8"},
-    "movedone": {"0x0807443C", "0x08074918"},
-    "victory": {"0x0807444E", "0x08074458"},
-    "postbattle": {"0x080735C2"},
+EVIDENCE_HOOK_ALTERNATIVES = {
+    "player-control": (
+        {"0x08073946", "0x080739D8"},
+        {"0x08073946", "0x08073BAC"},
+    ),
+    "movedone": ({"0x0807443C", "0x08074918"},),
+    "victory": ({"0x0807444E", "0x08074458"},),
+    "postbattle": ({"0x080735C2"},),
 }
 HOOK_PATTERN = re.compile(r"0x[0-9A-F]{8}\Z")
 
@@ -141,10 +144,13 @@ def validate_record(record: dict[str, object], root: Path) -> list[str]:
     if evidence_valid:
         allowed_evidence = record["allowed_evidence"]
         for evidence in allowed_evidence:
-            required = EVIDENCE_HOOKS.get(evidence)
-            if required is None:
+            alternatives = EVIDENCE_HOOK_ALTERNATIVES.get(evidence)
+            if alternatives is None:
                 errors.append(f"unknown evidence: {evidence}: {name}")
-            elif hooks_valid and not required.issubset(set(record["before_hooks"])):
+            elif hooks_valid and not any(
+                required.issubset(set(record["before_hooks"]))
+                for required in alternatives
+            ):
                 errors.append(f"{evidence} evidence crossed its before_hooks boundary: {name}")
 
     return errors
