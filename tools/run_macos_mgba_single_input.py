@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one fixed Down, A, or B mGBA input segment behind the resource guard."""
+"""Run one fixed Down, A, B, or L mGBA input segment behind the resource guard."""
 
 from __future__ import annotations
 
@@ -68,7 +68,7 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SINGLE_INPUT_SCRIPT = ROOT / "tools" / "mgba_single_input_replay.lua"
 EXPECTED_SINGLE_INPUT_SCRIPT_SHA256 = (
-    "867f5deff09476d0d50c87830611acece918dba7c72f6815e9662613612db562"
+    "4e0a29446f17e98fb1a2b3256ce0ddc87a86c71888b6564c8cc75a756e30985c"
 )
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
@@ -83,8 +83,8 @@ class _SingleKeyAction(argparse.Action):
 def validate_single_input(
     key: str, down_frame: int, up_frame: int, capture_frame: int
 ) -> None:
-    if key not in ("Down", "A", "B"):
-        raise ReplayError("single input key must be exactly Down, A, or B")
+    if key not in ("Down", "A", "B", "L"):
+        raise ReplayError("single input key must be exactly Down, A, B, or L")
     frames = (down_frame, up_frame, capture_frame)
     if any(not isinstance(frame, int) or isinstance(frame, bool) for frame in frames):
         raise ReplayError("single input frames must be integers")

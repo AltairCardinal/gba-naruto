@@ -31,8 +31,8 @@ local input_state_sha256 = required_env("MGBA_REPLAY_INPUT_STATE_SHA256")
 local key_name = required_env("MGBA_SINGLE_INPUT_KEY")
 local down_frame = assert(tonumber(required_env("MGBA_SINGLE_INPUT_DOWN_FRAME")))
 local up_frame = assert(tonumber(required_env("MGBA_SINGLE_INPUT_UP_FRAME")))
-local keys = { Down = C.GBA_KEY.DOWN, A = C.GBA_KEY.A, B = C.GBA_KEY.B }
-local key = assert(keys[key_name], "input key must be Down, A, or B")
+local keys = { Down = C.GBA_KEY.DOWN, A = C.GBA_KEY.A, B = C.GBA_KEY.B, L = C.GBA_KEY.L }
+local key = assert(keys[key_name], "input key must be Down, A, B, or L")
 local frame = 0
 local capture_complete = false
 
