@@ -22,7 +22,7 @@
 - next runtime gate: `from accepted scenario-41-player-turn.ss9 on fresh action-submit probe, send exactly one GBA L at frames 5/13 and capture80; inspect MOVEDONE counter/MOD1/MOD2, current object/unit/action/task; stop regardless of hit; no retry/follow-on input`
 - first-L result: `run 22dd1933ebd03852c89a92af5437336e; exactly L@5/13 capture80; completed/0 success-marker; RSS51.895MiB; input/output counter=0 and MOD1/MOD2 canonical zero; task2 resume and current slot1/pointer02024294/unit (4,10)/action/round unchanged; RGB and bounded task internal bytes changed; output7841457a...13da candidate/not-proven and forbidden for consumption`
 - first-L boundary: `visible selection changed without MOVEDONE or unit/action transition; prior interpretation of mask0x0200 as action-progress input is disproven; no next key until independent runtime review plus bounded offline root-cause analysis of 0x0806F996/0x0806F9A0 selector semantics`
-- first-L reviewer: `pending fresh combined runtime evidence review`
+- first-L reviewer: `/root/scenario41_first_l_review`; `Spec PASS / Evidence Quality APPROVED; no findings; approval is limited to the one-L MOVEDONE negative window and does not authorize candidate consumption or a next input`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
