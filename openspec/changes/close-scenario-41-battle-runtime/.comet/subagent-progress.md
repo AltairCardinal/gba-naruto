@@ -5,7 +5,7 @@
 - stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_movedone_first_a` (fresh one-A runtime executor); first-L negative executor was `/root/scenario41_movedone_first_l`
+- implementer: `/root/scenario41_movedone_first_a`; `DONE_WITH_CONCERNS`, one runtime only; first-L negative executor was `/root/scenario41_movedone_first_l`
 - report: `.superpowers/sdd/task-6-movedone-first-a-report.md`; first-L report remains in `.superpowers/sdd/task-6-movedone-first-l-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -27,6 +27,8 @@
 - selector key table: `A and Start share accept-mask0x0009 inside selector; B ineffective; Select special exit; directions move cursor; R next unit; L previous unit. No next key authorized until caller continuation disambiguates A vs Start for this exact task context`
 - selector caller resolution: `/root/scenario41_selector_caller` validates exact active return [0x03001220]=0x08073C8D for 0x08073C88->0x0806F718; continuation0x08073C8C..98 reads new_keys and accepts only mask0x0001 A; Start0x0008 cannot advance this caller; upstream0x0807394E..58 has the same A-only continuation`
 - corrected next runtime gate: `discard first-L candidate; from original accepted player-turn.ss9 on fresh action-submit probe send exactly one A@5/13 capture80, then stop regardless of MOVEDONE; no L output consumption, retry, zero/base replay, or follow-on input in the same task`
+- first-A result: `run74437008316ef80bf68739801e0b8ce1 from original accepted state; exactly A@5/13 capture80; completed/0 success-marker RSS51.988MiB; task2 0x0806F996/SP030011E8 -> 0x08067D02/SP030011D8 and A8821->0; screen becomes action menu; unit (4,10)/action and MOVEDONE counter/MOD1/MOD2 unchanged; output972a4c47...b613 candidate/not-proven and forbidden pending review`
+- first-A reviewer: `pending fresh combined runtime evidence review`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
