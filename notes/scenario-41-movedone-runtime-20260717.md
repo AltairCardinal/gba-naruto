@@ -22,6 +22,7 @@
 ## 首回合术菜单稳定边界
 
 - 从 `scenario-41-first-movedone-facing` 依次执行显式输入 `A -> Up -> A`：朝向确认 run `bcedf5f65522909b84edb3b160c59b90`、防御选择 Up run `13ec9c4842007d4ace77efc17b7c043a`、防御确认 A run `a619e9ec5d24a0cbee0748e83ae4439b`，到达 `scenario-41-first-turn-technique-menu`。
+- 连续 state chain 在防御选择 Up 与防御确认 A 之间包含不可省略的 capture1 零输入桥：run `10a2275055b9a604b006aed551c952be` 将 `a6f0806c8d2409f6b84300bd58c7bd76e59bd5ee649dffc345b80ba3b3d7017a` 转为 `695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3`，后者才是防御确认 A 的真实输入。cycle 与 p2 只作诊断/串行复核，不属于 canonical chain。
 - unchanged cycle run `42128f6224e172f1c17bd8b9d5ceca36` 得到最小周期 24，匹配帧 `[0, 24, 48]`；串行零输入 replay `e1db6602c1f66570145d730c90064ab4` 与 `9efd0047387a9520d06662c049b3bad6` 均为 completed/0、non-degraded，并保持相同归一化 RGB。
 - 只机械复制 p1 为 canonical checkpoint：`artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9`，SHA-256 `039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1`；p2 仅用于串行稳定性复核。
 - 该 checkpoint 仅是稳定且尚未提交的术菜单边界；不证明术已提交，也不证明 fresh MOVEDONE、回合完成、胜利或 postbattle。
