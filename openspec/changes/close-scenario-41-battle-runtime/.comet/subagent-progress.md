@@ -102,6 +102,8 @@
 - PCU1 path audit result: `current handler returns 0x08073A4E and cannot return to 0x080739D8; A/B cannot补 hit; actual later current-unit callsite 0x08073BAC->0x08069DB8 exists but runtime reach remains to prove; observer-site mismatch, stop input`
 - design correction: `choose additive third observer at 0x08073BAC with independent PCA1/event3/scratch/cave; preserve 0x080739D8; correct evaluator so PCO1(9,0,1) is selector protocol and only current argument0 binds character id, while slot/affiliation come from unit-object diagnostics`
 - correction plan: `docs/superpowers/plans/2026-07-17-scenario-41-active-current-unit-observer.md @ 54ee6fd; Task1 builder TDD brief .superpowers/sdd/task-1-brief.md; review_mode thorough`
+- Task1 first implementer outcome: `fresh /root/active_current_unit_builder cost-stopped after >2 minutes with no RED/report/file changes; no commit`
+- Task1 retry: `fresh implementer receives exact two-file scope and constant/site/test assertions directly; must produce RED before implementation`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
