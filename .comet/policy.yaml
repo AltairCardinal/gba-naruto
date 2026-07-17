@@ -13,6 +13,19 @@ change:
   require_explicit_selection: true
   allow_first_active_fallback: false
 
+decisions:
+  automatic:
+    - in-scope-reversible-technical
+    - backward-compatible-internal
+  require_confirmation:
+    - archive
+    - push
+    - publish
+    - destructive
+    - irreversible
+    - new-capability
+    - scope-growth-over-50-percent
+
 git:
   commit: prompt
   push: deny

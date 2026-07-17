@@ -23,6 +23,19 @@ from tools.check_comet_project_policy import (
 
 
 class CometProjectPolicyTests(unittest.TestCase):
+    automatic_decisions = [
+        "in-scope-reversible-technical",
+        "backward-compatible-internal",
+    ]
+    required_user_confirmations = [
+        "archive",
+        "push",
+        "publish",
+        "destructive",
+        "irreversible",
+        "new-capability",
+        "scope-growth-over-50-percent",
+    ]
     valid_policy = """\
 schema_version: 1
 enforcement: strict
@@ -33,6 +46,18 @@ goal:
 change:
   require_explicit_selection: true
   allow_first_active_fallback: false
+decisions:
+  automatic:
+    - in-scope-reversible-technical
+    - backward-compatible-internal
+  require_confirmation:
+    - archive
+    - push
+    - publish
+    - destructive
+    - irreversible
+    - new-capability
+    - scope-growth-over-50-percent
 git:
   commit: prompt
   push: deny
@@ -123,6 +148,8 @@ limits:
             "generated_at": "2026-07-16T00:00:00Z",
             "policy_valid": True,
             "required_platform_checks": [],
+            "automatic_decisions": self.automatic_decisions,
+            "required_user_confirmations": self.required_user_confirmations,
             "push_denied": True,
             "active_change_push_conflicts": [],
             "errors": [],
@@ -141,6 +168,53 @@ limits:
             ["python3", "tools/run_guarded.py"],
         )
         self.assertEqual(validate_policy(policy), [])
+
+    def test_requires_exact_decision_lists_and_order(self) -> None:
+        decision_block = (
+            "decisions:\n"
+            "  automatic:\n"
+            "    - in-scope-reversible-technical\n"
+            "    - backward-compatible-internal\n"
+            "  require_confirmation:\n"
+            "    - archive\n"
+            "    - push\n"
+            "    - publish\n"
+            "    - destructive\n"
+            "    - irreversible\n"
+            "    - new-capability\n"
+            "    - scope-growth-over-50-percent\n"
+        )
+        variants = {
+            "missing": self.valid_policy.replace(decision_block, ""),
+            "mistyped": self.valid_policy.replace(
+                "  automatic:\n"
+                "    - in-scope-reversible-technical\n"
+                "    - backward-compatible-internal\n",
+                "  automatic: in-scope-reversible-technical\n",
+            ),
+            "automatic reordered": self.valid_policy.replace(
+                "    - in-scope-reversible-technical\n"
+                "    - backward-compatible-internal\n",
+                "    - backward-compatible-internal\n"
+                "    - in-scope-reversible-technical\n",
+            ),
+            "confirmation reordered": self.valid_policy.replace(
+                "    - archive\n    - push\n",
+                "    - push\n    - archive\n",
+            ),
+            "unknown item": self.valid_policy.replace(
+                "    - backward-compatible-internal\n",
+                "    - backward-compatible-internal\n    - undocumented-choice\n",
+            ),
+            "high risk automatic": self.valid_policy.replace(
+                "    - backward-compatible-internal\n",
+                "    - backward-compatible-internal\n    - destructive\n",
+            ),
+        }
+
+        for reason, document in variants.items():
+            with self.subTest(reason=reason):
+                self.assertTrue(validate_policy(parse_policy(document)))
 
     def test_rejects_unknown_duplicate_and_mistyped_policy_fields(self) -> None:
         unknown = self.valid_policy.replace("git:\n", "unknown: true\ngit:\n")
@@ -627,6 +701,8 @@ limits:
                 "generated_at",
                 "policy_valid",
                 "required_platform_checks",
+                "automatic_decisions",
+                "required_user_confirmations",
                 "push_denied",
                 "active_change_push_conflicts",
                 "errors",
@@ -634,6 +710,11 @@ limits:
         )
         self.assertIn("goal_status_active", report["required_platform_checks"])
         self.assertIn("local_commit_authorization", report["required_platform_checks"])
+        self.assertEqual(report["automatic_decisions"], self.automatic_decisions)
+        self.assertEqual(
+            report["required_user_confirmations"],
+            self.required_user_confirmations,
+        )
 
     def test_preflight_does_not_require_saved_report_and_emits_fresh_metadata(
         self,
@@ -743,6 +824,49 @@ limits:
             ),
             report,
         )
+
+    def test_verify_report_requires_exact_decision_boundaries(self) -> None:
+        cases = {
+            "missing automatic": ("automatic_decisions", None),
+            "reordered automatic": (
+                "automatic_decisions",
+                list(reversed(self.automatic_decisions)),
+            ),
+            "expanded automatic": (
+                "automatic_decisions",
+                self.automatic_decisions + ["destructive"],
+            ),
+            "missing confirmation": (
+                "required_user_confirmations",
+                self.required_user_confirmations[:-1],
+            ),
+            "reordered confirmation": (
+                "required_user_confirmations",
+                list(reversed(self.required_user_confirmations)),
+            ),
+            "expanded confirmation": (
+                "required_user_confirmations",
+                self.required_user_confirmations + ["routine-formatting"],
+            ),
+        }
+
+        for reason, (field, value) in cases.items():
+            with self.subTest(reason=reason):
+                report_path = self.root / f"{reason.replace(' ', '-')}.json"
+                payload = self.write_saved_report(report_path)
+                if value is None:
+                    payload.pop(field)
+                else:
+                    payload[field] = value
+                report_path.write_text(json.dumps(payload), encoding="utf-8")
+
+                report = audit_project(
+                    self.root, active_changes=[], report_path=report_path
+                )
+
+                self.assertTrue(
+                    any(field in item for item in report["errors"]), report
+                )
 
     def test_verify_report_requires_valid_policy_and_denied_push(self) -> None:
         cases = (

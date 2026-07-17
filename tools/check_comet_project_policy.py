@@ -12,6 +12,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+AUTOMATIC_DECISIONS = [
+    "in-scope-reversible-technical",
+    "backward-compatible-internal",
+]
+REQUIRED_USER_CONFIRMATIONS = [
+    "archive",
+    "push",
+    "publish",
+    "destructive",
+    "irreversible",
+    "new-capability",
+    "scope-growth-over-50-percent",
+]
 EXPECTED_POLICY: dict[str, object] = {
     "schema_version": 1,
     "enforcement": "strict",
@@ -23,6 +36,10 @@ EXPECTED_POLICY: dict[str, object] = {
     "change": {
         "require_explicit_selection": True,
         "allow_first_active_fallback": False,
+    },
+    "decisions": {
+        "automatic": AUTOMATIC_DECISIONS,
+        "require_confirmation": REQUIRED_USER_CONFIRMATIONS,
     },
     "git": {"commit": "prompt", "push": "deny"},
     "agents": {
@@ -567,6 +584,14 @@ def _verify_saved_report(
         errors.append("saved policy report policy_sha256 does not match current policy")
     if saved.get("policy_valid") is not True:
         errors.append("saved policy report policy_valid must be true")
+    if saved.get("automatic_decisions") != AUTOMATIC_DECISIONS:
+        errors.append(
+            "saved policy report automatic_decisions must equal project policy"
+        )
+    if saved.get("required_user_confirmations") != REQUIRED_USER_CONFIRMATIONS:
+        errors.append(
+            "saved policy report required_user_confirmations must equal project policy"
+        )
     if saved.get("push_denied") is not True:
         errors.append("saved policy report push_denied must be true")
     if saved.get("active_change_push_conflicts") != []:
@@ -643,6 +668,8 @@ def audit_project(
         "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "policy_valid": not policy_errors,
         "required_platform_checks": _required_platform_checks(policy),
+        "automatic_decisions": AUTOMATIC_DECISIONS,
+        "required_user_confirmations": REQUIRED_USER_CONFIRMATIONS,
         "push_denied": push_denied,
         "active_change_push_conflicts": conflicts,
         "errors": errors,
