@@ -5,7 +5,7 @@
 - stage: `implementation`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_final_a_evidence_review`; `RUNNING`, TDD-only exact GBA Up runner extension, no mGBA
+- implementer: `/root/scenario41_action_menu_p128`; replacement `RUNNING`, TDD-only exact GBA Up runner extension, no mGBA; first agent cost-stopped with no diff/test/process
 - report: pending `.superpowers/sdd/task-6-action-menu-up-runner-report.md`; p128 report remains approved prerequisite evidence
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `pending fresh code review after implementation`; p128 evidence review remains approved
