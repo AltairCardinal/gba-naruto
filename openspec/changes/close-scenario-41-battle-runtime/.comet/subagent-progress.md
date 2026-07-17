@@ -4,11 +4,11 @@
 - openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
 - stage: `final-fix`
 - review_mode: `thorough`
-- review_fix_round: `1/2`
+- review_fix_round: `2/2`
 - implementer: `/root/scenario41_player_turn_persist`
 - report: `.superpowers/sdd/task-open-4.1-player-turn-persistence-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 91d33a4; strict RED missing checkpoint; GREEN ledger14/14, evaluator19/19, builder/observer/savestate26/26, accepted=8 errors=0, OpenSpec strict and diff clean; absent requested test module replaced by existing tests.test_inspect_mgba_savestate`
-- reviewer: `/root/scenario41_player_turn_persistence_review`; `Spec FAIL / Quality CHANGES; one Important: main plan Task5B Step1 retains superseded two-record PCO+PCU-only gate; fix to three records and PCO+(PCU|PCA) ordered alternative, then re-review`
+- reviewer: `/root/scenario41_player_turn_persistence_rereview`; `first Important semantics closed, but re-review found replacement text swapped scratch labels: actual PCU=0x0203F060 and PCO=0x0203F080; one-line second-round fix then fresh re-review`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
