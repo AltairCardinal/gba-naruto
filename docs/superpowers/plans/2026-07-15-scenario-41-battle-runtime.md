@@ -1075,6 +1075,28 @@ python tools/build_action_submit_runtime_probe.py rom/base.gba build/scenario-41
 
 Expected: all tests PASS; confined diff contains exactly two calls and two caves.
 
+- [ ] **Task 6 Step 4A: 以 TDD 将固定单键 runner 最小扩展为 GBA L**
+
+`scenario-41-player-turn.ss9` 的 task 2 在 `0x0806F996` 恢复；静态解码证明随后
+`0x0806F9A0..0x0806F9B4` 只测试 new-keys mask `0x0200`，即 GBA `L`。现有 native
+single-input runner 的封闭白名单只有 `Down/A/B`，因此不得用方向键、A/B、手写 pre-script 或
+浏览器人工输入替代。选择复用既有 runner：只在 `tools/run_macos_mgba_single_input.py`、
+`tools/mgba_single_input_replay.lua` 和 `tests/test_run_macos_mgba_single_input.py` 增加精确 `L`；
+保留单一 down/up、`automatic_inputs=[]`、recovery 禁止、guard/provenance/residue 和 fresh-output
+契约不变。自定义 Lua 会绕过已审计 payload/成功 marker，人工浏览器输入不可复现，均不采用。
+
+先写 RED：`validate_single_input("L", 5, 13, 80)` 与 payload `key="L"` 应被接受、Lua 必须映射
+`L = C.GBA_KEY.L`，同时 `R`、`Up`、组合键和空值继续 fail closed；确认 RED 因缺少 `L` 失败后，
+再做最小实现并更新固定 Lua SHA。运行：
+
+```bash
+python3 -m unittest tests.test_run_macos_mgba_single_input -v
+python3 -m py_compile tools/run_macos_mgba_single_input.py
+git diff --check
+```
+
+Expected: 全部 PASS；无 mGBA 运行、无其他按键或通用任意键接口；创建一个聚焦本地 commit。
+
 - [ ] **Step 5: Execute the first tutorial action in short explicit steps**
 
 From `scenario-41-player-turn.ss9`, first sample the actual controlled and acting-unit object/record boundaries; do not import the old battle-40 `(4,4)→(4,7)→(4,10)` route into battle 41. Send one direction/confirm at a time, export a candidate checkpoint at each stable tutorial prompt, and never use adaptive recovery. The first bounded diagnostic stops after one explicit input whether or not a MOVEDONE site fires; only a fresh hook sample may establish the actual acting unit and next legal transition. Complete later direction and defense selections only when the preceding screenshot/WRAM boundary matches the tutorial state.

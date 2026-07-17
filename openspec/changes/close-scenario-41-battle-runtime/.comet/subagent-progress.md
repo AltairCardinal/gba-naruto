@@ -1,18 +1,20 @@
 # Subagent Progress
 
-- plan task: `Task 6 Step 5: Execute the first tutorial action in short explicit steps`
+- plan task: `Task 6 Step 4A: 以 TDD 将固定单键 runner 最小扩展为 GBA L`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_movedone_zero_baseline` (DONE_WITH_CONCERNS; no retry)
-- report: `.superpowers/sdd/task-6-movedone-zero-baseline-report.md`; builder/evaluator history remains in `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
+- implementer: `pending fresh GBA L runner TDD implementer`
+- report: `.superpowers/sdd/task-6-l-input-runner-report.md`; runtime baseline remains in `.superpowers/sdd/task-6-movedone-zero-baseline-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
 - prior player-observer baseline: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output PCO1/PCU1 scratch zero; this is not a MOVEDONE baseline and cannot satisfy Task 6 Step 5`
 - MOVEDONE runtime gate: `one fresh frame-1 zero-input baseline from accepted scenario-41-player-turn.ss9 on a freshly rebuilt action-submit observer ROM; no input/retry; output diagnostic-only`
 - MOVEDONE zero baseline: `run c37e73c7ac9c4df4b46ce284e83702ab; fresh probe 2e0ef354...1737f; completed/0 via success-marker; input/output counter=0 and both 52-byte MOD1/MOD2 records canonical zero; task2/current object exact; no input/retry; output 930797b8...13df is diagnostic-only and forbidden for later consumption`
 - baseline resource note: `guard peak_tree_rss_mib=0.11328125 is a frame-1 coarse sampled lower bound, not a real mGBA peak claim; PGID/listener/crash/residue and rom/base.sav postchecks clean`
+- first action static gate: `accepted state task2 resumes 0x0806F996; 0x0806F9A0..B4 reads new_keys and uniquely tests mask 0x0200 (GBA L); current object slot1 pointer02024294 char1 aff0 at (4,10); MOVEDONE still zero so acting-unit identity remains unproven`
+- runner gap decision: `existing audited single-input surface is Down/A/B only; add exact L under TDD before any explicit input; forbid arbitrary-key API, custom pre-script, browser/manual input, or mGBA during the code task`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
