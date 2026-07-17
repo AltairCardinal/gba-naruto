@@ -2,13 +2,13 @@
 
 - plan task: `Task 6 Step 1-4: MOVEDONE observer/evaluator preflight and TDD implementation`
 - openspec task: `5.1 从玩家控制快照完成第一回合 (4,4)→(4,7)，捕获 MOVEDONE 与回合状态变化`
-- stage: `implementing`
+- stage: `quality-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `pending after preflight semantic audit`
+- implementer: `/root/scenario41_movedone_builder`
 - report: `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
-- implementation status: `preflight must reconcile accepted controlled unit slot1 at (4,10) with plan/OpenSpec transition (4,4)->(4,7) before encoding evaluator identity semantics`
-- reviewer: `pending`
+- implementation status: `DONE_WITH_CONCERNS at 3ba38c5; RED missing builder + 8 missing evaluator behaviors + exact cave correction; GREEN Python22/22 Node27/27, probe e29739f6, exact four-file commit; runtime site/acting unit remains Step5`
+- reviewer: `pending fresh thorough reviewer; inspect ABI/stub record layout, evaluator controlled-vs-acting semantics, source/order/context gates, TDD and confined ROM diff`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
