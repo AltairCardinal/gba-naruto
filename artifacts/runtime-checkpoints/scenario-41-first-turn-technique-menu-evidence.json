@@ -1,0 +1,116 @@
+{
+  "outcome": "accepted-stable-unsubmitted-technique-menu",
+  "scope": "scenario-41-first-turn-technique-menu",
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9",
+    "sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "observer_rom_sha256": "2e0ef35475737789103403cfea454ace1de0ae6b6ed1789d49d7e55d5dc1737f",
+    "observer_builder_sha256": "2998ad242e40fb5e7ad1b5a4b7192618aa77920148ae78b769a50c11dd543549",
+    "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "fixed_input_runner_sha256": "2f36d0bd8d3daddcbc4f6057b47fc75c9d62f5f2e71cda0992beae3439dc7ef9",
+    "fixed_input_lua_sha256": "82fbae13b39d2e7dd4b53e4b79dcf89ccc56f29dcb9ea53466d007b1000b9412",
+    "zero_input_runner_sha256": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "zero_input_lua_sha256": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "sampler_sha256": "e10a05f7208e4330cbe0dc202a539c9f29506606f697e6658095fc95e75869ec",
+    "analyzer_sha256": "db506421b23dcb7076063b81a2443f6e8a9727b2c39b5596a7b0ae49e4bc8184",
+    "guard_sha256": "ea34554547c374cd7f9d868792d73c2d7932884f59938a4ffff039eacaa28666"
+  },
+  "lineage": {
+    "parent": "scenario-41-first-movedone-facing",
+    "explicit_inputs": [
+      "A",
+      "Up",
+      "A"
+    ],
+    "screen": "first-turn-technique-menu",
+    "runs": {
+      "facing_confirm": "bcedf5f65522909b84edb3b160c59b90",
+      "defense_up": "13ec9c4842007d4ace77efc17b7c043a",
+      "defense_affirmative": "a619e9ec5d24a0cbee0748e83ae4439b"
+    }
+  },
+  "cycle": {
+    "run_id": "42128f6224e172f1c17bd8b9d5ceca36",
+    "input_state_sha256": "f26173ff9d03344cd2f1bb6715158e5764a1853eb8c808df811b852545a9a0f1",
+    "output_state_sha256": "faf3b8a28d22bff56a97a8712c7e6450a6f82700380bde388a321fa95182c41f",
+    "period_frames": 24,
+    "match_frames": [
+      0,
+      24,
+      48
+    ]
+  },
+  "zero_input_stability": {
+    "period_frames": 24,
+    "normalized_rgb8_sha256": "17644dae174acd0e26b9b004f3e8a03b9fd9a43b523cb3dff40f978b4f9b6eef",
+    "replays": [
+      {
+        "run_id": "e1db6602c1f66570145d730c90064ab4",
+        "input_state_sha256": "f26173ff9d03344cd2f1bb6715158e5764a1853eb8c808df811b852545a9a0f1",
+        "output_state_sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+        "capture_frame": 24,
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "normalized_rgb8_sha256": "17644dae174acd0e26b9b004f3e8a03b9fd9a43b523cb3dff40f978b4f9b6eef",
+        "guard": {
+          "reason": "completed",
+          "exit_code": 0,
+          "completion_trigger": "success-marker",
+          "degraded": false
+        }
+      },
+      {
+        "run_id": "9efd0047387a9520d06662c049b3bad6",
+        "input_state_sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+        "output_state_sha256": "ec10ab74ece254ae105f1056eb1bcda9e7302328535d613171253d5165c1889c",
+        "capture_frame": 24,
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "normalized_rgb8_sha256": "17644dae174acd0e26b9b004f3e8a03b9fd9a43b523cb3dff40f978b4f9b6eef",
+        "guard": {
+          "reason": "completed",
+          "exit_code": 0,
+          "completion_trigger": "success-marker",
+          "degraded": false
+        }
+      }
+    ]
+  },
+  "business_state": {
+    "task_resume": "0x08067D02",
+    "menu_round_raw_hex": "0000000000000000",
+    "scenario": 41,
+    "battle_raw_hex": "0029000000000000",
+    "map": {
+      "width": 36,
+      "height": 44,
+      "grid_x": 9,
+      "grid_y": 22
+    },
+    "current_object_raw_hex": "0100000194420202",
+    "slot": 1,
+    "record_address": "0x02024294",
+    "character_id": 1,
+    "affiliation": 0,
+    "coordinates": [
+      4,
+      10
+    ],
+    "initial_coordinates": [
+      4,
+      10
+    ],
+    "facing": 0,
+    "action_raw_hex": "00ff0000",
+    "complete_unit_sha256": "e48385264808378faf58c5ddace890789a2d4b99c06018170a33253649ebeb19",
+    "movedone_counter": 1,
+    "MOD1_raw_hex": "4d4f44310100000001000000010000003c44070801000001944202029442020201010e0d00010000040a00040a00000000ff0000",
+    "MOD2_raw_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
