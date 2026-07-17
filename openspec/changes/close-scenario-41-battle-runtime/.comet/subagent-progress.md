@@ -2,12 +2,13 @@
 
 - plan task: `Task 2G: TDD 扩展玩家控制 checkpoint 证据组合`
 - openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
-- stage: `implementing`
+- stage: `quality-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `pending fresh writer`
+- implementer: `/root/scenario41_ledger_alternatives`
 - report: `.superpowers/sdd/task-2g-player-control-ledger-report.md`
-- implementation status: `pending; strict RED/GREEN required before source edit`
+- implementation status: `DONE at dc5476a; RED 14 tests/1 expected canonical-PCA failure; GREEN 14/14, real ledger accepted=7 errors=0, diff-check clean; exact two-file scope`
+- reviewer: `pending fresh thorough reviewer; package is commit range f61bfec..dc5476a`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
