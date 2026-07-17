@@ -5,8 +5,8 @@
 - stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_zero` preflight BLOCKED before runtime; fresh replacement pending; first-A executor was `/root/scenario41_movedone_first_a`
-- report: `.superpowers/sdd/task-6-action-menu-zero-report.md`; first-A report remains in `.superpowers/sdd/task-6-movedone-first-a-report.md`
+- implementer: `/root/scenario41_action_menu_zero_retry` fresh replacement; prior `/root/scenario41_action_menu_zero` preflight BLOCKED before runtime; first-A executor was `/root/scenario41_movedone_first_a`
+- report: `.superpowers/sdd/task-6-action-menu-zero-retry-report.md`; preflight failure remains in `.superpowers/sdd/task-6-action-menu-zero-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
 - prior player-observer baseline: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output PCO1/PCU1 scratch zero; this is not a MOVEDONE baseline and cannot satisfy Task 6 Step 5`
