@@ -149,6 +149,7 @@
 - Task3 corrected diagnostic status: `after slot-ABI correction, unique c1393c7c PCA1 event3/seq2 arg0=slot1 maps base020240C0+1*1D4=02024294 and record+3 char13; correction plan Task3 build/audit Step1 and diagnostic Step2 are complete, but diagnostic output remains forbidden and OpenSpec4.1 stays unchecked`
 - Task3 eventual-anchor evidence: `offline strict RGB audit of the existing valid 600-frame sample finds first triple at relative frames9/137/265 with p128; no full-segment or original-frame0 cycle claim; use this only to justify one zero-input frame9 anchor candidate, then rerun the unchanged sampler/analyzer from that new candidate so the normative frame0/p/2p rule remains intact`
 - Task3 anchor next gate: `fresh agent runs exactly one zero-input capture9 from original a645335b action state on observer ROM41d4292e into fresh dir; require RGB exact to existing sampler frame9 plus task/raw/A880/A882/unit/object/observer/guard/hash/residue; no sampler/p replay/A unless parent accepts anchor`
+- Task3 anchor dispatch: `fresh /root/active_action_anchor9 from a25019f; exactly zero-input capture9 to new scenario-41-active-action-anchor9 dir; expected RGB8 8d4c2e...; no sampler/p/input/retry/checkpoint/source edit/commit`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
