@@ -71,6 +71,30 @@ slot 作为 `r0` 调用 `0x08069DB8`；后者按
 6. accepted evidence 必须记录 current source hook、magic、event、sequence、character id、
    unit-object slot/affiliation 和显式输入清单。
 
+## 输入计划的原生帧时序审计
+
+evaluator 保留现有 frozen legacy plan item：公共字段 `phase`、`step`、`logicalKey`、
+`gbaButton` 加非负整数 `holdMs`。原生 mGBA audit 使用另一种 frozen native plan item；公共字段
+不变，timing 必须只包含 camelCase 的 `downFrame`、`upFrame`、`holdFrames`、
+`captureFrame`，不得附带或派生 `holdMs`。native timing 逐项满足：
+
+- 四个字段都是整数；
+- `downFrame > 0`；
+- `upFrame > downFrame`；
+- `holdFrames === upFrame - downFrame`；
+- `captureFrame > upFrame`。
+
+每个 item 必须恰好属于 legacy 或 native 一种 timing mode，同一 plan 的全部 item 必须使用同一
+mode。event 必须按数组顺序与 plan 一一匹配公共字段、timing mode 及该 mode 的全部 timing
+字段；缺字段、混合字段、额外/缺少/乱序 event 均 fail closed。既有
+`classification=explicit` 与 `downCompleted/upCompleted=true` 门禁保持不变。
+
+当前有效 native 样本由三段有序、显式的 A event 组成。每段来自独立 guarded run，因此都可以
+精确记录 `downFrame=5`、`upFrame=13`、`holdFrames=8`、`captureFrame=80`；
+`captureFrame` 只在单次 run 内相对该 event 校验，不要求跨 event 递增。该扩展只影响
+`expectedInputPlanValid` 与 `inputMatchesPlan`，不改变 observer ABI、证据失败原因优先级或任何
+游戏内可见行为。
+
 ## 测试与失败边界
 
 TDD RED 必须先证明：

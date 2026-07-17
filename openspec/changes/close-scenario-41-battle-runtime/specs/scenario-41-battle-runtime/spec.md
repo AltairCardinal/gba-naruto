@@ -41,6 +41,14 @@
 - **WHEN** runtime driver 在清单外自动发送 A、B 或方向键后才出现命中
 - **THEN** 该运行 MUST 判为导航或诊断样本，而不是玩家控制正证据
 
+#### Scenario: 原生帧时序输入按互斥模式精确审计
+- **WHEN** 证据清单使用原生 mGBA frame timing，并按顺序记录三段独立 guarded run 的显式 A，且每段均为 `downFrame=5`、`upFrame=13`、`holdFrames=8`、`captureFrame=80`
+- **THEN** evaluator SHALL 接受该 frozen native plan，不要求 `captureFrame` 跨 event 递增，并继续要求每个 event 为 explicit 且 down/up complete
+
+#### Scenario: 输入计划 timing mode 或事件链不精确
+- **WHEN** frozen plan item 未恰好使用 legacy `holdMs` 或 native `downFrame/upFrame/holdFrames/captureFrame` 一种模式、同一 plan 混用模式、native 字段不是整数或不满足 `downFrame > 0`、`upFrame > downFrame`、`holdFrames === upFrame - downFrame`、`captureFrame > upFrame`，或者 event 与 plan 的 mode、公共字段、全部 timing 字段、数量或顺序不一致
+- **THEN** evaluator MUST fail closed，且 MUST NOT 从原生帧派生近似 `holdMs`
+
 ### Requirement: 行动与胜利必须沿自然控制链闭合
 系统 SHALL 通过玩家输入自然完成 scenario 41 教程行动，并依次证明 MOVEDONE、胜负谓词、结果写入与 battle controller 退出。
 

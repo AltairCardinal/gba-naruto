@@ -46,6 +46,36 @@ function completedInputEvent(overrides = {}) {
   };
 }
 
+function nativeExpectedInputPlan() {
+  return Object.freeze([1, 2, 3].map(step => Object.freeze({
+    phase: 'active-current',
+    step,
+    logicalKey: 'KeyZ',
+    gbaButton: 'A',
+    downFrame: 5,
+    upFrame: 13,
+    holdFrames: 8,
+    captureFrame: 80,
+  })));
+}
+
+function completedNativeInputEvent(step, overrides = {}) {
+  return {
+    phase: 'active-current',
+    step,
+    logicalKey: 'KeyZ',
+    gbaButton: 'A',
+    downFrame: 5,
+    upFrame: 13,
+    holdFrames: 8,
+    captureFrame: 80,
+    classification: 'explicit',
+    downCompleted: true,
+    upCompleted: true,
+    ...overrides,
+  };
+}
+
 function validSample() {
   return {
     baseline: {
@@ -67,6 +97,14 @@ function validSample() {
     controlledUnitFromWram: true,
     expectedInputPlan: expectedInputPlan(),
     inputEvents: [completedInputEvent()],
+  };
+}
+
+function validNativeSample() {
+  return {
+    ...validSample(),
+    expectedInputPlan: nativeExpectedInputPlan(),
+    inputEvents: [1, 2, 3].map(step => completedNativeInputEvent(step)),
   };
 }
 
@@ -259,6 +297,140 @@ test('requires one completed explicit A matching the immutable expected plan', (
   assert.equal(evaluatePlayerControlEvidence(extra).reason, 'input-plan-mismatch');
 
   assert.equal(evaluatePlayerControlEvidence(validSample()).verified, true);
+});
+
+test('accepts three ordered native frame-timed A events from independent guarded runs', () => {
+  const result = evaluatePlayerControlEvidence(validNativeSample());
+  assert.equal(result.verified, true);
+  assert.equal(result.reason, 'player-control-verified');
+});
+
+test('rejects incomplete or invalid native frame timing plans', () => {
+  for (const field of ['downFrame', 'upFrame', 'holdFrames', 'captureFrame']) {
+    const sample = validNativeSample();
+    const item = { ...sample.expectedInputPlan[0] };
+    delete item[field];
+    sample.expectedInputPlan = Object.freeze([
+      Object.freeze(item),
+      ...sample.expectedInputPlan.slice(1),
+    ]);
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'expected-input-plan-invalid',
+      `missing ${field} must fail closed`,
+    );
+  }
+
+  for (const [field, value] of [
+    ['downFrame', 5.5],
+    ['upFrame', 13.5],
+    ['holdFrames', 8.5],
+    ['captureFrame', 80.5],
+    ['downFrame', 0],
+    ['upFrame', 5],
+    ['holdFrames', 7],
+    ['captureFrame', 13],
+  ]) {
+    const sample = validNativeSample();
+    sample.expectedInputPlan = Object.freeze([
+      Object.freeze({ ...sample.expectedInputPlan[0], [field]: value }),
+      ...sample.expectedInputPlan.slice(1),
+    ]);
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'expected-input-plan-invalid',
+      `${field}=${value} must fail closed`,
+    );
+  }
+});
+
+test('rejects hybrid items and legacy/native timing mode mixtures', () => {
+  const hybrid = validNativeSample();
+  hybrid.expectedInputPlan = Object.freeze([
+    Object.freeze({ ...hybrid.expectedInputPlan[0], holdMs: 125 }),
+    ...hybrid.expectedInputPlan.slice(1),
+  ]);
+  assert.equal(evaluatePlayerControlEvidence(hybrid).reason, 'expected-input-plan-invalid');
+
+  const mixed = validNativeSample();
+  mixed.expectedInputPlan = Object.freeze([
+    expectedInputPlan()[0],
+    ...mixed.expectedInputPlan.slice(1),
+  ]);
+  assert.equal(evaluatePlayerControlEvidence(mixed).reason, 'expected-input-plan-invalid');
+});
+
+test('requires native events to match their plan timing mode and every timing field', () => {
+  for (const [field, value] of [
+    ['downFrame', 6],
+    ['upFrame', 14],
+    ['holdFrames', 7],
+    ['captureFrame', 81],
+    ['holdMs', 125],
+  ]) {
+    const sample = validNativeSample();
+    sample.inputEvents[0] = completedNativeInputEvent(1, { [field]: value });
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'input-plan-mismatch',
+      `${field} mismatch must fail closed`,
+    );
+  }
+
+  for (const field of ['downFrame', 'upFrame', 'holdFrames', 'captureFrame']) {
+    const sample = validNativeSample();
+    const event = completedNativeInputEvent(1);
+    delete event[field];
+    sample.inputEvents[0] = event;
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'input-plan-mismatch',
+      `event missing ${field} must fail closed`,
+    );
+  }
+
+  const nativePlanWithLegacyEvent = validNativeSample();
+  nativePlanWithLegacyEvent.inputEvents[0] = completedInputEvent({
+    phase: 'active-current', step: 1,
+  });
+  assert.equal(
+    evaluatePlayerControlEvidence(nativePlanWithLegacyEvent).reason,
+    'input-plan-mismatch',
+  );
+
+  const legacyPlanWithNativeEvent = validSample();
+  legacyPlanWithNativeEvent.inputEvents = [completedNativeInputEvent(1, { phase: 'tail' })];
+  assert.equal(
+    evaluatePlayerControlEvidence(legacyPlanWithNativeEvent).reason,
+    'input-plan-mismatch',
+  );
+});
+
+test('rejects extra, missing and out-of-order native events', () => {
+  const extra = validNativeSample();
+  extra.inputEvents.push(completedNativeInputEvent(4));
+  assert.equal(evaluatePlayerControlEvidence(extra).reason, 'input-plan-mismatch');
+
+  const missing = validNativeSample();
+  missing.inputEvents.pop();
+  assert.equal(evaluatePlayerControlEvidence(missing).reason, 'input-plan-mismatch');
+
+  const outOfOrder = validNativeSample();
+  [outOfOrder.inputEvents[0], outOfOrder.inputEvents[1]] = [
+    outOfOrder.inputEvents[1],
+    outOfOrder.inputEvents[0],
+  ];
+  assert.equal(evaluatePlayerControlEvidence(outOfOrder).reason, 'input-plan-mismatch');
+});
+
+test('keeps explicit classification and completed down/up gates for native events', () => {
+  const automatic = validNativeSample();
+  automatic.inputEvents[1] = completedNativeInputEvent(2, { classification: 'automatic' });
+  assert.equal(evaluatePlayerControlEvidence(automatic).reason, 'unlisted-input-used');
+
+  const incomplete = validNativeSample();
+  incomplete.inputEvents[1] = completedNativeInputEvent(2, { upCompleted: false });
+  assert.equal(evaluatePlayerControlEvidence(incomplete).reason, 'input-incomplete');
 });
 
 test('rejects evidence outside scenario 41 foreground battle-map context', () => {

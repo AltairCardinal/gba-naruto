@@ -49,27 +49,61 @@ function isAffiliation(value) {
   return value === 0 || value === 1;
 }
 
+function inputTimingMode(item) {
+  if (item === null || typeof item !== 'object') {
+    return null;
+  }
+  const hasLegacyTiming = Object.hasOwn(item, 'holdMs');
+  const nativeFields = ['downFrame', 'upFrame', 'holdFrames', 'captureFrame'];
+  const hasNativeTiming = nativeFields.some(field => Object.hasOwn(item, field));
+  if (hasLegacyTiming && !hasNativeTiming) {
+    return Number.isInteger(item.holdMs) && item.holdMs >= 0 ? 'legacy' : null;
+  }
+  if (!hasLegacyTiming && nativeFields.every(field => Object.hasOwn(item, field))) {
+    return Number.isInteger(item.downFrame)
+      && Number.isInteger(item.upFrame)
+      && Number.isInteger(item.holdFrames)
+      && Number.isInteger(item.captureFrame)
+      && item.downFrame > 0
+      && item.upFrame > item.downFrame
+      && item.holdFrames === item.upFrame - item.downFrame
+      && item.captureFrame > item.upFrame
+      ? 'native'
+      : null;
+  }
+  return null;
+}
+
 function expectedInputPlanValid(plan) {
-  return Array.isArray(plan)
-    && Object.isFrozen(plan)
-    && plan.length > 0
+  if (!Array.isArray(plan) || !Object.isFrozen(plan) || plan.length === 0) {
+    return false;
+  }
+  const timingMode = inputTimingMode(plan[0]);
+  return timingMode !== null
     && plan.every(item => Object.isFrozen(item)
       && typeof item.phase === 'string'
       && Number.isInteger(item.step)
       && typeof item.logicalKey === 'string'
       && typeof item.gbaButton === 'string'
-      && Number.isInteger(item.holdMs)
-      && item.holdMs >= 0);
+      && inputTimingMode(item) === timingMode);
 }
 
 function inputMatchesPlan(events, plan) {
   return events.length === plan.length && events.every((event, index) => {
     const expected = plan[index];
-    return event.phase === expected.phase
+    const timingMode = inputTimingMode(expected);
+    const timingMatches = timingMode === inputTimingMode(event)
+      && (timingMode === 'legacy'
+        ? event.holdMs === expected.holdMs
+        : event.downFrame === expected.downFrame
+          && event.upFrame === expected.upFrame
+          && event.holdFrames === expected.holdFrames
+          && event.captureFrame === expected.captureFrame);
+    return timingMatches
+      && event.phase === expected.phase
       && event.step === expected.step
       && event.logicalKey === expected.logicalKey
-      && event.gbaButton === expected.gbaButton
-      && event.holdMs === expected.holdMs;
+      && event.gbaButton === expected.gbaButton;
   });
 }
 
