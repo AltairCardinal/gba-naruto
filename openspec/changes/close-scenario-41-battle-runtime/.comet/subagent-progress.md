@@ -5,7 +5,7 @@
 - stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_anchor4` (fresh zero capture4 executor); cycle completed by `/root/scenario41_action_menu_cycle`
+- implementer: `/root/scenario41_action_menu_anchor4`; `DONE_WITH_CONCERNS`, one zero capture4; cycle completed by `/root/scenario41_action_menu_cycle`
 - report: `.superpowers/sdd/task-6-action-menu-anchor4-report.md`; cycle report remains in `.superpowers/sdd/task-6-action-menu-cycle-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -40,6 +40,8 @@
 - action-menu cycle reviewer: `/root/scenario41_action_menu_cycle_review`; `Spec PASS / Evidence Quality APPROVED; no findings; validates single 600-frame not-proven diagnostic and diagnostic-only boundary`
 - action-menu offline anchor: `/root/scenario41_action_menu_anchor_analysis` plus independent parent recomputation find 24 strict RGB triples; earliest unique anchor=4,p=128 at frames4/132/260, hashf75f0cc1...e8ff; no earlier anchor or same-anchor smaller p; distinct from baseline, first zero, frame1 and frame600`
 - action-menu anchor gate: `from original first-A state972a4c47...b613 on same probe run exactly one zero-input capture4; require RGB exact f75f0cc1...e8ff to protected sampler frame4 plus task/menu/unit/action/MOVEDONE/guard/provenance; no sampler/p replay/key/retry in this task`
+- action-menu anchor result: `run1f45007cb6e25377197c4890a96ef3e8 completed/0; outputc2414449...d87d RGB exact f75f0cc1...e8ff to protected frame4; task2/menu/slot1/unit/action/MOVEDONE exact; RSS0.1328125MiB is coarse sampled lower bound; candidate forbidden pending review`
+- action-menu anchor reviewer: `pending fresh runtime evidence review; no anchor sampler/p replay/input authorized`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
