@@ -219,7 +219,7 @@ audit 中精确的 `down_frame/up_frame/hold_frames/capture_frame`。
 - Modify: `docs/superpowers/specs/2026-07-17-scenario-41-active-current-unit-observer-design.md`
 - Modify: `openspec/changes/close-scenario-41-battle-runtime/specs/scenario-41-battle-runtime/spec.md`
 
-- [ ] **Step 1: RED — 定义互斥 timing union 与多事件链**
+- [x] **Step 1: RED — 定义互斥 timing union 与多事件链**
 
 保留 legacy frozen plan item 的 `holdMs`。新增 native frozen plan item：`downFrame > 0`、
 `upFrame > downFrame`、`holdFrames === upFrame - downFrame`、`captureFrame > upFrame`。
@@ -228,13 +228,13 @@ native valid sample，并覆盖缺字段、非整数、顺序错误、hold 不�
 plan mode/字段不一致、额外/缺失/乱序事件的 fail-closed 测试。先运行 focused Node suite，确认旧
 实现因缺少 `holdMs` 而 RED。
 
-- [ ] **Step 2: GREEN — 最小向后兼容实现**
+- [x] **Step 2: GREEN — 最小向后兼容实现**
 
 只扩展 `expectedInputPlanValid()` 与 `inputMatchesPlan()`；legacy `holdMs` 行为与既有失败原因保持
 不变。native event 仍必须 `classification=explicit` 且 down/up complete。不得把每个独立 guarded
 run 的局部 `captureFrame=80` 错误要求为跨事件递增，也不得接受近似/派生 `holdMs`。
 
-- [ ] **Step 3: 文档、回归与聚焦提交**
+- [x] **Step 3: 文档、回归与聚焦提交**
 
 同步 Design Doc 与 delta spec；运行 focused Node、相关 observer Python suites 和
 `git diff --check`。只提交四个允许文件，提交信息：
