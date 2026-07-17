@@ -44,7 +44,8 @@
 - action-menu anchor reviewer: `/root/scenario41_action_menu_anchor4_review`; `Spec PASS / Evidence Quality APPROVED; no findings; capture/protected frame4 byte-identical and semantics exact; authorizes only one normative 600-frame sampler from anchor`
 - action-menu anchor sampler gate: `from anchor statec2414449...d87d with baseline PNG1524b59f...ae91e/RGBf75f0cc1...e8ff run existing fixed600 sampler+unchanged analyzer once; require normative frame0/p/2p, expected but not forced p128; no key/p replay/retry/checkpoint`
 - action-menu anchor cycle result: `run49a68a81725d862705d3dbdb849d127a completed/0 success-marker RSS52.355MiB; 600 regular frames and semantics exact; unchanged analyzer cycle-found p128 matches[0,128,256] RGBf75f0cc1...e8ff; diagnostic-only, no p replay/input/retry`
-- action-menu anchor cycle reviewer: `pending fresh runtime evidence review; p128 acceptance not yet authorized`
+- action-menu anchor cycle reviewer: `/root/scenario41_action_menu_anchor_cycle_review`; `Spec PASS / Evidence Quality APPROVED; no findings; corrected authorization is serial anchor->p1 then p1->p2 only, requiring H0=Hp=H2p`
+- action-menu p128 gate: `at most two fresh guarded zero-input capture128 runs: anchorc2414449...d87d -> p1, only if p1 RGBf75f0cc1...e8ff and full semantics/guard pass then p1 -> p2; stop on first mismatch; no key/third run/checkpoint/source edit/commit`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
