@@ -2,13 +2,13 @@
 
 - plan task: `Task 6 Step 5: Execute the first tutorial action in short explicit steps`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
-- stage: `spec-review`
+- stage: `implementation`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_p128`; `DONE`, exactly two serial p128 zero-input acceptance runs from reviewed selection-1 anchor4
-- report: `.superpowers/sdd/task-6-action-menu-selection1-p128-report.md`; normative cycle/anchor/mismatch/Up/runner reports remain approved prerequisites
+- implementer: `/root/scenario41_action_menu_p128`; `RUNNING`, one A@5/13 capture128 diagnostic from reviewed stable selection-1 p1
+- report: pending `.superpowers/sdd/task-6-action-menu-selection1-a-report.md`; selection-1 p128/cycle/anchor/Up reports remain approved prerequisites
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
-- reviewer: `pending fresh selection-1 p128 acceptance review`; normative cycle review remains approved
+- reviewer: `/root/scenario41_action_menu_anchor_cycle`; selection-1 p128 `Spec PASS / Evidence APPROVED`, no findings; A runtime review pending
 - prior player-observer baseline: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output PCO1/PCU1 scratch zero; this is not a MOVEDONE baseline and cannot satisfy Task 6 Step 5`
 - MOVEDONE runtime gate: `one fresh frame-1 zero-input baseline from accepted scenario-41-player-turn.ss9 on a freshly rebuilt action-submit observer ROM; no input/retry; output diagnostic-only`
 - MOVEDONE zero baseline: `run c37e73c7ac9c4df4b46ce284e83702ab; fresh probe 2e0ef354...1737f; completed/0 via success-marker; input/output counter=0 and both 52-byte MOD1/MOD2 records canonical zero; task2/current object exact; no input/retry; output 930797b8...13df is diagnostic-only and forbidden for later consumption`
@@ -63,6 +63,7 @@
 - selection-1 normative cycle result: `run bc9e3f47 completed/0 RSS52.430MiB; exactly600 frames and frame600 semantics exact; unchanged analyzer cycle-found p128 matches[0,128,256], analysis94ab8572...fa7c5; residue clean, diagnostic-only`
 - selection-1 p128 gate: `at most two serial zero-input capture128 runs anchor21601d4d...03d5b -> p1 -> p2; require H0=Hp=H2p RGBbfed5a83...fea7a and full semantics/guard exact; stop first mismatch; no key/third run`
 - selection-1 p128 result: `p1 run1792150e -> 01689667...8735 RSS52.324MiB; p2 run24c543c4 -> dc138e98...0251 RSS51.875MiB; H0=Hp=H2p RGBbfed5a83...fea7a and task/menu/object/unit/action/MOVEDONE/MOD1/MOD2 exact; guards/residue clean; p1 forbidden pending review`
+- selection-1 A gate: `from reviewed p1 01689667...8735 send exactly A@5/13 capture128 once; decode task/menu/current unit/action/MOVEDONE and stop regardless; no retry/zero/follow-on key/checkpoint`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
