@@ -968,6 +968,11 @@ guard/heavy lock，使用 fresh output 目录、成功 marker、固定 ROM/state
 `0x08073940` 玩家选择函数内的已验证直接调用点，`0x080739D8 -> 0x08069DB8` 是独立当前单位
 诊断；证据必须分别标注，不能把后者误写成 `0x08073946`。
 
+ABI 纠错：`0x08069DB8` 的 `r0` 是 unit slot，不是 character id。callee 用
+`0x020240C0 + (r0 & 0xFF) * 0x1D4` 定位 unit record；canonical PCA1 的 `r0=1` 因而精确映射
+到 `0x02024294`，该 record `+3` 才是 character id 13。继续 runtime 前必须先按 correction plan
+Task 2B 用 TDD 修正 evaluator 与设计文档；不得把 `1 != 13` 当作 observer/hook 失败。
+
 恢复纠错：run `1fbd7042bd43629f5c60df12586e7cf4` 的唯一 A 已使 task2 caller script
 pointer `0x0805B2E6 -> 0x0805B325`，原“frame phase miss”解释已被取代；相同 `0x4C`
 context 是后续同构 wait。继续前先从其 state `61ea836a…6629` 做一次独立零输入复放，只有脚本

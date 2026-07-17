@@ -10,7 +10,7 @@ base-ref: be92eb8
 
 **Goal:** 修正 Scenario 41 player-control 证据的实际 current-unit hook 与参数语义，并用受保护运行证明 fresh ordered 单位事件。
 
-**Architecture:** 保留 PCO1/PCU1，新增独立 PCA1 observer 于 `0x08073BAC`。Evaluator 将 PCO1 解释为 selector 协议，只用 fresh current-unit 的 `argument0` 绑定 WRAM unit diagnostic 的 character id，并以 source hook/event 区分两条 current-unit 路径。
+**Architecture:** 保留 PCO1/PCU1，新增独立 PCA1 observer 于 `0x08073BAC`。Evaluator 将 PCO1 解释为 selector 协议，把 fresh current-unit 的 `argument0` 解释为 unit slot，并通过 `0x020240C0 + slot * 0x1D4` 绑定到提供 character/affiliation 的同一 WRAM unit record；source hook/event 继续区分两条 current-unit 路径。
 
 **Tech Stack:** Python `unittest`、Thumb BL/observer wrapper、Node `node:test`、macOS mGBA guarded replay。
 
@@ -18,7 +18,7 @@ base-ref: be92eb8
 
 - 所有功能修改执行 TDD RED → GREEN → 重构；没有失败测试不得写生产代码。
 - PCO1 `(9,0,1)` 是 selector accept-mask/mode/flags，不是 slot/affiliation。
-- `0x08069DB8` 只消费 `r0` character id；`r1/r2` 不得作为单位属性。
+- `0x08069DB8` 只消费 `r0` 的 unit slot：先截断为 u8，再以 `0x1D4` 为 stride 从 `0x020240C0` 定位 unit record；`r1/r2` 在 callee 内被覆盖，不得作为单位属性。
 - 新 site 固定为 hook `0x08073BAC`、original `0x08069DB8`、stub `0x0809E900`、scratch `0x0203F0A0`、magic `PCA1`、event `3`。
 - 保留现有 `0x080739D8` PCU1/event2；不得替换或弱化原路径覆盖。
 - mGBA 必须走 heavy lock/resource guard；每轮 fresh output；不创建 `rom/base.sav`；不追加盲输入。
@@ -162,6 +162,49 @@ git commit -m "fix(re): bind player control evidence to active unit source"
 
 ---
 
+### Task 2B: TDD 纠正 current-unit slot ABI
+
+运行时 PCA1 `arg0=1` 与 base ROM 数据流共同证实，先前把 `r0` 解释为 character id 的设计错误；
+该结果取代 Task 2 中对应的参数语义，但不取代 PCO1 protocol、source/event、fresh/order 或显式输入门禁。
+
+**Files:**
+- Modify: `play/_scripts/scenario-41-runtime-evidence.test.js`
+- Modify: `play/_scripts/scenario-41-runtime-evidence.js`
+- Modify: `docs/superpowers/specs/2026-07-17-scenario-41-active-current-unit-observer-design.md`
+
+**Interfaces:**
+- Consumes: fresh PCU1/PCA1 `argument0`、WRAM diagnostic 的 slot/character/affiliation。
+- Produces: slot-aware `controlledUnitConsistent`；character/affiliation 仍必须来自该 slot 映射的同一 WRAM record。
+
+- [ ] **Step 1: 写并确认 RED**
+
+把 valid sample 的 current `argument0` 改为 `controlledSlot`。新增拒绝测试证明 current slot 不一致会
+fail closed，同时 character/affiliation 缺失或越界仍被拒绝；保留 current `r1/r2` 被忽略、PCO1
+`(9,0,1)` 和 source/event 的全部既有测试。先运行 focused Node suite，并确认旧实现因仍比较
+`controlledCharacterId` 而出现预期语义失败。
+
+- [ ] **Step 2: 最小 GREEN 与设计纠错**
+
+将一致性门改为：
+
+```javascript
+const controlledUnitConsistent = input.controlledUnitFromWram === true
+  && controlledDiagnosticValid
+  && current.argument0 === input.controlledSlot;
+```
+
+同步设计文档：`0x08073BAA` 从 `0x0202680C+3` 读取 slot；`0x08069DB8` 以
+`0x020240C0 + slot * 0x1D4` 定位 WRAM record；character id 是该 record `+3`，不是 call
+argument。明确 `r1/r2` 是无关入口寄存器值，wrapper 完整保存/恢复 `r0-r4`。
+
+- [ ] **Step 3: GREEN、回归与聚焦提交**
+
+运行 focused Node suite、observer/builder Python suites、`git diff --check`。只提交上述三个文件，
+不得修改 runtime 产物、plan/OpenSpec checkbox 或用户文件；提交信息：
+`fix(re): bind current unit slot to WRAM record`。
+
+---
+
 ### Task 3: 重建 probe 并完成受保护 runtime 复验
 
 **Files:**
@@ -190,7 +233,7 @@ Expected: tests PASS；ROM confined diff 仅三个 checked hooks 与三个 caves
 
 从旧 PCO1-positive state 只允许在报告明确记录“跨 probe 仅新增未执行 PCA1 patch”的情况下做一次诊断；先零输入验证 task/object/画面，再按静态唯一输入继续。诊断只用于确认 `0x08073BAC` 活性，不得作为最终 canonical evidence。
 
-Expected: PCA1 fresh 时记录 source `0x08073BAC`、event3、sequence 严格晚于 PCO1，且 `argument0` 等于 unit-object character id；未命中则停止并做 GDB 只读 breakpoint，不追加盲输入。
+Expected: PCA1 fresh 时记录 source `0x08073BAC`、event3、sequence 严格晚于 PCO1，且 `argument0` 等于 unit slot；该 slot 必须通过 `0x020240C0 + slot * 0x1D4` 映射到独立 WRAM diagnostic 读取的同一 unit record。未命中则停止并做 GDB 只读 breakpoint，不追加盲输入。
 
 - [ ] **Step 3: 从 canonical checkpoint 重放最终证据**
 
