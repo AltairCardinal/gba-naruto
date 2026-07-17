@@ -301,6 +301,36 @@ reviewer 检查命令顺序、provenance、缺文件 fail-closed 与默认兼容
 
 ---
 
+### Task 2G: TDD 扩展玩家控制 checkpoint 证据组合
+
+现有 ledger 将 `player-control` 写死为 selector `0x08073946` 与旧 PCU call-site
+`0x080739D8` 的单一组合；canonical runtime 已独立证明实际行动菜单路径使用新的 PCA direct call
+`0x08073BAC`。这是向后兼容的内部验证 schema 扩展，不改变 checkpoint JSON 版本或字段。
+
+**Files:**
+- Modify: `tools/runtime_checkpoint_ledger.py`
+- Modify: `tests/test_runtime_checkpoint_ledger.py`
+
+- [ ] **Step 1: RED — 定义 selector + current-unit 二选一组合**
+
+先写失败测试，要求 `player-control` 接受 `0x08073946 + 0x080739D8`（legacy PCU）或
+`0x08073946 + 0x08073BAC`（canonical PCA）。分别拒绝只有 selector、只有任一 current-unit、
+缺 selector、无关地址，以及把两个 current-unit 地址误当作无需 selector 的组合。运行 focused suite，
+确认旧实现只在 PCA 正例上因正确原因失败。
+
+- [ ] **Step 2: GREEN — 最小向后兼容 evidence alternatives**
+
+把内部 evidence requirement 表达为可满足的 hook 组合；其他 `movedone/victory/postbattle` 语义保持
+完全不变。保持 `schema_version: 1`、JSON 字段和既有错误边界，不放宽非 canonical 地址或未知 evidence。
+
+- [ ] **Step 3: 回归、审查与聚焦提交**
+
+运行 `tests.test_runtime_checkpoint_ledger`、真实 ledger validator 和 `git diff --check`。只提交上述两个
+文件；由 fresh thorough reviewer 核验 legacy compatibility、PCA 正例与 selector fail-closed。提交信息：
+`fix(re): accept active-current checkpoint evidence`。
+
+---
+
 ### Task 3: 重建 probe 并完成受保护 runtime 复验
 
 **Files:**

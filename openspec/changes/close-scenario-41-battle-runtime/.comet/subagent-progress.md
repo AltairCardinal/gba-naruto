@@ -1,13 +1,13 @@
 # Subagent Progress
 
-- plan task: `Task 5B Step 1: 从 canonical checkpoint 运行双 observer 并证明 fresh ordered hits`
-- openspec task: `4.1 从 hook 前快照运行双 observer，证明 0x08073940/0x08073946 自然命中且参数与玩家单位一致`
+- plan task: `Task 2G: TDD 扩展玩家控制 checkpoint 证据组合`
+- openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
 - stage: `implementing`
 - review_mode: `thorough`
-- review_fix_round: `1/2`
-- implementer: `/root/safe_breakpoint_trace_fix`
-- report: `.superpowers/sdd/task-open-4.1-report.md`
-- implementation status: `DONE_WITH_CONCERNS; frame-1 zero-input observer scratch remained all-zero`
+- review_fix_round: `0/2`
+- implementer: `pending fresh writer`
+- report: `.superpowers/sdd/task-2g-player-control-ledger-report.md`
+- implementation status: `pending; strict RED/GREEN required before source edit`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
