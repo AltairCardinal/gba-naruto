@@ -2,10 +2,10 @@
 
 - plan task: `Task 6 Step 5: Execute the first tutorial action in short explicit steps`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
-- stage: `implementing`
+- stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_movedone_first_l` (fresh one-L runtime executor); L runner completed by `/root/scenario41_l_input_runner` at `1a9f2eb`
+- implementer: `/root/scenario41_movedone_first_l`; `DONE_WITH_CONCERNS`, one runtime only; L runner completed by `/root/scenario41_l_input_runner` at `1a9f2eb`
 - report: `.superpowers/sdd/task-6-movedone-first-l-report.md`; L runner report remains in `.superpowers/sdd/task-6-l-input-runner-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -20,6 +20,9 @@
 - L runner implementation: `commit 1a9f2eb modifies only tools/run_macos_mgba_single_input.py, tools/mgba_single_input_replay.lua, tests/test_run_macos_mgba_single_input.py; exact L -> C.GBA_KEY.L; pinned Lua SHA 4e0a2944...985c; no mGBA/push`
 - L runner reviewer: `/root/scenario41_l_input_review`; `Spec PASS / Quality APPROVED; no Critical/Important/Minor; focused 15/15 PASS and pinned Lua SHA exact`
 - next runtime gate: `from accepted scenario-41-player-turn.ss9 on fresh action-submit probe, send exactly one GBA L at frames 5/13 and capture80; inspect MOVEDONE counter/MOD1/MOD2, current object/unit/action/task; stop regardless of hit; no retry/follow-on input`
+- first-L result: `run 22dd1933ebd03852c89a92af5437336e; exactly L@5/13 capture80; completed/0 success-marker; RSS51.895MiB; input/output counter=0 and MOD1/MOD2 canonical zero; task2 resume and current slot1/pointer02024294/unit (4,10)/action/round unchanged; RGB and bounded task internal bytes changed; output7841457a...13da candidate/not-proven and forbidden for consumption`
+- first-L boundary: `visible selection changed without MOVEDONE or unit/action transition; prior interpretation of mask0x0200 as action-progress input is disproven; no next key until independent runtime review plus bounded offline root-cause analysis of 0x0806F996/0x0806F9A0 selector semantics`
+- first-L reviewer: `pending fresh combined runtime evidence review`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
