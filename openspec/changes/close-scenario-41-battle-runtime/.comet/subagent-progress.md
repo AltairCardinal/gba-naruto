@@ -34,7 +34,8 @@
 - action-menu zero gate: `from first-A output972a4c47...b613 on the same action-submit probe run one zero-input capture80; require task2/menu fields/unit/action/MOVEDONE plus exact RGB for immediate stability; no key/retry/cycle in the same task`
 - action-menu zero preflight failure: `/root/scenario41_action_menu_zero used unavailable macOS sha256sum and exited127 before tests/build/output-dir/runner/guard/mGBA; runtime count0, rom/base.sav absent. Replacement must use Python hashlib or shasum -a 256; this is not a runtime retry`
 - action-menu zero result: `run ef836d8139b73753c16e1a2db1cddbc2 completed/0 success-marker RSS51.945MiB; inputs=[]; task2/menu/current unit/action/MOVEDONE semantics exact, but RGB5f150e...774f -> a6c69d...bbea; output95faa0ee...188a is animation-drift candidate and forbidden; no retry/cycle`
-- action-menu zero reviewer: `pending fresh runtime evidence review before any cycle diagnostic`
+- action-menu zero reviewer: `/root/scenario41_action_menu_zero_review`; `Spec PASS / Evidence Quality APPROVED; no findings; confirms prior runtime-count0 preflight failure and one valid semantic-exact/RGB-drift zero run; authorizes only a separate cycle diagnostic`
+- action-menu cycle gate: `from original first-A candidate972a4c47...b613, run existing fixed 600-frame zero-input sampler once with script-order-diagnostic and unchanged analyzer pinned to first-A capture PNG; choose smallest exact p only; no input/replay/acceptance/checkpoint/retry`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
