@@ -2,10 +2,10 @@
 
 - plan task: `Task 6 Step 4A: 以 TDD 将固定单键 runner 最小扩展为 GBA L`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
-- stage: `implementing`
+- stage: `quality-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `pending fresh GBA L runner TDD implementer`
+- implementer: `/root/scenario41_l_input_runner`; `DONE at 1a9f2eb`
 - report: `.superpowers/sdd/task-6-l-input-runner-report.md`; runtime baseline remains in `.superpowers/sdd/task-6-movedone-zero-baseline-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -16,6 +16,9 @@
 - baseline review: `/root/scenario41_movedone_baseline_review` independently returned `Spec PASS / Evidence Quality APPROVED`; no findings; approval is baseline-only and does not prove MOVEDONE, acting-unit movement, or turn completion`
 - first action static gate: `accepted state task2 resumes 0x0806F996; 0x0806F9A0..B4 reads new_keys and uniquely tests mask 0x0200 (GBA L); current object slot1 pointer02024294 char1 aff0 at (4,10); MOVEDONE still zero so acting-unit identity remains unproven`
 - runner gap decision: `existing audited single-input surface is Down/A/B only; add exact L under TDD before any explicit input; forbid arbitrary-key API, custom pre-script, browser/manual input, or mGBA during the code task`
+- L runner RED/GREEN: `RED 15 tests with 1 intended failure + 2 intended errors for missing Lua/Python/payload L; invalid R/Up/combination/empty remained green; GREEN 15/15 plus py_compile/diff/SHA match`
+- L runner implementation: `commit 1a9f2eb modifies only tools/run_macos_mgba_single_input.py, tools/mgba_single_input_replay.lua, tests/test_run_macos_mgba_single_input.py; exact L -> C.GBA_KEY.L; pinned Lua SHA 4e0a2944...985c; no mGBA/push`
+- L runner reviewer: `pending fresh combined spec/quality review`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
