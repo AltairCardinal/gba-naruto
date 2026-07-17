@@ -113,6 +113,8 @@
 - Task2 retry: `fresh implementer receives same brief plus exact evaluator/test line anchors; two-file scope unchanged; strict TDD; one focused commit`
 - Task2 retry result: `DONE at 35213ea; RED 4/13 pass + 9/13 expected semantic failures; GREEN 13/13; parent rerun 13/13; policy audit valid; only two requested JS files; report .superpowers/sdd/task-2-active-current-unit-report.md`
 - Task2 review stage: `spec-review/quality-review combined thorough boundary review; package .superpowers/sdd/review-72c6658..35213ea.diff; round 1/2; read-only, no mGBA`
+- Task2 review result: `Spec PASS / Quality APPROVED; Critical 0, Important 0, Minor 0; parent rerun 13/13 and policy audit valid`
+- Task2 completion: `complete at 35213ea; focused plan Task 2 checked; OpenSpec 4.1 remains unchecked pending canonical runtime evidence`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`

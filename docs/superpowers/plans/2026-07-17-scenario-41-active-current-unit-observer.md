@@ -101,7 +101,7 @@ git commit -m "fix(re): observe active scenario 41 current unit call"
 - Consumes: decoded PCO1 与 PCU1/PCA1 record、WRAM unit diagnostic。
 - Produces: `evaluatePlayerControlEvidence(input)` 的 source-aware verified/reason/checks。
 
-- [ ] **Step 1: 写 RED 测试**
+- [x] **Step 1: 写 RED 测试**
 
 把 valid sample 改为：
 
@@ -119,13 +119,13 @@ controlledUnitFromWram: true,
 
 新增拒绝测试：PCO1 protocol 任一字段错误；event2/source 不是 `0x080739D8`；event3/source 不是 `0x08073BAC`；`current.argument0` 与 character id 不同；缺少 WRAM 来源；以及把 PCO1 argument0 当 slot 的旧 sample。
 
-- [ ] **Step 2: 运行 RED**
+- [x] **Step 2: 运行 RED**
 
 Run: `node --test play/_scripts/scenario-41-runtime-evidence.test.js`
 
 Expected: FAIL，现有 evaluator 仍错误比较 PCO1 slot/affiliation，且不识别 event3/source。
 
-- [ ] **Step 3: 最小 GREEN 实现**
+- [x] **Step 3: 最小 GREEN 实现**
 
 加入 source/event 映射并替换旧一致性检查：
 
@@ -147,13 +147,13 @@ const controlledUnitConsistent = input.controlledUnitFromWram === true
 
 保留 fresh、sequence order、battle/map/screen、显式输入计划等现有门禁。不要读取 current `argument1/argument2` 作为单位属性。
 
-- [ ] **Step 4: 运行 GREEN 与回归**
+- [x] **Step 4: 运行 GREEN 与回归**
 
 Run: `node --test play/_scripts/scenario-41-runtime-evidence.test.js`
 
 Expected: 全部 PASS，包括 uint32 wrap、stale/reversed、输入审计与新增 source/协议测试。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add play/_scripts/scenario-41-runtime-evidence.js play/_scripts/scenario-41-runtime-evidence.test.js
