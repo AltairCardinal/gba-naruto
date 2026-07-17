@@ -85,6 +85,8 @@
 - end-dismiss A gate: `from accepted f03cc962...56a1c send exactly one A at 5/13/capture80; inspect script return, task transition and fresh ordered PCU1/PCO1; stop after capture regardless of result; no zero/retry/follow-on key`
 - end-dismiss A result: `run 1da346f7b30e26a7fbf147f267a4a9ce; output 7dc1d377...fc8e3; task2 0x08095F12/SP0x03001194 -> 0x080737BE/SP0x03001224; old script slot cleared; object172-byte/RGB change; observer zero; guard completed/0 RSS52.133MiB; script wait ended`
 - post-end static gate: `bounded disassembly 0x080737BE..0x08073946 before runtime; determine whether zero input naturally reaches observer or a new explicit wait, and choose one bounded settle length`
+- post-end static result: `0x080737BE natural poll -> initialization -> <=0x77 zero-progress counter -> unit selection -> 0x08073940 args(9,0,1) -> patched PCO1 0x08073946; no key required; authorize one 512-frame zero settle, static reachability is not runtime proof`
+- post-end zero512 gate: `from 7dc1d377...fc8e3 run one 512-frame zero-input settle; require strict counter/PCO1/PCU1 parsing, task/RGB/object provenance, guard/RSS/residue; stop after capture even on no-hit`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
