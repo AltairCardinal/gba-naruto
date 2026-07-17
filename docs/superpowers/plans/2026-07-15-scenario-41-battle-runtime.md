@@ -1023,7 +1023,7 @@ PNG/RGB、battle/map/unit/action fields/tasks/CPSR。p1 已机械复制为
 - Consumes: `published_call_observer`, player-turn checkpoint and explicit short input plans.
 - Produces: two-site MOVEDONE observer for `0x0807443C` and `0x08074918`, `evaluateMovedoneEvidence`, accepted turn-1 checkpoint.
 
-- [ ] **Step 1: Write builder/evaluator RED tests**
+- [x] **Task 6 Step 1: Write builder/evaluator RED tests**
 
 ```python
 def test_patches_both_checked_movedone_calls(self):
@@ -1047,7 +1047,7 @@ test('MOVEDONE requires a fresh event and matching unit transition', () => {
 });
 ```
 
-- [ ] **Step 2: Verify RED**
+- [x] **Task 6 Step 2: Verify RED**
 
 Run:
 
@@ -1059,11 +1059,11 @@ node --test play/_scripts/scenario-41-runtime-evidence.test.js
 
 Expected: both commands FAIL for missing builder/evaluator.
 
-- [ ] **Step 3: Implement the minimal two-call observer and evaluator**
+- [x] **Task 6 Step 3: Implement the minimal two-call observer and evaluator**
 
 Use checked base calls `0x0807443C → 0x080722A8` and `0x08074918 → 0x080722A8`, independent slots/event codes and the shared wrapper API. `0x080722A8` clears entry `r0`, so wrapper arguments cannot identify the acting unit. Each candidate event must instead bind the current-object slot/pointer to its resolved WRAM unit record. `evaluateMovedoneEvidence` keeps the accepted `controlledUnit` identity separate from same-identity `actingUnitBefore/After`, requires one fresh candidate event, a real coordinate/action-or-round transition, scenario 41, and an explicit driver input audit. `automaticInputs` means driver-injected recovery only; game-internal tutorial/AI progression is recorded separately as `automaticGameAction` and must not be inferred from the call arguments.
 
-- [ ] **Step 4: Run GREEN and build the ROM**
+- [x] **Task 6 Step 4: Run GREEN and build the ROM**
 
 Run:
 
