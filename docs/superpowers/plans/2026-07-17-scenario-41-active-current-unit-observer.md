@@ -253,18 +253,18 @@ run 的局部 `captureFrame=80` 错误要求为跨事件递增，也不得接受
 - Modify: `tools/check_comet_project_policy.py`
 - Modify: `tests/test_check_comet_project_policy.py`
 
-- [ ] **Step 1: RED — 策略 schema 与机器报告**
+- [x] **Step 1: RED — 策略 schema 与机器报告**
 
 先写失败测试，要求 exact policy schema 声明自动决策范围和必须询问范围；audit JSON 必须显式
 输出两类清单，保存报告验证也必须拒绝缺失或被扩大授权的报告。
 
-- [ ] **Step 2: GREEN — 最小策略实现**
+- [x] **Step 2: GREEN — 最小策略实现**
 
 扩展严格 parser 期望 schema 与 audit/verify-report，不修改 Comet 插件代码。自动范围只包含
 `in-scope-reversible-technical` 和 `backward-compatible-internal`；必须确认范围固定为
 `archive/push/publish/destructive/irreversible/new-capability/scope-growth-over-50-percent`。
 
-- [ ] **Step 3: 回归与聚焦提交**
+- [x] **Step 3: 回归与聚焦提交**
 
 运行 policy focused tests、真实仓库 policy audit 和 `git diff --check`。不得修改当前用户已有的
 `AGENTS.md` 或 `docs/sequel-roadmap.md`，提交信息：
