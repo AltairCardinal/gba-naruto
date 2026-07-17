@@ -967,7 +967,7 @@ listener/connection owner、ROM fingerprint、精确 breakpoint stop、guard/RSS
 `PCA1` 三个 24-byte record 必须全零，作为 load 后执行任何 ROM 指令之前的 baseline。所有 mGBA 运行必须经过现有
 guard/heavy lock，使用 fresh output 目录、成功 marker、固定 ROM/state/binary/manifest hash，且
 `rom/base.sav` 前后均不存在。先做最短零输入捕获；离线读取输出 state 的
-`0x0203F040` event counter、`0x0203F060` PCO scratch、`0x0203F080` PCU scratch 与
+`0x0203F040` event counter、`0x0203F060` PCU scratch、`0x0203F080` PCO scratch 与
 `0x0203F0A0` PCA scratch。只有 fresh `PCO1` selector 加上 fresh current-unit alternative（legacy
 `PCU1` 或 canonical `PCA1`），对应 shared sequence 严格有序、source hook 匹配，并与 scenario 41
 当前玩家 slot/character/affiliation 一致时才通过；canonical evidence 必须是 `PCO1` + `PCA1`，且
