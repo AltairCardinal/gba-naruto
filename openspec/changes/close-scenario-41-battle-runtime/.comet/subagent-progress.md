@@ -91,6 +91,8 @@
 - selection static gate: `bounded 0x0806F718/0x0806F5BC/0x08073940 caller analysis; identify accept key and explain PCO1 args as selector-control parameters, then zero-validate before input`
 - selection static result: `PCO1 args(9,0,1) are selector mask/mode/flags, not unit identity; 0x0806F5BC accepts A|Start but caller 0x08073950 recognizes A only; unique minimal input is A after stable zero; PCU1 fresh args must bind actual selected unit`
 - selection zero gate: `from PCO1-positive 3cc9e46b...0278e run one 80-frame zero-input replay; require task 0x0806F996, existing PCO1 record/counter, PCU1 zero, object/RGB exact and clean guard before A`
+- selection zero result: `run 2372ab39f6d067a1d15d4382f6e8331a; task/resume/SP/counter/PCO1/PCU1/object exact but RGB 8c08...c06->0a65...394 drifted; output 291d389c...3f98d candidate-only, not consumable; guard completed/0 RSS51.984MiB`
+- selection cycle gate: `from original PCO1-positive 3cc9e46b...0278e run fixed 600-frame zero sampler/analyzer once; choose smallest exact RGB period only, no checkpoint acceptance or input`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
