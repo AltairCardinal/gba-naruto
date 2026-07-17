@@ -207,6 +207,71 @@ const controlledUnitConsistent = input.controlledUnitFromWram === true
 
 ---
 
+### Task 2D: TDD 补齐原生帧时序输入审计
+
+本任务是已批准 player-control evidence 能力中的小型验收场景补齐，不新增 capability，
+不改变 observer ABI。现有 evaluator 只接受浏览器 `holdMs`，不能用近似毫秒值替代原生 mGBA
+audit 中精确的 `down_frame/up_frame/hold_frames/capture_frame`。
+
+**Files:**
+- Modify: `play/_scripts/scenario-41-runtime-evidence.test.js`
+- Modify: `play/_scripts/scenario-41-runtime-evidence.js`
+- Modify: `docs/superpowers/specs/2026-07-17-scenario-41-active-current-unit-observer-design.md`
+- Modify: `openspec/changes/close-scenario-41-battle-runtime/specs/scenario-41-battle-runtime/spec.md`
+
+- [ ] **Step 1: RED — 定义互斥 timing union 与多事件链**
+
+保留 legacy frozen plan item 的 `holdMs`。新增 native frozen plan item：`downFrame > 0`、
+`upFrame > downFrame`、`holdFrames === upFrame - downFrame`、`captureFrame > upFrame`。
+单项必须恰好属于 legacy 或 native 一种；同一 plan 不允许混合 timing mode。新增三段显式 A 的
+native valid sample，并覆盖缺字段、非整数、顺序错误、hold 不一致、legacy/native 混用、event 与
+plan mode/字段不一致、额外/缺失/乱序事件的 fail-closed 测试。先运行 focused Node suite，确认旧
+实现因缺少 `holdMs` 而 RED。
+
+- [ ] **Step 2: GREEN — 最小向后兼容实现**
+
+只扩展 `expectedInputPlanValid()` 与 `inputMatchesPlan()`；legacy `holdMs` 行为与既有失败原因保持
+不变。native event 仍必须 `classification=explicit` 且 down/up complete。不得把每个独立 guarded
+run 的局部 `captureFrame=80` 错误要求为跨事件递增，也不得接受近似/派生 `holdMs`。
+
+- [ ] **Step 3: 文档、回归与聚焦提交**
+
+同步 Design Doc 与 delta spec；运行 focused Node、相关 observer Python suites 和
+`git diff --check`。只提交四个允许文件，提交信息：
+`fix(re): audit native frame-timed input plans`。
+
+---
+
+### Task 2E: 项目级自动技术决策策略
+
+用户已明确要求：当前 Goal 范围内可逆、向后兼容且不扩张 capability 的技术细节由执行者负责，
+不再制造用户确认点。该授权不覆盖归档、push/发布、破坏性或不可逆操作、新 capability、超过
+50% 的范围扩张以及 Comet 其他真正硬决策点。
+
+**Files:**
+- Modify: `.comet/policy.yaml`
+- Modify: `tools/check_comet_project_policy.py`
+- Modify: `tests/test_check_comet_project_policy.py`
+
+- [ ] **Step 1: RED — 策略 schema 与机器报告**
+
+先写失败测试，要求 exact policy schema 声明自动决策范围和必须询问范围；audit JSON 必须显式
+输出两类清单，保存报告验证也必须拒绝缺失或被扩大授权的报告。
+
+- [ ] **Step 2: GREEN — 最小策略实现**
+
+扩展严格 parser 期望 schema 与 audit/verify-report，不修改 Comet 插件代码。自动范围只包含
+`in-scope-reversible-technical` 和 `backward-compatible-internal`；必须确认范围固定为
+`archive/push/publish/destructive/irreversible/new-capability/scope-growth-over-50-percent`。
+
+- [ ] **Step 3: 回归与聚焦提交**
+
+运行 policy focused tests、真实仓库 policy audit 和 `git diff --check`。不得修改当前用户已有的
+`AGENTS.md` 或 `docs/sequel-roadmap.md`，提交信息：
+`fix(comet): enforce automatic in-scope technical decisions`。
+
+---
+
 ### Task 3: 重建 probe 并完成受保护 runtime 复验
 
 **Files:**
