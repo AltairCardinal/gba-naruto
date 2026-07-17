@@ -55,7 +55,7 @@ function validSample() {
     },
     final: {
       player: call(1, 1, { argument0: 9, argument1: 0, argument2: 1, eventCode: 1 }),
-      current: call(1, 2, { argument0: 0x31, eventCode: 3 }),
+      current: call(1, 2, { argument0: 1, eventCode: 3 }),
     },
     currentSourceHook: '0x08073BAC',
     battleId: 41,
@@ -112,7 +112,7 @@ test('accepts uint32 hit-count and sequence wrap as bounded forward progress', (
   };
   sample.final = {
     player: call(0, 0, { argument0: 9, argument1: 0, argument2: 1, eventCode: 1 }),
-    current: call(0, 1, { argument0: 0x31, eventCode: 3 }),
+    current: call(0, 1, { argument0: 1, eventCode: 3 }),
   };
   assert.equal(evaluatePlayerControlEvidence(sample).verified, true);
 });
@@ -149,14 +149,14 @@ test('rejects a player hit captured before the shared baseline boundary', () => 
   );
 });
 
-test('rejects wrong event codes and inconsistent controlled unit evidence', () => {
+test('rejects wrong event codes and a current-unit slot mismatch', () => {
   const wrongEvent = validSample();
   wrongEvent.final.current.eventCode = 1;
   assert.equal(evaluatePlayerControlEvidence(wrongEvent).reason, 'observer-event-code-invalid');
 
-  const wrongCharacter = validSample();
-  wrongCharacter.controlledCharacterId = 7;
-  assert.equal(evaluatePlayerControlEvidence(wrongCharacter).reason, 'controlled-unit-inconsistent');
+  const wrongSlot = validSample();
+  wrongSlot.final.current.argument0 = 2;
+  assert.equal(evaluatePlayerControlEvidence(wrongSlot).reason, 'controlled-unit-inconsistent');
 
   for (const missing of ['controlledSlot', 'controlledCharacterId', 'controlledAffiliation']) {
     const sample = validSample();
@@ -165,6 +165,20 @@ test('rejects wrong event codes and inconsistent controlled unit evidence', () =
       evaluatePlayerControlEvidence(sample).reason,
       'controlled-unit-diagnostic-invalid',
       `${missing} must fail closed`,
+    );
+  }
+
+  for (const [field, value] of [
+    ['controlledSlot', 21],
+    ['controlledCharacterId', 0x100],
+    ['controlledAffiliation', 2],
+  ]) {
+    const sample = validSample();
+    sample[field] = value;
+    assert.equal(
+      evaluatePlayerControlEvidence(sample).reason,
+      'controlled-unit-diagnostic-invalid',
+      `${field} out of range must fail closed`,
     );
   }
 });
@@ -206,10 +220,10 @@ test('binds each current-unit event to its exact source hook', () => {
   );
 });
 
-test('uses the WRAM character diagnostic rather than selector or current register fields', () => {
-  const wrongCharacter = validSample();
-  wrongCharacter.final.current.argument0 = 0x32;
-  assert.equal(evaluatePlayerControlEvidence(wrongCharacter).reason, 'controlled-unit-inconsistent');
+test('binds the current argument to the WRAM slot and ignores unrelated entry registers', () => {
+  const differentValidCharacter = validSample();
+  differentValidCharacter.controlledCharacterId = 0x32;
+  assert.equal(evaluatePlayerControlEvidence(differentValidCharacter).verified, true);
 
   const missingWramSource = validSample();
   delete missingWramSource.controlledUnitFromWram;

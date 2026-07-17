@@ -15,8 +15,11 @@ handler 返回 `0x08073A4E` 后只会重派 action menu 或继续动作，不会
 
 原验收语义也不正确：`0x08073940` 明确把 `(9,0,1)` 传给选择器
 `0x0806F718`，这三个值是 accept mask、mode 和 flags，不是玩家 slot、character 或
-affiliation。`0x08069DB8` 只消费 `r0` 的 character id；包装器记录的 `r1/r2` 不能作为
-单位属性。
+affiliation。活动路径在 `0x08073BAA` 从 unit object `0x0202680C + 3` 读取 slot，并以该
+slot 作为 `r0` 调用 `0x08069DB8`；后者按
+`0x020240C0 + (r0 & 0xff) * 0x1D4` 定位 WRAM unit record。character id 位于该 record
+的 `+3`，不是 call argument。callee 会覆盖入口 `r1/r2`，因此包装器记录的 `r1/r2`
+不能作为单位属性。
 
 ## 方案比较与决定
 
@@ -48,8 +51,8 @@ affiliation。`0x08069DB8` 只消费 `r0` 的 character id；包装器记录的 
 - magic `PCA1`，event code `3`。
 - 共享 counter 仍为 `0x0203F040`。
 
-三个 wrapper 都必须保存调用 ABI、发布完整 record 后 tail-call 原目标。site、scratch、stub
-之间必须通过既有 overlap guard。
+三个 wrapper 都必须完整保存并恢复 `r0-r4`，发布完整 record 后 tail-call 原目标；尤其不能
+依赖会被 callee 覆盖的入口 `r1/r2`。site、scratch、stub 之间必须通过既有 overlap guard。
 
 ## 正确的验收数据流
 
@@ -57,9 +60,11 @@ affiliation。`0x08069DB8` 只消费 `r0` 的 character id；包装器记录的 
 2. PCO1 fresh 只证明进入选择器；其参数必须精确为协议 `(9,0,1)`，不得解释为单位身份。
 3. current-unit 候选为 PCU1 或 PCA1 中 PCO1 之后第一个 fresh record；两者同时 fresh 时按
    sequence 选择最早者并保留 source hook。
-4. current-unit `argument0` 必须等于独立 WRAM unit diagnostic 的 character id。
-5. slot 与 affiliation 只从同一 unit object/诊断读取，并与 battle 41 当前玩家单位一致；不得
-   使用 current wrapper 的 `argument1/argument2` 或 PCO1 参数替代。
+4. current-unit `argument0` 必须等于独立 WRAM unit diagnostic 的 slot；该 slot 必须按
+   `0x020240C0 + slot * 0x1D4` 映射到同一 WRAM unit record。
+5. character id 必须从该 record `+3` 读取，affiliation 也必须来自同一 WRAM record 的既有
+   diagnostic；二者都必须通过既有 validity/from-WRAM gate，并与 battle 41 当前玩家单位一致。
+   不得使用 current wrapper 的 `argument1/argument2` 或 PCO1 参数替代。
 6. accepted evidence 必须记录 current source hook、magic、event、sequence、character id、
    unit-object slot/affiliation 和显式输入清单。
 
@@ -71,7 +76,7 @@ TDD RED 必须先证明：
 - confined-diff 仍只允许三个 checked calls 与三个 96-byte caves。
 - evaluator 拒绝把 PCO1 `(9,0,1)` 当 slot/affiliation。
 - evaluator 接受 PCU1/event2 或 PCA1/event3 的 source-mapped fresh record，但只以
-  `argument0` 绑定 character id。
+  `argument0` 绑定 WRAM unit slot，再由该 slot 映射的 record 提供 character/affiliation。
 - source hook、event、magic 不匹配，或 unit-object slot/affiliation 不一致时拒绝。
 
 GREEN 后重建 observer ROM并从已接受的 canonical controller checkpoint 重放既有唯一输入

@@ -94,7 +94,7 @@ function evaluatePlayerControlEvidence(input = {}) {
     === input.currentSourceHook;
   const controlledUnitConsistent = input.controlledUnitFromWram === true
     && controlledDiagnosticValid
-    && current.argument0 === input.controlledCharacterId;
+    && current.argument0 === input.controlledSlot;
   const immutableExpectedPlan = expectedInputPlanValid(input.expectedInputPlan);
   const checks = {
     playerObserverFresh: isFresh(player, baseline.player),
