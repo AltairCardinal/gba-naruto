@@ -5,7 +5,7 @@
 - stage: `spec-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_cycle` (fresh fixed cycle diagnostic executor); zero replay completed by `/root/scenario41_action_menu_zero_retry`
+- implementer: `/root/scenario41_action_menu_cycle`; `DONE_WITH_CONCERNS`, one 600-frame runtime; zero replay completed by `/root/scenario41_action_menu_zero_retry`
 - report: `.superpowers/sdd/task-6-action-menu-cycle-report.md`; zero replay report remains in `.superpowers/sdd/task-6-action-menu-zero-retry-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
@@ -36,6 +36,8 @@
 - action-menu zero result: `run ef836d8139b73753c16e1a2db1cddbc2 completed/0 success-marker RSS51.945MiB; inputs=[]; task2/menu/current unit/action/MOVEDONE semantics exact, but RGB5f150e...774f -> a6c69d...bbea; output95faa0ee...188a is animation-drift candidate and forbidden; no retry/cycle`
 - action-menu zero reviewer: `/root/scenario41_action_menu_zero_review`; `Spec PASS / Evidence Quality APPROVED; no findings; confirms prior runtime-count0 preflight failure and one valid semantic-exact/RGB-drift zero run; authorizes only a separate cycle diagnostic`
 - action-menu cycle gate: `from original first-A candidate972a4c47...b613, run existing fixed 600-frame zero-input sampler once with script-order-diagnostic and unchanged analyzer pinned to first-A capture PNG; choose smallest exact p only; no input/replay/acceptance/checkpoint/retry`
+- action-menu cycle result: `run a1119ed55b085901f3a6d638b1b33c37 completed/0 RSS52.285MiB; 600 regular frames, frame600 semantics exact and MOVEDONE zero; unchanged analyzer status not-proven, period null, matches[] relative to first-A RGB5f150e...774f; frame600f8a3363d...8e02/analysis diagnostic-only and forbidden`
+- action-menu cycle reviewer: `pending fresh runtime evidence review; no anchor/p replay/input authorized`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
