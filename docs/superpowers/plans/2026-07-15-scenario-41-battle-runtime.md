@@ -1097,7 +1097,7 @@ git diff --check
 
 Expected: 全部 PASS；无 mGBA 运行、无其他按键或通用任意键接口；创建一个聚焦本地 commit。
 
-- [ ] **Task 6 Step 4B: 以 TDD 将固定单键 runner 最小扩展为 GBA Up**
+- [x] **Task 6 Step 4B: 以 TDD 将固定单键 runner 最小扩展为 GBA Up**
 
 action-menu 稳定候选当前 selection 为 0；静态菜单 handler `0x08067D68..0x08067DCE`
 证明一次 GBA `Up` 会递减选择并在 0 时环绕到最后一项。为避免三次 `Down` 及其三组动画
