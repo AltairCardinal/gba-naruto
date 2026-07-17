@@ -609,23 +609,23 @@ test('MOVEDONE rejects stale, wrong-source, dual-source and unordered events', (
 });
 
 test('MOVEDONE binds hook snapshot and before/after to one slot pointer and record identity', () => {
-  for (const mutation of [
-    sample => { sample.final.events[0].snapshot.objectSlot = 2; },
-    sample => { sample.final.events[0].snapshot.objectRecordPointer = 0x02024468; },
-    sample => { sample.final.events[0].snapshot.recordAddress = 0x02024468; },
-    sample => { sample.actingUnitAfter.slot = 2; },
-    sample => { sample.actingUnitAfter.characterId = 30; },
-    sample => { sample.actingUnitAfter.affiliation = 1; },
-    sample => { sample.actingUnitAfter.recordAddress = 0x02024468; },
-    sample => { sample.actingUnitBefore.objectRecordPointer = 0x02024468; },
-    sample => { sample.actingUnitAfter.objectRecordPointer = 0x02024468; },
-    sample => { sample.final.events[0].snapshot.x = 3; },
-    sample => { sample.final.events[0].snapshot.rawCCCF = '00000000'; },
-    sample => { sample.final.events[0].snapshot.rawC4C7 = '00000000'; },
+  for (const [mutation, reason] of [
+    [sample => { sample.final.events[0].snapshot.objectSlot = 2; }, 'movedone-site-schema-invalid'],
+    [sample => { sample.final.events[0].snapshot.objectRecordPointer = 0x02024468; }, 'movedone-site-schema-invalid'],
+    [sample => { sample.final.events[0].snapshot.recordAddress = 0x02024468; }, 'movedone-site-schema-invalid'],
+    [sample => { sample.actingUnitAfter.slot = 2; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.actingUnitAfter.characterId = 30; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.actingUnitAfter.affiliation = 1; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.actingUnitAfter.recordAddress = 0x02024468; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.actingUnitBefore.objectRecordPointer = 0x02024468; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.actingUnitAfter.objectRecordPointer = 0x02024468; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.final.events[0].snapshot.x = 3; }, 'movedone-site-schema-invalid'],
+    [sample => { sample.final.events[0].snapshot.rawCCCF = '00000000'; }, 'acting-unit-identity-mismatch'],
+    [sample => { sample.final.events[0].snapshot.rawC4C7 = '00000000'; }, 'movedone-site-schema-invalid'],
   ]) {
     const sample = validMovedoneSample();
     mutation(sample);
-    assert.equal(evaluateMovedoneEvidence(sample).reason, 'acting-unit-identity-mismatch');
+    assert.equal(evaluateMovedoneEvidence(sample).reason, reason);
   }
 });
 
@@ -676,6 +676,121 @@ test('MOVEDONE requires complete uniquely paired sites in canonical source order
   const crossSiteIndexTrap = validMovedoneSample();
   crossSiteIndexTrap.baseline.events.reverse();
   assert.equal(evaluateMovedoneEvidence(crossSiteIndexTrap).diagnosticVerified, false);
+});
+
+function assertMovedoneSiteSchemaInvalid(sample) {
+  const result = evaluateMovedoneEvidence(sample);
+  assert.equal(result.diagnosticVerified, false);
+  assert.equal(result.verified, false);
+  assert.equal(result.reason, 'movedone-site-schema-invalid');
+  assert.equal(result.checks.movedoneSiteSchemaValid, false);
+}
+
+test('MOVEDONE requires every baseline and final site record field', () => {
+  for (const boundary of ['baseline', 'final']) {
+    for (const siteIndex of [0, 1]) {
+      for (const field of ['magicValid', 'hitCount', 'sequence', 'snapshot']) {
+        const sample = validMovedoneSample();
+        delete sample[boundary].events[siteIndex][field];
+        assertMovedoneSiteSchemaInvalid(sample);
+      }
+    }
+  }
+});
+
+test('MOVEDONE requires the complete typed decoder snapshot at both sites', () => {
+  const snapshotFields = [
+    'objectAddress', 'objectSlot', 'objectRecordPointer', 'recordAddress',
+    'characterId', 'affiliation', 'active', 'x', 'y', 'initialX', 'initialY',
+    'rawC0C3', 'rawC4C7', 'rawC8CB', 'rawCCCF',
+  ];
+  for (const boundary of ['baseline', 'final']) {
+    for (const siteIndex of [0, 1]) {
+      for (const field of snapshotFields) {
+        const sample = validMovedoneSample();
+        delete sample[boundary].events[siteIndex].snapshot[field];
+        assertMovedoneSiteSchemaInvalid(sample);
+      }
+    }
+  }
+
+  for (const mutation of [
+    sample => { sample.baseline.events[1].magicValid = 1; },
+    sample => { sample.final.events[1].hitCount = '7'; },
+    sample => { sample.baseline.events[1].sequence = -1; },
+    sample => { sample.final.events[1].snapshot.objectAddress = '0x0202680C'; },
+    sample => { sample.baseline.events[1].snapshot.objectSlot = 1.5; },
+    sample => { sample.final.events[1].snapshot.active = 1; },
+    sample => { sample.baseline.events[1].snapshot.rawC0C3 = '8001000A'; },
+    sample => { sample.final.events[1].snapshot.rawC4C7 = '00000000'; },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assertMovedoneSiteSchemaInvalid(sample);
+  }
+});
+
+test('MOVEDONE requires the companion magic and record identity to stay unchanged', () => {
+  const wrongMagic = validMovedoneSample();
+  wrongMagic.final.events[1].magicValid = false;
+  assertMovedoneSiteSchemaInvalid(wrongMagic);
+
+  const falseMagicOnNonzeroRecord = validMovedoneSample();
+  falseMagicOnNonzeroRecord.baseline.events[1].magicValid = false;
+  falseMagicOnNonzeroRecord.final.events[1].magicValid = false;
+  assertMovedoneSiteSchemaInvalid(falseMagicOnNonzeroRecord);
+
+  const changedIdentity = validMovedoneSample();
+  Object.assign(changedIdentity.final.events[1].snapshot, {
+    objectSlot: 2,
+    objectRecordPointer: 0x02024468,
+    recordAddress: 0x02024468,
+    characterId: 30,
+  });
+  assertMovedoneSiteSchemaInvalid(changedIdentity);
+});
+
+test('MOVEDONE accepts a complete unchanged canonical zero companion record', () => {
+  const sample = validMovedoneSample();
+  const zeroSnapshot = {
+    objectAddress: 0x0202680C,
+    objectSlot: 0,
+    objectRecordPointer: 0,
+    recordAddress: 0,
+    characterId: 0,
+    affiliation: 0,
+    active: false,
+    x: 0,
+    y: 0,
+    initialX: 0,
+    initialY: 0,
+    rawC0C3: '00000000',
+    rawC4C7: '00000000',
+    rawC8CB: '00000000',
+    rawCCCF: '00000000',
+  };
+  for (const boundary of ['baseline', 'final']) {
+    sample[boundary].events[1] = movedoneCall(0, 0, {
+      magicValid: false,
+      eventCode: 2,
+      sourceHook: '0x08074918',
+      snapshot: { ...zeroSnapshot },
+    });
+  }
+  assert.equal(evaluateMovedoneEvidence(sample).verified, true);
+});
+
+test('MOVEDONE rejects backward or inconsistent companion counters', () => {
+  for (const mutation of [
+    sample => { sample.final.events[1].hitCount = 6; },
+    sample => { sample.final.events[1].sequence = 11; },
+    sample => { sample.final.events[1].hitCount = 8; },
+    sample => { sample.final.events[1].sequence = 13; },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assertMovedoneSiteSchemaInvalid(sample);
+  }
 });
 
 test('MOVEDONE accepts exactly one paired fresh site and rejects dual fresh sites', () => {

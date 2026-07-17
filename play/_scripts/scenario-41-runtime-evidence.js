@@ -245,6 +245,10 @@ function isRawWord(value) {
   return typeof value === 'string' && /^[0-9a-f]{8}$/.test(value);
 }
 
+function isUint32(value) {
+  return Number.isInteger(value) && value >= 0 && value <= 0xFFFFFFFF;
+}
+
 function isByte(value) {
   return Number.isInteger(value) && value >= 0 && value <= 0xFF;
 }
@@ -263,6 +267,78 @@ function snapshotRawFieldsMatch(snapshot = {}) {
     && snapshot.y === c4[1]
     && snapshot.initialX === c4[3]
     && snapshot.initialY === c8[0];
+}
+
+const MOVEDONE_SNAPSHOT_FIELDS = [
+  'objectAddress', 'objectSlot', 'objectRecordPointer', 'recordAddress',
+  'characterId', 'affiliation', 'active', 'x', 'y', 'initialX', 'initialY',
+  'rawC0C3', 'rawC4C7', 'rawC8CB', 'rawCCCF',
+];
+
+function isZeroMovedoneSnapshot(snapshot) {
+  return snapshot.objectSlot === 0
+    && snapshot.objectRecordPointer === 0
+    && snapshot.recordAddress === 0
+    && snapshot.characterId === 0
+    && snapshot.affiliation === 0
+    && snapshot.active === false
+    && snapshot.x === 0
+    && snapshot.y === 0
+    && snapshot.initialX === 0
+    && snapshot.initialY === 0
+    && [snapshot.rawC0C3, snapshot.rawC4C7, snapshot.rawC8CB, snapshot.rawCCCF]
+      .every(word => word === '00000000');
+}
+
+function validMovedoneSnapshot(snapshot = {}) {
+  const fieldsValid = snapshot !== null
+    && typeof snapshot === 'object'
+    && !Array.isArray(snapshot)
+    && snapshot.objectAddress === 0x0202680C
+    && isByte(snapshot.objectSlot)
+    && isUint32(snapshot.objectRecordPointer)
+    && isUint32(snapshot.recordAddress)
+    && isByte(snapshot.characterId)
+    && isAffiliation(snapshot.affiliation)
+    && typeof snapshot.active === 'boolean'
+    && isByte(snapshot.x)
+    && isByte(snapshot.y)
+    && isByte(snapshot.initialX)
+    && isByte(snapshot.initialY)
+    && snapshotRawFieldsMatch(snapshot);
+  if (!fieldsValid) {
+    return false;
+  }
+  const boundRecord = isControlledSlot(snapshot.objectSlot)
+    && snapshot.objectRecordPointer === snapshot.recordAddress
+    && snapshot.recordAddress === UNIT_RECORD_BASE + snapshot.objectSlot * UNIT_RECORD_SIZE
+    && isCharacterId(snapshot.characterId);
+  return isZeroMovedoneSnapshot(snapshot) || boundRecord;
+}
+
+function validMovedoneRecord(record, eventCode, sourceHook) {
+  return record !== null
+    && typeof record === 'object'
+    && !Array.isArray(record)
+    && typeof record.magicValid === 'boolean'
+    && isUint32(record.hitCount)
+    && isUint32(record.sequence)
+    && record.eventCode === eventCode
+    && record.sourceHook === sourceHook
+    && validMovedoneSnapshot(record.snapshot)
+    && (record.magicValid === true
+      || (record.hitCount === 0
+        && record.sequence === 0
+        && isZeroMovedoneSnapshot(record.snapshot)));
+}
+
+function sameMovedoneRecord(left, right) {
+  return left.magicValid === right.magicValid
+    && left.hitCount === right.hitCount
+    && left.sequence === right.sequence
+    && left.eventCode === right.eventCode
+    && left.sourceHook === right.sourceHook
+    && MOVEDONE_SNAPSHOT_FIELDS.every(field => left.snapshot[field] === right.snapshot[field]);
 }
 
 function validActingUnit(unit = {}) {
@@ -308,25 +384,28 @@ function evaluateMovedoneEvidence(input = {}) {
   const allowedSites = [...MOVEDONE_SOURCES.entries()];
   const sourcesValid = [baselineEvents, finalEvents].every(events => events.length === 2
     && events.every(event => MOVEDONE_SOURCES.get(event?.eventCode) === event?.sourceHook));
-  const siteSchemaValid = sourcesValid
+  const recordSchemaValid = sourcesValid
     && [baselineEvents, finalEvents].every(events => allowedSites.every(
       ([eventCode, sourceHook], index) => events[index]?.eventCode === eventCode
-        && events[index]?.sourceHook === sourceHook,
+        && events[index]?.sourceHook === sourceHook
+        && validMovedoneRecord(events[index], eventCode, sourceHook),
     ));
-  const baselineBySite = new Map(baselineEvents.map(
-    event => [`${event?.eventCode}:${event?.sourceHook}`, event],
-  ));
-  const finalBySite = new Map(finalEvents.map(
-    event => [`${event?.eventCode}:${event?.sourceHook}`, event],
-  ));
-  const freshEvents = siteSchemaValid ? allowedSites.flatMap(([eventCode, sourceHook]) => {
-    const key = `${eventCode}:${sourceHook}`;
-    const beforeEvent = baselineBySite.get(key);
-    const afterEvent = finalBySite.get(key);
-    return isFresh(afterEvent, beforeEvent)
+  const pairedSites = recordSchemaValid ? allowedSites.map(
+    (_site, index) => ({
+      beforeEvent: baselineEvents[index],
+      afterEvent: finalEvents[index],
+    }),
+  ) : [];
+  const freshEvents = pairedSites.flatMap(({ beforeEvent, afterEvent }) => (
+    isFresh(afterEvent, beforeEvent)
       && isBoundedForward(afterEvent.sequence, input.baseline?.sequenceBoundary)
-      ? [afterEvent] : [];
-  }) : [];
+      ? [afterEvent] : []
+  ));
+  const staleSitesUnchanged = recordSchemaValid && pairedSites.every(
+    ({ beforeEvent, afterEvent }) => isFresh(afterEvent, beforeEvent)
+      || sameMovedoneRecord(afterEvent, beforeEvent),
+  );
+  const siteSchemaValid = recordSchemaValid && staleSitesUnchanged;
   const event = freshEvents[0] || {};
   const before = input.actingUnitBefore || {};
   const after = input.actingUnitAfter || {};
