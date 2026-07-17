@@ -15,6 +15,7 @@ from pathlib import Path
 AUTOMATIC_DECISIONS = [
     "in-scope-reversible-technical",
     "backward-compatible-internal",
+    "fail-closed-evidence-schema-extension",
 ]
 REQUIRED_USER_CONFIRMATIONS = [
     "archive",

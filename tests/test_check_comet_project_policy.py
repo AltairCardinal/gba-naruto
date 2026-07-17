@@ -26,6 +26,7 @@ class CometProjectPolicyTests(unittest.TestCase):
     automatic_decisions = [
         "in-scope-reversible-technical",
         "backward-compatible-internal",
+        "fail-closed-evidence-schema-extension",
     ]
     required_user_confirmations = [
         "archive",
@@ -50,6 +51,7 @@ decisions:
   automatic:
     - in-scope-reversible-technical
     - backward-compatible-internal
+    - fail-closed-evidence-schema-extension
   require_confirmation:
     - archive
     - push
@@ -175,6 +177,7 @@ limits:
             "  automatic:\n"
             "    - in-scope-reversible-technical\n"
             "    - backward-compatible-internal\n"
+            "    - fail-closed-evidence-schema-extension\n"
             "  require_confirmation:\n"
             "    - archive\n"
             "    - push\n"
@@ -189,7 +192,8 @@ limits:
             "mistyped": self.valid_policy.replace(
                 "  automatic:\n"
                 "    - in-scope-reversible-technical\n"
-                "    - backward-compatible-internal\n",
+                "    - backward-compatible-internal\n"
+                "    - fail-closed-evidence-schema-extension\n",
                 "  automatic: in-scope-reversible-technical\n",
             ),
             "automatic reordered": self.valid_policy.replace(
