@@ -1097,6 +1097,14 @@ git diff --check
 
 Expected: 全部 PASS；无 mGBA 运行、无其他按键或通用任意键接口；创建一个聚焦本地 commit。
 
+- [ ] **Task 6 Step 4B: 以 TDD 将固定单键 runner 最小扩展为 GBA Up**
+
+action-menu 稳定候选当前 selection 为 0；静态菜单 handler `0x08067D68..0x08067DCE`
+证明一次 GBA `Up` 会递减选择并在 0 时环绕到最后一项。为避免三次 `Down` 及其三组动画
+稳定性运行，只在既有固定单键 runner、Lua 和测试中增加精确 `Up`，保留其余按键、组合键、
+recovery 和任意输入接口 fail closed。先补失败测试并确认正确 RED，再做最小实现；本代码步骤
+不运行 mGBA。
+
 - [ ] **Step 5: Execute the first tutorial action in short explicit steps**
 
 From `scenario-41-player-turn.ss9`, first sample the actual controlled and acting-unit object/record boundaries; do not import the old battle-40 `(4,4)→(4,7)→(4,10)` route into battle 41. Send one direction/confirm at a time, export a candidate checkpoint at each stable tutorial prompt, and never use adaptive recovery. The first bounded diagnostic stops after one explicit input whether or not a MOVEDONE site fires; only a fresh hook sample may establish the actual acting unit and next legal transition. Complete later direction and defense selections only when the preceding screenshot/WRAM boundary matches the tutorial state.

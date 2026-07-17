@@ -2,13 +2,13 @@
 
 - plan task: `Task 6 Step 5: Execute the first tutorial action in short explicit steps`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
-- stage: `spec-review`
+- stage: `implementation`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `/root/scenario41_action_menu_p128`; `DONE`, exactly two serial zero-input capture128 runs, anchor → p1 → p2
-- report: `.superpowers/sdd/task-6-action-menu-p128-report.md`; normative cycle and anchor reports remain prerequisite evidence
+- implementer: `/root/scenario41_final_a_evidence_review`; `RUNNING`, TDD-only exact GBA Up runner extension, no mGBA
+- report: pending `.superpowers/sdd/task-6-action-menu-up-runner-report.md`; p128 report remains approved prerequisite evidence
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
-- reviewer: `/root/scenario41_action_menu_anchor_cycle`; `Spec PASS / Evidence Quality APPROVED`, no findings
+- reviewer: `pending fresh code review after implementation`; p128 evidence review remains approved
 - prior player-observer baseline: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output PCO1/PCU1 scratch zero; this is not a MOVEDONE baseline and cannot satisfy Task 6 Step 5`
 - MOVEDONE runtime gate: `one fresh frame-1 zero-input baseline from accepted scenario-41-player-turn.ss9 on a freshly rebuilt action-submit observer ROM; no input/retry; output diagnostic-only`
 - MOVEDONE zero baseline: `run c37e73c7ac9c4df4b46ce284e83702ab; fresh probe 2e0ef354...1737f; completed/0 via success-marker; input/output counter=0 and both 52-byte MOD1/MOD2 records canonical zero; task2/current object exact; no input/retry; output 930797b8...13df is diagnostic-only and forbidden for later consumption`
