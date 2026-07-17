@@ -104,6 +104,10 @@
 - correction plan: `docs/superpowers/plans/2026-07-17-scenario-41-active-current-unit-observer.md @ 54ee6fd; Task1 builder TDD brief .superpowers/sdd/task-1-brief.md; review_mode thorough`
 - Task1 first implementer outcome: `fresh /root/active_current_unit_builder cost-stopped after >2 minutes with no RED/report/file changes; no commit`
 - Task1 retry: `fresh implementer receives exact two-file scope and constant/site/test assertions directly; must produce RED before implementation`
+- Task1 retry result: `DONE at 1d91a8e; files tools/build_player_control_runtime_probe.py + tests/test_build_player_control_runtime_probe.py; RED import failure for missing ACTIVE_CURRENT_UNIT_EVENT; GREEN 16/16 focused+published observer tests; report .superpowers/sdd/task-1-active-current-unit-report.md`
+- Task1 review stage: `spec-review/quality-review combined thorough boundary review; reviewer /root/active_current_unit_task1_review; package .superpowers/sdd/review-2f3641d..1d91a8e.diff; round 1/2; read-only, no mGBA`
+- Task1 review result: `Spec PASS / Quality APPROVED; Critical 0, Important 0, Minor 1; parent rerun 16/16 and policy audit valid; Minor PCA1-specific machine execution test is non-blocking because all sites share the same branch-free wrapper and published ABI coverage; carry to final review`
+- Task1 completion: `complete at 1d91a8e; focused plan Task 1 checked; OpenSpec 4.1 remains unchecked pending evaluator and canonical runtime evidence`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`

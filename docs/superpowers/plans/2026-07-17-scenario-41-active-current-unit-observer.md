@@ -36,7 +36,7 @@ base-ref: be92eb8
 - Consumes: `ObserverSite`、`patch_observer()`、共享 counter `0x0203F040`。
 - Produces: `ACTIVE_CURRENT_UNIT_SITE` 与三个 site 的 `OBSERVER_SITES`。
 
-- [ ] **Step 1: 写 RED 测试**
+- [x] **Step 1: 写 RED 测试**
 
 在测试中导入并断言以下精确常量，同时扩展 confined-diff 与 fail-closed 测试：
 
@@ -51,13 +51,13 @@ ACTIVE_CURRENT_UNIT_EVENT = 3
 
 测试必须证明 base call 是 `BL 0x08069DB8`、probe call 是 `BL 0x0809E900`，stub 含 scratch/magic/original literal；第三 hook/cave 之外不得新增 changed range；破坏第三 call 或 cave 时分别报 `active-current-unit call-site` / `active-current-unit stub region`。
 
-- [ ] **Step 2: 运行 RED**
+- [x] **Step 2: 运行 RED**
 
 Run: `python3 -m unittest tests.test_build_player_control_runtime_probe -v`
 
 Expected: FAIL，原因是上述常量/site 尚不存在或第三 call 未 patch。
 
-- [ ] **Step 3: 最小 GREEN 实现**
+- [x] **Step 3: 最小 GREEN 实现**
 
 在 builder 中新增精确常量和 site：
 
@@ -76,13 +76,13 @@ OBSERVER_SITES = (PLAYER_CONTROL_SITE, CURRENT_UNIT_SITE, ACTIVE_CURRENT_UNIT_SI
 
 复用既有 loop、overlap guard 和透明 wrapper，不新建第二套 patcher。
 
-- [ ] **Step 4: 运行 GREEN 与回归**
+- [x] **Step 4: 运行 GREEN 与回归**
 
 Run: `python3 -m unittest tests.test_build_player_control_runtime_probe tests.test_published_call_observer -v`
 
 Expected: 全部 PASS；第三 wrapper machine ABI 与前两处一致。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add tests/test_build_player_control_runtime_probe.py tools/build_player_control_runtime_probe.py
