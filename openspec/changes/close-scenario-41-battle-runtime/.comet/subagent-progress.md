@@ -93,6 +93,8 @@
 - selection zero gate: `from PCO1-positive 3cc9e46b...0278e run one 80-frame zero-input replay; require task 0x0806F996, existing PCO1 record/counter, PCU1 zero, object/RGB exact and clean guard before A`
 - selection zero result: `run 2372ab39f6d067a1d15d4382f6e8331a; task/resume/SP/counter/PCO1/PCU1/object exact but RGB 8c08...c06->0a65...394 drifted; output 291d389c...3f98d candidate-only, not consumable; guard completed/0 RSS51.984MiB`
 - selection cycle gate: `from original PCO1-positive 3cc9e46b...0278e run fixed 600-frame zero sampler/analyzer once; choose smallest exact RGB period only, no checkpoint acceptance or input`
+- selection cycle result: `run 1ff1e3ee6996a40259810a6725ca3b88; 600 frames complete; smallest p=224 with H0=H224=H448=8c08...c06; task/observer/object exact; guard completed/0 RSS52.320MiB; diagnostic-only`
+- selection p224 acceptance gate: `two independent zero replays original 3cc9e46b...0278e -> p1 -> p2, each 224 frames; require all three RGB/task/counter/PCO1/PCU1/object exact and clean provenance; only p1 may feed A after both pass`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
