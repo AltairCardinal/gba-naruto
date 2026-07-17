@@ -83,6 +83,8 @@
 - end-wait zero gate: `from 97427458...ff568 run one 80-frame zero-input replay; require exact task/pointer 0x0805B404/observer/object/RGB and clean guard before final deterministic A; no retry/cycle`
 - end-wait zero result: `run ffabaee95b7129d8709450a5f1c473e1; output f03cc962...56a1c; task2/SP/pointer 0x08095F12/0x03001194/0x0805B404 end, observer/object/RGB exact; guard completed/0 RSS51.875MiB`
 - end-dismiss A gate: `from accepted f03cc962...56a1c send exactly one A at 5/13/capture80; inspect script return, task transition and fresh ordered PCU1/PCO1; stop after capture regardless of result; no zero/retry/follow-on key`
+- end-dismiss A result: `run 1da346f7b30e26a7fbf147f267a4a9ce; output 7dc1d377...fc8e3; task2 0x08095F12/SP0x03001194 -> 0x080737BE/SP0x03001224; old script slot cleared; object172-byte/RGB change; observer zero; guard completed/0 RSS52.133MiB; script wait ended`
+- post-end static gate: `bounded disassembly 0x080737BE..0x08073946 before runtime; determine whether zero input naturally reaches observer or a new explicit wait, and choose one bounded settle length`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
