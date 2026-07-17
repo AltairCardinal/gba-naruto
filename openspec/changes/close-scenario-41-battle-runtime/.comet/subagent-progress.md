@@ -97,6 +97,8 @@
 - selection p224 acceptance gate: `two independent zero replays original 3cc9e46b...0278e -> p1 -> p2, each 224 frames; require all three RGB/task/counter/PCO1/PCU1/object exact and clean provenance; only p1 may feed A after both pass`
 - selection p224 result: `p1 run 00a94131c71c37586ea979e9c7e874d3 -> 14ec8caf...83454; p2 run 3599fc3c805e0a274ef37ada72fe7d18 -> 45e11e2b...aba78; baseline/p1/p2 task/observer/object/RGB exact; guards clean; p1 sole consumable state`
 - selection A gate: `from p1 14ec8caf...83454 send exactly one A at 5/13/capture80; require existing PCO1 seq1 plus fresh later PCU1 seq2 and actual selected-unit args, caller progression, guard/provenance/residue; stop after capture`
+- selection A result: `run 91af3856202e3c9f46315468c2deee9f; output 2ea8d89c...52673; task2 0x0806F996->0x08067D02, object296-byte/RGB change; PCO1 stays seq1, PCU1 zero, no fresh event; guard completed/0 RSS51.840MiB`
+- PCU1 path audit gate: `active stack contains statically valid return 0x08073A4F from action-menu call 0x08073A4A->0x08067158; determine whether 0x080739D8 was bypassed and whether any legal menu input can still produce required PCU1, before authorizing runtime or observer redesign`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
