@@ -317,6 +317,7 @@ function validMovedoneSnapshot(snapshot = {}) {
 }
 
 function validMovedoneRecord(record, eventCode, sourceHook) {
+  const countersAreZero = record?.hitCount === 0 && record?.sequence === 0;
   return record !== null
     && typeof record === 'object'
     && !Array.isArray(record)
@@ -326,10 +327,9 @@ function validMovedoneRecord(record, eventCode, sourceHook) {
     && record.eventCode === eventCode
     && record.sourceHook === sourceHook
     && validMovedoneSnapshot(record.snapshot)
-    && (record.magicValid === true
-      || (record.hitCount === 0
-        && record.sequence === 0
-        && isZeroMovedoneSnapshot(record.snapshot)));
+    && (countersAreZero
+      ? record.magicValid === false && isZeroMovedoneSnapshot(record.snapshot)
+      : record.magicValid === true);
 }
 
 function sameMovedoneRecord(left, right) {

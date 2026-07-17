@@ -494,6 +494,32 @@ function movedoneCall(hitCount, sequence, overrides = {}) {
   };
 }
 
+function zeroMovedoneCall(overrides = {}) {
+  return movedoneCall(0, 0, {
+    magicValid: false,
+    eventCode: 2,
+    sourceHook: '0x08074918',
+    snapshot: {
+      objectAddress: 0x0202680C,
+      objectSlot: 0,
+      objectRecordPointer: 0,
+      recordAddress: 0,
+      characterId: 0,
+      affiliation: 0,
+      active: false,
+      x: 0,
+      y: 0,
+      initialX: 0,
+      initialY: 0,
+      rawC0C3: '00000000',
+      rawC4C7: '00000000',
+      rawC8CB: '00000000',
+      rawCCCF: '00000000',
+    },
+    ...overrides,
+  });
+}
+
 function actingUnit(overrides = {}) {
   return {
     objectAddress: 0x0202680C,
@@ -752,32 +778,61 @@ test('MOVEDONE requires the companion magic and record identity to stay unchange
 
 test('MOVEDONE accepts a complete unchanged canonical zero companion record', () => {
   const sample = validMovedoneSample();
-  const zeroSnapshot = {
-    objectAddress: 0x0202680C,
-    objectSlot: 0,
-    objectRecordPointer: 0,
-    recordAddress: 0,
-    characterId: 0,
-    affiliation: 0,
-    active: false,
-    x: 0,
-    y: 0,
-    initialX: 0,
-    initialY: 0,
-    rawC0C3: '00000000',
-    rawC4C7: '00000000',
-    rawC8CB: '00000000',
-    rawCCCF: '00000000',
-  };
   for (const boundary of ['baseline', 'final']) {
-    sample[boundary].events[1] = movedoneCall(0, 0, {
-      magicValid: false,
-      eventCode: 2,
-      sourceHook: '0x08074918',
-      snapshot: { ...zeroSnapshot },
-    });
+    sample[boundary].events[1] = zeroMovedoneCall();
   }
   assert.equal(evaluateMovedoneEvidence(sample).verified, true);
+});
+
+test('MOVEDONE rejects canonical zero companion records with published magic', () => {
+  const bothWrong = validMovedoneSample();
+  for (const boundary of ['baseline', 'final']) {
+    bothWrong[boundary].events[1] = zeroMovedoneCall({ magicValid: true });
+  }
+  assertMovedoneSiteSchemaInvalid(bothWrong);
+
+  for (const wrongBoundary of ['baseline', 'final']) {
+    const oneWrong = validMovedoneSample();
+    for (const boundary of ['baseline', 'final']) {
+      oneWrong[boundary].events[1] = zeroMovedoneCall({
+        magicValid: boundary === wrongBoundary,
+      });
+    }
+    assertMovedoneSiteSchemaInvalid(oneWrong);
+  }
+});
+
+test('MOVEDONE rejects invalid magic on nonzero records', () => {
+  for (const mutation of [
+    sample => { sample.baseline.events[1].magicValid = false; },
+    sample => { sample.final.events[1].magicValid = false; },
+    sample => {
+      sample.baseline.events[1] = zeroMovedoneCall({ hitCount: 1 });
+      sample.final.events[1] = zeroMovedoneCall({ hitCount: 1 });
+    },
+    sample => {
+      sample.baseline.events[1] = zeroMovedoneCall({ sequence: 1 });
+      sample.final.events[1] = zeroMovedoneCall({ sequence: 1 });
+    },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assertMovedoneSiteSchemaInvalid(sample);
+  }
+});
+
+test('MOVEDONE preserves distinguishable uint32 wrap and rejects ambiguous double-zero wrap', () => {
+  const distinguishableWrap = validMovedoneSample();
+  distinguishableWrap.baseline.sequenceBoundary = 0xFFFFFFFF;
+  distinguishableWrap.baseline.events[0] = movedoneCall(0xFFFFFFFF, 0xFFFFFFFF);
+  distinguishableWrap.final.events[0] = movedoneCall(0, 1);
+  assert.equal(evaluateMovedoneEvidence(distinguishableWrap).verified, true);
+
+  const ambiguousDoubleZero = validMovedoneSample();
+  ambiguousDoubleZero.baseline.sequenceBoundary = 0xFFFFFFFF;
+  ambiguousDoubleZero.baseline.events[0] = movedoneCall(0xFFFFFFFF, 0xFFFFFFFF);
+  ambiguousDoubleZero.final.events[0] = movedoneCall(0, 0);
+  assertMovedoneSiteSchemaInvalid(ambiguousDoubleZero);
 });
 
 test('MOVEDONE rejects backward or inconsistent companion counters', () => {
