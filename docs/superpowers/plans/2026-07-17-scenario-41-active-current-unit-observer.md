@@ -176,14 +176,14 @@ git commit -m "fix(re): bind player control evidence to active unit source"
 - Consumes: fresh PCU1/PCA1 `argument0`、WRAM diagnostic 的 slot/character/affiliation。
 - Produces: slot-aware `controlledUnitConsistent`；character/affiliation 仍必须来自该 slot 映射的同一 WRAM record。
 
-- [ ] **Step 1: 写并确认 RED**
+- [x] **Step 1: 写并确认 RED**
 
 把 valid sample 的 current `argument0` 改为 `controlledSlot`。新增拒绝测试证明 current slot 不一致会
 fail closed，同时 character/affiliation 缺失或越界仍被拒绝；保留 current `r1/r2` 被忽略、PCO1
 `(9,0,1)` 和 source/event 的全部既有测试。先运行 focused Node suite，并确认旧实现因仍比较
 `controlledCharacterId` 而出现预期语义失败。
 
-- [ ] **Step 2: 最小 GREEN 与设计纠错**
+- [x] **Step 2: 最小 GREEN 与设计纠错**
 
 将一致性门改为：
 
@@ -197,7 +197,7 @@ const controlledUnitConsistent = input.controlledUnitFromWram === true
 `0x020240C0 + slot * 0x1D4` 定位 WRAM record；character id 是该 record `+3`，不是 call
 argument。明确 `r1/r2` 是无关入口寄存器值，wrapper 完整保存/恢复 `r0-r4`。
 
-- [ ] **Step 3: GREEN、回归与聚焦提交**
+- [x] **Step 3: GREEN、回归与聚焦提交**
 
 运行 focused Node suite、observer/builder Python suites、`git diff --check`。只提交上述三个文件，
 不得修改 runtime 产物、plan/OpenSpec checkbox 或用户文件；提交信息：
