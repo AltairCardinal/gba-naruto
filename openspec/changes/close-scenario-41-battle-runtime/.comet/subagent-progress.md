@@ -156,6 +156,7 @@
 - Task3 anchor sampler dispatch: `fresh /root/active_action_anchor9_cycle from d02ccb9; one 600-frame zero diagnostic from anchor, existing sampler/analyzer only; expected but not forced p128/[0,128,256]; no input/p/retry/checkpoint/source edit/commit`
 - Task3 anchor sampler result: `run d85712f7 completed/0 RSS52.168MiB; 600 exact regular frames; unchanged analyzer cycle-found p128 matches[0,128,256] RGB8 8d4c2e; frame600 task/raw/A8800/A8820/counter1/PCOseq1/PCU0/PCA0/unit slot1 char13/object A8BF3 exact to anchor; PGID/listener/crash/residue/base.sav clean; diagnostic only`
 - Task3 p128 acceptance gate: `run two fresh independent zero-input capture128 replays anchor2f997d29->p1->p2; p1 must match anchor RGB8 and full task/raw/fields/observer/unit/object incl A8BF3 before p2 is allowed; p2 must match the same; guards/provenance/residue exact; only p1 may become stable input for one A after parent audit; no input/checkpoint/source edit/commit`
+- Task3 p128 dispatch: `fresh /root/active_action_anchor9_p128 from 12d73b7; at most two gated zero-input capture128 runs anchor->p1->p2; stop on first mismatch; no key/third run/checkpoint/source edit/commit`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
