@@ -1,5 +1,6 @@
 import argparse
 import io
+import json
 import os
 import socket
 import subprocess
@@ -355,16 +356,27 @@ class MgbaGdbProbeTests(unittest.TestCase):
         temporary_mgba.write(b"fake-mgba")
         temporary_mgba.close()
         self.mgba_path = Path(temporary_mgba.name)
+        temporary_script = tempfile.NamedTemporaryFile(delete=False)
+        temporary_script.write(b"print('first')\n")
+        temporary_script.close()
+        self.script_path = Path(temporary_script.name)
+        second_temporary_script = tempfile.NamedTemporaryFile(delete=False)
+        second_temporary_script.write(b"print('second')\n")
+        second_temporary_script.close()
+        self.second_script_path = Path(second_temporary_script.name)
 
     def tearDown(self):
         self.rom_path.unlink(missing_ok=True)
         self.mgba_path.unlink(missing_ok=True)
+        self.script_path.unlink(missing_ok=True)
+        self.second_script_path.unlink(missing_ok=True)
 
     def make_args(self, **overrides):
         values = {
             "mgba": self.mgba_path,
             "rom": self.rom_path,
             "savestate": None,
+            "scripts": [],
             "breakpoint": 0x08000020,
             "read": [(0x02000000, 4)],
             "timeout": 0.5,
@@ -483,6 +495,37 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 "battle.ss9",
                 "probe.gba",
             ],
+        )
+
+    def test_build_command_loads_scripts_in_given_order_before_state_and_rom(self):
+        self.assertEqual(
+            probe.build_mgba_command(
+                "mGBA.exe",
+                "probe.gba",
+                "battle.ss9",
+                scripts=("first.lua", "second.lua"),
+            ),
+            [
+                "mGBA.exe",
+                "--gdb",
+                "-C",
+                "mute=1",
+                "-C",
+                "volume=0",
+                "--script",
+                "first.lua",
+                "--script",
+                "second.lua",
+                "--savestate",
+                "battle.ss9",
+                "probe.gba",
+            ],
+        )
+
+    def test_build_command_without_scripts_is_unchanged(self):
+        self.assertEqual(
+            probe.build_mgba_command("mGBA.exe", "probe.gba"),
+            ["mGBA.exe", "--gdb", "-C", "mute=1", "-C", "volume=0", "probe.gba"],
         )
 
     def test_encode_packet_uses_rsp_checksum(self):
@@ -647,6 +690,27 @@ class MgbaGdbProbeTests(unittest.TestCase):
                         "--port", "3456",
                     ]
                 )
+
+    def test_parser_accepts_repeated_path_only_scripts_and_defaults_to_none(self):
+        parser = probe.build_parser()
+        common = [
+            "--mgba",
+            "mGBA.exe",
+            "--rom",
+            "probe.gba",
+            "--output",
+            "result.json",
+            "--breakpoint",
+            "0x08000000",
+        ]
+
+        self.assertEqual(parser.parse_args(common).scripts, [])
+        self.assertEqual(
+            parser.parse_args(
+                [*common, "--script", "first.lua", "--script", "second.lua"]
+            ).scripts,
+            [Path("first.lua"), Path("second.lua")],
+        )
 
     def test_full_fake_rsp_wiring_verifies_owned_session_and_all_gates(self):
         result, holder = self.run_fake_rsp(self.make_rsp_handler())
@@ -820,7 +884,7 @@ class MgbaGdbProbeTests(unittest.TestCase):
                 self.assertEqual(result["readRegions"], [])
 
     def test_file_hashes_are_kept_when_port_precheck_fails(self):
-        args = self.make_args()
+        args = self.make_args(scripts=[self.script_path, self.second_script_path])
         with (
             patch.object(probe, "ensure_port_available", side_effect=RuntimeError("occupied")),
             patch.object(probe.subprocess, "Popen") as launcher,
@@ -831,6 +895,54 @@ class MgbaGdbProbeTests(unittest.TestCase):
         launcher.assert_not_called()
         self.assertEqual(result["emulator"]["sha256"], probe.sha256_file(self.mgba_path))
         self.assertEqual(result["rom"]["sha256"], probe.sha256_file(self.rom_path))
+        self.assertEqual(
+            result["scripts"],
+            [probe.file_evidence(self.script_path), probe.file_evidence(self.second_script_path)],
+        )
+
+    def test_initial_evidence_lists_scripts_before_hashing(self):
+        evidence = probe.initial_evidence(
+            self.make_args(scripts=[self.script_path, self.second_script_path])
+        )
+
+        self.assertEqual(
+            evidence["scripts"],
+            [
+                {"path": str(self.script_path), "sha256": None, "size": None},
+                {"path": str(self.second_script_path), "sha256": None, "size": None},
+            ],
+        )
+
+    def test_main_rejects_missing_or_non_file_script_before_launch(self):
+        for invalid_script in (self.script_path.with_name("missing.lua"), self.script_path.parent):
+            with self.subTest(invalid_script=invalid_script):
+                with tempfile.TemporaryDirectory() as directory:
+                    output = Path(directory) / "result.json"
+                    argv = [
+                        "--mgba",
+                        str(self.mgba_path),
+                        "--rom",
+                        str(self.rom_path),
+                        "--script",
+                        str(invalid_script),
+                        "--output",
+                        str(output),
+                        "--breakpoint",
+                        "0x08000020",
+                    ]
+                    with (
+                        patch.object(probe, "run_probe") as run_probe,
+                        patch.object(probe.subprocess, "Popen") as launcher,
+                    ):
+                        exit_code = probe.main(argv)
+
+                    self.assertEqual(exit_code, 1)
+                    run_probe.assert_not_called()
+                    launcher.assert_not_called()
+                    result = json.loads(output.read_text(encoding="utf-8"))
+                    self.assertEqual(result["outcome"], "error")
+                    self.assertEqual(result["errorType"], "FileNotFoundError")
+                    self.assertEqual(result["scripts"][0]["path"], str(invalid_script))
 
     def test_broken_progress_pipe_does_not_replace_probe_result(self):
         with patch.object(probe, "emit_progress", side_effect=BrokenPipeError("closed")):

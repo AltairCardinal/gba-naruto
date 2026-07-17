@@ -162,8 +162,15 @@ def validate_breakpoint_stop(stop: StopReply, registers: dict[str, int], expecte
         raise RuntimeError(f"breakpoint stopped at 0x{actual:08X}; expected PC 0x{expected:08X}")
 
 
-def build_mgba_command(mgba: str, rom: str, savestate: str | None = None) -> list[str]:
+def build_mgba_command(
+    mgba: str,
+    rom: str,
+    savestate: str | None = None,
+    scripts: tuple[str, ...] = (),
+) -> list[str]:
     command = [mgba, "--gdb", "-C", "mute=1", "-C", "volume=0"]
+    for script in scripts:
+        command.extend(["--script", script])
     if savestate:
         command.extend(["--savestate", savestate])
     command.append(rom)
@@ -677,10 +684,12 @@ def read_mgba_version(path: Path) -> str | None:
 
 
 def initial_evidence(args: argparse.Namespace) -> dict[str, object]:
+    scripts = getattr(args, "scripts", [])
     command = build_mgba_command(
         str(args.mgba),
         str(args.rom),
         str(args.savestate) if args.savestate else None,
+        scripts=tuple(str(script) for script in scripts),
     )
     return {
         "schemaVersion": 2,
@@ -691,6 +700,9 @@ def initial_evidence(args: argparse.Namespace) -> dict[str, object]:
             if args.savestate
             else None
         ),
+        "scripts": [
+            {"path": str(script), "sha256": None, "size": None} for script in scripts
+        ],
         "command": command,
         "port": MGBA_GDB_PORT,
         "listenerOwnerPid": None,
@@ -749,6 +761,9 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
         evidence["emulator"] = emulator
         evidence["rom"] = file_evidence(args.rom)
         evidence["savestate"] = file_evidence(args.savestate) if args.savestate else None
+        evidence["scripts"] = [
+            file_evidence(script) for script in getattr(args, "scripts", [])
+        ]
         ensure_port_available(GDB_HOST, MGBA_GDB_PORT)
 
         env = os.environ.copy()
@@ -857,6 +872,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mgba", required=True, type=Path)
     parser.add_argument("--rom", required=True, type=Path)
     parser.add_argument("--savestate", type=Path)
+    parser.add_argument("--script", action="append", type=Path, default=[], dest="scripts")
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--breakpoint", required=True, type=lambda value: int(value, 0))
     parser.add_argument("--read", action="append", type=parse_region, default=[])
@@ -868,7 +884,12 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     try:
-        for path in [args.mgba, args.rom, *([args.savestate] if args.savestate else [])]:
+        for path in [
+            args.mgba,
+            args.rom,
+            *args.scripts,
+            *([args.savestate] if args.savestate else []),
+        ]:
             if not path.is_file():
                 raise FileNotFoundError(path)
         result = run_probe(args)
