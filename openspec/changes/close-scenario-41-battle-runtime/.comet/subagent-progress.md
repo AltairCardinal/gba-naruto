@@ -2,13 +2,13 @@
 
 - plan task: `Task 3 Step 4/5: 验收并持久化首个玩家控制 checkpoint`
 - openspec task: `4.4 固化首个玩家控制检查点与紧凑 JSON 证据`
-- stage: `implementing`
+- stage: `quality-review`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `pending fresh persistence writer`
+- implementer: `/root/scenario41_player_turn_persist`
 - report: `.superpowers/sdd/task-open-4.1-player-turn-persistence-report.md`
-- implementation status: `acceptance re-review Spec PASS / Quality APPROVED; candidate p1 ba411ede...6171 is authorized for tracked persistence; no ROM rerun required`
-- reviewer: `/root/scenario41_player_turn_acceptance_rereview`; `first-round two Important and Minor all closed; candidate-only boundary remained intact before persistence`
+- implementation status: `DONE_WITH_CONCERNS at 91d33a4; strict RED missing checkpoint; GREEN ledger14/14, evaluator19/19, builder/observer/savestate26/26, accepted=8 errors=0, OpenSpec strict and diff clean; absent requested test module replaced by existing tests.test_inspect_mgba_savestate`
+- reviewer: `pending fresh thorough persistence reviewer; verify exact seven-file commit, compact evidence, ledger lineage, docs and boundary claims`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
