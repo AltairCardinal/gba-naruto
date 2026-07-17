@@ -128,6 +128,7 @@
 - Task3 corrected cycle result: `run ea5a369e completed/0 RSS52.309MiB with preflight-valid empty real frames and exactly 600 regular PNGs; analyzer status not-proven, period null, match_frames empty against original baseline; no p1/p2/A; PCA1 zero`
 - Task3 cycle diagnosis: `offline hash audit finds original baseline only at frame576 (insufficient for analyzer 0/p/2p within MAX_PERIOD300) and zero80 RGB only at frames80/208 with no third recurrence; do not invent p or expand analyzer in this runtime task`
 - Task3 diagnostic-only A decision: `zero80 already proves action task/raw73A4F/A8800/A8820/unit13/object/observer stability; authorize one fresh single A from the original canonical action state solely to test PCA1 reachability despite expected RGB animation; output is never consumable/canonical, no second key/retry/checkpoint/checkoff regardless of result`
+- Task3 diagnostic-only A dispatch: `fresh /root/active_action_a_diagnostic from 35caaf4; exactly A 5/13/capture80 from original a645335b state on observer ROM 41d4292e; fresh guarded output only; inspect PCA1/PCU1/PCO/counter/task/raw/unit/object/RGB/guard; stop after one run with no retry/zero/cycle/checkpoint/checkoff/source edit/commit`
 - implementation commits: `fc35645 fixed-B TDD; 39afd4d compact not-proven evidence`
 - code RED: `focused 13 tests: 1 expected FAIL for missing C.GBA_KEY.B and 1 expected ERROR because validate_single_input rejected B; other 11 PASS`
 - code GREEN: `commit fc35645; 64/64 related tests PASS; fixed Down|A|B surface only; no push`
