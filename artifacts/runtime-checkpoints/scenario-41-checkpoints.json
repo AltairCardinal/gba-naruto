@@ -181,6 +181,32 @@
       "runtime_boundary": "The complete audit-hash lineage from the accepted controller-entry checkpoint contains exactly nine explicit A events; every intervening wait, settle, anchor, cycle and p64 replay has inputs=[]. Fresh ordered PCO1 selector (9,0,1) at 0x08073946 followed by PCA1 current slot 1 at 0x08073BAC binds the controlled WRAM unit record for character 1, affiliation 0 at (4,10). Base-ROM visible comparison and independent direct-call GDB evidence corroborate the boundary. This checkpoint is the accepted first player-control starting point only; MOVEDONE, victory and postbattle remain unproven."
     },
     {
+      "name": "scenario-41-first-movedone-facing",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+      "sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-player-turn",
+      "inputs": [
+        "A",
+        "Up",
+        "A",
+        "A"
+      ],
+      "screen": "facing-direction-prompt",
+      "stable_zero_input": true,
+      "before_hooks": [
+        "0x0807443C",
+        "0x08074918"
+      ],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing-evidence.json"
+      ],
+      "runtime_boundary": "This accepted checkpoint proves only a stable facing-direction prompt plus one observed fresh primary publication. The frozen evaluator returns verified=false with reason coordinates-unchanged, so it does not prove completed turn or accepted MOVEDONE evidence; victory and postbattle also remain unproven, and allowed_evidence stays empty."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",

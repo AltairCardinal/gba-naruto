@@ -1,0 +1,406 @@
+{
+  "outcome": "accepted-stable-facing-boundary",
+  "scope": "scenario-41-first-movedone-facing",
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+    "sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "observer_rom_sha256": "2e0ef35475737789103403cfea454ace1de0ae6b6ed1789d49d7e55d5dc1737f",
+    "observer_builder_sha256": "2998ad242e40fb5e7ad1b5a4b7192618aa77920148ae78b769a50c11dd543549",
+    "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "fixed_input_runner_sha256": "2f36d0bd8d3daddcbc4f6057b47fc75c9d62f5f2e71cda0992beae3439dc7ef9",
+    "fixed_input_lua_sha256": "82fbae13b39d2e7dd4b53e4b79dcf89ccc56f29dcb9ea53466d007b1000b9412",
+    "zero_input_runner_sha256": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "zero_input_lua_sha256": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "guard_sha256": "ea34554547c374cd7f9d868792d73c2d7932884f59938a4ffff039eacaa28666"
+  },
+  "lineage": {
+    "parent": "scenario-41-player-turn",
+    "explicit_inputs": [
+      "A",
+      "Up",
+      "A",
+      "A"
+    ],
+    "screen": "facing-direction-prompt"
+  },
+  "corrected_action": {
+    "run_id": "d10c70cfe08e17f1b86f3f8c99ce9485",
+    "input_state_sha256": "86cb61a9f71e403fd9db81cc7d41009424081929ed7634b69974f3216df280c6",
+    "output_state_sha256": "867a49eddb2227e9f05a0bcbed9a8a473d149531b9416b8c70ac33cf3065ca42",
+    "explicit_input": {
+      "key": "A",
+      "down_frame": 5,
+      "up_frame": 13,
+      "hold_frames": 8,
+      "capture_frame": 128
+    },
+    "baseline": {
+      "counter": 0,
+      "MOD1": "zero",
+      "MOD2": "zero"
+    },
+    "final": {
+      "counter": 1,
+      "MOD1": {
+        "raw_hex": "4d4f44310100000001000000010000003c44070801000001944202029442020201010e0d00010000040a00040a00000000ff0000",
+        "hit_count": 1,
+        "sequence": 1,
+        "event_code": 1,
+        "source_hook": "0x0807443C",
+        "slot": 1,
+        "record_address": "0x02024294",
+        "character_id": 1,
+        "affiliation": 0,
+        "coordinates": [
+          4,
+          10
+        ],
+        "raw_c0": "0x00000100"
+      },
+      "MOD2": "zero"
+    },
+    "unit_after": {
+      "slot": 1,
+      "record_address": "0x02024294",
+      "character_id": 1,
+      "affiliation": 0,
+      "coordinates": [
+        4,
+        10
+      ],
+      "raw_c0": "0x00000110"
+    },
+    "task_resume": "0x080745A4",
+    "normalized_rgb8_sha256": "54f5409df260ee24f35a4940069f32d4bb77b56e42acce566343b8814a73564f"
+  },
+  "evaluator": {
+    "input": {
+      "scenario": 41,
+      "battleId": 41,
+      "map": {
+        "width": 36,
+        "height": 44,
+        "gridX": 9,
+        "gridY": 22
+      },
+      "mapLoaded": true,
+      "screenState": "battle-map",
+      "baseline": {
+        "sequenceBoundary": 0,
+        "events": [
+          {
+            "magicValid": false,
+            "hitCount": 0,
+            "sequence": 0,
+            "eventCode": 1,
+            "sourceHook": "0x0807443C",
+            "snapshot": {
+              "objectAddress": 33712140,
+              "objectSlot": 0,
+              "objectRecordPointer": 0,
+              "recordAddress": 0,
+              "characterId": 0,
+              "affiliation": 0,
+              "active": false,
+              "x": 0,
+              "y": 0,
+              "initialX": 0,
+              "initialY": 0,
+              "rawC0C3": "00000000",
+              "rawC4C7": "00000000",
+              "rawC8CB": "00000000",
+              "rawCCCF": "00000000"
+            }
+          },
+          {
+            "magicValid": false,
+            "hitCount": 0,
+            "sequence": 0,
+            "eventCode": 2,
+            "sourceHook": "0x08074918",
+            "snapshot": {
+              "objectAddress": 33712140,
+              "objectSlot": 0,
+              "objectRecordPointer": 0,
+              "recordAddress": 0,
+              "characterId": 0,
+              "affiliation": 0,
+              "active": false,
+              "x": 0,
+              "y": 0,
+              "initialX": 0,
+              "initialY": 0,
+              "rawC0C3": "00000000",
+              "rawC4C7": "00000000",
+              "rawC8CB": "00000000",
+              "rawCCCF": "00000000"
+            }
+          }
+        ]
+      },
+      "final": {
+        "events": [
+          {
+            "magicValid": true,
+            "hitCount": 1,
+            "sequence": 1,
+            "eventCode": 1,
+            "sourceHook": "0x0807443C",
+            "snapshot": {
+              "objectAddress": 33712140,
+              "objectSlot": 1,
+              "objectRecordPointer": 33702548,
+              "recordAddress": 33702548,
+              "characterId": 1,
+              "affiliation": 0,
+              "active": false,
+              "x": 4,
+              "y": 10,
+              "initialX": 4,
+              "initialY": 10,
+              "rawC0C3": "00010000",
+              "rawC4C7": "040a0004",
+              "rawC8CB": "0a000000",
+              "rawCCCF": "00ff0000"
+            }
+          },
+          {
+            "magicValid": false,
+            "hitCount": 0,
+            "sequence": 0,
+            "eventCode": 2,
+            "sourceHook": "0x08074918",
+            "snapshot": {
+              "objectAddress": 33712140,
+              "objectSlot": 0,
+              "objectRecordPointer": 0,
+              "recordAddress": 0,
+              "characterId": 0,
+              "affiliation": 0,
+              "active": false,
+              "x": 0,
+              "y": 0,
+              "initialX": 0,
+              "initialY": 0,
+              "rawC0C3": "00000000",
+              "rawC4C7": "00000000",
+              "rawC8CB": "00000000",
+              "rawCCCF": "00000000"
+            }
+          }
+        ]
+      },
+      "controlledUnit": {
+        "slot": 1,
+        "recordAddress": 33702548,
+        "characterId": 1,
+        "affiliation": 0
+      },
+      "actingUnitBefore": {
+        "objectAddress": 33712140,
+        "objectSlot": 1,
+        "objectRecordPointer": 33702548,
+        "slot": 1,
+        "recordAddress": 33702548,
+        "characterId": 1,
+        "affiliation": 0,
+        "active": false,
+        "x": 4,
+        "y": 10,
+        "initialX": 4,
+        "initialY": 10,
+        "actionStateRaw": "00ff0000"
+      },
+      "actingUnitAfter": {
+        "objectAddress": 33712140,
+        "objectSlot": 1,
+        "objectRecordPointer": 33702548,
+        "slot": 1,
+        "recordAddress": 33702548,
+        "characterId": 1,
+        "affiliation": 0,
+        "active": false,
+        "x": 4,
+        "y": 10,
+        "initialX": 4,
+        "initialY": 10,
+        "actionStateRaw": "00ff0000"
+      },
+      "stateBefore": {
+        "address": "0x0200A880",
+        "raw": "01000000"
+      },
+      "stateAfter": {
+        "address": "0x0200A880",
+        "raw": "00000100"
+      },
+      "expectedInputPlan": [
+        {
+          "phase": "movedone-diagnostic",
+          "step": 1,
+          "logicalKey": "KeyZ",
+          "gbaButton": "A",
+          "downFrame": 5,
+          "upFrame": 13,
+          "holdFrames": 8,
+          "captureFrame": 128
+        }
+      ],
+      "explicitInputs": [
+        {
+          "phase": "movedone-diagnostic",
+          "step": 1,
+          "logicalKey": "KeyZ",
+          "gbaButton": "A",
+          "downFrame": 5,
+          "upFrame": 13,
+          "holdFrames": 8,
+          "captureFrame": 128,
+          "classification": "explicit",
+          "downCompleted": true,
+          "upCompleted": true
+        }
+      ],
+      "automaticInputs": [],
+      "automaticGameAction": false
+    },
+    "result": {
+      "diagnosticVerified": false,
+      "verified": false,
+      "classification": "invalid",
+      "reason": "coordinates-unchanged",
+      "checks": {
+        "movedoneSiteSchemaValid": true,
+        "movedoneEventCountValid": true,
+        "movedoneSourceValid": true,
+        "scenarioValid": true,
+        "battleIdValid": true,
+        "mapLoaded": true,
+        "battleMapForeground": true,
+        "battleMapContextValid": true,
+        "actingUnitIdentityValid": true,
+        "controlledUnitValid": true,
+        "actingUnitControlled": true,
+        "coordinatesChanged": false,
+        "roundContextValid": true,
+        "actionOrRoundStateChanged": true,
+        "expectedInputPlanValid": true,
+        "explicitInputsOnly": true,
+        "explicitInputsComplete": true,
+        "inputPlanMatches": true,
+        "noAutomaticDriverInputs": true,
+        "automaticGameActionRecorded": true,
+        "automaticGameActionManual": true
+      },
+      "automaticGameAction": false
+    }
+  },
+  "base_control": {
+    "run_id": "e918e8f9f5f02b1f2e4db2291800a1ea",
+    "output_state_sha256": "82146f2a81e8ae99e51a371d298443e6ba56b01c0aabb88ae15d966fd58f588a",
+    "business_state_exact": true,
+    "capture_png_exact": true,
+    "normalized_rgb8_sha256": "54f5409df260ee24f35a4940069f32d4bb77b56e42acce566343b8814a73564f",
+    "ewram_delta": "observer-scratch-only",
+    "business_state": {
+      "task_resume": "0x080745A4",
+      "menu_row": 0,
+      "menu_result": 1,
+      "round": 1,
+      "battle_id": 41,
+      "map": [
+        36,
+        44,
+        9,
+        22
+      ],
+      "slot": 1,
+      "record_address": "0x02024294",
+      "character_id": 1,
+      "affiliation": 0,
+      "coordinates": [
+        4,
+        10
+      ],
+      "raw_c0": "0x00000110"
+    },
+    "observer_counter": 1,
+    "base_counter": 0,
+    "base_MOD1": "zero",
+    "base_MOD2": "zero"
+  },
+  "cycle": {
+    "run_id": "48a36b2be77a3b7884f8d2c930b2f0a7",
+    "analysis_sha256": "6c271e0441f4c7255bcf1ad7e63cb5051c3ddc1573cbaa7297c0fccd0f5faa6d",
+    "period_frames": 288,
+    "match_frames": [
+      0,
+      288,
+      576
+    ]
+  },
+  "zero_input_stability": {
+    "period_frames": 288,
+    "normalized_rgb8_sha256": "54f5409df260ee24f35a4940069f32d4bb77b56e42acce566343b8814a73564f",
+    "replays": [
+      {
+        "run_id": "04c16bc769e2d42b4ba4e3ea134dae58",
+        "capture_frame": 288,
+        "input_state_sha256": "867a49eddb2227e9f05a0bcbed9a8a473d149531b9416b8c70ac33cf3065ca42",
+        "output_state_sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+        "artifact_hashes": {
+          "audit_sha256": "071ec2c7f877eb5e9502811e2fedf57c853c01e5e58d95ec520160b680366130",
+          "guard_sha256": "045d3cd773efbe6c3c8238517ebf26ce5c7cd96000fb1da62072ebf7b1c28d79",
+          "done_sha256": "373747ee580ad863376ec65377422404ffd6dac3733bde467cde096d821b6a6f"
+        },
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "guard": {
+          "reason": "completed",
+          "exit_code": 0,
+          "completion_trigger": "success-marker",
+          "degraded": false,
+          "peak_tree_rss_mib": 51.95703125
+        }
+      },
+      {
+        "run_id": "fd95cc6b7c33651a8b8453b3871c22b9",
+        "capture_frame": 288,
+        "input_state_sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+        "output_state_sha256": "daf7de2aed6ec2122f07a33aad2fa6c3fae75fdc8e200355bef68589eba48a15",
+        "artifact_hashes": {
+          "audit_sha256": "b5dd1cb6e68c022ab5f3a3054dcd379d983a489776b076436564e35216223e1c",
+          "guard_sha256": "652b14ef82613e862e33ed63948b73d1530ce242ace326f52f72ed837eba44c5",
+          "done_sha256": "019f9e4ba27a5d00edea64d315b4454add34208cbd51e7ba1f43e0ecd54da9a5"
+        },
+        "inputs": [],
+        "pre_scripts": [],
+        "zero_input_verified": true,
+        "guard": {
+          "reason": "completed",
+          "exit_code": 0,
+          "completion_trigger": "success-marker",
+          "degraded": false,
+          "peak_tree_rss_mib": 51.83984375
+        }
+      }
+    ]
+  },
+  "scope_boundary": {
+    "proves": [
+      "stable facing-direction prompt",
+      "observed fresh primary publication"
+    ],
+    "does_not_prove": [
+      "completed turn",
+      "accepted MOVEDONE evidence",
+      "victory",
+      "postbattle"
+    ]
+  }
+}
