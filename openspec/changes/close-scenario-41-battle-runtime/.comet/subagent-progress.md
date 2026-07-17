@@ -2,13 +2,13 @@
 
 - plan task: `Task 6 Step 1-4: MOVEDONE observer/evaluator preflight and TDD implementation`
 - openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
-- stage: `blocked`
+- stage: `implementing`
 - review_mode: `thorough`
-- review_fix_round: `2/2`
-- implementer: `/root/scenario41_movedone_builder`
+- review_fix_round: `0/2`
+- implementer: `pending fresh resumed magic-schema fixer`
 - report: `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5 then FIXED at a05a4c6; initial RED/GREEN plus 7 invalid pointer and 5 evaluator-contract REDs; final Python23/23 Node30/30, stubs128/128 with branch/literal and invalid-path ABI verification, probe 2e0ef354; runtime remains Step5`
-- reviewer: `/root/scenario41_movedone_site_schema_rereview`; `Spec FAIL / Quality CHANGES after round 2/2; all prior findings closed except zero companion with hit=sequence=0 can still use magicValid=true and verify; Comet thorough round cap requires BLOCKED handoff before any third fix`
+- reviewer: `goal continuation explicitly resumed the blocked handoff; new review batch targets only zero-record magic canonicality, then fresh review before runtime`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
