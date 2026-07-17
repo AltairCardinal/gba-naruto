@@ -372,11 +372,11 @@ analyzer 在新 candidate 自身的 `[0,p,2p]` 上重新选周期。只有 analy
 独立 128-frame replay 的 RGB、task、unit、observer 与资源门全部通过，第一段 p 输出才可供一次
 fresh A 正证据运行。任何一步失败即停止，不使用原 diagnostic A 输出。
 
-- [ ] **Step 4: 验收、持久化与回归**
+- [x] **Task 3 Step 4: 验收、持久化与回归**
 
 运行 evaluator、相关 Python/Node tests、`git diff --check`、资源/残留检查。只有 evaluator verified、基础 ROM 对照行为一致且独立 GDB/相邻 PC 复核通过后，才持久化 player-control checkpoint 并勾选 Task 5B Step 1/OpenSpec 4.1；否则保持未完成。
 
-- [ ] **Step 5: 提交**
+- [x] **Task 3 Step 5: 提交**
 
 仅提交 compact evidence、checkpoint、稳定文档和任务勾选，不提交 raw build：
 
