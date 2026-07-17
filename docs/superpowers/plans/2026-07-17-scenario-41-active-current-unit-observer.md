@@ -217,7 +217,7 @@ argument。明确 `r1/r2` 是无关入口寄存器值，wrapper 完整保存/恢
 - Consumes: Task 1 ROM builder、Task 2 evaluator、accepted controller checkpoint 和已审计短输入链。
 - Produces: 四 record baseline、PCO1→PCU1/PCA1 fresh order、unit-object identity binding、可供 OpenSpec 4.2 使用的 player-control checkpoint。
 
-- [ ] **Step 1: 构建并审计 ROM**
+- [x] **Step 1: 构建并审计 ROM**
 
 Run:
 
@@ -229,7 +229,7 @@ node --test play/_scripts/scenario-41-runtime-evidence.test.js
 
 Expected: tests PASS；ROM confined diff 仅三个 checked hooks 与三个 caves；baseline counter、PCO1、PCU1、PCA1 全零。
 
-- [ ] **Step 2: 先做诊断复验**
+- [x] **Step 2: 先做诊断复验**
 
 从旧 PCO1-positive state 只允许在报告明确记录“跨 probe 仅新增未执行 PCA1 patch”的情况下做一次诊断；先零输入验证 task/object/画面，再按静态唯一输入继续。诊断只用于确认 `0x08073BAC` 活性，不得作为最终 canonical evidence。
 
@@ -238,6 +238,13 @@ Expected: PCA1 fresh 时记录 source `0x08073BAC`、event3、sequence 严格晚
 - [ ] **Step 3: 从 canonical checkpoint 重放最终证据**
 
 使用新 ROM 从 `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9` 重放已审计的零输入/单 A 链；每个可消费边界均先零输入或周期验收。最终 evidence 必须来自同一新 ROM、全零 baseline、fresh PCO1→PCU1/PCA1 顺序和 WRAM unit diagnostic。
+
+Action-menu 动画的既有 600 帧诊断在原输入相对帧 `9/137/265` 得到首个精确三重哈希，给出
+`anchor=9, p=128` 候选。必须先从原 action state 新建一次严格 zero-input frame-9 candidate，要求
+其 RGB 与既有 frame 9 exact；随后从该 candidate 重新运行固定 600 帧 sampler，并由未修改的
+analyzer 在新 candidate 自身的 `[0,p,2p]` 上重新选周期。只有 analyzer 选择 `p=128` 且两段
+独立 128-frame replay 的 RGB、task、unit、observer 与资源门全部通过，第一段 p 输出才可供一次
+fresh A 正证据运行。任何一步失败即停止，不使用原 diagnostic A 输出。
 
 - [ ] **Step 4: 验收、持久化与回归**
 
