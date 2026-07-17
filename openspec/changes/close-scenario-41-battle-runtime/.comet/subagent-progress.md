@@ -5,11 +5,12 @@
 - stage: `implementing`
 - review_mode: `thorough`
 - review_fix_round: `0/2`
-- implementer: `pending fresh bounded runtime executor`
-- report: `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
+- implementer: `/root/scenario41_movedone_zero_baseline` (fresh bounded zero-input runtime executor)
+- report: `.superpowers/sdd/task-6-movedone-zero-baseline-report.md`; builder/evaluator history remains in `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
 - implementation status: `DONE_WITH_CONCERNS at 3ba38c5, FIXED at a05a4c6/6f9d5a8, then resumed magic-schema FIX at b38dcdd; final RED covers invalid pointer, evaluator contract, full two-site schema and canonical magic; GREEN Node38/38 Python23/23, stubs128/128, probe2e0ef354; runtime remains Step5`
 - reviewer: `/root/scenario41_movedone_magic_schema_review`; `Spec PASS / Quality APPROVED; no findings; resumed batch authorizes Step5 runtime only`
-- runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
+- prior player-observer baseline: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output PCO1/PCU1 scratch zero; this is not a MOVEDONE baseline and cannot satisfy Task 6 Step 5`
+- MOVEDONE runtime gate: `one fresh frame-1 zero-input baseline from accepted scenario-41-player-turn.ss9 on a freshly rebuilt action-submit observer ROM; no input/retry; output diagnostic-only`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
 - first A result: `run 118a42a99b3439d2cc4789c02277d49c completed/0 success-marker, RSS 51.988 MiB; output e2d951b7...ce66; task2 0x08073616 saved r4=0300000E/r5=3/r6=3; counter/PCU1/PCO1 zero; no second input`
