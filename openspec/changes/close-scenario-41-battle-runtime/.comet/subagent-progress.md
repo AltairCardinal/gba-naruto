@@ -1,14 +1,14 @@
 # Subagent Progress
 
 - plan task: `Task 6 Step 1-4: MOVEDONE observer/evaluator preflight and TDD implementation`
-- openspec task: `5.1 从玩家控制快照完成第一回合 (4,4)→(4,7)，捕获 MOVEDONE 与回合状态变化`
-- stage: `final-fix`
+- openspec task: `5.1 从玩家控制快照辨识实际 acting unit 并完成第一回合自然行动，捕获 MOVEDONE 与坐标/回合状态变化`
+- stage: `quality-review`
 - review_mode: `thorough`
 - review_fix_round: `1/2`
 - implementer: `/root/scenario41_movedone_builder`
 - report: `.superpowers/sdd/task-6-movedone-builder-evaluator-report.md`
-- implementation status: `DONE_WITH_CONCERNS at 3ba38c5; RED missing builder + 8 missing evaluator behaviors + exact cave correction; GREEN Python22/22 Node27/27, probe e29739f6, exact four-file commit; runtime site/acting unit remains Step5`
-- reviewer: `/root/scenario41_movedone_builder_review`; `Spec FAIL / Quality CHANGES; Critical unsafe object-record dereference; Important controlled/acting overconstraint, automatic game action acceptance, cross-site freshness, and untyped round raw; ABI/confined diff otherwise pass`
+- implementation status: `DONE_WITH_CONCERNS at 3ba38c5 then FIXED at a05a4c6; initial RED/GREEN plus 7 invalid pointer and 5 evaluator-contract REDs; final Python23/23 Node30/30, stubs128/128 with branch/literal and invalid-path ABI verification, probe 2e0ef354; runtime remains Step5`
+- reviewer: `pending fresh re-review of all Critical/Important closures`
 - runtime run: `bb31489420fce622da8644a3c10fe85e; completed/0 success-marker; input/output scratch counter/PCU1/PCO1 all zero; no player-control claim`
 - static analyst: `/root/player_observer_static_route`
 - static result: `0x0807361E zero-input loops permanently on ([0x0300000E] & 3)==0; A/B are equivalent here; protocol fixes A; current r6=2 needs one A to reach second wait r6=3, then a later independent A`
