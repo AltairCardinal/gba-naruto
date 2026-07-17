@@ -148,6 +148,39 @@
       "runtime_boundary": "The corrected segmented path reaches a static-BL-valid active raw return 0x0808F957 and two independent 224-frame zero-input replays preserve exact RGB, task-2 resume/SP/LR, all three explicit raw returns and A880/A882/2680C. This accepted checkpoint proves stable controller entry only. The validator schema has no controller-entry hook token, so allowed_evidence remains conservatively empty; player control, first turn, MOVEDONE, victory and postbattle remain unproven."
     },
     {
+      "name": "scenario-41-player-turn",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+      "sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-controller-entry",
+      "inputs": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+      ],
+      "screen": "battle-map",
+      "stable_zero_input": true,
+      "before_hooks": [
+        "0x08073946",
+        "0x08073BAC"
+      ],
+      "allowed_evidence": [
+        "player-control"
+      ],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
+      ],
+      "runtime_boundary": "The complete audit-hash lineage from the accepted controller-entry checkpoint contains exactly nine explicit A events; every intervening wait, settle, anchor, cycle and p64 replay has inputs=[]. Fresh ordered PCO1 selector (9,0,1) at 0x08073946 followed by PCA1 current slot 1 at 0x08073BAC binds the controlled WRAM unit record for character 1, affiliation 0 at (4,10). Base-ROM visible comparison and independent direct-call GDB evidence corroborate the boundary. This checkpoint is the accepted first player-control starting point only; MOVEDONE, victory and postbattle remain unproven."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",

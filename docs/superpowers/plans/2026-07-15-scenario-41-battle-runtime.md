@@ -868,6 +868,10 @@ snapshot lineage 与 not-proven 边界；通过后才勾选对应 plan/OpenSpec�
 
 ### Task 5: Canonical start checkpoint 历史运行（已执行，结果 not-proven）
 
+> 本节只记录 2026-07-15 的历史 suffix，结论现为 `superseded`，但仍准确描述当时没有
+> fresh observer、没有 player-turn checkpoint。2026-07-17 的后续接纳记录在 Task 5B，
+> 不把本节改写为历史成功。
+
 **Files:**
 - Persisted: `artifacts/runtime-checkpoints/scenario-41-start-row.ss9`
 - Persisted: `artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json`
@@ -940,7 +944,8 @@ git diff --check
 
 历史提交为 `2bd9760`，provenance hardening 为 `ce67a8a`，task-context 收窄为 `4949a86`。旧 raw summaries 没有 durable residue/owned-tree/listener postcheck，因此不得补写该部分为 PASS；当前分支 push 状态也不在本计划中声称。
 
-不再运行旧计划中的 player-turn `git add/push` 命令；该 checkpoint 从未通过门槛，也不存在。
+不再运行旧计划中的 player-turn `git add/push` 命令；在该历史运行结束时 checkpoint 从未通过
+门槛，也不存在。后续 Task 5B 使用新的 canonical controller-entry 谱系另行接纳，不改变此历史事实。
 
 ---
 
@@ -948,7 +953,7 @@ git diff --check
 
 **Interfaces:**
 - Consumes: `artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9`、既有双 observer builder、macOS guarded replay 与 savestate memory reader。
-- Produces: post-load baseline、fresh `PCO1/PCU1` 有序事件、玩家单位参数绑定；通过后才允许进入 OpenSpec 4.2。
+- Produces: post-load baseline、fresh `PCO1` 与 legacy `PCU1` 或 canonical `PCA1` 有序事件、玩家单位参数绑定，以及 accepted `scenario-41-player-turn.ss9`。
 
 - [x] **Step 0: 以严格 owner gate 将既有 GDB 探针适配到 macOS Intel**
 
@@ -956,7 +961,7 @@ git diff --check
 listener/connection owner、ROM fingerprint、精确 breakpoint stop、guard/RSS/residue 全部通过，
 才允许用 GDB 代替已证伪的 Lua breakpoint 旁路定位 `0x08095F12`；GDB 不发送输入。
 
-- [ ] **Step 1: 从 canonical checkpoint 运行双 observer 并证明 fresh ordered hits**
+- [x] **Step 1: 从 canonical checkpoint 运行 observer 并证明 fresh ordered hits**
 
 先重建 observer ROM 并校验 confined patch。输入 checkpoint 的 counter 与两个 24-byte
 record 必须全零，作为 load 后执行任何 ROM 指令之前的 baseline。所有 mGBA 运行必须经过现有
@@ -979,6 +984,22 @@ Task 2B 用 TDD 修正 evaluator 与设计文档；不得把 `1 != 13` 当作 ob
 pointer `0x0805B2E6 -> 0x0805B325`，原“frame phase miss”解释已被取代；相同 `0x4C`
 context 是后续同构 wait。继续前先从其 state `61ea836a…6629` 做一次独立零输入复放，只有脚本
 pointer/task/observer/可见边界稳定后才允许下一次自然 A。
+
+实际验收：从 accepted controller-entry 到最终 p1 的 input/output SHA 图闭合 23 条 audit 边，
+显式 suffix 恰为九个 A；所有 wait/settle/anchor/cycle replay 均为 `inputs=[]`。baseline
+counter/PCU1/PCO1/PCA1 全零；final PCO1 在 `0x08073946` 发布 selector `(9,0,1)`、
+sequence 1，PCA1 在 `0x08073BAC` 发布 current slot 1、sequence 2。slot 1 映射到
+`0x02024294` 的 character 1 / affiliation 0 / `(4,10)` record。基础 ROM 相同时序对照的七个
+PNG 逐字节一致，battle/map/unit/task 状态全部相等；独立 GDB 在未打补丁 ROM 上精确停于
+`0x08073946` 与 `0x08073BAC`。fresh evaluator re-review 为 `Spec PASS / Quality APPROVED`。
+
+final-A transient source 本身的 600 帧分析为 `not-proven`，因此未直接接纳；从它的 frame-1
+zero-input anchor 重新采样后选择 `p=64`，两段独立 p-frame replay 均为 `inputs=[]` 并保持
+PNG/RGB、battle/map/unit/action fields/tasks/CPSR。p1 已机械复制为
+`artifacts/runtime-checkpoints/scenario-41-player-turn.ss9`，SHA-256
+`ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171`。它是后续第一回合的
+起点；MOVEDONE、victory 与 postbattle 仍未证明。本轮只同步 main plan，不勾 correction plan
+或 OpenSpec 4.1/4.4，等待父级复审。
 
 ---
 

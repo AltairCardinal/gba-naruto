@@ -21,6 +21,14 @@ canonical_spec: openspec
 - 双 observer builder 已覆盖 `0x08073946 → 0x0806F718` 与 `0x080739D8 → 0x08069DB8`，但现有运行 scratch 为零，不能宣称玩家控制。
 - Windows mGBA 0.10.5 的 GDB 读取可用，单 packet 超过 256 字节返回 `E06`；最小化窗口的 `PostMessage` 输入没有形成可靠 KEYINPUT 证据。
 
+上述双 observer 零 scratch 是 2026-07-15 特定 pre-controller suffix 的历史负证据，现已
+标记为 superseded，但不改写为当时已经证明。2026-07-17 从 accepted
+`scenario-41-controller-entry.ss9` 重放的 canonical 链新增 PCA1 active-current observer：
+PCO1 `0x08073946` 发布 selector `(9,0,1)` / sequence 1，PCA1 `0x08073BAC` 发布 current
+slot 1 / sequence 2。slot 1 通过 `0x020240C0 + 1 * 0x1D4 = 0x02024294` 绑定到
+character 1、affiliation 0、`(4,10)` 的 WRAM record。基础 ROM 相同时序对照保持七个 PNG
+逐字节相同和 battle/map/unit/task 一致；独立 GDB 在未打补丁 ROM 上精确命中两个 direct PC。
+
 ## 3. 方案选择
 
 ### 3.1 采用混合通道
@@ -58,7 +66,12 @@ canonical_spec: openspec
 - 没有越过其声明可验证的目标 hook；
 - 至少一次 base ROM 复放和一次诊断 ROM 复放的关键非目标状态一致。
 
-计划保留最小阶梯：`scenario-41-start-row`、`scenario-41-start-confirm`、`scenario-41-player-turn`、`scenario-41-turn-1-complete`、`scenario-41-victory`、`scenario-41-postbattle`。导航失败或转场快照留在忽略的 `build/`，不进入持久证据。
+计划保留最小阶梯：`scenario-41-start-row`、`scenario-41-start-confirm`、`scenario-41-player-turn`、`scenario-41-turn-1-complete`、`scenario-41-victory`、`scenario-41-postbattle`。其中 `scenario-41-player-turn.ss9` 已接纳，SHA-256 为 `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171`，可直接作为第一回合起点。导航失败或转场快照留在忽略的 `build/`，不进入持久证据。
+
+ledger 的 `player-control` evidence requirement 是两个明确 alternative：selector
+`0x08073946` 必须存在，并与 legacy PCU `0x080739D8` 或 canonical PCA `0x08073BAC`
+之一组合；两个 current-unit 地址不能脱离 selector 单独授权。MOVEDONE、victory、postbattle
+的 hook 组合保持不变。
 
 ### 4.2 严格 mGBA GDB 会话
 
@@ -101,13 +114,24 @@ driver 生成紧凑 evidence JSON，并把原始大内存、临时截图和调�
 
 ### 5.1 玩家控制
 
-从接纳后的 `scenario-41-start-row` 开始，先读取 observer baseline，只发送一次 A。若只出现“开始任务？”确认框，则立即保存并接纳 `scenario-41-start-confirm`；从该状态再次只发送一次 A。验收必须包含 `0x08073946` 的新鲜 observer 命中或严格 native breakpoint PC，同时参数与当次捕获的可控单位、阵营和当前单位状态一致，不在运行前猜定角色。
+历史 start-row 单 A 只到达 pre-controller，未产生 fresh observer；该负结论保留为
+superseded 历史。最终验收从 accepted controller-entry 开始：audit SHA 图闭合 23 条边，
+显式 suffix 恰为九个 A，所有 wait/settle/anchor/cycle replay 均为 `inputs=[]`，零输入帧不计作
+按钮。post-load baseline 的 counter/PCU1/PCO1/PCA1 全零，final PCO1→PCA1 fresh order 与
+slot/WRAM identity 绑定成立。
 
-base ROM 使用同一 checkpoint/输入复放，要求可见行为与关键 WRAM 一致。通过后固化 `scenario-41-player-turn`。
+base ROM 使用相同 checkpoint/input schedule 复放，用户可见画面与关键 WRAM 一致；GDB
+在基础 ROM 上独立复核 direct PCs。最终 transient source 未直接满足周期门，改从其 frame-1
+anchor 重新采样并选择 `p=64`；两段独立 64-frame zero replay 通过，第一段输出固化为
+`scenario-41-player-turn.ss9`。该快照只授权 player-control，下一步第一回合必须从此状态继续。
 
 ### 5.2 第一回合与 MOVEDONE
 
-从 player-turn checkpoint 按教程路线把当次捕获的可控单位移动到 `(4,7)`，完成教程对话、朝向与防御选择；起点以 player-turn 的实际单位状态为准，不沿用旧文档中的角色假设。输入拆成短步骤，每个稳定边界保存候选状态。正证据要求 MOVEDONE 新鲜命中以及单位坐标、回合/行动状态的前后变化一致；随后固化 turn-1-complete。
+从已接纳的 player-turn checkpoint 按教程路线继续第一回合；其实际起点为 slot 1 / character 1 /
+affiliation 0 / `(4,10)`，但目标与操作仍以加载后实时状态和教程提示为准，不用旧文档假设替代。
+输入拆成短步骤，每个稳定边界保存候选状态。正证据要求 MOVEDONE 新鲜命中以及单位坐标、
+回合/行动状态的前后变化一致；随后固化 turn-1-complete。当前 player-turn 接纳本身不证明
+MOVEDONE、胜利或 postbattle。
 
 ### 5.3 第二回合、胜利与退出
 

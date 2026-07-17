@@ -2,16 +2,76 @@
 
 ## 结论
 
-本轮接纳了稳定的 scenario 41 “开始任务”行 checkpoint，但玩家控制仍是
-`not-proven`。从该行发送一次、且仅一次实例内 `KeyZ/A`，observer ROM 与 base ROM
+2026-07-17 的 canonical controller-entry 复验已经接纳首个玩家控制 checkpoint：
+`artifacts/runtime-checkpoints/scenario-41-player-turn.ss9`，SHA-256
+`ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171`。fresh PCO1
+在 `0x08073946` 记录 selector `(9,0,1)` / sequence 1，fresh PCA1 在
+`0x08073BAC` 记录 current slot 1 / sequence 2；slot 1 映射到
+`0x02024294` 的同一 WRAM unit record：character 1、affiliation 0、坐标 `(4,10)`。
+基础 ROM 可见对照与独立 GDB direct-PC 证据均通过，fresh re-review 结论为
+`Spec PASS / Quality APPROVED`。
+
+下述 2026-07-15 结论保留为 **superseded 历史**：当时只接纳了稳定的 scenario 41
+“开始任务”行 checkpoint，玩家控制确实仍为 `not-proven`。从该行发送一次、且仅一次实例内 `KeyZ/A`，observer ROM 与 base ROM
 都自然进入相同的 scenario 41 pre-controller lineup/deployment；两者的前台画面、map、formation、单位与声明的非目标 WRAM
 逐字段一致。然而 `0x08073946 -> 0x0806F718` 的 `PCO1` 和
 `0x080739D8 -> 0x08069DB8` 的 `PCU1` 在 post-load baseline 与最终样本中都保持
 24-byte 全零，所以 Task 4 evaluator 正确返回 `player-observer-not-fresh`。
 
-这证明了稳定 pre-controller 画面和 observer ROM 的行为等价性，不证明真实 battle-controller
+该历史运行只证明稳定 pre-controller 画面和 observer ROM 的行为等价性，不证明真实 battle-controller
 entry、玩家接管、动作提交、胜利、
-EXP 或升级。没有创建或接纳 `scenario-41-player-turn.ss9`。
+EXP 或升级；当时没有创建或接纳 `scenario-41-player-turn.ss9`。后来的正证据证明了更晚的
+canonical player-control 边界，不把旧 suffix 改写为当时已经证明。
+
+## 2026-07-17 canonical 玩家控制验收
+
+### 输入与 checkpoint 谱系
+
+从 accepted `scenario-41-controller-entry.ss9`（SHA-256 `4569846c…cd6`）到接纳 p1 的
+audit input/output SHA 图共 23 条连续边，起止 hash 完整闭合。显式输入严格为九个 A：
+
+```text
+A, A, A, A, A, A, A, A, A
+```
+
+其余边全部记录 `inputs=[]`，包括每次 wait/settle、action anchor、周期采样派生 anchor、
+以及最终 p64 replay；零输入推进帧不计作按键。base-ROM final-A transient state
+`25288f5a…146a` 本身没有满足 `H[0]=H[p]=H[2p]`，因此保留为 direct candidate 的
+`not-proven` 负证据。随后取其零输入 frame-1 为 anchor（`6d13314f…1a8e`），从该 anchor
+重新采样 600 帧，analyzer 选择 `p=64`、匹配帧 `[0,64,128]`。两段独立 replay 均为
+`inputs=[]`：p1 为 `ba411ede…6171`，p2 为 `6b95d5f5…263a0`；两者与 anchor 的 PNG/RGB、
+battle/map/unit/action fields/tasks/CPSR 一致。p1 机械复制为 tracked checkpoint。
+
+### fresh observer、基础 ROM 对照与独立证据
+
+- evaluator：`build/scenario-41-active-current-evaluator-20260717/evaluator.json`
+  (`539e04b9…06280`)，结果 `player-control-verified`；独立 review
+  `independent-review.json` (`c44bc6eb…0b481`) 为 `PASS/APPROVED`。
+- baseline counter、PCU1、PCO1、PCA1 全零。final counter 为 2；PCO1 在
+  `0x08073946` 命中一次并发布 `(9,0,1)` / sequence 1 / event 1；canonical PCA1 在
+  `0x08073BAC` 命中一次并发布 slot 1 / sequence 2 / event 3。legacy PCU1 本链保持零，
+  不影响 canonical `selector + PCA` evidence alternative。
+- runtime 状态为 battle 41，map `36×44`、grid `(9,22)`；slot 1 的 WRAM record
+  `0x02024294` 为 character 1、byte `+3=13`、affiliation 0、当前位置/初始位置 `(4,10)`。
+  PCO 的 9 是 selector accept-mask 参数，不是 unit slot；PCA `r0=1` 才是 current slot。
+- 基础 ROM 对照 `build/scenario-41-base-control-comparison-20260717/comparison.json`
+  (`fd5e6cbc…fb505`) 使用相同输入时序，七个 PNG 文件逐字节相同，全部边界的
+  battle/map/unit/task 状态一致。full savestate 差异只来自 observer scratch 与两个相邻
+  capture PC/IWRAM timing sample，不是用户可见行为变化。
+- 基础 ROM 独立 GDB 证据 `build/scenario-41-base-gdb-evidence-20260717/evidence.json`
+  (`48e53879…a391`) 在未打补丁 ROM 上精确停于 `0x08073946` 与 `0x08073BAC`；寄存器分别
+  复核 `(9,0,1)` 与 current slot 1。失败的 selection-after-PCO breakpoint 尝试仍保留为
+  边界选晚的 `not-proven` 负证据。
+
+### 资源、用途与边界
+
+所有 checkpoint acceptance 运行 guard 均 completed、non-degraded，最大 tree RSS
+`52.30078125 MiB`；独立 GDB 成功轮最大 `132.55078125 MiB`，最终 `rom/base.sav` 不存在且
+mGBA process clean。该 checkpoint 可作为第一回合自然行动的起点。下一步从此状态加载
+MOVEDONE observer，继续短小、显式、逐边界输入。
+
+这里仍未证明 MOVEDONE、第一回合完成、胜利谓词/result、battle exit 或 postbattle；也未证明
+EXP、等级或训练点。不得从 player-control checkpoint 倒推这些后续边界。
 
 ## 资源预检与执行约束
 
@@ -160,7 +220,8 @@ strict-GDB 探针没有受审计输入通道，因此没有执行无输入推动
 改用五点 published-call observer 后，`actionable-move-grid.ss9` 的零输入 baseline 与显式
 `KeyX,Down,Down,A,A` final dump 逐字节相同，compare 的 `fresh_records=[]`。由于预设
 正对照没有成立，scenario 41 白框的零输入/单 A 两轮未执行，玩家控制继续为
-`not-proven`。随后离线 task 栈复核确认白框 state 保存时的活动链不在 `0x080732B4` 内，所以应先关闭
+`not-proven`（这是 2026-07-15 当时的结论，现已由上文 2026-07-17 canonical 证据
+supersede）。随后离线 task 栈复核确认白框 state 保存时的活动链不在 `0x080732B4` 内，所以应先关闭
 pre-controller 门，再寻找穿过 `0x08073A04` 的 controller checkpoint。详见
 `notes/scenario-41-controller-path-runtime-20260715.md` 与
 `notes/scenario-41-savestate-context-reanalysis-20260715.md`。

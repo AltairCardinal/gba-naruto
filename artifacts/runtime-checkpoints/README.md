@@ -46,6 +46,7 @@ Expected SHA-256:
 | `scenario-41-prebattle-down.ss9` | `c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449` | one audited Down from the accepted prebattle menu, independently stable for 80 zero-input frames; still not controller/player-control evidence |
 | `scenario-41-pre-controller-after-a.ss9` | `1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646` | accepted Down → unique A → 19-frame zero settle; stable pre-controller state only, not controller/player-control evidence |
 | `scenario-41-controller-entry.ss9` | `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6` | accepted stable controller-entry state after two exact 224-frame zero-input replays; not player-control evidence |
+| `scenario-41-player-turn.ss9` | `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171` | accepted stable player-control boundary; reusable starting point for the first natural turn, but not MOVEDONE/victory/postbattle evidence |
 
 ## Scenario 41 checkpoint ledger
 
@@ -70,10 +71,11 @@ The browser chrome/FPS pixels are not part of the game-state identity check.
 This acceptance proves only the stable visible start row and its lineage. It
 does **not** claim that the state is dynamically known to precede
 `0x08073946`/`0x080739D8`, so the ledger leaves `before_hooks` and
-`allowed_evidence` empty. A single audited A reached stable battle 41 on both
-the observer and base ROM, but neither published observer produced a fresh
-sample. The compact `scenario-41-player-control-evidence.json` therefore
-records `not-proven`, and no `scenario-41-player-turn.ss9` exists.
+`allowed_evidence` empty. The historical 2026-07-15 single-A suffix reached
+stable battle 41 on both the observer and base ROM, but neither then-published
+observer produced a fresh sample. That `not-proven` result remains preserved as
+`superseded` history in `scenario-41-player-control-evidence.json`; it remains a
+valid negative for that old suffix and is not rewritten as a historical pass.
 `build/natural-s41-start-prompt.ss9` remains explicitly rejected because
 inspection showed the team/equipment page rather than the scenario 41
 start-confirm prompt.
@@ -138,7 +140,22 @@ resume/SP/LR, all three raw returns, and A880/A882/2680C. The accepted p1 state 
 `scenario-41-controller-entry.ss9`; `scenario-41-controller-entry-evidence.json` binds
 the accepted lineage and marks the B/B/Down, outer-B and direct outer-A hypotheses as
 superseded rather than deleting them. This proves stable controller entry only. Player
-control, first turn, MOVEDONE, victory and postbattle remain unproven.
+control was proved later from this checkpoint; MOVEDONE, victory and postbattle remain
+unproven.
+
+`scenario-41-player-turn.ss9` is the accepted first player-control checkpoint. A
+complete audit SHA chain closes from `scenario-41-controller-entry.ss9` through exactly
+nine explicit A events; every intervening settle, anchor, cycle and p64 replay has
+`inputs=[]` and is not counted as a button. The fresh observer result is PCO1 selector
+`(9,0,1)` at `0x08073946`, sequence 1, followed by PCA1 current slot 1 at
+`0x08073BAC`, sequence 2. Slot 1 maps to WRAM record `0x02024294`: character 1,
+affiliation 0, `(4,10)` on battle 41 / map `36×44` / grid `(9,22)`. An unpatched
+base-ROM replay produced byte-identical PNGs at all seven boundaries with equal battle,
+map, unit and task state; independent GDB stops hit the direct PCs `0x08073946` and
+`0x08073BAC`. The accepted state is p1 of an independently selected `p=64` zero-input
+cycle and has SHA-256 `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171`.
+It is the reusable starting point for the next first-turn/MOVEDONE work. It does not
+claim that MOVEDONE, victory or postbattle has completed.
 
 Every record carries its ROM hash, parent, input suffix, observed screen,
 zero-input status, pre-hook boundary and permitted evidence scope. Candidate
@@ -149,7 +166,7 @@ repo-relative `build/` sources; they may be absent, but an existing directory is
 never a valid state. The validator accepts only `schema_version: 1` and canonical
 eight-digit uppercase hook addresses. Evidence requires these exact pre-hooks:
 
-- `player-control`: `0x08073946`, `0x080739D8`
+- `player-control`: selector `0x08073946` plus either legacy PCU `0x080739D8` or canonical PCA `0x08073BAC`
 - `movedone`: `0x0807443C`, `0x08074918`
 - `victory`: `0x0807444E`, `0x08074458`
 - `postbattle`: `0x080735C2`
