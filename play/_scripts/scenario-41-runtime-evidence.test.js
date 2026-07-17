@@ -5,6 +5,8 @@ const test = require('node:test');
 
 const {
   decodePublishedCall,
+  decodeMovedoneRecord,
+  evaluateMovedoneEvidence,
   evaluatePlayerControlEvidence,
 } = require('./scenario-41-runtime-evidence');
 
@@ -460,4 +462,229 @@ test('rejects incomplete baseline evidence without throwing', () => {
   const result = evaluatePlayerControlEvidence(sample);
   assert.equal(result.verified, false);
   assert.equal(result.reason, 'player-observer-not-fresh');
+});
+
+const MOVEDONE_MAGIC_1 = 0x31444F4D;
+
+function movedoneCall(hitCount, sequence, overrides = {}) {
+  return {
+    magicValid: true,
+    hitCount,
+    sequence,
+    eventCode: 1,
+    sourceHook: '0x0807443C',
+    snapshot: {
+      objectAddress: 0x0202680C,
+      objectSlot: 1,
+      objectRecordPointer: 0x02024294,
+      recordAddress: 0x02024294,
+      characterId: 1,
+      affiliation: 0,
+      active: true,
+      x: 4,
+      y: 10,
+      initialX: 4,
+      initialY: 10,
+      rawC0C3: '80010000',
+      rawC4C7: '040a0004',
+      rawC8CB: '0a112233',
+      rawCCCF: '44556677',
+    },
+    ...overrides,
+  };
+}
+
+function actingUnit(overrides = {}) {
+  return {
+    objectAddress: 0x0202680C,
+    objectSlot: 1,
+    objectRecordPointer: 0x02024294,
+    slot: 1,
+    recordAddress: 0x02024294,
+    characterId: 1,
+    affiliation: 0,
+    active: true,
+    x: 4,
+    y: 10,
+    initialX: 4,
+    initialY: 10,
+    actionStateRaw: '44556677',
+    ...overrides,
+  };
+}
+
+function validMovedoneSample() {
+  return {
+    scenario: 41,
+    battleId: 41,
+    map: { width: 36, height: 44, gridX: 9, gridY: 22 },
+    mapLoaded: true,
+    screenState: 'battle-map',
+    baseline: {
+      sequenceBoundary: 12,
+      events: [movedoneCall(4, 10), movedoneCall(7, 12, {
+        eventCode: 2, sourceHook: '0x08074918',
+      })],
+    },
+    final: {
+      events: [movedoneCall(5, 13), movedoneCall(7, 12, {
+        eventCode: 2, sourceHook: '0x08074918',
+      })],
+    },
+    controlledUnit: {
+      slot: 1, recordAddress: 0x02024294, characterId: 1, affiliation: 0,
+    },
+    actingUnitBefore: actingUnit(),
+    actingUnitAfter: actingUnit({ x: 5, actionStateRaw: '45556677' }),
+    expectedInputPlan: Object.freeze([Object.freeze({
+      phase: 'movedone-diagnostic', step: 1, logicalKey: 'KeyZ', gbaButton: 'A', holdMs: 125,
+    })]),
+    explicitInputs: [completedInputEvent({ phase: 'movedone-diagnostic' })],
+    automaticInputs: [],
+    automaticGameAction: false,
+  };
+}
+
+test('decodes MOVEDONE metadata and hook-time current-object/unit snapshot', () => {
+  assert.equal(typeof decodeMovedoneRecord, 'function');
+  const bytes = Buffer.alloc(52);
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  [MOVEDONE_MAGIC_1, 3, 8, 1, 0x0807443C, 0x01000001, 0x02024294,
+    0x02024294, 0x0D0E0101, 0x00000180, 0x04000A04, 0x3322110A, 0x77665544]
+    .forEach((value, index) => view.setUint32(index * 4, value, true));
+  assert.deepEqual(decodeMovedoneRecord(bytes, MOVEDONE_MAGIC_1), {
+    rawHex: bytes.toString('hex'),
+    magicValid: true,
+    hitCount: 3,
+    sequence: 8,
+    eventCode: 1,
+    sourceHook: '0x0807443C',
+    snapshot: {
+      objectAddress: 0x0202680C,
+      objectSlot: 1,
+      objectRecordPointer: 0x02024294,
+      recordAddress: 0x02024294,
+      characterId: 1,
+      affiliation: 0,
+      active: true,
+      x: 4,
+      y: 10,
+      initialX: 4,
+      initialY: 10,
+      rawC0C3: '80010000',
+      rawC4C7: '040a0004',
+      rawC8CB: '0a112233',
+      rawCCCF: '44556677',
+    },
+  });
+  assert.throws(() => decodeMovedoneRecord(bytes.subarray(0, 48), MOVEDONE_MAGIC_1), /52 bytes/);
+});
+
+test('MOVEDONE accepts one fresh allowed source bound to the same acting unit transition', () => {
+  assert.equal(typeof evaluateMovedoneEvidence, 'function');
+  const result = evaluateMovedoneEvidence(validMovedoneSample());
+  assert.equal(result.verified, true);
+  assert.equal(result.reason, 'movedone-verified');
+  assert.equal(result.automaticGameAction, false);
+});
+
+test('MOVEDONE rejects stale, wrong-source, dual-source and unordered events', () => {
+  const stale = validMovedoneSample();
+  stale.final.events[0] = { ...stale.baseline.events[0] };
+  assert.equal(evaluateMovedoneEvidence(stale).reason, 'movedone-event-count-invalid');
+
+  const wrongSource = validMovedoneSample();
+  wrongSource.final.events[0].sourceHook = '0x08074918';
+  assert.equal(evaluateMovedoneEvidence(wrongSource).reason, 'movedone-source-invalid');
+
+  const both = validMovedoneSample();
+  both.final.events[1] = movedoneCall(8, 14, { eventCode: 2, sourceHook: '0x08074918' });
+  assert.equal(evaluateMovedoneEvidence(both).reason, 'movedone-event-count-invalid');
+
+  const unordered = validMovedoneSample();
+  unordered.final.events[0].sequence = 12;
+  assert.equal(evaluateMovedoneEvidence(unordered).reason, 'movedone-event-count-invalid');
+});
+
+test('MOVEDONE binds hook snapshot and before/after to one slot pointer and record identity', () => {
+  for (const mutation of [
+    sample => { sample.final.events[0].snapshot.objectSlot = 2; },
+    sample => { sample.final.events[0].snapshot.objectRecordPointer = 0x02024468; },
+    sample => { sample.final.events[0].snapshot.recordAddress = 0x02024468; },
+    sample => { sample.actingUnitAfter.slot = 2; },
+    sample => { sample.actingUnitAfter.characterId = 30; },
+    sample => { sample.actingUnitAfter.affiliation = 1; },
+    sample => { sample.actingUnitAfter.recordAddress = 0x02024468; },
+    sample => { sample.actingUnitBefore.objectRecordPointer = 0x02024468; },
+    sample => { sample.actingUnitAfter.objectRecordPointer = 0x02024468; },
+    sample => { sample.final.events[0].snapshot.x = 3; },
+    sample => { sample.final.events[0].snapshot.rawCCCF = '00000000'; },
+    sample => { sample.final.events[0].snapshot.rawC4C7 = '00000000'; },
+  ]) {
+    const sample = validMovedoneSample();
+    mutation(sample);
+    assert.equal(evaluateMovedoneEvidence(sample).reason, 'acting-unit-identity-mismatch');
+  }
+});
+
+test('MOVEDONE keeps controlled unit separate but requires acting unit to be controlled', () => {
+  const sample = validMovedoneSample();
+  sample.controlledUnit = {
+    slot: 2, recordAddress: 0x02024468, characterId: 30, affiliation: 1,
+  };
+  assert.equal(evaluateMovedoneEvidence(sample).reason, 'acting-unit-not-controlled');
+});
+
+test('MOVEDONE requires coordinate change plus action or round transition', () => {
+  const unchangedCoordinate = validMovedoneSample();
+  unchangedCoordinate.actingUnitAfter.x = 4;
+  assert.equal(evaluateMovedoneEvidence(unchangedCoordinate).reason, 'coordinates-unchanged');
+
+  const unchangedState = validMovedoneSample();
+  unchangedState.actingUnitAfter.actionStateRaw = unchangedState.actingUnitBefore.actionStateRaw;
+  assert.equal(evaluateMovedoneEvidence(unchangedState).reason, 'action-round-state-unchanged');
+
+  const roundChanged = validMovedoneSample();
+  roundChanged.actingUnitAfter.actionStateRaw = roundChanged.actingUnitBefore.actionStateRaw;
+  roundChanged.stateBefore = { roundOrPhaseRaw: '00000100' };
+  roundChanged.stateAfter = { roundOrPhaseRaw: '00000200' };
+  assert.equal(evaluateMovedoneEvidence(roundChanged).verified, true);
+});
+
+test('MOVEDONE requires explicit planned input, empty automatic driver inputs and recorded game action', () => {
+  const automaticDriver = validMovedoneSample();
+  automaticDriver.automaticInputs = ['KeyZ'];
+  assert.equal(evaluateMovedoneEvidence(automaticDriver).reason, 'automatic-driver-input-used');
+
+  const mismatch = validMovedoneSample();
+  mismatch.explicitInputs[0].gbaButton = 'B';
+  assert.equal(evaluateMovedoneEvidence(mismatch).reason, 'input-plan-mismatch');
+
+  const missingGameClassification = validMovedoneSample();
+  delete missingGameClassification.automaticGameAction;
+  assert.equal(evaluateMovedoneEvidence(missingGameClassification).reason, 'automatic-game-action-invalid');
+
+  const automaticGame = validMovedoneSample();
+  automaticGame.automaticGameAction = true;
+  assert.equal(evaluateMovedoneEvidence(automaticGame).verified, true);
+  assert.equal(evaluateMovedoneEvidence(automaticGame).automaticGameAction, true);
+});
+
+test('MOVEDONE rejects malformed data and wrong battle/map context without throwing', () => {
+  assert.equal(evaluateMovedoneEvidence({}).verified, false);
+  const wrongScenario = validMovedoneSample();
+  wrongScenario.scenario = 40;
+  assert.equal(evaluateMovedoneEvidence(wrongScenario).reason, 'scenario-invalid');
+
+  const badPointer = validMovedoneSample();
+  badPointer.final.events[0].snapshot.objectRecordPointer = 0x08000000;
+  assert.equal(evaluateMovedoneEvidence(badPointer).verified, false);
+
+  const unloaded = validMovedoneSample();
+  unloaded.mapLoaded = false;
+  assert.equal(evaluateMovedoneEvidence(unloaded).reason, 'map-not-loaded');
+
+  const wrongMap = validMovedoneSample();
+  wrongMap.map.gridY = 21;
+  assert.equal(evaluateMovedoneEvidence(wrongMap).reason, 'battle-map-context-invalid');
 });

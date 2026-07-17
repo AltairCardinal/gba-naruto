@@ -22,6 +22,48 @@ function decodePublishedCall(bytes, expectedMagic) {
   };
 }
 
+function hexWord(bytes, offset) {
+  return bytes.subarray(offset, offset + 4).toString('hex');
+}
+
+function decodeMovedoneRecord(bytes, expectedMagic) {
+  const data = Buffer.from(bytes);
+  if (data.length !== 52) {
+    throw new RangeError(`MOVEDONE observer record must be 52 bytes, got ${data.length}`);
+  }
+  const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
+  const objectWord = view.getUint32(20, true);
+  const recordWord00 = view.getUint32(32, true);
+  const recordWordC0 = view.getUint32(36, true);
+  const recordWordC4 = view.getUint32(40, true);
+  const recordWordC8 = view.getUint32(44, true);
+  return {
+    rawHex: data.toString('hex'),
+    magicValid: view.getUint32(0, true) === expectedMagic,
+    hitCount: view.getUint32(4, true),
+    sequence: view.getUint32(8, true),
+    eventCode: view.getUint32(12, true),
+    sourceHook: `0x${view.getUint32(16, true).toString(16).toUpperCase().padStart(8, '0')}`,
+    snapshot: {
+      objectAddress: 0x0202680C,
+      objectSlot: objectWord >>> 24,
+      objectRecordPointer: view.getUint32(24, true),
+      recordAddress: view.getUint32(28, true),
+      characterId: recordWord00 & 0xFF,
+      affiliation: recordWordC0 & 1,
+      active: (recordWordC0 & 0x80) !== 0,
+      x: recordWordC4 & 0xFF,
+      y: (recordWordC4 >>> 8) & 0xFF,
+      initialX: (recordWordC4 >>> 24) & 0xFF,
+      initialY: recordWordC8 & 0xFF,
+      rawC0C3: hexWord(data, 36),
+      rawC4C7: hexWord(data, 40),
+      rawC8CB: hexWord(data, 44),
+      rawCCCF: hexWord(data, 48),
+    },
+  };
+}
+
 function isBoundedForward(after, before) {
   if (!Number.isInteger(after) || after < 0 || after > 0xFFFFFFFF
       || !Number.isInteger(before) || before < 0 || before > 0xFFFFFFFF) {
@@ -180,7 +222,170 @@ function evaluatePlayerControlEvidence(input = {}) {
   };
 }
 
+const MOVEDONE_SOURCES = new Map([
+  [1, '0x0807443C'],
+  [2, '0x08074918'],
+]);
+const UNIT_RECORD_BASE = 0x020240C0;
+const UNIT_RECORD_SIZE = 0x1D4;
+
+function isEwramPointer(value) {
+  return Number.isInteger(value) && value >= 0x02000000 && value < 0x02040000;
+}
+
+function validUnitIdentity(unit = {}) {
+  return isControlledSlot(unit.slot)
+    && isEwramPointer(unit.recordAddress)
+    && unit.recordAddress === UNIT_RECORD_BASE + unit.slot * UNIT_RECORD_SIZE
+    && isCharacterId(unit.characterId)
+    && isAffiliation(unit.affiliation);
+}
+
+function isRawWord(value) {
+  return typeof value === 'string' && /^[0-9a-fA-F]{8}$/.test(value);
+}
+
+function isByte(value) {
+  return Number.isInteger(value) && value >= 0 && value <= 0xFF;
+}
+
+function snapshotRawFieldsMatch(snapshot = {}) {
+  if (![snapshot.rawC0C3, snapshot.rawC4C7, snapshot.rawC8CB, snapshot.rawCCCF]
+    .every(isRawWord)) {
+    return false;
+  }
+  const c0 = Buffer.from(snapshot.rawC0C3, 'hex');
+  const c4 = Buffer.from(snapshot.rawC4C7, 'hex');
+  const c8 = Buffer.from(snapshot.rawC8CB, 'hex');
+  return snapshot.affiliation === (c0[0] & 1)
+    && snapshot.active === ((c0[0] & 0x80) !== 0)
+    && snapshot.x === c4[0]
+    && snapshot.y === c4[1]
+    && snapshot.initialX === c4[3]
+    && snapshot.initialY === c8[0];
+}
+
+function validActingUnit(unit = {}) {
+  return validUnitIdentity(unit)
+    && unit.objectAddress === 0x0202680C
+    && unit.objectSlot === unit.slot
+    && unit.objectRecordPointer === unit.recordAddress
+    && typeof unit.active === 'boolean'
+    && isByte(unit.x)
+    && isByte(unit.y)
+    && isByte(unit.initialX)
+    && isByte(unit.initialY)
+    && isRawWord(unit.actionStateRaw);
+}
+
+function sameIdentity(left = {}, right = {}) {
+  return left.slot === right.slot
+    && left.recordAddress === right.recordAddress
+    && left.characterId === right.characterId
+    && left.affiliation === right.affiliation;
+}
+
+function snapshotMatchesUnit(snapshot = {}, unit = {}) {
+  return snapshot.objectAddress === 0x0202680C
+    && snapshot.objectSlot === unit.slot
+    && snapshot.objectRecordPointer === unit.recordAddress
+    && snapshot.recordAddress === unit.recordAddress
+    && snapshot.characterId === unit.characterId
+    && snapshot.affiliation === unit.affiliation
+    && snapshot.active === unit.active
+    && snapshot.x === unit.x
+    && snapshot.y === unit.y
+    && snapshot.initialX === unit.initialX
+    && snapshot.initialY === unit.initialY
+    && snapshot.rawCCCF === unit.actionStateRaw
+    && snapshotRawFieldsMatch(snapshot)
+    && isEwramPointer(snapshot.objectRecordPointer);
+}
+
+function evaluateMovedoneEvidence(input = {}) {
+  const baselineEvents = Array.isArray(input.baseline?.events) ? input.baseline.events : [];
+  const finalEvents = Array.isArray(input.final?.events) ? input.final.events : [];
+  const freshEvents = finalEvents.filter((event, index) => isFresh(event, baselineEvents[index])
+    && isBoundedForward(event.sequence, input.baseline?.sequenceBoundary));
+  const event = freshEvents[0] || {};
+  const before = input.actingUnitBefore || {};
+  const after = input.actingUnitAfter || {};
+  const controlled = input.controlledUnit || {};
+  const expectedPlanValid = expectedInputPlanValid(input.expectedInputPlan);
+  const explicitInputs = Array.isArray(input.explicitInputs) ? input.explicitInputs : [];
+  const automaticInputs = Array.isArray(input.automaticInputs) ? input.automaticInputs : null;
+  const sourceValid = MOVEDONE_SOURCES.get(event.eventCode) === event.sourceHook;
+  const actingIdentityValid = validActingUnit(before)
+    && validActingUnit(after)
+    && sameIdentity(before, after)
+    && snapshotMatchesUnit(event.snapshot, before);
+  const battleMapContextValid = input.map?.width === 36
+    && input.map?.height === 44
+    && input.map?.gridX === 9
+    && input.map?.gridY === 22;
+  const coordinatesChanged = Number.isInteger(before.x) && Number.isInteger(before.y)
+    && Number.isInteger(after.x) && Number.isInteger(after.y)
+    && (before.x !== after.x || before.y !== after.y);
+  const actionChanged = typeof before.actionStateRaw === 'string'
+    && typeof after.actionStateRaw === 'string'
+    && before.actionStateRaw !== after.actionStateRaw;
+  const roundChanged = typeof input.stateBefore?.roundOrPhaseRaw === 'string'
+    && typeof input.stateAfter?.roundOrPhaseRaw === 'string'
+    && input.stateBefore.roundOrPhaseRaw !== input.stateAfter.roundOrPhaseRaw;
+  const checks = {
+    movedoneEventCountValid: freshEvents.length === 1,
+    movedoneSourceValid: sourceValid,
+    scenarioValid: input.scenario === 41,
+    battleIdValid: input.battleId === 41,
+    mapLoaded: input.mapLoaded === true,
+    battleMapForeground: input.screenState === 'battle-map',
+    battleMapContextValid,
+    actingUnitIdentityValid: actingIdentityValid,
+    controlledUnitValid: validUnitIdentity(controlled),
+    actingUnitControlled: sameIdentity(before, controlled),
+    coordinatesChanged,
+    actionOrRoundStateChanged: actionChanged || roundChanged,
+    expectedInputPlanValid: expectedPlanValid,
+    explicitInputsOnly: explicitInputs.length > 0
+      && explicitInputs.every(item => item?.classification === 'explicit'),
+    explicitInputsComplete: explicitInputs.length > 0
+      && explicitInputs.every(item => item?.downCompleted === true && item?.upCompleted === true),
+    inputPlanMatches: expectedPlanValid && inputMatchesPlan(explicitInputs, input.expectedInputPlan),
+    noAutomaticDriverInputs: automaticInputs !== null && automaticInputs.length === 0,
+    automaticGameActionRecorded: typeof input.automaticGameAction === 'boolean',
+  };
+  const failures = [
+    ['movedoneEventCountValid', 'movedone-event-count-invalid'],
+    ['movedoneSourceValid', 'movedone-source-invalid'],
+    ['scenarioValid', 'scenario-invalid'],
+    ['battleIdValid', 'battle-id-invalid'],
+    ['mapLoaded', 'map-not-loaded'],
+    ['battleMapForeground', 'battle-map-not-foreground'],
+    ['battleMapContextValid', 'battle-map-context-invalid'],
+    ['actingUnitIdentityValid', 'acting-unit-identity-mismatch'],
+    ['controlledUnitValid', 'controlled-unit-invalid'],
+    ['actingUnitControlled', 'acting-unit-not-controlled'],
+    ['coordinatesChanged', 'coordinates-unchanged'],
+    ['actionOrRoundStateChanged', 'action-round-state-unchanged'],
+    ['expectedInputPlanValid', 'expected-input-plan-invalid'],
+    ['explicitInputsOnly', 'explicit-input-invalid'],
+    ['explicitInputsComplete', 'input-incomplete'],
+    ['inputPlanMatches', 'input-plan-mismatch'],
+    ['noAutomaticDriverInputs', 'automatic-driver-input-used'],
+    ['automaticGameActionRecorded', 'automatic-game-action-invalid'],
+  ];
+  const failure = failures.find(([check]) => !checks[check]);
+  return {
+    verified: failure === undefined,
+    reason: failure ? failure[1] : 'movedone-verified',
+    checks,
+    automaticGameAction: input.automaticGameAction,
+  };
+}
+
 module.exports = {
   decodePublishedCall,
+  decodeMovedoneRecord,
+  evaluateMovedoneEvidence,
   evaluatePlayerControlEvidence,
 };
