@@ -250,6 +250,42 @@
       "runtime_boundary": "Fresh secondary MOVEDONE at 0x08074918 verifies the stationary first turn completion after one explicit A selected defense No; automatic enemy settle then reached a stable tutorial-dialogue boundary. Base-ROM business state and capture are exact, with observer differences confined to scratch. This does not prove second turn, victory, result exit, or postbattle."
     },
     {
+      "name": "scenario-41-victory",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+      "sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-turn-1-complete",
+      "inputs": ["audited natural route in scenario-41-completion-evidence.json"],
+      "screen": "scenario-41-victory",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-completion-evidence.json"
+      ],
+      "runtime_boundary": "A natural adjacent technique produces the visible victory state and natural result byte 0x02026807=1. The decisive A is exact on immutable base ROM and the accepted checkpoint is a fresh base-ROM zero-input replay. No completion observer hook was used, so allowed_evidence remains empty; this checkpoint does not by itself prove controller exit, postbattle save, or levels consumption."
+    },
+    {
+      "name": "scenario-41-postbattle",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-postbattle.ss9",
+      "sha256": "950652381ae03ad60ad028f9063b9fc22f133ea532396fbafe7f5353d2553162",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-victory",
+      "inputs": ["result", "level-up", "postbattle dialogue", "world-map transition"],
+      "screen": "konoha-world-map-main-menu",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-completion-evidence.json"
+      ],
+      "runtime_boundary": "The natural victory route exits battle UI through result, level-up and postbattle dialogue into a base-ROM zero-input-stable Konoha world-map main menu while preserving result byte 1. This proves the reusable postbattle world-map state, but does not prove 0x08074F2C natural-save publication or the transient 0xF400 dispatch; allowed_evidence remains empty."
+    },
+    {
       "name": "natural-s41-start-prompt",
       "status": "rejected",
       "path": "build/natural-s41-start-prompt.ss9",

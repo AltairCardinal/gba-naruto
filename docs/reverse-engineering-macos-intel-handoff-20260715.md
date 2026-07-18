@@ -186,3 +186,18 @@ wall/idle timeout、退出码与最终残留；只清理本轮 owned process gro
 
 本交接记录了：Windows mGBA UI tap 失败原因、Lua 8-frame B hold 成功结果、关键地址、
 可迁移 candidate、Mac 首轮零输入验收和 controller-entry 停止门。它不宣称逆向完成。
+
+## 9. 2026-07-18 自然胜利与 postbattle 补记
+
+交接中的 player control / MOVEDONE / victory / postbattle `not-proven` 已部分取代：
+
+- 玩家接管与第一回合 secondary MOVEDONE 已有 accepted checkpoint；
+- 后续自然回合在第 4 回合以相邻技能结束，`0x02026807=1`，随后经过结果、升级和战后对白
+  回到木叶世界地图；
+- `artifacts/runtime-checkpoints/scenario-41-victory.ss9` 与
+  `scenario-41-postbattle.ss9` 均为 immutable base ROM 的零输入可恢复状态；
+- `0x08074F2C` natural-save observer 仍未形成正命中，因此不得把瞬态 `0xF400` 或自然
+  保存调用写成已证明；下一主线直接从 postbattle checkpoint 做 levels `+6` A/B。
+
+机器证据和输入边界以 `artifacts/runtime-checkpoints/scenario-41-completion-evidence.json`
+与 `notes/scenario-41-completion-runtime-20260718.md` 为准。
