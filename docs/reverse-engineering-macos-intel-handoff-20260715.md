@@ -201,3 +201,18 @@ wall/idle timeout、退出码与最终残留；只清理本轮 owned process gro
 
 机器证据和输入边界以 `artifacts/runtime-checkpoints/scenario-41-completion-evidence.json`
 与 `notes/scenario-41-completion-runtime-20260718.md` 为准。
+
+## 10. 2026-07-18 场景 42 自然推进补记
+
+- 从 accepted `scenario-41-postbattle.ss9` 经世界地图“移动 → 演习场”自然完成下一段剧情、
+  编队与教程战斗；结果页使 Naruto 保持 LV2、EXP `0→110`、训练点保持 1。
+- 新 checkpoint `artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9` 的
+  SHA-256 为 `35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1`；
+  base ROM 512 帧零输入重放完成，task 2 resume 为 `0x08067D02`。
+- levels 全参数 probe 已纠正旧假设：第一个 type 4 row 是 index 8 / levels ID 1 / secondary
+  slot 0，但需要角色 LV8；当前 LV2 UI 明确拒绝修炼，`0x080932CA` 尚未命中。
+- 因此 `levels` 继续保持 `code_verified`。下一主线从场景 42 世界地图 checkpoint 自然升级，
+  到 LV8 或首次激活次级槽后再执行 consumer 与 record `+6` A/B。
+
+紧凑证据与路线见 `artifacts/runtime-checkpoints/scenario-42-progression-evidence.json` 和
+`notes/scenario-42-progression-runtime-20260718.md`。

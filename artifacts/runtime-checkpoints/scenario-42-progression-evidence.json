@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "scope": "scenario-42-natural-progression-and-levels-prerequisite",
+  "outcome": "scenario-42-natural-victory-exp-verified",
+  "origin": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle.ss9",
+    "sha256": "950652381ae03ad60ad028f9063b9fc22f133ea532396fbafe7f5353d2553162",
+    "route": "world-map Move -> training-ground story -> start mission"
+  },
+  "levels_prerequisite_probe": {
+    "training_pre_sha256": "b44fa4d4c26bcaef91e9aac6686a093c1a38b6a642ed8df2430227dd30529b0c",
+    "probe_rom_sha256": "535d4b718762e6c9fe1a04eb9584ed42a7e3bb66ee37c33377f99aeffa01ba59",
+    "confirm_call": {
+      "run_id": "0e3a849805e5b6ad500ffcaf4bc9f871",
+      "r0": "0x00000003",
+      "r1_template": "0x02022EF0",
+      "r2_rows": "0x02002880",
+      "r3_selected_index": 0
+    },
+    "first_type_4": {
+      "selected_index": 8,
+      "row_pointer": "0x020028A0",
+      "row_bytes": "0305060404060100",
+      "type": 4,
+      "levels_id": 1,
+      "secondary_slot": 0,
+      "required_character_level": 8,
+      "observed_character_level": 2,
+      "ui_result": "currently unavailable",
+      "confirm_hook_hits": 0,
+      "consumer_hook_hits": 0
+    }
+  },
+  "scenario_42": {
+    "battle_entry_state_sha256": "9442a85d9c4dd926483cae327054580a5eb7067ee5c499d0b2ee52d2a6cbcf3c",
+    "victory_state_sha256": "5878227ebe89211e76920142b3cca5b9eef150f740531bcb90045f53bfe17fae",
+    "victory_ui": "defeated training dummy",
+    "battle_boundary": "the tutorial victory predicate fired while the unit record still stored HP 2; HP zero is not a valid victory requirement for this mission"
+  },
+  "natural_reward": {
+    "reward_state_sha256": "e8f950cfe5a69922839f5ee7b1a37901637c80285d1e1f6cb4891105a7a52feb",
+    "level_before": 2,
+    "level_after": 2,
+    "exp_before": 0,
+    "exp_after": 110,
+    "training_points_before": 1,
+    "training_points_after": 1
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9",
+    "sha256": "35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1",
+    "zero_input_run_id": "b228217df46280525146b7115c7e1815",
+    "task_2_resume": "0x08067D02",
+    "rgb_pixels_sha256": "ed68845076f0dc2eb40397bb870e4c9b7cd1f6567323dabdff8e3e9b364e15d6",
+    "peak_tree_rss_mib": 52.18359375,
+    "pgid_clean": true
+  },
+  "levels_boundary": {
+    "verification": "code_verified",
+    "secondary_active_count": 0,
+    "consumer_hook_hits": 0,
+    "boundary": "Scenario 42 proves natural EXP progression but does not prove a type 4 training confirmation, a 0x080932CA consumer hit, or the record +6 causal A/B."
+  },
+  "batch_runtime": {
+    "dialogue_script_sha256": "0a32c5b1ba34a7b999e149ce15ec8edab57605d1f3916a0603069299ad45c186",
+    "melee_script_sha256": "6a7bc4d331b307be4b28621e9fc0a31b8fee8a63ace1dc717a915616af76644d",
+    "maximum_peak_tree_rss_mib": 107.5625,
+    "exit_boundary": "some runs saved every requested checkpoint before mGBA crashed while Lua os.exit was unwinding; only pre-exit checkpoint files are used as gameplay evidence"
+  }
+}
