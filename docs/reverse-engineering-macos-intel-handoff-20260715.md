@@ -233,3 +233,17 @@ wall/idle timeout、退出码与最终残留；只清理本轮 owned process gro
 
 完整输入与资源边界见 `artifacts/runtime-checkpoints/scenario-43-progression-evidence.json` 和
 `notes/scenario-43-progression-runtime-20260718.md`。
+
+## 12. 2026-07-18 场景 44 铃铛目标补记
+
+- 场景 `0x2C` 是两阶段目标：先击倒卡卡西，再到北部宝箱上方 `(4,3)` 朝下结束行动；
+  只清零敌方 character ID、站在 `(3,4)` 或占据箱体 `(4,4)` 都不会结算。
+- 游戏内“相关条件”页明确显示“拿到卡卡西老师的铃铛”；正确触发后结果位写为 1，三名
+  队员各获得 125 EXP。稳定模板为 Naruto LV3/EXP125、Sasuke LV2/EXP45、Sakura
+  LV1/EXP125。
+- 新 checkpoint `scenario-44-postbattle-world-map.ss9` 的 SHA-256 为
+  `b452a77ef623d36423ec19eb4b5635d58d186ec041fa7891b356889d367875cd`；标准 base ROM
+  零输入 run `66782e8c7b989f8d136423e60262ceb6` 通过，task 2 resume 为 `0x08067D02`。
+- 下一主线从该世界地图 checkpoint 继续，不回放场景 44；完整边界见
+  `artifacts/runtime-checkpoints/scenario-44-progression-evidence.json` 和
+  `notes/scenario-44-progression-runtime-20260718.md`。
