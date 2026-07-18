@@ -684,6 +684,30 @@ test('MOVEDONE requires coordinate change plus action or round transition', () =
   assert.equal(evaluateMovedoneEvidence(roundChanged).verified, true);
 });
 
+test('MOVEDONE accepts a stationary round completion only from the secondary site', () => {
+  const stationaryCompletion = validMovedoneSample();
+  stationaryCompletion.baseline.sequenceBoundary = 13;
+  stationaryCompletion.baseline.events[0] = movedoneCall(5, 13);
+  stationaryCompletion.final.events[0] = { ...stationaryCompletion.baseline.events[0] };
+  stationaryCompletion.baseline.events[1] = movedoneCall(7, 12, {
+    eventCode: 2, sourceHook: '0x08074918',
+  });
+  stationaryCompletion.final.events[1] = movedoneCall(8, 14, {
+    eventCode: 2, sourceHook: '0x08074918',
+  });
+  stationaryCompletion.actingUnitAfter.x = stationaryCompletion.actingUnitBefore.x;
+  stationaryCompletion.actingUnitAfter.y = stationaryCompletion.actingUnitBefore.y;
+  stationaryCompletion.actingUnitAfter.actionStateRaw =
+    stationaryCompletion.actingUnitBefore.actionStateRaw;
+  stationaryCompletion.stateBefore = { address: '0x0200A880', raw: '00000000' };
+  stationaryCompletion.stateAfter = { address: '0x0200A880', raw: '01000100' };
+
+  const result = evaluateMovedoneEvidence(stationaryCompletion);
+  assert.equal(result.reason, 'movedone-verified');
+  assert.equal(result.verified, true);
+  assert.equal(result.checks.coordinatesChanged, false);
+});
+
 test('MOVEDONE requires complete uniquely paired sites in canonical source order', () => {
   for (const mutation of [
     sample => { sample.baseline.events.pop(); },

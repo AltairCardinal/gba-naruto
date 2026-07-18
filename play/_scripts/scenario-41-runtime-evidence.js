@@ -433,6 +433,7 @@ function evaluateMovedoneEvidence(input = {}) {
     && isRawWord(input.stateBefore.raw)
     && isRawWord(input.stateAfter.raw);
   const roundChanged = roundContextValid && input.stateBefore.raw !== input.stateAfter.raw;
+  const stationaryRoundCompletion = event.eventCode === 2 && roundChanged;
   const checks = {
     movedoneSiteSchemaValid: siteSchemaValid,
     movedoneEventCountValid: freshEvents.length === 1,
@@ -446,6 +447,7 @@ function evaluateMovedoneEvidence(input = {}) {
     controlledUnitValid: validUnitIdentity(controlled),
     actingUnitControlled: sameIdentity(before, controlled),
     coordinatesChanged,
+    movementOrStationaryCompletion: coordinatesChanged || stationaryRoundCompletion,
     roundContextValid,
     actionOrRoundStateChanged: actionChanged || roundChanged,
     expectedInputPlanValid: expectedPlanValid,
@@ -469,7 +471,7 @@ function evaluateMovedoneEvidence(input = {}) {
     ['battleMapContextValid', 'battle-map-context-invalid'],
     ['actingUnitIdentityValid', 'acting-unit-identity-mismatch'],
     ['controlledUnitValid', 'controlled-unit-invalid'],
-    ['coordinatesChanged', 'coordinates-unchanged'],
+    ['movementOrStationaryCompletion', 'coordinates-unchanged'],
     ['roundContextValid', 'round-context-invalid'],
     ['actionOrRoundStateChanged', 'action-round-state-unchanged'],
     ['expectedInputPlanValid', 'expected-input-plan-invalid'],

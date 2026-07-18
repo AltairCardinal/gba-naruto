@@ -1,0 +1,193 @@
+{
+  "outcome": "accepted-turn-1-complete",
+  "scope": "scenario-41-turn-1-complete",
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+    "sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "observer_rom_sha256": "2e0ef35475737789103403cfea454ace1de0ae6b6ed1789d49d7e55d5dc1737f",
+    "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "fixed_input_lua_sha256": "82fbae13b39d2e7dd4b53e4b79dcf89ccc56f29dcb9ea53466d007b1000b9412"
+  },
+  "lineage": {
+    "parent": "scenario-41-first-movedone-facing",
+    "explicit_inputs": ["A"],
+    "screen": "turn-1-complete-tutorial-dialogue"
+  },
+  "state_chain": [
+    {
+      "run_id": "6930e2c4d30fa6d54ef1d8a350f9a11a",
+      "input_state_sha256": "54cf5ecacd9cd89dd679b2b8926e6b6de2f27080da28331aae06c17abe414101",
+      "output_state_sha256": "a25d31da280741cdcb6235abdd10c0e2e05fc95ef46a2d20bd1cc8bb9daeea15",
+      "input_mode": "single-input",
+      "timing": {"key": "A", "down_frame": 5, "up_frame": 13, "hold_frames": 8, "capture_frame": 128},
+      "artifacts": {
+        "input_audit_sha256": "fe06fec8a0087d85ca3ec5c0a20e7d228be189b027edbd59a4173fb3fed14afd",
+        "guard_summary_sha256": "9bce24b6e37ab31fd2b44dfc76f991232d217b4e401add7e0533829bc546a015",
+        "done_sha256": "49fb65ac4ee5f870506c37db3be62e6bb5f590b788701f6b1913d65d007ce393"
+      }
+    },
+    {
+      "run_id": "e512f1e3ccec6a5abf52365670155c24",
+      "input_state_sha256": "a25d31da280741cdcb6235abdd10c0e2e05fc95ef46a2d20bd1cc8bb9daeea15",
+      "output_state_sha256": "7e12bfbe67b6e9a229594bd1ae41c90a08d3ecdd63df3e003758c1861520ba3c",
+      "input_mode": "zero-input",
+      "capture_frame": 128,
+      "inputs": [],
+      "pre_scripts": [],
+      "zero_input_verified": true,
+      "artifacts": {
+        "input_audit_sha256": "8130982995184a266d09d84a49edbc840ec65b06b362fecb7790797060ee3fe9",
+        "guard_summary_sha256": "8c1a5d639fb576f91a7482c547b24634deff38a59c661c4301535e5631820560",
+        "done_sha256": "c9a7a3811411eae0ed75db2f7252479179cec8dae335d6b4c1675a013814e324"
+      }
+    },
+    {
+      "run_id": "e3ee3f20a2307813a29bbb4c23749a6a",
+      "input_state_sha256": "7e12bfbe67b6e9a229594bd1ae41c90a08d3ecdd63df3e003758c1861520ba3c",
+      "output_state_sha256": "9b98d6567e5c8e86496639eaa61cbdd09064a916ed917ac67e7339eb21c983f4",
+      "input_mode": "zero-input",
+      "capture_frame": 512,
+      "inputs": [],
+      "pre_scripts": [],
+      "zero_input_verified": true,
+      "artifacts": {
+        "input_audit_sha256": "6ac6290e9dbe8f2b14771c85f82c3ce0ac01d284573ec56e9ae991a69d929626",
+        "guard_summary_sha256": "bd57fffb16941857334efc2d75e959067cdce26e2cdd9b21afb8d84db0a84a6e",
+        "done_sha256": "b8ab6c02f88f44fd6b573f91e495bd9e80be2d73cb7c4e3eeaf1e2ab42b68804"
+      }
+    },
+    {
+      "run_id": "c7e552dd06348f1da2642465587f9d13",
+      "input_state_sha256": "9b98d6567e5c8e86496639eaa61cbdd09064a916ed917ac67e7339eb21c983f4",
+      "output_state_sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+      "input_mode": "zero-input",
+      "capture_frame": 1,
+      "inputs": [],
+      "pre_scripts": [],
+      "zero_input_verified": true,
+      "artifacts": {
+        "input_audit_sha256": "8595ca9deccc109398ef677fd46b4a4c75b9135242d7943daab18905cab571a9",
+        "guard_summary_sha256": "90a48ba02b40e75eb89e4cbd70f91e5d93f735f30d12c9719dd41ec0c9def7fd",
+        "done_sha256": "9cd5d66b54cc053cb99f4c09fd49a5fa898a3fe90a9a6d404e1a4e039e0d04b6"
+      }
+    }
+  ],
+  "base_control": {
+    "run_id": "2eb0007720eaff85feb68f49f9b76ff8",
+    "input_state_sha256": "54cf5ecacd9cd89dd679b2b8926e6b6de2f27080da28331aae06c17abe414101",
+    "output_state_sha256": "6e5c8cf52225486c5194f38691a7f5782cae7c89c1ddf54f99b9c53f57153951",
+    "observer_output_state_sha256": "a25d31da280741cdcb6235abdd10c0e2e05fc95ef46a2d20bd1cc8bb9daeea15",
+    "business_state_exact": true,
+    "capture_png_exact": true,
+    "normalized_rgb8_sha256": "53cb2002a730a31534fce60cf680cd22cbb9d1ba7c8f9539b8a321494613fda0",
+    "ewram_delta": "observer-scratch-only",
+    "peak_tree_rss_mib": 52.01953125,
+    "artifacts": {
+      "input_audit_sha256": "19ca81dee9026b7687a3eca1dbb8d6a2e22aa19917a888e94191c27ca8b75e97",
+      "guard_summary_sha256": "cf578f8131596a98d5d8425504bd28cd95696ed9f6b185d873fee61c16c7b776",
+      "done_sha256": "854bc8de2bffa8bb089948e23372a8cf3aa3236fd48372d551b7d668fae1bce3"
+    }
+  },
+  "stability": {
+    "input_state_sha256": "9b98d6567e5c8e86496639eaa61cbdd09064a916ed917ac67e7339eb21c983f4",
+    "output_state_sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+    "business_state_exact": true,
+    "capture_png_exact": true,
+    "normalized_rgb8_sha256": "fa0bb87531d63182e939cfda56b3f2d9dccc21a9308572bccf18b6cc77d5d186",
+    "task_resume": "0x08095F12"
+  },
+  "business_state": {
+    "task_resume": "0x08095F12",
+    "menu_round_raw_hex": "0100010001000000",
+    "battle_raw_hex": "0029000000000000",
+    "map_raw_hex": "242c0916",
+    "current_object_raw_hex": "0200000000000000",
+    "complete_units_sha256": "a38f0186b6066f06934f039de5fe5008d94e2176f3db0f2977118519cc62ff4b",
+    "movedone_counter": 4,
+    "MOD1_raw_hex": "4d4f44310200000003000000010000003c4407080100010268440202684402021e01060601010000040402040402000001023200",
+    "MOD2_raw_hex": "4d4f4432020000000400000002000000184907080100010268440202684402021e01060611010000060401060401000001023200"
+  },
+  "evaluator": {
+    "input": {
+      "scenario": 41,
+      "battleId": 41,
+      "map": {"width": 36, "height": 44, "gridX": 9, "gridY": 22},
+      "mapLoaded": true,
+      "screenState": "battle-map",
+      "baseline": {
+        "sequenceBoundary": 1,
+        "events": [
+          {
+            "rawHex": "4d4f44310100000001000000010000003c44070801000001944202029442020201010e0d00010000040a00040a00000000ff0000",
+            "magicValid": true, "hitCount": 1, "sequence": 1, "eventCode": 1, "sourceHook": "0x0807443C",
+            "snapshot": {"objectAddress": 33712140, "objectSlot": 1, "objectRecordPointer": 33702548, "recordAddress": 33702548, "characterId": 1, "affiliation": 0, "active": false, "x": 4, "y": 10, "initialX": 4, "initialY": 10, "rawC0C3": "00010000", "rawC4C7": "040a0004", "rawC8CB": "0a000000", "rawCCCF": "00ff0000"}
+          },
+          {
+            "rawHex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "magicValid": false, "hitCount": 0, "sequence": 0, "eventCode": 2, "sourceHook": "0x08074918",
+            "snapshot": {"objectAddress": 33712140, "objectSlot": 0, "objectRecordPointer": 0, "recordAddress": 0, "characterId": 0, "affiliation": 0, "active": false, "x": 0, "y": 0, "initialX": 0, "initialY": 0, "rawC0C3": "00000000", "rawC4C7": "00000000", "rawC8CB": "00000000", "rawCCCF": "00000000"}
+          }
+        ]
+      },
+      "final": {
+        "events": [
+          {
+            "rawHex": "4d4f44310100000001000000010000003c44070801000001944202029442020201010e0d00010000040a00040a00000000ff0000",
+            "magicValid": true, "hitCount": 1, "sequence": 1, "eventCode": 1, "sourceHook": "0x0807443C",
+            "snapshot": {"objectAddress": 33712140, "objectSlot": 1, "objectRecordPointer": 33702548, "recordAddress": 33702548, "characterId": 1, "affiliation": 0, "active": false, "x": 4, "y": 10, "initialX": 4, "initialY": 10, "rawC0C3": "00010000", "rawC4C7": "040a0004", "rawC8CB": "0a000000", "rawCCCF": "00ff0000"}
+          },
+          {
+            "rawHex": "4d4f44320100000002000000020000001849070801000001944202029442020201010e0d10010000040a00040a00000000ff0000",
+            "magicValid": true, "hitCount": 1, "sequence": 2, "eventCode": 2, "sourceHook": "0x08074918",
+            "snapshot": {"objectAddress": 33712140, "objectSlot": 1, "objectRecordPointer": 33702548, "recordAddress": 33702548, "characterId": 1, "affiliation": 0, "active": false, "x": 4, "y": 10, "initialX": 4, "initialY": 10, "rawC0C3": "10010000", "rawC4C7": "040a0004", "rawC8CB": "0a000000", "rawCCCF": "00ff0000"}
+          }
+        ]
+      },
+      "controlledUnit": {"slot": 1, "recordAddress": 33702548, "characterId": 1, "affiliation": 0},
+      "actingUnitBefore": {"objectAddress": 33712140, "objectSlot": 1, "objectRecordPointer": 33702548, "slot": 1, "recordAddress": 33702548, "characterId": 1, "affiliation": 0, "active": false, "x": 4, "y": 10, "initialX": 4, "initialY": 10, "actionStateRaw": "00ff0000"},
+      "actingUnitAfter": {"objectAddress": 33712140, "objectSlot": 1, "objectRecordPointer": 33702548, "slot": 1, "recordAddress": 33702548, "characterId": 1, "affiliation": 0, "active": false, "x": 4, "y": 10, "initialX": 4, "initialY": 10, "actionStateRaw": "00ff0000"},
+      "stateBefore": {"address": "0x0200A880", "raw": "00000000"},
+      "stateAfter": {"address": "0x0200A880", "raw": "01000100"},
+      "expectedInputPlan": [{"phase": "defense-no", "step": 1, "logicalKey": "KeyZ", "gbaButton": "A", "downFrame": 5, "upFrame": 13, "holdFrames": 8, "captureFrame": 128}],
+      "explicitInputs": [{"phase": "defense-no", "step": 1, "logicalKey": "KeyZ", "gbaButton": "A", "downFrame": 5, "upFrame": 13, "holdFrames": 8, "captureFrame": 128, "classification": "explicit", "downCompleted": true, "upCompleted": true}],
+      "automaticInputs": [],
+      "automaticGameAction": false
+    },
+    "result": {
+      "diagnosticVerified": true,
+      "verified": true,
+      "classification": "player-controlled-manual",
+      "reason": "movedone-verified",
+      "checks": {
+        "movedoneSiteSchemaValid": true,
+        "movedoneEventCountValid": true,
+        "movedoneSourceValid": true,
+        "scenarioValid": true,
+        "battleIdValid": true,
+        "mapLoaded": true,
+        "battleMapForeground": true,
+        "battleMapContextValid": true,
+        "actingUnitIdentityValid": true,
+        "controlledUnitValid": true,
+        "actingUnitControlled": true,
+        "coordinatesChanged": false,
+        "movementOrStationaryCompletion": true,
+        "roundContextValid": true,
+        "actionOrRoundStateChanged": true,
+        "expectedInputPlanValid": true,
+        "explicitInputsOnly": true,
+        "explicitInputsComplete": true,
+        "inputPlanMatches": true,
+        "noAutomaticDriverInputs": true,
+        "automaticGameActionRecorded": true,
+        "automaticGameActionManual": true
+      },
+      "automaticGameAction": false
+    }
+  },
+  "boundary": "Proves the first player-controlled action completed through the secondary MOVEDONE site, then the enemy phase settled to a stable tutorial-dialogue boundary. It does not prove a second player turn, victory, result exit, or postbattle."
+}

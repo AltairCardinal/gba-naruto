@@ -26,3 +26,10 @@
 - unchanged cycle run `42128f6224e172f1c17bd8b9d5ceca36` 得到最小周期 24，匹配帧 `[0, 24, 48]`；串行零输入 replay `e1db6602c1f66570145d730c90064ab4` 与 `9efd0047387a9520d06662c049b3bad6` 均为 completed/0、non-degraded，并保持相同归一化 RGB。
 - 只机械复制 p1 为 canonical checkpoint：`artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9`，SHA-256 `039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1`；p2 仅用于串行稳定性复核。
 - 该 checkpoint 仅是稳定且尚未提交的术菜单边界；不证明术已提交，也不证明 fresh MOVEDONE、回合完成、胜利或 postbattle。
+
+## 第一回合完成与稳定教程边界（2026-07-18）
+
+- 从朝向确认后的防御“否”提示状态执行唯一显式 `A`，run `6930e2c4d30fa6d54ef1d8a350f9a11a` 使 observer counter 从 1 增至 2，并在 secondary site `0x08074918` 发布 fresh MOD2。单位坐标保持 `(4,10)`，但 `0x0200A880` 从 `00000000` 变为 `01000100`；扩展后的 evaluator 以 `movementOrStationaryCompletion=true`、`verified=true`、`reason=movedone-verified` 接受该 stationary completion。
+- 同一输入的 base-ROM control run `2eb0007720eaff85feb68f49f9b76ff8` 与 observer 的画面、task resume、菜单/战斗/地图、当前对象和 12 个单位记录完全一致，差异仅在 observer scratch；峰值 owned-tree RSS 为 52.01953125 MiB。
+- 后续全部为零输入：128 帧让敌方行动自然推进，512 帧到达教程对话，再以 1 帧零输入证明业务状态和 PNG 完全不变。稳定 task 2 resume 为 `0x08095F12`。
+- 机械固化 `artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9`，SHA-256 `a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5`。该证据证明第一回合完成并包含敌方阶段 settle；不证明第二回合、胜利或 postbattle。
