@@ -460,7 +460,8 @@ addresses use the strict, guarded `mgba_gdb_probe.py` path instead.
 ## Fixed single-input macOS mGBA replay
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
-separate Task 4.7 input segment. The CLI accepts exactly one `Down`, `A`, or `B` event and
+separate Task 4.7 input segment. The CLI accepts exactly one `Down`, `Up`, `Left`, `Right`, `A`,
+`B`, or `L` event and
 requires `0 < down-frame < up-frame < capture-frame`. It has no custom Lua or
 `--pre-script` option. The fixed Lua contains one `emu:addKey`, one `emu:clearKey` and
 one capture callback; the finalized audit therefore requires one matching event,
