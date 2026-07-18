@@ -216,3 +216,20 @@ wall/idle timeout、退出码与最终残留；只清理本轮 owned process gro
 
 紧凑证据与路线见 `artifacts/runtime-checkpoints/scenario-42-progression-evidence.json` 和
 `notes/scenario-42-progression-runtime-20260718.md`。
+
+## 11. 2026-07-18 场景 43 自然推进补记
+
+- 从场景 42 accepted checkpoint 自然完成三敌人任务；结果页给出 155 EXP，Naruto
+  `LV2→LV3`、训练点变为 2。
+- 三名敌人分别在 record 仍保存 2、5、8 HP 时进入击倒状态，说明脚本击倒标志继续优先于
+  `HP==0`；后续战斗验收不得恢复错误的 HP 零门槛。
+- 运行时证明影分身可留下可控 Naruto unit；“休息”恢复 18 HP，足以与相邻近身攻击交替
+  构成稳定生存循环。忍具库存耗尽后应切换该路线，不要反复尝试已禁用的忍具行。
+- 新 checkpoint `scenario-43-postbattle-next-task-prompt.ss9` 的 SHA-256 为
+  `55375b7736481505dc68cdfe774e1182d90ea77d31264d7be10c80279a978ce9`；base ROM 512 帧
+  零输入复验通过，task 2 resume 为 `0x08092FCE`。
+- 当前仍只有 LV3，levels type-4 消费门槛 LV8 未达到。下一主线直接确认该 checkpoint 上的
+  “开始任务”，继续自然升级，不再回放场景 43。
+
+完整输入与资源边界见 `artifacts/runtime-checkpoints/scenario-43-progression-evidence.json` 和
+`notes/scenario-43-progression-runtime-20260718.md`。
