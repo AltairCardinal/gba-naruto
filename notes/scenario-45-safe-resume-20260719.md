@@ -1,11 +1,27 @@
 # 场景 45 安全恢复记录（2026-07-19）
 
+## 最终结论
+
+场景 `0x2D` 已在 immutable base ROM 上自然完成，并返回木叶世界地图。正式恢复点为
+`artifacts/runtime-checkpoints/scenario-45-postbattle-world-map.ss9`，SHA-256 是
+`61623b3ceeb9112326ed878099537ae40fd384877908850f6c60024c3e131923`。
+标准零输入复放 run `ddd75bba563f2a286e85dbc3e03bcae0` 成功，task 2 resume 为
+`0x08067D02`，RGB hash 为
+`67adb3c5f6e21ea6e5488de965a6e57a50dce53a9f290c28697f73c4f2b16a7c`。
+
+决定性胜利链为：卡卡西单位记录仍保存 3/100 HP，小樱位于相邻格 `(6,9)`，
+近战预览伤害 5、命中率 96%；自然结算后立即出现“卡卡西老师被打倒了”与胜利页。
+这再次证明击倒由战斗脚本/状态迁移决定，不能用 `HP==0` 作为唯一门槛。
+
 ## 安全基线
 
 - 恢复前 macOS 中已有 25 份 `mGBA-*.ips`；本轮所有固定 runner 完成后仍为 25，没有新增崩溃报告。
-- 峰值 owned-tree RSS 约 51.9–52.7 MiB；每个最终 audit 均记录 `pgid_clean=true`、`mgba_listener_clean=true`。
+- 峰值 owned-tree RSS 约 51.9–52.7 MiB；每个 audit 均记录 `pgid_clean=true`，含监听字段的 audit
+  均记录 `mgba_listener_clean=true`，旧零输入 audit 的字段缺口在文末单独披露。
 - `tools/run_guarded.py` 已接入危险 Lua 扫描与 crash-report latch；临时脚本中的 `os.exit` 会在 mGBA 启动前失败关闭。
-- 后续每次 mGBA runner 单独一个工具调用；返回后单独检查 audit、PGID、监听、崩溃报告与 latch，不在一个 shell 中串联多个模拟器运行。
+- 每个 mGBA 进程都由固定 runner 独立获取 heavy lock、执行资源守卫并产出独立 audit；
+  相邻的低风险单输入可以串行合并为一个 shell 闭环，但前一个 runner 必须成功退出后才能启动下一个，
+  不允许并发 mGBA 或绕过守卫。
 
 ## 已推进结果
 
@@ -35,7 +51,7 @@
 - 移动网格中 1/8 帧方向输入只改变面对/指向，不能保证走格；不能把“状态哈希变化”误判为有效移动。
 - 岩石右侧黄色格不可达；从当前网格应复用历史 `scenario-45-sasuke-advance-end-20260719` 的长按走格模式，先到青色目的格，再用 1 帧 A 打开确认。
 
-## 下一步
+## 当时下一步（已被后续结果取代）
 
 1. 从 `sasuke-move-open-short.ss9` 进行一个变量的长按 Up 校准，目标是实际进入岩石上方青色格；失败即回到同一快照，不沿错误分支累积。
 2. 靠近到火遁距离 2 后选择火遁，完成目标与命中结算。
@@ -57,3 +73,33 @@
 - 决定性结算快照为 `build/scenario-45-safe-resume-20260719/sasuke-fire-defense-no.ss9`，SHA-256 `5f6947cc1b42f556730c96fc5d6ba0ee096dfddd7f2f26ce3820cb7ea317c9c1`；对应画面直接显示卡卡西 HP 38。
 - 结算后零输入进入 Naruto 与 Kakashi 的回合对白。已自然推进 9 个 A 边界，当前恢复点为 `build/scenario-45-safe-resume-20260719/post-sasuke-dialogue-a9.ss9`，SHA-256 `a65f6900fea29d653244aad5c1cc58bed8de4a800952bc9e7593a807022e880b`；仍处于对白，尚未声称下一回合或胜利。
 - 本段所有 mGBA run 均为非降级 `completed/0`，峰值 owned-tree RSS 51.8–52.3 MiB，`pgid_clean=true`、`mgba_listener_clean=true`。后续直接从 A9 继续对白，不重放移动或火遁链。
+
+## 回合 3–6 与自然胜利
+
+- 佐助第一次火遁把卡卡西从 87 HP 降至 38 HP；同回合资源消费后再次选择火遁会明确提示
+  “查克拉不足”，证明查克拉消费进入实际技能门禁。
+- 佐助随后使用零查克拉近战，预览伤害 11、命中率 98%，但自然结算后卡卡西仍为 38 HP，
+  形成一次可审计的 RNG 未命中样本。
+- 鸣人的远程忍具预览为攻击 6×3、距离 3、命中率 90%，自然命中后卡卡西从 38 HP
+  降至 13 HP；下一回合再次选择同一忍具会提示库存不足，证明忍具按库存消费且不会每回合刷新。
+- 小樱两次零查克拉近战分别把卡卡西从 13 HP 降至 8 HP、再从 8 HP 降至 3 HP。
+  离线读取 `0x020240C0 + slot*0x1D4` 记录确认 Naruto/Sasuke/Sakura/Kakashi 坐标分别为
+  `(5,9)/(4,10)/(6,9)/(6,8)`，最终应从小樱目标网格输入 `Up`，而非错误分支的 `Left`。
+- 决胜预览快照为 `round6-sakura-correct-preview.ss9`，SHA-256
+  `c382a80f0466ff38ae555e87c91d5cb0b8c5c2ee37d5628ef3dcd12d90591871`；结算后
+  `victory-dialogue-a2.ss9` 显示胜利，SHA-256
+  `ceb2d02dc49ab88ea610096b1e98c6b116af1cb1a33e2fb2597b05a9b3a73aa0`。
+
+## 奖励与安全边界
+
+- 结果页给 Naruto、Sasuke、Sakura 各 150 EXP；战后模板记录为 Naruto LV3/EXP275、
+  Sasuke LV3/EXP0、Sakura LV3/EXP60，佐助和小樱均出现升至 LV3 的成长页，随后出现技能解锁序列。
+- 场景目录共 289 份含 RSS 的守卫 audit，全部 `success=true`、`pgid_clean=true`；其中 271 份
+  内嵌监听检查且全部 `mgba_listener_clean=true`，18 份旧零输入 audit 未写该字段，不能把字段缺失
+  解释为独立通过。最终 `lsof` 检查无 mGBA 监听。最高 owned-tree RSS 52.74609375 MiB，
+  正式世界地图零输入复放为 52.6640625 MiB，均远低于 140 MiB 上限。
+- macOS `mGBA-*.ips` 数量保持 25，未新增崩溃报告，未生成
+  `build/resource-guard/mgba-crash-latch.json`，结束后无 mGBA 进程残留。
+- 正式机器可读证据为
+  `artifacts/runtime-checkpoints/scenario-45-progression-evidence.json`；本结论只覆盖场景 45，
+  不声称后续任务已完成。

@@ -1,0 +1,72 @@
+{
+  "outcome": "scenario-45-natural-victory-verified",
+  "scope": "scenario-45-progression",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-45-postbattle-world-map.ss9",
+    "sha256": "61623b3ceeb9112326ed878099537ae40fd384877908850f6c60024c3e131923",
+    "task_resume": "0x08067D02",
+    "rgb_pixels_sha256": "67adb3c5f6e21ea6e5488de965a6e57a50dce53a9f290c28697f73c4f2b16a7c",
+    "zero_input_verified": true,
+    "zero_input_run_id": "ddd75bba563f2a286e85dbc3e03bcae0",
+    "zero_input_output_sha256": "61623b3ceeb9112326ed878099537ae40fd384877908850f6c60024c3e131923"
+  },
+  "objective": {
+    "battle_scenario": 45,
+    "battle_scenario_hex": "0x2D",
+    "enemy_character": 7,
+    "enemy_stored_hp_before_finisher": 3,
+    "finisher_character": 3,
+    "finisher_preview_damage": 5,
+    "finisher_preview_hit_percent": 96,
+    "finisher_preview_state_sha256": "c382a80f0466ff38ae555e87c91d5cb0b8c5c2ee37d5628ef3dcd12d90591871",
+    "victory_state_sha256": "ceb2d02dc49ab88ea610096b1e98c6b116af1cb1a33e2fb2597b05a9b3a73aa0"
+  },
+  "natural_reward": {
+    "per_character_exp": 150,
+    "postbattle_templates": {
+      "naruto": {
+        "character_id": 1,
+        "level": 3,
+        "exp": 275,
+        "max_hp": 109
+      },
+      "sasuke": {
+        "character_id": 2,
+        "level": 3,
+        "exp": 0,
+        "max_hp": 89
+      },
+      "sakura": {
+        "character_id": 3,
+        "level": 3,
+        "exp": 60,
+        "max_hp": 80
+      }
+    },
+    "level_up_screens": [
+      "sasuke-level-3",
+      "sakura-level-3"
+    ],
+    "skill_unlock_sequence_observed": true
+  },
+  "resources": {
+    "guarded_audits_in_run_directory": 289,
+    "maximum_peak_tree_rss_mib": 52.74609375,
+    "formal_zero_input_peak_tree_rss_mib": 52.6640625,
+    "memory_limit_mib": 140,
+    "memory_anomaly": false,
+    "all_pgid_clean": true,
+    "audits_with_listener_check": 271,
+    "listener_checked_audits_clean": true,
+    "audits_without_listener_field": 18,
+    "final_listener_clean": true,
+    "macos_mgba_crash_reports_before": 25,
+    "macos_mgba_crash_reports_after": 25,
+    "crash_latch_created": false
+  },
+  "boundary": "The checkpoint proves the natural scenario-45 battle result, rewards, postbattle dialogue, and stable return to the world map; it does not claim completion of later missions."
+}
