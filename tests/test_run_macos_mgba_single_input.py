@@ -127,10 +127,10 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input_payload(
             payload, key="Up", down_frame=5, up_frame=13, capture_frame=80
         )
-        self.assertIn("Down, Up, Left, Right, A, B, or L", self.runner.__doc__)
-        self.assertIn("Down, Up, Left, Right, A, B, or L", self.runner.build_parser().format_help())
+        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.__doc__)
+        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.build_parser().format_help())
         with self.assertRaisesRegex(
-            self.runner.ReplayError, "Down, A, B, L, or Up"
+            self.runner.ReplayError, "Down, Up, Left, Right, A, B, L, or Start"
         ):
             self.runner.validate_single_input("R", 5, 13, 80)
 
@@ -149,12 +149,32 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input_payload(
             payload, key="L", down_frame=5, up_frame=13, capture_frame=80
         )
-        self.assertIn("Down, Up, Left, Right, A, B, or L", self.runner.__doc__)
-        self.assertIn("Down, Up, Left, Right, A, B, or L", self.runner.build_parser().format_help())
+        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.__doc__)
+        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.build_parser().format_help())
         with self.assertRaisesRegex(
-            self.runner.ReplayError, "Down, A, B, L, or Up"
+            self.runner.ReplayError, "Down, Up, Left, Right, A, B, L, or Start"
         ):
             self.runner.validate_single_input("R", 5, 13, 80)
+
+    def test_start_payload_is_supported_by_fixed_lua(self):
+        payload = {
+            "evidence_mode": "single-input",
+            "zero_input_verified": False,
+            "inputs": [
+                {"key": "Start", "down_frame": 5, "up_frame": 13, "hold_frames": 8}
+            ],
+            "automatic_inputs": [],
+            "recovery_inputs": [],
+            "frame": 80,
+            "capture_frame": 80,
+        }
+        self.runner.validate_single_input_payload(
+            payload, key="Start", down_frame=5, up_frame=13, capture_frame=80
+        )
+        lua = LUA.read_text(encoding="utf-8")
+        self.assertIn("Start = C.GBA_KEY.START", lua)
+        self.assertIn("Start", self.runner.__doc__)
+        self.assertIn("Start", self.runner.build_parser().format_help())
 
     def test_single_and_zero_input_lua_hashes_are_pinned_independently(self):
         zero_runner = importlib.import_module("tools.run_macos_mgba_replay")

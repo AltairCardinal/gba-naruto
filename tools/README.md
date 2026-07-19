@@ -241,6 +241,28 @@ Exit code 75 means lock contention or admission rejection; 124 means wall/idle t
 child exit code. Each run atomically writes the requested JSON summary with child PID,
 peak owned-tree RSS, backend, reason, and degradation state.
 
+Every command whose executable name is `mGBA` or starts with `mGBA-` also passes the
+`mgba_runtime_safety.py` policy before launch. The policy reads every actual `--script`
+file, including temporary scripts under `build/`. Scripts may use only direct
+`os.getenv(...)` and `io.open(...)` access required by the fixed runners; other
+`os`, `io`, `ffi`, or `posix` access and dynamic-global loading primitives are rejected
+before the child starts. Fixed
+Lua callbacks must write their run-bound completion marker and then remain inert; only
+the resource guard may stop the owned process group.
+
+The same policy persists a confirmed inventory of
+`~/Library/Logs/DiagnosticReports/mGBA-*.ips`, snapshots it before launch, and waits
+briefly after cleanup. Preflight, launch, cleanup, and crash-report settlement all run
+while the same heavy lock is held. A new or changed report—including one that appeared
+after the previous settlement window—overrides a zero exit or
+success-marker result with `mgba-crash-report/125` and creates
+`build/resource-guard/mgba-crash-latch.json`. While that latch exists, later mGBA runs
+fail before launch; non-mGBA guarded commands remain available. Clearing the latch is
+an explicit acknowledgement through `clear_crash_latch()` in
+`tools.mgba_runtime_safety`; it appends the previous latch and current report inventory
+to `mgba-crash-latch.json.history.jsonl` before removing the latch. Do not delete the
+latch directly or disable macOS crash reports to bypass this gate.
+
 Cleanup is exact-tree only: a Windows Job Object or POSIX process group created for that
 run. Never add `pkill`, `killall`, `taskkill /IM`, `Stop-Process` by name, or any other
 process-name cleanup. Missing isolation or monitoring fails closed unless an explicitly
@@ -278,6 +300,8 @@ the patch there, and never writes to the clean cache or the user's
 and the real Lua sentinel all use `run_guarded.py` with the same heavy lock, 4096 MiB
 admission floor, 1536 MiB owned-tree RSS ceiling, and non-degraded PGID ownership. An
 admission rejection is reported as `BLOCKED`; the memory floor is never lowered.
+The sentinel phase passes the mGBA executable directly to the guard; it must never use
+an intermediate launcher that hides the real `--script` command from the safety policy.
 
 Example (all work/build outputs remain outside the repository or under ignored
 `build/` evidence):
@@ -297,7 +321,8 @@ Qt ON, SDL OFF, CMake policy minimum 3.5, Ninja, and build parallelism 2. Succes
 requires fresh guard summaries from the current wrapper invocation to be `completed/0`,
 help to contain `--script`, the binary
 to be Mach-O x86_64, and a Lua script to execute on the first frame of a staged copy of
-`rom/base.gba` before exiting normally. ROM staging keeps mGBA save-file side effects
+`rom/base.gba` before the guard stops the owned process tree after its success marker.
+ROM staging keeps mGBA save-file side effects
 inside the ignored evidence directory; prior staged ROM sidecars are removed before the
 copy. Help/version outputs, summaries, and the sentinel marker are removed before their
 phase, and the sentinel result must carry a newly generated run ID that is also attached
@@ -461,7 +486,7 @@ addresses use the strict, guarded `mgba_gdb_probe.py` path instead.
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
 separate Task 4.7 input segment. The CLI accepts exactly one `Down`, `Up`, `Left`, `Right`, `A`,
-`B`, or `L` event and
+`B`, `L`, or `Start` event and
 requires `0 < down-frame < up-frame < capture-frame`. It has no custom Lua or
 `--pre-script` option. The fixed Lua contains one `emu:addKey`, one `emu:clearKey` and
 one capture callback; the finalized audit therefore requires one matching event,

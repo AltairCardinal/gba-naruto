@@ -603,6 +603,8 @@ def run_guarded(
     sleeper: Callable[[float], None] = time.sleep,
     protection_backend: str | None = None,
     success_marker: str | Path | None = None,
+    locked_preflight: Callable[[], None] | None = None,
+    locked_postflight: Callable[[GuardResult], None] | None = None,
 ) -> GuardResult:
     """Run one owned child under lock, admission, and resource monitoring."""
 
@@ -642,6 +644,8 @@ def run_guarded(
     try:
         with ProjectLock(effective_lock_path, "heavy"):
             try:
+                if locked_preflight is not None:
+                    locked_preflight()
                 result = _run_while_locked(
                     command,
                     cwd=cwd_path,
@@ -668,6 +672,21 @@ def run_guarded(
                     fatal_error = error
             if not summary_state["written"] or summary_state["result"] != result:
                 write_summary(result)
+            if locked_postflight is not None:
+                try:
+                    locked_postflight(result)
+                except BaseException as error:
+                    result = GuardResult(
+                        "protection-failure",
+                        125,
+                        result.child_pid,
+                        result.peak_tree_rss_mib,
+                        result.protection_backend,
+                        result.degraded,
+                    )
+                    write_summary(result)
+                    if not isinstance(error, Exception):
+                        fatal_error = error
     except _HeavyResourceLockBusy:
         result = GuardResult("lock-busy", 75, None, 0.0, effective_backend, False)
         write_summary(result)

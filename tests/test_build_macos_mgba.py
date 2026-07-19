@@ -272,16 +272,19 @@ class BuildMacosMgbaTests(unittest.TestCase):
             self.assertEqual(target.read_text(encoding="utf-8"), "new\n")
 
     def test_guard_command_pins_heavy_lock_and_resource_limits(self):
+        marker = Path("build/resource-guard/sentinel.done.json")
         command = builder.guarded_command(
             Path("build/resource-guard/phase.json"),
             Path("/work"),
             ["cmake", "--build", "/build", "--parallel", "2"],
+            success_marker=marker,
         )
         self.assertEqual(command[:2], [builder.sys.executable, str(builder.GUARD_SCRIPT)])
         self.assertIn(str(builder.HEAVY_LOCK), command)
         self.assertIn("4096", command)
         self.assertIn("1536", command)
         self.assertEqual(command[-5:], ["cmake", "--build", "/build", "--parallel", "2"])
+        self.assertEqual(command[command.index("--success-marker") + 1], str(marker))
         self.assertNotIn("--allow-degraded", command)
 
     def test_cmake_and_build_commands_have_required_fingerprint(self):
@@ -336,7 +339,8 @@ class BuildMacosMgbaTests(unittest.TestCase):
             lua = builder.sentinel_lua(marker, "current-run")
             self.assertIn('callbacks:add("frame"', lua)
             self.assertIn("emu:readRegister", lua)
-            self.assertIn("os.exit(0)", lua)
+            self.assertNotIn("os.exit", lua)
+            self.assertIn("capture_complete", lua)
             with self.assertRaisesRegex(builder.BuildError, "sentinel"):
                 builder.validate_sentinel(marker, "current-run")
             marker.write_text(
@@ -370,17 +374,11 @@ class BuildMacosMgbaTests(unittest.TestCase):
             staged = root / "evidence" / "sentinel-base.gba"
             staged.parent.mkdir()
             staged.with_suffix(".sav").write_bytes(b"stale-save")
-            exit_code = builder._run_staged_sentinel(
-                fake_mgba,
-                root / "sentinel.lua",
-                original,
-                staged,
-            )
-            self.assertEqual(exit_code, 0)
+            builder._stage_sentinel_rom(original, staged)
             self.assertEqual(original.read_bytes(), b"rom")
             self.assertFalse(original.with_suffix(".sav").exists())
             self.assertEqual(staged.read_bytes(), b"rom")
-            self.assertEqual(staged.with_suffix(".sav").read_bytes(), b"save")
+            self.assertFalse(staged.with_suffix(".sav").exists())
 
     def test_main_replaces_stale_sentinel_symlink_without_following_it(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -424,7 +422,9 @@ class BuildMacosMgbaTests(unittest.TestCase):
                 "summary = pathlib.Path(args[args.index('--summary') + 1])\n"
                 "command = args[args.index('--') + 1:]\n"
                 "result = subprocess.run(command)\n"
-                "summary.write_text(json.dumps({'reason': 'completed' if result.returncode == 0 else 'child-exit', 'exit_code': result.returncode, 'child_pid': os.getpid(), 'peak_tree_rss_mib': 1, 'protection_backend': 'posix-process-group', 'degraded': False, 'command': command}))\n"
+                "payload = {'reason': 'completed' if result.returncode == 0 else 'child-exit', 'exit_code': result.returncode, 'child_pid': os.getpid(), 'peak_tree_rss_mib': 1, 'protection_backend': 'posix-process-group', 'degraded': False, 'command': command}\n"
+                "if '--success-marker' in args: payload['completion_trigger'] = 'success-marker'\n"
+                "summary.write_text(json.dumps(payload))\n"
                 "raise SystemExit(result.returncode)\n",
                 encoding="utf-8",
             )
@@ -433,7 +433,9 @@ class BuildMacosMgbaTests(unittest.TestCase):
             source_validations = []
             manifest_inputs = {}
 
-            def fake_phase(name, command, *, cwd, evidence_dir):
+            def fake_phase(
+                name, command, *, cwd, evidence_dir, success_marker=None
+            ):
                 if name == "prepare":
                     self.assertEqual(base64.b64decode(command[-1]), PATCH.read_bytes())
                     workspace.mkdir(parents=True)
@@ -459,11 +461,20 @@ class BuildMacosMgbaTests(unittest.TestCase):
                     self.assertFalse(Path(command[3]).exists(), f"stale {name} was reused")
                     self.assertEqual(builder._internal_main(command[2:]), 0)
                 elif name == "sentinel":
+                    self.assertEqual(
+                        success_marker, evidence_dir / "sentinel-result.json"
+                    )
+                    self.assertEqual(
+                        Path(command[0]),
+                        (build / "qt" / "mGBA.app" / "Contents" / "MacOS" / "mGBA").resolve(),
+                    )
+                    self.assertEqual(command[1], "--script")
                     return original_run_phase(
                         name,
                         command,
                         cwd=cwd,
                         evidence_dir=evidence_dir,
+                        success_marker=success_marker,
                     )
                 return {
                     "reason": "completed",

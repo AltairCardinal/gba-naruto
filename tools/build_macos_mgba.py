@@ -173,8 +173,14 @@ def _prepare_fresh_output(path: Path, label: str) -> None:
     raise BuildError(f"stale {label} is not a regular file or symlink: {path}")
 
 
-def guarded_command(summary: Path, cwd: Path, command: Sequence[str]) -> list[str]:
-    return [
+def guarded_command(
+    summary: Path,
+    cwd: Path,
+    command: Sequence[str],
+    *,
+    success_marker: Path | None = None,
+) -> list[str]:
+    guarded = [
         sys.executable,
         str(GUARD_SCRIPT),
         "--summary",
@@ -191,9 +197,10 @@ def guarded_command(summary: Path, cwd: Path, command: Sequence[str]) -> list[st
         "1800",
         "--idle-timeout-s",
         "180",
-        "--",
-        *map(str, command),
     ]
+    if success_marker is not None:
+        guarded.extend(("--success-marker", str(success_marker)))
+    return [*guarded, "--", *map(str, command)]
 
 
 def cmake_configure_command(source: Path, build: Path) -> list[str]:
@@ -248,6 +255,7 @@ def sentinel_lua(marker: Path, run_id: str) -> str:
     return f'''local marker = {marker_literal}
 local run_id = {run_literal}
 local frame = 0
+local capture_complete = false
 
 local function write_marker(payload)
     local out = assert(io.open(marker, "w"))
@@ -257,10 +265,13 @@ end
 
 write_marker(string.format('{{"script_loaded":true,"frame":0,"pc":"loaded","run_id":"%s"}}', run_id))
 callbacks:add("frame", function()
+    if capture_complete then
+        return
+    end
     frame = frame + 1
     local pc = tostring(emu:readRegister("pc"))
     write_marker(string.format('{{"script_loaded":true,"frame":%d,"pc":"%s","run_id":"%s"}}', frame, pc, run_id))
-    os.exit(0)
+    capture_complete = true
 end)
 '''
 
@@ -324,10 +335,13 @@ def _run_phase(
     *,
     cwd: Path,
     evidence_dir: Path,
+    success_marker: Path | None = None,
 ) -> dict[str, object]:
     summary_path = evidence_dir / f"{name}.json"
     _prepare_fresh_output(summary_path, "guard summary")
-    wrapped = guarded_command(summary_path, cwd, command)
+    wrapped = guarded_command(
+        summary_path, cwd, command, success_marker=success_marker
+    )
     env = os.environ.copy()
     env["QT_QPA_PLATFORM"] = "offscreen"
     completed = subprocess.run(wrapped, cwd=ROOT, env=env, check=False)
@@ -348,6 +362,8 @@ def _run_phase(
     if completed.returncode != 0:
         raise BuildError(f"guard wrapper exited {completed.returncode} for {name}")
     validate_guard_summary(summary, command)
+    if success_marker is not None and summary.get("completion_trigger") != "success-marker":
+        raise BuildError("guarded sentinel is missing success-marker completion trigger")
     return summary
 
 
@@ -385,22 +401,17 @@ def _capture(output: Path, command: Sequence[str]) -> int:
     return completed.returncode
 
 
-def _run_staged_sentinel(binary: Path, script: Path, source_rom: Path, staged_rom: Path) -> int:
+def _stage_sentinel_rom(source_rom: Path, staged_rom: Path) -> None:
     staged_rom.parent.mkdir(parents=True, exist_ok=True)
     for stale in staged_rom.parent.glob(f"{staged_rom.stem}.*"):
         if not stale.is_file() and not stale.is_symlink():
             raise BuildError(f"stale sentinel sidecar is not a file: {stale}")
         stale.unlink()
     shutil.copy2(source_rom, staged_rom)
-    completed = subprocess.run(
-        [str(binary), "--script", str(script), str(staged_rom)],
-        check=False,
-    )
-    return completed.returncode
 
 
 def _internal_main(argv: Sequence[str]) -> int | None:
-    if not argv or argv[0] not in {"_prepare", "_capture", "_sentinel"}:
+    if not argv or argv[0] not in {"_prepare", "_capture"}:
         return None
     if argv[0] == "_prepare":
         if len(argv) != 4:
@@ -410,10 +421,6 @@ def _internal_main(argv: Sequence[str]) -> int | None:
         except ValueError as error:
             raise BuildError(f"_prepare patch payload is not valid base64: {error}") from error
         return _prepare(Path(argv[1]), Path(argv[2]), patch_data)
-    if argv[0] == "_sentinel":
-        if len(argv) != 5:
-            raise BuildError("_sentinel requires BINARY SCRIPT SOURCE_ROM STAGED_ROM")
-        return _run_staged_sentinel(*(Path(value) for value in argv[1:]))
     if "--" not in argv:
         raise BuildError("_capture requires OUTPUT -- COMMAND")
     separator = argv.index("--")
@@ -522,17 +529,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     run_id = secrets.token_hex(16)
     sentinel_path.write_text(sentinel_lua(marker_path, run_id), encoding="utf-8")
     staged_rom = args.evidence_dir / "sentinel-base.gba"
+    _stage_sentinel_rom(args.rom, staged_rom)
     sentinel_command = [
-        sys.executable,
-        str(Path(__file__).resolve()),
-        "_sentinel",
         str(binary),
+        "--script",
         str(sentinel_path),
-        str(args.rom),
         str(staged_rom),
     ]
     sentinel_summary = _run_phase(
-        "sentinel", sentinel_command, cwd=ROOT, evidence_dir=args.evidence_dir
+        "sentinel",
+        sentinel_command,
+        cwd=ROOT,
+        evidence_dir=args.evidence_dir,
+        success_marker=marker_path,
     )
     sentinel_result = validate_sentinel(marker_path, run_id)
     sentinel_summary["sentinel_run_id"] = run_id

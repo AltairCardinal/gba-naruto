@@ -250,6 +250,111 @@ class RunGuardedCliTests(unittest.TestCase):
         finally:
             _stop_exact_process(sentinel)
 
+    def test_mgba_dangerous_lua_is_rejected_before_child_launch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            launched = root / "launched.txt"
+            fake_mgba = root / "mGBA"
+            fake_mgba.write_text(
+                "#!/usr/bin/env python3\n"
+                "from pathlib import Path\n"
+                f"Path({str(launched)!r}).write_text('launched')\n",
+                encoding="utf-8",
+            )
+            fake_mgba.chmod(0o755)
+            lua = root / "dangerous.lua"
+            lua.write_text("callbacks:add('frame', function() os.exit(0) end)\n")
+            summary = root / "summary.json"
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--mgba-crash-report-dir", str(root / "reports"),
+                    "--mgba-crash-latch", str(root / "latch.json"),
+                    "--mgba-crash-settle-s", "0",
+                    "--", str(fake_mgba), "--script", str(lua), "game.gba",
+                ]
+            )
+            self.assertEqual(completed.returncode, 125, completed.stderr)
+            self.assertFalse(launched.exists())
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            self.assertEqual(payload["reason"], "mgba-safety-rejected")
+            self.assertIn("dangerous Lua", payload["safety_error"])
+
+    def test_new_mgba_crash_report_overrides_zero_exit_and_latches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reports = root / "reports"
+            reports.mkdir()
+            crash = reports / "mGBA-2026-07-19-130000.ips"
+            marker = root / "sentinel-result.json"
+            fake_mgba = root / "mGBA"
+            fake_mgba.write_text(
+                "#!/usr/bin/env python3\n"
+                "import time\n"
+                "from pathlib import Path\n"
+                f"Path({str(crash)!r}).write_text('crash')\n"
+                f"Path({str(marker)!r}).write_text('{{\"capture_complete\":true}}')\n"
+                "time.sleep(30)\n",
+                encoding="utf-8",
+            )
+            fake_mgba.chmod(0o755)
+            summary = root / "summary.json"
+            latch = root / "latch.json"
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary),
+                    "--success-marker", str(marker),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--mgba-crash-report-dir", str(reports),
+                    "--mgba-crash-latch", str(latch),
+                    "--mgba-crash-settle-s", "0",
+                    "--", str(fake_mgba), "game.gba",
+                ]
+            )
+            self.assertEqual(completed.returncode, 125, completed.stderr)
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            self.assertEqual(payload["reason"], "mgba-crash-report")
+            self.assertEqual(payload["pre_crash_reason"], "completed")
+            self.assertEqual(payload["completion_trigger"], "success-marker")
+            self.assertTrue(latch.exists())
+
+    def test_mgba_latch_write_failure_cannot_report_success(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reports = root / "reports"
+            reports.mkdir()
+            crash = reports / "mGBA-write-failure.ips"
+            fake_mgba = root / "mGBA"
+            fake_mgba.write_text(
+                "#!/usr/bin/env python3\n"
+                "from pathlib import Path\n"
+                f"Path({str(crash)!r}).write_text('crash')\n",
+                encoding="utf-8",
+            )
+            fake_mgba.chmod(0o755)
+            blocked_parent = root / "not-a-directory"
+            blocked_parent.write_text("file", encoding="utf-8")
+            summary = root / "summary.json"
+            completed = self._run_cli(
+                [
+                    "--summary", str(summary),
+                    "--lock-file", str(root / "heavy.lock"),
+                    "--min-available-mib", "0",
+                    "--mgba-crash-report-dir", str(reports),
+                    "--mgba-crash-latch", str(blocked_parent / "latch.json"),
+                    "--mgba-crash-baseline", str(root / "baseline.json"),
+                    "--mgba-crash-settle-s", "0",
+                    "--", str(fake_mgba), "game.gba",
+                ]
+            )
+            self.assertEqual(completed.returncode, 125, completed.stderr)
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            self.assertEqual(payload["reason"], "mgba-safety-rejected")
+            self.assertIn("cannot write mGBA safety state", payload["safety_error"])
+
     def test_root_exit_does_not_abandon_live_grandchild(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -646,6 +751,53 @@ class RunGuardedCliAndPosixTests(unittest.TestCase):
                         else:
                             _terminate_exact_pid(first_pid)
                     self.assertTrue(_wait_pid_gone(first_pid), first_pid)
+
+    def test_mgba_crash_settle_holds_heavy_lock_until_postflight_finishes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reports = root / "reports"
+            reports.mkdir()
+            lock_file = root / "heavy.lock"
+            latch = root / "latch.json"
+            launched = root / "launched.txt"
+            mgba = root / "mGBA"
+            mgba.write_text(
+                "#!/usr/bin/env python3\n"
+                "from pathlib import Path\n"
+                f"p=Path({str(launched)!r}); p.write_text(p.read_text() + 'x' if p.exists() else 'x')\n",
+                encoding="utf-8",
+            )
+            mgba.chmod(0o755)
+            common = [
+                "--lock-file", str(lock_file),
+                "--min-available-mib", "0",
+                "--mgba-crash-report-dir", str(reports),
+                "--mgba-crash-latch", str(latch),
+                "--mgba-crash-settle-s", "1.0",
+            ]
+            first = subprocess.Popen(
+                [sys.executable, str(CLI), "--summary", str(root / "first.json"), *common, "--", str(mgba)],
+                cwd=ROOT,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            try:
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline and not launched.exists():
+                    time.sleep(0.01)
+                self.assertTrue(launched.exists())
+                second = self._run_cli(
+                    ["--summary", str(root / "second.json"), *common, "--", str(mgba)]
+                )
+                self.assertEqual(second.returncode, 75, second.stderr)
+                self.assertEqual(launched.read_text(encoding="utf-8"), "x")
+                self.assertEqual(
+                    json.loads((root / "second.json").read_text(encoding="utf-8"))["reason"],
+                    "lock-busy",
+                )
+            finally:
+                first.communicate(timeout=4)
 
     def test_static_source_contains_no_broad_process_cleanup(self):
         source = "\n".join(
