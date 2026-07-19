@@ -51,3 +51,21 @@
   `zero_input_verified=true`、`pgid_clean=true`，峰值 owned-tree RSS 51.9375 MiB。
 - 后续直接从第四回合快照继续：敌人已围拢，优先让三名玩家使用攻击术集中消耗同一目标，
   不再重复部署、接敌或远程技能方向试探。
+
+## battle 13 首敌击倒恢复点
+
+- Naruto 的行动菜单第三项实际是“查克拉”，本关攻击从“术·忍具”中的“攻”技能发起。
+  距离 1、攻击力 10×1、命中 98% 的技能连续造成 14、21、14 点伤害；第四项攻击力
+  6×3、命中 90% 的多段技能再造成 24 点伤害。第七回合最后一次邻接攻击触发剧情对白，
+  对白结束后槽 8 character ID 清零，确认首名敌人自然击倒。
+- Sakura 从 `(8,5)` 直达 `(8,7)` 被游戏拒绝，改走 `(9,6)` 有效；随后两次攻击槽 7，
+  使其 HP `80 -> 72 -> 64`。Sasuke 在 `(5,5)` 使用距离 1 攻击槽 6，使其 HP
+  `80 -> 69 -> 58`。Sasuke 默认火遁标示距离 2，不能用于邻接目标。
+- 当前玩家 HP 为 Naruto/Sasuke/Sakura `14/59/70`。正式恢复点停在 Sasuke 攻击完成后的
+  朝向选择、尚未进入下一敌方阶段：
+  `artifacts/runtime-checkpoints/scenario-47-battle-13-turn7-first-kill.ss9`，SHA-256
+  `d4429e4993bb96a5c638266a06456dd9f2a29e400e35d4938eeca3040774736a`。
+  600 帧零输入恢复 run `79a81a85b274ffd3e54f9ac3acd0f047` 成功，
+  `zero_input_verified=true`、`pgid_clean=true`，峰值 owned-tree RSS 52.05859375 MiB。
+- 下一步先选择 Sasuke 朝向；Naruto 只有 14 HP，不能直接重复无防御过回合。应测试防御或
+  分身吸收火力，并让 Sakura/Sasuke 优先击倒相邻目标，避免 Naruto 在下一敌方阶段阵亡。
