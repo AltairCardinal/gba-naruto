@@ -30,3 +30,17 @@
 
 从正式 checkpoint 继续委托人对白，遇到任务标题、编队或可操作地图时固化下一检查点；
 减少截图展开，只在状态类型变化时检查画面，以控制 Codex 桌面渲染内存和上下文体积。
+
+## 编队检查点续进（16:21–16:32）
+
+- 从 `scenario-46-client-dialogue.ss9` 继续 68 个单 A 边界，完整推进达兹纳委托说明、
+  第七班争执和出发剧情，最终进入“队伍・装备”编队界面。
+- 该段统一使用 80 帧单输入检查点；`build/scenario-46-resume-20260719` 共 69 份含正式
+  零输入复验的 audit，全部 `success=true`、`pgid_clean=true`，最高 owned-tree RSS
+  52.4140625 MiB。
+- 正式恢复点为 `artifacts/runtime-checkpoints/scenario-46-lineup.ss9`，SHA-256
+  `e91f1a72b59d6ee00e180818d9aa51679525c6fff13b9147f893fc97667c10a3`；80 帧零输入
+  run `be4c7240ba89e8d936f997d55b0087b8` 成功，峰值 RSS 52.08203125 MiB。
+- macOS mGBA crash report 仍为 25，未生成 crash latch，检查点结束后无 mGBA 进程残留。
+- 下一轮直接从编队检查点选择“开始任务”并建立场景 46 可操作地图快照，不再重放本页记录的
+  前置对白。
