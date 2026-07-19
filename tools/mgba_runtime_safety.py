@@ -88,14 +88,68 @@ def _validate_lua_script(path: Path) -> None:
         text = resolved.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
         raise MgbaSafetyError(f"cannot inspect mGBA Lua {path}: {error}") from error
+    code = _lua_code_without_literals(text, resolved)
     for pattern in _DANGEROUS_LUA:
-        if pattern.search(text):
+        if pattern.search(code):
             raise MgbaSafetyError(f"dangerous Lua process termination in {resolved}")
-    without_safe_access = text
+    without_safe_access = code
     for safe_access in _SAFE_GLOBAL_ACCESS:
         without_safe_access = safe_access.sub("", without_safe_access)
     if _SENSITIVE_GLOBAL.search(without_safe_access):
         raise MgbaSafetyError(f"dangerous Lua process termination in {resolved}")
+
+
+def _lua_code_without_literals(text: str, path: Path) -> str:
+    """Blank quoted strings and comments while preserving code positions."""
+    output = list(text)
+    index = 0
+    length = len(text)
+    while index < length:
+        if text.startswith("--[[", index):
+            end = text.find("]]", index + 4)
+            if end < 0:
+                raise MgbaSafetyError(f"cannot inspect mGBA Lua {path}: unterminated comment")
+            for cursor in range(index, end + 2):
+                if output[cursor] != "\n":
+                    output[cursor] = " "
+            index = end + 2
+            continue
+        if text.startswith("--", index):
+            end = text.find("\n", index + 2)
+            if end < 0:
+                end = length
+            for cursor in range(index, end):
+                output[cursor] = " "
+            index = end
+            continue
+        if text.startswith("[[", index):
+            end = text.find("]]", index + 2)
+            if end < 0:
+                raise MgbaSafetyError(f"cannot inspect mGBA Lua {path}: unterminated string")
+            for cursor in range(index, end + 2):
+                if output[cursor] != "\n":
+                    output[cursor] = " "
+            index = end + 2
+            continue
+        quote = text[index]
+        if quote not in {"'", '"'}:
+            index += 1
+            continue
+        cursor = index + 1
+        while cursor < length:
+            if text[cursor] == "\\":
+                cursor += 2
+                continue
+            if text[cursor] == quote:
+                break
+            cursor += 1
+        if cursor >= length:
+            raise MgbaSafetyError(f"cannot inspect mGBA Lua {path}: unterminated string")
+        for position in range(index, cursor + 1):
+            if output[position] != "\n":
+                output[position] = " "
+        index = cursor + 1
+    return "".join(output)
 
 
 def _snapshot_crash_reports(crash_dir: Path) -> dict[str, tuple[int, int]]:

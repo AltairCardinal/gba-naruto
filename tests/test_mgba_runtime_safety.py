@@ -68,6 +68,20 @@ class MgbaRuntimeSafetyTests(unittest.TestCase):
             self.assertIsNotNone(audit)
             self.assertIn(str(old.resolve()), audit.crash_reports_before)
 
+    def test_repository_fixed_single_input_runner_passes_lua_policy(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reports = root / "reports"
+            reports.mkdir()
+            script = Path(__file__).resolve().parents[1] / "tools" / "mgba_single_input_replay.lua"
+            audit = self.safety.prepare_mgba_launch(
+                ["mGBA", "--script", str(script), "game.gba"],
+                crash_dir=reports,
+                latch_path=root / "latch.json",
+                settle_timeout_s=0,
+            )
+            self.assertIsNotNone(audit)
+
     def test_late_crash_report_is_rejected_before_the_next_launch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

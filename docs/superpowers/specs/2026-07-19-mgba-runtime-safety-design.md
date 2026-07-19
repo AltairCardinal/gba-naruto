@@ -7,7 +7,7 @@
 ## 设计
 
 - 复用 `tools/run_guarded.py` 作为所有高开销进程的统一入口；在同一把 heavy lock 内依次执行 Lua/熔断预检、mGBA 启动与崩溃报告收尾，后一个 mGBA 请求不能越过尚未完成的收尾。
-- 允许固定脚本所需的直接 `os.getenv(...)` 与 `io.open(...)`；拒绝其余 `os`、`io`、`ffi`、`posix` 全局访问以及动态全局加载入口，因而同时覆盖直接调用、方括号访问和二级别名。检查传入的实际文件，因此也覆盖 `build/` 下临时脚本。
+- 先剥离 Lua 字符串与注释，再允许固定脚本所需的直接 `os.getenv(...)` 与 `io.open(...)`；拒绝其余 `os`、`io`、`ffi`、`posix` 全局访问以及动态全局加载入口，因而同时覆盖直接调用、方括号访问和二级别名，又不会把错误消息中的普通单词误判为代码。检查传入的实际文件，因此也覆盖 `build/` 下临时脚本。
 - 启动前读取 `build/resource-guard/mgba-crash-latch.json`。熔断存在时拒绝新 mGBA；它只能由显式审计命令在确认没有未处理崩溃后清除。
 - 持久化已确认的 crash-report 基线。运行前后比较 `~/Library/Logs/DiagnosticReports/mGBA-*.ips`；本轮或上一轮收尾后迟到的新报告都会写入熔断并把结果改判为失败，即使成功 marker 已先产生。
 - 构建验收的 sentinel 直接把 mGBA 作为 `run_guarded.py` 子进程，禁止通过 Python 包装器二次启动而绕过策略。

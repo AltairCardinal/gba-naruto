@@ -243,7 +243,8 @@ peak owned-tree RSS, backend, reason, and degradation state.
 
 Every command whose executable name is `mGBA` or starts with `mGBA-` also passes the
 `mgba_runtime_safety.py` policy before launch. The policy reads every actual `--script`
-file, including temporary scripts under `build/`. Scripts may use only direct
+file, including temporary scripts under `build/`. The scan blanks Lua strings and
+comments before evaluating code tokens. Scripts may use only direct
 `os.getenv(...)` and `io.open(...)` access required by the fixed runners; other
 `os`, `io`, `ffi`, or `posix` access and dynamic-global loading primitives are rejected
 before the child starts. Fixed
