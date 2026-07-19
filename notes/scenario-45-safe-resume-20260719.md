@@ -48,3 +48,12 @@
 - 移动网格的正确语义已确认：方向输入选择橙色目的格，A 才执行整段移动；不是按住方向直接走格。`Up` 选中原地，`Down → Right → Right` 是绕过岩石的本轮可达终点，第三次 Right 会越界切换到敌方单位查看。
 - 已从第二次 Right 的目的格确认移动。新恢复点为 `build/scenario-45-safe-resume-20260719/sasuke-move-drr-confirm.ss9`，SHA-256 `6aa4fcad670ddf377699888374994888782f99c4ab09b392d4b3dec6e6cfb772`；佐助已移动到卡卡西近旁并返回行动菜单。
 - 从该行动菜单执行 `Down → A` 会打开“结束行动？”确认框，并非忍术菜单；`sasuke-postmove-tech-open.ss9` 只作为错误分支证据。下一次应从 `sasuke-move-drr-confirm.ss9` 校准其他菜单方向，不从确认框继续。
+
+## 火遁命中与回合对白（13:40–13:55）
+
+- 同类场景 41 证据证明移动后默认行动菜单已停在忍术项；从 `sasuke-move-drr-confirm.ss9` 直接 A 成功打开忍术列表，不需要 Down。
+- 火遁完整自然输入链为：行动菜单 A → 火遁 A → “继续使用该攻击？”A → 列表 A → 目标网格 Right → 敌方预览 A → “可以吗？”A。`Up` 只移动到无敌人的相邻格；在斜视战场中屏幕右上方敌人对应控制器 Right。
+- 敌方预览显示卡卡西 HP 87、预计伤害 49、命中 99%；火遁演出后经零输入 600 帧自然到达朝向提示，完成朝向和默认不防御后，卡卡西 HP 为 38，满足 `87 - 49 = 38`。这闭合了移动、技能选择、目标坐标、伤害预览和实际 HP 消费链。
+- 决定性结算快照为 `build/scenario-45-safe-resume-20260719/sasuke-fire-defense-no.ss9`，SHA-256 `5f6947cc1b42f556730c96fc5d6ba0ee096dfddd7f2f26ce3820cb7ea317c9c1`；对应画面直接显示卡卡西 HP 38。
+- 结算后零输入进入 Naruto 与 Kakashi 的回合对白。已自然推进 9 个 A 边界，当前恢复点为 `build/scenario-45-safe-resume-20260719/post-sasuke-dialogue-a9.ss9`，SHA-256 `a65f6900fea29d653244aad5c1cc58bed8de4a800952bc9e7593a807022e880b`；仍处于对白，尚未声称下一回合或胜利。
+- 本段所有 mGBA run 均为非降级 `completed/0`，峰值 owned-tree RSS 51.8–52.3 MiB，`pgid_clean=true`、`mgba_listener_clean=true`。后续直接从 A9 继续对白，不重放移动或火遁链。
