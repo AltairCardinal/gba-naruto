@@ -84,3 +84,15 @@
   `529b3e0f64d5b9a161994765efa25f341f9d8d5b772d45f5f3cc8df9fadd6e55`。600 帧零输入恢复 run
   `4aa2c91a4f1f710a6896fd33ffbb0368` 成功，`zero_input_verified=true`、`pgid_clean=true`，
   峰值 owned-tree RSS 51.9609375 MiB。
+
+## battle 13 第二敌击倒恢复点
+
+- 第五至第八回合让 Naruto 轮换承伤，并由 Sakura/Sasuke 攻击相邻目标。Sasuke 在 9 HP
+  触发低体力剧情后退场；Sakura 保持 19 HP，Naruto 保持 60 HP。
+- Naruto 从 `(9,4)` 移到 `(11,4)` 后攻击槽 8 `(11,5)`，使其 character ID `33 -> 0`，
+  确认第二名敌人击倒。移动完成后的行动菜单游标停在“行动结束”；必须 `Down` 两次才到
+  “术·忍具”，按一次会误选结束行动，按 `B` 则会取消刚完成的移动。
+- 正式恢复点为 `artifacts/runtime-checkpoints/scenario-47-battle-13-turn9-second-kill.ss9`，
+  SHA-256 `d7d480d22cc98bb4924d674a46a58fee6324e279060742309fcede91b1db75f9`。600 帧零输入恢复 run
+  `680fb78679f53d71a8de55d665f70f3a` 成功，`zero_input_verified=true`、`pgid_clean=true`，
+  峰值 owned-tree RSS 52.140625 MiB。后续从该点继续，剩余敌方槽 4..7 共 4 名。
