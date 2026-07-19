@@ -44,3 +44,31 @@
 - macOS mGBA crash report 仍为 25，未生成 crash latch，检查点结束后无 mGBA 进程残留。
 - 下一轮直接从编队检查点选择“开始任务”并建立场景 46 可操作地图快照，不再重放本页记录的
   前置对白。
+
+## 战斗起点检查点续进（16:36–16:45）
+
+- 从编队页按 B 返回任务报告，依次选择“开始任务”并确认“是”，自然进入桥面战斗；这条路线
+  没有使用内存写入、诊断 ROM 或自动输入脚本。
+- 正式恢复点为 `artifacts/runtime-checkpoints/scenario-46-battle-start.ss9`，SHA-256
+  `eb5aa8b7887213a033b7b0e8886db2973fa76c7f360a373335aec7b719a8e3dd`。它由转场稳定状态再做
+  80 帧零输入复放产生，run `8412352950a045e015b56636b31d6a0f` 成功，峰值 owned-tree RSS
+  52.11328125 MiB，`pgid_clean=true`。
+- 画面持续显示桥面上的三名角色和部署选择标记。离线 savestate 检查确认 task 2 resume 为
+  `0x08073616`、battle ID 为 9、地图运行时尺寸为 `64×64 / 16×32`、结果 byte 仍为 0；
+  后续单 A 实验确认这里仍是逐单位部署确认，不是玩家回合，因此不得把该画面冒充玩家控制。
+- 后续直接从该检查点确认玩家行动菜单和本关胜负条件；每次只提交一个显式输入，并保留零输入
+  对照，不再经过委托对白、编队和任务报告菜单。
+
+## 玩家回合检查点续进（16:47–16:54）
+
+- battle 9 的静态 formation variant 0 是 3 名玩家单位加 5 只猫。运行时从部署起点依次确认
+  鸣人、佐助、小樱和五个敌方单位后出现“开始”，与该 8 条 active formation 记录一致。
+- 战斗开始后的四个单 A 边界完成佐助与小樱的战前对白，随后鸣人画面出现“SELECT 详细”；
+  再输入一个 A 后稳定打开鸣人的六项行动菜单，明确证明玩家控制已经接管。
+- 正式恢复点为 `artifacts/runtime-checkpoints/scenario-46-player-action-menu.ss9`，SHA-256
+  `859ee3b54faa413d8e3f7a2cbbf428bb02b48a8174ba6337e0021d5cb006a8e1`。80 帧零输入复放
+  run `cf2a64cbb1ab443a319dee0db5132427` 成功，峰值 owned-tree RSS 52.13671875 MiB，
+  `pgid_clean=true`；task 2 resume 为 `0x08067D02`，battle ID 9、地图尺寸和未决结果 byte
+  均保持不变。
+- 该检查点证明可恢复的玩家行动菜单，但尚未证明 MOVEDONE、敌方阶段、胜利、EXP、升级或
+  postbattle。后续应从这里选择移动或攻击，先定位本关胜负条件和最短自然通关路线。
