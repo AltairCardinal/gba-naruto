@@ -69,3 +69,18 @@
   `zero_input_verified=true`、`pgid_clean=true`，峰值 owned-tree RSS 52.05859375 MiB。
 - 下一步先选择 Sasuke 朝向；Naruto 只有 14 HP，不能直接重复无防御过回合。应测试防御或
   分身吸收火力，并让 Sakura/Sasuke 优先击倒相邻目标，避免 Naruto 在下一敌方阶段阵亡。
+
+## battle 13 第五回合撤退恢复点
+
+- 首敌击倒路线证明原地持续输出会让 Naruto 承受每回合约 18 点的集中伤害；第八回合后即使
+  只等待一个回合也会触发 Naruto 倒地剧情，Sasuke/Sakura 无法独立把该路线推进到胜利。
+- 从正式第四回合快照重新开始后，Naruto 不攻击，先向北撤到 `(7,3)`；Sakura 和 Sasuke
+  分别按已验证路线移动到 `(9,6)`、`(5,7)`。方向键必须复用原始帧时序：Sakura 的单格
+  `Right/Down` 使用 1 帧按压，Sasuke 的两格 `Down` 使用 12 帧按压；统一长按会越过目标。
+- 第五回合玩家控制时 Naruto/Sasuke/Sakura HP 为 `96/79/85`，说明 Naruto 相比旧路线同期
+  `73` HP 完全避开了集中攻击。敌方槽 4..8 位于 `(7,7)/(5,8)/(7,8)/(9,7)/(7,6)`，
+  HP 仍为 `80/80/80/80/66`；后续由两名队友攻击相邻目标，Naruto 继续保持距离。
+- 正式恢复点为 `artifacts/runtime-checkpoints/scenario-47-battle-13-turn5-retreat.ss9`，SHA-256
+  `529b3e0f64d5b9a161994765efa25f341f9d8d5b772d45f5f3cc8df9fadd6e55`。600 帧零输入恢复 run
+  `4aa2c91a4f1f710a6896fd33ffbb0368` 成功，`zero_input_verified=true`、`pgid_clean=true`，
+  峰值 owned-tree RSS 51.9609375 MiB。
