@@ -87,6 +87,8 @@
 
 ## battle 13 第二敌击倒恢复点
 
+- **该恢复点已被下文第 22 回合的休息轮换路线取代。** 本段快照停在延迟提示中，且 Sasuke
+  已退场、Sakura 仅 19 HP；它只保留为失败路线证据，不再作为后续主线恢复点。
 - 第五至第八回合让 Naruto 轮换承伤，并由 Sakura/Sasuke 攻击相邻目标。Sasuke 在 9 HP
   触发低体力剧情后退场；Sakura 保持 19 HP，Naruto 保持 60 HP。
 - Naruto 从 `(9,4)` 移到 `(11,4)` 后攻击槽 8 `(11,5)`，使其 character ID `33 -> 0`，
@@ -96,3 +98,27 @@
   SHA-256 `d7d480d22cc98bb4924d674a46a58fee6324e279060742309fcede91b1db75f9`。600 帧零输入恢复 run
   `680fb78679f53d71a8de55d665f70f3a` 成功，`zero_input_verified=true`、`pgid_clean=true`，
   峰值 owned-tree RSS 52.140625 MiB。后续从该点继续，剩余敌方槽 4..7 共 4 名。
+
+## battle 13 第三敌击倒与第 22 回合恢复点
+
+- 从第五回合撤退快照重新推进后，采用“低血量角色休息、健康角色攻击”的轮换路线。第 15
+  回合 Sasuke 在敌方阶段自然退场，但 Naruto/Sakura 保持可持续恢复；第 16 至 20 回合由
+  Naruto 连续休息、Sakura 每回合攻击近身目标，使 Naruto 的回合起始 HP 从 `16` 稳定增长到
+  `32`，没有再进入阵亡阈值。
+- 第 21 回合 Naruto 攻击槽 6，使其 HP `26 -> 5`；Sakura 随后完成击倒，槽 6 character ID
+  `33 -> 0`。击倒动画会延迟“请选择人物面对的方向”和防御忍术提示，必须分别观察画面后再
+  单发 `A`，不能把下一角色或敌方阶段输入提前串入。
+- “进入术·忍具后按了几次 Down”不能单独证明技能序号：菜单会保留上次选择，并可能在边界
+  停留或回绕。后续应同时核对技能面板的攻击力、命中率和目标格类型；本路线使用的是
+  `10x1`、命中 `98%`、距离 1 的近身攻击。此前按 Down 次数推导“第四技能”的说法不再作为
+  技能表证据。
+- 第 22 回合玩家控制时 Naruto/Sakura HP 为 `23/95`，坐标为 `(9,4)/(10,5)`；Sasuke 已
+  退场。剩余敌方槽 4、5 HP 为 `80/58`，坐标为 `(9,5)/(8,5)`；槽 6..8 character ID
+  均为 0，确认已完成三次自然击倒。
+- 正式恢复点为
+  `artifacts/runtime-checkpoints/scenario-47-battle-13-turn22-third-kill-rest-route.ss9`，
+  SHA-256 `be0ac5c920d4c5b6d8ad60300163ece179d05ecf10ae6af0fe6a2cf2b46e6cbe`。
+  600 帧零输入恢复 run `71cb1555e5d27cfd43a955747b4bc7f9` 成功，
+  `zero_input_verified=true`、`pgid_clean=true`，峰值 owned-tree RSS 51.85546875 MiB。
+- 后续优先从该快照继续，不再恢复旧的第二击倒失败路线。先让 Naruto 休息并由 Sakura 集中
+  攻击 HP 58 的槽 5；击倒后再处理槽 4。
