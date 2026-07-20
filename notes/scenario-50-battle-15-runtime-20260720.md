@@ -240,3 +240,26 @@ Sasuke 的高伤害技能处理 5 号敌人，不再重复晚期救援实验。
   SHA-256 `d34b5bde39f68148860a751c1eee3e67906b5f74351072d7cc31bf1fcf53d4f5`。
   从该正式文件执行 80 帧零输入恢复验证 run `49977bf48be8af5ae09bb1d08dee7272`
   成功，峰值 51.96484375 MiB，`zero_input_verified=true`、`pgid_clean=true`。
+
+## 第 11 至 14 回合稳定削减循环
+
+- 第 11 回合由 Sasuke 原地使用 99% 忍者组合拳，把侧翼敌人 `96 -> 82`；Naruto
+  原地休息 `41 -> 71`。敌方阶段后护送对象仍为 4 HP，Naruto 49 HP、Sasuke
+  47 HP，自然进入第 12 回合，证明“一个单位休息、另一个单位攻击”能在不丢失正面
+  占位的情况下形成可持续循环。
+- 第 12 回合起点保存为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-round12-objective4-stable-loop.ss9`，
+  SHA-256 `a1919e59dfbc8f0a1995f06269224059b500c8f3a89a7e5467acffba0b2ff91a`；
+  80 帧零输入验证 run `0ba1d3f218a49d75fb26901a14bc3902` 成功，峰值
+  52.04296875 MiB，`zero_input_verified=true`、`pgid_clean=true`。
+- 第 12 回合重复 Naruto 休息、Sasuke 攻击，侧翼敌人 `82 -> 68`；第 13 回合改为
+  Sasuke 休息、Naruto 攻击正面敌人 `87 -> 71`。两回合敌方阶段均只攻击玩家单位，
+  护送对象保持 4 HP。第 14 回合 Naruto 46 HP、Sasuke 50 HP，两名已受伤敌人为
+  68/71 HP，另两敌仍为 110/110 HP。
+- 第 14 回合起点保存为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-round14-objective4-enemies68-71.ss9`，
+  SHA-256 `9e22602e5e5391bb83ef661e56ec6c58599d6953b344b88b07902c8f6530682d`；
+  80 帧零输入验证 run `3ba74ec41c33ccb430018f6476f67b4e` 成功，峰值
+  52.0234375 MiB，`zero_input_verified=true`、`pgid_clean=true`。
+- 第 14 回合开头的红色选择箭头曾短暂落在木叶丸/护送单位上，但 `A` 只把选择推进到
+  Naruto，没有打开木叶丸行动菜单；该单位不能据此视为可控或可通过“休息”主动恢复。
