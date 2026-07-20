@@ -41,6 +41,26 @@
 击倒它，或找到能硬性阻断其目标移动的地形/状态。下一闭环应回到更早回合集中 Naruto、
 Sasuke 的高伤害技能处理 5 号敌人，不再重复晚期救援实验。
 
+## 已验证的提前拦截路线
+
+- 第 2 回合 Naruto 从 `(2,9)` 正常移动到 `(2,6)` 后，不再直接结束行动，而是继续使用
+  瞬身术到 `(4,5)`。随后 5 号敌人从 `(6,5)` 改为移动到 `(4,6)` 并攻击 Naruto，
+  Naruto `152 -> 140 HP`，木叶丸保持 `40/40 HP`；这首次改变了敌人的卷轴路径。
+- 下一玩家回合的第一个命中随机数异常地同时使 98% 普通攻击和 90% 十字手里剑未命中。
+  改用 100% 成功的影分身术，在 `(5,5)` 生成 140 HP 分身并消耗该行动周期。下一敌方
+  阶段后 5 号敌人退到 `(4,8)`，另一敌人在 `(4,6)` 与前线交战，木叶丸仍为 19 HP；
+  随后自然进入第 4 回合，没有触发旧路线的失败判定。
+- 第 3 回合安全恢复点为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-safe-intercept-turn3.ss9`，SHA-256
+  `2d872689345ade80d0027dfa7bbb58adfc28cfe3028f6b13856d43c8dc7a6ba8`。600 帧零输入
+  run `81c22bfbab91bd081a66af7513d26fde` 成功，峰值 51.95703125 MiB，
+  `zero_input_verified=true`、`pgid_clean=true`。
+- 已跨过失守判定的第 4 回合恢复点为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-round4-scroll-safe.ss9`，SHA-256
+  `3ee17bef07d87173eee28a079511538c7a3eb0e2b7df3015cba787b383418cfa`。600 帧零输入
+  run `81c3b777dd3d527600f63c199c81b564` 成功，峰值 51.94921875 MiB，
+  `zero_input_verified=true`、`pgid_clean=true`。
+
 ## 资源安全
 
 - 本轮所有 mGBA 输入和零输入等待均经资源守卫与 heavy lock 串行运行。
