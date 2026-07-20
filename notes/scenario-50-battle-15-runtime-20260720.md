@@ -60,6 +60,15 @@ Sasuke 的高伤害技能处理 5 号敌人，不再重复晚期救援实验。
   `3ee17bef07d87173eee28a079511538c7a3eb0e2b7df3015cba787b383418cfa`。600 帧零输入
   run `81c3b777dd3d527600f63c199c81b564` 成功，峰值 51.94921875 MiB，
   `zero_input_verified=true`、`pgid_clean=true`。
+- 第 5 回合若让分身留在 `(4,6)` 攻击，5 号敌人会从 `(3,6)` 进入 `(4,4)` 并立即
+  触发失败；即使敌人已受伤到 94 HP 也不会改变判定。正确路线是让分身瞬身到 `(4,4)`
+  直接占据失守格。敌方随后只能停在 `(3,4)`/`(4,5)`，分身剩余 111 HP，木叶丸保持
+  5 HP，并自然进入第 6 回合。
+- 第 6 回合硬阻断恢复点为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-round6-hardblock.ss9`，SHA-256
+  `10c1eac73a03e74182ed4f7c558410e8bb91794b8939080ceaf0e45c516e9390`。600 帧零输入
+  run `d9711b258e5ce26a3f2045fb311cc19b` 成功，峰值 51.84375 MiB，
+  `zero_input_verified=true`、`pgid_clean=true`。
 
 ## 资源安全
 
