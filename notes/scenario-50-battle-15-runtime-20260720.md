@@ -193,3 +193,27 @@ Sasuke 的高伤害技能处理 5 号敌人，不再重复晚期救援实验。
   SHA-256 `bc7de1c43e1a552937fcc01c8034e1e3e67fe47b4a128b82ab7ec56fac4f00b0`。
   80 帧零输入验证 run `29f97cfa6b79552bb636d26cbf75b247` 成功，峰值
   51.98046875 MiB，`zero_input_verified=true`、`pgid_clean=true`。
+
+## 第 8 回合提前推进路线
+
+- 在 Naruto 休息后，不再让 Sasuke 原地攻击 `(5,5)` 敌人，而是正常左移到
+  `(4,6)`。移动后菜单只剩“术・忍具 / 行动结束”，且默认停在“行动结束”；此时继续
+  `Down` 或直接 `A` 都会结束行动，不能据此判断技能不可用。
+- 提前移动改变了敌方目标选择：敌方阶段护送对象保持 `16/40`，Naruto
+  `47 -> 25`、Sasuke `98 -> 81`，并自然进入第 9 回合。相比旧休息路线同期 Sasuke
+  仍在 `(5,6)`，该路线把主力提前一格且没有额外损失护送对象 HP，因此取代旧快照
+  作为后续求胜主线；旧快照仍保留为对照证据。
+- 改进后的第 9 回合恢复点为
+  `artifacts/runtime-checkpoints/scenario-50-battle-15-round9-objective16-sasuke46.ss9`，
+  SHA-256 `22c08cf668959e001f326eb5eb5d02b927ee09006e83e11248cc58a3ae935f24`。
+  80 帧零输入验证 run `2ed60ed4719eada06eeefa0c3c0069ae` 成功，峰值
+  51.953125 MiB，`zero_input_verified=true`、`pgid_clean=true`。
+
+## 临时产物容量整改
+
+- `build/` 一度达到 46 GiB，数据卷只余 81 MiB；根因是 5,166 份已结束运行遗留的
+  `staged.gba/.sav` 隔离副本，合计约 30.43 GiB。它们不属于审计证据，且可由 runner
+  重新生成。
+- 清理仅删除 `build/**/staged.gba` 与 `build/**/staged.sav`，保留所有 audit、guard
+  summary、`output.ss9`、PNG 和正式 checkpoint。清理后 `build/` 为 16 GiB、数据卷
+  可用空间约 31 GiB；清理期间没有 mGBA 进程启动或残留。
