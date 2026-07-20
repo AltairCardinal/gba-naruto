@@ -120,5 +120,30 @@
   SHA-256 `be0ac5c920d4c5b6d8ad60300163ece179d05ecf10ae6af0fe6a2cf2b46e6cbe`。
   600 帧零输入恢复 run `71cb1555e5d27cfd43a955747b4bc7f9` 成功，
   `zero_input_verified=true`、`pgid_clean=true`，峰值 owned-tree RSS 51.85546875 MiB。
-- 后续优先从该快照继续，不再恢复旧的第二击倒失败路线。先让 Naruto 休息并由 Sakura 集中
-  攻击 HP 58 的槽 5；击倒后再处理槽 4。
+- 后续优先从该快照继续，不再恢复旧的第二击倒失败路线。第 22 回合 HP 58 的槽 5 被槽 4
+  挡在后方，实际先由 Sakura 攻击相邻的 HP 80 槽 4，再随敌方移动调整目标。
+
+## battle 13 完成与战后世界地图恢复点
+
+- 第 22 回合后两敌集中攻击低血量 Naruto，原地休息路线从每回合约 20 伤害升到 32，不能
+  继续。普通移动到 `(10,3)` 只能把攻击数降到一次，Naruto 仍会从 15 HP 降到 5 并触发
+  濒死对白。
+- 可持续解法是在普通移动到 `(10,3)` 后使用“影分身术”：该术消耗 3、距离 2、范围 1、
+  成功率 100%，说明为“制造一个有实体的分身”。在 `(9,3)` 创建分身后，槽 1/2 暂时同时
+  为 character 1；分身吸收一次攻击，下一回合真实 Naruto 保留在槽 2，诱饵槽 1 到期归零。
+  敌人因此被拆到 Naruto 与 Sakura 两侧，后续可交替休息和攻击。
+- 第 32 回合 Sakura 击倒槽 5，完成第四次击倒；第 33 回合 Naruto 击倒 14 HP 的槽 4，
+  槽 4..8 character ID 全部归零，画面显示“打败不明忍者了”与“胜利”，确认 battle 13
+  自然完成。
+- 结算经验页显示三人本战基础经验均为 125。Naruto `LV4 -> LV5`、Sasuke `LV3 -> LV4`、
+  Sakura `LV4 -> LV5`；三人的升级页均显示体力 `+15`，攻击力、防御力、敏捷度、忍耐力
+  各 `+1`，查克拉和忍具数 `+0`。奖励逐页原始截图保存在
+  `build/scenario-47-team-rest-route-20260720/postbattle-a10` 至 `postbattle-a23`，其中可明确
+  辨识飞镖与引爆符；其余汉化字形不据肉眼强行命名。
+- 战后对白结束后返回“木叶之里”世界地图。正式恢复点为
+  `artifacts/runtime-checkpoints/scenario-47-battle-13-postbattle-world-map.ss9`，SHA-256
+  `e80779dc048fd862d0a8fc1a47f77bcfe1ab06810859f38015c562679958b800`。600 帧零输入恢复 run
+  `beb2b7576f1b8100b88d401b52112b7e` 成功，`zero_input_verified=true`、`pgid_clean=true`，
+  峰值 owned-tree RSS 51.890625 MiB。
+- 后续从该世界地图快照进入下一主线；当前 Naruto 为 LV5，尚未达到恢复 `levels` LV8
+  consumer 观测的目标等级。
