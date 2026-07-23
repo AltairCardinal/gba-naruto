@@ -14,9 +14,14 @@ def sha256(data: bytes) -> str:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTUAL_STEP2_AVAILABLE = (
-    ROOT / "build/macos-prebattle-frame80-step2-20260715/audit.json"
-).is_file()
+ACTUAL_STEP2_PATHS = acceptance.step2_paths(ROOT)
+ACTUAL_STEP2_AVAILABLE = all(
+    path.is_file()
+    and acceptance.sha256_file(path)
+    == acceptance.STEP2_SHA256[key]
+    for key, path in ACTUAL_STEP2_PATHS.items()
+    if key != "tracked_patch"
+)
 
 
 class AcceptPrebattleCandidateTests(unittest.TestCase):
@@ -64,6 +69,7 @@ class AcceptPrebattleCandidateTests(unittest.TestCase):
         guard = {
             "reason": "completed",
             "exit_code": 0,
+            "completion_trigger": "success-marker",
             "child_pid": 20050,
             "peak_tree_rss_mib": 51.0,
             "protection_backend": "posix-process-group",

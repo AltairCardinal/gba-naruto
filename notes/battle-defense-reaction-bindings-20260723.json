@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "identity": "battle_defense_preparation_and_reaction",
+  "method": "Controlled A/B route on the original ROM: unlock Sasuke action 15 and raise only current chakra, then bind preview, atomic preparation commit, enemy-resolution consumption, Sharingan cut-in, and no-damage outcome to guarded checkpoints.",
+  "controlled_patch": {
+    "source": "build/battle-defense-sasuke-yes-20260723-01/output.ss9",
+    "patched": "build/battle-defense-sasuke-sharingan15-ready-prompt-20260723-01/input.ss9",
+    "action_id": 15,
+    "unit_diffs": [
+      {
+        "offset": "0x07",
+        "before": 1,
+        "after": 5
+      },
+      {
+        "offset": "0x35",
+        "before": 255,
+        "after": 1
+      }
+    ]
+  },
+  "states": [
+    "build/battle-defense-sasuke-sharingan15-ready-yes-20260723-01/output.ss9",
+    "build/battle-defense-sasuke-sharingan15-ready-commit40-20260723-01/output.ss9",
+    "build/battle-defense-sasuke-sharingan15-consume-zero200-20260723-01/output.ss9",
+    "build/battle-defense-sasuke-sharingan15-posthit-settle-20260723-01/output.ss9"
+  ],
+  "state_sha256": [
+    "e52000bf6ec535093a55614ba62346379c16c27d8dd0f1935448144fd7f38fc2",
+    "0eff6d643913bc566ea46242af3215a414fa8a334eebf93bc4b3bb865f8cee1b",
+    "2d949001b00dee59fdc0bbd0d48e8fc4c610710e52a3c8637025ba5c5d22eb34",
+    "dd9db940b2b26504c96d7bb8c18fffe54e65acdfd20c67e0941b7af24a476e0b"
+  ],
+  "controller_sequence": [
+    "0x9200",
+    "0x1220",
+    "0x8000",
+    "0x8000"
+  ],
+  "actor_slot": 2,
+  "actor_character_id": 2,
+  "actor_current_chakra": [
+    5,
+    3,
+    3,
+    3
+  ],
+  "actor_current_hp": [
+    134,
+    134,
+    134,
+    134
+  ],
+  "actor_position": [
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "prepared_reaction_code_offset": "0xD4",
+  "prepared_reaction_code": [
+    0,
+    16,
+    0,
+    0
+  ],
+  "prepared_action_id_offset": "0xD5",
+  "prepared_action_id": [
+    0,
+    15,
+    15,
+    15
+  ],
+  "preview_has_no_domain_write": true,
+  "commit_is_atomic": true,
+  "reaction_is_consumed_once": true,
+  "attacker": {
+    "slot": 5,
+    "character_id": 35,
+    "position": [
+      5,
+      7
+    ],
+    "controller_state": "0x8000"
+  },
+  "reaction_visual": "写轮眼",
+  "reaction_visual_checkpoint_sha256": "628ac239f3f7218193149917ac795807d795ef30910758a2707fedf1c2947153",
+  "reaction_visual_screenshot_sha256": "029ae636680ebf9e098e4eb5949f90210184830b3d259749d96e81d805394ff2",
+  "conclusion": "In a hash-bound controlled original-ROM route, Sharingan defense preview does not mutate the unit pool. Commit atomically spends two chakra and writes reaction code 0x10 plus action ID 15. An adjacent enemy attack consumes code 0x10 at shared 0x8000 resolution, shows the Sharingan cut-in, and leaves Sasuke HP and position unchanged.",
+  "boundary": "The controlled patch changes only current chakra and the pre-existing locked action-15 level. This proves one sampled evasion reaction, not all defense actions, expiry rules without an attack, counter priority, or multi-hit consumption semantics."
+}

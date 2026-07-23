@@ -1,0 +1,33 @@
+{
+  "boundary": "The event-family gate, participant order, direct-consumption mode, and target state-bit mutation are statically closed. The visible gameplay name, producer parameters, and semantic name of unit-state bit 0x100 remain unresolved.",
+  "conclusion": "Before resolving an event whose low-six-bit type is not one of the six known reaction codes, the queue directly consumes status 0x0D from both source and target using removal mode 0. Target consumption also clears bit 0x100 in the target unit state word.",
+  "identity": "battle_status_0x0d_participant_consumption",
+  "lookup_callsites": {
+    "source": "0x08076DC4",
+    "target": "0x08076DDC"
+  },
+  "operational_semantics": "consume_status_0x0d_from_source_and_target_before_non_reaction_event;_target_consumption_also_clears_unit_state_bit_0x100",
+  "removal_mode": 0,
+  "remove_callsites": {
+    "source": "0x08076DD4",
+    "target": "0x08076DEC"
+  },
+  "resolver_queue": "0x08076CE0",
+  "resolver_queue_end": "0x08077760",
+  "resolver_queue_sha256": "f5675aded5a37132820b79ff5cddd7fcc9a83290ae56098604fe41d49eb3b579",
+  "schema_version": 1,
+  "skipped_event_type_low_6_values": [
+    "0x04",
+    "0x09",
+    "0x0A",
+    "0x10",
+    "0x16",
+    "0x19"
+  ],
+  "skipped_family": "known_reaction_event_codes",
+  "status_code": "0x0D",
+  "target_unit_state_and_mask": "0xFFFFFEFF",
+  "target_unit_state_cleared_bits": "0x00000100",
+  "target_unit_state_word_offset": 192,
+  "visible_gameplay_name": null
+}

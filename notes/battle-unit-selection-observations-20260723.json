@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "method": "Bind two consecutive single-L original-ROM replays to controller state 0x2000, the per-unit selection marker, the current-unit pointer, and an unchanged battle-control region.",
+  "states": [
+    {
+      "id": "initial_naruto",
+      "checkpoint": "build/scenario-46-combat-20260719/turn47-round-dismiss/output.ss9",
+      "sha256": "9f2df319aec3fb9c0890f388a8814295c4e823189d87a8f017279012aa9de56e",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 1,
+      "expected_character_id": 1
+    },
+    {
+      "id": "after_first_l_cat",
+      "checkpoint": "build/scenario-46-combat-20260719/turn47-cycle-l1/output.ss9",
+      "sha256": "c038d7ccededd6e774c16b3095dfabf05794256a4e4bea07e7c4c16d85835969",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 5,
+      "expected_character_id": 41
+    },
+    {
+      "id": "after_second_l_sakura",
+      "checkpoint": "build/scenario-46-combat-20260719/turn47-cycle-l2/output.ss9",
+      "sha256": "1d306a91e6918b664724ca4f8ad975e850e487194a51afa5d4c9d755056b250e",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 3,
+      "expected_character_id": 3
+    },
+    {
+      "id": "after_third_l_sasuke",
+      "checkpoint": "build/battle-unit-selection-l3-20260723-01/output.ss9",
+      "sha256": "6bad017e589d94ae1c6c780ff85a7d2a3ea7510ccf6baaa2fc2ba96cd1234c87",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 2,
+      "expected_character_id": 2
+    },
+    {
+      "id": "after_fourth_l_naruto",
+      "checkpoint": "build/battle-unit-selection-l4-20260723-01/output.ss9",
+      "sha256": "ebf0c93c1c2dcb72b3ebce0a4f9fb0aeeec57c8562286a8b368bb607f51ced9e",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 1,
+      "expected_character_id": 1
+    },
+    {
+      "id": "after_r_sasuke",
+      "checkpoint": "build/battle-unit-selection-r-20260723-01/output.ss9",
+      "sha256": "5f3e5b5cc660a5c49eacae921253a426558dcc4c532b48ff5d3cd90dce513ad6",
+      "expected_controller_state": "0x2000",
+      "expected_selected_slot": 2,
+      "expected_character_id": 2,
+      "primary_sequence": false
+    }
+  ],
+  "transitions": [
+    {
+      "id": "naruto_to_cat",
+      "from_state": "initial_naruto",
+      "to_state": "after_first_l_cat",
+      "audit": "build/scenario-46-combat-20260719/turn47-cycle-l1/audit.json",
+      "audit_sha256": "aa8b45724974e4bf5285e728cccc6c2c1dca1c230a493e6599afb73fb2512392",
+      "expected_key": "L"
+    },
+    {
+      "id": "cat_to_sakura",
+      "from_state": "after_first_l_cat",
+      "to_state": "after_second_l_sakura",
+      "audit": "build/scenario-46-combat-20260719/turn47-cycle-l2/audit.json",
+      "audit_sha256": "cc55f6f4249bed893816c2ee99cad40be95f5978e3ba3bd66fc369ec4237d925",
+      "expected_key": "L"
+    },
+    {
+      "id": "sakura_to_sasuke",
+      "from_state": "after_second_l_sakura",
+      "to_state": "after_third_l_sasuke",
+      "audit": "build/battle-unit-selection-l3-20260723-01/audit.json",
+      "audit_sha256": "b912d790c684f8c2df262822bf08ef01185989ce5f61df6959724da80e666957",
+      "expected_key": "L"
+    },
+    {
+      "id": "sasuke_to_naruto",
+      "from_state": "after_third_l_sasuke",
+      "to_state": "after_fourth_l_naruto",
+      "audit": "build/battle-unit-selection-l4-20260723-01/audit.json",
+      "audit_sha256": "d5f736bd387fcf3acab8c1842ffe3734dc3ed02d00c9c0df6844572c380c6d99",
+      "expected_key": "L"
+    },
+    {
+      "id": "naruto_to_sasuke",
+      "from_state": "initial_naruto",
+      "to_state": "after_r_sasuke",
+      "audit": "build/battle-unit-selection-r-20260723-01/audit.json",
+      "audit_sha256": "518785bd19f39f1fd8703657b9cbe06d6dd6c81356e1ceb98c9ec3d62b602afe",
+      "expected_key": "R"
+    }
+  ]
+}

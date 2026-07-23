@@ -632,7 +632,7 @@ def suite_reverse_engineering(runner: TestRunner) -> None:
         assert report["ok"], "battle-config bank validation failed:\n" + "\n".join(
             report["issues"]
         )
-        assert report["entry_count"] == 32, report["entry_count"]
+        assert report["entry_count"] == 87, report["entry_count"]
         assert report["entry_size"] == 16, report["entry_size"]
 
     runner.run("battle-config table matches base ROM u16 records", suite,

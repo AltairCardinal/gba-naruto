@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "identity": "battle_unit_selection_lr_cycle",
+  "method": "Bind two consecutive single-L original-ROM replays to controller state 0x2000, the per-unit selection marker, the current-unit pointer, and an unchanged battle-control region.",
+  "controller_state": "0x2000",
+  "selection_marker_offset": "0xC1",
+  "selection_sequence": [
+    {
+      "slot": 1,
+      "character_id": 1,
+      "display_name": "漩涡鸣人"
+    },
+    {
+      "slot": 5,
+      "character_id": 41,
+      "display_name": "猫"
+    },
+    {
+      "slot": 3,
+      "character_id": 3,
+      "display_name": "春野樱"
+    },
+    {
+      "slot": 2,
+      "character_id": 2,
+      "display_name": "宇智波佐助"
+    },
+    {
+      "slot": 1,
+      "character_id": 1,
+      "display_name": "漩涡鸣人"
+    }
+  ],
+  "input_sequence": [
+    "L",
+    "L",
+    "L",
+    "L"
+  ],
+  "current_unit_pointers": [
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000"
+  ],
+  "r_selection_from_initial": {
+    "slot": 2,
+    "character_id": 2,
+    "display_name": "宇智波佐助"
+  },
+  "r_current_unit_pointer": "0x00000000",
+  "l_cycle_wraps_to_initial": true,
+  "transitions": [
+    {
+      "id": "naruto_to_cat",
+      "key": "L",
+      "audit": "build/scenario-46-combat-20260719/turn47-cycle-l1/audit.json",
+      "audit_sha256": "aa8b45724974e4bf5285e728cccc6c2c1dca1c230a493e6599afb73fb2512392",
+      "from_selection": {
+        "slot": 1,
+        "character_id": 1,
+        "display_name": "漩涡鸣人"
+      },
+      "to_selection": {
+        "slot": 5,
+        "character_id": 41,
+        "display_name": "猫"
+      },
+      "unit_pool_diffs": [
+        {
+          "slot": 1,
+          "character_id": 1,
+          "offset": "0xC1",
+          "address": "0x02024355",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "slot": 5,
+          "character_id": 41,
+          "offset": "0xC1",
+          "address": "0x02024AA5",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "battle_control_diffs": [],
+      "only_selection_marker_changed": true
+    },
+    {
+      "id": "cat_to_sakura",
+      "key": "L",
+      "audit": "build/scenario-46-combat-20260719/turn47-cycle-l2/audit.json",
+      "audit_sha256": "cc55f6f4249bed893816c2ee99cad40be95f5978e3ba3bd66fc369ec4237d925",
+      "from_selection": {
+        "slot": 5,
+        "character_id": 41,
+        "display_name": "猫"
+      },
+      "to_selection": {
+        "slot": 3,
+        "character_id": 3,
+        "display_name": "春野樱"
+      },
+      "unit_pool_diffs": [
+        {
+          "slot": 3,
+          "character_id": 3,
+          "offset": "0xC1",
+          "address": "0x020246FD",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "slot": 5,
+          "character_id": 41,
+          "offset": "0xC1",
+          "address": "0x02024AA5",
+          "before": 1,
+          "after": 0
+        }
+      ],
+      "battle_control_diffs": [],
+      "only_selection_marker_changed": true
+    },
+    {
+      "id": "sakura_to_sasuke",
+      "key": "L",
+      "audit": "build/battle-unit-selection-l3-20260723-01/audit.json",
+      "audit_sha256": "b912d790c684f8c2df262822bf08ef01185989ce5f61df6959724da80e666957",
+      "from_selection": {
+        "slot": 3,
+        "character_id": 3,
+        "display_name": "春野樱"
+      },
+      "to_selection": {
+        "slot": 2,
+        "character_id": 2,
+        "display_name": "宇智波佐助"
+      },
+      "unit_pool_diffs": [
+        {
+          "slot": 2,
+          "character_id": 2,
+          "offset": "0xC1",
+          "address": "0x02024529",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "slot": 3,
+          "character_id": 3,
+          "offset": "0xC1",
+          "address": "0x020246FD",
+          "before": 1,
+          "after": 0
+        }
+      ],
+      "battle_control_diffs": [],
+      "only_selection_marker_changed": true
+    },
+    {
+      "id": "sasuke_to_naruto",
+      "key": "L",
+      "audit": "build/battle-unit-selection-l4-20260723-01/audit.json",
+      "audit_sha256": "d5f736bd387fcf3acab8c1842ffe3734dc3ed02d00c9c0df6844572c380c6d99",
+      "from_selection": {
+        "slot": 2,
+        "character_id": 2,
+        "display_name": "宇智波佐助"
+      },
+      "to_selection": {
+        "slot": 1,
+        "character_id": 1,
+        "display_name": "漩涡鸣人"
+      },
+      "unit_pool_diffs": [
+        {
+          "slot": 1,
+          "character_id": 1,
+          "offset": "0xC1",
+          "address": "0x02024355",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "slot": 2,
+          "character_id": 2,
+          "offset": "0xC1",
+          "address": "0x02024529",
+          "before": 1,
+          "after": 0
+        }
+      ],
+      "battle_control_diffs": [],
+      "only_selection_marker_changed": true
+    },
+    {
+      "id": "naruto_to_sasuke",
+      "key": "R",
+      "audit": "build/battle-unit-selection-r-20260723-01/audit.json",
+      "audit_sha256": "518785bd19f39f1fd8703657b9cbe06d6dd6c81356e1ceb98c9ec3d62b602afe",
+      "from_selection": {
+        "slot": 1,
+        "character_id": 1,
+        "display_name": "漩涡鸣人"
+      },
+      "to_selection": {
+        "slot": 2,
+        "character_id": 2,
+        "display_name": "宇智波佐助"
+      },
+      "unit_pool_diffs": [
+        {
+          "slot": 1,
+          "character_id": 1,
+          "offset": "0xC1",
+          "address": "0x02024355",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "slot": 2,
+          "character_id": 2,
+          "offset": "0xC1",
+          "address": "0x02024529",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "battle_control_diffs": [],
+      "only_selection_marker_changed": true
+    }
+  ],
+  "selection_is_precommit": true,
+  "conclusion": "Four sampled L inputs cycle the visible roster from Naruto to the cat objective unit, Sakura, Sasuke, and back to Naruto; a sampled R input from Naruto selects Sasuke. All remain in controller state 0x2000. Only the per-unit +0xC1 selection marker moves; no acting-unit pointer or battle-control state is committed.",
+  "boundary": "This sample proves L/R direction and one full precommit wraparound order for one multi-unit scenario. It does not yet prove eligibility filtering for dead, disabled, summoned, or completed units."
+}

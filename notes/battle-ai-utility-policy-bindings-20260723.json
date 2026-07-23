@@ -1,0 +1,232 @@
+{
+  "boundary": "This closes the target selector order, standard weights, damage utility shape, active custom rule records, deterministic target ties, and final random term. Visible names for the five rule kinds and the complete path algorithm inside 0x08083AF4 remain intentionally neutral.",
+  "conclusion": "The original AI is a data-driven utility planner. It indexes seven target properties separately for allies and opponents, scores simulated effect events with independent weight vectors, and composes up to four typed scenario rules from each unit-selected configuration.",
+  "configuration": {
+    "active_custom_rules": [
+      {
+        "config_id": 2,
+        "kind": 1,
+        "parameter": 0,
+        "slot": 0,
+        "weight": 10000
+      },
+      {
+        "config_id": 3,
+        "kind": 2,
+        "parameter": 31,
+        "slot": 0,
+        "weight": 10000
+      },
+      {
+        "config_id": 3,
+        "kind": 3,
+        "parameter": 74,
+        "slot": 1,
+        "weight": 10000
+      },
+      {
+        "config_id": 3,
+        "kind": 3,
+        "parameter": 75,
+        "slot": 2,
+        "weight": 10000
+      },
+      {
+        "config_id": 4,
+        "kind": 2,
+        "parameter": 30,
+        "slot": 0,
+        "weight": 10000
+      },
+      {
+        "config_id": 5,
+        "kind": 5,
+        "parameter": 0,
+        "slot": 0,
+        "weight": 10000
+      },
+      {
+        "config_id": 6,
+        "kind": 5,
+        "parameter": 0,
+        "slot": 0,
+        "weight": 10000
+      },
+      {
+        "config_id": 7,
+        "kind": 4,
+        "parameter": 0,
+        "slot": 0,
+        "weight": 10000
+      }
+    ],
+    "custom_rule_layout": {
+      "first_offset": "0x88",
+      "kind_offset": 0,
+      "parameter_offset": 1,
+      "slot_count": 4,
+      "stride": 8,
+      "weight_offset": 4
+    },
+    "custom_rule_semantics": [
+      {
+        "kind": 1,
+        "operation": "score average movement-normalized progress toward active opponents and add the rule weight on a tile whose flag bit 0 is clear"
+      },
+      {
+        "kind": 2,
+        "operation": "score movement-normalized progress toward parameter character_id and add the rule weight when a damage-family event targets it"
+      },
+      {
+        "kind": 3,
+        "operation": "add the rule weight when a queued event action_id equals parameter"
+      },
+      {
+        "kind": 4,
+        "operation": "add the rule weight when the actor occupies tile class 6 and the tile-side bit matches the active battle-side selector"
+      },
+      {
+        "kind": 5,
+        "operation": "when unit[0xCA] is 0, add the rule weight for an eligible queued event in low-6 family 0x02, 0x07, or 0x17"
+      }
+    ],
+    "end": "0x0853F888",
+    "record_count": 8,
+    "record_size": 168,
+    "sha256": "6bcd51c9faede066805b9f0e427217925b14ad5b7d99e7b98876d17f23e87504",
+    "standard_policy": {
+      "actor_chakra_gain_weight": 6000,
+      "actor_chakra_retention_weight": 500,
+      "actor_hp_gain_weight": 3000,
+      "actor_hp_survival_weight": 7000,
+      "base_weights": [
+        1000,
+        2500
+      ],
+      "config_id": 1,
+      "damage_weight": 6000,
+      "friendly_target_selector_weights": [
+        4200,
+        2000,
+        1000,
+        1000,
+        1000,
+        800,
+        0
+      ],
+      "hostile_target_selector_weights": [
+        1700,
+        800,
+        800,
+        1300,
+        1000,
+        800,
+        3600
+      ],
+      "range_usage_weight": 100,
+      "success_rate_weight": 900,
+      "target_coverage_weight": 3000
+    },
+    "table": "0x0853F348",
+    "unit_config_field": "unit[0xCD]"
+  },
+  "identity": "battle_ai_target_and_utility_policy",
+  "implementation_contract": [
+    "Build separate same- and opposite-affiliation target indexes before scoring.",
+    "Preserve seven selector matches independently; do not collapse them to nearest or lowest HP.",
+    "Score a simulated action result and queued events without mutating the committed battle state.",
+    "Aggregate multi-hit damage per target before applying damage, hit-rate, coverage, and range utility.",
+    "Represent scenario priorities as typed weighted rule records, not scripted turn numbers or screenshots.",
+    "Keep deterministic unit-slot tie order and add RNG only at the proven final scoring boundary."
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "scorer": {
+    "candidate_source": "simulated battle state and queued effect events",
+    "component_combiner": "integer_mean",
+    "damage_utility": {
+      "aggregation": "sum_by_target_then_select_largest_total",
+      "coverage_component": "distinct_targets / active_opposite_affiliation_units",
+      "damage_fraction": "min(total_damage, target_current_hp) / target_current_hp",
+      "event_low_6": [
+        "0x01",
+        "0x14",
+        "0x15"
+      ],
+      "per_event_amount": "signed_u16(event+0x18) * event[0x12]",
+      "range_component": "max_map_distance / actor_max_action_range",
+      "success_component": "max(event[0x10]) / 100"
+    },
+    "end": "0x08085154",
+    "final_random_term": "(rng_value * 10) >> 15",
+    "friendly_target_matching": "The same seven selectors are recomputed for same-affiliation units and use an independent weight vector for supportive events.",
+    "function": "0x08084274",
+    "hostile_target_matching": "For each of the seven opposite-affiliation selector slots, add its weight when the simulated event target matches; one unit may match and accumulate several selector weights.",
+    "random_only_override": "If actor action-state bits (unit[0xC0] & 0x0E) equal 2, return a 0..99 RNG-derived score without evaluating normal utility.",
+    "sha256": "c9da91cd096b36f325f3b975a416c83578048a1d588f89cafa1e1ec9dc075830",
+    "status_filters": "bound separately by battle_ai_status_aware_event_score_policy"
+  },
+  "target_index": {
+    "action_range_summary": {
+      "available_action_builder": "0x0806FDA4",
+      "destination": "0x02030E8A",
+      "operation": "retain maximum low_5 action-range value",
+      "runtime_template_builders": [
+        "0x0806D85C",
+        "0x0806D910"
+      ]
+    },
+    "banks": {
+      "opposite_affiliation": "0x02030E83",
+      "same_affiliation": "0x02030E7C"
+    },
+    "distance_helper": "0x08083AF4",
+    "end": "0x08084266",
+    "forced_opponent_override": "When battle role byte[unit_slot] is 2 and the role byte indexed by unit[0xCA] is 0, that unit fills all seven opposite-affiliation slots.",
+    "function": "0x0808400C",
+    "partition": "unit[0xCC]_equal_to_actor[0xCC]",
+    "scan_order": "unit_slots_1_through_12",
+    "selectors": [
+      {
+        "comparison": "strictly_lower",
+        "index": 0,
+        "metric": "floor(current_hp * 1000 / max_hp)"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 1,
+        "metric": "max_hp"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 2,
+        "metric": "attack"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 3,
+        "metric": "defense"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 4,
+        "metric": "agility"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 5,
+        "metric": "movement"
+      },
+      {
+        "comparison": "strictly_lower",
+        "index": 6,
+        "metric": "map_distance(actor, candidate)"
+      }
+    ],
+    "sha256": "a88f30fb911dd6a20a1dc66bbe593912321f27dc2a45f1164d2b27398642a2fb",
+    "tie_break": "first_scanned_unit",
+    "unit_pool": "0x020240C0",
+    "unit_record_size": "0x01D4"
+  }
+}

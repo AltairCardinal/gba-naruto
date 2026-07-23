@@ -1,0 +1,527 @@
+{
+  "boundaries": {
+    "action-menu-0": {
+      "action_fields_0x0200A880": "0000000000000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "873eee68ba84f852c79c726cafdb56ed59ff4b265a2c7fd43611464dc443621c",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "451cc5d5b49988d21586449552b12ef367aa441676193208341f67f9deed1988",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "00e3ed68c10a4d2f93d67440246d3b88b31ff1a4141453279f8e776a8c975f38",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "db67b22a2d7b68d1ec03381ebd57827c762dad5b634436a9201ff455a4066f59",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "c4cfa9487f60c9d933b604d161f5bf8505fe4cb8fad9c1d89fabebf82aeaab88",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "3a07106130cc40860608604af4975116bd58a6e10b71082144fa9fb213172cd5",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "8d4c2eaf7af6e2d908bfde1ee50838999be25ed0418046615238d1ed0a349679",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x08067D03",
+        "resume_pc": "0x08067D02",
+        "sp": "0x030011D8",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "448e10b9511719ff1e9a281a883c9a8e84e940d920f69d69807942606afbb95e",
+        "size": 9828
+      }
+    },
+    "action-menu-1": {
+      "action_fields_0x0200A880": "0100000000000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "cf232a7e686958b6755b3b4cf3536cd89a82fcc6f1ef4d76710f52dc23ca0e17",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "c16f7cc9dc4c3fc1770176ff4e253b1fd2ad0fc9ca0bbf3e0b2bfa27f76d5702",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "bbd75c611afdc349ca965835172c79139fb3eb915eca9e666029c89f93dac80f",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "ca51f342dfba48c4f995c8dc0b39b969ce7d5958139fb01305b62817111c56be",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "d7d3650c99b1503ed458b385e6ba5a1485f4ab099bcdbb36755f6d9c554aa527",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "512d5e1caa63c36a51f34f1c5634f47ade1228ba34f18b577982712bb1e5f529",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "bfed5a83260ecf0c2fa591a1149497627ed3e4b88ceb571e541227dfccefea7a",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x08067D03",
+        "resume_pc": "0x08067D02",
+        "sp": "0x030011D8",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "448e10b9511719ff1e9a281a883c9a8e84e940d920f69d69807942606afbb95e",
+        "size": 9828
+      }
+    },
+    "attack-confirmation": {
+      "action_fields_0x0200A880": "0000000001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "2c8769d6c1e0e61af13d5f6cf757153db5aeb43806223307f0f66bd1e519f89e",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "6b7062cb4ccd667ac397f9ae57d1c203227684a8b593162fbfd4b7031112f87f",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "938f15ac482ef22c0a6953c68c2e0c42db5ba7ad6649d3614659a106386d5073",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "2b61e0cbcf4fdbfe0582e534446982b257ba0338efb850499c944d9a9cdd22e5",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "9776cac6249685ef4de59a89ebbc80228972cc413e113f28925b38955ff09d21",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "6718abefc089dd28d028dc5bff14dc7add790b88c3ea3ab9e9f8d392a81cd769",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "fb30e74f8dcac135db659cd12e4539d6ff277540653898d166c048c024aaaf26",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x0806810D",
+        "resume_pc": "0x0806810C",
+        "sp": "0x03001144",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "6da95a29d897a9e93681f29427f195a9976cb5a28ffc4f4c60201626a5d3d14a",
+        "size": 9828
+      }
+    },
+    "combat-dialogue": {
+      "action_fields_0x0200A880": "0000010001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "44ca7fe066943bd0f5ef21e95f608a452abc201176ba369ff3b7778a3bb05ee5",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "d894bb16e6c7cc71ec627ca6c80e25bfe0f990f43db55c001db0109a72104c1a",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "723938ef0dd0138f3c3d48fdffe36d7eed70511bf5e319263412430888b7dd24",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "82271876e14f0ce5b010a5a315808440ad00a3f9412eafffa76e1379558cb3cb",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "9477fcde50219b29a3e5b408e82e7221cd21856d2a2485b7093e73ed511cbadc",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "fd34d3285f48ca04ac536a5e6055f246eaf8e8f81484e29ef6baeeeb1372d397",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "4eaa2e010dcbe9ac7f025d51175dee4eb61ed80b63f2f052746c49fe326659b0",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x08067465",
+        "resume_pc": "0x08067464",
+        "sp": "0x030010F8",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "3c803efb56f26ec26922989ccc37fb2b897d018f399fd75ebe7228721a1a451b",
+        "size": 9828
+      }
+    },
+    "combat-popup": {
+      "action_fields_0x0200A880": "0000010001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "0bd9906e04c1460b267021e488ae6b0c6ff024b07af9741d43ccc5049489ec12",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "0b8a7b6191027fbd03d1c5ad0de958ce0a842a6b83f88114d14943cdcc6a228f",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "2b696380df9d9cdfa92a95b3d66e3e86537ff9ef752253e7e997acafd9c4880f",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "8b179fb5c655e2ef43f8f94ad47b0dc609350fd402b8aa1b1d97d9d3f88f5a5c",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "7013e65738230ee6555b31578ae8b22d24adff5684fd1b9d311e7e61bee68c01",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "ccd9de2ca147cab7b50fc0429e8b58c609439661f2fdacc917d2cd1bd2442fb2",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "c61889f77df91f4f5b4e336b479bf4d9929ad0c878b1415798901bb6d52e85a4",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x0806820F",
+        "resume_pc": "0x0806820E",
+        "sp": "0x03001180",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "bddb0b19ec8214bc88367ab04dc40e67d24a8fb898acd3382c518bcc294c7cb6",
+        "size": 9828
+      }
+    },
+    "defense-confirmation": {
+      "action_fields_0x0200A880": "0000000001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "87b103de9d9df06289b5f1aeff68f48eeab791863fe1d26f90c57c3fd44ed6e0",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "24e33197958e870f8387d756e2690d638492f3ae53472551cd37e1a7f8121402",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "bb28a9bca7693d80dd22c5dfec8186dd165a27882a907b510e82abdea7a54444",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "1fdb0076c662dbb0585023be25a5cfd4bfdba07a4654c1b45b0d1813c0d857fe",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "d7d3650c99b1503ed458b385e6ba5a1485f4ab099bcdbb36755f6d9c554aa527",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "b0f87ceb8c35894430caddac5e404d2882082d4b3f91008e613782822063df63",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "41c4c5c8e246e129653916e837bc694daa4370b88637ed357777cbae7be40c36",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x0806810D",
+        "resume_pc": "0x0806810C",
+        "sp": "0x030011D8",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "8cd655042133e8a35f87ce4f2b2c18aa23446772241feae0805dabea0c72b597",
+        "size": 9828
+      }
+    },
+    "end-confirmation": {
+      "action_fields_0x0200A880": "0100000001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "56c6573d9aca79a1920a780b23f5f2fbd5d147db3aea297acb74f82c12853ac9",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "7799498d559c28dfa51178f5c195b24096c59b8afafe678f2238facba12e8287",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "a81c6972d5f506fb023d660c574f327947a99d1f138fb424fe28b5c569d12e02",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "79925c0473f1f561ed4395f7210c836611c7c9e62dcd8456ce541a74ee674122",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "d7d3650c99b1503ed458b385e6ba5a1485f4ab099bcdbb36755f6d9c554aa527",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "42695143f35d26d9ca0ee1bbc74e9f307b005f2797287254c58e06d61b8b35e6",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "3469468b79070b6f88e9ca862094278554413c3e565a3b491e09b8b965e23a3d",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x0806810D",
+        "resume_pc": "0x0806810C",
+        "sp": "0x030011D8",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "448e10b9511719ff1e9a281a883c9a8e84e940d920f69d69807942606afbb95e",
+        "size": 9828
+      }
+    },
+    "target-select": {
+      "action_fields_0x0200A880": "0000010001000000",
+      "battle_control_0x02026804": "0029000000000000",
+      "checkpoint_sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+      "regions": {
+        "ewram": {
+          "address": "0x02000000",
+          "file": "ewram.bin",
+          "sha256": "f3037908377e8d466772a5d827c6f0d68e7081b976a54ae9bab5d78cb0611132",
+          "size": 262144
+        },
+        "io": {
+          "address": "0x04000000",
+          "file": "io.bin",
+          "sha256": "ea0a1df3e021e2d0fa54a21f443a552137de6600132ba08d02265d235a591425",
+          "size": 1024
+        },
+        "iwram": {
+          "address": "0x03000000",
+          "file": "iwram.bin",
+          "sha256": "c7aad869a7153b9a2d7dfe1c4e927d6d67a3d18fa6e4c4b7a6f29f90524f04a5",
+          "size": 32768
+        },
+        "oam": {
+          "address": "0x07000000",
+          "file": "oam.bin",
+          "sha256": "2e7f2e85ccf9616a20093e9ac31d21c075ee43a581e12506975d9a34b0dc788b",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "file": "pram.bin",
+          "sha256": "c5fd7ba11a216d0e6251a4ca0240c6fcae381494a2d2f4e70692cf1fd556a525",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "file": "vram.bin",
+          "sha256": "553f2084772dfaf5698c77de3b4d9501f0b154939d03f815f0bd94b794a94fef",
+          "size": 98304
+        }
+      },
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "03b5baa399ffadd1a0c922706edd725b33c63864fa20ccf99e1b2c8f8e14da41",
+        "width": 240
+      },
+      "source": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+      "task_2": {
+        "delay": 1,
+        "lr": "0x0806F997",
+        "resume_pc": "0x0806F996",
+        "sp": "0x03001154",
+        "type": 2
+      },
+      "unit_pool": {
+        "address": "0x020240C0",
+        "sha256": "87f4cd0f833909fd771ee90edb4f04fa39674b269e38132612afdea8278b69d7",
+        "size": 9828
+      }
+    }
+  },
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1
+}

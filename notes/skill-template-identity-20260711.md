@@ -21,3 +21,6 @@ remain unproved, so legacy semantic editor import/write stays disabled.
 The former `items` bank was byte-for-byte identical to the old skills slice and
 has no independent consumer. It is now a `disproved` tombstone rather than a
 second static-verified structure.
+# 2026-07-23 identity correction
+
+The 94×16-byte structure at `0x545BE4` is the ninja-tool/power-up numeric table, not the character active-skill table. Runtime ID 1 renders 十字手里剑 with `6×3 / distance 3 / 90%`, matching the independent GameFAQs Ninja-Tools list. Character active actions instead use the 87×16-byte table at `0x545458`. All byte-boundary and initializer findings below remain valid; legacy `skill` naming is superseded.

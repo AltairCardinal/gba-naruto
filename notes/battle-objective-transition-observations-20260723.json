@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "method": "Hash-bound original-ROM savestate pairs are decoded with the validated mGBA state parser and controller stack unwinder. Battle result byte 0x02026807 and the relevant unit records are checked against explicit expectations; screenshot appearance is not used as the state source.",
+  "observations": [
+    {
+      "id": "bells_victory",
+      "kind": "composite_victory",
+      "before": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-06.ss9",
+      "before_sha256": "31a7694642f7351808062f5d24ed6beabb003c90bce8062f1a5280462cc18c73",
+      "after": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-07.ss9",
+      "after_sha256": "25e2fc5f4ba6432ed5488f1e192a780de8959022b344c83f7aef0a306a478e74",
+      "expected_battle_id": 44,
+      "expected_before_state": "0xE000",
+      "expected_after_state": "0xE010",
+      "expected_result_before": 0,
+      "expected_result_after": 1,
+      "actor_slot": 3,
+      "expected_actor_character_id": 3,
+      "expected_current_x": 4,
+      "expected_current_y": 3,
+      "expected_facing": 2,
+      "required_defeated_slot": 4,
+      "expected_defeated_character_id": 0
+    },
+    {
+      "id": "scroll_escort_failure",
+      "kind": "escort_failure",
+      "before": "build/scenario-50-battle-15-route-20260720/e4-a1/output.ss9",
+      "before_sha256": "f40a808b201a9706b4a3bf885dba7e0348b27aa4a22a6f4a14f0ec0d29603b47",
+      "after": "build/scenario-50-battle-15-route-20260720/e4-a2/output.ss9",
+      "after_sha256": "7e297e2501bef0fdd140f8f412f632ebbe28ac8a66fb4b50a0e416603fb0a940",
+      "before_audit": "build/scenario-50-battle-15-route-20260720/e4-a1/audit.json",
+      "before_audit_sha256": "b80bf14a08c55ecce654d6ac34e417f1c8ecb2b88aabb302fa3446056298b6c1",
+      "after_audit": "build/scenario-50-battle-15-route-20260720/e4-a2/audit.json",
+      "after_audit_sha256": "3a4d8aad9ceb2b16d195904f1deea427a164d0cbde0130e2bb8d4eb304552f3d",
+      "expected_battle_id": 15,
+      "expected_before_state": "0x8000",
+      "expected_after_state": "0x8000",
+      "expected_result_before": 0,
+      "expected_result_after": 2,
+      "escort_slot": 4,
+      "expected_escort_character_id_before": 0,
+      "expected_escort_character_id_after": 0,
+      "expected_living_player_slots": [1, 2, 3]
+    }
+  ]
+}

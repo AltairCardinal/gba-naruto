@@ -9,6 +9,7 @@ node_modules/
 .vite/
 
 # Build artifacts
+build/
 build/*.gba
 build/*.sav
 build/*-report.json
@@ -16,6 +17,15 @@ build/battle-config-*.json
 build/users/
 build/audio/
 build/tiles/
+
+# Butano build artifacts
+butano-sequel/build/
+butano-sequel/build-*/
+butano-sequel/*.gba
+butano-sequel/*.elf
+butano-sequel/*.map
+butano-sequel/*.sav
+build/butano-agent-benchmark-*/
 
 # Generated data
 *.db
@@ -26,6 +36,7 @@ build/tiles/
 .ralph/
 
 # Experiment outputs
+rom/base.sav
 rom/experiment-*.gba
 rom/experiment-*.sav
 

@@ -6,6 +6,7 @@ from __future__ import annotations
 import unittest
 
 from tools.verify_battle_config_records import (
+    EXPECTED_ENTRY_COUNT,
     EXPECTED_ENTRY_SIZE,
     EXPECTED_FIELDS,
     EXPECTED_FIELD_NAMES,
@@ -17,7 +18,7 @@ from tools.verify_battle_config_records import (
 def fixture_bank() -> dict:
     fields = [{"offset": offset, "size": size, "name": name} for name, offset, size in EXPECTED_FIELDS]
     entries = []
-    for index in range(32):
+    for index in range(EXPECTED_ENTRY_COUNT):
         values = [0] * len(EXPECTED_FIELDS) if index == 0 else [index & 0xFF] * 14 + [0x1234]
         entry = {"_raw_offset": EXPECTED_TABLE_OFFSET + index * EXPECTED_ENTRY_SIZE}
         for (name, _offset, size), value in zip(EXPECTED_FIELDS, values):
@@ -26,7 +27,7 @@ def fixture_bank() -> dict:
         entries.append(entry)
     return {
         "table_offset": EXPECTED_TABLE_OFFSET,
-        "entry_count": 32,
+        "entry_count": EXPECTED_ENTRY_COUNT,
         "entry_size": EXPECTED_ENTRY_SIZE,
         "entry_format": {"fields": fields},
         "entries": entries,
@@ -34,7 +35,7 @@ def fixture_bank() -> dict:
 
 
 def fixture_rom(bank: dict) -> bytes:
-    rom = bytearray(EXPECTED_TABLE_OFFSET + 32 * EXPECTED_ENTRY_SIZE)
+    rom = bytearray(EXPECTED_TABLE_OFFSET + EXPECTED_ENTRY_COUNT * EXPECTED_ENTRY_SIZE)
     for entry in bank["entries"]:
         offset = entry["_raw_offset"]
         for name, field_offset, size in EXPECTED_FIELDS:
@@ -48,7 +49,7 @@ class BattleConfigVerificationTests(unittest.TestCase):
         report = validate_bank(bank, fixture_rom(bank))
 
         self.assertTrue(report["ok"], report["issues"])
-        self.assertEqual(32, report["entry_count"])
+        self.assertEqual(EXPECTED_ENTRY_COUNT, report["entry_count"])
         self.assertEqual(EXPECTED_ENTRY_SIZE, report["entry_size"])
 
     def test_validate_bank_rejects_rom_mismatch(self):

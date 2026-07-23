@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "identity": "battle_resource_transaction_boundaries",
+  "method": "Each record binds a single-input original-ROM transaction by checkpoint and audit SHA-256, controller stack state, acting unit slot, HP/chakra fields, action flags, battle-local equipped-tool state, and the persistent ninja-tool inventory region.",
+  "rom": "rom/base.gba",
+  "state_inventory": "notes/battle-controller-states-20260723.json",
+  "transition_count": 3,
+  "transitions": [
+    {
+      "id": "chakra_exchange",
+      "kind": "chakra_exchange",
+      "before": "build/scenario-50-battle-15-rng-consume-20260720/a5-basic/output.ss9",
+      "before_sha256": "1551a1123771a333b97f98f2d7020982e71446c5e51c3afd780e571109334829",
+      "after": "build/scenario-50-battle-15-rng-consume-20260720/a6-grid/output.ss9",
+      "after_sha256": "d16b5630cd09ee4ab97a5fcd318f924a93c46e6baf59e4c7b85b785e228afec1",
+      "audit": "build/scenario-50-battle-15-rng-consume-20260720/a6-grid/audit.json",
+      "audit_sha256": "491f0d5f39dcb7d435004eebce4b845b4a13dbce1739f4c4f7be70b04deb710f",
+      "before_controller_state": "0x3000",
+      "after_controller_state": "0x3210",
+      "unit_slot": 1,
+      "character_id": 1,
+      "current_hp": {
+        "before": 134,
+        "after": 119
+      },
+      "current_chakra": {
+        "before": 4,
+        "after": 5
+      },
+      "unit_record_diffs": [
+        {
+          "address": "0x0202429B",
+          "offset": "0x07",
+          "before": 4,
+          "after": 5
+        },
+        {
+          "address": "0x020242A0",
+          "offset": "0x0C",
+          "before": 134,
+          "after": 119
+        }
+      ],
+      "ninja_tool_inventory_diffs": [],
+      "resource_exchange_committed": true
+    },
+    {
+      "id": "rest_heal",
+      "kind": "rest",
+      "before": "build/scenario-47-team-rest-route-20260720/t10k-rest/output.ss9",
+      "before_sha256": "f6ea08ca42349aa2430bc29b463743034d26df80e34f7cc13718a56071e5eb3d",
+      "after": "build/scenario-47-team-rest-route-20260720/t10k-confirm/output.ss9",
+      "after_sha256": "901bd1e3ac5c112c2ab1f16b160fb0ff5d95a59150aae3e29541fd9cb65cbe07",
+      "audit": "build/scenario-47-team-rest-route-20260720/t10k-confirm/audit.json",
+      "audit_sha256": "7f94cbabc41b9f40e9c96952fb5f2639b647a3614096629ef7f6f02bb2139796",
+      "before_controller_state": "0x3310",
+      "after_controller_state": "0x1220",
+      "unit_slot": 2,
+      "character_id": 2,
+      "current_hp": {
+        "before": 24,
+        "after": 41
+      },
+      "current_chakra": {
+        "before": 4,
+        "after": 4
+      },
+      "unit_record_diffs": [
+        {
+          "address": "0x02024474",
+          "offset": "0x0C",
+          "before": 24,
+          "after": 41
+        },
+        {
+          "address": "0x02024528",
+          "offset": "0xC0",
+          "before": 0,
+          "after": 32
+        },
+        {
+          "address": "0x02024529",
+          "offset": "0xC1",
+          "before": 1,
+          "after": 0
+        }
+      ],
+      "ninja_tool_inventory_diffs": [],
+      "action_flags_low": {
+        "before": 0,
+        "after": 32
+      },
+      "rest_committed_and_action_completed": true
+    },
+    {
+      "id": "ninja_tool_consumption",
+      "kind": "ninja_tool",
+      "before": "build/scenario-47-turn4-20260720/t6-yes/output.ss9",
+      "before_sha256": "26c70f57c364f527fe6b386565b04ee6c243f3944549a19b72cdc32062371d5b",
+      "after": "build/scenario-47-turn4-20260720/t6-execute/output.ss9",
+      "after_sha256": "8311d1441c65a0a5abab7c380e8bbdc410360f6a803106af423ade03bf40ebf9",
+      "audit": "build/scenario-47-turn4-20260720/t6-execute/audit.json",
+      "audit_sha256": "2016a0d8a476596544fb9969e125c2a57b1df0523027befd35ae380a9126b9a3",
+      "before_controller_state": "0x4100",
+      "after_controller_state": "0x9000",
+      "unit_slot": 1,
+      "character_id": 1,
+      "current_hp": {
+        "before": 46,
+        "after": 46
+      },
+      "current_chakra": {
+        "before": 5,
+        "after": 5
+      },
+      "unit_record_diffs": [
+        {
+          "address": "0x02024345",
+          "offset": "0xB1",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x02024354",
+          "offset": "0xC0",
+          "before": 0,
+          "after": 16
+        }
+      ],
+      "ninja_tool_inventory_diffs": [],
+      "action_flags_low": {
+        "before": 0,
+        "after": 16
+      },
+      "battle_local_tool_slot": {
+        "offset": "0xB1",
+        "address": "0x02024345",
+        "before": 1,
+        "after": 0
+      },
+      "battle_local_tool_consumed": true
+    }
+  ],
+  "conclusion": "The sampled chakra command exchanges 15 HP for one current-chakra point at 0x3000 to 0x3210. The sampled rest command restores 17 HP, preserves chakra and persistent ninja-tool inventory, and marks the unit action complete. The sampled ninja-tool commit clears the acting unit's first battle-local equipped-tool slot while preserving HP, chakra, and the persistent inventory region.",
+  "boundary": "The concrete deltas are sample values. They do not establish the general HP/chakra formula, max-resource clamping, passive modifiers, item costs, or the meaning and extent of every byte near the equipped-tool slot."
+}

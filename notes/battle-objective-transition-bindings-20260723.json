@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "identity": "battle_objective_and_outcome_boundaries",
+  "method": "Hash-bound original-ROM savestate pairs are decoded with the validated mGBA state parser and controller stack unwinder. Battle result byte 0x02026807 and the relevant unit records are checked against explicit expectations; screenshot appearance is not used as the state source.",
+  "rom": "rom/base.gba",
+  "state_inventory": "notes/battle-controller-states-20260723.json",
+  "transition_count": 2,
+  "transitions": [
+    {
+      "id": "bells_victory",
+      "kind": "composite_victory",
+      "before": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-06.ss9",
+      "before_sha256": "31a7694642f7351808062f5d24ed6beabb003c90bce8062f1a5280462cc18c73",
+      "after": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-07.ss9",
+      "after_sha256": "25e2fc5f4ba6432ed5488f1e192a780de8959022b344c83f7aef0a306a478e74",
+      "battle_id": 44,
+      "before_controller_state": "0xE000",
+      "after_controller_state": "0xE010",
+      "result_before": 0,
+      "result_after": 1,
+      "battle_control_diffs": [
+        {
+          "address": "0x02026807",
+          "offset": "0x03",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "actor": {
+        "slot": 3,
+        "character_id": 3,
+        "current_x": 4,
+        "current_y": 3,
+        "facing": 2
+      },
+      "required_defeated_slot": 4,
+      "required_defeated_character_id": 0,
+      "composite_goal_observed": true
+    },
+    {
+      "id": "scroll_escort_failure",
+      "kind": "escort_failure",
+      "before": "build/scenario-50-battle-15-route-20260720/e4-a1/output.ss9",
+      "before_sha256": "f40a808b201a9706b4a3bf885dba7e0348b27aa4a22a6f4a14f0ec0d29603b47",
+      "after": "build/scenario-50-battle-15-route-20260720/e4-a2/output.ss9",
+      "after_sha256": "7e297e2501bef0fdd140f8f412f632ebbe28ac8a66fb4b50a0e416603fb0a940",
+      "battle_id": 15,
+      "before_controller_state": "0x8000",
+      "after_controller_state": "0x8000",
+      "result_before": 0,
+      "result_after": 2,
+      "battle_control_diffs": [
+        {
+          "address": "0x02026807",
+          "offset": "0x03",
+          "before": 0,
+          "after": 2
+        }
+      ],
+      "escort_slot": 4,
+      "escort_character_id_before": 0,
+      "escort_character_id_after": 0,
+      "living_player_slots": [
+        1,
+        2,
+        3
+      ],
+      "outcome_interrupts_within_resolution": true
+    }
+  ],
+  "conclusion": "The sampled battle 44 victory is asserted only after the defeated-unit and position/facing conditions coexist. The sampled battle 15 escort loss changes only the result byte from 0 to 2 while remaining inside controller state 0x8000.",
+  "boundary": "These samples prove two objective/outcome boundaries, not the complete condition bytecode, every scenario predicate, or global victory/failure precedence."
+}

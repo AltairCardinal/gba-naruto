@@ -1,0 +1,5146 @@
+{
+  "active_actions": [
+    {
+      "action_id": 0,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 0,
+        "name": "none",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "potency": 0,
+      "raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 1,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 2,
+        "flags": 0,
+        "handler": "0x0807706C"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050204000164020100020004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 2,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 4,
+      "distance_and_line_flags": 3,
+      "duration_turns": 0,
+      "effect": {
+        "code": 3,
+        "flags": 0,
+        "handler": "0x080770D0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01040304000164030100010004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 3,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 4,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01030400000164020101030004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 4,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 1,
+      "duration_turns": 3,
+      "effect": {
+        "code": 5,
+        "flags": 0,
+        "handler": "0x0807711A"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050503000164010103020006000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "occupied_unit",
+        "policy": 3
+      }
+    },
+    {
+      "action_id": 5,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "020101020a0162010100000001000500",
+      "success_rate_percent": 98,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 6,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 3,
+        "name": "no_scalar_resource_special",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 6,
+        "flags": 0,
+        "handler": "0x0807718C"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "03050605140164010100000001000f00",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_5",
+        "policy": 5
+      }
+    },
+    {
+      "action_id": 7,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 7,
+        "flags": 0,
+        "handler": "0x080771B0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050704000164020100030004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 8,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 128,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 5,
+      "raw_hex": "0101810205013c010100010001000500",
+      "success_rate_percent": 60,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 9,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 5
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 8,
+        "flags": 0,
+        "handler": "0x0807764E"
+      },
+      "is_empty": false,
+      "potency": 1,
+      "raw_hex": "01050810010164000000050001000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 16,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 10,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 128,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 7,
+      "raw_hex": "01018102070562000000000000000000",
+      "success_rate_percent": 98,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 11,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "010101020a055f000000000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 12,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 18,
+      "raw_hex": "0101010a12015f830100020004000100",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 8,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 13,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 2,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "01010102140264000000000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 14,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "01051e10190164000000020001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 16,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 15,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 16,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 15,
+      "raw_hex": "0101010a0f015f820100020001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 8,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 17,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 45,
+      "raw_hex": "010101022d0164000000000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 18,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 4,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "010101020a0450000000000000000000",
+      "success_rate_percent": 80,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 19,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 80
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "020101020a035f010100500002000100",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 20,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 0,
+        "name": "none",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "potency": 0,
+      "raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 21,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 10
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 10,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 18,
+      "raw_hex": "02020a001201640100010a0001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 22,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 4,
+      "duration_turns": 0,
+      "effect": {
+        "code": 11,
+        "flags": 0,
+        "handler": "0x08077214"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050b02000164040100010004000200",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 23,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 131,
+      "duration_turns": 3,
+      "effect": {
+        "code": 14,
+        "flags": 0,
+        "handler": "0x0807729A"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050e02000146830103030006000100",
+      "success_rate_percent": 70,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 24,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 132,
+      "duration_turns": 3,
+      "effect": {
+        "code": 15,
+        "flags": 0,
+        "handler": "0x080773B4"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050f0200014b840203030006000100",
+      "success_rate_percent": 75,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 25,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 15,
+      "raw_hex": "01051e100f0164000000020001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 16,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 26,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 27,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 50
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 35,
+      "raw_hex": "0201010223015f830100320004000200",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 28,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 3,
+        "name": "no_scalar_resource_special",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 17,
+        "flags": 0,
+        "handler": "0x080773F2"
+      },
+      "is_empty": false,
+      "potency": 4,
+      "raw_hex": "03051100040164000000000001000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 29,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "01051e10190164000000020001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 16,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 30,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 31,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 10
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 3,
+      "effect": {
+        "code": 33,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "020121020a015f0101030a0001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 32,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 50,
+      "raw_hex": "01010102320164830100020001000200",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 33,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 7,
+        "flags": 0,
+        "handler": "0x080771B0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050704000164020100020004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 34,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "0101010219015f830100030001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 35,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 2,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 40
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 34,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214025a220200280001000500",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 36,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 8,
+      "raw_hex": "0101010208054b020100030005000100",
+      "success_rate_percent": 75,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 37,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 4,
+      "effect": {
+        "code": 18,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "01051200140164000004030001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 38,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 4,
+      "effect": {
+        "code": 18,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "01051200140164000004030001000500",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 39,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 0,
+        "name": "none",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "potency": 0,
+      "raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 40,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 0,
+        "name": "none",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "potency": 0,
+      "raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 41,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 2,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 30
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 15,
+      "raw_hex": "020101020f025f0101001e0001000300",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 42,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 40
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "0201010219015f000200280001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 43,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 10
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 19,
+        "flags": 0,
+        "handler": "0x08077532"
+      },
+      "is_empty": false,
+      "potency": 1,
+      "raw_hex": "020513000101640000000a0000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 44,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 20
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 19,
+        "flags": 0,
+        "handler": "0x08077532"
+      },
+      "is_empty": false,
+      "potency": 2,
+      "raw_hex": "02051300020164000000140000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 45,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 30
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 19,
+        "flags": 0,
+        "handler": "0x08077532"
+      },
+      "is_empty": false,
+      "potency": 3,
+      "raw_hex": "020513000301640000001e0000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 46,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 40
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 19,
+        "flags": 0,
+        "handler": "0x08077532"
+      },
+      "is_empty": false,
+      "potency": 4,
+      "raw_hex": "02051300040164000000280000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 47,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 50
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 19,
+        "flags": 0,
+        "handler": "0x08077532"
+      },
+      "is_empty": false,
+      "potency": 5,
+      "raw_hex": "02051300050164000000320000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 48,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 100
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 20,
+        "flags": 0,
+        "handler": "0x08077458"
+      },
+      "is_empty": false,
+      "potency": 50,
+      "raw_hex": "02011402320050010100640001000500",
+      "success_rate_percent": 80,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 49,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 200
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 20,
+        "flags": 0,
+        "handler": "0x08077458"
+      },
+      "is_empty": false,
+      "potency": 80,
+      "raw_hex": "02011402500050010100c80001000500",
+      "success_rate_percent": 80,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 50,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 7,
+        "flags": 0,
+        "handler": "0x080771B0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050704000164020100030004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 51,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001010000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 52,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 0,
+        "name": "none",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "potency": 0,
+      "raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 53,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 5
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 3,
+      "duration_turns": 1,
+      "effect": {
+        "code": 21,
+        "flags": 0,
+        "handler": "0x080774B4"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "01011502140132030101050004000100",
+      "success_rate_percent": 50,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 54,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 7,
+        "flags": 0,
+        "handler": "0x080771B0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050704000164020100020004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 55,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "0101010219015f830100030004000100",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 56,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 57,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "0101010219015f830100030004000100",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 58,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 2,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 16,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01021000000164010001020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 59,
+      "area_range_and_shape_flags": 131,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 4
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 35,
+      "raw_hex": "0101010223015a008300040005000100",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 60,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 129,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 128,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 15,
+      "raw_hex": "010181020f014b810200030004000100",
+      "success_rate_percent": 75,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 61,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 15
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214015f0102000f0001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 62,
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 5,
+      "effect": {
+        "code": 13,
+        "flags": 0,
+        "handler": "0x08077282"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050d00000164000005020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "action_id": 63,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 7,
+        "flags": 0,
+        "handler": "0x080771B0"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01050704000164020100030004000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 64,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 4,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 35,
+      "raw_hex": "0101010223015f040100030001000500",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 65,
+      "area_range_and_shape_flags": 3,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 4
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 3,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 30,
+      "raw_hex": "010101021e015a030300040001000500",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 66,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 8,
+      "raw_hex": "01010102080550020100030004000100",
+      "success_rate_percent": 80,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 67,
+      "area_range_and_shape_flags": 3,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 5
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "010101020a0564000300050005000100",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 68,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0101010214015f850100020000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 69,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 5,
+      "duration_turns": 0,
+      "effect": {
+        "code": 23,
+        "flags": 0,
+        "handler": "0x08077508"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01051704000164050100020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 70,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0101010214015f850100020000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 71,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 5,
+      "duration_turns": 0,
+      "effect": {
+        "code": 23,
+        "flags": 0,
+        "handler": "0x08077508"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01051704000164050100020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 72,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0101010214015f850100020000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 73,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 5,
+      "duration_turns": 0,
+      "effect": {
+        "code": 23,
+        "flags": 0,
+        "handler": "0x08077508"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01051704000164050100020000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "action_id": 74,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 69,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 40,
+      "raw_hex": "01010102280164450100010000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 75,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 1
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 69,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 40,
+      "raw_hex": "01010102280164450100010000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 76,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214015f820100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 77,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214015f820100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 78,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 2,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 2
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 134,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 15,
+      "raw_hex": "010101020f0250860100020000000000",
+      "success_rate_percent": 80,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 79,
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 25,
+      "raw_hex": "0101010219015f820200030000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 80,
+      "area_range_and_shape_flags": 3,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 1,
+        "name": "current_chakra",
+        "scalar": 3
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 0,
+      "duration_turns": 2,
+      "effect": {
+        "code": 63,
+        "flags": 0,
+        "handler": "0x0807755C"
+      },
+      "is_empty": false,
+      "potency": 0,
+      "raw_hex": "01053f02000155000302030000000000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 81,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 30,
+      "raw_hex": "020101021e015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 82,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 30,
+      "raw_hex": "020101021e015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 83,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 84,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 30,
+      "raw_hex": "020101021e015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 85,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 20,
+      "raw_hex": "0201010214015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "action_id": 86,
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 2,
+        "name": "current_hp",
+        "scalar": 0
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 1,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "potency": 10,
+      "raw_hex": "020101020a015f010100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    }
+  ],
+  "boundary": "This binds the runtime template layout, five observed cost kinds, six target-policy codes, and all 63 resolver jump-table entries. Human-facing names for unresolved effect handlers, target variants 1/5, and packed range flag bits remain intentionally neutral.",
+  "content": {
+    "active_actions": {
+      "entry_count": 87,
+      "path": "sequel/content/battle-config/bank.json",
+      "table": "0x08545458",
+      "table_sha256": "d36979d06334807da33a348174de6de4bb834bca762bbb3d23deb2472a2aa966"
+    },
+    "ninja_tools": {
+      "entry_count": 94,
+      "path": "sequel/content/skills/bank.json",
+      "table": "0x08545BE4",
+      "table_sha256": "e586bbeeb364a14639e5062491c26c163905cb4c5501985bbafb5ed0ba3cd0fd"
+    }
+  },
+  "evidence": {
+    "active_initializer": {
+      "end": "0x0806D910",
+      "sha256": "dd78df15b6599a2bc73fd04e5b04f8a58cb8d761f7d7ae3a0460a5daae9daa7f",
+      "start": "0x0806D85C"
+    },
+    "event_builder": {
+      "end": "0x08075816",
+      "sha256": "bd90433b9b831de35d1bc4a62652c02b4a7bebe0c6b530577137c96580faedde",
+      "start": "0x080754A8"
+    },
+    "resolver_dispatch": {
+      "end": "0x08077040",
+      "sha256": "e45b03dec38fddb123ab43af2b47a08e7d67e49435cabe64f59dc28d453fbbd4",
+      "start": "0x08076F24"
+    },
+    "resource_eligibility": {
+      "end": "0x0808386E",
+      "sha256": "9a3bbc0a0525827c23c51ba5a3f98b5f4b4905aa2979927213f170d08b921beb",
+      "start": "0x080837E2"
+    },
+    "target_policy": {
+      "end": "0x0806A4AC",
+      "sha256": "a30e7de2bdc628e4e631407a4b37d51a77c1aaa7132bf788bb1a56668375f9d4",
+      "start": "0x0806A2F4"
+    },
+    "tool_initializer": {
+      "end": "0x0806D95E",
+      "sha256": "032c35e2fa3295e906a741e1f58a5351417686fd17826d7849af7c1959138268",
+      "start": "0x0806D910"
+    }
+  },
+  "identity": "battle_action_template_semantics",
+  "implementation_contract": [
+    "Model cost, display, effect, target, range, and upgrade as orthogonal action-definition policies.",
+    "Build one runtime action descriptor for active actions and ninja tools before validation and resolution.",
+    "Dispatch effect_code through a data-driven resolver registry; never branch on screenshots or display names.",
+    "Validate target policy and resource cost before committing an action transaction.",
+    "Keep unresolved target-policy variants and effect handlers numerically stable until stronger evidence names them."
+  ],
+  "ninja_tools": [
+    {
+      "area_range_and_shape_flags": 0,
+      "base_hit_count": 0,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 0,
+      "distance_and_line_flags": 0,
+      "duration_turns": 0,
+      "effect": {
+        "code": 0,
+        "flags": 0,
+        "handler": null
+      },
+      "is_empty": true,
+      "ninja_tool_id": 0,
+      "potency": 0,
+      "raw_hex": "05000000000000000000000000000000",
+      "source_raw_hex": "00000000000000000000000000000000",
+      "success_rate_percent": 0,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 1,
+      "potency": 6,
+      "raw_hex": "0501010206035a830100000000000000",
+      "source_raw_hex": "0100010206035a830100000000000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 2,
+      "potency": 6,
+      "raw_hex": "0501010206035a830200000000000000",
+      "source_raw_hex": "0100010206035a830200010300000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 3,
+      "potency": 10,
+      "raw_hex": "050101020a035a830200000000000000",
+      "source_raw_hex": "010001020a035a830200020300000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 4,
+      "potency": 14,
+      "raw_hex": "050101020e035a830200000000000000",
+      "source_raw_hex": "010001020e035a830200031100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 132,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 5,
+      "potency": 6,
+      "raw_hex": "0501010206035a840100000000000000",
+      "source_raw_hex": "0100010206035a840100010100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 6,
+      "potency": 6,
+      "raw_hex": "0501010206035a850100000000000000",
+      "source_raw_hex": "0100010206035a850100050100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 7,
+      "potency": 10,
+      "raw_hex": "050101020a035a850100000000000000",
+      "source_raw_hex": "010001020a035a850100061100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 4,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 8,
+      "potency": 6,
+      "raw_hex": "0501010206045a830100000000000000",
+      "source_raw_hex": "0100010206045a830100010200000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 9,
+      "potency": 6,
+      "raw_hex": "0501010206055a830100000000000000",
+      "source_raw_hex": "0100010206055a830100080200000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 10,
+      "potency": 10,
+      "raw_hex": "050101020a055a830100000000000000",
+      "source_raw_hex": "010001020a055a830100091100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 11,
+      "potency": 6,
+      "raw_hex": "0501410206035a830100000000000000",
+      "source_raw_hex": "0100410206035a830100010400000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 12,
+      "potency": 10,
+      "raw_hex": "050141020a035a830100000000000000",
+      "source_raw_hex": "010041020a035a8301000b0300000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 13,
+      "potency": 14,
+      "raw_hex": "050141020e035a830100000000000000",
+      "source_raw_hex": "010041020e035a8301000c1100000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 14,
+      "potency": 5,
+      "raw_hex": "0501010205035a830100000000000000",
+      "source_raw_hex": "0100010205035a83010000000d000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 15,
+      "potency": 8,
+      "raw_hex": "0501010208035a830100000000000000",
+      "source_raw_hex": "0100010208035a8301000e030d000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 3,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 16,
+      "potency": 11,
+      "raw_hex": "050101020b035a830100000000000000",
+      "source_raw_hex": "010001020b035a8301000f110d000000",
+      "success_rate_percent": 90,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 17,
+      "potency": 10,
+      "raw_hex": "050101020a0164830100000000000000",
+      "source_raw_hex": "010001020a0164830100000002000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 18,
+      "potency": 24,
+      "raw_hex": "0501010218015f820100000000000000",
+      "source_raw_hex": "0100010218015f820100000000000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 19,
+      "potency": 28,
+      "raw_hex": "050101021c015f820100000000000000",
+      "source_raw_hex": "010001021c015f820100120300000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 20,
+      "potency": 32,
+      "raw_hex": "0501010220015f820100000000000000",
+      "source_raw_hex": "0100010220015f820100130300000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 21,
+      "potency": 36,
+      "raw_hex": "0501010224015f820100000000000000",
+      "source_raw_hex": "0100010224015f820100141100000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 22,
+      "potency": 24,
+      "raw_hex": "0501010218015f830100000000000000",
+      "source_raw_hex": "0100010218015f830100120100000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 132,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 23,
+      "potency": 24,
+      "raw_hex": "0501010218015f840100000000000000",
+      "source_raw_hex": "0100010218015f840100160100000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 132,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 24,
+      "potency": 30,
+      "raw_hex": "050101021e015f840100000000000000",
+      "source_raw_hex": "010001021e015f840100171100000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 25,
+      "potency": 24,
+      "raw_hex": "0501410218015f820100000000000000",
+      "source_raw_hex": "0100410218015f820100120400000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 26,
+      "potency": 28,
+      "raw_hex": "050141021c015f820100000000000000",
+      "source_raw_hex": "010041021c015f820100190300000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 64,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 27,
+      "potency": 32,
+      "raw_hex": "0501410220015f820100000000000000",
+      "source_raw_hex": "0100410220015f8201001a1100000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 28,
+      "potency": 20,
+      "raw_hex": "0501010214015f820100000000000000",
+      "source_raw_hex": "0100010214015f82010000000d000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 29,
+      "potency": 24,
+      "raw_hex": "0501010218015f820100000000000000",
+      "source_raw_hex": "0100010218015f8201001c030d000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 130,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 30,
+      "potency": 28,
+      "raw_hex": "050101021c015f820100000000000000",
+      "source_raw_hex": "010001021c015f8201001d110d000000",
+      "success_rate_percent": 95,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 31,
+      "potency": 5,
+      "raw_hex": "05010102050555830100000000000000",
+      "source_raw_hex": "01000102050555830100000013150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 32,
+      "potency": 7,
+      "raw_hex": "05010102070555830100000000000000",
+      "source_raw_hex": "010001020705558301001f0313150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 131,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 33,
+      "potency": 9,
+      "raw_hex": "05010102090555830100000000000000",
+      "source_raw_hex": "01000102090555830100201113150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 132,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 34,
+      "potency": 5,
+      "raw_hex": "05010102050555840100000000000000",
+      "source_raw_hex": "010001020505558401001f0113150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 35,
+      "potency": 5,
+      "raw_hex": "05010102050555850100000000000000",
+      "source_raw_hex": "01000102050555850100220113150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 5,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 1,
+      "distance_and_line_flags": 133,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 36,
+      "potency": 7,
+      "raw_hex": "05010102070555850100000000000000",
+      "source_raw_hex": "01000102070555850100231113150000",
+      "success_rate_percent": 85,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 2,
+      "effect": {
+        "code": 12,
+        "flags": 0,
+        "handler": "0x0807726E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 37,
+      "potency": 0,
+      "raw_hex": "05050c04000164020102000000000000",
+      "source_raw_hex": "05000c04000164020102000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 3,
+      "duration_turns": 2,
+      "effect": {
+        "code": 12,
+        "flags": 0,
+        "handler": "0x0807726E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 38,
+      "potency": 0,
+      "raw_hex": "05050c04000164030102000000000000",
+      "source_raw_hex": "05000c04000164030102250100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 4,
+      "duration_turns": 2,
+      "effect": {
+        "code": 12,
+        "flags": 0,
+        "handler": "0x0807726E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 39,
+      "potency": 0,
+      "raw_hex": "05050c04000164040102000000000000",
+      "source_raw_hex": "05000c04000164040102260100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 40,
+      "potency": 0,
+      "raw_hex": "05031600000164020101000000000000",
+      "source_raw_hex": "03001600000164020101000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 3,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 41,
+      "potency": 0,
+      "raw_hex": "05031600000164030101000000000000",
+      "source_raw_hex": "03001600000164030101280500000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 4,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 42,
+      "potency": 0,
+      "raw_hex": "05031600000164040101000000000000",
+      "source_raw_hex": "03001600000164040101291100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 64,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 43,
+      "potency": 0,
+      "raw_hex": "05035600000164020101000000000000",
+      "source_raw_hex": "03005600000164020101280400000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 3,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 64,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 44,
+      "potency": 0,
+      "raw_hex": "05035600000164030101000000000000",
+      "source_raw_hex": "030056000001640301012b0500000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 4,
+      "duration_turns": 1,
+      "effect": {
+        "code": 22,
+        "flags": 64,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 45,
+      "potency": 0,
+      "raw_hex": "05035600000164040101000000000000",
+      "source_raw_hex": "030056000001640401012c1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 25,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 46,
+      "potency": 10,
+      "raw_hex": "050319000a0164010101000000000000",
+      "source_raw_hex": "030019000a0164010101280600000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 25,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 47,
+      "potency": 15,
+      "raw_hex": "050319000f0164010101000000000000",
+      "source_raw_hex": "030019000f01640101012e0600000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 3,
+      "distance_and_line_flags": 1,
+      "duration_turns": 1,
+      "effect": {
+        "code": 25,
+        "flags": 0,
+        "handler": "0x08077556"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 48,
+      "potency": 20,
+      "raw_hex": "05031900140164010101000000000000",
+      "source_raw_hex": "030019001401640101012f1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "self_or_implicit_actor",
+        "policy": 0
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 49,
+      "potency": 28,
+      "raw_hex": "050501021c0164020100000000000000",
+      "source_raw_hex": "050001021c0164020100280300000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 50,
+      "potency": 34,
+      "raw_hex": "05050102220164020100000000000000",
+      "source_raw_hex": "05000102220164020100310300000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 1,
+        "flags": 0,
+        "handler": "0x08077040"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 51,
+      "potency": 40,
+      "raw_hex": "05050102280164020100000000000000",
+      "source_raw_hex": "05000102280164020100321100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 29,
+        "flags": 0,
+        "handler": "0x08077444"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 52,
+      "potency": 1,
+      "raw_hex": "05051d02010164020100000000000000",
+      "source_raw_hex": "05001d02010164020100280700000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 29,
+        "flags": 0,
+        "handler": "0x08077444"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 53,
+      "potency": 2,
+      "raw_hex": "05051d02020164020100000000000000",
+      "source_raw_hex": "05001d02020164020100340700000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 29,
+        "flags": 0,
+        "handler": "0x08077444"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 54,
+      "potency": 3,
+      "raw_hex": "05051d02030164020100000000000000",
+      "source_raw_hex": "05001d02030164020100351100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 31,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 55,
+      "potency": 25,
+      "raw_hex": "05051f02190164020104000000000000",
+      "source_raw_hex": "05001f02190164020104280800000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 31,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 56,
+      "potency": 50,
+      "raw_hex": "05051f02320164020104000000000000",
+      "source_raw_hex": "05001f02320164020104370800000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 31,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 57,
+      "potency": 75,
+      "raw_hex": "05051f024b0164020104000000000000",
+      "source_raw_hex": "05001f024b0164020104381100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 33,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 58,
+      "potency": 25,
+      "raw_hex": "05052102190164020104000000000000",
+      "source_raw_hex": "05002102190164020104280900000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 33,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 59,
+      "potency": 50,
+      "raw_hex": "05052102320164020104000000000000",
+      "source_raw_hex": "050021023201640201043a0900000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 33,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 60,
+      "potency": 75,
+      "raw_hex": "050521024b0164020104000000000000",
+      "source_raw_hex": "050021024b01640201043b1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 35,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 61,
+      "potency": 25,
+      "raw_hex": "05052302190164020104000000000000",
+      "source_raw_hex": "05002302190164020104280a00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 35,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 62,
+      "potency": 50,
+      "raw_hex": "05052302320164020104000000000000",
+      "source_raw_hex": "050023023201640201043d0a00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 35,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 63,
+      "potency": 75,
+      "raw_hex": "050523024b0164020104000000000000",
+      "source_raw_hex": "050023024b01640201043e1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 37,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 64,
+      "potency": 1,
+      "raw_hex": "05052502010164020104000000000000",
+      "source_raw_hex": "05002502010164020104280b00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 37,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 65,
+      "potency": 2,
+      "raw_hex": "05052502020164020104000000000000",
+      "source_raw_hex": "05002502020164020104400b00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 37,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 66,
+      "potency": 3,
+      "raw_hex": "05052502030164020104000000000000",
+      "source_raw_hex": "05002502030164020104411100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "opponent_unit",
+        "policy": 2
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 0,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 67,
+      "potency": 20,
+      "raw_hex": "05051804140164020201000000000000",
+      "source_raw_hex": "05001804140164020201000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 0,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 68,
+      "potency": 26,
+      "raw_hex": "050518041a0164020201000000000000",
+      "source_raw_hex": "050018041a0164020201430600000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 0,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 69,
+      "potency": 32,
+      "raw_hex": "05051804200164020201000000000000",
+      "source_raw_hex": "05001804200164020201441100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 64,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 70,
+      "potency": 20,
+      "raw_hex": "05055804140164020201000000000000",
+      "source_raw_hex": "05005804140164020201430400000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 64,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 71,
+      "potency": 26,
+      "raw_hex": "050558041a0164020201000000000000",
+      "source_raw_hex": "050058041a0164020201460600000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 2,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 1,
+      "effect": {
+        "code": 24,
+        "flags": 64,
+        "handler": "0x08077514"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 72,
+      "potency": 32,
+      "raw_hex": "05055804200164020201000000000000",
+      "source_raw_hex": "05005804200164020201471100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "empty_tile",
+        "policy": 4
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 26,
+        "flags": 0,
+        "handler": "0x0807718C"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 73,
+      "potency": 40,
+      "raw_hex": "05051a01280164020100000000000000",
+      "source_raw_hex": "05001a01280164020100000000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 26,
+        "flags": 0,
+        "handler": "0x0807718C"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 74,
+      "potency": 70,
+      "raw_hex": "05051a01460164020100000000000000",
+      "source_raw_hex": "05001a01460164020100490500000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 26,
+        "flags": 0,
+        "handler": "0x0807718C"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 75,
+      "potency": 100,
+      "raw_hex": "05051a01640164020100000000000000",
+      "source_raw_hex": "05001a016401640201004a1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 28,
+        "flags": 0,
+        "handler": "0x0807742E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 76,
+      "potency": 3,
+      "raw_hex": "05051c01030164020100000000000000",
+      "source_raw_hex": "05001c01030164020100490f00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 28,
+        "flags": 0,
+        "handler": "0x0807742E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 77,
+      "potency": 5,
+      "raw_hex": "05051c01050164020100000000000000",
+      "source_raw_hex": "05001c010501640201004c0f00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 0,
+      "effect": {
+        "code": 28,
+        "flags": 0,
+        "handler": "0x0807742E"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 78,
+      "potency": 8,
+      "raw_hex": "05051c01080164020100000000000000",
+      "source_raw_hex": "05001c010801640201004d1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 79,
+      "potency": 10,
+      "raw_hex": "05051e010a0164020104000000000000",
+      "source_raw_hex": "05001e010a0164020104490c00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 80,
+      "potency": 30,
+      "raw_hex": "05051e011e0164020104000000000000",
+      "source_raw_hex": "05001e011e01640201044f0c00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 30,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 81,
+      "potency": 50,
+      "raw_hex": "05051e01320164020104000000000000",
+      "source_raw_hex": "05001e01320164020104501100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 32,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 82,
+      "potency": 10,
+      "raw_hex": "050520010a0164020104000000000000",
+      "source_raw_hex": "050020010a0164020104490300000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 32,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 83,
+      "potency": 30,
+      "raw_hex": "050520011e0164020104000000000000",
+      "source_raw_hex": "050020011e0164020104520300000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 32,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 84,
+      "potency": 50,
+      "raw_hex": "05052001320164020104000000000000",
+      "source_raw_hex": "05002001320164020104531100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 34,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 85,
+      "potency": 10,
+      "raw_hex": "050522010a0164020104000000000000",
+      "source_raw_hex": "050022010a0164020104490d00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 34,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 86,
+      "potency": 30,
+      "raw_hex": "050522011e0164020104000000000000",
+      "source_raw_hex": "050022011e0164020104550d00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 34,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 87,
+      "potency": 50,
+      "raw_hex": "05052201320164020104000000000000",
+      "source_raw_hex": "05002201320164020104561100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 36,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 88,
+      "potency": 1,
+      "raw_hex": "05052401010164020104000000000000",
+      "source_raw_hex": "05002401010164020104490e00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 36,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 89,
+      "potency": 2,
+      "raw_hex": "05052401020164020104000000000000",
+      "source_raw_hex": "05002401020164020104580e00000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 36,
+        "flags": 0,
+        "handler": "0x08077564"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 90,
+      "potency": 3,
+      "raw_hex": "05052401030164020104000000000000",
+      "source_raw_hex": "05002401030164020104591100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 38,
+        "flags": 0,
+        "handler": "0x08077590"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 91,
+      "potency": 10,
+      "raw_hex": "050526010a0164020104000000000000",
+      "source_raw_hex": "050026010a0164020104491000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 38,
+        "flags": 0,
+        "handler": "0x08077590"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 92,
+      "potency": 30,
+      "raw_hex": "050526011e0164020104000000000000",
+      "source_raw_hex": "050026011e01640201045b1000000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    },
+    {
+      "area_range_and_shape_flags": 1,
+      "base_hit_count": 1,
+      "cost": {
+        "kind": 5,
+        "name": "battle_local_ninja_tool_slot",
+        "scalar": null
+      },
+      "display_animation_family": 5,
+      "distance_and_line_flags": 2,
+      "duration_turns": 4,
+      "effect": {
+        "code": 38,
+        "flags": 0,
+        "handler": "0x08077590"
+      },
+      "is_empty": false,
+      "ninja_tool_id": 93,
+      "potency": 50,
+      "raw_hex": "05052601320164020104000000000000",
+      "source_raw_hex": "050026013201640201045c1100000000",
+      "success_rate_percent": 100,
+      "target": {
+        "flags": 0,
+        "name": "friendly_unit_policy_1",
+        "policy": 1
+      }
+    }
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "semantics": {
+    "cost_kinds": {
+      "0": "none",
+      "1": "current_chakra",
+      "2": "current_hp",
+      "3": "no_scalar_resource_special",
+      "5": "battle_local_ninja_tool_slot"
+    },
+    "effect_dispatch": {
+      "handlers": {
+        "01": "0x08077040",
+        "02": "0x0807706C",
+        "03": "0x080770D0",
+        "04": "0x08077556",
+        "05": "0x0807711A",
+        "06": "0x0807718C",
+        "07": "0x080771B0",
+        "08": "0x0807764E",
+        "09": "0x08077556",
+        "0A": "0x08077556",
+        "0B": "0x08077214",
+        "0C": "0x0807726E",
+        "0D": "0x08077282",
+        "0E": "0x0807729A",
+        "0F": "0x080773B4",
+        "10": "0x08077556",
+        "11": "0x080773F2",
+        "12": "0x08077564",
+        "13": "0x08077532",
+        "14": "0x08077458",
+        "15": "0x080774B4",
+        "16": "0x08077556",
+        "17": "0x08077508",
+        "18": "0x08077514",
+        "19": "0x08077556",
+        "1A": "0x0807718C",
+        "1B": "0x0807764E",
+        "1C": "0x0807742E",
+        "1D": "0x08077444",
+        "1E": "0x08077564",
+        "1F": "0x08077564",
+        "20": "0x08077564",
+        "21": "0x08077564",
+        "22": "0x08077564",
+        "23": "0x08077564",
+        "24": "0x08077564",
+        "25": "0x08077564",
+        "26": "0x08077590",
+        "27": "0x0807764E",
+        "28": "0x0807764E",
+        "29": "0x0807764E",
+        "2A": "0x0807764E",
+        "2B": "0x0807764E",
+        "2C": "0x0807764E",
+        "2D": "0x0807764E",
+        "2E": "0x0807764E",
+        "2F": "0x0807764E",
+        "30": "0x0807764E",
+        "31": "0x0807764E",
+        "32": "0x0807764E",
+        "33": "0x0807764E",
+        "34": "0x0807764E",
+        "35": "0x0807764E",
+        "36": "0x0807764E",
+        "37": "0x0807764E",
+        "38": "0x0807764E",
+        "39": "0x0807764E",
+        "3A": "0x0807764E",
+        "3B": "0x0807764E",
+        "3C": "0x0807764E",
+        "3D": "0x0807764E",
+        "3E": "0x0807764E",
+        "3F": "0x0807755C"
+      },
+      "selector": "runtime_u16_at_+2 & 0x003F",
+      "table": "0x08076F44"
+    },
+    "runtime_layout": {
+      "+0": "cost_kind",
+      "+1": "display_animation_family",
+      "+2_high_2": "effect_flags",
+      "+2_low_6": "effect_code",
+      "+3_high_5": "target_flags",
+      "+3_low_3": "target_policy",
+      "+4": "potency",
+      "+5": "base_hit_count",
+      "+6": "success_rate_percent",
+      "+7": "distance_and_line_flags",
+      "+8": "area_range_and_shape_flags",
+      "+9": "duration_turns",
+      "+A..+B": "scalar_resource_cost_u16"
+    },
+    "target_policies": {
+      "0": "self_or_implicit_actor",
+      "1": "friendly_unit_policy_1",
+      "2": "opponent_unit",
+      "3": "occupied_unit",
+      "4": "empty_tile",
+      "5": "friendly_unit_policy_5"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "boundary": "Sharingan replacement and Fire Bomb countering now have runtime samples. Multi-hit truncation remains statically bound around a natural three-hit baseline, while the other reaction families and expiry paths still require separate runtime samples.",
+  "conclusion": "The original ROM preprocesses reactions only for non-zero hit entries. Sharingan status 0x10 stores action 15 in the attack event, truncates the event at that first effective hit, routes subtype-1 handling through the shared resolver without normal damage, and clears reaction metadata after use. Fire Bomb status 0x19 is consumed on the enemy hit, recursively resolves action 0xAE with source and target reversed, preserves the defender at 134 HP, and reduces the original attacker from 17 HP to 3 HP.",
+  "counter_runtime_sample": {
+    "attacker_hp": [
+      17,
+      3
+    ],
+    "attacker_slot": 5,
+    "counter_damage": 14,
+    "defender_hp": [
+      134,
+      134
+    ],
+    "incoming_action_id": 5,
+    "prepared_character_id": 2,
+    "prepared_unit_slot": 2,
+    "queued_hit_count": 1,
+    "reaction_code": 25,
+    "reaction_metadata_was_cleared": true,
+    "reaction_was_consumed": true,
+    "runtime_action_id": 174,
+    "target_slot": 2,
+    "tool_id": 46
+  },
+  "identity": "battle_reaction_priority_static_and_runtime_binding",
+  "method": "Hash-bind original-ROM Sharingan and Fire Bomb attack queues, then validate the exact Thumb callsites that preprocess reaction statuses, replace the first effective hit, or recursively resolve a counter with source and target reversed.",
+  "natural_multihit_baseline": {
+    "action_id": 129,
+    "attacker_slot": 1,
+    "queued_hit_count": 3,
+    "target_hp": [
+      49,
+      31
+    ],
+    "target_slot": 5,
+    "total_damage": 18
+  },
+  "preprocessor": {
+    "address": "0x080763E0",
+    "blocking_status_priority": [
+      63,
+      62,
+      61,
+      15,
+      17,
+      21
+    ],
+    "hit_count_field_offset": "0x12",
+    "only_nonzero_hit_can_trigger": true,
+    "reaction_status_priority": [
+      4,
+      10,
+      9,
+      16,
+      22,
+      25
+    ]
+  },
+  "resolver": {
+    "adjacency_required_statuses": [
+      4,
+      22,
+      25
+    ],
+    "counter_runtime_sample_complete": true,
+    "normal_handler": "0x08077040",
+    "reaction_helper": "0x080768D8",
+    "reaction_metadata_is_cleared_after_hit": true,
+    "reverse_source_target_statuses": [
+      10,
+      9,
+      25
+    ],
+    "shared_resolver": "0x08076A30",
+    "status_0x10_policy": "replace_first_effective_hit_and_truncate_following_hits"
+  },
+  "runtime_queue": {
+    "action_id": 5,
+    "attacker_slot": 5,
+    "queued_hit_count": 1,
+    "reaction_action_id": 15,
+    "reaction_code": 16,
+    "target_slot": 2
+  },
+  "runtime_queue_checkpoint_sha256": "2d949001b00dee59fdc0bbd0d48e8fc4c610710e52a3c8637025ba5c5d22eb34",
+  "runtime_queue_post_checkpoint_sha256": "dd9db940b2b26504c96d7bb8c18fffe54e65acdfd20c67e0941b7af24a476e0b",
+  "schema_version": 1
+}

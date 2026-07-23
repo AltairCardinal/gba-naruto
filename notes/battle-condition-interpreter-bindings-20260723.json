@@ -1,0 +1,288 @@
+{
+  "battle_count": 47,
+  "battle_stride": 204,
+  "battlefield_object_lifecycle": {
+    "active_type_offset": 0,
+    "allocate": "0x08081024",
+    "behavior_offset": 6,
+    "counter_increment": 1,
+    "counter_side_source": "resolving_unit_affiliation_bit",
+    "counter_writer_behavior": 9,
+    "free": "0x08081084",
+    "type_9_counter_writer": "0x08081984",
+    "x_offset": 1,
+    "y_offset": 2
+  },
+  "boundary": "The record layout, type dispatch inventory, operational predicates for every record-used type, and ordered result arbitration are statically closed. The type-6 battlefield-object slot lifecycle and the type-9 behavior-9 resolution counter writer are also statically bound. The visible gameplay labels for object behaviors, the unused dispatch handlers 4 and 5, and runtime controls still require separate bindings. Result 5 is closed as a distinct presentation-ID 3 path that ends the battle, without assigning an unproven display label.",
+  "caller": "0x0807305C",
+  "closed_semantics": {
+    "type_1": "no_valid_unit_for_affiliation",
+    "type_2": "round_limit_reached_at_round_boundary",
+    "type_3": "no_valid_unit_for_character_and_affiliation",
+    "type_6": "indexed_battlefield_object_slot_is_inactive",
+    "type_7": "round_limit_selected_side_current_hp_sum_greater_than_opponent",
+    "type_8": "round_limit_selected_side_valid_unit_count_greater_than_opponent",
+    "type_9": "round_limit_selected_side_resolved_object_counter_greater_than_opponent"
+  },
+  "conclusion": "Each battle has three fixed condition variants. Every variant evaluates four ordered win predicates and four ordered loss predicates. When both groups match, the lower first-match slot wins; equal slots return result 5.",
+  "dispatch_targets": [
+    "0x0807789C",
+    "0x08077904",
+    "0x08077924",
+    "0x08077994",
+    "0x080779B4",
+    "0x080779D4",
+    "0x080779EC",
+    "0x08077A78",
+    "0x08077AFC"
+  ],
+  "dispatch_types": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "header_size": 4,
+  "identity": "battle_condition_interpreter_and_ordered_outcome_precedence",
+  "interpreter": "0x080777FC",
+  "observed_record_types": [
+    1,
+    2,
+    3,
+    6,
+    7,
+    8,
+    9
+  ],
+  "operational_addresses": {
+    "battlefield_object_count": 32,
+    "battlefield_object_stride": 16,
+    "battlefield_object_table": "0x02026604",
+    "current_hp_offset": 12,
+    "resolved_object_side_counter_base": "0x02026BC0",
+    "round_index": "0x0202680C",
+    "round_limit": "0x0202680A",
+    "unit_pool": "0x020240C0",
+    "unit_stride": 468
+  },
+  "outcome_precedence": {
+    "lower_first_match_index_wins": true,
+    "neither_matches": 0,
+    "only_loss_matches": 2,
+    "only_win_matches": 1,
+    "same_first_match_index": 5
+  },
+  "predicate_stride": 8,
+  "predicates_per_group": 4,
+  "presentation_function": "0x08072EDC",
+  "record_base": "0x08594758",
+  "record_end": "0x08596CCC",
+  "record_type_usage": {
+    "1": 155,
+    "2": 11,
+    "3": 18,
+    "6": 8,
+    "7": 16,
+    "8": 16,
+    "9": 6
+  },
+  "result_5_ends_battle": true,
+  "result_to_presentation_id": {
+    "1": 1,
+    "2": 2,
+    "5": 3
+  },
+  "samples": {
+    "battle_15_variant_0": {
+      "address": "0x0859534C",
+      "header": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "lose": [
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x08008753",
+          "type": 1
+        },
+        {
+          "arg0": 0,
+          "arg1": 30,
+          "script": "0x08008770",
+          "type": 3
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ],
+      "win": [
+        {
+          "arg0": 1,
+          "arg1": 0,
+          "script": "0x0800873A",
+          "type": 1
+        },
+        {
+          "arg0": 0,
+          "arg1": 30,
+          "script": "0x0800873A",
+          "type": 2
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ]
+    },
+    "battle_44_variant_0": {
+      "address": "0x08596A68",
+      "header": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "lose": [
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x080098C9",
+          "type": 1
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ],
+      "win": [
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x080098B6",
+          "type": 6
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ]
+    },
+    "battle_9_variant_0": {
+      "address": "0x08594E84",
+      "header": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "lose": [
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x0800849F",
+          "type": 1
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ],
+      "win": [
+        {
+          "arg0": 1,
+          "arg1": 0,
+          "script": "0x0800848C",
+          "type": 1
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        },
+        {
+          "arg0": 0,
+          "arg1": 0,
+          "script": "0x00000000",
+          "type": 0
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "variant_count": 3,
+  "variant_stride": 68
+}

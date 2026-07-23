@@ -34,6 +34,12 @@ class CompletedProcessFixture:
 
 
 class MgbaReadProbeTests(unittest.TestCase):
+    @patch.object(mgba.subprocess, "Popen")
+    @patch.object(mgba, "find_mgba", return_value="/usr/local/bin/mgba")
+    def test_start_xvfb_skips_non_qt_macos_binary(self, _find, popen):
+        self.assertIsNone(mgba.start_xvfb())
+        popen.assert_not_called()
+
     @patch.object(mgba.os.path, "isfile", return_value=True)
     @patch.object(mgba.os, "access", return_value=True)
     @patch.dict(mgba.os.environ, {"MGBA_BIN": "/custom/mgba-qt"})

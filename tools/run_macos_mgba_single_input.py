@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one fixed Down, Up, Left, Right, A, B, L, or Start mGBA input."""
+"""Run one fixed Down, Up, Left, Right, A, B, L, R, or Start mGBA input."""
 
 from __future__ import annotations
 
@@ -68,7 +68,7 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SINGLE_INPUT_SCRIPT = ROOT / "tools" / "mgba_single_input_replay.lua"
 EXPECTED_SINGLE_INPUT_SCRIPT_SHA256 = (
-    "96b978e10bf3d0ed273ac2d01636a2fe605246aebdedb9c9169a90a08925408c"
+    "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d"
 )
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
@@ -83,9 +83,9 @@ class _SingleKeyAction(argparse.Action):
 def validate_single_input(
     key: str, down_frame: int, up_frame: int, capture_frame: int
 ) -> None:
-    if key not in ("Down", "A", "B", "L", "Up", "Right", "Left", "Start"):
+    if key not in ("Down", "A", "B", "L", "R", "Up", "Right", "Left", "Start"):
         raise ReplayError(
-            "single input key must be exactly Down, Up, Left, Right, A, B, L, or Start"
+            "single input key must be exactly Down, Up, Left, Right, A, B, L, R, or Start"
         )
     frames = (down_frame, up_frame, capture_frame)
     if any(not isinstance(frame, int) or isinstance(frame, bool) for frame in frames):

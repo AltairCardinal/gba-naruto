@@ -1,0 +1,166 @@
+{
+  "action_identity_source": "sequel/content/battle-config/action-identities.json",
+  "action_jump_table": "0x0806FF30",
+  "action_jump_table_sha256": "70e8f03efa99fa88b91aa2bbb6963555c617688855d6414d597aa1cf10e7db1d",
+  "action_policies": [
+    {
+      "action_id": 43,
+      "allowed_when": "status_absent",
+      "disabled_reason_codes": {
+        "present": 9
+      },
+      "display_name": "第一　开门　开",
+      "jump_table_entry": "0x0806FFCC",
+      "lookup_callsite": "0x08070078",
+      "policy_branch": "0x08070074"
+    },
+    {
+      "action_id": 44,
+      "allowed_when": "status_present_and_parameter_eq_1",
+      "disabled_reason_codes": {
+        "higher": 11,
+        "missing_or_lower": 10
+      },
+      "display_name": "第二　休门　开",
+      "jump_table_entry": "0x0806FFD0",
+      "lookup_callsite": "0x08070096",
+      "policy_branch": "0x08070092"
+    },
+    {
+      "action_id": 45,
+      "allowed_when": "status_present_and_parameter_eq_2",
+      "disabled_reason_codes": {
+        "higher": 13,
+        "missing_or_lower": 12
+      },
+      "display_name": "第三　生门　开",
+      "jump_table_entry": "0x0806FFD4",
+      "lookup_callsite": "0x080700C4",
+      "policy_branch": "0x080700C0"
+    },
+    {
+      "action_id": 46,
+      "allowed_when": "status_present_and_parameter_eq_3",
+      "disabled_reason_codes": {
+        "higher": 15,
+        "missing_or_lower": 14
+      },
+      "display_name": "第四　伤门　开",
+      "jump_table_entry": "0x0806FFD8",
+      "lookup_callsite": "0x080700FA",
+      "policy_branch": "0x080700F6"
+    },
+    {
+      "action_id": 47,
+      "allowed_when": "status_present_and_parameter_eq_4",
+      "disabled_reason_codes": {
+        "higher": 17,
+        "missing_or_lower": 16
+      },
+      "display_name": "第五　杜门　开",
+      "jump_table_entry": "0x0806FFDC",
+      "lookup_callsite": "0x08070130",
+      "policy_branch": "0x0807012C"
+    },
+    {
+      "action_id": 48,
+      "allowed_when": "status_present_and_parameter_le_2",
+      "disabled_reason_codes": {
+        "above_2": 19,
+        "missing": 18
+      },
+      "display_name": "表莲华",
+      "jump_table_entry": "0x0806FFE0",
+      "lookup_callsite": "0x08070166",
+      "policy_branch": "0x08070162"
+    },
+    {
+      "action_id": 49,
+      "allowed_when": "status_present_and_parameter_gt_2",
+      "disabled_reason_codes": {
+        "missing_or_at_most_2": 20
+      },
+      "display_name": "里莲华",
+      "jump_table_entry": "0x0806FFE4",
+      "lookup_callsite": "0x08070194",
+      "policy_branch": "0x08070190"
+    }
+  ],
+  "boundary": "The producer templates, stage replacement dataflow, action IDs, checked display names, exact eligibility predicates, disabled reason codes, u16 stage read, defense numeric writer, and post-hit removal are closed. The visible status label and user-facing reason text remain unresolved.",
+  "conclusion": "Status 0x13 is an ordered Eight Gates stage. Actions 43-47 produce replacement stages 1-5; the same record gates actions 43-49, supplies the effect 0x14 numeric presentation, and modifies queued hit count.",
+  "defense_effect_type_low_6": "0x14",
+  "defense_lookup_callsite": "0x0807112A",
+  "defense_menu": "0x08070DF8",
+  "defense_menu_sha256": "7de6d44156cbdd6281e5d095987db22744df34a157c604fd9181c4f5fce97051",
+  "defense_numeric_writer_callsite": "0x08071152",
+  "defense_presentation": "render_status_parameter_as_effect_0x14_numeric_value",
+  "disabled_reason_code_semantics": "stable_but_visible_messages_unresolved",
+  "domain_identity": "eight_gates_stage",
+  "eligibility_parameter_width": "u16",
+  "identity": "battle_status_0x13_stage_policy",
+  "implementation_requirement": "one_typed_status_instance_drives_eligibility_hit_count_and_presentation",
+  "list_builder": "0x0806FDA4",
+  "list_builder_end": "0x08070416",
+  "list_builder_sha256": "a67eb2e0664ded2394c00ee095d4ff9f4c40f7fbf4ed973e99399d044f187d66",
+  "producer_dataflow": "template_byte_0x04_to_event_amount_to_status_record_u16_0x06",
+  "producer_event_builder": "0x080754A8",
+  "producer_resolver_branch": "0x08077532",
+  "producer_upsert_callsite": "0x0807758A",
+  "record_parameter_offset": 6,
+  "schema_version": 1,
+  "stage_producers": [
+    {
+      "action_id": 43,
+      "display_name": "第一　开门　开",
+      "duration_turns": 0,
+      "effect_type_low_6": 19,
+      "raw_resource_cost_value": 10,
+      "stage_value": 1,
+      "template_address": "0x08545708",
+      "template_raw_hex": "020513000101640000000a0000000000"
+    },
+    {
+      "action_id": 44,
+      "display_name": "第二　休门　开",
+      "duration_turns": 0,
+      "effect_type_low_6": 19,
+      "raw_resource_cost_value": 20,
+      "stage_value": 2,
+      "template_address": "0x08545718",
+      "template_raw_hex": "02051300020164000000140000000000"
+    },
+    {
+      "action_id": 45,
+      "display_name": "第三　生门　开",
+      "duration_turns": 0,
+      "effect_type_low_6": 19,
+      "raw_resource_cost_value": 30,
+      "stage_value": 3,
+      "template_address": "0x08545728",
+      "template_raw_hex": "020513000301640000001e0000000000"
+    },
+    {
+      "action_id": 46,
+      "display_name": "第四　伤门　开",
+      "duration_turns": 0,
+      "effect_type_low_6": 19,
+      "raw_resource_cost_value": 40,
+      "stage_value": 4,
+      "template_address": "0x08545738",
+      "template_raw_hex": "02051300040164000000280000000000"
+    },
+    {
+      "action_id": 47,
+      "display_name": "第五　杜门　开",
+      "duration_turns": 0,
+      "effect_type_low_6": 19,
+      "raw_resource_cost_value": 50,
+      "stage_value": 5,
+      "template_address": "0x08545748",
+      "template_raw_hex": "02051300050164000000320000000000"
+    }
+  ],
+  "stage_update_policy": "ordinary_status_0x13_replaces_previous_stage_record",
+  "status_code": "0x13",
+  "visible_status_name": null
+}

@@ -18,27 +18,27 @@ class SkillRelationshipSemanticsTests(unittest.TestCase):
         bank = build_bank(BASE_ROM.read_bytes())
         fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
         self.assertEqual(fields[0]["semantic"], "display_animation_family")
-        self.assertEqual(fields[10]["semantic"], "parent_skill_id")
-        self.assertEqual(fields[11]["semantic"], "eligible_candidate_id")
+        self.assertEqual(fields[10]["semantic"], "parent_ninja_tool_id")
+        self.assertEqual(fields[11]["semantic"], "eligible_ninja_tool_id")
         self.assertEqual(fields[12]["semantic"], "eligibility_whitelist_id_0")
         self.assertEqual(fields[13]["semantic"], "eligibility_whitelist_id_1")
-        self.assertEqual(bank["entries"][2]["parent_skill_id"], 1)
-        self.assertEqual(bank["entries"][2]["eligible_candidate_id"], 3)
+        self.assertEqual(bank["entries"][2]["parent_ninja_tool_id"], 1)
+        self.assertEqual(bank["entries"][2]["eligible_ninja_tool_id"], 3)
 
     def test_extractor_records_natural_detail_panel_semantics(self):
         bank = build_bank(BASE_ROM.read_bytes())
         fields = {field["offset"]: field for field in bank["entry_format"]["fields"]}
         self.assertEqual(bank["verification"], "runtime_verified")
         self.assertEqual(fields[4]["semantic"], "attack_power")
-        self.assertEqual(fields[5]["semantic"], "distance")
+        self.assertEqual(fields[5]["semantic"], "hit_count")
         self.assertEqual(fields[6]["semantic"], "success_rate_percent")
-        self.assertEqual(fields[7]["semantic"], "hit_count_and_line_shape")
+        self.assertEqual(fields[7]["semantic"], "distance_and_line_shape")
         self.assertEqual(fields[8]["semantic"], "range")
         skill = bank["entries"][1]
         self.assertEqual(skill["attack_power"], 6)
-        self.assertEqual(skill["distance"], 3)
+        self.assertEqual(skill["hit_count"], 3)
         self.assertEqual(skill["success_rate_percent"], 90)
-        self.assertEqual(skill["hit_count_and_line_shape"], 0x83)
+        self.assertEqual(skill["distance_and_line_shape"], 0x83)
         self.assertEqual(skill["range"], 1)
 
     def test_parent_child_consumer_reads_offsets_0a_and_0b(self):

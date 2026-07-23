@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "identity": "battle_action_cancel_and_commit_boundaries",
+  "method": "Each record binds a single-input original-ROM before/after pair by SHA-256. Cancellation may alter nested UI state but must preserve the battle unit pool, ninja-tool inventory, and battle-control fields. The commit sample must cross the validated 0x8000 resolution state into 0x9000 facing selection.",
+  "rom": "rom/base.gba",
+  "state_inventory": "notes/battle-controller-states-20260723.json",
+  "transition_count": 4,
+  "transitions": [
+    {
+      "id": "move_menu_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-45-safe-resume-20260719/sasuke-move-open.ss9",
+      "before_sha256": "0246b29daf34322cd4b9db4fd801932d27311e38b16386eb1334abc526c4aba8",
+      "after": "build/scenario-45-safe-resume-20260719/sasuke-move-cancel.ss9",
+      "after_sha256": "93ab9e19f19b7f16ccff77a6888e910e4044d3c010645a1634761c72c8c06a8f",
+      "before_controller_state": "0x3000",
+      "after_controller_state": "0x3000",
+      "current_unit_pointer_before": "0x02024468",
+      "current_unit_pointer_after": "0x02024468",
+      "unit_pool_diffs": [],
+      "ninja_tool_inventory_diffs": [],
+      "battle_control_diffs": [],
+      "domain_state_preserved": true
+    },
+    {
+      "id": "target_to_action_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-45-safe-resume-20260719/round6-sakura-target-cancel.ss9",
+      "before_sha256": "2bb1b6cacf5353d2650a6c991d5f21984dc3390c8b1548e2d9db2b80a633272b",
+      "after": "build/scenario-45-safe-resume-20260719/round6-sakura-tech-cancel.ss9",
+      "after_sha256": "ad6454f9d1734d80399b415bed653f70c04238733f909ef65b627f6cf09bc578",
+      "before_controller_state": "0x4100",
+      "after_controller_state": "0x3000",
+      "current_unit_pointer_before": "0x0202463C",
+      "current_unit_pointer_after": "0x0202463C",
+      "unit_pool_diffs": [],
+      "ninja_tool_inventory_diffs": [],
+      "battle_control_diffs": [],
+      "domain_state_preserved": true
+    },
+    {
+      "id": "nested_skill_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-50-battle-15-round2-resource-route-20260720/s12-skills/output.ss9",
+      "before_sha256": "8c0e7c0e1578240dc125a8cc5ba160debe664f2fb30274c7459756dd25bc9246",
+      "after": "build/scenario-50-battle-15-round2-resource-route-20260720/s13-cancel-linked/output.ss9",
+      "after_sha256": "762b3d0880813fa0d95ff2a047a4a34dc858697af6e409b12095bc0d05134045",
+      "before_controller_state": "0x4100",
+      "after_controller_state": "0x4100",
+      "current_unit_pointer_before": "0x02024468",
+      "current_unit_pointer_after": "0x02024468",
+      "unit_pool_diffs": [],
+      "ninja_tool_inventory_diffs": [],
+      "battle_control_diffs": [],
+      "domain_state_preserved": true
+    },
+    {
+      "id": "teleport_commit",
+      "kind": "commit",
+      "before": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d15-execute/output.ss9",
+      "before_sha256": "8e5a728676a1684cb327a60e4785c4f1de7b19c0cb95cade74f41ab282e2e82e",
+      "after": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d16-settle/output.ss9",
+      "after_sha256": "f267341f632e6a062ce461b5b04d5deb2722bad8030078c63452eba50c05b1e6",
+      "before_controller_state": "0x8000",
+      "after_controller_state": "0x9000",
+      "current_unit_pointer_before": "0x02024468",
+      "current_unit_pointer_after": "0x02024468",
+      "unit_pool_diffs": [
+        {
+          "address": "0x0202446F",
+          "offset": "0x3AF",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x02024528",
+          "offset": "0x468",
+          "before": 0,
+          "after": 16
+        },
+        {
+          "address": "0x0202452C",
+          "offset": "0x46C",
+          "before": 5,
+          "after": 3
+        },
+        {
+          "address": "0x0202452D",
+          "offset": "0x46D",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "address": "0x0202452F",
+          "offset": "0x46F",
+          "before": 5,
+          "after": 3
+        },
+        {
+          "address": "0x02024530",
+          "offset": "0x470",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "address": "0x02024538",
+          "offset": "0x478",
+          "before": 64,
+          "after": 232
+        },
+        {
+          "address": "0x02024539",
+          "offset": "0x479",
+          "before": 89,
+          "after": 86
+        }
+      ],
+      "ninja_tool_inventory_diffs": [],
+      "battle_control_diffs": [],
+      "domain_state_preserved": false,
+      "current_unit_pointer": "0x02024468",
+      "semantic_current_unit_diffs": {
+        "current_chakra": {
+          "offset": "0x07",
+          "before": 1,
+          "after": 0
+        },
+        "action_flags_low": {
+          "offset": "0xC0",
+          "before": 0,
+          "after": 16
+        },
+        "position_x": {
+          "offset": "0xC4",
+          "before": 5,
+          "after": 3
+        },
+        "position_y": {
+          "offset": "0xC5",
+          "before": 6,
+          "after": 5
+        }
+      },
+      "atomic_resource_and_position_commit": true
+    }
+  ],
+  "conclusion": "The sampled cancel paths change only nested UI/controller state. Persistent unit, inventory, and battle-control state remains unchanged. In the teleport sample, chakra, position, and action flags commit together only after confirmation while crossing resolution 0x8000 to facing 0x9000.",
+  "boundary": "This proves transaction timing for the four bound samples, not every action type, failure branch, passive, linked action, or ninja-tool consumption rule."
+}

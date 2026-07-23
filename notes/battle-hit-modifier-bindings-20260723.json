@@ -1,0 +1,87 @@
+{
+  "boundary": "This closes the ordinary critical and ignore-defense passive probability gates and their RNG order for successful hits. It does not identify every passive display name, status modifier, forced-miss action subtype, linked-attack rule, healing rule, or non-damage effect.",
+  "conclusion": "After a successful base hit, passive type 0x0C independently upgrades flag 1 to critical flag 2, then passive type 0x19 independently ORs mask 4. The controlled 100-percent samples resolve exactly through the critical defended and normal ignore-defense candidates.",
+  "controlled_patches": [
+    {
+      "address": "0x02024305",
+      "after": 17,
+      "before": 255,
+      "id": "critical_100_percent",
+      "record_id": 9
+    },
+    {
+      "address": "0x02024331",
+      "after": 17,
+      "before": 255,
+      "id": "ignore_defense_100_percent",
+      "record_id": 20
+    }
+  ],
+  "critical": {
+    "chance": "min(100, passive_value + 10)",
+    "flag": 2,
+    "passive_target_type": "0x0C",
+    "rng_percent": "(rng_value * 100) >> 15",
+    "success_condition": "rng_percent < chance"
+  },
+  "hit_generator": "0x08076034",
+  "identity": "battle_per_hit_critical_and_ignore_defense_probability_binding",
+  "ignore_defense": {
+    "chance": "passive_value",
+    "flag_or_mask": 4,
+    "passive_target_type": "0x19",
+    "rng_percent": "(rng_value * 100) >> 15",
+    "success_condition": "rng_percent < chance"
+  },
+  "method": "Validate the exact passive-query and RNG instruction order in the original hit generator, then compare one natural three-hit route with two single-byte savestate patches that make the critical or ignore-defense passive value exactly 100 percent.",
+  "rng_order": [
+    "base_hit",
+    "critical_if_passive_present",
+    "ignore_defense_if_passive_present"
+  ],
+  "runtime_samples": [
+    {
+      "candidate_per_landed_hit": 9,
+      "hit_flags": [
+        0,
+        1,
+        1
+      ],
+      "id": "natural_baseline",
+      "target_hp": [
+        49,
+        31
+      ],
+      "total_damage": 18
+    },
+    {
+      "candidate_per_landed_hit": 13,
+      "hit_flags": [
+        2,
+        2,
+        2
+      ],
+      "id": "critical_100_percent",
+      "target_hp": [
+        49,
+        10
+      ],
+      "total_damage": 39
+    },
+    {
+      "candidate_per_landed_hit": 11,
+      "hit_flags": [
+        5,
+        5,
+        5
+      ],
+      "id": "ignore_defense_100_percent",
+      "target_hp": [
+        49,
+        16
+      ],
+      "total_damage": 33
+    }
+  ],
+  "schema_version": 1
+}

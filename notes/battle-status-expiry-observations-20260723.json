@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "identity": "battle_status_side_end_duration_tick_binding",
+  "method": "Validate the state-0x1100 call order and status-slot decrement loop, then compare two original-ROM side-end replays whose only controlled differences are one status code and duration 1 or 2.",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "source_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/s20-defense/output.ss9",
+  "source_sha256": "87f853a50fb2587dba32dbb0e0e9e5e72438e7d457ab048df224b1a8a1aa73a3",
+  "unit_slot": 1,
+  "unit_character_id": 1,
+  "samples": [
+    {
+      "initial_duration": 1,
+      "input_checkpoint": "build/battle-status-expiry-duration1-ready-20260723-01/input.ss9",
+      "input_sha256": "4bba410c0bcb872a8aa2370f99db9b3f98cb6c53376ea2297b4f9a93a507191e",
+      "output_checkpoint": "build/battle-status-expiry-duration1-after-side-end-20260723-01/output.ss9",
+      "output_sha256": "bed029d5dfbb87cd17d079d1c78e0fcd54fbe88f417d9e7d16030287581127fb",
+      "audit": "build/battle-status-expiry-duration1-after-side-end-20260723-01/audit.json",
+      "audit_sha256": "7c7b76f4d39afde995f170e6471d2bd10f51f8ca249d8763f863d4141f5d8406"
+    },
+    {
+      "initial_duration": 2,
+      "input_checkpoint": "build/battle-status-expiry-duration2-ready-20260723-01/input.ss9",
+      "input_sha256": "328a02fa545c79894d078d9d24fc648d2012b2606b49bb1a33a9382dc32c2aad",
+      "output_checkpoint": "build/battle-status-expiry-duration2-after-side-end-20260723-01/output.ss9",
+      "output_sha256": "435ba8c8baf6b48f3aaf6bfda22bc5665d2b0e7ecd50f7ed00ba64750df204b0",
+      "audit": "build/battle-status-expiry-duration2-after-side-end-20260723-01/audit.json",
+      "audit_sha256": "3f035bfb369b87748e89e8d66d3533a9077b6399f0d4bb2cc4bd41cad5ecd025"
+    }
+  ],
+  "boundary": "The generic nonzero duration counter is decremented for every active status on every valid unit at side end, before the side bit toggles. Duration-zero preparation semantics, status-specific periodic effects, immediate one-shot reactions, and battle-start initialization remain separate rules."
+}

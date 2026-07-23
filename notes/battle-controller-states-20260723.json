@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "identity": "battle_controller_dispatch_inventory",
+  "controller_entry": "0x080732B4",
+  "controller_end": "0x08075082",
+  "controller_sha256": "30c8e021502cca16fc3f569bbb21dd04f78d20bcbb8e6196550164a0d56429ff",
+  "dispatcher_range": "0x080733A0..0x080735C6",
+  "dispatcher_sha256": "e6af2faa36e8ba6d650b84ad7ad8d3b0581e02c43e11383c9065020064e6e6f0",
+  "dispatch_state_count": 36,
+  "states": [
+    {
+      "state": 0,
+      "state_hex": "0x0000",
+      "entry": "0x080735CA",
+      "entry_prefix_hex": "0125ea204000291c414308480c182078",
+      "semantic": "battlefield_entry_sequence",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 controller-entry task resumes directly at 0x08073616",
+        "the hash-bound checkpoint visibly shows the live battlefield actor entry"
+      ]
+    },
+    {
+      "state": 16,
+      "state_hex": "0x0010",
+      "entry": "0x08073638",
+      "entry_prefix_hex": "0020fff74ffcfff7dffc9026760101f0",
+      "semantic": "unresolved_state_0010",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 4096,
+      "state_hex": "0x1000",
+      "entry": "0x0807364A",
+      "entry_prefix_hex": "0a490a4bca1800201070c87048608878",
+      "semantic": "unresolved_state_1000",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 4128,
+      "state_hex": "0x1020",
+      "entry": "0x080739D0",
+      "entry_prefix_hex": "0a4c0b4ea4192078f6f7eef9f5f788fd",
+      "semantic": "current_unit_activation",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x080739D0 dereferences selected slot and initializes the current unit UI"
+      ]
+    },
+    {
+      "state": 4352,
+      "state_hex": "0x1100",
+      "entry": "0x0807367C",
+      "entry_prefix_hex": "f8f744fef8f7c4fef9f7dcfe0ef072fa",
+      "semantic": "unresolved_state_1100",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 4608,
+      "state_hex": "0x1200",
+      "entry": "0x080736B0",
+      "entry_prefix_hex": "0f498a78012042408a7048780c1c9042",
+      "semantic": "unresolved_state_1200",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 4640,
+      "state_hex": "0x1220",
+      "entry": "0x080736F8",
+      "entry_prefix_hex": "06490878002863d1487816f017ff0028",
+      "semantic": "round_transition_script",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 round tutorial checkpoint has a validated 0x08073780 controller frame",
+        "the visible checkpoint is a round-boundary tutorial dialogue, not a unit command"
+      ]
+    },
+    {
+      "state": 4864,
+      "state_hex": "0x1300",
+      "entry": "0x080738C0",
+      "entry_prefix_hex": "1a4a1b481118002008709078002833d1",
+      "semantic": "side_scheduler",
+      "semantic_status": "static_plus_runtime",
+      "evidence": [
+        "0x080738C0 scans unit slots 1..12 by affiliation/status",
+        "scenario-41 player and enemy phase checkpoints cross this boundary"
+      ]
+    },
+    {
+      "state": 8192,
+      "state_hex": "0x2000",
+      "entry": "0x08073940",
+      "entry_prefix_hex": "092000210122fbf7e7fef5f7edfd1648",
+      "semantic": "player_unit_selection",
+      "semantic_status": "static_plus_runtime",
+      "evidence": [
+        "0x08073940 opens selector input and validates the selected unit",
+        "scenario-41 player-control evidence reaches selectable Naruto"
+      ]
+    },
+    {
+      "state": 12288,
+      "state_hex": "0x3000",
+      "entry": "0x08073A04",
+      "entry_prefix_hex": "05484068c03001680e200140022907d1",
+      "semantic": "unit_action_menu",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "0x08073A04 dispatches on current-unit +0xC0 action-category bits",
+        "scenario-41 initial action menu and end-action confirmation bind to 0x08073A4A/0x08073A82"
+      ]
+    },
+    {
+      "state": 12544,
+      "state_hex": "0x3100",
+      "entry": "0x08073B84",
+      "entry_prefix_hex": "034840684079002806d1024858e10000",
+      "semantic": "unresolved_state_3100",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 12560,
+      "state_hex": "0x3110",
+      "entry": "0x08073BA8",
+      "entry_prefix_hex": "224ce078f6f704f96068c93000788046",
+      "semantic": "player_move_selection",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 selectable movement grid binds through 0x08073C88 -> 0x0806F718",
+        "the checkpoint exposes cursor movement and reachable tiles on the live battlefield"
+      ]
+    },
+    {
+      "state": 12800,
+      "state_hex": "0x3200",
+      "entry": "0x08073E14",
+      "entry_prefix_hex": "054a5168c8790f7ab84209d16920eef7",
+      "semantic": "unresolved_state_3200",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 12816,
+      "state_hex": "0x3210",
+      "entry": "0x08073EB0",
+      "entry_prefix_hex": "1648f3f751f9164a9246164f40239846",
+      "semantic": "chakra_exchange_result",
+      "semantic_status": "checkpoint_runtime_transaction",
+      "evidence": [
+        "battle-15 single-input checkpoint crosses 0x3000 -> 0x3210",
+        "the acting unit changes from 134 HP / 4 chakra to 119 HP / 5 chakra while ninja-tool inventory remains unchanged"
+      ]
+    },
+    {
+      "state": 13056,
+      "state_hex": "0x3300",
+      "entry": "0x08074074",
+      "entry_prefix_hex": "1248f3f76ff81248f3f76cf811480078",
+      "semantic": "unresolved_state_3300",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 13072,
+      "state_hex": "0x3310",
+      "entry": "0x080740D4",
+      "entry_prefix_hex": "0948f3f73ff80948f3f73cf808480078",
+      "semantic": "rest_confirmation",
+      "semantic_status": "checkpoint_runtime_transaction",
+      "evidence": [
+        "battle-13 checkpoint binds the rest confirmation immediately before commit",
+        "confirming crosses 0x3310 -> 0x1220, heals the acting unit from 24 to 41 HP, preserves chakra, and completes its action"
+      ]
+    },
+    {
+      "state": 16384,
+      "state_hex": "0x4000",
+      "entry": "0x0807410C",
+      "entry_prefix_hex": "06484068c03001680e200140042901d0",
+      "semantic": "post_move_action_menu",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 action menu after movement binds through 0x08074132 -> 0x08067158",
+        "its visible command set is reduced relative to the initial 0x3000 menu"
+      ]
+    },
+    {
+      "state": 16640,
+      "state_hex": "0x4100",
+      "entry": "0x08074190",
+      "entry_prefix_hex": "0020fcf731fe0006000e01280ad10448",
+      "semantic": "technique_targeting",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 target selection and attack confirmation both bind through 0x08074192 -> 0x08070DF8",
+        "the two visible subphases share this top-level state and remain nested-controller behavior"
+      ]
+    },
+    {
+      "state": 20480,
+      "state_hex": "0x5000",
+      "entry": "0x08074200",
+      "entry_prefix_hex": "22480178012211430170012520498846",
+      "semantic": "side_completion_scan",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x08074200 scans all active unit records and updates per-side state"
+      ]
+    },
+    {
+      "state": 24576,
+      "state_hex": "0x6000",
+      "entry": "0x080742A4",
+      "entry_prefix_hex": "0b480078002800d186e00a48f2f752ff",
+      "semantic": "player_action_confirmation",
+      "semantic_status": "static_control_flow",
+      "evidence": [
+        "0x0807419E confirmation success in state 0x4100 assigns state 0x6000",
+        "0x080742A4 conditionally runs the player confirmation UI and converges on state 0x8000"
+      ]
+    },
+    {
+      "state": 28672,
+      "state_hex": "0x7000",
+      "entry": "0x080742E4",
+      "entry_prefix_hex": "24480078002853d1234a107801210843",
+      "semantic": "enemy_action_preparation",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "0x080738CA sends non-player side directly to state 0x7000",
+        "0x080742E4 scans affiliation-1 units, calls 0x080851F8, copies the action context, and assigns state 0x8000",
+        "scenario-45 and scenario-50 checkpoints bind side 1 planning to 0x7000 and the selected enemy to shared 0x8000 resolution"
+      ]
+    },
+    {
+      "state": 32768,
+      "state_hex": "0x8000",
+      "entry": "0x080743D4",
+      "entry_prefix_hex": "134c8d239b00e0180278e270e178ea20",
+      "semantic": "action_resolution_and_outcome",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "combat dialogue binds through 0x0807443C -> 0x080722A8",
+        "combat result popup and victory presentation bind through 0x0807444E -> 0x0807305C",
+        "multiple visible result subphases share this state and must not be collapsed into one screenshot"
+      ]
+    },
+    {
+      "state": 36864,
+      "state_hex": "0x9000",
+      "entry": "0x08074550",
+      "entry_prefix_hex": "0748f2f701fe0748f2f7fefd0649074a",
+      "semantic": "facing_selection",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 facing checkpoint resumes directly at 0x080745A4",
+        "0x080745A4 onward consumes directional input and updates the current unit facing field"
+      ]
+    },
+    {
+      "state": 37120,
+      "state_hex": "0x9100",
+      "entry": "0x080747E0",
+      "entry_prefix_hex": "0c48f2f7b9fc0220f0f7e4fe011c0120",
+      "semantic": "defense_preparation",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 defense confirmation binds through 0x080747F4 -> 0x08067158",
+        "the visible prompt selects a defensive response after facing"
+      ]
+    },
+    {
+      "state": 37376,
+      "state_hex": "0x9200",
+      "entry": "0x08074834",
+      "entry_prefix_hex": "0120fcf7dffa0006000e261c012801d0",
+      "semantic": "technique_menu",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "evidence": [
+        "scenario-41 technique detail/menu binds through 0x08074836 -> 0x08070DF8",
+        "the visible panel exposes technique stats before target selection"
+      ]
+    },
+    {
+      "state": 40960,
+      "state_hex": "0xA000",
+      "entry": "0x0807484E",
+      "entry_prefix_hex": "064906488d24a400091924304cc84cc1",
+      "semantic": "unresolved_state_a000",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 45056,
+      "state_hex": "0xB000",
+      "entry": "0x08074870",
+      "entry_prefix_hex": "0a480078002843d00948f2f76dfc0948",
+      "semantic": "unresolved_state_b000",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 49152,
+      "state_hex": "0xC000",
+      "entry": "0x080748AC",
+      "entry_prefix_hex": "07480078002811d1064907488d27bf00",
+      "semantic": "unresolved_state_c000",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 53248,
+      "state_hex": "0xD000",
+      "entry": "0x08074918",
+      "entry_prefix_hex": "fdf7c6fc0b4a5168081ccc3000780028",
+      "semantic": "secondary_action_completion",
+      "semantic_status": "static_plus_runtime",
+      "evidence": [
+        "0x08074918 calls the checked 0x080722A8 MOVEDONE queue",
+        "scenario-41 turn-1 evidence records a fresh secondary MOVEDONE hit"
+      ]
+    },
+    {
+      "state": 57344,
+      "state_hex": "0xE000",
+      "entry": "0x08074988",
+      "entry_prefix_hex": "094ce0780cf0dafd6168081ccc300078",
+      "semantic": "unresolved_state_e000",
+      "semantic_status": "unresolved",
+      "evidence": [
+        "dispatcher state and entry address only; behavior not yet named"
+      ]
+    },
+    {
+      "state": 57360,
+      "state_hex": "0xE010",
+      "entry": "0x080749CC",
+      "entry_prefix_hex": "0020fef745fb0006002800d0ffe20026",
+      "semantic": "victory_exit_check",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x080749CC calls 0x0807305C before scanning active unit records"
+      ]
+    },
+    {
+      "state": 61440,
+      "state_hex": "0xF000",
+      "entry": "0x08074A98",
+      "entry_prefix_hex": "234c2578002d51d12248f2f759fb224f",
+      "semantic": "result_state_router",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+      ]
+    },
+    {
+      "state": 61696,
+      "state_hex": "0xF100",
+      "entry": "0x08074C2E",
+      "entry_prefix_hex": "0e48f2f792fa0220f0f7bdfc011c0120",
+      "semantic": "result_page_setup",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x08074C2E initializes result UI state"
+      ]
+    },
+    {
+      "state": 61952,
+      "state_hex": "0xF200",
+      "entry": "0x08074C7C",
+      "entry_prefix_hex": "02260125674aea214900281c48438018",
+      "semantic": "result_unit_enumeration",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x08074C7C enumerates active slots before result presentation"
+      ]
+    },
+    {
+      "state": 62208,
+      "state_hex": "0xF300",
+      "entry": "0x08074E48",
+      "entry_prefix_hex": "08200021eff758fc02e0012027f08efb",
+      "semantic": "result_transition",
+      "semantic_status": "partial_static",
+      "evidence": [
+        "0x08074E48 performs the bounded result-to-postbattle transition"
+      ]
+    },
+    {
+      "state": 62464,
+      "state_hex": "0xF400",
+      "entry": "0x08074EE6",
+      "entry_prefix_hex": "1d48f2f736f90220f0f761fb011c0120",
+      "semantic": "postbattle",
+      "semantic_status": "static_plus_runtime",
+      "evidence": [
+        "0x08074EE6 enters the official postbattle/save wrapper",
+        "scenario-41 completion evidence reaches stable postbattle naturally"
+      ]
+    }
+  ],
+  "runtime_fields": [
+    {
+      "address": "0x0202680E",
+      "semantic": "current side/affiliation selector",
+      "status": "partial_static"
+    },
+    {
+      "address": "0x02026810",
+      "semantic": "current unit object pointer",
+      "status": "partial_static_plus_runtime"
+    },
+    {
+      "address": "0x02026A41",
+      "semantic": "selected unit slot",
+      "status": "partial_static_plus_runtime"
+    },
+    {
+      "address": "0x020240C0",
+      "semantic": "battle unit pool base; slots 1..12 use stride 0x1D4",
+      "status": "static_plus_runtime"
+    },
+    {
+      "address": "unit+0xC0",
+      "semantic": "battle flags/action category bits",
+      "status": "partial_static"
+    },
+    {
+      "address": "unit+0xCC",
+      "semantic": "affiliation",
+      "status": "static_plus_runtime"
+    },
+    {
+      "address": "unit+0xCD",
+      "semantic": "per-unit action state",
+      "status": "partial_static_plus_runtime"
+    },
+    {
+      "address": "0x0200A880",
+      "semantic": "action-tail/menu substate block",
+      "status": "partial_static_plus_runtime"
+    }
+  ],
+  "caveat": "The 36-state inventory is structurally closed for this ROM. Only states with cited semantic evidence are named; unresolved states must not be collapsed into guessed Butano phases."
+}

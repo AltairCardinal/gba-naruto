@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "identity": "battle_per_hit_critical_and_ignore_defense_probability_binding",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "method": "Validate the exact passive-query and RNG instruction order in the original hit generator, then compare one natural three-hit route with two single-byte savestate patches that make the critical or ignore-defense passive value exactly 100 percent.",
+  "source_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n9-right2/output.ss9",
+  "source_sha256": "68480ed8b251c08961a9c67ca970037f4939cef4da4b2cc2b34d11c0c88cb986",
+  "baseline": {
+    "ready_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n12-yes/output.ss9",
+    "ready_sha256": "11999f07a4900588717791bb13861aab2fd783941937ed086a56af71e88f9163",
+    "ready_audit": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n12-yes/audit.json",
+    "ready_audit_sha256": "f33478339cb9101530cafa839432e814fb5556a0bf8df3944923a12e503c536b",
+    "resolved_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n13-execute/output.ss9",
+    "resolved_sha256": "697b8b399c584d4af63b4c2982a274c7273f6b66d56539eb515c05fcf03415e1",
+    "resolved_audit": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n13-execute/audit.json",
+    "resolved_audit_sha256": "bd6ddc15fd744245196e9fa02f18c72855607177fca6b56d84be5c122c173ab9"
+  },
+  "controlled_samples": [
+    {
+      "id": "critical_100_percent",
+      "record_id": 9,
+      "target_type": 12,
+      "patch_address": "0x02024305",
+      "input_checkpoint": "build/battle-hit-modifier-critical100-ready-20260723-01/input.ss9",
+      "input_sha256": "0233cb435691f15607d64cbc5de632c8af04d394180fe4eb44c330c680a03d5a",
+      "ready_checkpoint": "build/battle-hit-modifier-critical100-yes-20260723-01/output.ss9",
+      "ready_sha256": "622be4f4f068e17fab072611799ba8e43d16d038745b59082626e53c130921e3",
+      "ready_audit": "build/battle-hit-modifier-critical100-yes-20260723-01/audit.json",
+      "ready_audit_sha256": "a297b9963595b9bde5553930aa3d4129354b044aea2cf4dc6fdb76a64919f721",
+      "resolved_checkpoint": "build/battle-hit-modifier-critical100-execute-20260723-01/output.ss9",
+      "resolved_sha256": "fa4e9c19f632747514130890c05c2afe2e6deb09c91528c5c9d3a5ca60d899b1",
+      "resolved_audit": "build/battle-hit-modifier-critical100-execute-20260723-01/audit.json",
+      "resolved_audit_sha256": "650c5c999851156e301c89771a1126b4c922df44a035b7f63aac57dacfdc35d0"
+    },
+    {
+      "id": "ignore_defense_100_percent",
+      "record_id": 20,
+      "target_type": 25,
+      "patch_address": "0x02024331",
+      "input_checkpoint": "build/battle-hit-modifier-ignore100-ready-20260723-01/input.ss9",
+      "input_sha256": "075cd191bf603c9d1a4ad85b5984b1c35961450d8be9b33eac3d8886f10282a3",
+      "ready_checkpoint": "build/battle-hit-modifier-ignore100-yes-20260723-01/output.ss9",
+      "ready_sha256": "5f0328ed3a3333c9a06fde2138784ef1637fa89e52b884937dc5f9af74fe7c0d",
+      "ready_audit": "build/battle-hit-modifier-ignore100-yes-20260723-01/audit.json",
+      "ready_audit_sha256": "ce7dfa9e9b912da55283409ce01abad96bae9076bf73d7f448e0ed9b8ab219e6",
+      "resolved_checkpoint": "build/battle-hit-modifier-ignore100-execute-20260723-01/output.ss9",
+      "resolved_sha256": "39b0a86d62a7a2f3374bba09f349297b3cfd86b7da29c201c94cc4516e27c880",
+      "resolved_audit": "build/battle-hit-modifier-ignore100-execute-20260723-01/audit.json",
+      "resolved_audit_sha256": "775239227061c10ca04f1e3c6f1de9c43e44dd52242a9a75cae44016bb543bbc"
+    }
+  ],
+  "boundary": "This closes the ordinary critical and ignore-defense passive probability gates and their RNG order for successful hits. It does not identify every passive display name, status modifier, forced-miss action subtype, linked-attack rule, healing rule, or non-damage effect."
+}

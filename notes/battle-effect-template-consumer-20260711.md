@@ -1,9 +1,11 @@
 # Battle effect template consumer（2026-07-11）
 
+> 2026-07-23 边界纠错：下文“32×16”是被截断的旧结论。表实际连续包含 87×16 字节，ID 0–86 与主动动作文本表和角色 primary 槽一一对应；生成器、bank 和校验器现均使用 87。其余关于 `0x0806D85C`、16 字节复制和等级增长的调用链仍有效。
+
 ## Corrected identity
 
 File `0x545458` is not a u16 battle-scenario configuration table. It is a
-32×16-byte battle skill/effect template table consumed by Thumb
+87×16-byte active-action numeric template table consumed by Thumb
 `0x0806D85C`. The actual map/scenario descriptor table remains at `0x53D910`.
 
 The old u16 interpretation paired adjacent bytes and invented
@@ -39,7 +41,7 @@ a 16-byte destination embedded in UI/battle working structures.
 
 ## Durable changes
 
-- `tools/extract_battle_effect_templates.py` performs lossless extraction;
+- `tools/extract_battle_effect_templates.py` performs lossless extraction of all 87 rows;
 - `sequel/content/battle-config/bank.json` now preserves 14 bytes plus the
   proven `growth_target_type` and `per_level_growth` fields;
 - `tools/verify_battle_config_records.py` validates the corrected byte layout;

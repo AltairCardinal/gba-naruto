@@ -487,7 +487,7 @@ addresses use the strict, guarded `mgba_gdb_probe.py` path instead.
 
 `run_macos_mgba_single_input.py` and `mgba_single_input_replay.lua` provide the
 separate Task 4.7 input segment. The CLI accepts exactly one `Down`, `Up`, `Left`, `Right`, `A`,
-`B`, `L`, or `Start` event and
+`B`, `L`, `R`, or `Start` event and
 requires `0 < down-frame < up-frame < capture-frame`. It has no custom Lua or
 `--pre-script` option. The fixed Lua contains one `emu:addKey`, one `emu:clearKey` and
 one capture callback; the finalized audit therefore requires one matching event,
@@ -757,6 +757,442 @@ Example:
 ```bash
 python3 tools/automated_test.py
 ```
+
+## Battle content and controller evidence extractors
+
+`extract_battle_content_catalog.py` joins the 63 unit definitions, 87 character
+actions, 45 passive/training entries and 94 ninja-tool entries without treating the
+legacy `skills` path as character skills. The checked action-name overlay is optional
+at the Python API boundary and enabled by default in the CLI. The CLI also loads the
+63-entry unit-name overlay. Every action or unit transcription is rejected if its
+stored raw name bytes differ from the ROM; ambiguous visual readings remain explicitly
+marked and are not promoted to canonical UI copy.
+
+```bash
+python3 tools/extract_battle_content_catalog.py rom/base.gba \
+  --output notes/battle-content-catalog-20260723.json
+```
+
+`extract_battle_controller_states.py` fingerprints the original controller and its
+dispatcher, then emits all 36 state values and entry addresses. Unknown semantics stay
+`unresolved`; the generated inventory is evidence for later architecture work, not a
+call to reproduce the original implementation byte-for-byte.
+
+```bash
+python3 tools/extract_battle_controller_states.py rom/base.gba \
+  --output notes/battle-controller-states-20260723.json
+```
+
+`analyze_battle_controller_checkpoints.py` binds hash-checked mGBA checkpoint previews
+to the containing original controller state. It validates the cooperative task stack,
+the Thumb BL that entered the nested controller, and the outer call to `0x080732B4`;
+filenames alone are never accepted as state evidence.
+
+```bash
+python3 tools/analyze_battle_controller_checkpoints.py
+```
+
+The generated `notes/battle-controller-checkpoint-bindings-20260723.json` records 18
+boundaries: 14 scenario 41 player/presentation checkpoints plus four scenario 45/50
+enemy planning/resolution checkpoints. The latter validate side, current-unit pointer,
+character, affiliation, and action-state fields. They show that player state `0x6000`
+and enemy state `0x7000` both converge on shared resolution state `0x8000`. Several
+visible subphases still share one top-level state, so this manifest must not be treated
+as a one-state/one-screenshot rendering table.
+
+`analyze_battle_unit_selection.py` binds four consecutive single-L replays and one
+single-R replay in a multi-unit scenario. It verifies that all checkpoints remain in player-selection
+state `0x2000`, that only the source/destination units' `+0xC1` selection markers move,
+and that the acting-unit pointer and battle-control region remain uncommitted.
+
+```bash
+python3 tools/analyze_battle_unit_selection.py
+```
+
+The generated `notes/battle-unit-selection-bindings-20260723.json` records the sampled
+L Naruto-to-cat-to-Sakura-to-Sasuke-to-Naruto wraparound and R Naruto-to-Sasuke transition.
+It proves browsing order, not command eligibility.
+
+`analyze_battle_unit_eligibility.py` compares guarded single-A confirmations for an
+unspent player unit, an action-complete player unit, and an escort/objective unit. It
+verifies that browsing can select all three, while only the unspent commandable unit
+enters action-menu state `0x3000` and binds the current-unit pointer.
+
+```bash
+python3 tools/analyze_battle_unit_eligibility.py
+```
+
+The generated `notes/battle-unit-eligibility-bindings-20260723.json` records that both
+rejected confirmations remain in `0x2000` with zero unit-pool, battle-control, and
+action-menu diffs. It does not establish every dead, disabled, summoned, affiliation,
+or scenario-specific eligibility rule.
+
+`extract_battle_ai_planner.py` hash-gates the original enemy planner, one additive tile
+score function, and one bounded grid-candidate function. It inventories direct calls,
+proves strict-greater best-candidate replacement, and records the facing, tile-flag,
+and RNG terms visible in the closed score function.
+
+```bash
+python3 tools/extract_battle_ai_planner.py
+```
+
+The generated `notes/battle-ai-planner-static-20260723.json` does not name unresolved
+helpers or claim target, damage, survival, or mission-objective weights. Those require
+runtime candidate/score captures.
+
+`analyze_battle_ai_status_policy.py` hash-binds the larger original event scorer and
+its 15 direct status queries.
+
+```bash
+python3 tools/analyze_battle_ai_status_policy.py
+```
+
+The generated `notes/battle-ai-status-policy-bindings-20260723.json` records two target
+status-group suppression policies, five same-family event/status policies, and two
+actor event/status score penalties. It closes status-aware event contribution rules,
+not visible status names or complete target, damage, survival, and mission priorities.
+
+`analyze_battle_ai_utility_policy.py` hash-binds the seven-selector target index, the
+complete event utility scorer, and all eight `0xA8` AI configuration records.
+
+```bash
+python3 tools/analyze_battle_ai_utility_policy.py
+```
+
+The generated `notes/battle-ai-utility-policy-bindings-20260723.json` records separate
+same- and opposite-affiliation banks with seven target selectors, strict first-unit
+ties, hostile and friendly selector weights, per-target multi-hit damage aggregation,
+damage/success/coverage/range weights, four typed scenario-rule slots, active kinds
+1–5, and the final 0–9 RNG term. Rule display names and the complete internal path
+algorithm remain neutral; the target and scoring policy no longer depend on screenshots.
+
+`analyze_battle_action_template_semantics.py` hash-binds both action initializers, the
+target-policy validator, event builder, scalar-resource gate, all 87 active-action rows,
+all 94 ninja-tool rows, and the complete 63-entry effect resolver jump table.
+
+```bash
+python3 -m tools.analyze_battle_action_template_semantics
+```
+
+The generated `notes/battle-action-template-semantics-bindings-20260723.json` decodes
+cost kind, display/animation family, effect code/flags, target policy/flags, numeric
+parameters, scalar cost, and handler address without consulting screenshots or display
+names. Ninja tools are normalized to the shared runtime layout with battle-local slot
+cost kind 5; their source relationship bytes are never misread as scalar resource cost.
+Unknown flag bits and handler display names remain neutral.
+
+`generate_butano_battle_action_content.py` converts the two validated JSON banks into
+fixed-capacity C++ arrays containing all 87 active actions and 94 ninja tools. Ninja-tool
+definitions use a caller-bound battle-local equipment slot and never consume relationship
+tail bytes as scalar cost.
+
+```bash
+python3 tools/generate_butano_battle_action_content.py --root .
+```
+
+`generate_butano_battle_unit_content.py` converts all 63 character definitions, including
+the proven base stats, 15 primary action slots, and 24 secondary slots, into the Butano
+`UnitDefinition` table.
+
+```bash
+python3 tools/generate_butano_battle_unit_content.py --root .
+```
+
+Both generated headers are host-compiled by the game-domain tests. Scenario 41 now loads
+characters 1 and 30 and active action 5 from these tables; presentation assets no longer
+provide combat results.
+
+`analyze_battle_action_transactions.py` compares hash-bound before/after savestates
+across scenario 45 and 50. It verifies that sampled cancel paths preserve the complete
+battle unit pool, ninja-tool inventory, and battle-control region, and that the bound
+teleport sample commits chakra, position, and action flags together only while crossing
+controller resolution `0x8000` into facing selection `0x9000`.
+
+```bash
+python3 tools/analyze_battle_action_transactions.py
+```
+
+The generated `notes/battle-action-transaction-bindings-20260723.json` is evidence for
+transaction timing in four specific samples. It is not proof that every ability,
+ninja-tool, passive, linked action, or failure branch shares identical cost behavior.
+
+`analyze_battle_resource_transactions.py` binds a battle 15 chakra exchange, a battle
+13 rest command, and a battle 13 ninja-tool commit to controller states and acting-unit
+HP/chakra/action fields.
+It verifies that the chakra sample exchanges HP for current chakra and that the rest
+sample heals, preserves chakra/inventory, and completes the unit action. The tool sample
+clears the acting unit's first battle-local equipped-tool slot while leaving HP, chakra,
+and the persistent inventory region unchanged.
+
+```bash
+python3 tools/analyze_battle_resource_transactions.py
+```
+
+The generated `notes/battle-resource-transaction-bindings-20260723.json` records sample
+deltas, not a general recovery formula or a complete equipped-tool slot layout.
+
+`analyze_battle_effect_resolution.py` compares one normal damage chain with one
+substitution-reaction chain. Both are hash-bound across target confirmation `0x4100`,
+shared resolution `0x8000`, and facing `0x9000`.
+
+```bash
+python3 tools/analyze_battle_effect_resolution.py
+```
+
+The generated `notes/battle-effect-resolution-bindings-20260723.json` proves that the
+sampled preview/confirmation does not directly change HP, chakra cost, or action-complete
+state. Normal resolution applies damage without displacement; substitution commits the
+actor cost/action while preserving target HP and moving the target. In the substitution
+sample, target `unit+0x154` changes `0 -> 22 -> 0`: the reaction is staged at shared
+resolution entry and cleared when the domain result is committed. It does not establish
+the general damage formula, hit RNG, multi-hit, defense/counter, linked-attack, status, or
+substitution-destination ordering.
+
+`analyze_battle_reaction_matrix.py` cross-checks every retained battle-15 attack audit
+that has a validated `0x8000 -> 0x9000` boundary. Each audit, input state, and output
+state is SHA-256 gated before target HP, position, and `unit+0x154` are compared.
+
+```bash
+python3 tools/analyze_battle_reaction_matrix.py
+```
+
+The generated `notes/battle-reaction-matrix-bindings-20260723.json` contains 29 samples:
+18 damage outcomes enter resolution with code 0, while 11 substitution outcomes enter
+with code 22 and clear it when displacement is committed without HP loss. This is a
+sampled discriminator, not a global reaction enum or proof of trigger/priority rules.
+
+`analyze_battle_defense_preparation.py` binds a guarded Up/A/A chain from defense prompt
+state `0x9100` into shared action-list state `0x9200`, then to the visible category
+rejection of an offensive action.
+
+```bash
+python3 tools/analyze_battle_defense_preparation.py
+```
+
+The generated `notes/battle-defense-preparation-bindings-20260723.json` verifies that all
+three UI transitions preserve the complete unit pool and battle-control region while the
+actor pointer/action flags remain stable. The screenshot-hash-bound Fire Style rejection
+shows that list browsing does not imply defense eligibility.
+
+`analyze_battle_defense_reaction.py` binds a controlled original-ROM Sharingan route. It
+verifies that the setup changes only Sasuke's current chakra and the existing locked
+action-15 level, then separates preview, commit, reaction consumption, and the cut-in.
+
+```bash
+python3 tools/analyze_battle_defense_reaction.py
+```
+
+The generated `notes/battle-defense-reaction-bindings-20260723.json` records chakra
+`5 -> 3`, prepared code `unit+0xD4: 0 -> 16 -> 0`, action ID 15 metadata, an adjacent
+enemy attack at shared state `0x8000`, the screenshot-hash-bound Sharingan cut-in, and
+unchanged Sasuke HP/position. This is one sampled one-shot evasion reaction; it does not
+establish counter, multi-hit, expiry, every defense action, or ninja-tool priority rules.
+
+`analyze_battle_damage_hit_formula.py` validates the event-builder arithmetic and the
+ordinary per-hit RNG gate, then recomputes the queued values in a natural three-hit
+ninja-tool checkpoint.
+
+```bash
+python3 tools/analyze_battle_damage_hit_formula.py
+```
+
+The generated `notes/battle-damage-hit-bindings-20260723.json` records the four damage
+candidates (normal/critical crossed with defended/ignore-defense), the square-root defense
+factor, agility-adjusted success rate, and one RNG comparison per hit. In the bound sample,
+visible power `6x3` queues candidates `[9, 13, 11, 16]`; the 18 HP result uniquely means
+two normal defended hits and one miss, so UI power times hit count is not final damage.
+
+`analyze_battle_hit_modifiers.py` validates the conditional per-hit critical and
+ignore-defense passive queries, RNG ordering, and flag encoding, then binds two
+single-byte controlled original-ROM runs.
+
+```bash
+python3 tools/analyze_battle_hit_modifiers.py
+```
+
+The generated `notes/battle-hit-modifier-bindings-20260723.json` records critical
+type `0x0C` as `min(100, passive_value + 10)` with flag 2, and ignore-defense type
+`0x19` as `passive_value` with flag mask 4. The 100-percent controls resolve three
+critical defended hits for 39 damage and three normal ignore-defense hits for 33 damage,
+exactly selecting the queued candidates rather than applying a post-resolution bonus.
+
+`analyze_battle_reaction_priority.py` binds the original-ROM reaction preprocessor to a
+natural three-hit ninja-tool baseline, the Sharingan attack queue, and a controlled Fire
+Bomb counter route.
+
+```bash
+python3 tools/analyze_battle_reaction_priority.py
+```
+
+The generated `notes/battle-reaction-priority-bindings-20260723.json` verifies blocker
+and reaction lookup order, the non-zero-hit gate, Sharingan's first-effective-hit
+replacement/truncation, and Fire Bomb action `0xAE` with reaction code `0x19`. The Fire
+Bomb runtime sample consumes the prepared token, keeps Sasuke at 134 HP, reduces the
+original attacker from 17 to 3 HP through the shared reverse-source/target resolver, and
+then clears event reaction metadata. Other reaction families and expiry behavior remain
+outside the verified boundary.
+
+`analyze_battle_status_expiry.py` binds the original-ROM state `0x1100` side-end call
+order to two controlled duration samples from the same checkpoint.
+
+```bash
+python3 tools/analyze_battle_status_expiry.py
+```
+
+The generated `notes/battle-status-expiry-bindings-20260723.json` verifies that
+`0x0806C308` visits unit slots 1 through 12 and 16 status slots per valid unit before the
+side bit toggles. A duration of 1 decrements to zero and removes the status; a duration
+of 2 decrements to 1 and preserves it. This generic side-end duration tick is distinct
+from resolver-time one-shot reaction consumption and does not prove status-specific
+periodic effects or modifiers.
+
+`analyze_battle_status_storage.py` hash-binds the status lookup, removal, and upsert
+routines and the two contiguous per-unit 16×8 record banks.
+
+```bash
+python3 tools/analyze_battle_status_storage.py
+```
+
+The generated `notes/battle-status-storage-bindings-20260723.json` separates active
+status state at unit offset `0xD4` from removed-status events at `0x154`. Expiry-mode
+removal copies the full record into the first free removed-event slot when available,
+then clears the active code even if that event bank is full; direct one-shot consumption
+clears the active code without that copy.
+It also binds low-six-bit lookup, ordinary replacement, special code `0x3F` duration
+replacement, and the stored duration encoding. Raw parameter meanings and status-code-
+specific gameplay effects remain outside the verified boundary.
+
+`analyze_battle_status_consumers.py` scans all decoded Thumb direct branches to the
+status lookup/upsert API and hash-binds the ordered reference-address inventories.
+
+```bash
+python3 tools/analyze_battle_status_consumers.py
+```
+
+The generated `notes/battle-status-consumer-bindings-20260723.json` records 96 direct
+lookup references, 21 direct upsert references, and 95 immediate-code lookups covering
+25 distinct status codes. The already-bound blocker and reaction families account for
+only 12 codes; 13 remain unclassified. This is a reference inventory, not proof of each
+code's gameplay semantics or of the absence of indirect/function-pointer consumers.
+
+`analyze_battle_status_linked_resolution.py` hash-binds status code `0x0E` inside the
+shared resolver and validates both the status lookup and recursive resolver calls.
+
+```bash
+python3 tools/analyze_battle_status_linked_resolution.py
+```
+
+The generated `notes/battle-status-linked-resolution-bindings-20260723.json` proves
+that record byte `+4` supplies a linked unit slot. The resolver processes that unit with
+the same source, action type, and amount plus recursion-guard extras `[0,0,0,1]`, then
+continues the primary target's HP branch. This closes ordered propagation rather than
+redirection; it intentionally does not assign status `0x0E` a visible gameplay name.
+
+`analyze_battle_status_participant_consumption.py` hash-binds status code `0x0D` in the
+resolver queue.
+
+```bash
+python3 tools/analyze_battle_status_participant_consumption.py
+```
+
+The generated `notes/battle-status-participant-consumption-bindings-20260723.json`
+proves that non-reaction events directly consume status `0x0D` from source and target
+with removal mode 0. Target consumption additionally clears raw unit-state bit `0x100`.
+Known reaction event codes skip this block. The visible status name and meaning of that
+raw bit remain unresolved.
+
+`analyze_battle_status_hit_count_modifier.py` hash-binds the damage-event builder and
+resolver-queue lifecycle for status `0x13`.
+
+```bash
+python3 tools/analyze_battle_status_hit_count_modifier.py
+```
+
+The generated `notes/battle-status-hit-count-modifier-bindings-20260723.json` proves
+that effect type `0x14` adds the low byte of status-record field `+6` to the queued hit
+count, then removes the source status with mode 1 after shared resolution. The original
+builder has no not-found guard; new content must validate the required status path
+instead of reproducing an out-of-bounds read.
+
+`analyze_battle_status_stage_policy.py` hash-binds every remaining direct status
+`0x13` query in the action-list and defense-detail paths.
+
+```bash
+python3 tools/analyze_battle_status_stage_policy.py
+```
+
+The generated `notes/battle-status-stage-policy-bindings-20260723.json` maps action
+IDs 43-49 to the five checked Eight Gates opening names plus Front/Reverse Lotus and
+records their exact stage predicates and disabled reason codes. It also proves that
+effect type `0x14` renders the same stored u16 stage through the shared numeric writer.
+Actions 43-47 produce replacement stages 1-5 through effect type `0x13` and the shared
+status upsert path. The visible status label and reason-code text remain unresolved.
+
+`analyze_battle_status_transformation.py` binds action 4, status `0x05`, both identity
+helpers, the target-eligibility consumer, cleanup event `0x0B`, and the side-end
+removed-event path.
+
+```bash
+python3 tools/analyze_battle_status_transformation.py
+```
+
+The generated `notes/battle-status-transformation-bindings-20260723.json` proves that
+变化术 copies only the target character ID into the source unit, stores the linked
+target slot in the status record, and restores the original identity on both cleanup
+and ordinary duration expiry. The latter path copies the complete record into the
+removed-event bank before dispatching status `0x05`. This closes the status-specific
+lifecycle and reduces the original non-blocker/reaction inventory to remaining 9;
+the visible status label remains unresolved.
+
+`analyze_battle_status_attribute_modifiers.py` binds the ordered stat reducer,
+producer templates, compound effect `0x26`, and side-end recomputation order.
+
+```bash
+python3 tools/analyze_battle_status_attribute_modifiers.py
+```
+
+The generated `notes/battle-status-attribute-modifier-bindings-20260723.json` proves
+that statuses `0x12`, `0x1B`, and `0x1E..0x25` rebuild attack, defense, agility,
+movement, and maximum HP from the original character identity in active-slot order.
+It records percentage versus absolute operations, caps/floors, all active-action and
+ninja-tool producer IDs, the four records created by effect `0x26`, and the
+tick-to-removed-event-to-recompute side-end sequence. This leaves remaining 0 operational codes
+in the original 13-code non-blocker/reaction inventory; visible labels and other
+indirect status families remain separate evidence gaps.
+
+`analyze_battle_objective_transitions.py` binds one battle 44 composite victory and one
+battle 15 escort failure to controller states, result byte `0x02026807`, and the
+relevant unit records. It proves the sampled position/facing goal and outcome interrupt
+without treating screenshot filenames as state evidence.
+
+```bash
+python3 tools/analyze_battle_objective_transitions.py
+```
+
+The generated `notes/battle-objective-transition-bindings-20260723.json` covers these
+two runtime outcome boundaries only.
+
+`analyze_battle_condition_interpreter.py` binds the original-ROM condition interpreter,
+its nine-way dispatch table, and all 47 battles × 3 fixed condition variants through the
+next referenced data table at `0x08596CCC`.
+
+```bash
+python3 tools/analyze_battle_condition_interpreter.py
+```
+
+The generated `notes/battle-condition-interpreter-bindings-20260723.json` distinguishes
+the handlers supported by code (types 1 through 9) from those referenced by the record
+bank (types 1, 2, 3, 6, 7, 8, and 9). It preserves four ordered win and four ordered loss
+predicate slots per variant and binds the first-match arbitration, including result 5
+for equal winning and losing slot indices. It also binds every record-used handler's
+operation: unit/character absence, round limit, indexed battlefield-object-slot inactivity,
+and at-limit HP sum, valid-unit-count, or behavior-9 resolved-object counter comparison.
+It also hash-binds the 32-slot object allocator/free routines and the writer that frees a
+behavior-9 object and increments `0x02026BC0 + side` from the resolving unit's affiliation.
+Visible gameplay names for object behaviors plus unused handlers 4/5 remain outside the verified boundary. The
+hash-bound caller maps condition results 1/2/5 to presentation
+IDs 1/2/3 respectively and ends the battle for result 5; the visible label of presentation
+ID 3 is intentionally not inferred from code alone.
 
 # mGBA savestate context inspection
 

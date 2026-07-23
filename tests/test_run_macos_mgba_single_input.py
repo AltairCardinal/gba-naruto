@@ -29,6 +29,7 @@ class SingleInputLuaContractTests(unittest.TestCase):
         self.assertIn("C.GBA_KEY.A", text)
         self.assertIn("C.GBA_KEY.B", text)
         self.assertIn("L = C.GBA_KEY.L", text)
+        self.assertIn("R = C.GBA_KEY.R", text)
         self.assertIn("Up = C.GBA_KEY.UP", text)
         self.assertIn("Right = C.GBA_KEY.RIGHT", text)
         self.assertIn("Left = C.GBA_KEY.LEFT", text)
@@ -79,8 +80,8 @@ class SingleInputValidationTests(unittest.TestCase):
     def setUp(self):
         self.runner = importlib.import_module("tools.run_macos_mgba_single_input")
 
-    def test_only_down_a_b_l_up_or_right_and_strict_frame_order(self):
-        for key in ("R", "Down+L", "Up+A", ""):
+    def test_only_closed_single_key_set_and_strict_frame_order(self):
+        for key in ("Down+L", "Up+A", ""):
             with self.subTest(key=key), self.assertRaises(self.runner.ReplayError):
                 self.runner.validate_single_input(key, 5, 13, 80)
         for frames in ((13, 5, 80), (5, 5, 80), (5, 80, 80), (0, 13, 80)):
@@ -90,6 +91,7 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input("A", 5, 13, 80)
         self.runner.validate_single_input("B", 5, 13, 80)
         self.runner.validate_single_input("L", 5, 13, 80)
+        self.runner.validate_single_input("R", 5, 13, 80)
         self.runner.validate_single_input("Up", 5, 13, 80)
         self.runner.validate_single_input("Right", 5, 13, 80)
         self.runner.validate_single_input("Left", 5, 13, 80)
@@ -127,12 +129,8 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input_payload(
             payload, key="Up", down_frame=5, up_frame=13, capture_frame=80
         )
-        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.__doc__)
-        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.build_parser().format_help())
-        with self.assertRaisesRegex(
-            self.runner.ReplayError, "Down, Up, Left, Right, A, B, L, or Start"
-        ):
-            self.runner.validate_single_input("R", 5, 13, 80)
+        self.assertIn("Down, Up, Left, Right, A, B, L, R, or Start", self.runner.__doc__)
+        self.assertIn("Down, Up, Left, Right, A, B, L, R, or Start", self.runner.build_parser().format_help())
 
     def test_l_payload_has_one_explicit_event_and_closed_set_help(self):
         payload = {
@@ -149,12 +147,25 @@ class SingleInputValidationTests(unittest.TestCase):
         self.runner.validate_single_input_payload(
             payload, key="L", down_frame=5, up_frame=13, capture_frame=80
         )
-        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.__doc__)
-        self.assertIn("Down, Up, Left, Right, A, B, L, or Start", self.runner.build_parser().format_help())
-        with self.assertRaisesRegex(
-            self.runner.ReplayError, "Down, Up, Left, Right, A, B, L, or Start"
-        ):
-            self.runner.validate_single_input("R", 5, 13, 80)
+        self.assertIn("Down, Up, Left, Right, A, B, L, R, or Start", self.runner.__doc__)
+        self.assertIn("Down, Up, Left, Right, A, B, L, R, or Start", self.runner.build_parser().format_help())
+
+    def test_r_payload_has_one_explicit_event_and_fixed_lua_mapping(self):
+        payload = {
+            "evidence_mode": "single-input",
+            "zero_input_verified": False,
+            "inputs": [
+                {"key": "R", "down_frame": 5, "up_frame": 13, "hold_frames": 8}
+            ],
+            "automatic_inputs": [],
+            "recovery_inputs": [],
+            "frame": 80,
+            "capture_frame": 80,
+        }
+        self.runner.validate_single_input_payload(
+            payload, key="R", down_frame=5, up_frame=13, capture_frame=80
+        )
+        self.assertIn("R = C.GBA_KEY.R", LUA.read_text(encoding="utf-8"))
 
     def test_start_payload_is_supported_by_fixed_lua(self):
         payload = {

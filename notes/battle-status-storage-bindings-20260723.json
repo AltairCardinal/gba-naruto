@@ -1,0 +1,35 @@
+{
+  "active_bank_offset": 212,
+  "boundary": "The record storage, lookup mask, removal modes, duration encoding, and replacement policy are statically closed. Raw parameter meanings and status-code-specific gameplay effects remain unresolved.",
+  "code_0x3f_policy": "replace_only_when_existing_duration_is_nonzero_and_less_than_new_duration",
+  "conclusion": "Every unit owns one 16-record active-status bank followed by one 16-record removed-status event bank. Expiry/removal mode can preserve the full record for later processing, while direct consumption only clears the active code.",
+  "duration_encoding": "(raw_duration_low_7_bits * 2) as u8",
+  "full_bank_result": 255,
+  "identity": "battle_unit_active_and_removed_status_storage",
+  "lookup": "0x0806C160",
+  "lookup_code_mask": 63,
+  "lookup_policy": "first_active_slot_matching_low_6_code_bits",
+  "not_found": 255,
+  "ordinary_code_policy": "replace_first_existing_low_6_code_match",
+  "record_fields": {
+    "0x00": "status_code_with_flags",
+    "0x01": "raw_parameter_1",
+    "0x02": "duration_ticks",
+    "0x03": "raw_parameter_3_low5",
+    "0x04": "raw_parameter_4",
+    "0x05": "unwritten_by_upsert",
+    "0x06": "raw_parameter_6_u16"
+  },
+  "record_stride": 8,
+  "records_per_bank": 16,
+  "remove": "0x0806C1A4",
+  "remove_modes": {
+    "0": "clear_active_record_without_removed_event_copy",
+    "nonzero": "copy_full_record_to_first_free_removed_event_slot_if_available_then_clear_active_code"
+  },
+  "removed_event_bank_offset": 340,
+  "schema_version": 1,
+  "unit_pool": "0x020240C0",
+  "unit_stride": 468,
+  "upsert": "0x0806C204"
+}

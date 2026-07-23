@@ -1,24 +1,41 @@
-# Project Memory Rules
+# 项目协作规则
 
-This repository is used as the persistent project memory for the ROM reverse-engineering and sequel-planning work.
+## 持久记忆
 
-Required rules:
+本仓库是 ROM 逆向与续作规划的长期记忆，重要信息不得只留在对话中。
 
-1. All meaningful findings must be written into files inside this repository.
-2. All effective development work must leave durable project artifacts in this repository.
-3. Do not rely on chat history as the primary memory. If something matters later, record it in `notes/`, `docs/`, `tools/`, or another appropriate project file.
-4. When a debugging method proves useful, document both the method and the result.
-5. When a reverse-engineering conclusion changes, update the relevant note instead of leaving the old state only in conversation.
-6. When roadmap progress changes, update `docs/sequel-roadmap.md` in the same work cycle.
+- 有意义的发现和有效工作必须形成仓库内的持久产物。
+- 调查记录、内存映射和实验结果放入 `notes/`；稳定方案和流程放入 `docs/`；可复现实验放入 `tools/`。
+- 有效调试方法必须同时记录方法、结果及关键文件或地址范围。
+- 逆向结论变化时更新原记录；路线图进度变化时同步更新 `docs/sequel-roadmap.md`。
 
-Preferred locations:
+## Goal 直接执行
 
-- `notes/`: investigation logs, intermediate findings, memory maps, experiment results
-- `docs/`: stable plans, workflows, architecture, reverse-engineering strategy
-- `tools/`: scripts, automation, reproducible probes
+- 自动续跑或继续既有 `/goal` 开发前必须检查 Goal 状态；非 `active` 时不得继续该 Goal 的写操作。用户当前消息明确要求的独立操作仅按其授权范围执行。
+- 后续任务不使用 Comet 编排；Goal 直接按仓库交接、路线图、测试和运行时证据规划与执行。
+- 规划按可验收里程碑拆分，不做过细实验切片、重复审查或微步骤编排；相邻的低风险输入和验证应合并为一个闭环。
+- 恢复任务时重新读取 Goal 状态、交接/路线图、目标证据文件和 Git 状态，以文件事实为准修正过期状态。
+- 本地 commit 仅按 Goal 或用户授权执行；push 始终需要单独授权。
+- 收到新用户指令后，继续写入前必须重新检查 Goal、存活代理和 Git 状态；重新确认前产生的写入或提交视为未审计结果。
 
-Minimum expectation for each successful step:
+## 并发与子代理
 
-- record what was attempted
-- record what was learned
-- record what file or address range is now important
+- 共享工作区同时最多一个 writer；reviewer、日志分析和资料研究代理默认只读。
+- 外派任务必须独立、非关键路径阻塞、上下文精简且结果可验证；否则由 Codex 本体处理。
+- 原生子代理使用 `fork_turns: none` 并在提示词中写明目标、允许路径、禁区、验证命令、停止条件和提交权限。提示词约束不是权限隔离，关键写入仍由父代理复核。
+- 当前工具 schema 未提供的模型、权限、路径或预算能力，不得声称已经应用。外部模型只做只读 sidecar，输出均由 Codex 用本地证据复核。
+- 子代理报告完成不等于任务完成；父代理必须核对 TDD 红绿证据、集成测试、改动范围和 review 结论后，才能勾选 Comet task。
+
+## ROM 与资源安全
+
+- mGBA、Chromium 和高开销静态任务必须经 `tools/run_guarded.py` 使用同一 heavy lock；只清理本次拥有的进程树。
+- 启动前检查可用内存，运行中监控 owned-tree RSS；资源守卫拒绝、超时或内存异常时先保存证据并停止扩张实验。
+- 冗长导航前及关键输入前后建立可复用快照，并先验证快照可恢复；后续实验优先从最近已验证快照继续。
+- 单次实验只改变一个输入，并保留零输入重放作对照；CPU 暂时为零不能单独证明进程挂死。
+
+## 证据与验收
+
+- 每次实验使用唯一 run ID，不覆盖原始产物；派生分析写入临时或新目录。
+- 结论必须关联输入、工具/ROM/快照哈希、关键地址和结果 manifest；失效结论标记为已取代，不删除历史证据。
+- 完成前运行与改动匹配的格式、单元、集成和必要的运行时验证；无法执行的检查必须明确说明。
+- `AGENTS.md` 只承担稳定行为约束；状态、权限、锁、预算和写入拦截必须由 Goal、Comet guard、hooks 或脚本实现，不得把文字规则当作硬隔离。

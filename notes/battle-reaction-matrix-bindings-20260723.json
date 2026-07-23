@@ -1,0 +1,1155 @@
+{
+  "schema_version": 1,
+  "identity": "battle_reaction_resolution_matrix",
+  "method": "Cross-check every retained battle-15 audit whose input is shared resolution 0x8000 and output is facing 0x9000, then bind target HP, position, and unit+0x154 to normal-damage or substitution outcomes.",
+  "sample_count": 29,
+  "outcome_counts": {
+    "damage": 18,
+    "substitution": 11
+  },
+  "confirmed_resolution_codes": {
+    "damage": [
+      0
+    ],
+    "substitution": [
+      22
+    ]
+  },
+  "resolution_code_is_disjoint_for_sampled_outcomes": true,
+  "all_samples_cross_shared_resolution_to_facing": true,
+  "samples": [
+    {
+      "id": "damage_clone_rescue_m11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-clone-rescue-20260720/m11-post1/audit.json",
+      "audit_sha256": "fd7f18e688c49b1fc8a54f37e660cca62023a6f4dfb9ca274f11eaad62228c52",
+      "states": [
+        "build/scenario-50-battle-15-clone-rescue-20260720/m10-attack/output.ss9",
+        "build/scenario-50-battle-15-clone-rescue-20260720/m11-post1/output.ss9"
+      ],
+      "state_sha256": [
+        "6ab9f1fbe2abdb10ad1f88f544a6f840c2f36d2b7cf40ca7d4bf7bc87c5c2fdc",
+        "68ec4674f2157d7058d61565423c1f25ad8ac3ac2378585cd684b926e488ea95"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        32,
+        18
+      ],
+      "target_position": [
+        [
+          3,
+          10
+        ],
+        [
+          3,
+          10
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_early_block_v12",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-early-block-20260720/v12-post1/audit.json",
+      "audit_sha256": "063a8bacbdec42feda2e8ee779648caf4f786a3a3ae9680bcafd46313a9a8abe",
+      "states": [
+        "build/scenario-50-battle-15-early-block-20260720/v11-attack/output.ss9",
+        "build/scenario-50-battle-15-early-block-20260720/v12-post1/output.ss9"
+      ],
+      "state_sha256": [
+        "7edc3a1da9b644e587ac8170ead39c6ec43dea97295d4536630117276436382d",
+        "ab84562741a7daa4075e90eff852e227af4a6bacdf74084f060d7fbcdf7a3761"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        46,
+        32
+      ],
+      "target_position": [
+        [
+          2,
+          12
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_intercept_i11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-intercept-20260720/i11-post1/audit.json",
+      "audit_sha256": "95fa03ac55be369bccb325c65bb6462dd08a9302d76bd036c5e1f5a37ccf5035",
+      "states": [
+        "build/scenario-50-battle-15-intercept-20260720/i10-attack/output.ss9",
+        "build/scenario-50-battle-15-intercept-20260720/i11-post1/output.ss9"
+      ],
+      "state_sha256": [
+        "956904aca29fed9a86a0fd6c912bac61593b9176609492f70396228aaff106d4",
+        "0346a5151d603f6fb50e5b4670c2be1208ea1a7698cb24995712b114f7b1c297"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        94
+      ],
+      "target_position": [
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_intercept_j13",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-intercept-20260720/j13-post1/audit.json",
+      "audit_sha256": "54ae32cc78ecfa227d07a46c183c681c022157567b0b237f3f9ae3f04b3f45a8",
+      "states": [
+        "build/scenario-50-battle-15-intercept-20260720/j12-attack/output.ss9",
+        "build/scenario-50-battle-15-intercept-20260720/j13-post1/output.ss9"
+      ],
+      "state_sha256": [
+        "544d8d16ad442f9e28609a83bc26b34520e67ee773fa414524121248e405bbac",
+        "0b7392a8ae6c6cfe1eb091750e780840b055bbea8008232bbc4a4deb4c40ef0c"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        46,
+        32
+      ],
+      "target_position": [
+        [
+          2,
+          12
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r3n11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r3n11-settle/audit.json",
+      "audit_sha256": "36f898ca1ea81f3e92d24485023182b833d2101853c02bdaa88219662fc82a4c",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3n10-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3n11-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "0e055d22e5fb0213445580cbf7b18567a649bd994a632b9fc73b0912bb8a716d",
+        "05bce6a591c7b4b9aa856d91ca9a97c364a5d4527edb00f51d766e75ad045d99"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        94
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r3s13",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r3s13-settle/audit.json",
+      "audit_sha256": "b4bd0a9fa89f769aa38b9956a97480776793fef050b97d94b3ef98ac7e2dec5f",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3s12-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3s13-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "4ff3267aef6c47344e20456b2abf3004647956d5b9fe32bcef89d0248a193d10",
+        "b1cc94074e5ac68fbb791369a7a5302f6048674db9d24436f07857541b1f29e1"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        94,
+        84
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r3u21",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r3u21-settle/audit.json",
+      "audit_sha256": "06b87d47629c62e7de913ff4a84636178b44d6e1f10f4eb44ef99755b3e05ceb",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3u20-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r3u21-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "c65e83b581ef28f28ef7427c2b13c5cc81f9b27abddc11840c8a4a614ed10f82",
+        "fd3c24071a1ada1a523846659e154d6c288554f1e2584dfa81fd79d5daaaac7a"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        84,
+        49
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r4n13",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r4n13-settle/audit.json",
+      "audit_sha256": "fa7d906fb7eb5e4447846df88d603697a22e8ed6838a5954db4ec41e6047918b",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r4n12-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r4n13-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "2d5955d1ff178cd8d958e0664b50ed76be07f9506ae4869f3763bfc069c59ee9",
+        "45266bcbb8ffe9846874e647540fea60d589297a1611c2e957568b0daa1f9438"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        49,
+        33
+      ],
+      "target_position": [
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          5
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r7d11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r7d11-settle/audit.json",
+      "audit_sha256": "af747c6cd20d8a58437006e3adc630997f1affc30328c410d1182a0d84fe9f1e",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7d10-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7d11-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "0f979dbe28a3a59ad79f043c51868262ccdc44ddb54569381483f0e791e2674e",
+        "d68d57943ee8d10a037db6287c7586e3341e6d2b637f35e8c670e2372cade96e"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        89
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r7n11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r7n11-settle/audit.json",
+      "audit_sha256": "0091305c9bb1532752fa54fd46c75ca401e1417931b9ba74fc899a5e4899e24f",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7n10-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7n11-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "1852525e5e6f88daa6206ff3c6471d340ff1e8ca4ecbe7f9140ecca8d59f4471",
+        "c71d7ffb45e2809707a7cc5d0195da45bd4afd70c7cf379b567cdc3ed2800ee6"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        33,
+        17
+      ],
+      "target_position": [
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          5
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round2_r7u18",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r7u18-settle/audit.json",
+      "audit_sha256": "3dc2599ed1292385b08406a463de42e28a6ab68ea08aba88b024698c79247aab",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7u17-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r7u18-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "629d1b087fd90b7a7034da55859299ce06e2c0c668649e578b590ae1e23fd476",
+        "fd033b0a4ea8487c34f790e7bbc7820d0c73b069a79e9da32ebdeeabe49c8bf1"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        96
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round4_s11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round4-combat-20260720/s11-post/audit.json",
+      "audit_sha256": "c2fcdaef7cecda3a2647c4237de3e2a4dc27de888e23b60fade7545a5d976b8e",
+      "states": [
+        "build/scenario-50-battle-15-round4-combat-20260720/s10-attack/output.ss9",
+        "build/scenario-50-battle-15-round4-combat-20260720/s11-post/output.ss9"
+      ],
+      "state_sha256": [
+        "2bed09feed33ab101f082d8b5ac9c83404b1770728c6fe18d026c009e5310d09",
+        "50562074bbfa82b45e15260434a568499fe9a0972670d6c48236ff5e1e312bb2"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 9,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        95
+      ],
+      "target_position": [
+        [
+          7,
+          15
+        ],
+        [
+          7,
+          15
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round4_u17",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round4-combat-20260720/u17-post/audit.json",
+      "audit_sha256": "7b3fa335167e94ddd7742a427246aa7427b404c4d0e43510ca0e749529a27964",
+      "states": [
+        "build/scenario-50-battle-15-round4-combat-20260720/u16-attack/output.ss9",
+        "build/scenario-50-battle-15-round4-combat-20260720/u17-post/output.ss9"
+      ],
+      "state_sha256": [
+        "57ac03e7b3273fb899c41fceeb7b9930cab254a7bacbfdeece2e5cab3098f031",
+        "e79c4894b3702b394f6f345c8c378bf5e3bab4da418efd7edba6c10b07636d77"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 7,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        96
+      ],
+      "target_position": [
+        [
+          5,
+          11
+        ],
+        [
+          5,
+          11
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round5_r13",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round5-combat-20260720/r13-post/audit.json",
+      "audit_sha256": "806c1a0bde5671a3dce486c810b101ef023fe6bb9d552d156f2761a65444803e",
+      "states": [
+        "build/scenario-50-battle-15-round5-combat-20260720/r12-attack/output.ss9",
+        "build/scenario-50-battle-15-round5-combat-20260720/r13-post/output.ss9"
+      ],
+      "state_sha256": [
+        "8ee54fa521dd33ab9a6d135834978ac6ee67f2f495e867a97dfa865b59ae5f7d",
+        "774d97e5eeade0f9cbf6183b811e59b469dbef15fe4abede5ec1cfd310ecb2f9"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        94
+      ],
+      "target_position": [
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round5_z11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round5-combat-20260720/z11-post/audit.json",
+      "audit_sha256": "f92ed3ca50c4672b476ee7aff4504baadd8933a4c374551d702270a85a47ee59",
+      "states": [
+        "build/scenario-50-battle-15-round5-combat-20260720/z10-attack/output.ss9",
+        "build/scenario-50-battle-15-round5-combat-20260720/z11-post/output.ss9"
+      ],
+      "state_sha256": [
+        "b4765e2c18a56ceb1c23b7c5f814d8b30f20a806c6ab34e718093958946f48ba",
+        "2e457b7f45255f474adf5c29c982fd6ccce9f75bd48a064abe15006958bbb6d7"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 9,
+      "target_character_id": 35,
+      "target_hp": [
+        95,
+        80
+      ],
+      "target_position": [
+        [
+          7,
+          15
+        ],
+        [
+          7,
+          15
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round6_m11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round6-combat-20260720/m11-post/audit.json",
+      "audit_sha256": "23cb0795ee7ec7dd2fea8c23f6dee8e167fa8bdd47fcf6ec71ae5327aa3852a6",
+      "states": [
+        "build/scenario-50-battle-15-round6-combat-20260720/m10-attack/output.ss9",
+        "build/scenario-50-battle-15-round6-combat-20260720/m11-post/output.ss9"
+      ],
+      "state_sha256": [
+        "e224a61772986500968ea75ac36ed78dd3144c1ba8b27fa4da3ef5e3d3f2959a",
+        "c09ef1fbd90bfa34befbc94fe85325c05d555cf4d03bd0025ac1d0893d213b7e"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        94
+      ],
+      "target_position": [
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_round6_s11",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-round6-combat-20260720/s11-post/audit.json",
+      "audit_sha256": "54863d85fc921dbd56b1da307521f18e3afd20f44f6ec40f75803b1f10d134c3",
+      "states": [
+        "build/scenario-50-battle-15-round6-combat-20260720/s10-attack/output.ss9",
+        "build/scenario-50-battle-15-round6-combat-20260720/s11-post/output.ss9"
+      ],
+      "state_sha256": [
+        "e5f9f826229cfdbf8f1676c839e502fcb8ad8f7e23302d3efa131cda68baaf00",
+        "0dd3891d816f6d89a85c340fee06e8977e4445f12e7f1e072542b564a256358e"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 9,
+      "target_character_id": 35,
+      "target_hp": [
+        95,
+        85
+      ],
+      "target_position": [
+        [
+          7,
+          15
+        ],
+        [
+          7,
+          15
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "damage_route_u1",
+      "kind": "damage",
+      "audit": "build/scenario-50-battle-15-route-20260720/u1-post-a2/audit.json",
+      "audit_sha256": "d1a783ac67efb4c51b2442932537d51a9db86ab6bf075b024ab044b369b65258",
+      "states": [
+        "build/scenario-50-battle-15-route-20260720/u1-post-a1/output.ss9",
+        "build/scenario-50-battle-15-route-20260720/u1-post-a2/output.ss9"
+      ],
+      "state_sha256": [
+        "6015bcef5489176de74bedbef27a9342d1be0a5c3dcda5d62edfa9c8ef57a479",
+        "6ccba44b92a0f45075aede4cdd673523056cb25365e7205544313fb1f9902531"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        46
+      ],
+      "target_position": [
+        [
+          7,
+          12
+        ],
+        [
+          7,
+          12
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "substitution_early_frontline_zb3",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-early-frontline-20260720/zb3-wait/audit.json",
+      "audit_sha256": "4bd70251febc5fb48761ee5016867f2b05777e8f67885cc69c1db1076cec3de2",
+      "states": [
+        "build/scenario-50-battle-15-early-frontline-20260720/zb2-attack/output.ss9",
+        "build/scenario-50-battle-15-early-frontline-20260720/zb3-wait/output.ss9"
+      ],
+      "state_sha256": [
+        "e3b076a1975df542d4107896cd3e2c1e8f4ab945680c9d2a7c05874a9f655e2d",
+        "09dc914dde43a0723e1d08f46f2014eaac30f73c52c308a3652e44629d3797d7"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_rng_b11",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-rng-consume-20260720/b11-settle/audit.json",
+      "audit_sha256": "eb49de4ca43cbaf48f40ae80b8f227299acf5ab0bfc1c374f25c8410f390aae5",
+      "states": [
+        "build/scenario-50-battle-15-rng-consume-20260720/b10-linked-yes/output.ss9",
+        "build/scenario-50-battle-15-rng-consume-20260720/b11-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "b37e1a44e67706c62f7c4fd52f3ab13e4da0547dd3fd1c349d4af1d603cd2ed6",
+        "18fc0b8048e889336019872fc9079bd7e9e495c93017644d03b4e07b26b0886f"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_round2_r5b15",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round2-resource-route-20260720/r5b15-settle/audit.json",
+      "audit_sha256": "0deb85e000de291e2f424336e7d47e1ef4f3ab7894e07bb1dec8e42fbda1ec8e",
+      "states": [
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r5b14-yes/output.ss9",
+        "build/scenario-50-battle-15-round2-resource-route-20260720/r5b15-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "203785c534e098d864b0573f57277e0bc23cbaee7b00e29e114e89bf82d9c3fd",
+        "71f51d84fb95c4c3a18abba575ab8eb43ac003686acc7ab94b103225ec124c08"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        33,
+        33
+      ],
+      "target_position": [
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          4
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_round4_h14",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round4-combat-20260720/h14-post2/audit.json",
+      "audit_sha256": "ec1b5590947ed2601cb73cdb420010bdfc29b64f4823b7312deb7959485e03d9",
+      "states": [
+        "build/scenario-50-battle-15-round4-combat-20260720/h13-post/output.ss9",
+        "build/scenario-50-battle-15-round4-combat-20260720/h14-post2/output.ss9"
+      ],
+      "state_sha256": [
+        "5469c3094f46f317acd422644f21f7d94393126463bd118a185de42a870dcea9",
+        "d97dbbb017599e29dc7803507f54d1354443be0945c4b9beaf074f1b43e5dc58"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 6,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_shuriken_r5u14",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/r5u14-facing/audit.json",
+      "audit_sha256": "e03fea48496e178078146241e806df3c3568dc4f5c5b178e3d1825192aa7e4f7",
+      "states": [
+        "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/r5u13-execute/output.ss9",
+        "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/r5u14-facing/output.ss9"
+      ],
+      "state_sha256": [
+        "66b599b93a549be7f4bc2b088014cb31151d145c7bbf8cb5d2074e7119fa5d08",
+        "3edc22d99eb34a9e9c6d79bd38e59ea95986912cd430fe0a5d18926d6e440260"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        17,
+        17
+      ],
+      "target_position": [
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_shuriken_s19",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/s19-facing/audit.json",
+      "audit_sha256": "6842cea3cb1d323d45c13b2402f1faae6f8fd6d2fa8ad16e6a90e1dabd08bd88",
+      "states": [
+        "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/s18-execute/output.ss9",
+        "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/s19-facing/output.ss9"
+      ],
+      "state_sha256": [
+        "feac6f8f5587e2c08a9e9ab54df4cab887433a8bce8645bc1c7f66613b9bbdd0",
+        "5a0babfcc9c3db75727d3f412fa832ec63feb02a2e4abbfb6b18b82866584b99"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 7,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_round7_u14",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round7-clear-route-20260720/u14-facing/audit.json",
+      "audit_sha256": "c8666e1175fc7269df06c36f7be357cc2bef99681958bf15a022bdfd15ed7241",
+      "states": [
+        "build/scenario-50-battle-15-round7-clear-route-20260720/u13-execute/output.ss9",
+        "build/scenario-50-battle-15-round7-clear-route-20260720/u14-facing/output.ss9"
+      ],
+      "state_sha256": [
+        "c263b2000e964373342a23461daf8de1f4490f1b057380083ea7cab798ffa404",
+        "345a22bb4945fa4959936604ea18c7f41755c71cb53ddc0addf3a31a69044f03"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          8
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_clone_block_s14",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-round7-clone-block-20260720/s14-settle/audit.json",
+      "audit_sha256": "4f90ea9f8db321a665d4c2d5c300a8fd082cc59ca753e2e0a8b470607c88bd58",
+      "states": [
+        "build/scenario-50-battle-15-round7-clone-block-20260720/s13-execute/output.ss9",
+        "build/scenario-50-battle-15-round7-clone-block-20260720/s14-settle/output.ss9"
+      ],
+      "state_sha256": [
+        "638e828ac348f7a3122881573b0b8977b2f3ff15e6b58a1c5a0a818bd29c2ecd",
+        "04a65e8e19ef676ca8d350953ccdfb11c3f541cd9c538403043aa49db6b8c489"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_route_r4",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-route-20260720/r4-post-a1/audit.json",
+      "audit_sha256": "84e31ab0eb446067ca135448d37b56ba910330bec6a50d18c8576161977f7eee",
+      "states": [
+        "build/scenario-50-battle-15-route-20260720/r4-attack/output.ss9",
+        "build/scenario-50-battle-15-route-20260720/r4-post-a1/output.ss9"
+      ],
+      "state_sha256": [
+        "2d76671768f53cd47a1b8e5241acbec6ea0495e3f2b5402fcc4eedf722749c81",
+        "5bed52dbe1a985b7d678d4dbb705bad05cd1d313abea7196d38a797a3215dbea"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_route_u2",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-route-20260720/u2-post-a1/audit.json",
+      "audit_sha256": "3ad48ad1d24955f5bd598968b6153f0fa9640f6b19c66915ecba16c12031c829",
+      "states": [
+        "build/scenario-50-battle-15-route-20260720/u2-attack/output.ss9",
+        "build/scenario-50-battle-15-route-20260720/u2-post-a1/output.ss9"
+      ],
+      "state_sha256": [
+        "fa79fb1e64f4b04197b4b876aa1fa726c5583910aacd4239d9b5d66f000ebefc",
+        "a63ad9561806f45c4a8c4546f830d673e909804f96538da9026d54a983417fb7"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 8,
+      "target_character_id": 35,
+      "target_hp": [
+        46,
+        46
+      ],
+      "target_position": [
+        [
+          5,
+          11
+        ],
+        [
+          4,
+          12
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    },
+    {
+      "id": "substitution_safe_kill_n12",
+      "kind": "substitution",
+      "audit": "build/scenario-50-battle-15-safe-kill-20260720/n12-post2/audit.json",
+      "audit_sha256": "5841227efb38b1cf2a4e0bcb0d0c5533dfda213bc69433a898a2fb4d1886402f",
+      "states": [
+        "build/scenario-50-battle-15-safe-kill-20260720/n11-post1/output.ss9",
+        "build/scenario-50-battle-15-safe-kill-20260720/n12-post2/output.ss9"
+      ],
+      "state_sha256": [
+        "19fb2e0033a05adb43587b362ef0cd355cb6fc6b985d3e56fa82fe5c343ead17",
+        "11746578fed3299d374d8e9d082007714bb24da67d127fc7647162b2602d39f2"
+      ],
+      "controller_sequence": [
+        "0x8000",
+        "0x9000"
+      ],
+      "target_slot": 5,
+      "target_character_id": 35,
+      "target_hp": [
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        22,
+        0
+      ]
+    }
+  ],
+  "conclusion": "Across 29 hash-bound battle-15 resolution boundaries, all 18 normal damage outcomes enter shared resolution with target +0x154 equal to 0, while all 11 substitution outcomes enter with 0x16 and clear it when committing displacement without HP loss.",
+  "boundary": "This matrix validates a sampled reaction staging discriminator. It does not prove that +0x154 is exclusively substitution across every action, nor the upstream trigger formula, destination choice, defense/counter priority, hit RNG, or multi-hit ordering."
+}

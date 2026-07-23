@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "identity": "battle_reaction_priority_static_and_runtime_binding",
+  "method": "Hash-bind original-ROM Sharingan and Fire Bomb attack queues, then validate the exact Thumb callsites that preprocess reaction statuses, replace the first effective hit, or recursively resolve a counter with source and target reversed.",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "runtime_queue": {
+    "checkpoint": "build/battle-defense-sasuke-sharingan15-consume-zero200-20260723-01/output.ss9",
+    "sha256": "2d949001b00dee59fdc0bbd0d48e8fc4c610710e52a3c8637025ba5c5d22eb34",
+    "post_checkpoint": "build/battle-defense-sasuke-sharingan15-posthit-settle-20260723-01/output.ss9",
+    "post_sha256": "dd9db940b2b26504c96d7bb8c18fffe54e65acdfd20c67e0941b7af24a476e0b",
+    "queue_address": "0x0202680C",
+    "record_size": 32
+  },
+  "natural_multihit_baseline": {
+    "preview_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n10-preview/output.ss9",
+    "preview_sha256": "c076d260e61600ff39ce6cb6b0d4c195dc6b0a9df471d7f29f9690342d0cda3f",
+    "resolved_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n13-execute/output.ss9",
+    "resolved_sha256": "697b8b399c584d4af63b4c2982a274c7273f6b66d56539eb515c05fcf03415e1"
+  },
+  "counter_runtime_sample": {
+    "prepared_unit_slot": 2,
+    "prepared_character_id": 2,
+    "tool_id": 46,
+    "runtime_action_id": 174,
+    "reaction_code": 25,
+    "controlled_patch": {
+      "source": "build/battle-defense-sasuke-yes-20260723-01/output.ss9",
+      "source_sha256": "bf6f827843405c497b8b8cd0cf6d5490aef1e031c11390c6b8ccf0b83b4e1092",
+      "patched": "build/battle-defense-sasuke-firebomb2-ready-prompt-20260723-01/input.ss9",
+      "patched_sha256": "97d9858ec043f99a15599fd19ecc2dea92635a9a24a02fae262bec16bc0d24a6",
+      "writes": [
+        {
+          "address": "0x02024518",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "address": "0x02024519",
+          "before": 0,
+          "after": 46
+        }
+      ]
+    },
+    "prepared_checkpoint": "build/battle-defense-sasuke-firebomb2-commit-20260723-01/output.ss9",
+    "prepared_sha256": "627b0f8cc8d5dba67c17ec3dda884239a387c2761ca3011942ae698104b9a8ea",
+    "queue_checkpoint": "build/battle-defense-sasuke-firebomb2-consume-zero200-20260723-01/output.ss9",
+    "queue_sha256": "8aa8a890444f36f0a5d2f3c2e708295a9cb25d5cc9ffbcb83b304b229e01626b",
+    "resolved_checkpoint": "build/battle-defense-sasuke-firebomb2-resolve-zero300-20260723-01/output.ss9",
+    "resolved_sha256": "2b4b011851d34dc16d93dc869f051d9e7d096f7f85d1b9fe3bab352f1a1faaf2",
+    "audits": [
+      {
+        "id": "prepare_fire_bomb",
+        "path": "build/battle-defense-sasuke-firebomb2-commit-20260723-01/audit.json",
+        "sha256": "92d1164180d705e26ac858f5d604019a868cad4f507c68ec257d23f7972259ca",
+        "mode": "single-input",
+        "key": "A"
+      },
+      {
+        "id": "enemy_attack_queue",
+        "path": "build/battle-defense-sasuke-firebomb2-consume-zero200-20260723-01/audit.json",
+        "sha256": "0c400acf592490ab274e0ddf14e8ec4440c567f542d8195894623fff0dc45af0",
+        "mode": "zero-input"
+      },
+      {
+        "id": "counter_resolution",
+        "path": "build/battle-defense-sasuke-firebomb2-resolve-zero300-20260723-01/audit.json",
+        "sha256": "d0e4737f4d8cc215d92e77296eac810637b43594fb5cbd89ce34c6e084d38bbe",
+        "mode": "zero-input"
+      }
+    ]
+  },
+  "static_bindings": {
+    "status_lookup": "0x0806C160",
+    "status_remove": "0x0806C1A4",
+    "preprocessor": "0x080763E0",
+    "shared_resolver": "0x08076A30",
+    "reaction_helper": "0x080768D8",
+    "normal_handler": "0x08077040"
+  },
+  "boundary": "Sharingan replacement and Fire Bomb countering now have runtime samples. Multi-hit truncation remains statically bound around a natural three-hit baseline, while the other reaction families and expiry paths still require separate runtime samples."
+}

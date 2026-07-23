@@ -12,7 +12,7 @@ from typing import Any
 
 DEFAULT_BANK = Path("sequel/content/battle-config/bank.json")
 EXPECTED_TABLE_OFFSET = 0x545458
-EXPECTED_ENTRY_COUNT = 32
+EXPECTED_ENTRY_COUNT = 87
 EXPECTED_ENTRY_SIZE = 16
 EXPECTED_FIELDS = tuple((f"byte_{i:02x}", i, 1) for i in range(12)) + (
     ("growth_target_type", 12, 1), ("byte_0d", 13, 1),

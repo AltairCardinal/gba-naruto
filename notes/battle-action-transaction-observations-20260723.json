@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "method": "Each record binds a single-input original-ROM before/after pair by SHA-256. Cancellation may alter nested UI state but must preserve the battle unit pool, ninja-tool inventory, and battle-control fields. The commit sample must cross the validated 0x8000 resolution state into 0x9000 facing selection.",
+  "observations": [
+    {
+      "id": "move_menu_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-45-safe-resume-20260719/sasuke-move-open.ss9",
+      "before_sha256": "0246b29daf34322cd4b9db4fd801932d27311e38b16386eb1334abc526c4aba8",
+      "after": "build/scenario-45-safe-resume-20260719/sasuke-move-cancel.ss9",
+      "after_sha256": "93ab9e19f19b7f16ccff77a6888e910e4044d3c010645a1634761c72c8c06a8f",
+      "expected_before_state": "0x3000",
+      "expected_after_state": "0x3000"
+    },
+    {
+      "id": "target_to_action_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-45-safe-resume-20260719/round6-sakura-target-cancel.ss9",
+      "before_sha256": "2bb1b6cacf5353d2650a6c991d5f21984dc3390c8b1548e2d9db2b80a633272b",
+      "after": "build/scenario-45-safe-resume-20260719/round6-sakura-tech-cancel.ss9",
+      "after_sha256": "ad6454f9d1734d80399b415bed653f70c04238733f909ef65b627f6cf09bc578",
+      "expected_before_state": "0x4100",
+      "expected_after_state": "0x3000"
+    },
+    {
+      "id": "nested_skill_cancel",
+      "kind": "cancel",
+      "before": "build/scenario-50-battle-15-round2-resource-route-20260720/s12-skills/output.ss9",
+      "before_sha256": "8c0e7c0e1578240dc125a8cc5ba160debe664f2fb30274c7459756dd25bc9246",
+      "after": "build/scenario-50-battle-15-round2-resource-route-20260720/s13-cancel-linked/output.ss9",
+      "after_sha256": "762b3d0880813fa0d95ff2a047a4a34dc858697af6e409b12095bc0d05134045",
+      "expected_before_state": "0x4100",
+      "expected_after_state": "0x4100"
+    },
+    {
+      "id": "teleport_commit",
+      "kind": "commit",
+      "before": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d15-execute/output.ss9",
+      "before_sha256": "8e5a728676a1684cb327a60e4785c4f1de7b19c0cb95cade74f41ab282e2e82e",
+      "after": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d16-settle/output.ss9",
+      "after_sha256": "f267341f632e6a062ce461b5b04d5deb2722bad8030078c63452eba50c05b1e6",
+      "expected_before_state": "0x8000",
+      "expected_after_state": "0x9000",
+      "expected_current_unit_pointer": "0x02024468",
+      "expected_current_unit_diffs": {
+        "current_chakra": {"offset": "0x07", "before": 1, "after": 0},
+        "action_flags_low": {"offset": "0xC0", "before": 0, "after": 16},
+        "position_x": {"offset": "0xC4", "before": 5, "after": 3},
+        "position_y": {"offset": "0xC5", "before": 6, "after": 5}
+      }
+    }
+  ]
+}

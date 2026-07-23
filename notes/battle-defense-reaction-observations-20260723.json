@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "method": "Controlled A/B route on the original ROM: unlock Sasuke action 15 and raise only current chakra, then bind preview, atomic preparation commit, enemy-resolution consumption, Sharingan cut-in, and no-damage outcome to guarded checkpoints.",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "actor_slot": 2,
+  "actor_character_id": 2,
+  "controlled_patch": {
+    "source": "build/battle-defense-sasuke-yes-20260723-01/output.ss9",
+    "source_sha256": "bf6f827843405c497b8b8cd0cf6d5490aef1e031c11390c6b8ccf0b83b4e1092",
+    "patched": "build/battle-defense-sasuke-sharingan15-ready-prompt-20260723-01/input.ss9",
+    "patched_sha256": "5f296550ebdc62f978753f389fc1080f16ba02ad075ad9ee40ca3e17df91e6ea",
+    "action_id": 15,
+    "writes": [
+      {"address": "0x0202446F", "before": 1, "after": 5},
+      {"address": "0x0202449D", "before": 255, "after": 1}
+    ]
+  },
+  "preview_from": {
+    "checkpoint": "build/battle-defense-sasuke-sharingan15-ready-select-20260723-01/output.ss9",
+    "sha256": "8903a6b9733893d28fb3fd4afd52b0793c37da0233be1a10e39eee0af392428c"
+  },
+  "states": [
+    {
+      "id": "confirmed_preview",
+      "checkpoint": "build/battle-defense-sasuke-sharingan15-ready-yes-20260723-01/output.ss9",
+      "sha256": "e52000bf6ec535093a55614ba62346379c16c27d8dd0f1935448144fd7f38fc2",
+      "expected_controller_state": "0x9200"
+    },
+    {
+      "id": "prepared_commit",
+      "checkpoint": "build/battle-defense-sasuke-sharingan15-ready-commit40-20260723-01/output.ss9",
+      "sha256": "0eff6d643913bc566ea46242af3215a414fa8a334eebf93bc4b3bb865f8cee1b",
+      "expected_controller_state": "0x1220"
+    },
+    {
+      "id": "reaction_consumed",
+      "checkpoint": "build/battle-defense-sasuke-sharingan15-consume-zero200-20260723-01/output.ss9",
+      "sha256": "2d949001b00dee59fdc0bbd0d48e8fc4c610710e52a3c8637025ba5c5d22eb34",
+      "expected_controller_state": "0x8000"
+    },
+    {
+      "id": "post_reaction",
+      "checkpoint": "build/battle-defense-sasuke-sharingan15-posthit-settle-20260723-01/output.ss9",
+      "sha256": "dd9db940b2b26504c96d7bb8c18fffe54e65acdfd20c67e0941b7af24a476e0b",
+      "expected_controller_state": "0x8000"
+    }
+  ],
+  "audits": [
+    {
+      "id": "commit",
+      "path": "build/battle-defense-sasuke-sharingan15-ready-commit40-20260723-01/audit.json",
+      "sha256": "22d302801f4273df8a6a51b5ccaa5116b1df793a124bb8ada7b86a91b2042706",
+      "mode": "single-input",
+      "key": "A"
+    },
+    {
+      "id": "consume",
+      "path": "build/battle-defense-sasuke-sharingan15-consume-zero200-20260723-01/audit.json",
+      "sha256": "488a9e1d70cdbe43f24583c02365c7c6cbd5179a514d471bf5d048d3866d9b46",
+      "mode": "zero-input"
+    },
+    {
+      "id": "visual",
+      "path": "build/battle-defense-sasuke-sharingan15-posthit-zero240-20260723-01/audit.json",
+      "sha256": "051dfda8ff1961ea6944c3ce034992563a875ecaf8497d0ab31a97b62c6a02c9",
+      "mode": "zero-input"
+    },
+    {
+      "id": "settle",
+      "path": "build/battle-defense-sasuke-sharingan15-posthit-settle-20260723-01/audit.json",
+      "sha256": "8da86736ccefd67fac5b64fbe1ccc9bb5011f7bf00a2a7ed0762d8f33434ff62",
+      "mode": "zero-input"
+    }
+  ],
+  "reaction_visual": {
+    "label": "写轮眼",
+    "checkpoint": "build/battle-defense-sasuke-sharingan15-posthit-zero240-20260723-01/output.ss9",
+    "checkpoint_sha256": "628ac239f3f7218193149917ac795807d795ef30910758a2707fedf1c2947153",
+    "screenshot": "build/battle-defense-sasuke-sharingan15-posthit-zero240-20260723-01/output.png",
+    "screenshot_sha256": "029ae636680ebf9e098e4eb5949f90210184830b3d259749d96e81d805394ff2"
+  }
+}

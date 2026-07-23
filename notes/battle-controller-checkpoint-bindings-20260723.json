@@ -1,0 +1,654 @@
+{
+  "schema_version": 1,
+  "method": "manual visual inspection of the PNG preview embedded in each mGBA ss9 checkpoint; visible labels are observations, while controller states are independently validated from cooperative task stacks",
+  "rom": "rom/base.gba",
+  "state_inventory": "notes/battle-controller-states-20260723.json",
+  "checkpoint_count": 18,
+  "checkpoints": [
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+      "checkpoint_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001224",
+      "resume_pc": "0x08073616",
+      "binding_kind": "direct_controller_resume",
+      "controller_state": 0,
+      "controller_state_hex": "0x0000",
+      "controller_frame": {
+        "resume_pc": "0x08073616",
+        "entry": "0x080735CA",
+        "interval_end": "0x08073638"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 1,
+      "current_unit_pointer": "0x00000000",
+      "current_unit": null,
+      "visible_phase": "controller_entry"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+      "checkpoint_sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011E8",
+      "resume_pc": "0x0806F996",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 12560,
+      "controller_state_hex": "0x3110",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08073C8D",
+        "resume_pc": "0x08073C8C",
+        "callsite": "0x08073C88",
+        "decoded_target": "0x0806F718",
+        "entry": "0x08073BA8",
+        "interval_end": "0x08073E14"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "player_move_selection"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+      "checkpoint_sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x08067D02",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 12288,
+      "controller_state_hex": "0x3000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08073A4F",
+        "resume_pc": "0x08073A4E",
+        "callsite": "0x08073A4A",
+        "decoded_target": "0x08067158",
+        "entry": "0x08073A04",
+        "interval_end": "0x08073B84"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "action_menu_initial"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+      "checkpoint_sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x08067D02",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 16384,
+      "controller_state_hex": "0x4000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074137",
+        "resume_pc": "0x08074136",
+        "callsite": "0x08074132",
+        "decoded_target": "0x08067158",
+        "entry": "0x0807410C",
+        "interval_end": "0x08074190"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "action_menu_after_move"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+      "checkpoint_sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x0806810C",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 12288,
+      "controller_state_hex": "0x3000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08073A87",
+        "resume_pc": "0x08073A86",
+        "callsite": "0x08073A82",
+        "decoded_target": "0x08067158",
+        "entry": "0x08073A04",
+        "interval_end": "0x08073B84"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "end_action_confirmation"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9",
+      "checkpoint_sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001144",
+      "resume_pc": "0x08067D02",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 37376,
+      "controller_state_hex": "0x9200",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x0807483B",
+        "resume_pc": "0x0807483A",
+        "callsite": "0x08074836",
+        "decoded_target": "0x08070DF8",
+        "entry": "0x08074834",
+        "interval_end": "0x0807484E"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000110"
+      },
+      "visible_phase": "technique_menu"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+      "checkpoint_sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001154",
+      "resume_pc": "0x0806F996",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 16640,
+      "controller_state_hex": "0x4100",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074197",
+        "resume_pc": "0x08074196",
+        "callsite": "0x08074192",
+        "decoded_target": "0x08070DF8",
+        "entry": "0x08074190",
+        "interval_end": "0x08074200"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 5,
+        "position_y": 6,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "technique_target_selection"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+      "checkpoint_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001144",
+      "resume_pc": "0x0806810C",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 16640,
+      "controller_state_hex": "0x4100",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074197",
+        "resume_pc": "0x08074196",
+        "callsite": "0x08074192",
+        "decoded_target": "0x08070DF8",
+        "entry": "0x08074190",
+        "interval_end": "0x08074200"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 5,
+        "position_y": 6,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "attack_confirmation"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+      "checkpoint_sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001224",
+      "resume_pc": "0x080745A4",
+      "binding_kind": "direct_controller_resume",
+      "controller_state": 36864,
+      "controller_state_hex": "0x9000",
+      "controller_frame": {
+        "resume_pc": "0x080745A4",
+        "entry": "0x08074550",
+        "interval_end": "0x080747E0"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000110"
+      },
+      "visible_phase": "facing_selection"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+      "checkpoint_sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x0806810C",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 37120,
+      "controller_state_hex": "0x9100",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x080747F9",
+        "resume_pc": "0x080747F8",
+        "callsite": "0x080747F4",
+        "decoded_target": "0x08067158",
+        "entry": "0x080747E0",
+        "interval_end": "0x08074834"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 4,
+        "position_y": 10,
+        "action_flags": "0x00000110"
+      },
+      "visible_phase": "defense_confirmation"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+      "checkpoint_sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030010F8",
+      "resume_pc": "0x08067464",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 32768,
+      "controller_state_hex": "0x8000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074441",
+        "resume_pc": "0x08074440",
+        "callsite": "0x0807443C",
+        "decoded_target": "0x080722A8",
+        "entry": "0x080743D4",
+        "interval_end": "0x08074550"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 6,
+        "position_y": 4,
+        "action_flags": "0x00000100"
+      },
+      "visible_phase": "combat_dialogue"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+      "checkpoint_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001180",
+      "resume_pc": "0x0806820E",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 32768,
+      "controller_state_hex": "0x8000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074453",
+        "resume_pc": "0x08074452",
+        "callsite": "0x0807444E",
+        "decoded_target": "0x0807305C",
+        "entry": "0x080743D4",
+        "interval_end": "0x08074550"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 6,
+        "position_y": 4,
+        "action_flags": "0x00000110"
+      },
+      "visible_phase": "combat_result_popup"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+      "checkpoint_sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001194",
+      "resume_pc": "0x08095F12",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 4640,
+      "controller_state_hex": "0x1220",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08073785",
+        "resume_pc": "0x08073784",
+        "callsite": "0x08073780",
+        "decoded_target": "0x0808A588",
+        "entry": "0x080736F8",
+        "interval_end": "0x080738C0"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x00000000",
+      "current_unit": null,
+      "visible_phase": "round_tutorial_dialogue"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+      "checkpoint_sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001218",
+      "resume_pc": "0x08073114",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 32768,
+      "controller_state_hex": "0x8000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074453",
+        "resume_pc": "0x08074452",
+        "callsite": "0x0807444E",
+        "decoded_target": "0x0807305C",
+        "entry": "0x080743D4",
+        "interval_end": "0x08074550"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 0,
+      "current_unit_pointer": "0x02024294",
+      "current_unit": {
+        "slot": 1,
+        "character_id": 1,
+        "affiliation": 0,
+        "action_state": 255,
+        "position_x": 6,
+        "position_y": 4,
+        "action_flags": "0x00000110"
+      },
+      "visible_phase": "victory_presentation"
+    },
+    {
+      "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-01.ss9",
+      "checkpoint_sha256": "7db288e9a40d0af4797332b9562c47ffe0f76da1af25a6fbf6eb2233d814963d",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x08067206",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 28672,
+      "controller_state_hex": "0x7000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074353",
+        "resume_pc": "0x08074352",
+        "callsite": "0x0807434E",
+        "decoded_target": "0x080851F8",
+        "entry": "0x080742E4",
+        "interval_end": "0x080743D4"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 1,
+      "current_unit_pointer": "0x00000000",
+      "current_unit": null,
+      "visible_phase": "scenario_45_enemy_planning"
+    },
+    {
+      "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-02.ss9",
+      "checkpoint_sha256": "dffac7885997065f30b4beef23585fc6ad5fc9b3cff6b62ef2c79655391cece2",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011C0",
+      "resume_pc": "0x0806FC14",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 32768,
+      "controller_state_hex": "0x8000",
+      "controller_frame": {
+        "stack_address": "0x030011EC",
+        "raw_return_word": "0x08074437",
+        "resume_pc": "0x08074436",
+        "callsite": "0x08074432",
+        "decoded_target": "0x0806ED68",
+        "entry": "0x080743D4",
+        "interval_end": "0x08074550"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 1,
+      "current_unit_pointer": "0x02024810",
+      "current_unit": {
+        "slot": 4,
+        "character_id": 7,
+        "affiliation": 1,
+        "action_state": 1,
+        "position_x": 5,
+        "position_y": 10,
+        "action_flags": "0x00000101"
+      },
+      "visible_phase": "scenario_45_enemy_resolution"
+    },
+    {
+      "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/k11-defense/output.ss9",
+      "checkpoint_sha256": "80c17bac1d199c71f7c438799e0104ba049b2c9d32a27fcf39fdab62553f1260",
+      "task_slot": 2,
+      "task_stack_pointer": "0x030011D8",
+      "resume_pc": "0x08067206",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 28672,
+      "controller_state_hex": "0x7000",
+      "controller_frame": {
+        "stack_address": "0x03001220",
+        "raw_return_word": "0x08074353",
+        "resume_pc": "0x08074352",
+        "callsite": "0x0807434E",
+        "decoded_target": "0x080851F8",
+        "entry": "0x080742E4",
+        "interval_end": "0x080743D4"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 1,
+      "current_unit_pointer": "0x00000000",
+      "current_unit": null,
+      "visible_phase": "scenario_50_enemy_planning"
+    },
+    {
+      "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/e1-wait/output.ss9",
+      "checkpoint_sha256": "2d3a63b3858b66033d3711d2720c4cfc9b8d5203f0acd243c15ccfb0a5428470",
+      "task_slot": 2,
+      "task_stack_pointer": "0x03001170",
+      "resume_pc": "0x0807F11E",
+      "binding_kind": "validated_controller_ancestor",
+      "controller_state": 32768,
+      "controller_state_hex": "0x8000",
+      "controller_frame": {
+        "stack_address": "0x030011EC",
+        "raw_return_word": "0x08074437",
+        "resume_pc": "0x08074436",
+        "callsite": "0x08074432",
+        "decoded_target": "0x0806ED68",
+        "entry": "0x080743D4",
+        "interval_end": "0x08074550"
+      },
+      "controller_caller": {
+        "stack_address": "0x03001278",
+        "raw_return_word": "0x0808F957",
+        "resume_pc": "0x0808F956",
+        "callsite": "0x0808F952",
+        "decoded_target": "0x080732B4"
+      },
+      "current_side": 1,
+      "current_unit_pointer": "0x02024D8C",
+      "current_unit": {
+        "slot": 7,
+        "character_id": 35,
+        "affiliation": 1,
+        "action_state": 1,
+        "position_x": 7,
+        "position_y": 8,
+        "action_flags": "0x00000101"
+      },
+      "visible_phase": "scenario_50_enemy_resolution"
+    }
+  ],
+  "caveat": "A visible phase is bound only to the containing controller state. Multiple visible subphases may share one controller state and remain separate nested-controller behavior."
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "method": "Compare one guarded single-A replay for an unspent player unit, an action-complete player unit, and a non-commandable escort/objective unit while all three begin as the visible roster selection in controller state 0x2000.",
+  "observations": [
+    {
+      "id": "unspent_player_unit_accepted",
+      "kind": "accepted",
+      "before": "build/scenario-50-battle-15-early-intercept-20260720/b9-sakura/output.ss9",
+      "before_sha256": "ef7639c0cf2fe97b895ad02525e48dff628ce6ecec1e42e2a1b6d64b5fcdaf72",
+      "after": "build/battle-unit-eligibility-sakura-a-20260723-01/output.ss9",
+      "after_sha256": "997fdc1cfa62f2f8b4b2a148731f6b8882e4f6fd0077ddb639cdc084a7a3d676",
+      "audit": "build/battle-unit-eligibility-sakura-a-20260723-01/audit.json",
+      "audit_sha256": "9dc5cd024725e7571d8cecd4b1a22b7a130744a97872a79774fb60f69a741710",
+      "expected_before_state": "0x2000",
+      "expected_after_state": "0x3000",
+      "expected_selected_slot": 3,
+      "expected_character_id": 3,
+      "expected_action_flags_low": 0,
+      "expected_affiliation": 0,
+      "expected_action_state": 255
+    },
+    {
+      "id": "action_complete_player_unit_rejected",
+      "kind": "rejected",
+      "before": "build/battle-unit-selection-completed-l-20260723-01/output.ss9",
+      "before_sha256": "8eb67803187e4467983bf6ce2078c32e4ec94e7146ceb1cd71d00928c1badfb1",
+      "after": "build/battle-unit-eligibility-completed-a-20260723-01/output.ss9",
+      "after_sha256": "867b5a7c094b7b8239c525ef8de29bd88e2d30336d55b597f8b84f7e6db55c14",
+      "audit": "build/battle-unit-eligibility-completed-a-20260723-01/audit.json",
+      "audit_sha256": "51086198f09fd3e909550e54802cd7d8ade9d5ae464e3d0c0f8bc3f7ee9311a0",
+      "expected_before_state": "0x2000",
+      "expected_after_state": "0x2000",
+      "expected_selected_slot": 2,
+      "expected_character_id": 2,
+      "expected_action_flags_low": 16,
+      "expected_affiliation": 0,
+      "expected_action_state": 255
+    },
+    {
+      "id": "escort_objective_unit_rejected",
+      "kind": "rejected",
+      "before": "build/battle-unit-selection-completed-r-20260723-01/output.ss9",
+      "before_sha256": "57cea1e8c21514f4b8ab8fc9d4a604309ee958b654aabd7dba0d61f73173301d",
+      "after": "build/battle-unit-eligibility-escort-a-20260723-01/output.ss9",
+      "after_sha256": "b796f285d0b9a9075e471d7217118f858bc1118ddb710e830f9db3df2cf1bb57",
+      "audit": "build/battle-unit-eligibility-escort-a-20260723-01/audit.json",
+      "audit_sha256": "87d22bc4a53456bb751dc60f497710641e36d8947ee53a762e1f3eb532b6356c",
+      "expected_before_state": "0x2000",
+      "expected_after_state": "0x2000",
+      "expected_selected_slot": 4,
+      "expected_character_id": 30,
+      "expected_action_flags_low": 144,
+      "expected_affiliation": 0,
+      "expected_action_state": 2
+    }
+  ]
+}

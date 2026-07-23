@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "identity": "battle_effect_resolution_branches",
+  "method": "Compare hash-bound preview-confirm-resolution chains for a normal damage outcome and a substitution reaction. Each chain begins in controller state 0x4100, crosses shared resolution 0x8000, and ends in facing state 0x9000.",
+  "branch_count": 2,
+  "branches": [
+    {
+      "id": "normal_damage",
+      "kind": "damage",
+      "states": [
+        "build/scenario-50-battle-15-early-block-20260720/v10-q/output.ss9",
+        "build/scenario-50-battle-15-early-block-20260720/v11-attack/output.ss9",
+        "build/scenario-50-battle-15-early-block-20260720/v12-post1/output.ss9"
+      ],
+      "state_sha256": [
+        "1101909e2416f7fa7797911d22346d88b6ab0d2bc4bfd0b474bd2553d5ee77d5",
+        "7edc3a1da9b644e587ac8170ead39c6ec43dea97295d4536630117276436382d",
+        "ab84562741a7daa4075e90eff852e227af4a6bacdf74084f060d7fbcdf7a3761"
+      ],
+      "confirm_audit": "build/scenario-50-battle-15-early-block-20260720/v11-attack/audit.json",
+      "confirm_audit_sha256": "a076c4b2b7921c1bfc8e7dba1bbb309e32bb777dfde5e2df97359e3229986aaf",
+      "confirm_peak_tree_rss_mib": 52.0859375,
+      "resolve_audit": "build/scenario-50-battle-15-early-block-20260720/v12-post1/audit.json",
+      "resolve_audit_sha256": "063a8bacbdec42feda2e8ee779648caf4f786a3a3ae9680bcafd46313a9a8abe",
+      "resolve_evidence_mode": "single-input",
+      "resolve_peak_tree_rss_mib": 51.73046875,
+      "controller_sequence": [
+        "0x4100",
+        "0x8000",
+        "0x9000"
+      ],
+      "actor_slot": 2,
+      "target_slot": 8,
+      "actor_chakra": [
+        0,
+        0,
+        0
+      ],
+      "actor_action_flags_low": [
+        0,
+        0,
+        16
+      ],
+      "actor_position": [
+        [
+          3,
+          12
+        ],
+        [
+          3,
+          12
+        ],
+        [
+          3,
+          12
+        ]
+      ],
+      "target_hp": [
+        46,
+        46,
+        32
+      ],
+      "target_position": [
+        [
+          2,
+          12
+        ],
+        [
+          2,
+          12
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        0,
+        0
+      ],
+      "actor_confirm_diffs": [
+        {
+          "address": "0x0202452C",
+          "offset": "0x0C4",
+          "before": 5,
+          "after": 3
+        },
+        {
+          "address": "0x0202452E",
+          "offset": "0x0C6",
+          "before": 0,
+          "after": 3
+        }
+      ],
+      "actor_resolution_diffs": [
+        {
+          "address": "0x02024528",
+          "offset": "0x0C0",
+          "before": 0,
+          "after": 16
+        }
+      ],
+      "target_confirm_diffs": [],
+      "target_resolution_diffs": [
+        {
+          "address": "0x02024F6C",
+          "offset": "0x00C",
+          "before": 46,
+          "after": 32
+        },
+        {
+          "address": "0x02025021",
+          "offset": "0x0C1",
+          "before": 1,
+          "after": 0
+        }
+      ],
+      "damage_applied_without_target_displacement": true,
+      "substitution_prevented_damage_and_displaced_target": false,
+      "substitution_reaction_staged_before_domain_commit": false
+    },
+    {
+      "id": "substitution_reaction",
+      "kind": "substitution",
+      "states": [
+        "build/scenario-50-battle-15-early-frontline-20260720/zb1-query/output.ss9",
+        "build/scenario-50-battle-15-early-frontline-20260720/zb2-attack/output.ss9",
+        "build/scenario-50-battle-15-early-frontline-20260720/zb3-wait/output.ss9"
+      ],
+      "state_sha256": [
+        "e5f8c40c1eb60cbf2df3333da5dca9c80211d69b79d7662c65e43777b3665ce1",
+        "e3b076a1975df542d4107896cd3e2c1e8f4ab945680c9d2a7c05874a9f655e2d",
+        "09dc914dde43a0723e1d08f46f2014eaac30f73c52c308a3652e44629d3797d7"
+      ],
+      "confirm_audit": "build/scenario-50-battle-15-early-frontline-20260720/zb2-attack/audit.json",
+      "confirm_audit_sha256": "42d502dc3d72a9289e0633f225fa9512b76c9c697aa797839cd58eb354245d26",
+      "confirm_peak_tree_rss_mib": 51.90625,
+      "resolve_audit": "build/scenario-50-battle-15-early-frontline-20260720/zb3-wait/audit.json",
+      "resolve_audit_sha256": "4bd70251febc5fb48761ee5016867f2b05777e8f67885cc69c1db1076cec3de2",
+      "resolve_evidence_mode": "zero-input",
+      "resolve_peak_tree_rss_mib": 51.79296875,
+      "controller_sequence": [
+        "0x4100",
+        "0x8000",
+        "0x9000"
+      ],
+      "actor_slot": 2,
+      "target_slot": 5,
+      "actor_chakra": [
+        2,
+        2,
+        0
+      ],
+      "actor_action_flags_low": [
+        0,
+        0,
+        16
+      ],
+      "actor_position": [
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "target_hp": [
+        110,
+        110,
+        110
+      ],
+      "target_position": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "target_resolution_code_offset": "0x154",
+      "target_resolution_code": [
+        0,
+        22,
+        0
+      ],
+      "actor_confirm_diffs": [],
+      "actor_resolution_diffs": [
+        {
+          "address": "0x0202446F",
+          "offset": "0x007",
+          "before": 2,
+          "after": 0
+        },
+        {
+          "address": "0x02024528",
+          "offset": "0x0C0",
+          "before": 0,
+          "after": 16
+        },
+        {
+          "address": "0x0202452E",
+          "offset": "0x0C6",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "target_confirm_diffs": [
+        {
+          "address": "0x02024AB8",
+          "offset": "0x0D4",
+          "before": 22,
+          "after": 0
+        },
+        {
+          "address": "0x02024B38",
+          "offset": "0x154",
+          "before": 0,
+          "after": 22
+        },
+        {
+          "address": "0x02024B39",
+          "offset": "0x155",
+          "before": 0,
+          "after": 168
+        },
+        {
+          "address": "0x02024B3A",
+          "offset": "0x156",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "address": "0x02024B3B",
+          "offset": "0x157",
+          "before": 0,
+          "after": 2
+        },
+        {
+          "address": "0x02024B3C",
+          "offset": "0x158",
+          "before": 0,
+          "after": 5
+        }
+      ],
+      "target_resolution_diffs": [
+        {
+          "address": "0x02024AA5",
+          "offset": "0x0C1",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x02024AA8",
+          "offset": "0x0C4",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "address": "0x02024AA9",
+          "offset": "0x0C5",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "address": "0x02024AAB",
+          "offset": "0x0C7",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "address": "0x02024AAC",
+          "offset": "0x0C8",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "address": "0x02024AB4",
+          "offset": "0x0D0",
+          "before": 140,
+          "after": 204
+        },
+        {
+          "address": "0x02024AB5",
+          "offset": "0x0D1",
+          "before": 88,
+          "after": 84
+        },
+        {
+          "address": "0x02024B38",
+          "offset": "0x154",
+          "before": 22,
+          "after": 0
+        }
+      ],
+      "damage_applied_without_target_displacement": false,
+      "substitution_prevented_damage_and_displaced_target": true,
+      "substitution_reaction_staged_before_domain_commit": true
+    }
+  ],
+  "preview_is_not_the_committed_outcome": true,
+  "reaction_branch_occurs_inside_shared_resolution": true,
+  "conclusion": "Both samples cross 0x4100 to shared resolution 0x8000 before HP, chakra cost, or action-complete state changes. The normal branch then applies 14 HP damage without target displacement; the substitution branch stages code 0x16 at target +0x154, then commits the actor cost/action while preserving target HP and displacing the target before facing state 0x9000.",
+  "boundary": "These two samples prove one normal damage outcome and one substitution reaction. They do not yet establish the general damage formula, hit RNG, multi-hit ordering, defense modifiers, linked-attack composition, status priority, or every legal substitution destination."
+}

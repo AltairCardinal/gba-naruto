@@ -208,6 +208,37 @@ class InspectMgbaSavestateTests(unittest.TestCase):
         self.assertEqual(parsed.registers[15], 0x0806112A)
         self.assertEqual(parsed.read_memory(0x0202680C, 1), b"\x01")
 
+    def test_maps_all_serialized_gba_memory_regions(self):
+        container = fixture_savestate()
+        state = bytearray(zlib.decompress(_chunk_payload(container, b"gbAs")))
+        regions = {
+            0x04000000: (0x00400, 0x00400, b"IO!!"),
+            0x05000000: (0x00400, 0x00800, b"PRAM"),
+            0x07000000: (0x00400, 0x00C00, b"OAM!"),
+            0x06000000: (0x18000, 0x01000, b"VRAM"),
+            0x03000000: (0x08000, 0x19000, b"IRAM"),
+            0x02000000: (0x40000, 0x21000, b"WRAM"),
+        }
+        for _, (_, state_offset, marker) in regions.items():
+            state[state_offset : state_offset + len(marker)] = marker
+        savestate = _replace_chunk(container, b"gbAs", zlib.compress(state))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "fixture.ss9"
+            path.write_bytes(savestate)
+            parsed = load_gba_state(path)
+
+        for address, (length, _, marker) in regions.items():
+            with self.subTest(address=f"0x{address:08X}"):
+                self.assertEqual(parsed.read_memory(address, len(marker)), marker)
+                self.assertEqual(parsed.read_memory(address + length, 0), b"")
+                with self.assertRaisesRegex(ValueError, "out-of-range"):
+                    parsed.read_memory(address + length - 1, 2)
+        with self.assertRaisesRegex(ValueError, "non-negative"):
+            parsed.read_memory(0x06000000, -1)
+        with self.assertRaisesRegex(ValueError, "unsupported"):
+            parsed.read_memory(0x08000000, 1)
+
     def test_reports_cpu_and_cooperative_task_contexts(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "fixture.ss9"

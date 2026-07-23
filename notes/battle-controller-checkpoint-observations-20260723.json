@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "method": "manual visual inspection of the PNG preview embedded in each mGBA ss9 checkpoint; visible labels are observations, while controller states are independently validated from cooperative task stacks",
+  "observations": [
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+      "sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+      "visible_phase": "controller_entry",
+      "expected_controller_state": "0x0000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+      "sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+      "visible_phase": "player_move_selection",
+      "expected_controller_state": "0x3110"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+      "sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+      "visible_phase": "action_menu_initial",
+      "expected_controller_state": "0x3000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+      "sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+      "visible_phase": "action_menu_after_move",
+      "expected_controller_state": "0x4000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+      "sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+      "visible_phase": "end_action_confirmation",
+      "expected_controller_state": "0x3000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9",
+      "sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+      "visible_phase": "technique_menu",
+      "expected_controller_state": "0x9200"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+      "sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+      "visible_phase": "technique_target_selection",
+      "expected_controller_state": "0x4100"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+      "sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+      "visible_phase": "attack_confirmation",
+      "expected_controller_state": "0x4100"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+      "sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+      "visible_phase": "facing_selection",
+      "expected_controller_state": "0x9000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+      "sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+      "visible_phase": "defense_confirmation",
+      "expected_controller_state": "0x9100"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+      "sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c",
+      "visible_phase": "combat_dialogue",
+      "expected_controller_state": "0x8000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+      "sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+      "visible_phase": "combat_result_popup",
+      "expected_controller_state": "0x8000"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+      "sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+      "visible_phase": "round_tutorial_dialogue",
+      "expected_controller_state": "0x1220"
+    },
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+      "sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "visible_phase": "victory_presentation",
+      "expected_controller_state": "0x8000"
+    },
+    {
+      "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-01.ss9",
+      "sha256": "7db288e9a40d0af4797332b9562c47ffe0f76da1af25a6fbf6eb2233d814963d",
+      "visible_phase": "scenario_45_enemy_planning",
+      "expected_controller_state": "0x7000",
+      "expected_current_side": 1,
+      "expected_current_unit_pointer": "0x00000000"
+    },
+    {
+      "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-02.ss9",
+      "sha256": "dffac7885997065f30b4beef23585fc6ad5fc9b3cff6b62ef2c79655391cece2",
+      "visible_phase": "scenario_45_enemy_resolution",
+      "expected_controller_state": "0x8000",
+      "expected_current_side": 1,
+      "expected_current_unit_pointer": "0x02024810",
+      "expected_current_unit_character_id": 7,
+      "expected_current_unit_affiliation": 1,
+      "expected_current_unit_action_state": 1
+    },
+    {
+      "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/k11-defense/output.ss9",
+      "sha256": "80c17bac1d199c71f7c438799e0104ba049b2c9d32a27fcf39fdab62553f1260",
+      "visible_phase": "scenario_50_enemy_planning",
+      "expected_controller_state": "0x7000",
+      "expected_current_side": 1,
+      "expected_current_unit_pointer": "0x00000000"
+    },
+    {
+      "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/e1-wait/output.ss9",
+      "sha256": "2d3a63b3858b66033d3711d2720c4cfc9b8d5203f0acd243c15ccfb0a5428470",
+      "visible_phase": "scenario_50_enemy_resolution",
+      "expected_controller_state": "0x8000",
+      "expected_current_side": 1,
+      "expected_current_unit_pointer": "0x02024D8C",
+      "expected_current_unit_character_id": 35,
+      "expected_current_unit_affiliation": 1,
+      "expected_current_unit_action_state": 1
+    }
+  ]
+}

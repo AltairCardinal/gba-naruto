@@ -44,8 +44,12 @@ class GbaState:
         if size < 0:
             raise ValueError("memory read size must be non-negative")
         regions = (
-            (0x02000000, 0x40000, 0x21000),
+            (0x04000000, 0x00400, 0x00400),
+            (0x05000000, 0x00400, 0x00800),
+            (0x07000000, 0x00400, 0x00C00),
+            (0x06000000, 0x18000, 0x01000),
             (0x03000000, 0x08000, 0x19000),
+            (0x02000000, 0x40000, 0x21000),
         )
         for base, length, state_offset in regions:
             relative = address - base

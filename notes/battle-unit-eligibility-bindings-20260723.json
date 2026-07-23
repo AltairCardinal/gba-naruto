@@ -1,0 +1,1072 @@
+{
+  "schema_version": 1,
+  "identity": "battle_unit_command_eligibility",
+  "method": "Compare one guarded single-A replay for an unspent player unit, an action-complete player unit, and a non-commandable escort/objective unit while all three begin as the visible roster selection in controller state 0x2000.",
+  "case_count": 3,
+  "cases": [
+    {
+      "id": "unspent_player_unit_accepted",
+      "kind": "accepted",
+      "before": "build/scenario-50-battle-15-early-intercept-20260720/b9-sakura/output.ss9",
+      "before_sha256": "ef7639c0cf2fe97b895ad02525e48dff628ce6ecec1e42e2a1b6d64b5fcdaf72",
+      "after": "build/battle-unit-eligibility-sakura-a-20260723-01/output.ss9",
+      "after_sha256": "997fdc1cfa62f2f8b4b2a148731f6b8882e4f6fd0077ddb639cdc084a7a3d676",
+      "audit": "build/battle-unit-eligibility-sakura-a-20260723-01/audit.json",
+      "audit_sha256": "9dc5cd024725e7571d8cecd4b1a22b7a130744a97872a79774fb60f69a741710",
+      "selected_unit": {
+        "slot": 3,
+        "character_id": 3,
+        "action_flags_low": 0,
+        "affiliation": 0,
+        "action_state": 255
+      },
+      "controller_transition": "0x2000 -> 0x3000",
+      "before_current_unit_pointer": "0x00000000",
+      "after_current_unit_pointer": "0x0202463C",
+      "unit_pool_diffs": [],
+      "battle_control_diffs": [
+        {
+          "address": "0x0202680F",
+          "offset": "0x0B",
+          "before": 0,
+          "after": 3
+        },
+        {
+          "address": "0x02026810",
+          "offset": "0x0C",
+          "before": 0,
+          "after": 60
+        },
+        {
+          "address": "0x02026811",
+          "offset": "0x0D",
+          "before": 0,
+          "after": 70
+        },
+        {
+          "address": "0x02026812",
+          "offset": "0x0E",
+          "before": 0,
+          "after": 2
+        },
+        {
+          "address": "0x02026813",
+          "offset": "0x0F",
+          "before": 0,
+          "after": 2
+        }
+      ],
+      "action_menu_diffs": [
+        {
+          "address": "0x0200A880",
+          "offset": "0x00",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x0200A882",
+          "offset": "0x02",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x0200A884",
+          "offset": "0x04",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x0200A890",
+          "offset": "0x10",
+          "before": 124,
+          "after": 248
+        },
+        {
+          "address": "0x0200A891",
+          "offset": "0x11",
+          "before": 89,
+          "after": 85
+        },
+        {
+          "address": "0x0200A8A4",
+          "offset": "0x24",
+          "before": 1,
+          "after": 129
+        },
+        {
+          "address": "0x0200A8A8",
+          "offset": "0x28",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "address": "0x0200A8AA",
+          "offset": "0x2A",
+          "before": 16,
+          "after": 2
+        },
+        {
+          "address": "0x0200A8AC",
+          "offset": "0x2C",
+          "before": 30,
+          "after": 6
+        },
+        {
+          "address": "0x0200A8AE",
+          "offset": "0x2E",
+          "before": 4,
+          "after": 12
+        },
+        {
+          "address": "0x0200A8B0",
+          "offset": "0x30",
+          "before": 28,
+          "after": 0
+        },
+        {
+          "address": "0x0200A8B2",
+          "offset": "0x32",
+          "before": 1,
+          "after": 10
+        },
+        {
+          "address": "0x0200A8B7",
+          "offset": "0x37",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "address": "0x0200A8BA",
+          "offset": "0x3A",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "address": "0x0200A8BB",
+          "offset": "0x3B",
+          "before": 255,
+          "after": 0
+        },
+        {
+          "address": "0x0200A8BF",
+          "offset": "0x3F",
+          "before": 0,
+          "after": 5
+        },
+        {
+          "address": "0x0200A8C1",
+          "offset": "0x41",
+          "before": 0,
+          "after": 252
+        },
+        {
+          "address": "0x0200A8CC",
+          "offset": "0x4C",
+          "before": 198,
+          "after": 195
+        },
+        {
+          "address": "0x0200A8CE",
+          "offset": "0x4E",
+          "before": 198,
+          "after": 200
+        },
+        {
+          "address": "0x0200A8D0",
+          "offset": "0x50",
+          "before": 198,
+          "after": 0
+        },
+        {
+          "address": "0x0200A8D1",
+          "offset": "0x51",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8D2",
+          "offset": "0x52",
+          "before": 198,
+          "after": 2
+        },
+        {
+          "address": "0x0200A8D3",
+          "offset": "0x53",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8D4",
+          "offset": "0x54",
+          "before": 198,
+          "after": 193
+        },
+        {
+          "address": "0x0200A8D6",
+          "offset": "0x56",
+          "before": 198,
+          "after": 193
+        },
+        {
+          "address": "0x0200A8D8",
+          "offset": "0x58",
+          "before": 198,
+          "after": 201
+        },
+        {
+          "address": "0x0200A8DA",
+          "offset": "0x5A",
+          "before": 198,
+          "after": 200
+        },
+        {
+          "address": "0x0200A8DC",
+          "offset": "0x5C",
+          "before": 198,
+          "after": 1
+        },
+        {
+          "address": "0x0200A8DD",
+          "offset": "0x5D",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8DE",
+          "offset": "0x5E",
+          "before": 198,
+          "after": 3
+        },
+        {
+          "address": "0x0200A8DF",
+          "offset": "0x5F",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8E0",
+          "offset": "0x60",
+          "before": 198,
+          "after": 193
+        },
+        {
+          "address": "0x0200A8E2",
+          "offset": "0x62",
+          "before": 198,
+          "after": 193
+        },
+        {
+          "address": "0x0200A8E4",
+          "offset": "0x64",
+          "before": 198,
+          "after": 201
+        },
+        {
+          "address": "0x0200A8E6",
+          "offset": "0x66",
+          "before": 198,
+          "after": 200
+        },
+        {
+          "address": "0x0200A8E8",
+          "offset": "0x68",
+          "before": 198,
+          "after": 4
+        },
+        {
+          "address": "0x0200A8E9",
+          "offset": "0x69",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8EA",
+          "offset": "0x6A",
+          "before": 198,
+          "after": 6
+        },
+        {
+          "address": "0x0200A8EB",
+          "offset": "0x6B",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8EC",
+          "offset": "0x6C",
+          "before": 198,
+          "after": 8
+        },
+        {
+          "address": "0x0200A8ED",
+          "offset": "0x6D",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8EE",
+          "offset": "0x6E",
+          "before": 198,
+          "after": 10
+        },
+        {
+          "address": "0x0200A8EF",
+          "offset": "0x6F",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8F0",
+          "offset": "0x70",
+          "before": 198,
+          "after": 201
+        },
+        {
+          "address": "0x0200A8F2",
+          "offset": "0x72",
+          "before": 198,
+          "after": 200
+        },
+        {
+          "address": "0x0200A8F4",
+          "offset": "0x74",
+          "before": 198,
+          "after": 5
+        },
+        {
+          "address": "0x0200A8F5",
+          "offset": "0x75",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8F6",
+          "offset": "0x76",
+          "before": 198,
+          "after": 7
+        },
+        {
+          "address": "0x0200A8F7",
+          "offset": "0x77",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8F8",
+          "offset": "0x78",
+          "before": 198,
+          "after": 9
+        },
+        {
+          "address": "0x0200A8F9",
+          "offset": "0x79",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8FA",
+          "offset": "0x7A",
+          "before": 198,
+          "after": 11
+        },
+        {
+          "address": "0x0200A8FB",
+          "offset": "0x7B",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A8FC",
+          "offset": "0x7C",
+          "before": 195,
+          "after": 201
+        },
+        {
+          "address": "0x0200A900",
+          "offset": "0x80",
+          "before": 82,
+          "after": 12
+        },
+        {
+          "address": "0x0200A901",
+          "offset": "0x81",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A902",
+          "offset": "0x82",
+          "before": 84,
+          "after": 14
+        },
+        {
+          "address": "0x0200A903",
+          "offset": "0x83",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A904",
+          "offset": "0x84",
+          "before": 86,
+          "after": 16
+        },
+        {
+          "address": "0x0200A905",
+          "offset": "0x85",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A908",
+          "offset": "0x88",
+          "before": 193,
+          "after": 201
+        },
+        {
+          "address": "0x0200A90A",
+          "offset": "0x8A",
+          "before": 193,
+          "after": 200
+        },
+        {
+          "address": "0x0200A90C",
+          "offset": "0x8C",
+          "before": 193,
+          "after": 13
+        },
+        {
+          "address": "0x0200A90D",
+          "offset": "0x8D",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A90E",
+          "offset": "0x8E",
+          "before": 193,
+          "after": 15
+        },
+        {
+          "address": "0x0200A90F",
+          "offset": "0x8F",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A910",
+          "offset": "0x90",
+          "before": 78,
+          "after": 17
+        },
+        {
+          "address": "0x0200A912",
+          "offset": "0x92",
+          "before": 80,
+          "after": 193
+        },
+        {
+          "address": "0x0200A913",
+          "offset": "0x93",
+          "before": 224,
+          "after": 225
+        },
+        {
+          "address": "0x0200A914",
+          "offset": "0x94",
+          "before": 193,
+          "after": 201
+        },
+        {
+          "address": "0x0200A916",
+          "offset": "0x96",
+          "before": 193,
+          "after": 200
+        },
+        {
+          "address": "0x0200A918",
+          "offset": "0x98",
+          "before": 74,
+          "after": 18
+        },
+        {
+          "address": "0x0200A919",
+          "offset": "0x99",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A91A",
+          "offset": "0x9A",
+          "before": 76,
+          "after": 20
+        },
+        {
+          "address": "0x0200A91B",
+          "offset": "0x9B",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A920",
+          "offset": "0xA0",
+          "before": 88,
+          "after": 201
+        },
+        {
+          "address": "0x0200A921",
+          "offset": "0xA1",
+          "before": 224,
+          "after": 225
+        },
+        {
+          "address": "0x0200A922",
+          "offset": "0xA2",
+          "before": 89,
+          "after": 200
+        },
+        {
+          "address": "0x0200A923",
+          "offset": "0xA3",
+          "before": 224,
+          "after": 225
+        },
+        {
+          "address": "0x0200A924",
+          "offset": "0xA4",
+          "before": 193,
+          "after": 19
+        },
+        {
+          "address": "0x0200A925",
+          "offset": "0xA5",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A926",
+          "offset": "0xA6",
+          "before": 193,
+          "after": 21
+        },
+        {
+          "address": "0x0200A927",
+          "offset": "0xA7",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A928",
+          "offset": "0xA8",
+          "before": 97,
+          "after": 193
+        },
+        {
+          "address": "0x0200A929",
+          "offset": "0xA9",
+          "before": 208,
+          "after": 225
+        },
+        {
+          "address": "0x0200A92A",
+          "offset": "0xAA",
+          "before": 98,
+          "after": 193
+        },
+        {
+          "address": "0x0200A92B",
+          "offset": "0xAB",
+          "before": 208,
+          "after": 225
+        },
+        {
+          "address": "0x0200A92C",
+          "offset": "0xAC",
+          "before": 99,
+          "after": 201
+        },
+        {
+          "address": "0x0200A92D",
+          "offset": "0xAD",
+          "before": 208,
+          "after": 225
+        },
+        {
+          "address": "0x0200A92E",
+          "offset": "0xAE",
+          "before": 100,
+          "after": 200
+        },
+        {
+          "address": "0x0200A92F",
+          "offset": "0xAF",
+          "before": 208,
+          "after": 225
+        },
+        {
+          "address": "0x0200A930",
+          "offset": "0xB0",
+          "before": 101,
+          "after": 22
+        },
+        {
+          "address": "0x0200A931",
+          "offset": "0xB1",
+          "before": 208,
+          "after": 224
+        },
+        {
+          "address": "0x0200A932",
+          "offset": "0xB2",
+          "before": 93,
+          "after": 24
+        },
+        {
+          "address": "0x0200A934",
+          "offset": "0xB4",
+          "before": 94,
+          "after": 26
+        },
+        {
+          "address": "0x0200A936",
+          "offset": "0xB6",
+          "before": 95,
+          "after": 28
+        },
+        {
+          "address": "0x0200A93C",
+          "offset": "0xBC",
+          "before": 83,
+          "after": 23
+        },
+        {
+          "address": "0x0200A93D",
+          "offset": "0xBD",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A93E",
+          "offset": "0xBE",
+          "before": 85,
+          "after": 25
+        },
+        {
+          "address": "0x0200A93F",
+          "offset": "0xBF",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A940",
+          "offset": "0xC0",
+          "before": 87,
+          "after": 27
+        },
+        {
+          "address": "0x0200A941",
+          "offset": "0xC1",
+          "before": 240,
+          "after": 224
+        },
+        {
+          "address": "0x0200A942",
+          "offset": "0xC2",
+          "before": 193,
+          "after": 29
+        },
+        {
+          "address": "0x0200A943",
+          "offset": "0xC3",
+          "before": 225,
+          "after": 224
+        },
+        {
+          "address": "0x0200A944",
+          "offset": "0xC4",
+          "before": 193,
+          "after": 201
+        },
+        {
+          "address": "0x0200A946",
+          "offset": "0xC6",
+          "before": 193,
+          "after": 196
+        },
+        {
+          "address": "0x0200A948",
+          "offset": "0xC8",
+          "before": 193,
+          "after": 199
+        },
+        {
+          "address": "0x0200A94A",
+          "offset": "0xCA",
+          "before": 193,
+          "after": 199
+        },
+        {
+          "address": "0x0200A94C",
+          "offset": "0xCC",
+          "before": 79,
+          "after": 199
+        },
+        {
+          "address": "0x0200A94D",
+          "offset": "0xCD",
+          "before": 224,
+          "after": 225
+        },
+        {
+          "address": "0x0200A94E",
+          "offset": "0xCE",
+          "before": 81,
+          "after": 199
+        },
+        {
+          "address": "0x0200A94F",
+          "offset": "0xCF",
+          "before": 224,
+          "after": 225
+        },
+        {
+          "address": "0x0200A950",
+          "offset": "0xD0",
+          "before": 193,
+          "after": 197
+        },
+        {
+          "address": "0x0200A952",
+          "offset": "0xD2",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A953",
+          "offset": "0xD3",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A954",
+          "offset": "0xD4",
+          "before": 75,
+          "after": 192
+        },
+        {
+          "address": "0x0200A955",
+          "offset": "0xD5",
+          "before": 240,
+          "after": 1
+        },
+        {
+          "address": "0x0200A956",
+          "offset": "0xD6",
+          "before": 77,
+          "after": 192
+        },
+        {
+          "address": "0x0200A957",
+          "offset": "0xD7",
+          "before": 240,
+          "after": 1
+        },
+        {
+          "address": "0x0200A958",
+          "offset": "0xD8",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A959",
+          "offset": "0xD9",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A95A",
+          "offset": "0xDA",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A95B",
+          "offset": "0xDB",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A95C",
+          "offset": "0xDC",
+          "before": 90,
+          "after": 192
+        },
+        {
+          "address": "0x0200A95D",
+          "offset": "0xDD",
+          "before": 224,
+          "after": 1
+        },
+        {
+          "address": "0x0200A95E",
+          "offset": "0xDE",
+          "before": 91,
+          "after": 192
+        },
+        {
+          "address": "0x0200A95F",
+          "offset": "0xDF",
+          "before": 224,
+          "after": 1
+        },
+        {
+          "address": "0x0200A960",
+          "offset": "0xE0",
+          "before": 92,
+          "after": 192
+        },
+        {
+          "address": "0x0200A961",
+          "offset": "0xE1",
+          "before": 224,
+          "after": 1
+        },
+        {
+          "address": "0x0200A962",
+          "offset": "0xE2",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A963",
+          "offset": "0xE3",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A964",
+          "offset": "0xE4",
+          "before": 102,
+          "after": 192
+        },
+        {
+          "address": "0x0200A965",
+          "offset": "0xE5",
+          "before": 208,
+          "after": 1
+        },
+        {
+          "address": "0x0200A966",
+          "offset": "0xE6",
+          "before": 103,
+          "after": 192
+        },
+        {
+          "address": "0x0200A967",
+          "offset": "0xE7",
+          "before": 208,
+          "after": 1
+        },
+        {
+          "address": "0x0200A968",
+          "offset": "0xE8",
+          "before": 104,
+          "after": 192
+        },
+        {
+          "address": "0x0200A969",
+          "offset": "0xE9",
+          "before": 208,
+          "after": 1
+        },
+        {
+          "address": "0x0200A96A",
+          "offset": "0xEA",
+          "before": 105,
+          "after": 192
+        },
+        {
+          "address": "0x0200A96B",
+          "offset": "0xEB",
+          "before": 208,
+          "after": 1
+        },
+        {
+          "address": "0x0200A96C",
+          "offset": "0xEC",
+          "before": 106,
+          "after": 192
+        },
+        {
+          "address": "0x0200A96D",
+          "offset": "0xED",
+          "before": 208,
+          "after": 1
+        },
+        {
+          "address": "0x0200A96E",
+          "offset": "0xEE",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A96F",
+          "offset": "0xEF",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A970",
+          "offset": "0xF0",
+          "before": 193,
+          "after": 192
+        },
+        {
+          "address": "0x0200A971",
+          "offset": "0xF1",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A972",
+          "offset": "0xF2",
+          "before": 96,
+          "after": 192
+        },
+        {
+          "address": "0x0200A973",
+          "offset": "0xF3",
+          "before": 224,
+          "after": 1
+        },
+        {
+          "address": "0x0200A974",
+          "offset": "0xF4",
+          "before": 201,
+          "after": 192
+        },
+        {
+          "address": "0x0200A975",
+          "offset": "0xF5",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A976",
+          "offset": "0xF6",
+          "before": 196,
+          "after": 192
+        },
+        {
+          "address": "0x0200A977",
+          "offset": "0xF7",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A978",
+          "offset": "0xF8",
+          "before": 199,
+          "after": 192
+        },
+        {
+          "address": "0x0200A979",
+          "offset": "0xF9",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A97A",
+          "offset": "0xFA",
+          "before": 199,
+          "after": 192
+        },
+        {
+          "address": "0x0200A97B",
+          "offset": "0xFB",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A97C",
+          "offset": "0xFC",
+          "before": 199,
+          "after": 192
+        },
+        {
+          "address": "0x0200A97D",
+          "offset": "0xFD",
+          "before": 225,
+          "after": 1
+        },
+        {
+          "address": "0x0200A97E",
+          "offset": "0xFE",
+          "before": 199,
+          "after": 192
+        },
+        {
+          "address": "0x0200A97F",
+          "offset": "0xFF",
+          "before": 225,
+          "after": 1
+        }
+      ],
+      "command_accepted": true,
+      "command_rejected_without_domain_mutation": false
+    },
+    {
+      "id": "action_complete_player_unit_rejected",
+      "kind": "rejected",
+      "before": "build/battle-unit-selection-completed-l-20260723-01/output.ss9",
+      "before_sha256": "8eb67803187e4467983bf6ce2078c32e4ec94e7146ceb1cd71d00928c1badfb1",
+      "after": "build/battle-unit-eligibility-completed-a-20260723-01/output.ss9",
+      "after_sha256": "867b5a7c094b7b8239c525ef8de29bd88e2d30336d55b597f8b84f7e6db55c14",
+      "audit": "build/battle-unit-eligibility-completed-a-20260723-01/audit.json",
+      "audit_sha256": "51086198f09fd3e909550e54802cd7d8ade9d5ae464e3d0c0f8bc3f7ee9311a0",
+      "selected_unit": {
+        "slot": 2,
+        "character_id": 2,
+        "action_flags_low": 16,
+        "affiliation": 0,
+        "action_state": 255
+      },
+      "controller_transition": "0x2000 -> 0x2000",
+      "before_current_unit_pointer": "0x00000000",
+      "after_current_unit_pointer": "0x00000000",
+      "unit_pool_diffs": [],
+      "battle_control_diffs": [],
+      "action_menu_diffs": [],
+      "command_accepted": false,
+      "command_rejected_without_domain_mutation": true
+    },
+    {
+      "id": "escort_objective_unit_rejected",
+      "kind": "rejected",
+      "before": "build/battle-unit-selection-completed-r-20260723-01/output.ss9",
+      "before_sha256": "57cea1e8c21514f4b8ab8fc9d4a604309ee958b654aabd7dba0d61f73173301d",
+      "after": "build/battle-unit-eligibility-escort-a-20260723-01/output.ss9",
+      "after_sha256": "b796f285d0b9a9075e471d7217118f858bc1118ddb710e830f9db3df2cf1bb57",
+      "audit": "build/battle-unit-eligibility-escort-a-20260723-01/audit.json",
+      "audit_sha256": "87d22bc4a53456bb751dc60f497710641e36d8947ee53a762e1f3eb532b6356c",
+      "selected_unit": {
+        "slot": 4,
+        "character_id": 30,
+        "action_flags_low": 144,
+        "affiliation": 0,
+        "action_state": 2
+      },
+      "controller_transition": "0x2000 -> 0x2000",
+      "before_current_unit_pointer": "0x00000000",
+      "after_current_unit_pointer": "0x00000000",
+      "unit_pool_diffs": [],
+      "battle_control_diffs": [],
+      "action_menu_diffs": [],
+      "command_accepted": false,
+      "command_rejected_without_domain_mutation": true
+    }
+  ],
+  "roster_browsing_is_separate_from_command_eligibility": true,
+  "conclusion": "Roster browsing can select an unspent player unit, an action-complete player unit, or an escort/objective unit. A confirms only the sampled unspent commandable unit into state 0x3000 and binds the current-unit pointer; the other two confirmations are domain no-ops in state 0x2000.",
+  "boundary": "These samples prove action-complete and escort/objective rejection at confirmation. They do not yet prove every incapacitation, death, summon, affiliation, or scenario-specific eligibility rule."
+}

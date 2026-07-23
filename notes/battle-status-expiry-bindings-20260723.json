@@ -1,0 +1,56 @@
+{
+  "boundary": "The generic nonzero duration counter is decremented for every active status on every valid unit at side end, before the side bit toggles. Duration-zero preparation semantics, status-specific periodic effects, immediate one-shot reactions, and battle-start initialization remain separate rules.",
+  "code_offset": "unit+0xD4",
+  "conclusion": "At state 0x1100 the original ROM decrements every active status duration for units 1 through 12 before toggling sides. Duration 2 becomes 1 and remains active; duration 1 reaches zero and the complete slot is removed.",
+  "controlled_patch_offsets": [
+    "unit+0xD4",
+    "unit+0xD6"
+  ],
+  "controller_state": "0x1100",
+  "duration_offset": "unit+0xD6",
+  "identity": "battle_status_side_end_duration_tick_binding",
+  "method": "Validate the state-0x1100 call order and status-slot decrement loop, then compare two original-ROM side-end replays whose only controlled differences are one status code and duration 1 or 2.",
+  "runtime_samples": [
+    {
+      "duration": [
+        1,
+        0
+      ],
+      "initial_duration": 1,
+      "removed_at_zero": true,
+      "side": [
+        0,
+        1
+      ],
+      "status_code": [
+        1,
+        0
+      ]
+    },
+    {
+      "duration": [
+        2,
+        1
+      ],
+      "initial_duration": 2,
+      "removed_at_zero": false,
+      "side": [
+        0,
+        1
+      ],
+      "status_code": [
+        1,
+        1
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "status_slots_per_unit": 16,
+  "status_stride": 8,
+  "status_tick": "0x0806C308",
+  "tick_occurs_before_side_toggle": true,
+  "unit_slots": [
+    1,
+    12
+  ]
+}

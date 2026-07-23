@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "method": "Bind a guarded Up, A, A chain from Sasuke's defense yes/no prompt to the learned-action list and the visible rejection of an offensive action. Validate controller state, current actor, complete unit pool, battle-control region, and action-menu state for every step.",
+  "states": [
+    {
+      "id": "defense_prompt_no",
+      "checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/r5u15-defense/output.ss9",
+      "sha256": "7807be6b09f22a9eb3d3dbcb41d3e84f92bd342f81936cb168b757ed8a5c037c",
+      "expected_controller_state": "0x9100"
+    },
+    {
+      "id": "defense_prompt_yes",
+      "checkpoint": "build/battle-defense-sasuke-yes-20260723-01/output.ss9",
+      "sha256": "bf6f827843405c497b8b8cd0cf6d5490aef1e031c11390c6b8ccf0b83b4e1092",
+      "expected_controller_state": "0x9100"
+    },
+    {
+      "id": "defense_action_list",
+      "checkpoint": "build/battle-defense-sasuke-list-20260723-01/output.ss9",
+      "sha256": "698837611b41cee35000ee41946640ba360ca56015727722457b7a79ba9bc6be",
+      "expected_controller_state": "0x9200"
+    },
+    {
+      "id": "offensive_action_rejected",
+      "checkpoint": "build/battle-defense-sasuke-offense-reject-20260723-01/output.ss9",
+      "sha256": "61e54ecce663eac0c67b9d97ea81f5550c4ac718948d2014dab3880c417b24a2",
+      "expected_controller_state": "0x9200",
+      "manual_visual_identity": {
+        "selected_action": "火遁术",
+        "feedback": "只能选择防御系・回避系的术・忍具",
+        "screenshot_sha256": "1497e46d53049f4c43d258ec88f029797b7c1a8b0ea417ed5b1df8cd5245f300"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "choose_yes",
+      "from_state": "defense_prompt_no",
+      "to_state": "defense_prompt_yes",
+      "audit": "build/battle-defense-sasuke-yes-20260723-01/audit.json",
+      "audit_sha256": "ba0769c6ada5a6197915a2acc3e305a890d406d0ff55252caf5efa3e7641ab5f",
+      "expected_key": "Up"
+    },
+    {
+      "id": "open_action_list",
+      "from_state": "defense_prompt_yes",
+      "to_state": "defense_action_list",
+      "audit": "build/battle-defense-sasuke-list-20260723-01/audit.json",
+      "audit_sha256": "5c8a15ec3a883151daf6091b25ab51554cf1a1bb2721c4a2f2204cd742330c24",
+      "expected_key": "A"
+    },
+    {
+      "id": "reject_offensive_action",
+      "from_state": "defense_action_list",
+      "to_state": "offensive_action_rejected",
+      "audit": "build/battle-defense-sasuke-offense-reject-20260723-01/audit.json",
+      "audit_sha256": "62323d5a169026352817819d6468a2446109bfa95567c60b26d6247df487054a",
+      "expected_key": "A"
+    }
+  ],
+  "expected_actor_slot": 2,
+  "expected_actor_character_id": 2,
+  "expected_actor_pointer": "0x02024468",
+  "expected_actor_action_flags": "0x00000110"
+}

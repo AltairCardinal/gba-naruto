@@ -1,0 +1,2604 @@
+{
+  "boundaries": {
+    "first-movedone-facing": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 16,
+          "control": "0x0007",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 3,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 24,
+            "y": 88
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x0600C000",
+          "character_base_block": 3,
+          "colors": 16,
+          "control": "0x030C",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x1744",
+        "effect": 1,
+        "eva": 10,
+        "evb": 10,
+        "evy": 16,
+        "first_targets": 4,
+        "second_targets": 23
+      },
+      "boundary": "first-movedone-facing",
+      "display": {
+        "control": "0x1940",
+        "enabled_backgrounds": [
+          0,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 28,
+            "x": 120,
+            "y": 28
+          },
+          "priority": 1,
+          "raw": "001c1078f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 1,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 28,
+            "x": 112,
+            "y": 28
+          },
+          "priority": 1,
+          "raw": "001c0070f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 2,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 40,
+            "x": 128,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00283080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 3,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 32,
+            "x": 128,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00201080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 4,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 40,
+            "x": 104,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00282068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 5,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 32,
+            "x": 104,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00200068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 6,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 42,
+            "x": 120,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a3078f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 7,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 42,
+            "x": 112,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a2070f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            32,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 8,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 0,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 24,
+            "x": 104,
+            "y": 24
+          },
+          "priority": 2,
+          "raw": "8018c0680800",
+          "shape": 2,
+          "size": 3,
+          "tile_index": 0,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 9,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 129,
+            "raw_y": 81,
+            "x": 129,
+            "y": 81
+          },
+          "priority": 2,
+          "raw": "00513081fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 10,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 103,
+            "raw_y": 81,
+            "x": 103,
+            "y": 81
+          },
+          "priority": 2,
+          "raw": "00512067fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 11,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 129,
+            "raw_y": 71,
+            "x": 129,
+            "y": 71
+          },
+          "priority": 2,
+          "raw": "00471081fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 12,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 103,
+            "raw_y": 71,
+            "x": 103,
+            "y": 71
+          },
+          "priority": 2,
+          "raw": "00470067fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "a2f6bf2942eae8eaff9f6103f8713865d783b4b29e49b938876fef0f6eed3669",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "c06fa3ee7919f214b5a212df9cb7cecd0ff5ecbe5e8d63e48e5982093b295f2d",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "4510b023288f9b689c4a2d8d88382b83233b930f7bdbe54076820a6f64ee947c",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "3a10261fbdb6f573b2f25857b85749908ee90a60b463793a6d71dc03125c2f90",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "54f5409df260ee24f35a4940069f32d4bb77b56e42acce566343b8814a73564f",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x3F3F",
+        "outside_control": "0x3F00",
+        "win0": {
+          "bottom": 160,
+          "left": 0,
+          "right": 240,
+          "top": 0
+        },
+        "win1": {
+          "bottom": 160,
+          "left": 255,
+          "right": 255,
+          "top": 0
+        }
+      }
+    },
+    "first-turn-technique-menu": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 16,
+          "control": "0x0007",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 3,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 24,
+            "y": 88
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x0600C000",
+          "character_base_block": 3,
+          "colors": 16,
+          "control": "0x030C",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x1744",
+        "effect": 1,
+        "eva": 10,
+        "evb": 10,
+        "evy": 16,
+        "first_targets": 4,
+        "second_targets": 23
+      },
+      "boundary": "first-turn-technique-menu",
+      "display": {
+        "control": "0x1940",
+        "enabled_backgrounds": [
+          0,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 0,
+            "raw_y": 40,
+            "x": 0,
+            "y": 40
+          },
+          "priority": 0,
+          "raw": "80280000f3f6",
+          "shape": 2,
+          "size": 0,
+          "tile_index": 1014,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 1,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 200,
+            "raw_y": 136,
+            "x": 200,
+            "y": 136
+          },
+          "priority": 0,
+          "raw": "008840c8f3d4",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 980,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 2,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 168,
+            "raw_y": 120,
+            "x": 168,
+            "y": 120
+          },
+          "priority": 0,
+          "raw": "807800a8f3d8",
+          "shape": 2,
+          "size": 0,
+          "tile_index": 984,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 3,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 152,
+            "raw_y": 120,
+            "x": 152,
+            "y": 120
+          },
+          "priority": 0,
+          "raw": "00784098f3da",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 986,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 4,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 13,
+          "position": {
+            "raw_x": 96,
+            "raw_y": 40,
+            "x": 96,
+            "y": 40
+          },
+          "priority": 0,
+          "raw": "00284060d344",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 836,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 5,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 13,
+          "position": {
+            "raw_x": 80,
+            "raw_y": 40,
+            "x": 80,
+            "y": 40
+          },
+          "priority": 0,
+          "raw": "00284050d334",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 820,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 6,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 27,
+            "x": 120,
+            "y": 27
+          },
+          "priority": 1,
+          "raw": "001b1078f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 7,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 27,
+            "x": 112,
+            "y": 27
+          },
+          "priority": 1,
+          "raw": "001b0070f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 8,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 40,
+            "x": 128,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00283080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 9,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 32,
+            "x": 128,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00201080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 10,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 40,
+            "x": 104,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00282068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 11,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 32,
+            "x": 104,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00200068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 12,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 42,
+            "x": 120,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a3078f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 13,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 42,
+            "x": 112,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a2070f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            32,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 14,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 0,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 24,
+            "x": 104,
+            "y": 24
+          },
+          "priority": 2,
+          "raw": "8018c0680800",
+          "shape": 2,
+          "size": 3,
+          "tile_index": 0,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 15,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 131,
+            "raw_y": 83,
+            "x": 131,
+            "y": 83
+          },
+          "priority": 2,
+          "raw": "00533083fb84",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 900,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 16,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 101,
+            "raw_y": 83,
+            "x": 101,
+            "y": 83
+          },
+          "priority": 2,
+          "raw": "00532065fb84",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 900,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 17,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 131,
+            "raw_y": 69,
+            "x": 131,
+            "y": 69
+          },
+          "priority": 2,
+          "raw": "00451083fb84",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 900,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 18,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 101,
+            "raw_y": 69,
+            "x": 101,
+            "y": 69
+          },
+          "priority": 2,
+          "raw": "00450065fb84",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 900,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "07cd0e389100f00ed89d1294c33610d2c9d7a045adae533c0c88a72b4be3db8e",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "272be43d7cbb4001f7c98f2efbc13841444766638382c39e709da05a0a19cc20",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "3ef856e69bb18867532dba931bca78d3eea3c445d2dfdfd0b60ccb31195841e1",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "781a681e96411caeea5ca0ad4ff33822f966e379694390952bbce9734c114671",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "17644dae174acd0e26b9b004f3e8a03b9fd9a43b523cb3dff40f978b4f9b6eef",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x3F3F",
+        "outside_control": "0x3F00",
+        "win0": {
+          "bottom": 160,
+          "left": 0,
+          "right": 240,
+          "top": 0
+        },
+        "win1": {
+          "bottom": 160,
+          "left": 255,
+          "right": 255,
+          "top": 0
+        }
+      }
+    },
+    "player-turn": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 16,
+          "control": "0x0007",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 3,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 24,
+            "y": 88
+          },
+          "size_code": 0
+        },
+        "2": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06000000",
+          "character_base_block": 0,
+          "colors": 16,
+          "control": "0x0202",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 2,
+          "screen_base": "0x06001000",
+          "screen_base_block": 2,
+          "scroll": {
+            "x": 24,
+            "y": 88
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x0600C000",
+          "character_base_block": 3,
+          "colors": 16,
+          "control": "0x030C",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x1744",
+        "effect": 1,
+        "eva": 10,
+        "evb": 10,
+        "evy": 16,
+        "first_targets": 4,
+        "second_targets": 23
+      },
+      "boundary": "player-turn",
+      "display": {
+        "control": "0x1D40",
+        "enabled_backgrounds": [
+          0,
+          2,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 216,
+            "raw_y": 8,
+            "x": 216,
+            "y": 8
+          },
+          "priority": 0,
+          "raw": "000840d8f3ec",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 1004,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 1,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 208,
+            "raw_y": 8,
+            "x": 208,
+            "y": 8
+          },
+          "priority": 0,
+          "raw": "800800d0f3de",
+          "shape": 2,
+          "size": 0,
+          "tile_index": 990,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 2,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 192,
+            "raw_y": 8,
+            "x": 192,
+            "y": 8
+          },
+          "priority": 0,
+          "raw": "000840c0f3e0",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 992,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 3,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 27,
+            "x": 120,
+            "y": 27
+          },
+          "priority": 1,
+          "raw": "001b1078f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 4,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 27,
+            "x": 112,
+            "y": 27
+          },
+          "priority": 1,
+          "raw": "001b0070f77f",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 895,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 5,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 40,
+            "x": 128,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00283080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 6,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 128,
+            "raw_y": 32,
+            "x": 128,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00201080f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 7,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 40,
+            "x": 104,
+            "y": 40
+          },
+          "priority": 1,
+          "raw": "00282068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 8,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 32,
+            "x": 104,
+            "y": 32
+          },
+          "priority": 1,
+          "raw": "00200068f780",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 896,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 9,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 120,
+            "raw_y": 42,
+            "x": 120,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a3078f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 10,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 112,
+            "raw_y": 42,
+            "x": 112,
+            "y": 42
+          },
+          "priority": 1,
+          "raw": "002a2070f781",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 897,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            32,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 11,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 0,
+          "position": {
+            "raw_x": 104,
+            "raw_y": 24,
+            "x": 104,
+            "y": 24
+          },
+          "priority": 2,
+          "raw": "8018c0680800",
+          "shape": 2,
+          "size": 3,
+          "tile_index": 0,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 12,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 129,
+            "raw_y": 81,
+            "x": 129,
+            "y": 81
+          },
+          "priority": 2,
+          "raw": "00513081fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 13,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 103,
+            "raw_y": 81,
+            "x": 103,
+            "y": 81
+          },
+          "priority": 2,
+          "raw": "00512067fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 14,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 129,
+            "raw_y": 71,
+            "x": 129,
+            "y": 71
+          },
+          "priority": 2,
+          "raw": "00471081fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 15,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 103,
+            "raw_y": 71,
+            "x": 103,
+            "y": 71
+          },
+          "priority": 2,
+          "raw": "00470067fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "293df863dbc8e5d60845069a7bad44d1b54737d48daffb0086347ba78e97afd3",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "7166c018eaa458fa22949fe5e1673180d10eea3043badc91176cc7f8e968ed74",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "15d65d511313d83db1ff3491f86e0ebed92b7ab632d31101757550bc2f8263c5",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "28303b39362756abf4ec7f2eb94161c387c754d675ffec7d9a205042c5e533b2",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "2847f0d1c2c3a6ba7e67275811a0c1ef918d02d999a1acad4ea328088e3712ce",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x3F3F",
+        "outside_control": "0x3F00",
+        "win0": {
+          "bottom": 160,
+          "left": 0,
+          "right": 240,
+          "top": 0
+        },
+        "win1": {
+          "bottom": 160,
+          "left": 255,
+          "right": 255,
+          "top": 0
+        }
+      }
+    },
+    "postbattle": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 256,
+          "control": "0x0086",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 2,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x0600C000",
+          "character_base_block": 3,
+          "colors": 16,
+          "control": "0x030C",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x00FF",
+        "effect": 3,
+        "eva": 10,
+        "evb": 10,
+        "evy": 0,
+        "first_targets": 63,
+        "second_targets": 0
+      },
+      "boundary": "postbattle",
+      "display": {
+        "control": "0x1940",
+        "enabled_backgrounds": [
+          0,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 184,
+            "raw_y": 8,
+            "x": 184,
+            "y": 8
+          },
+          "priority": 0,
+          "raw": "800800b8f3f4",
+          "shape": 2,
+          "size": 0,
+          "tile_index": 1012,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "e5b7ff87393906a2c9ab89a348c9ca489b373a8bfe97997d2e6414449b68507a",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "4149c70c7c07db4c113f058de0deaa43c93734271fe219604cd9cdb7eb417f4b",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "622ce715da51ac0967e4e512955a06dcd57fb0b00f19b53d2a9a30f296210545",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "8c8228dec7c6dc0e4264ae2ea284795e66c1de359cd8044c907c504770ee7f93",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "298acd7711c13879ecb91cf3eb88563060b79584944289716a1811baa588e0ef",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x0033",
+        "outside_control": "0x3F3F",
+        "win0": {
+          "bottom": 120,
+          "left": 16,
+          "right": 96,
+          "top": 40
+        },
+        "win1": {
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0
+        }
+      }
+    },
+    "turn-1-complete": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 16,
+          "control": "0x0007",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 3,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 0,
+            "y": 504
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06000000",
+          "character_base_block": 0,
+          "colors": 16,
+          "control": "0x0300",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x1744",
+        "effect": 1,
+        "eva": 10,
+        "evb": 10,
+        "evy": 16,
+        "first_targets": 4,
+        "second_targets": 23
+      },
+      "boundary": "turn-1-complete",
+      "display": {
+        "control": "0x1940",
+        "enabled_backgrounds": [
+          0,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 216,
+            "raw_y": 136,
+            "x": 216,
+            "y": 136
+          },
+          "priority": 0,
+          "raw": "008840d8f3f0",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 1008,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 1,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 208,
+            "raw_y": 72,
+            "x": 208,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "204840d008c8",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 200,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            32
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 2,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 208,
+            "raw_y": 40,
+            "x": 208,
+            "y": 40
+          },
+          "priority": 2,
+          "raw": "a02880d008d0",
+          "shape": 2,
+          "size": 2,
+          "tile_index": 208,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            32
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 3,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 208,
+            "raw_y": 8,
+            "x": 208,
+            "y": 8
+          },
+          "priority": 2,
+          "raw": "a00880d008e0",
+          "shape": 2,
+          "size": 2,
+          "tile_index": 224,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            32,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 4,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 176,
+            "raw_y": 72,
+            "x": 176,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "604880b008f0",
+          "shape": 1,
+          "size": 2,
+          "tile_index": 240,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            32,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 5,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 144,
+            "raw_y": 72,
+            "x": 144,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "604880900900",
+          "shape": 1,
+          "size": 2,
+          "tile_index": 256,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            64,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 6,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 144,
+            "raw_y": 8,
+            "x": 144,
+            "y": 8
+          },
+          "priority": 2,
+          "raw": "2008c0900910",
+          "shape": 0,
+          "size": 3,
+          "tile_index": 272,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 7,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 80,
+            "raw_y": 72,
+            "x": 80,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "204840500800",
+          "shape": 0,
+          "size": 1,
+          "tile_index": 0,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            32
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 8,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 80,
+            "raw_y": 40,
+            "x": 80,
+            "y": 40
+          },
+          "priority": 2,
+          "raw": "a02880500808",
+          "shape": 2,
+          "size": 2,
+          "tile_index": 8,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            16,
+            32
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 9,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 80,
+            "raw_y": 8,
+            "x": 80,
+            "y": 8
+          },
+          "priority": 2,
+          "raw": "a00880500818",
+          "shape": 2,
+          "size": 2,
+          "tile_index": 24,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            32,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 10,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 48,
+            "raw_y": 72,
+            "x": 48,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "604880300828",
+          "shape": 1,
+          "size": 2,
+          "tile_index": 40,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            32,
+            16
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 11,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 16,
+            "raw_y": 72,
+            "x": 16,
+            "y": 72
+          },
+          "priority": 2,
+          "raw": "604880100838",
+          "shape": 1,
+          "size": 2,
+          "tile_index": 56,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 256,
+          "dimensions": [
+            64,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 12,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": null,
+          "position": {
+            "raw_x": 16,
+            "raw_y": 8,
+            "x": 16,
+            "y": 8
+          },
+          "priority": 2,
+          "raw": "2008c0100848",
+          "shape": 0,
+          "size": 3,
+          "tile_index": 72,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "bf5973fb2f6cf50352dc6691c39188909dd841fee27b12875edce181d638893c",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "87bb788a7590b5f767c5df1711e5b95b5fe2770787cd27291e4d58883de24a1e",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "de8f9f060a565e3295d203dea8b96820f27ab3aefecc63247ccc710054407891",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "a24c857a5f85be15d082d537c1fd8135f55e8854f8c1cee8e54b9c4f41a6d43c",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "fa0bb87531d63182e939cfda56b3f2d9dccc21a9308572bccf18b6cc77d5d186",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x3F3F",
+        "outside_control": "0x3F00",
+        "win0": {
+          "bottom": 160,
+          "left": 0,
+          "right": 240,
+          "top": 0
+        },
+        "win1": {
+          "bottom": 160,
+          "left": 255,
+          "right": 255,
+          "top": 0
+        }
+      }
+    },
+    "victory": {
+      "backgrounds": {
+        "0": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x06004000",
+          "character_base_block": 1,
+          "colors": 16,
+          "control": "0x0007",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 3,
+          "screen_base": "0x06000000",
+          "screen_base_block": 0,
+          "scroll": {
+            "x": 48,
+            "y": 0
+          },
+          "size_code": 0
+        },
+        "3": {
+          "affine": false,
+          "affine_wrap": false,
+          "character_base": "0x0600C000",
+          "character_base_block": 3,
+          "colors": 16,
+          "control": "0x030C",
+          "dimensions": [
+            256,
+            256
+          ],
+          "mosaic": false,
+          "priority": 0,
+          "screen_base": "0x06001800",
+          "screen_base_block": 3,
+          "scroll": {
+            "x": 0,
+            "y": 0
+          },
+          "size_code": 0
+        }
+      },
+      "blend": {
+        "control": "0x1744",
+        "effect": 1,
+        "eva": 10,
+        "evb": 10,
+        "evy": 16,
+        "first_targets": 4,
+        "second_targets": 23
+      },
+      "boundary": "victory",
+      "display": {
+        "control": "0x1940",
+        "enabled_backgrounds": [
+          0,
+          3
+        ],
+        "forced_blank": false,
+        "frame_select": false,
+        "mode": 0,
+        "obj_character_mapping": "1d",
+        "obj_enabled": true,
+        "windows": {
+          "obj_window_enabled": false,
+          "win0_enabled": false,
+          "win1_enabled": false
+        }
+      },
+      "objects": [
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            64,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 0,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 12,
+          "position": {
+            "raw_x": 136,
+            "raw_y": 48,
+            "x": 136,
+            "y": 48
+          },
+          "priority": 0,
+          "raw": "0030c088c340",
+          "shape": 0,
+          "size": 3,
+          "tile_index": 832,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            64,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 1,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 12,
+          "position": {
+            "raw_x": 40,
+            "raw_y": 48,
+            "x": 40,
+            "y": 48
+          },
+          "priority": 0,
+          "raw": "0030c028c300",
+          "shape": 0,
+          "size": 3,
+          "tile_index": 768,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            32,
+            64
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 2,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 0,
+          "position": {
+            "raw_x": 144,
+            "raw_y": 16,
+            "x": 144,
+            "y": 16
+          },
+          "priority": 2,
+          "raw": "8010c0900800",
+          "shape": 2,
+          "size": 3,
+          "tile_index": 0,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 3,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 168,
+            "raw_y": 56,
+            "x": 168,
+            "y": 56
+          },
+          "priority": 2,
+          "raw": "003830a8fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 4,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 144,
+            "raw_y": 56,
+            "x": 144,
+            "y": 56
+          },
+          "priority": 2,
+          "raw": "00382090fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": true
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": true,
+          "index": 5,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 168,
+            "raw_y": 48,
+            "x": 168,
+            "y": 48
+          },
+          "priority": 2,
+          "raw": "003010a8fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        },
+        {
+          "affine": false,
+          "affine_parameter_index": null,
+          "colors": 16,
+          "dimensions": [
+            8,
+            8
+          ],
+          "double_size": false,
+          "horizontal_flip": false,
+          "index": 6,
+          "mosaic": false,
+          "object_mode": 0,
+          "palette_bank": 15,
+          "position": {
+            "raw_x": 144,
+            "raw_y": 48,
+            "x": 144,
+            "y": 48
+          },
+          "priority": 2,
+          "raw": "00300090fb83",
+          "shape": 0,
+          "size": 0,
+          "tile_index": 899,
+          "vertical_flip": false
+        }
+      ],
+      "resource_regions": {
+        "io": {
+          "sha256": "27ea58511ff3537654a8b771d1813b2b56fcdd2b8963e8be4fdcf9d2dae7476c",
+          "size": 1024
+        },
+        "oam": {
+          "sha256": "8d96b8c83ee6ffab38144292c5fec1b60a3ffa078ab6eee599ba720277636aa0",
+          "size": 1024
+        },
+        "pram": {
+          "sha256": "3e236665e019c89aae4d6a96c8db5312c7e8b4a4c209b53a66b33ddbd4920af8",
+          "size": 1024
+        },
+        "vram": {
+          "sha256": "b748df4b171a330826a34e3faa6521b993cb6089e4d8eb107f8301474ab2fc13",
+          "size": 98304
+        }
+      },
+      "schema_version": 1,
+      "screen": {
+        "bit_depth": 8,
+        "color_type": 2,
+        "height": 160,
+        "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+        "rgb_pixels_length": 115200,
+        "rgb_pixels_sha256": "6fc3d928abd921413dc8603c094387afa9c0c0b297fe8d9a5d79d7211396ffa2",
+        "width": 240
+      },
+      "windows": {
+        "inside_control": "0x3F3F",
+        "outside_control": "0x3F00",
+        "win0": {
+          "bottom": 160,
+          "left": 0,
+          "right": 240,
+          "top": 0
+        },
+        "win1": {
+          "bottom": 160,
+          "left": 255,
+          "right": 255,
+          "top": 0
+        }
+      }
+    }
+  },
+  "schema_version": 1
+}

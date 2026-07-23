@@ -117,7 +117,7 @@ def find_mgba():
 def start_xvfb():
     """Only needed for Qt version. Returns None if not needed."""
     mgba = find_mgba()
-    if mgba and "sdl" not in mgba.lower() and mgba != MGBA_SDL:
+    if mgba and "qt" in os.path.basename(mgba).lower():
         proc = subprocess.Popen(
             [XVFB, XVFB_DISPLAY, "-screen", "0", "640x480x16"],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
