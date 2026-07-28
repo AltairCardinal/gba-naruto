@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Export the static half of the generic sprite runtime asset chain.
+"""Export the complete static generic-sprite definition and pixel asset chain.
 
 The table at ROM file offset 0x53F140 contains definition/animation pointer
-pairs, not pixel or palette pointers.  This exporter records the complete
-component lists and the code-proven runtime addresses needed to capture the
-eventual OBJ VRAM payload without claiming that the pixels live in this table.
+pairs, not pixel or palette pointers. The loader at 0x08080A48 independently
+loads the canonical 49-tile 4bpp payload and 16-color palette from ROM LZ77
+records. This exporter joins those resources through the 43-entry tile-offset
+table and component geometry without requiring emulator capture.
 """
 
 from __future__ import annotations
@@ -13,8 +14,22 @@ import argparse
 import hashlib
 import json
 import struct
+import sys
 from pathlib import Path
 from typing import Any
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from tools.extract_tileset import lz77_decompress
+from tools.gba_image_export import (
+    indexed_png_from_bgr555,
+    read_lz77_record,
+    render_4bpp_tile_atlas_indices,
+    render_4bpp_tile_block_indices,
+)
 
 
 ROM_BASE = 0x08000000
@@ -26,6 +41,12 @@ TILE_OFFSET_TABLE_OFFSET = 0x53F298
 TILE_OFFSET_ENTRY_SIZE = 2
 COMPONENT_SIZE = 0x14
 TERMINATOR = bytes.fromhex("ffff0000")
+GRAPHICS_OFFSET = 0x12F298
+GRAPHICS_DECOMPRESSED_SIZE = 1568
+GRAPHICS_COMPRESSED_SIZE = 745
+PALETTE_OFFSET = 0x12F584
+PALETTE_DECOMPRESSED_SIZE = 32
+PALETTE_COMPRESSED_SIZE = 20
 
 PAIR_TABLE_SHA256 = (
     "5873ae022e9b6290f876aab367b6dbe95b7a97b9b7a2f15d0861dc747196f3f8"
@@ -36,8 +57,27 @@ TILE_OFFSET_TABLE_SHA256 = (
 RESOLVED_WINDOW_0X28_SHA256 = (
     "439eb69f5ee2eadefe6fbd66b88ba27fb53c6552ac184267a803917fe8e98248"
 )
+GRAPHICS_COMPRESSED_SHA256 = (
+    "57367318445ab783ee8b4ff4fd58deb37105e106a70f0608a531a756e9b059e2"
+)
+GRAPHICS_SHA256 = (
+    "1472c4df7436428d41c668fd6ebb21f58c2a13b0876f372fe3f4b5d602aaa256"
+)
+PALETTE_COMPRESSED_SHA256 = (
+    "7aad1ded0576b67924b8a9e6e8f24698b226929839502a3ef16b43dd6821df69"
+)
+PALETTE_SHA256 = (
+    "043a3dbc0b648314d4289bea8eeca660c17085ddd1c2fb225e50ace435f95ab6"
+)
 
 CODE_SLICES = (
+    {
+        "name": "static_lz77_resource_loader",
+        "file_offset": 0x080A48,
+        "gba_address": "0x08080A48",
+        "size": 0x60,
+        "sha256": "9777e932b276d5062555e38267bc256747172f491803fb228b40c8ea8804dd7f",
+    },
     {
         "name": "table_and_runtime_base_loader",
         "file_offset": 0x080B08,
@@ -165,7 +205,199 @@ def _read_component_list(
     return components, rom[start:cursor]
 
 
-def build_manifest(rom: bytes) -> dict[str, Any]:
+def _static_resource_payloads(
+    rom: bytes,
+) -> tuple[bytes, bytes, bytes, bytes]:
+    graphics_compressed = read_lz77_record(
+        rom,
+        GRAPHICS_OFFSET,
+        expected_size=GRAPHICS_DECOMPRESSED_SIZE,
+    )
+    palette_compressed = read_lz77_record(
+        rom,
+        PALETTE_OFFSET,
+        expected_size=PALETTE_DECOMPRESSED_SIZE,
+    )
+    graphics = lz77_decompress(rom, GRAPHICS_OFFSET)
+    palette = lz77_decompress(rom, PALETTE_OFFSET)
+    expected = (
+        (
+            "graphics compressed",
+            graphics_compressed,
+            GRAPHICS_COMPRESSED_SIZE,
+            GRAPHICS_COMPRESSED_SHA256,
+        ),
+        (
+            "graphics",
+            graphics,
+            GRAPHICS_DECOMPRESSED_SIZE,
+            GRAPHICS_SHA256,
+        ),
+        (
+            "palette compressed",
+            palette_compressed,
+            PALETTE_COMPRESSED_SIZE,
+            PALETTE_COMPRESSED_SHA256,
+        ),
+        (
+            "palette",
+            palette,
+            PALETTE_DECOMPRESSED_SIZE,
+            PALETTE_SHA256,
+        ),
+    )
+    for name, payload, size, digest in expected:
+        if len(payload) != size:
+            raise ValueError(f"{name} size {len(payload)} != {size}")
+        if _sha256(payload) != digest:
+            raise ValueError(f"{name} SHA-256 mismatch")
+    return graphics_compressed, graphics, palette_compressed, palette
+
+
+def _render_entry_asset(
+    entry: dict[str, Any],
+    graphics: bytes,
+    palette: bytes,
+) -> tuple[dict[str, Any], bytes]:
+    components = entry["components"]
+    min_x = min(component["horizontal_position_input"] for component in components)
+    min_y = min(component["vertical_position_input"] for component in components)
+    max_x = max(
+        component["horizontal_position_input"] + component["width"]
+        for component in components
+    )
+    max_y = max(
+        component["vertical_position_input"] + component["height"]
+        for component in components
+    )
+    width = max_x - min_x
+    height = max_y - min_y
+    if width <= 0 or height <= 0:
+        raise ValueError(f"entry {entry['id']} has invalid component bounds")
+
+    canvas = bytearray(width * height)
+    occupied = bytearray(width * height)
+    tile_indices: list[int] = []
+    for component in components:
+        width_tiles = component["width"] // 8
+        height_tiles = component["height"] // 8
+        tile_offset = entry["tile_base_offset"] + component["tile_offset"]
+        pixels, component_width, component_height = (
+            render_4bpp_tile_block_indices(
+                graphics,
+                tile_offset=tile_offset,
+                width_tiles=width_tiles,
+                height_tiles=height_tiles,
+            )
+        )
+        if (
+            component_width != component["width"]
+            or component_height != component["height"]
+        ):
+            raise ValueError(f"entry {entry['id']} component geometry mismatch")
+        x = component["horizontal_position_input"] - min_x
+        y = component["vertical_position_input"] - min_y
+        for local_y in range(component_height):
+            destination = (y + local_y) * width + x
+            source = local_y * component_width
+            if any(occupied[destination : destination + component_width]):
+                raise ValueError(f"entry {entry['id']} components overlap")
+            canvas[destination : destination + component_width] = pixels[
+                source : source + component_width
+            ]
+            occupied[destination : destination + component_width] = (
+                b"\x01" * component_width
+            )
+        tile_indices.extend(
+            range(tile_offset, tile_offset + width_tiles * height_tiles)
+        )
+
+    png_name = f"sprite-id-{entry['id']:02d}.png"
+    png = indexed_png_from_bgr555(
+        bytes(canvas),
+        palette,
+        width=width,
+        height=height,
+        transparent_index=0,
+    )
+    return (
+        {
+            "png": png_name,
+            "width": width,
+            "height": height,
+            "source_bounds": {
+                "min_x": min_x,
+                "min_y": min_y,
+                "max_x": max_x,
+                "max_y": max_y,
+            },
+            "tile_indices": tile_indices,
+            "pixel_sha256": _sha256(bytes(canvas)),
+            "png_sha256": _sha256(png),
+        },
+        png,
+    )
+
+
+def _build_asset_outputs(
+    entries: list[dict[str, Any]],
+    graphics: bytes,
+    palette: bytes,
+) -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
+    outputs = {
+        "sprite-pack-4bpp.bin": graphics,
+        "palette-16-bgr555.bin": palette,
+    }
+    atlas_pixels, atlas_width, atlas_height = render_4bpp_tile_atlas_indices(
+        graphics,
+        tiles_per_row=32,
+    )
+    atlas_png = indexed_png_from_bgr555(
+        atlas_pixels,
+        palette,
+        width=atlas_width,
+        height=atlas_height,
+        transparent_index=0,
+    )
+    outputs["sprite-pack-atlas.png"] = atlas_png
+    atlas = {
+        "png": "sprite-pack-atlas.png",
+        "width": atlas_width,
+        "height": atlas_height,
+        "tiles_per_row": 32,
+        "tile_count": len(graphics) // 32,
+        "pixel_sha256": _sha256(atlas_pixels),
+        "png_sha256": _sha256(atlas_png),
+    }
+
+    references = []
+    for entry in entries:
+        asset, png = _render_entry_asset(entry, graphics, palette)
+        entry["asset"] = asset
+        outputs[asset["png"]] = png
+        references.extend(asset["tile_indices"])
+    tile_count = len(graphics) // 32
+    counts = {tile: references.count(tile) for tile in set(references)}
+    coverage = {
+        "tile_count": tile_count,
+        "tile_reference_count": len(references),
+        "referenced_tile_indices": sorted(counts),
+        "missing_tile_indices": sorted(set(range(tile_count)) - set(counts)),
+        "duplicate_tile_indices": sorted(
+            tile for tile, count in counts.items() if count > 1
+        ),
+        "all_tiles_referenced_exactly_once": (
+            sorted(references) == list(range(tile_count))
+        ),
+    }
+    if not coverage["all_tiles_referenced_exactly_once"]:
+        raise ValueError("sprite entries do not cover the static tile pack exactly")
+    return outputs, atlas, coverage
+
+
+def _build_export(
+    rom: bytes,
+) -> tuple[dict[str, Any], dict[str, bytes]]:
     rom_sha256 = _sha256(rom)
     if rom_sha256 != ROM_SHA256:
         raise ValueError(
@@ -254,8 +486,20 @@ def build_manifest(rom: bytes) -> dict[str, Any]:
             raise ValueError(f"{expected['name']} code slice SHA-256 mismatch")
         code_slices.append(dict(expected))
 
-    return {
-        "schema": "sprite-definition-runtime-chain-v1",
+    (
+        graphics_compressed,
+        graphics,
+        palette_compressed,
+        palette,
+    ) = _static_resource_payloads(rom)
+    outputs, atlas, tile_coverage = _build_asset_outputs(
+        entries,
+        graphics,
+        palette,
+    )
+
+    manifest = {
+        "schema": "sprite-definition-assets-v2",
         "rom": {
             "path": "rom/base.gba",
             "size": len(rom),
@@ -284,6 +528,33 @@ def build_manifest(rom: bytes) -> dict[str, Any]:
         "multi_component_entry_ids": [
             entry["id"] for entry in entries if entry["component_count"] > 1
         ],
+        "static_resources": {
+            "graphics": {
+                "file_offset": GRAPHICS_OFFSET,
+                "gba_address": _pointer(ROM_BASE + GRAPHICS_OFFSET),
+                "compressed_size": len(graphics_compressed),
+                "compressed_sha256": _sha256(graphics_compressed),
+                "decompressed_size": len(graphics),
+                "decompressed_sha256": _sha256(graphics),
+                "tile_count": len(graphics) // 32,
+                "output_bin": "sprite-pack-4bpp.bin",
+            },
+            "palette": {
+                "file_offset": PALETTE_OFFSET,
+                "gba_address": _pointer(ROM_BASE + PALETTE_OFFSET),
+                "compressed_size": len(palette_compressed),
+                "compressed_sha256": _sha256(palette_compressed),
+                "decompressed_size": len(palette),
+                "decompressed_sha256": _sha256(palette),
+                "color_count": len(palette) // 2,
+                "transparent_index": 0,
+                "output_bin": "palette-16-bgr555.bin",
+            },
+        },
+        "sprite_pack_atlas": atlas,
+        "tile_coverage": tile_coverage,
+        "artifact_file_count": len(outputs) + 1,
+        "artifact_files": sorted([*outputs, "manifest.json"]),
         "entries": entries,
         "component_schema": {
             "record_size": COMPONENT_SIZE,
@@ -328,17 +599,31 @@ def build_manifest(rom: bytes) -> dict[str, Any]:
             },
         },
         "runtime_chain": {
+            "static_resource_loader": "0x08080A48",
+            "graphics_loader_call": "0x08080A5C",
+            "palette_loader_call": "0x08080A6A",
+            "lz77_vram_wrapper": "0x0809C0E8",
+            "graphics_source": "0x0812F298",
+            "palette_source": "0x0812F584",
             "pair_table_loader": "0x08080B08",
             "sprite_task_allocator": "0x080625A4",
             "pair_index_install": "0x08062668",
             "component_selector": "0x0806298C",
             "attr2_builder": "0x08063108",
-            "obj_vram_copy_path": "0x08063134",
+            "conditional_component_copy_path": (
+                "0x08063134 (not selected by generic task flags 0x49)"
+            ),
             "component_stride_and_terminator_check": "0x080631F6..0x08063210",
             "tile_base_global": "0x0202CA24",
             "palette_bank_global": "0x0202CA26",
             "obj_vram_base": "0x06010000",
             "obj_palette_base": "0x05000200",
+            "static_graphics_destination_formula": (
+                "0x06010000 + u16[0x0202CA24] * 32"
+            ),
+            "static_palette_destination_formula": (
+                "0x05000200 + u8[0x0202CA26] * 32"
+            ),
             "task_tile_base_formula": (
                 "task.tile_base = u16[0x0202CA24] + tile_base_offset[id]"
             ),
@@ -359,17 +644,23 @@ def build_manifest(rom: bytes) -> dict[str, Any]:
         },
         "scope": {
             "kind": (
-                "static definition/animation metadata plus code-proven runtime "
-                "OBJ address chain"
+                "static definition/animation metadata, canonical ROM LZ77 "
+                "pixels and palette, plus code-proven OBJ address chain"
             ),
             "pixel_payload_in_pair_table": False,
-            "runtime_pixels_exported": False,
-            "runtime_palette_verified": False,
-            "obj_vram_capture_required": True,
-            "obj_palette_capture_required": True,
+            "canonical_static_pixels_exported": True,
+            "canonical_static_palette_exported": True,
+            "runtime_capture_required_for_canonical_assets": False,
+            "scene_specific_overwrite_checked": False,
             "animation_sequence_fully_interpreted": False,
         },
     }
+    return manifest, outputs
+
+
+def build_manifest(rom: bytes) -> dict[str, Any]:
+    manifest, _ = _build_export(rom)
+    return manifest
 
 
 def export_sprite_definition_runtime_chain(
@@ -377,8 +668,10 @@ def export_sprite_definition_runtime_chain(
     output_dir: Path,
 ) -> dict[str, Any]:
     rom = (root / "rom/base.gba").read_bytes()
-    manifest = build_manifest(rom)
+    manifest, outputs = _build_export(rom)
     output_dir.mkdir(parents=True, exist_ok=True)
+    for name, payload in outputs.items():
+        (output_dir / name).write_bytes(payload)
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -388,13 +681,13 @@ def export_sprite_definition_runtime_chain(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Export the 0x53F140 sprite definition runtime chain",
+        description="Export the 0x53F140 generic sprite static assets",
     )
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("artifacts/sprite-definition-runtime-v1"),
+        default=Path("artifacts/sprite-definition-assets-v2"),
     )
     args = parser.parse_args()
     manifest = export_sprite_definition_runtime_chain(
@@ -407,6 +700,8 @@ def main() -> int:
                 "schema": manifest["schema"],
                 "entries": manifest["entry_count"],
                 "components": manifest["component_count"],
+                "tiles": manifest["tile_coverage"]["tile_count"],
+                "files": manifest["artifact_file_count"],
                 "output": str(args.output_dir),
             },
             ensure_ascii=False,

@@ -1,23 +1,28 @@
-# `0x53F140` 通用 Sprite 定义与运行时 OBJ 资产链
+# `0x53F140` 通用 Sprite 定义、像素与 OBJ 资产链
 
 日期：2026-07-29
 
 ## 结论
 
-`0x53F140` 是 43 组 definition/animation 指针对；它不直接保存像素或调色板
-指针。静态定义已完整提取为 43 条 entry、45 个 component，并已追到运行时
-OBJ tile base、palette bank、OAM attr2、OBJ VRAM 和 OBJ palette 地址。
+`0x53F140` 是 43 组 definition/animation 指针对；它本身不直接保存像素或
+调色板指针。`0x08080A48` 会把 ROM `0x0812F298` 的 49 个 4bpp tile 与
+`0x0812F584` 的 16 色 palette 解压到 OBJ VRAM/PRAM。43 项 tile-base
+offset 和 45 个 component 正好把 tile `0..48` 各引用一次，无缺口、无重叠。
 
-这关闭了“表结构和初始 component 几何”的静态缺口，但**没有**把运行时
-OBJ VRAM 内容冒充成 ROM 内静态图像。实际像素和最终 palette 仍需在对应
-Sprite 被创建后做受控运行时捕获。
+因此规范像素、palette、每 ID component 几何和 OBJ 地址链已经完全静态闭合，
+不再需要 mGBA 捕获才能导出资源。运行时捕获只在要证明某场景是否后续覆盖
+这些规范资源时才是可选验证。
 
 可复现产物：
 
 - `tools/export_sprite_definition_runtime_chain.py`
 - `tools/verify_sprite_definition_runtime_chain.py`
-- `artifacts/sprite-definition-runtime-v1/manifest.json`
+- `artifacts/sprite-definition-assets-v2/`（43 张 ID PNG、总图集、两个无损
+  二进制和 manifest，共 47 个文件）
 - `tests/test_export_sprite_definition_runtime_chain.py`
+
+`artifacts/sprite-definition-runtime-v1/manifest.json` 保留为发现阶段历史证据；
+其“必须运行时捕获像素”的边界已被 v2 取代。
 
 ## ROM 身份
 
@@ -26,6 +31,8 @@ Sprite 被创建后做受控运行时捕获。
 | definition/animation 指针对 | `0x53F140` | `43×8 = 344` | `5873ae022e9b6290f876aab367b6dbe95b7a97b9b7a2f15d0861dc747196f3f8` |
 | 每 ID 的 tile-base offset | `0x53F298` | `43×2 = 86` | `86d57e438c3b3e9a877ebea8d910e2782c30b5bcbf8ca4f305df1deee6d231d6` |
 | `concat ROM[D_i[0]:D_i[0]+0x28]` | 间接寻址 | `43×0x28` | `439eb69f5ee2eadefe6fbd66b88ba27fb53c6552ac184267a803917fe8e98248` |
+| 压缩 OBJ graphics | `0x12F298` | `745 → 1568` | 解压后 `1472c4df7436428d41c668fd6ebb21f58c2a13b0876f372fe3f4b5d602aaa256` |
+| 压缩 OBJ palette | `0x12F584` | `20 → 32` | 解压后 `043a3dbc0b648314d4289bea8eeca660c17085ddd1c2fb225e50ace435f95ab6` |
 
 ROM 为 `rom/base.gba`，SHA-256：
 `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`。
@@ -77,9 +84,34 @@ component[0]  component[1] ...  FFFF0000 terminator
 
 因此全表共 45 个 component。
 
+## 静态像素覆盖
+
+规范资源为 49 个连续 4bpp tile。每项实际源 tile 为：
+
+```text
+source_tile = tile_base_offset[id] + component.tile_offset
+tile_count = (component.width / 8) * (component.height / 8)
+```
+
+ID `0..9` 覆盖 tile `0..9`，ID `10..19` 覆盖 `25..34`，ID `20..29`
+覆盖 `37..46`，ID `30..31` 覆盖 `10..11`，ID `32..33` 覆盖
+`35..36`，ID `34..35` 覆盖 `47..48`，ID 36 覆盖 12，ID 37 覆盖
+`13..17`，ID 38 覆盖 `18..20`，ID `39..42` 覆盖 `21..24`。
+
+ID 37 按 component 位置重建为 `40×8`，ID 38 为 `24×8`；其余均为
+`8×8`。PNG 保留 16 色索引，OBJ 透明索引为 0。
+
 ## 运行时地址链
 
-`0x08080B08` 读取 `0x0853F140` 与 `0x0853F298`，并通过
+`0x08080A48` 先写入 tile base/palette bank，并两次调用
+`0x0809C0E8` 的 BIOS LZ77 VRAM 解压包装：
+
+```text
+0x0812F298 -> 0x06010000 + u16[0x0202CA24] * 32
+0x0812F584 -> 0x05000200 + u8[0x0202CA26] * 32
+```
+
+`0x08080B08` 随后读取 `0x0853F140` 与 `0x0853F298`，并通过
 `0x08063494 → 0x080625A4` 创建 Sprite task：
 
 ```text
@@ -95,10 +127,13 @@ OBJ palette bytes = 0x05000200 + task.palette_bank * 32
 
 关键代码点：
 
+- `0x08080A48`：规范 graphics/palette 的静态资源加载器；
+- `0x08080A5C` / `0x08080A6A`：graphics / palette 解压调用；
 - `0x08062668`：按 `id×8` 安装 definition/animation 指针；
 - `0x0806298C`：从当前 frame 选择 component list；
 - `0x08063108`：把 task tile base 与 component tile offset 合成 attr2；
-- `0x08063134`：必要时把 component tile 数据复制到 OBJ VRAM；
+- `0x08063134`：另一种 descriptor 的条件复制分支；通用 task flags `0x49`
+  不进入该分支；
 - `0x080631F6..0x08063210`：步进到下一个 component/terminator。
 
 ## 被撤回的错误哈希
@@ -109,16 +144,16 @@ OBJ palette bytes = 0x05000200 + task.palette_bank * 32
 `D_i[0] = D_i-0x2C` 会立即暴露错误。规范证据只能使用实际解引用
 `D_i[0]` 后的范围。
 
-## 下一步运行时捕获边界
+## 剩余边界
 
-后续捕获应经 `tools/run_guarded.py` 启动 mGBA，并从已验证的最近快照开始：
-
-1. 在 `0x08080B08` 记录自然命中的 Sprite ID；
-2. 在 task 创建后记录 tile base、palette bank 与 definition/animation 指针；
-3. 在首帧和每个新 frame 稳定后，按 component 的 tile offset、宽、高精确导出
-   OBJ VRAM tile 与对应 32-byte palette；
-4. 保存 run ID、ROM/快照哈希、task 地址、frame/component 索引及原始 dump；
-5. 同一 ID/帧已有同哈希捕获时直接复用，不重复走长导航。
+- animation sequence 尚未完成业务语义命名；
+- 尚未用自然场景证明加载后没有其他系统覆盖这 49 个规范 tile；这不影响静态
+  资源导出，只有场景最终帧身份需要时才运行验证；
+- 若确需运行时验证，必须经 `tools/run_guarded.py`，复用最近已验证快照，只记录
+  `0x0202CA24/0x0202CA26` 与精确 VRAM/PRAM 区间哈希，不再重复导航做资源发现。
 
 本里程碑仅离线读取 ROM，没有启动 mGBA。生产导出耗时约 0.11 秒，最大 RSS
-约 23.5 MB，无 page fault 或 swap。
+约 22.8 MiB、peak footprint 约 17.5 MiB，无 page fault 或 swap。独立验证器
+从 ROM 自行解压、重建 43 张 PNG 并核对 indexed pixels、palette、透明索引和
+文件集合，结果为 43/43 entry、45/45 component、43/43 asset、49/49 tile，
+`errors=[]`。

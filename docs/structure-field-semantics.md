@@ -304,9 +304,14 @@ halfword is the tile offset. Fields `+0x08/+0x0A` are width/height and accept
 `8/16/32/64`. The following 43-halfword table at `0x53F298` supplies the
 per-ID runtime tile-base offset; it is not a character-ID table.
 
-The pixels and palette are assigned at runtime, not stored in the pair table:
+The pixels and palette are not stored in the pair table, but they are statically
+linked by the loader at `0x08080A48`: ROM LZ77 `0x0812F298` expands to 49
+4bpp OBJ tiles and `0x0812F584` expands to one 16-color palette. The 43
+tile-base offsets plus component tile offsets cover all 49 tiles exactly once:
 
 ```text
+ROM graphics -> 0x06010000 + u16[0x0202CA24]*32
+ROM palette  -> 0x05000200 + u8[0x0202CA26]*32
 task.tile_base = u16[0x0202CA24] + u16[0x53F298 + id*2]
 attr2.tile = task.tile_base + component.tile_offset
 attr2.palette = u8[0x0202CA26] << 12
@@ -314,8 +319,8 @@ OBJ tiles = 0x06010000 + attr2.tile*32
 OBJ palette = 0x05000200 + u8[0x0202CA26]*32
 ```
 
-The complete 43-entry/45-component static manifest and the remaining runtime
-capture boundary are recorded in
+The complete 43-entry/45-component metadata, 49-tile pixels, palette, per-ID
+PNGs, and optional scene-overwrite verification boundary are recorded in
 `notes/sprite-definition-runtime-chain-20260729.md`.
 
 ---
