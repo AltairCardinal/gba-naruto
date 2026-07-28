@@ -106,9 +106,12 @@ RSS 24,096,768 字节，无 swap。
 本成果闭合完整 256 项 raw selector，并闭合两个已识别动作域（87 个 active action
 和 94 个 ninja tool）→ sequence → 静态 resource group 和回调指针身份，同时证明
 init-once/tick 的调度角色；剩余未识别 selector 值只保留原始映射，不额外赋予动作
-语义。它不等于完整动画：
+语义。后续 `artifacts/battle-effect-sprite-animations-v1/` 已继续闭合 callback
+spawn 状态机、178 个 child frame、437 个 component 和全部 child hold。仍不等于
+最终屏幕动画：
 
-- tick callback 内部逐帧脚本格式仍待批量解析；
-- OAM 组件、位置、翻转、优先级和 frame hold 尚未全量闭合；
+- screen-space base position、对战侧镜像、priority 与 affine rasterization 尚未
+  全量闭合；
+- sequence 1 的 RNG 初始轨迹和 parent 释放的 0/1 scheduler tick 边界仍需运行状态；
 - blend/palette transform 与音频绑定尚未全量闭合；
 - sequence 0 只能确认是可接受的全零记录，不额外宣称其用户语义。

@@ -1,0 +1,380 @@
+#!/usr/bin/env python3
+"""ROM-backed tests for all battle-effect child sprite animations."""
+
+from __future__ import annotations
+
+import json
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+from PIL import Image
+
+
+ROOT = Path(__file__).resolve().parents[1]
+ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+RESOURCE_TABLE_SHA256 = (
+    "7d9f94e05b975940bd2e17f55681120782cb7b6f07d0ab6245adef7260d24130"
+)
+SPRITE_PAIR_TABLE_SHA256 = (
+    "c7025f5ca83b63b21ff3bf3e3183602447d157cf6cd1e63395b918a318e74392"
+)
+MOTION_TABLE_SHA256 = (
+    "d1793f9c19b046ff1f431f28da31518c2093b77914b5c1f8b13f7e01d0ff1c6d"
+)
+
+
+class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from tools.export_battle_effect_sprite_animations import (
+            export_battle_effect_sprite_animations,
+        )
+
+        cls._temporary = tempfile.TemporaryDirectory()
+        cls.output_dir = Path(cls._temporary.name) / "effect-animations"
+        cls.manifest = export_battle_effect_sprite_animations(
+            ROOT,
+            cls.output_dir,
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._temporary.cleanup()
+
+    def test_exports_hash_bound_tables_and_complete_counts(self):
+        self.assertEqual(
+            "battle-effect-sprite-animations-v1",
+            self.manifest["schema"],
+        )
+        self.assertEqual(ROM_SHA256, self.manifest["rom"]["sha256"])
+        self.assertEqual(
+            {
+                "file_offset": 0x59911C,
+                "gba_address": "0x0859911C",
+                "entry_count": 19,
+                "entry_size": 8,
+                "sha256": RESOURCE_TABLE_SHA256,
+            },
+            self.manifest["resource_pointer_table"],
+        )
+        self.assertEqual(
+            {
+                "file_offset": 0x5991B4,
+                "gba_address": "0x085991B4",
+                "entry_count": 19,
+                "entry_size": 8,
+                "sha256": SPRITE_PAIR_TABLE_SHA256,
+            },
+            self.manifest["sprite_pair_table"],
+        )
+        self.assertEqual(18, self.manifest["group_count"])
+        self.assertEqual(178, self.manifest["frame_definition_count"])
+        self.assertEqual(437, self.manifest["component_count"])
+        self.assertEqual(23, self.manifest["animation_count"])
+        self.assertEqual(193, self.manifest["keyframe_count"])
+        self.assertEqual(179, self.manifest["artifact_file_count"])
+        self.assertEqual(
+            {
+                "file_offset": 0x53EE98,
+                "gba_address": "0x0853EE98",
+                "entry_count": 15,
+                "entry_size": 10,
+                "sha256": MOTION_TABLE_SHA256,
+            },
+            self.manifest["motion_spawn_table"],
+        )
+
+    def test_preserves_every_group_frame_component_and_timeline_boundary(self):
+        groups = self.manifest["groups"]
+        self.assertEqual(list(range(1, 19)), [group["group_id"] for group in groups])
+        self.assertEqual(
+            [8, 26, 26, 4, 8, 11, 11, 11, 13, 7, 6, 6, 4, 8, 9, 5, 7, 8],
+            [group["frame_count"] for group in groups],
+        )
+        self.assertEqual(
+            [8, 26, 26, 4, 36, 47, 32, 28, 72, 40, 6, 8, 13, 23, 21, 5, 35, 7],
+            [group["component_count"] for group in groups],
+        )
+        self.assertEqual(
+            [1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+            [group["animation_count"] for group in groups],
+        )
+        self.assertTrue(
+            all(group["definition_region_contiguous"] for group in groups)
+        )
+        self.assertTrue(
+            all(group["timeline_region_contiguous"] for group in groups)
+        )
+
+    def test_animation_holds_match_static_and_existing_runtime_golden_durations(self):
+        groups = {group["group_id"]: group for group in self.manifest["groups"]}
+        self.assertEqual([59], groups[1]["animation_durations"])
+        self.assertEqual([87, 52, 45], groups[2]["animation_durations"])
+        self.assertEqual([7], groups[4]["animation_durations"])
+        self.assertEqual([16], groups[5]["animation_durations"])
+        self.assertEqual([8, 9], groups[13]["animation_durations"])
+        self.assertEqual([30], groups[14]["animation_durations"])
+        self.assertEqual([52], groups[18]["animation_durations"])
+        self.assertEqual(
+            [
+                {"frame_id": 0, "hold_frames": 2},
+                {"frame_id": 1, "hold_frames": 2},
+                {"frame_id": 2, "hold_frames": 2},
+                {"frame_id": 3, "hold_frames": 2},
+                {"frame_id": 4, "hold_frames": 2},
+                {"frame_id": 5, "hold_frames": 2},
+                {"frame_id": 6, "hold_frames": 2},
+                {"frame_id": 7, "hold_frames": 2},
+            ],
+            groups[5]["animations"][0]["keyframes"],
+        )
+        self.assertEqual(
+            {
+                "group_01_action_05_dust_frames": 59,
+                "group_04_bomb_projectile_frames": 7,
+                "group_05_action_05_hit_frames": 16,
+                "group_14_action_16_fire_hit_frames": 30,
+            },
+            self.manifest["runtime_golden_duration_cross_checks"],
+        )
+
+    def test_closes_callback_spawn_plans_with_explicit_scheduler_boundary(self):
+        plans = self.manifest["sequence_playback_plans"]
+        self.assertEqual(list(range(22)), [plan["sequence_id"] for plan in plans])
+        self.assertEqual("null", plans[0]["spawn_policy"])
+        self.assertEqual([], plans[0]["spawn_events"])
+
+        ballistic = plans[1]
+        self.assertEqual("three_child_ballistic_rng", ballistic["spawn_policy"])
+        self.assertEqual(3, len(ballistic["spawn_events"]))
+        self.assertEqual([0, 0, 0], [
+            event["spawn_tick"] for event in ballistic["spawn_events"]
+        ])
+        self.assertEqual(59, ballistic["last_child_static_completion_tick"])
+        self.assertFalse(ballistic["screen_coordinates_complete"])
+
+        motion = self.manifest["motion_spawn_records"]
+        self.assertEqual(15, len(motion))
+        self.assertEqual(-1, motion[-1]["effect_id"])
+        self.assertEqual(
+            [0, 4, 4, 8, 8, 8, 12, 12, 16, 16, 16, 20, 20, 24],
+            [record["spawn_tick"] for record in motion[:-1]],
+        )
+        self.assertEqual(
+            [1, 0, 2, 1, 1, 2, 0, 1, 1, 0, 2, 0, 0, 0],
+            [record["effect_id"] for record in motion[:-1]],
+        )
+        for sequence_id in (2, 3):
+            plan = plans[sequence_id]
+            self.assertEqual("motion_table_fan_out", plan["spawn_policy"])
+            self.assertEqual(14, len(plan["spawn_events"]))
+            self.assertEqual(111, plan["last_child_static_completion_tick"])
+        raw_render_attributes = [
+            record["render_attributes"] for record in motion[:-1]
+        ]
+        self.assertEqual(
+            [(value << 8) | 0x400 for value in raw_render_attributes],
+            [
+                event["render_attributes_argument"]
+                for event in plans[2]["spawn_events"]
+            ],
+        )
+        self.assertEqual(
+            [value << 8 for value in raw_render_attributes],
+            [
+                event["render_attributes_argument"]
+                for event in plans[3]["spawn_events"]
+            ],
+        )
+        forced = plans[18]
+        self.assertEqual("motion_table_forced_variant_zero", forced["spawn_policy"])
+        self.assertTrue(all(
+            event["animation_variant"] == 0
+            for event in forced["spawn_events"]
+        ))
+        self.assertEqual(76, forced["last_child_static_completion_tick"])
+
+        self.assertEqual(16, plans[6]["last_child_static_completion_tick"])
+        self.assertEqual(8, plans[15]["last_child_static_completion_tick"])
+        self.assertEqual(87, plans[21]["last_child_static_completion_tick"])
+        self.assertEqual(
+            {
+                "minimum_extra_scheduler_ticks": 0,
+                "maximum_extra_scheduler_ticks": 1,
+                "reason": (
+                    "parent/child task slot order within the user-visible "
+                    "frame is not statically fixed"
+                ),
+            },
+            self.manifest["parent_release_scheduler_boundary"],
+        )
+
+    def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
+        for group in self.manifest["groups"]:
+            coverage = group["tile_coverage"]
+            self.assertEqual(
+                list(range(group["graphics"]["tile_count"])),
+                coverage["referenced_tile_indices"],
+            )
+            self.assertEqual([], coverage["missing_tile_indices"])
+            self.assertTrue(coverage["all_tiles_referenced"])
+            self.assertEqual(32, group["palette"]["decompressed_size"])
+
+    def test_outputs_indexed_source_space_preview_for_every_frame(self):
+        pngs = sorted(self.output_dir.glob("group-*-frame-*.png"))
+        self.assertEqual(178, len(pngs))
+        group_five = self.manifest["groups"][4]
+        frame_two = group_five["frames"][2]
+        self.assertEqual(8, frame_two["component_count"])
+        with Image.open(self.output_dir / frame_two["preview"]["png"]) as image:
+            image.load()
+            self.assertEqual("P", image.mode)
+            self.assertEqual(
+                (frame_two["preview"]["width"], frame_two["preview"]["height"]),
+                image.size,
+            )
+            self.assertEqual(0, image.info["transparency"])
+        empty = self.manifest["groups"][17]["frames"][7]
+        self.assertEqual(0, empty["component_count"])
+        self.assertEqual([1, 1], [
+            empty["preview"]["width"],
+            empty["preview"]["height"],
+        ])
+
+    def test_scope_closes_child_assets_without_overclaiming_screen_oam(self):
+        self.assertEqual(
+            {
+                "all_nonzero_resource_groups_complete": True,
+                "definition_pointer_tables_complete": True,
+                "component_lists_complete": True,
+                "child_animation_timelines_complete": True,
+                "child_frame_hold_timing_complete": True,
+                "component_local_geometry_complete": True,
+                "source_tile_coverage_complete": True,
+                "source_space_previews_complete": True,
+                "callback_spawn_state_machines_complete": True,
+                "callback_child_variant_and_hold_complete": True,
+                "callback_random_screen_coordinates_complete": False,
+                "parent_visible_release_tick_exact": False,
+                "screen_space_oam_composition_complete": False,
+                "runtime_mirroring_and_affine_complete": False,
+                "blend_and_audio_binding_complete": False,
+            },
+            self.manifest["scope"],
+        )
+
+    def test_independent_verifier_rejects_manifest_and_png_tampering(self):
+        from tools.verify_battle_effect_sprite_animations import (
+            verify_battle_effect_sprite_animations,
+        )
+
+        result = verify_battle_effect_sprite_animations(ROOT, self.output_dir)
+        self.assertEqual([], result["errors"])
+        self.assertEqual(18, result["verified_groups"])
+        self.assertEqual(178, result["verified_frames"])
+        self.assertEqual(437, result["verified_components"])
+        self.assertEqual(23, result["verified_animations"])
+
+        verifier_source = (
+            ROOT / "tools/verify_battle_effect_sprite_animations.py"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("export_battle_effect_sprite_animations", verifier_source)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            tampered = Path(temporary) / "tampered"
+            shutil.copytree(self.output_dir, tampered)
+            manifest_path = tampered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["groups"][4]["animations"][0]["keyframes"][0][
+                "hold_frames"
+            ] = 3
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any("hold_frames" in error for error in result["errors"]),
+                result["errors"],
+            )
+
+            manifest["groups"][4]["animations"][0]["keyframes"][0][
+                "hold_frames"
+            ] = 2
+            manifest["sequence_playback_plans"][2]["spawn_events"][0][
+                "render_attributes_argument"
+            ] = 0x402
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any(
+                    "render_attributes_argument" in error
+                    for error in result["errors"]
+                ),
+                result["errors"],
+            )
+
+            manifest["sequence_playback_plans"][2]["spawn_events"][0][
+                "render_attributes_argument"
+            ] = 0x600
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            png_path = tampered / manifest["groups"][4]["frames"][0]["preview"]["png"]
+            png_path.write_bytes(png_path.read_bytes() + b"tamper")
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any("png_sha256" in error for error in result["errors"]),
+                result["errors"],
+            )
+
+    def test_cli_export_is_deterministic_and_verifiable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output_dir = Path(temporary) / "export"
+            export_command = [
+                sys.executable,
+                str(ROOT / "tools/export_battle_effect_sprite_animations.py"),
+                "--root",
+                str(ROOT),
+                "--output-dir",
+                str(output_dir),
+            ]
+            subprocess.run(export_command, check=True, cwd=ROOT)
+            first_manifest = (output_dir / "manifest.json").read_bytes()
+            first_png = (output_dir / "group-05-frame-06.png").read_bytes()
+            subprocess.run(export_command, check=True, cwd=ROOT)
+            self.assertEqual(
+                first_manifest,
+                (output_dir / "manifest.json").read_bytes(),
+            )
+            self.assertEqual(
+                first_png,
+                (output_dir / "group-05-frame-06.png").read_bytes(),
+            )
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools/verify_battle_effect_sprite_animations.py"),
+                    "--root",
+                    str(ROOT),
+                    "--artifact-dir",
+                    str(output_dir),
+                ],
+                check=True,
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+            )
+            self.assertIn('"errors": []', completed.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()

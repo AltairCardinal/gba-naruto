@@ -859,4 +859,15 @@ WebSocket
   成果位于 `artifacts/battle-effect-sequence-bindings-v1/`，说明见
   `notes/battle-effect-sequence-bindings-export-20260729.md`。至此两个已识别动作域 →
   sequence → 已导出静态像素组的映射闭合；未识别 selector 值不赋予动作语义，
-  callback 内部逐帧脚本、OAM、hold、blend 和音频仍未全量闭合，Goal 保持 active。
+  当时未闭合的 callback child frame/OAM/hold 已由下一里程碑继续推进；最终动态合成、
+  blend 和音频仍未全量闭合，Goal 保持 active。
+- 2026-07-29：将18组战斗特效静态像素继续闭合为完整 child 动画：解析
+  `0x085991B4` 的19项 definition/animation 指针对，导出178个 frame definition、
+  437个 component、23条 animation、193个精确 hold keyframe和178张源空间帧；
+  每组全部解压图块均被至少一个 component 覆盖。22个 sequence 的 callback spawn
+  plan也已闭合，包括 sequence 2/3 的14-child扇出在 tick 111 结束、sequence 18
+  强制 variant 0 并在 tick 76 结束。独立 verifier 返回18/178/437/23、
+  `errors=[]`；成果位于 `artifacts/battle-effect-sprite-animations-v1/`，说明见
+  `notes/battle-effect-sprite-animations-export-20260729.md`。最终screen-space位置、
+  对战侧镜像、priority、affine、sequence 1 RNG轨迹、parent释放0/1 tick边界、
+  blend和音频仍未闭合，Goal保持active。

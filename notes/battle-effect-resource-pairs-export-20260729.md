@@ -73,9 +73,11 @@ PNG 篡改测试防止 exporter/verifier 的同构错误共同通过。生产导
 
 - resource group 到全部 effect sequence、87 个 active action 及 94 个 ninja
   tool 编码的映射已在 `artifacts/battle-effect-sequence-bindings-v1/` 闭合；
-- OAM 组件、组合位置、翻转、优先级及逐帧 hold 尚未全量闭合；
+- 178 个 child frame、437 个 component 和逐帧 hold 已在
+  `artifacts/battle-effect-sprite-animations-v1/` 闭合；最终 screen-space
+  position、对战侧镜像、priority 与 affine rasterization 尚未全量闭合；
 - palette transform、blend 和音频绑定不在本次范围；
 - atlas 只按 ROM tile 顺序展示，不宣称它本身是一帧最终画面。
 
-因此后续可直接复用这些原始像素，不应重新抓取或程序化重画；sequence 静态映射已经
-具备，但仍需 callback 内部逐帧脚本和 OAM 证据才能构建完整动作动画。
+因此后续可直接复用这些原始像素和 child timeline，不应重新抓取或程序化重画；
+构建最终屏幕动画仍需补齐动态 screen-space/OAM 合成证据。

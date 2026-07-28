@@ -548,7 +548,17 @@ entries 128..221. The descriptor table covers IDs 0..21 at
 The complete 256 selector entries, 87 active-action joins, 94 ninja-tool joins,
 22 descriptors and 67 direct selector callsites are in
 `artifacts/battle-effect-sequence-bindings-v1/`. Callback pointer identity and
-scheduler roles are proven; callback-internal OAM/frame semantics are not.
+scheduler roles are proven. The child animation tables selected by those
+callbacks are separately closed in
+`artifacts/battle-effect-sprite-animations-v1/`: 18 group definition/animation
+pairs expand to 178 frame definitions, 437 components and 23 timelines with
+193 exact hold keyframes. Callback spawn plans are complete, including the
+14-child motion fan-out used by sequences 2, 3 and 18. For each motion-table
+record, sequence 2 passes `(render_attributes << 8) | 0x400` to the child
+constructor, sequence 3 passes `render_attributes << 8`, and sequence 18
+passes zero. Final screen-space
+mirroring, priority, affine rasterization, sequence-1 RNG coordinates and the
+parent-release 0/1 scheduler-tick boundary remain unresolved.
 
 ---
 
