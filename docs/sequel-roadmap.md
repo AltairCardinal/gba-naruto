@@ -848,3 +848,15 @@ WebSocket
   `notes/map-canvases-export-20260729.md`。本里程碑闭合完整静态地图画布，不把
   alternate 候选冒充运行时已选布局；其选择规则、滚动/分块和动态占用叠层仍待闭合，
   Goal 保持 active。
+- 2026-07-29：闭合已识别战斗动作域的静态选择链。导出 `0x0853E596` 的 256 项
+  runtime-state → sequence selector，其中前 87 项与 active action 0..86 精确连接；
+  高位编码 `0x80..0xDD` 通过保留 bit 7 的 event/runtime action byte 与 94 个 ninja
+  tool ID 0..93 精确连接；另导出
+  `0x0853EF30..0x0853F140` 的 22 个 sequence descriptor、四个 resource-group 槽、
+  init-once/tick 回调和全 ROM 67 个 selector 直接调用点。独立 verifier 结果为
+  256/256 runtime-state、87/87 active-action、94/94 ninja-tool、22/22 descriptor、
+  `errors=[]`；
+  成果位于 `artifacts/battle-effect-sequence-bindings-v1/`，说明见
+  `notes/battle-effect-sequence-bindings-export-20260729.md`。至此两个已识别动作域 →
+  sequence → 已导出静态像素组的映射闭合；未识别 selector 值不赋予动作语义，
+  callback 内部逐帧脚本、OAM、hold、blend 和音频仍未全量闭合，Goal 保持 active。

@@ -28,15 +28,17 @@ compatibility and must not be treated as an audio serializer.
 
 ## 2. Battle Effect Templates (0x545458)
 
-**Format:** 32 × 16-byte effect templates
+**Format:** 87 × 16-byte active-action numeric templates
 **Entry Size:** 16 bytes
-**Evidence:** code verified at `0x0806D85C`
+**Evidence:** code verified at `0x0807557E→0x0806D85C`
 
-The consumer copies the selected record byte-for-byte into a runtime effect
-structure. Byte `+0x0C` chooses a level-growth destination (`+4..+9` for types
-1..6); u16 `+0x0E` is the increment multiplied by `level-1`. Type 7 performs
-no growth adjustment. Bytes `+0x00..+0x0B` and `+0x0D` remain conservatively
-unnamed pending action-specific runtime tests.
+The consumer copies the selected record into a runtime action structure. Known
+fields are `+0` cost kind, `+1` display-animation family, `+2` effect
+code/flags, `+3` target policy/flags, `+4` potency, `+5` hit count, `+6`
+success rate, packed range/shape bytes `+7/+8`, `+9` duration and `+A..+B`
+scalar resource cost. Byte `+0x0C` chooses a level-growth destination
+(`+4..+9` for types 1..6); u16 `+0x0E` is the increment multiplied by
+`level-1`. Type 7 performs no growth adjustment; `+0x0D` remains unnamed.
 
 ---
 
@@ -514,9 +516,39 @@ palette stream decompresses to one 16-color BGR555 palette. The builder at
 bound to battlefield-object expiry sequence 7.
 
 The complete ROM-derived binaries, indexed-color atlases and hashes are in
-`artifacts/battle-effect-resource-pairs-v1/`. This table proves static pixel and
-palette identity only; it does not by itself prove the complete sequence map,
-OAM composition, frame holds, blend behavior or audio binding.
+`artifacts/battle-effect-resource-pairs-v1/`. The complete sequence-to-group
+join is separately proven in `artifacts/battle-effect-sequence-bindings-v1/`.
+The resource table alone proves static pixel and palette identity; neither
+artifact yet proves complete OAM composition, frame holds, blend behavior or
+audio binding.
+
+---
+
+## 34. Battle effect sequence selector and descriptors (0x53E596 / 0x53EF30)
+
+**Selector format:** 256 × `u8` sequence IDs
+**Descriptor format:** 22 × 24-byte records
+**Verification:** code verified and independently exported
+
+The runtime-state selector at `0x0853E596` is indexed by a full u8. Its first
+87 entries join active action IDs 0..86 to the same IDs used by the numeric
+template table at `0x08545458`; the sequence is not derived from any template
+field. Encoded action IDs `0x80..0xDD` preserve the high bit through event
+`+0x0C` and runtime state `+0x770`, while their low seven bits index all 94
+ninja-tool templates at `0x08545BE4`; those IDs therefore join to selector
+entries 128..221. The descriptor table covers IDs 0..21 at
+`0x0853EF30..0x0853F140`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| resource_group_ids | `u32[4]` +0x00 | Zero-terminated group IDs indexing `0x0859911C`; current records use at most slot 0 |
+| init_once_callback | Thumb pointer +0x10 | Stored at task +0xAC, invoked once, then cleared |
+| tick_callback | Thumb pointer +0x14 | Stored at task +0xB0 and invoked on every scheduler pass |
+
+The complete 256 selector entries, 87 active-action joins, 94 ninja-tool joins,
+22 descriptors and 67 direct selector callsites are in
+`artifacts/battle-effect-sequence-bindings-v1/`. Callback pointer identity and
+scheduler roles are proven; callback-internal OAM/frame semantics are not.
 
 ---
 
