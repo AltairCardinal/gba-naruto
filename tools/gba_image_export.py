@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Shared lossless primitives for deterministic GBA image exports."""
+
+from __future__ import annotations
+
+import hashlib
+import struct
+import zlib
+
+from tools.extract_tileset import bgr555_to_rgb
+
+
+ROM_BASE = 0x08000000
+
+
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def gba_address(file_offset: int) -> str:
+    if file_offset < 0:
+        raise ValueError("GBA file offset must be non-negative")
+    return f"0x{ROM_BASE + file_offset:08X}"
+
+
+def gba_pointer(value: int) -> str:
+    return f"0x{value:08X}"
+
+
+def read_lz77_record(
+    rom: bytes,
+    offset: int,
+    *,
+    expected_size: int | None = None,
+) -> bytes:
+    """Return exactly one validated GBA type-0x10 compressed record."""
+    if offset < 0 or offset + 4 > len(rom) or rom[offset] != 0x10:
+        raise ValueError(f"resource is not LZ77 at 0x{offset:06X}")
+    declared_size = int.from_bytes(rom[offset + 1 : offset + 4], "little")
+    if expected_size is not None and declared_size != expected_size:
+        raise ValueError(
+            f"LZ77 resource at 0x{offset:06X} declares "
+            f"{declared_size} bytes, expected {expected_size}"
+        )
+
+    produced = 0
+    cursor = offset + 4
+    while produced < declared_size:
+        if cursor >= len(rom):
+            raise ValueError(f"truncated LZ77 flags at 0x{cursor:06X}")
+        flags = rom[cursor]
+        cursor += 1
+        for bit in range(7, -1, -1):
+            if produced >= declared_size:
+                break
+            if flags & (1 << bit):
+                if cursor + 2 > len(rom):
+                    raise ValueError(
+                        f"truncated LZ77 back-reference at 0x{cursor:06X}"
+                    )
+                length = (rom[cursor] >> 4) + 3
+                displacement = (
+                    ((rom[cursor] & 0x0F) << 8) | rom[cursor + 1]
+                )
+                if displacement >= produced:
+                    raise ValueError(
+                        "invalid LZ77 back-reference "
+                        f"at 0x{cursor:06X}: distance {displacement + 1}, "
+                        f"produced {produced}"
+                    )
+                if produced + length > declared_size:
+                    raise ValueError(
+                        "LZ77 back-reference exceeds declared size "
+                        f"at 0x{cursor:06X}: {produced} + {length} > "
+                        f"{declared_size}"
+                    )
+                produced += length
+                cursor += 2
+            else:
+                if cursor >= len(rom):
+                    raise ValueError(
+                        f"truncated LZ77 literal at 0x{cursor:06X}"
+                    )
+                produced += 1
+                cursor += 1
+    return rom[offset:cursor]
+
+
+def _png_chunk(kind: bytes, payload: bytes) -> bytes:
+    checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
+    return (
+        struct.pack(">I", len(payload))
+        + kind
+        + payload
+        + struct.pack(">I", checksum)
+    )
+
+
+def indexed_png_from_bgr555(
+    pixels: bytes,
+    palette_bytes: bytes,
+    *,
+    width: int,
+    height: int,
+    transparent_index: int | None = None,
+) -> bytes:
+    """Encode deterministic indexed PNG while preserving GBA palette indices."""
+    if len(pixels) != width * height:
+        raise ValueError("indexed PNG pixel count does not match its canvas")
+    if not palette_bytes or len(palette_bytes) % 2:
+        raise ValueError("GBA palette must contain complete BGR555 colors")
+    color_count = len(palette_bytes) // 2
+    if color_count > 256:
+        raise ValueError("indexed PNG palette exceeds 256 colors")
+    if pixels and max(pixels) >= color_count:
+        raise ValueError(
+            "image references a palette index outside the supplied palette"
+        )
+    if transparent_index is not None and not (
+        0 <= transparent_index < color_count
+    ):
+        raise ValueError("transparent palette index is outside the palette")
+
+    palette = bytearray()
+    for offset in range(0, len(palette_bytes), 2):
+        color = struct.unpack_from("<H", palette_bytes, offset)[0]
+        palette.extend(bgr555_to_rgb(color))
+    rows = b"".join(
+        b"\0" + pixels[y * width : (y + 1) * width]
+        for y in range(height)
+    )
+    ihdr = struct.pack(">IIBBBBB", width, height, 8, 3, 0, 0, 0)
+    chunks = [
+        b"\x89PNG\r\n\x1a\n",
+        _png_chunk(b"IHDR", ihdr),
+        _png_chunk(b"PLTE", bytes(palette)),
+    ]
+    if transparent_index is not None:
+        alpha = bytearray([255] * color_count)
+        alpha[transparent_index] = 0
+        chunks.append(_png_chunk(b"tRNS", bytes(alpha)))
+    chunks.extend(
+        (
+            _png_chunk(b"IDAT", zlib.compress(rows, level=9)),
+            _png_chunk(b"IEND", b""),
+        )
+    )
+    return b"".join(chunks)

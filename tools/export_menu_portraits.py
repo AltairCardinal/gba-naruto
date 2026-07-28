@@ -4,11 +4,9 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import struct
 import sys
-import zlib
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +15,14 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tools.extract_tileset import bgr555_to_rgb, lz77_decompress
+from tools.extract_tileset import lz77_decompress
+from tools.gba_image_export import (
+    gba_address,
+    gba_pointer,
+    indexed_png_from_bgr555,
+    read_lz77_record,
+    sha256,
+)
 
 
 ROM_BASE = 0x08000000
@@ -43,66 +48,6 @@ PORTRAIT_COMPONENTS = (
     (0, 64, 32, 16, 1792, 512),
     (0, 0, 64, 64, 2304, 4096),
 )
-
-
-def _sha256(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
-
-
-def _gba_address(file_offset: int) -> str:
-    return f"0x{ROM_BASE + file_offset:08X}"
-
-
-def _pointer(value: int) -> str:
-    return f"0x{value:08X}"
-
-
-def _lz77_record(rom: bytes, offset: int) -> bytes:
-    """Return exactly one validated GBA type-0x10 compressed record."""
-    if offset < 0 or offset + 4 > len(rom) or rom[offset] != 0x10:
-        raise ValueError(f"portrait graphics is not LZ77 at 0x{offset:06X}")
-    expected_size = int.from_bytes(rom[offset + 1 : offset + 4], "little")
-    if expected_size != PORTRAIT_BYTES:
-        raise ValueError(
-            f"portrait at 0x{offset:06X} declares {expected_size} bytes, "
-            f"expected {PORTRAIT_BYTES}"
-        )
-
-    produced = 0
-    cursor = offset + 4
-    while produced < expected_size:
-        if cursor >= len(rom):
-            raise ValueError(f"truncated LZ77 flags at 0x{cursor:06X}")
-        flags = rom[cursor]
-        cursor += 1
-        for bit in range(7, -1, -1):
-            if produced >= expected_size:
-                break
-            if flags & (1 << bit):
-                if cursor + 2 > len(rom):
-                    raise ValueError(
-                        f"truncated LZ77 back-reference at 0x{cursor:06X}"
-                    )
-                length = (rom[cursor] >> 4) + 3
-                displacement = (
-                    ((rom[cursor] & 0x0F) << 8) | rom[cursor + 1]
-                )
-                if displacement >= produced:
-                    raise ValueError(
-                        "invalid LZ77 back-reference "
-                        f"at 0x{cursor:06X}: distance {displacement + 1}, "
-                        f"produced {produced}"
-                    )
-                produced += length
-                cursor += 2
-            else:
-                if cursor >= len(rom):
-                    raise ValueError(
-                        f"truncated LZ77 literal at 0x{cursor:06X}"
-                    )
-                produced += 1
-                cursor += 1
-    return rom[offset:cursor]
 
 
 def render_portrait_indices(graphics: bytes) -> bytes:
@@ -141,52 +86,6 @@ def render_portrait_indices(graphics: bytes) -> bytes:
     if not all(covered):
         raise ValueError("portrait components do not cover the canvas")
     return bytes(output)
-
-
-def _png_chunk(kind: bytes, payload: bytes) -> bytes:
-    checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
-    return (
-        struct.pack(">I", len(payload))
-        + kind
-        + payload
-        + struct.pack(">I", checksum)
-    )
-
-
-def _indexed_png(
-    pixels: bytes,
-    palette_bytes: bytes,
-    *,
-    width: int = PORTRAIT_WIDTH,
-    height: int = PORTRAIT_HEIGHT,
-) -> bytes:
-    if len(pixels) != width * height:
-        raise ValueError("indexed PNG pixel count does not match its canvas")
-    if len(palette_bytes) != PORTRAIT_COLORS * 2:
-        raise ValueError("portrait palette must contain exactly 64 colors")
-    if pixels and max(pixels) >= PORTRAIT_COLORS:
-        raise ValueError("portrait references a palette index outside 0..63")
-
-    palette = bytearray()
-    for offset in range(0, len(palette_bytes), 2):
-        color = struct.unpack_from("<H", palette_bytes, offset)[0]
-        palette.extend(bgr555_to_rgb(color))
-    rows = b"".join(
-        b"\0" + pixels[y * width : (y + 1) * width]
-        for y in range(height)
-    )
-    ihdr = struct.pack(">IIBBBBB", width, height, 8, 3, 0, 0, 0)
-    transparency = bytes([0] + [255] * (PORTRAIT_COLORS - 1))
-    return b"".join(
-        (
-            b"\x89PNG\r\n\x1a\n",
-            _png_chunk(b"IHDR", ihdr),
-            _png_chunk(b"PLTE", bytes(palette)),
-            _png_chunk(b"tRNS", transparency),
-            _png_chunk(b"IDAT", zlib.compress(rows, level=9)),
-            _png_chunk(b"IEND", b""),
-        )
-    )
 
 
 def _load_sources(
@@ -273,7 +172,7 @@ def export_menu_portraits(root: Path, output_dir: Path) -> dict[str, Any]:
     rom_path = root / "rom/base.gba"
     matrix_path = root / "sequel/content/menu-ui/bank.json"
     rom = rom_path.read_bytes()
-    rom_sha256 = _sha256(rom)
+    rom_sha256 = sha256(rom)
     if rom_sha256 != ROM_SHA256:
         raise ValueError(
             f"ROM SHA-256 mismatch: expected {ROM_SHA256}, got {rom_sha256}"
@@ -303,44 +202,55 @@ def export_menu_portraits(root: Path, output_dir: Path) -> dict[str, Any]:
         palette_offset = palette_pointer - ROM_BASE
         if not 0 <= gfx_offset < len(rom):
             raise ValueError(
-                f"portrait graphics pointer is outside ROM: {_pointer(gfx_pointer)}"
+                "portrait graphics pointer is outside ROM: "
+                f"{gba_pointer(gfx_pointer)}"
             )
         if not 0 <= palette_offset <= len(rom) - PORTRAIT_COLORS * 2:
             raise ValueError(
                 "portrait palette pointer is outside ROM: "
-                f"{_pointer(palette_pointer)}"
+                f"{gba_pointer(palette_pointer)}"
             )
 
         resource_key = (gfx_pointer, palette_pointer)
         resource = cached.get(resource_key)
         if resource is None:
-            compressed = _lz77_record(rom, gfx_offset)
+            compressed = read_lz77_record(
+                rom,
+                gfx_offset,
+                expected_size=PORTRAIT_BYTES,
+            )
             decompressed = lz77_decompress(rom, gfx_offset)
             if len(decompressed) != PORTRAIT_BYTES:
                 raise ValueError(
                     "unexpected portrait graphics size at "
-                    f"{_pointer(gfx_pointer)}: {len(decompressed)}"
+                    f"{gba_pointer(gfx_pointer)}: {len(decompressed)}"
                 )
             palette = rom[
                 palette_offset : palette_offset + PORTRAIT_COLORS * 2
             ]
             pixels = render_portrait_indices(decompressed)
-            png = _indexed_png(pixels, palette)
+            png = indexed_png_from_bgr555(
+                pixels,
+                palette,
+                width=PORTRAIT_WIDTH,
+                height=PORTRAIT_HEIGHT,
+                transparent_index=0,
+            )
             resource = {
                 "resource_id": len(cached),
-                "gfx_pointer": _pointer(gfx_pointer),
-                "palette_pointer": _pointer(palette_pointer),
+                "gfx_pointer": gba_pointer(gfx_pointer),
+                "palette_pointer": gba_pointer(palette_pointer),
                 "gfx_file_offset": gfx_offset,
                 "palette_file_offset": palette_offset,
                 "compressed_size": len(compressed),
-                "compressed_sha256": _sha256(compressed),
+                "compressed_sha256": sha256(compressed),
                 "decompressed_size": len(decompressed),
-                "decompressed_sha256": _sha256(decompressed),
+                "decompressed_sha256": sha256(decompressed),
                 "palette_size": len(palette),
-                "palette_sha256": _sha256(palette),
+                "palette_sha256": sha256(palette),
                 "pixel_count": len(pixels),
                 "maximum_palette_index": max(pixels),
-                "png_sha256": _sha256(png),
+                "png_sha256": sha256(png),
                 "png_bytes": png,
                 "reuse_count": 0,
             }
@@ -353,7 +263,7 @@ def export_menu_portraits(root: Path, output_dir: Path) -> dict[str, Any]:
         portraits.append(
             {
                 **public_source,
-                "pair_gba_address": _gba_address(
+                "pair_gba_address": gba_address(
                     source["pair_file_offset"]
                 ),
                 **{
@@ -385,11 +295,11 @@ def export_menu_portraits(root: Path, output_dir: Path) -> dict[str, Any]:
         "source_bank": "sequel/content/menu-ui/bank.json",
         "source_table": {
             "file_offset": TABLE_OFFSET,
-            "gba_address": _gba_address(TABLE_OFFSET),
+            "gba_address": gba_address(TABLE_OFFSET),
             "entry_count": TABLE_ENTRY_COUNT,
             "entry_size": TABLE_ENTRY_SIZE,
             "variants_per_entry": VARIANTS_PER_ENTRY,
-            "sha256": _sha256(table_bytes),
+            "sha256": sha256(table_bytes),
             "verification": matrix["verification"],
         },
         "canvas": {
