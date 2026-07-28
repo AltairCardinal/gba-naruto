@@ -16,16 +16,20 @@ because the tile-gfx stream alone has no per-tile subpalette selector.
 
 ## Result
 
-- output: `build/tiles-v2/map_tileset_00.png` through `_46.png`
-- manifest: `build/tiles-v2/manifest.json`
+- persistent output: `artifacts/map-canvases-v1/`
+- manifest: `artifacts/map-canvases-v1/manifest.json`
 - extraction success: 47/47
+- full canvas verification: 47 maps / 61 primary and alternate canvases
 - map 40 dimensions: 36×44
 - map 40 gfx file offset: `0x118620`
 - map 40 tile count: 384
 - map 40 decompressed tile-data SHA-256:
   `f7d4ac8b041bfcd7d5f1a2103e3402185fd57a35651a0f1d75e47e48d47a44c2`
-- map 40 PNG SHA-256:
-  `6ab4b9570549f359ee560c97f54ee8eb79ac1688217485505e7356411a4f9dd7`
+
+The former `build/tiles/` and `build/tiles-v2/` atlas directories were
+rebuildable intermediate caches. They were removed after the complete indexed
+canvases, expanded tilemaps, deduplicated raw resources, ROM provenance and an
+independent verifier were committed in `artifacts/map-canvases-v1/`.
 
 Regression coverage is in `tests/test_extract_tileset.py`. Important ranges:
 header table `0x53D910..0x53DEF0`; map 40 header `0x53DE10`; its compressed tile

@@ -98,3 +98,23 @@ rg -l --glob '!build/**' 'build/' notes docs tools tests artifacts
 这些内容只是已经由源码、测试和后续验收结果取代的构建缓存，不承担 ROM 原始证据、
 可复用快照或运行时 dump 的职责。本轮未删除任何录像、音频、ROM、savestate、trace、
 guard、持久 artifact 或并行 Butano 任务的当日产物。
+
+## 第四轮清理：完整地图成果落库后
+
+完整地图成果 `artifacts/map-canvases-v1/` 已提交，包含 47 张地图的 61 张主/备选
+索引画布、展开后的 tilemap、去重原始资源、ROM/表哈希及独立 verifier。复核时：
+
+- `tests/test_extract_tileset.py` 的 6 项测试通过；
+- `tools/verify_map_canvases.py` 独立验证 `47/47` 地图、`61/61` 画布；
+- 逐地图对比旧 manifest 与新 manifest，47 组 tile graphics 的 ROM offset、解压大小和
+  SHA-256 全部一致；
+- `build/tiles/` 与 `build/tiles-v2/` 没有进程占用，只含可由已提交脚本重建的旧
+  tileset atlas，已被完整地图成果取代；
+- 全量哈希对比发现 `build/` 内另有 1,012 个文件、约 `31.03 MiB` 与已跟踪
+  artifacts 内容相同，但它们只覆盖所属 trace 的一小部分。为避免破坏原始帧序列和
+  实验上下文，本轮不做碎片式删除。
+
+因此仅删除 `build/tiles/` 与 `build/tiles-v2/`，回收 `776 KiB`。录像、音频、
+ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butano 当日产物
+继续保留；它们尚未被完整、可独立复核的持久成果覆盖。清理完成时 `build/` 为
+`1,688,000 KiB`；并行任务仍可能继续向其中写入新结果。
