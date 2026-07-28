@@ -11,6 +11,7 @@ from tools.gba_image_export import (
     indexed_png_from_bgr555,
     read_lz77_record,
     render_4bpp_tile_atlas_indices,
+    render_4bpp_tile_block_indices,
 )
 
 
@@ -96,6 +97,24 @@ class GbaImageExportTests(unittest.TestCase):
                 {0},
                 set(pixels[row * 16 + 8 : (row + 1) * 16]),
             )
+
+    def test_4bpp_tile_block_selects_a_rectangular_tile_range(self):
+        graphics = bytes(
+            packed
+            for tile in range(6)
+            for packed in [tile | (tile << 4)] * 32
+        )
+        pixels, width, height = render_4bpp_tile_block_indices(
+            graphics,
+            tile_offset=2,
+            width_tiles=2,
+            height_tiles=2,
+        )
+        self.assertEqual((16, 16), (width, height))
+        self.assertEqual({2}, set(pixels[0:8]))
+        self.assertEqual({3}, set(pixels[8:16]))
+        self.assertEqual({4}, set(pixels[16 * 8 : 16 * 8 + 8]))
+        self.assertEqual({5}, set(pixels[16 * 8 + 8 : 16 * 9]))
 
 
 if __name__ == "__main__":

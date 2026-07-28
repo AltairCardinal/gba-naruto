@@ -1,0 +1,562 @@
+{
+  "schema": "cutscene-obj-export-v1",
+  "rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "source_bank": "sequel/content/cutscene-scripts/bank.json",
+  "resource_table": {
+    "file_offset": 5496688,
+    "gba_address": "0x0853DF70",
+    "entry_count": 4,
+    "entry_size": 8,
+    "sha256": "16b13c432f37ba159697cd9d9d6d5d5147adc41c44c8cc0cc44ce7f2935f1401"
+  },
+  "sprite_table": {
+    "file_offset": 5496720,
+    "gba_address": "0x0853DF90",
+    "entry_count": 4,
+    "entry_size": 8,
+    "sha256": "1c76f2100b2067e78abd713e312bd845d7c874b030f51ef08f968961862e198a"
+  },
+  "combined_table_sha256": "1e6d5016b58d0e565c5a40791a7f2684d6129e0a1c4e85e79317af4d2b1a7f62",
+  "consumer": {
+    "loader_gba_address": "0x08072EDC",
+    "resource_index_gba_address": "0x08072F0C",
+    "sprite_allocator_gba_address": "0x080625A4",
+    "sprite_index_gba_address": "0x08062668",
+    "gfx_destination": "0x06016000",
+    "palette_destination": "0x05000380",
+    "direct_resource_ids": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "scope": {
+    "kind": "static 4bpp OBJ atlases and definition-backed frames",
+    "final_runtime_sequence": false,
+    "animation_timing_interpreted": false,
+    "palette_index_zero_transparent": true
+  },
+  "resource_count": 4,
+  "frame_count": 10,
+  "frame_counts": [
+    2,
+    2,
+    2,
+    4
+  ],
+  "atlas_count": 4,
+  "unique_palette_count": 1,
+  "resources": [
+    {
+      "resource_id": 0,
+      "resource_pair_file_offset": 5496688,
+      "sprite_pair_file_offset": 5496720,
+      "gfx_pointer": "0x0812D9E4",
+      "palette_pointer": "0x0812DEE4",
+      "definition_table_pointer": "0x0812DF2C",
+      "animation_table_pointer": "0x0812DF44",
+      "frame_count": 2,
+      "frame_count_derivation": "(animation_table_pointer - definition_table_pointer) / 12",
+      "gfx": {
+        "file_offset": 1235428,
+        "gba_address": "0x0812D9E4",
+        "compressed_size": 1112,
+        "compressed_sha256": "f75f0d9d2c1176394672cef9ef68461857897974d594c3a2833ed6b13ecd7ade",
+        "decompressed_size": 4096,
+        "decompressed_sha256": "ff3e1b090a18378eb51b2c25ad7e9115ea33d6c9afe11ceeb09cbd392a5496c5"
+      },
+      "palette": {
+        "file_offset": 1236708,
+        "gba_address": "0x0812DEE4",
+        "compressed_size": 22,
+        "compressed_sha256": "6bdf4b41b3d1b6240499cb68ceddb82a6e98267709f05d075bc64389956681c2",
+        "decompressed_size": 32,
+        "decompressed_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "definition_pointer_table_sha256": "3583858b79230966e1ab355b23e51071f0bc30045e19a8e353a0bae1a9e45c2e",
+      "animation_pointer_table_sha256": "55595d01b521fbec8a9f439bc72095eaae9a8e2468ad3c9c70db701036c378b7",
+      "atlas": {
+        "png": "resource_0_atlas.png",
+        "png_sha256": "e562e16bb8f1cb27fa633b0b208dc4cd0e81f4e11ba7a9fd82052801f27f7ed8",
+        "width": 128,
+        "height": 64,
+        "tile_count": 128,
+        "tiles_per_row": 16
+      },
+      "frames": [
+        {
+          "frame_id": 0,
+          "definition_pointer": "0x0812DEFC",
+          "definition_file_offset": 1236732,
+          "definition_raw_hex": "00000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "eb8f1ba7cc2d225bf3a2adefd015873a9bf311e4d1b1e080328f3c9187852ed1",
+          "tile_offset": 0,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812DF34",
+          "animation_file_offset": 1236788,
+          "animation_raw_hex": "00000100ffff0000",
+          "animation_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+          "animation_words": [
+            0,
+            1,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_0_frame_00.png",
+          "png_sha256": "e089d0e4406ef6148b875cb990351e260e44c8144398f9a80474fe5f3163af52"
+        },
+        {
+          "frame_id": 1,
+          "definition_pointer": "0x0812DF14",
+          "definition_file_offset": 1236756,
+          "definition_raw_hex": "40000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "9f4f98ae940cea75a3d8a024f443a2f6113f3255d86ff0479bffbc6417bb12cc",
+          "tile_offset": 64,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812DF3C",
+          "animation_file_offset": 1236796,
+          "animation_raw_hex": "01000000ffff0000",
+          "animation_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+          "animation_words": [
+            1,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_0_frame_01.png",
+          "png_sha256": "1e332d5aea013f57be42601b54fe62a0fcd972ffdcd56a45419bb11ddc1980f2"
+        }
+      ]
+    },
+    {
+      "resource_id": 1,
+      "resource_pair_file_offset": 5496696,
+      "sprite_pair_file_offset": 5496728,
+      "gfx_pointer": "0x0812DF4C",
+      "palette_pointer": "0x0812E42C",
+      "definition_table_pointer": "0x0812E474",
+      "animation_table_pointer": "0x0812E48C",
+      "frame_count": 2,
+      "frame_count_derivation": "(animation_table_pointer - definition_table_pointer) / 12",
+      "gfx": {
+        "file_offset": 1236812,
+        "gba_address": "0x0812DF4C",
+        "compressed_size": 1187,
+        "compressed_sha256": "5449215437a03552e13c3212054d7817ac1c8e634cabf1618ec5d871156b3bbb",
+        "decompressed_size": 4096,
+        "decompressed_sha256": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d"
+      },
+      "palette": {
+        "file_offset": 1238060,
+        "gba_address": "0x0812E42C",
+        "compressed_size": 22,
+        "compressed_sha256": "6bdf4b41b3d1b6240499cb68ceddb82a6e98267709f05d075bc64389956681c2",
+        "decompressed_size": 32,
+        "decompressed_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "definition_pointer_table_sha256": "4663a897f522ce32dc3ac7266820f0a3b5f128be8a2ecaa5d1318fef55d3a6f9",
+      "animation_pointer_table_sha256": "6bc4a098cd531e3f0a3d9cad9390793e11bc5d4796f0b86e89dea76fadda712a",
+      "atlas": {
+        "png": "resource_1_atlas.png",
+        "png_sha256": "8373539e911a53a0932a80b5875d5d1ceb991735d41a4cdd907a87b5872fc6fc",
+        "width": 128,
+        "height": 64,
+        "tile_count": 128,
+        "tiles_per_row": 16
+      },
+      "frames": [
+        {
+          "frame_id": 0,
+          "definition_pointer": "0x0812E444",
+          "definition_file_offset": 1238084,
+          "definition_raw_hex": "00000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "eb8f1ba7cc2d225bf3a2adefd015873a9bf311e4d1b1e080328f3c9187852ed1",
+          "tile_offset": 0,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812E47C",
+          "animation_file_offset": 1238140,
+          "animation_raw_hex": "00000100ffff0000",
+          "animation_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+          "animation_words": [
+            0,
+            1,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_1_frame_00.png",
+          "png_sha256": "ce1eba76885bc4f99b8f89fca32935f3d4df16176dcf0f52cb3f210474737818"
+        },
+        {
+          "frame_id": 1,
+          "definition_pointer": "0x0812E45C",
+          "definition_file_offset": 1238108,
+          "definition_raw_hex": "40000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "9f4f98ae940cea75a3d8a024f443a2f6113f3255d86ff0479bffbc6417bb12cc",
+          "tile_offset": 64,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812E484",
+          "animation_file_offset": 1238148,
+          "animation_raw_hex": "01000000ffff0000",
+          "animation_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+          "animation_words": [
+            1,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_1_frame_01.png",
+          "png_sha256": "0d88f641801cdbe6beee8d8308dc1c3d1b2c4ed4add3383fba32429592d94059"
+        }
+      ]
+    },
+    {
+      "resource_id": 2,
+      "resource_pair_file_offset": 5496704,
+      "sprite_pair_file_offset": 5496736,
+      "gfx_pointer": "0x0812E494",
+      "palette_pointer": "0x0812E948",
+      "definition_table_pointer": "0x0812E990",
+      "animation_table_pointer": "0x0812E9A8",
+      "frame_count": 2,
+      "frame_count_derivation": "(animation_table_pointer - definition_table_pointer) / 12",
+      "gfx": {
+        "file_offset": 1238164,
+        "gba_address": "0x0812E494",
+        "compressed_size": 1113,
+        "compressed_sha256": "557d79e7b03af726e90ff2b8497e2158de8d9ad0e39a6dbd7861692ea5296cab",
+        "decompressed_size": 4096,
+        "decompressed_sha256": "ff180630c246cf7c9e161576b33c0e734157a2a927c07be6bc90a80619654079"
+      },
+      "palette": {
+        "file_offset": 1239368,
+        "gba_address": "0x0812E948",
+        "compressed_size": 22,
+        "compressed_sha256": "6bdf4b41b3d1b6240499cb68ceddb82a6e98267709f05d075bc64389956681c2",
+        "decompressed_size": 32,
+        "decompressed_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "definition_pointer_table_sha256": "fe4dffd09b2fe1a70ca4aa87f4ff22030e6ab42751b954769ebf11de01aff0b1",
+      "animation_pointer_table_sha256": "ba5c2c122ba68aa9b1192dc3386392834257edfd72015bc98e4067300c56bd06",
+      "atlas": {
+        "png": "resource_2_atlas.png",
+        "png_sha256": "c73191fd44b71cddecf04c6f06918722deaa35898a7c3ea9a8d76073cb92afcd",
+        "width": 128,
+        "height": 64,
+        "tile_count": 128,
+        "tiles_per_row": 16
+      },
+      "frames": [
+        {
+          "frame_id": 0,
+          "definition_pointer": "0x0812E960",
+          "definition_file_offset": 1239392,
+          "definition_raw_hex": "00000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "eb8f1ba7cc2d225bf3a2adefd015873a9bf311e4d1b1e080328f3c9187852ed1",
+          "tile_offset": 0,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812E998",
+          "animation_file_offset": 1239448,
+          "animation_raw_hex": "00000100ffff0000",
+          "animation_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+          "animation_words": [
+            0,
+            1,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_2_frame_00.png",
+          "png_sha256": "a16b2ced997f22bd20269df5fd0f2ba8c498ad7b7a613a297c2cc1d047674d76"
+        },
+        {
+          "frame_id": 1,
+          "definition_pointer": "0x0812E978",
+          "definition_file_offset": 1239416,
+          "definition_raw_hex": "40000000e0ffe0ff4000400000010001ff000000ffff0000",
+          "definition_sha256": "9f4f98ae940cea75a3d8a024f443a2f6113f3255d86ff0479bffbc6417bb12cc",
+          "tile_offset": 64,
+          "x_offset": -32,
+          "y_offset": -32,
+          "width": 64,
+          "height": 64,
+          "width_tiles": 8,
+          "height_tiles": 8,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812E9A0",
+          "animation_file_offset": 1239456,
+          "animation_raw_hex": "01000000ffff0000",
+          "animation_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+          "animation_words": [
+            1,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_2_frame_01.png",
+          "png_sha256": "566208450572e1795a43b130affbf62d4e61918ae7bde9928bf9aff699e0b47c"
+        }
+      ]
+    },
+    {
+      "resource_id": 3,
+      "resource_pair_file_offset": 5496712,
+      "sprite_pair_file_offset": 5496744,
+      "gfx_pointer": "0x0812E9B0",
+      "palette_pointer": "0x0812ED58",
+      "definition_table_pointer": "0x0812EDD0",
+      "animation_table_pointer": "0x0812EE00",
+      "frame_count": 4,
+      "frame_count_derivation": "(animation_table_pointer - definition_table_pointer) / 12",
+      "gfx": {
+        "file_offset": 1239472,
+        "gba_address": "0x0812E9B0",
+        "compressed_size": 935,
+        "compressed_sha256": "d1881072fe0362e680d5e905a61fe6df244b30e5c0b996d5922fec8d1a0c3e73",
+        "decompressed_size": 2048,
+        "decompressed_sha256": "d2b44e9c68dc23771249bedfb7397de35f19e6769f99a91f86512b7604b43ec1"
+      },
+      "palette": {
+        "file_offset": 1240408,
+        "gba_address": "0x0812ED58",
+        "compressed_size": 22,
+        "compressed_sha256": "6bdf4b41b3d1b6240499cb68ceddb82a6e98267709f05d075bc64389956681c2",
+        "decompressed_size": 32,
+        "decompressed_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "definition_pointer_table_sha256": "a01b23195870a8139b1a475b954ee6a24537a81e3c01f97797ff2ef482d6ad9c",
+      "animation_pointer_table_sha256": "ff9b89fd998241874571fc8abe357b21c35126a85f1bdbccf8908330555172b5",
+      "atlas": {
+        "png": "resource_3_atlas.png",
+        "png_sha256": "b0598f356e3ffb83c1e3902c9eec938d277dec4a3bfbf07e08b871ab64ca0e2c",
+        "width": 128,
+        "height": 32,
+        "tile_count": 64,
+        "tiles_per_row": 16
+      },
+      "frames": [
+        {
+          "frame_id": 0,
+          "definition_pointer": "0x0812ED70",
+          "definition_file_offset": 1240432,
+          "definition_raw_hex": "00000000f0fff0ff2000200000010001ff000000ffff0000",
+          "definition_sha256": "a3f6935912109790d1ddaa4b1496984c0eba79325a6b250057dfe5bb2eeb05ce",
+          "tile_offset": 0,
+          "x_offset": -16,
+          "y_offset": -16,
+          "width": 32,
+          "height": 32,
+          "width_tiles": 4,
+          "height_tiles": 4,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812EDE0",
+          "animation_file_offset": 1240544,
+          "animation_raw_hex": "00000100ffff0000",
+          "animation_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+          "animation_words": [
+            0,
+            1,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_3_frame_00.png",
+          "png_sha256": "8aa382ddec019e32193bc3ee8dabc95ef196bafcee546642e468ed448bb4f239"
+        },
+        {
+          "frame_id": 1,
+          "definition_pointer": "0x0812ED88",
+          "definition_file_offset": 1240456,
+          "definition_raw_hex": "10000000f0fff0ff2000200000010001ff000000ffff0000",
+          "definition_sha256": "ac1f8da168f508406277ee1bbd638ea19f35995e30b1964bb15c0f49e285fce5",
+          "tile_offset": 16,
+          "x_offset": -16,
+          "y_offset": -16,
+          "width": 32,
+          "height": 32,
+          "width_tiles": 4,
+          "height_tiles": 4,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812EDE8",
+          "animation_file_offset": 1240552,
+          "animation_raw_hex": "01000000ffff0000",
+          "animation_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+          "animation_words": [
+            1,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_3_frame_01.png",
+          "png_sha256": "5ecef9314a84dd389e0b37b620aafdb0d772f73f2fb916b27dac474bf204b201"
+        },
+        {
+          "frame_id": 2,
+          "definition_pointer": "0x0812EDA0",
+          "definition_file_offset": 1240480,
+          "definition_raw_hex": "20000000f0fff0ff2000200000010001ff000000ffff0000",
+          "definition_sha256": "136029c037f00c374ade9ae9208b51ed52331f38f1df7f9e465895fcc402df87",
+          "tile_offset": 32,
+          "x_offset": -16,
+          "y_offset": -16,
+          "width": 32,
+          "height": 32,
+          "width_tiles": 4,
+          "height_tiles": 4,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812EDF0",
+          "animation_file_offset": 1240560,
+          "animation_raw_hex": "02000000ffff0000",
+          "animation_sha256": "b510f35712e7946682b16a8c804f30f1f6febc40e0acf19af0a9c80983d04557",
+          "animation_words": [
+            2,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_3_frame_02.png",
+          "png_sha256": "f6e72969a6895479373cedd6cd3c9398aa94c5fa2efcbb55df453600b5999d9f"
+        },
+        {
+          "frame_id": 3,
+          "definition_pointer": "0x0812EDB8",
+          "definition_file_offset": 1240504,
+          "definition_raw_hex": "30000000f0fff0ff2000200000010001ff000000ffff0000",
+          "definition_sha256": "763ab0c338f586c20d97318cc681f9be7d8bb7cea7848a8f86c56c57f0687aa1",
+          "tile_offset": 48,
+          "x_offset": -16,
+          "y_offset": -16,
+          "width": 32,
+          "height": 32,
+          "width_tiles": 4,
+          "height_tiles": 4,
+          "definition_tail_words": [
+            256,
+            256,
+            255,
+            0,
+            65535,
+            0
+          ],
+          "animation_pointer": "0x0812EDF8",
+          "animation_file_offset": 1240568,
+          "animation_raw_hex": "03000000ffff0000",
+          "animation_sha256": "4b9126e703648a7a9720be3c074794e3d1a658f70df71e8a0af885b506f33b4e",
+          "animation_words": [
+            3,
+            0,
+            65535,
+            0
+          ],
+          "animation_timing_interpreted": false,
+          "png": "resource_3_frame_03.png",
+          "png_sha256": "29e41b3384227f24a5f7a6cd843c7272ab2721169e4a35302c1001229231d589"
+        }
+      ]
+    }
+  ]
+}

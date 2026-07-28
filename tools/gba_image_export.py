@@ -119,6 +119,32 @@ def render_4bpp_tile_atlas_indices(
     return bytes(pixels), width, height
 
 
+def render_4bpp_tile_block_indices(
+    graphics: bytes,
+    *,
+    tile_offset: int,
+    width_tiles: int,
+    height_tiles: int,
+) -> tuple[bytes, int, int]:
+    """Render a row-major rectangular block from a 4bpp tile sequence."""
+    if tile_offset < 0:
+        raise ValueError("4bpp tile-block offset must be non-negative")
+    if width_tiles <= 0 or height_tiles <= 0:
+        raise ValueError("4bpp tile-block dimensions must be positive")
+    tile_count = width_tiles * height_tiles
+    start = tile_offset * 32
+    end = start + tile_count * 32
+    if end > len(graphics):
+        raise ValueError("4bpp tile block exceeds the graphics payload")
+    pixels, width, height = render_4bpp_tile_atlas_indices(
+        graphics[start:end],
+        tiles_per_row=width_tiles,
+    )
+    if height != height_tiles * 8:
+        raise ValueError("4bpp tile block did not fill its declared height")
+    return pixels, width, height
+
+
 def _png_chunk(kind: bytes, payload: bytes) -> bytes:
     checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
     return (
