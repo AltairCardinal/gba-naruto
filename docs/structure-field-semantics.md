@@ -275,20 +275,30 @@ unique handler addresses, indicating 6 distinct event processing modes
 
 **Format:** 32 bytes × 47 — 47 map header entries  
 **Entry Size:** 32 bytes  
-**Semantics:** Complete map definitions including dimensions, tile graphics
-pointers, tilemap data, palette references, and configuration flags.
+**Semantics:** Battle-map resource headers. All six non-null resource pointers
+address GBA LZ77 streams. `0x08068FF0` consumes graphics, palette, primary
+layout and 2×2 metatile definitions; `0x08069264` consumes the collision grid.
+The static layout uses `(width/4)×(height/2)` little-endian u32 cells. Each
+cell's low/high u16 selects the left/right 2×2 metatile; each metatile is four
+standard GBA BG u16 entries in TL/TR/BL/BR order.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| width | u16 | Map width in tiles (16-128) |
-| height | u16 | Map height in tiles (16-128) |
-| tileset_ptr | u32 | Pointer to tile graphics data |
-| tilemap_ptr | u32 | Pointer to primary tilemap data |
-| tilemap_alt_ptr | u32 | Pointer to alternate tilemap (0 if none) |
-| extra_ptr | u32 | Pointer to extra map data |
-| palette_ptr | u32 | Pointer to palette data |
-| palette2_ptr | u32 | Pointer to secondary palette |
-| flags | u32 | Map configuration flags (includes zone_id at +28) |
+| `+0x00` width | u16 | Canvas width in 8×8 tiles |
+| `+0x02` height | u16 | Canvas height in 8×8 tiles |
+| `+0x04` tile_gfx_ptr | u32 | 4bpp tile graphics |
+| `+0x08` bg_palette_ptr | u32 | BGR555 BG palette banks |
+| `+0x0C` primary_layout_ptr | u32 | Primary coarse-cell layout |
+| `+0x10` alternate_layout_ptr | u32 | Candidate alternate layout; null for 33 rows |
+| `+0x14` metatile_attributes_ptr | u32 | 8-byte 2×2 metatile definitions |
+| `+0x18` collision_grid_ptr | u32 | One u16 per coarse cell |
+| `+0x1C` flags | u32 | Map configuration flags |
+
+`artifacts/map-canvases-v1/` preserves all 47 primary canvases, all 14
+non-null alternate candidates, expanded u16 tilemaps and 166 content-deduplicated
+raw resources. Runtime selection is proven only for map 41 primary; alternate
+selection, runtime scrolling/chunking and dynamic occupancy overlays remain
+outside this static export.
 
 ---
 

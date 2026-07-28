@@ -839,3 +839,12 @@ WebSocket
   `notes/battle-effect-resource-pairs-export-20260729.md`。本里程碑签发全部静态像素和
   palette 来源，不把 tile atlas 冒充最终动画；完整 sequence 映射、OAM 合成、逐帧
   hold、blend 和音频绑定仍未闭合，Goal 保持 active。
+- 2026-07-29：将地图表 `0x0853D910` 的全部 47 个 primary 和 14 个非空
+  alternate 布局展开为 61 张完整索引色画布及 GBA BG u16 tilemap，并导出
+  graphics、palette、layout、metatile、collision 共 166 份按内容去重的编辑器源
+  资源。独立 verifier 从基准 ROM 重解压并逐字节/像素检查全部 289 个文件，结果为
+  47/47 maps、61/61 canvases、`errors=[]`；成果位于
+  `artifacts/map-canvases-v1/`，说明见
+  `notes/map-canvases-export-20260729.md`。本里程碑闭合完整静态地图画布，不把
+  alternate 候选冒充运行时已选布局；其选择规则、滚动/分块和动态占用叠层仍待闭合，
+  Goal 保持 active。
