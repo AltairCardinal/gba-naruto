@@ -829,3 +829,13 @@ WebSocket
   从生成内容实例化，玩家教程动作与敌方六动作 loadout 进入共享 resolver/AI；mGBA 完整 2580 帧
   路线通过。ROM SHA-256 `aefce90b11fcf9f41a7442ed73b36e69b3c5986be2a00a98cb8b6ecfd5c91b0d`。
   这只完成了领域基础与单关运行闭环，剩余 handler、多目标、完整 AI/condition 和跨关卡场景继续推进。
+- 2026-07-29：全量闭合原 ROM 战斗特效静态资源表 `0x0859911C`。19 个 8 字节记录中
+  group 0 为全零哨兵，group 1..18 均为有效 LZ77 graphics/palette 对；批处理共导出
+  53,344 字节、1,667 个 4bpp tile 和 18 份 16 色 palette，形成 18 张索引色 atlas、
+  解压二进制与哈希 manifest。独立 verifier 不复用 exporter，重新从基准 ROM 解压并
+  核对表/consumer 代码、全部二进制、PNG 索引像素、RGB palette、透明色与文件集合，
+  结果为 18/18、`errors=[]`。成果位于
+  `artifacts/battle-effect-resource-pairs-v1/`，说明见
+  `notes/battle-effect-resource-pairs-export-20260729.md`。本里程碑签发全部静态像素和
+  palette 来源，不把 tile atlas 冒充最终动画；完整 sequence 映射、OAM 合成、逐帧
+  hold、blend 和音频绑定仍未闭合，Goal 保持 active。

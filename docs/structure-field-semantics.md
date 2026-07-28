@@ -490,6 +490,26 @@ immutable-base, offset, length, sentinel and active-flag checks.
 
 ---
 
+## 33. Battle effect graphics/palette pairs (0x59911C)
+
+**Format:** 19 × 8-byte records (`u32 graphics_pointer`, `u32 palette_pointer`)
+**Entry Size:** 8 bytes
+**Verification:** code verified and all static payloads independently exported
+
+Group 0 is an all-zero sentinel. Groups 1 through 18 point to valid GBA LZ77
+streams. Every graphics stream decompresses to 4bpp tile-aligned bytes and every
+palette stream decompresses to one 16-color BGR555 palette. The builder at
+`0x0807FDCC..0x0807FE2C` consumes the selected resource pair; the selector at
+`0x0807FE2C..0x080800A4` binds a sequence to a group. Group 18 is independently
+bound to battlefield-object expiry sequence 7.
+
+The complete ROM-derived binaries, indexed-color atlases and hashes are in
+`artifacts/battle-effect-resource-pairs-v1/`. This table proves static pixel and
+palette identity only; it does not by itself prove the complete sequence map,
+OAM composition, frame holds, blend behavior or audio binding.
+
+---
+
 ## Verification Levels
 
 - **static_verified**: Offset and format confirmed by hex analysis
