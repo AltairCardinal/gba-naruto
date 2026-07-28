@@ -1,8 +1,9 @@
 {
-  "_comment": "SJIS byte \u2192 tile data address mapping for chapter 1 intro dialogue",
+  "_comment": "SJIS code \u2192 32-byte 16x8 2bpp source-record address mapping for chapter 1 intro dialogue; the renderer expands each record into two horizontal 8x8 4bpp tiles",
   "_font_table_base": "0x0853D644",
-  "_entry_layout": "2 bytes lower (LE) | 1 byte range_size | 4 bytes tile_ptr (LE) | 1 byte padding",
-  "_tile_calc": "tile_addr = tile_ptr + (sjis_byte - entry.lower) * 32",
+  "_entry_layout": "2 bytes lower (LE) | 1 byte range_size | 1 byte aux | 4 bytes source_ptr (LE)",
+  "_source_calc": "source_addr = source_ptr + (sjis_code - entry.lower) * 32",
+  "_legacy_field_names": "font_table.tile_ptr and mappings.*.tile_addr are retained compatibility names; both denote 2bpp source addresses, not final 4bpp tile addresses; aux is 0 for entries 0-24 and 4 for entry 25",
   "font_table": [
     {
       "lower": 33088,

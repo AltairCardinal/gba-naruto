@@ -1,0 +1,815 @@
+#!/usr/bin/env python3
+"""Export both original-ROM dialogue glyph lookup branches losslessly."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import struct
+import sys
+from pathlib import Path
+from typing import Any, Iterable
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from tools.gba_image_export import indexed_png_from_bgr555
+
+
+ROM_BASE = 0x08000000
+ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+SJIS_TABLE_OFFSET = 0x53D644
+SJIS_ENTRY_COUNT = 26
+SJIS_ENTRY_SIZE = 8
+SJIS_SOURCE_BYTES = 32
+SJIS_TABLE_SHA256 = (
+    "6c396ab55b0cbeacb4d2d2d8df55666ab79fcfa426377ef91d03ab7743a7b18d"
+)
+BYTE_TABLE_OFFSET = 0x53D73C
+BYTE_ENTRY_COUNT = 2
+BYTE_ENTRY_SIZE = 8
+BYTE_SOURCE_BYTES = 16
+BYTE_TABLE_SHA256 = (
+    "f6d1d6950f29cf0cb2e03e3d365ac5cc8faaafd2336c12c8ab28673602873b90"
+)
+MAPPING_PATH = Path("sequel/content/text/sjis-to-tile-addr-20260703.json")
+MAPPING_SHA256 = (
+    "3a8b8bb998028d93cdbd0905dd929efb96e1d9643720cbd36b817daf31db7e6f"
+)
+HALF_TILE_SOURCE_BYTES = 16
+ATLAS_WIDTH_LIMIT = 256
+
+# Numeric source-index visualization only; no runtime RGB meaning is claimed.
+SOURCE_PALETTE_BGR555 = bytes.fromhex("00004a29b556ff7f")
+SOURCE_PALETTE_RGB888 = [
+    [0, 0, 0],
+    [82, 82, 82],
+    [173, 173, 173],
+    [255, 255, 255],
+]
+
+CODE_SLICES = (
+    {
+        "name": "sjis_lookup_and_expansion",
+        "file_offset": 0x065E80,
+        "gba_address": "0x08065E80",
+        "size": 0x104,
+        "sha256": "34af9f508d11604b363881ce01ec4dd29cedd6a545ad075481ab5f854f555626",
+    },
+    {
+        "name": "sjis_two_tile_outer",
+        "file_offset": 0x065F84,
+        "gba_address": "0x08065F84",
+        "size": 0xB0,
+        "sha256": "7e4316e63cbb44d09b26c7cc6592c580b83af0b328098c67669db1b05d1c784c",
+    },
+    {
+        "name": "byte_lookup_and_expansion",
+        "file_offset": 0x06606C,
+        "gba_address": "0x0806606C",
+        "size": 0xD6,
+        "sha256": "44442bbfae35bd6e11814fca10a3de9bf3fa9cfcb816a74fa4750cba9b4de168",
+    },
+    {
+        "name": "renderer_dual_branch",
+        "file_offset": 0x08942C,
+        "gba_address": "0x0808942C",
+        "size": 0xB8,
+        "sha256": "399a65ef6891c7c81acf42a52a8da2ee824bb80c77dcbd73f7a536845489e391",
+    },
+)
+
+
+def _sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _pointer(value: int) -> str:
+    return f"0x{value:08X}"
+
+
+def _source_raw(
+    rom: bytes,
+    pointer: int,
+    size: int,
+) -> bytes:
+    offset = pointer - ROM_BASE
+    if not 0 <= offset <= len(rom) - size:
+        raise ValueError(f"source pointer {_pointer(pointer)} is outside the ROM")
+    return rom[offset : offset + size]
+
+
+def _source_histogram(raw: bytes) -> list[int]:
+    histogram = [0] * 4
+    for packed in raw:
+        for shift in (0, 2, 4, 6):
+            histogram[(packed >> shift) & 3] += 1
+    return histogram
+
+
+def _indices_used(histogram: list[int]) -> list[int]:
+    return [index for index, count in enumerate(histogram) if count]
+
+
+def expand_2bpp_to_4bpp(
+    source: bytes,
+    *,
+    palette_group: int,
+) -> bytes:
+    """Reproduce the ROM's four-2bpp-pixels to four-4bpp-pixels expansion."""
+    if not 0 <= palette_group <= 3:
+        raise ValueError("palette group must fit two bits")
+    base_index = palette_group << 2
+    output = bytearray()
+    for packed in source:
+        values = [
+            base_index | ((packed >> shift) & 3)
+            for shift in (0, 2, 4, 6)
+        ]
+        output.extend(
+            (
+                values[0] | (values[1] << 4),
+                values[2] | (values[3] << 4),
+            )
+        )
+    return bytes(output)
+
+
+def _decode_2bpp_record(source: bytes, *, width: int, height: int) -> bytes:
+    if len(source) * 4 != width * height:
+        raise ValueError("2bpp record size does not match its geometry")
+    if height != 8 or width % 8:
+        raise ValueError("dialogue source must be a horizontal row of 8x8 tiles")
+    tile_count = width // 8
+    tiles = []
+    for tile_index in range(tile_count):
+        tile = bytearray()
+        tile_source = source[tile_index * 16 : (tile_index + 1) * 16]
+        for packed in tile_source:
+            tile.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
+        tiles.append(tile)
+    pixels = bytearray()
+    for row in range(height):
+        for tile in tiles:
+            pixels.extend(tile[row * 8 : (row + 1) * 8])
+    return bytes(pixels)
+
+
+def _render_source_atlas(
+    source: bytes,
+    *,
+    item_count: int,
+    item_width: int,
+    item_height: int,
+    source_bytes_per_item: int,
+) -> tuple[bytes, int, int]:
+    if len(source) != item_count * source_bytes_per_item:
+        raise ValueError("source atlas item count is inconsistent")
+    items_per_row = max(1, ATLAS_WIDTH_LIMIT // item_width)
+    columns = min(item_count, items_per_row)
+    rows = (item_count + items_per_row - 1) // items_per_row
+    width = columns * item_width
+    height = rows * item_height
+    pixels = bytearray(width * height)
+    for item_index in range(item_count):
+        item_x = (item_index % items_per_row) * item_width
+        item_y = (item_index // items_per_row) * item_height
+        start = item_index * source_bytes_per_item
+        item_pixels = _decode_2bpp_record(
+            source[start : start + source_bytes_per_item],
+            width=item_width,
+            height=item_height,
+        )
+        for row in range(item_height):
+            destination = (item_y + row) * width + item_x
+            source_row = row * item_width
+            pixels[destination : destination + item_width] = item_pixels[
+                source_row : source_row + item_width
+            ]
+    return bytes(pixels), width, height
+
+
+def _parse_sjis_entries(rom: bytes) -> list[dict[str, Any]]:
+    entries = []
+    previous_upper: int | None = None
+    for index in range(SJIS_ENTRY_COUNT):
+        table_offset = SJIS_TABLE_OFFSET + index * SJIS_ENTRY_SIZE
+        lower, range_size, aux_byte, source_pointer = struct.unpack_from(
+            "<HBBI",
+            rom,
+            table_offset,
+        )
+        if not range_size:
+            raise ValueError(f"SJIS entry {index} has an empty range")
+        if previous_upper is not None and lower < previous_upper:
+            raise ValueError(f"SJIS entry {index} overlaps the previous range")
+        previous_upper = lower + range_size
+        source_end_pointer = source_pointer + range_size * SJIS_SOURCE_BYTES
+        raw = _source_raw(
+            rom,
+            source_pointer,
+            range_size * SJIS_SOURCE_BYTES,
+        )
+        entries.append(
+            {
+                "index": index,
+                "table_file_offset": table_offset,
+                "lower": lower,
+                "lower_hex": f"0x{lower:04X}",
+                "range_size": range_size,
+                "exclusive_upper": lower + range_size,
+                "exclusive_upper_hex": f"0x{lower + range_size:04X}",
+                "aux_byte": aux_byte,
+                "source_pointer": _pointer(source_pointer),
+                "source_end_pointer": _pointer(source_end_pointer),
+                "source_data_size": len(raw),
+                "source_data_sha256": _sha256(raw),
+                "raw_hex": rom[
+                    table_offset : table_offset + SJIS_ENTRY_SIZE
+                ].hex(),
+            }
+        )
+    return entries
+
+
+def _parse_byte_entries(rom: bytes) -> list[dict[str, Any]]:
+    entries = []
+    for index in range(BYTE_ENTRY_COUNT):
+        table_offset = BYTE_TABLE_OFFSET + index * BYTE_ENTRY_SIZE
+        lower, range_size, aux_halfword, source_pointer = struct.unpack_from(
+            "<BBHI",
+            rom,
+            table_offset,
+        )
+        if not range_size:
+            raise ValueError(f"byte entry {index} has an empty range")
+        source_end_pointer = source_pointer + range_size * BYTE_SOURCE_BYTES
+        raw = _source_raw(
+            rom,
+            source_pointer,
+            range_size * BYTE_SOURCE_BYTES,
+        )
+        entries.append(
+            {
+                "index": index,
+                "table_file_offset": table_offset,
+                "lower": lower,
+                "lower_hex": f"0x{lower:02X}",
+                "range_size": range_size,
+                "exclusive_upper": lower + range_size,
+                "exclusive_upper_hex": f"0x{lower + range_size:03X}",
+                "aux_halfword": aux_halfword,
+                "source_pointer": _pointer(source_pointer),
+                "source_end_pointer": _pointer(source_end_pointer),
+                "source_data_size": len(raw),
+                "source_data_sha256": _sha256(raw),
+                "raw_hex": rom[
+                    table_offset : table_offset + BYTE_ENTRY_SIZE
+                ].hex(),
+            }
+        )
+    return entries
+
+
+def _logical_records(
+    entries: list[dict[str, Any]],
+    *,
+    source_bytes: int,
+) -> list[tuple[int, int, int]]:
+    records = []
+    for entry in entries:
+        pointer = int(entry["source_pointer"], 16)
+        for relative in range(entry["range_size"]):
+            records.append(
+                (
+                    entry["index"],
+                    entry["lower"] + relative,
+                    pointer + relative * source_bytes,
+                )
+            )
+    return records
+
+
+def _mapping_evidence(
+    root: Path,
+    sjis_entries: list[dict[str, Any]],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    path = root / MAPPING_PATH
+    raw = path.read_bytes()
+    source_sha256 = _sha256(raw)
+    if source_sha256 != MAPPING_SHA256:
+        raise ValueError("chapter-intro mapping SHA-256 mismatch")
+    document = json.loads(raw)
+    mappings = document.get("mappings")
+    if not isinstance(mappings, dict):
+        raise ValueError("chapter-intro mapping has no mappings object")
+    errors = []
+    used = []
+    for key, value in sorted(mappings.items(), key=lambda item: int(item[0], 16)):
+        sjis = int(key, 16)
+        hits = [
+            entry
+            for entry in sjis_entries
+            if entry["lower"]
+            <= sjis
+            < entry["lower"] + entry["range_size"]
+        ]
+        if len(hits) != 1:
+            errors.append(f"{key}: expected one table hit, got {len(hits)}")
+            continue
+        entry = hits[0]
+        pointer = (
+            int(entry["source_pointer"], 16)
+            + (sjis - entry["lower"]) * SJIS_SOURCE_BYTES
+        )
+        if value.get("entry") != entry["index"]:
+            errors.append(
+                f"{key}: entry {value.get('entry')} != {entry['index']}"
+            )
+        try:
+            actual_pointer = int(value.get("tile_addr", ""), 16)
+        except (TypeError, ValueError):
+            actual_pointer = -1
+        if actual_pointer != pointer:
+            errors.append(
+                f"{key}: source {value.get('tile_addr')} != {_pointer(pointer)}"
+            )
+        count = value.get("count")
+        if not isinstance(count, int) or count <= 0:
+            errors.append(f"{key}: invalid occurrence count {count!r}")
+            count = 0
+        used.append(
+            {
+                "sjis": sjis,
+                "sjis_hex": f"0x{sjis:04X}",
+                "entry_index": entry["index"],
+                "source_pointer": _pointer(pointer),
+                "chapter_intro_count": count,
+            }
+        )
+    return (
+        {
+            "path": str(MAPPING_PATH),
+            "sha256": source_sha256,
+            "mapping_count": len(mappings),
+            "verified_mapping_count": len(mappings) - len(errors),
+            "errors": errors,
+        },
+        used,
+    )
+
+
+def _raw_for_records(
+    rom: bytes,
+    records: Iterable[tuple[int, int, int]],
+    *,
+    source_bytes: int,
+) -> bytes:
+    return b"".join(
+        _source_raw(rom, pointer, source_bytes)
+        for _, _, pointer in records
+    )
+
+
+def _write_dataset(
+    output_dir: Path,
+    *,
+    name: str,
+    source: bytes,
+    item_count: int,
+    item_width: int,
+    item_height: int,
+    source_bytes_per_item: int,
+    palette_group: int | None,
+) -> dict[str, Any]:
+    source_name = f"{name}-source-2bpp.bin"
+    png_name = f"{name}-atlas.png"
+    (output_dir / source_name).write_bytes(source)
+    pixels, width, height = _render_source_atlas(
+        source,
+        item_count=item_count,
+        item_width=item_width,
+        item_height=item_height,
+        source_bytes_per_item=source_bytes_per_item,
+    )
+    png = indexed_png_from_bgr555(
+        pixels,
+        SOURCE_PALETTE_BGR555,
+        width=width,
+        height=height,
+        transparent_index=None,
+    )
+    (output_dir / png_name).write_bytes(png)
+    histogram = _source_histogram(source)
+    result = {
+        "item_count": item_count,
+        "item_width": item_width,
+        "item_height": item_height,
+        "source_bytes_per_item": source_bytes_per_item,
+        "source_bin": source_name,
+        "source_size": len(source),
+        "source_sha256": _sha256(source),
+        "source_indices_used": _indices_used(histogram),
+        "source_index_histogram": histogram,
+        "all_zero_records": sum(
+            not any(source[offset : offset + source_bytes_per_item])
+            for offset in range(0, len(source), source_bytes_per_item)
+        ),
+        "atlas_png": png_name,
+        "atlas_png_sha256": _sha256(png),
+        "atlas_width": width,
+        "atlas_height": height,
+    }
+    if palette_group is not None:
+        expanded = expand_2bpp_to_4bpp(
+            source,
+            palette_group=palette_group,
+        )
+        expanded_name = f"{name}-expanded-4bpp.bin"
+        (output_dir / expanded_name).write_bytes(expanded)
+        result.update(
+            {
+                "canonical_palette_group": palette_group,
+                "expanded_4bpp_bin": expanded_name,
+                "expanded_4bpp_size": len(expanded),
+                "expanded_4bpp_sha256": _sha256(expanded),
+            }
+        )
+    return result
+
+
+def build_manifest(
+    root: Path,
+    output_dir: Path,
+) -> dict[str, Any]:
+    rom = (root / "rom/base.gba").read_bytes()
+    rom_sha256 = _sha256(rom)
+    if rom_sha256 != ROM_SHA256:
+        raise ValueError(
+            f"unexpected ROM SHA-256 {rom_sha256}; expected {ROM_SHA256}"
+        )
+    sjis_table = rom[
+        SJIS_TABLE_OFFSET : SJIS_TABLE_OFFSET
+        + SJIS_ENTRY_COUNT * SJIS_ENTRY_SIZE
+    ]
+    byte_table = rom[
+        BYTE_TABLE_OFFSET : BYTE_TABLE_OFFSET
+        + BYTE_ENTRY_COUNT * BYTE_ENTRY_SIZE
+    ]
+    if _sha256(sjis_table) != SJIS_TABLE_SHA256:
+        raise ValueError("SJIS table SHA-256 mismatch")
+    if _sha256(byte_table) != BYTE_TABLE_SHA256:
+        raise ValueError("byte table SHA-256 mismatch")
+
+    sjis_entries = _parse_sjis_entries(rom)
+    byte_entries = _parse_byte_entries(rom)
+    sjis_records = _logical_records(
+        sjis_entries,
+        source_bytes=SJIS_SOURCE_BYTES,
+    )
+    byte_records = _logical_records(
+        byte_entries,
+        source_bytes=BYTE_SOURCE_BYTES,
+    )
+    if len(sjis_records) != 4410 or len(byte_records) != 192:
+        raise ValueError("font table logical record counts are unexpected")
+    mapping, intro_glyphs = _mapping_evidence(root, sjis_entries)
+    if mapping["errors"]:
+        raise ValueError("chapter-intro mapping no longer matches the ROM")
+
+    half_references: dict[int, dict[str, Any]] = {}
+    for logical_index, (entry_index, sjis, pointer) in enumerate(sjis_records):
+        for half_index in (0, 1):
+            half_pointer = pointer + half_index * HALF_TILE_SOURCE_BYTES
+            if half_pointer in half_references:
+                raise ValueError("SJIS source half unexpectedly aliases")
+            half_references[half_pointer] = {
+                "lookup_branch": "sjis",
+                "logical_index": logical_index,
+                "entry_index": entry_index,
+                "code": sjis,
+                "half_index": half_index,
+            }
+    for logical_index, (entry_index, byte_value, pointer) in enumerate(
+        byte_records
+    ):
+        if pointer in half_references:
+            raise ValueError("byte source unexpectedly aliases another half")
+        half_references[pointer] = {
+            "lookup_branch": "byte",
+            "logical_index": logical_index,
+            "entry_index": entry_index,
+            "code": byte_value,
+            "half_index": 0,
+        }
+    half_addresses = sorted(half_references)
+    half_index_by_pointer = {
+        pointer: index for index, pointer in enumerate(half_addresses)
+    }
+
+    intro_count_by_sjis = {
+        glyph["sjis"]: glyph["chapter_intro_count"] for glyph in intro_glyphs
+    }
+    sjis_glyphs = [
+        {
+            "logical_index": logical_index,
+            "entry_index": entry_index,
+            "sjis": sjis,
+            "sjis_hex": f"0x{sjis:04X}",
+            "source_pointer": _pointer(pointer),
+            "source_sha256": _sha256(
+                _source_raw(rom, pointer, SJIS_SOURCE_BYTES)
+            ),
+            "physical_half_tile_indices": [
+                half_index_by_pointer[pointer],
+                half_index_by_pointer[pointer + HALF_TILE_SOURCE_BYTES],
+            ],
+            "chapter_intro_count": intro_count_by_sjis.get(sjis, 0),
+        }
+        for logical_index, (entry_index, sjis, pointer) in enumerate(
+            sjis_records
+        )
+    ]
+    byte_glyphs = [
+        {
+            "logical_index": logical_index,
+            "entry_index": entry_index,
+            "byte_value": byte_value,
+            "byte_hex": f"0x{byte_value:02X}",
+            "source_pointer": _pointer(pointer),
+            "source_sha256": _sha256(
+                _source_raw(rom, pointer, BYTE_SOURCE_BYTES)
+            ),
+            "physical_half_tile_index": half_index_by_pointer[pointer],
+        }
+        for logical_index, (entry_index, byte_value, pointer) in enumerate(
+            byte_records
+        )
+    ]
+    for glyph in intro_glyphs:
+        pointer = int(glyph["source_pointer"], 16)
+        glyph["physical_half_tile_indices"] = [
+            half_index_by_pointer[pointer],
+            half_index_by_pointer[pointer + HALF_TILE_SOURCE_BYTES],
+        ]
+
+    physical_half_tiles = []
+    for index, pointer in enumerate(half_addresses):
+        raw = _source_raw(rom, pointer, HALF_TILE_SOURCE_BYTES)
+        histogram = _source_histogram(raw)
+        physical_half_tiles.append(
+            {
+                "index": index,
+                "source_pointer": _pointer(pointer),
+                "file_offset": pointer - ROM_BASE,
+                "sha256": _sha256(raw),
+                "source_indices_used": _indices_used(histogram),
+                "source_index_histogram": histogram,
+                "is_all_zero": not any(raw),
+                **half_references[pointer],
+            }
+        )
+
+    sjis_source = _raw_for_records(
+        rom,
+        sjis_records,
+        source_bytes=SJIS_SOURCE_BYTES,
+    )
+    byte_source = _raw_for_records(
+        rom,
+        byte_records,
+        source_bytes=BYTE_SOURCE_BYTES,
+    )
+    intro_records = [
+        (
+            glyph["entry_index"],
+            glyph["sjis"],
+            int(glyph["source_pointer"], 16),
+        )
+        for glyph in intro_glyphs
+    ]
+    intro_source = _raw_for_records(
+        rom,
+        intro_records,
+        source_bytes=SJIS_SOURCE_BYTES,
+    )
+    half_source = b"".join(
+        _source_raw(rom, pointer, HALF_TILE_SOURCE_BYTES)
+        for pointer in half_addresses
+    )
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    datasets = {
+        "sjis_full": _write_dataset(
+            output_dir,
+            name="sjis-full",
+            source=sjis_source,
+            item_count=len(sjis_records),
+            item_width=16,
+            item_height=8,
+            source_bytes_per_item=SJIS_SOURCE_BYTES,
+            palette_group=3,
+        ),
+        "byte_full": _write_dataset(
+            output_dir,
+            name="byte-full",
+            source=byte_source,
+            item_count=len(byte_records),
+            item_width=8,
+            item_height=8,
+            source_bytes_per_item=BYTE_SOURCE_BYTES,
+            palette_group=2,
+        ),
+        "all_unique_halves": _write_dataset(
+            output_dir,
+            name="all-unique-halves",
+            source=half_source,
+            item_count=len(half_addresses),
+            item_width=8,
+            item_height=8,
+            source_bytes_per_item=HALF_TILE_SOURCE_BYTES,
+            palette_group=None,
+        ),
+        "chapter_intro_used": _write_dataset(
+            output_dir,
+            name="chapter-intro-used",
+            source=intro_source,
+            item_count=len(intro_records),
+            item_width=16,
+            item_height=8,
+            source_bytes_per_item=SJIS_SOURCE_BYTES,
+            palette_group=3,
+        ),
+    }
+
+    code_slices = []
+    for expected in CODE_SLICES:
+        raw = rom[
+            expected["file_offset"] : expected["file_offset"] + expected["size"]
+        ]
+        if _sha256(raw) != expected["sha256"]:
+            raise ValueError(f"{expected['name']} code slice SHA-256 mismatch")
+        code_slices.append(dict(expected))
+
+    logical_count = len(sjis_records) + len(byte_records)
+    unique_source_pointers = {
+        pointer for _, _, pointer in sjis_records + byte_records
+    }
+    return {
+        "schema": "dialogue-font-atlas-v2",
+        "rom": {
+            "path": "rom/base.gba",
+            "size": len(rom),
+            "sha256": rom_sha256,
+        },
+        "sjis_table": {
+            "file_offset": SJIS_TABLE_OFFSET,
+            "gba_address": _pointer(ROM_BASE + SJIS_TABLE_OFFSET),
+            "entry_count": SJIS_ENTRY_COUNT,
+            "entry_size": SJIS_ENTRY_SIZE,
+            "sha256": _sha256(sjis_table),
+            "logical_glyph_count": len(sjis_records),
+            "source_bytes_per_glyph": SJIS_SOURCE_BYTES,
+        },
+        "byte_table": {
+            "file_offset": BYTE_TABLE_OFFSET,
+            "gba_address": _pointer(ROM_BASE + BYTE_TABLE_OFFSET),
+            "entry_count": BYTE_ENTRY_COUNT,
+            "entry_size": BYTE_ENTRY_SIZE,
+            "sha256": _sha256(byte_table),
+            "logical_glyph_count": len(byte_records),
+            "source_bytes_per_glyph": BYTE_SOURCE_BYTES,
+        },
+        "logical_glyph_count": logical_count,
+        "unique_source_record_count": len(unique_source_pointers),
+        "physical_half_tile_count": len(half_addresses),
+        "logical_alias_count": logical_count - len(unique_source_pointers),
+        "storage_relationships": {
+            "byte_entry_boundary": byte_entries[0]["source_end_pointer"],
+            "byte_to_sjis_boundary": byte_entries[1]["source_end_pointer"],
+            "sjis_first_source_pointer": sjis_entries[0]["source_pointer"],
+            "overlap_bytes": 0,
+            "all_source_records_unique": True,
+        },
+        "sjis_entries": sjis_entries,
+        "byte_entries": byte_entries,
+        "sjis_glyphs": sjis_glyphs,
+        "byte_glyphs": byte_glyphs,
+        "physical_half_tiles": physical_half_tiles,
+        "chapter_intro_mapping": mapping,
+        "chapter_intro_glyphs": intro_glyphs,
+        "datasets": datasets,
+        "source_format": {
+            "bits_per_pixel": 2,
+            "pixels_per_byte": 4,
+            "pixel_order_within_byte": "bits 1:0, 3:2, 5:4, 7:6",
+            "sjis_record": {
+                "width": 16,
+                "height": 8,
+                "half_tiles": 2,
+                "bytes": SJIS_SOURCE_BYTES,
+            },
+            "byte_record": {
+                "width": 8,
+                "height": 8,
+                "half_tiles": 1,
+                "bytes": BYTE_SOURCE_BYTES,
+            },
+        },
+        "runtime_expansion": {
+            "formula": (
+                "output_index = source_2bpp + (((arg1 & 1) + 2) << 2)"
+            ),
+            "sjis_expander": "0x08065EB8",
+            "byte_expander": "0x080660A4",
+            "sjis_renderer_arg1": 1,
+            "sjis_renderer_indices": [12, 13, 14, 15],
+            "byte_renderer_arg1": 0,
+            "byte_renderer_indices": [8, 9, 10, 11],
+            "sjis_output": (
+                "two adjacent horizontal 8x8 4bpp tiles (16x8 glyph)"
+            ),
+            "byte_output": "one 8x8 4bpp tile",
+            "runtime_rgb_palette_verified": False,
+        },
+        "visualization_palette": {
+            "id": "diagnostic-source-2bpp-grayscale-v1",
+            "bgr555_hex": SOURCE_PALETTE_BGR555.hex(),
+            "rgb888": SOURCE_PALETTE_RGB888,
+            "runtime_verified": False,
+            "transparent_index": None,
+            "meaning": (
+                "source values 0..3 only; grayscale is not runtime RGB"
+            ),
+        },
+        "consumer_chain": {
+            "sjis_lookup": "0x08065E80",
+            "sjis_outer": "0x08065F84",
+            "byte_lookup": "0x0806606C",
+            "renderer": "0x0808942C",
+            "renderer_byte_call": "0x080894A8",
+            "renderer_sjis_call": "0x080894DE",
+            "code_slices": code_slices,
+        },
+        "scope": {
+            "kind": (
+                "original-ROM 2bpp dialogue glyph sources plus code-derived "
+                "canonical 4bpp expansion"
+            ),
+            "runtime_rgb_palette_verified": False,
+            "runtime_chinese_replacement_exported": False,
+            "group0_font_exported": False,
+            "glyph_character_names_asserted": False,
+            "both_lookup_branches_exported": True,
+        },
+    }
+
+
+def export_dialogue_font_atlases(
+    root: Path,
+    output_dir: Path,
+) -> dict[str, Any]:
+    manifest = build_manifest(root, output_dir)
+    (output_dir / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Export both original-ROM dialogue font lookup branches",
+    )
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("artifacts/dialogue-font-v2"),
+    )
+    args = parser.parse_args()
+    manifest = export_dialogue_font_atlases(
+        args.root.resolve(),
+        args.output_dir,
+    )
+    print(
+        json.dumps(
+            {
+                "schema": manifest["schema"],
+                "logical_glyphs": manifest["logical_glyph_count"],
+                "half_tiles": manifest["physical_half_tile_count"],
+                "atlases": len(manifest["datasets"]),
+                "output": str(args.output_dir),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

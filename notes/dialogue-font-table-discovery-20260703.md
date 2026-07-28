@@ -1,4 +1,11 @@
-# Dialogue Font Table Discovery (2026-07-03)
+# Dialogue Font Table Discovery (2026-07-03; corrected 2026-07-29)
+
+> **Correction:** visual QA and the Thumb consumers at `0x08065EB8` and
+> `0x080660A4` disproved the original “8×8 4bpp tile” interpretation. The
+> pointers below address packed 2bpp source records. The SJIS branch expands a
+> 32-byte, 16×8 source into two horizontal 8×8 4bpp tiles; the byte branch
+> expands a 16-byte, 8×8 source into one 8×8 4bpp tile. The address formula
+> remains valid.
 
 ## THE KEY FINDING
 
@@ -17,15 +24,18 @@ The breakthrough in dialogue mapping research: **located the game's font table**
 |--------|------|-------|-------------|
 | 0-1    | 2 bytes | lower | SJIS lower bound (16-bit LE) |
 | 2      | 1 byte  | range_size | Number of SJIS codes in this group |
-| 3      | 1 byte  | padding | Always 0x00 |
-| 4-7    | 4 bytes | tile_ptr | Tile data base address (32-bit LE) |
+| 3      | 1 byte  | aux | `0x00` for entries 0-24; `0x04` for entry 25 |
+| 4-7    | 4 bytes | source_ptr | Packed 2bpp source base address (32-bit LE) |
 
 ### Tile Data Calculation
 
 For SJIS byte `S` (16-bit):
 1. Find entry where `lower <= S < lower + range_size`
-2. Compute: `tile_addr = tile_ptr + (S - entry.lower) * 32`
-3. Tile data is 32 bytes at that GBA cart address (= 8x8 4bpp pixel graphics)
+2. Compute: `source_addr = source_ptr + (S - entry.lower) * 32`
+3. Read 32 bytes as a 16×8 packed-2bpp record: the first 16 bytes are the
+   left 8×8 half and the next 16 bytes are the right 8×8 half.
+4. `0x08065EB8` expands each 2-bit source pixel into a 4bpp index:
+   `source_2bpp + (((arg1 & 1) + 2) << 2)`.
 
 ### Font Table Entries
 
@@ -41,28 +51,25 @@ For SJIS byte `S` (16-bit):
 | 21  | 0x9873    | 138   | 0x085AE800          | 0x9873-0x98FD |
 | 22-25 | ... | ... | ... | ... |
 
-### Second Font Table (8-bit byte 2 lookup)
+### Second Font Table (single-byte lookup)
 
 - **Address**: GBA 0x0853D73C
 - **Function**: 0x0806606C (lui r4, [pc, #0x14])
-- **Used for**: byte 2 of SJIS pair (8-bit value)
+- **Used for**: the renderer's single-byte branch
 - **2 entries**: lower=0x20 (ASCII range), lower=0xA0 (high byte range)
+- **Source record**: 16-byte packed 2bpp, expanded to one 8×8 4bpp tile
 
-## Tile Graphics Mismatch (CRITICAL FINDING)
+## Corrected scope of the earlier group0 hypothesis
 
-The breakthrough's existing 20-char mapping (`sjis-to-tile-mapping.json`) was
-derived from group0 dialogue at 0x459414. Those SJIS bytes (e.g., 0x88CF, 0x8FC2)
-are NOT in the new font table at 0x53D644. This means:
+The earlier note claimed that group0 examples `0x88CF` and `0x8FC2` were absent
+from this table and therefore proved a second font system. That claim is false:
+`0x88CF` is in entry 4 (`0x889F..0x88FC`) and `0x8FC2` is in entry 11
+(`0x8F40..0x8FFC`). The table can resolve both codes.
 
-1. **Two separate font systems** exist in the ROM:
-   - **Group0 dialogue** (existing 20-char mapping) - uses different font system
-   - **Chapter 1 intro dialogue** (records at 0x8DF0+) - uses the new font table at 0x53D644
-
-2. **The dev ROM tile graphics are Japanese kanji/hiragana**:
-   - Tile graphics at computed addresses show Japanese characters (ぐ, し, り, ち, etc.)
-   - This is BEFORE 熊组汉化 tile replacement
-   - The game loads these Japanese tiles, then REPLACES them with Chinese tiles at runtime
-   - Replacement mechanism likely uses DMA or CPU writes from compressed tile data elsewhere in ROM
+The ROM sources decoded here visually contain original Japanese glyphs. This
+alone does not prove how the localized runtime obtains Chinese glyphs, nor does
+it prove that group0 uses a separate table. Those questions require a runtime
+consumer/write trace and remain open.
 
 ## Renderer Chain (VERIFIED)
 
@@ -75,7 +82,8 @@ are NOT in the new font table at 0x53D644. This means:
 3. 0x08065E80 search_font_table(sjis_byte) 
    → returns entry index OR 0xff
 4. 0x08065EB8 glyph_expansion 
-   → reads tile data at tile_ptr + (sjis - lower) * 32
+   → reads packed source at source_ptr + (sjis - lower) * 32
+   → expands it into two horizontal 8×8 4bpp tiles
 5. Tile graphics copied to VRAM 0x6002000+
 6. Tilemap entries in WRAM 0x0200A900 (with tile indices 304-309 etc.)
 7. Rendered on screen via BG3 screen block 3 (0x06001800)
@@ -83,19 +91,21 @@ are NOT in the new font table at 0x53D644. This means:
 
 ## Files Created
 
-- `sequel/content/text/sjis-to-tile-addr-20260703.json` (50KB)
+- `sequel/content/text/sjis-to-tile-addr-20260703.json`
   - Complete font table
-  - 517 SJIS byte → tile_addr mappings (from chapter 1 intro records)
+  - 517 SJIS code → packed-2bpp source-address mappings (from chapter 1 intro
+    records)
   - Frequency counts (count = occurrences in 30 records)
 
 ## Next Steps (Beyond This Session)
 
-The breakthrough's existing 20-char mapping was for **group0 dialogue font**,
-not chapter 1 intro. To extend it, need to:
+1. Trace group0 rendering to determine whether it reuses `0x53D644` or a
+   different source; do not assume a second font table.
+2. Trace the localized runtime's glyph-source reads and VRAM writes to locate
+   any Chinese replacement data.
+3. Preserve source code, VRAM destination, palette, and frame evidence before
+   assigning tile indices to Chinese characters.
 
-1. **Find group0 dialogue font table** - probably different location
-2. **Find 熊组汉化 tile replacement data** - where the Chinese tile graphics come from
-3. **Decompress/replace runtime tile data** - to map tile_idx → Chinese char
-
-For chapter 1 intro dialogue, the 517 SJIS→tile_addr mappings now provide a clear
-path forward - just need to identify what Chinese char each tile graphics shows.
+For chapter 1 intro dialogue, the 517 SJIS→source-address mappings provide the
+original Japanese glyph sources. Runtime Chinese replacement, group0 font data,
+runtime RGB palettes, and character naming remain separate unresolved scopes.

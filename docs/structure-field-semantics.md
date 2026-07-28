@@ -189,6 +189,25 @@ The claimed 256-byte width range has no xref and crosses into the canonical
 handler-pair table. It is an empty, write-disabled tombstone. The proven
 dialogue glyph lookup is the separate `0x53D644` chain.
 
+### Proven dialogue glyph sources (0x53D644 and 0x53D73C)
+
+The 26-entry SJIS table at `0x53D644` uses `<HBBI>` records:
+`lower`, `range_size`, `aux`, and `source_ptr`. Entries 0-24 have `aux=0`;
+entry 25 has `aux=4`. Each logical SJIS glyph is a 32-byte packed-2bpp,
+16×8 source record whose two 16-byte halves are the left and right 8×8 tiles.
+`0x08065EB8` expands them to adjacent 4bpp tiles.
+
+The two-entry single-byte table at `0x53D73C` uses `<BBHI>` records. Each
+logical glyph is one 16-byte packed-2bpp, 8×8 source record; `0x080660A4`
+expands it to one 4bpp tile. Both branches use:
+
+`output_index = source_2bpp + (((arg1 & 1) + 2) << 2)`.
+
+The canonical renderer at `0x0808942C` supplies `arg1=1` for SJIS (indices
+12-15) and `arg1=0` for the byte branch (indices 8-11). These are original-ROM
+glyph sources; runtime RGB palette colors, Chinese replacement glyphs, and the
+separate group0 font are not established by this structure.
+
 ---
 
 ## 12. Function Pointers (0x53D5F4)
