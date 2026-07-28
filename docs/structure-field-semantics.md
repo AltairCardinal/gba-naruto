@@ -271,6 +271,26 @@ pointers, tilemap data, palette references, and configuration flags.
 indexes the selected ID and installs both pointers in a sprite task. The old
 `0x53F1DC` base was pair 19 `+4`, not a 47-map table.
 
+`definition_ptr[0]` points to a sentinel-terminated component list. Each
+component is `0x14` bytes; signed `+0x00 == -1` ends the list, otherwise that
+halfword is the tile offset. Fields `+0x08/+0x0A` are width/height and accept
+`8/16/32/64`. The following 43-halfword table at `0x53F298` supplies the
+per-ID runtime tile-base offset; it is not a character-ID table.
+
+The pixels and palette are assigned at runtime, not stored in the pair table:
+
+```text
+task.tile_base = u16[0x0202CA24] + u16[0x53F298 + id*2]
+attr2.tile = task.tile_base + component.tile_offset
+attr2.palette = u8[0x0202CA26] << 12
+OBJ tiles = 0x06010000 + attr2.tile*32
+OBJ palette = 0x05000200 + u8[0x0202CA26]*32
+```
+
+The complete 43-entry/45-component static manifest and the remaining runtime
+capture boundary are recorded in
+`notes/sprite-definition-runtime-chain-20260729.md`.
+
 ---
 
 ## 18. Visual variant matrix (historical menu-ui slug, 0x5A4DEC)
