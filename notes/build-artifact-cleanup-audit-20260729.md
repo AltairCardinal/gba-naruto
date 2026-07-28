@@ -73,3 +73,28 @@ du -shA build
 find build -type f | wc -l
 rg -l --glob '!build/**' 'build/' notes docs tools tests artifacts
 ```
+
+## 第三轮清理：按成果转化状态复核
+
+本轮重新按“是否已经形成持久成果”核对：
+
+- 已提交的六组静态图形成果均已进入 `artifacts/`，具备 ROM 哈希、导出器和测试；
+  这些任务没有在 `build/` 留下显著重复副本。
+- 最大的约 `605.2 MiB` 仍是外部录像、原 ROM trace、快照、GPU/OAM/PRAM/VRAM
+  dump。相关笔记仍直接引用其中的原始输入，且尚无等价的持久 artifact，因此继续保留。
+- `build/tiles/` 与 `build/tiles-v2/` 只是 tileset atlas；47 张完整地图层/画布尚未完成
+  解码，不能把它们误判为已经转化完成。
+- `build/audio-v2/`、`build/audio/`、`build/resource-guard/`、`build/signed-tooling/`
+  仍被工具、测试或当前流程直接读取，继续保留。
+
+确认没有进程持有文件、没有仓库引用后，清理了八个可由源码和测试命令重建的旧宿主
+构建目录、十七个宿主测试可执行文件和一个对象文件，共 `48,856,483` 字节
+（`46.59 MiB`）。清理后：
+
+- `build/` 为 `1,688,692 KiB`；
+- 文件数为 `20,054`；
+- 所有目标路径均已确认不存在。
+
+这些内容只是已经由源码、测试和后续验收结果取代的构建缓存，不承担 ROM 原始证据、
+可复用快照或运行时 dump 的职责。本轮未删除任何录像、音频、ROM、savestate、trace、
+guard、持久 artifact 或并行 Butano 任务的当日产物。
