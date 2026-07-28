@@ -86,6 +86,39 @@ def read_lz77_record(
     return rom[offset:cursor]
 
 
+def render_4bpp_tile_atlas_indices(
+    graphics: bytes,
+    *,
+    tiles_per_row: int = 32,
+) -> tuple[bytes, int, int]:
+    """Lay out every 4bpp tile in source order on an indexed canvas."""
+    if not graphics or len(graphics) % 32:
+        raise ValueError("4bpp atlas graphics must contain complete tiles")
+    if tiles_per_row <= 0:
+        raise ValueError("4bpp atlas tiles-per-row must be positive")
+
+    tile_count = len(graphics) // 32
+    columns = min(tile_count, tiles_per_row)
+    rows = (tile_count + tiles_per_row - 1) // tiles_per_row
+    width = columns * 8
+    height = rows * 8
+    pixels = bytearray(width * height)
+    for tile_index in range(tile_count):
+        tile_x = tile_index % tiles_per_row
+        tile_y = tile_index // tiles_per_row
+        for local_y in range(8):
+            for local_x in range(8):
+                packed = graphics[
+                    tile_index * 32 + local_y * 4 + local_x // 2
+                ]
+                pixels[
+                    (tile_y * 8 + local_y) * width
+                    + tile_x * 8
+                    + local_x
+                ] = (packed >> (4 if local_x & 1 else 0)) & 0x0F
+    return bytes(pixels), width, height
+
+
 def _png_chunk(kind: bytes, payload: bytes) -> bytes:
     checksum = zlib.crc32(kind + payload) & 0xFFFFFFFF
     return (

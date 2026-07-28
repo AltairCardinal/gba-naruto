@@ -10,6 +10,7 @@ import zlib
 from tools.gba_image_export import (
     indexed_png_from_bgr555,
     read_lz77_record,
+    render_4bpp_tile_atlas_indices,
 )
 
 
@@ -71,6 +72,29 @@ class GbaImageExportTests(unittest.TestCase):
                 struct.pack("<HH", 0, 0x7FFF),
                 width=1,
                 height=1,
+            )
+
+    def test_4bpp_atlas_preserves_every_tile_and_pads_the_final_row(self):
+        graphics = bytes(
+            packed
+            for tile in range(3)
+            for packed in [tile | ((tile + 1) << 4)] * 32
+        )
+        pixels, width, height = render_4bpp_tile_atlas_indices(
+            graphics,
+            tiles_per_row=2,
+        )
+        self.assertEqual((16, 16), (width, height))
+        self.assertEqual(0, pixels[0])
+        self.assertEqual(1, pixels[1])
+        self.assertEqual(1, pixels[8])
+        self.assertEqual(2, pixels[9])
+        self.assertEqual(2, pixels[16 * 8])
+        self.assertEqual(3, pixels[16 * 8 + 1])
+        for row in range(8, 16):
+            self.assertEqual(
+                {0},
+                set(pixels[row * 16 + 8 : (row + 1) * 16]),
             )
 
 
