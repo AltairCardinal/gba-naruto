@@ -272422,6 +272422,358 @@
       ]
     }
   ],
+  "localized_mapping_evidence": {
+    "path": "sequel/content/text/sjis-to-tile-mapping.json",
+    "sha256": "174dcb43915385fe0eab3e63a0671bc07edfd984c5d31f78c390f617c004a43d",
+    "basis": "historical screenshot OCR labels correlated with the group0 byte stream; ROM lookup independently binds each code to a glyph source record",
+    "source_offsets": {
+      "group0": "0x459414 (41 bytes, 20 SJIS double-byte tokens + 1 independent 0x0A control byte)"
+    },
+    "semantic_mapping_count": 19,
+    "unresolved_code_count": 1,
+    "source_resolved_count": 20,
+    "source_binding_claim": "ROM lookup verifies code, source pointer, and source bytes; historical OCR labels remain semantic metadata",
+    "group0_stream": {
+      "file_offset": 4559892,
+      "size": 41,
+      "sha256": "dc998ad097f02104c488a3d380a17b37ad02b89cba5491b49ed444d55dab2370",
+      "raw_hex": "88cf8fc297af99c78df98c819a6a9b45929894c896e292d78b620a95c48b788eb58af78e8f9a798148",
+      "sjis_token_count": 20,
+      "sjis_codes": [
+        "0x88CF",
+        "0x8FC2",
+        "0x97AF",
+        "0x99C7",
+        "0x8DF9",
+        "0x8C81",
+        "0x9A6A",
+        "0x9B45",
+        "0x9298",
+        "0x94C8",
+        "0x96E2",
+        "0x92D7",
+        "0x8B62",
+        "0x95C4",
+        "0x8B78",
+        "0x8EB5",
+        "0x8AF7",
+        "0x8E8F",
+        "0x9A79",
+        "0x8148"
+      ],
+      "control_bytes": [
+        {
+          "relative_offset": 26,
+          "file_offset": 4559918,
+          "value": "0x0A"
+        }
+      ]
+    },
+    "errors": [],
+    "mappings": [
+      {
+        "sjis": 35023,
+        "sjis_hex": "0x88CF",
+        "display_character": "什",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 4,
+        "source_pointer": "0x080A2754",
+        "source_sha256": "95628aafdf25dc250aa439cc814e62c4e4cd0dfb5d76440af0d79221883be675",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 36802,
+        "sjis_hex": "0x8FC2",
+        "display_character": "么",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 11,
+        "source_pointer": "0x080ACD94",
+        "source_sha256": "6ca10a1eb18ac95404c686185c6111bd1aac284b97db70110e234532dd4da1af",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 38831,
+        "sjis_hex": "0x97AF",
+        "display_character": "！",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 19,
+        "source_pointer": "0x080B8B34",
+        "source_sha256": "9ecdd14bcd71affd129f61ce6c6b4508343a7e39fffeb4a913ac9eb6af1498a8",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 39367,
+        "sjis_hex": "0x99C7",
+        "display_character": "？",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 22,
+        "source_pointer": "0x085B0A20",
+        "source_sha256": "0d06936dab744c783f7118b67fa1597e73e70c9da43466932faaa80252ccf116",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 36345,
+        "sjis_hex": "0x8DF9",
+        "display_character": "…",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 9,
+        "source_pointer": "0x080AA474",
+        "source_sha256": "8ffdc51ad5ee3f5525ad22931986fa4da07a14945089cc31898925ed20a15995",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 35969,
+        "sjis_hex": "0x8C81",
+        "display_character": "…",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 8,
+        "source_pointer": "0x080A7D74",
+        "source_sha256": "c2024a282c50147778d9eb4706468939175ed86e33c49f227afc31260066eb2b",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 39530,
+        "sjis_hex": "0x9A6A",
+        "display_character": "真",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 23,
+        "source_pointer": "0x085B1620",
+        "source_sha256": "8b9e31db61ed817b39bb40dc5764351918d4ba5ce8b093935919483070054d8e",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 39749,
+        "sjis_hex": "0x9B45",
+        "display_character": "拿",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 24,
+        "source_pointer": "0x085B2920",
+        "source_sha256": "1652dd7053dcc8804d02b2bbcd76ea50e99abe4d444a62de2bc53d74460ffbee",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 37528,
+        "sjis_hex": "0x9298",
+        "display_character": "你",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 14,
+        "source_pointer": "0x080B1054",
+        "source_sha256": "877c2dbbaf6d3b96d45d984d86cd1a820ab6c4bbc5a729b27e3012be8d393378",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 38088,
+        "sjis_hex": "0x94C8",
+        "display_character": "没",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 16,
+        "source_pointer": "0x080B4654",
+        "source_sha256": "a71ce4ff38aaddc82678d78b94114b037639d09b27dbdf9a4f5f7c6066cb78f0",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 38626,
+        "sjis_hex": "0x96E2",
+        "display_character": "办",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 18,
+        "source_pointer": "0x080B7994",
+        "source_sha256": "becf6cbfbaaac506bdea4db4a0117ec5259e21260cd5ff6ba064233b54e582fd",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 37591,
+        "sjis_hex": "0x92D7",
+        "display_character": "法",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 14,
+        "source_pointer": "0x080B1834",
+        "source_sha256": "eba3685ec0b4f9a41534462e8444e3882cfd414af35243541477f6719c31b751",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 38340,
+        "sjis_hex": "0x95C4",
+        "display_character": "最",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 17,
+        "source_pointer": "0x080B5DD4",
+        "source_sha256": "afc412becbffccaa792ba44beed915ca2d1e8c8823ac63800000b915fcc8b75b",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 35704,
+        "sjis_hex": "0x8B78",
+        "display_character": "后",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 7,
+        "source_pointer": "0x080A6454",
+        "source_sha256": "93abbe0db2c4776e43ea2e1704b11204df0d1f9726cc804e578d6fbb40c756aa",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 36533,
+        "sjis_hex": "0x8EB5",
+        "display_character": "一",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 10,
+        "source_pointer": "0x080AB3F4",
+        "source_sha256": "1f7bb01da389941a17dcf63efe53f2a2f55044cb78e20dcc0bfcaf32799eb226",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 35575,
+        "sjis_hex": "0x8AF7",
+        "display_character": "次",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 6,
+        "source_pointer": "0x080A5C34",
+        "source_sha256": "c357536bc0f52d7e91f7e1d469cf1840d6ecfbc3e3c3a65bd8858ad0ed6f95dd",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 36495,
+        "sjis_hex": "0x8E8F",
+        "display_character": "哦",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 10,
+        "source_pointer": "0x080AAF34",
+        "source_sha256": "6511ad679ebb084fb949a2665c7a16df78f636b5147718c83590f985334eea19",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 39545,
+        "sjis_hex": "0x9A79",
+        "display_character": "！",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 23,
+        "source_pointer": "0x085B1800",
+        "source_sha256": "94a72e6c71447b6cecc04d13866565813952d8dbac21f24bfc9804c71a36741b",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      },
+      {
+        "sjis": 33096,
+        "sjis_hex": "0x8148",
+        "display_character": "！",
+        "semantic_status": "historical_ocr_label",
+        "unresolved_reason": null,
+        "entry_index": 0,
+        "source_pointer": "0x0809DA54",
+        "source_sha256": "e6dc6f70a55f266f460964d17cccde4b8c46fa57e6484d2c67cf17c5ba3dd4f9",
+        "source_indices_used": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "sjis": 35682,
+        "sjis_hex": "0x8B62",
+        "display_character": null,
+        "semantic_status": "unresolved",
+        "unresolved_reason": "non-empty localized glyph; character label unresolved; the following independent byte 0x0A is the newline control",
+        "entry_index": 7,
+        "source_pointer": "0x080A6194",
+        "source_sha256": "359b3ed5aa018173a0f708adb7cb7cbb776bd4823118eec06a76f73212a1dd1e",
+        "source_indices_used": [
+          0,
+          1,
+          3
+        ]
+      }
+    ]
+  },
   "datasets": {
     "sjis_full": {
       "item_count": 4410,
@@ -272647,11 +272999,13 @@
     ]
   },
   "scope": {
-    "kind": "original-ROM 2bpp dialogue glyph sources plus code-derived canonical 4bpp expansion",
+    "kind": "localized base-ROM 2bpp dialogue glyph sources plus code-derived canonical 4bpp expansion",
     "runtime_rgb_palette_verified": false,
-    "runtime_chinese_replacement_exported": false,
-    "group0_font_exported": false,
-    "glyph_character_names_asserted": false,
+    "localized_base_rom_glyph_sources_exported": true,
+    "group0_known_codes_use_sjis_table": true,
+    "runtime_replacement_layer_proven": false,
+    "full_unicode_naming_complete": false,
+    "full_glyph_character_names_asserted": false,
     "both_lookup_branches_exported": true
   }
 }

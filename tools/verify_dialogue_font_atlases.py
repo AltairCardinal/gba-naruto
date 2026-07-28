@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independently verify both original-ROM dialogue glyph branches."""
+"""Independently verify both localized base-ROM dialogue glyph branches."""
 
 from __future__ import annotations
 
@@ -32,6 +32,17 @@ BYTE_TABLE_SHA256 = (
 MAPPING_PATH = Path("sequel/content/text/sjis-to-tile-addr-20260703.json")
 MAPPING_SHA256 = (
     "3a8b8bb998028d93cdbd0905dd929efb96e1d9643720cbd36b817daf31db7e6f"
+)
+LOCALIZED_MAPPING_PATH = Path(
+    "sequel/content/text/sjis-to-tile-mapping.json"
+)
+LOCALIZED_MAPPING_SHA256 = (
+    "174dcb43915385fe0eab3e63a0671bc07edfd984c5d31f78c390f617c004a43d"
+)
+GROUP0_STREAM_OFFSET = 0x459414
+GROUP0_STREAM_SIZE = 41
+GROUP0_STREAM_SHA256 = (
+    "dc998ad097f02104c488a3d380a17b37ad02b89cba5491b49ed444d55dab2370"
 )
 HALF_TILE_SOURCE_BYTES = 16
 ATLAS_WIDTH_LIMIT = 256
@@ -315,6 +326,141 @@ def _mapping(
     )
 
 
+def _group0_stream(rom: bytes) -> dict[str, Any]:
+    raw = rom[
+        GROUP0_STREAM_OFFSET : GROUP0_STREAM_OFFSET + GROUP0_STREAM_SIZE
+    ]
+    if len(raw) != GROUP0_STREAM_SIZE:
+        raise ValueError("group0 stream is truncated")
+    if _sha256(raw) != GROUP0_STREAM_SHA256:
+        raise ValueError("group0 stream SHA-256 mismatch")
+    codes = []
+    controls = []
+    offset = 0
+    while offset < len(raw):
+        first = raw[offset]
+        if first == 0x0A:
+            controls.append(
+                {
+                    "relative_offset": offset,
+                    "file_offset": GROUP0_STREAM_OFFSET + offset,
+                    "value": "0x0A",
+                }
+            )
+            offset += 1
+            continue
+        if not 0x81 <= first <= 0xFC or offset + 1 >= len(raw):
+            raise ValueError(
+                f"group0 invalid lead byte 0x{first:02X} at +0x{offset:X}"
+            )
+        second = raw[offset + 1]
+        if not 0x40 <= second <= 0xFC:
+            raise ValueError(
+                f"group0 invalid trail byte 0x{second:02X} at +0x{offset + 1:X}"
+            )
+        codes.append(f"0x{first:02X}{second:02X}")
+        offset += 2
+    return {
+        "file_offset": GROUP0_STREAM_OFFSET,
+        "size": len(raw),
+        "sha256": _sha256(raw),
+        "raw_hex": raw.hex(),
+        "sjis_token_count": len(codes),
+        "sjis_codes": codes,
+        "control_bytes": controls,
+    }
+
+
+def _localized_mapping(
+    root: Path,
+    rom: bytes,
+    entries: list[dict[str, Any]],
+) -> dict[str, Any]:
+    raw = (root / LOCALIZED_MAPPING_PATH).read_bytes()
+    document = json.loads(raw)
+    mapping = document["mapping"]
+    unresolved = document.get("_unresolved_codes", {})
+    if not isinstance(unresolved, dict):
+        raise ValueError("localized glyph unresolved-code metadata is not an object")
+    stream = _group0_stream(rom)
+    errors = []
+    verified = []
+    overlap = sorted(set(mapping) & set(unresolved))
+    if overlap:
+        errors.append(f"codes both named and unresolved: {overlap}")
+    for key, display_character in mapping.items():
+        if not isinstance(display_character, str) or not display_character:
+            errors.append(f"0x{key}: invalid display-character label")
+        elif any(character in "\r\n" for character in display_character):
+            errors.append(f"0x{key}: control character used as glyph label")
+    rows = [
+        (key, display_character, "historical_ocr_label", None)
+        for key, display_character in mapping.items()
+    ]
+    rows.extend(
+        (
+            key,
+            None,
+            "unresolved",
+            metadata.get("reason") if isinstance(metadata, dict) else str(metadata),
+        )
+        for key, metadata in unresolved.items()
+    )
+    stream_codes = {code.removeprefix("0x") for code in stream["sjis_codes"]}
+    documented_codes = set(mapping) | set(unresolved)
+    if stream_codes != documented_codes:
+        errors.append(
+            "group0 documented codes differ from parsed SJIS tokens: "
+            f"missing={sorted(stream_codes - documented_codes)}, "
+            f"extra={sorted(documented_codes - stream_codes)}"
+        )
+    for key, display_character, semantic_status, unresolved_reason in rows:
+        sjis = int(key, 16)
+        hit = None
+        for entry in entries:
+            if entry["lower"] <= sjis < entry["lower"] + entry["range_size"]:
+                if hit is not None:
+                    errors.append(f"0x{key}: multiple table hits")
+                hit = entry
+        if hit is None:
+            errors.append(f"0x{key}: no table hit")
+            continue
+        pointer = (
+            int(hit["source_pointer"], 16)
+            + (sjis - hit["lower"]) * SJIS_SOURCE_BYTES
+        )
+        source = _source_raw(rom, pointer, SJIS_SOURCE_BYTES)
+        verified.append(
+            {
+                "sjis": sjis,
+                "sjis_hex": f"0x{sjis:04X}",
+                "display_character": display_character,
+                "semantic_status": semantic_status,
+                "unresolved_reason": unresolved_reason,
+                "entry_index": hit["index"],
+                "source_pointer": _pointer(pointer),
+                "source_sha256": _sha256(source),
+                "source_indices_used": _used(_histogram(source)),
+            }
+        )
+    return {
+        "path": str(LOCALIZED_MAPPING_PATH),
+        "sha256": _sha256(raw),
+        "basis": document.get("_mapping_method"),
+        "source_offsets": document.get("_source_offsets"),
+        "semantic_mapping_count": len(mapping),
+        "unresolved_code_count": len(unresolved),
+        "source_resolved_count": len(verified),
+        "source_binding_claim": (
+            "ROM lookup verifies code, source pointer, and source bytes; "
+            "historical OCR labels remain semantic metadata"
+        ),
+        "group0_stream": stream,
+        "errors": errors,
+        "mappings": verified,
+    }
+
+
 def _raw_for(
     rom: bytes,
     records: Iterable[tuple[int, int, int]],
@@ -473,6 +619,7 @@ def verify_dialogue_font_atlases(
         sjis_entries, sjis_records = _parse_sjis(rom)
         byte_entries, byte_records = _parse_byte(rom)
         mapping, intro_glyphs = _mapping(root, sjis_entries)
+        localized_mapping = _localized_mapping(root, rom, sjis_entries)
     except (
         OSError,
         ValueError,
@@ -503,6 +650,12 @@ def verify_dialogue_font_atlases(
         errors.append("byte_table.sha256: source table mismatch")
     if mapping["sha256"] != MAPPING_SHA256:
         errors.append("chapter_intro_mapping.sha256: source mapping mismatch")
+    if localized_mapping["sha256"] != LOCALIZED_MAPPING_SHA256:
+        errors.append("localized_mapping_evidence.sha256: source mapping mismatch")
+    errors.extend(
+        f"localized_mapping_evidence: {error}"
+        for error in localized_mapping["errors"]
+    )
 
     half_refs = {}
     for logical_index, (entry_index, sjis, pointer) in enumerate(sjis_records):
@@ -636,6 +789,7 @@ def verify_dialogue_font_atlases(
         "physical_half_tiles": expected_halves,
         "chapter_intro_mapping": mapping,
         "chapter_intro_glyphs": intro_glyphs,
+        "localized_mapping_evidence": localized_mapping,
         "source_format": {
             "bits_per_pixel": 2,
             "pixels_per_byte": 4,
@@ -688,13 +842,15 @@ def verify_dialogue_font_atlases(
         },
         "scope": {
             "kind": (
-                "original-ROM 2bpp dialogue glyph sources plus code-derived "
-                "canonical 4bpp expansion"
+                "localized base-ROM 2bpp dialogue glyph sources plus "
+                "code-derived canonical 4bpp expansion"
             ),
             "runtime_rgb_palette_verified": False,
-            "runtime_chinese_replacement_exported": False,
-            "group0_font_exported": False,
-            "glyph_character_names_asserted": False,
+            "localized_base_rom_glyph_sources_exported": True,
+            "group0_known_codes_use_sjis_table": True,
+            "runtime_replacement_layer_proven": False,
+            "full_unicode_naming_complete": False,
+            "full_glyph_character_names_asserted": False,
             "both_lookup_branches_exported": True,
         },
     }
@@ -813,7 +969,7 @@ def verify_dialogue_font_atlases(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Verify both original-ROM dialogue font atlas branches",
+        description="Verify both localized-ROM dialogue font atlas branches",
     )
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument(

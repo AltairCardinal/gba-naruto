@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lossless export of both original-ROM dialogue glyph lookup branches."""
+"""Lossless export of both localized base-ROM dialogue glyph branches."""
 
 from __future__ import annotations
 
@@ -21,6 +21,9 @@ SJIS_TABLE_SHA256 = (
 )
 BYTE_TABLE_SHA256 = (
     "f6d1d6950f29cf0cb2e03e3d365ac5cc8faaafd2336c12c8ab28673602873b90"
+)
+LOCALIZED_MAPPING_SHA256 = (
+    "174dcb43915385fe0eab3e63a0671bc07edfd984c5d31f78c390f617c004a43d"
 )
 MAPPING_SHA256 = (
     "3a8b8bb998028d93cdbd0905dd929efb96e1d9643720cbd36b817daf31db7e6f"
@@ -188,6 +191,92 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
                 < entry["lower"] + entry["range_size"]
             ]
             self.assertEqual([expected_entry], hits)
+
+    def test_known_localized_glyphs_are_bound_to_rom_sources(self):
+        evidence = self.manifest["localized_mapping_evidence"]
+        self.assertEqual(
+            "sequel/content/text/sjis-to-tile-mapping.json",
+            evidence["path"],
+        )
+        self.assertEqual(LOCALIZED_MAPPING_SHA256, evidence["sha256"])
+        self.assertEqual(19, evidence["semantic_mapping_count"])
+        self.assertEqual(1, evidence["unresolved_code_count"])
+        self.assertEqual(20, evidence["source_resolved_count"])
+        self.assertEqual([], evidence["errors"])
+        samples = {
+            item["sjis_hex"]: (
+                item["display_character"],
+                item["semantic_status"],
+                item["source_pointer"],
+                item["source_sha256"],
+            )
+            for item in evidence["mappings"]
+        }
+        self.assertEqual(
+            (
+                "什",
+                "historical_ocr_label",
+                "0x080A2754",
+                "95628aafdf25dc250aa439cc814e62c4e4cd0dfb5d76440af0d79221883be675",
+            ),
+            samples["0x88CF"],
+        )
+        self.assertEqual(
+            (
+                "么",
+                "historical_ocr_label",
+                "0x080ACD94",
+                "6ca10a1eb18ac95404c686185c6111bd1aac284b97db70110e234532dd4da1af",
+            ),
+            samples["0x8FC2"],
+        )
+        self.assertEqual(
+            (
+                None,
+                "unresolved",
+                "0x080A6194",
+                "359b3ed5aa018173a0f708adb7cb7cbb776bd4823118eec06a76f73212a1dd1e",
+            ),
+            samples["0x8B62"],
+        )
+        stream = evidence["group0_stream"]
+        self.assertEqual(0x459414, stream["file_offset"])
+        self.assertEqual(41, stream["size"])
+        self.assertEqual(20, stream["sjis_token_count"])
+        self.assertEqual(
+            [
+                {
+                    "relative_offset": 26,
+                    "file_offset": 0x45942E,
+                    "value": "0x0A",
+                }
+            ],
+            stream["control_bytes"],
+        )
+        self.assertEqual(
+            "dc998ad097f02104c488a3d380a17b37ad02b89cba5491b49ed444d55dab2370",
+            stream["sha256"],
+        )
+        scope = self.manifest["scope"]
+        self.assertTrue(scope["localized_base_rom_glyph_sources_exported"])
+        self.assertTrue(scope["group0_known_codes_use_sjis_table"])
+        self.assertFalse(scope["runtime_replacement_layer_proven"])
+        self.assertFalse(scope["full_unicode_naming_complete"])
+
+    def test_group0_control_byte_is_not_mislabeled_as_a_sjis_glyph(self):
+        from tools.translate_sjis_to_chinese import (
+            load_mapping,
+            translate_bytes,
+        )
+
+        rom = (ROOT / "rom/base.gba").read_bytes()
+        raw = rom[0x459414 : 0x459414 + 41]
+        translated, unknowns = translate_bytes(raw, load_mapping())
+        self.assertEqual(
+            "什么！？……真拿你没办法?\n最后一次哦！！",
+            translated,
+        )
+        self.assertEqual(["8B62"], unknowns)
 
     def test_sjis_atlas_joins_tile_major_halves_row_by_row(self):
         dataset = self.manifest["datasets"]["sjis_full"]

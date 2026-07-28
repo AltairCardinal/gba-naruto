@@ -2,9 +2,10 @@
 """
 Translate SJIS bytes → game tile Chinese chars using 熊组汉化 mapping.
 
-The mapping is a 1:1 byte → tile-char lookup that the 熊组汉化 group
-created by replacing GBA tile images (font table). Each SJIS double
-byte maps to a single displayed character in-game.
+The mapping records historically identified displayed characters for
+localized glyphs stored behind SJIS-compatible double-byte codes. Codes
+whose character semantics remain unresolved are intentionally omitted
+and returned as unknowns; control bytes are parsed independently.
 
 To build the mapping:
 1. OCR game dialogue screenshots with mmx vision
@@ -20,13 +21,15 @@ import sqlite3
 import sys
 from pathlib import Path
 
-MAPPING_FILE = Path('sequel/content/text/sjis-to-tile-mapping.json')
+ROOT = Path(__file__).resolve().parents[1]
+MAPPING_FILE = ROOT / 'sequel/content/text/sjis-to-tile-mapping.json'
 DB_PATH = Path('sequel/editor.db')
 
 
 def load_mapping() -> dict:
     """Load SJIS byte (hex string) → tile char mapping."""
-    data = json.load(open(MAPPING_FILE))
+    with MAPPING_FILE.open(encoding='utf-8') as stream:
+        data = json.load(stream)
     return data.get('mapping', {})
 
 
@@ -115,10 +118,17 @@ def main():
         print(f'  translated: {translated}')
         if unknowns:
             unique_unknowns = list(set(unknowns))
-            print(f'  unknown SJIS bytes: {len(unknowns)} ({unique_unknowns[:5]}{"..." if len(unique_unknowns) > 5 else ""})')
+            suffix = "..." if len(unique_unknowns) > 5 else ""
+            print(
+                f'  unknown SJIS bytes: {len(unknowns)} '
+                f'({unique_unknowns[:5]}{suffix})'
+            )
 
         if not dry_run:
-            cur.execute("UPDATE dialogues SET text_ja = ? WHERE key = ?", (translated, key))
+            cur.execute(
+                "UPDATE dialogues SET text_ja = ? WHERE key = ?",
+                (translated, key),
+            )
 
     conn.commit()
     conn.close()

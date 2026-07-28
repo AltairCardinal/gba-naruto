@@ -4,22 +4,22 @@ decode_dialogue_record.py — Decode dialogue records from chapter 1 intro
 at IWRAM 0x78 LE-interpreted offsets (0x8DF0..0xB8EB).
 
 Each record (~374-383 bytes) contains multiple dialogue segments separated by
-SJIS byte pair 0x8B62 (newline). Inside each segment are SJIS byte pairs
-encoding Chinese characters + control bytes (0x01, 0x02, 0x0A, 0x1F, etc.)
-and templates.
+the independent control byte 0x0A. Inside each segment are SJIS-compatible
+byte pairs encoding localized glyphs plus other control bytes (0x01, 0x02,
+0x1F, etc.) and templates. The non-empty glyph code 0x8B62 is not a newline
+and remains unresolved.
 
 Usage:
   python3 tools/decode_dialogue_record.py <state_index>
   # or
   python3 tools/decode_dialogue_record.py <hex_offset>
 
-Output: JSON with decoded segments using sjis-to-tile-mapping.json (currently 20 chars),
+Output: decoded segments using sjis-to-tile-mapping.json (currently 19 named chars),
 unknown byte pairs flagged for manual investigation.
 """
 
 import sys
 import json
-import re
 from pathlib import Path
 
 # Load existing mapping
@@ -38,12 +38,13 @@ ROM_PATH = SCRIPT_DIR.parent / "build" / "naruto-sequel-dev.gba"
 
 
 def load_mapping():
-    with open(MAP_PATH) as f:
+    with MAP_PATH.open(encoding="utf-8") as f:
         raw = json.load(f)
+    named = raw.get("mapping")
+    if not isinstance(named, dict):
+        raise ValueError("dialogue glyph mapping has no mapping object")
     out = {}
-    for k, v in raw.items():
-        if k.startswith("_"):
-            continue
+    for k, v in named.items():
         # Map is keyed by SJIS bytes (hex) → Chinese char (or special)
         if isinstance(k, str) and len(k) == 4:
             try:
@@ -68,11 +69,11 @@ def decode_record(record_bytes, mapping):
     i = 0
     while i < len(record_bytes):
         b = record_bytes[i]
-        if i + 1 < len(record_bytes) and b == 0x8B and record_bytes[i + 1] == 0x62:
-            # newline delimiter
+        if b == 0x0A:
+            # Independent newline control byte; never consume a glyph pair.
             segments.append(cur_seg_bytes)
             cur_seg_bytes = []
-            i += 2
+            i += 1
         else:
             cur_seg_bytes.append(b)
             i += 1
@@ -88,11 +89,7 @@ def decode_record(record_bytes, mapping):
         while i < len(seg) - 1:
             bp = bytes([seg[i], seg[i + 1]])
             if bp in mapping:
-                val = mapping[bp]
-                if isinstance(val, str) and val.startswith("\\n"):
-                    decoded.append("\n")
-                else:
-                    decoded.append(val)
+                decoded.append(mapping[bp])
                 i += 2
             elif 0x81 <= seg[i] <= 0xFC and 0x40 <= seg[i + 1] <= 0xFC:
                 # Possible SJIS pair but unknown mapping

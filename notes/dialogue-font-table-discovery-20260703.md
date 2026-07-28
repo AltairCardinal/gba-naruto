@@ -66,10 +66,17 @@ from this table and therefore proved a second font system. That claim is false:
 `0x88CF` is in entry 4 (`0x889F..0x88FC`) and `0x8FC2` is in entry 11
 (`0x8F40..0x8FFC`). The table can resolve both codes.
 
-The ROM sources decoded here visually contain original Japanese glyphs. This
-alone does not prove how the localized runtime obtains Chinese glyphs, nor does
-it prove that group0 uses a separate table. Those questions require a runtime
-consumer/write trace and remain open.
+The ROM is the 熊组 localized build. Correct tile-major decoding shows that the
+records themselves already contain the localized Chinese glyph pixels:
+`0x88CF` renders `什`, `0x8FC2` renders `么`, and `0x9A6A` renders `真`.
+The CP932 meanings of those codes (`委`, `渉`, `嗚`) are code-point labels, not
+the patched pixels' semantics. `0x08065EB8` reads these records directly and
+writes the expanded tiles; no intermediate runtime replacement layer is needed
+or proven. Group0's 20 double-byte codes all resolve through this same table.
+The ROM lookup proves their source records, while the display-character labels
+remain historical screenshot-alignment metadata: 19 are named and `0x8B62`
+remains explicitly unresolved. The byte immediately following `0x8B62` is the
+independent `0x0A` newline control.
 
 ## Renderer Chain (VERIFIED)
 
@@ -99,13 +106,12 @@ consumer/write trace and remain open.
 
 ## Next Steps (Beyond This Session)
 
-1. Trace group0 rendering to determine whether it reuses `0x53D644` or a
-   different source; do not assume a second font table.
-2. Trace the localized runtime's glyph-source reads and VRAM writes to locate
-   any Chinese replacement data.
-3. Preserve source code, VRAM destination, palette, and frame evidence before
-   assigning tile indices to Chinese characters.
+1. Resolve `0x8B62`, then extend the 19 currently named OCR alignments into a complete
+   code-to-Unicode naming catalog without changing the lossless source export.
+2. Verify the runtime RGB palette used by the dialogue renderer.
+3. Investigate other UI/OBJ font consumers independently; do not infer another
+   font merely from a text group name.
 
 For chapter 1 intro dialogue, the 517 SJIS→source-address mappings provide the
-original Japanese glyph sources. Runtime Chinese replacement, group0 font data,
-runtime RGB palettes, and character naming remain separate unresolved scopes.
+localized ROM glyph sources. Full Unicode naming and runtime RGB palette colors
+remain separate unresolved scopes.

@@ -204,9 +204,17 @@ expands it to one 4bpp tile. Both branches use:
 `output_index = source_2bpp + (((arg1 & 1) + 2) << 2)`.
 
 The canonical renderer at `0x0808942C` supplies `arg1=1` for SJIS (indices
-12-15) and `arg1=0` for the byte branch (indices 8-11). These are original-ROM
-glyph sources; runtime RGB palette colors, Chinese replacement glyphs, and the
-separate group0 font are not established by this structure.
+12-15) and `arg1=0` for the byte branch (indices 8-11). In the localized base
+ROM, these source records already contain the Chinese replacement pixels:
+known group0 codes such as `0x88CF`, `0x8FC2`, and `0x9A6A` render `什`, `么`,
+and `真` according to the historical screenshot alignment. The ROM lookup
+independently proves their source pointers and pixel records, not the Unicode
+labels themselves. In particular, `0x8B62` is a non-empty unresolved glyph;
+the following independent `0x0A` byte is the newline control.
+`0x08065FEE` and `0x08065FFE` place the two expanded tiles into adjacent
+tilemap halfwords, proving the 16×8 horizontal geometry. Runtime RGB colors and
+a complete 4410-code Unicode naming catalog remain unresolved; group0 is a
+text-pointer group, not evidence of another font.
 
 ---
 

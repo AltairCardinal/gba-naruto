@@ -1,5 +1,10 @@
 # Dialogue Mapping - Decoder Discovery (2026-07-02)
 
+> **已被 2026-07-29 证据部分取代。** 字库表与全量源字形现已导出到
+> `artifacts/dialogue-font-v2/`。原文把 `0x8B62` 误标成换行；原始流实际
+> 为 `... 8B62 0A ...`，`0x8B62` 是非空但字符语义未确认的字形，独立
+> `0x0A` 才是换行控制。以下历史过程保留用于审计，过期结论不得继续引用。
+
 ## Major Breakthrough (corrects previous analysis)
 
 The breakthrough commit `473a737` claimed "IWRAM 0x03000078 = current dialogue ROM
@@ -40,7 +45,7 @@ the tile graphics so the same SJIS bytes now display as Chinese characters.
 | 0x8ECF     | "煮" | (Chinese char unknown) |
 | 0x8AF0     | "嬉" | (Chinese char unknown) |
 
-## Existing 20-char mapping decoded
+## Existing mapping decoded（历史表，1 项已取代）
 
 The existing sjis-to-tile-mapping.json was validated against cp932:
 
@@ -58,7 +63,7 @@ The existing sjis-to-tile-mapping.json was validated against cp932:
 | 94C8    | 畔             | 没 |
 | 96E2    | 問             | 办 |
 | 92D7    | 潰             | 法 |
-| 8B62    | 誼             | \n |
+| 8B62    | 誼             | 未确认；不是换行 |
 | 95C4    | 米             | 最 |
 | 8B78    | 休             | 后 |
 | 8EB5    | 七             | 一 |
@@ -67,8 +72,9 @@ The existing sjis-to-tile-mapping.json was validated against cp932:
 | 9A79    | 噐             | ！ |
 | 8148    | ？             | ！ |
 
-Each SJIS byte pair decodes to a Japanese character via cp932. The DISPLAYED
-Chinese character is determined by the tile table (replaced by 熊组汉化).
+Each SJIS byte pair decodes to a nominal Japanese character via cp932. The
+displayed localized pixels are determined by the patched tile table. Nineteen
+historical labels remain named; `0x8B62` is explicitly unresolved.
 
 ## What this means
 

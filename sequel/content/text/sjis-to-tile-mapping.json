@@ -1,9 +1,15 @@
 {
-  "_comment": "熊组汉化版 SJIS byte → tile 字符 映射。From OCR of hanhua-final.png (group0 dialogue '什么！？……真拿你没办法……最后一次哦！！') vs base ROM group0 SJIS bytes.",
+  "_comment": "熊组汉化版 SJIS 双字节码 → 显示字符的历史 OCR 映射。ROM 字库查表可验证码位、源地址和像素记录，但不能单独证明字符语义；未确认项单独记录，不得伪装成控制字节。",
   "_source_offsets": {
-    "group0": "0x459414 (41 bytes, 20 SJIS doubles + 1 newline)"
+    "group0": "0x459414 (41 bytes, 20 SJIS double-byte tokens + 1 independent 0x0A control byte)"
   },
-  "_mapping_method": "1:1 SJIS double byte → game tile character",
+  "_mapping_method": "historical screenshot OCR labels correlated with the group0 byte stream; ROM lookup independently binds each code to a glyph source record",
+  "_unresolved_codes": {
+    "8B62": {
+      "reason": "non-empty localized glyph; character label unresolved; the following independent byte 0x0A is the newline control",
+      "source_pointer": "0x080A6194"
+    }
+  },
   "mapping": {
     "88CF": "什",
     "8FC2": "么",
@@ -17,7 +23,6 @@
     "94C8": "没",
     "96E2": "办",
     "92D7": "法",
-    "8B62": "\n",
     "95C4": "最",
     "8B78": "后",
     "8EB5": "一",

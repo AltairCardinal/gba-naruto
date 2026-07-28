@@ -60,6 +60,10 @@ and tile indices depends on the game's FONT TABLE which I haven't located yet.
 
 ## Status
 
+> 2026-07-29 更新：以下状态是历史快照。字库表、4602 个源字形和 renderer
+> 链现已静态导出；`0x8B62` 不是换行，独立 `0x0A` 才是控制字节。当前映射
+> 为 19 个已命名字符加 1 个显式未确认码位。
+
 The dialogue mapping research has:
 - ✅ Identified IWRAM 0x78 as record index (not ROM offset)
 - ✅ Decoded records as cp932 SJIS Japanese text
@@ -71,5 +75,6 @@ The dialogue mapping research has:
 
 ## Tools shipped
 
-- `tools/decode_dialogue_record.py` - decodes records using existing 20-char mapping
+- `tools/decode_dialogue_record.py` - decodes records using 19 named mappings and
+  preserves unresolved `0x8B62` as an unknown glyph
 - `tools/decode_dialogue_record.py` - decodes records as cp932 (for Japanese text)
