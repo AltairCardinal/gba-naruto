@@ -388,3 +388,21 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 `battle-presentation-original-probes-20260727-01/` 等目录虽然没有直接路径引用，
 仍含未被最终 artifact 完整覆盖的独有 GPU/OAM/PRAM/VRAM 帧，不能仅凭“无引用”
 判定为缓存。
+
+## 第十七轮清理：UI 深度宿主测试成果承接
+
+本轮在最新逆向成果之后重新核对 Goal、Git 状态、活跃代理、进程占用、仓库引用和
+`artifacts/` 承接状态：
+
+- 当前顶层 `build/` 清理前为 `1,276,876 KiB`，不是此前所称的 `24 GiB`；
+- `build/butano-battle-ui-flow-depth-host-20260729-01/` 只含 8 个 x86_64 宿主测试
+  可执行文件，不含 ROM、快照、运行时 dump 或人工输入；
+- 对应测试源码仍在 `butano-sequel/game/tests/`，完整编译、执行命令和成功守卫结果
+  已提交到 `artifacts/butano-battle-ui-flow-depth-20260729-01/`；
+- 删除前确认没有进程占用该目录，因此删除整个宿主二进制目录，回收 `6,148 KiB`；
+  清理后顶层 `build/` 为 `1,270,728 KiB`。
+
+场景 49 的 GPU 和战后回放临时目录没有一并删除：前者仍有只存在于临时目录的派生背景
+图并被参考 manifest 指向，后者仍含未迁入持久 artifact 的原始 SAV/ROM 输入。其余约
+`1.21 GiB` 也继续按既有分类保留，主要是尚未完整成果化的录像、trace、快照、内存
+转储，以及测试或工具直接读取的音频、签名工具链和运行守卫。
