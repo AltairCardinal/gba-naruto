@@ -244,3 +244,24 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 因此本轮实际删除量仍为 `0`。这是按成果转化状态得出的安全结果；此时继续删除只能
 回收尚未固化的原始证据或影响并行任务。下一批应在相应录像/trace 建立完整 manifest、
 输入哈希、关键输出和独立 verifier 并提交后，再按实验目录整批清理。
+
+## 第十一轮清理：世界地图运行时成果承接
+
+世界地图首页运行时证据提交为 `artifacts/world-map-gpu-captures/s42-page0/` 和
+`artifacts/world-map-runtime-v1/` 后，复核对应临时目录
+`build/world-map-gpu-s42-20260729-01/`：
+
+- 临时目录的 `audit.json`、`frame.png`、`io.bin`、`oam.bin`、`pram.bin` 和
+  `vram.bin` 与已跟踪 artifact 逐文件 SHA-256 相同；
+- 临时 `done.json` 与已跟踪 `audit.json` 内容及 SHA-256 相同；
+- `python3 tools/verify_world_map_runtime.py` 在不读取临时目录的情况下验证通过；
+- 临时目录没有进程占用，仓库外部引用仅存在于已提交 guard 对原始执行命令的历史记录
+  中，不构成运行依赖。
+
+因此删除该目录的 7 个重复文件和空目录，回收 `176 KiB`。删除后再次运行独立 verifier
+仍通过，证明世界地图运行时结论、原始 GPU 状态、截图、运行守卫和复核入口均已由持久
+成果承接。
+
+本轮没有清理并行 Butano 工作的 `butano-sequel/build/`、`build/resource-guard/`、
+场景 49 运行目录或其 artifact。其余大体积录像、trace、快照和内存转储仍未被完整、
+可独立验证的持久成果覆盖，继续保留。
