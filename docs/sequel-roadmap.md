@@ -935,6 +935,16 @@ WebSocket
   artifact 新增 172 张精确运行时配色 PNG、透明索引 0、运行时总览和原始 palette；
   独立 verifier 从 ROM 重建 palette、两套 PNG 及文件集合并通过篡改测试。消息字符
   映射和与 79×0x44 effect descriptor 的完整逐帧合成仍未闭合，Goal 保持 active。
+- 2026-07-29：闭合 79 项 visual descriptor 与 79 条表现消息的同索引目录。
+  `0x08098442..0x08098460` 将 1-based input ID 减一后以 `×0x44` 选择
+  `0x085A320C` descriptor；`0x08099564..0x08099582` 从同一状态字节以 `×4`
+  选择 `0x085A2B08` message。统一 artifact 逐项关联 236 个完整静态图层、284 个
+  实际 glyph 槽和 10 个 `0xFF` 跳过槽，并生成 79 张 A/B/C/D＋消息字形编辑器预览。
+  独立 verifier 返回 79/236/284/10、`errors=[]`；成果位于
+  `artifacts/battle-visual-catalog-v1/`，说明见
+  `notes/battle-visual-catalog-export-20260729.md`。预览是分区 contact sheet，
+  不冒充逐 tick scroll/enable/blend、共享 VRAM 与最终 screen-space 合成，Goal
+  保持 active。
 - 2026-07-29：闭合 regular BG 的完整场景选择目录。批量遍历 primary/alternate
   110/110 个非空章节脚本槽、98 个唯一根和 14,199 个唯一 CFG 节点，精确处理两套
   text token 规则及 42 个双分支 opcode `0x06`，得到 6 个唯一 opcode `0x1E`
