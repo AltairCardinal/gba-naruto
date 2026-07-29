@@ -82,8 +82,15 @@ python3 -m unittest \
 
 验证器同时执行两层检查：
 
-1. 独立校验 24 项顺序、descriptor flags、callback mode、阶段表、逐 tick 交叉字段、
-   事件白名单、哈希、PNG 完整性和目录文件集；
-2. 从哈希绑定 ROM 重建全部 JSON/PNG 并逐字节比较，证明产物可复现。
+1. 不导入导出器，直接从 ROM 读取 24 项 config/descriptor；状态机实现与导出器隔离，
+   并将 easing、callback dispatch、palette `phase×2`、alpha enable、资源替换、
+   主运动和 scroll commit 分别绑定到 8 段人工审计过的 Thumb 规则切片地址及哈希，
+   再解释 106 tick 的位置、scroll、enable、blend、资源切换、事件和 palette phase；
+2. 校验 manifest/JSON 哈希、PNG 完整性、目录文件集，并把 24 张 contact sheet
+   与逐项固定的已审计 SHA-256 基线比较。
 
-运行时像素等价仍需后续受资源守卫的代表帧验证，不能由第 2 层自我重建单独推出。
+回归测试会临时令导出器私有 `_build_outputs` 抛错，验证器仍须 24/24 通过；这防止
+验证链重新退化为直接调用“导出器验证自己”。状态机仍是对相同 Thumb 语义的隔离复写，
+不是形式化证明；规则切片哈希用于确保它审计的指令没有漂移。固定 PNG 基线能检测同步
+篡改，但不是第二套 ROM 像素合成器；运行时像素等价仍需后续受资源守卫的代表帧验证，
+不能由基线推出。

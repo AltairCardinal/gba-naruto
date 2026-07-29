@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 from PIL import Image
@@ -167,6 +168,18 @@ class StorySceneTimelineTests(unittest.TestCase):
             "manifest does not match ROM-derived timelines",
             result["errors"],
         )
+
+    def test_verifier_does_not_call_exporter_private_rebuild(self):
+        from tools.verify_story_scene_timelines import (
+            verify_story_scene_timelines,
+        )
+
+        with mock.patch(
+            "tools.export_story_scene_timelines._build_outputs",
+            side_effect=AssertionError("verifier called exporter rebuild"),
+        ):
+            result = verify_story_scene_timelines(ROOT, self.output_dir)
+        self.assertEqual([], result["errors"])
 
     def test_verifier_rejects_timeline_schema_tampering_with_updated_hash(self):
         from tools.verify_story_scene_timelines import (
