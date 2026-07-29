@@ -35,14 +35,62 @@
       3
     ]
   },
+  "consumer_evidence": {
+    "natural_loader": {
+      "gba_range": [
+        "0x08072EDC",
+        "0x08072FFE"
+      ],
+      "size": 290,
+      "sha256": "1b7427dd2ad35bb7b439de5f9f1fc6ce1e82a073d547e06eacbf8ba34e11073f"
+    },
+    "sprite_task_allocator": {
+      "gba_range": [
+        "0x080625A4",
+        "0x080626B0"
+      ],
+      "size": 268,
+      "sha256": "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54"
+    },
+    "animation_frame_selector": {
+      "gba_range": [
+        "0x0806298C",
+        "0x080629A0"
+      ],
+      "size": 20,
+      "sha256": "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb3890d16e134b331e1ab"
+    },
+    "animation_timing_consumer": {
+      "gba_range": [
+        "0x08063256",
+        "0x080632D8"
+      ],
+      "size": 130,
+      "sha256": "1ec4801f36351e56d511caaa6cc5fdf31d52142292e64d3c9cf6567eed468be0"
+    }
+  },
+  "animation_runtime": {
+    "loader_requested_flags": "0x00000008",
+    "allocator_active_bit": "0x00000001",
+    "initial_task_flags": "0x00000009",
+    "termination_policy_bits": "0x00",
+    "timer_storage": "u16",
+    "timer_initial": 0,
+    "timer_increment_per_update": 1,
+    "duration_compare": "duration_ticks == timer_after_increment",
+    "zero_duration_first_expiry_updates": 65536,
+    "terminator_frame_index": -1,
+    "terminator_policy": "deactivate_task"
+  },
   "scope": {
     "kind": "static 4bpp OBJ atlases and definition-backed frames",
     "final_runtime_sequence": false,
-    "animation_timing_interpreted": false,
+    "animation_timing_interpreted": true,
     "palette_index_zero_transparent": true
   },
   "resource_count": 4,
   "frame_count": 10,
+  "animation_count": 10,
   "frame_counts": [
     2,
     2,
@@ -120,7 +168,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 1,
+          "first_expiry_update": 1,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 0,
+              "start_update": 0,
+              "end_update_exclusive": 1
+            }
+          ],
+          "animation_timeline_json": "resource_0_animation_00.json",
           "png": "resource_0_frame_00.png",
           "png_sha256": "e089d0e4406ef6148b875cb990351e260e44c8144398f9a80474fe5f3163af52"
         },
@@ -155,7 +214,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 1,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_0_animation_01.json",
           "png": "resource_0_frame_01.png",
           "png_sha256": "1e332d5aea013f57be42601b54fe62a0fcd972ffdcd56a45419bb11ddc1980f2"
         }
@@ -229,7 +299,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 1,
+          "first_expiry_update": 1,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 0,
+              "start_update": 0,
+              "end_update_exclusive": 1
+            }
+          ],
+          "animation_timeline_json": "resource_1_animation_00.json",
           "png": "resource_1_frame_00.png",
           "png_sha256": "ce1eba76885bc4f99b8f89fca32935f3d4df16176dcf0f52cb3f210474737818"
         },
@@ -264,7 +345,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 1,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_1_animation_01.json",
           "png": "resource_1_frame_01.png",
           "png_sha256": "0d88f641801cdbe6beee8d8308dc1c3d1b2c4ed4add3383fba32429592d94059"
         }
@@ -338,7 +430,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 1,
+          "first_expiry_update": 1,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 0,
+              "start_update": 0,
+              "end_update_exclusive": 1
+            }
+          ],
+          "animation_timeline_json": "resource_2_animation_00.json",
           "png": "resource_2_frame_00.png",
           "png_sha256": "a16b2ced997f22bd20269df5fd0f2ba8c498ad7b7a613a297c2cc1d047674d76"
         },
@@ -373,7 +476,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 1,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_2_animation_01.json",
           "png": "resource_2_frame_01.png",
           "png_sha256": "566208450572e1795a43b130affbf62d4e61918ae7bde9928bf9aff699e0b47c"
         }
@@ -447,7 +561,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 1,
+          "first_expiry_update": 1,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 0,
+              "start_update": 0,
+              "end_update_exclusive": 1
+            }
+          ],
+          "animation_timeline_json": "resource_3_animation_00.json",
           "png": "resource_3_frame_00.png",
           "png_sha256": "8aa382ddec019e32193bc3ee8dabc95ef196bafcee546642e468ed448bb4f239"
         },
@@ -482,7 +607,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 1,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_3_animation_01.json",
           "png": "resource_3_frame_01.png",
           "png_sha256": "5ecef9314a84dd389e0b37b620aafdb0d772f73f2fb916b27dac474bf204b201"
         },
@@ -517,7 +653,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 2,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_3_animation_02.json",
           "png": "resource_3_frame_02.png",
           "png_sha256": "f6e72969a6895479373cedd6cd3c9398aa94c5fa2efcbb55df453600b5999d9f"
         },
@@ -552,7 +699,18 @@
             65535,
             0
           ],
-          "animation_timing_interpreted": false,
+          "animation_timing_interpreted": true,
+          "duration_ticks": 0,
+          "first_expiry_update": 65536,
+          "termination_policy": "deactivate_task",
+          "playback": [
+            {
+              "frame_id": 3,
+              "start_update": 0,
+              "end_update_exclusive": 65536
+            }
+          ],
+          "animation_timeline_json": "resource_3_animation_03.json",
           "png": "resource_3_frame_03.png",
           "png_sha256": "29e41b3384227f24a5f7a6cd843c7272ab2721169e4a35302c1001229231d589"
         }

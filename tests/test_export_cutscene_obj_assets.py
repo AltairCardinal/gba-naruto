@@ -71,11 +71,56 @@ class CutsceneObjAssetExportTests(unittest.TestCase):
         self.assertEqual(COMBINED_TABLE_SHA256, manifest["combined_table_sha256"])
         self.assertEqual(4, manifest["resource_count"])
         self.assertEqual(10, manifest["frame_count"])
+        self.assertEqual(10, manifest["animation_count"])
         self.assertEqual(4, manifest["atlas_count"])
         self.assertEqual(1, manifest["unique_palette_count"])
         self.assertEqual([2, 2, 2, 4], manifest["frame_counts"])
         self.assertEqual(4, len(manifest["resources"]))
-        self.assertEqual(15, len(list(self.output_dir.iterdir())))
+        self.assertEqual(25, len(list(self.output_dir.iterdir())))
+        self.assertEqual(
+            {
+                "loader_requested_flags": "0x00000008",
+                "allocator_active_bit": "0x00000001",
+                "initial_task_flags": "0x00000009",
+                "termination_policy_bits": "0x00",
+                "timer_storage": "u16",
+                "timer_initial": 0,
+                "timer_increment_per_update": 1,
+                "duration_compare": (
+                    "duration_ticks == timer_after_increment"
+                ),
+                "zero_duration_first_expiry_updates": 65536,
+                "terminator_frame_index": -1,
+                "terminator_policy": "deactivate_task",
+            },
+            manifest["animation_runtime"],
+        )
+        self.assertEqual(
+            {
+                "natural_loader": (
+                    "1b7427dd2ad35bb7b439de5f9f1fc6ce1e82a073d547e06"
+                    "eacbf8ba34e11073f"
+                ),
+                "sprite_task_allocator": (
+                    "e238cd1ee159265fb8b718766f336f8d5462596954f93c780"
+                    "5d1bf33dd6b3c54"
+                ),
+                "animation_frame_selector": (
+                    "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb389"
+                    "0d16e134b331e1ab"
+                ),
+                "animation_timing_consumer": (
+                    "1ec4801f36351e56d511caaa6cc5fdf31d52142292e64d3c"
+                    "9cf6567eed468be0"
+                ),
+            },
+            {
+                key: value["sha256"]
+                for key, value in manifest["consumer_evidence"].items()
+            },
+        )
+        self.assertTrue(manifest["scope"]["animation_timing_interpreted"])
+        self.assertFalse(manifest["scope"]["final_runtime_sequence"])
 
     def test_resource_zero_is_two_complete_64_pixel_frames(self):
         resource = self._resource(0)
@@ -188,6 +233,27 @@ class CutsceneObjAssetExportTests(unittest.TestCase):
                 self.assertEqual(48, len(frame["definition_raw_hex"]))
                 self.assertEqual(16, len(frame["animation_raw_hex"]))
                 self.assertEqual(0xFFFF, frame["animation_words"][2])
+                duration = frame["animation_words"][1]
+                period = duration or 65536
+                self.assertTrue(frame["animation_timing_interpreted"])
+                self.assertEqual(duration, frame["duration_ticks"])
+                self.assertEqual(period, frame["first_expiry_update"])
+                self.assertEqual("deactivate_task", frame["termination_policy"])
+                self.assertEqual(
+                    [
+                        {
+                            "frame_id": frame["frame_id"],
+                            "start_update": 0,
+                            "end_update_exclusive": period,
+                        }
+                    ],
+                    frame["playback"],
+                )
+                timeline = self.output_dir / frame["animation_timeline_json"]
+                self.assertEqual(
+                    frame,
+                    json.loads(timeline.read_text(encoding="utf-8")),
+                )
 
     def test_outputs_are_indexed_transparent_atlases_and_native_frames(self):
         for resource in self.manifest["resources"]:
@@ -231,6 +297,7 @@ class CutsceneObjAssetExportTests(unittest.TestCase):
         self.assertEqual("cutscene-obj-verification-v1", result["schema"])
         self.assertEqual(4, result["verified_resources"])
         self.assertEqual(10, result["verified_frames"])
+        self.assertEqual(10, result["verified_animations"])
         self.assertEqual(4, result["verified_atlases"])
         self.assertEqual([], result["errors"])
 

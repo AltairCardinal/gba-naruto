@@ -664,7 +664,10 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   追踪的 map `flags`/渲染配置字段；旧 bank 现为空且禁写。
 - 历史 `cutscene-scripts@0x53DF70` 已修正为两个相邻的四记录视觉资源表：
   `0x08072EDC` 按 ID 0..3 解压 gfx/palette，并把第二组 pair 交给 sprite task，
-  因此升级为 code_verified，但不再作为剧情脚本证据。
+  因此升级为 code_verified，但不再作为剧情脚本证据。`cutscene-obj-v1` 已导出
+  4 张 atlas、10 张静态 frame 和 10 份动画 timeline；自然 loader 的 flags `0x08`、
+  16 位 timer 与终止策略证明四条 animation 0 持续 1 次 renderer 更新，其余六条
+  持续 65,536 次后停用。单 task 时序已闭合；调用者整体清理和最终屏幕合成仍未完成。
 - 历史 `battle-encounters@0x542384` 已纠正为从真实 `0x54229C` 视觉资源表
   第14条 `+8` 处开始的错位切片；真实24条记录由剧情 opcode loader 消费，
   每条三条 LZ77 流，因此升级 code_verified，旧 editor 行禁写。

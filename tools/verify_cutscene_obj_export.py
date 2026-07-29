@@ -53,8 +53,43 @@ EXPECTED_CONSUMER = {
 EXPECTED_SCOPE = {
     "kind": "static 4bpp OBJ atlases and definition-backed frames",
     "final_runtime_sequence": False,
-    "animation_timing_interpreted": False,
+    "animation_timing_interpreted": True,
     "palette_index_zero_transparent": True,
+}
+ANIMATION_RUNTIME = {
+    "loader_requested_flags": "0x00000008",
+    "allocator_active_bit": "0x00000001",
+    "initial_task_flags": "0x00000009",
+    "termination_policy_bits": "0x00",
+    "timer_storage": "u16",
+    "timer_initial": 0,
+    "timer_increment_per_update": 1,
+    "duration_compare": "duration_ticks == timer_after_increment",
+    "zero_duration_first_expiry_updates": 65536,
+    "terminator_frame_index": -1,
+    "terminator_policy": "deactivate_task",
+}
+CONSUMER_RANGES = {
+    "natural_loader": (
+        0x08072EDC,
+        0x08072FFE,
+        "1b7427dd2ad35bb7b439de5f9f1fc6ce1e82a073d547e06eacbf8ba34e11073f",
+    ),
+    "sprite_task_allocator": (
+        0x080625A4,
+        0x080626B0,
+        "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54",
+    ),
+    "animation_frame_selector": (
+        0x0806298C,
+        0x080629A0,
+        "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb3890d16e134b331e1ab",
+    ),
+    "animation_timing_consumer": (
+        0x08063256,
+        0x080632D8,
+        "1ec4801f36351e56d511caaa6cc5fdf31d52142292e64d3c9cf6567eed468be0",
+    ),
 }
 
 
@@ -311,7 +346,9 @@ def verify_cutscene_obj_export(
     errors: list[str] = []
     verified_resources = 0
     verified_frames = 0
+    verified_animations = 0
     verified_atlases = 0
+    expected_files = {"manifest.json"}
     rom = (root / "rom/base.gba").read_bytes()
     rom_hash = _sha256(rom)
     manifest = json.loads(
@@ -368,6 +405,20 @@ def verify_cutscene_obj_export(
         errors.append("combined table metadata mismatch")
     if manifest.get("consumer") != EXPECTED_CONSUMER:
         errors.append("consumer metadata mismatch")
+    expected_consumer_evidence = {}
+    for name, (start, end, expected_hash) in CONSUMER_RANGES.items():
+        raw = rom[start - ROM_BASE : end - ROM_BASE]
+        if len(raw) != end - start or _sha256(raw) != expected_hash:
+            errors.append(f"consumer evidence changed: {name}")
+        expected_consumer_evidence[name] = {
+            "gba_range": [_pointer(start), _pointer(end)],
+            "size": end - start,
+            "sha256": expected_hash,
+        }
+    if manifest.get("consumer_evidence") != expected_consumer_evidence:
+        errors.append("consumer evidence metadata mismatch")
+    if manifest.get("animation_runtime") != ANIMATION_RUNTIME:
+        errors.append("animation runtime metadata mismatch")
     if manifest.get("scope") != EXPECTED_SCOPE:
         errors.append("scope metadata mismatch")
     try:
@@ -378,6 +429,7 @@ def verify_cutscene_obj_export(
     expected_summary = {
         "resource_count": 4,
         "frame_count": 10,
+        "animation_count": 10,
         "frame_counts": [2, 2, 2, 4],
         "atlas_count": 4,
         "unique_palette_count": 1,
@@ -440,6 +492,7 @@ def verify_cutscene_obj_export(
 
             atlas_pixels, atlas_width, atlas_height = _render_atlas(graphics)
             atlas_name = f"resource_{resource_id}_atlas.png"
+            expected_files.add(atlas_name)
             atlas_hash = _verify_png(
                 artifact_dir / atlas_name,
                 pixels=atlas_pixels,
@@ -518,6 +571,7 @@ def verify_cutscene_obj_export(
                 frame_name = (
                     f"resource_{resource_id}_frame_{frame_id:02d}.png"
                 )
+                expected_files.add(frame_name)
                 frame_hash = _verify_png(
                     artifact_dir / frame_name,
                     pixels=frame_pixels,
@@ -526,37 +580,59 @@ def verify_cutscene_obj_export(
                     height=height,
                 )
                 verified_frames += 1
-                expected_frames.append(
-                    {
-                        "frame_id": frame_id,
-                        "definition_pointer": _pointer(
-                            frame_definition_pointer
-                        ),
-                        "definition_file_offset": frame_definition_offset,
-                        "definition_raw_hex": definition_raw.hex(),
-                        "definition_sha256": _sha256(definition_raw),
-                        "tile_offset": tile_offset,
-                        "x_offset": x_offset,
-                        "y_offset": y_offset,
-                        "width": width,
-                        "height": height,
-                        "width_tiles": width_tiles,
-                        "height_tiles": height_tiles,
-                        "definition_tail_words": list(
-                            struct.unpack_from("<6H", definition_raw, 12)
-                        ),
-                        "animation_pointer": _pointer(
-                            frame_animation_pointer
-                        ),
-                        "animation_file_offset": frame_animation_offset,
-                        "animation_raw_hex": animation_raw.hex(),
-                        "animation_sha256": _sha256(animation_raw),
-                        "animation_words": animation_words,
-                        "animation_timing_interpreted": False,
-                        "png": frame_name,
-                        "png_sha256": frame_hash,
-                    }
+                duration_ticks = animation_words[1]
+                first_expiry_update = duration_ticks or 65536
+                timeline_name = (
+                    f"resource_{resource_id}_animation_{frame_id:02d}.json"
                 )
+                expected_files.add(timeline_name)
+                expected_frame = {
+                    "frame_id": frame_id,
+                    "definition_pointer": _pointer(
+                        frame_definition_pointer
+                    ),
+                    "definition_file_offset": frame_definition_offset,
+                    "definition_raw_hex": definition_raw.hex(),
+                    "definition_sha256": _sha256(definition_raw),
+                    "tile_offset": tile_offset,
+                    "x_offset": x_offset,
+                    "y_offset": y_offset,
+                    "width": width,
+                    "height": height,
+                    "width_tiles": width_tiles,
+                    "height_tiles": height_tiles,
+                    "definition_tail_words": list(
+                        struct.unpack_from("<6H", definition_raw, 12)
+                    ),
+                    "animation_pointer": _pointer(
+                        frame_animation_pointer
+                    ),
+                    "animation_file_offset": frame_animation_offset,
+                    "animation_raw_hex": animation_raw.hex(),
+                    "animation_sha256": _sha256(animation_raw),
+                    "animation_words": animation_words,
+                    "animation_timing_interpreted": True,
+                    "duration_ticks": duration_ticks,
+                    "first_expiry_update": first_expiry_update,
+                    "termination_policy": "deactivate_task",
+                    "playback": [
+                        {
+                            "frame_id": frame_id,
+                            "start_update": 0,
+                            "end_update_exclusive": first_expiry_update,
+                        }
+                    ],
+                    "animation_timeline_json": timeline_name,
+                    "png": frame_name,
+                    "png_sha256": frame_hash,
+                }
+                timeline = json.loads(
+                    (artifact_dir / timeline_name).read_text(encoding="utf-8")
+                )
+                if timeline != expected_frame:
+                    raise ValueError("animation timeline does not match the ROM")
+                verified_animations += 1
+                expected_frames.append(expected_frame)
 
             expected_resource = {
                 "resource_id": resource_id,
@@ -601,11 +677,18 @@ def verify_cutscene_obj_export(
         ) as error:
             errors.append(f"resource {resource_id}: {error}")
 
+    actual_files = {
+        path.name for path in artifact_dir.iterdir() if path.is_file()
+    }
+    if actual_files != expected_files:
+        errors.append("artifact file set mismatch")
+
     return {
         "schema": "cutscene-obj-verification-v1",
         "rom_sha256": rom_hash,
         "verified_resources": verified_resources,
         "verified_frames": verified_frames,
+        "verified_animations": verified_animations,
         "verified_atlases": verified_atlases,
         "errors": errors,
     }

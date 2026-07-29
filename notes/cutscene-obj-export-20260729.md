@@ -12,7 +12,8 @@
 - ID 0–2 各有两个 `64×64` frame，tile offset 为 `0, 64`；
 - ID 3 有四个 `32×32` frame，tile offset 为 `0, 16, 32, 48`；
 - 四组 palette 解压结果相同，均为 32 字节、16 色 BGR555；
-- 共 14 个 PNG 和 1 个 ROM-bound manifest，约 `76 KiB`。
+- 10 条 task 动画的精确 16 位 timer/终止策略已导出为独立 JSON；
+- 共 14 个 PNG、10 个动画 JSON 和 1 个 ROM-bound manifest，约 `124 KiB`。
 
 这批资源是 OBJ 视觉资源，不是剧情 opcode、对白或 cutscene 脚本。
 
@@ -58,8 +59,23 @@ tile offset、原点、宽高和未解释 tail words。animation pointer 必须�
 8 字节记录；manifest 保存四个原始 `u16`。
 
 首条记录为 `(frame=0, value=1, 0xFFFF, 0)`，后续记录的第二个值为 0。
-静态结构和 frame 选择可以确定，但 0 的运行期时序含义没有自然运行时捕获，因此产物
-明确标记 `animation_timing_interpreted: false`，不伪造播放时长或最终序列。
+自然调用链已经把第二字段和终止策略闭合：
+
+- loader `0x08072EDC..0x08072FFD` 每隔 40 tick 创建下一 animation task，并向
+  `0x080625A4` 传入 flags `0x08`；
+- allocator `0x080625A4..0x080626AF` 加活动位，task 初始 flags 为 `0x09`，
+  animation ID 与本轮 frame ID 相同，timer/cursor 均从 0 开始；
+- `0x08063256..0x08063266` 每次 renderer 更新先递增 16 位 timer，再与第二字段
+  `duration_ticks` 比较；
+- duration 1 在第一次更新到期；duration 0 在第 65,536 次更新回绕至 0 时到期；
+- 下一记录为 `frame_index=-1`，且 `0x09 & 0x30 == 0`，所以
+  `0x08063284..0x080632AE` 清除 task 活动位并停止，不循环。
+
+因此 10/10 条单帧 task 动画时序已经闭合：四组 animation 0 显示 1 次 renderer
+更新，其余六条显示 65,536 次更新，随后停用。每条
+`resource_N_animation_XX.json` 都保存精确 playback 区间。loader 的 40-tick 创建节奏
+已由代码证明，但调用者何时整体清理/切换场景仍不在本成果范围，因此
+`animation_timing_interpreted=true`、`final_runtime_sequence=false`。
 
 ## 可重复成果与验证
 
@@ -68,6 +84,9 @@ tile offset、原点、宽高和未解释 tail words。animation pointer 必须�
 - 测试：`tests/test_export_cutscene_obj_assets.py`
 - 产物：`artifacts/cutscene-obj-v1/`
 - schema：`cutscene-obj-export-v1`
+- 文件数：25
+- manifest SHA-256：
+  `b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7`
 
 ```bash
 python3 tools/export_cutscene_obj_assets.py \
@@ -86,6 +105,7 @@ LZ 边界、消费者 literal、definition/animation 记录、4bpp 像素和 pal
 ```text
 verified_resources: 4
 verified_frames: 10
+verified_animations: 10
 verified_atlases: 4
 errors: []
 ```
@@ -101,8 +121,8 @@ page fault 与 swap 均为 0。
 
 ## 剩余边界
 
-1. 这 10 个 frame 的静态像素与 frame 选择已闭合；第二字段为 0 的运行期 timing
-   含义仍待需要播放等价性时做最小运行时 trace。
+1. 这 10 个 frame 的静态像素、单 task 播放时长和停止策略已闭合；调用者层面的完整
+   场景顺序、对象清理点和最终屏幕合成仍需继续追踪。
 2. `0x53F140` 的 43 条通用 sprite definition/animation pair 仍需追踪其实际
    gfx/palette 分配链，不能套用本表资源。
 3. `0x53D644` 的原 ROM 日文字形可静态导出 atlas，但不代表中文替换字体或
