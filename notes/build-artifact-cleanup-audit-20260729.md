@@ -158,3 +158,24 @@ ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butan
 调试符号包。它们对应的调试可执行文件已在前轮清理，符号包可由现有源码和测试重新
 生成，不承担 ROM、快照或运行时证据职责。本轮实际回收 `2,260 KiB`；清理后顶层
 `build/` 为 `1,684,452 KiB`，且其中不再存在 `.dSYM`。
+
+## 第七轮清理：全量哈希成果核对
+
+本轮对 `build/` 与已跟踪 `artifacts/` 做全量 SHA-256 对照，并按顶层目录统计完整
+覆盖率。核对结果：
+
+- `build/battle-continuation-source-20260725-01/` 仅含一个 `base.gba`，SHA-256 为
+  `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`；该内容已由
+  `artifacts/type2-original-probe-20260726-04/staged.gba` 等多个已跟踪工件完整承接，
+  `build/` 之外的仓库文件没有引用，因此删除整个目录。
+- 删除一个无引用的 0 字节日志和三个无引用空目录；它们不承载结果或证据。
+- `build/naruto-sequel-dev.sav` 虽与持久 artifact 内容相同，但仍被两份笔记直接引用，
+  仅占 32 KiB，因此保留，避免制造文档断链。
+- 大体积目录只有部分文件与 artifact 重复。例如
+  `battle-presentation-original-probes-20260727-01/` 的 4,868 个文件中仅 640 个重复；
+  原始帧序列、dump 和实验上下文没有被完整覆盖，因此不做碎片式删除。
+
+本轮从 `1,684,484 KiB` 清理至 `1,678,344 KiB`，回收 `6,140 KiB`，文件数降至
+`20,039`。清理后检测到并行 Butano 任务正在通过 `run_guarded.py` 驱动 mGBA；本轮
+没有触碰其 `artifacts/butano-battle-s49-fidelity-20260729-19/`、
+`build/resource-guard/`、`build/signed-tooling/` 或 `butano-sequel/build/`。
