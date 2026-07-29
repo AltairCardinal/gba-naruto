@@ -19,6 +19,10 @@ except ModuleNotFoundError:
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 GBA_STATE_SIZE = 0x61000
+# mGBA upstream 1d65391d keeps this 0x61000 layout through version 0x0B.
+# The tracked v10 integration fixture separately proves the mapped GPU regions.
+GBA_SAVESTATE_MAGIC = 0x01000000
+GBA_SAVESTATE_MAX_VERSION = 0x0000000B
 TASK_CONTEXT_BASE = 0x03000A88
 TASK_CONTEXT_SIZE = 0x4C
 TASK_CONTEXT_COUNT = 8
@@ -228,7 +232,11 @@ def load_gba_state(path: Path | str) -> GbaState:
         payload, expected_size=GBA_STATE_SIZE, label="gbAs state"
     )
     version = struct.unpack_from("<I", state, 0)[0]
-    if not 0x01000000 <= version <= 0x01000007:
+    if not (
+        GBA_SAVESTATE_MAGIC
+        <= version
+        <= GBA_SAVESTATE_MAGIC + GBA_SAVESTATE_MAX_VERSION
+    ):
         raise ValueError(f"unsupported GBA savestate version magic 0x{version:08X}")
     return GbaState(state)
 

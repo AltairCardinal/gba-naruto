@@ -294,10 +294,33 @@ PNG；64×64 double-size 测试向量还证明全不透明 32×32 source 的离�
   与 source-model normal preview 完全一致；
 - 28 帧共有 44 个 group-2 affine OBJ 实例，全部使用 `{240,0,0,240}`。
 
+随后直接从已验证的 `state-0154.ss9` 恢复，不重复原作导航。离线解析 renderer
+render list 后，group-2 frame-1 affine component 对应零基 sprite slot 126，
+task 地址 `0x03005940`。输入快照只做两项显式修改：
+
+- `0x03005940` 写入 little-endian `81b600c0`，将 render flags 从
+  `0xC0003681` 改为 `0xC000B681`，即只增加水平阵营镜像 bit 15；
+- `0x03005956` 写入 `0100`，把保存点已经提前推进的 keyframe index 恢复到
+  affine frame 1。
+
+第一次 run `affine-mirror-runtime-20260729-01` 在 load 后第一个 frame callback
+采样，OAM 与输入完全相同，证明该 callback 仍是零推进画面；它作为对照保留在
+`build/`，不冒充成功证据。第二次 run `affine-mirror-runtime-20260729-02` 显式等到
+callback 2，由统一 heavy lock、4 GiB 可用内存门槛、1.5 GiB owned-tree RSS 上限和
+success marker 保护，1.08 秒完成，未产生 mGBA crash：
+
+- runtime OAM entry 5 为 `0x0550/0x82A0/0x79D8`，仍位于 `(160,80)`、32×32；
+- matrix slot 1 为 `{PA=-240,PB=0,PC=0,PD=240}`；
+- VRAM tile 472 和 PRAM bank 7 与正常侧 capture 完全相同；
+- 镜像 runtime 像素 SHA-256 为
+  `579057ddd1ca843bd2b275c30a18e6874baaf62bc6fb89cb316dffe9a23f6824`，
+  与 source-model `side_horizontal_mirror` preview 完全一致；
+- `mirror-raw/mirrored.ss9`、240×160 截图、I/O/OAM/PRAM/VRAM、audit 和 guard
+  均已持久化，后续可直接恢复。
+
 mGBA 源码审计还确认 OAM x 是变换包围盒左边缘：低 9 位先符号扩展，y 按 256
-环绕；局部 raster 的 `screen_x/y` 不能误当显示器绝对坐标。当前成果因此签发正常侧
-runtime OAM golden，但尚无阵营镜像 runtime capture，也没有物理 GBA 采集或完整屏幕
-逐像素合成。
+环绕；局部 raster 的 `screen_x/y` 不能误当显示器绝对坐标。当前成果已签发正常侧和
+阵营水平镜像 runtime OAM golden；仍没有物理 GBA 采集或完整屏幕逐像素合成。
 
 ## bit 22 动态 OBJ VRAM 分支
 
@@ -364,6 +387,7 @@ python3 tools/verify_battle_effect_sprite_animations.py \
 python3 tools/export_battle_effect_affine_runtime.py \
   --root . \
   --raw-dir artifacts/battle-effect-affine-runtime-v1/raw \
+  --mirror-raw-dir artifacts/battle-effect-affine-runtime-v1/mirror-raw \
   --output-dir artifacts/battle-effect-affine-runtime-v1
 python3 tools/verify_battle_effect_affine_runtime.py \
   --root . \
@@ -393,7 +417,8 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
   phase、容量失败和玩法 flags 语义仍未闭合；
 - affine matrix 通式、attr1 matrix index、当前 group 2/3 可达值、通用非零 task
   angle 的局部坐标旋转、mGBA source-model 像素逆采样及正常侧 runtime OAM golden
-  已经闭合；阵营镜像 runtime capture、物理 GBA 采集及完整 viewport 合成仍未闭合；
+  已经闭合；阵营水平镜像 runtime capture 也已闭合，物理 GBA 采集及完整 viewport
+  合成仍未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。

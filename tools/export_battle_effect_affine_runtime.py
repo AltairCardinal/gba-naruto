@@ -42,6 +42,28 @@ EXPECTED_HASHES = {
     "state-0154.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
     "state-0154.ss9": "60028c26e1a529c9542b1e9644dcd35d341cfcfe593cde1b3359c1e2817e3c93",
 }
+MIRROR_RAW_NAMES = (
+    "audit.json",
+    "guard.json",
+    "input-mirror.ss9",
+    "io.bin",
+    "mirrored.png",
+    "mirrored.ss9",
+    "oam.bin",
+    "pram.bin",
+    "vram.bin",
+)
+EXPECTED_MIRROR_HASHES = {
+    "audit.json": "a123e47d73d32b4d5c4d1fcd3469666dc06530406908744cd0cc0c80cc78d5ae",
+    "guard.json": "381394af83ff448cbf76f69e1942a6448d42bbd4459f99e1a4d7b5896a9492fb",
+    "input-mirror.ss9": "4150ab86c4730d2a1934873b29cac59cc43bae000392897172929bc153195a33",
+    "io.bin": "3ceb2ebc2be5d09caa88508a3ba2205d4447e519d15de4de5a1c8ddd0ff518ce",
+    "mirrored.png": "07fb9d93c2e3a52dba98dbd2fec8f3718d2a91868b0440bfd9fba091563a4661",
+    "mirrored.ss9": "a5ca1aa10b3fcd9fc42a6db7329e75b1602aa0b27a9cbaa1824a9e9df3e7832d",
+    "oam.bin": "04435798826ee67fc2a53200b7b9bdd825d83c94cfb9d55a72df7438a3a5fb78",
+    "pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+    "vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+}
 
 
 def _sha256(data: bytes) -> str:
@@ -74,11 +96,21 @@ def _raster(
 def _manifest(
     root: Path,
     raw_dir: Path,
-) -> tuple[dict[str, Any], bytes]:
+    mirror_raw_dir: Path,
+) -> tuple[dict[str, Any], bytes, bytes]:
     raw = {name: (raw_dir / name).read_bytes() for name in RAW_NAMES}
     hashes = {name: _sha256(payload) for name, payload in raw.items()}
     if hashes != EXPECTED_HASHES:
         raise ValueError("runtime affine capture hashes do not match")
+    mirror_raw = {
+        name: (mirror_raw_dir / name).read_bytes()
+        for name in MIRROR_RAW_NAMES
+    }
+    mirror_hashes = {
+        name: _sha256(payload) for name, payload in mirror_raw.items()
+    }
+    if mirror_hashes != EXPECTED_MIRROR_HASHES:
+        raise ValueError("mirrored runtime affine capture hashes do not match")
     if _sha256((root / "rom/base.gba").read_bytes()) != ROM_SHA256:
         raise ValueError("ROM SHA-256 mismatch")
 
@@ -100,6 +132,34 @@ def _manifest(
     )
     if matrix != (240, 0, 0, 240):
         raise ValueError("unexpected affine matrix")
+
+    mirror_audit = json.loads(mirror_raw["audit.json"])
+    if (
+        mirror_audit.get("schema") != "mgba-affine-mirror-probe-v1"
+        or mirror_audit.get("success") is not True
+        or mirror_audit.get("input_state_sha256")
+        != EXPECTED_MIRROR_HASHES["input-mirror.ss9"]
+    ):
+        raise ValueError("unexpected mirrored runtime audit")
+    mirror_oam = mirror_raw["oam.bin"]
+    mirror_object_index = mirror_audit["object"]["index"]
+    mirror_attr0, mirror_attr1, mirror_attr2 = struct.unpack_from(
+        "<HHH", mirror_oam, mirror_object_index * 8
+    )
+    mirror_matrix_index = (mirror_attr1 >> 9) & 0x1F
+    mirror_matrix = tuple(
+        struct.unpack_from(
+            "<h", mirror_oam, mirror_matrix_index * 32 + offset
+        )[0]
+        for offset in (6, 14, 22, 30)
+    )
+    if (
+        mirror_object_index != 5
+        or (mirror_attr0, mirror_attr1, mirror_attr2)
+        != (0x0550, 0x82A0, 0x79D8)
+        or mirror_matrix != (-240, 0, 0, 240)
+    ):
+        raise ValueError("unexpected mirrored affine OAM object")
 
     sequence_hashes = {}
     matrix_counts: dict[tuple[int, int, int, int], int] = {}
@@ -172,13 +232,51 @@ def _manifest(
         for item in frame["components"][0]["affine_reference_previews"]
         if item["variant"] == "normal"
     )
+    mirror_reference = next(
+        item
+        for item in frame["components"][0]["affine_reference_previews"]
+        if item["variant"] == "side_horizontal_mirror"
+    )
     runtime_pixel_sha256 = _sha256(runtime_pixels)
     if runtime_pixel_sha256 != reference["pixel_sha256"]:
         raise ValueError("runtime pixels do not match source-model preview")
+    mirror_tile_bytes = mirror_raw["vram.bin"][
+        0x10000
+        + (mirror_attr2 & 0x3FF) * 32 : 0x10000
+        + ((mirror_attr2 & 0x3FF) + 16) * 32
+    ]
+    mirror_palette = mirror_raw["pram.bin"][0x2E0:0x300]
+    if mirror_tile_bytes != tile_bytes or mirror_palette != palette:
+        raise ValueError("mirror capture resources differ from normal capture")
+    mirror_source, mirror_width, mirror_height = (
+        render_4bpp_tile_block_indices(
+            mirror_tile_bytes,
+            tile_offset=0,
+            width_tiles=4,
+            height_tiles=4,
+        )
+    )
+    mirror_pixels = _raster(
+        mirror_source, mirror_width, mirror_height, mirror_matrix
+    )
+    if _sha256(mirror_pixels) != mirror_reference["pixel_sha256"]:
+        raise ValueError("mirrored runtime pixels do not match source model")
+    mirror_png = indexed_png_from_bgr555(
+        mirror_pixels,
+        mirror_palette,
+        width=mirror_width,
+        height=mirror_height,
+        transparent_index=0,
+    )
 
     artifact_files = sorted(
-        ["manifest.json", "runtime-object-02.png"]
+        [
+            "manifest.json",
+            "runtime-object-02.png",
+            "runtime-object-mirrored.png",
+        ]
         + [f"raw/{name}" for name in RAW_NAMES]
+        + [f"mirror-raw/{name}" for name in MIRROR_RAW_NAMES]
         + [
             f"raw/sequence-oam/gpu-frame-{frame:04d}-oam.bin"
             for frame in SEQUENCE_FRAMES
@@ -230,6 +328,82 @@ def _manifest(
             "palette_bank": (attr2 >> 12) & 0xF,
             "object_mode": "semi_transparent",
         },
+        "mirror_capture": {
+            "run_id": mirror_audit["run_id"],
+            "capture_frame": mirror_audit["capture_frame"],
+            "input_state": "mirror-raw/input-mirror.ss9",
+            "input_state_sha256": mirror_hashes["input-mirror.ss9"],
+            "output_state": "mirror-raw/mirrored.ss9",
+            "output_state_sha256": mirror_hashes["mirrored.ss9"],
+            "screenshot": "mirror-raw/mirrored.png",
+            "screenshot_sha256": mirror_hashes["mirrored.png"],
+            "gpu_hashes": {
+                name: mirror_hashes[name]
+                for name in ("io.bin", "oam.bin", "pram.bin", "vram.bin")
+            },
+            "audit": "mirror-raw/audit.json",
+            "audit_sha256": mirror_hashes["audit.json"],
+            "audit_success": mirror_audit["success"],
+            "guard": "mirror-raw/guard.json",
+            "guard_sha256": mirror_hashes["guard.json"],
+            "task_address": mirror_audit["task_address"],
+            "original_flags": "0xC0003681",
+            "patched_flags": mirror_audit["expected_task_flags"],
+            "patches": [
+                {
+                    "address": "0x03005940",
+                    "little_endian_hex": "81b600c0",
+                    "meaning": "set render_flags bit 15",
+                },
+                {
+                    "address": "0x03005956",
+                    "little_endian_hex": "0100",
+                    "meaning": "restore group-2 affine frame keyframe index",
+                },
+            ],
+            "object": {
+                "index": mirror_object_index,
+                "attr0": f"0x{mirror_attr0:04X}",
+                "attr1": f"0x{mirror_attr1:04X}",
+                "attr2": f"0x{mirror_attr2:04X}",
+                "position": {
+                    "x": mirror_attr1 & 0x1FF,
+                    "y": mirror_attr0 & 0xFF,
+                },
+                "dimensions": {"width": 32, "height": 32},
+                "affine": True,
+                "double_size": False,
+                "matrix_index": mirror_matrix_index,
+                "matrix": {
+                    "PA": mirror_matrix[0],
+                    "PB": mirror_matrix[1],
+                    "PC": mirror_matrix[2],
+                    "PD": mirror_matrix[3],
+                },
+                "tile_index": mirror_attr2 & 0x3FF,
+                "priority": (mirror_attr2 >> 10) & 3,
+                "palette_bank": (mirror_attr2 >> 12) & 0xF,
+                "object_mode": "semi_transparent",
+            },
+            "resource_binding": {
+                "vram_tiles_match_normal_capture": (
+                    mirror_tile_bytes == tile_bytes
+                ),
+                "pram_palette_matches_normal_capture": (
+                    mirror_palette == palette
+                ),
+                "runtime_pixel_sha256": _sha256(mirror_pixels),
+                "source_model_pixel_sha256": (
+                    mirror_reference["pixel_sha256"]
+                ),
+                "runtime_pixels_match_source_model": (
+                    _sha256(mirror_pixels)
+                    == mirror_reference["pixel_sha256"]
+                ),
+                "runtime_object_png": "runtime-object-mirrored.png",
+                "runtime_object_png_sha256": _sha256(mirror_png),
+            },
+        },
         "resource_binding": {
             "group_id": 2,
             "frame_id": 1,
@@ -268,24 +442,26 @@ def _manifest(
         },
         "scope": {
             "normal_runtime_oam_golden_complete": True,
-            "mirror_runtime_oam_golden_complete": False,
+            "mirror_runtime_oam_golden_complete": True,
             "physical_gba_capture_complete": False,
             "full_screen_composition_complete": False,
         },
         "artifact_file_count": len(artifact_files),
         "artifact_files": artifact_files,
     }
-    return manifest, png
+    return manifest, png, mirror_png
 
 
 def export_battle_effect_affine_runtime(
     root: Path | str,
     raw_dir: Path | str,
+    mirror_raw_dir: Path | str,
     output_dir: Path | str | None,
 ) -> dict[str, Any]:
     root = Path(root)
     raw_dir = Path(raw_dir)
-    manifest, png = _manifest(root, raw_dir)
+    mirror_raw_dir = Path(mirror_raw_dir)
+    manifest, png, mirror_png = _manifest(root, raw_dir, mirror_raw_dir)
     if output_dir is not None:
         output_dir = Path(output_dir)
         target_raw = output_dir / "raw"
@@ -303,7 +479,15 @@ def export_battle_effect_affine_runtime(
             target = target_sequence / name
             if source.resolve() != target.resolve():
                 shutil.copyfile(source, target)
+        target_mirror_raw = output_dir / "mirror-raw"
+        target_mirror_raw.mkdir(parents=True, exist_ok=True)
+        for name in MIRROR_RAW_NAMES:
+            source = mirror_raw_dir / name
+            target = target_mirror_raw / name
+            if source.resolve() != target.resolve():
+                shutil.copyfile(source, target)
         (output_dir / "runtime-object-02.png").write_bytes(png)
+        (output_dir / "runtime-object-mirrored.png").write_bytes(mirror_png)
         (output_dir / "manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
@@ -315,10 +499,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--raw-dir", type=Path, required=True)
+    parser.add_argument("--mirror-raw-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     result = export_battle_effect_affine_runtime(
-        args.root, args.raw_dir, args.output_dir
+        args.root, args.raw_dir, args.mirror_raw_dir, args.output_dir
     )
     print(json.dumps(result, ensure_ascii=False))
     return 0

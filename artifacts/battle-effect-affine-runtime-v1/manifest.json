@@ -80,6 +80,78 @@
     "palette_bank": 7,
     "object_mode": "semi_transparent"
   },
+  "mirror_capture": {
+    "run_id": "affine-mirror-runtime-20260729-02",
+    "capture_frame": 2,
+    "input_state": "mirror-raw/input-mirror.ss9",
+    "input_state_sha256": "4150ab86c4730d2a1934873b29cac59cc43bae000392897172929bc153195a33",
+    "output_state": "mirror-raw/mirrored.ss9",
+    "output_state_sha256": "a5ca1aa10b3fcd9fc42a6db7329e75b1602aa0b27a9cbaa1824a9e9df3e7832d",
+    "screenshot": "mirror-raw/mirrored.png",
+    "screenshot_sha256": "07fb9d93c2e3a52dba98dbd2fec8f3718d2a91868b0440bfd9fba091563a4661",
+    "gpu_hashes": {
+      "io.bin": "3ceb2ebc2be5d09caa88508a3ba2205d4447e519d15de4de5a1c8ddd0ff518ce",
+      "oam.bin": "04435798826ee67fc2a53200b7b9bdd825d83c94cfb9d55a72df7438a3a5fb78",
+      "pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+      "vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a"
+    },
+    "audit": "mirror-raw/audit.json",
+    "audit_sha256": "a123e47d73d32b4d5c4d1fcd3469666dc06530406908744cd0cc0c80cc78d5ae",
+    "audit_success": true,
+    "guard": "mirror-raw/guard.json",
+    "guard_sha256": "381394af83ff448cbf76f69e1942a6448d42bbd4459f99e1a4d7b5896a9492fb",
+    "task_address": "0x03005940",
+    "original_flags": "0xC0003681",
+    "patched_flags": "0xC000B681",
+    "patches": [
+      {
+        "address": "0x03005940",
+        "little_endian_hex": "81b600c0",
+        "meaning": "set render_flags bit 15"
+      },
+      {
+        "address": "0x03005956",
+        "little_endian_hex": "0100",
+        "meaning": "restore group-2 affine frame keyframe index"
+      }
+    ],
+    "object": {
+      "index": 5,
+      "attr0": "0x0550",
+      "attr1": "0x82A0",
+      "attr2": "0x79D8",
+      "position": {
+        "x": 160,
+        "y": 80
+      },
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "affine": true,
+      "double_size": false,
+      "matrix_index": 1,
+      "matrix": {
+        "PA": -240,
+        "PB": 0,
+        "PC": 0,
+        "PD": 240
+      },
+      "tile_index": 472,
+      "priority": 2,
+      "palette_bank": 7,
+      "object_mode": "semi_transparent"
+    },
+    "resource_binding": {
+      "vram_tiles_match_normal_capture": true,
+      "pram_palette_matches_normal_capture": true,
+      "runtime_pixel_sha256": "579057ddd1ca843bd2b275c30a18e6874baaf62bc6fb89cb316dffe9a23f6824",
+      "source_model_pixel_sha256": "579057ddd1ca843bd2b275c30a18e6874baaf62bc6fb89cb316dffe9a23f6824",
+      "runtime_pixels_match_source_model": true,
+      "runtime_object_png": "runtime-object-mirrored.png",
+      "runtime_object_png_sha256": "65bcc4bef25dfabb5ce18818c293ab92c392c824f6674167d735d72618e87b16"
+    }
+  },
   "resource_binding": {
     "group_id": 2,
     "frame_id": 1,
@@ -115,13 +187,22 @@
   },
   "scope": {
     "normal_runtime_oam_golden_complete": true,
-    "mirror_runtime_oam_golden_complete": false,
+    "mirror_runtime_oam_golden_complete": true,
     "physical_gba_capture_complete": false,
     "full_screen_composition_complete": false
   },
-  "artifact_file_count": 36,
+  "artifact_file_count": 46,
   "artifact_files": [
     "manifest.json",
+    "mirror-raw/audit.json",
+    "mirror-raw/guard.json",
+    "mirror-raw/input-mirror.ss9",
+    "mirror-raw/io.bin",
+    "mirror-raw/mirrored.png",
+    "mirror-raw/mirrored.ss9",
+    "mirror-raw/oam.bin",
+    "mirror-raw/pram.bin",
+    "mirror-raw/vram.bin",
     "raw/sequence-oam/gpu-frame-0152-oam.bin",
     "raw/sequence-oam/gpu-frame-0153-oam.bin",
     "raw/sequence-oam/gpu-frame-0154-oam.bin",
@@ -156,6 +237,7 @@
     "raw/state-0154-vram.bin",
     "raw/state-0154.png",
     "raw/state-0154.ss9",
-    "runtime-object-02.png"
+    "runtime-object-02.png",
+    "runtime-object-mirrored.png"
   ]
 }

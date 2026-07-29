@@ -208,6 +208,26 @@ class InspectMgbaSavestateTests(unittest.TestCase):
         self.assertEqual(parsed.registers[15], 0x0806112A)
         self.assertEqual(parsed.read_memory(0x0202680C, 1), b"\x01")
 
+    def test_loads_v10_affine_runtime_checkpoint_with_stable_memory_layout(self):
+        root = Path(__file__).resolve().parents[1]
+        artifact = root / "artifacts" / "battle-effect-affine-runtime-v1" / "raw"
+
+        parsed = load_gba_state(artifact / "state-0154.ss9")
+
+        self.assertEqual(parsed.version_magic, 0x0100000A)
+        self.assertEqual(
+            parsed.read_memory(0x07000000, 0x400),
+            (artifact / "state-0154-oam.bin").read_bytes(),
+        )
+        self.assertEqual(
+            parsed.read_memory(0x05000000, 0x400),
+            (artifact / "state-0154-pram.bin").read_bytes(),
+        )
+        self.assertEqual(
+            parsed.read_memory(0x06000000, 0x18000),
+            (artifact / "state-0154-vram.bin").read_bytes(),
+        )
+
     def test_maps_all_serialized_gba_memory_regions(self):
         container = fixture_savestate()
         state = bytearray(zlib.decompress(_chunk_payload(container, b"gbAs")))
