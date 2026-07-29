@@ -703,6 +703,13 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   集合与 palette bank 已闭合，但零值 animation 时序、最终 viewport crop 和
   screen-space composition 仍保持未完成；证据见
   `notes/scene-visual-pack-export-20260729.md`。
+  紧接的 `0x085A8014` 已闭合为 3×`gfx/map/palette` 世界地图背景表：
+  三张 8bpp、512-tile、240×160 完整画布与三条 `0x10` 编码标签已进入
+  `world-map-backgrounds-v1`。三个压缩 map 指针不同但解压内容完全一致，故只保留
+  一份共享 tilemap；标签的 9 个唯一字形全部复用 `dialogue-font-v2`，不重复建立
+  字体资产。独立 verifier 已复核 3/3 背景和 3/3 标签；文本 context 的最终 palette、
+  屏幕坐标、选择光标及 BG 合成仍保持未完成。证据见
+  `notes/world-map-background-export-20260729.md`。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
