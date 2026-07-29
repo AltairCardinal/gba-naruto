@@ -17,10 +17,11 @@ ROM `0x08596D5C..0x0859903C` 是 62 个角色×9 个视觉槽的稀疏战斗 OBJ
 区、frame 指针表、timeline 区、animation 指针表、原始 4bpp 图块、BGR555 palette
 和逐帧 indexed PNG；`manifest.json` 保留 558 个逻辑槽到 250 套物理资源的映射。
 
-这使地图/战斗角色编辑器可以直接消费 2003 个完整去重源空间帧、1 个明确标为
-provisional 的指针边界预览、全部组件原始字节和原始 hold，而不必依赖 Butano
-生成目录或重新运行 mGBA。最终屏幕坐标、相机、priority、运行时槽选择、blend 和
-palette transform 不在本静态成果的完成边界内。
+这使地图/战斗角色编辑器可以直接消费 2004 个完整去重源空间帧、全部组件原始字节和
+原始 hold，而不必依赖 Butano 生成目录或重新运行 mGBA。唯一 `FBFF` 原始字节仍被
+无损保存，但其运行语义已由 2026-07-30 的同快照一字节 A/B 闭合为 ROM 数据异常；
+导出时只对该已知地址采用显式 `FFFF` 终止修复。最终屏幕坐标、相机、priority、
+运行时槽选择、blend 和 palette transform 不在本源空间成果的完成边界内。
 
 ## 表身份
 
@@ -99,7 +100,7 @@ table。component 为 20 bytes：
 timeline 单项为 `<u16 frame_id,u16 hold_frames>`，以 `<0xFFFF,0>` 结束。
 1045 条逻辑动画均有终止符，hold 为 1–16，总时长为 4–72 帧。
 
-## 唯一异常尾标
+## 唯一异常尾标及运行时闭环
 
 2674 个逻辑 frame 中，2673 个尾部是 `ffff0000`。唯一例外是 row 227
 （character 26、slot 2、frame 2）在 `0x0825A8E4` 的 `fffb0000`：
@@ -107,15 +108,35 @@ timeline 单项为 `<u16 frame_id,u16 hold_frames>`，以 `<0xFFFF,0>` 结束。
 - 低 10 位仍是 OBJ tile sentinel `0x3FF`；
 - 该帧由 timeline 实际引用；
 - 按 frame pointer 边界解析时，前面恰有一个完整 20-byte component；
-- 通用 renderer 的 `0x080629FC/0x080631FE` 又表现为比较完整 signed halfword
-  `-1`，因此目前不能把 `0xFBFF` 的运行语义宣称为完全闭合。
+- 通用 renderer 的 `0x080629FC/0x080631FE` 读取完整 signed halfword，只接受
+  `-1 / 0xFFFF`；`0xFBFF` 的 signed 值是 `-1025`，不是合法终止符。
 
-导出器保存 `frame_trailer_raw_hex`，并把该帧标记为
-`render_complete=false / provisional_pointer_bounded_preview`；它只预览尾标前的
-一个完整 component，不声称等价于 renderer 最终输出。manifest 明确设置
-`static_source_space_frames=false` 和
-`all_component_termination_semantics_complete=false`。结构独立 verifier 锁定
-“2003 个去重资源帧使用 `FFFF`、1 个使用 `FBFF`”，不会静默归一化异常字节。
+2026-07-30 从已验证的 `state-0154.ss9` 生成完全相同的注入 task，仅对 ROM
+`0x0825A8E5` 做 `FB→FF` 一字节 A/B。受守卫 mGBA 的断点证据为：
+
+- 原 ROM 在循环条件处依次读取
+  `0x0825A8E4=FBFF → 0x0825A8F8=00FF → 0x0825A90C=0100 →
+  0x0825A920=A8D0`，每次严格前进一个 20-byte component，证明 renderer 越过
+  指针边界继续解释后续数据；
+- FFFF 对照在两帧中都于 `0x0825A8E4` 读取 `FFFF/-1` 并立即停止；frame 2
+  产生唯一合法对象 `attr0/1/2=8438/C068/E340`，没有伪 component；
+- 两条路线输入 task 逐字节相同，guard 都由 success marker 正常结束，峰值进程树
+  RSS 分别为 47.46/47.40 MiB，没有遗留 mGBA；
+- 原 ROM SHA-256 保持
+  `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`，
+  一字节对照 ROM SHA-256 为
+  `3f55e607829db4497a1f49200514777c89df01f3624fd849005b96247502507a`。
+
+因此 `FBFF` 已闭合为唯一的单字节损坏终止符，而不是新格式。导出器继续保存
+`frame_trailer_raw_hex=fffb0000` 和 `renderer_terminator=false`，同时以
+`runtime_verified_single_byte_corrupt_terminator` 标记该帧，明确关联
+`artifacts/character-fbff-runtime-v1/manifest.json`；2004/2004 个去重源空间帧现在
+均为 `render_complete=true`。这项修复只决定 component 边界，不扩大为屏幕坐标、
+相机、priority、blend 或 palette transform 的运行时签发。
+
+早期两次 idle timeout 都实际启动了 `rom/base.gba`，没有运行已经生成的
+`control.gba`；这属于实验命令错误，不是 FFFF 对照失败。新探针直接在 renderer
+循环设置有界断点，FBFF 路径观察四次步进后即由成功标记结束，不再把超时当主要证据。
 
 ## 可复现性
 
@@ -126,14 +147,23 @@ python3 tools/export_character_battle_visuals.py \
 python3 tools/verify_character_battle_visuals.py \
   --root . \
   --artifact-dir artifacts/character-battle-visuals-v1
-python3 -m unittest tests.test_export_character_battle_visuals
+python3 tools/verify_character_fbff_runtime.py \
+  --root . \
+  --artifact-dir artifacts/character-fbff-runtime-v1
+python3 -m unittest \
+  tests.test_export_character_battle_visuals \
+  tests.test_build_character_fbff_control_rom \
+  tests.test_mgba_character_fbff_probe_script \
+  tests.test_verify_character_fbff_runtime
 ```
 
 导出器约 3.2 秒，最大 RSS 45,621,248 bytes；独立 verifier 约 4.0 秒，最大
 RSS 46,964,736 bytes。二者均无 swap。结构 verifier 不导入 exporter 或任何
 `tools.*`，会从 ROM 独立解析、手写解码 4bpp/BGR555，并通过 Pillow 核对每张 PNG
 的索引像素、palette 和透明色；测试覆盖 PNG、slot alias、raw binary、timeline
-和额外文件篡改。槽名称属于项目约定，`FBFF` 运行解释仍是显式未决项，不由结构
-verifier 冒充业务语义证明。
+和额外文件篡改。FBFF verifier 另行从 ROM 重建一字节对照、核对 renderer 指令窗口、
+两条运行 trace、OAM、截图、输入 task 和全部文件哈希，并含篡改反例。槽名称属于项目
+约定；本闭环只签发源空间 component 终止和该帧像素，不冒充场景业务选择或屏幕合成。
 
-本里程碑完全离线，没有启动 mGBA，也没有读取或修改 `butano-sequel`。
+初始矩阵导出完全离线；FBFF 运行闭环启动了两次受守卫静音 mGBA。全过程没有读取或
+修改 `butano-sequel`。

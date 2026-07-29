@@ -89,13 +89,24 @@ class ExportCharacterBattleVisualsTest(unittest.TestCase):
             1,
             manifest["summary"]["anomalous_frame_trailer_count"],
         )
-        self.assertFalse(
+        self.assertEqual(
+            2004,
+            manifest["summary"]["verified_static_source_space_frame_count"],
+        )
+        self.assertEqual(
+            0,
+            manifest["summary"]["provisional_pointer_bounded_frame_count"],
+        )
+        self.assertTrue(
             manifest["scope"][
                 "all_component_termination_semantics_complete"
             ]
         )
-        self.assertFalse(
+        self.assertTrue(
             manifest["scope"]["static_source_space_frames"]
+        )
+        self.assertFalse(
+            manifest["scope"]["pointer_bounded_source_previews"]
         )
 
         self.assertEqual(558, len(manifest["slots"]))
@@ -128,12 +139,24 @@ class ExportCharacterBattleVisualsTest(unittest.TestCase):
         self.assertFalse(
             anomalous_resource["frames"][2]["renderer_terminator"]
         )
-        self.assertFalse(
+        self.assertTrue(
             anomalous_resource["frames"][2]["render_complete"]
         )
         self.assertEqual(
-            "provisional_pointer_bounded_preview",
+            "runtime_verified_single_byte_corrupt_terminator",
             anomalous_resource["frames"][2]["interpretation"],
+        )
+        self.assertEqual(
+            {
+                "evidence": "artifacts/character-fbff-runtime-v1/manifest.json",
+                "raw_signed_value": -1025,
+                "normalization": "fffb0000 -> ffff0000",
+                "control_rom_sha256": (
+                    "3f55e607829db4497a1f49200514777c8"
+                    "9df01f3624fd849005b96247502507a"
+                ),
+            },
+            anomalous_resource["frames"][2]["termination_resolution"],
         )
 
     def test_preserves_frames_components_timelines_and_source_bytes(self):

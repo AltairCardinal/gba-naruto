@@ -1,0 +1,24 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 60098,
+  "peak_tree_rss_mib": 47.4609375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/Users/altair/github/gba-naruto/build/signed-tooling/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto/tools/mgba_character_fbff_probe.lua",
+    "-C",
+    "audioSync=0",
+    "-C",
+    "videoSync=0",
+    "-C",
+    "mute=1",
+    "/Users/altair/github/gba-naruto/rom/base.gba"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-07-29T17:31:40.612320Z",
+  "finished_at": "2026-07-29T17:31:41.928223Z",
+  "completion_trigger": "success-marker"
+}

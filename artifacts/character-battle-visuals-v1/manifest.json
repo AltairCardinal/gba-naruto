@@ -182,19 +182,19 @@
     ],
     "renderer_terminator_frame_count": 2003,
     "anomalous_frame_trailer_count": 1,
-    "verified_static_source_space_frame_count": 2003,
-    "provisional_pointer_bounded_frame_count": 1
+    "verified_static_source_space_frame_count": 2004,
+    "provisional_pointer_bounded_frame_count": 0
   },
   "scope": {
-    "static_source_space_frames": false,
-    "pointer_bounded_source_previews": true,
+    "static_source_space_frames": true,
+    "pointer_bounded_source_previews": false,
     "component_geometry_and_flips": true,
     "animation_holds": true,
     "screen_space_position": false,
     "camera_and_priority": false,
     "runtime_slot_selection": false,
     "blend_and_palette_transform": false,
-    "all_component_termination_semantics_complete": false
+    "all_component_termination_semantics_complete": true
   },
   "slots": [
     {
@@ -82837,8 +82837,14 @@
           "raw_sha256": "7793b06ecf51eb8fb67b76d75e50a562e5c160c9b2b577b07be426daba31b178",
           "frame_trailer_raw_hex": "fffb0000",
           "renderer_terminator": false,
-          "render_complete": false,
-          "interpretation": "provisional_pointer_bounded_preview",
+          "render_complete": true,
+          "interpretation": "runtime_verified_single_byte_corrupt_terminator",
+          "termination_resolution": {
+            "evidence": "artifacts/character-fbff-runtime-v1/manifest.json",
+            "raw_signed_value": -1025,
+            "normalization": "fffb0000 -> ffff0000",
+            "control_rom_sha256": "3f55e607829db4497a1f49200514777c89df01f3624fd849005b96247502507a"
+          },
           "width": 32,
           "height": 64,
           "component_local_bounds": {

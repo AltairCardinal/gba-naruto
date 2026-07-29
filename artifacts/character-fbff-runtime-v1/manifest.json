@@ -1,0 +1,94 @@
+{
+  "schema": "character-fbff-runtime-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "control_rom": {
+    "persisted": false,
+    "sha256": "3f55e607829db4497a1f49200514777c89df01f3624fd849005b96247502507a",
+    "patch": {
+      "file_offset": "0x0025A8E5",
+      "gba_address": "0x0825A8E5",
+      "before": "0xFB",
+      "after": "0xFF",
+      "changed_byte_count": 1
+    }
+  },
+  "probe_input": {
+    "source_state": "artifacts/battle-effect-affine-runtime-v1/raw/state-0154.ss9",
+    "source_state_sha256": "60028c26e1a529c9542b1e9644dcd35d341cfcfe593cde1b3359c1e2817e3c93",
+    "generated_state_sha256": "6430971b14eb084da468c8db9019ec6c9d5534d632b4f5effa616f25dfff7ce5",
+    "task_address": "0x03005940",
+    "task_size": 60,
+    "animation_id": 0,
+    "keyframe_index": 2,
+    "frame_pointer_table": "0x0825A918",
+    "animation_pointer_table": "0x0825A948",
+    "graphics_pointer": "0x08258CA0"
+  },
+  "probe_script": {
+    "path": "tools/mgba_character_fbff_probe.lua",
+    "sha256": "6c098ba219fbd06e8e3d1d5cf3f8a1cd48a39b45bec66739e13895948aff839d"
+  },
+  "renderer": {
+    "initial_compare": {
+      "gba_start": "0x080629FC",
+      "gba_end": "0x08062A0A",
+      "sha256": "1eec74c4d5fbbe612ea235443537b5f670eb656f460b623059ad4bdb6adda3fa"
+    },
+    "loop_compare": {
+      "gba_start": "0x080631F6",
+      "gba_end": "0x08063214",
+      "breakpoint": "0x080631FE",
+      "sha256": "139cfdb1b42f080558791e74aab2d726cfb36e703555991b437065e744b32af7"
+    },
+    "termination_condition": "signed u16 component tile field equals -1 (0xFFFF)"
+  },
+  "base_run": {
+    "run_id": "character-fbff-runtime-20260730-base-02",
+    "expected_trailer": "FBFF",
+    "outcome": "renderer_continues_past_fbff",
+    "success": true,
+    "guard_peak_tree_rss_mib": 47.4609375,
+    "files": {
+      "base/audit.json": "13c6a2d1d88922352cd1c17d4a91ddfd4cc204707789186faee299f4ee233aa1",
+      "base/guard.json": "82936e36ef43c4b00710d2a98226b5bcdf7434ee4a4880375889ecd2608261e4",
+      "base/oam.bin": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+      "base/renderer-loop.json": "258d0a123a678d9d5b25f95d7a90f4e72702e9ff040b322f29ce1536d7e43149",
+      "base/task-after.bin": "c091d31ceea2a97cbcf2b6aa34049ca5612e6730903eaa11d3ff0d378736fc21",
+      "base/task-before.bin": "c091d31ceea2a97cbcf2b6aa34049ca5612e6730903eaa11d3ff0d378736fc21"
+    }
+  },
+  "control_run": {
+    "run_id": "character-fbff-runtime-20260730-control-03",
+    "expected_trailer": "FFFF",
+    "outcome": "renderer_stops_at_ffff",
+    "success": true,
+    "capture_frame": 2,
+    "guard_peak_tree_rss_mib": 47.40234375,
+    "files": {
+      "control/audit.json": "68b29bf3725b7f680068731efaeaa039d5152697d95c72bab44e9dcc6617e4b0",
+      "control/frame.png": "67e34082f3e17b578ae00578baf79f5faa83d409f60ce531d6fb1c12e52edf0d",
+      "control/guard.json": "b15c1d2ed67c6b53ee043c2afa43732d5915c15406fdb9338dc5d1c85df28a3d",
+      "control/oam.bin": "697ecf877d6171894245cf8efaf3122adc4cbf6e4754b14ba9d312d4201750be",
+      "control/output.ss9": "14da9ba2a34b79ea63b7d6169a1a58b0e8f847ec81b1a2d87658e6fb5bec0b6e",
+      "control/renderer-loop.json": "ca759af9ffd356473377b4021555f62305af08edb1ca86a2cf99e59e13261e0b",
+      "control/task-after.bin": "41b3cd6a90c074ad9af9ad02b090abd0f64783ceddce0c45f57aca00a62bfa43",
+      "control/task-before.bin": "c091d31ceea2a97cbcf2b6aa34049ca5612e6730903eaa11d3ff0d378736fc21"
+    }
+  },
+  "conclusion": {
+    "character_id": 26,
+    "visual_slot": 2,
+    "frame_id": 2,
+    "component_list_pointer": "0x0825A8D0",
+    "raw_trailer_address": "0x0825A8E4",
+    "raw_trailer": "0xFBFF",
+    "runtime_semantics": "not_a_terminator_renderer_overrun",
+    "repair": "normalize only the high byte at 0x0825A8E5 from 0xFB to 0xFF",
+    "repaired_component_count": 1,
+    "repaired_valid_oam_attr2": "0xE340",
+    "source_space_render_complete": true
+  }
+}

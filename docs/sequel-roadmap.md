@@ -31,6 +31,15 @@
   从 ROM 重读记录并重建预览，43/43、`errors=[]`。这闭合规范 Sprite 的帧号、时长
   和终止策略，但不签发场景专用覆写或屏幕空间坐标。证据见
   `notes/sprite-definition-animations-export-20260729.md`。
+- 2026-07-30 角色战斗视觉矩阵的唯一 component 尾标缺口已闭合。row 227
+  （character 26、slot 2、frame 2）的 `0xFBFF` 在 renderer 中按 signed u16
+  比较，不等于终止值 `-1`；同快照断点证明原 ROM 越过帧边界继续按 20 字节解释，
+  仅把 `0x0825A8E5` 从 `FB` 改为 `FF` 后会在 `FFFF` 停止并产生唯一合法 OBJ。
+  原始字节继续无损保留，导出器只对该已证明地址记录显式修复，角色战斗视觉现为
+  2004/2004 个去重源空间帧完整，独立 verifier 为 `errors=[]`。这不签发屏幕坐标、
+  相机、priority、blend 或 palette transform。证据见
+  `notes/character-battle-visuals-export-20260729.md` 与
+  `artifacts/character-fbff-runtime-v1/manifest.json`。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。
 - 2026-07-23 进一步把 18 个 `.ss9` 边界绑定到协作任务栈中的真实控制器帧：14 个 scenario 41 样本覆盖 `0x3110` 移动、`0x3000/0x4000` 菜单、`0x9200` 术菜单、`0x4100` 目标/确认、`0x9000/0x9100` 面向/防御、`0x8000` 结果与 `0x1220` 回合脚本；4 个 scenario 45/50 样本又证明敌方 `0x7000` 行动准备与玩家 `0x6000` 提交门共同汇入 `0x8000` 解析。分析要求有效 Thumb BL、外层 controller caller、checkpoint 哈希及阵营/当前单位字段。证据见 `notes/battle-controller-checkpoint-bindings-20260723.json`。旧 implementation plan 的“已实现”状态已撤销并标记为不得继续执行。
@@ -304,7 +313,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、12/12 regular BG 场景画布、9 组角色场景视觉包、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源及 2004/2004 去重源空间帧、12/12 regular BG 场景画布、9 组角色场景视觉包、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、屏幕空间角色合成、track opcode 和 cue 语义命名仍未全部完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
