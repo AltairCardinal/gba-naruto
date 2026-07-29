@@ -297,7 +297,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、12/12 regular BG 场景画布、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、12/12 regular BG 场景画布、9 组角色场景视觉包、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -697,6 +697,12 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   scroll、enable、blend、palette transform 和 C/D 共用 VRAM，故只签发 layer
   bindings，不伪造 final composite；证据见 `notes/tile-assets-bg-export-20260729.md` 与
   `notes/story-scene-layer-bindings-20260729.md`。
+  紧邻 `menu-ui` 之前的 `0x085A4CE8` 也已闭合为 9×`0x1C` 角色场景视觉包：
+  9 张 8bpp 紧致背景、9 组 4bpp OBJ、18 张双 palette atlas 和 16 张 definition
+  frame 已进入 `scene-visual-packs-v1`，100 个文件由独立 verifier 复核。OBJ frame
+  集合与 palette bank 已闭合，但零值 animation 时序、最终 viewport crop 和
+  screen-space composition 仍保持未完成；证据见
+  `notes/scene-visual-pack-export-20260729.md`。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。
