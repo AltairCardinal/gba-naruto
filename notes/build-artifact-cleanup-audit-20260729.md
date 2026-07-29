@@ -179,3 +179,31 @@ ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butan
 `20,039`。清理后检测到并行 Butano 任务正在通过 `run_guarded.py` 驱动 mGBA；本轮
 没有触碰其 `artifacts/butano-battle-s49-fidelity-20260729-19/`、
 `build/resource-guard/`、`build/signed-tooling/` 或 `butano-sequel/build/`。
+
+## 第八轮清理：成果承接与可重建性终审
+
+本轮再次核对 Goal、Git 状态、仓库引用、目录内容和活跃进程，只清理满足“结论已经进入
+持久代码/测试/笔记，原目录不再承载唯一证据，且可从既有来源重建”的项目：
+
+- 删除 `build/maxmod-upstream-20260727-01/`。它是约 `1.2 MiB` 的临时 partial clone，
+  工作树源码已经全部缺失，只剩可从公开上游 commit
+  `97c4e3267afc08f6f8a2da1ef7238d5b0bfdef0d` 重新取得的 Git 对象缓存；仓库没有引用
+  该路径。
+- 删除 `build/maxmod-header-diagnostic-20260727-01/`。其中只有旧的
+  `soundbank.bin`/`soundbank.h` 诊断输出，约 `4.4 MiB`；Maxmod 接线、故障根因和
+  音频边界已经进入 `butano-sequel/`、对应测试及持久笔记，这两个文件可由现有音频
+  资产和构建链重新生成，仓库没有引用该路径。
+- 删除三个无文件的空运行目录：
+  `battle-substitution-position-watch-20260725-{01,02}/` 和
+  `butano-ai-runtime-20260724-01/`。既有笔记引用这些名称只是为了明确记录保护失败或
+  checkpoint 不适用，且已明确说明输出为空；保留空目录不会增加可复核证据。
+
+删除后上述五个路径均不存在，顶层 `build/` 有 `19,871` 个文件。由于同仓库的并行
+Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的顶层总量不能单独
+用作本轮回收量；本轮目标目录本身约回收 `5.6 MiB`。
+
+其余约 `1.6 GiB` 未继续删除：大体积录像、ROM trace、快照、GPU/OAM/PRAM/VRAM dump
+仍未被完整、可独立验证的 `artifacts/` 承接；`audio-v2/`、`audio/`、
+`resource-guard/`、`signed-tooling/` 仍被测试或工具直接使用；
+`mgba-upstream-patch/` 仍是未完成的异常工作树；`butano-sequel/build/` 和当日产物
+属于并行 Butano 工作。删除它们会造成证据断链、测试输入缺失或干扰并行任务。
