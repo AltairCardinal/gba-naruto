@@ -97,3 +97,12 @@ palette、压缩/解压二进制、manifest 和精确文件集合。
 
 本里程碑闭合静态 BG 表、原始资源和 loader 可见画布，但不声称已闭合所有运行时
 scene 名称、滚动偏移或与其他 BG/OBJ 层的最终合成。
+
+## 后续选择链闭合
+
+`artifacts/bg-scene-selection-v1/` 已在后续里程碑枚举全部 47 个 battle header、
+两张章节指针表的 110 个非空脚本槽、6 个唯一 opcode `0x1E` 记录、loader 的 4 个
+直接调用点及选择 wrapper 的 5 个调用点。因此本文件 manifest 中历史性的
+`runtime_entry_selection_complete=false` 已由独立的选择目录成果取代；静态画布
+artifact 本身保持不变，新的证据和限制见
+`notes/bg-scene-selection-export-20260729.md`。

@@ -898,3 +898,17 @@ WebSocket
   artifact 新增 172 张精确运行时配色 PNG、透明索引 0、运行时总览和原始 palette；
   独立 verifier 从 ROM 重建 palette、两套 PNG 及文件集合并通过篡改测试。消息字符
   映射和与 79×0x44 effect descriptor 的完整逐帧合成仍未闭合，Goal 保持 active。
+- 2026-07-29：闭合 regular BG 的完整场景选择目录。批量遍历 primary/alternate
+  110/110 个非空章节脚本槽、98 个唯一根和 14,199 个唯一 CFG 节点，精确处理两套
+  text token 规则及 42 个双分支 opcode `0x06`，得到 6 个唯一 opcode `0x1E`
+  背景选择记录且无解析失败；同时枚举 47/47 battle header、loader 的 4 个直接 caller
+  和 selection wrapper 的 5 个 caller。成果不复制图片，而是把所有有效 ID 绑定到
+  `artifacts/bg-resource-canvases-v1/` 的画布路径及 SHA-256。静态 ROM 实际观察到
+  ID 1–7、9、10、12；ID 11/13 只标记为 wrapper 合法输入域可选择，不编造场景名称。
+  wrapper 安全域已纠正为不连续的 `0..46 ∪ 50..54`；input 47–49 会越过 47 项
+  header 表并得到无效 ID 96/36/214，loader 又无上界检查，目录将其作为明确风险保留。
+  独立 verifier 从 ROM 重走 CFG、调用点、header 和上游画布，结果为
+  47 headers / 6 opcode records、`errors=[]`。成果位于
+  `artifacts/bg-scene-selection-v1/`，说明见
+  `notes/bg-scene-selection-export-20260729.md`。自然语言场景命名、滚动和最终
+  BG/OBJ 合成仍未闭合，Goal 保持 active。
