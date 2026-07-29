@@ -40,6 +40,20 @@
   相机、priority、blend 或 palette transform。证据见
   `notes/character-battle-visuals-export-20260729.md` 与
   `artifacts/character-fbff-runtime-v1/manifest.json`。
+- 2026-07-30 角色源帧新增全 tracked checkpoint 的自然 OAM/VRAM 离线绑定。
+  批量脚本严格解析 91/91 个 `.ss9`，扫描 1211 个活动 OAM，在 57 个 checkpoint
+  中以尺寸和 OBJ VRAM 完整字节命中 222 个角色 component；133 个由最小 BGR555
+  palette 差异唯一解析，89 个保留同分歧义。最优候选覆盖角色
+  `[1,2,3,30,33,35,41,55]`、47 个 resource、146 个
+  `(resource,frame)` 和全部 9 个 visual slot。11 个 palette 完全一致，194 个只改
+  index 15，另 17 个记录 12/13 色差分；自然样本同时证明源 tile 128/160 等会被
+  重定位到 runtime OBJ tile 0，不能把 attr2 当 ROM 源 offset。独立 verifier
+  以既有 GPU decoder 交叉检查 1211 个 active OAM，再重建全部
+  checkpoint/VRAM/PRAM 与源组件并通过手工 tile/palette golden 和 SHA 篡改测试。成果见
+  `artifacts/character-runtime-oam-bindings-v1/` 与
+  `notes/character-runtime-oam-bindings-20260730.md`。本批次仍不签发自然
+  selector/task trace、camera writer、62×9 全槽或 BG/OBJ/window/blend 最终像素
+  合成。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。
 - 2026-07-23 进一步把 18 个 `.ss9` 边界绑定到协作任务栈中的真实控制器帧：14 个 scenario 41 样本覆盖 `0x3110` 移动、`0x3000/0x4000` 菜单、`0x9200` 术菜单、`0x4100` 目标/确认、`0x9000/0x9100` 面向/防御、`0x8000` 结果与 `0x1220` 回合脚本；4 个 scenario 45/50 样本又证明敌方 `0x7000` 行动准备与玩家 `0x6000` 提交门共同汇入 `0x8000` 解析。分析要求有效 Thumb BL、外层 controller caller、checkpoint 哈希及阵营/当前单位字段。证据见 `notes/battle-controller-checkpoint-bindings-20260723.json`。旧 implementation plan 的“已实现”状态已撤销并标记为不得继续执行。
