@@ -151,16 +151,10 @@ def _resource(
 def _decode_label_glyph(source: bytes) -> bytes:
     if len(source) != 32:
         raise ValueError("encoded SJIS glyph must be 32 bytes")
-    tiles: list[bytes] = []
-    for half in range(2):
-        pixels = bytearray()
-        for packed in source[half * 16 : (half + 1) * 16]:
-            pixels.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
-        tiles.append(bytes(pixels))
     output = bytearray()
-    for y in range(8):
-        output.extend(tiles[0][y * 8 : (y + 1) * 8])
-        output.extend(tiles[1][y * 8 : (y + 1) * 8])
+    for half in range(2):
+        for packed in source[half * 16 : (half + 1) * 16]:
+            output.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
     return bytes(output)
 
 
@@ -169,7 +163,7 @@ def _render_label(
     codes: list[int],
 ) -> tuple[bytes, list[dict[str, Any]], bytes]:
     pixels = bytearray()
-    rows = [bytearray() for _ in range(8)]
+    rows = [bytearray() for _ in range(16)]
     glyphs: list[dict[str, Any]] = []
     for code in codes:
         try:
@@ -180,14 +174,14 @@ def _render_label(
         if sha256(source) != expected_hash:
             raise ValueError(f"glyph source mismatch for 0x{code:04X}")
         glyph_pixels = _decode_label_glyph(source)
-        for y in range(8):
-            rows[y].extend(glyph_pixels[y * 16 : (y + 1) * 16])
+        for y in range(16):
+            rows[y].extend(glyph_pixels[y * 8 : (y + 1) * 8])
         glyphs.append(
             {
                 "code": f"0x{code:04X}",
                 "source_pointer": _address(pointer),
                 "source_sha256": expected_hash,
-                "source_format": "16x8-2bpp",
+                "source_format": "two-8x8-2bpp-half-tiles",
                 "covered_by_dialogue_font_v2": True,
             }
         )
@@ -196,8 +190,8 @@ def _render_label(
     png = indexed_png_from_bgr555(
         bytes(pixels),
         LABEL_PREVIEW_PALETTE,
-        width=64,
-        height=8,
+        width=32,
+        height=16,
         transparent_index=0,
     )
     return bytes(pixels), glyphs, png
@@ -471,7 +465,11 @@ def export_artifact(
                     },
                     "preview": {
                         "file": label_png_file,
-                        "dimensions": [64, 8],
+                        "dimensions": [32, 16],
+                        "runtime_layout": (
+                            "four 8x16 glyphs; each source record is two "
+                            "vertically stacked 8x8 tiles"
+                        ),
                         "palette_semantics": "palette-independent grayscale mask",
                         "pixel_sha256": sha256(label_pixels),
                         "sha256": sha256(label_png),

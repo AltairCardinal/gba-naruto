@@ -1,0 +1,30 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 60041,
+  "peak_tree_rss_mib": 0.12890625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/bin/env",
+    "QT_QPA_PLATFORM=offscreen",
+    "MGBA_GPU_STATE_INPUT=/Users/altair/github/gba-naruto/artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9",
+    "MGBA_GPU_STATE_INPUT_SHA256=35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1",
+    "MGBA_GPU_STATE_OUTPUT_DIR=/Users/altair/github/gba-naruto/build/world-map-gpu-s42-20260729-01",
+    "MGBA_GPU_STATE_DONE_MARKER=/Users/altair/github/gba-naruto/build/world-map-gpu-s42-20260729-01/done.json",
+    "/Users/altair/github/gba-naruto/build/signed-tooling/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto/tools/mgba_dump_gpu_state.lua",
+    "-C",
+    "audioSync=0",
+    "-C",
+    "videoSync=0",
+    "-C",
+    "mute=1",
+    "/Users/altair/github/gba-naruto/rom/base.gba"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-07-29T04:12:00.680755Z",
+  "finished_at": "2026-07-29T04:12:01.738652Z",
+  "completion_trigger": "success-marker"
+}

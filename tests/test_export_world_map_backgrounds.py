@@ -142,7 +142,15 @@ class ExportWorldMapBackgroundsTest(unittest.TestCase):
         for page in self.manifest["pages"]:
             label = page["label"]
             self.assertEqual(4, label["glyph_count"])
-            self.assertEqual([64, 8], label["preview"]["dimensions"])
+            self.assertEqual([32, 16], label["preview"]["dimensions"])
+            self.assertEqual(
+                "four 8x16 glyphs; each source record is two vertically stacked 8x8 tiles",
+                label["preview"]["runtime_layout"],
+            )
+            self.assertEqual(
+                {"two-8x8-2bpp-half-tiles"},
+                {glyph["source_format"] for glyph in label["glyphs"]},
+            )
             self.assertEqual(
                 "artifacts/dialogue-font-v2/manifest.json",
                 label["font_dependency"]["manifest"],

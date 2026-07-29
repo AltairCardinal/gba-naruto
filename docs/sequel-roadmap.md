@@ -710,6 +710,11 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   字体资产。独立 verifier 已复核 3/3 背景和 3/3 标签；文本 context 的最终 palette、
   屏幕坐标、选择光标及 BG 合成仍保持未完成。证据见
   `notes/world-map-background-export-20260729.md`。
+  随后的 accepted scenario 42 世界地图快照 GPU capture 已闭合 page 0：
+  BG0 精确匹配静态 gfx/palette/30×20 map，BG3 证明四个字形实际为 32×16 的
+  8×16 纵向半块布局，位置 `(32,8)`、palette bank 14；唯一活动 OBJ 是
+  `(184,8)` 的 16×8 选择光标。page 1/2 与选择切换时序仍未完成，证据见
+  `notes/world-map-runtime-composition-20260729.md`。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。

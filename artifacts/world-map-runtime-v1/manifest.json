@@ -1,0 +1,256 @@
+{
+  "schema": "world-map-runtime-v1",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "static_dependency": {
+    "manifest": "artifacts/world-map-backgrounds-v1/manifest.json",
+    "manifest_sha256": "11dbd4129ae498bdbdb9e24d67f905c4b93ff20b1b2803a3e1c9b9b06a83ad44",
+    "page_id": 0
+  },
+  "capture": {
+    "path": "artifacts/world-map-gpu-captures/s42-page0",
+    "input_state": "artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9",
+    "input_state_sha256": "35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1",
+    "cycle": "21141356539",
+    "files": {
+      "audit.json": {
+        "size": 139,
+        "sha256": "307c25f37c6cd825f064946e2c5e5d1d09760eab335905f95a8af4e243a43026"
+      },
+      "frame.png": {
+        "size": 57591,
+        "sha256": "21439923ef315e7bd00607088858c180646af0f13cbb26ac97bd5c0a1185863d"
+      },
+      "guard.json": {
+        "size": 1172,
+        "sha256": "138d090b82e8a655e0146b5ec1b4447f87a2454a1875e7f8cfe2e2ba0ef0dc0d"
+      },
+      "io.bin": {
+        "size": 1024,
+        "sha256": "5b2230984638a67e68115e9fe09b5a316ff24de72cd0dcefed24bf1417069aa1"
+      },
+      "oam.bin": {
+        "size": 1024,
+        "sha256": "b3c33732982b1225e5a88b1b89ae3d1340bf8598647d28f899e1d437266c4544"
+      },
+      "pram.bin": {
+        "size": 1024,
+        "sha256": "abb77e6d4f67d6df9a295f174868546de5e1ecdafaf36d6892f49447c9779418"
+      },
+      "vram.bin": {
+        "size": 98304,
+        "sha256": "0b207f2202daa3ba9ba72e7be080d10479c308ce7aad7ecc0cb9aaa3fe1eb50c"
+      }
+    },
+    "guard": {
+      "completion_trigger": "success-marker",
+      "reason": "completed",
+      "exit_code": 0,
+      "degraded": false,
+      "protection_backend": "posix-process-group"
+    }
+  },
+  "registers": {
+    "display_control": "0x1940",
+    "background_controls": {
+      "0": {
+        "control": "0x0086",
+        "priority": 2,
+        "character_base_block": 1,
+        "bits_per_pixel": 8,
+        "screen_base_block": 0,
+        "size": 0,
+        "scroll": [
+          0,
+          0
+        ],
+        "enabled": true
+      },
+      "1": {
+        "control": "0x0105",
+        "priority": 1,
+        "character_base_block": 1,
+        "bits_per_pixel": 4,
+        "screen_base_block": 1,
+        "size": 0,
+        "scroll": [
+          48,
+          56
+        ],
+        "enabled": false
+      },
+      "2": {
+        "control": "0x0202",
+        "priority": 2,
+        "character_base_block": 0,
+        "bits_per_pixel": 4,
+        "screen_base_block": 2,
+        "size": 0,
+        "scroll": [
+          48,
+          56
+        ],
+        "enabled": false
+      },
+      "3": {
+        "control": "0x030C",
+        "priority": 0,
+        "character_base_block": 3,
+        "bits_per_pixel": 4,
+        "screen_base_block": 3,
+        "size": 0,
+        "scroll": [
+          0,
+          0
+        ],
+        "enabled": true
+      }
+    }
+  },
+  "page_zero_background": {
+    "page_id": 0,
+    "display_control": "0x1940",
+    "enabled_backgrounds": [
+      0,
+      3
+    ],
+    "obj_enabled": true,
+    "hardware": {
+      "bg": 0,
+      "control": "0x0086",
+      "priority": 2,
+      "character_base": "0x06004000",
+      "screen_base": "0x06000000",
+      "bits_per_pixel": 8,
+      "scroll": [
+        0,
+        0
+      ]
+    },
+    "graphics_vram_match": "exact",
+    "palette_pram_match": "exact",
+    "tilemap_rows_matching": 20,
+    "tilemap_dimensions": [
+      30,
+      20
+    ],
+    "visible_dimensions": [
+      240,
+      160
+    ]
+  },
+  "page_zero_label": {
+    "codes": [
+      "0x92BB",
+      "0x99DE",
+      "0x9BD6",
+      "0x90EC"
+    ],
+    "background": 3,
+    "bg_control": "0x030C",
+    "priority": 0,
+    "character_base": "0x0600C000",
+    "screen_base": "0x06001800",
+    "screen_position": [
+      32,
+      8
+    ],
+    "dimensions": [
+      32,
+      16
+    ],
+    "tile_indices": [
+      [
+        0,
+        2,
+        4,
+        6
+      ],
+      [
+        1,
+        3,
+        5,
+        7
+      ]
+    ],
+    "palette_bank": 14,
+    "tile_pixel_indices": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "global_palette_indices": [
+      232,
+      233,
+      234,
+      235
+    ],
+    "palette": [
+      {
+        "global_index": 232,
+        "bgr555": "0x6BDC",
+        "rgb888": [
+          231,
+          247,
+          214
+        ]
+      },
+      {
+        "global_index": 233,
+        "bgr555": "0x4ED5",
+        "rgb888": [
+          173,
+          181,
+          156
+        ]
+      },
+      {
+        "global_index": 234,
+        "bgr555": "0x35EE",
+        "rgb888": [
+          115,
+          123,
+          107
+        ]
+      },
+      {
+        "global_index": 235,
+        "bgr555": "0x1D07",
+        "rgb888": [
+          57,
+          66,
+          57
+        ]
+      }
+    ],
+    "all_runtime_tiles_match_rom_glyph_sources": true
+  },
+  "selection_cursor": {
+    "active_object_count": 1,
+    "object_id": 0,
+    "position": [
+      184,
+      8
+    ],
+    "dimensions": [
+      16,
+      8
+    ],
+    "tile_index": 1014,
+    "priority": 0,
+    "palette_bank": 15
+  },
+  "scope": {
+    "page_zero_final_composition_captured": true,
+    "page_zero_background_binding_complete": true,
+    "page_zero_label_runtime_layout_complete": true,
+    "page_zero_label_palette_complete": true,
+    "page_zero_selection_cursor_oam_complete": true,
+    "pages_one_and_two_runtime_composition_complete": false,
+    "selection_transition_timing_complete": false,
+    "unlock_state_matrix_complete": false
+  }
+}

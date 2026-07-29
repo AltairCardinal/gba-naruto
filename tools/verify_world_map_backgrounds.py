@@ -245,21 +245,15 @@ def _background_pixels(graphics: bytes, tilemap: bytes) -> tuple[bytes, dict[str
 
 
 def _glyph_pixels(source: bytes) -> bytes:
-    halves: list[bytes] = []
-    for half in range(2):
-        decoded = bytearray()
-        for packed in source[half * 16 : (half + 1) * 16]:
-            decoded.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
-        halves.append(bytes(decoded))
     output = bytearray()
-    for y in range(8):
-        output.extend(halves[0][y * 8 : (y + 1) * 8])
-        output.extend(halves[1][y * 8 : (y + 1) * 8])
+    for half in range(2):
+        for packed in source[half * 16 : (half + 1) * 16]:
+            output.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
     return bytes(output)
 
 
 def _label_pixels(rom: bytes, codes: list[int]) -> tuple[bytes, list[dict[str, Any]]]:
-    rows = [bytearray() for _ in range(8)]
+    rows = [bytearray() for _ in range(16)]
     glyph_entries = []
     for code in codes:
         pointer, expected_hash = GLYPHS[code]
@@ -267,14 +261,14 @@ def _label_pixels(rom: bytes, codes: list[int]) -> tuple[bytes, list[dict[str, A
         if _hash(source) != expected_hash:
             raise ValueError("glyph source hash mismatch")
         pixels = _glyph_pixels(source)
-        for y in range(8):
-            rows[y].extend(pixels[y * 16 : (y + 1) * 16])
+        for y in range(16):
+            rows[y].extend(pixels[y * 8 : (y + 1) * 8])
         glyph_entries.append(
             {
                 "code": f"0x{code:04X}",
                 "source_pointer": _address(pointer),
                 "source_sha256": expected_hash,
-                "source_format": "16x8-2bpp",
+                "source_format": "two-8x8-2bpp-half-tiles",
                 "covered_by_dialogue_font_v2": True,
             }
         )
@@ -353,7 +347,7 @@ def _expected(root: Path, rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]
             raise ValueError("invalid label terminator")
         codes = list(struct.unpack(">4H", label_record[:8]))
         label_pixels, glyph_entries = _label_pixels(rom, codes)
-        label_png = _png(label_pixels, PREVIEW_PALETTE, 64, 8, 0)
+        label_png = _png(label_pixels, PREVIEW_PALETTE, 32, 16, 0)
         label_record_file = f"{prefix}/label-record.bin"
         label_png_file = f"{prefix}/label-preview.png"
         files[label_record_file] = label_record
@@ -416,7 +410,11 @@ def _expected(root: Path, rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]
                     },
                     "preview": {
                         "file": label_png_file,
-                        "dimensions": [64, 8],
+                        "dimensions": [32, 16],
+                        "runtime_layout": (
+                            "four 8x16 glyphs; each source record is two "
+                            "vertically stacked 8x8 tiles"
+                        ),
                         "palette_semantics": "palette-independent grayscale mask",
                         "pixel_sha256": _hash(label_pixels),
                         "sha256": _hash(label_png),

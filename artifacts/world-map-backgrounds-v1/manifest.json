@@ -642,28 +642,28 @@
             "code": "0x92BB",
             "source_pointer": "0x080B14B4",
             "source_sha256": "b167195ec90be190ee6de0a71edf0730a925662143503aaa40ab0b56a24a151d",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x99DE",
             "source_pointer": "0x085B0D00",
             "source_sha256": "da9b122c7cc9761309f016edc532937b82ed9d29ef191d0ca53f1bbb1e9a3c82",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x9BD6",
             "source_pointer": "0x085B3B40",
             "source_sha256": "1597a2e18dbbfe000195d548d2d59c0827c4dc2ba96376adb219a689f4f27168",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x90EC",
             "source_pointer": "0x080AEAD4",
             "source_sha256": "6c4f7f55f1ae5f5cfddbaa6ad9827ac9c2b61b8ed6357b33d9c0e72c1527725e",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           }
         ],
@@ -677,12 +677,13 @@
         "preview": {
           "file": "page-00/label-preview.png",
           "dimensions": [
-            64,
-            8
+            32,
+            16
           ],
+          "runtime_layout": "four 8x16 glyphs; each source record is two vertically stacked 8x8 tiles",
           "palette_semantics": "palette-independent grayscale mask",
-          "pixel_sha256": "4ae12b852c77b31b33e2d481f5eb7afa38f1713f2ad943b69c62af0f1792c1d3",
-          "sha256": "505de9bbfab50369dab4615c4f8bd11a9bae823d7924ca3f0c31799b613c2946"
+          "pixel_sha256": "162f59c4c387834a26c5a3154a664cdb4c8b7cde21cabcbc2e762d268f0299ae",
+          "sha256": "ed078780f5f29ac898f2e6b42a90d421cafda572803a93753bbfaeabe0531d0d"
         }
       }
     },
@@ -1270,28 +1271,28 @@
             "code": "0x8140",
             "source_pointer": "0x0809D954",
             "source_sha256": "42bcd694ac47d9a2a377c8a61e8fe60398a201705d1aaeba9e87e117d79e33fb",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x89A5",
             "source_pointer": "0x080A39F4",
             "source_sha256": "b99dd792f82047c9d759d71778c281e315ab3f266aa9cf8dbf6610966e94afac",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x9BD6",
             "source_pointer": "0x085B3B40",
             "source_sha256": "1597a2e18dbbfe000195d548d2d59c0827c4dc2ba96376adb219a689f4f27168",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x8D99",
             "source_pointer": "0x080A9874",
             "source_sha256": "9c07ac774b8737b75793f9bf824a0aadca0c332c79b92f44b4ce527f0655f41a",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           }
         ],
@@ -1305,12 +1306,13 @@
         "preview": {
           "file": "page-01/label-preview.png",
           "dimensions": [
-            64,
-            8
+            32,
+            16
           ],
+          "runtime_layout": "four 8x16 glyphs; each source record is two vertically stacked 8x8 tiles",
           "palette_semantics": "palette-independent grayscale mask",
-          "pixel_sha256": "d26c7b5feb6838bfbc958219921ed618d385592ad545623e530e2021715ec65f",
-          "sha256": "215aa9abb7ce29e2f019f4cb0471c01058ae67e817667ec87accb27cf55f1e58"
+          "pixel_sha256": "c7aed0e36db9be296786a738ba4b5bee35c44694f51877053b78f42e6228c599",
+          "sha256": "0bc3296e1a8385e127e21140c23a08593d9e344e8d58659aa455d00e3f31ff1f"
         }
       }
     },
@@ -1898,28 +1900,28 @@
             "code": "0x8140",
             "source_pointer": "0x0809D954",
             "source_sha256": "42bcd694ac47d9a2a377c8a61e8fe60398a201705d1aaeba9e87e117d79e33fb",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x965E",
             "source_pointer": "0x080B6914",
             "source_sha256": "902e579cbfc0337082379ee0a1f1ea06ead5553594c561ec35f854557e4771fc",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x9BD6",
             "source_pointer": "0x085B3B40",
             "source_sha256": "1597a2e18dbbfe000195d548d2d59c0827c4dc2ba96376adb219a689f4f27168",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           },
           {
             "code": "0x954B",
             "source_pointer": "0x080B4EB4",
             "source_sha256": "eaabc7339e7b7ccedd0654da0bf695d4d139c6ce832bd6d88220f23513140674",
-            "source_format": "16x8-2bpp",
+            "source_format": "two-8x8-2bpp-half-tiles",
             "covered_by_dialogue_font_v2": true
           }
         ],
@@ -1933,12 +1935,13 @@
         "preview": {
           "file": "page-02/label-preview.png",
           "dimensions": [
-            64,
-            8
+            32,
+            16
           ],
+          "runtime_layout": "four 8x16 glyphs; each source record is two vertically stacked 8x8 tiles",
           "palette_semantics": "palette-independent grayscale mask",
-          "pixel_sha256": "56a5c742c142a52615b82a93cdffbf3cf4628cd272ecbb720143ce9f46eb4210",
-          "sha256": "039246a744f989bf8aec859c299fa3feb9bd659bca4028471bf3b391f7118537"
+          "pixel_sha256": "dcee26503b70c1f07df6efba0a39ecf3c290aac7ad4e12704fc1111aef44b48e",
+          "sha256": "5928153265fab12b8d5b05f288a2d83afc5529f4af67fe6f57c59c1d055c6ef6"
         }
       }
     }
