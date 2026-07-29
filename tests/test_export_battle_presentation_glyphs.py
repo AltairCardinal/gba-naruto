@@ -21,6 +21,9 @@ GLYPH_TABLE_SHA256 = (
 BINDING_TABLE_SHA256 = (
     "8b5557e99d159b2b3ea1701bc0a15d0f2acc95f766003ec706263fc62a3719e8"
 )
+RUNTIME_PALETTE_SHA256 = (
+    "91469795b385e7b06edde2a8fcba8d562ddf5c2bca69350e1dc7880974419981"
+)
 
 
 def directory_hashes(root: Path) -> dict[str, str]:
@@ -128,6 +131,12 @@ class ExportBattlePresentationGlyphsTest(unittest.TestCase):
                 "message_selector": (
                     "835b54df161608218062de4ad9743101456988d29af8fd5c0de165d0b7ebaa47"
                 ),
+                "presentation_initializer": (
+                    "7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422"
+                ),
+                "sprite_palette_attr2_writer": (
+                    "3a8ba305e8ed98f95bda2f6e81361571db10e20f0c2158d99930573e4d24ba83"
+                ),
             },
             {
                 item["name"]: item["sha256"]
@@ -189,13 +198,71 @@ class ExportBattlePresentationGlyphsTest(unittest.TestCase):
                     glyph["raster_sha256"],
                     hashlib.sha256(image.tobytes()).hexdigest(),
                 )
+            with Image.open(self.output / glyph["runtime_png_file"]) as image:
+                image.load()
+                self.assertEqual("P", image.mode)
+                self.assertEqual((32, 32), image.size)
+                self.assertEqual(0, image.info.get("transparency"))
+                self.assertEqual(
+                    glyph["raster_sha256"],
+                    hashlib.sha256(image.tobytes()).hexdigest(),
+                )
 
         with Image.open(self.output / manifest["atlas"]["png_file"]) as image:
             image.load()
             self.assertEqual("P", image.mode)
             self.assertEqual((512, 352), image.size)
+        with Image.open(
+            self.output / manifest["atlas"]["runtime_png_file"]
+        ) as image:
+            image.load()
+            self.assertEqual("P", image.mode)
+            self.assertEqual((512, 352), image.size)
+            self.assertEqual(0, image.info.get("transparency"))
 
-    def test_scope_does_not_claim_text_decoding_or_runtime_palette(self):
+    def test_exports_runtime_palette_and_static_selection_chain(self):
+        palette = self.manifest["runtime_palette"]
+        self.assertEqual(
+            {
+                "file_offset": 0x3E4AF0,
+                "gba_address": "0x083E4AF0",
+                "size": 32,
+                "color_count": 16,
+                "format": "BGR555",
+                "sha256": RUNTIME_PALETTE_SHA256,
+                "raw_file": "source/runtime-palette.bin",
+                "palette_bank": 13,
+                "obj_palette_destination": "0x050003A0",
+                "transparent_palette_index": 0,
+            },
+            palette,
+        )
+        self.assertEqual(
+            {
+                "palette_source_literal": "0x0809861C",
+                "obj_palette_base_literal": "0x08098620",
+                "palette_bank_assignment": "state[0x0F] = 13",
+                "copy_formula": (
+                    "CpuSet(0x083E4AF0, 0x05000200 + 13 * 32, 16 colors)"
+                ),
+                "display_palette_formula": (
+                    "sprite_palette_bank = state[0x0F]"
+                ),
+                "attr2_palette_formula": (
+                    "OAM.attr2[12:15] = sprite_task[0x12] << 12"
+                ),
+            },
+            self.manifest["consumer"]["palette_selection"],
+        )
+        self.assertEqual(
+            "7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422",
+            {
+                item["name"]: item["sha256"]
+                for item in self.manifest["consumer"]["code_slices"]
+            }["presentation_initializer"],
+        )
+
+    def test_scope_claims_only_the_now_proven_runtime_palette(self):
         self.assertEqual(
             {
                 "all_static_messages_exported": True,
@@ -203,7 +270,7 @@ class ExportBattlePresentationGlyphsTest(unittest.TestCase):
                 "all_static_bindings_exported": True,
                 "glyph_geometry_static_verified": True,
                 "message_character_decoding_complete": False,
-                "runtime_palette_binding_complete": False,
+                "runtime_palette_binding_complete": True,
                 "message_names_complete": False,
             },
             self.manifest["scope"],
@@ -228,6 +295,9 @@ class ExportBattlePresentationGlyphsTest(unittest.TestCase):
             self.manifest["messages"][0]["raw_file"],
             self.manifest["glyphs"][0]["graphics_file"],
             self.manifest["glyphs"][0]["png_file"],
+            self.manifest["glyphs"][0]["runtime_png_file"],
+            self.manifest["runtime_palette"]["raw_file"],
+            self.manifest["atlas"]["runtime_png_file"],
         )
         for relative in targets:
             with self.subTest(relative=relative), tempfile.TemporaryDirectory() as tmp:

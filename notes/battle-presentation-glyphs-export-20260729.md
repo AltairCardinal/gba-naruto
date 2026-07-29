@@ -30,8 +30,26 @@
 
 五段消费者代码及 SHA-256 已写入 manifest。静态数据和视觉重建共同证明每个 chunk
 为 512 字节、16 个 4bpp tile；按 4×4 tile 还原为 32×32 后得到完整的汉字、假名、
-数字和标点字形。artifact 使用灰阶诊断 palette 保存索引像素，不宣称已闭合运行时
-palette 来源。
+数字和标点字形。
+
+### 运行时 palette 选择链
+
+- `0x080983B8..0x0809860E` 的初始化函数及其截至 `0x08098624` 的 literal pool 证明：
+  - `state[0x0F] = 13`；
+  - 从 literal `0x0809861C` 取得源地址 `0x083E4AF0`；
+  - 从 literal `0x08098620` 取得 OBJ palette base `0x05000200`；
+  - 以 `13*32` 计算目标 `0x050003A0`，复制 16 个 BGR555 color；
+  - 随后调用 glyph preloader。
+- 显示 consumer `0x08098F82` 将同一 `state[0x0F]` 作为 sprite palette bank 参数，
+  sprite writer `0x08063108..0x08063120` 再将 task `+0x12` 左移 12 位写入 OAM
+  attr2 bits 12–15；因而 preload、palette copy、display 参数与最终 OAM palette
+  bank 四段链闭合。
+- 运行时 palette 原始 SHA-256 为
+  `91469795b385e7b06edde2a8fcba8d562ddf5c2bca69350e1dc7880974419981`；
+  初始化函数连同两个关键 literal 的代码切片 SHA-256 为
+  `7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422`。
+- OBJ palette index 0 在 GBA 上透明。runtime PNG 保留原始索引与 16 色 palette，
+  并显式写入透明索引 0；灰阶 PNG 继续作为便于检查索引强度的诊断版本。
 
 ## 完整导出
 
@@ -40,9 +58,9 @@ palette 来源。
 - 79/79 条原始 NUL 字节串；
 - 172/172 条原始 LZ77 record；
 - 172/172 份 512-byte 4bpp graphics；
-- 172/172 张 32×32 indexed PNG；
-- 一张 512×352 的完整字形总览；
-- 三张源表的原始字节；
+- 172/172 张灰阶诊断 PNG 和 172/172 张运行时 palette PNG；
+- 灰阶和运行时 palette 各一张 512×352 完整字形总览；
+- 三张源表及运行时 16 色 BGR555 palette 的原始字节；
 - 79/79 条 binding 的原始 10 字节、count 与 active glyph IDs；
 - 171 份唯一图形内容；glyph 64/116 是唯一的内容重复组；
 - 138 个 glyph 被当前 binding 引用，34 个未绑定但仍完整保留；
@@ -64,8 +82,9 @@ python3 tools/verify_battle_presentation_glyphs.py \
 ```
 
 独立 verifier 不导入 exporter；它从基准 ROM 重建三张表、79 条消息、172 条 LZ77
-记录、全部 4bpp raster、PNG 和总览图，并拒绝消息、图形、PNG、manifest 元数据或
-文件集合篡改。当前结果为 `messages=79`、`glyphs=172`、`errors=[]`。
+记录、运行时 palette、全部 4bpp raster、两套 PNG 和总览图，并拒绝消息、图形、
+palette、PNG、manifest 元数据或文件集合篡改。当前结果为
+`messages=79`、`glyphs=172`、`errors=[]`。
 
 ## 同轮扫描纠正
 
@@ -80,6 +99,5 @@ python3 tools/verify_battle_presentation_glyphs.py \
 
 - 79 条消息的自然语言字符映射；
 - 每条消息的最终用户可见业务名称；
-- 字形运行时 palette 的完整选择链；
 - 这些文字与 79×0x44 effect descriptor 的完整逐帧 screen-space 合成；当前只闭合了
   binding → 单 glyph 显示对象的静态消费者链。

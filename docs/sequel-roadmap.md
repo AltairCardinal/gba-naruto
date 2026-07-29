@@ -890,5 +890,11 @@ WebSocket
   79/79 messages、172/172 glyphs、`errors=[]`；成果位于
   `artifacts/battle-presentation-glyphs-v1/`，说明见
   `notes/battle-presentation-glyphs-export-20260729.md`。同轮证明
-  `0x085A4E14` 只是已导出 63×5 立绘矩阵的非零后缀，不再重复立项。消息字符映射、
-  运行时 palette 选择和最终 screen-space 合成仍未闭合，Goal 保持 active。
+  `0x085A4E14` 只是已导出 63×5 立绘矩阵的非零后缀，不再重复立项。消息字符映射和
+  最终 screen-space 合成仍未闭合，Goal 保持 active。
+- 2026-07-29：闭合战斗演出字形的运行时 palette 选择链。初始化函数
+  `0x080983B8..0x0809860E` 固定把 `0x083E4AF0` 的 16 色 BGR555 palette 复制到
+  OBJ palette bank 13（`0x050003A0`），显示 consumer 再从同一状态字段选择 bank 13。
+  artifact 新增 172 张精确运行时配色 PNG、透明索引 0、运行时总览和原始 palette；
+  独立 verifier 从 ROM 重建 palette、两套 PNG 及文件集合并通过篡改测试。消息字符
+  映射和与 79×0x44 effect descriptor 的完整逐帧合成仍未闭合，Goal 保持 active。

@@ -22,6 +22,7 @@ This file records confirmed and suspected ROM offsets.
 - `0x00076C`: large low-ROM Shift-JIS-like text block; likely menu/help/tutorial-adjacent string bank
 - `0x5A4E14`: superseded scan shape; this is the nonzero suffix of the consumer-defined 63×40 portrait matrix at `0x5A4DEC`, not an independent table
 - `0x5A2B08`: 79 message pointers, followed at `0x5A2C44` by 172 LZ77 32×32 glyph pointers and at `0x5A2EF4` by 79×10 message/glyph bindings
+- `0x3E4AF0`: battle-presentation glyph runtime palette, 16×BGR555; initializer `0x080983B8..0x0809860E` copies it to OBJ palette bank 13 at `0x050003A0`
 
 ## Suspected
 

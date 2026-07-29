@@ -23,6 +23,11 @@ GLYPH_COUNT = 172
 BINDING_TABLE_OFFSET = 0x5A2EF4
 BINDING_COUNT = 79
 BINDING_SIZE = 10
+RUNTIME_PALETTE_OFFSET = 0x3E4AF0
+RUNTIME_PALETTE_SIZE = 32
+RUNTIME_PALETTE_SHA256 = (
+    "91469795b385e7b06edde2a8fcba8d562ddf5c2bca69350e1dc7880974419981"
+)
 TABLES = {
     "messages": {
         "offset": MESSAGE_TABLE_OFFSET,
@@ -57,6 +62,10 @@ CODE_SLICES = (
      "8d599b9b21b70c455b0acb85a916806697f916b0271b8a42a7c8013ed1196804"),
     ("message_selector", 0x099564, 0x099582,
      "835b54df161608218062de4ad9743101456988d29af8fd5c0de165d0b7ebaa47"),
+    ("presentation_initializer", 0x0983B8, 0x098624,
+     "7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422"),
+    ("sprite_palette_attr2_writer", 0x063108, 0x063120,
+     "3a8ba305e8ed98f95bda2f6e81361571db10e20f0c2158d99930573e4d24ba83"),
 )
 SCHEMA = "battle-presentation-glyphs-v1"
 
@@ -129,11 +138,40 @@ def _palette() -> list[int]:
     return result + [0] * (768 - len(result))
 
 
-def _png(pixels: bytes, size: tuple[int, int]) -> bytes:
+def _runtime_palette(raw: bytes) -> list[int]:
+    if len(raw) != RUNTIME_PALETTE_SIZE:
+        raise ValueError("runtime palette size mismatch")
+    result: list[int] = []
+    for color in struct.unpack("<16H", raw):
+        color &= 0x7FFF
+        red = color & 0x1F
+        green = (color >> 5) & 0x1F
+        blue = (color >> 10) & 0x1F
+        result.extend(
+            (
+                (red << 3) | (red >> 2),
+                (green << 3) | (green >> 2),
+                (blue << 3) | (blue >> 2),
+            )
+        )
+    return result + [0] * (768 - len(result))
+
+
+def _png(
+    pixels: bytes,
+    size: tuple[int, int],
+    palette: list[int] | None = None,
+    transparency: int | None = None,
+) -> bytes:
     image = Image.frombytes("P", size, pixels)
-    image.putpalette(_palette())
+    image.putpalette(palette if palette is not None else _palette())
     stream = io.BytesIO()
-    image.save(stream, format="PNG", optimize=False)
+    image.save(
+        stream,
+        format="PNG",
+        optimize=False,
+        **({"transparency": transparency} if transparency is not None else {}),
+    )
     return stream.getvalue()
 
 
@@ -160,6 +198,13 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
             raise ValueError(f"{name} table mismatch")
         table_bytes[name] = raw
         files[item["file"]] = raw
+    runtime_palette_raw = rom[
+        RUNTIME_PALETTE_OFFSET : RUNTIME_PALETTE_OFFSET + RUNTIME_PALETTE_SIZE
+    ]
+    if _sha256(runtime_palette_raw) != RUNTIME_PALETTE_SHA256:
+        raise ValueError("runtime palette mismatch")
+    runtime_palette = _runtime_palette(runtime_palette_raw)
+    files["source/runtime-palette.bin"] = runtime_palette_raw
 
     binding_table = table_bytes["bindings"]
     message_pointers = struct.unpack("<79I", table_bytes["messages"])
@@ -223,10 +268,15 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
         compressed_file = f"glyphs/glyph-{glyph_id:03d}.lz77"
         graphics_file = f"glyphs/glyph-{glyph_id:03d}.4bpp"
         png_file = f"glyphs/glyph-{glyph_id:03d}.png"
+        runtime_png_file = f"glyphs/glyph-{glyph_id:03d}.runtime.png"
         png = _png(raster, (32, 32))
+        runtime_png = _png(
+            raster, (32, 32), runtime_palette, transparency=0
+        )
         files[compressed_file] = compressed
         files[graphics_file] = graphics
         files[png_file] = png
+        files[runtime_png_file] = runtime_png
         atlas_x = (glyph_id % 16) * 32
         atlas_y = (glyph_id // 16) * 32
         for y in range(32):
@@ -253,6 +303,8 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
                 "maximum_palette_index": max(raster),
                 "png_file": png_file,
                 "png_sha256": _sha256(png),
+                "runtime_png_file": runtime_png_file,
+                "runtime_png_sha256": _sha256(runtime_png),
                 "bound_message_ids": [
                     item["message_id"]
                     for item in messages
@@ -262,7 +314,11 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
         )
 
     atlas_png = _png(bytes(atlas), (512, 352))
+    runtime_atlas_png = _png(
+        bytes(atlas), (512, 352), runtime_palette, transparency=0
+    )
     files["glyph-atlas.png"] = atlas_png
+    files["glyph-atlas-runtime.png"] = runtime_atlas_png
     code_slices = []
     for name, start, end, expected_hash in CODE_SLICES:
         if _sha256(rom[start:end]) != expected_hash:
@@ -305,12 +361,40 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
                 "skip_glyph_id": 255,
                 "bounds_check": False,
             },
+            "palette_selection": {
+                "palette_source_literal": "0x0809861C",
+                "obj_palette_base_literal": "0x08098620",
+                "palette_bank_assignment": "state[0x0F] = 13",
+                "copy_formula": (
+                    "CpuSet(0x083E4AF0, 0x05000200 + 13 * 32, 16 colors)"
+                ),
+                "display_palette_formula": (
+                    "sprite_palette_bank = state[0x0F]"
+                ),
+                "attr2_palette_formula": (
+                    "OAM.attr2[12:15] = sprite_task[0x12] << 12"
+                ),
+            },
+        },
+        "runtime_palette": {
+            "file_offset": RUNTIME_PALETTE_OFFSET,
+            "gba_address": _address(ROM_BASE + RUNTIME_PALETTE_OFFSET),
+            "size": RUNTIME_PALETTE_SIZE,
+            "color_count": 16,
+            "format": "BGR555",
+            "sha256": RUNTIME_PALETTE_SHA256,
+            "raw_file": "source/runtime-palette.bin",
+            "palette_bank": 13,
+            "obj_palette_destination": "0x050003A0",
+            "transparent_palette_index": 0,
         },
         "messages": messages,
         "glyphs": glyphs,
         "atlas": {
             "png_file": "glyph-atlas.png",
             "png_sha256": _sha256(atlas_png),
+            "runtime_png_file": "glyph-atlas-runtime.png",
+            "runtime_png_sha256": _sha256(runtime_atlas_png),
             "width": 512,
             "height": 352,
             "columns": 16,
@@ -331,7 +415,7 @@ def _expected(rom: bytes) -> tuple[dict[str, Any], dict[str, bytes]]:
             "all_static_bindings_exported": True,
             "glyph_geometry_static_verified": True,
             "message_character_decoding_complete": False,
-            "runtime_palette_binding_complete": False,
+            "runtime_palette_binding_complete": True,
             "message_names_complete": False,
         },
     }
@@ -367,18 +451,34 @@ def verify_artifact(root: Path, artifact_dir: Path) -> dict[str, Any]:
             if actual != expected:
                 errors.append(f"{relative}: content mismatch")
         for glyph in expected_manifest["glyphs"]:
-            path = artifact_dir / glyph["png_file"]
-            if not path.is_file():
-                continue
-            try:
-                with Image.open(path) as image:
-                    image.load()
-                    if image.mode != "P" or image.size != (32, 32):
-                        errors.append(f"{glyph['png_file']}: invalid image format")
-                    if image.getpalette() != _palette():
-                        errors.append(f"{glyph['png_file']}: palette mismatch")
-            except Exception as exc:
-                errors.append(f"{glyph['png_file']}: {exc}")
+            for key, palette in (
+                ("png_file", _palette()),
+                ("runtime_png_file", _runtime_palette(
+                    rom[
+                        RUNTIME_PALETTE_OFFSET :
+                        RUNTIME_PALETTE_OFFSET + RUNTIME_PALETTE_SIZE
+                    ]
+                )),
+            ):
+                path = artifact_dir / glyph[key]
+                if not path.is_file():
+                    continue
+                try:
+                    with Image.open(path) as image:
+                        image.load()
+                        if image.mode != "P" or image.size != (32, 32):
+                            errors.append(f"{glyph[key]}: invalid image format")
+                        if image.getpalette() != palette:
+                            errors.append(f"{glyph[key]}: palette mismatch")
+                        expected_transparency = (
+                            0 if key == "runtime_png_file" else None
+                        )
+                        if image.info.get("transparency") != expected_transparency:
+                            errors.append(
+                                f"{glyph[key]}: transparency mismatch"
+                            )
+                except Exception as exc:
+                    errors.append(f"{glyph[key]}: {exc}")
     except Exception as exc:
         errors.append(str(exc))
     return {

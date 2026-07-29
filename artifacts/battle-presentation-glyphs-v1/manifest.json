@@ -69,6 +69,20 @@
         "gba_start": "0x08099564",
         "gba_end": "0x08099582",
         "sha256": "835b54df161608218062de4ad9743101456988d29af8fd5c0de165d0b7ebaa47"
+      },
+      {
+        "name": "presentation_initializer",
+        "file_offset": 623544,
+        "gba_start": "0x080983B8",
+        "gba_end": "0x08098624",
+        "sha256": "7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422"
+      },
+      {
+        "name": "sprite_palette_attr2_writer",
+        "file_offset": 405768,
+        "gba_start": "0x08063108",
+        "gba_end": "0x08063120",
+        "sha256": "3a8ba305e8ed98f95bda2f6e81361571db10e20f0c2158d99930573e4d24ba83"
       }
     ],
     "selection": {
@@ -85,7 +99,27 @@
       "glyph_destination_stride": 512,
       "skip_glyph_id": 255,
       "bounds_check": false
+    },
+    "palette_selection": {
+      "palette_source_literal": "0x0809861C",
+      "obj_palette_base_literal": "0x08098620",
+      "palette_bank_assignment": "state[0x0F] = 13",
+      "copy_formula": "CpuSet(0x083E4AF0, 0x05000200 + 13 * 32, 16 colors)",
+      "display_palette_formula": "sprite_palette_bank = state[0x0F]",
+      "attr2_palette_formula": "OAM.attr2[12:15] = sprite_task[0x12] << 12"
     }
+  },
+  "runtime_palette": {
+    "file_offset": 4082416,
+    "gba_address": "0x083E4AF0",
+    "size": 32,
+    "color_count": 16,
+    "format": "BGR555",
+    "sha256": "91469795b385e7b06edde2a8fcba8d562ddf5c2bca69350e1dc7880974419981",
+    "raw_file": "source/runtime-palette.bin",
+    "palette_bank": 13,
+    "obj_palette_destination": "0x050003A0",
+    "transparent_palette_index": 0
   },
   "messages": [
     {
@@ -1820,6 +1854,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-000.png",
       "png_sha256": "be698037bf02b4f349231cbb565e0e709b7d62456fc42f5e89a2d1c43e07f805",
+      "runtime_png_file": "glyphs/glyph-000.runtime.png",
+      "runtime_png_sha256": "95f80608c918f294a119709f334423df4aa1e2dbdb18374edafcd7d37a232552",
       "bound_message_ids": [
         5,
         16
@@ -1843,6 +1879,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-001.png",
       "png_sha256": "a7758c80eeb9d61c408e78fdb742fd6906cbd1b7d1555245e7cefadc73500959",
+      "runtime_png_file": "glyphs/glyph-001.runtime.png",
+      "runtime_png_sha256": "bd4b94492408df80c4598569e5bd34066d9316585e40dbc7ab6b8c57c2bc73d6",
       "bound_message_ids": [
         1
       ]
@@ -1865,6 +1903,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-002.png",
       "png_sha256": "7e5c070a3be9346919198c74c7920b8535a2d1218cf9444a855e7bd5e4c05252",
+      "runtime_png_file": "glyphs/glyph-002.runtime.png",
+      "runtime_png_sha256": "3e35753b9bebf036a6cb1b179f51d19a31519f650e26d741af6f7b50733dc26f",
       "bound_message_ids": [
         1
       ]
@@ -1887,6 +1927,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-003.png",
       "png_sha256": "9c222ae3ac54c383502f94aad7afd785283d943fbb04cdd5ae1c9fc6876ec3ff",
+      "runtime_png_file": "glyphs/glyph-003.runtime.png",
+      "runtime_png_sha256": "d3a2b67fc813afe7df1f6c054af4d76b440528f6bc0d7debd96ea3f78dff36d3",
       "bound_message_ids": [
         3
       ]
@@ -1909,6 +1951,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-004.png",
       "png_sha256": "55bcf1596a3771a5f8228c4d6a76f20dba5cab5b259a84b178cf6a21626e0c13",
+      "runtime_png_file": "glyphs/glyph-004.runtime.png",
+      "runtime_png_sha256": "187288c8f32e4c0d9e31d3297ed035e52cab03dc0df10efb82a99014f12ea340",
       "bound_message_ids": [
         3
       ]
@@ -1931,6 +1975,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-005.png",
       "png_sha256": "6b326b841b55db0cbcc735c4e8a145a0ca8b672f379134cd3711e0f19ed2c870",
+      "runtime_png_file": "glyphs/glyph-005.runtime.png",
+      "runtime_png_sha256": "d3a559e80ba76e2c09d1eaef281f7ae97231be47f5d71fb72714522aa8a3683a",
       "bound_message_ids": [
         4
       ]
@@ -1953,6 +1999,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-006.png",
       "png_sha256": "ce1c342e7c8cae1c52f42b877b78789b430ee81914ecc5e0bb917de11e0d8803",
+      "runtime_png_file": "glyphs/glyph-006.runtime.png",
+      "runtime_png_sha256": "d19062bc28e99e17aacbc72e875a678d927129e49983edcef9fe211fbf37b841",
       "bound_message_ids": [
         5
       ]
@@ -1975,6 +2023,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-007.png",
       "png_sha256": "251f397927ef3051757349594f00d456c19c0d32cff617a511beae3b240a222c",
+      "runtime_png_file": "glyphs/glyph-007.runtime.png",
+      "runtime_png_sha256": "371c0fde76784a08c6cd6881d9f970ac73d0b6c6584428bbfe673f03e67fac5b",
       "bound_message_ids": [
         5
       ]
@@ -1997,6 +2047,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-008.png",
       "png_sha256": "0ce017330ef13e0e2892d3e4b9710a11f28fcb92410692c9952524b0044d6204",
+      "runtime_png_file": "glyphs/glyph-008.runtime.png",
+      "runtime_png_sha256": "10434d36bbabde4d6598170a7bec6a89c7fd5eb482833ceb2c5df2c0a40b4c95",
       "bound_message_ids": [
         5
       ]
@@ -2019,6 +2071,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-009.png",
       "png_sha256": "ab847c7cf6c5665ce2a76850ed0de28c5257bc18710b964a51a54343499cc195",
+      "runtime_png_file": "glyphs/glyph-009.runtime.png",
+      "runtime_png_sha256": "ad9aa602742bbd70e0a08b7dfa3f96babfe0e32110e3eb8d3f3056c69efdaf5c",
       "bound_message_ids": [
         14
       ]
@@ -2041,6 +2095,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-010.png",
       "png_sha256": "ab909207178502506c82074bf80efe873b7b7ac529aef8d9b5dcb8c14c9c99da",
+      "runtime_png_file": "glyphs/glyph-010.runtime.png",
+      "runtime_png_sha256": "63c2f467cf5729356292f15979e88092adace53795f2e019fecb642fc7782e39",
       "bound_message_ids": [
         16
       ]
@@ -2063,6 +2119,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-011.png",
       "png_sha256": "a4a6218845382806c4061a233fe84540666cfd24e12dea04f57e5c216338cbb2",
+      "runtime_png_file": "glyphs/glyph-011.runtime.png",
+      "runtime_png_sha256": "aa5fc394c630370cc9cebf086795c8c934d23cbd6237e22acb5ae2151f848ec7",
       "bound_message_ids": [
         18
       ]
@@ -2085,6 +2143,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-012.png",
       "png_sha256": "03d5501155b9eb44ab4c427b5ff3b8df9029e78ea6b48d2ac44f02db65c062e9",
+      "runtime_png_file": "glyphs/glyph-012.runtime.png",
+      "runtime_png_sha256": "a37d898aae1d9847807d1175c25aed22fff2f37a618ea2593026c1ed84a602cd",
       "bound_message_ids": [
         43
       ]
@@ -2107,6 +2167,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-013.png",
       "png_sha256": "abe8e8d2617821e362ce04e6094dc03c70ed900a04ad8a010b3cf0e252f5df3d",
+      "runtime_png_file": "glyphs/glyph-013.runtime.png",
+      "runtime_png_sha256": "0aad1895686cb14237cd108dd8fe2ddd8eac8e2500225e70a215412c1dfd0da1",
       "bound_message_ids": [
         43
       ]
@@ -2129,6 +2191,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-014.png",
       "png_sha256": "cb550772d18130d2f62d1fa3fd2ad1286fdf9583cefc1d177741fd32f1073a28",
+      "runtime_png_file": "glyphs/glyph-014.runtime.png",
+      "runtime_png_sha256": "ca07237687bc909d61390a94045681a4192f1ac288c4a6186f724f57d46f3acb",
       "bound_message_ids": [
         54
       ]
@@ -2151,6 +2215,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-015.png",
       "png_sha256": "203c84bf9284753164f82ecc594c7f812926e1822bf07945daabdfd6f5a0bc29",
+      "runtime_png_file": "glyphs/glyph-015.runtime.png",
+      "runtime_png_sha256": "67c4677e33df1d23de3a33a60234369d23acbd3149e71881b77cdb1de6d35543",
       "bound_message_ids": [
         54
       ]
@@ -2173,6 +2239,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-016.png",
       "png_sha256": "0603b337df4f9230bd303d471988653a2e063ead31a351e57f826731793e7358",
+      "runtime_png_file": "glyphs/glyph-016.runtime.png",
+      "runtime_png_sha256": "15b884367a55e8a5d53c633490a69bc29bc1819676ce9fa66b2178b4c15a331e",
       "bound_message_ids": [
         0,
         1,
@@ -2222,6 +2290,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-017.png",
       "png_sha256": "ffdcf5f08899fe185a0fce9ab52bb5092421810165302955edb422a6b0bb4967",
+      "runtime_png_file": "glyphs/glyph-017.runtime.png",
+      "runtime_png_sha256": "26515676f846013b4a85e491a21221324f6ef8bc1a50ebe72240b829262fec71",
       "bound_message_ids": [
         0,
         2,
@@ -2248,6 +2318,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-018.png",
       "png_sha256": "9d2b00568875167c7a2440117de6a1df96857b617f9897f7dbb2c9d12c57611a",
+      "runtime_png_file": "glyphs/glyph-018.runtime.png",
+      "runtime_png_sha256": "41db1346bd6ffb59428b602afef5ec5488043b04b27e32062f3aee935155e7eb",
       "bound_message_ids": [
         0,
         2,
@@ -2277,6 +2349,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-019.png",
       "png_sha256": "d3db7a1b64becceb8df9e1b8dcb9f83609f6151d709b6cecb47cab48d074df26",
+      "runtime_png_file": "glyphs/glyph-019.runtime.png",
+      "runtime_png_sha256": "79e7f42c768b6c609808cf2f619d3da4970325b7ac36475fb49f796dc19053d0",
       "bound_message_ids": [
         0,
         2,
@@ -2307,6 +2381,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-020.png",
       "png_sha256": "557ddb78ef89db3b3c8e52de179ce8b3761ccd393f550f10c66d8cc37c540018",
+      "runtime_png_file": "glyphs/glyph-020.runtime.png",
+      "runtime_png_sha256": "a39024cdd41b5740337430bd324b178a7951e78a8b2d49a62da6e51520628c46",
       "bound_message_ids": [
         2
       ]
@@ -2329,6 +2405,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-021.png",
       "png_sha256": "cb01794acf9467fdc062d1dff7525177baf371fd3a1f28643688bede65fcd49d",
+      "runtime_png_file": "glyphs/glyph-021.runtime.png",
+      "runtime_png_sha256": "fdbe65c4f99f90f9609e98b6f4ef0cdfb05ff7552b68c8e67ed19b82c23e4fbc",
       "bound_message_ids": [
         2
       ]
@@ -2351,6 +2429,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-022.png",
       "png_sha256": "d2c3c8fbada39b2cd6ce3df0964ba6e71cc2b74c33853d5a15411c0f233eeb9c",
+      "runtime_png_file": "glyphs/glyph-022.runtime.png",
+      "runtime_png_sha256": "2930670896c401038fbf5a967531ca02e5bc60982bba80133b44eb37d0628f2a",
       "bound_message_ids": [
         4,
         12
@@ -2374,6 +2454,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-023.png",
       "png_sha256": "6f5605d1ce545a4ebf410d8aa69a8f12379b510a610d5e68122555bc2f180a2e",
+      "runtime_png_file": "glyphs/glyph-023.runtime.png",
+      "runtime_png_sha256": "4cd61bcc77cf9bf4bd0345b0600e39b52b1459522e3e94d3d3eba76d7bb56435",
       "bound_message_ids": [
         4,
         12,
@@ -2399,6 +2481,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-024.png",
       "png_sha256": "fa0e6aa9263ef63814d27c9d573e16f2ad79ba7d78e15a2ef2707499ff85dd59",
+      "runtime_png_file": "glyphs/glyph-024.runtime.png",
+      "runtime_png_sha256": "25c365d573297d56becc4cf5a110fa96ce51cb54d21a41e6089f1d85d1c2ae3c",
       "bound_message_ids": [
         8,
         22
@@ -2422,6 +2506,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-025.png",
       "png_sha256": "11ab8f6ce3aca4cd242f10f2e8e3d8a8864c1a38a3d9f3fd1d2762d53e44bf8f",
+      "runtime_png_file": "glyphs/glyph-025.runtime.png",
+      "runtime_png_sha256": "78b204be2f91503dd735c5fab9f48c2860eafa2fd36ef6f7a96f540847dcdead",
       "bound_message_ids": [
         8,
         22,
@@ -2447,6 +2533,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-026.png",
       "png_sha256": "025d9f3808f217a6c16a773af1720920650a2f95667db09bd90ab18d1710f859",
+      "runtime_png_file": "glyphs/glyph-026.runtime.png",
+      "runtime_png_sha256": "d5a60bebe0bf6c856e1a6cfd34a148ae41ab50215bbf775f31df9fb0987cbe06",
       "bound_message_ids": [
         9,
         10,
@@ -2471,6 +2559,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-027.png",
       "png_sha256": "4a9d923f6c0a7b82f21e159aa9bf6b29555118cc5902c6266ff8ff3a47d2c81f",
+      "runtime_png_file": "glyphs/glyph-027.runtime.png",
+      "runtime_png_sha256": "ffa4fe60ba71ba0294221bd979a795dacf235abda7a7d922d0f3f508aa623d4a",
       "bound_message_ids": [
         9,
         10,
@@ -2501,6 +2591,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-028.png",
       "png_sha256": "09f39d3507eaa5b9bbcec1d773ebdcd60e58e8670d13122a7059c1932e1b98f7",
+      "runtime_png_file": "glyphs/glyph-028.runtime.png",
+      "runtime_png_sha256": "72a6b23e79147f16816223b1000d652a22e75565513b108b925eba8cbfe44bf3",
       "bound_message_ids": [
         10
       ]
@@ -2523,6 +2615,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-029.png",
       "png_sha256": "febc75cf6c124f5437b1ee6d34f5e32397e1d1eb9c643bc2472bccf48b35edc4",
+      "runtime_png_file": "glyphs/glyph-029.runtime.png",
+      "runtime_png_sha256": "1a8427a92e9ee0d5b0ea858a429db09526160884d5c56d47c2f689dbda51ef49",
       "bound_message_ids": [
         10
       ]
@@ -2545,6 +2639,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-030.png",
       "png_sha256": "f76b3e78dd15a9a06dd78ea08bf6ca4828dc3d28af31637f0fbc6416b568f401",
+      "runtime_png_file": "glyphs/glyph-030.runtime.png",
+      "runtime_png_sha256": "77a92868c0855bc00cb1fdc60c00aa740512a05ab63a35be32dae80ee51555d7",
       "bound_message_ids": [
         11
       ]
@@ -2567,6 +2663,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-031.png",
       "png_sha256": "d8940c50e829c004560600ad540393fc89e455f0879adb4bfa0b52aa290b7bd0",
+      "runtime_png_file": "glyphs/glyph-031.runtime.png",
+      "runtime_png_sha256": "9976ac258ffab24a794343e1d6671f620730bd0ccbb5309f20b7895c52c74c5c",
       "bound_message_ids": [
         11
       ]
@@ -2589,6 +2687,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-032.png",
       "png_sha256": "cc0baa55521738f26ca7c174503e296a8bc8f8899592b7c6ffc4f692c696083f",
+      "runtime_png_file": "glyphs/glyph-032.runtime.png",
+      "runtime_png_sha256": "a39dff10f158c882b0e1b91ecca2b5994d54c9de7fbd1fbf3d7b6b8f35667831",
       "bound_message_ids": [
         16,
         17
@@ -2612,6 +2712,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-033.png",
       "png_sha256": "8d6c0136dd951f82eabebf64b0f5b94fee6d180b46a0ccc0f7a62aa586a9cb68",
+      "runtime_png_file": "glyphs/glyph-033.runtime.png",
+      "runtime_png_sha256": "350cd42179b5cb1b9b933e4b9c3510c7aab7023bbd92a1fb14bf47ddfd86a4ed",
       "bound_message_ids": [
         17
       ]
@@ -2634,6 +2736,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-034.png",
       "png_sha256": "1fb234ac8c29d2b11abad7b1088be2bb1611b6ccbada7fec0c3e661b5e3c1cb2",
+      "runtime_png_file": "glyphs/glyph-034.runtime.png",
+      "runtime_png_sha256": "479c8ef27545afa5084cd66f81f763229864d38b1077378b1277170e277e7e2a",
       "bound_message_ids": []
     },
     {
@@ -2654,6 +2758,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-035.png",
       "png_sha256": "9a221bb6a80d83003ef915e015d5d4d9d1a0c01c3675898178d9d1a2363de5d0",
+      "runtime_png_file": "glyphs/glyph-035.runtime.png",
+      "runtime_png_sha256": "8559a3ce822d819e66fc34fc3749fa527ccd08aea1db523373c20ec195a4295a",
       "bound_message_ids": []
     },
     {
@@ -2674,6 +2780,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-036.png",
       "png_sha256": "208c5831213e2f28689806c9a49b1e4092b6230b43789663383f7d41d9d3e04e",
+      "runtime_png_file": "glyphs/glyph-036.runtime.png",
+      "runtime_png_sha256": "2d470f415510f5b83c65390706f9f8df10a7f114789303ace2c239d1c67cd65a",
       "bound_message_ids": [
         19
       ]
@@ -2696,6 +2804,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-037.png",
       "png_sha256": "7977dbca4a2ee534e85198bdf5a0cafee0e49f2182fe6f74b51ef553d0330b9a",
+      "runtime_png_file": "glyphs/glyph-037.runtime.png",
+      "runtime_png_sha256": "9caa3a0021fe18b11889435d9a2ec60908f02616ccf05a55c2b8efbb8378df43",
       "bound_message_ids": [
         19
       ]
@@ -2718,6 +2828,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-038.png",
       "png_sha256": "0455941fedaae04070ba79fca2a6eae6f57b46f81cfca2da018e3e97ff33fac1",
+      "runtime_png_file": "glyphs/glyph-038.runtime.png",
+      "runtime_png_sha256": "46124a9ea32a0953fc39cf7c90c38f8bb2867bef8f610370308bbfedd06d710b",
       "bound_message_ids": [
         20
       ]
@@ -2740,6 +2852,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-039.png",
       "png_sha256": "804f380f5ccbed07333702c0ff2046d12289d0624584288a117901e8a8dda605",
+      "runtime_png_file": "glyphs/glyph-039.runtime.png",
+      "runtime_png_sha256": "5d4a80d66db8e50a527cc117362f1c13cedcd2e5ebc549f047f46dd763df2652",
       "bound_message_ids": [
         20
       ]
@@ -2762,6 +2876,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-040.png",
       "png_sha256": "92f1b2d1eed42350dea2557ffd77e24ad932406e570feaa048311f449b282869",
+      "runtime_png_file": "glyphs/glyph-040.runtime.png",
+      "runtime_png_sha256": "f533e5bef14ee138010d1a455e724517d6f78ef1ff8a8575026b9a26125a072a",
       "bound_message_ids": [
         27
       ]
@@ -2784,6 +2900,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-041.png",
       "png_sha256": "c5cdb9269d6db1e3c72d9e3add17d4cae1f322c8d4dae2085dbed48d0bf4abbc",
+      "runtime_png_file": "glyphs/glyph-041.runtime.png",
+      "runtime_png_sha256": "66c4be1cf9bb65ddda7e2ef91c91b8740ce1ffa1c646ab1baeeee0bf51ab2956",
       "bound_message_ids": [
         27
       ]
@@ -2806,6 +2924,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-042.png",
       "png_sha256": "2f53ca6702dd2c7736ef423550ff3cb7aed1beadfcb566f014aa00cc4dd51dcd",
+      "runtime_png_file": "glyphs/glyph-042.runtime.png",
+      "runtime_png_sha256": "f41df07c27a28131d4e998637b388293735da41c9c8712e144b0c6df5c5ba557",
       "bound_message_ids": [
         28
       ]
@@ -2828,6 +2948,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-043.png",
       "png_sha256": "353f56ebe98e8169f9ffc2c76af65f8df7fe306edd3097621a1bab4ceb9515a0",
+      "runtime_png_file": "glyphs/glyph-043.runtime.png",
+      "runtime_png_sha256": "bc9df756eb7c2f64be4460a7dca5bbd4c6b6dbf10cb7c0bcd6658e1217a72a89",
       "bound_message_ids": [
         28
       ]
@@ -2850,6 +2972,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-044.png",
       "png_sha256": "853d4afa6c0f4652fa40f0909b1df22e6e0ec7db40f90fe62e990100bc505de2",
+      "runtime_png_file": "glyphs/glyph-044.runtime.png",
+      "runtime_png_sha256": "f5df06d74f34fcc3a7a0ff3f27d4922cc9391d463fdb33d4cbbe6c155f5e2581",
       "bound_message_ids": [
         28
       ]
@@ -2872,6 +2996,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-045.png",
       "png_sha256": "d41deb56df831aeed0543afb701ba7e0f44356275152539ac45d90acb846c4ee",
+      "runtime_png_file": "glyphs/glyph-045.runtime.png",
+      "runtime_png_sha256": "110f3d26275d00f51e86ae4f5c51dd429a6e970cb9d29891268ea7252d0be318",
       "bound_message_ids": [
         29,
         30
@@ -2895,6 +3021,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-046.png",
       "png_sha256": "aeb517924d54e08c9c925c79d4f29479003ad95516cceb56d42decce2b58f6b7",
+      "runtime_png_file": "glyphs/glyph-046.runtime.png",
+      "runtime_png_sha256": "89a07cedf3a05416ab241f678712befa76c680d6cedaa7de0bd931f3ce8cbd2e",
       "bound_message_ids": []
     },
     {
@@ -2915,6 +3043,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-047.png",
       "png_sha256": "b2f86e6c9af7122b638b8b692b44a990f86da57994eb4a946981ef9df46aa19c",
+      "runtime_png_file": "glyphs/glyph-047.runtime.png",
+      "runtime_png_sha256": "2ec877cff9ad63752d3288d6d3dd77eb6aa02fb9ae67586c0193b2574b373218",
       "bound_message_ids": []
     },
     {
@@ -2935,6 +3065,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-048.png",
       "png_sha256": "1a65e216bf17f12b6e763ab84380b504ef446fa1f5e28ea5ebd5a5d38bcebb8f",
+      "runtime_png_file": "glyphs/glyph-048.runtime.png",
+      "runtime_png_sha256": "d33074302c1916570e3800621d72fa0d5ec0a3c0e864c588f3fa75dfcaa7873c",
       "bound_message_ids": [
         34
       ]
@@ -2957,6 +3089,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-049.png",
       "png_sha256": "edcb36fad61035e60d93f42a1784814606d157ac06ebf33564fc1a9617d4ba04",
+      "runtime_png_file": "glyphs/glyph-049.runtime.png",
+      "runtime_png_sha256": "ad60e0cd97fdd2a2df3d499e98626676f0a619eb27f15d2b3e03ad880e2f9c52",
       "bound_message_ids": [
         35,
         36,
@@ -2983,6 +3117,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-050.png",
       "png_sha256": "465dabca5573bad6b19bfb90f3527266f2d5920bbdf1846081bab8b9367e8fa9",
+      "runtime_png_file": "glyphs/glyph-050.runtime.png",
+      "runtime_png_sha256": "adb6b1f375a1a54f2d13e0f375a564e3471b14d671a172cb603af0e40e1ee27c",
       "bound_message_ids": [
         35
       ]
@@ -3005,6 +3141,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-051.png",
       "png_sha256": "e906d6bd231b3c0991bf2598cf7093d1abfca912338e3def6263576c1c140799",
+      "runtime_png_file": "glyphs/glyph-051.runtime.png",
+      "runtime_png_sha256": "c09791d482298b46a63c8b4b0b20e74508f03ad3e9aa5aad454b6dc08fc56cad",
       "bound_message_ids": [
         36
       ]
@@ -3027,6 +3165,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-052.png",
       "png_sha256": "13b69f276304721813fc6610226a507d0b2887577b1079e094e02eef1a2f4f10",
+      "runtime_png_file": "glyphs/glyph-052.runtime.png",
+      "runtime_png_sha256": "a08b15ec2740969ad53cd0740c7eea4615bc85bbdedc1a3dfeec978aa247d686",
       "bound_message_ids": [
         37
       ]
@@ -3049,6 +3189,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-053.png",
       "png_sha256": "219134ca442989d6e8e2acfa5eaec202917d7e27f9b9750367eb055377d625d6",
+      "runtime_png_file": "glyphs/glyph-053.runtime.png",
+      "runtime_png_sha256": "08e923089f6080b7e8ab42aaac10f6fdb6a5d986ef350d6b0e05d595d5f32c57",
       "bound_message_ids": [
         26,
         38
@@ -3072,6 +3214,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-054.png",
       "png_sha256": "3af830fbbbbc5eada8c96922ade941a71a1d0f174fff75ed9fa50a1d0acfbd5a",
+      "runtime_png_file": "glyphs/glyph-054.runtime.png",
+      "runtime_png_sha256": "3250039ec9ac4f8a4919e9d20080f1ace0511067c973eb8ac1ab2d8778af745a",
       "bound_message_ids": [
         39
       ]
@@ -3094,6 +3238,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-055.png",
       "png_sha256": "ebea6ac6b9e8a59e237506b734d221b8fa097b829a2d81c15a38e0d2f1692875",
+      "runtime_png_file": "glyphs/glyph-055.runtime.png",
+      "runtime_png_sha256": "0a1bcaa037e24a4d9edb3cb7eb8397fcc64662d5b67c5eed50269dd9cc6a0b38",
       "bound_message_ids": [
         35,
         36,
@@ -3120,6 +3266,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-056.png",
       "png_sha256": "a59bccea4fe94864b38f4e12025f45498635f3badf7b8b28e160550ef3e94e03",
+      "runtime_png_file": "glyphs/glyph-056.runtime.png",
+      "runtime_png_sha256": "794c5f3f92f2e65e2e1d83fbc72a413e2c5cc2bec27365c9b8f1fcb0858a99f9",
       "bound_message_ids": [
         44,
         45,
@@ -3144,6 +3292,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-057.png",
       "png_sha256": "ade411b4138e59c765d3770bc919974d55e8457bcfdd49f3c51a7d47056deeb3",
+      "runtime_png_file": "glyphs/glyph-057.runtime.png",
+      "runtime_png_sha256": "235eca82625676f64004d428cf68b122cb6ecca8f0c3971b0baaa1679f119f5d",
       "bound_message_ids": [
         45
       ]
@@ -3166,6 +3316,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-058.png",
       "png_sha256": "839d1fd38ee6100cec5a38bd7373da72d2ec6cef881caaaa29a059c0fb1e283b",
+      "runtime_png_file": "glyphs/glyph-058.runtime.png",
+      "runtime_png_sha256": "1fbb14897f16f2e7a7be3b9389dba8fc29e740585add838d4b1e49d82ab7879a",
       "bound_message_ids": []
     },
     {
@@ -3186,6 +3338,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-059.png",
       "png_sha256": "92869de54d2402a69ccc7c00ce5d3df1cbf3996fca0f711477d8bd2efada15d3",
+      "runtime_png_file": "glyphs/glyph-059.runtime.png",
+      "runtime_png_sha256": "9594a6dde0a80e4f57947ec3bb1aa237c420582b1596fd5753b8af8dea767e6a",
       "bound_message_ids": [
         47,
         75
@@ -3209,6 +3363,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-060.png",
       "png_sha256": "eac35f303e38f31251e1f74c79cf1b2d8b95db0d5e6d2ef4bd7953af2cddc71b",
+      "runtime_png_file": "glyphs/glyph-060.runtime.png",
+      "runtime_png_sha256": "49ceb0dfd864521f7b542dabd95684c26ced5abd41eebcab6f1a4b8a230c6b54",
       "bound_message_ids": [
         47
       ]
@@ -3231,6 +3387,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-061.png",
       "png_sha256": "5e061d508123202c3c954e69eff268ae63e1eb113e81c628b2f5dcbd2316bf96",
+      "runtime_png_file": "glyphs/glyph-061.runtime.png",
+      "runtime_png_sha256": "274512f4a19837a237d14c65ab671df5999fde784584633f260d8604c16988ad",
       "bound_message_ids": [
         48
       ]
@@ -3253,6 +3411,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-062.png",
       "png_sha256": "5c6181b017565361ca8e97e34e8c78beaa7349893b1562061af2090bbea248f5",
+      "runtime_png_file": "glyphs/glyph-062.runtime.png",
+      "runtime_png_sha256": "210806e644430a1c76b06373ce5fa4c351da752fbf90166915f070a013c5eb2e",
       "bound_message_ids": [
         48
       ]
@@ -3275,6 +3435,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-063.png",
       "png_sha256": "bef3e1ef56f997b8593f5b844d229bbef2dda252565f957f12d8914c0d82a0f5",
+      "runtime_png_file": "glyphs/glyph-063.runtime.png",
+      "runtime_png_sha256": "5b5d742082a6ff669e66a05b5731dd1cda0be4072e4dd8aa78638ee66960b4ad",
       "bound_message_ids": [
         50,
         51,
@@ -3299,6 +3461,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-064.png",
       "png_sha256": "37f098258d922f5fb634767bf3a9b84d8b1a9cb34196760035a27565b5eeea08",
+      "runtime_png_file": "glyphs/glyph-064.runtime.png",
+      "runtime_png_sha256": "15d250feef9a567e0edc98dbf8a5772a3f699506296c029f0b7ec65ce0b52eb9",
       "bound_message_ids": [
         24
       ]
@@ -3321,6 +3485,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-065.png",
       "png_sha256": "3f7d7b16008f496fcefa56ab60abf7304a3302e4de01dbf7978818fcbceed4e4",
+      "runtime_png_file": "glyphs/glyph-065.runtime.png",
+      "runtime_png_sha256": "c6d359d50974759ad8c827ce40e1ebc77348d9c18b58e92a9f276fe2f08920c8",
       "bound_message_ids": []
     },
     {
@@ -3341,6 +3507,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-066.png",
       "png_sha256": "785cc73867a79f923682b6e6e8816c06c48ac793702a2655e6d4fc25664b3f30",
+      "runtime_png_file": "glyphs/glyph-066.runtime.png",
+      "runtime_png_sha256": "d1f8affa75ce331874764fa644ea4fab47878ce4a4223aa12f1e1567a9190f69",
       "bound_message_ids": []
     },
     {
@@ -3361,6 +3529,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-067.png",
       "png_sha256": "39e005c0a6c92b432d57a2b0ab02358d959a437f0ee0a2a5a874486b877fdef1",
+      "runtime_png_file": "glyphs/glyph-067.runtime.png",
+      "runtime_png_sha256": "247b7e9cd7c0c86ea405ced391b450d0d223c1285d06ab5f47be7e29b25a007c",
       "bound_message_ids": [
         55
       ]
@@ -3383,6 +3553,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-068.png",
       "png_sha256": "77e6d8aeaf22881a2f87e003234480b611d409880d7a833ca3f81beb1254bdd4",
+      "runtime_png_file": "glyphs/glyph-068.runtime.png",
+      "runtime_png_sha256": "5c5efa62cd79abf5f29cf20f6ad9e473e5267f7e503451465de0798903b7cdba",
       "bound_message_ids": [
         55
       ]
@@ -3405,6 +3577,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-069.png",
       "png_sha256": "270bcd358185b21e4c10bae0dcc041320c2e470d0fa5ece582f90ccdf3a8a6fc",
+      "runtime_png_file": "glyphs/glyph-069.runtime.png",
+      "runtime_png_sha256": "e11a95cbdc46a0bd3379467d11cbba1f3ed8612fca6e87945daaaf544d006106",
       "bound_message_ids": [
         57
       ]
@@ -3427,6 +3601,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-070.png",
       "png_sha256": "6100d74078cead74247502d35eefb9c2c605d75b4dcd8d8129a2ab1d52d2805f",
+      "runtime_png_file": "glyphs/glyph-070.runtime.png",
+      "runtime_png_sha256": "721a82f17b1eac1af0c1728b8d0f9ba18a07ce453c3e25d680a8878950956fdf",
       "bound_message_ids": [
         58
       ]
@@ -3449,6 +3625,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-071.png",
       "png_sha256": "bb3f7179d5dc76d4dc070f4f68dc7d7423c2022dc6d9fea926955ed7236eda94",
+      "runtime_png_file": "glyphs/glyph-071.runtime.png",
+      "runtime_png_sha256": "8eb3289441e323cc0529c1e372552ff7b04c3b0ce5d654778ebd8fe26fb8ba81",
       "bound_message_ids": [
         58
       ]
@@ -3471,6 +3649,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-072.png",
       "png_sha256": "0fcb89f0651b0849e93858e74aeedb9a0612b09e9232466cf29b0106b6ffe6fd",
+      "runtime_png_file": "glyphs/glyph-072.runtime.png",
+      "runtime_png_sha256": "7fa354ca97dce1498567837be450e9f54d9ddc439ebacb8256a86bdfd1a5f509",
       "bound_message_ids": [
         63,
         65,
@@ -3495,6 +3675,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-073.png",
       "png_sha256": "1efd130fe687a3db50bcf06bdf233548fd04c1af69c8a25a666bb33474cfdf26",
+      "runtime_png_file": "glyphs/glyph-073.runtime.png",
+      "runtime_png_sha256": "6835181921075c2db5958a6c235e55c93f6fa5d291c2f196c4055f1b65ad0fe6",
       "bound_message_ids": [
         63,
         65,
@@ -3519,6 +3701,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-074.png",
       "png_sha256": "47850c7f9bd410dd83bdf0d2d5a6e4a7fd063828bf38a3d055823667ddf80be0",
+      "runtime_png_file": "glyphs/glyph-074.runtime.png",
+      "runtime_png_sha256": "ccb6275d7421eaf97ce4fcfb89ff4f4c4b00ffb92795cd9707e098e05e829eb4",
       "bound_message_ids": [
         63,
         65,
@@ -3543,6 +3727,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-075.png",
       "png_sha256": "8a2eb0540a21faa704d4fe3156cb887d6ca243a1b775543d1833161926c521f5",
+      "runtime_png_file": "glyphs/glyph-075.runtime.png",
+      "runtime_png_sha256": "08bd93e439bbea8eacdf4445fa529c31f052b6b73e056c3ded21e438aeb4fa62",
       "bound_message_ids": [
         63,
         65,
@@ -3567,6 +3753,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-076.png",
       "png_sha256": "2056db35fc89437d2760e460b403fe64a8d03a20f19dfb8f9086b4ed981bdc47",
+      "runtime_png_file": "glyphs/glyph-076.runtime.png",
+      "runtime_png_sha256": "b92dbbe126339504ae56b10a48e4c78ee125f2d5407594d7541a2783ceb2aef7",
       "bound_message_ids": [
         64,
         66,
@@ -3591,6 +3779,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-077.png",
       "png_sha256": "a8a4a1384c3f79f85b73a9fc1e16e8f1e486582afc67df7f0b9ada60a5743727",
+      "runtime_png_file": "glyphs/glyph-077.runtime.png",
+      "runtime_png_sha256": "33589bd37969da8e834c79cad4d07172bc120197cc710c0b0e7438dda328110a",
       "bound_message_ids": [
         69,
         70
@@ -3614,6 +3804,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-078.png",
       "png_sha256": "5996c14b55754922b20d2b94b50b0d8116d3788a10b28c4bb1e2ec786473c3c7",
+      "runtime_png_file": "glyphs/glyph-078.runtime.png",
+      "runtime_png_sha256": "173969201df482f087b26ab15f593634ac296173bf4a1eac4ebbd4f48bec2ff9",
       "bound_message_ids": [
         69,
         70
@@ -3637,6 +3829,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-079.png",
       "png_sha256": "6751b4c78ef961d7120a86c6534327db57b4293551b6e670657d70c351112c73",
+      "runtime_png_file": "glyphs/glyph-079.runtime.png",
+      "runtime_png_sha256": "c903154064becaeb257c50d23700f163c20df8dd19e5790b6e432f3a74f9d837",
       "bound_message_ids": [
         69,
         70
@@ -3660,6 +3854,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-080.png",
       "png_sha256": "3653ad7a0ae415746c6b01dcfc09b5a602b950e2601613a0eae5350a4a5d1ada",
+      "runtime_png_file": "glyphs/glyph-080.runtime.png",
+      "runtime_png_sha256": "1f890b1dbc1262af21ba8bdfb8021cabdf38cd86543c706400b2bacac85063f0",
       "bound_message_ids": [
         21
       ]
@@ -3682,6 +3878,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-081.png",
       "png_sha256": "b3386544a1a06fdb75d2dcd3342db951c9d3454370bfa91c0ea987c138bb3ddd",
+      "runtime_png_file": "glyphs/glyph-081.runtime.png",
+      "runtime_png_sha256": "96d5d2601847d565ff43bfe3178ec1b261ec2c58c14e34dcc9457acdb95f0283",
       "bound_message_ids": [
         49
       ]
@@ -3704,6 +3902,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-082.png",
       "png_sha256": "013f2fe20c012d08bf3834362c2ed93f6aa15b409a3403f520daf6167a0be713",
+      "runtime_png_file": "glyphs/glyph-082.runtime.png",
+      "runtime_png_sha256": "680be96cc8a9dcabf8f03f593752db207f722ee99e7cd99e3c011e429c0a50a6",
       "bound_message_ids": [
         76
       ]
@@ -3726,6 +3926,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-083.png",
       "png_sha256": "51bf77ce7f8ec1f68d271c6b87bdd998e7588bbe1e1d2ba9af3f29e4ad0e5643",
+      "runtime_png_file": "glyphs/glyph-083.runtime.png",
+      "runtime_png_sha256": "e8dd5ab174dbcd819e651517e55f7fb331f621daf7e4312d0c0c1cfccd386302",
       "bound_message_ids": [
         76
       ]
@@ -3748,6 +3950,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-084.png",
       "png_sha256": "4f6dbc9d061eed4d120035cb036c75dcedb9b1a9a7c2baf8f6ace26fc9fc257f",
+      "runtime_png_file": "glyphs/glyph-084.runtime.png",
+      "runtime_png_sha256": "0e8d1d9eeadbf8ad36c092cff9bca3fb38eaeaa62fc9bb314ef41f58859a8cc5",
       "bound_message_ids": [
         76
       ]
@@ -3770,6 +3974,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-085.png",
       "png_sha256": "376c1d4ca805968ab305b9cae2ba5bdc3c95ede59e4d75d96b6e13ad5070c1c1",
+      "runtime_png_file": "glyphs/glyph-085.runtime.png",
+      "runtime_png_sha256": "f2d4b7cd9f9d68ec5ac281ee1977276bef1d052232feed623f483f07d5c9b504",
       "bound_message_ids": []
     },
     {
@@ -3790,6 +3996,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-086.png",
       "png_sha256": "3be0f89a51ef1d11b161b4a306aa3e94788ef1e25fa304cf09e7fc42bdfcb8ca",
+      "runtime_png_file": "glyphs/glyph-086.runtime.png",
+      "runtime_png_sha256": "eb92f7af158306edc98a5fd3d9c27fcafc91c1f021c6027ab2057ee2a8e75235",
       "bound_message_ids": []
     },
     {
@@ -3810,6 +4018,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-087.png",
       "png_sha256": "17e46a84d48e253e4e9f92076a29432d487f3fcb0524e2737c3e4ae72b799ba1",
+      "runtime_png_file": "glyphs/glyph-087.runtime.png",
+      "runtime_png_sha256": "347b8d091ec0cf3f8f230ffa606190a4763c18aca741e2af5d40411f9fc9fdda",
       "bound_message_ids": []
     },
     {
@@ -3830,6 +4040,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-088.png",
       "png_sha256": "f01ee81368df007bbcf3ab49b325133c814ae01252928cdbfcc61783bfb9b79b",
+      "runtime_png_file": "glyphs/glyph-088.runtime.png",
+      "runtime_png_sha256": "f2233f461f152b644bf56032601d2b1a65120881456fff1dc1a095566543f7ef",
       "bound_message_ids": []
     },
     {
@@ -3850,6 +4062,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-089.png",
       "png_sha256": "e9f61ed459a99e5186f82a6fdf5ca1a47dd63593252a705dce8d394da11f031c",
+      "runtime_png_file": "glyphs/glyph-089.runtime.png",
+      "runtime_png_sha256": "abdd7e815daad1bd79219589a2bea4410bae06f1f2087453959d57bfdcbf21b4",
       "bound_message_ids": []
     },
     {
@@ -3870,6 +4084,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-090.png",
       "png_sha256": "dc8d35e6cbcde4fd684d87d7fe693b2341b2c6c3cea1a9c35c9d4dbb7b932778",
+      "runtime_png_file": "glyphs/glyph-090.runtime.png",
+      "runtime_png_sha256": "441675c5594ffb1eae5fb13522394f15203023afdf82c301023237557aad8891",
       "bound_message_ids": []
     },
     {
@@ -3890,6 +4106,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-091.png",
       "png_sha256": "88a416546ff7f110081029254776a67887f3249b7adea2b8f42dc0a50e8937a5",
+      "runtime_png_file": "glyphs/glyph-091.runtime.png",
+      "runtime_png_sha256": "acf1add36fb679e710868918731e9e13e128f45dea566428a46fa936bd30b20e",
       "bound_message_ids": []
     },
     {
@@ -3910,6 +4128,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-092.png",
       "png_sha256": "54b6ea9fc5f9cf074d61e81cb5d4c3f6c26cc04cc3ca1d34e1741632a6e68feb",
+      "runtime_png_file": "glyphs/glyph-092.runtime.png",
+      "runtime_png_sha256": "d471c90342b95ab95d7ce8a41f43835c44e33d00f3bed8f3cce98abb698a5b4c",
       "bound_message_ids": []
     },
     {
@@ -3930,6 +4150,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-093.png",
       "png_sha256": "414aab10c526730e520f14f7e771d17b5421c4a7fb2a956229e679c7cf328b60",
+      "runtime_png_file": "glyphs/glyph-093.runtime.png",
+      "runtime_png_sha256": "d0e0ac3f478ff2cc1f55f208b686d128369055945028544d6115886ebc10dc03",
       "bound_message_ids": []
     },
     {
@@ -3950,6 +4172,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-094.png",
       "png_sha256": "c35c93ddc01eee2af79e16de7d82eb6ceed2b00475103d1589c95d0f93c04ccf",
+      "runtime_png_file": "glyphs/glyph-094.runtime.png",
+      "runtime_png_sha256": "c7c174c137ddf6c125f9c98f8c0c6eaf87c4fae21c49f634b6404020017226fc",
       "bound_message_ids": []
     },
     {
@@ -3970,6 +4194,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-095.png",
       "png_sha256": "126e6dee4f199d45c3a2590df75c04395944705080c3312301e1b6dc0c356178",
+      "runtime_png_file": "glyphs/glyph-095.runtime.png",
+      "runtime_png_sha256": "c6f489f466d317d7764402782715dcfb142d64cadeef87100c47483b722537df",
       "bound_message_ids": []
     },
     {
@@ -3990,6 +4216,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-096.png",
       "png_sha256": "f3b707806f7cf28686a84ed32d0aaffbc39535c6cf1fe71b15f40f8fa148f70e",
+      "runtime_png_file": "glyphs/glyph-096.runtime.png",
+      "runtime_png_sha256": "cfbba0741e27890ca219382b7a7293ceef29d4382401d234bf90dc70a047d57f",
       "bound_message_ids": [
         5
       ]
@@ -4012,6 +4240,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-097.png",
       "png_sha256": "b6f3e778e02304416b6b78ba4e9047c013ada872180a6ffaddb827fb7d5792e3",
+      "runtime_png_file": "glyphs/glyph-097.runtime.png",
+      "runtime_png_sha256": "97a931ce2aef8ffd9e6ba63bc69600051f881dadd8a6345e592eb03f0bd294af",
       "bound_message_ids": [
         5
       ]
@@ -4034,6 +4264,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-098.png",
       "png_sha256": "20ed0e8711b1df4f21495bf1d4598538bdbe0a2b1b524bdd08e7d8e58589e874",
+      "runtime_png_file": "glyphs/glyph-098.runtime.png",
+      "runtime_png_sha256": "c2eb07ca3c4ba9e8665c790ec6dfe04ffd0bfb250455bbbaf4f6bd3f4479aeff",
       "bound_message_ids": [
         6,
         33,
@@ -4059,6 +4291,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-099.png",
       "png_sha256": "4d22940c7ae436ec6c96d1401ad5709448e8ce0c6dbaf08fdb3889370e05149c",
+      "runtime_png_file": "glyphs/glyph-099.runtime.png",
+      "runtime_png_sha256": "fe5146162b9d5c6c8754156ccbff0ed6d25540329a4606e525088269805de4cb",
       "bound_message_ids": [
         6,
         20
@@ -4082,6 +4316,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-100.png",
       "png_sha256": "72460fdb4a95f56b9844173c0f7de69e38691c8d0c57e7ba2df7e6967103715a",
+      "runtime_png_file": "glyphs/glyph-100.runtime.png",
+      "runtime_png_sha256": "c4ebb270f56ed1c4b182cceebd2f30c1fb3377a345bcc3ed309e141fd9e3606c",
       "bound_message_ids": [
         7,
         42
@@ -4105,6 +4341,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-101.png",
       "png_sha256": "f3246a5619b153bac01879b726d3428f0193bbff144730930c4b2c4087e60c96",
+      "runtime_png_file": "glyphs/glyph-101.runtime.png",
+      "runtime_png_sha256": "f98f97d9be5d0b7166b86ac8235785c1483dcc39ddeb4fc9af7e22884eadf6d9",
       "bound_message_ids": [
         7,
         41,
@@ -4129,6 +4367,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-102.png",
       "png_sha256": "1972c4d2e5c82823843c17d94f319fe337ae418388391af9242edad6d285b29e",
+      "runtime_png_file": "glyphs/glyph-102.runtime.png",
+      "runtime_png_sha256": "f90be05c6bfd400404db11fbc7af788a10f128fcfa8c89298f645bfc17f6901c",
       "bound_message_ids": [
         7,
         42
@@ -4152,6 +4392,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-103.png",
       "png_sha256": "4845c4e6f6df658b1bdf895a2f02790aecc4479f34fcea788bf9b98f0bc817f6",
+      "runtime_png_file": "glyphs/glyph-103.runtime.png",
+      "runtime_png_sha256": "d8a4073bd68733249321945ea60a7f11fe24cb52f6065c69360fa72d84332c77",
       "bound_message_ids": [
         8,
         22
@@ -4175,6 +4417,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-104.png",
       "png_sha256": "167d4d3d725518dd55e41a483aebd81efd8236e3e5af154ba6493171c69fdc02",
+      "runtime_png_file": "glyphs/glyph-104.runtime.png",
+      "runtime_png_sha256": "183193c0effa4a6a8da962bee28f915427389136a04484d8b22c2446f133cb5d",
       "bound_message_ids": [
         12
       ]
@@ -4197,6 +4441,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-105.png",
       "png_sha256": "13af72677f7c8d2bfdc720fc804859fe941fcb61e0799fb6ee2da4cc261c1989",
+      "runtime_png_file": "glyphs/glyph-105.runtime.png",
+      "runtime_png_sha256": "bc3a23a6edb3ce1ca6792de1dcbc6b8eec0bc528dd9b17404f276ee739774600",
       "bound_message_ids": [
         12
       ]
@@ -4219,6 +4465,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-106.png",
       "png_sha256": "03f000b80dfd038c9a4e24109897a332256f7ae97eb6f159ea0d9e4de4ec6bae",
+      "runtime_png_file": "glyphs/glyph-106.runtime.png",
+      "runtime_png_sha256": "2676dd964c20302a7c3c6dc9748ece60ec80a9fe315d3dd480ac66e7f0da9d1c",
       "bound_message_ids": [
         23,
         53,
@@ -4244,6 +4492,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-107.png",
       "png_sha256": "6779c264a51987247c967f034ae893794dea2058eaa018312fafe7e0ab426346",
+      "runtime_png_file": "glyphs/glyph-107.runtime.png",
+      "runtime_png_sha256": "885a71cbc2bc87986a429de70313432ea8bd38d72aacc2492b6add84c427089a",
       "bound_message_ids": []
     },
     {
@@ -4264,6 +4514,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-108.png",
       "png_sha256": "a9965125c0bb61ca9a86e0e1ccae27eb02f149f861a98ff932fd4f18b32f4c9c",
+      "runtime_png_file": "glyphs/glyph-108.runtime.png",
+      "runtime_png_sha256": "31634868efab1683e952950cdcd71c25abde269047d51bf2243dc873225638f9",
       "bound_message_ids": []
     },
     {
@@ -4284,6 +4536,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-109.png",
       "png_sha256": "7be45d226997782885d6b1c618d9d92c34c33123629686b31095f9920ae8f585",
+      "runtime_png_file": "glyphs/glyph-109.runtime.png",
+      "runtime_png_sha256": "96a83aed5359fa9f2dc978de61cf559bdbd76ad60a22c8af894c91f7ac5ff969",
       "bound_message_ids": [
         14
       ]
@@ -4306,6 +4560,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-110.png",
       "png_sha256": "fbb2cedd27be66cc4c878af5d82012e22e589fa8b2d7d23578f41f4649626b66",
+      "runtime_png_file": "glyphs/glyph-110.runtime.png",
+      "runtime_png_sha256": "96c9eb2185664689e1b9d2e0da6819e5692ac36878af656c7295c6d63049aa91",
       "bound_message_ids": [
         15
       ]
@@ -4328,6 +4584,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-111.png",
       "png_sha256": "923f7a227bd9d2a9bd547ac18f5240d869f0ed9c655ee5a0a6eb066f0bedbe7e",
+      "runtime_png_file": "glyphs/glyph-111.runtime.png",
+      "runtime_png_sha256": "5b3297e66b08b1897256b89fd6fffbc844cf8aae6da43cbdf48c4ba8704631cd",
       "bound_message_ids": [
         16
       ]
@@ -4350,6 +4608,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-112.png",
       "png_sha256": "4de4c6b16490d5da083d400567831ed7431790318b4d1755faba9b6ba31d5484",
+      "runtime_png_file": "glyphs/glyph-112.runtime.png",
+      "runtime_png_sha256": "93b6e3912a32715369e7db6e2474128f5311eef26e613af22e847e5ad2c7f03f",
       "bound_message_ids": []
     },
     {
@@ -4370,6 +4630,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-113.png",
       "png_sha256": "5c3efa656a6dca079ae10077a33d3d2d9a6e209c382a7cf5e50077a6ec67d444",
+      "runtime_png_file": "glyphs/glyph-113.runtime.png",
+      "runtime_png_sha256": "55bde79572fd76385a24b2259e874b47f13aafda3f5a9fff922618b10a3980ca",
       "bound_message_ids": [
         23
       ]
@@ -4392,6 +4654,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-114.png",
       "png_sha256": "b42cae268b18964d6bae96a4021bdf89d523e479aaff42f4c67bb1f00204b8d1",
+      "runtime_png_file": "glyphs/glyph-114.runtime.png",
+      "runtime_png_sha256": "d8c11f81461174d490f224c07308eef7b30a12514f4ea77dfa66e8665c1d8047",
       "bound_message_ids": [
         23,
         60
@@ -4415,6 +4679,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-115.png",
       "png_sha256": "7650ee3a7e40f9e652b050c986c3cc3c7cfbd1b06067e4ee2ab43d6bf994cfbc",
+      "runtime_png_file": "glyphs/glyph-115.runtime.png",
+      "runtime_png_sha256": "900f95a142b832116b8c425d58d65a1b08e6e051105663aa90da4fa5d87497ba",
       "bound_message_ids": [
         24
       ]
@@ -4437,6 +4703,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-116.png",
       "png_sha256": "37f098258d922f5fb634767bf3a9b84d8b1a9cb34196760035a27565b5eeea08",
+      "runtime_png_file": "glyphs/glyph-116.runtime.png",
+      "runtime_png_sha256": "15d250feef9a567e0edc98dbf8a5772a3f699506296c029f0b7ec65ce0b52eb9",
       "bound_message_ids": []
     },
     {
@@ -4457,6 +4725,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-117.png",
       "png_sha256": "436363284e564a5ce726c82d81c42336553e4cb47ebb5412a0b7abb1da3f3349",
+      "runtime_png_file": "glyphs/glyph-117.runtime.png",
+      "runtime_png_sha256": "943bd65ed2e2809cf5e3a94f6b9e3be69f02909149ecb115a0799deb6c747f26",
       "bound_message_ids": [
         25
       ]
@@ -4479,6 +4749,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-118.png",
       "png_sha256": "f944d57f00dda20612adf6322ee14d47cf084432d733a3e9f03b25439a1a058b",
+      "runtime_png_file": "glyphs/glyph-118.runtime.png",
+      "runtime_png_sha256": "52ca73e21836f1431ef08c5171986a7ba5b7e74b492a3f48929645cc6b6bb11f",
       "bound_message_ids": [
         4,
         25
@@ -4502,6 +4774,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-119.png",
       "png_sha256": "c2f32c6eb69c881b7df8cb1440efdce582ff6e4d50a96d8861f718115e77f738",
+      "runtime_png_file": "glyphs/glyph-119.runtime.png",
+      "runtime_png_sha256": "03fe0fbfceb213ba3730bf2507a04299c30565a6320d0da0f59391e3d604a000",
       "bound_message_ids": [
         26
       ]
@@ -4524,6 +4798,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-120.png",
       "png_sha256": "5205c2f876d31df11b17b1891623f0bc5a5f523f43d8176d68c8cbea4b10c61e",
+      "runtime_png_file": "glyphs/glyph-120.runtime.png",
+      "runtime_png_sha256": "a77217f8527da5914ee4949b6ff84033b276701d7583efbf2257009b9ae8af7e",
       "bound_message_ids": []
     },
     {
@@ -4544,6 +4820,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-121.png",
       "png_sha256": "e4376bf11245c81ec614af4d4a70f61188bb997a59eb6e1588cad7d19bce3fa8",
+      "runtime_png_file": "glyphs/glyph-121.runtime.png",
+      "runtime_png_sha256": "6583703806764095b8ae8e5f5b76c0deaad562d3c43603e4fadba92789f00d28",
       "bound_message_ids": []
     },
     {
@@ -4564,6 +4842,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-122.png",
       "png_sha256": "3521a01b780f6bee9a591fa91302c7402abae0b7fdc08aef0a9c0581420bee41",
+      "runtime_png_file": "glyphs/glyph-122.runtime.png",
+      "runtime_png_sha256": "de3c998713257e748382da671d58b9c06701c3ce5d05ed6a72410bf9b5008cdd",
       "bound_message_ids": []
     },
     {
@@ -4584,6 +4864,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-123.png",
       "png_sha256": "2d58f884d58e82771556c0e3c0cae9495c3948afffae592ef7a0766e636880f8",
+      "runtime_png_file": "glyphs/glyph-123.runtime.png",
+      "runtime_png_sha256": "9a1fbe423b54d9eadede31cb5d8efc2f18c4e4c0817bcbf2837f519f613dc88a",
       "bound_message_ids": []
     },
     {
@@ -4604,6 +4886,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-124.png",
       "png_sha256": "b8a88291bcbe40734392ab36af594e58d280f35c76d7a6384165b1aeea1f2925",
+      "runtime_png_file": "glyphs/glyph-124.runtime.png",
+      "runtime_png_sha256": "5dd4263b669776eef563f75fa111d8a5758762f4ff1ea8a9d2d9fb252cc47dff",
       "bound_message_ids": []
     },
     {
@@ -4624,6 +4908,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-125.png",
       "png_sha256": "7f243f87bc9b784a28bf2a74e56d174daf12ed917ce280df78946b8a2fdca797",
+      "runtime_png_file": "glyphs/glyph-125.runtime.png",
+      "runtime_png_sha256": "a2f98cc2598d34c6853d786acacf21f21a504a4587c81518026125612984240f",
       "bound_message_ids": [
         33,
         34
@@ -4647,6 +4933,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-126.png",
       "png_sha256": "e1d87d4bd9f84d206d814ed7d9cf88c430257095a0f7d02a48feaaf81b10a849",
+      "runtime_png_file": "glyphs/glyph-126.runtime.png",
+      "runtime_png_sha256": "bad6e30ed583197b40607000402ca7a2f41586f2d2970d693fcf7b1db3e0ef8c",
       "bound_message_ids": [
         33,
         34
@@ -4670,6 +4958,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-127.png",
       "png_sha256": "d43898912ca8dfbb8b21011d5e349a13809eddbcc141d6931a0d1ea238b09254",
+      "runtime_png_file": "glyphs/glyph-127.runtime.png",
+      "runtime_png_sha256": "801eb7de3abaf115d69af8d36c9b98c42afdb32b092cf8058831ceadcc472455",
       "bound_message_ids": [
         4,
         33
@@ -4693,6 +4983,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-128.png",
       "png_sha256": "a9a6bf6db38494da1107a32d6b21e67a4e41f00faa328c06d167bc056eeb4211",
+      "runtime_png_file": "glyphs/glyph-128.runtime.png",
+      "runtime_png_sha256": "f795083b93028825f84ac2d3a0bdd99330454f54d4cb01e429ceeffa1915d548",
       "bound_message_ids": [
         35,
         36,
@@ -4719,6 +5011,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-129.png",
       "png_sha256": "da09a2cd9b14d39e1dde558bec3bb08ff98bd73da2864da07763e85701f0f834",
+      "runtime_png_file": "glyphs/glyph-129.runtime.png",
+      "runtime_png_sha256": "06c469d4bee09b5bf664bde2bd7da8389fccdbebd4032fc90fcfc85c2a4eefef",
       "bound_message_ids": [
         36
       ]
@@ -4741,6 +5035,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-130.png",
       "png_sha256": "b6ccb91b6c7481ee35220377fb8f4ada77297e892c6191606a059c5c6a2fd53b",
+      "runtime_png_file": "glyphs/glyph-130.runtime.png",
+      "runtime_png_sha256": "53ebc82b782b99ea6104d077d5ac5df6d370597900fd8a50db4114ad7b1fd821",
       "bound_message_ids": [
         37
       ]
@@ -4763,6 +5059,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-131.png",
       "png_sha256": "7fbeb937dd0503bee992adeca29007b886fbe78a333d4800c96cab66af70f53a",
+      "runtime_png_file": "glyphs/glyph-131.runtime.png",
+      "runtime_png_sha256": "b8200cbb23f278f7a731a0a8eeae01ee4b8e1cba560768c9638b64bdd8238b09",
       "bound_message_ids": [
         38
       ]
@@ -4785,6 +5083,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-132.png",
       "png_sha256": "ae0f77758db2d8381dfd39968d7231f8b267f69e537ba55ae8c5ce2d08eeac04",
+      "runtime_png_file": "glyphs/glyph-132.runtime.png",
+      "runtime_png_sha256": "a4ccc21dde18067be9cb5f5238347d4e765a0313af6562e02bea2802beb5e0e9",
       "bound_message_ids": [
         39
       ]
@@ -4807,6 +5107,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-133.png",
       "png_sha256": "51d1c8c10da65dcd042a0f44e9e4133df6773d2aa3d01e68e420cdf483ff005d",
+      "runtime_png_file": "glyphs/glyph-133.runtime.png",
+      "runtime_png_sha256": "56e889131808f0af519d8bfdffedf024562b98808379d66d67f509d8c57eb9e9",
       "bound_message_ids": [
         40
       ]
@@ -4829,6 +5131,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-134.png",
       "png_sha256": "57d8bbf540416ddca38777f211ca14fae5ccb1218fe229601c5db0e59135805f",
+      "runtime_png_file": "glyphs/glyph-134.runtime.png",
+      "runtime_png_sha256": "8f288d90727227914b71e8d82dc0991bc696a02a85cd5c1e971f04efce31513a",
       "bound_message_ids": [
         40,
         41
@@ -4852,6 +5156,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-135.png",
       "png_sha256": "e068a0a098778e2ff4e82e319dbc13c64bedf888a4ece0a0d7b686da7a1f71a2",
+      "runtime_png_file": "glyphs/glyph-135.runtime.png",
+      "runtime_png_sha256": "5f1ba3bcdde181b92a4f69464ec65fcc88e3f7c7fd458aa549ac34a90e49edc4",
       "bound_message_ids": [
         40,
         41
@@ -4875,6 +5181,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-136.png",
       "png_sha256": "3f014607687eb71b510808f4835331d3e5786b682c14f42886dc81f20499e3ee",
+      "runtime_png_file": "glyphs/glyph-136.runtime.png",
+      "runtime_png_sha256": "e732093030064178aa8ee492d73aef7925a41df82fc9cbe16d88562e1347f357",
       "bound_message_ids": [
         50,
         51
@@ -4898,6 +5206,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-137.png",
       "png_sha256": "fc7db7a9cd7c9c9490a98986c245be52df80bc2722e13c505f275c97676c735f",
+      "runtime_png_file": "glyphs/glyph-137.runtime.png",
+      "runtime_png_sha256": "aae5af500cb095c0c4d6994aaa26c66667632b8188a74642fb8a45f23c1d3bac",
       "bound_message_ids": [
         50,
         51
@@ -4921,6 +5231,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-138.png",
       "png_sha256": "740007ba94378b774fd444448c6698959bafdbf0d872778231909019cb51a39a",
+      "runtime_png_file": "glyphs/glyph-138.runtime.png",
+      "runtime_png_sha256": "d81e648a28392c91d035ed060f73f4d85651c498e7d545f6fa1bd5f5c754a979",
       "bound_message_ids": [
         51
       ]
@@ -4943,6 +5255,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-139.png",
       "png_sha256": "7febeae5972f77199cd663bda3ddd2c38a9709f0c1856074de374263d7d50044",
+      "runtime_png_file": "glyphs/glyph-139.runtime.png",
+      "runtime_png_sha256": "58d16534d69dabbfb5a3c329e1c6ddcf86aab9344b934c854c33bc06c03e56bd",
       "bound_message_ids": [
         52
       ]
@@ -4965,6 +5279,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-140.png",
       "png_sha256": "ef202f6d0200d2f38e3b2876be41b122c97b0e28ca2f2ac1b9cd54372b7f862a",
+      "runtime_png_file": "glyphs/glyph-140.runtime.png",
+      "runtime_png_sha256": "70e9d1e4de9d5482cceced4143bb95c9d6a56714ff50d6c488360ceaa30d0469",
       "bound_message_ids": [
         4,
         52
@@ -4988,6 +5304,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-141.png",
       "png_sha256": "1bec33da4687d6d2402dee16f95a53b22d5561a01e18377afe4aa06438c722e5",
+      "runtime_png_file": "glyphs/glyph-141.runtime.png",
+      "runtime_png_sha256": "bc7b0e194a76f570e9d2a916e3dd61194193b15e313ae9960b895e537e887b3e",
       "bound_message_ids": [
         52
       ]
@@ -5010,6 +5328,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-142.png",
       "png_sha256": "c9dba6244c08e4d1a8109bfd311cc6c8873ca88714216ddaf51b7a2e66339743",
+      "runtime_png_file": "glyphs/glyph-142.runtime.png",
+      "runtime_png_sha256": "c4d60b9800fa6b615ab84d1b72868d8ba2089591728b29ad93be7d9b284b4c79",
       "bound_message_ids": [
         53,
         62
@@ -5033,6 +5353,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-143.png",
       "png_sha256": "685bb334d562354dac6c1e5439878340e620b8e753180035998c43549f10aa8f",
+      "runtime_png_file": "glyphs/glyph-143.runtime.png",
+      "runtime_png_sha256": "2fea561c81610e40e6a33b9126f74d55094ec227963eff2ccb3a9cc8bf361d33",
       "bound_message_ids": [
         54
       ]
@@ -5055,6 +5377,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-144.png",
       "png_sha256": "621f7388ea2e8707102c37493cfbce599021a4e840f5b595f2861066133e2092",
+      "runtime_png_file": "glyphs/glyph-144.runtime.png",
+      "runtime_png_sha256": "c741df782fb52ff4bf0df85ec60cc5862ce7ad7fb85afa8a4db709ff108877db",
       "bound_message_ids": [
         58
       ]
@@ -5077,6 +5401,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-145.png",
       "png_sha256": "d3ba9348a4ff917d0bb592c0d0d3ce77d90d4b4c11dfdbb93b4676d8a8c1f0b5",
+      "runtime_png_file": "glyphs/glyph-145.runtime.png",
+      "runtime_png_sha256": "cf8698dbc29949ec843eab9f1948989c2edf26132c6c3c32861ed52dbc82dc24",
       "bound_message_ids": [
         56,
         57,
@@ -5103,6 +5429,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-146.png",
       "png_sha256": "ab2d3fb1823e1e07c3d7671da83c6fdba87e395fc068dd6fd2533dc3be50f709",
+      "runtime_png_file": "glyphs/glyph-146.runtime.png",
+      "runtime_png_sha256": "0ae9928be0824b5564a55fc6163bece208e0561adc6baff9c68be7e215853337",
       "bound_message_ids": [
         59
       ]
@@ -5125,6 +5453,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-147.png",
       "png_sha256": "629e4db748dc5b5f6b59fcedd945c2f19076cbc65112ac74ef4c9ae05a336ed6",
+      "runtime_png_file": "glyphs/glyph-147.runtime.png",
+      "runtime_png_sha256": "9d356270fbec2a64d1b26a8fe5c1aa963c7320f1e411000e5e571073e618b3d0",
       "bound_message_ids": [
         60
       ]
@@ -5147,6 +5477,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-148.png",
       "png_sha256": "2ec66452151b4986c83d0b88fcd12552999e165ddbdd5f4672889bfe8016abc1",
+      "runtime_png_file": "glyphs/glyph-148.runtime.png",
+      "runtime_png_sha256": "f63afed3926325593b71ab7b5053360441047a008692d2978ce276fa2666bd58",
       "bound_message_ids": [
         61
       ]
@@ -5169,6 +5501,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-149.png",
       "png_sha256": "265295a104e21d7c46aa1c2c288cdc9f3f788f58640074e0b2e47ad0e9fd3f90",
+      "runtime_png_file": "glyphs/glyph-149.runtime.png",
+      "runtime_png_sha256": "d2c504a05d27ca1c2a9d1a98b77772faee9f18ab099f8363e455d70d4a22f46c",
       "bound_message_ids": [
         61
       ]
@@ -5191,6 +5525,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-150.png",
       "png_sha256": "24fd26f8e9b5dbe99fbcb5de4fd400a29ca2588db419397386df89bfaac3d958",
+      "runtime_png_file": "glyphs/glyph-150.runtime.png",
+      "runtime_png_sha256": "1631878d10c28c57f724e1fb19d86b82bcbe4155628cc7715da979b8661c9f67",
       "bound_message_ids": [
         61
       ]
@@ -5213,6 +5549,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-151.png",
       "png_sha256": "5585eb63ae1edc2d5804c1bb33a119693825d53dbacbda121ddeaf758f6cbeb7",
+      "runtime_png_file": "glyphs/glyph-151.runtime.png",
+      "runtime_png_sha256": "07c0818d2d10a5bfec20a068f1eb006e5f308e6a200fa2f45b083c24aaa8bb00",
       "bound_message_ids": [
         61
       ]
@@ -5235,6 +5573,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-152.png",
       "png_sha256": "a5b869c9f1a02f6547307311d068fb96993da9b88b686182825c9a2ea413e72c",
+      "runtime_png_file": "glyphs/glyph-152.runtime.png",
+      "runtime_png_sha256": "d1c0e784ebf0dc267fd408e96be24569c32023dba2e925042a5104750701aca7",
       "bound_message_ids": [
         49,
         69,
@@ -5259,6 +5599,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-153.png",
       "png_sha256": "35e9bef0a94a01fe2fd79945989d52d0ae72c25701f94a75645896bb3cdee432",
+      "runtime_png_file": "glyphs/glyph-153.runtime.png",
+      "runtime_png_sha256": "4e3c33097bf1d4a83dbc5071e9493536c6c2ae88c7cf50418fa757cb7a6a641f",
       "bound_message_ids": [
         71,
         72
@@ -5282,6 +5624,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-154.png",
       "png_sha256": "6f9d8c7d4c82469b804d83c23ac7b512789e668aae4dc3d5abed48c415113695",
+      "runtime_png_file": "glyphs/glyph-154.runtime.png",
+      "runtime_png_sha256": "e07993c9f11de3bbf92b758044fbccd19cbbda2d9f1270909c25da98a16b9bef",
       "bound_message_ids": [
         71,
         72
@@ -5305,6 +5649,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-155.png",
       "png_sha256": "cfbc2c4d1047caf238590d302d024041d7e18ad54dfbd1228fabb48980ffc0d6",
+      "runtime_png_file": "glyphs/glyph-155.runtime.png",
+      "runtime_png_sha256": "d0be6598cd73fc6aba7e8c88c8649689c07d022e71cb7d5fad53952d88f27b40",
       "bound_message_ids": [
         73
       ]
@@ -5327,6 +5673,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-156.png",
       "png_sha256": "b982cdcf885801dae6c1d21dbfc3ced90c27ba9825eac8651a5997034ddd1bd9",
+      "runtime_png_file": "glyphs/glyph-156.runtime.png",
+      "runtime_png_sha256": "9675a4d680abccb43b355dde104e4b4c401c7958fe768000164c8261dfba0d9b",
       "bound_message_ids": [
         73
       ]
@@ -5349,6 +5697,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-157.png",
       "png_sha256": "24f35f61160013c2e8446a5547a56be36de9b45f92fafc4d82e13ffeb65385be",
+      "runtime_png_file": "glyphs/glyph-157.runtime.png",
+      "runtime_png_sha256": "55cc9c67d3d94b9452da5aa78435979e705fb4d9df20e310a78099068fb954f0",
       "bound_message_ids": [
         73
       ]
@@ -5371,6 +5721,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-158.png",
       "png_sha256": "a9a09639dce7e53c49490fac5d529a23c84d2328bae0f5e6ba889b7f29e5abfc",
+      "runtime_png_file": "glyphs/glyph-158.runtime.png",
+      "runtime_png_sha256": "90d79c685daf5cb24dfcb33b7fe3a46b35e26fafe0d098cbb1c4931750a82dda",
       "bound_message_ids": []
     },
     {
@@ -5391,6 +5743,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-159.png",
       "png_sha256": "5a57c9e2413ba9dc97d9665030e4bca952830c65686953b5f70cc9667511e766",
+      "runtime_png_file": "glyphs/glyph-159.runtime.png",
+      "runtime_png_sha256": "6577af223defbd7c299dac6ab1ae7fbdbe45187e0a9e92199ded0a9040841992",
       "bound_message_ids": [
         75
       ]
@@ -5413,6 +5767,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-160.png",
       "png_sha256": "69bc4a8cc85ee613de3650d7531e74b2cf4d5f19817f268762d3a1f13c80a911",
+      "runtime_png_file": "glyphs/glyph-160.runtime.png",
+      "runtime_png_sha256": "21ff529ba76e5772060df1e889e39efa238c173142b3b9d232f518a9165da1d0",
       "bound_message_ids": [
         10,
         11,
@@ -5441,6 +5797,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-161.png",
       "png_sha256": "ebd8e417c6a4ecc1a037027de2262c30ce9cb3864cfd60d35ee852bdd0f2c522",
+      "runtime_png_file": "glyphs/glyph-161.runtime.png",
+      "runtime_png_sha256": "8caede7d424259a0ead69e6a38b15d98133f6a8b6793b56bed3b3230cdeac63a",
       "bound_message_ids": []
     },
     {
@@ -5461,6 +5819,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-162.png",
       "png_sha256": "c8a48b7bd26bd696d44f2bb1f9be7a51ef7d8645e017d7cf32a90663175d9bad",
+      "runtime_png_file": "glyphs/glyph-162.runtime.png",
+      "runtime_png_sha256": "8de4ee3e7758c8ade37fc98fea1904cbf366254dd204ede92117e2b3330a82b4",
       "bound_message_ids": [
         77,
         78
@@ -5484,6 +5844,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-163.png",
       "png_sha256": "889a98e4485bcad8d27dbb636d07617d2f5bec83ee62eda353c2aa45f745f7fe",
+      "runtime_png_file": "glyphs/glyph-163.runtime.png",
+      "runtime_png_sha256": "9ba8ceb2111b57d85c2db6f84b7d5e48c204d4903e880f83609f229fc73875b0",
       "bound_message_ids": [
         77,
         78
@@ -5507,6 +5869,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-164.png",
       "png_sha256": "d176c343dc157e4969fddde91f5b00598bfa67a4a1c11c5347f18cfe24a878dc",
+      "runtime_png_file": "glyphs/glyph-164.runtime.png",
+      "runtime_png_sha256": "637d524f3946ad7b0751c8db413c5fc1660aab9a4f76ba4b323f150b178d4e25",
       "bound_message_ids": [
         77
       ]
@@ -5529,6 +5893,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-165.png",
       "png_sha256": "2ddd99f5f1bd19514d24b0cae3c909abb8b7356fe75e663b25f4f77bafbefe50",
+      "runtime_png_file": "glyphs/glyph-165.runtime.png",
+      "runtime_png_sha256": "5167c59084999a88dc60fdbd45a3d34a66e57a7309d99bb8da6ae661524e1cbf",
       "bound_message_ids": [
         77
       ]
@@ -5551,6 +5917,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-166.png",
       "png_sha256": "9c80f40acce94b1a89137b3ae3d546ec7af6834534a2cbc852c1b00ff9034303",
+      "runtime_png_file": "glyphs/glyph-166.runtime.png",
+      "runtime_png_sha256": "842aac67757540fec2ff0f56ac34c27afd4899719880192e4fbfc8b1ab6fa7be",
       "bound_message_ids": []
     },
     {
@@ -5571,6 +5939,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-167.png",
       "png_sha256": "64aba69b53592f9bb34c3cb3f619b11ebcd58f984ce1303949d0ba47b3fbc1c6",
+      "runtime_png_file": "glyphs/glyph-167.runtime.png",
+      "runtime_png_sha256": "61e18e0e8e64ee1ff246982725f2150ac1dd55605a1b1e1b2a60a0121385c340",
       "bound_message_ids": []
     },
     {
@@ -5591,6 +5961,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-168.png",
       "png_sha256": "575e70cc00a3a666a9e8ebfbf3118cdf593b48173bb6f3e3c1b1bccb97c0dc31",
+      "runtime_png_file": "glyphs/glyph-168.runtime.png",
+      "runtime_png_sha256": "29de3b2e4083f2ec5ce969675958cb04462efc3972fa8ae80d48376e13eb8244",
       "bound_message_ids": []
     },
     {
@@ -5611,6 +5983,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-169.png",
       "png_sha256": "b46111d66cc6e5b2cddc3b05f1f6c11ce60592d5d9ed26697b1b1c1aa349f2f2",
+      "runtime_png_file": "glyphs/glyph-169.runtime.png",
+      "runtime_png_sha256": "df978b6068281191e83007d58857cd154d968e25a34cf120c4de52e05d9766b7",
       "bound_message_ids": []
     },
     {
@@ -5631,6 +6005,8 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-170.png",
       "png_sha256": "dc1e2dbd0eeb6e1a910e4b85dc5851f90d65087bd44de630f733318eafd9edfd",
+      "runtime_png_file": "glyphs/glyph-170.runtime.png",
+      "runtime_png_sha256": "3483d25dfec2af2366db5e872cc456e06123fc6b088f9234a6807f7f14c830ea",
       "bound_message_ids": [
         76
       ]
@@ -5653,12 +6029,16 @@
       "maximum_palette_index": 15,
       "png_file": "glyphs/glyph-171.png",
       "png_sha256": "25481b42852f1554f8b0e33a3512d9ac93c1f95203e42cb1e0fb576aa2890cee",
+      "runtime_png_file": "glyphs/glyph-171.runtime.png",
+      "runtime_png_sha256": "278415e84b85837a56345cfc8de700606a4dbc674f53c27b85d225531b32a14d",
       "bound_message_ids": []
     }
   ],
   "atlas": {
     "png_file": "glyph-atlas.png",
     "png_sha256": "d4a34258aaac837d773f5f78f60362ebecdf185cfcd0b8fd75f9db032e68d299",
+    "runtime_png_file": "glyph-atlas-runtime.png",
+    "runtime_png_sha256": "b61ac492b4704668487565514304445bfb77cf79023d1ebd56d06695a5c90faf",
     "width": 512,
     "height": 352,
     "columns": 16,
@@ -5679,7 +6059,7 @@
     "all_static_bindings_exported": true,
     "glyph_geometry_static_verified": true,
     "message_character_decoding_complete": false,
-    "runtime_palette_binding_complete": false,
+    "runtime_palette_binding_complete": true,
     "message_names_complete": false
   }
 }

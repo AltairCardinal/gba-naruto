@@ -26,6 +26,10 @@ GLYPH_COUNT = 172
 BINDING_TABLE_OFFSET = 0x5A2EF4
 BINDING_COUNT = 79
 BINDING_SIZE = 10
+RUNTIME_PALETTE_OFFSET = 0x3E4AF0
+RUNTIME_PALETTE_SIZE = 32
+RUNTIME_PALETTE_BANK = 13
+OBJ_PALETTE_BASE = 0x05000200
 MESSAGE_TABLE_SHA256 = (
     "a58fee3bd11fd9db198f4c93faace06c268a1243870ce755aaf060f6b7acc877"
 )
@@ -34,6 +38,9 @@ GLYPH_TABLE_SHA256 = (
 )
 BINDING_TABLE_SHA256 = (
     "8b5557e99d159b2b3ea1701bc0a15d0f2acc95f766003ec706263fc62a3719e8"
+)
+RUNTIME_PALETTE_SHA256 = (
+    "91469795b385e7b06edde2a8fcba8d562ddf5c2bca69350e1dc7880974419981"
 )
 SCHEMA = "battle-presentation-glyphs-v1"
 CODE_SLICES = (
@@ -71,6 +78,20 @@ CODE_SLICES = (
         "gba_start": "0x08099564",
         "gba_end": "0x08099582",
         "sha256": "835b54df161608218062de4ad9743101456988d29af8fd5c0de165d0b7ebaa47",
+    },
+    {
+        "name": "presentation_initializer",
+        "file_offset": 0x0983B8,
+        "gba_start": "0x080983B8",
+        "gba_end": "0x08098624",
+        "sha256": "7a7598a7edfef279bf745897ba5ea0f94e5361e2db84acee7a84a23f06a61422",
+    },
+    {
+        "name": "sprite_palette_attr2_writer",
+        "file_offset": 0x063108,
+        "gba_start": "0x08063108",
+        "gba_end": "0x08063120",
+        "sha256": "3a8ba305e8ed98f95bda2f6e81361571db10e20f0c2158d99930573e4d24ba83",
     },
 )
 
@@ -152,11 +173,41 @@ def _diagnostic_palette() -> list[int]:
     return palette
 
 
-def _png_bytes(pixels: bytes, size: tuple[int, int]) -> bytes:
+def _runtime_palette(raw: bytes) -> list[int]:
+    if len(raw) != RUNTIME_PALETTE_SIZE:
+        raise ValueError("runtime palette must contain 16 BGR555 colors")
+    palette: list[int] = []
+    for color in struct.unpack("<16H", raw):
+        color &= 0x7FFF
+        red = color & 0x1F
+        green = (color >> 5) & 0x1F
+        blue = (color >> 10) & 0x1F
+        palette.extend(
+            (
+                (red << 3) | (red >> 2),
+                (green << 3) | (green >> 2),
+                (blue << 3) | (blue >> 2),
+            )
+        )
+    palette.extend([0] * (768 - len(palette)))
+    return palette
+
+
+def _png_bytes(
+    pixels: bytes,
+    size: tuple[int, int],
+    palette: list[int] | None = None,
+    transparency: int | None = None,
+) -> bytes:
     image = Image.frombytes("P", size, pixels)
-    image.putpalette(_diagnostic_palette())
+    image.putpalette(palette if palette is not None else _diagnostic_palette())
     output = io.BytesIO()
-    image.save(output, format="PNG", optimize=False)
+    image.save(
+        output,
+        format="PNG",
+        optimize=False,
+        **({"transparency": transparency} if transparency is not None else {}),
+    )
     return output.getvalue()
 
 
@@ -199,6 +250,12 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
     ):
         if _sha256(data) != expected:
             raise ValueError(f"{label} SHA-256 mismatch")
+    runtime_palette_raw = rom[
+        RUNTIME_PALETTE_OFFSET : RUNTIME_PALETTE_OFFSET + RUNTIME_PALETTE_SIZE
+    ]
+    if _sha256(runtime_palette_raw) != RUNTIME_PALETTE_SHA256:
+        raise ValueError("runtime palette SHA-256 mismatch")
+    runtime_palette = _runtime_palette(runtime_palette_raw)
 
     (output / "source").mkdir(parents=True)
     (output / "messages").mkdir()
@@ -207,6 +264,7 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
         ("source/message-pointer-table.bin", message_table),
         ("source/glyph-pointer-table.bin", glyph_table),
         ("source/message-glyph-binding-table.bin", binding_table),
+        ("source/runtime-palette.bin", runtime_palette_raw),
     )
     for relative, data in source_files:
         (output / relative).write_bytes(data)
@@ -273,10 +331,15 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
         compressed_file = f"glyphs/glyph-{glyph_id:03d}.lz77"
         graphics_file = f"glyphs/glyph-{glyph_id:03d}.4bpp"
         png_file = f"glyphs/glyph-{glyph_id:03d}.png"
+        runtime_png_file = f"glyphs/glyph-{glyph_id:03d}.runtime.png"
         png = _png_bytes(raster, (32, 32))
+        runtime_png = _png_bytes(
+            raster, (32, 32), runtime_palette, transparency=0
+        )
         (output / compressed_file).write_bytes(compressed)
         (output / graphics_file).write_bytes(graphics)
         (output / png_file).write_bytes(png)
+        (output / runtime_png_file).write_bytes(runtime_png)
         atlas_x = (glyph_id % 16) * 32
         atlas_y = (glyph_id // 16) * 32
         for y in range(32):
@@ -304,6 +367,8 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
                 "maximum_palette_index": max(raster),
                 "png_file": png_file,
                 "png_sha256": _sha256(png),
+                "runtime_png_file": runtime_png_file,
+                "runtime_png_sha256": _sha256(runtime_png),
                 "bound_message_ids": [
                     message["message_id"]
                     for message in messages
@@ -313,7 +378,11 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
         )
 
     atlas_png = _png_bytes(bytes(atlas_pixels), (512, 352))
+    runtime_atlas_png = _png_bytes(
+        bytes(atlas_pixels), (512, 352), runtime_palette, transparency=0
+    )
     (output / "glyph-atlas.png").write_bytes(atlas_png)
+    (output / "glyph-atlas-runtime.png").write_bytes(runtime_atlas_png)
     code_slices = []
     for item in CODE_SLICES:
         start = item["file_offset"]
@@ -364,12 +433,42 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
                 "skip_glyph_id": 255,
                 "bounds_check": False,
             },
+            "palette_selection": {
+                "palette_source_literal": "0x0809861C",
+                "obj_palette_base_literal": "0x08098620",
+                "palette_bank_assignment": "state[0x0F] = 13",
+                "copy_formula": (
+                    "CpuSet(0x083E4AF0, 0x05000200 + 13 * 32, 16 colors)"
+                ),
+                "display_palette_formula": (
+                    "sprite_palette_bank = state[0x0F]"
+                ),
+                "attr2_palette_formula": (
+                    "OAM.attr2[12:15] = sprite_task[0x12] << 12"
+                ),
+            },
+        },
+        "runtime_palette": {
+            "file_offset": RUNTIME_PALETTE_OFFSET,
+            "gba_address": _address(ROM_BASE + RUNTIME_PALETTE_OFFSET),
+            "size": RUNTIME_PALETTE_SIZE,
+            "color_count": 16,
+            "format": "BGR555",
+            "sha256": RUNTIME_PALETTE_SHA256,
+            "raw_file": source_files[3][0],
+            "palette_bank": RUNTIME_PALETTE_BANK,
+            "obj_palette_destination": _address(
+                OBJ_PALETTE_BASE + RUNTIME_PALETTE_BANK * 32
+            ),
+            "transparent_palette_index": 0,
         },
         "messages": messages,
         "glyphs": glyphs,
         "atlas": {
             "png_file": "glyph-atlas.png",
             "png_sha256": _sha256(atlas_png),
+            "runtime_png_file": "glyph-atlas-runtime.png",
+            "runtime_png_sha256": _sha256(runtime_atlas_png),
             "width": 512,
             "height": 352,
             "columns": 16,
@@ -390,7 +489,7 @@ def _build_artifact(rom: bytes, output: Path) -> dict[str, Any]:
             "all_static_bindings_exported": True,
             "glyph_geometry_static_verified": True,
             "message_character_decoding_complete": False,
-            "runtime_palette_binding_complete": False,
+            "runtime_palette_binding_complete": True,
             "message_names_complete": False,
         },
     }
