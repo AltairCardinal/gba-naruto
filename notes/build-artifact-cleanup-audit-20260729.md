@@ -207,3 +207,22 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 `resource-guard/`、`signed-tooling/` 仍被测试或工具直接使用；
 `mgba-upstream-patch/` 仍是未完成的异常工作树；`butano-sequel/build/` 和当日产物
 属于并行 Butano 工作。删除它们会造成证据断链、测试输入缺失或干扰并行任务。
+
+## 第九轮清理：新增成果差量复核
+
+本轮以第八轮之后新增并提交的成果为差量边界再次核对：
+
+- 首次核对时顶层 `build/` 为 `1,678,868 KiB`，共有 `19,878` 个文件；并行任务随后
+  继续写入守卫结果，因此该数字只作为审计起点。此前所称的 `24 GiB` 仍不在当前工作树中。
+- 新增的 `tile-assets-bg-v2` 与 `story-scene-layer-bindings-v1` 直接生成到
+  `artifacts/`，没有在 `build/` 留下可整目录删除的重复副本。
+- 最大的录像、ROM trace、快照及 GPU/OAM/PRAM/VRAM dump 仍只有部分文件与持久
+  artifact 重复；其余原始帧序列和实验上下文尚未被完整承接，继续保留。
+- 零字节 trap 日志记录对应实验没有命中陷阱，属于阴性结果，不按普通空文件删除。
+- 复核期间并行 Butano 任务正通过 `tools/run_guarded.py` 使用
+  `build/signed-tooling/mGBA.app`，因此未触碰它的工具链、守卫、构建目录或运行产物。
+
+本轮没有满足全部删除条件的新项目，实际删除量为 `0`。这不是清理遗漏：强行删除剩余
+内容会造成证据链断裂、测试输入缺失，或干扰并行任务。后续应先把原始媒体/trace 的
+关键输入、完整 manifest、哈希和独立验证入口迁入 `artifacts/`，再按顶层目录完整删除，
+不做破坏实验上下文的碎片式去重。
