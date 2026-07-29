@@ -265,3 +265,25 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 本轮没有清理并行 Butano 工作的 `butano-sequel/build/`、`build/resource-guard/`、
 场景 49 运行目录或其 artifact。其余大体积录像、trace、快照和内存转储仍未被完整、
 可独立验证的持久成果覆盖，继续保留。
+
+## 第十二轮清理：字体纠错成果后的全量哈希差量核对
+
+本轮在对话字体纵向布局纠错成果提交后，再次按“是否已由持久成果完整承接”核对：
+
+- 核对起点的顶层 `build/` 为 `1,679,904 KiB`，共有 `19,908` 个文件；此前所称的
+  `24 GiB` 临时产物仍不在当前工作树中。
+- 对非 Butano 顶层目录逐文件计算 SHA-256，并与 Git 已跟踪的 `artifacts/` 全量
+  对照，没有任何一个目录达到 `100%` 文件和字节覆盖。
+- 对话字体纠错成果直接更新 `artifacts/dialogue-font-v2/`，没有在 `build/` 生成
+  重复副本；世界地图对应的完整重复目录已在第十一轮删除。
+- 现存重复文件都只是较大 trace 的局部。例如
+  `battle-presentation-original-probes-20260727-01/` 仍有数千个未被持久 artifact
+  承接的 GPU/OAM/PRAM/VRAM dump、截图和实验上下文，不能按局部哈希命中率删除整批。
+- 核对时并行 Butano 任务正通过 `tools/run_guarded.py` 执行 ARM 构建并持有 heavy
+  lock；本轮没有触碰 `butano-sequel/build/`、`build/resource-guard/`、
+  `build/signed-tooling/` 或任何 `build/butano-*` 目录。
+
+因此本轮新增可安全删除量为 `0`。当前约 `1.6 GiB` 不是已完成成果的完整重复缓存；
+继续删除会丢失尚未成果化的原始证据、破坏现有测试输入，或干扰并行 Butano 工作。
+后续只有在某个实验目录的原始输入、完整 manifest、关键输出、哈希和独立 verifier
+全部迁入并提交到 `artifacts/` 后，才按目录整体删除。
