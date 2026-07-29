@@ -710,9 +710,11 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   与 `notes/story-scene-timelines-export-20260729.md`。
   紧邻 `menu-ui` 之前的 `0x085A4CE8` 也已闭合为 9×`0x1C` 角色场景视觉包：
   9 张 8bpp 紧致背景、9 组 4bpp OBJ、18 张双 palette atlas 和 16 张 definition
-  frame 已进入 `scene-visual-packs-v1`，100 个文件由独立 verifier 复核。OBJ frame
-  集合与 palette bank 已闭合，但零值 animation 时序、最终 viewport crop 和
-  screen-space composition 仍保持未完成；证据见
+  frame 已进入 `scene-visual-packs-v1`。进一步由 spawner `0xA0` flags、allocator
+  活动位、16 位 timer 和 `0x20` 终止策略证明：16/16 animation 的零 duration
+  会在 65,536 次 renderer 更新后回绕并循环同号 frame；116 个文件（含 16 份编辑器
+  timeline JSON）由独立 verifier 复核。OBJ frame、palette bank 和 animation 时序
+  已闭合，最终 viewport crop 与 screen-space composition 仍保持未完成；证据见
   `notes/scene-visual-pack-export-20260729.md`。
   紧接的 `0x085A8014` 已闭合为 3×`gfx/map/palette` 世界地图背景表：
   三张 8bpp、512-tile、240×160 完整画布与三条 `0x10` 编码标签已进入

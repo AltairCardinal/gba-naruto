@@ -56,6 +56,11 @@ CONSUMER_RANGES = {
         0x0808C164,
         "3fd57f3a23dd6e1a1c1030f272b0213c596b7c3679069d47c0e7b4b82b5b05d3",
     ),
+    "sprite_motion_callback": (
+        0x0808C030,
+        0x0808C078,
+        "ee6f94b5978f5824f37d73b77344cbec1f474c1f6535b8469f90e8e910a95515",
+    ),
     "presentation_selector": (
         0x0808C18C,
         0x0808C1EC,
@@ -107,6 +112,20 @@ OBJ_PALETTES = (
         "sha256": "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
     },
 )
+
+OBJ_ANIMATION_RUNTIME = {
+    "spawner_requested_flags": "0x000000A0",
+    "allocator_active_bit": "0x00000001",
+    "initial_task_flags": "0x000000A1",
+    "termination_policy_bits": "0x20",
+    "timer_storage": "u16",
+    "timer_initial": 0,
+    "timer_increment_per_update": 1,
+    "duration_compare": "duration_ticks == timer_after_increment",
+    "zero_duration_first_expiry_updates": 65536,
+    "terminator_frame_index": -1,
+    "terminator_policy": "reset_frame_cursor_and_timer_then_loop",
+}
 
 
 def _address(value: int) -> str:
@@ -347,7 +366,17 @@ def _animations(
                 "timeline_pointer": _address(pointer),
                 "frame_id": frame_id,
                 "timing_value": timing_value,
-                "timing_semantics": "unknown",
+                "duration_ticks": timing_value,
+                "timing_semantics": "u16_timer_equality_after_increment",
+                "timer_period_updates": timing_value or 65536,
+                "termination_policy": "loop",
+                "playback": [
+                    {
+                        "frame_id": frame_id,
+                        "start_update": 0,
+                        "end_update_exclusive": timing_value or 65536,
+                    }
+                ],
                 "terminator": [0xFFFF, 0],
                 "raw_size": len(raw),
                 "raw_sha256": sha256(raw),
@@ -550,6 +579,7 @@ def export_artifact(
 
     packs: list[dict[str, Any]] = []
     total_frames = 0
+    total_animations = 0
     for pack_id in range(ENTRY_COUNT):
         entry_address = TABLE_ADDRESS + pack_id * ENTRY_SIZE
         raw_entry = table[pack_id * ENTRY_SIZE : (pack_id + 1) * ENTRY_SIZE]
@@ -650,6 +680,16 @@ def export_artifact(
             raise ValueError("spawn/frame/animation count mismatch")
         if [item["frame_id"] for item in animations] != list(range(spawn_count)):
             raise ValueError("animation frame selection is not one-to-one")
+        animation_entries = []
+        for animation in animations:
+            timeline_file = (
+                f"{prefix}/obj-animation-{animation['animation_id']:02d}.json"
+            )
+            entry = {**animation, "timeline_file": timeline_file}
+            files[timeline_file] = (
+                json.dumps(entry, ensure_ascii=False, indent=2) + "\n"
+            ).encode("utf-8")
+            animation_entries.append(entry)
         definition_file = f"{prefix}/obj-definition-region.bin"
         animation_file = f"{prefix}/obj-animation-region.bin"
         files[definition_file] = definition_region
@@ -690,6 +730,7 @@ def export_artifact(
         if missing_obj_tiles:
             raise ValueError(f"pack {pack_id} has unreferenced OBJ tiles")
         total_frames += len(frame_entries)
+        total_animations += len(animation_entries)
 
         packs.append(
             {
@@ -750,7 +791,7 @@ def export_artifact(
                     "animation_region_sha256": sha256(animation_region),
                     "atlases": atlases,
                     "frames": frame_entries,
-                    "animations": animations,
+                    "animations": animation_entries,
                     "referenced_tile_indices": sorted(referenced_tiles),
                     "missing_tile_indices": missing_obj_tiles,
                     "all_tiles_referenced": not missing_obj_tiles,
@@ -778,6 +819,7 @@ def export_artifact(
             "timeline_frame_id_selects_definition_frame": True,
             "current_rows_map_animation_to_same_numbered_frame": True,
         },
+        "obj_animation_runtime": OBJ_ANIMATION_RUNTIME,
         "shared_obj_palettes": palettes,
         "packs": packs,
         "summary": {
@@ -785,6 +827,7 @@ def export_artifact(
             "background_canvas_count": len(packs),
             "obj_graphics_pack_count": len(packs),
             "obj_frame_count": total_frames,
+            "obj_animation_count": total_animations,
             "obj_atlas_count": len(packs) * len(palettes),
         },
         "scope": {
@@ -792,7 +835,7 @@ def export_artifact(
             "native_background_canvases_complete": True,
             "obj_definition_frames_complete": True,
             "obj_animation_frame_sets_complete": True,
-            "obj_animation_timing_complete": False,
+            "obj_animation_timing_complete": True,
             "screen_space_composition_complete": False,
             "natural_language_scene_names_complete": False,
             "final_viewport_crop_complete": False,

@@ -38,6 +38,11 @@ CONSUMERS = {
         0x0808C164,
         "3fd57f3a23dd6e1a1c1030f272b0213c596b7c3679069d47c0e7b4b82b5b05d3",
     ),
+    "sprite_motion_callback": (
+        0x0808C030,
+        0x0808C078,
+        "ee6f94b5978f5824f37d73b77344cbec1f474c1f6535b8469f90e8e910a95515",
+    ),
     "presentation_selector": (
         0x0808C18C,
         0x0808C1EC,
@@ -86,6 +91,20 @@ PALETTES = (
         "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
     ),
 )
+
+OBJ_ANIMATION_RUNTIME = {
+    "spawner_requested_flags": "0x000000A0",
+    "allocator_active_bit": "0x00000001",
+    "initial_task_flags": "0x000000A1",
+    "termination_policy_bits": "0x20",
+    "timer_storage": "u16",
+    "timer_initial": 0,
+    "timer_increment_per_update": 1,
+    "duration_compare": "duration_ticks == timer_after_increment",
+    "zero_duration_first_expiry_updates": 65536,
+    "terminator_frame_index": -1,
+    "terminator_policy": "reset_frame_cursor_and_timer_then_loop",
+}
 
 
 def _sha(data: bytes) -> str:
@@ -361,7 +380,17 @@ def _animations(
                 "timeline_pointer": _address(start),
                 "frame_id": frame,
                 "timing_value": timing,
-                "timing_semantics": "unknown",
+                "duration_ticks": timing,
+                "timing_semantics": "u16_timer_equality_after_increment",
+                "timer_period_updates": timing or 65536,
+                "termination_policy": "loop",
+                "playback": [
+                    {
+                        "frame_id": frame,
+                        "start_update": 0,
+                        "end_update_exclusive": timing or 65536,
+                    }
+                ],
                 "terminator": [0xFFFF, 0],
                 "raw_size": 8,
                 "raw_sha256": _sha(raw),
@@ -521,7 +550,7 @@ def _expect_png(
     return raw
 
 
-def _verify(root: Path, artifact: Path) -> tuple[int, int]:
+def _verify(root: Path, artifact: Path) -> tuple[int, int, int]:
     rom = (root / "rom/base.gba").read_bytes()
     if _sha(rom) != ROM_SHA256:
         raise ValueError("base ROM SHA-256 mismatch")
@@ -561,6 +590,8 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
         "current_rows_map_animation_to_same_numbered_frame": True,
     }:
         raise ValueError("OBJ selection-chain manifest mismatch")
+    if manifest.get("obj_animation_runtime") != OBJ_ANIMATION_RUNTIME:
+        raise ValueError("OBJ animation-runtime manifest mismatch")
 
     expected_files = {"manifest.json"}
     palette_data = []
@@ -586,6 +617,7 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
     if not isinstance(packs, list) or len(packs) != ENTRY_COUNT:
         raise ValueError("manifest does not contain nine packs")
     total_frames = 0
+    total_animations = 0
     for pack_id, pack in enumerate(packs):
         raw_entry = table[pack_id * ENTRY_SIZE : (pack_id + 1) * ENTRY_SIZE]
         values = struct.unpack("<IIIIIIBBBB", raw_entry)
@@ -725,6 +757,21 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
         )
         if len(frames) != spawn_count or len(animations) != spawn_count:
             raise ValueError("spawn/frame/animation count mismatch")
+        expected_animations = []
+        for animation in animations:
+            timeline_file = (
+                f"{prefix}/obj-animation-{animation['animation_id']:02d}.json"
+            )
+            entry = {**animation, "timeline_file": timeline_file}
+            _expect_file(
+                artifact,
+                timeline_file,
+                (json.dumps(entry, ensure_ascii=False, indent=2) + "\n").encode(
+                    "utf-8"
+                ),
+                expected_files,
+            )
+            expected_animations.append(entry)
         def_file = f"{prefix}/obj-definition-region.bin"
         anim_file = f"{prefix}/obj-animation-region.bin"
         _expect_file(artifact, def_file, definition_region, expected_files)
@@ -781,7 +828,7 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
             "animation_region_sha256": _sha(animation_region),
             "atlases": expected_atlases,
             "frames": expected_frames,
-            "animations": animations,
+            "animations": expected_animations,
             "referenced_tile_indices": sorted(referenced_obj),
             "missing_tile_indices": [],
             "all_tiles_referenced": True,
@@ -789,12 +836,14 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
         if pack["obj"] != expected_obj:
             raise ValueError(f"pack {pack_id} OBJ manifest mismatch")
         total_frames += len(frames)
+        total_animations += len(expected_animations)
 
     expected_summary = {
         "pack_count": 9,
         "background_canvas_count": 9,
         "obj_graphics_pack_count": 9,
         "obj_frame_count": total_frames,
+        "obj_animation_count": total_animations,
         "obj_atlas_count": 18,
     }
     if manifest.get("summary") != expected_summary:
@@ -804,7 +853,7 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
         "native_background_canvases_complete": True,
         "obj_definition_frames_complete": True,
         "obj_animation_frame_sets_complete": True,
-        "obj_animation_timing_complete": False,
+        "obj_animation_timing_complete": True,
         "screen_space_composition_complete": False,
         "natural_language_scene_names_complete": False,
         "final_viewport_crop_complete": False,
@@ -818,7 +867,7 @@ def _verify(root: Path, artifact: Path) -> tuple[int, int]:
     }
     if actual_files != expected_files:
         raise ValueError("artifact file set mismatch")
-    return len(packs), total_frames
+    return len(packs), total_frames, total_animations
 
 
 def verify_artifact(
@@ -828,8 +877,9 @@ def verify_artifact(
     errors = []
     pack_count = 0
     frame_count = 0
+    animation_count = 0
     try:
-        pack_count, frame_count = _verify(
+        pack_count, frame_count, animation_count = _verify(
             Path(root).resolve(),
             Path(artifact_dir).resolve(),
         )
@@ -840,6 +890,7 @@ def verify_artifact(
         "errors": errors,
         "pack_count": pack_count,
         "obj_frame_count": frame_count,
+        "obj_animation_count": animation_count,
     }
 
 

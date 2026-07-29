@@ -36,6 +36,14 @@
       "size": 176,
       "sha256": "3fd57f3a23dd6e1a1c1030f272b0213c596b7c3679069d47c0e7b4b82b5b05d3"
     },
+    "sprite_motion_callback": {
+      "gba_range": [
+        "0x0808C030",
+        "0x0808C078"
+      ],
+      "size": 72,
+      "sha256": "ee6f94b5978f5824f37d73b77344cbec1f474c1f6535b8469f90e8e910a95515"
+    },
     "presentation_selector": {
       "gba_range": [
         "0x0808C18C",
@@ -98,6 +106,19 @@
     "loop_index_selects_palette_bank": true,
     "timeline_frame_id_selects_definition_frame": true,
     "current_rows_map_animation_to_same_numbered_frame": true
+  },
+  "obj_animation_runtime": {
+    "spawner_requested_flags": "0x000000A0",
+    "allocator_active_bit": "0x00000001",
+    "initial_task_flags": "0x000000A1",
+    "termination_policy_bits": "0x20",
+    "timer_storage": "u16",
+    "timer_initial": 0,
+    "timer_increment_per_update": 1,
+    "duration_compare": "duration_ticks == timer_after_increment",
+    "zero_duration_first_expiry_updates": 65536,
+    "terminator_frame_index": -1,
+    "terminator_policy": "reset_frame_cursor_and_timer_then_loop"
   },
   "shared_obj_palettes": [
     {
@@ -545,26 +566,48 @@
             "timeline_pointer": "0x08406090",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-00/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x08406098",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-00/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -1096,26 +1139,48 @@
             "timeline_pointer": "0x08406698",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-01/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x084066A0",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-01/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -1595,26 +1660,48 @@
             "timeline_pointer": "0x08406C34",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-02/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x08406C3C",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-02/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -2123,26 +2210,48 @@
             "timeline_pointer": "0x08407160",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-03/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x08407168",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-03/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -2666,26 +2775,48 @@
             "timeline_pointer": "0x084076D0",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-04/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x084076D8",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-04/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -3127,26 +3258,48 @@
             "timeline_pointer": "0x08407C50",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-05/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x08407C58",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-05/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -3616,13 +3769,24 @@
             "timeline_pointer": "0x08408804",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-06/obj-animation-00.json"
           }
         ],
         "referenced_tile_indices": [
@@ -4076,26 +4240,48 @@
             "timeline_pointer": "0x0840806C",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-07/obj-animation-00.json"
           },
           {
             "animation_id": 1,
             "timeline_pointer": "0x08408074",
             "frame_id": 1,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 1,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11"
+            "raw_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+            "timeline_file": "pack-07/obj-animation-01.json"
           }
         ],
         "referenced_tile_indices": [
@@ -4511,13 +4697,24 @@
             "timeline_pointer": "0x084084A8",
             "frame_id": 0,
             "timing_value": 0,
-            "timing_semantics": "unknown",
+            "duration_ticks": 0,
+            "timing_semantics": "u16_timer_equality_after_increment",
+            "timer_period_updates": 65536,
+            "termination_policy": "loop",
+            "playback": [
+              {
+                "frame_id": 0,
+                "start_update": 0,
+                "end_update_exclusive": 65536
+              }
+            ],
             "terminator": [
               65535,
               0
             ],
             "raw_size": 8,
-            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf"
+            "raw_sha256": "c186199b7e6af5713d2050de8ee119c13fdf6da617e8288a3e143e9ba40df5bf",
+            "timeline_file": "pack-08/obj-animation-00.json"
           }
         ],
         "referenced_tile_indices": [
@@ -4572,6 +4769,7 @@
     "background_canvas_count": 9,
     "obj_graphics_pack_count": 9,
     "obj_frame_count": 16,
+    "obj_animation_count": 16,
     "obj_atlas_count": 18
   },
   "scope": {
@@ -4579,7 +4777,7 @@
     "native_background_canvases_complete": true,
     "obj_definition_frames_complete": true,
     "obj_animation_frame_sets_complete": true,
-    "obj_animation_timing_complete": false,
+    "obj_animation_timing_complete": true,
     "screen_space_composition_complete": false,
     "natural_language_scene_names_complete": false,
     "final_viewport_crop_complete": false

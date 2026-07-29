@@ -10,7 +10,8 @@ ROM 表 `0x085A4CE8` 已从未覆盖的 LZ77 候选推进为可重复、可独�
 - 共导出 9 张原生紧致背景、9 组 OBJ 图形、18 张双 palette OBJ atlas 和 16 张
   definition frame PNG；
 - 所有背景 tile 和 OBJ tile 都被对应 tilemap/definition 完整引用；
-- 静态帧和 palette bank 已闭合，但最终屏幕位置、viewport 裁剪和动画时序仍未闭合。
+- 静态帧、palette bank 和 16 条 OBJ 动画时序均已闭合；最终屏幕位置、viewport
+  裁剪和 BG/OBJ 合成仍未闭合。
 
 本成果补齐 `menu-portraits-v1` 之前紧邻但不重叠的视觉表，不把人物可见身份或最终场景
 合成冒充为已证明语义。
@@ -34,7 +35,7 @@ ROM 表 `0x085A4CE8` 已从未覆盖的 LZ77 候选推进为可重复、可独�
 | `+0x08` | raw BG palette | 复制 128 个 BGR555 色到 `0x05000000` |
 | `+0x0C` | OBJ graphics LZ77 | 解压到 `0x06010000`，按 32-byte 4bpp tile 消费 |
 | `+0x10` | definition pointer table | `0x080626B4` 写入 task，frame selector 读取 component list |
-| `+0x14` | animation pointer table | 选择对应 frame；记录第二字段为 0，时序语义未命名 |
+| `+0x14` | animation pointer table | 选择对应 frame；第二字段是 16 位更新计时值 |
 | `+0x18/+0x19` | packed width/height | 传给 BG tilemap copier |
 | `+0x1A` | 1-based presentation ID | 非零时减一索引 `0x085A320C` |
 | `+0x1B` | spawned task count | 1 或 2，也是 palette bank/frame 集合上界 |
@@ -43,6 +44,7 @@ ROM 表 `0x085A4CE8` 已从未覆盖的 LZ77 候选推进为可重复、可独�
 
 - setup/row 0：`0x0808BAB0..0x0808BEDD`
 - 通用 row loader：`0x0808BEE4..0x0808BF61`
+- OBJ motion callback：`0x0808C030..0x0808C077`
 - OBJ spawner：`0x0808C0B4..0x0808C163`
 - presentation selector：`0x0808C18C..0x0808C1EB`
 - controller：`0x0808C214..0x0808C4C1`
@@ -71,11 +73,25 @@ bank；`0x0806298C..0x0806299C` 再读取 timeline frame ID 选择 definition fr
 frame/bank 0、1，单对象条目只使用 0。definition 的 `0x14` 字节 component、H/V flip、
 tile 范围和本地包围框均已解析，16 张 frame PNG 覆盖各自 OBJ 图形的全部 tile。
 
-animation 表每项只包含 `(frame_id, 0), (0xFFFF, 0)`。它足以证明 frame 集合，但零值
-不能被擅自解释为播放时长、循环或驻留时间。因此 manifest 明确保持：
+animation 表每项只包含 `(frame_id, 0), (0xFFFF, 0)`。消费者与创建链已经把零值
+语义唯一闭合：
+
+- `0x0808C11C` 向 allocator 传入 flags `0xA0`，`0x08062728..0x0806272C`
+  加活动位后 task 初值为 `0xA1`；
+- `0x08063256..0x08063266` 每次 renderer 更新先把 16 位 timer 加一，再与记录
+  `duration_ticks` 比较；
+- duration 为 0 时，第一次相等发生在 16 位 timer 经 `65,536` 次更新回绕到 0；
+- 下一条 `frame_index=-1`，而 `0xA1 & 0x30 == 0x20`；
+  `0x080632B8..0x080632C2` 因而把 frame cursor 和 timer 清零并循环；
+- 场景 callback `0x0808C030..0x0808C076` 只在前 32 tick 更新垂直坐标，不改动画
+  flags、cursor 或 timer。
+
+因此 16/16 动画均为“同号 frame 连续显示 65,536 次 renderer 更新，然后无缝循环”。
+这不是把零值当作无限时长；manifest 和每条 `obj-animation-XX.json` 均保留精确的
+16 位回绕周期。当前 scope 为：
 
 - `obj_animation_frame_sets_complete=true`
-- `obj_animation_timing_complete=false`
+- `obj_animation_timing_complete=true`
 - `screen_space_composition_complete=false`
 
 ## 可重复成果
@@ -84,10 +100,10 @@ animation 表每项只包含 `(frame_id, 0), (0xFFFF, 0)`。它足以证明 fram
 - 独立 verifier：`tools/verify_scene_visual_packs.py`
 - 测试：`tests/test_export_scene_visual_packs.py`
 - 产物：`artifacts/scene-visual-packs-v1/`
-- 文件数：100
-- 体积：约 640 KiB
+- 文件数：116
+- 体积：约 712 KiB
 - manifest SHA-256：
-  `e41e510bafafbe5a022163d71a2bf2288dc8a4fe84a03f4ee5c07758cf5c895c`
+  `4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4`
 
 重复生成和验证：
 
@@ -114,8 +130,8 @@ python3 -m unittest tests.test_export_scene_visual_packs -v
 
 - 9 条记录的自然语言场景名或人物身份；
 - controller 决定的最终横向 scroll、viewport crop、screen-space OBJ 位置和层级；
-- animation 第二字段为 0 时的准确播放语义；
 - `0x085A8014` 的三张世界地图背景及其相邻 overlay。
 
-下一图像批次优先导出已闭合的 `0x085A8014` 三张 240×160、8bpp 世界地图背景，再追踪
-紧邻 `0x085A8038` 的显示对象表以形成 overlay/composite。
+世界地图背景与 page 0 运行时合成已由后续里程碑承接。下一图像批次应继续闭合本表
+controller 的最终横向 scroll、240×160 viewport crop、OBJ 屏幕坐标和层级；这些状态
+不从 animation 记录本身推出。

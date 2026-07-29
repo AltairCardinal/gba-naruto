@@ -67,6 +67,10 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
                     "3fd57f3a23dd6e1a1c1030f272b0213c596b7c3679069d47"
                     "c0e7b4b82b5b05d3"
                 ),
+                "sprite_motion_callback": (
+                    "ee6f94b5978f5824f37d73b77344cbec1f474c1f6535b846"
+                    "9f90e8e910a95515"
+                ),
                 "presentation_selector": (
                     "ba2a35a498752085f4fbcab7a18667f1cd404199b5278eb4c"
                     "77842ea57c0804e"
@@ -152,6 +156,7 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
             [pack["spawn_count"] for pack in packs],
         )
         self.assertEqual(16, self.manifest["summary"]["obj_frame_count"])
+        self.assertEqual(16, self.manifest["summary"]["obj_animation_count"])
 
         for pack in packs:
             background = pack["background"]
@@ -168,9 +173,30 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
             self.assertEqual(4, obj["bits_per_pixel"])
             self.assertTrue(obj["all_tiles_referenced"])
             self.assertEqual(pack["spawn_count"], len(obj["frames"]))
+            self.assertEqual(pack["spawn_count"], len(obj["animations"]))
             for frame in obj["frames"]:
                 self.assertEqual(frame["frame_id"], frame["palette_bank"])
                 self.assertTrue((self.output / frame["png"]["file"]).is_file())
+            for animation in obj["animations"]:
+                self.assertEqual(0, animation["duration_ticks"])
+                self.assertEqual(65536, animation["timer_period_updates"])
+                self.assertEqual("loop", animation["termination_policy"])
+                self.assertEqual(
+                    [
+                        {
+                            "frame_id": animation["frame_id"],
+                            "start_update": 0,
+                            "end_update_exclusive": 65536,
+                        }
+                    ],
+                    animation["playback"],
+                )
+                timeline = self.output / animation["timeline_file"]
+                self.assertTrue(timeline.is_file())
+                self.assertEqual(
+                    animation,
+                    json.loads(timeline.read_text(encoding="utf-8")),
+                )
 
     def test_records_shared_obj_palettes_and_scope_without_overclaiming(self):
         palettes = self.manifest["shared_obj_palettes"]
@@ -191,12 +217,32 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
                 "native_background_canvases_complete": True,
                 "obj_definition_frames_complete": True,
                 "obj_animation_frame_sets_complete": True,
-                "obj_animation_timing_complete": False,
+                "obj_animation_timing_complete": True,
                 "screen_space_composition_complete": False,
                 "natural_language_scene_names_complete": False,
                 "final_viewport_crop_complete": False,
             },
             self.manifest["scope"],
+        )
+        self.assertEqual(
+            {
+                "spawner_requested_flags": "0x000000A0",
+                "allocator_active_bit": "0x00000001",
+                "initial_task_flags": "0x000000A1",
+                "termination_policy_bits": "0x20",
+                "timer_storage": "u16",
+                "timer_initial": 0,
+                "timer_increment_per_update": 1,
+                "duration_compare": (
+                    "duration_ticks == timer_after_increment"
+                ),
+                "zero_duration_first_expiry_updates": 65536,
+                "terminator_frame_index": -1,
+                "terminator_policy": (
+                    "reset_frame_cursor_and_timer_then_loop"
+                ),
+            },
+            self.manifest["obj_animation_runtime"],
         )
 
     def test_independent_verifier_accepts_export_and_rejects_tamper(self):
@@ -212,6 +258,7 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
         self.assertTrue(report["verified"], report["errors"])
         self.assertEqual(9, report["pack_count"])
         self.assertEqual(16, report["obj_frame_count"])
+        self.assertEqual(16, report["obj_animation_count"])
 
         for relative in (
             "manifest.json",
@@ -228,6 +275,26 @@ class ExportSceneVisualPacksTest(unittest.TestCase):
                 report = verify_artifact(ROOT, tampered)
                 self.assertFalse(report["verified"], relative)
                 self.assertTrue(report["errors"], relative)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            tampered = Path(temporary) / "artifact"
+            shutil.copytree(self.output, tampered)
+            manifest_path = tampered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            animation = manifest["packs"][0]["obj"]["animations"][0]
+            animation["duration_ticks"] = 1
+            timeline = tampered / animation["timeline_file"]
+            timeline.write_text(
+                json.dumps(animation, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = verify_artifact(ROOT, tampered)
+            self.assertFalse(report["verified"])
+            self.assertTrue(report["errors"])
 
     def test_export_is_deterministic_and_cli_is_repository_relative(self):
         from tools.export_scene_visual_packs import export_artifact
