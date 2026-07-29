@@ -198,8 +198,11 @@ def _object_coverage(
                     stride = width // 8 * tile_units
                 else:
                     stride = 32
+                base_tile_unit = attr2 & 0x3FF
+                if color_256:
+                    base_tile_unit &= ~1
                 tile_unit = (
-                    (attr2 & 0x3FF)
+                    base_tile_unit
                     + tile_y * stride
                     + tile_x * tile_units
                 )

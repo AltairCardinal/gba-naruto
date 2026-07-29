@@ -1,5 +1,6 @@
 import unittest
 from pathlib import Path
+import struct
 
 from PIL import Image
 
@@ -121,3 +122,122 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         self.assertTrue(in_window_range(20, 10, 40))
         self.assertFalse(in_window_range(50, 10, 40))
         self.assertFalse(in_window_range(10, 10, 10))
+
+    def test_8bpp_obj_ignores_odd_tile_index_bit(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x2000, 0x0000, 0x0001)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        struct.pack_into("<H", pram, 0x204, 0x03E0)
+        vram[0x10000] = 1
+        vram[0x10020] = 2
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+        self.assertEqual(bytes((255, 0, 0)), rendered[:3])
+
+    def test_2d_obj_uses_fixed_32_tile_unit_row_stride(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1000)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x8000, 0x0000, 0x0000)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        struct.pack_into("<H", pram, 0x204, 0x03E0)
+        struct.pack_into("<H", pram, 0x206, 0x7C00)
+        vram[0x10000] = 1
+        vram[0x10020] = 3
+        vram[0x10400] = 2
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+        self.assertEqual(bytes((255, 0, 0)), rendered[:3])
+        row_two = 8 * 240 * 3
+        self.assertEqual(bytes((0, 255, 0)), rendered[row_two : row_two + 3])
+
+    def test_semitransparent_obj_forces_alpha_with_backdrop_second_target(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x50, 0x2000)
+        struct.pack_into("<H", io, 0x52, 0x0808)
+        struct.pack_into("<H", pram, 0x000, 0x03E0)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x0400, 0x0000, 0x0000)
+        vram[0x10000] = 1
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+        self.assertEqual(bytes((127, 127, 0)), rendered[:3])
+
+    def test_obj_window_masks_color_without_drawing_its_own_pixels(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x9040)
+        struct.pack_into("<H", io, 0x4A, 0x1020)
+        struct.pack_into("<H", pram, 0x000, 0x03E0)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        struct.pack_into("<H", pram, 0x204, 0x7C00)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x0800, 0x0000, 0x0000)
+        struct.pack_into("<HHH", oam, 8, 0x0000, 0x0000, 0x0001)
+        vram[0x10000] = 2
+        vram[0x10020:0x10024] = b"\x11\x11\x11\x11"
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+        self.assertEqual(bytes((255, 0, 0)), rendered[:3])
+        self.assertEqual(bytes((0, 255, 0)), rendered[3:6])
+
+    def test_brighten_and_win0_over_win1_are_explicit_fixtures(self):
+        from tools.render_mode0_checkpoint import _window_control, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytes(0x400)
+        oam = bytearray(0x400)
+        vram = bytes(0x18000)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<H", io, 0x50, 0x00A0)
+        struct.pack_into("<H", io, 0x54, 0x0008)
+        rendered, _ = render_mode0(
+            bytes(io), pram, bytes(oam), vram
+        )
+        self.assertEqual(bytes((127, 127, 127)), rendered[:3])
+
+        struct.pack_into("<H", io, 0x00, 0x6000)
+        struct.pack_into("<H", io, 0x40, 0x000A)
+        struct.pack_into("<H", io, 0x42, 0x000A)
+        struct.pack_into("<H", io, 0x44, 0x000A)
+        struct.pack_into("<H", io, 0x46, 0x000A)
+        struct.pack_into("<H", io, 0x48, 0x0201)
+        struct.pack_into("<H", io, 0x4A, 0x0003)
+        self.assertEqual(0x01, _window_control(bytes(io), 0x6000, 5, 5, False))
+        self.assertEqual(0x03, _window_control(bytes(io), 0x6000, 15, 5, False))

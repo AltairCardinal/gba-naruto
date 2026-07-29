@@ -113,8 +113,11 @@
   单字段替换后整帧 exact，因而被分类为 screenshot/state 异步相位而非 renderer
   缺口。mGBA commit `1d65391d` 的 packed-mColor darken 舍入也已源码绑定。
   当前自然 corpus 没有 2D OBJ、affine、semi-transparent、OBJ-window、
-  brighten、WIN1 或 mosaic，仍需合成 fixture 和独立 artifact verifier，
-  不宣称全硬件路径或实体 GBA 物理输出完成。证据见
+  brighten、WIN1 或 mosaic；其中 8bpp odd-index、2D stride、semi-transparent、
+  OBJ-window、brighten、WIN0/WIN1 precedence 和 wrapped window 已补合成
+  fixture，并据此修复 8bpp attr2 bit 0 未被忽略的问题。affine、mosaic、
+  scanline 变化仍待闭合，且仍需独立 artifact verifier；不宣称全硬件路径或实体
+  GBA 物理输出完成。证据见
   `notes/runtime-mode0-screen-compositor-20260730.md`。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。

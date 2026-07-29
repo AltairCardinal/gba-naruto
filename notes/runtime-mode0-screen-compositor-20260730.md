@@ -59,17 +59,24 @@ green/blue 先移位再除法，所以 darken 的 RGB8 舍入不能用一个普�
 
 ## 当前证据边界
 
-自然 corpus 未覆盖：
+自然 corpus 未覆盖 2D/8bpp odd-index OBJ、semi-transparent、OBJ-window、
+brighten、WIN1 与 wrapped window，但这些路径现已有独立合成 fixture：
 
-- 2D OBJ mapping；
-- affine、semi-transparent、OBJ-window 或 object mode 3；
-- brighten、no-effect、非零 mosaic；
-- WIN1、OBJ-window precedence 和 wrapped window；
+- 8bpp OBJ 明确清除 attr2 tile index bit 0；
+- 2D 4bpp OBJ 第二 tile row 使用固定 32 tile-unit stride；
+- semi-transparent OBJ 对 backdrop second-target 强制 alpha；
+- OBJ-window 非零像素只产生 mask，不绘制自身颜色；
+- brighten、`WIN0 > WIN1 > outside` 与 wrapped/empty range。
+
+仍未闭合：
+
+- affine OBJ、object mode 3 的自然行为；
+- 非零 BG/OBJ mosaic；
 - scanline 中途寄存器变化；
 - 实体 GBA 的物理显示输出。
 
-这些规则必须用合成 fixtures、独立 verifier 或新增自然样本闭合，不能用当前
-89 个 exact PNG 代替。
+合成 fixture 证明确定性算法分支，但不冒充原 ROM 的自然使用证据；后续 artifact
+必须同时区分 corpus-covered、synthetic-covered 与 unresolved。
 
 ## 验证
 
