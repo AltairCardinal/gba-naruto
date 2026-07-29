@@ -334,3 +334,27 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 成果化的录像、trace、快照和内存转储，以及测试/工具直接依赖的音频与签名工具链。
 在对应原始输入、manifest、哈希、关键输出和独立 verifier 进入 `artifacts/` 前，
 不应继续按“普通构建缓存”删除。
+
+## 第十五轮清理：旧迭代运行由最终成果承接
+
+本轮逐项反查 `docs/`、`notes/`、`tools/`、`tests/` 和 `artifacts/`，并核对后续最终
+运行、持久实现与测试，只删除不再承担唯一证据职责的旧迭代：
+
+- 删除 69 个无仓库引用、无进程占用的旧 Butano 运行目录，涵盖战斗表现早期迭代、
+  action 05 中间运行、action 16 中间构建/运行、已被最终音频证据取代的回归录音，以及
+  一个可由现有源码和测试重建的宿主测试二进制目录。
+- 对应最终成果继续保留，包括
+  `build/butano-action05-effect-runtime-20260726-41/`、
+  `build/butano-action05-choreography-runtime-20260726-51/`、
+  `build/butano-action16-layer-fade-runtime-20260726-04/`、
+  `build/butano-opponent-control-audio-regression-20260727-02/`，以及已经进入
+  `artifacts/` 的战斗视觉和音频成果。
+- 删除 48 个无引用的旧构建、宿主测试和 TDD 汇总日志；其结论已进入代码、测试和持久
+  笔记，日志可由现有链路重建。
+
+本轮共回收 `321,212 KiB`（约 `313.68 MiB`），顶层 `build/` 降至
+`1,343,416 KiB`，剩余 `18,461` 个文件。删除后逐路径确认目标均不存在。
+
+原 ROM trace、外部录像、快照、GPU/OAM/PRAM/VRAM dump、`audio-v2/`、
+`resource-guard/`、`signed-tooling/`、各系列最终运行目录和并行任务的
+`butano-sequel/build/` 均未删除；它们仍是唯一证据、工具输入或当前工程产物。
