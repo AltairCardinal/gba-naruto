@@ -153,6 +153,20 @@ CODE_SLICES = (
         "0x08063186",
         "566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23",
     ),
+    (
+        "dynamic_obj_vram_renderer_path",
+        0x063122,
+        "0x08063122",
+        "0x080631F6",
+        "fe6814464976f17f5e708266b02a79aaa195d1bf96985fa852b80d1f3df9afc3",
+    ),
+    (
+        "dynamic_obj_vram_copy_queue_enqueue",
+        0x0635B8,
+        "0x080635B8",
+        "0x08063604",
+        "c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48",
+    ),
 )
 
 
@@ -666,8 +680,78 @@ def _oam_attribute_model(
             "concrete_runtime_coordinates_applied": False,
             "affine_matrix_values_applied": False,
             "affine_rasterization_applied": False,
-            "dynamic_obj_vram_copy_path_applied": False,
+            "dynamic_obj_vram_model_linked": True,
+            "dynamic_obj_vram_copy_execution_applied": False,
             "screen_clipping_applied": False,
+        },
+    }
+
+
+def _dynamic_obj_vram_model(
+    playback_plans: list[dict[str, Any]],
+) -> dict[str, Any]:
+    render_attribute_arguments = sorted({
+        event["render_attributes_argument"]
+        for plan in playback_plans
+        for event in plan["spawn_events"]
+    })
+    return {
+        "code_range": "0x08063122..0x080631F6",
+        "activation": "(task.render_flags & 0x00400000) != 0",
+        "copy_enqueue": {
+            "enabled_when": (
+                "(task.render_flags & 0x00800000) == 0 and "
+                "(task.render_flags & 0x01000008) != 0x01000008"
+            ),
+            "source": (
+                "task.tile_source_ptr + s16(component.tile_index) * 32"
+            ),
+            "destination": (
+                "0x06010000 + "
+                "u16(task.tile_base + running_dynamic_tile_offset) * 32"
+            ),
+            "size_bytes": (
+                "u16(trunc0_div64("
+                "s16(component.width)*s16(component.height)) * 32)"
+            ),
+            "enqueue_helper": "0x080635B8",
+            "enqueue_return_value_ignored_by_renderer": True,
+        },
+        "copy_queue": {
+            "iwram_address": "0x03005BBC",
+            "slot_count": 16,
+            "slot_stride": 16,
+            "slot_fields": "u32 active, u32 source, u32 destination, u16 size",
+            "enqueue_result": "1 when a free slot is reserved; 0 when full",
+        },
+        "attr2": (
+            "u16(task.tile_base + running_dynamic_tile_offset) | "
+            "(u4(task.palette_bank) << 12) | "
+            "((task.render_flags & 0xC0) << 4)"
+        ),
+        "running_offset_initial": 0,
+        "running_offset_after_component": (
+            "u16(running_dynamic_tile_offset + "
+            "trunc0_div64(s16(component.width)*s16(component.height)))"
+        ),
+        "current_sequence_reachability": {
+            "reachable": any(
+                value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+            "reachable_render_attributes_arguments": (
+                render_attribute_arguments
+            ),
+            "all_reachable_arguments_clear_bit_22": all(
+                not value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+        },
+        "model_boundaries": {
+            "enqueue_formula_known": True,
+            "queue_full_failure_known": True,
+            "queued_copy_execution_timing_known": False,
+            "current_battle_effect_sequence_runtime_instance_known": False,
         },
     }
 
@@ -1184,6 +1268,7 @@ def _expected(
         "consumer_code_slices": code_slices,
         "child_task_origin_model": _child_task_origin_model(),
         "oam_attribute_model": _oam_attribute_model(groups, playback_plans),
+        "dynamic_obj_vram_model": _dynamic_obj_vram_model(playback_plans),
         "pre_oam_coordinate_transform_model": (
             _pre_oam_coordinate_transform_model(groups)
         ),
@@ -1218,6 +1303,8 @@ def _expected(
             "pre_oam_scale_extent_formula_complete": True,
             "pre_oam_visibility_gate_complete": True,
             "concrete_runtime_offset_table_values_complete": False,
+            "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
+            "dynamic_obj_vram_copy_execution_complete": False,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,

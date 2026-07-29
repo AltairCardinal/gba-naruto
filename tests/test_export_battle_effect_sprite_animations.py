@@ -571,6 +571,85 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             writer_slices["runtime_offset_table_dynamic_update"]["sha256"],
         )
 
+    def test_closes_dynamic_obj_vram_enqueue_and_attr2_formulas(self):
+        model = self.manifest["dynamic_obj_vram_model"]
+        self.assertEqual(
+            "(task.render_flags & 0x00400000) != 0",
+            model["activation"],
+        )
+        self.assertEqual(
+            (
+                "(task.render_flags & 0x00800000) == 0 and "
+                "(task.render_flags & 0x01000008) != 0x01000008"
+            ),
+            model["copy_enqueue"]["enabled_when"],
+        )
+        self.assertEqual(
+            "task.tile_source_ptr + s16(component.tile_index) * 32",
+            model["copy_enqueue"]["source"],
+        )
+        self.assertEqual(
+            (
+                "0x06010000 + "
+                "u16(task.tile_base + running_dynamic_tile_offset) * 32"
+            ),
+            model["copy_enqueue"]["destination"],
+        )
+        self.assertEqual(
+            (
+                "u16(trunc0_div64("
+                "s16(component.width)*s16(component.height)) * 32)"
+            ),
+            model["copy_enqueue"]["size_bytes"],
+        )
+        self.assertEqual(16, model["copy_queue"]["slot_count"])
+        self.assertEqual("0x03005BBC", model["copy_queue"]["iwram_address"])
+        self.assertEqual(
+            (
+                "u16(task.tile_base + running_dynamic_tile_offset) | "
+                "(u4(task.palette_bank) << 12) | "
+                "((task.render_flags & 0xC0) << 4)"
+            ),
+            model["attr2"],
+        )
+        self.assertEqual(
+            (
+                "u16(running_dynamic_tile_offset + "
+                "trunc0_div64(s16(component.width)*s16(component.height)))"
+            ),
+            model["running_offset_after_component"],
+        )
+        self.assertFalse(model["current_sequence_reachability"]["reachable"])
+        self.assertTrue(
+            model["current_sequence_reachability"][
+                "all_reachable_arguments_clear_bit_22"
+            ]
+        )
+        self.assertFalse(
+            model["model_boundaries"]["queued_copy_execution_timing_known"]
+        )
+
+        slices = {
+            item["name"]: item
+            for item in self.manifest["consumer_code_slices"]
+        }
+        self.assertEqual(
+            "fe6814464976f17f5e708266b02a79aaa195d1bf96985fa852b80d1f3df9afc3",
+            slices["dynamic_obj_vram_renderer_path"]["sha256"],
+        )
+        self.assertEqual(
+            "c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48",
+            slices["dynamic_obj_vram_copy_queue_enqueue"]["sha256"],
+        )
+        self.assertTrue(
+            self.manifest["scope"][
+                "dynamic_obj_vram_enqueue_and_attr2_formula_complete"
+            ]
+        )
+        self.assertFalse(
+            self.manifest["scope"]["dynamic_obj_vram_copy_execution_complete"]
+        )
+
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
             coverage = group["tile_coverage"]
@@ -626,6 +705,8 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "pre_oam_scale_extent_formula_complete": True,
                 "pre_oam_visibility_gate_complete": True,
                 "concrete_runtime_offset_table_values_complete": False,
+                "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
+                "dynamic_obj_vram_copy_execution_complete": False,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,
@@ -767,6 +848,28 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "visibility_gate"
             ]["all_required_conditions"][0] = (
                 "x_after_offset + scaled_width > 0"
+            )
+            manifest["dynamic_obj_vram_model"]["copy_enqueue"][
+                "destination"
+            ] = "0x06010020"
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any(
+                    "dynamic_obj_vram_model.copy_enqueue.destination" in error
+                    for error in result["errors"]
+                ),
+                result["errors"],
+            )
+
+            manifest["dynamic_obj_vram_model"]["copy_enqueue"][
+                "destination"
+            ] = (
+                "0x06010000 + "
+                "u16(task.tile_base + running_dynamic_tile_offset) * 32"
             )
             manifest_path.write_text(
                 json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",

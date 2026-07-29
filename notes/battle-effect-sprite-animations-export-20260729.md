@@ -202,6 +202,33 @@ battle-effect 路径；22 条 sequence 的 8 种可达 render-attributes 参数�
 闭合，但偏移表的动态值和父/task 运行时输入仍未知，所以本节只签发最终坐标字段的
 8/9-bit wrap，不把 `component + task origin` 直接冒充最终 attr 坐标。
 
+## bit 22 动态 OBJ VRAM 分支
+
+renderer `0x08063122..0x080631F6`（SHA-256
+`fe6814464976f17f5e708266b02a79aaa195d1bf96985fa852b80d1f3df9afc3`）
+在 `task.render_flags & 0x00400000` 非零时改用连续动态 tile offset：
+
+- 仅当 bit 23 清零且 `(flags & 0x01000008) != 0x01000008` 时入队拷贝；
+- source 为 `task.tile_source_ptr + s16(component.tile_index)×32`，destination 为
+  `0x06010000 + u16(task.tile_base+running_offset)×32`；
+- size 为 `u16(trunc0(s16(width)×s16(height)/64)×32)` 字节；
+- attr2 不再使用 component tile index，而是
+  `u16(task.tile_base+running_offset) | palette<<12 | priority<<10`；
+- 每个 component 后以 `trunc0(width×height/64)` 累加 u16 running offset。
+
+enqueue helper `0x080635B8..0x08063604`（SHA-256
+`c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48`）
+使用 `0x03005BBC` 的 16 个 16-byte 槽，保存 active/source/destination/size；队列满
+返回 0，但 renderer 忽略返回值且仍写 OAM。这意味着未来若新内容显式置 bit 22，
+必须在构建器验证单帧 enqueue 数不超过容量、tile base/offset 不越过 OBJ tile
+index/VRAM 边界；否则 OAM 可能引用尚未填充或被覆盖的 tile。
+
+当前 22 条 battle-effect sequence 的可达 render-attributes 为
+`0,256,512,784,1024,1280,1536,268435456`，构造器固定 flags 与 side flags 也都
+清 bit 22，因此此分支对当前已导出特效不可达。manifest 闭合的是通用 renderer 的
+enqueue/attr2/offset 公式；队列实际消费、拷贝完成帧、bit 23 与
+`0x01000008` 的玩法语义及 queue-full 运行时结果仍未签发。
+
 ## 运行证据交叉检查
 
 已有自然 OAM trace 的四个总时长与静态 timeline 完全一致：
@@ -245,7 +272,9 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
   和普通 attr2 公式已经闭合；`0x03000054` 偏移表已有初始化、槽重置和状态更新
   writer 证据，但完整调度、逐帧具体值及其他运行时输入尚未实例化为唯一 OAM 列表
   或 viewport 像素；
-- bit 22 动态 OBJ VRAM 拷贝分支、affine matrix 数值及 affine 像素光栅化未闭合；
+- bit 22 动态 OBJ VRAM 的 enqueue/attr2/offset 公式已闭合且对当前 sequence
+  不可达；队列消费/完成时序、容量失败和玩法 flags 语义仍未闭合；
+- affine matrix 数值及 affine 像素光栅化未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。

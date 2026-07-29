@@ -933,9 +933,11 @@ WebSocket
   battle-effect attr2的tile/palette/priority及guarded non-affine flip公式；继续以
   `0x08062C7C..0x08062D92`闭合四组IWRAM Q8.8偏移选择、两阶段Q8.8 scale/extent
   与四项可见性gate，并定位`0x03000054`偏移表的全零初始化、按槽重置和至少一组
-  状态驱动动态更新。唯一绝对RNG轨迹、偏移表完整调度/逐帧值、动态OBJ VRAM拷贝分支、
-  affine matrix/像素光栅化、运行时OAM→viewport实例、parent释放0/1 tick边界、blend
-  和音频仍未闭合，Goal保持active。
+  状态驱动动态更新。bit 22动态OBJ VRAM分支也已闭合source/destination/size、
+  16槽enqueue、连续tile offset与attr2公式；当前22条sequence全部清bit 22而不可达。
+  唯一绝对RNG轨迹、偏移表完整调度/逐帧值、动态拷贝队列消费时序/容量失败、affine
+  matrix/像素光栅化、运行时OAM→viewport实例、parent释放0/1 tick边界、blend和音频
+  仍未闭合，Goal保持active。
 - 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
   62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
   的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10
