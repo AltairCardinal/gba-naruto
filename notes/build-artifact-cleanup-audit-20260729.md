@@ -138,3 +138,23 @@ ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butan
 `butano-sequel/build/`、`build/resource-guard/`、`build/signed-tooling/` 或该任务的
 任何 artifact。此前列出的录像、原始 ROM trace、快照和内存 dump 仍未被完整持久成果
 覆盖，继续保留。
+
+## 第六轮清理：按成果转化状态终检
+
+本轮再次以“是否已有可独立复核的持久成果”为唯一清理依据：
+
+- 顶层 `build/` 清理前为 `1,686,712 KiB`，已不含先前所称的 `24 GiB` 临时产物；
+- 近期完成的角色战斗视觉和场景背景资源已提交到 `artifacts/`，但没有在 `build/`
+  留下可整目录删除的大体积重复副本；
+- 当前最大的录像、ROM trace、快照、GPU/OAM/PRAM/VRAM dump 仍被笔记引用，或其
+  原始输入与实验上下文尚未完整迁入持久 artifact，不能因已有局部结论而删除；
+- `build/audio-v2/`、`build/audio/`、`build/resource-guard/`、
+  `build/signed-tooling/` 和 `build/mgba-upstream-patch/` 仍分别承担工具输入、
+  运行守卫、签名工具链或未完成工作树职责；
+- 当日新增的 `build/butano-battle-ui-flow-depth-host-20260729-01/` 及
+  `butano-sequel/build/` 属于并行 Butano 工作，本轮未触碰。
+
+确认没有仓库引用和进程占用后，删除了 `build/test-results/` 中 4 个遗留 `.dSYM`
+调试符号包。它们对应的调试可执行文件已在前轮清理，符号包可由现有源码和测试重新
+生成，不承担 ROM、快照或运行时证据职责。本轮实际回收 `2,260 KiB`；清理后顶层
+`build/` 为 `1,684,452 KiB`，且其中不再存在 `.dSYM`。
