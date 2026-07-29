@@ -287,3 +287,28 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 继续删除会丢失尚未成果化的原始证据、破坏现有测试输入，或干扰并行 Butano 工作。
 后续只有在某个实验目录的原始输入、完整 manifest、关键输出、哈希和独立 verifier
 全部迁入并提交到 `artifacts/` 后，才按目录整体删除。
+
+## 第十三轮清理：残缺 mGBA 上游缓存成果核对
+
+本轮重新检查此前因“异常/未完成嵌套工作树”而保留的
+`build/mgba-upstream-patch/`：
+
+- 该目录只剩 `.git/` 对象缓存，Git 索引中的整个 mGBA 工作树均处于删除状态，没有
+  未跟踪文件或实际源码改动；
+- 上游来源可由 `https://github.com/mgba-emu/mgba.git` 重新取得；
+- 续作工程真正依赖的回移植成果已经版本化为
+  `tools/patches/mgba-0.10.5-qt-script-cli.patch`；
+- `tools/build_macos_mgba.py` 与 `tools/run_macos_mgba_replay.py` 已固定原始提交
+  `26b7884bc25a5933960f3cdcd98bac1ae14d42e2` 和回移植提交
+  `7cacae126207de5499857439b9c7919bf8e882c2`；
+- 仓库中没有运行代码、测试或文档把该缓存路径作为输入，清理时也没有进程占用。
+
+因此该残缺 clone 已被“版本化补丁 + 固定提交 + 可重建脚本”完整取代，删除整个目录，
+回收 `8,852 KiB`。顶层 `build/` 从 `1,679,912 KiB` 降至 `1,671,060 KiB`，
+文件数为 `19,881`。
+
+其余内容继续按用途保留：`build/audio-v2/` 本身有 Git 跟踪文件且被测试读取；
+原 ROM GPU trace 被现有生成器和测试直接读取；三组外部录像及联系表仍服务于尚未提交
+的 Butano 表现证据；`resource-guard/`、`signed-tooling/` 和当前 `butano-*`
+目录仍被并行任务使用。本轮没有触碰这些路径，也没有清理零字节 trap 日志，因为它们
+记录“未命中陷阱”的阴性运行证据。
