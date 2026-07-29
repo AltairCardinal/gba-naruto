@@ -12,7 +12,9 @@ definition、component、animation timeline 和父 callback spawn plan：
 - 23 条 child animation、193 个 keyframe，全部保留 ROM hold；
 - 178 张 indexed PNG 源空间预览；每组解压图块均至少被一个 component 精确覆盖；
 - 22/22 sequence 的 callback spawn policy、child variant、spawn tick、child hold
-  和最后 child 静态完成 tick。
+  和最后 child 静态完成 tick；
+- 22/22 sequence 的 child task 原点公式，包括父对象静态偏移、对战侧水平镜像、
+  角色锚点跟随和 sequence 1 的 RNG/Q8.8 运动状态转移。
 
 成果位于 `artifacts/battle-effect-sprite-animations-v1/`。它复用
 `battle-effect-resource-pairs-v1` 的图形/调色板和
@@ -99,6 +101,36 @@ Group 18 的 frame 7 是合法空 component list。每组 tile coverage 都是�
 内的调度顺序不是局部静态代码可固定，因此 parent visible release 只声明为
 `last_child_tick..last_child_tick+1`，不伪造唯一帧号。
 
+## Child task 原点模型
+
+`0x08080218..0x08080554` 证明 child task 的位置字段及四种 sequence 模型：
+
+| 字段 | 语义 |
+|---:|---|
+| `task+0x04/+0x06` | `s16` anchor x/y |
+| `task+0x08/+0x0A` | `s16` actor-follow delta x/y |
+| `task+0x2C/+0x30` | sequence 1 的 `s32` Q8.8 x/y |
+| `task+0x34` | sequence 1 写入 `s32` angle；callback 读取低 `s16` |
+| `task+0x38` | sequence 1 的 `s32` speed |
+
+- sequence 2/3/18 使用 `parent + motion-table offset`；对战侧与角色朝向满足 ROM
+  分支时，x offset 取 `s16(-x)` 并切换 `0x8000` 水平翻转位；
+- sequence 8/9/11/16 在生成时保存
+  `delta = initial_origin - actor_anchor(spawn)`，之后逐 tick 使用
+  `origin(t) = actor_anchor(t) + delta`；actor x 为 Q8.8 截断值或
+  `240 - 截断值`，取决于 `actor.orientation == side_id`，y 为 Q8.8 截断值；
+- 其余单 child sequence 保持 parent 原点；sequence 0 无 child；
+- sequence 1 的三个 child 从 `parent<<8` 开始。ROM 以两次 RNG 结果分别计算 angle
+  jitter 和 speed，逐 tick 调用 ROM sin/cos 更新 Q8.8 x/y，随后
+  `speed=max(0,speed-24)`。负 Q8.8 值先加 255 再算术右移 8 位，即向零截断。
+
+manifest 保存了逐项公式、32 位 wrap/逻辑右移边界和每个 sequence 的 model ID。
+renderer `0x08062C58..0x08062C7C` 又直接证明 component 坐标会与
+`task+0x04/+0x08`、`task+0x06/+0x0A` 相加；该 36 字节切片 SHA-256 为
+`dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313`。
+父坐标、对战 mode、actor Q8.8 坐标、RNG dispatch 目标/状态及每个 child 的 RNG
+结果仍是运行时输入，所以公式闭合不等于产生唯一绝对坐标。
+
 ## 运行证据交叉检查
 
 已有自然 OAM trace 的四个总时长与静态 timeline 完全一致：
@@ -129,15 +161,18 @@ python3 -m unittest tests.test_export_battle_effect_sprite_animations
 生产导出耗时 0.24 秒，最大 RSS 26,890,240 字节，无 swap。独立 verifier
 不导入领域 exporter，自行从 ROM 重建全部 definition、component、timeline、
 callback plan 和 PNG，结果为 18/18 groups、178/178 frames、437/437 components、
-23/23 animations、`errors=[]`。
+23/23 animations、`errors=[]`。verifier 也独立保存预期位置模型并拒绝公式或
+sequence model ID 篡改；位置公式的语义依据仍是人工审计且由精确 Thumb 切片哈希
+约束，不把两份同结论实现冒充第二个指令级解释器。
 
 ## 尚未闭合
 
 - 源空间预览应用 component tile 顺序与 H/V flip，但不应用 screen-space base
-  position、对战侧镜像、priority、affine rasterization 或 callback 动态位移；
-- sequence 1 的 RNG 初始轨迹仍需确定性种子/运行状态才能重放；
+  position、priority、affine rasterization 或 callback 动态位移；child task 原点和
+  对战侧镜像公式已经闭合，但 component-local → OAM → viewport 仍未合成；
+- sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。
 
-因此本成果已闭合静态 child OAM 结构、帧选择、hold 和 callback spawn 状态机，但不把
-源空间 frame PNG 冒充最终屏幕帧。
+因此本成果已闭合静态 child OAM 结构、帧选择、hold、callback spawn 状态机和 task
+原点公式，但不把源空间 frame PNG 或符号原点冒充最终屏幕帧。

@@ -213,6 +213,100 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             self.manifest["parent_release_scheduler_boundary"],
         )
 
+    def test_closes_every_child_task_origin_formula_without_overclaiming_oam(self):
+        model = self.manifest["child_task_origin_model"]
+        self.assertEqual(
+            {
+                "+0x00": "u32 render_flags",
+                "+0x04": "s16 anchor_x",
+                "+0x06": "s16 anchor_y",
+                "+0x08": "s16 delta_x",
+                "+0x0A": "s16 delta_y",
+                "+0x2C": "s32 ballistic_x_q8_8",
+                "+0x30": "s32 ballistic_y_q8_8",
+                "+0x34": "s32 ballistic_angle; callback consumes low s16",
+                "+0x38": "s32 ballistic_speed",
+            },
+            model["task_fields"],
+        )
+        self.assertEqual(
+            "s16(parent_x + effective_x_offset)",
+            model["constructor"]["initial_anchor_x"],
+        )
+        self.assertEqual(
+            "s16(parent_y + y_offset)",
+            model["constructor"]["initial_anchor_y"],
+        )
+        self.assertEqual(
+            "s16(-x_offset)",
+            model["constructor"]["mirrored_x_offset"],
+        )
+        self.assertEqual(
+            "s16(actor_anchor_x(t) + delta_x)",
+            model["actor_follow"]["task_origin_x_at_tick"],
+        )
+        self.assertEqual(
+            "s16(actor_anchor_y(t) + delta_y)",
+            model["actor_follow"]["task_origin_y_at_tick"],
+        )
+        self.assertEqual(
+            "s16(component_x + task.anchor_x + task.delta_x)",
+            model["actor_follow"]["consumer_x_formula"],
+        )
+        composition_slice = next(
+            item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"]
+            == "task_origin_and_component_position_composition"
+        )
+        self.assertEqual("0x08062C58", composition_slice["gba_start"])
+        self.assertEqual("0x08062C7C", composition_slice["gba_end"])
+        self.assertEqual(
+            "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313",
+            composition_slice["sha256"],
+        )
+        self.assertEqual(
+            "max(0, speed_t - 24)",
+            model["rng_ballistic"]["speed_transition"],
+        )
+        self.assertEqual(
+            "truncate_toward_zero_q8_8(s32(x_q8_8_t))",
+            model["rng_ballistic"]["task_origin_x_at_tick"],
+        )
+        self.assertEqual(
+            "truncate_toward_zero_q8_8(s32(y_q8_8_t))",
+            model["rng_ballistic"]["task_origin_y_at_tick"],
+        )
+
+        plans = self.manifest["sequence_playback_plans"]
+        self.assertEqual("none", plans[0]["child_task_origin_model_id"])
+        self.assertEqual(
+            "rng_ballistic",
+            plans[1]["child_task_origin_model_id"],
+        )
+        for sequence_id in (2, 3, 18):
+            self.assertEqual(
+                "parent_offset_static",
+                plans[sequence_id]["child_task_origin_model_id"],
+            )
+        for sequence_id in (8, 9, 11, 16):
+            self.assertEqual(
+                "actor_anchor_follow",
+                plans[sequence_id]["child_task_origin_model_id"],
+            )
+        for sequence_id in (4, 5, 6, 7, 10, 12, 13, 14, 15, 17, 19, 20, 21):
+            self.assertEqual(
+                "parent_origin_static",
+                plans[sequence_id]["child_task_origin_model_id"],
+            )
+
+        scope = self.manifest["scope"]
+        self.assertTrue(scope["child_task_origin_formulas_complete"])
+        self.assertTrue(scope["child_task_side_mirroring_formula_complete"])
+        self.assertFalse(scope["concrete_rng_trajectory_complete"])
+        self.assertFalse(scope["screen_space_oam_composition_complete"])
+        self.assertFalse(scope["runtime_affine_rasterization_complete"])
+
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
             coverage = group["tile_coverage"]
@@ -258,10 +352,14 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "source_space_previews_complete": True,
                 "callback_spawn_state_machines_complete": True,
                 "callback_child_variant_and_hold_complete": True,
+                "child_task_origin_formulas_complete": True,
+                "child_task_side_mirroring_formula_complete": True,
+                "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,
                 "screen_space_oam_composition_complete": False,
                 "runtime_mirroring_and_affine_complete": False,
+                "runtime_affine_rasterization_complete": False,
                 "blend_and_audio_binding_complete": False,
             },
             self.manifest["scope"],
@@ -324,6 +422,22 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             manifest["sequence_playback_plans"][2]["spawn_events"][0][
                 "render_attributes_argument"
             ] = 0x600
+            manifest["child_task_origin_model"]["rng_ballistic"][
+                "speed_transition"
+            ] = "max(0, speed_t - 23)"
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any("speed_transition" in error for error in result["errors"]),
+                result["errors"],
+            )
+
+            manifest["child_task_origin_model"]["rng_ballistic"][
+                "speed_transition"
+            ] = "max(0, speed_t - 24)"
             manifest_path.write_text(
                 json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",

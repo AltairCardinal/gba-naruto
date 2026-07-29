@@ -483,8 +483,81 @@
       "gba_start": "0x08063108",
       "gba_end": "0x08063186",
       "sha256": "748340bb724a0fc8a4911c8879e8fb0c1152c84bac87b910cb36b3e15d790b17"
+    },
+    {
+      "name": "task_origin_and_component_position_composition",
+      "file_offset": 404568,
+      "gba_start": "0x08062C58",
+      "gba_end": "0x08062C7C",
+      "sha256": "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313"
     }
   ],
+  "child_task_origin_model": {
+    "task_fields": {
+      "+0x00": "u32 render_flags",
+      "+0x04": "s16 anchor_x",
+      "+0x06": "s16 anchor_y",
+      "+0x08": "s16 delta_x",
+      "+0x0A": "s16 delta_y",
+      "+0x2C": "s32 ballistic_x_q8_8",
+      "+0x30": "s32 ballistic_y_q8_8",
+      "+0x34": "s32 ballistic_angle; callback consumes low s16",
+      "+0x38": "s32 ballistic_speed"
+    },
+    "q8_8_conversion": {
+      "formula": "truncate_toward_zero_q8_8(v) = s32(v + (255 if s32(v) < 0 else 0)) >> 8",
+      "actor_x_source": "actor[side_id]+0x20",
+      "actor_y_source": "actor[side_id]+0x24"
+    },
+    "constructor": {
+      "parent_side_id_source": "s32(parent+0xA4)",
+      "parent_x_source": "s32(parent+0x04)",
+      "parent_y_source": "s32(parent+0x08)",
+      "initial_anchor_x": "s16(parent_x + effective_x_offset)",
+      "initial_anchor_y": "s16(parent_y + y_offset)",
+      "mirrored_x_offset": "s16(-x_offset)",
+      "effective_x_offset": "mirrored_x_offset when side_id==0 and actor[0].orientation!=1, or side_id==1 and actor[1].orientation==0; otherwise s16(x_offset)",
+      "horizontal_flip_toggle_mask": "0x8000",
+      "side_unknown_render_flags": "0x40001000",
+      "side_render_flags_formula": "0x40001000 | (u8(side_id)<<13) | ((u8(side_id)&1)<<31) | (0x20000000 if x_offset_mirrored else 0) | (u8(follow_argument)<<28)"
+    },
+    "actor_follow": {
+      "enabled_when": "parent_side_id != -1 and follow_argument != 0",
+      "actor_anchor_x_formula": "truncate_toward_zero_q8_8(actor_x_q8_8) when actor.orientation==side_id; otherwise 240-truncate_toward_zero_q8_8(actor_x_q8_8)",
+      "actor_anchor_y_formula": "truncate_toward_zero_q8_8(actor_y_q8_8)",
+      "delta_x_at_spawn": "s16(initial_anchor_x-actor_anchor_x(spawn))",
+      "delta_y_at_spawn": "s16(initial_anchor_y-actor_anchor_y(spawn))",
+      "task_origin_x_at_tick": "s16(actor_anchor_x(t) + delta_x)",
+      "task_origin_y_at_tick": "s16(actor_anchor_y(t) + delta_y)",
+      "consumer_code_range": "0x08062C58..0x08062C7C",
+      "consumer_x_formula": "s16(component_x + task.anchor_x + task.delta_x)",
+      "consumer_y_formula": "s16(component_y + task.anchor_y + task.delta_y)"
+    },
+    "rng_ballistic": {
+      "sequence_id": 1,
+      "child_count": 3,
+      "initial_x_q8_8": "s32(parent_x<<8)",
+      "initial_y_q8_8": "s32(parent_y<<8)",
+      "rng_dispatch_call_target": "0x0809C110",
+      "angle_jitter": "u32(rng_angle_result*7)>>15",
+      "angle_when_mode_even": "((parent_mode+2)<<6) + 12*child_index - 12 + angle_jitter",
+      "angle_when_mode_one": "192 + 12*child_index + angle_jitter",
+      "angle_when_mode_other_odd": "64 - angle_jitter - 12*child_index",
+      "initial_speed": "512 + ((child_index&1)<<6) + (u32(rng_speed_result*65)>>15)",
+      "x_transition": "u32(x_q8_8_t + (u32(s16(sin_rom(angle))*speed_t)>>8))",
+      "y_transition": "u32(y_q8_8_t - (u32(s16(cos_rom(angle))*speed_t)>>8))",
+      "speed_transition": "max(0, speed_t - 24)",
+      "task_origin_x_at_tick": "truncate_toward_zero_q8_8(s32(x_q8_8_t))",
+      "task_origin_y_at_tick": "truncate_toward_zero_q8_8(s32(y_q8_8_t))",
+      "concrete_boundary": "parent coordinates, parent mode, RNG dispatch target/state and both RNG results per child are runtime inputs"
+    },
+    "model_boundaries": {
+      "component_local_position_applied": false,
+      "oam_attr_composition_applied": false,
+      "affine_rasterization_applied": false,
+      "screen_clipping_applied": false
+    }
+  },
   "groups": [
     {
       "group_id": 1,
@@ -15881,6 +15954,7 @@
       "init_once_callback_thumb": "0x00000000",
       "tick_callback_thumb": "0x00000000",
       "spawn_policy": "null",
+      "child_task_origin_model_id": "none",
       "spawn_events": [],
       "last_child_static_completion_tick": 0,
       "parent_release_tick_range": [
@@ -15895,6 +15969,7 @@
       "init_once_callback_thumb": "0x08080555",
       "tick_callback_thumb": "0x0808055D",
       "spawn_policy": "three_child_ballistic_rng",
+      "child_task_origin_model_id": "rng_ballistic",
       "spawn_events": [
         {
           "child_index": 0,
@@ -15949,6 +16024,7 @@
       "init_once_callback_thumb": "0x08080661",
       "tick_callback_thumb": "0x08080671",
       "spawn_policy": "motion_table_fan_out",
+      "child_task_origin_model_id": "parent_offset_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16146,6 +16222,7 @@
       "init_once_callback_thumb": "0x08080661",
       "tick_callback_thumb": "0x08080765",
       "spawn_policy": "motion_table_fan_out",
+      "child_task_origin_model_id": "parent_offset_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16343,6 +16420,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16370,6 +16448,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16397,6 +16476,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16424,6 +16504,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16451,6 +16532,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x08080915",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "actor_anchor_follow",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16478,6 +16560,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x08080915",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "actor_anchor_follow",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16505,6 +16588,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080809F5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16532,6 +16616,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x08080915",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "actor_anchor_follow",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16559,6 +16644,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16586,6 +16672,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16613,6 +16700,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16640,6 +16728,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16667,6 +16756,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x08080915",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "actor_anchor_follow",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16694,6 +16784,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080808C5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16721,6 +16812,7 @@
       "init_once_callback_thumb": "0x08080661",
       "tick_callback_thumb": "0x08080815",
       "spawn_policy": "motion_table_forced_variant_zero",
+      "child_task_origin_model_id": "parent_offset_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16918,6 +17010,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080809F5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16945,6 +17038,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x080809F5",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -16972,6 +17066,7 @@
       "init_once_callback_thumb": "0x080808BD",
       "tick_callback_thumb": "0x08080965",
       "spawn_policy": "single_child_variant_zero",
+      "child_task_origin_model_id": "parent_origin_static",
       "spawn_events": [
         {
           "child_index": 0,
@@ -17010,10 +17105,14 @@
     "source_space_previews_complete": true,
     "callback_spawn_state_machines_complete": true,
     "callback_child_variant_and_hold_complete": true,
+    "child_task_origin_formulas_complete": true,
+    "child_task_side_mirroring_formula_complete": true,
+    "concrete_rng_trajectory_complete": false,
     "callback_random_screen_coordinates_complete": false,
     "parent_visible_release_tick_exact": false,
     "screen_space_oam_composition_complete": false,
     "runtime_mirroring_and_affine_complete": false,
+    "runtime_affine_rasterization_complete": false,
     "blend_and_audio_binding_complete": false
   }
 }

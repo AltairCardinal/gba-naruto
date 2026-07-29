@@ -926,9 +926,11 @@ WebSocket
   plan也已闭合，包括 sequence 2/3 的14-child扇出在 tick 111 结束、sequence 18
   强制 variant 0 并在 tick 76 结束。独立 verifier 返回18/178/437/23、
   `errors=[]`；成果位于 `artifacts/battle-effect-sprite-animations-v1/`，说明见
-  `notes/battle-effect-sprite-animations-export-20260729.md`。最终screen-space位置、
-  对战侧镜像、priority、affine、sequence 1 RNG轨迹、parent释放0/1 tick边界、
-  blend和音频仍未闭合，Goal保持active。
+  `notes/battle-effect-sprite-animations-export-20260729.md`。现已继续闭合22/22
+  sequence的child task原点模型：父对象静态偏移、对战侧水平镜像、角色Q8.8锚点跟随，
+  以及sequence 1的RNG angle/speed与逐tick Q8.8状态转移均有ROM绑定公式。唯一绝对
+  RNG轨迹、component-local→OAM→viewport合成、priority、affine、parent释放0/1
+  tick边界、blend和音频仍未闭合，Goal保持active。
 - 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
   62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
   的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10

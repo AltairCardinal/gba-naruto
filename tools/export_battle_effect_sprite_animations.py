@@ -112,6 +112,13 @@ CODE_SLICES = (
         "gba_end": "0x08063186",
         "sha256": "748340bb724a0fc8a4911c8879e8fb0c1152c84bac87b910cb36b3e15d790b17",
     },
+    {
+        "name": "task_origin_and_component_position_composition",
+        "file_offset": 0x062C58,
+        "gba_start": "0x08062C58",
+        "gba_end": "0x08062C7C",
+        "sha256": "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313",
+    },
 )
 
 
@@ -484,6 +491,121 @@ def _code_slices(rom: bytes) -> list[dict[str, Any]]:
     return result
 
 
+def _child_task_origin_model() -> dict[str, Any]:
+    return {
+        "task_fields": {
+            "+0x00": "u32 render_flags",
+            "+0x04": "s16 anchor_x",
+            "+0x06": "s16 anchor_y",
+            "+0x08": "s16 delta_x",
+            "+0x0A": "s16 delta_y",
+            "+0x2C": "s32 ballistic_x_q8_8",
+            "+0x30": "s32 ballistic_y_q8_8",
+            "+0x34": "s32 ballistic_angle; callback consumes low s16",
+            "+0x38": "s32 ballistic_speed",
+        },
+        "q8_8_conversion": {
+            "formula": (
+                "truncate_toward_zero_q8_8(v) = "
+                "s32(v + (255 if s32(v) < 0 else 0)) >> 8"
+            ),
+            "actor_x_source": "actor[side_id]+0x20",
+            "actor_y_source": "actor[side_id]+0x24",
+        },
+        "constructor": {
+            "parent_side_id_source": "s32(parent+0xA4)",
+            "parent_x_source": "s32(parent+0x04)",
+            "parent_y_source": "s32(parent+0x08)",
+            "initial_anchor_x": "s16(parent_x + effective_x_offset)",
+            "initial_anchor_y": "s16(parent_y + y_offset)",
+            "mirrored_x_offset": "s16(-x_offset)",
+            "effective_x_offset": (
+                "mirrored_x_offset when side_id==0 and "
+                "actor[0].orientation!=1, or side_id==1 and "
+                "actor[1].orientation==0; otherwise s16(x_offset)"
+            ),
+            "horizontal_flip_toggle_mask": "0x8000",
+            "side_unknown_render_flags": "0x40001000",
+            "side_render_flags_formula": (
+                "0x40001000 | (u8(side_id)<<13) | "
+                "((u8(side_id)&1)<<31) | "
+                "(0x20000000 if x_offset_mirrored else 0) | "
+                "(u8(follow_argument)<<28)"
+            ),
+        },
+        "actor_follow": {
+            "enabled_when": (
+                "parent_side_id != -1 and follow_argument != 0"
+            ),
+            "actor_anchor_x_formula": (
+                "truncate_toward_zero_q8_8(actor_x_q8_8) when "
+                "actor.orientation==side_id; otherwise "
+                "240-truncate_toward_zero_q8_8(actor_x_q8_8)"
+            ),
+            "actor_anchor_y_formula": (
+                "truncate_toward_zero_q8_8(actor_y_q8_8)"
+            ),
+            "delta_x_at_spawn": "s16(initial_anchor_x-actor_anchor_x(spawn))",
+            "delta_y_at_spawn": "s16(initial_anchor_y-actor_anchor_y(spawn))",
+            "task_origin_x_at_tick": "s16(actor_anchor_x(t) + delta_x)",
+            "task_origin_y_at_tick": "s16(actor_anchor_y(t) + delta_y)",
+            "consumer_code_range": "0x08062C58..0x08062C7C",
+            "consumer_x_formula": (
+                "s16(component_x + task.anchor_x + task.delta_x)"
+            ),
+            "consumer_y_formula": (
+                "s16(component_y + task.anchor_y + task.delta_y)"
+            ),
+        },
+        "rng_ballistic": {
+            "sequence_id": 1,
+            "child_count": 3,
+            "initial_x_q8_8": "s32(parent_x<<8)",
+            "initial_y_q8_8": "s32(parent_y<<8)",
+            "rng_dispatch_call_target": "0x0809C110",
+            "angle_jitter": "u32(rng_angle_result*7)>>15",
+            "angle_when_mode_even": (
+                "((parent_mode+2)<<6) + 12*child_index - 12 + angle_jitter"
+            ),
+            "angle_when_mode_one": (
+                "192 + 12*child_index + angle_jitter"
+            ),
+            "angle_when_mode_other_odd": (
+                "64 - angle_jitter - 12*child_index"
+            ),
+            "initial_speed": (
+                "512 + ((child_index&1)<<6) + "
+                "(u32(rng_speed_result*65)>>15)"
+            ),
+            "x_transition": (
+                "u32(x_q8_8_t + "
+                "(u32(s16(sin_rom(angle))*speed_t)>>8))"
+            ),
+            "y_transition": (
+                "u32(y_q8_8_t - "
+                "(u32(s16(cos_rom(angle))*speed_t)>>8))"
+            ),
+            "speed_transition": "max(0, speed_t - 24)",
+            "task_origin_x_at_tick": (
+                "truncate_toward_zero_q8_8(s32(x_q8_8_t))"
+            ),
+            "task_origin_y_at_tick": (
+                "truncate_toward_zero_q8_8(s32(y_q8_8_t))"
+            ),
+            "concrete_boundary": (
+                "parent coordinates, parent mode, RNG dispatch target/state "
+                "and both RNG results per child are runtime inputs"
+            ),
+        },
+        "model_boundaries": {
+            "component_local_position_applied": False,
+            "oam_attr_composition_applied": False,
+            "affine_rasterization_applied": False,
+            "screen_clipping_applied": False,
+        },
+    }
+
+
 def _motion_spawn_records(rom: bytes) -> tuple[bytes, list[dict[str, Any]]]:
     size = MOTION_ENTRY_COUNT * MOTION_ENTRY_SIZE
     table = rom[MOTION_TABLE_OFFSET : MOTION_TABLE_OFFSET + size]
@@ -544,9 +666,11 @@ def _sequence_playback_plans(
         if sequence_id == 0:
             policy = "null"
             screen_coordinates_complete = True
+            origin_model_id = "none"
         elif sequence_id == 1:
             policy = "three_child_ballistic_rng"
             screen_coordinates_complete = False
+            origin_model_id = "rng_ballistic"
             duration = group_by_id[group_id]["animations"][0][
                 "duration_frames"
             ]
@@ -577,6 +701,7 @@ def _sequence_playback_plans(
                 else "motion_table_fan_out"
             )
             screen_coordinates_complete = False
+            origin_model_id = "parent_offset_static"
             for child_index, record in enumerate(motion_records[:-1]):
                 variant = 0 if forced_zero else record["effect_id"]
                 duration = group_by_id[group_id]["animations"][variant][
@@ -627,6 +752,11 @@ def _sequence_playback_plans(
                     f"sequence {sequence_id} has unknown simple callback "
                     f"{tick_callback}"
                 )
+            origin_model_id = (
+                "actor_anchor_follow"
+                if tick_callback == "0x08080914"
+                else "parent_origin_static"
+            )
             events.append(
                 {
                     "child_index": 0,
@@ -654,6 +784,7 @@ def _sequence_playback_plans(
                 ],
                 "tick_callback_thumb": sequence["tick_callback_thumb"],
                 "spawn_policy": policy,
+                "child_task_origin_model_id": origin_model_id,
                 "spawn_events": events,
                 "last_child_static_completion_tick": last_completion,
                 "parent_release_tick_range": (
@@ -918,6 +1049,7 @@ def export_battle_effect_sprite_animations(
             },
         },
         "consumer_code_slices": _code_slices(rom),
+        "child_task_origin_model": _child_task_origin_model(),
         "groups": groups,
         "sequence_playback_plans": playback_plans,
         "parent_release_scheduler_boundary": {
@@ -939,10 +1071,14 @@ def export_battle_effect_sprite_animations(
             "source_space_previews_complete": True,
             "callback_spawn_state_machines_complete": True,
             "callback_child_variant_and_hold_complete": True,
+            "child_task_origin_formulas_complete": True,
+            "child_task_side_mirroring_formula_complete": True,
+            "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,
             "screen_space_oam_composition_complete": False,
             "runtime_mirroring_and_affine_complete": False,
+            "runtime_affine_rasterization_complete": False,
             "blend_and_audio_binding_complete": False,
         },
     }
