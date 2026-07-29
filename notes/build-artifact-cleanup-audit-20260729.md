@@ -118,3 +118,23 @@ guard、持久 artifact 或并行 Butano 任务的当日产物。
 ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butano 当日产物
 继续保留；它们尚未被完整、可独立复核的持久成果覆盖。清理完成时 `build/` 为
 `1,688,000 KiB`；并行任务仍可能继续向其中写入新结果。
+
+## 第五轮清理：全仓库嵌套构建目录复核
+
+本轮同时检查顶层和嵌套 `build/`，确认先前所称的 `24 GiB` 已不在当前工作树中：
+
+- 顶层 `build/` 清理前为 `1,688,108 KiB`；
+- `butano-sequel/build/` 为 `61,660 KiB`，属于当天仍在运行的并行 Butano 工作；
+- `third_party/butano/examples/{audio,sprites}/build/` 合计 `34,556 KiB`，只含
+  497 个可由各自 Makefile 重建的 `.o/.d/.s/.h` 等示例编译中间文件；
+- 其余嵌套构建目录均不足 `18 MiB`。
+
+两个 Butano 示例构建目录未被 Git 跟踪、被子模块 `.gitignore` 明确忽略、没有仓库
+引用且没有进程占用，因此已删除。另从 `build/test-results/` 删除 4 个无仓库引用、
+可由宿主测试源码重建的旧调试可执行文件；其文本日志继续保留。两类合计回收
+`35,976 KiB`（约 `35.13 MiB`），其中顶层 `build/` 回收 `1,420 KiB`。
+
+清理期间并行 Butano 任务正通过资源守卫运行 mGBA；本轮没有删除或修改
+`butano-sequel/build/`、`build/resource-guard/`、`build/signed-tooling/` 或该任务的
+任何 artifact。此前列出的录像、原始 ROM trace、快照和内存 dump 仍未被完整持久成果
+覆盖，继续保留。
