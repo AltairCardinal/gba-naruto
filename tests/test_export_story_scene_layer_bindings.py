@@ -87,6 +87,15 @@ class StorySceneLayerBindingTests(unittest.TestCase):
             by_name["story_overlay"]["layout_consistency"],
         )
         self.assertEqual(
+            144,
+            by_name["story_overlay"]["enabled_at_wall_frame"],
+        )
+        self.assertEqual(
+            106,
+            by_name["story_overlay"]["linked_state_frozen_at_tick"],
+        )
+        self.assertEqual(240, by_name["story_overlay"]["visible_frames"])
+        self.assertEqual(
             {
                 "background": "BG2",
                 "priority": 3,
@@ -136,12 +145,17 @@ class StorySceneLayerBindingTests(unittest.TestCase):
     def test_scope_refuses_to_claim_a_runtime_final_composite(self):
         self.assertFalse(self.manifest["scope"]["final_composite"])
         self.assertEqual(
-            90,
-            self.manifest["timing"]["linked_transition_frames_before_overlay"],
-        )
-        self.assertEqual(
-            240,
-            self.manifest["timing"]["story_overlay_visible_frames"],
+            {
+                "installer_prelude_frames": 21,
+                "installer_internal_update_ticks": 16,
+                "controller_update_ticks": 90,
+                "linked_update_ticks": 106,
+                "palette_transform_frames": 16,
+                "overlay_visible_frames": 240,
+                "total_wall_frames": 383,
+                "overlay_first_wall_frame": 144,
+            },
+            self.manifest["timing"],
         )
         self.assertEqual(
             {

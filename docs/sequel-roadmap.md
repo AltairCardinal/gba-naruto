@@ -693,10 +693,14 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   BG3/BG2/BG0/BG1；config 61 交换 C/D priority，D 仅 config 10/16/61/74 实际加载，
   config 16 初始启用。BG3 通用初始化的 `0x0300` 只是中间值，剧情路径在启用前于
   `0x08087CEA` 覆盖为 `0x030C`，闭合 charblock 3、screenblock 3 与 gfx
-  `0x0600E800`/tile `0x140` 的地址一致性。最终展示帧仍依赖 90 帧 update 后的
-  scroll、enable、blend、palette transform 和 C/D 共用 VRAM，故只签发 layer
-  bindings，不伪造 final composite；证据见 `notes/tile-assets-bg-export-20260729.md` 与
-  `notes/story-scene-layer-bindings-20260729.md`。
+  `0x0600E800`/tile `0x140` 的地址一致性。后续时间线解释器进一步闭合 installer
+  内部 16 tick + controller 90 tick 的 106 tick linked 状态、16 帧灰度变换、wall
+  frame 144..383 的 overlay，以及 6 种实际 callback mode；24 份逐 tick JSON 与
+  24 张关键帧 contact sheet 已进入 `story-scene-timelines-v1`，可供剧情编辑器离线
+  预览。当前只签发确定性 text-BG 离线合成；shadow register 提交顺序、window 边缘和
+  代表配置 mGBA golden frame 未闭合，因此不宣称 runtime pixel equivalence。证据见
+  `notes/tile-assets-bg-export-20260729.md`、`notes/story-scene-layer-bindings-20260729.md`
+  与 `notes/story-scene-timelines-export-20260729.md`。
   紧邻 `menu-ui` 之前的 `0x085A4CE8` 也已闭合为 9×`0x1C` 角色场景视觉包：
   9 张 8bpp 紧致背景、9 组 4bpp OBJ、18 张双 palette atlas 和 16 张 definition
   frame 已进入 `scene-visual-packs-v1`，100 个文件由独立 verifier 复核。OBJ frame

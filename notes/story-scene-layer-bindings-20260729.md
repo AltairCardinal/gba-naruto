@@ -52,22 +52,26 @@ story installer 不加载它，因此本工件明确排除 A，不把它误叠�
 - config 16 是安装结束时唯一立即启用 BG1 的项；
 - config 61 置 flag `0x0200`，因此 C/BG0 与 D/BG1 的 priority 交换为 1/2。
 
-“初始关闭”不等于整段永不显示；`0x080995E8` 后续仍会更新 enable、scroll 和 blend。
+“初始关闭”不等于整段永不显示。安装器创建的 `0x08098D38` 并行视觉 task 会在
+config `10/61/74` 的 task counter 32 启用 D，并同时推进 alpha、palette 或 scroll；
+config 16 则按 counter modulo 4 在余数 2 启用、余数 0 关闭。`0x080995E8`
+本身负责主运动、scroll 和 config 4 的资源切换，完整画面必须把两条状态机一起重放。
 
-## 为什么不输出伪最终截图
+## 后续时间线成果
 
-loader 安装 linked scene 后先调用 `0x080995E8` 90 帧，才启用 story BG3；overlay
-显示 240 帧后关闭。现有静态资源不能单独确定第 90 帧或任意展示帧的：
+本绑定成果发布时尚未输出最终合成，后续
+`artifacts/story-scene-timelines-v1/` 已把缺失的确定性状态机补齐：
 
-- BG scroll、wrap 和 viewport；
-- BG enable 的动态变化；
-- brightness、alpha 与 blend 寄存器；
-- palette transform；
-- C/D 共用 charblock 1 时的实际 VRAM 状态。
+- installer prelude 为 21 wall frames，内部先执行 linked tick 1..16；
+- controller 再执行 90 次，故 linked 状态实际冻结于 tick 106，而不是 tick 90；
+- palette grayscale transform 占 16 帧，BG3 overlay 首次显示于 wall frame 144；
+- overlay 连续显示 240 帧，单条 story 总计 383 wall frames；
+- 24 项全部 config 和六种实际 callback mode 均有逐 tick JSON 与关键帧 contact sheet。
 
-所以本成果的 `scope.final_composite=false`。它闭合“哪组资源进入哪个硬件层”，但不以
-简单 PNG alpha 覆盖冒充原作运行帧。最终像素等价 composite 仍需固定 tick 的 GPU
-状态证据，或对 `0x080990BC/0x080995E8` 状态机的独立解释器。
+时间线成果是确定性的 text-BG 离线编辑器合成，但仍明确
+`runtime_pixel_equivalence=false`：shadow register 的 VBlank 提交顺序、window mask
+边缘和代表配置的 mGBA golden frame 尚待运行时签发。它不会把离线解释器预览冒充原作
+逐像素运行帧。
 
 ## 可重复成果
 

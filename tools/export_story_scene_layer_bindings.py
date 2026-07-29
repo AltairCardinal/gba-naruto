@@ -265,7 +265,9 @@ def _build_manifest(
                             ),
                         },
                         "initially_enabled": False,
-                        "enabled_after_transition_frames": 90,
+                        "enabled_at_wall_frame": 144,
+                        "linked_state_frozen_at_tick": 106,
+                        "visible_frames": 240,
                     },
                     {
                         "name": "B",
@@ -367,8 +369,14 @@ def _build_manifest(
             ],
         },
         "timing": {
-            "linked_transition_frames_before_overlay": 90,
-            "story_overlay_visible_frames": 240,
+            "installer_prelude_frames": 21,
+            "installer_internal_update_ticks": 16,
+            "controller_update_ticks": 90,
+            "linked_update_ticks": 106,
+            "palette_transform_frames": 16,
+            "overlay_visible_frames": 240,
+            "total_wall_frames": 383,
+            "overlay_first_wall_frame": 144,
         },
         "scope": {
             "kind": "consumer-proven story scene layer bindings",
