@@ -247,7 +247,33 @@ y = -trunc0(height/2) + trunc0((center_x×sin + center_y×cos)/256)
 ```
 
 这里位置旋转只使用 `task+0x13`；`component+0x03` 仅改变 component 自身 affine
-像素角度，不旋转其中心位置。最终 affine 像素采样仍未签发。
+像素角度，不旋转其中心位置。
+
+### Affine 像素逆采样
+
+像素级模型以本机 mGBA 源码仓库 commit `d8bad14` 为独立参考：
+`src/gba/renderers/software-obj.c:215..316` 的 SHA-256 为
+`b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9`。
+对于 source `W×H`、输出 `TW=W<<double_size`、`TH=H<<double_size`，逐输出像素：
+
+```text
+rx = screen_x - TW/2
+ry = screen_y - TH/2
+source_x = (PA*rx + PB*ry + W*128) >> 8
+source_y = (PC*rx + PD*ry + H*128) >> 8
+```
+
+这里 `>>8` 是有符号算术右移；Python 对负数右移向负无穷取整，和 mGBA 的采样边界
+一致，不能替换为向零截断。source 越界与 palette index 0 均透明；double-size 只扩大
+输出边界，不改变 source 尺寸；affine OBJ 的 attr1 bits 9..13 是 matrix index，
+H/V 镜像必须编码进 PA/PB/PC/PD，不能再应用普通 OBJ flip。
+
+当前 group 2/3 frame 1 component 0 均为 32×32、非 double-size。成果新增四张
+`affine-reference` PNG，分别绑定正常 `{240,0,0,240}` 和阵营水平镜像
+`{-240,0,0,240}`。导出器和独立 verifier 各自从 ROM 图块重算逆采样、像素哈希及
+PNG；64×64 double-size 测试向量还证明全不透明 32×32 source 的离散有效边界为
+`(15,15)..(49,49)`，即 35×35。以上签发的是 mGBA source-model 公式和当前可达
+参考图，不是 GBA 真机像素 golden；真机/OAM 帧锚点仍需后续受守卫运行验证。
 
 ## bit 22 动态 OBJ VRAM 分支
 
@@ -324,8 +350,9 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
 
 ## 尚未闭合
 
-- 源空间预览应用 component tile 顺序与 H/V flip，但不应用 screen-space base
-  position、priority、affine rasterization 或 callback 动态位移；child task 原点、
+- 普通源空间预览应用 component tile 顺序与 H/V flip，但不应用 screen-space base
+  position、priority 或 callback 动态位移；当前 group 2/3 的 affine source-model
+  参考图已经独立导出，但没有冒充完整 viewport 合成。child task 原点、
   对战侧镜像、attr 前偏移/scale/裁剪、最终 renderer 坐标字段 wrap、shape/size
   和普通 attr2 公式已经闭合；`0x03000054` 偏移表已有初始化、槽重置和状态更新
   writer 证据，但完整调度、逐帧具体值及其他运行时输入尚未实例化为唯一 OAM 列表
@@ -333,9 +360,9 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
 - bit 22 动态 OBJ VRAM 的 enqueue/attr2/offset 公式已闭合且对当前 sequence
   不可达；status-1 队列消费和 renderer→flush 相对顺序已经闭合，但外层硬件帧
   phase、容量失败和玩法 flags 语义仍未闭合；
-- affine matrix 通式、attr1 matrix index 和当前 group 2/3 可达值已经闭合；通用
-  非零 task angle 的局部坐标旋转也已闭合，固定运行时 slot 及 affine 像素光栅化
-  未闭合；
+- affine matrix 通式、attr1 matrix index、当前 group 2/3 可达值、通用非零 task
+  angle 的局部坐标旋转及 mGBA source-model 像素逆采样已经闭合；固定运行时 slot、
+  真机 affine golden 及完整 viewport 合成仍未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。

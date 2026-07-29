@@ -76,7 +76,7 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         self.assertEqual(437, self.manifest["component_count"])
         self.assertEqual(23, self.manifest["animation_count"])
         self.assertEqual(193, self.manifest["keyframe_count"])
-        self.assertEqual(179, self.manifest["artifact_file_count"])
+        self.assertEqual(183, self.manifest["artifact_file_count"])
         self.assertEqual(
             {
                 "file_offset": 0x53EE98,
@@ -825,6 +825,122 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             ]
         )
 
+    def test_affine_rasterizer_matches_mgba_inverse_sampling(self):
+        from tools.export_battle_effect_sprite_animations import (
+            _raster_affine_indices,
+        )
+
+        source = bytes(
+            ((y * 32 + x) % 15) + 1
+            for y in range(32)
+            for x in range(32)
+        )
+        normal, width, height = _raster_affine_indices(
+            source,
+            32,
+            32,
+            pa=240,
+            pb=0,
+            pc=0,
+            pd=240,
+            double_size=False,
+        )
+        self.assertEqual((32, 32), (width, height))
+        self.assertEqual(source[1 * 32 + 1], normal[0])
+        self.assertEqual(source[30 * 32 + 30], normal[-1])
+
+        doubled, width, height = _raster_affine_indices(
+            source,
+            32,
+            32,
+            pa=240,
+            pb=0,
+            pc=0,
+            pd=240,
+            double_size=True,
+        )
+        nonzero = [
+            (x, y)
+            for y in range(height)
+            for x in range(width)
+            if doubled[y * width + x]
+        ]
+        self.assertEqual((64, 64), (width, height))
+        self.assertEqual((15, 15), min(nonzero))
+        self.assertEqual((49, 49), max(nonzero))
+        self.assertEqual(source[0], doubled[15 * width + 15])
+        self.assertEqual(source[-1], doubled[49 * width + 49])
+
+        mirrored, width, _ = _raster_affine_indices(
+            source,
+            32,
+            32,
+            pa=-240,
+            pb=0,
+            pc=0,
+            pd=240,
+            double_size=True,
+        )
+        self.assertEqual(source[31], mirrored[15 * width + 15])
+
+        raster = self.manifest["affine_matrix_model"]["rasterization"]
+        self.assertEqual("d8bad14", raster["mgba_commit"])
+        self.assertEqual(
+            "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9",
+            raster["software_obj_sha256"],
+        )
+        self.assertEqual(
+            "arithmetic signed >> 8 (floor for negative accumulators)",
+            raster["fixed_point_sampling"],
+        )
+        self.assertTrue(
+            self.manifest["scope"]["affine_rasterization_formula_complete"]
+        )
+        self.assertFalse(
+            self.manifest["scope"]["affine_hardware_golden_complete"]
+        )
+
+    def test_current_affine_components_have_source_model_previews(self):
+        expected_matrices = {
+            "normal": {"PA": 240, "PB": 0, "PC": 0, "PD": 240},
+            "side_horizontal_mirror": {
+                "PA": -240,
+                "PB": 0,
+                "PC": 0,
+                "PD": 240,
+            },
+        }
+        for group_id in (2, 3):
+            group = next(
+                item
+                for item in self.manifest["groups"]
+                if item["group_id"] == group_id
+            )
+            frame = next(
+                item for item in group["frames"] if item["frame_id"] == 1
+            )
+            component = frame["components"][0]
+            previews = component["affine_reference_previews"]
+            self.assertEqual(
+                ["normal", "side_horizontal_mirror"],
+                [item["variant"] for item in previews],
+            )
+            for preview in previews:
+                self.assertEqual(
+                    expected_matrices[preview["variant"]],
+                    preview["matrix"],
+                )
+                self.assertEqual((32, 32), (preview["width"], preview["height"]))
+                self.assertFalse(preview["double_size"])
+                self.assertEqual(
+                    "mGBA source-model; not a hardware golden",
+                    preview["evidence_scope"],
+                )
+                path = self.output_dir / preview["png"]
+                self.assertTrue(path.is_file())
+                with Image.open(path) as image:
+                    self.assertEqual((32, 32), image.size)
+
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
             coverage = group["tile_coverage"]
@@ -838,7 +954,16 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
 
     def test_outputs_indexed_source_space_preview_for_every_frame(self):
         pngs = sorted(self.output_dir.glob("group-*-frame-*.png"))
-        self.assertEqual(178, len(pngs))
+        frame_pngs = {
+            frame["preview"]["png"]
+            for group in self.manifest["groups"]
+            for frame in group["frames"]
+        }
+        self.assertEqual(178, len(frame_pngs))
+        self.assertEqual(182, len(pngs))
+        self.assertTrue(
+            all((self.output_dir / name).is_file() for name in frame_pngs)
+        )
         group_five = self.manifest["groups"][4]
         frame_two = group_five["frames"][2]
         self.assertEqual(8, frame_two["component_count"])
@@ -886,6 +1011,8 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "affine_matrix_formula_complete": True,
                 "current_effect_affine_values_complete": True,
                 "general_affine_rotated_coordinates_complete": True,
+                "affine_rasterization_formula_complete": True,
+                "affine_hardware_golden_complete": False,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,

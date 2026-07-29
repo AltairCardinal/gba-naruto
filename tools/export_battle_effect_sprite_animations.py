@@ -466,6 +466,101 @@ def _flip_pixels(
     return bytes(result)
 
 
+def _raster_affine_indices(
+    source: bytes,
+    width: int,
+    height: int,
+    *,
+    pa: int,
+    pb: int,
+    pc: int,
+    pd: int,
+    double_size: bool,
+) -> tuple[bytes, int, int]:
+    if len(source) != width * height:
+        raise ValueError("affine source length does not match geometry")
+    output_width = width << int(double_size)
+    output_height = height << int(double_size)
+    output = bytearray(output_width * output_height)
+    for screen_y in range(output_height):
+        relative_y = screen_y - output_height // 2
+        for screen_x in range(output_width):
+            relative_x = screen_x - output_width // 2
+            source_x = (
+                pa * relative_x + pb * relative_y + (width << 7)
+            ) >> 8
+            source_y = (
+                pc * relative_x + pd * relative_y + (height << 7)
+            ) >> 8
+            if 0 <= source_x < width and 0 <= source_y < height:
+                output[screen_y * output_width + screen_x] = source[
+                    source_y * width + source_x
+                ]
+    return bytes(output), output_width, output_height
+
+
+def _render_affine_reference_previews(
+    group_id: int,
+    frame_id: int,
+    component: dict[str, Any],
+    graphics: bytes,
+    palette: bytes,
+) -> tuple[list[dict[str, Any]], dict[str, bytes]]:
+    source, width, height = render_4bpp_tile_block_indices(
+        graphics,
+        tile_offset=component["tile_index"],
+        width_tiles=component["width"] // 8,
+        height_tiles=component["height"] // 8,
+    )
+    variants = (
+        ("normal", {"PA": 240, "PB": 0, "PC": 0, "PD": 240}),
+        (
+            "side_horizontal_mirror",
+            {"PA": -240, "PB": 0, "PC": 0, "PD": 240},
+        ),
+    )
+    previews = []
+    outputs = {}
+    for variant, matrix in variants:
+        pixels, output_width, output_height = _raster_affine_indices(
+            source,
+            width,
+            height,
+            pa=matrix["PA"],
+            pb=matrix["PB"],
+            pc=matrix["PC"],
+            pd=matrix["PD"],
+            double_size=False,
+        )
+        png = indexed_png_from_bgr555(
+            pixels,
+            palette,
+            width=output_width,
+            height=output_height,
+            transparent_index=0,
+        )
+        png_name = (
+            f"group-{group_id:02d}-frame-{frame_id:02d}-"
+            f"component-{component['component_index']:02d}-"
+            f"affine-{variant.replace('_', '-')}.png"
+        )
+        previews.append(
+            {
+                "variant": variant,
+                "png": png_name,
+                "width": output_width,
+                "height": output_height,
+                "double_size": False,
+                "matrix": matrix,
+                "pixel_sha256": _sha256(pixels),
+                "png_sha256": _sha256(png),
+                "evidence_scope": "mGBA source-model; not a hardware golden",
+            }
+        )
+        outputs[png_name] = png
+    return previews, outputs
+
+
 def _render_frame(
     group_id: int,
     frame: dict[str, Any],
@@ -848,6 +943,28 @@ def _affine_matrix_model(groups: list[dict[str, Any]]) -> dict[str, Any]:
             "PD": 24,
         },
         "attr1_matrix_index": "u5(affine_matrix_ordinal) << 9",
+        "rasterization": {
+            "reference": "mGBA src/gba/renderers/software-obj.c lines 215..316",
+            "mgba_commit": "d8bad14",
+            "software_obj_sha256": (
+                "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9"
+            ),
+            "output_bounds": (
+                "width << double_size by height << double_size"
+            ),
+            "inverse_mapping": (
+                "source_fp = matrix * (screen - output_half_extent) + "
+                "source_half_extent_q8_8"
+            ),
+            "fixed_point_sampling": (
+                "arithmetic signed >> 8 (floor for negative accumulators)"
+            ),
+            "out_of_bounds": "transparent",
+            "palette_index_zero": "transparent",
+            "affine_flip_rule": (
+                "attr1 bits 9..13 are matrix index; mirror is encoded in matrix"
+            ),
+        },
         "local_coordinate_rotation": {
             "center_x": (
                 "component.x + trunc0_div2(component.width)"
@@ -882,7 +999,8 @@ def _affine_matrix_model(groups: list[dict[str, Any]]) -> dict[str, Any]:
             "current_side_horizontal_mirror_known": True,
             "fixed_matrix_slot_known": False,
             "general_rotated_local_coordinate_formula_complete": True,
-            "pixel_rasterization_complete": False,
+            "source_model_pixel_rasterization_complete": True,
+            "hardware_golden_pixel_rasterization_complete": False,
         },
     }
 
@@ -1417,6 +1535,18 @@ def export_battle_effect_sprite_animations(
                 referenced_tiles.update(
                     range(component["tile_index"], end_tile)
                 )
+                if component["affine_mode"]:
+                    previews, affine_outputs = (
+                        _render_affine_reference_previews(
+                            group_id,
+                            frame["frame_id"],
+                            component,
+                            graphics,
+                            palette,
+                        )
+                    )
+                    component["affine_reference_previews"] = previews
+                    outputs.update(affine_outputs)
             preview, png = _render_frame(
                 group_id,
                 frame,
@@ -1599,6 +1729,8 @@ def export_battle_effect_sprite_animations(
             "affine_matrix_formula_complete": True,
             "current_effect_affine_values_complete": True,
             "general_affine_rotated_coordinates_complete": True,
+            "affine_rasterization_formula_complete": True,
+            "affine_hardware_golden_complete": False,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,
