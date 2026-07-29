@@ -80,7 +80,9 @@ Differences:
 Working model:
 
 - `0x596D5C..0x59903C` 已在后续审计中闭合为 62×9 战斗 OBJ 视觉矩阵；
-  `0x59903C..0x59904C` 是表外零 padding，不计入第 217 个空槽
+  `0x59903C` 不属于该矩阵
+- `0x59903C..0x59911C` 已闭合为 14×16 regular BG 场景资源选择表；
+  `0x59903C..0x59904C` 是表内 ID 0 全零哨兵，不是表外 padding
 - `0x5A4E14` looks like a flatter visual asset bank
 
 This is useful because it suggests the ROM may use more than one standardized resource-table schema rather than a single universal format.

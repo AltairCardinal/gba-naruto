@@ -38,8 +38,9 @@ visual_slot = 0..8
 ```
 
 每行四个 `u32` 依次指向 frame pointer table、animation pointer table、raw
-4bpp graphics 和 16 色 raw BGR555 palette。矩阵右端 `0x59903C..0x59904C`
-还有一行表外零 padding；旧扫描把它计入后得到的 217 个空行结论不成立。
+4bpp graphics 和 16 色 raw BGR555 palette。矩阵在 `0x59903C` 精确结束；
+从该地址开始是独立的 14×16 regular BG 场景资源表，其首行是表内 ID 0 全零
+哨兵。旧扫描把该行计入角色矩阵后得到的 217 个空行结论不成立。
 
 当前槽名沿用已有 consumer/Butano 视觉目录：
 

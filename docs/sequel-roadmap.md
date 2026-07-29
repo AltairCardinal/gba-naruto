@@ -297,7 +297,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、12/12 regular BG 场景画布、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -839,6 +839,16 @@ WebSocket
   `notes/battle-effect-resource-pairs-export-20260729.md`。本里程碑签发全部静态像素和
   palette 来源，不把 tile atlas 冒充最终动画；完整 sequence 映射、OAM 合成、逐帧
   hold、blend 和音频绑定仍未闭合，Goal 保持 active。
+- 2026-07-29：闭合相邻的 regular BG 场景资源表
+  `0x0859903C..0x0859911C`。14 个 16 字节 descriptor 中 ID 0/8 为全零哨兵，
+  ID 1–7 是 battle-map 关联的 4bpp BG，ID 9–13 是特殊场景使用的 8bpp BG。
+  批量导出 12/12 项的原始 LZ77、graphics、384-byte palette、32×10 u16
+  tilemap、256×80 source strip，以及按 loader 填充规则重建的 256×160 可见画布；
+  共 11 份唯一 graphics、12 份 palette、8 份 tilemap。独立 verifier 重解压并
+  核对表/consumer 哈希、4bpp/8bpp tile、flip、palette、PNG pixels 与精确文件集合，
+  结果为 12/12、`errors=[]`。成果位于 `artifacts/bg-resource-canvases-v1/`，
+  说明见 `notes/bg-resource-canvases-export-20260729.md`。全部自然语言 scene 名称、
+  滚动偏移及最终 BG/OBJ 合成仍未闭合，Goal 保持 active。
 - 2026-07-29：将地图表 `0x0853D910` 的全部 47 个 primary 和 14 个非空
   alternate 布局展开为 61 张完整索引色画布及 GBA BG u16 tilemap，并导出
   graphics、palette、layout、metatile、collision 共 166 份按内容去重的编辑器源
