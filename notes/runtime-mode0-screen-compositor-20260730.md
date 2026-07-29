@@ -33,9 +33,34 @@ hardware OAM `0x07000000`，不把 shadow OAM 当作当前显示域。
 | `skill-list-pre-controller.ss9` | `0x3FA` | `0x3F8` | 30 pixels / 88 bytes |
 
 两帧的 hardware OAM 与 shadow OAM 完全相等；分别只替换 attr2 tile 后，其他
-IO/PRAM/VRAM/OAM 不变即可与内嵌 PNG 全帧逐字节一致。因此 PNG 是相邻 cursor
-animation phase，而非序列化 GPU 状态的 exact frame。产物不得把这两张 PNG
-冒充当前 hardware OAM golden。
+IO/PRAM/VRAM/OAM 不变即可与内嵌 PNG 全帧逐字节一致。因此 PNG 与序列化状态
+处于不同 cursor tile phase，而非序列化 GPU 状态的 exact frame。产物不得把
+这两张 PNG 冒充当前 hardware OAM golden。
+
+严格来说，现有证据只证明“内嵌 PNG 与序列化 OAM 的 cursor tile phase 不同”，
+没有证明两者在时间上一定相邻；`screenshot_capture_phase_timing_complete` 因此
+保持 `false`。
+
+## 可审计成果
+
+`artifacts/runtime-screen-composites-v1/` 已把全部 91 个静态 checkpoint
+成果化：
+
+- `runtime-screen-composites.json` 逐项绑定 checkpoint、IO、PRAM、VRAM、
+  hardware OAM、shadow OAM、rendered RGB 与 screenshot RGB 的 SHA-256；
+- renderer 输入明确固定为 hardware OAM `0x07000000`，shadow OAM
+  `0x0300027C` 只用于相位诊断；
+- 91 张 rendered PNG 收进 1.7 MiB 的确定性 `frames.zip`，避免把大量小文件
+  直接加入 Git；
+- 两个非 exact 项记录 OAM entry 0 原始字节、对象矩形、差异坐标哈希，并证明
+  所有差异都位于该对象矩形内；仅替换 attr2 tile 后反事实全帧 exact，未解释
+  差异数为 0；
+- `tools/verify_runtime_screen_composites.py` 不复用 exporter/renderer，
+  独立解析 `.ss9`、重建 BG/OBJ/window/blend、ZIP 和 promotion manifest，
+  对 91 项得到 `verified=true`、`exact_rgb_count=89`、`errors=[]`。
+
+这闭合的是“已跟踪序列化 GPU 域的 Mode 0 静态屏幕合成”，不是所有游戏视觉
+状态、跨帧 scanline 行为或实体 GBA 输出。
 
 ## 合成规则
 
@@ -75,8 +100,8 @@ brighten、WIN1 与 wrapped window，但这些路径现已有独立合成 fixtur
 - scanline 中途寄存器变化；
 - 实体 GBA 的物理显示输出。
 
-合成 fixture 证明确定性算法分支，但不冒充原 ROM 的自然使用证据；后续 artifact
-必须同时区分 corpus-covered、synthetic-covered 与 unresolved。
+合成 fixture 证明确定性算法分支，但不冒充原 ROM 的自然使用证据；screen
+artifact 的 scope 已分别记录 natural-covered、synthetic-covered 与 unresolved。
 
 ## 验证
 
@@ -84,5 +109,8 @@ brighten、WIN1 与 wrapped window，但这些路径现已有独立合成 fixtur
 python3 -m unittest tests.test_render_mode0_checkpoint -v
 python3 tools/render_mode0_checkpoint.py \
   --checkpoints artifacts/runtime-checkpoints
+python3 tools/verify_runtime_screen_composites.py \
+  --root . \
+  --artifact artifacts/runtime-screen-composites-v1
 python3 tools/verify_mgba_renderer_source.py
 ```

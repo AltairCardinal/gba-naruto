@@ -1,0 +1,50 @@
+{
+  "artifact_schema": "runtime-screen-composites-v1",
+  "artifact_status": "accepted",
+  "experiment": {
+    "run_id": "tracked-mode0-screen-20260730-01",
+    "task": "runtime-screen-composites"
+  },
+  "files": {
+    "frames.zip": "be64b4868bd9bb3bd5db1892f930f8e959507c88fdcbef41fee7ad054ab8027c",
+    "runtime-screen-composites.json": "9bce417e387f822a1d0da4586f26993f4ff9973d0dbb2edaa2bbf5f4d40a8d8f"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_runtime_screen_composites.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/runtime-screen-composites-v1"
+    ],
+    "exporter_sha256": "9efedeb68b27508e5c6cb4f4ec9c4ddf684d12e3520f61bd2b41bb48ca69948e",
+    "renderer_sha256": "2bac4af2f57b0a01c09526706a451ee5671ab93e3263373420520778bf899679",
+    "test_sha256": "4bf089369c90c16691348988e11c5b104dd74f2869f48a3c90db264d65938254",
+    "verifier_sha256": "6618c2e0b427232b8327cfc8b0f9aee43875ef6996166ba6c7c2485b375d0f2d"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "checkpoint_count": 91,
+    "checkpoint_root": "artifacts/runtime-checkpoints"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_screen_composites.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-screen-composites-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "exact_rgb_count": 89,
+      "schema": "runtime-screen-composites-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "6618c2e0b427232b8327cfc8b0f9aee43875ef6996166ba6c7c2485b375d0f2d"
+  }
+}
