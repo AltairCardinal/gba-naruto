@@ -5282,14 +5282,36 @@
     }
   ],
   "implementation": {
-    "exporter_sha256": "1a3533e8434ef446369732aab675feece38471b8b8c7f8202391e41c953fe6d7",
-    "renderer_sha256": "7a6958dd7983262c59377f5ccf4a96aa2430dfbe0e82de8e63a370bbbc502f54",
-    "renderer_test_sha256": "ba0c244e0829488d1fea3681489f39676d154cab264bc719b6bbd9426f5a3fa5",
-    "test_sha256": "31da72cfb8caf733218cf9e67c2e4ac5be72f162dca9b2f9eda7eb4e38a63dbe",
-    "verifier_sha256": "02182a7ada5cd1d466cfad30853257db735155f217a8e9781afad47fab67498d"
+    "exporter_sha256": "365b5191a4d99dfec9c1cd9b0af7b54b65b2a3ba2bf367cef4801424a7b5f0bb",
+    "renderer_sha256": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
+    "renderer_source_verifier_sha256": "e39e4c5f0c945a9f7c5ae5bdf446dbd09b3fb9f4ae210a3e0170130d046a3698",
+    "renderer_test_sha256": "7220182e7885def48e0f5296aed78b2819101347d957b5000679466ac8fd8864",
+    "test_sha256": "e3b6cd24bddd3c7b4e5448217cf0b7c72869fbf29af769755fa8da17bd80eb4c",
+    "verifier_sha256": "0b40b9722312f25baaa0cd598916371f46b61e53fe472ca6b95e2f116f5a70df"
   },
   "renderer": {
     "display_mode": 0,
+    "mosaic_reference_model": {
+      "commit": "1d65391d3531f9338300f306c4e1d76c258ce657",
+      "implementation": "mGBA software renderer",
+      "sources": [
+        {
+          "path": "src/gba/renderers/software-mode0.c",
+          "role": "mode0-text-bg-mosaic",
+          "sha256": "1e4104200fa1c068ff4ff17c24d8f99f9e1aed112d75e5088773e1bb6a318783"
+        },
+        {
+          "path": "src/gba/renderers/software-obj.c",
+          "role": "normal-and-affine-obj-horizontal-mosaic",
+          "sha256": "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9"
+        },
+        {
+          "path": "src/gba/renderers/video-software.c",
+          "role": "obj-vertical-mosaic",
+          "sha256": "39a03b64a3fe9ab384a17de7d92d215298e9f5b64415f7c550d33779c2bbaf70"
+        }
+      ]
+    },
     "oam_input_address": "0x07000000",
     "screen_size": [
       240,
@@ -5301,19 +5323,21 @@
   "schema": "runtime-screen-composites-v1",
   "scope": {
     "89_of_91_screenshot_pixels_exact": true,
-    "affine_obj_mosaic_complete": false,
     "all_game_visual_states_complete": false,
     "all_tracked_mode0_static_frames_rendered": true,
     "cross_frame_timing_complete": false,
     "hardware_oam_domain_used_for_rendering": true,
     "natural_affine_obj_normal_and_mirror_bound_pixels_covered": true,
     "natural_mode0_text_bg_normal_1d_obj_alpha_darken_covered": true,
-    "nonzero_mosaic_complete": false,
+    "natural_nonzero_mosaic_runtime_covered": false,
+    "obj_window_mosaic_physical_semantics_complete": false,
     "physical_gba_display_output_verified": false,
+    "physical_gba_mosaic_verified": false,
     "scanline_register_changes_complete": false,
     "screenshot_capture_phase_timing_complete": false,
     "synthetic_2d_8bpp_semitransparent_obj_window_brighten_win1_covered": true,
     "synthetic_affine_double_size_covered": true,
+    "synthetic_mode0_bg_normal_and_affine_obj_mosaic_source_model_covered": true,
     "two_screenshot_phase_mismatches_accounted_for": true,
     "unexplained_screenshot_mismatches_remaining": false
   },

@@ -123,9 +123,14 @@
   未解释差异 0；篡改 hardware OAM 输入域的负例会被拒绝。随后 compositor
   又按 OAM matrix slot 的有符号 Q8.8 逆采样接入 affine OBJ：既有原作正常/
   阵营镜像 runtime savestate 的 OAM entry 2/5 均与 32×32 bound-object
-  golden 逐像素 exact，synthetic double-size 也证明只扩输出边界。BG/OBJ
-  mosaic（含 affine 组合）、scanline 变化、所有游戏视觉状态与实体 GBA 输出
-  仍待闭合。证据见
+  golden 逐像素 exact，synthetic double-size 也证明只扩输出边界。随后固定
+  mGBA commit `1d65391d` 的三份 mosaic renderer 源码完整哈希，闭合 BG 在
+  scroll 前的 screen anchor、普通 OBJ 的 screen anchor/edge clamp/flip，以及
+  affine OBJ 的 output-raster anchor、leading partial accumulator 和
+  double-size 组合；主 renderer 与独立 verifier 均通过 synthetic vectors。
+  91 个自然 checkpoint 的 MOSAIC 仍全为 0，因此不把 source-model 合成覆盖
+  冒充 ROM 自然使用或实体 GBA 验证；OBJ-window+mosaic 物理语义、scanline
+  变化、所有游戏视觉状态与实体 GBA 输出仍待闭合。证据见
   `artifacts/runtime-screen-composites-v1/` 与
   `notes/runtime-mode0-screen-compositor-20260730.md`。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。

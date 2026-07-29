@@ -148,8 +148,33 @@ def _active_objects(oam: bytes) -> list[tuple[int, int, int, int]]:
     return objects
 
 
+def _background_colors(
+    io: bytes,
+    palette: bytes,
+    bg_vram: bytes,
+    index: int,
+) -> list[int | None]:
+    _, colors = _layer_pixels(io, palette, bg_vram, index)
+    control = _u16(io, 0x08 + index * 2)
+    if not control & (1 << 6):
+        return colors
+    mosaic = _u16(io, 0x4C)
+    mosaic_width = (mosaic & 0xF) + 1
+    mosaic_height = ((mosaic >> 4) & 0xF) + 1
+    return [
+        colors[
+            (screen_y - screen_y % mosaic_height) * WIDTH
+            + screen_x
+            - screen_x % mosaic_width
+        ]
+        for screen_y in range(HEIGHT)
+        for screen_x in range(WIDTH)
+    ]
+
+
 def _object_coverage(
     dispcnt: int,
+    mosaic: int,
     pram: bytes,
     oam: bytes,
     vram: bytes,
@@ -187,6 +212,9 @@ def _object_coverage(
         vertical_flip = not affine and bool(attr1 & (1 << 13))
         color_256 = bool(attr0 & (1 << 13))
         object_mode = (attr0 >> 10) & 3
+        mosaic_enabled = bool(attr0 & (1 << 12))
+        mosaic_width = ((mosaic >> 8) & 0xF) + 1
+        mosaic_height = ((mosaic >> 12) & 0xF) + 1
         if object_mode == 1:
             stats["semitransparent"] += 1
         elif object_mode == 2:
@@ -198,15 +226,54 @@ def _object_coverage(
             screen_y = origin_y + local_y
             if not 0 <= screen_y < HEIGHT:
                 continue
-            for local_x in range(output_width):
-                screen_x = origin_x + local_x
-                if not 0 <= screen_x < WIDTH:
-                    continue
+            sample_screen_y = screen_y
+            if mosaic_enabled and mosaic_height > 1:
+                sample_screen_y -= sample_screen_y % mosaic_height
+                sample_screen_y = min(
+                    max(sample_screen_y, origin_y),
+                    origin_y + output_height - 1,
+                )
+            sample_local_y = sample_screen_y - origin_y
+            screen_start = max(0, origin_x)
+            screen_end = min(WIDTH, origin_x + output_width)
+            if (
+                mosaic_enabled
+                and mosaic_width > 1
+                and object_mode != 2
+                and screen_end < WIDTH
+                and screen_end % mosaic_width
+            ):
+                screen_end = min(
+                    WIDTH,
+                    screen_end
+                    + mosaic_width
+                    - screen_end % mosaic_width,
+                )
+            first_mosaic_boundary = (
+                screen_start
+                if screen_start % mosaic_width == 0
+                else screen_start
+                + mosaic_width
+                - screen_start % mosaic_width
+            )
+            for screen_x in range(screen_start, screen_end):
+                local_x = screen_x - origin_x
+                sample_screen_x = screen_x
+                if (
+                    mosaic_enabled
+                    and mosaic_width > 1
+                    and object_mode != 2
+                ):
+                    if affine and screen_x < first_mosaic_boundary:
+                        sample_screen_x = screen_start - 1
+                    else:
+                        sample_screen_x -= sample_screen_x % mosaic_width
+                sample_local_x = sample_screen_x - origin_x
                 if affine:
                     assert matrix is not None
                     pa, pb, pc, pd = matrix
-                    relative_x = local_x - output_width // 2
-                    relative_y = local_y - output_height // 2
+                    relative_x = sample_local_x - output_width // 2
+                    relative_y = sample_local_y - output_height // 2
                     source_x = (
                         pa * relative_x
                         + pb * relative_y
@@ -223,15 +290,21 @@ def _object_coverage(
                     ):
                         continue
                 else:
+                    sample_local_x = min(
+                        max(sample_local_x, 0), width - 1
+                    )
+                    sample_local_y = min(
+                        max(sample_local_y, 0), height - 1
+                    )
                     source_x = (
-                        width - 1 - local_x
+                        width - 1 - sample_local_x
                         if horizontal_flip
-                        else local_x
+                        else sample_local_x
                     )
                     source_y = (
-                        height - 1 - local_y
+                        height - 1 - sample_local_y
                         if vertical_flip
-                        else local_y
+                        else sample_local_y
                     )
                 tile_x, pixel_x = divmod(source_x, 8)
                 tile_y, pixel_y = divmod(source_y, 8)
@@ -318,8 +391,6 @@ def render_mode0(
     dispcnt = _u16(io, 0)
     if dispcnt & 7:
         raise ValueError("renderer requires display mode 0")
-    if _u16(io, 0x4C):
-        raise ValueError("renderer does not support nonzero mosaic")
     if dispcnt & (1 << 7):
         return bytes((255, 255, 255)) * WIDTH * HEIGHT, {}
     enabled_backgrounds = [
@@ -327,12 +398,12 @@ def render_mode0(
     ]
     bg_colors: dict[int, list[int | None]] = {}
     for index in enabled_backgrounds:
-        _, bg_colors[index] = _layer_pixels(
+        bg_colors[index] = _background_colors(
             io, pram[:0x200], vram[:0x10000], index
         )
     if dispcnt & (1 << 12):
         obj_pixels, obj_window, obj_stats = _object_coverage(
-            dispcnt, pram, oam, vram
+            dispcnt, _u16(io, 0x4C), pram, oam, vram
         )
     else:
         obj_pixels = [[] for _ in range(WIDTH * HEIGHT)]

@@ -43,13 +43,36 @@ SCOPE = {
     "unexplained_screenshot_mismatches_remaining": False,
     "natural_affine_obj_normal_and_mirror_bound_pixels_covered": True,
     "synthetic_affine_double_size_covered": True,
-    "affine_obj_mosaic_complete": False,
-    "nonzero_mosaic_complete": False,
+    "synthetic_mode0_bg_normal_and_affine_obj_mosaic_source_model_covered": True,
+    "natural_nonzero_mosaic_runtime_covered": False,
+    "physical_gba_mosaic_verified": False,
+    "obj_window_mosaic_physical_semantics_complete": False,
     "scanline_register_changes_complete": False,
     "cross_frame_timing_complete": False,
     "screenshot_capture_phase_timing_complete": False,
     "physical_gba_display_output_verified": False,
     "all_game_visual_states_complete": False,
+}
+MOSAIC_REFERENCE_MODEL = {
+    "implementation": "mGBA software renderer",
+    "commit": "1d65391d3531f9338300f306c4e1d76c258ce657",
+    "sources": [
+        {
+            "path": "src/gba/renderers/software-mode0.c",
+            "sha256": "1e4104200fa1c068ff4ff17c24d8f99f9e1aed112d75e5088773e1bb6a318783",
+            "role": "mode0-text-bg-mosaic",
+        },
+        {
+            "path": "src/gba/renderers/software-obj.c",
+            "sha256": "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9",
+            "role": "normal-and-affine-obj-horizontal-mosaic",
+        },
+        {
+            "path": "src/gba/renderers/video-software.c",
+            "sha256": "39a03b64a3fe9ab384a17de7d92d215298e9f5b64415f7c550d33779c2bbaf70",
+            "role": "obj-vertical-mosaic",
+        },
+    ],
 }
 
 
@@ -145,6 +168,10 @@ def _map_offset(base: int, size: int, tile_x: int, tile_y: int) -> int:
 
 def _bg_layer(io: bytes, palette: bytes, vram: bytes, index: int) -> list[int | None]:
     control = _u16(io, 8 + index * 2)
+    mosaic = _u16(io, 0x4C)
+    mosaic_enabled = bool(control & 0x40)
+    mosaic_width = (mosaic & 0xF) + 1
+    mosaic_height = (mosaic >> 4 & 0xF) + 1
     size = (control >> 14) & 3
     width, height = BG_DIMENSIONS[size]
     scroll_x = _u16(io, 0x10 + index * 4) & 0x1FF
@@ -154,9 +181,11 @@ def _bg_layer(io: bytes, palette: bytes, vram: bytes, index: int) -> list[int | 
     is_8bpp = bool(control & 0x80)
     colors: list[int | None] = []
     for sy in range(HEIGHT):
-        y = (sy + scroll_y) % height
+        sample_y = sy - sy % mosaic_height if mosaic_enabled else sy
+        y = (sample_y + scroll_y) % height
         for sx in range(WIDTH):
-            x = (sx + scroll_x) % width
+            sample_x = sx - sx % mosaic_width if mosaic_enabled else sx
+            x = (sample_x + scroll_x) % width
             map_at = _map_offset(map_base, size, x // 8, y // 8)
             if map_at + 2 > len(vram):
                 raise ValueError(f"BG{index}: tilemap outside VRAM")
@@ -200,7 +229,7 @@ def _active_objects(oam: bytes) -> list[tuple[int, int, int, int]]:
 
 
 def _object_pixels(
-    dispcnt: int, pram: bytes, oam: bytes, vram: bytes
+    dispcnt: int, mosaic: int, pram: bytes, oam: bytes, vram: bytes
 ) -> tuple[list[list[Pixel]], list[bool], dict[str, int]]:
     candidates: list[list[Pixel]] = [[] for _ in range(WIDTH * HEIGHT)]
     obj_window = [False] * (WIDTH * HEIGHT)
@@ -234,6 +263,9 @@ def _object_pixels(
         vflip = not affine and bool(attr1 & 0x2000)
         is_8bpp = bool(attr0 & 0x2000)
         mode = (attr0 >> 10) & 3
+        mosaic_enabled = bool(attr0 & 0x1000)
+        mosaic_width = (mosaic >> 8 & 0xF) + 1
+        mosaic_height = (mosaic >> 12 & 0xF) + 1
         if mode == 1:
             stats["semitransparent"] += 1
         elif mode == 2:
@@ -249,15 +281,50 @@ def _object_pixels(
             screen_y = origin_y + local_y
             if not 0 <= screen_y < HEIGHT:
                 continue
-            for local_x in range(output_width):
-                screen_x = origin_x + local_x
-                if not 0 <= screen_x < WIDTH:
-                    continue
+            sample_screen_y = screen_y
+            if mosaic_enabled and mosaic_height > 1:
+                sample_screen_y -= sample_screen_y % mosaic_height
+                sample_screen_y = min(
+                    max(sample_screen_y, origin_y),
+                    origin_y + output_height - 1,
+                )
+            sample_local_y = sample_screen_y - origin_y
+            screen_start = max(0, origin_x)
+            screen_end = min(WIDTH, origin_x + output_width)
+            if (
+                mosaic_enabled
+                and mosaic_width > 1
+                and mode != 2
+                and screen_end < WIDTH
+                and screen_end % mosaic_width
+            ):
+                screen_end = min(
+                    WIDTH,
+                    screen_end
+                    + mosaic_width
+                    - screen_end % mosaic_width,
+                )
+            first_mosaic_boundary = (
+                screen_start
+                if screen_start % mosaic_width == 0
+                else screen_start
+                + mosaic_width
+                - screen_start % mosaic_width
+            )
+            for screen_x in range(screen_start, screen_end):
+                local_x = screen_x - origin_x
+                sample_screen_x = screen_x
+                if mosaic_enabled and mosaic_width > 1 and mode != 2:
+                    if affine and screen_x < first_mosaic_boundary:
+                        sample_screen_x = screen_start - 1
+                    else:
+                        sample_screen_x -= sample_screen_x % mosaic_width
+                sample_local_x = sample_screen_x - origin_x
                 if affine:
                     assert matrix is not None
                     pa, pb, pc, pd = matrix
-                    relative_x = local_x - output_width // 2
-                    relative_y = local_y - output_height // 2
+                    relative_x = sample_local_x - output_width // 2
+                    relative_y = sample_local_y - output_height // 2
                     source_x = (
                         pa * relative_x
                         + pb * relative_y
@@ -274,11 +341,21 @@ def _object_pixels(
                     ):
                         continue
                 else:
+                    sample_local_x = min(
+                        max(sample_local_x, 0), width - 1
+                    )
+                    sample_local_y = min(
+                        max(sample_local_y, 0), height - 1
+                    )
                     source_x = (
-                        width - 1 - local_x if hflip else local_x
+                        width - 1 - sample_local_x
+                        if hflip
+                        else sample_local_x
                     )
                     source_y = (
-                        height - 1 - local_y if vflip else local_y
+                        height - 1 - sample_local_y
+                        if vflip
+                        else sample_local_y
                     )
                 tile_x, pixel_x = divmod(source_x, 8)
                 tile_y, pixel_y = divmod(source_y, 8)
@@ -387,8 +464,6 @@ def _render(
     dispcnt = _u16(io, 0)
     if dispcnt & 7:
         raise ValueError("renderer requires Mode 0")
-    if _u16(io, 0x4C):
-        raise ValueError("nonzero mosaic is unsupported")
     if dispcnt & 0x80:
         return bytes((255, 255, 255)) * WIDTH * HEIGHT, {}
     enabled = [i for i in range(4) if dispcnt & (1 << (8 + i))]
@@ -396,7 +471,9 @@ def _render(
         i: _bg_layer(io, pram[:0x200], vram[:0x10000], i) for i in enabled
     }
     if dispcnt & 0x1000:
-        objects, obj_window, stats = _object_pixels(dispcnt, pram, oam, vram)
+        objects, obj_window, stats = _object_pixels(
+            dispcnt, _u16(io, 0x4C), pram, oam, vram
+        )
     else:
         objects = [[] for _ in range(WIDTH * HEIGHT)]
         obj_window = [False] * (WIDTH * HEIGHT)
@@ -640,7 +717,11 @@ def _affine_runtime_goldens(root: Path) -> list[dict[str, object]]:
         start = object_index * 8
         isolated[start : start + 6] = hardware[start : start + 6]
         candidates, _, stats = _object_pixels(
-            _u16(io, 0), pram, bytes(isolated), vram
+            _u16(io, 0),
+            _u16(io, 0x4C),
+            pram,
+            bytes(isolated),
+            vram,
         )
         attr0, attr1, attr2 = struct.unpack_from("<HHH", hardware, start)
         matrix_index = attr1 >> 9 & 31
@@ -769,6 +850,9 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
         "renderer_test_sha256": _sha(
             (root / "tests/test_render_mode0_checkpoint.py").read_bytes()
         ),
+        "renderer_source_verifier_sha256": _sha(
+            (root / "tools/verify_mgba_renderer_source.py").read_bytes()
+        ),
     }
     data = {
         "schema": SCHEMA,
@@ -793,6 +877,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
             "semantics": "serialized IO/PRAM/VRAM/hardware-OAM static frame",
             "oam_input_address": "0x07000000",
             "shadow_oam_diagnostic_address": f"0x{SHADOW_OAM_ADDRESS:08X}",
+            "mosaic_reference_model": MOSAIC_REFERENCE_MODEL,
         },
         "summary": {
             "checkpoint_count": len(records),
@@ -866,7 +951,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
         },
         "experiment": {
             "task": "runtime-screen-composites",
-            "run_id": "tracked-mode0-screen-affine-20260730-02",
+            "run_id": "tracked-mode0-screen-mosaic-20260730-05",
         },
     }
     return data, archive, promotion

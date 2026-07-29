@@ -52,13 +52,36 @@ SCOPE = {
     "unexplained_screenshot_mismatches_remaining": False,
     "natural_affine_obj_normal_and_mirror_bound_pixels_covered": True,
     "synthetic_affine_double_size_covered": True,
-    "affine_obj_mosaic_complete": False,
-    "nonzero_mosaic_complete": False,
+    "synthetic_mode0_bg_normal_and_affine_obj_mosaic_source_model_covered": True,
+    "natural_nonzero_mosaic_runtime_covered": False,
+    "physical_gba_mosaic_verified": False,
+    "obj_window_mosaic_physical_semantics_complete": False,
     "scanline_register_changes_complete": False,
     "cross_frame_timing_complete": False,
     "screenshot_capture_phase_timing_complete": False,
     "physical_gba_display_output_verified": False,
     "all_game_visual_states_complete": False,
+}
+MOSAIC_REFERENCE_MODEL = {
+    "implementation": "mGBA software renderer",
+    "commit": "1d65391d3531f9338300f306c4e1d76c258ce657",
+    "sources": [
+        {
+            "path": "src/gba/renderers/software-mode0.c",
+            "sha256": "1e4104200fa1c068ff4ff17c24d8f99f9e1aed112d75e5088773e1bb6a318783",
+            "role": "mode0-text-bg-mosaic",
+        },
+        {
+            "path": "src/gba/renderers/software-obj.c",
+            "sha256": "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9",
+            "role": "normal-and-affine-obj-horizontal-mosaic",
+        },
+        {
+            "path": "src/gba/renderers/video-software.c",
+            "sha256": "39a03b64a3fe9ab384a17de7d92d215298e9f5b64415f7c550d33779c2bbaf70",
+            "role": "obj-vertical-mosaic",
+        },
+    ],
 }
 
 
@@ -283,7 +306,11 @@ def _affine_runtime_goldens(root: Path) -> list[dict[str, object]]:
         start = object_index * 8
         isolated_oam[start : start + 6] = hardware_oam[start : start + 6]
         candidates, _, stats = _object_coverage(
-            _u16(io, 0), pram, bytes(isolated_oam), vram
+            _u16(io, 0),
+            _u16(io, 0x4C),
+            pram,
+            bytes(isolated_oam),
+            vram,
         )
         attr0, attr1, attr2 = struct.unpack_from("<HHH", hardware_oam, start)
         matrix_index = (attr1 >> 9) & 0x1F
@@ -419,6 +446,9 @@ def _build(root: Path, output: Path) -> dict[str, object]:
         "renderer_test_sha256": _sha(
             (root / "tests/test_render_mode0_checkpoint.py").read_bytes()
         ),
+        "renderer_source_verifier_sha256": _sha(
+            (root / "tools/verify_mgba_renderer_source.py").read_bytes()
+        ),
     }
     data = {
         "schema": SCHEMA,
@@ -443,6 +473,7 @@ def _build(root: Path, output: Path) -> dict[str, object]:
             "semantics": "serialized IO/PRAM/VRAM/hardware-OAM static frame",
             "oam_input_address": "0x07000000",
             "shadow_oam_diagnostic_address": f"0x{SHADOW_OAM_ADDRESS:08X}",
+            "mosaic_reference_model": MOSAIC_REFERENCE_MODEL,
         },
         "summary": {
             "checkpoint_count": len(checkpoints),
@@ -519,7 +550,7 @@ def _build(root: Path, output: Path) -> dict[str, object]:
         },
         "experiment": {
             "task": "runtime-screen-composites",
-            "run_id": "tracked-mode0-screen-affine-20260730-02",
+            "run_id": "tracked-mode0-screen-mosaic-20260730-05",
         },
     }
     (output / "manifest.json").write_text(

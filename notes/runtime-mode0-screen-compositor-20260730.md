@@ -6,6 +6,12 @@
 普通 OBJ、window、alpha/darken 和 backdrop 合成为 240×160 RGB8。它使用
 hardware OAM `0x07000000`，不把 shadow OAM 当作当前显示域。
 
+非零 mosaic 现也已按固定 mGBA software-renderer 源码模型接入：BG 在应用
+scroll 前按屏幕坐标量化；普通 OBJ 按屏幕 block 量化并在对象边缘 clamp 后
+处理 flip；affine OBJ 在 expanded output raster 上量化，再执行 Q8.8 逆变换。
+这些规则由 synthetic vectors 覆盖，不冒充本 ROM 的自然非零 mosaic 使用或
+实体 GBA 物理验证。
+
 91 个 checkpoint 的离线结果：
 
 | 项目 | 结果 |
@@ -62,6 +68,11 @@ IO/PRAM/VRAM/OAM 不变即可与内嵌 PNG 全帧逐字节一致。因此 PNG �
   水平镜像 savestate，独立从 matrix slot `{240,0,0,240}` /
   `{-240,0,0,240}` 重建 OAM entry 2/5 的 32×32 RGBA，对两张已哈希绑定
   runtime-object PNG 均逐像素 exact。
+- artifact 另绑定 mGBA commit `1d65391d` 的 Mode 0 BG、OBJ horizontal 和
+  OBJ vertical mosaic 三份源码路径及完整 SHA-256；主 renderer 与不导入
+  `tools` 的独立 verifier 都通过相同的 BG scroll 相位、4bpp flip/palette、
+  normal OBJ screen-vs-local、flip/edge clamp、affine rotation、leading
+  partial block 和 double-size vectors。
 
 这闭合的是“已跟踪序列化 GPU 域的 Mode 0 静态屏幕合成”，不是所有游戏视觉
 状态、跨帧 scanline 行为或实体 GBA 输出。
@@ -77,14 +88,18 @@ IO/PRAM/VRAM/OAM 不变即可与内嵌 PNG 全帧逐字节一致。因此 PNG �
 - `.ss9` PNG 比较复现 mGBA 32-bit software renderer 的 RGB8 packed-mColor
   舍入。
 
-mGBA 官方源码 commit `1d65391d3531f9338300f306c4e1d76c258ce657` 的
-`src/gba/renderers/software-private.h` SHA-256 为
-`7bd0201cbd81aa74186121c91bf830ff3e33591a241f5ac5dd66d4842fe7b3aa`。
-其 `_brighten`、`_darken` 正是在 packed `mColor` 上执行；红通道未移位，
-green/blue 先移位再除法，所以 darken 的 RGB8 舍入不能用一个普通三通道公式
-替代。`tools/verify_mgba_renderer_source.py` 会从该固定 commit 的官方 raw URL
-下载文件，校验完整 SHA 及三组 packed channel 表达式；它只在显式证据验证时联网，
-不进入日常单元测试。
+mGBA 官方源码 commit `1d65391d3531f9338300f306c4e1d76c258ce657`
+已固定四份文件：
+
+| 文件 | SHA-256 | 用途 |
+|---|---|---|
+| `software-private.h` | `7bd0201cbd81aa74186121c91bf830ff3e33591a241f5ac5dd66d4842fe7b3aa` | packed-mColor brighten/darken |
+| `software-mode0.c` | `1e4104200fa1c068ff4ff17c24d8f99f9e1aed112d75e5088773e1bb6a318783` | text BG horizontal/vertical mosaic |
+| `software-obj.c` | `b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9` | normal/affine OBJ horizontal mosaic |
+| `video-software.c` | `39a03b64a3fe9ab384a17de7d92d215298e9f5b64415f7c550d33779c2bbaf70` | OBJ vertical mosaic/clamp |
+
+`tools/verify_mgba_renderer_source.py` 会从固定 commit 的官方 raw URL 下载四份
+文件并校验完整 SHA 与关键表达式；它只在显式证据验证时联网，不进入日常单元测试。
 
 ## 当前证据边界
 
@@ -100,13 +115,14 @@ semi-transparent、OBJ-window、brighten、WIN1 与 wrapped window，但这些�
 
 Affine OBJ 则有单独的原作 runtime corpus：正常/镜像两个 matrix slot 的 bound
 object pixels 已 exact；synthetic double-size fixture 又证明扩大的是输出边界，
-不缩放 source。该结论仍不包含 affine mosaic。
+不缩放 source。mosaic 的 synthetic source-model vectors 已覆盖 normal、rotation、
+leading partial block 和 double-size。
 
 仍未闭合：
 
 - object mode 3 的自然行为；
-- affine OBJ 与 mosaic 的组合；
-- 非零 BG/OBJ mosaic；
+- 原 ROM 的自然非零 BG/OBJ mosaic 使用证据；
+- OBJ-window+mosaic 的实体硬件语义；
 - scanline 中途寄存器变化；
 - 实体 GBA 的物理显示输出。
 

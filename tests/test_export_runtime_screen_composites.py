@@ -1,5 +1,6 @@
 import json
 import shutil
+import struct
 import tempfile
 import unittest
 from pathlib import Path
@@ -58,6 +59,79 @@ class ExportRuntimeScreenCompositesTests(unittest.TestCase):
         self.assertTrue(
             self.data["scope"]["synthetic_affine_double_size_covered"]
         )
+        self.assertTrue(
+            self.data["scope"][
+                "synthetic_mode0_bg_normal_and_affine_obj_mosaic_source_model_covered"
+            ]
+        )
+        self.assertFalse(
+            self.data["scope"]["natural_nonzero_mosaic_runtime_covered"]
+        )
+        self.assertFalse(
+            self.data["scope"]["physical_gba_mosaic_verified"]
+        )
+        self.assertFalse(
+            self.data["scope"][
+                "obj_window_mosaic_physical_semantics_complete"
+            ]
+        )
+
+    def test_independent_renderer_reconstructs_mosaic_source_vectors(self):
+        from tools.verify_runtime_screen_composites import _render, _rgb8
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x0100)
+        struct.pack_into("<H", io, 0x08, 0x04C0)
+        struct.pack_into("<H", io, 0x10, 1)
+        struct.pack_into("<H", io, 0x12, 2)
+        struct.pack_into("<H", io, 0x4C, 0x0023)
+        for index in range(1, 65):
+            struct.pack_into("<H", pram, index * 2, index)
+        vram[:64] = bytes(range(1, 65))
+
+        rendered, _ = _render(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(rgb: bytes, x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rgb[start : start + 3]
+
+        self.assertEqual(_rgb8(18), pixel(rendered, 0, 0))
+        self.assertEqual(pixel(rendered, 0, 0), pixel(rendered, 3, 2))
+        self.assertEqual(_rgb8(46), pixel(rendered, 4, 3))
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        for offset, value in zip((6, 14, 22, 30), (128, 0, 0, 256)):
+            struct.pack_into("<h", oam, offset, value)
+        struct.pack_into("<HHH", oam, 4 * 8, 0x1105, 0x0003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, stats = _render(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+        self.assertEqual(_rgb8(2 * 0x421), pixel(rendered, 3, 5))
+        self.assertEqual(_rgb8(3 * 0x421), pixel(rendered, 4, 5))
+        self.assertEqual(pixel(rendered, 4, 5), pixel(rendered, 7, 5))
+        self.assertEqual(1, stats["affine"])
 
     def test_binds_normal_and_mirrored_affine_runtime_object_goldens(self):
         goldens = self.data["affine_runtime_goldens"]

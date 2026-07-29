@@ -43,6 +43,7 @@ class RenderMode0CheckpointTests(unittest.TestCase):
 
                 candidates, _, stats = _object_coverage(
                     struct.unpack_from("<H", io, 0)[0],
+                    struct.unpack_from("<H", io, 0x4C)[0],
                     pram,
                     bytes(isolated_oam),
                     vram,
@@ -175,6 +176,35 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         )
         self.assertEqual(bytes((145, 155, 134)), generic_subtract)
 
+    def test_mgba_mosaic_sampling_rules_are_source_pinned(self):
+        from tools.verify_mgba_renderer_source import (
+            MGBA_COMMIT,
+            SOURCES,
+            verify_sources,
+        )
+
+        self.assertEqual(
+            "1d65391d3531f9338300f306c4e1d76c258ce657",
+            MGBA_COMMIT,
+        )
+        self.assertEqual(
+            {
+                "src/gba/renderers/software-mode0.c":
+                    "1e4104200fa1c068ff4ff17c24d8f99f9e1aed112d75e5088773e1bb6a318783",
+                "src/gba/renderers/software-obj.c":
+                    "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9",
+                "src/gba/renderers/software-private.h":
+                    "7bd0201cbd81aa74186121c91bf830ff3e33591a241f5ac5dd66d4842fe7b3aa",
+                "src/gba/renderers/video-software.c":
+                    "39a03b64a3fe9ab384a17de7d92d215298e9f5b64415f7c550d33779c2bbaf70",
+            },
+            {entry["path"]: entry["sha256"] for entry in SOURCES},
+        )
+        missing = verify_sources({})
+        self.assertFalse(missing["verified"])
+        self.assertEqual(4, len(missing["sources"]))
+        self.assertFalse(missing["mosaic_fragments_verified"])
+
     def test_window_coordinate_wrap_and_empty_range(self):
         from tools.render_mode0_checkpoint import in_window_range
 
@@ -259,6 +289,242 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         self.assertEqual(bytes((255, 0, 0)), pixel(4, 4))
         self.assertEqual(bytes((255, 0, 0)), pixel(11, 11))
         self.assertEqual(bytes((0, 0, 0)), pixel(12, 12))
+        self.assertEqual(1, stats["affine"])
+
+    def test_bg_mosaic_is_screen_anchored_before_scroll(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x0100)
+        struct.pack_into("<H", io, 0x08, 0x04C0)
+        struct.pack_into("<H", io, 0x10, 1)
+        struct.pack_into("<H", io, 0x12, 2)
+        struct.pack_into("<H", io, 0x4C, 0x0023)
+        for index in range(1, 65):
+            struct.pack_into("<H", pram, index * 2, index)
+        vram[:64] = bytes(range(1, 65))
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        first = _rgb8(18)
+        next_block = _rgb8(46)
+        self.assertEqual(first, pixel(0, 0))
+        self.assertEqual(first, pixel(3, 2))
+        self.assertEqual(next_block, pixel(4, 3))
+        self.assertNotEqual(_rgb8(1), pixel(0, 0))
+
+    def test_bg_mosaic_reuses_4bpp_flipped_palette_sample_across_tile_edge(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x0100)
+        struct.pack_into("<H", io, 0x08, 0x0140)
+        struct.pack_into("<H", io, 0x4C, 0x0005)
+        struct.pack_into("<H", vram, 0x800, 0x1400)
+        struct.pack_into("<H", vram, 0x802, 0x2001)
+        vram[0:4] = bytes((0x21, 0x43, 0x65, 0x87))
+        vram[32:36] = bytes((0xA9, 0xCB, 0xED, 0x1F))
+        for index in range(1, 48):
+            struct.pack_into("<H", pram, index * 2, index)
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(_rgb8(18), pixel(6, 0))
+        self.assertEqual(pixel(6, 0), pixel(11, 0))
+        self.assertEqual(_rgb8(45), pixel(12, 0))
+
+    def test_normal_obj_mosaic_is_screen_anchored_not_object_anchored(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x1005, 0x0003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertNotEqual(pixel(3, 5), pixel(4, 6))
+        self.assertEqual(pixel(4, 6), pixel(7, 7))
+
+    def test_normal_obj_mosaic_clamps_screen_anchor_before_flips(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x1005, 0x3003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(_rgb8(4 * 0x421), pixel(3, 5))
+        self.assertEqual(_rgb8(10 * 0x421), pixel(4, 6))
+        self.assertEqual(pixel(4, 6), pixel(7, 7))
+
+    def test_affine_obj_mosaic_samples_screen_block_before_matrix(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        for offset, value in zip((6, 14, 22, 30), (0, 256, -256, 0)):
+            struct.pack_into("<h", oam, offset, value)
+        struct.pack_into("<HHH", oam, 4 * 8, 0x1105, 0x0003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, stats = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(_rgb8(13 * 0x421), pixel(4, 6))
+        self.assertEqual(pixel(4, 6), pixel(7, 7))
+        self.assertEqual(1, stats["affine"])
+
+    def test_affine_obj_mosaic_leading_partial_block_matches_mgba_accumulator(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        for offset, value in zip((6, 14, 22, 30), (128, 0, 0, 256)):
+            struct.pack_into("<h", oam, offset, value)
+        struct.pack_into("<HHH", oam, 4 * 8, 0x1105, 0x0003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(_rgb8(2 * 0x421), pixel(3, 5))
+        self.assertEqual(_rgb8(3 * 0x421), pixel(4, 5))
+        self.assertEqual(pixel(4, 5), pixel(7, 5))
+
+    def test_affine_double_size_mosaic_uses_expanded_output_geometry(self):
+        from tools.render_mode0_checkpoint import _rgb8, render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x4C, 0x2300)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        for offset, value in zip((6, 14, 22, 30), (256, 0, 0, 256)):
+            struct.pack_into("<h", oam, offset, value)
+        struct.pack_into("<HHH", oam, 4 * 8, 0x1305, 0x0003, 0x0000)
+        for index in range(1, 16):
+            struct.pack_into(
+                "<H", pram, 0x200 + index * 2, index * 0x421
+            )
+        for y in range(8):
+            for x in range(0, 8, 2):
+                low = (y * 8 + x) % 15 + 1
+                high = (y * 8 + x + 1) % 15 + 1
+                vram[0x10000 + y * 4 + x // 2] = low | high << 4
+
+        rendered, stats = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(bytes((0, 0, 0)), pixel(4, 9))
+        self.assertEqual(_rgb8(2 * 0x421), pixel(8, 9))
+        self.assertEqual(pixel(8, 9), pixel(11, 11))
         self.assertEqual(1, stats["affine"])
 
     def test_semitransparent_obj_forces_alpha_with_backdrop_second_target(self):
