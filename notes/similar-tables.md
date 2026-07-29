@@ -30,7 +30,7 @@ Top candidates found:
 0x5995AC-0x5997AC rows=32 zero_rows=0 reused_col0=0
 ```
 
-## Verified follow-up candidate: `0x5A4E14`
+## Superseded scan candidate: `0x5A4E14`
 
 This region was inspected directly with:
 
@@ -67,22 +67,27 @@ col 2: binary_or_compressed=3, palette_like=5
 col 3: palette_like=8
 ```
 
-## Interpretation
+## Corrected interpretation (2026-07-29)
 
-`0x5A4E14` is probably not the same subtype as `0x596FA8`.
+The four-column profile was an artifact of the scanner. The consumer-defined
+matrix begins at `0x5A4DEC`, has 63 records × 40 bytes and five
+`(graphics,palette)` pairs per record. `0x5A4E14` is simply the start of record
+1 after the all-zero record 0. Grouping its 310 pairs as 155×16 causes 31 rows
+to cross portrait boundaries.
 
-Differences:
+The existing `artifacts/menu-portraits-v1/` covers all 310 pairs in this suffix,
+so this scan candidate is closed and must not be treated as another asset bank.
 
-- it is denser, with no zero rows in the sampled region
-- it points mostly into the `0x40xxxx` ROM range
-- it lacks the obvious nested-descriptor pattern seen in column 1 of `0x596FA8`
+## Corrected interpretation of `0x5A2B08`
 
-Working model:
+The apparent 62×16 range also crosses consumer-defined boundaries:
 
-- `0x596D5C..0x59903C` 已在后续审计中闭合为 62×9 战斗 OBJ 视觉矩阵；
-  `0x59903C` 不属于该矩阵
-- `0x59903C..0x59911C` 已闭合为 14×16 regular BG 场景资源选择表；
-  `0x59903C..0x59904C` 是表内 ID 0 全零哨兵，不是表外 padding
-- `0x5A4E14` looks like a flatter visual asset bank
+- `0x5A2B08..0x5A2C44`: 79 message pointers;
+- `0x5A2C44..0x5A2EF4`: 172 LZ77 glyph pointers;
+- `0x5A2EF4..0x5A320A`: 79×10 message/glyph bindings.
 
-This is useful because it suggests the ROM may use more than one standardized resource-table schema rather than a single universal format.
+The old candidate ended after glyph 168 and silently omitted glyphs 169–171.
+The complete export and independent verifier are
+`artifacts/battle-presentation-glyphs-v1/`,
+`tools/export_battle_presentation_glyphs.py` and
+`tools/verify_battle_presentation_glyphs.py`.

@@ -5,7 +5,7 @@ Date: `2026-03-28`
 ## What is established now
 
 1. The ROM contains at least one typed, nested visual resource descriptor table at `0x596FA8`.
-2. The ROM also contains additional four-pointer tables such as `0x5A4E14`, likely for other asset banks.
+2. The old `0x5A4E14` four-pointer candidate is the already exported 63×5 portrait matrix suffix; `0x5A2B08` likewise splits into 79 message pointers, 172 glyph pointers and 79 bindings.
 3. There are promising low-ROM text banks, especially around `0x00076C` and `0x000C3D`.
 4. There is at least one candidate free-space block at `0x09E6EE`.
 5. A same-length text patch has been written successfully to a copied ROM at `0x00076D`.

@@ -881,3 +881,14 @@ WebSocket
   `notes/battle-effect-sprite-animations-export-20260729.md`。最终screen-space位置、
   对战侧镜像、priority、affine、sequence 1 RNG轨迹、parent释放0/1 tick边界、
   blend和音频仍未闭合，Goal保持active。
+- 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
+  62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
+  的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10
+  message/glyph binding。批量导出 79 条原始 NUL 字节串、172 份 512-byte 4bpp
+  graphics、172 张 32×32 索引图和完整总览，171 份唯一图形中 138 份被 binding
+  引用。独立 verifier 从 ROM 重建表、LZ77、raster 和 PNG，结果为
+  79/79 messages、172/172 glyphs、`errors=[]`；成果位于
+  `artifacts/battle-presentation-glyphs-v1/`，说明见
+  `notes/battle-presentation-glyphs-export-20260729.md`。同轮证明
+  `0x085A4E14` 只是已导出 63×5 立绘矩阵的非零后缀，不再重复立项。消息字符映射、
+  运行时 palette 选择和最终 screen-space 合成仍未闭合，Goal 保持 active。

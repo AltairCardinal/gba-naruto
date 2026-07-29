@@ -20,7 +20,8 @@ This file records confirmed and suspected ROM offsets.
   - col 2: sparse binary or secondary resource block
   - col 3: sparse binary or mask/attribute block
 - `0x00076C`: large low-ROM Shift-JIS-like text block; likely menu/help/tutorial-adjacent string bank
-- `0x5A4E14`: another confirmed `0x10`-byte four-pointer table, but with a different profile from `0x596FA8`; probably a flatter visual resource bank
+- `0x5A4E14`: superseded scan shape; this is the nonzero suffix of the consumer-defined 63×40 portrait matrix at `0x5A4DEC`, not an independent table
+- `0x5A2B08`: 79 message pointers, followed at `0x5A2C44` by 172 LZ77 32×32 glyph pointers and at `0x5A2EF4` by 79×10 message/glyph bindings
 
 ## Suspected
 
@@ -28,7 +29,7 @@ This file records confirmed and suspected ROM offsets.
 - `0x17A1A4`: heavily referenced target (`97` hits); looks structured and may be graphics, palette, or table data rather than executable code
 - `0x596F90-0x59xxxx`: likely one or more resource pointer tables with repeated `16-byte` entry spacing
 - `0x17A1A4`: likely base resource or shared header block reused across multiple entries in the `0x596FA8` table
-- `0x5A4E14` table columns may map to mostly palette-like blocks plus one more variable binary resource column
+- The old `0x5A4E14` and `0x5A2B08` four-column interpretations are disproved; use the consumer-defined boundaries in `notes/menu-portrait-export-20260729.md` and `notes/battle-presentation-glyphs-export-20260729.md`.
 
 ## Confirmed Resource Tables (2026-06-24)
 
