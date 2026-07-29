@@ -50,6 +50,13 @@ SEQUENCE_MANIFEST_PATH = (
 )
 CODE_SLICES = (
     {
+        "name": "runtime_offset_table_initializer",
+        "file_offset": 0x061624,
+        "gba_start": "0x08061624",
+        "gba_end": "0x08061710",
+        "sha256": "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff",
+    },
+    {
         "name": "all_effect_descriptor_callbacks",
         "file_offset": 0x080554,
         "gba_start": "0x08080554",
@@ -118,6 +125,27 @@ CODE_SLICES = (
         "gba_start": "0x08062C58",
         "gba_end": "0x08062C7C",
         "sha256": "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313",
+    },
+    {
+        "name": "pre_oam_offset_scale_and_visibility",
+        "file_offset": 0x062C7C,
+        "gba_start": "0x08062C7C",
+        "gba_end": "0x08062D92",
+        "sha256": "725a25fba4d30a78d197ea94b4ebf272ab03d48692e20c3e3a7bcfac82264039",
+    },
+    {
+        "name": "runtime_offset_table_slot_reset",
+        "file_offset": 0x065404,
+        "gba_start": "0x08065404",
+        "gba_end": "0x08065554",
+        "sha256": "213423e70948ef3dbd91ed7854efb5c52fd7543f4b73b4a4a2219ffd89ce66f7",
+    },
+    {
+        "name": "runtime_offset_table_dynamic_update",
+        "file_offset": 0x06E958,
+        "gba_start": "0x0806E958",
+        "gba_end": "0x0806EA96",
+        "sha256": "66f49791cd737c096ed6a7785591e202287b02dd679a4e2f5c095cd18c1c86a0",
     },
     {
         "name": "oam_shape_size_affine_and_attribute_writer",
@@ -697,13 +725,147 @@ def _oam_attribute_model(
             ),
         },
         "model_boundaries": {
-            "pre_attr_coordinate_flag_offsets_applied": False,
-            "pre_attr_coordinate_scale_and_clipping_applied": False,
+            "pre_attr_coordinate_transform_model_linked": True,
+            "pre_attr_concrete_runtime_values_applied": False,
             "concrete_runtime_coordinates_applied": False,
             "affine_matrix_values_applied": False,
             "affine_rasterization_applied": False,
             "dynamic_obj_vram_copy_path_applied": False,
             "screen_clipping_applied": False,
+        },
+    }
+
+
+def _pre_oam_coordinate_transform_model(
+    groups: list[dict[str, Any]],
+) -> dict[str, Any]:
+    non_default_components = [
+        {
+            "group_id": group["group_id"],
+            "frame_id": frame["frame_id"],
+            "component_index": component["component_index"],
+            "width": component["width"],
+            "height": component["height"],
+            "scale_x": component["scale_x"],
+            "scale_y": component["scale_y"],
+            "affine_mode": component["affine_mode"],
+        }
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+        if (component["scale_x"], component["scale_y"]) != (0x100, 0x100)
+    ]
+    return {
+        "code_range": "0x08062C7C..0x08062D92",
+        "inputs": {
+            "x_after_origin": (
+                "s16 renderer x after component/task-origin composition"
+            ),
+            "y_after_origin": (
+                "s16 renderer y after component/task-origin composition"
+            ),
+            "pre_scale_width": "s16 renderer extent before task/component scale",
+            "pre_scale_height": "s16 renderer extent before task/component scale",
+            "task_scale_x": "s16 task+0x0C Q8.8",
+            "task_scale_y": "s16 task+0x0E Q8.8",
+        },
+        "runtime_offset_table": {
+            "iwram_address": "0x03000054",
+            "entry_count": 4,
+            "entry_stride": 8,
+            "entry_fields": "s32 x_q8_8, s32 y_q8_8",
+            "enabled_when": "(task.render_flags & 0x00001000) != 0",
+            "pair_index": "(task.render_flags & 0x00006000) >> 13",
+            "x_after_offset": (
+                "s16(x_after_origin - "
+                "(s32(offset_table[pair_index*2]) >> 8))"
+            ),
+            "y_after_offset": (
+                "s16(y_after_origin - "
+                "(s32(offset_table[pair_index*2+1]) >> 8))"
+            ),
+            "disabled_result": (
+                "x_after_offset=x_after_origin; "
+                "y_after_offset=y_after_origin"
+            ),
+            "writer_evidence": [
+                {
+                    "kind": "initialize_all_entries_to_zero",
+                    "code_range": "0x08061624..0x08061710",
+                    "write_range": "0x080616D0..0x080616E0",
+                    "direct_caller_known": False,
+                },
+                {
+                    "kind": "reset_runtime_selected_entry_to_zero",
+                    "code_range": "0x08065404..0x08065554",
+                    "write_range": "0x08065528..0x0806553A",
+                    "direct_caller_count": 23,
+                },
+                {
+                    "kind": "state_driven_dynamic_update",
+                    "code_range": "0x0806E958..0x0806EA96",
+                    "state_1_effect": (
+                        "write entry 0 x/y from runtime sources"
+                    ),
+                    "state_2_effect": (
+                        "add/subtract runtime delta across entries 0 and 1"
+                    ),
+                },
+            ],
+        },
+        "scale_and_extent": {
+            "q8_8_multiply": (
+                "q8_8_mul_trunc0(a,b) = "
+                "s32(a*b + (255 if s32(a*b) < 0 else 0)) >> 8"
+            ),
+            "default_fast_path_when": (
+                "component.scale_xy_q8_8 == 0x01000100 and "
+                "task.scale_xy_q8_8 == 0x01000100"
+            ),
+            "default_fast_path_extent": (
+                "scaled_width=component.width; "
+                "scaled_height=component.height"
+            ),
+            "scaled_width": (
+                "min_s16(pre_scale_width,"
+                "s16(q8_8_mul_trunc0("
+                "q8_8_mul_trunc0(component.width,task.scale_x),"
+                "component.scale_x)))"
+            ),
+            "scaled_height": (
+                "min_s16(pre_scale_height,"
+                "s16(q8_8_mul_trunc0("
+                "q8_8_mul_trunc0(component.height,task.scale_y),"
+                "component.scale_y)))"
+            ),
+            "observed_non_default_components": non_default_components,
+        },
+        "visibility_gate": {
+            "half_difference": (
+                "trunc0_div2(v) = s32(v + (1 if s32(v) < 0 else 0)) >> 1"
+            ),
+            "all_required_conditions": [
+                "x_after_offset + scaled_width > 0",
+                "y_after_offset + scaled_height > 0",
+                (
+                    "x_after_offset < 240 - "
+                    "trunc0_div2(pre_scale_width-scaled_width)"
+                ),
+                (
+                    "y_after_offset < 160 - "
+                    "trunc0_div2(pre_scale_height-scaled_height)"
+                ),
+            ],
+            "failure_action": "skip component without emitting OAM",
+        },
+        "model_boundaries": {
+            "runtime_offset_table_values_known": False,
+            "runtime_offset_table_initialization_known": True,
+            "runtime_offset_table_slot_reset_known": True,
+            "runtime_offset_table_dynamic_writer_family_known": True,
+            "runtime_offset_table_complete_schedule_known": False,
+            "concrete_final_coordinates_known": False,
+            "affine_matrix_and_rasterization_applied": False,
         },
     }
 
@@ -1153,6 +1315,9 @@ def export_battle_effect_sprite_animations(
         "consumer_code_slices": _code_slices(rom),
         "child_task_origin_model": _child_task_origin_model(),
         "oam_attribute_model": _oam_attribute_model(groups, playback_plans),
+        "pre_oam_coordinate_transform_model": (
+            _pre_oam_coordinate_transform_model(groups)
+        ),
         "groups": groups,
         "sequence_playback_plans": playback_plans,
         "parent_release_scheduler_boundary": {
@@ -1180,6 +1345,10 @@ def export_battle_effect_sprite_animations(
             "oam_coordinate_field_wrapping_complete": True,
             "normal_oam_tile_palette_priority_formula_complete": True,
             "guarded_oam_non_affine_flip_formula_complete": True,
+            "pre_oam_runtime_offset_formula_complete": True,
+            "pre_oam_scale_extent_formula_complete": True,
+            "pre_oam_visibility_gate_complete": True,
+            "concrete_runtime_offset_table_values_complete": False,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,

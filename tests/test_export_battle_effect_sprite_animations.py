@@ -382,9 +382,14 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "all_reachable_arguments_clear_bit_22"
             ]
         )
+        self.assertTrue(
+            model["model_boundaries"][
+                "pre_attr_coordinate_transform_model_linked"
+            ]
+        )
         self.assertFalse(
             model["model_boundaries"][
-                "pre_attr_coordinate_scale_and_clipping_applied"
+                "pre_attr_concrete_runtime_values_applied"
             ]
         )
         renderer_slice = next(
@@ -410,6 +415,161 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         )
         self.assertFalse(scope["screen_space_oam_composition_complete"])
         self.assertFalse(scope["runtime_affine_rasterization_complete"])
+
+    def test_closes_pre_oam_offset_scale_and_visibility_formulas(self):
+        model = self.manifest["pre_oam_coordinate_transform_model"]
+        self.assertEqual(
+            "0x03000054",
+            model["runtime_offset_table"]["iwram_address"],
+        )
+        self.assertEqual(
+            "(task.render_flags & 0x00001000) != 0",
+            model["runtime_offset_table"]["enabled_when"],
+        )
+        self.assertEqual(
+            "(task.render_flags & 0x00006000) >> 13",
+            model["runtime_offset_table"]["pair_index"],
+        )
+        self.assertEqual(
+            (
+                "s16(x_after_origin - "
+                "(s32(offset_table[pair_index*2]) >> 8))"
+            ),
+            model["runtime_offset_table"]["x_after_offset"],
+        )
+        self.assertEqual(
+            (
+                "s16(y_after_origin - "
+                "(s32(offset_table[pair_index*2+1]) >> 8))"
+            ),
+            model["runtime_offset_table"]["y_after_offset"],
+        )
+        self.assertEqual(
+            [
+                {
+                    "kind": "initialize_all_entries_to_zero",
+                    "code_range": "0x08061624..0x08061710",
+                    "write_range": "0x080616D0..0x080616E0",
+                    "direct_caller_known": False,
+                },
+                {
+                    "kind": "reset_runtime_selected_entry_to_zero",
+                    "code_range": "0x08065404..0x08065554",
+                    "write_range": "0x08065528..0x0806553A",
+                    "direct_caller_count": 23,
+                },
+                {
+                    "kind": "state_driven_dynamic_update",
+                    "code_range": "0x0806E958..0x0806EA96",
+                    "state_1_effect": "write entry 0 x/y from runtime sources",
+                    "state_2_effect": (
+                        "add/subtract runtime delta across entries 0 and 1"
+                    ),
+                },
+            ],
+            model["runtime_offset_table"]["writer_evidence"],
+        )
+        self.assertEqual(
+            (
+                "q8_8_mul_trunc0(a,b) = "
+                "s32(a*b + (255 if s32(a*b) < 0 else 0)) >> 8"
+            ),
+            model["scale_and_extent"]["q8_8_multiply"],
+        )
+        self.assertEqual(
+            (
+                "min_s16(pre_scale_width,"
+                "s16(q8_8_mul_trunc0("
+                "q8_8_mul_trunc0(component.width,task.scale_x),"
+                "component.scale_x)))"
+            ),
+            model["scale_and_extent"]["scaled_width"],
+        )
+        self.assertEqual(
+            [
+                {
+                    "group_id": 2,
+                    "frame_id": 1,
+                    "component_index": 0,
+                    "width": 32,
+                    "height": 32,
+                    "scale_x": 272,
+                    "scale_y": 272,
+                    "affine_mode": 1,
+                },
+                {
+                    "group_id": 3,
+                    "frame_id": 1,
+                    "component_index": 0,
+                    "width": 32,
+                    "height": 32,
+                    "scale_x": 272,
+                    "scale_y": 272,
+                    "affine_mode": 1,
+                },
+            ],
+            model["scale_and_extent"]["observed_non_default_components"],
+        )
+        self.assertEqual(
+            [
+                "x_after_offset + scaled_width > 0",
+                "y_after_offset + scaled_height > 0",
+                (
+                    "x_after_offset < 240 - "
+                    "trunc0_div2(pre_scale_width-scaled_width)"
+                ),
+                (
+                    "y_after_offset < 160 - "
+                    "trunc0_div2(pre_scale_height-scaled_height)"
+                ),
+            ],
+            model["visibility_gate"]["all_required_conditions"],
+        )
+        transform_slice = next(
+            item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"] == "pre_oam_offset_scale_and_visibility"
+        )
+        self.assertEqual("0x08062C7C", transform_slice["gba_start"])
+        self.assertEqual("0x08062D92", transform_slice["gba_end"])
+        self.assertEqual(
+            "725a25fba4d30a78d197ea94b4ebf272ab03d48692e20c3e3a7bcfac82264039",
+            transform_slice["sha256"],
+        )
+
+        scope = self.manifest["scope"]
+        self.assertTrue(scope["pre_oam_runtime_offset_formula_complete"])
+        self.assertTrue(scope["pre_oam_scale_extent_formula_complete"])
+        self.assertTrue(scope["pre_oam_visibility_gate_complete"])
+        self.assertFalse(scope["concrete_runtime_offset_table_values_complete"])
+        self.assertFalse(scope["screen_space_oam_composition_complete"])
+        boundaries = model["model_boundaries"]
+        self.assertTrue(boundaries["runtime_offset_table_initialization_known"])
+        self.assertTrue(boundaries["runtime_offset_table_slot_reset_known"])
+        self.assertTrue(
+            boundaries["runtime_offset_table_dynamic_writer_family_known"]
+        )
+        self.assertFalse(
+            boundaries["runtime_offset_table_complete_schedule_known"]
+        )
+
+        writer_slices = {
+            item["name"]: item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"].startswith("runtime_offset_table_")
+        }
+        self.assertEqual(
+            "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff",
+            writer_slices["runtime_offset_table_initializer"]["sha256"],
+        )
+        self.assertEqual(
+            "213423e70948ef3dbd91ed7854efb5c52fd7543f4b73b4a4a2219ffd89ce66f7",
+            writer_slices["runtime_offset_table_slot_reset"]["sha256"],
+        )
+        self.assertEqual(
+            "66f49791cd737c096ed6a7785591e202287b02dd679a4e2f5c095cd18c1c86a0",
+            writer_slices["runtime_offset_table_dynamic_update"]["sha256"],
+        )
 
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
@@ -462,6 +622,10 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "oam_coordinate_field_wrapping_complete": True,
                 "normal_oam_tile_palette_priority_formula_complete": True,
                 "guarded_oam_non_affine_flip_formula_complete": True,
+                "pre_oam_runtime_offset_formula_complete": True,
+                "pre_oam_scale_extent_formula_complete": True,
+                "pre_oam_visibility_gate_complete": True,
+                "concrete_runtime_offset_table_values_complete": False,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,
@@ -581,6 +745,29 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             manifest["oam_attribute_model"]["shape_size_combined_masks"][
                 "32x16"
             ] = "0x80004000"
+            manifest["pre_oam_coordinate_transform_model"][
+                "visibility_gate"
+            ]["all_required_conditions"][0] = (
+                "x_after_offset + scaled_width >= 0"
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any(
+                    "visibility_gate.all_required_conditions[0]" in error
+                    for error in result["errors"]
+                ),
+                result["errors"],
+            )
+
+            manifest["pre_oam_coordinate_transform_model"][
+                "visibility_gate"
+            ]["all_required_conditions"][0] = (
+                "x_after_offset + scaled_width > 0"
+            )
             manifest_path.write_text(
                 json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",

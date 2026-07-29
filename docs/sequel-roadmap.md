@@ -930,10 +930,12 @@ WebSocket
   sequence的child task原点模型：父对象静态偏移、对战侧水平镜像、角色Q8.8锚点跟随，
   以及sequence 1的RNG angle/speed与逐tick Q8.8状态转移均有ROM绑定公式。renderer
   又闭合最终renderer坐标到attr0/attr1的8/9-bit字段wrap、12种shape/size编码、普通
-  battle-effect attr2的tile/palette/priority及guarded non-affine flip公式。唯一绝对
-  RNG轨迹、attr前的flags偏移/scale/裁剪、动态OBJ VRAM拷贝分支、affine matrix/
-  像素光栅化、运行时OAM→viewport实例、parent释放0/1 tick边界、blend和音频仍未闭合，
-  Goal保持active。
+  battle-effect attr2的tile/palette/priority及guarded non-affine flip公式；继续以
+  `0x08062C7C..0x08062D92`闭合四组IWRAM Q8.8偏移选择、两阶段Q8.8 scale/extent
+  与四项可见性gate，并定位`0x03000054`偏移表的全零初始化、按槽重置和至少一组
+  状态驱动动态更新。唯一绝对RNG轨迹、偏移表完整调度/逐帧值、动态OBJ VRAM拷贝分支、
+  affine matrix/像素光栅化、运行时OAM→viewport实例、parent释放0/1 tick边界、blend
+  和音频仍未闭合，Goal保持active。
 - 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
   62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
   的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10
