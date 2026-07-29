@@ -26,6 +26,13 @@ consumer input 1..79
 排列运行时 palette bank 13 的消息字形。用户可以直接按 consumer ID 浏览一项表现会
 使用的角色图、背景/特效图层和术名字形，不再需要手工对齐两份 manifest。
 
+目录现同时保留每项完整的 17 个 raw words、packed definition、全部资源指针和图层
+状态，并把运行时装载门解释为机器字段。descriptor 0 的 D 不是“等待寻找 gfx/palette”
+的可显示层：它只有 tilemap `0x0836774C`，gfx 指针为零，因此 installer 明确拒绝装载；
+该孤立 tilemap 仍被无损保留。相反，descriptor 4 的 D 三件套完整，只因 flag
+`0x0400` 不走 D installer，随后在 tick 50 作为 C display path 的动态资源来源。
+这一区分使编辑器不会把 dormant 指针误报成缺失素材，也不会误删 config 4 的切换资源。
+
 ## 数量与边界
 
 - descriptor/message：`79/79`
@@ -60,7 +67,7 @@ consumer input 1..79
 - 字形 manifest SHA-256：
   `ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7`
 - 本成果 manifest SHA-256：
-  `43b9b4043efeccf933909e6be4bfd075f4c713cc0d3a3c011143370bdf4709fe`
+  `1ccbdfda751953328104c845e061074150324ca69a569330a25263e5be787bcc`
 
 导出器拒绝覆盖仓库根、仓库父目录或无本 schema manifest 的非空目录；发布采用同目录
 原子替换，注入替换失败时会恢复上一份完整成果。独立 verifier 不导入导出器，重新核对
@@ -82,7 +89,7 @@ python3 -m unittest \
   tests.test_export_battle_visual_catalog -v
 ```
 
-本轮 27 项来源与新增测试全部通过；独立 verifier 返回
+本轮相关来源与新增测试全部通过；独立 verifier 返回
 `79/236/284/10、errors=[]`。人工抽查 `visual-00`、`visual-10` 和带 `0xFF` 空槽的
 `visual-35`，图层和字形均可读。全程离线读取 ROM 与已提交 artifact，没有启动 mGBA、
-没有写入 `butano-sequel/`；验证后系统可用内存为 `73%`。
+没有写入 `butano-sequel/`。

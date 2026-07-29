@@ -70,6 +70,61 @@ LAYER_ORIGINS = {
 GLYPH_Y = 336
 
 
+def _descriptor_schema(descriptor: dict[str, Any]) -> dict[str, Any]:
+    schema = json.loads(json.dumps(descriptor))
+    if descriptor["status"] == "sentinel":
+        return schema
+    words = [int(value, 0) for value in descriptor["raw_words"]]
+    packed = b"".join(word.to_bytes(4, "little") for word in words)
+    flags = (words[1] >> 16) & 0xFFFF
+    schema["decoded"] = {
+        "anchor_tiles": [packed[0], packed[1]],
+        "direction_signed": [
+            int.from_bytes(packed[2:3], "little", signed=True),
+            int.from_bytes(packed[3:4], "little", signed=True),
+        ],
+        "amplitude": words[1] & 0xFFFF,
+        "flags": f"0x{flags:04X}",
+        "callback_mode": flags & 0xFF,
+        "cue_ids": [packed[8], packed[9]],
+    }
+    for layer in schema["layers"]:
+        name = layer["name"]
+        gfx_present = layer["gfx_pointer"] is not None
+        complete = layer["status"] == "complete"
+        flag_suppressed = name == "D" and bool(flags & 0x0400)
+        installer_loadable = complete and not flag_suppressed
+        block_reason = None
+        if not gfx_present:
+            block_reason = "gfx_pointer_zero"
+        elif not complete:
+            block_reason = "incomplete_resource_triplet"
+        elif flag_suppressed:
+            block_reason = "descriptor_flag_0x0400"
+        runtime = {
+            "installer_loadable": installer_loadable,
+            "installer_block_reason": block_reason,
+            "initially_enabled": (
+                installer_loadable
+                and (
+                    name in {"A", "B"}
+                    or name == "C" and not flags & 0x0100
+                    or name == "D" and not flags & 0x0900
+                )
+            ),
+            "dynamic_c_path_source": (
+                name == "D" and complete and bool(flags & 0x0400)
+            ),
+            "dynamic_c_path_switch_tick": (
+                50
+                if name == "D" and complete and flags & 0x0400
+                else None
+            ),
+        }
+        layer["runtime"] = runtime
+    return schema
+
+
 def _sha_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -219,6 +274,7 @@ def _entry(
         "consumer_id": descriptor["consumer_id"],
         "descriptor_status": descriptor["status"],
         "descriptor_gba_address": descriptor["descriptor_gba_address"],
+        "descriptor": _descriptor_schema(descriptor),
         "layers": layers,
         "message": {
             "message_id": message["message_id"],
@@ -311,6 +367,8 @@ def _write_artifact(root: Path, output: Path) -> dict[str, Any]:
             "all_complete_static_layers_cataloged": True,
             "all_message_glyph_bindings_cataloged": True,
             "editor_preview_sheets_complete": True,
+            "lossless_descriptor_schema_complete": True,
+            "runtime_layer_installability_complete": True,
             "runtime_tick_timeline_complete": False,
             "screen_space_composition_complete": False,
             "message_character_decoding_complete": False,

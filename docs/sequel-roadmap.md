@@ -948,7 +948,10 @@ WebSocket
   `artifacts/battle-visual-catalog-v1/`，说明见
   `notes/battle-visual-catalog-export-20260729.md`。预览是分区 contact sheet，
   不冒充逐 tick scroll/enable/blend、共享 VRAM 与最终 screen-space 合成，Goal
-  保持 active。
+  保持 active。目录后续补入完整 17-word descriptor、packed definition、全部指针和
+  运行时装载门：descriptor 0 的 D 已证明是 gfx 指针为零而不可安装的 dormant
+  tilemap，不再作为待寻找资源；descriptor 4 的完整 D 则明确标记为 tick 50 的
+  C-path 动态来源。编辑器模型因此已无损，但逐 tick 与 screen-space 仍待闭合。
 - 2026-07-29：闭合 regular BG 的完整场景选择目录。批量遍历 primary/alternate
   110/110 个非空章节脚本槽、98 个唯一根和 14,199 个唯一 CFG 节点，精确处理两套
   text token 规则及 42 个双分支 opcode `0x06`，得到 6 个唯一 opcode `0x1E`

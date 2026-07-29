@@ -94,6 +94,53 @@ class ExportBattleVisualCatalogTest(unittest.TestCase):
                 ))
                 self.assertEqual(64, len(glyph["sha256"]))
 
+    def test_preserves_lossless_descriptor_schema_and_runtime_layer_gates(self):
+        entries = self.manifest["entries"]
+        for index, entry in enumerate(entries):
+            descriptor = entry["descriptor"]
+            self.assertEqual(index, descriptor["descriptor_id"])
+            self.assertEqual(17, len(descriptor["raw_words"]))
+            expected_names = (
+                set()
+                if descriptor["status"] == "sentinel"
+                else {"A", "B", "C", "D"}
+            )
+            self.assertEqual(
+                expected_names,
+                {layer["name"] for layer in descriptor["layers"]},
+            )
+
+        descriptor_zero = entries[0]["descriptor"]
+        layer_d = next(
+            layer
+            for layer in descriptor_zero["layers"]
+            if layer["name"] == "D"
+        )
+        self.assertEqual("partial", layer_d["status"])
+        self.assertEqual("0x0836774C", layer_d["tilemap_pointer"])
+        self.assertFalse(layer_d["runtime"]["installer_loadable"])
+        self.assertEqual(
+            "gfx_pointer_zero",
+            layer_d["runtime"]["installer_block_reason"],
+        )
+        self.assertFalse(layer_d["runtime"]["dynamic_c_path_source"])
+
+        descriptor_four_d = next(
+            layer
+            for layer in entries[4]["descriptor"]["layers"]
+            if layer["name"] == "D"
+        )
+        self.assertFalse(descriptor_four_d["runtime"]["installer_loadable"])
+        self.assertEqual(
+            "descriptor_flag_0x0400",
+            descriptor_four_d["runtime"]["installer_block_reason"],
+        )
+        self.assertTrue(descriptor_four_d["runtime"]["dynamic_c_path_source"])
+        self.assertEqual(
+            50,
+            descriptor_four_d["runtime"]["dynamic_c_path_switch_tick"],
+        )
+
     def test_scope_does_not_overclaim_dynamic_composition(self):
         self.assertEqual(
             {
@@ -101,6 +148,8 @@ class ExportBattleVisualCatalogTest(unittest.TestCase):
                 "all_complete_static_layers_cataloged": True,
                 "all_message_glyph_bindings_cataloged": True,
                 "editor_preview_sheets_complete": True,
+                "lossless_descriptor_schema_complete": True,
+                "runtime_layer_installability_complete": True,
                 "runtime_tick_timeline_complete": False,
                 "screen_space_composition_complete": False,
                 "message_character_decoding_complete": False,
@@ -158,6 +207,9 @@ class ExportBattleVisualCatalogTest(unittest.TestCase):
             "binding raw": lambda data: data["entries"][0]["message"].update(
                 binding_raw_hex="00"
             ),
+            "runtime layer gate": lambda data: data["entries"][0][
+                "descriptor"
+            ]["layers"][3]["runtime"].update(installer_loadable=True),
             "preview claim": lambda data: data["entries"][0]["preview"].update(
                 is_runtime_composite=True
             ),

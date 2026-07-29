@@ -51,6 +51,8 @@ SCOPE = {
     "all_complete_static_layers_cataloged": True,
     "all_message_glyph_bindings_cataloged": True,
     "editor_preview_sheets_complete": True,
+    "lossless_descriptor_schema_complete": True,
+    "runtime_layer_installability_complete": True,
     "runtime_tick_timeline_complete": False,
     "screen_space_composition_complete": False,
     "message_character_decoding_complete": False,
@@ -68,6 +70,63 @@ def _sha(path: Path) -> str:
 
 def _json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _expected_descriptor_schema(
+    descriptor: dict[str, Any],
+) -> dict[str, Any]:
+    expected = json.loads(json.dumps(descriptor))
+    if descriptor["status"] == "sentinel":
+        return expected
+    words = [int(value, 16) for value in descriptor["raw_words"]]
+    packed = b"".join(word.to_bytes(4, "little") for word in words)
+    flags = words[1] >> 16
+    expected["decoded"] = {
+        "anchor_tiles": [packed[0], packed[1]],
+        "direction_signed": [
+            int.from_bytes(packed[2:3], "little", signed=True),
+            int.from_bytes(packed[3:4], "little", signed=True),
+        ],
+        "amplitude": words[1] & 0xFFFF,
+        "flags": f"0x{flags:04X}",
+        "callback_mode": flags & 0xFF,
+        "cue_ids": [packed[8], packed[9]],
+    }
+    for layer in expected["layers"]:
+        name = layer["name"]
+        complete = layer["status"] == "complete"
+        gfx_present = layer["gfx_pointer"] is not None
+        suppressed = name == "D" and bool(flags & 0x0400)
+        if not gfx_present:
+            reason = "gfx_pointer_zero"
+        elif not complete:
+            reason = "incomplete_resource_triplet"
+        elif suppressed:
+            reason = "descriptor_flag_0x0400"
+        else:
+            reason = None
+        loadable = complete and not suppressed
+        layer["runtime"] = {
+            "installer_loadable": loadable,
+            "installer_block_reason": reason,
+            "initially_enabled": (
+                loadable
+                and (
+                    name in {"A", "B"}
+                    or name == "C" and not flags & 0x0100
+                    or name == "D" and not flags & 0x0900
+                )
+            ),
+            "dynamic_c_path_source": (
+                name == "D" and complete and bool(flags & 0x0400)
+            ),
+            "dynamic_c_path_switch_tick": (
+                50
+                if name == "D" and complete and flags & 0x0400
+                else None
+            ),
+        }
+    return expected
 
 
 def _safe_file(root: Path, relative: str) -> Path:
@@ -174,6 +233,10 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
                 != descriptor["descriptor_gba_address"]
             ):
                 raise ValueError(f"index chain mismatch at {index}")
+            if entry.get("descriptor") != _expected_descriptor_schema(
+                descriptor
+            ):
+                raise ValueError(f"descriptor schema mismatch at {index}")
             expected_layers = [
                 layer for layer in descriptor["layers"] if layer["status"] == "complete"
             ]
