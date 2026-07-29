@@ -1,0 +1,50 @@
+{
+  "artifact_schema": "runtime-bg-composites-v1",
+  "artifact_status": "accepted",
+  "experiment": {
+    "run_id": "tracked-mode0-bg-20260730-01",
+    "task": "runtime-bg-composites"
+  },
+  "files": {
+    "layers.zip": "9c853090614c7f63c8e6c01273520ccfc2ad4722a69eabe4fe7d157b3ca452d9",
+    "runtime-bg-composites.json": "5b17ca198949a3cfaa3e1baa0c86602801ee934e133952a70824f31df7d391e7"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_runtime_bg_composites.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/runtime-bg-composites-v1"
+    ],
+    "exporter_sha256": "6c4d9b746328dec330265db5337cb997ff266b4c32d804d1b26d8dc3ffd999d2",
+    "test_sha256": "92af28a515f265a55bc3efe9d963d5c09e9da24838a152161032773d36f58979",
+    "verifier_sha256": "af1442375f20aa53816bbc8486f021cbf9c40166a85895201afe7108b0f7caaf"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "checkpoint_count": 91,
+    "checkpoint_root": "artifacts/runtime-checkpoints",
+    "unique_state_count": 89
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_bg_composites.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-bg-composites-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "schema": "runtime-bg-composites-verification-v1",
+      "state_count": 89,
+      "verified": true
+    },
+    "verifier_sha256": "af1442375f20aa53816bbc8486f021cbf9c40166a85895201afe7108b0f7caaf"
+  }
+}

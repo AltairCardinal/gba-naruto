@@ -94,6 +94,17 @@
   camera、window/blend 与最终屏幕合成仍未完成。成果见
   `artifacts/character-runtime-oam-task-bindings-v1/` 与
   `notes/character-runtime-oam-task-bindings-20260730.md`。
+- 2026-07-30 全部 91 个 tracked checkpoint 的运行时 BG 输入已批量离线解码。
+  91/91 均为 display mode 0，归并为 89 个唯一状态；导出器重建 enabled BG0–BG3
+  的 char/screen block、4/8bpp、四种 text-map 分块、scroll、tile flip、palette
+  bank、priority 与 color-zero transparency，共生成 285 个逐层 PNG/调试预览。
+  为避免把数百个小文件直接放入 Git，图像进入 3 MiB 的确定性 `layers.zip`，
+  manifest 逐 member 哈希绑定。独立 verifier 自行解析 `.ss9` 并重建全部像素。
+  91/91 样本 blend control 非零、5 个启用 WIN0，因此预览严格标记为
+  pre-window/pre-blend/BG-only，不冒充 OBJ、window、brightness 或最终硬件帧。
+  成果见 `artifacts/runtime-bg-composites-v1/` 与
+  `notes/runtime-bg-composites-20260730.md`；runtime layer 的静态来源身份、
+  camera/scroll writer、跨帧时序和最终 screen composition 仍未闭合。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。
 - 2026-07-23 进一步把 18 个 `.ss9` 边界绑定到协作任务栈中的真实控制器帧：14 个 scenario 41 样本覆盖 `0x3110` 移动、`0x3000/0x4000` 菜单、`0x9200` 术菜单、`0x4100` 目标/确认、`0x9000/0x9100` 面向/防御、`0x8000` 结果与 `0x1220` 回合脚本；4 个 scenario 45/50 样本又证明敌方 `0x7000` 行动准备与玩家 `0x6000` 提交门共同汇入 `0x8000` 解析。分析要求有效 Thumb BL、外层 controller caller、checkpoint 哈希及阵营/当前单位字段。证据见 `notes/battle-controller-checkpoint-bindings-20260723.json`。旧 implementation plan 的“已实现”状态已撤销并标记为不得继续执行。
@@ -1073,5 +1084,7 @@ WebSocket
   独立 verifier 从 ROM 重走 CFG、调用点、header 和上游画布，结果为
   47 headers / 6 opcode records、`errors=[]`。成果位于
   `artifacts/bg-scene-selection-v1/`，说明见
-  `notes/bg-scene-selection-export-20260729.md`。自然语言场景命名、滚动和最终
-  BG/OBJ 合成仍未闭合，Goal 保持 active。
+  `notes/bg-scene-selection-export-20260729.md`。自然语言场景命名仍未闭合；
+  既有 checkpoint 的滚动与 mode-0 BG 单层像素已由
+  `runtime-bg-composites-v1` 闭合，但 BG/OBJ/window/blend 最终合成仍未完成，
+  Goal 保持 active。
