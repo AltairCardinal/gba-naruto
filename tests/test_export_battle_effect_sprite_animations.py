@@ -695,6 +695,105 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             ]
         )
 
+    def test_closes_affine_matrix_schema_formulas_and_current_values(self):
+        components = [
+            component
+            for group in self.manifest["groups"]
+            for frame in group["frames"]
+            for component in frame["components"]
+        ]
+        self.assertTrue(all("angle_offset" in item for item in components))
+        self.assertEqual({0}, {item["angle_offset"] for item in components})
+
+        model = self.manifest["affine_matrix_model"]
+        self.assertEqual(
+            (
+                "u8(component.angle_offset + task.angle_offset)"
+            ),
+            model["angle"]["phase"],
+        )
+        self.assertEqual(
+            (
+                "u2(component.tile_flags XOR "
+                "((task.render_flags & 0x00018000) >> 15))"
+            ),
+            model["flip_bits"],
+        )
+        self.assertEqual(
+            "u5(affine_matrix_ordinal) << 9",
+            model["attr1_matrix_index"],
+        )
+        self.assertEqual(
+            {
+                "PA": "horizontal_sign * Q(cos_q8_8(phase),scale_x_product)",
+                "PB": "vertical_sign * Q(sin_q8_8(phase),scale_x_product)",
+                "PC": "-horizontal_sign * Q(sin_q8_8(phase),scale_y_product)",
+                "PD": "vertical_sign * Q(cos_q8_8(phase),scale_y_product)",
+            },
+            model["matrix_formula"],
+        )
+        self.assertEqual(
+            "trunc0((s32(value_q8_8) << 16) / s32(scale_product))",
+            model["scaled_coefficient"],
+        )
+        self.assertEqual(
+            [
+                {
+                    "group_id": 2,
+                    "frame_id": 1,
+                    "component_index": 0,
+                    "normal": {"PA": 240, "PB": 0, "PC": 0, "PD": 240},
+                    "side_horizontal_mirror": {
+                        "PA": -240,
+                        "PB": 0,
+                        "PC": 0,
+                        "PD": 240,
+                    },
+                },
+                {
+                    "group_id": 3,
+                    "frame_id": 1,
+                    "component_index": 0,
+                    "normal": {"PA": 240, "PB": 0, "PC": 0, "PD": 240},
+                    "side_horizontal_mirror": {
+                        "PA": -240,
+                        "PB": 0,
+                        "PC": 0,
+                        "PD": 240,
+                    },
+                },
+            ],
+            model["current_reachable_non_default_components"],
+        )
+        self.assertFalse(
+            model["model_boundaries"]["fixed_matrix_slot_known"]
+        )
+        self.assertFalse(
+            model["model_boundaries"][
+                "general_rotated_local_coordinate_formula_complete"
+            ]
+        )
+        matrix_slice = next(
+            item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"] == "affine_matrix_writer"
+        )
+        self.assertEqual("0x08062EF4", matrix_slice["gba_start"])
+        self.assertEqual("0x080630EC", matrix_slice["gba_end"])
+        self.assertEqual(
+            "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9",
+            matrix_slice["sha256"],
+        )
+        self.assertTrue(self.manifest["scope"]["affine_matrix_formula_complete"])
+        self.assertTrue(
+            self.manifest["scope"]["current_effect_affine_values_complete"]
+        )
+        self.assertFalse(
+            self.manifest["scope"][
+                "general_affine_rotated_coordinates_complete"
+            ]
+        )
+
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
             coverage = group["tile_coverage"]
@@ -753,6 +852,9 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
                 "dynamic_obj_vram_copy_queue_consumer_complete": True,
                 "dynamic_obj_vram_hardware_frame_phase_complete": False,
+                "affine_matrix_formula_complete": True,
+                "current_effect_affine_values_complete": True,
+                "general_affine_rotated_coordinates_complete": False,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,

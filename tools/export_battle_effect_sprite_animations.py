@@ -155,6 +155,13 @@ CODE_SLICES = (
         "sha256": "566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23",
     },
     {
+        "name": "affine_matrix_writer",
+        "file_offset": 0x062EF4,
+        "gba_start": "0x08062EF4",
+        "gba_end": "0x080630EC",
+        "sha256": "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9",
+    },
+    {
         "name": "dynamic_obj_vram_renderer_path",
         "file_offset": 0x063122,
         "gba_start": "0x08063122",
@@ -227,7 +234,7 @@ def _parse_component(raw: bytes, component_index: int) -> dict[str, Any]:
         raise ValueError("component record is truncated")
     (
         tile_index,
-        tile_flags,
+        tile_flags_and_angle,
         x,
         y,
         width,
@@ -244,10 +251,12 @@ def _parse_component(raw: bytes, component_index: int) -> dict[str, Any]:
         raise ValueError(
             f"component {component_index} has unsupported size {width}x{height}"
         )
-    if tile_flags & ~0x0003:
+    tile_flags = tile_flags_and_angle & 0x00FF
+    angle_offset = tile_flags_and_angle >> 8
+    if tile_flags & ~0x03:
         raise ValueError(
             f"component {component_index} has unknown tile flags "
-            f"0x{tile_flags:04X}"
+            f"0x{tile_flags:02X}"
         )
     if control not in (0x00, 0xFF):
         raise ValueError(
@@ -259,6 +268,7 @@ def _parse_component(raw: bytes, component_index: int) -> dict[str, Any]:
         "component_index": component_index,
         "tile_index": tile_index,
         "tile_flags": tile_flags,
+        "angle_offset": angle_offset,
         "horizontal_flip": bool(tile_flags & 1),
         "vertical_flip": bool(tile_flags & 2),
         "x": x,
@@ -712,7 +722,11 @@ def _oam_attribute_model(
         "attr0": {
             "y_coordinate": "u8(renderer_final_y)",
             "object_mode": "task.render_flags & 0x00000C00",
-            "affine_enable": "u1(component.affine_mode) << 8",
+            "affine_enable": "u1(matrix_path_predicate) << 8",
+            "affine_double_size": (
+                "u1(matrix_path_predicate and "
+                "(task.render_flags & 0x00080000) != 0) << 9"
+            ),
             "global_bit7": "global_obj_control_byte & 0x80",
             "shape_bits_source": "shape_size_combined_masks low u16",
         },
@@ -756,11 +770,84 @@ def _oam_attribute_model(
             "pre_attr_coordinate_transform_model_linked": True,
             "pre_attr_concrete_runtime_values_applied": False,
             "concrete_runtime_coordinates_applied": False,
-            "affine_matrix_values_applied": False,
+            "affine_matrix_model_linked": True,
+            "concrete_affine_matrix_slot_applied": False,
             "affine_rasterization_applied": False,
             "dynamic_obj_vram_model_linked": True,
             "dynamic_obj_vram_copy_execution_applied": False,
             "screen_clipping_applied": False,
+        },
+    }
+
+
+def _affine_matrix_model(groups: list[dict[str, Any]]) -> dict[str, Any]:
+    observed = [
+        {
+            "group_id": group["group_id"],
+            "frame_id": frame["frame_id"],
+            "component_index": component["component_index"],
+            "normal": {"PA": 240, "PB": 0, "PC": 0, "PD": 240},
+            "side_horizontal_mirror": {
+                "PA": -240,
+                "PB": 0,
+                "PC": 0,
+                "PD": 240,
+            },
+        }
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+        if component["affine_mode"]
+    ]
+    return {
+        "code_range": "0x08062EF4..0x080630EC",
+        "matrix_path_predicate": (
+            "component.affine_mode != 0 or component.angle_offset != 0 or "
+            "task.angle_offset != 0 or "
+            "component.scale_xy_q8_8 != 0x01000100 or "
+            "task.scale_xy_q8_8 != 0x01000100 or "
+            "(task.render_flags & 0x00080000) != 0"
+        ),
+        "angle": {
+            "phase": "u8(component.angle_offset + task.angle_offset)",
+            "sin": "sin_q8_8(phase) via 0x08061A80",
+            "cos": "sin_q8_8(u8(phase+64)) via 0x08061ACC",
+        },
+        "flip_bits": (
+            "u2(component.tile_flags XOR "
+            "((task.render_flags & 0x00018000) >> 15))"
+        ),
+        "horizontal_sign": "-1 when (flip_bits & 1) else 1",
+        "vertical_sign": "-1 when (flip_bits & 2) else 1",
+        "scale_x_product": "s16(task.scale_x) * s16(component.scale_x)",
+        "scale_y_product": "s16(task.scale_y) * s16(component.scale_y)",
+        "scaled_coefficient": (
+            "trunc0((s32(value_q8_8) << 16) / s32(scale_product))"
+        ),
+        "matrix_formula": {
+            "PA": "horizontal_sign * Q(cos_q8_8(phase),scale_x_product)",
+            "PB": "vertical_sign * Q(sin_q8_8(phase),scale_x_product)",
+            "PC": "-horizontal_sign * Q(sin_q8_8(phase),scale_y_product)",
+            "PD": "vertical_sign * Q(cos_q8_8(phase),scale_y_product)",
+        },
+        "default_scale_optimization": (
+            "when both scale pairs are 0x01000100, Q(value,65536)=value"
+        ),
+        "shadow_oam_affine_base": "0x03000282",
+        "matrix_parameter_offsets": {
+            "PA": 0,
+            "PB": 8,
+            "PC": 16,
+            "PD": 24,
+        },
+        "attr1_matrix_index": "u5(affine_matrix_ordinal) << 9",
+        "current_reachable_non_default_components": observed,
+        "model_boundaries": {
+            "current_task_scale_and_angle_initialization_known": True,
+            "current_side_horizontal_mirror_known": True,
+            "fixed_matrix_slot_known": False,
+            "general_rotated_local_coordinate_formula_complete": False,
+            "pixel_rasterization_complete": False,
         },
     }
 
@@ -1412,7 +1499,8 @@ def export_battle_effect_sprite_animations(
             "terminator_raw_hex": TERMINATOR.hex(),
             "fields": {
                 "+0x00": "u16 tile_index",
-                "+0x02": "u16 tile_flags; bit0 H-flip, bit1 V-flip",
+                "+0x02": "u8 tile_flags; bit0 H-flip, bit1 V-flip",
+                "+0x03": "u8 affine angle offset; 1/256-turn phase",
                 "+0x04": "s16 component-local x",
                 "+0x06": "s16 component-local y",
                 "+0x08": "u16 width",
@@ -1434,6 +1522,7 @@ def export_battle_effect_sprite_animations(
         "consumer_code_slices": _code_slices(rom),
         "child_task_origin_model": _child_task_origin_model(),
         "oam_attribute_model": _oam_attribute_model(groups, playback_plans),
+        "affine_matrix_model": _affine_matrix_model(groups),
         "dynamic_obj_vram_model": _dynamic_obj_vram_model(playback_plans),
         "pre_oam_coordinate_transform_model": (
             _pre_oam_coordinate_transform_model(groups)
@@ -1472,6 +1561,9 @@ def export_battle_effect_sprite_animations(
             "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
             "dynamic_obj_vram_copy_queue_consumer_complete": True,
             "dynamic_obj_vram_hardware_frame_phase_complete": False,
+            "affine_matrix_formula_complete": True,
+            "current_effect_affine_values_complete": True,
+            "general_affine_rotated_coordinates_complete": False,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,

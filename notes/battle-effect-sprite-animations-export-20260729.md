@@ -34,7 +34,8 @@ definition table 是按 frame ID 索引的 component-list 指针表。每个 com
 | Offset | Type | 语义 |
 |---:|---|---|
 | `+0x00` | `u16` | group 图块中的 tile index |
-| `+0x02` | `u16` | tile flags；bit 0 水平翻转，bit 1 垂直翻转 |
+| `+0x02` | `u8` | tile flags；bit 0 水平翻转，bit 1 垂直翻转 |
+| `+0x03` | `u8` | affine angle offset；一周 256 相位 |
 | `+0x04/+0x06` | `s16` | component-local x/y |
 | `+0x08/+0x0A` | `u16` | width/height |
 | `+0x0C/+0x0E` | `u16` | scale x/y |
@@ -202,6 +203,40 @@ battle-effect 路径；22 条 sequence 的 8 种可达 render-attributes 参数�
 闭合，但偏移表的动态值和父/task 运行时输入仍未知，所以本节只签发最终坐标字段的
 8/9-bit wrap，不把 `component + task origin` 直接冒充最终 attr 坐标。
 
+## Affine matrix 合成
+
+矩阵 writer `0x08062EF4..0x080630EC` 的 SHA-256 为
+`533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9`。
+旧 schema 将 `component+0x02..03` 整体称为 tile flags；重新核对消费者后，现拆为
+低字节 H/V flags 与高字节 angle offset。当前 437 个 component 的 angle offset
+均为 0，但编辑器和通用 renderer 必须保留该字段。
+
+设 `phase=u8(component.angle_offset+task.angle_offset)`，
+`S=sin_q8_8(phase)`、`C=sin_q8_8(phase+64)`，并将 component H/V 与 task side
+flip XOR 后得到 `horizontal_sign/vertical_sign`。令
+`dX=task.scale_x×component.scale_x`、`dY=task.scale_y×component.scale_y`，
+`Q(v,d)=trunc0((s32(v)<<16)/d)`，则：
+
+```text
+PA =  horizontal_sign × Q(C,dX)
+PB =    vertical_sign × Q(S,dX)
+PC = -horizontal_sign × Q(S,dY)
+PD =    vertical_sign × Q(C,dY)
+```
+
+两组 scale pair 均为 `0x01000100` 时 ROM 直接使用 S/C，等价于
+`Q(v,65536)=v`。writer 以 `0x03000282 + affine_ordinal×32` 为基址，把
+PA/PB/PC/PD 写到 `+0/+8/+16/+24`，attr1 bits 9–13 写
+`u5(affine_ordinal)`。attr0 affine bit 由完整 matrix-path predicate 决定，不能再
+简化成只有 `component.affine_mode`；angle、非默认 scale 和 task bit 19 等也会进入
+该路径，bit 19 还启用 double-size。
+
+当前唯一非默认 affine component 是 group 2/3 frame 1 component 0。allocator 固定
+task scale=`0x100`、angle=0，child tick callback 不修改它们，所以无 side 镜像时
+矩阵为 `{240,0,0,240}`，水平 side 镜像时为 `{-240,0,0,240}`。固定 matrix slot
+取决于该帧全局 OAM/affine ordinal，不能静态伪造。通用非零 angle 的局部坐标旋转
+`0x08062AF2..0x08062B60` 尚未纳入模型，最终 affine 像素采样也仍未签发。
+
 ## bit 22 动态 OBJ VRAM 分支
 
 renderer `0x08063122..0x080631F6`（SHA-256
@@ -286,7 +321,8 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
 - bit 22 动态 OBJ VRAM 的 enqueue/attr2/offset 公式已闭合且对当前 sequence
   不可达；status-1 队列消费和 renderer→flush 相对顺序已经闭合，但外层硬件帧
   phase、容量失败和玩法 flags 语义仍未闭合；
-- affine matrix 数值及 affine 像素光栅化未闭合；
+- affine matrix 通式、attr1 matrix index 和当前 group 2/3 可达值已经闭合；通用
+  非零 angle 的局部坐标旋转、固定运行时 slot 及 affine 像素光栅化未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。
