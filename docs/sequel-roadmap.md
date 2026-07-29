@@ -69,6 +69,18 @@
   `notes/character-runtime-unit-oam-bindings-20260730.md`。constructor/selector
   writer、非零 offset 语义、camera 调度、动画状态到帧及最终 screen-space 合成仍
   未闭合，Goal 保持 active。
+- 2026-07-30 角色自然 OAM 又与同 checkpoint 的 16×`0x3C` sprite task pool
+  完成离线渲染身份绑定。91/91 个 checkpoint 均成功解析；59 个 OAM 同时满足
+  资源三指针和 task origin，53 个进一步由 task 当前 animation/keyframe 唯一选中
+  同一源 frame，并从 task origin、component geometry/flip、dynamic-copy tile
+  base、palette 和 priority 精确重建完整 `attr0/attr1/attr2`。其余 6 个因当前
+  frame 不一致降级为相关项，不误报为 identity。allocator/renderer 代码已证明
+  pool、字段和推进契约，独立 verifier 重读 ROM、父 artifact、视觉 manifest 与
+  91 个 `.ss9` 后得到 53 条相同结果。当前自然子集只闭合 dynamic-copy component
+  0；task→实际 OAM allocator index/writer、多 component 输出累加、unit ownership、
+  camera、window/blend 与最终屏幕合成仍未完成。成果见
+  `artifacts/character-runtime-oam-task-bindings-v1/` 与
+  `notes/character-runtime-oam-task-bindings-20260730.md`。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。
 - 2026-07-23 进一步把 18 个 `.ss9` 边界绑定到协作任务栈中的真实控制器帧：14 个 scenario 41 样本覆盖 `0x3110` 移动、`0x3000/0x4000` 菜单、`0x9200` 术菜单、`0x4100` 目标/确认、`0x9000/0x9100` 面向/防御、`0x8000` 结果与 `0x1220` 回合脚本；4 个 scenario 45/50 样本又证明敌方 `0x7000` 行动准备与玩家 `0x6000` 提交门共同汇入 `0x8000` 解析。分析要求有效 Thumb BL、外层 controller caller、checkpoint 哈希及阵营/当前单位字段。证据见 `notes/battle-controller-checkpoint-bindings-20260723.json`。旧 implementation plan 的“已实现”状态已撤销并标记为不得继续执行。
