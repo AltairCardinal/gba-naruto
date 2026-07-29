@@ -23,7 +23,7 @@ The late-ROM region contains many `0x10`-byte pointer-table candidates, which su
 Top candidates found:
 
 ```text
-0x596D5C-0x59904C rows=342 zero_rows=217 reused_col0=0
+0x596D5C-0x59903C rows=342 zero_rows=216 reused_col0=5
 0x5A4E14-0x5A57C4 rows=155 zero_rows=0 reused_col0=87
 0x5A2B08-0x5A2EE8 rows=62 zero_rows=0 reused_col0=0
 0x599280-0x5994D0 rows=37 zero_rows=0 reused_col0=0
@@ -79,7 +79,8 @@ Differences:
 
 Working model:
 
-- `0x596FA8` looks like a layered descriptor table
+- `0x596D5C..0x59903C` 已在后续审计中闭合为 62×9 战斗 OBJ 视觉矩阵；
+  `0x59903C..0x59904C` 是表外零 padding，不计入第 217 个空槽
 - `0x5A4E14` looks like a flatter visual asset bank
 
 This is useful because it suggests the ROM may use more than one standardized resource-table schema rather than a single universal format.
