@@ -768,10 +768,32 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         self.assertFalse(
             model["model_boundaries"]["fixed_matrix_slot_known"]
         )
-        self.assertFalse(
+        self.assertTrue(
             model["model_boundaries"][
                 "general_rotated_local_coordinate_formula_complete"
             ]
+        )
+        rotation = model["local_coordinate_rotation"]
+        self.assertEqual("u8(task.angle_offset)", rotation["phase"])
+        self.assertEqual(
+            "component.angle_offset does not rotate component center position",
+            rotation["component_angle_boundary"],
+        )
+        self.assertEqual(
+            (
+                "-trunc0_div2(component.width) + "
+                "trunc0_div256(scaled_center_x*cos_q8_8(task_phase) - "
+                "scaled_center_y*sin_q8_8(task_phase))"
+            ),
+            rotation["rotated_local_x"],
+        )
+        self.assertEqual(
+            (
+                "-trunc0_div2(component.height) + "
+                "trunc0_div256(scaled_center_x*sin_q8_8(task_phase) + "
+                "scaled_center_y*cos_q8_8(task_phase))"
+            ),
+            rotation["rotated_local_y"],
         )
         matrix_slice = next(
             item
@@ -784,11 +806,20 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9",
             matrix_slice["sha256"],
         )
+        rotation_slice = next(
+            item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"] == "affine_local_coordinate_rotation"
+        )
+        self.assertEqual(
+            "c252ef73392603ddc17bb6c425d74d7faa15c24859b6a15814f85dd12481f9b4",
+            rotation_slice["sha256"],
+        )
         self.assertTrue(self.manifest["scope"]["affine_matrix_formula_complete"])
         self.assertTrue(
             self.manifest["scope"]["current_effect_affine_values_complete"]
         )
-        self.assertFalse(
+        self.assertTrue(
             self.manifest["scope"][
                 "general_affine_rotated_coordinates_complete"
             ]
@@ -854,7 +885,7 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "dynamic_obj_vram_hardware_frame_phase_complete": False,
                 "affine_matrix_formula_complete": True,
                 "current_effect_affine_values_complete": True,
-                "general_affine_rotated_coordinates_complete": False,
+                "general_affine_rotated_coordinates_complete": True,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,

@@ -938,9 +938,10 @@ WebSocket
   status-1消费者以同步CpuSet完成拷贝后清槽，且dispatcher先render、后flush的相对
   顺序也已闭合。affine writer继续闭合component独立angle offset、task angle、
   sin/cos、逆scale PA/PB/PC/PD、attr1 matrix index及group 2/3当前可达的
-  `{±240,0,0,240}`矩阵。唯一绝对RNG轨迹、偏移表完整调度/逐帧值、动态队列外层
-  硬件帧phase/容量失败、通用旋转局部坐标/affine像素光栅化、运行时OAM→viewport
-  实例、parent释放0/1 tick边界、blend和音频仍未闭合，Goal保持active。
+  `{±240,0,0,240}`矩阵；`0x08062AF2..0x08062B60`又闭合task angle对component
+  中心的scale后旋转，并区分component angle只旋转自身像素。唯一绝对RNG轨迹、偏移表
+  完整调度/逐帧值、动态队列外层硬件帧phase/容量失败、affine像素光栅化、运行时
+  OAM→viewport实例、parent释放0/1 tick边界、blend和音频仍未闭合，Goal保持active。
 - 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
   62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
   的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10

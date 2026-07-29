@@ -535,6 +535,13 @@
       "sha256": "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9"
     },
     {
+      "name": "affine_local_coordinate_rotation",
+      "file_offset": 404210,
+      "gba_start": "0x08062AF2",
+      "gba_end": "0x08062B60",
+      "sha256": "c252ef73392603ddc17bb6c425d74d7faa15c24859b6a15814f85dd12481f9b4"
+    },
+    {
       "name": "dynamic_obj_vram_renderer_path",
       "file_offset": 405794,
       "gba_start": "0x08063122",
@@ -738,6 +745,16 @@
       "PD": 24
     },
     "attr1_matrix_index": "u5(affine_matrix_ordinal) << 9",
+    "local_coordinate_rotation": {
+      "center_x": "component.x + trunc0_div2(component.width)",
+      "center_y": "component.y + trunc0_div2(component.height)",
+      "scaled_center_x": "q8_8_mul_trunc0(center_x,task.scale_x)",
+      "scaled_center_y": "q8_8_mul_trunc0(center_y,task.scale_y)",
+      "phase": "u8(task.angle_offset)",
+      "component_angle_boundary": "component.angle_offset does not rotate component center position",
+      "rotated_local_x": "-trunc0_div2(component.width) + trunc0_div256(scaled_center_x*cos_q8_8(task_phase) - scaled_center_y*sin_q8_8(task_phase))",
+      "rotated_local_y": "-trunc0_div2(component.height) + trunc0_div256(scaled_center_x*sin_q8_8(task_phase) + scaled_center_y*cos_q8_8(task_phase))"
+    },
     "current_reachable_non_default_components": [
       {
         "group_id": 2,
@@ -778,7 +795,7 @@
       "current_task_scale_and_angle_initialization_known": true,
       "current_side_horizontal_mirror_known": true,
       "fixed_matrix_slot_known": false,
-      "general_rotated_local_coordinate_formula_complete": false,
+      "general_rotated_local_coordinate_formula_complete": true,
       "pixel_rasterization_complete": false
     }
   },
@@ -17926,7 +17943,7 @@
     "dynamic_obj_vram_hardware_frame_phase_complete": false,
     "affine_matrix_formula_complete": true,
     "current_effect_affine_values_complete": true,
-    "general_affine_rotated_coordinates_complete": false,
+    "general_affine_rotated_coordinates_complete": true,
     "concrete_rng_trajectory_complete": false,
     "callback_random_screen_coordinates_complete": false,
     "parent_visible_release_tick_exact": false,

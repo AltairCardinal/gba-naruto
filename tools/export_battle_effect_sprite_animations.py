@@ -162,6 +162,13 @@ CODE_SLICES = (
         "sha256": "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9",
     },
     {
+        "name": "affine_local_coordinate_rotation",
+        "file_offset": 0x062AF2,
+        "gba_start": "0x08062AF2",
+        "gba_end": "0x08062B60",
+        "sha256": "c252ef73392603ddc17bb6c425d74d7faa15c24859b6a15814f85dd12481f9b4",
+    },
+    {
         "name": "dynamic_obj_vram_renderer_path",
         "file_offset": 0x063122,
         "gba_start": "0x08063122",
@@ -841,12 +848,40 @@ def _affine_matrix_model(groups: list[dict[str, Any]]) -> dict[str, Any]:
             "PD": 24,
         },
         "attr1_matrix_index": "u5(affine_matrix_ordinal) << 9",
+        "local_coordinate_rotation": {
+            "center_x": (
+                "component.x + trunc0_div2(component.width)"
+            ),
+            "center_y": (
+                "component.y + trunc0_div2(component.height)"
+            ),
+            "scaled_center_x": (
+                "q8_8_mul_trunc0(center_x,task.scale_x)"
+            ),
+            "scaled_center_y": (
+                "q8_8_mul_trunc0(center_y,task.scale_y)"
+            ),
+            "phase": "u8(task.angle_offset)",
+            "component_angle_boundary": (
+                "component.angle_offset does not rotate component center position"
+            ),
+            "rotated_local_x": (
+                "-trunc0_div2(component.width) + "
+                "trunc0_div256(scaled_center_x*cos_q8_8(task_phase) - "
+                "scaled_center_y*sin_q8_8(task_phase))"
+            ),
+            "rotated_local_y": (
+                "-trunc0_div2(component.height) + "
+                "trunc0_div256(scaled_center_x*sin_q8_8(task_phase) + "
+                "scaled_center_y*cos_q8_8(task_phase))"
+            ),
+        },
         "current_reachable_non_default_components": observed,
         "model_boundaries": {
             "current_task_scale_and_angle_initialization_known": True,
             "current_side_horizontal_mirror_known": True,
             "fixed_matrix_slot_known": False,
-            "general_rotated_local_coordinate_formula_complete": False,
+            "general_rotated_local_coordinate_formula_complete": True,
             "pixel_rasterization_complete": False,
         },
     }
@@ -1563,7 +1598,7 @@ def export_battle_effect_sprite_animations(
             "dynamic_obj_vram_hardware_frame_phase_complete": False,
             "affine_matrix_formula_complete": True,
             "current_effect_affine_values_complete": True,
-            "general_affine_rotated_coordinates_complete": False,
+            "general_affine_rotated_coordinates_complete": True,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,

@@ -234,8 +234,20 @@ PA/PB/PC/PD 写到 `+0/+8/+16/+24`，attr1 bits 9–13 写
 当前唯一非默认 affine component 是 group 2/3 frame 1 component 0。allocator 固定
 task scale=`0x100`、angle=0，child tick callback 不修改它们，所以无 side 镜像时
 矩阵为 `{240,0,0,240}`，水平 side 镜像时为 `{-240,0,0,240}`。固定 matrix slot
-取决于该帧全局 OAM/affine ordinal，不能静态伪造。通用非零 angle 的局部坐标旋转
-`0x08062AF2..0x08062B60` 尚未纳入模型，最终 affine 像素采样也仍未签发。
+取决于该帧全局 OAM/affine ordinal，不能静态伪造。
+
+通用非零 task angle 的局部坐标旋转也已由
+`0x08062AF2..0x08062B60`（SHA-256
+`c252ef73392603ddc17bb6c425d74d7faa15c24859b6a15814f85dd12481f9b4`）
+闭合。先计算 component 中心并应用 task Q8.8 scale，再以 task angle 执行：
+
+```text
+x = -trunc0(width/2)  + trunc0((center_x×cos - center_y×sin)/256)
+y = -trunc0(height/2) + trunc0((center_x×sin + center_y×cos)/256)
+```
+
+这里位置旋转只使用 `task+0x13`；`component+0x03` 仅改变 component 自身 affine
+像素角度，不旋转其中心位置。最终 affine 像素采样仍未签发。
 
 ## bit 22 动态 OBJ VRAM 分支
 
@@ -322,7 +334,8 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
   不可达；status-1 队列消费和 renderer→flush 相对顺序已经闭合，但外层硬件帧
   phase、容量失败和玩法 flags 语义仍未闭合；
 - affine matrix 通式、attr1 matrix index 和当前 group 2/3 可达值已经闭合；通用
-  非零 angle 的局部坐标旋转、固定运行时 slot 及 affine 像素光栅化未闭合；
+  非零 task angle 的局部坐标旋转也已闭合，固定运行时 slot 及 affine 像素光栅化
+  未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。
