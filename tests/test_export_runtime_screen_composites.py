@@ -32,6 +32,7 @@ class ExportRuntimeScreenCompositesTests(unittest.TestCase):
         self.assertEqual(0, self.data["summary"]["unexplained_mismatch_count"])
         self.assertEqual(1211, self.data["summary"]["active_oam_count"])
         self.assertEqual(91, self.data["summary"]["archive_member_count"])
+        self.assertEqual(2, self.data["summary"]["affine_runtime_golden_count"])
         self.assertEqual(91, len(self.data["checkpoints"]))
         for row in self.data["checkpoints"]:
             self.assertEqual("hardware-oam-0x07000000", row["oam_input_domain"])
@@ -49,6 +50,32 @@ class ExportRuntimeScreenCompositesTests(unittest.TestCase):
             self.assertEqual(64, len(row["screenshot_rgb_sha256"]))
         self.assertFalse(self.data["scope"]["cross_frame_timing_complete"])
         self.assertFalse(self.data["scope"]["all_game_visual_states_complete"])
+        self.assertTrue(
+            self.data["scope"][
+                "natural_affine_obj_normal_and_mirror_bound_pixels_covered"
+            ]
+        )
+        self.assertTrue(
+            self.data["scope"]["synthetic_affine_double_size_covered"]
+        )
+
+    def test_binds_normal_and_mirrored_affine_runtime_object_goldens(self):
+        goldens = self.data["affine_runtime_goldens"]
+        self.assertEqual([2, 5], [row["object_index"] for row in goldens])
+        self.assertEqual(
+            [240, -240],
+            [row["attributes"]["matrix"]["PA"] for row in goldens],
+        )
+        for row in goldens:
+            self.assertTrue(row["attributes"]["affine"])
+            self.assertFalse(row["attributes"]["double_size"])
+            self.assertTrue(row["rgba_exact"])
+            self.assertEqual(
+                row["reference_png"]["rgba_sha256"],
+                row["rendered_rgba_sha256"],
+            )
+            self.assertEqual(1, row["isolated_active_oam_count"])
+            self.assertEqual(1, row["isolated_affine_oam_count"])
 
     def test_two_phase_mismatches_are_explicit_cursor_tiles(self):
         mismatches = [

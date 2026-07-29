@@ -9,6 +9,68 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RenderMode0CheckpointTests(unittest.TestCase):
+    def test_affine_runtime_goldens_reconstruct_bound_object_pixels(self):
+        from tools.inspect_mgba_savestate import load_gba_state
+        from tools.render_mode0_checkpoint import _object_coverage, _rgb8
+
+        cases = (
+            (
+                "raw/state-0154.ss9",
+                2,
+                "runtime-object-02.png",
+            ),
+            (
+                "mirror-raw/mirrored.ss9",
+                5,
+                "runtime-object-mirrored.png",
+            ),
+        )
+        root = ROOT / "artifacts/battle-effect-affine-runtime-v1"
+        for relative, object_index, reference_name in cases:
+            with self.subTest(path=relative):
+                state = load_gba_state(root / relative)
+                io = state.read_memory(0x04000000, 0x400)
+                pram = state.read_memory(0x05000000, 0x400)
+                vram = state.read_memory(0x06000000, 0x18000)
+                hardware_oam = state.read_memory(0x07000000, 0x400)
+                isolated_oam = bytearray(hardware_oam)
+                for index in range(128):
+                    struct.pack_into("<H", isolated_oam, index * 8, 0x0200)
+                start = object_index * 8
+                isolated_oam[start : start + 6] = hardware_oam[
+                    start : start + 6
+                ]
+
+                candidates, _, stats = _object_coverage(
+                    struct.unpack_from("<H", io, 0)[0],
+                    pram,
+                    bytes(isolated_oam),
+                    vram,
+                )
+                attr0, attr1 = struct.unpack_from(
+                    "<HH", hardware_oam, start
+                )
+                origin_x, origin_y = attr1 & 0x1FF, attr0 & 0xFF
+                rgba = bytearray()
+                for local_y in range(32):
+                    for local_x in range(32):
+                        pixels = candidates[
+                            (origin_y + local_y) * 240
+                            + origin_x
+                            + local_x
+                        ]
+                        if pixels:
+                            self.assertEqual(1, len(pixels))
+                            rgba.extend((*_rgb8(pixels[0].color), 255))
+                        else:
+                            rgba.extend((0, 0, 0, 0))
+                with Image.open(root / reference_name) as reference:
+                    self.assertEqual(
+                        reference.convert("RGBA").tobytes(),
+                        bytes(rgba),
+                    )
+                self.assertEqual(1, stats["affine"])
+
     def test_inventory_and_exact_embedded_png_goldens_cover_all_checkpoints(self):
         from tools.render_mode0_checkpoint import audit_checkpoint_corpus
 
@@ -168,6 +230,36 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         self.assertEqual(bytes((255, 0, 0)), rendered[:3])
         row_two = 8 * 240 * 3
         self.assertEqual(bytes((0, 255, 0)), rendered[row_two : row_two + 3])
+
+    def test_affine_double_size_expands_bounds_without_scaling_source(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        for offset, value in zip((6, 14, 22, 30), (256, 0, 0, 256)):
+            struct.pack_into("<h", oam, offset, value)
+        struct.pack_into("<HHH", oam, 4 * 8, 0x0300, 0x0000, 0x0000)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        vram[0x10000 : 0x10020] = bytes((0x11,)) * 0x20
+
+        rendered, stats = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        def pixel(x: int, y: int) -> bytes:
+            start = (y * 240 + x) * 3
+            return rendered[start : start + 3]
+
+        self.assertEqual(bytes((0, 0, 0)), pixel(3, 3))
+        self.assertEqual(bytes((255, 0, 0)), pixel(4, 4))
+        self.assertEqual(bytes((255, 0, 0)), pixel(11, 11))
+        self.assertEqual(bytes((0, 0, 0)), pixel(12, 12))
+        self.assertEqual(1, stats["affine"])
 
     def test_semitransparent_obj_forces_alpha_with_backdrop_second_target(self):
         from tools.render_mode0_checkpoint import render_mode0

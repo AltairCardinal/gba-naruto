@@ -57,7 +57,11 @@ IO/PRAM/VRAM/OAM 不变即可与内嵌 PNG 全帧逐字节一致。因此 PNG �
   差异数为 0；
 - `tools/verify_runtime_screen_composites.py` 不复用 exporter/renderer，
   独立解析 `.ss9`、重建 BG/OBJ/window/blend、ZIP 和 promotion manifest，
-  对 91 项得到 `verified=true`、`exact_rgb_count=89`、`errors=[]`。
+  对 91 项得到 `verified=true`、`exact_rgb_count=89`、`errors=[]`；
+- 同一 artifact 还读取既有 `battle-effect-affine-runtime-v1` 的正常与阵营
+  水平镜像 savestate，独立从 matrix slot `{240,0,0,240}` /
+  `{-240,0,0,240}` 重建 OAM entry 2/5 的 32×32 RGBA，对两张已哈希绑定
+  runtime-object PNG 均逐像素 exact。
 
 这闭合的是“已跟踪序列化 GPU 域的 Mode 0 静态屏幕合成”，不是所有游戏视觉
 状态、跨帧 scanline 行为或实体 GBA 输出。
@@ -84,8 +88,9 @@ green/blue 先移位再除法，所以 darken 的 RGB8 舍入不能用一个普�
 
 ## 当前证据边界
 
-自然 corpus 未覆盖 2D/8bpp odd-index OBJ、semi-transparent、OBJ-window、
-brighten、WIN1 与 wrapped window，但这些路径现已有独立合成 fixture：
+91 个主 checkpoint 自然 corpus 未覆盖 2D/8bpp odd-index OBJ、
+semi-transparent、OBJ-window、brighten、WIN1 与 wrapped window，但这些路径
+现已有独立合成 fixture：
 
 - 8bpp OBJ 明确清除 attr2 tile index bit 0；
 - 2D 4bpp OBJ 第二 tile row 使用固定 32 tile-unit stride；
@@ -93,9 +98,14 @@ brighten、WIN1 与 wrapped window，但这些路径现已有独立合成 fixtur
 - OBJ-window 非零像素只产生 mask，不绘制自身颜色；
 - brighten、`WIN0 > WIN1 > outside` 与 wrapped/empty range。
 
+Affine OBJ 则有单独的原作 runtime corpus：正常/镜像两个 matrix slot 的 bound
+object pixels 已 exact；synthetic double-size fixture 又证明扩大的是输出边界，
+不缩放 source。该结论仍不包含 affine mosaic。
+
 仍未闭合：
 
-- affine OBJ、object mode 3 的自然行为；
+- object mode 3 的自然行为；
+- affine OBJ 与 mosaic 的组合；
 - 非零 BG/OBJ mosaic；
 - scanline 中途寄存器变化；
 - 实体 GBA 的物理显示输出。

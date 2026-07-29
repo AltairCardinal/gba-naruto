@@ -1,4 +1,110 @@
 {
+  "affine_runtime_goldens": [
+    {
+      "attributes": {
+        "affine": true,
+        "attr0": "0x0550",
+        "attr1": "0x80A0",
+        "attr2": "0x79D8",
+        "double_size": false,
+        "matrix": {
+          "PA": 240,
+          "PB": 0,
+          "PC": 0,
+          "PD": 240
+        },
+        "matrix_index": 0
+      },
+      "domains": {
+        "hardware_oam": {
+          "address": "0x07000000",
+          "sha256": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+          "size": 1024
+        },
+        "io": {
+          "address": "0x04000000",
+          "sha256": "0d64269bd6c54b31447dd76b9c40dd3b9913d5a8bf73c759eec072bbea557cc7",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "sha256": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "sha256": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+          "size": 98304
+        }
+      },
+      "isolated_active_oam_count": 1,
+      "isolated_affine_oam_count": 1,
+      "object_index": 2,
+      "reference_png": {
+        "height": 32,
+        "path": "artifacts/battle-effect-affine-runtime-v1/runtime-object-02.png",
+        "rgba_sha256": "30adefb4dbb8b9177d0eeb1e7d38dbdf61a5cc3d0d4ab03baf031f50d396199c",
+        "sha256": "fe8d6c78ebfd94b1a6c84ad4dbcbe75d6568a8b8c427529366be97aec812c6ae",
+        "width": 32
+      },
+      "rendered_rgba_sha256": "30adefb4dbb8b9177d0eeb1e7d38dbdf61a5cc3d0d4ab03baf031f50d396199c",
+      "rgba_exact": true,
+      "state_path": "artifacts/battle-effect-affine-runtime-v1/raw/state-0154.ss9",
+      "state_sha256": "60028c26e1a529c9542b1e9644dcd35d341cfcfe593cde1b3359c1e2817e3c93"
+    },
+    {
+      "attributes": {
+        "affine": true,
+        "attr0": "0x0550",
+        "attr1": "0x82A0",
+        "attr2": "0x79D8",
+        "double_size": false,
+        "matrix": {
+          "PA": -240,
+          "PB": 0,
+          "PC": 0,
+          "PD": 240
+        },
+        "matrix_index": 1
+      },
+      "domains": {
+        "hardware_oam": {
+          "address": "0x07000000",
+          "sha256": "04435798826ee67fc2a53200b7b9bdd825d83c94cfb9d55a72df7438a3a5fb78",
+          "size": 1024
+        },
+        "io": {
+          "address": "0x04000000",
+          "sha256": "14cba70fad8fdb412d688235b28851203197eb47e6e5ff4a7473fc19159762a0",
+          "size": 1024
+        },
+        "pram": {
+          "address": "0x05000000",
+          "sha256": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+          "size": 1024
+        },
+        "vram": {
+          "address": "0x06000000",
+          "sha256": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+          "size": 98304
+        }
+      },
+      "isolated_active_oam_count": 1,
+      "isolated_affine_oam_count": 1,
+      "object_index": 5,
+      "reference_png": {
+        "height": 32,
+        "path": "artifacts/battle-effect-affine-runtime-v1/runtime-object-mirrored.png",
+        "rgba_sha256": "481f8da67d5cd3e349cb154b4a7e9ed3fc19e665d842804b64afc27e982e4a00",
+        "sha256": "65bcc4bef25dfabb5ce18818c293ab92c392c824f6674167d735d72618e87b16",
+        "width": 32
+      },
+      "rendered_rgba_sha256": "481f8da67d5cd3e349cb154b4a7e9ed3fc19e665d842804b64afc27e982e4a00",
+      "rgba_exact": true,
+      "state_path": "artifacts/battle-effect-affine-runtime-v1/mirror-raw/mirrored.ss9",
+      "state_sha256": "a5ca1aa10b3fcd9fc42a6db7329e75b1602aa0b27a9cbaa1824a9e9df3e7832d"
+    }
+  ],
   "archive": {
     "deterministic_zip_timestamp": "1980-01-01T00:00:00",
     "file": "frames.zip",
@@ -5176,10 +5282,11 @@
     }
   ],
   "implementation": {
-    "exporter_sha256": "9efedeb68b27508e5c6cb4f4ec9c4ddf684d12e3520f61bd2b41bb48ca69948e",
-    "renderer_sha256": "2bac4af2f57b0a01c09526706a451ee5671ab93e3263373420520778bf899679",
-    "test_sha256": "4bf089369c90c16691348988e11c5b104dd74f2869f48a3c90db264d65938254",
-    "verifier_sha256": "6618c2e0b427232b8327cfc8b0f9aee43875ef6996166ba6c7c2485b375d0f2d"
+    "exporter_sha256": "1a3533e8434ef446369732aab675feece38471b8b8c7f8202391e41c953fe6d7",
+    "renderer_sha256": "7a6958dd7983262c59377f5ccf4a96aa2430dfbe0e82de8e63a370bbbc502f54",
+    "renderer_test_sha256": "ba0c244e0829488d1fea3681489f39676d154cab264bc719b6bbd9426f5a3fa5",
+    "test_sha256": "31da72cfb8caf733218cf9e67c2e4ac5be72f162dca9b2f9eda7eb4e38a63dbe",
+    "verifier_sha256": "02182a7ada5cd1d466cfad30853257db735155f217a8e9781afad47fab67498d"
   },
   "renderer": {
     "display_mode": 0,
@@ -5194,27 +5301,32 @@
   "schema": "runtime-screen-composites-v1",
   "scope": {
     "89_of_91_screenshot_pixels_exact": true,
-    "affine_obj_complete": false,
+    "affine_obj_mosaic_complete": false,
     "all_game_visual_states_complete": false,
     "all_tracked_mode0_static_frames_rendered": true,
     "cross_frame_timing_complete": false,
     "hardware_oam_domain_used_for_rendering": true,
+    "natural_affine_obj_normal_and_mirror_bound_pixels_covered": true,
     "natural_mode0_text_bg_normal_1d_obj_alpha_darken_covered": true,
     "nonzero_mosaic_complete": false,
     "physical_gba_display_output_verified": false,
     "scanline_register_changes_complete": false,
     "screenshot_capture_phase_timing_complete": false,
     "synthetic_2d_8bpp_semitransparent_obj_window_brighten_win1_covered": true,
+    "synthetic_affine_double_size_covered": true,
     "two_screenshot_phase_mismatches_accounted_for": true,
     "unexplained_screenshot_mismatches_remaining": false
   },
   "source": {
+    "affine_runtime_evidence_manifest_sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c",
+    "affine_runtime_evidence_root": "artifacts/battle-effect-affine-runtime-v1",
     "checkpoint_count": 91,
     "checkpoint_glob": "*.ss9",
     "checkpoint_root": "artifacts/runtime-checkpoints"
   },
   "summary": {
     "active_oam_count": 1211,
+    "affine_runtime_golden_count": 2,
     "archive_member_count": 91,
     "checkpoint_count": 91,
     "exact_rgb_count": 89,

@@ -41,7 +41,9 @@ SCOPE = {
     "natural_mode0_text_bg_normal_1d_obj_alpha_darken_covered": True,
     "synthetic_2d_8bpp_semitransparent_obj_window_brighten_win1_covered": True,
     "unexplained_screenshot_mismatches_remaining": False,
-    "affine_obj_complete": False,
+    "natural_affine_obj_normal_and_mirror_bound_pixels_covered": True,
+    "synthetic_affine_double_size_covered": True,
+    "affine_obj_mosaic_complete": False,
     "nonzero_mosaic_complete": False,
     "scanline_register_changes_complete": False,
     "cross_frame_timing_complete": False,
@@ -205,17 +207,31 @@ def _object_pixels(
     stats = Counter()
     for index, attr0, attr1, attr2 in _active_objects(oam):
         stats["active"] += 1
-        if attr0 & 0x100:
+        affine = bool(attr0 & 0x100)
+        double_size = affine and bool(attr0 & 0x200)
+        matrix: tuple[int, int, int, int] | None = None
+        if affine:
             stats["affine"] += 1
-            raise ValueError(f"OAM {index}: affine not supported")
+            matrix_index = attr1 >> 9 & 31
+            matrix = tuple(
+                struct.unpack_from(
+                    "<h",
+                    oam,
+                    (matrix_index * 4 + component) * 8 + 6,
+                )[0]
+                for component in range(4)
+            )
         shape = (attr0 >> 14) & 3
         width, height = OBJ_DIMENSIONS[shape][(attr1 >> 14) & 3]
+        output_width = width << int(double_size)
+        output_height = height << int(double_size)
         origin_x, origin_y = attr1 & 0x1FF, attr0 & 0xFF
         if origin_x >= 256:
             origin_x -= 512
         if origin_y >= 160:
             origin_y -= 256
-        hflip, vflip = bool(attr1 & 0x1000), bool(attr1 & 0x2000)
+        hflip = not affine and bool(attr1 & 0x1000)
+        vflip = not affine and bool(attr1 & 0x2000)
         is_8bpp = bool(attr0 & 0x2000)
         mode = (attr0 >> 10) & 3
         if mode == 1:
@@ -229,18 +245,43 @@ def _object_pixels(
         if is_8bpp:
             base &= ~1
         stride = width // 8 * tile_units if dispcnt & 0x40 else 32
-        for local_y in range(height):
+        for local_y in range(output_height):
             screen_y = origin_y + local_y
             if not 0 <= screen_y < HEIGHT:
                 continue
-            source_y = height - 1 - local_y if vflip else local_y
-            tile_y, pixel_y = divmod(source_y, 8)
-            for local_x in range(width):
+            for local_x in range(output_width):
                 screen_x = origin_x + local_x
                 if not 0 <= screen_x < WIDTH:
                     continue
-                source_x = width - 1 - local_x if hflip else local_x
+                if affine:
+                    assert matrix is not None
+                    pa, pb, pc, pd = matrix
+                    relative_x = local_x - output_width // 2
+                    relative_y = local_y - output_height // 2
+                    source_x = (
+                        pa * relative_x
+                        + pb * relative_y
+                        + (width << 7)
+                    ) >> 8
+                    source_y = (
+                        pc * relative_x
+                        + pd * relative_y
+                        + (height << 7)
+                    ) >> 8
+                    if not (
+                        0 <= source_x < width
+                        and 0 <= source_y < height
+                    ):
+                        continue
+                else:
+                    source_x = (
+                        width - 1 - local_x if hflip else local_x
+                    )
+                    source_y = (
+                        height - 1 - local_y if vflip else local_y
+                    )
                 tile_x, pixel_x = divmod(source_x, 8)
+                tile_y, pixel_y = divmod(source_y, 8)
                 tile_unit = base + tile_y * stride + tile_x * tile_units
                 tile_at = 0x10000 + tile_unit * 32
                 if is_8bpp:
@@ -575,6 +616,117 @@ def _checkpoint(root: Path, path: Path) -> tuple[dict[str, object], bytes]:
     )
 
 
+def _affine_runtime_goldens(root: Path) -> list[dict[str, object]]:
+    evidence_root = root / "artifacts/battle-effect-affine-runtime-v1"
+    cases = (
+        ("raw/state-0154.ss9", 2, "runtime-object-02.png"),
+        (
+            "mirror-raw/mirrored.ss9",
+            5,
+            "runtime-object-mirrored.png",
+        ),
+    )
+    records = []
+    for state_relative, object_index, reference_relative in cases:
+        state_path = evidence_root / state_relative
+        state = _state(state_path)
+        io = _memory(state, 0x04000000, 0x400)
+        pram = _memory(state, 0x05000000, 0x400)
+        vram = _memory(state, 0x06000000, 0x18000)
+        hardware = _memory(state, 0x07000000, 0x400)
+        isolated = bytearray(hardware)
+        for index in range(128):
+            struct.pack_into("<H", isolated, index * 8, 0x0200)
+        start = object_index * 8
+        isolated[start : start + 6] = hardware[start : start + 6]
+        candidates, _, stats = _object_pixels(
+            _u16(io, 0), pram, bytes(isolated), vram
+        )
+        attr0, attr1, attr2 = struct.unpack_from("<HHH", hardware, start)
+        matrix_index = attr1 >> 9 & 31
+        matrix = tuple(
+            struct.unpack_from(
+                "<h",
+                hardware,
+                (matrix_index * 4 + component) * 8 + 6,
+            )[0]
+            for component in range(4)
+        )
+        width, height = OBJ_DIMENSIONS[(attr0 >> 14) & 3][(attr1 >> 14) & 3]
+        if attr0 & 0x200:
+            width *= 2
+            height *= 2
+        origin_x, origin_y = attr1 & 0x1FF, attr0 & 0xFF
+        if origin_x >= 256:
+            origin_x -= 512
+        if origin_y >= 160:
+            origin_y -= 256
+        rgba = bytearray()
+        for local_y in range(height):
+            for local_x in range(width):
+                x, y = origin_x + local_x, origin_y + local_y
+                pixels = (
+                    candidates[y * WIDTH + x]
+                    if 0 <= x < WIDTH and 0 <= y < HEIGHT
+                    else []
+                )
+                if pixels:
+                    if len(pixels) != 1:
+                        raise ValueError(
+                            f"{state_path.name}: isolated affine overlap"
+                        )
+                    rgba.extend((*_rgb8(pixels[0].color), 255))
+                else:
+                    rgba.extend((0, 0, 0, 0))
+        reference_path = evidence_root / reference_relative
+        with Image.open(reference_path) as image:
+            reference_rgba = image.convert("RGBA").tobytes()
+            reference_size = list(image.size)
+        if bytes(rgba) != reference_rgba or reference_size != [width, height]:
+            raise ValueError(
+                f"{state_path.name}: affine object does not match reference"
+            )
+        records.append(
+            {
+                "state_path": state_path.relative_to(root).as_posix(),
+                "state_sha256": _sha(state_path.read_bytes()),
+                "object_index": object_index,
+                "attributes": {
+                    "attr0": f"0x{attr0:04X}",
+                    "attr1": f"0x{attr1:04X}",
+                    "attr2": f"0x{attr2:04X}",
+                    "affine": True,
+                    "double_size": bool(attr0 & 0x200),
+                    "matrix_index": matrix_index,
+                    "matrix": {
+                        name: value
+                        for name, value in zip(
+                            ("PA", "PB", "PC", "PD"), matrix
+                        )
+                    },
+                },
+                "domains": {
+                    "io": _domain(io, 0x04000000),
+                    "pram": _domain(pram, 0x05000000),
+                    "vram": _domain(vram, 0x06000000),
+                    "hardware_oam": _domain(hardware, 0x07000000),
+                },
+                "reference_png": {
+                    "path": reference_path.relative_to(root).as_posix(),
+                    "sha256": _sha(reference_path.read_bytes()),
+                    "rgba_sha256": _sha(reference_rgba),
+                    "width": width,
+                    "height": height,
+                },
+                "rendered_rgba_sha256": _sha(bytes(rgba)),
+                "rgba_exact": True,
+                "isolated_active_oam_count": int(stats.get("active", 0)),
+                "isolated_affine_oam_count": int(stats.get("affine", 0)),
+            }
+        )
+    return records
+
+
 def _archive(members: dict[str, bytes]) -> bytes:
     output = BytesIO()
     with zipfile.ZipFile(
@@ -600,6 +752,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
         members[str(record["rendered_frame"]["archive_member"])] = png
     archive = _archive(members)
     exact = sum(bool(row["rgb_exact"]) for row in records)
+    affine_goldens = _affine_runtime_goldens(root)
     implementation = {
         "exporter_sha256": _sha(
             (root / "tools/export_runtime_screen_composites.py").read_bytes()
@@ -613,6 +766,9 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
         "test_sha256": _sha(
             (root / "tests/test_export_runtime_screen_composites.py").read_bytes()
         ),
+        "renderer_test_sha256": _sha(
+            (root / "tests/test_render_mode0_checkpoint.py").read_bytes()
+        ),
     }
     data = {
         "schema": SCHEMA,
@@ -621,6 +777,15 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
             "checkpoint_root": "artifacts/runtime-checkpoints",
             "checkpoint_glob": "*.ss9",
             "checkpoint_count": len(records),
+            "affine_runtime_evidence_root": (
+                "artifacts/battle-effect-affine-runtime-v1"
+            ),
+            "affine_runtime_evidence_manifest_sha256": _sha(
+                (
+                    root
+                    / "artifacts/battle-effect-affine-runtime-v1/manifest.json"
+                ).read_bytes()
+            ),
         },
         "renderer": {
             "display_mode": 0,
@@ -641,6 +806,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
             ),
             "active_oam_count": sum(int(row["active_oam_count"]) for row in records),
             "archive_member_count": len(members),
+            "affine_runtime_golden_count": len(affine_goldens),
         },
         "archive": {
             "file": "frames.zip",
@@ -650,6 +816,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
             "deterministic_zip_timestamp": "1980-01-01T00:00:00",
         },
         "checkpoints": records,
+        "affine_runtime_goldens": affine_goldens,
         "scope": SCOPE,
     }
     data_bytes = (
@@ -699,7 +866,7 @@ def _expected(root: Path) -> tuple[dict[str, object], bytes, dict[str, object]]:
         },
         "experiment": {
             "task": "runtime-screen-composites",
-            "run_id": "tracked-mode0-screen-20260730-01",
+            "run_id": "tracked-mode0-screen-affine-20260730-02",
         },
     }
     return data, archive, promotion

@@ -160,19 +160,31 @@ def _object_coverage(
     for index, attr0, attr1, attr2 in _active_objects(oam):
         stats["active"] += 1
         affine = bool(attr0 & (1 << 8))
+        double_size = affine and bool(attr0 & (1 << 9))
+        matrix: tuple[int, int, int, int] | None = None
         if affine:
             stats["affine"] += 1
-            raise ValueError(f"affine OAM entry {index} is not supported")
+            matrix_index = (attr1 >> 9) & 0x1F
+            matrix = tuple(
+                struct.unpack_from(
+                    "<h",
+                    oam,
+                    (matrix_index * 4 + component) * 8 + 6,
+                )[0]
+                for component in range(4)
+            )
         shape = (attr0 >> 14) & 3
         width, height = OBJ_DIMENSIONS[shape][(attr1 >> 14) & 3]
+        output_width = width << int(double_size)
+        output_height = height << int(double_size)
         origin_x = attr1 & 0x1FF
         origin_y = attr0 & 0xFF
         if origin_x >= 256:
             origin_x -= 512
         if origin_y >= 160:
             origin_y -= 256
-        horizontal_flip = bool(attr1 & (1 << 12))
-        vertical_flip = bool(attr1 & (1 << 13))
+        horizontal_flip = not affine and bool(attr1 & (1 << 12))
+        vertical_flip = not affine and bool(attr1 & (1 << 13))
         color_256 = bool(attr0 & (1 << 13))
         object_mode = (attr0 >> 10) & 3
         if object_mode == 1:
@@ -182,18 +194,47 @@ def _object_coverage(
         elif object_mode == 3:
             raise ValueError(f"active OAM entry {index} uses prohibited mode 3")
         tile_units = 2 if color_256 else 1
-        for local_y in range(height):
+        for local_y in range(output_height):
             screen_y = origin_y + local_y
             if not 0 <= screen_y < HEIGHT:
                 continue
-            source_y = height - 1 - local_y if vertical_flip else local_y
-            tile_y, pixel_y = divmod(source_y, 8)
-            for local_x in range(width):
+            for local_x in range(output_width):
                 screen_x = origin_x + local_x
                 if not 0 <= screen_x < WIDTH:
                     continue
-                source_x = width - 1 - local_x if horizontal_flip else local_x
+                if affine:
+                    assert matrix is not None
+                    pa, pb, pc, pd = matrix
+                    relative_x = local_x - output_width // 2
+                    relative_y = local_y - output_height // 2
+                    source_x = (
+                        pa * relative_x
+                        + pb * relative_y
+                        + (width << 7)
+                    ) >> 8
+                    source_y = (
+                        pc * relative_x
+                        + pd * relative_y
+                        + (height << 7)
+                    ) >> 8
+                    if not (
+                        0 <= source_x < width
+                        and 0 <= source_y < height
+                    ):
+                        continue
+                else:
+                    source_x = (
+                        width - 1 - local_x
+                        if horizontal_flip
+                        else local_x
+                    )
+                    source_y = (
+                        height - 1 - local_y
+                        if vertical_flip
+                        else local_y
+                    )
                 tile_x, pixel_x = divmod(source_x, 8)
+                tile_y, pixel_y = divmod(source_y, 8)
                 if dispcnt & (1 << 6):
                     stride = width // 8 * tile_units
                 else:
