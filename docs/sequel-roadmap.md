@@ -943,8 +943,10 @@ WebSocket
   完整调度/逐帧值、动态队列外层硬件帧phase/容量失败仍待闭合。affine像素逆采样现
   已按mGBA `software-obj.c`闭合有符号Q8.8边界、double-size、透明和matrix镜像规则，
   并为group 2/3当前可达矩阵导出四张独立复核参考图；这些是源码模型而非真机golden。
-  真机affine golden、运行时OAM→viewport实例、parent释放0/1 tick边界、blend和音频
-  仍未闭合，Goal保持active。
+  既有tool 49 trace现又闭合frame 152–179的28帧、44个正常侧affine OAM实例，
+  runtime tile/palette与group 2 ROM资源逐字节一致，代表帧像素哈希也与source-model
+  一致，并持久化可恢复快照与GPU域。阵营镜像runtime capture、物理GBA采集、完整
+  OAM→viewport实例、parent释放0/1 tick边界、blend和音频仍未闭合，Goal保持active。
 - 2026-07-29：纠正旧扫描候选 `0x085A2B08..0x085A2EE8`。消费者证明它并非
   62×16 四指针表，而是 79 项 message pointer 表和 172 项 LZ77 glyph pointer 表
   的错误拼接视图，且旧终点漏掉 glyph 169–171；相邻 `0x085A2EF4` 为 79×10

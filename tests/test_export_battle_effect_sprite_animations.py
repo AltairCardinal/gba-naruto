@@ -883,6 +883,22 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         )
         self.assertEqual(source[31], mirrored[15 * width + 15])
 
+        floor_guard, width, _ = _raster_affine_indices(
+            source,
+            32,
+            32,
+            pa=0,
+            pb=4097,
+            pc=0,
+            pd=256,
+            double_size=False,
+        )
+        self.assertEqual(
+            0,
+            floor_guard[15 * width + 16],
+            "signed -1 >> 8 must stay negative instead of truncating to zero",
+        )
+
         raster = self.manifest["affine_matrix_model"]["rasterization"]
         self.assertEqual("d8bad14", raster["mgba_commit"])
         self.assertEqual(

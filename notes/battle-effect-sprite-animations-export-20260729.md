@@ -275,6 +275,30 @@ PNG；64×64 double-size 测试向量还证明全不透明 32×32 source 的离�
 `(15,15)..(49,49)`，即 35×35。以上签发的是 mGBA source-model 公式和当前可达
 参考图，不是 GBA 真机像素 golden；真机/OAM 帧锚点仍需后续受守卫运行验证。
 
+### 运行时 OAM golden
+
+仓库已有原作 tool 49 trace，无需重新启动 mGBA 或重复导航。现将 frame 154 的可恢复
+`state-0154.ss9`、240×160 截图及同帧 I/O/OAM/PRAM/VRAM 持久化到
+`artifacts/battle-effect-affine-runtime-v1/`，并只额外保存 frame 152–179 的 28 份
+1 KiB OAM；没有复制整套大型 trace。
+
+独立 exporter/verifier 从 runtime OAM entry 2 得到：
+
+- attr0/1/2 = `0x0550/0x80A0/0x79D8`；
+- 屏幕包围盒左上角 `(160,80)`、32×32、非 double-size、半透明、priority 2；
+- matrix slot 0 = `{PA=240,PB=0,PC=0,PD=240}`；
+- 1D OBJ tile 472 的 512 bytes 与 group 2 frame 1 ROM 图块逐字节相同；
+- OBJ palette bank 7 与 group 2 palette 逐字节相同；
+- runtime OAM/VRAM/PRAM 重建像素 SHA-256
+  `0fc78c8d612c9307624420bb276dd35c3dc4396761bddfd0703cd4a62fe375f1`，
+  与 source-model normal preview 完全一致；
+- 28 帧共有 44 个 group-2 affine OBJ 实例，全部使用 `{240,0,0,240}`。
+
+mGBA 源码审计还确认 OAM x 是变换包围盒左边缘：低 9 位先符号扩展，y 按 256
+环绕；局部 raster 的 `screen_x/y` 不能误当显示器绝对坐标。当前成果因此签发正常侧
+runtime OAM golden，但尚无阵营镜像 runtime capture，也没有物理 GBA 采集或完整屏幕
+逐像素合成。
+
 ## bit 22 动态 OBJ VRAM 分支
 
 renderer `0x08063122..0x080631F6`（SHA-256
@@ -337,6 +361,13 @@ python3 tools/export_battle_effect_sprite_animations.py \
 python3 tools/verify_battle_effect_sprite_animations.py \
   --root . \
   --artifact-dir artifacts/battle-effect-sprite-animations-v1
+python3 tools/export_battle_effect_affine_runtime.py \
+  --root . \
+  --raw-dir artifacts/battle-effect-affine-runtime-v1/raw \
+  --output-dir artifacts/battle-effect-affine-runtime-v1
+python3 tools/verify_battle_effect_affine_runtime.py \
+  --root . \
+  --artifact-dir artifacts/battle-effect-affine-runtime-v1
 python3 -m unittest tests.test_export_battle_effect_sprite_animations
 ```
 
@@ -361,8 +392,8 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
   不可达；status-1 队列消费和 renderer→flush 相对顺序已经闭合，但外层硬件帧
   phase、容量失败和玩法 flags 语义仍未闭合；
 - affine matrix 通式、attr1 matrix index、当前 group 2/3 可达值、通用非零 task
-  angle 的局部坐标旋转及 mGBA source-model 像素逆采样已经闭合；固定运行时 slot、
-  真机 affine golden 及完整 viewport 合成仍未闭合；
+  angle 的局部坐标旋转、mGBA source-model 像素逆采样及正常侧 runtime OAM golden
+  已经闭合；阵营镜像 runtime capture、物理 GBA 采集及完整 viewport 合成仍未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。
