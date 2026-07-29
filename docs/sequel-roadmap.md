@@ -952,6 +952,17 @@ WebSocket
   运行时装载门：descriptor 0 的 D 已证明是 gfx 指针为零而不可安装的 dormant
   tilemap，不再作为待寻找资源；descriptor 4 的完整 D 则明确标记为 tick 50 的
   C-path 动态来源。编辑器模型因此已无损，但逐 tick 与 screen-space 仍待闭合。
+- 2026-07-29：闭合 79 项战斗视觉的标准 consumer 离线运行时时间线。75 项可播放
+  descriptor 各导出 106 个 linked tick，4 项全零 sentinel 明确不可播放；补齐
+  callback mode 2/3 的横向震荡、D tilemap→C graphics 混合路径、mode 3 的 D 层
+  正负 scroll，以及 descriptor 1/3 的 `0x0100` C-over-B alpha。标准 intro 同时
+  闭合 17 帧 A 滚动、8 帧消息前置、6 帧槽节拍、60 帧保持和 OBJ 坐标/palette bank，
+  并为每项生成 intro＋tick 16/32/50/81/106 的离线 contact sheet。独立 verifier
+  返回 75 timelines、`errors=[]`；成果位于
+  `artifacts/battle-visual-runtime-timelines-v1/`，说明见
+  `notes/battle-visual-runtime-timelines-export-20260729.md`。shadow register
+  提交顺序、window mask 边缘和代表性 mGBA golden frame 仍待闭合，因此不宣称运行时
+  像素等价，Goal 保持 active。
 - 2026-07-29：闭合 regular BG 的完整场景选择目录。批量遍历 primary/alternate
   110/110 个非空章节脚本槽、98 个唯一根和 14,199 个唯一 CFG 节点，精确处理两套
   text token 规则及 42 个双分支 opcode `0x06`，得到 6 个唯一 opcode `0x1E`
