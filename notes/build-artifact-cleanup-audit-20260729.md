@@ -358,3 +358,33 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 原 ROM trace、外部录像、快照、GPU/OAM/PRAM/VRAM dump、`audio-v2/`、
 `resource-guard/`、`signed-tooling/`、各系列最终运行目录和并行任务的
 `butano-sequel/build/` 均未删除；它们仍是唯一证据、工具输入或当前工程产物。
+
+## 第十六轮清理：按最终成果逐组核对旧运行
+
+本轮不是按文件类型或年龄清理，而是逐组确认旧运行已经有明确的最终成果承接：
+
+- 火遁自然路线保留最终入口快照
+  `build/original-fire-route-probe-20260726-97/`、最终原作 trace
+  `build/original-fire-presentation-trace-20260726-{98,99}/`、结构化证据和持久笔记；
+  删除 34 个无引用的旧导航运行和 6 个旧目标确认 trace。
+- 动作表现组件保留被笔记直接引用的
+  `build/original-action-presentation-trace-20260726-05/`、被生成器和测试读取的
+  `build/original-action-presentation-trace-20260726-08/`，以及最终扬尘 trace
+  `build/original-action-presentation-trace-20260726-42-dust/`；删除 5 个已被这些
+  schema/帧级最终运行取代的早期 trace。
+- continuation 实验保留持久观察 JSON、输入快照、accepted baseline 和
+  `melee100-run` 输出；删除两侧各自的 `resolved`、`stable`、`dismiss` 中间副本。
+- 对具有明确后继编号或 `final` 版本的 Butano 验证，只删除旧的 action-components、
+  command-blockers、effect7、AI、secondary 和符号输出；对应 `02`、`03`、`04` 或
+  `final` 版本均逐项确认仍存在。
+
+删除前逐路径排除本审计笔记后反查 `notes/`、`docs/`、`tools/`、`tests/`、
+`artifacts/` 和 `butano-sequel/`，59 个目标均无引用；同时确认没有进程持有目标文件。
+本轮删除 59 个路径、804 个文件，共 `66,580 KiB`（约 `65.02 MiB`）。删除后顶层
+`build/` 为 `1,276,848 KiB`、剩余 `17,660` 个文件，13 个代表性最终输出全部仍在。
+
+继续保留尚未成果化的外部录像、早期原作探索 dump、场景 49 当日产物，以及被工具、
+测试或笔记直接读取的音频、最终 trace、快照、运行守卫和签名工具链。尤其
+`battle-presentation-original-probes-20260727-01/` 等目录虽然没有直接路径引用，
+仍含未被最终 artifact 完整覆盖的独有 GPU/OAM/PRAM/VRAM 帧，不能仅凭“无引用”
+判定为缓存。
