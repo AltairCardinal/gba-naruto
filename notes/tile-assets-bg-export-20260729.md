@@ -1,4 +1,10 @@
-# `tile-assets` BG 图层全量导出证据（2026-07-29）
+# `tile-assets` BG 图层全量导出证据 v2（2026-07-29）
+
+> **取代说明：** `tile-assets-bg-v1` 把 C 层错误地按 4bpp/32-byte tile 和
+> 16 色 palette 解码。消费者 `0x08098730..0x08098734` 的 tile-base 除二、
+> `0x080994DC..0x080994E4` 的 BG 8bpp bit，以及
+> `0x0809940C..0x08099414` 的 4-block palette copy 共同反证旧解释。v1 仅保留为
+> 历史错误成果，不得继续作为像素、tile count 或 palette 证据；权威产物是 v2。
 
 ## 结论
 
@@ -8,6 +14,8 @@
 - 79/79 条 descriptor 均逐字绑定到 ROM；
 - 4 条全零记录确认为有效 sentinel：`13, 31, 32, 46`；
 - A/B/C 各导出 75 个完整逻辑图层，D 导出 11 个，共 236 个 indexed PNG；
+- A/B/D 是 4bpp、32-byte tile、16 色 palette；C 是 8bpp、64-byte tile、
+  64 色 palette；
 - index 0/D 是唯一允许的 map-only 残缺项：保留 tilemap、definition 与哈希，
   不伪造缺失的 gfx/palette 或 PNG；
 - 236 个逻辑图层引用 107 份唯一 gfx、107 份唯一 palette 和
@@ -31,16 +39,16 @@
 
 每个非 sentinel descriptor 的静态资源字段为：
 
-| 层 | definition | gfx | tilemap | palette | 完整数 |
-|---|---:|---:|---:|---:|---:|
-| A | consumer 固定 `30×14` | `+0x0C` | `+0x10` | `+0x14` | 75 |
-| B | consumer 固定 `32×14` | `+0x18` | `+0x1C` | `+0x20` | 75 |
-| C | `+0x24` | `+0x28` | `+0x2C` | `+0x30` | 75 |
-| D | `+0x34` | `+0x38` | `+0x3C` | `+0x40` | 11 |
+| 层 | definition | gfx | tilemap | palette | 格式 | 完整数 |
+|---|---:|---:|---:|---:|---:|---:|
+| A | consumer 固定 `30×14` | `+0x0C` | `+0x10` | `+0x14` | 4bpp / 16 色 | 75 |
+| B | consumer 固定 `32×14` | `+0x18` | `+0x1C` | `+0x20` | 4bpp / 16 色 | 75 |
+| C | `+0x24` | `+0x28` | `+0x2C` | `+0x30` | 8bpp / 64 色 | 75 |
+| D | `+0x34` | `+0x38` | `+0x3C` | `+0x40` | 4bpp / 16 色 | 11 |
 
-palette 是原始 32 字节、16 色 BGR555，不是 LZ 流。gfx 与 tilemap 是严格
-校验边界的 GBA type-`0x10` LZ 记录。所有 gfx 均为完整 4bpp tile，所有源 tilemap
-的 palette-bank bits 均为 0。
+palette 是未压缩 BGR555：A/B/D 各读取 32 字节，C 读取 128 字节。gfx 与 tilemap
+是严格校验边界的 GBA type-`0x10` LZ 记录。所有 gfx 都按消费者证明的色深满足完整
+tile 边界，所有源 tilemap 的 palette-bank bits 均为 0。
 
 ## 图层布局与边界
 
@@ -53,6 +61,8 @@ palette 是原始 32 字节、16 色 BGR555，不是 LZ 流。gfx 与 tilemap �
   16 位，因此 D 的 tile base 是 `u16(state[0x12] + state[0x16])`；
   A 的 tile base 与 palette bank 来自 consumer 参数，B/C/D 也受运行期
   state 与后续 palette transform 影响；
+- config 4 的 C gfx 为 10,432 字节，正确解释为 163 个 8bpp tile；tilemap 最大
+  index 恰为 162。旧 v1 的 326 个 4bpp tile 是可直接证伪的错误；
 - PNG 因此保存 ROM 内的相对 tile index 和原始 palette，正确处理 bit 10/11 的
   H/V flip，但不宣称是运行时最终调色或完整画面；
 - C/D 可越过 32-tile viewport，导出器保存完整原生图层，不做误导性的
@@ -67,16 +77,16 @@ palette 是原始 32 字节、16 色 BGR555，不是 LZ 流。gfx 与 tilemap �
 - 独立验证器：`tools/verify_tile_asset_bg_export.py`
 - 共享 indexed/atlas 底座：`tools/gba_image_export.py`
 - 测试：`tests/test_export_tile_asset_bg_layers.py`
-- 产物：`artifacts/tile-assets-bg-v1/`
-- manifest：`artifacts/tile-assets-bg-v1/manifest.json`
-- schema：`tile-assets-bg-export-v1`
+- 产物：`artifacts/tile-assets-bg-v2/`
+- manifest：`artifacts/tile-assets-bg-v2/manifest.json`
+- schema：`tile-assets-bg-export-v2`
 
 重复导出：
 
 ```bash
 python3 tools/export_tile_asset_bg_layers.py \
   --root . \
-  --output-dir artifacts/tile-assets-bg-v1
+  --output-dir artifacts/tile-assets-bg-v2
 ```
 
 独立复核：
@@ -84,11 +94,11 @@ python3 tools/export_tile_asset_bg_layers.py \
 ```bash
 python3 tools/verify_tile_asset_bg_export.py \
   --root . \
-  --artifact-dir artifacts/tile-assets-bg-v1
+  --artifact-dir artifacts/tile-assets-bg-v2
 ```
 
 验证器不调用导出器、共享 renderer 或 PNG encoder。它直接从 ROM 重新解压，
-独立实现 4bpp nibble、tilemap、H/V flip 和 atlas 排列，并逐像素比较：
+独立实现 4bpp nibble、8bpp byte、tilemap、H/V flip 和 atlas 排列，并逐像素比较：
 
 ```text
 verified_descriptors: 79
@@ -104,7 +114,7 @@ python3 -m unittest \
   tests.test_gba_image_export \
   tests.test_export_tile_asset_bg_layers
 
-Ran 15 tests in 16.422s
+Ran 18 tests
 OK
 ```
 
@@ -115,21 +125,19 @@ python3 -m unittest \
   tests.test_gba_image_export \
   tests.test_export_tile_asset_bg_layers \
   tests.test_export_story_visual_layers \
-  tests.test_export_menu_portraits \
+  tests.test_export_story_scene_layer_bindings \
   tests.test_text_and_visual_table_identity
 
-Ran 35 tests in 19.322s
+Ran 37 tests in 15.121s
 OK
 ```
 
-生产导出耗时 3.97 秒，最大 RSS 27,975,680 字节，page fault 和 swap 均为 0。
 本里程碑只离线读取 ROM，没有启动 mGBA，也没有写入 `butano-sequel/`。
 
 ## 剩余图像边界
 
 1. 这 79 条记录的运行期 scroll、tile base、palette bank、palette transform、
    layer enable 与 blend 时序仍需在对应动画/剧情语义需要时闭合；不影响资源无损提取。
-2. `0x53DF70/0x53DF90` 的 4 组 cutscene OBJ gfx、frame definition 与 sequence
-   已完成静态审计，下一步可批量导出 4 个 atlas 和 10 个静态 frame。
-3. `0x53F140` 的 43 条 sprite definition/animation pair 仍需追踪到实际
-   gfx/palette 分配链。
+2. 剧情路径使用的 24 条 direct config 绑定已经进入
+   `artifacts/story-scene-layer-bindings-v1/`；它证明资源与硬件层关系，但明确不签发
+   某一运行帧的最终 composite。

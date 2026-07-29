@@ -27,6 +27,12 @@ def _encode_4bpp_tile(pixels: list[int]) -> bytes:
     )
 
 
+def _encode_8bpp_tile(pixels: list[int]) -> bytes:
+    if len(pixels) != 64:
+        raise ValueError("8bpp test tile must contain 64 pixels")
+    return bytes(pixels)
+
+
 class TileAssetBgLayerExportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -86,9 +92,85 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
         self.assertEqual(source(0, 7), pixel(0, 8))
         self.assertEqual(source(7, 7), pixel(8, 8))
 
+    def test_8bpp_renderer_preserves_full_indices_and_both_flip_axes(self):
+        from tools.export_tile_asset_bg_layers import (
+            render_8bpp_tilemap_indices,
+        )
+
+        first = [0] * 64
+        second = [y * 8 + x for y in range(8) for x in range(8)]
+        graphics = _encode_8bpp_tile(first) + _encode_8bpp_tile(second)
+        tilemap = struct.pack(
+            "<4H",
+            1,
+            1 | 1 << 10,
+            1 | 1 << 11,
+            1 | 3 << 10,
+        )
+        pixels = render_8bpp_tilemap_indices(
+            graphics,
+            tilemap,
+            width_tiles=2,
+            height_tiles=2,
+        )
+
+        def source(x: int, y: int) -> int:
+            return second[y * 8 + x]
+
+        def pixel(x: int, y: int) -> int:
+            return pixels[y * 16 + x]
+
+        self.assertEqual(16 * 16, len(pixels))
+        self.assertEqual(source(0, 0), pixel(0, 0))
+        self.assertEqual(source(7, 0), pixel(8, 0))
+        self.assertEqual(source(0, 7), pixel(0, 8))
+        self.assertEqual(source(7, 7), pixel(8, 8))
+
+    def test_c_layer_uses_consumer_proven_8bpp_tiles_and_64_color_palette(self):
+        rom = (ROOT / "rom/base.gba").read_bytes()
+        self.assertEqual(
+            "164c217b0c980422fff7f0fd",
+            rom[0x9940C:0x99418].hex(),
+        )
+        self.assertEqual(
+            "b179090280200143f0788000",
+            rom[0x994DC:0x994E8].hex(),
+        )
+
+        layer_c = self._layer(4, "C")
+        self.assertEqual(8, layer_c["bits_per_pixel"])
+        self.assertEqual(64, layer_c["bytes_per_tile"])
+        self.assertEqual(163, layer_c["tile_count"])
+        self.assertEqual(162, layer_c["tile_index_max"])
+        self.assertEqual(128, layer_c["palette"]["size"])
+
+        for name in ("A", "B", "D"):
+            layer = self._layer(4, name)
+            self.assertEqual(4, layer["bits_per_pixel"])
+            self.assertEqual(32, layer["bytes_per_tile"])
+            self.assertEqual(32, layer["palette"]["size"])
+
     def test_exports_complete_table_with_exact_static_boundaries(self):
         manifest = self.manifest
-        self.assertEqual("tile-assets-bg-export-v1", manifest["schema"])
+        self.assertEqual("tile-assets-bg-export-v2", manifest["schema"])
+        self.assertEqual(
+            {
+                "artifact": "artifacts/tile-assets-bg-v1",
+                "reason": (
+                    "v1 decoded consumer-proven 8bpp C layers as 4bpp"
+                ),
+            },
+            manifest["supersedes"],
+        )
+        self.assertEqual(
+            {
+                "A": "4bpp",
+                "B": "4bpp",
+                "C": "8bpp",
+                "D": "4bpp",
+            },
+            manifest["scope"]["layer_color_depths"],
+        )
         self.assertEqual(ROM_SHA256, manifest["rom"]["sha256"])
         self.assertEqual(
             {
@@ -301,7 +383,7 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
             self.output_dir,
         )
         self.assertEqual(
-            "tile-assets-bg-verification-v1",
+            "tile-assets-bg-verification-v2",
             result["schema"],
         )
         self.assertEqual(79, result["verified_descriptors"])
@@ -318,6 +400,7 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
         original = manifest_path.read_bytes()
         tampered = json.loads(original)
         tampered["source_table"]["entry_size"] = 0x40
+        tampered["supersedes"]["artifact"] = "artifacts/not-the-v1-export"
         tampered["complete_layer_count"] = 235
         tampered["atlases"][0]["atlas_id"] = 999
         tampered["descriptors"][3]["descriptor_gba_address"] = "0xDEADBEEF"
@@ -351,6 +434,11 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
         tampered["descriptors"][12]["layers"][0]["gfx"][
             "decompressed_size"
         ] += 1
+        tampered["descriptors"][15]["layers"][2]["bits_per_pixel"] = 4
+        tampered["descriptors"][15]["layers"][2]["bytes_per_tile"] = 32
+        tampered["descriptors"][15]["layers"][2][
+            "palette_color_count"
+        ] = 16
         try:
             manifest_path.write_text(
                 json.dumps(tampered, ensure_ascii=False, indent=2) + "\n",
@@ -362,6 +450,7 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
 
         joined = "\n".join(result["errors"])
         self.assertIn("source table metadata mismatch", joined)
+        self.assertIn("superseded artifact metadata mismatch", joined)
         self.assertIn("complete layer count mismatch", joined)
         self.assertIn("atlas 0 metadata mismatch", joined)
         self.assertIn("descriptor GBA address mismatch", joined)
@@ -375,6 +464,7 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
         self.assertIn("compressed component size mismatch", joined)
         self.assertIn("compressed component hash mismatch", joined)
         self.assertIn("decompressed component size mismatch", joined)
+        self.assertIn("layer C color depth mismatch", joined)
 
     def test_cli_and_committed_artifacts_repeat_byte_for_byte(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -411,7 +501,7 @@ class TileAssetBgLayerExportTests(unittest.TestCase):
                     (cli_output / name).read_bytes(),
                 )
 
-            committed = ROOT / "artifacts/tile-assets-bg-v1"
+            committed = ROOT / "artifacts/tile-assets-bg-v2"
             self.assertEqual(
                 expected_names,
                 {path.name for path in committed.iterdir() if path.is_file()},

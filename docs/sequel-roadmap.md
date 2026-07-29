@@ -685,6 +685,18 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   `notes/battle-start-control-flow-20260713.md`
 - `data-table-a/b` 已从20条尾片恢复为46条人物资料文本和79条战斗消息文本；
   `tile-assets` 已恢复为79×0x44战斗视觉 descriptor，三者均 code-verified。
+  2026-07-29 进一步纠正旧静态导出把 C 层统一当作 4bpp 的错误：消费者明确将
+  A/B/D 作为 4bpp、C 作为 8bpp，并为 C 复制 128-byte/64-color palette；
+  `tile-assets-bg-v2` 已重导 236 个逻辑图层和 108 个 atlas，独立验证
+  79/79 descriptor、236/236 complete layer、108/108 atlas。24 条 story visual
+  的 `config_id` 也已证明直接零基索引该表，BG3 overlay 与 linked B/C/D 分别绑定
+  BG3/BG2/BG0/BG1；config 61 交换 C/D priority，D 仅 config 10/16/61/74 实际加载，
+  config 16 初始启用。BG3 通用初始化的 `0x0300` 只是中间值，剧情路径在启用前于
+  `0x08087CEA` 覆盖为 `0x030C`，闭合 charblock 3、screenblock 3 与 gfx
+  `0x0600E800`/tile `0x140` 的地址一致性。最终展示帧仍依赖 90 帧 update 后的
+  scroll、enable、blend、palette transform 和 C/D 共用 VRAM，故只签发 layer
+  bindings，不伪造 final composite；证据见 `notes/tile-assets-bg-export-20260729.md` 与
+  `notes/story-scene-layer-bindings-20260729.md`。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。

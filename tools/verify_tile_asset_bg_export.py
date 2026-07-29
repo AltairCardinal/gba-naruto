@@ -28,8 +28,6 @@ TABLE_ENTRY_COUNT = 79
 TABLE_ENTRY_SIZE = 0x44
 TABLE_SHA256 = "0db18948a6619ac723bebc60f9c2b79f1fea1786c6e80db389064c5f07655f73"
 SENTINELS = (13, 31, 32, 46)
-PALETTE_SIZE = 32
-
 LAYER_LAYOUTS = (
     {
         "name": "A",
@@ -40,6 +38,8 @@ LAYER_LAYOUTS = (
         "fixed_width": 30,
         "fixed_height": 14,
         "screen_stride_tiles": 32,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {"kind": "consumer_argument"},
         "palette_bank": {"kind": "consumer_argument"},
     },
@@ -52,6 +52,8 @@ LAYER_LAYOUTS = (
         "fixed_width": 32,
         "fixed_height": 14,
         "screen_stride_tiles": 32,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {"kind": "runtime_state"},
         "palette_bank": {"kind": "runtime_state"},
     },
@@ -64,6 +66,8 @@ LAYER_LAYOUTS = (
         "fixed_width": None,
         "fixed_height": None,
         "screen_stride_tiles": 64,
+        "bits_per_pixel": 8,
+        "palette_size": 128,
         "tile_base": {
             "kind": "runtime_state",
             "expression": "state[0x16] >> 1",
@@ -79,6 +83,8 @@ LAYER_LAYOUTS = (
         "fixed_width": None,
         "fixed_height": None,
         "screen_stride_tiles": 64,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {
             "kind": "runtime_state",
             "expression": "u16(state[0x12] + state[0x16])",
@@ -203,15 +209,19 @@ def _render_tilemap(
     graphics: bytes,
     tilemap: bytes,
     *,
+    bits_per_pixel: int,
     width_tiles: int,
     height_tiles: int,
 ) -> bytes:
-    if not graphics or len(graphics) % 32:
-        raise ValueError("graphics does not contain complete 4bpp tiles")
+    if bits_per_pixel not in (4, 8):
+        raise ValueError("unsupported BG color depth")
+    bytes_per_tile = bits_per_pixel * 8
+    if not graphics or len(graphics) % bytes_per_tile:
+        raise ValueError("graphics does not contain complete tiles")
     if len(tilemap) != width_tiles * height_tiles * 2:
         raise ValueError("tilemap size does not match its ROM definition")
     entries = struct.unpack(f"<{width_tiles * height_tiles}H", tilemap)
-    tile_count = len(graphics) // 32
+    tile_count = len(graphics) // bytes_per_tile
     width = width_tiles * 8
     pixels = bytearray(width * height_tiles * 8)
     for tile_y in range(height_tiles):
@@ -232,22 +242,34 @@ def _render_tilemap(
                     source_x = (
                         7 - local_x if entry & (1 << 10) else local_x
                     )
-                    packed = graphics[
-                        tile * 32 + source_y * 4 + source_x // 2
-                    ]
-                    color = (
-                        packed >> (4 if source_x & 1 else 0)
-                    ) & 0x0F
+                    if bits_per_pixel == 8:
+                        color = graphics[
+                            tile * 64 + source_y * 8 + source_x
+                        ]
+                    else:
+                        packed = graphics[
+                            tile * 32 + source_y * 4 + source_x // 2
+                        ]
+                        color = (
+                            packed >> (4 if source_x & 1 else 0)
+                        ) & 0x0F
                     x = tile_x * 8 + local_x
                     y = tile_y * 8 + local_y
                     pixels[y * width + x] = color
     return bytes(pixels)
 
 
-def _render_atlas(graphics: bytes) -> tuple[bytes, int, int]:
-    if not graphics or len(graphics) % 32:
-        raise ValueError("atlas graphics does not contain complete 4bpp tiles")
-    tile_count = len(graphics) // 32
+def _render_atlas(
+    graphics: bytes,
+    *,
+    bits_per_pixel: int,
+) -> tuple[bytes, int, int]:
+    if bits_per_pixel not in (4, 8):
+        raise ValueError("unsupported atlas color depth")
+    bytes_per_tile = bits_per_pixel * 8
+    if not graphics or len(graphics) % bytes_per_tile:
+        raise ValueError("atlas graphics does not contain complete tiles")
+    tile_count = len(graphics) // bytes_per_tile
     columns = min(tile_count, 32)
     rows = (tile_count + 31) // 32
     width = columns * 8
@@ -258,22 +280,30 @@ def _render_atlas(graphics: bytes) -> tuple[bytes, int, int]:
         tile_y = tile // 32
         for local_y in range(8):
             for local_x in range(8):
-                packed = graphics[
-                    tile * 32 + local_y * 4 + local_x // 2
-                ]
+                if bits_per_pixel == 8:
+                    color = graphics[
+                        tile * 64 + local_y * 8 + local_x
+                    ]
+                else:
+                    packed = graphics[
+                        tile * 32 + local_y * 4 + local_x // 2
+                    ]
+                    color = (
+                        packed >> (4 if local_x & 1 else 0)
+                    ) & 0x0F
                 pixels[
                     (tile_y * 8 + local_y) * width
                     + tile_x * 8
                     + local_x
-                ] = (packed >> (4 if local_x & 1 else 0)) & 0x0F
+                ] = color
     return bytes(pixels), width, height
 
 
 def _palette_rgb(palette: bytes) -> bytes:
-    if len(palette) != PALETTE_SIZE:
-        raise ValueError("palette is not exactly 16 BGR555 colors")
+    if not palette or len(palette) % 2:
+        raise ValueError("palette does not contain complete BGR555 colors")
     result = bytearray()
-    for offset in range(0, PALETTE_SIZE, 2):
+    for offset in range(0, len(palette), 2):
         result.extend(
             bgr555_to_rgb(struct.unpack_from("<H", palette, offset)[0])
         )
@@ -337,7 +367,8 @@ def _verify_png(
         png_palette = image.getpalette()
         if png_palette is None:
             raise ValueError(f"{path.name} palette is missing")
-        if bytes(png_palette[:48]) != _palette_rgb(palette):
+        expected_palette = _palette_rgb(palette)
+        if bytes(png_palette[: len(expected_palette)]) != expected_palette:
             raise ValueError(f"{path.name} palette does not match the ROM")
 
 
@@ -376,11 +407,11 @@ def _expected_atlas_catalog(
     artifact_dir: Path,
 ) -> tuple[
     list[dict[str, Any]],
-    dict[tuple[str, str], dict[str, Any]],
+    dict[tuple[str, str, str], dict[str, Any]],
     dict[str, tuple[bytes, bytes, int, int, str]],
 ]:
     atlases: list[dict[str, Any]] = []
-    by_pair: dict[tuple[str, str], dict[str, Any]] = {}
+    by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
     pixel_expectations: dict[
         str,
         tuple[bytes, bytes, int, int, str],
@@ -404,17 +435,23 @@ def _expected_atlas_catalog(
                 expected_size=4096 if layout["name"] == "B" else None,
             )
             palette_offset = _offset(pointers[2], len(rom))
+            palette_size = layout["palette_size"]
             palette = rom[
-                palette_offset : palette_offset + PALETTE_SIZE
+                palette_offset : palette_offset + palette_size
             ]
-            if len(palette) != PALETTE_SIZE:
+            if len(palette) != palette_size:
                 raise ValueError("atlas palette is truncated")
             graphics_hash = _sha256(graphics)
             palette_hash = _sha256(palette)
-            pair = (graphics_hash, palette_hash)
+            bits_per_pixel = layout["bits_per_pixel"]
+            bytes_per_tile = bits_per_pixel * 8
+            pair = (str(bits_per_pixel), graphics_hash, palette_hash)
             atlas = by_pair.get(pair)
             if atlas is None:
-                pixels, width, height = _render_atlas(graphics)
+                pixels, width, height = _render_atlas(
+                    graphics,
+                    bits_per_pixel=bits_per_pixel,
+                )
                 atlas_id = len(atlases)
                 filename = f"atlas_{atlas_id:03d}.png"
                 png_hash = _sha256((artifact_dir / filename).read_bytes())
@@ -424,7 +461,9 @@ def _expected_atlas_catalog(
                     "png_sha256": png_hash,
                     "width": width,
                     "height": height,
-                    "tile_count": len(graphics) // 32,
+                    "bits_per_pixel": bits_per_pixel,
+                    "bytes_per_tile": bytes_per_tile,
+                    "tile_count": len(graphics) // bytes_per_tile,
                     "graphics_sha256": graphics_hash,
                     "palette_sha256": palette_hash,
                     "reuse_count": 0,
@@ -458,7 +497,7 @@ def verify_tile_asset_bg_export(
     verified_atlases = 0
     atlas_expectations: dict[str, tuple[bytes, bytes, int, int, str]] = {}
     expected_atlases: list[dict[str, Any]] = []
-    expected_atlas_by_pair: dict[tuple[str, str], dict[str, Any]] = {}
+    expected_atlas_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
 
     rom = (root / "rom/base.gba").read_bytes()
     rom_hash = _sha256(rom)
@@ -467,7 +506,7 @@ def verify_tile_asset_bg_export(
     )
     if rom_hash != ROM_SHA256:
         errors.append(f"ROM SHA-256 is {rom_hash}, expected {ROM_SHA256}")
-    if manifest.get("schema") != "tile-assets-bg-export-v1":
+    if manifest.get("schema") != "tile-assets-bg-export-v2":
         errors.append("unexpected export manifest schema")
     expected_rom = {
         "path": "rom/base.gba",
@@ -478,6 +517,12 @@ def verify_tile_asset_bg_export(
         errors.append("manifest ROM metadata mismatch")
     if manifest.get("source_bank") != "sequel/content/tile-assets/bank.json":
         errors.append("source bank metadata mismatch")
+    expected_supersedes = {
+        "artifact": "artifacts/tile-assets-bg-v1",
+        "reason": "v1 decoded consumer-proven 8bpp C layers as 4bpp",
+    }
+    if manifest.get("supersedes") != expected_supersedes:
+        errors.append("superseded artifact metadata mismatch")
     expected_source_table = {
         "file_offset": TABLE_OFFSET,
         "gba_address": f"0x{ROM_BASE + TABLE_OFFSET:08X}",
@@ -489,8 +534,14 @@ def verify_tile_asset_bg_export(
     if manifest.get("source_table") != expected_source_table:
         errors.append("source table metadata mismatch")
     expected_scope = {
-        "kind": "native static BG layers and complete 4bpp atlases",
+        "kind": "native static BG layers and complete mixed-depth atlases",
         "final_composite": False,
+        "layer_color_depths": {
+            "A": "4bpp",
+            "B": "4bpp",
+            "C": "8bpp",
+            "D": "4bpp",
+        },
         "runtime_tile_base_and_palette_bank_preserved_as_unknowns": True,
     }
     if manifest.get("scope") != expected_scope:
@@ -589,6 +640,17 @@ def verify_tile_asset_bg_export(
                     raise ValueError(
                         f"layer {name} palette-bank semantics mismatch"
                     )
+                bits_per_pixel = layout["bits_per_pixel"]
+                bytes_per_tile = bits_per_pixel * 8
+                if layer.get("bits_per_pixel") != bits_per_pixel:
+                    raise ValueError(f"layer {name} color depth mismatch")
+                if layer.get("bytes_per_tile") != bytes_per_tile:
+                    raise ValueError(f"layer {name} bytes-per-tile mismatch")
+                if (
+                    layer.get("palette_color_count")
+                    != layout["palette_size"] // 2
+                ):
+                    raise ValueError(f"layer {name} palette count mismatch")
                 width_tiles = definition["width_tiles"]
                 height_tiles = definition["height_tiles"]
                 pointers = (
@@ -660,10 +722,11 @@ def verify_tile_asset_bg_export(
                     expected_size=expected_map_size,
                 )
                 palette_offset = _offset(pointers[2], len(rom))
+                palette_size = layout["palette_size"]
                 palette = rom[
-                    palette_offset : palette_offset + PALETTE_SIZE
+                    palette_offset : palette_offset + palette_size
                 ]
-                if len(palette) != PALETTE_SIZE:
+                if len(palette) != palette_size:
                     raise ValueError("palette is truncated")
                 _verify_component_manifest(
                     layer["gfx"],
@@ -683,7 +746,7 @@ def verify_tile_asset_bg_export(
                     payload=palette,
                     compressed_record=None,
                 )
-                tile_count = len(graphics) // 32
+                tile_count = len(graphics) // bytes_per_tile
                 if layer.get("tile_count") != tile_count:
                     raise ValueError(f"layer {name} tile count mismatch")
                 expected_facts = _tilemap_facts(
@@ -697,6 +760,7 @@ def verify_tile_asset_bg_export(
                 layer_pixels = _render_tilemap(
                     graphics,
                     tilemap,
+                    bits_per_pixel=bits_per_pixel,
                     width_tiles=width_tiles,
                     height_tiles=height_tiles,
                 )
@@ -716,11 +780,16 @@ def verify_tile_asset_bg_export(
                 )
 
                 atlas_pixels, atlas_width, atlas_height = _render_atlas(
-                    graphics
+                    graphics,
+                    bits_per_pixel=bits_per_pixel,
                 )
                 graphics_hash = _sha256(graphics)
                 palette_hash = _sha256(palette)
-                atlas_pair = (graphics_hash, palette_hash)
+                atlas_pair = (
+                    str(bits_per_pixel),
+                    graphics_hash,
+                    palette_hash,
+                )
                 expected_atlas = expected_atlas_by_pair.get(atlas_pair)
                 if expected_atlas is None:
                     raise ValueError(
@@ -783,7 +852,7 @@ def verify_tile_asset_bg_export(
             verified_atlases += 1
 
     return {
-        "schema": "tile-assets-bg-verification-v1",
+        "schema": "tile-assets-bg-verification-v2",
         "rom_sha256": rom_hash,
         "verified_descriptors": verified_descriptors,
         "verified_complete_layers": verified_complete_layers,
@@ -798,7 +867,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--artifact-dir",
         type=Path,
-        default=Path("artifacts/tile-assets-bg-v1"),
+        default=Path("artifacts/tile-assets-bg-v2"),
     )
     return parser.parse_args()
 

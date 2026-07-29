@@ -43,6 +43,11 @@ consumer 建立的 BG3 布局为：
 | screen block | 3 |
 | 画布 | 32×32 tile，即 256×256 |
 
+这里的最终 `BG3CNT=0x030C` 由两步建立：通用 helper `0x08065404` 先写中间值
+`0x0300`，剧情 caller 随后在 `0x08087CEA` 覆盖为 `0x030C`，再于
+`0x08087EAA` 启用 BG3。后者明确选择 charblock 3、screenblock 3、priority 0，
+与 gfx 目标地址和 tile base 精确一致；不能用中间值 `0x0300` 推翻最终布局。
+
 `0x08087DE8..0x08087E00` 先读取当前 descriptor 的 `+0x0C config_id`，
 再按 `config_id × 0x44` 索引 `0x085A320C`。因此 manifest 把它记录为
 `linked_visual_descriptor_id`，但不猜测尚未闭合的可见名称和 OAM/布局。

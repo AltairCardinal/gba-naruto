@@ -33,7 +33,6 @@ TABLE_ENTRY_COUNT = 79
 TABLE_ENTRY_SIZE = 0x44
 TABLE_SHA256 = "0db18948a6619ac723bebc60f9c2b79f1fea1786c6e80db389064c5f07655f73"
 SENTINEL_DESCRIPTOR_IDS = (13, 31, 32, 46)
-PALETTE_SIZE = 32
 ATLAS_TILES_PER_ROW = 32
 
 LAYER_SPECS = (
@@ -46,6 +45,8 @@ LAYER_SPECS = (
         "fixed_width": 30,
         "fixed_height": 14,
         "screen_stride_tiles": 32,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {"kind": "consumer_argument"},
         "palette_bank": {"kind": "consumer_argument"},
     },
@@ -58,6 +59,8 @@ LAYER_SPECS = (
         "fixed_width": 32,
         "fixed_height": 14,
         "screen_stride_tiles": 32,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {"kind": "runtime_state"},
         "palette_bank": {"kind": "runtime_state"},
     },
@@ -68,6 +71,8 @@ LAYER_SPECS = (
         "tilemap_word": 11,
         "palette_word": 12,
         "screen_stride_tiles": 64,
+        "bits_per_pixel": 8,
+        "palette_size": 128,
         "tile_base": {
             "kind": "runtime_state",
             "expression": "state[0x16] >> 1",
@@ -81,6 +86,8 @@ LAYER_SPECS = (
         "tilemap_word": 15,
         "palette_word": 16,
         "screen_stride_tiles": 64,
+        "bits_per_pixel": 4,
+        "palette_size": 32,
         "tile_base": {
             "kind": "runtime_state",
             "expression": "u16(state[0x12] + state[0x16])",
@@ -142,6 +149,82 @@ def render_4bpp_tilemap_indices(
                     destination_x = tile_x * 8 + local_x
                     pixels[destination_y * width + destination_x] = color
     return bytes(pixels)
+
+
+def render_8bpp_tilemap_indices(
+    graphics: bytes,
+    tilemap: bytes,
+    *,
+    width_tiles: int,
+    height_tiles: int,
+) -> bytes:
+    """Render a relative-index GBA 8bpp text-BG tilemap."""
+    if not graphics or len(graphics) % 64:
+        raise ValueError("BG graphics must contain complete 8bpp tiles")
+    if width_tiles <= 0 or height_tiles <= 0:
+        raise ValueError("BG tilemap dimensions must be positive")
+    expected_size = width_tiles * height_tiles * 2
+    if len(tilemap) != expected_size:
+        raise ValueError(
+            f"BG tilemap is {len(tilemap)} bytes, expected {expected_size}"
+        )
+
+    tile_count = len(graphics) // 64
+    entries = struct.unpack(f"<{width_tiles * height_tiles}H", tilemap)
+    width = width_tiles * 8
+    height = height_tiles * 8
+    pixels = bytearray(width * height)
+    for tile_y in range(height_tiles):
+        for tile_x in range(width_tiles):
+            entry = entries[tile_y * width_tiles + tile_x]
+            source_tile = entry & 0x03FF
+            if source_tile >= tile_count:
+                raise ValueError(
+                    f"tilemap references tile {source_tile}, but graphics "
+                    f"contains {tile_count} tiles"
+                )
+            horizontal_flip = bool(entry & (1 << 10))
+            vertical_flip = bool(entry & (1 << 11))
+            tile_offset = source_tile * 64
+            for local_y in range(8):
+                source_y = 7 - local_y if vertical_flip else local_y
+                destination_y = tile_y * 8 + local_y
+                for local_x in range(8):
+                    source_x = 7 - local_x if horizontal_flip else local_x
+                    color = graphics[
+                        tile_offset + source_y * 8 + source_x
+                    ]
+                    destination_x = tile_x * 8 + local_x
+                    pixels[destination_y * width + destination_x] = color
+    return bytes(pixels)
+
+
+def render_8bpp_tile_atlas_indices(
+    graphics: bytes,
+    *,
+    tiles_per_row: int,
+) -> tuple[bytes, int, int]:
+    """Render every 8bpp tile in ROM order into a lossless indexed atlas."""
+    if not graphics or len(graphics) % 64:
+        raise ValueError("8bpp atlas graphics must contain complete tiles")
+    if tiles_per_row <= 0:
+        raise ValueError("8bpp atlas row width must be positive")
+    tile_count = len(graphics) // 64
+    columns = min(tile_count, tiles_per_row)
+    rows = (tile_count + tiles_per_row - 1) // tiles_per_row
+    width = columns * 8
+    height = rows * 8
+    pixels = bytearray(width * height)
+    for tile in range(tile_count):
+        tile_x = tile % tiles_per_row
+        tile_y = tile // tiles_per_row
+        for local_y in range(8):
+            source = tile * 64 + local_y * 8
+            destination = (tile_y * 8 + local_y) * width + tile_x * 8
+            pixels[destination : destination + 8] = graphics[
+                source : source + 8
+            ]
+    return bytes(pixels), width, height
 
 
 def _load_bank(root: Path, rom: bytes) -> tuple[dict[str, Any], list[list[int]]]:
@@ -243,13 +326,17 @@ def _extract_lz(
 def _extract_palette(
     rom: bytes,
     pointer: int,
+    *,
+    size: int,
 ) -> tuple[bytes, dict[str, Any]]:
     offset = pointer - ROM_BASE
-    if not 0 <= offset <= len(rom) - PALETTE_SIZE:
+    if size <= 0 or size % 2:
+        raise ValueError("palette size must contain complete BGR555 colors")
+    if not 0 <= offset <= len(rom) - size:
         raise ValueError(
             f"palette pointer is outside the ROM: {gba_pointer(pointer)}"
         )
-    palette = rom[offset : offset + PALETTE_SIZE]
+    palette = rom[offset : offset + size]
     return palette, {
         "file_offset": offset,
         "gba_address": gba_pointer(pointer),
@@ -322,7 +409,7 @@ def export_tile_asset_bg_layers(
 
     descriptors: list[dict[str, Any]] = []
     atlases: list[dict[str, Any]] = []
-    atlas_by_pair: dict[tuple[str, str], dict[str, Any]] = {}
+    atlas_by_pair: dict[tuple[str, str, str], dict[str, Any]] = {}
     complete_layer_counts = {spec["name"]: 0 for spec in LAYER_SPECS}
     complete_layer_count = 0
     partial_layer_count = 0
@@ -364,6 +451,9 @@ def export_tile_asset_bg_layers(
             layer: dict[str, Any] = {
                 "name": name,
                 "status": "absent",
+                "bits_per_pixel": spec["bits_per_pixel"],
+                "bytes_per_tile": spec["bits_per_pixel"] * 8,
+                "palette_color_count": spec["palette_size"] // 2,
                 "definition": definition,
                 "tile_base": spec["tile_base"],
                 "palette_bank": spec["palette_bank"],
@@ -433,7 +523,8 @@ def export_tile_asset_bg_layers(
                 gfx_pointer,
                 expected_size=expected_gfx_size,
             )
-            if len(graphics) % 32:
+            bytes_per_tile = spec["bits_per_pixel"] * 8
+            if len(graphics) % bytes_per_tile:
                 raise ValueError(
                     f"layer {name} graphics is not whole tiles at row {index}"
                 )
@@ -445,10 +536,16 @@ def export_tile_asset_bg_layers(
             palette, palette_manifest = _extract_palette(
                 rom,
                 palette_pointer,
+                size=spec["palette_size"],
             )
-            tile_count = len(graphics) // 32
+            tile_count = len(graphics) // bytes_per_tile
             facts = _tilemap_facts(tilemap, tile_count=tile_count)
-            pixels = render_4bpp_tilemap_indices(
+            renderer = (
+                render_8bpp_tilemap_indices
+                if spec["bits_per_pixel"] == 8
+                else render_4bpp_tilemap_indices
+            )
+            pixels = renderer(
                 graphics,
                 tilemap,
                 width_tiles=definition["width_tiles"],
@@ -467,11 +564,20 @@ def export_tile_asset_bg_layers(
             graphics_hash = graphics_manifest["decompressed_sha256"]
             tilemap_hash = tilemap_manifest["decompressed_sha256"]
             palette_hash = palette_manifest["sha256"]
-            atlas_key = (graphics_hash, palette_hash)
+            atlas_key = (
+                str(spec["bits_per_pixel"]),
+                graphics_hash,
+                palette_hash,
+            )
             atlas = atlas_by_pair.get(atlas_key)
             if atlas is None:
+                atlas_renderer = (
+                    render_8bpp_tile_atlas_indices
+                    if spec["bits_per_pixel"] == 8
+                    else render_4bpp_tile_atlas_indices
+                )
                 atlas_pixels, atlas_width, atlas_height = (
-                    render_4bpp_tile_atlas_indices(
+                    atlas_renderer(
                         graphics,
                         tiles_per_row=ATLAS_TILES_PER_ROW,
                     )
@@ -492,6 +598,8 @@ def export_tile_asset_bg_layers(
                     "png_sha256": sha256(atlas_png),
                     "width": atlas_width,
                     "height": atlas_height,
+                    "bits_per_pixel": spec["bits_per_pixel"],
+                    "bytes_per_tile": bytes_per_tile,
                     "tile_count": tile_count,
                     "graphics_sha256": graphics_hash,
                     "palette_sha256": palette_hash,
@@ -526,13 +634,19 @@ def export_tile_asset_bg_layers(
             )
 
     manifest = {
-        "schema": "tile-assets-bg-export-v1",
+        "schema": "tile-assets-bg-export-v2",
         "rom": {
             "path": "rom/base.gba",
             "size": len(rom),
             "sha256": rom_sha256,
         },
         "source_bank": "sequel/content/tile-assets/bank.json",
+        "supersedes": {
+            "artifact": "artifacts/tile-assets-bg-v1",
+            "reason": (
+                "v1 decoded consumer-proven 8bpp C layers as 4bpp"
+            ),
+        },
         "source_table": {
             "file_offset": TABLE_OFFSET,
             "gba_address": gba_address(TABLE_OFFSET),
@@ -542,8 +656,14 @@ def export_tile_asset_bg_layers(
             "verification": bank["verification"],
         },
         "scope": {
-            "kind": "native static BG layers and complete 4bpp atlases",
+            "kind": "native static BG layers and complete mixed-depth atlases",
             "final_composite": False,
+            "layer_color_depths": {
+                "A": "4bpp",
+                "B": "4bpp",
+                "C": "8bpp",
+                "D": "4bpp",
+            },
             "runtime_tile_base_and_palette_bank_preserved_as_unknowns": True,
         },
         "descriptor_count": len(descriptors),
@@ -572,7 +692,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("artifacts/tile-assets-bg-v1"),
+        default=Path("artifacts/tile-assets-bg-v2"),
     )
     return parser.parse_args()
 
