@@ -35,6 +35,13 @@ TASK_POOL_BASE = 0x03003BB8
 TASK_RECORD_SIZE = 0x3C
 TASK_SLOT_COUNT = 128
 TASK_POOL_SIZE = TASK_RECORD_SIZE * TASK_SLOT_COUNT
+ACTIVE_TASK_COUNT_ADDRESS = 0x03005BB8
+ACTIVE_TASK_POINTER_LIST_ADDRESS = 0x030059B8
+SHADOW_OAM_BASE = 0x0300027C
+HARDWARE_OAM_BASE = 0x07000000
+OAM_RECORD_SIZE = 8
+OAM_RECORD_COUNT = 128
+OAM_BUFFER_SIZE = OAM_RECORD_SIZE * OAM_RECORD_COUNT
 DYNAMIC_OBJ_COPY_FLAG = 0x00400000
 SHAPE_SIZE_BY_DIMENSIONS = {
     (8, 8): (0, 0),
@@ -51,6 +58,11 @@ SHAPE_SIZE_BY_DIMENSIONS = {
     (32, 64): (2, 3),
 }
 CODE_SLICES = {
+    "renderer_driver": (
+        0x08062924,
+        0x08063338,
+        "5e29f07126eb06c69170c5c15a2ab28fe0e1ad86ffdd85f6dfbd4601defbee36",
+    ),
     "dispatcher": (
         0x080627B0,
         0x0806291A,
@@ -160,14 +172,25 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
         },
         "dispatcher": {
             **slices["dispatcher"],
-            "active_count": "0x03005BB8",
-            "pointer_list": "0x030059B8",
-            "shadow_oam_base": "0x0300027C",
-            "shadow_oam_end": "0x0300067C",
+            "active_count": f"0x{ACTIVE_TASK_COUNT_ADDRESS:08X}",
+            "pointer_list": f"0x{ACTIVE_TASK_POINTER_LIST_ADDRESS:08X}",
+            "shadow_oam_base": f"0x{SHADOW_OAM_BASE:08X}",
+            "shadow_oam_end": f"0x{SHADOW_OAM_BASE + OAM_BUFFER_SIZE:08X}",
             "pool_scan": (
                 "scan all 128 records at 0x03003BB8 + index*0x3C, "
                 "then dispatch the active pointer list"
             ),
+            "sort_order": (
+                "stable insertion order by flags 0xC0, flags 0x300, "
+                "flag 0x40000, then descending task sort-y when 0x40000"
+            ),
+            "renderer_driver": {
+                **slices["renderer_driver"],
+                "active_list_builder_call": "0x08062968",
+                "shadow_oam_pointer_init": "0x0806296C",
+                "active_pointer_loop": "0x08062982..0x0806330C",
+                "disabled_tail_fill": "0x08063310..0x08063328",
+            },
         },
         "renderer": {
             **slices["renderer"],
@@ -350,6 +373,11 @@ def _tasks(
                 "context": f"0x{struct.unpack_from('<I', raw, 0x2C)[0]:08X}",
                 "context_index": struct.unpack_from("<I", raw, 0x30)[0],
                 "_flags": flags,
+                "_sort_y": struct.unpack_from(
+                    "<h",
+                    raw,
+                    0x1A if flags & 0x02000000 else 0x06,
+                )[0],
             }
         )
     return result
@@ -357,6 +385,143 @@ def _tasks(
 
 def _public_task(task: dict[str, Any]) -> dict[str, Any]:
     return {key: value for key, value in task.items() if not key.startswith("_")}
+
+
+def _comes_before(
+    candidate: dict[str, Any],
+    incumbent: dict[str, Any],
+) -> bool:
+    candidate_flags = candidate["_flags"]
+    incumbent_flags = incumbent["_flags"]
+    candidate_primary = candidate_flags & 0xC0
+    incumbent_primary = incumbent_flags & 0xC0
+    if candidate_primary != incumbent_primary:
+        return candidate_primary < incumbent_primary
+    candidate_secondary = candidate_flags & 0x300
+    incumbent_secondary = incumbent_flags & 0x300
+    if candidate_secondary != incumbent_secondary:
+        return candidate_secondary < incumbent_secondary
+    candidate_depth = bool(candidate_flags & 0x00040000)
+    incumbent_depth = bool(incumbent_flags & 0x00040000)
+    if candidate_depth != incumbent_depth:
+        return candidate_depth
+    if candidate_depth:
+        return candidate["_sort_y"] > incumbent["_sort_y"]
+    return False
+
+
+def _expected_dispatch_slots(tasks: list[dict[str, Any]]) -> list[int]:
+    active = [task for task in tasks if task["_flags"] & 1]
+    for index in range(1, len(active)):
+        candidate = active[index]
+        cursor = index
+        while cursor > 0 and _comes_before(candidate, active[cursor - 1]):
+            active[cursor] = active[cursor - 1]
+            cursor -= 1
+        active[cursor] = candidate
+    return [task["slot"] for task in active]
+
+
+def _dispatch_snapshot(
+    state: Any,
+    tasks: list[dict[str, Any]],
+) -> dict[str, Any]:
+    count = state.read_memory(ACTIVE_TASK_COUNT_ADDRESS, 1)[0]
+    if count > TASK_SLOT_COUNT:
+        raise ValueError("active task count is out of range")
+    raw = state.read_memory(ACTIVE_TASK_POINTER_LIST_ADDRESS, count * 4)
+    pointers = struct.unpack(f"<{count}I", raw) if count else ()
+    observed_slots = []
+    for pointer in pointers:
+        difference = pointer - TASK_POOL_BASE
+        if (
+            difference < 0
+            or difference % TASK_RECORD_SIZE
+            or difference >= TASK_POOL_SIZE
+        ):
+            raise ValueError("active task pointer is invalid")
+        observed_slots.append(difference // TASK_RECORD_SIZE)
+    expected_slots = _expected_dispatch_slots(tasks)
+    return {
+        "active_count_address": f"0x{ACTIVE_TASK_COUNT_ADDRESS:08X}",
+        "pointer_list_address": f"0x{ACTIVE_TASK_POINTER_LIST_ADDRESS:08X}",
+        "active_count": count,
+        "pointer_list_size": len(raw),
+        "pointer_list_sha256": _digest(raw),
+        "active_task_slots": observed_slots,
+        "reconstructed_active_task_slots": expected_slots,
+        "exact_reconstruction": observed_slots == expected_slots,
+    }
+
+
+def _oam_snapshot(state: Any) -> tuple[dict[str, Any], bytes, bytes]:
+    shadow_bytes = state.read_memory(SHADOW_OAM_BASE, OAM_BUFFER_SIZE)
+    hardware_bytes = state.read_memory(HARDWARE_OAM_BASE, OAM_BUFFER_SIZE)
+    differences = []
+    for index in range(OAM_RECORD_COUNT):
+        begin = index * OAM_RECORD_SIZE
+        end = begin + OAM_RECORD_SIZE
+        if shadow_bytes[begin:end] != hardware_bytes[begin:end]:
+            differences.append(index)
+    return (
+        {
+            "shadow_address": f"0x{SHADOW_OAM_BASE:08X}",
+            "hardware_address": f"0x{HARDWARE_OAM_BASE:08X}",
+            "size": OAM_BUFFER_SIZE,
+            "shadow_sha256": _digest(shadow_bytes),
+            "hardware_sha256": _digest(hardware_bytes),
+            "full_buffer_matches_hardware": not differences,
+            "differing_object_indices": differences,
+        },
+        shadow_bytes,
+        hardware_bytes,
+    )
+
+
+def _add_dispatch_oam_evidence(
+    bindings: list[dict[str, Any]],
+    dispatch: dict[str, Any],
+    shadow: bytes,
+    hardware: bytes,
+) -> None:
+    ordered_slots = dispatch["active_task_slots"]
+    for binding in bindings:
+        matching_ordinals = [
+            ordinal
+            for ordinal, slot in enumerate(ordered_slots)
+            if slot == binding["task"]["slot"]
+        ]
+        if len(matching_ordinals) != 1:
+            raise ValueError("bound task dispatch membership is not unique")
+        oam_index = binding["oam_index"]
+        if oam_index < 0 or oam_index >= OAM_RECORD_COUNT:
+            raise ValueError("bound OAM index is invalid")
+        offset = oam_index * OAM_RECORD_SIZE
+        shadow_record = shadow[offset : offset + OAM_RECORD_SIZE]
+        hardware_record = hardware[offset : offset + OAM_RECORD_SIZE]
+        attr0, attr1, attr2 = struct.unpack_from("<HHH", shadow_record)
+        prediction = binding["renderer_prediction"]
+        matches_prediction = all(
+            (
+                prediction["predicted_attr0"] == f"0x{attr0:04X}",
+                prediction["predicted_attr1"] == f"0x{attr1:04X}",
+                prediction["predicted_attr2"] == f"0x{attr2:04X}",
+            )
+        )
+        binding["dispatch_and_oam_observation"] = {
+            "dispatch_ordinal": matching_ordinals[0],
+            "task_pointer": binding["task"]["address"],
+            "unique_dispatch_membership": True,
+            "shadow_oam_index": oam_index,
+            "shadow_oam_address": f"0x{SHADOW_OAM_BASE + offset:08X}",
+            "shadow_entry_hex": shadow_record.hex(),
+            "shadow_entry_sha256": _digest(shadow_record),
+            "hardware_oam_address": f"0x{HARDWARE_OAM_BASE + offset:08X}",
+            "hardware_entry_hex": hardware_record.hex(),
+            "hardware_entry_sha256": _digest(hardware_record),
+            "renderer_prediction_matches_shadow": matches_prediction,
+            "shadow_matches_hardware": shadow_record == hardware_record,
+        }
 
 
 def _source_view(
@@ -568,10 +733,20 @@ def _reconstruct(root: Path) -> dict[str, Any]:
     binding_count = 0
     checkpoints_with_correlations = 0
     checkpoints_with_bindings = 0
+    active_pointer_total = 0
+    exact_dispatch_total = 0
+    full_oam_match_total = 0
+    unique_dispatch_total = 0
+    bound_oam_match_total = 0
     for parent_checkpoint in parent["checkpoints"]:
         state = load_gba_state(root / parent_checkpoint["path"])
         pool = state.read_memory(TASK_POOL_BASE, TASK_POOL_SIZE)
         tasks = _tasks(pool, resources)
+        dispatch = _dispatch_snapshot(state, tasks)
+        oam_state, shadow_oam, hardware_oam = _oam_snapshot(state)
+        active_pointer_total += dispatch["active_count"]
+        exact_dispatch_total += int(dispatch["exact_reconstruction"])
+        full_oam_match_total += int(oam_state["full_buffer_matches_hardware"])
         bindings = []
         correlations = []
         for match in parent_checkpoint["matches"]:
@@ -591,6 +766,23 @@ def _reconstruct(root: Path) -> dict[str, Any]:
                 correlation_count += 1
         bindings.sort(key=lambda row: row["oam_index"])
         correlations.sort(key=lambda row: row["oam_index"])
+        _add_dispatch_oam_evidence(
+            bindings,
+            dispatch,
+            shadow_oam,
+            hardware_oam,
+        )
+        unique_dispatch_total += sum(
+            row["dispatch_and_oam_observation"]["unique_dispatch_membership"]
+            for row in bindings
+        )
+        bound_oam_match_total += sum(
+            row["dispatch_and_oam_observation"][
+                "renderer_prediction_matches_shadow"
+            ]
+            and row["dispatch_and_oam_observation"]["shadow_matches_hardware"]
+            for row in bindings
+        )
         if bindings or correlations:
             checkpoints_with_correlations += 1
         if bindings:
@@ -607,6 +799,8 @@ def _reconstruct(root: Path) -> dict[str, Any]:
                         task["resource_id"] is not None for task in tasks
                     ),
                 },
+                "dispatcher_state": dispatch,
+                "shadow_oam_state": oam_state,
                 "bindings": bindings,
                 "correlations": correlations,
             }
@@ -622,6 +816,11 @@ def _reconstruct(root: Path) -> dict[str, Any]:
         "checkpoints_with_bindings": checkpoints_with_bindings,
         "bound_task_slot_count": len(bound_slots),
         "bound_resource_count": len(bound_resources),
+        "active_task_pointer_count": active_pointer_total,
+        "checkpoints_with_exact_dispatch_reconstruction": exact_dispatch_total,
+        "checkpoints_with_shadow_hardware_full_match": full_oam_match_total,
+        "bound_tasks_with_unique_dispatch_membership": unique_dispatch_total,
+        "bound_shadow_hardware_slot_match_count": bound_oam_match_total,
     }
     return {
         "schema": SCHEMA,
@@ -654,6 +853,19 @@ def _reconstruct(root: Path) -> dict[str, Any]:
             "task_animation_state_code_proven": True,
             "task_origin_to_oam_renderer_code_proven": True,
             "frame_state_consistent_renderer_identity_observed": True,
+            "active_task_pointer_list_reconstructed_all_checkpoints": (
+                exact_dispatch_total == len(checkpoints)
+            ),
+            "bound_task_unique_dispatch_membership_observed": (
+                unique_dispatch_total == binding_count
+            ),
+            "bound_predicted_oam_observed_in_shadow_and_hardware": (
+                bound_oam_match_total == binding_count
+            ),
+            "shadow_oam_full_buffer_equal_to_hardware_all_checkpoints": (
+                full_oam_match_total == len(checkpoints)
+            ),
+            "shadow_to_hardware_copy_schedule_traced": False,
             "task_to_oam_writer_or_allocation_index_traced": False,
             "component_zero_dynamic_copy_subset_complete": True,
             "multi_component_dynamic_copy_binding_complete": False,

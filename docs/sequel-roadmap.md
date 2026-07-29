@@ -78,9 +78,16 @@
   pool、dispatcher、字段和推进契约；`0x030055F8` 已纠正为全局 slot 112，
   不是 pool 基址，53 条角色观测位于 slots 120–127。独立 verifier 重读 ROM、
   父 artifact、视觉 manifest 与
-  91 个 `.ss9` 后得到 53 条相同结果。当前自然子集只闭合 dynamic-copy component
-  0；task→实际 OAM allocator index/writer、多 component 输出累加、unit ownership、
-  camera、window/blend 与最终屏幕合成仍未完成。成果见
+  91 个 `.ss9` 后得到 53 条相同结果。随后又按 dispatcher 的 flags/depth/sort-y
+  comparator 重建 91/91 个活动 pointer list、共 741 个指针；53/53 条接受项均有
+  唯一 dispatch ordinal，renderer 预测的 attr0/1/2 均命中 shadow OAM，且对应
+  8-byte entry 与硬件 OAM 同索引逐字节一致。全 1 KiB shadow/hardware buffer
+  只有 80/91 完全一致，其余 11 个
+  明确保留快照相位差，且 lineup 的 ordinal `1/2/3` 对应 OAM `12/13/14`，因此
+  不把 ordinal 冒充 writer index。当前自然子集只闭合 dynamic-copy component
+  0；task→实际 OAM allocator index/writer、shadow→hardware copy schedule、
+  多 component 输出累加、unit ownership、camera、window/blend 与最终屏幕合成
+  仍未完成。成果见
   `artifacts/character-runtime-oam-task-bindings-v1/` 与
   `notes/character-runtime-oam-task-bindings-20260730.md`。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。

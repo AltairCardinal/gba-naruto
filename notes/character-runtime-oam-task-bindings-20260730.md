@@ -32,7 +32,7 @@ OAM。它不表示已经追踪到实际 OAM allocator index、逐帧 writer 或�
 - 角色视觉 manifest SHA-256：
   `a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c`
 - 本成果 `bindings.json` SHA-256：
-  `b441cfce5f3e9249ecb0bdb5505ec666498e8065fa7306bfdea7f7172d619563`
+  `59fcb484fcba0a80c6d3575d28896be13e070215c12bfd36dd0e3fc948a1c975`
 
 每个 checkpoint 都记录原始 `.ss9` SHA、完整 task pool SHA 和各 task
 record SHA。上游 OAM artifact 还反向绑定角色视觉 manifest；导出器和 verifier
@@ -55,6 +55,20 @@ last_slot   = 0x0300597C
 `0x030055F8` 只是全局 slot 112，不能作为 task pool 基址。本成果接受的 53 条
 角色观测均落在全局 slots 120–127；每个 checkpoint 的 pool SHA 仍覆盖全部
 128 条记录，而不只哈希角色恰好占用的尾部。
+
+dispatcher 随后以稳定插入排序生成活动指针表。比较顺序由
+`0x0806288C..0x080628D4` 锁定为：
+
+1. flags `& 0xC0` 升序；
+2. flags `& 0x300` 升序；
+3. `0x40000` depth-sort task 在前；
+4. 两者都设置 `0x40000` 时，按 task sort-y 降序。
+
+离线重放这段 comparator 后，91/91 个 checkpoint 的完整活动指针顺序均与
+`0x030059B8` 逐项一致，共复核 741 个活动指针，而不只是检查集合成员或
+pool slot 顺序。`scenario-46-lineup.ss9` 的实际顺序为
+`[121,123,125,127,122,124,126]`，说明 dispatcher ordinal 不能用全局 slot
+序号替代。
 
 本成果使用并由代码窗口绑定的字段如下：
 
@@ -134,6 +148,30 @@ source component 重建，而不是从 OAM 反填。
 - dynamic-copy tile base 0、palette 0、priority 2；
 - 完整结果为 `attr0/1/2=8028/C054/0800`。
 
+## dispatcher、shadow OAM 与硬件 OAM
+
+driver `0x08062924..0x08063338` 在 `0x08062968` 调用 dispatcher，随后把输出
+指针初始化为 shadow OAM `0x0300027C`，按活动指针表调用 renderer，最后把
+未使用条目填成 disabled OBJ，直到 `0x0300067C`。该完整代码窗口 SHA-256 为
+`5e29f07126eb06c69170c5c15a2ab28fe0e1ad86ffdd85f6dfbd4601defbee36`。
+
+批量读取同一批 91 个 checkpoint 得到：
+
+- 80/91 的 1024-byte shadow OAM 与硬件 OAM `0x07000000..0x07000400`
+  完全一致；
+- 其余 11 个只在部分条目不同，按快照帧相位差原样记录两域哈希和差异索引；
+- 53/53 条已接受角色绑定，在各自 OAM index 上的完整 8-byte shadow entry
+  与硬件 entry 一致，且前三个 halfword 同 renderer 预测的 attr0/1/2 一致；
+- 53/53 个 task 在活动指针表中均只有一个 dispatch ordinal。
+
+这形成 `task frame state → dispatcher membership → renderer prediction →
+shadow/hardware OAM 同索引观测` 的同快照证据链，但不把 ordinal 冒充 writer
+index。最直接的反例是 lineup：dispatch ordinals `1/2/3` 对应观察 OAM
+`12/13/14`，因为前序 task 可产生多个、零个或复制的 OBJ。当前没有逐指令追踪
+renderer cursor，也没有完整重建所有前序 task 的 component 可见性，因此
+`task_to_oam_writer_or_allocation_index_traced` 和
+`shadow_to_hardware_copy_schedule_traced` 继续保持 false。
+
 ## 被拒绝的六条相关项
 
 以下 OAM 能找到资源三指针及 origin 一致的 task，但 task 当前选中 frame 与
@@ -169,13 +207,16 @@ OAM 源 frame 不一致，因此只保留为 `frame_state_mismatch`：
 本成果证明：
 
 - 91 个 tracked checkpoint 的 task pool 可以确定性重建；
+- 91/91 个活动 pointer list 的完整排序可以从 pool 与 comparator 重建；
 - task pool 布局、资源字段、动画状态和 renderer 坐标/属性公式有代码证据；
 - 53 条自然 OAM 具有唯一、frame-state-consistent 的 task renderer identity；
-- 完整 `attr0/attr1/attr2` 可从 task 与源 component 逐位重建。
+- 完整 `attr0/attr1/attr2` 可从 task 与源 component 逐位重建；
+- 53/53 个接受项在 shadow OAM 与硬件 OAM 同索引逐字节一致。
 
 本成果不证明：
 
 - task 到实际 OAM allocator index 或逐帧 writer 的因果 trace；
+- shadow OAM 到硬件 OAM 的逐帧 copy schedule；
 - 62×9 全部角色槽都有自然 task 样本；
 - 多 component dynamic-copy 的输出 tile 累加已由自然样本覆盖；
 - presentation owner family 与 field task 相同；
@@ -193,9 +234,10 @@ python3 tools/verify_character_runtime_oam_task_bindings.py \
   --bindings artifacts/character-runtime-oam-task-bindings-v1/bindings.json
 ```
 
-- 专用测试：8 项通过；
+- 专用测试：11 项通过；
 - 独立 verifier：91 checkpoints、53 bindings、`errors=[]`；
-- 测试包含 tile base、priority、dynamic-copy flag、shape/size、flip 和 artifact
+- 测试包含 dispatcher comparator 分支、sort-y 字段选择、活动顺序、shadow
+  entry、tile base、priority、dynamic-copy flag、shape/size、flip 和 artifact
   hash 的负向篡改；
 - verifier 不导入 exporter，而是独立重读 ROM、父 artifact、视觉 manifest 和
   91 个 `.ss9` 后重建结果；

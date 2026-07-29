@@ -2,6 +2,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+import struct
 import tempfile
 import unittest
 
@@ -46,6 +47,11 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "checkpoints_with_bindings": 9,
                 "bound_task_slot_count": 8,
                 "bound_resource_count": 6,
+                "active_task_pointer_count": 741,
+                "checkpoints_with_exact_dispatch_reconstruction": 91,
+                "checkpoints_with_shadow_hardware_full_match": 80,
+                "bound_tasks_with_unique_dispatch_membership": 53,
+                "bound_shadow_hardware_slot_match_count": 53,
             },
             self.bindings["summary"],
         )
@@ -79,6 +85,149 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
             [row["renderer_prediction"]["predicted_attr2"] for row in rows],
         )
         self.assertTrue(all(row["renderer_prediction"]["matches_oam"] for row in rows))
+
+    def test_reconstructs_dispatch_order_and_observes_bound_shadow_oam_slots(self):
+        lineup = self._checkpoint("scenario-46-lineup.ss9")
+
+        self.assertEqual(
+            {
+                "active_count_address": "0x03005BB8",
+                "pointer_list_address": "0x030059B8",
+                "active_count": 7,
+                "pointer_list_size": 28,
+                "pointer_list_sha256": (
+                    "b0ddc0f19ddf99406bddb2d963a98316d359c0a88caba7d7"
+                    "80c0817305f8bb27"
+                ),
+                "active_task_slots": [121, 123, 125, 127, 122, 124, 126],
+                "reconstructed_active_task_slots": [
+                    121,
+                    123,
+                    125,
+                    127,
+                    122,
+                    124,
+                    126,
+                ],
+                "exact_reconstruction": True,
+            },
+            lineup["dispatcher_state"],
+        )
+        self.assertEqual(
+            [1, 2, 3],
+            [
+                row["dispatch_and_oam_observation"]["dispatch_ordinal"]
+                for row in lineup["bindings"]
+            ],
+        )
+        self.assertEqual(
+            [12, 13, 14],
+            [
+                row["dispatch_and_oam_observation"]["shadow_oam_index"]
+                for row in lineup["bindings"]
+            ],
+        )
+        self.assertTrue(
+            all(
+                row["dispatch_and_oam_observation"][
+                    "unique_dispatch_membership"
+                ]
+                and row["dispatch_and_oam_observation"][
+                    "renderer_prediction_matches_shadow"
+                ]
+                and row["dispatch_and_oam_observation"][
+                    "shadow_matches_hardware"
+                ]
+                for row in lineup["bindings"]
+            )
+        )
+        self.assertNotEqual(
+            [1, 2, 3],
+            [12, 13, 14],
+            "dispatch ordinal must not be mislabeled as the OAM index",
+        )
+        self.assertTrue(
+            lineup["shadow_oam_state"]["full_buffer_matches_hardware"]
+        )
+
+        phase_lagged = self._checkpoint(
+            "scenario-50-battle-15-round12-objective4-stable-loop.ss9"
+        )
+        self.assertFalse(
+            phase_lagged["shadow_oam_state"]["full_buffer_matches_hardware"]
+        )
+        self.assertEqual(
+            [19, 20, 21, 22],
+            phase_lagged["shadow_oam_state"]["differing_object_indices"],
+        )
+        self.assertTrue(
+            all(
+                row["dispatch_and_oam_observation"][
+                    "shadow_matches_hardware"
+                ]
+                for row in phase_lagged["bindings"]
+            )
+        )
+
+    def test_dispatch_comparator_covers_all_keys_and_sort_y_source(self):
+        from tools.export_character_runtime_oam_task_bindings import (
+            _dispatcher_precedes,
+            _parse_tasks,
+            _reconstruct_active_task_slots,
+        )
+
+        def task(slot, flags, sort_y):
+            return {
+                "slot": slot,
+                "_flags_int": flags | 1,
+                "_sort_y": sort_y,
+            }
+
+        self.assertTrue(
+            _dispatcher_precedes(task(1, 0x40, 0), task(0, 0x80, 0))
+        )
+        self.assertTrue(
+            _dispatcher_precedes(task(1, 0x100, 0), task(0, 0x200, 0))
+        )
+        self.assertTrue(
+            _dispatcher_precedes(task(1, 0x40000, 0), task(0, 0, 0))
+        )
+        self.assertTrue(
+            _dispatcher_precedes(
+                task(1, 0x40000, 20),
+                task(0, 0x40000, 10),
+            )
+        )
+        self.assertFalse(
+            _dispatcher_precedes(
+                task(1, 0x40000, 10),
+                task(0, 0x40000, 20),
+            )
+        )
+        self.assertFalse(
+            _dispatcher_precedes(task(1, 0, 10), task(0, 0, 10))
+        )
+        self.assertEqual(
+            [3, 2, 1, 0],
+            _reconstruct_active_task_slots(
+                [
+                    task(0, 0x80, 0),
+                    task(1, 0x40, 0),
+                    task(2, 0x40 | 0x40000, 10),
+                    task(3, 0x40 | 0x40000, 20),
+                ]
+            ),
+        )
+
+        pool = bytearray(128 * 0x3C)
+        struct.pack_into("<Ihh", pool, 0, 1, 0, 11)
+        struct.pack_into(
+            "<Ihh", pool, 0x3C, 1 | 0x02000000, 0, 22
+        )
+        struct.pack_into("<h", pool, 0x3C + 0x1A, 33)
+        parsed = _parse_tasks(bytes(pool), {})
+        self.assertEqual(11, parsed[0]["_sort_y"])
+        self.assertEqual(33, parsed[1]["_sort_y"])
 
     def test_frame_inconsistent_correlations_are_not_promoted_to_bindings(self):
         checkpoint = self._checkpoint("scenario-46-victory-reward.ss9")
@@ -162,6 +311,11 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "task_animation_state_code_proven": True,
                 "task_origin_to_oam_renderer_code_proven": True,
                 "frame_state_consistent_renderer_identity_observed": True,
+                "active_task_pointer_list_reconstructed_all_checkpoints": True,
+                "bound_task_unique_dispatch_membership_observed": True,
+                "bound_predicted_oam_observed_in_shadow_and_hardware": True,
+                "shadow_oam_full_buffer_equal_to_hardware_all_checkpoints": False,
+                "shadow_to_hardware_copy_schedule_traced": False,
                 "task_to_oam_writer_or_allocation_index_traced": False,
                 "component_zero_dynamic_copy_subset_complete": True,
                 "multi_component_dynamic_copy_binding_complete": False,
@@ -256,6 +410,27 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
             if checkpoint["path"].endswith("scenario-46-lineup.ss9")
         )
         lineup["bindings"][0]["task"]["origin"]["x"] += 1
+        self.output.write_text(
+            json.dumps(tampered, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        rejected = verify_bindings(ROOT, self.output)
+        self.assertFalse(rejected["verified"])
+        self.assertIn(
+            "bindings do not match independently reconstructed evidence",
+            rejected["errors"],
+        )
+
+        tampered = copy.deepcopy(self.bindings)
+        lineup = next(
+            checkpoint
+            for checkpoint in tampered["checkpoints"]
+            if checkpoint["path"].endswith("scenario-46-lineup.ss9")
+        )
+        lineup["dispatcher_state"]["active_task_slots"][0] = 127
+        lineup["bindings"][0]["dispatch_and_oam_observation"][
+            "shadow_entry_hex"
+        ] = "00" * 8
         self.output.write_text(
             json.dumps(tampered, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
