@@ -19,6 +19,92 @@
     "resource_count": 250
   },
   "static_contract": {
+    "code_slices": {
+      "irq_dispatcher_source": {
+        "start": "0x08000104",
+        "end_exclusive": "0x0800024C",
+        "size": 328,
+        "sha256": "a984224bb360571a504eff7daeb9203de192e1c72658acad2cd195f1d33a1d03"
+      },
+      "frame_wait": {
+        "start": "0x080610E8",
+        "end_exclusive": "0x0806114A",
+        "size": 98,
+        "sha256": "931ab756083f41deb5f80be9d2346ce681c9bbdedc27d3f0387cc3e58b6734fb"
+      },
+      "transfer_helper": {
+        "start": "0x08061150",
+        "end_exclusive": "0x080611E0",
+        "size": 144,
+        "sha256": "d740dcdafe6ec186fd361552fd81be786dcad858762ec70785a481fd9af06ef1"
+      },
+      "phase_ack": {
+        "start": "0x08061290",
+        "end_exclusive": "0x080612AC",
+        "size": 28,
+        "sha256": "01600103bfd3c15d871fd0e539640a983381ab278632261a5c5a8661603fd565"
+      },
+      "vblank_callback": {
+        "start": "0x080612BC",
+        "end_exclusive": "0x080614EC",
+        "size": 560,
+        "sha256": "682fb5e1ca18c9155ce5f7541d152cb925c4046d9371b79a85cac4b12bc37d42"
+      },
+      "irq_oam_bootstrap": {
+        "start": "0x08061624",
+        "end_exclusive": "0x08061710",
+        "size": 236,
+        "sha256": "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff"
+      },
+      "renderer_driver": {
+        "start": "0x08062924",
+        "end_exclusive": "0x08063338",
+        "size": 2580,
+        "sha256": "5e29f07126eb06c69170c5c15a2ab28fe0e1ad86ffdd85f6dfbd4601defbee36"
+      },
+      "dispatcher": {
+        "start": "0x080627B0",
+        "end_exclusive": "0x0806291A",
+        "size": 362,
+        "sha256": "2a9a970b7cd4227b53d46ee2274e38c0fe0927919d4fd6611923aad81355857a"
+      },
+      "allocator": {
+        "start": "0x080625A4",
+        "end_exclusive": "0x080626B0",
+        "size": 268,
+        "sha256": "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54"
+      },
+      "renderer": {
+        "start": "0x08062982",
+        "end_exclusive": "0x08063278",
+        "size": 2294,
+        "sha256": "ffc3fc22d05d94a21ebb1f6de147a891fc791d4ad35505d5a5712dd0791ddb87"
+      },
+      "owner_callback": {
+        "start": "0x0807AC40",
+        "end_exclusive": "0x0807ADB2",
+        "size": 370,
+        "sha256": "6c14764539f4a6071dfae9d1a0943a467ff931094f94aed74fbad587788db626"
+      },
+      "owner_selector": {
+        "start": "0x0807AE04",
+        "end_exclusive": "0x0807B278",
+        "size": 1140,
+        "sha256": "d8d926ab79fa74ba96a25552b7b6da57cb7ba3fc6fdac1c9d77df2aacd748ac1"
+      },
+      "owner_constructor": {
+        "start": "0x0807B444",
+        "end_exclusive": "0x0807B632",
+        "size": 494,
+        "sha256": "8b61749aa457f90a2ea5fee4f1982f3da9269668a4f1bec3f131090c66af0d00"
+      },
+      "owner_variant_constructor": {
+        "start": "0x0807B6E0",
+        "end_exclusive": "0x0807B758",
+        "size": 120,
+        "sha256": "b34cfd678fe4b8abfaf5de8871a905cd566968da9f923b92ce13be58152cb44d"
+      }
+    },
     "task_pool": {
       "base": "0x03003BB8",
       "record_size": 60,
@@ -114,6 +200,72 @@
       },
       "same_family_as_bound_field_tasks_proven": false,
       "boundary": "the owner callback/constructor is code-proven as a separate presentation task family; the bound natural field tasks do not acquire owner identity from co-residence alone"
+    },
+    "oam_submission": {
+      "irq_registration": {
+        "callback_table_rom": "0x0853D5B4",
+        "callback_table_ram": "0x03000014",
+        "vblank_entry_index": 0,
+        "vblank_callback": "0x080612BD",
+        "irq_dispatcher_source": "0x08000104",
+        "irq_dispatcher_ram": "0x0300007C",
+        "irq_vector": "0x03007FFC"
+      },
+      "bootstrap_copies": [
+        {
+          "kind": "dma3",
+          "callsite": "0x0806162A",
+          "source": "0x08000104",
+          "destination": "0x0300007C",
+          "control": "0x84000080",
+          "size": 512
+        },
+        {
+          "kind": "dma3",
+          "callsite": "0x0806163C",
+          "source": "0x0853D5B4",
+          "destination": "0x03000014",
+          "control": "0x8400000E",
+          "size": 56
+        }
+      ],
+      "pending_protocol": {
+        "pending_flag": "0x0300067C",
+        "frame_counter": "0x0300067D",
+        "producer_writes": [
+          "0x0806111A value 2",
+          "0x08061124 value 1"
+        ],
+        "wait_loop": "0x08061126..0x0806112C",
+        "acknowledgement": "0x080612A8 writes 0"
+      },
+      "vblank_copy_routes": [
+        {
+          "kind": "cpu_fast_set",
+          "callsite": "0x08061346",
+          "source": "0x0300027C",
+          "destination": "0x07000000",
+          "control": "0x04000100",
+          "size": 1024
+        },
+        {
+          "kind": "dma3",
+          "callsite": "0x08061386",
+          "source": "0x0300027C",
+          "destination": "0x07000000",
+          "control": "0x84000100",
+          "size": 1024
+        }
+      ],
+      "vblank_order": [
+        "renderer call 0x08061320",
+        "shadow-to-hardware copy 0x0806133E/0x08061386",
+        "pending acknowledgement 0x080612A8"
+      ],
+      "initialization": {
+        "shadow_clear": "0x080616A4..0x080616B0",
+        "initial_hardware_copy": "0x080616B2..0x080616BE"
+      }
     }
   },
   "checkpoints": [
@@ -159,6 +311,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -197,6 +359,16 @@
         "hardware_sha256": "fd4483ee7560ee9c57c601b8cd4b7f119d24e3c3028181e01088ce3d716c54b8",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": [
@@ -317,6 +489,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x00000014",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": false,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -388,6 +570,16 @@
           0
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -424,6 +616,16 @@
         "hardware_sha256": "d5d991d2dc881580ef05fa35b0766c835ae44b4d1948c229070341f3b567486a",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -473,6 +675,16 @@
         "differing_object_indices": [
           0
         ]
+      },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
       },
       "bindings": [],
       "correlations": []
@@ -525,6 +737,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -576,6 +798,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -619,6 +851,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -658,6 +900,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -694,6 +946,16 @@
         "hardware_sha256": "8b179fb5c655e2ef43f8f94ad47b0dc609350fd402b8aa1b1d97d9d3f88f5a5c",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -735,6 +997,16 @@
         "hardware_sha256": "ad5981c81b3f7cc94c33fa0b4d5135538d6405404bc9b2d5f48a5f0cf527c113",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -782,6 +1054,16 @@
           2
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -825,6 +1107,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -865,6 +1157,16 @@
         "hardware_sha256": "c06fa3ee7919f214b5a212df9cb7cecd0ff5ecbe5e8d63e48e5982093b295f2d",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -945,6 +1247,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -982,6 +1294,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1018,6 +1340,16 @@
         "hardware_sha256": "b28667477ba682e589205c0993d3d2c049581980f49cc2cc06ffa6d405d144b0",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1064,6 +1396,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1100,6 +1442,16 @@
         "hardware_sha256": "25309c44dceca13d9b1665ac23d29e7e437ee5dfa0592a25d6e19076eb385f4a",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1140,6 +1492,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1178,6 +1540,16 @@
         "hardware_sha256": "08fe77e530bf0f41714870850e05418034097b6601acb8f9d95af4a657120cc5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1218,6 +1590,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1256,6 +1638,16 @@
         "hardware_sha256": "08fe77e530bf0f41714870850e05418034097b6601acb8f9d95af4a657120cc5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1296,6 +1688,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1334,6 +1736,16 @@
         "hardware_sha256": "08fe77e530bf0f41714870850e05418034097b6601acb8f9d95af4a657120cc5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1374,6 +1786,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1412,6 +1834,16 @@
         "hardware_sha256": "08fe77e530bf0f41714870850e05418034097b6601acb8f9d95af4a657120cc5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1452,6 +1884,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1488,6 +1930,16 @@
         "hardware_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1532,6 +1984,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1571,6 +2033,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1609,6 +2081,16 @@
         "hardware_sha256": "9e9bd627de160a750ae724ba2eb3970f6fae4cd3c571caae29f38fcb8e39aaa5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -1653,6 +2135,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1696,6 +2188,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1730,6 +2232,16 @@
         "hardware_sha256": "acd43251aa48d1e384d807666e1eec59b0b7f9cae94579d23fa1b977fcb10812",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [
         {
@@ -1888,6 +2400,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1933,6 +2455,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -1971,6 +2503,16 @@
         "hardware_sha256": "87bb788a7590b5f767c5df1711e5b95b5fe2770787cd27291e4d58883de24a1e",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2012,6 +2554,16 @@
         "hardware_sha256": "8d96b8c83ee6ffab38144292c5fec1b60a3ffa078ab6eee599ba720277636aa0",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2056,6 +2608,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2090,6 +2652,16 @@
         "hardware_sha256": "e3a9f860e3312e6e0b5b71f9afe7849a174add1b651ada10d289492dd6b2a5d0",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2134,6 +2706,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2176,6 +2758,16 @@
         "hardware_sha256": "75b4ecd28de369ac0095a704add53ede4859dd33010fc7f0ee45f44b8c0519ed",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2238,6 +2830,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2295,6 +2897,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2333,6 +2945,16 @@
         "hardware_sha256": "dcf4a0d69289432681672d6d77b8ce4b5e6393a327656d51f24bb793f1eff6ec",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2380,6 +3002,16 @@
         "hardware_sha256": "9e2fa3c7538fb6a9de601ebcc30c081060c8c89cbe6e793fcb5c4f7c53a5eeb6",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [
         {
@@ -2788,6 +3420,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2830,6 +3472,16 @@
         "hardware_sha256": "8b27cf3dfaa25e026bd60b91c82a955e4e424443c17a5a933e0e1c91c24356be",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -2898,6 +3550,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -2958,6 +3620,16 @@
         "hardware_sha256": "612598bf53d22d522f928302a23dd1871aeb846fb11c2ef37260d69666e31ffb",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -3020,6 +3692,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3080,6 +3762,16 @@
         "hardware_sha256": "5790f7ec773ed996bc77b7abe56222ee155ca0da9f9eb83cbb83abc27f72011b",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -3149,6 +3841,16 @@
           17
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3203,6 +3905,16 @@
         "hardware_sha256": "113a1badff89bb7aee49e535144a4a7bee63db604512d8a0a01590229fcfd5d8",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [
         {
@@ -3718,6 +4430,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3778,6 +4500,16 @@
           4
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3832,6 +4564,16 @@
         "hardware_sha256": "16f045d878dba729e185a0b6061964f44f295ed8f678faf3b73a2c841f7ad4a7",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -3888,6 +4630,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3943,6 +4695,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -3981,6 +4743,16 @@
         "hardware_sha256": "a22bb8eb96220aebbc7133fb0e125d28bc4d52472f22aecbfef350dd0e9a4caf",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": [
@@ -4265,6 +5037,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4307,6 +5089,16 @@
         "hardware_sha256": "3ffdef1fda97806ad7331be90eefb5fd508d21589759e8a04f8118a4c856b18a",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4360,6 +5152,16 @@
         "hardware_sha256": "0ea393fb95ad7729a2320423eba80b44af24dfa6f19b94b384d31f7d4ae92f2c",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4422,6 +5224,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4460,6 +5272,16 @@
         "hardware_sha256": "b1e2ef37c3f4770c4cde41291aa9e0ff3ea792b9e446a7d9466f0932eef73344",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4521,6 +5343,16 @@
           19
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4576,6 +5408,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4610,6 +5452,16 @@
         "hardware_sha256": "489eeda2a14c7820299c3d45111e276124ca1b461650a17c55ded64e0bf97355",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4653,6 +5505,16 @@
         "hardware_sha256": "1ce6e560280e10cf9e1c0d04c5a494ab975341ac3110c809be81fd70e3d2c841",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4716,6 +5578,16 @@
           1
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4746,6 +5618,16 @@
         "hardware_sha256": "28def2f614e011c9527416066e092a7e24c1d7d5001af283f326a38dbb8bc217",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4806,6 +5688,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -4848,6 +5740,16 @@
         "hardware_sha256": "9b1d26bfc9326faa3136a94e7f09ae243732eb8eca6a1d4355cd22405b9557bf",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4907,6 +5809,16 @@
         "hardware_sha256": "c62cd56a02714b95eb51dff48bd4882d16a75bf3a45cdde2b7cdaff4a03033b5",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -4977,6 +5889,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -5044,6 +5966,16 @@
           22,
           23
         ]
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
       },
       "bindings": [
         {
@@ -5977,6 +6909,16 @@
           22
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [],
       "correlations": []
     },
@@ -6040,6 +6982,16 @@
           21,
           22
         ]
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
       },
       "bindings": [
         {
@@ -6892,6 +7844,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [
         {
           "oam_index": 11,
@@ -7743,6 +8705,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -7806,6 +8778,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -7868,6 +8850,16 @@
         "hardware_sha256": "7c671c4e679f88e0a032bc347ea3c1680ab07870aca6f7edf4cae4619632d3dd",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": []
@@ -7936,6 +8928,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -7997,6 +8999,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -8057,6 +9069,16 @@
         "hardware_sha256": "01cf86f2c1b770738d2c53ad0c57d27e99caa8d31bf0072cd137db5ad124a019",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x0806112A",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [
         {
@@ -9027,6 +10049,16 @@
           4
         ]
       },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": true,
+        "difference_inside_code_proven_pending_window": true
+      },
       "bindings": [
         {
           "oam_index": 11,
@@ -9992,6 +11024,16 @@
         "hardware_sha256": "695ff78b0ac2b11b624523ab1cc09ee91b235070b9c1577061468a98516b11eb",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [
         {
@@ -10961,6 +12003,16 @@
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
       },
+      "submission_phase": {
+        "current_pc": "0x08061128",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
+      },
       "bindings": [],
       "correlations": []
     },
@@ -11017,6 +12069,16 @@
         "hardware_sha256": "ab441e358e87b0b7a4131c26ca70ed5da36083b5b6e48a11fbcfd6c76b12cf9b",
         "full_buffer_matches_hardware": true,
         "differing_object_indices": []
+      },
+      "submission_phase": {
+        "current_pc": "0x08061126",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": 1,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": 0,
+        "in_pending_wait_loop": true,
+        "shadow_hardware_difference_observed": false,
+        "difference_inside_code_proven_pending_window": false
       },
       "bindings": [],
       "correlations": [
@@ -11114,7 +12176,11 @@
     "checkpoints_with_exact_dispatch_reconstruction": 91,
     "checkpoints_with_shadow_hardware_full_match": 80,
     "bound_tasks_with_unique_dispatch_membership": 53,
-    "bound_shadow_hardware_slot_match_count": 53
+    "bound_shadow_hardware_slot_match_count": 53,
+    "checkpoints_with_pending_submission_flag": 91,
+    "checkpoints_in_pending_wait_loop": 90,
+    "differing_checkpoints_in_pending_wait_loop": 11,
+    "differing_checkpoints_outside_pending_wait_loop": 0
   },
   "scope": {
     "all_tracked_checkpoints_scanned": true,
@@ -11128,6 +12194,11 @@
     "bound_predicted_oam_observed_in_shadow_and_hardware": true,
     "shadow_oam_full_buffer_equal_to_hardware_all_checkpoints": false,
     "shadow_to_hardware_copy_schedule_traced": false,
+    "shadow_to_hardware_copy_routes_code_verified": true,
+    "vblank_submission_phase_protocol_code_verified": true,
+    "shadow_hardware_differences_observed_only_in_pending_wait_window": true,
+    "exact_previous_frame_hardware_identity_proven": false,
+    "all_hardware_oam_writers_exhaustively_proven": false,
     "task_to_oam_writer_or_allocation_index_traced": false,
     "component_zero_dynamic_copy_subset_complete": true,
     "multi_component_dynamic_copy_binding_complete": false,

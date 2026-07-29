@@ -42,6 +42,10 @@ HARDWARE_OAM_BASE = 0x07000000
 OAM_RECORD_SIZE = 8
 OAM_RECORD_COUNT = 128
 OAM_BUFFER_SIZE = OAM_RECORD_SIZE * OAM_RECORD_COUNT
+SUBMISSION_PENDING_ADDRESS = 0x0300067C
+SUBMISSION_FRAME_COUNTER_ADDRESS = 0x0300067D
+SUBMISSION_WAIT_START = 0x08061126
+SUBMISSION_WAIT_END = 0x0806112C
 DYNAMIC_OBJ_COPY_FLAG = 0x00400000
 SHAPE_SIZE_BY_DIMENSIONS = {
     (8, 8): (0, 0),
@@ -58,6 +62,36 @@ SHAPE_SIZE_BY_DIMENSIONS = {
     (32, 64): (2, 3),
 }
 CODE_SLICES = {
+    "irq_dispatcher_source": (
+        0x08000104,
+        0x0800024C,
+        "a984224bb360571a504eff7daeb9203de192e1c72658acad2cd195f1d33a1d03",
+    ),
+    "frame_wait": (
+        0x080610E8,
+        0x0806114A,
+        "931ab756083f41deb5f80be9d2346ce681c9bbdedc27d3f0387cc3e58b6734fb",
+    ),
+    "transfer_helper": (
+        0x08061150,
+        0x080611E0,
+        "d740dcdafe6ec186fd361552fd81be786dcad858762ec70785a481fd9af06ef1",
+    ),
+    "phase_ack": (
+        0x08061290,
+        0x080612AC,
+        "01600103bfd3c15d871fd0e539640a983381ab278632261a5c5a8661603fd565",
+    ),
+    "vblank_callback": (
+        0x080612BC,
+        0x080614EC,
+        "682fb5e1ca18c9155ce5f7541d152cb925c4046d9371b79a85cac4b12bc37d42",
+    ),
+    "irq_oam_bootstrap": (
+        0x08061624,
+        0x08061710,
+        "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff",
+    ),
     "renderer_driver": (
         0x08062924,
         0x08063338,
@@ -148,7 +182,11 @@ def _slice_metadata(rom: bytes) -> dict[str, dict[str, Any]]:
 
 def _static_contract(rom: bytes) -> dict[str, Any]:
     slices = _slice_metadata(rom)
+    table_offset = 0x0853D5B4 - 0x08000000
+    if struct.unpack_from("<I", rom, table_offset)[0] != 0x080612BD:
+        raise ValueError("VBlank callback registration mismatch")
     return {
+        "code_slices": slices,
         "task_pool": {
             "base": "0x03003BB8",
             "record_size": 60,
@@ -237,6 +275,72 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
                 "presentation task family; the bound natural field tasks do "
                 "not acquire owner identity from co-residence alone"
             ),
+        },
+        "oam_submission": {
+            "irq_registration": {
+                "callback_table_rom": "0x0853D5B4",
+                "callback_table_ram": "0x03000014",
+                "vblank_entry_index": 0,
+                "vblank_callback": "0x080612BD",
+                "irq_dispatcher_source": "0x08000104",
+                "irq_dispatcher_ram": "0x0300007C",
+                "irq_vector": "0x03007FFC",
+            },
+            "bootstrap_copies": [
+                {
+                    "kind": "dma3",
+                    "callsite": "0x0806162A",
+                    "source": "0x08000104",
+                    "destination": "0x0300007C",
+                    "control": "0x84000080",
+                    "size": 512,
+                },
+                {
+                    "kind": "dma3",
+                    "callsite": "0x0806163C",
+                    "source": "0x0853D5B4",
+                    "destination": "0x03000014",
+                    "control": "0x8400000E",
+                    "size": 56,
+                },
+            ],
+            "pending_protocol": {
+                "pending_flag": "0x0300067C",
+                "frame_counter": "0x0300067D",
+                "producer_writes": [
+                    "0x0806111A value 2",
+                    "0x08061124 value 1",
+                ],
+                "wait_loop": "0x08061126..0x0806112C",
+                "acknowledgement": "0x080612A8 writes 0",
+            },
+            "vblank_copy_routes": [
+                {
+                    "kind": "cpu_fast_set",
+                    "callsite": "0x08061346",
+                    "source": "0x0300027C",
+                    "destination": "0x07000000",
+                    "control": "0x04000100",
+                    "size": 1024,
+                },
+                {
+                    "kind": "dma3",
+                    "callsite": "0x08061386",
+                    "source": "0x0300027C",
+                    "destination": "0x07000000",
+                    "control": "0x84000100",
+                    "size": 1024,
+                },
+            ],
+            "vblank_order": [
+                "renderer call 0x08061320",
+                "shadow-to-hardware copy 0x0806133E/0x08061386",
+                "pending acknowledgement 0x080612A8",
+            ],
+            "initialization": {
+                "shadow_clear": "0x080616A4..0x080616B0",
+                "initial_hardware_copy": "0x080616B2..0x080616BE",
+            },
         },
     }
 
@@ -476,6 +580,29 @@ def _oam_snapshot(state: Any) -> tuple[dict[str, Any], bytes, bytes]:
         shadow_bytes,
         hardware_bytes,
     )
+
+
+def _phase_snapshot(
+    state: Any,
+    oam_state: dict[str, Any],
+) -> dict[str, Any]:
+    instruction_bias = 4 if state.cpsr & 0x20 else 8
+    current_pc = (state.registers[15] - instruction_bias) & 0xFFFFFFFF
+    pending = state.read_memory(SUBMISSION_PENDING_ADDRESS, 1)[0]
+    counter = state.read_memory(SUBMISSION_FRAME_COUNTER_ADDRESS, 1)[0]
+    waiting = SUBMISSION_WAIT_START <= current_pc <= SUBMISSION_WAIT_END
+    differs = not oam_state["full_buffer_matches_hardware"]
+    classified = differs and pending in {1, 2} and waiting
+    return {
+        "current_pc": f"0x{current_pc:08X}",
+        "pending_flag_address": "0x0300067C",
+        "pending_flag": pending,
+        "frame_counter_address": "0x0300067D",
+        "frame_counter": counter,
+        "in_pending_wait_loop": waiting,
+        "shadow_hardware_difference_observed": differs,
+        "difference_inside_code_proven_pending_window": classified,
+    }
 
 
 def _add_dispatch_oam_evidence(
@@ -738,15 +865,29 @@ def _reconstruct(root: Path) -> dict[str, Any]:
     full_oam_match_total = 0
     unique_dispatch_total = 0
     bound_oam_match_total = 0
+    pending_submission_total = 0
+    pending_wait_total = 0
+    differing_pending_wait_total = 0
+    differing_outside_pending_wait_total = 0
     for parent_checkpoint in parent["checkpoints"]:
         state = load_gba_state(root / parent_checkpoint["path"])
         pool = state.read_memory(TASK_POOL_BASE, TASK_POOL_SIZE)
         tasks = _tasks(pool, resources)
         dispatch = _dispatch_snapshot(state, tasks)
         oam_state, shadow_oam, hardware_oam = _oam_snapshot(state)
+        phase = _phase_snapshot(state, oam_state)
         active_pointer_total += dispatch["active_count"]
         exact_dispatch_total += int(dispatch["exact_reconstruction"])
         full_oam_match_total += int(oam_state["full_buffer_matches_hardware"])
+        pending_submission_total += int(phase["pending_flag"] in {1, 2})
+        pending_wait_total += int(phase["in_pending_wait_loop"])
+        differing_pending_wait_total += int(
+            phase["difference_inside_code_proven_pending_window"]
+        )
+        differing_outside_pending_wait_total += int(
+            phase["shadow_hardware_difference_observed"]
+            and not phase["difference_inside_code_proven_pending_window"]
+        )
         bindings = []
         correlations = []
         for match in parent_checkpoint["matches"]:
@@ -801,6 +942,7 @@ def _reconstruct(root: Path) -> dict[str, Any]:
                 },
                 "dispatcher_state": dispatch,
                 "shadow_oam_state": oam_state,
+                "submission_phase": phase,
                 "bindings": bindings,
                 "correlations": correlations,
             }
@@ -821,6 +963,16 @@ def _reconstruct(root: Path) -> dict[str, Any]:
         "checkpoints_with_shadow_hardware_full_match": full_oam_match_total,
         "bound_tasks_with_unique_dispatch_membership": unique_dispatch_total,
         "bound_shadow_hardware_slot_match_count": bound_oam_match_total,
+        "checkpoints_with_pending_submission_flag": (
+            pending_submission_total
+        ),
+        "checkpoints_in_pending_wait_loop": pending_wait_total,
+        "differing_checkpoints_in_pending_wait_loop": (
+            differing_pending_wait_total
+        ),
+        "differing_checkpoints_outside_pending_wait_loop": (
+            differing_outside_pending_wait_total
+        ),
     }
     return {
         "schema": SCHEMA,
@@ -866,6 +1018,13 @@ def _reconstruct(root: Path) -> dict[str, Any]:
                 full_oam_match_total == len(checkpoints)
             ),
             "shadow_to_hardware_copy_schedule_traced": False,
+            "shadow_to_hardware_copy_routes_code_verified": True,
+            "vblank_submission_phase_protocol_code_verified": True,
+            "shadow_hardware_differences_observed_only_in_pending_wait_window": (
+                differing_outside_pending_wait_total == 0
+            ),
+            "exact_previous_frame_hardware_identity_proven": False,
+            "all_hardware_oam_writers_exhaustively_proven": False,
             "task_to_oam_writer_or_allocation_index_traced": False,
             "component_zero_dynamic_copy_subset_complete": True,
             "multi_component_dynamic_copy_binding_complete": False,

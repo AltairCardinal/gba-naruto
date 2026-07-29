@@ -169,8 +169,42 @@ shadow/hardware OAM 同索引观测` 的同快照证据链，但不把 ordinal �
 index。最直接的反例是 lineup：dispatch ordinals `1/2/3` 对应观察 OAM
 `12/13/14`，因为前序 task 可产生多个、零个或复制的 OBJ。当前没有逐指令追踪
 renderer cursor，也没有完整重建所有前序 task 的 component 可见性，因此
-`task_to_oam_writer_or_allocation_index_traced` 和
-`shadow_to_hardware_copy_schedule_traced` 继续保持 false。
+`task_to_oam_writer_or_allocation_index_traced` 继续保持 false。
+
+## VBlank 提交链与 11 个相位差
+
+后续静态闭环确定了 shadow OAM 的提交协议：
+
+1. 初始化函数 `0x08061624..0x08061710` 把 ARM IRQ dispatcher
+   `0x08000104..0x0800024C` 复制到 `0x0300007C`，并令
+   `0x03007FFC` 指向它；
+2. 同一初始化把 ROM callback 表 `0x0853D5B4` 复制到
+   `0x03000014`；entry 0 精确为 Thumb callback `0x080612BD`；
+3. VBlank callback `0x080612BC..0x080614EC` 在 `0x08061320`
+   先运行 sprite renderer，再按 IRQ 状态选择两条等价提交路径：
+   `CpuFastSet(0x0300027C,0x07000000,0x04000100)`，或 DMA3
+   `{src=0x0300027C,dst=0x07000000,cnt=0x84000100}`；两者都复制
+   1024 bytes；
+4. 主循环 `0x080610E8..0x0806114A` 在 `0x0300067C` 写入 pending
+   值 1/2，并停在 `0x08061126..0x0806112C`；VBlank callback 完成后
+   `0x080612A8` 把 pending 清零，主循环才继续。
+
+91 个 checkpoint 的离线 CPU/内存分类得到：
+
+- 91/91 的 pending 值为 1；
+- 90/91 的保存 PC 位于上述 pending wait loop，另 1 个保存于 IRQ
+  执行窗口且两域完全一致；
+- 11/11 个完整缓冲差异全部位于 pending wait loop；
+- pending wait loop 之外的差异为 0；
+- 79 个同样处于 pending wait loop 的 checkpoint 两域仍相等，说明
+  pending 只定义允许存在未提交 shadow 更新的窗口，并不意味着每一帧内容必然变化。
+
+因此 11 个差异已从“未解释”升级为“落在代码证明的 VBlank 待提交窗口”。
+这足以签发 copy routes、VBlank 顺序和 checkpoint phase classification，
+但没有逐指令运行时 trace 证明硬件缓冲恰好等于哪一个历史帧，也没有穷尽所有
+可能构造 `0x07000000` 的写入者，所以
+`shadow_to_hardware_copy_schedule_traced`、`exact_previous_frame_hardware_identity_proven`
+和 `all_hardware_oam_writers_exhaustively_proven` 仍保持 false。
 
 ## 被拒绝的六条相关项
 
@@ -211,12 +245,16 @@ OAM 源 frame 不一致，因此只保留为 `frame_state_mismatch`：
 - task pool 布局、资源字段、动画状态和 renderer 坐标/属性公式有代码证据；
 - 53 条自然 OAM 具有唯一、frame-state-consistent 的 task renderer identity；
 - 完整 `attr0/attr1/attr2` 可从 task 与源 component 逐位重建；
-- 53/53 个接受项在 shadow OAM 与硬件 OAM 同索引逐字节一致。
+- 53/53 个接受项在 shadow OAM 与硬件 OAM 同索引逐字节一致；
+- IRQ 注册、VBlank 内 renderer→1 KiB OAM copy→pending ack 顺序有代码证据；
+- 11/11 个 shadow/hardware 完整缓冲差异均位于代码证明的 pending
+  submission window，窗口外差异为 0。
 
 本成果不证明：
 
 - task 到实际 OAM allocator index 或逐帧 writer 的因果 trace；
-- shadow OAM 到硬件 OAM 的逐帧 copy schedule；
+- shadow OAM 到硬件 OAM 的逐指令运行时 copy trace，或硬件缓冲对应的精确历史帧；
+- 所有可能的硬件 OAM 写入者已穷尽；
 - 62×9 全部角色槽都有自然 task 样本；
 - 多 component dynamic-copy 的输出 tile 累加已由自然样本覆盖；
 - presentation owner family 与 field task 相同；
@@ -234,11 +272,11 @@ python3 tools/verify_character_runtime_oam_task_bindings.py \
   --bindings artifacts/character-runtime-oam-task-bindings-v1/bindings.json
 ```
 
-- 专用测试：11 项通过；
+- 专用测试：12 项通过；
 - 独立 verifier：91 checkpoints、53 bindings、`errors=[]`；
 - 测试包含 dispatcher comparator 分支、sort-y 字段选择、活动顺序、shadow
-  entry、tile base、priority、dynamic-copy flag、shape/size、flip 和 artifact
-  hash 的负向篡改；
+  entry、submission phase、tile base、priority、dynamic-copy flag、
+  shape/size、flip 和 artifact hash 的负向篡改；
 - verifier 不导入 exporter，而是独立重读 ROM、父 artifact、视觉 manifest 和
   91 个 `.ss9` 后重建结果；
 - 全程未启动 mGBA，未新增 ROM、save-state、截图或 Butano 文件。

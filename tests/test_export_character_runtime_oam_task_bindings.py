@@ -52,6 +52,10 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "checkpoints_with_shadow_hardware_full_match": 80,
                 "bound_tasks_with_unique_dispatch_membership": 53,
                 "bound_shadow_hardware_slot_match_count": 53,
+                "checkpoints_with_pending_submission_flag": 91,
+                "checkpoints_in_pending_wait_loop": 90,
+                "differing_checkpoints_in_pending_wait_loop": 11,
+                "differing_checkpoints_outside_pending_wait_loop": 0,
             },
             self.bindings["summary"],
         )
@@ -168,6 +172,37 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 for row in phase_lagged["bindings"]
             )
         )
+        self.assertEqual(
+            {
+                "current_pc": "0x08061126",
+                "pending_flag_address": "0x0300067C",
+                "pending_flag": 1,
+                "frame_counter_address": "0x0300067D",
+                "frame_counter": 0,
+                "in_pending_wait_loop": True,
+                "shadow_hardware_difference_observed": True,
+                "difference_inside_code_proven_pending_window": True,
+            },
+            phase_lagged["submission_phase"],
+        )
+
+        matching_pending = self._checkpoint(
+            "scenario-46-lineup.ss9"
+        )
+        self.assertTrue(matching_pending["submission_phase"]["pending_flag"])
+        self.assertTrue(
+            matching_pending["submission_phase"]["in_pending_wait_loop"]
+        )
+        self.assertFalse(
+            matching_pending["submission_phase"][
+                "shadow_hardware_difference_observed"
+            ]
+        )
+        self.assertFalse(
+            matching_pending["submission_phase"][
+                "difference_inside_code_proven_pending_window"
+            ]
+        )
 
     def test_dispatch_comparator_covers_all_keys_and_sort_y_source(self):
         from tools.export_character_runtime_oam_task_bindings import (
@@ -276,6 +311,76 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "same_family_as_bound_field_tasks_proven"
             ]
         )
+        self.assertEqual(
+            {
+                "callback_table_rom": "0x0853D5B4",
+                "callback_table_ram": "0x03000014",
+                "vblank_entry_index": 0,
+                "vblank_callback": "0x080612BD",
+                "irq_dispatcher_source": "0x08000104",
+                "irq_dispatcher_ram": "0x0300007C",
+                "irq_vector": "0x03007FFC",
+            },
+            contract["oam_submission"]["irq_registration"],
+        )
+        self.assertEqual(
+            [
+                {
+                    "kind": "cpu_fast_set",
+                    "callsite": "0x08061346",
+                    "source": "0x0300027C",
+                    "destination": "0x07000000",
+                    "control": "0x04000100",
+                    "size": 1024,
+                },
+                {
+                    "kind": "dma3",
+                    "callsite": "0x08061386",
+                    "source": "0x0300027C",
+                    "destination": "0x07000000",
+                    "control": "0x84000100",
+                    "size": 1024,
+                },
+            ],
+            contract["oam_submission"]["vblank_copy_routes"],
+        )
+        self.assertEqual(
+            [
+                "renderer call 0x08061320",
+                "shadow-to-hardware copy 0x0806133E/0x08061386",
+                "pending acknowledgement 0x080612A8",
+            ],
+            contract["oam_submission"]["vblank_order"],
+        )
+        self.assertEqual(
+            [
+                {
+                    "kind": "dma3",
+                    "callsite": "0x0806162A",
+                    "source": "0x08000104",
+                    "destination": "0x0300007C",
+                    "control": "0x84000080",
+                    "size": 512,
+                },
+                {
+                    "kind": "dma3",
+                    "callsite": "0x0806163C",
+                    "source": "0x0853D5B4",
+                    "destination": "0x03000014",
+                    "control": "0x8400000E",
+                    "size": 56,
+                },
+            ],
+            contract["oam_submission"]["bootstrap_copies"],
+        )
+        self.assertEqual(
+            "931ab756083f41deb5f80be9d2346ce681c9bbdedc27d3f0387cc3e58b6734fb",
+            contract["code_slices"]["frame_wait"]["sha256"],
+        )
+        self.assertEqual(
+            "682fb5e1ca18c9155ce5f7541d152cb925c4046d9371b79a85cac4b12bc37d42",
+            contract["code_slices"]["vblank_callback"]["sha256"],
+        )
 
     def test_hashes_the_full_global_pool_not_only_the_last_sixteen_slots(self):
         from tools.inspect_mgba_savestate import load_gba_state
@@ -316,6 +421,11 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "bound_predicted_oam_observed_in_shadow_and_hardware": True,
                 "shadow_oam_full_buffer_equal_to_hardware_all_checkpoints": False,
                 "shadow_to_hardware_copy_schedule_traced": False,
+                "shadow_to_hardware_copy_routes_code_verified": True,
+                "vblank_submission_phase_protocol_code_verified": True,
+                "shadow_hardware_differences_observed_only_in_pending_wait_window": True,
+                "exact_previous_frame_hardware_identity_proven": False,
+                "all_hardware_oam_writers_exhaustively_proven": False,
                 "task_to_oam_writer_or_allocation_index_traced": False,
                 "component_zero_dynamic_copy_subset_complete": True,
                 "multi_component_dynamic_copy_binding_complete": False,
@@ -327,6 +437,63 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "screen_space_composition_complete": False,
             },
             self.bindings["scope"],
+        )
+
+    def test_submission_phase_requires_valid_pending_value_and_pc_mode(self):
+        from tools.export_character_runtime_oam_task_bindings import (
+            _submission_phase,
+        )
+
+        class State:
+            def __init__(self, *, saved_pc, cpsr, pending):
+                self.registers = [0] * 16
+                self.registers[15] = saved_pc
+                self.cpsr = cpsr
+                self.pending = pending
+
+            def read_memory(self, address, size):
+                self.assert_size = size
+                if address == 0x0300067C:
+                    return bytes([self.pending])
+                if address == 0x0300067D:
+                    return b"\x00"
+                raise AssertionError(f"unexpected address 0x{address:08X}")
+
+        differing = {"full_buffer_matches_hardware": False}
+        thumb_wait = State(
+            saved_pc=0x0806112A,
+            cpsr=0x20,
+            pending=1,
+        )
+        self.assertTrue(
+            _submission_phase(
+                thumb_wait,
+                differing,
+            )["difference_inside_code_proven_pending_window"]
+        )
+
+        invalid_pending = State(
+            saved_pc=0x0806112A,
+            cpsr=0x20,
+            pending=3,
+        )
+        self.assertFalse(
+            _submission_phase(
+                invalid_pending,
+                differing,
+            )["difference_inside_code_proven_pending_window"]
+        )
+
+        arm_bias_moves_pc_outside_wait = State(
+            saved_pc=0x0806112A,
+            cpsr=0,
+            pending=1,
+        )
+        self.assertFalse(
+            _submission_phase(
+                arm_bias_moves_pc_outside_wait,
+                differing,
+            )["in_pending_wait_loop"]
         )
 
     def test_renderer_identity_rejects_field_and_branch_mutations(self):
@@ -410,6 +577,26 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
             if checkpoint["path"].endswith("scenario-46-lineup.ss9")
         )
         lineup["bindings"][0]["task"]["origin"]["x"] += 1
+        self.output.write_text(
+            json.dumps(tampered, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        rejected = verify_bindings(ROOT, self.output)
+        self.assertFalse(rejected["verified"])
+        self.assertIn(
+            "bindings do not match independently reconstructed evidence",
+            rejected["errors"],
+        )
+
+        tampered = copy.deepcopy(self.bindings)
+        phase_lagged = next(
+            checkpoint
+            for checkpoint in tampered["checkpoints"]
+            if checkpoint["path"].endswith(
+                "scenario-50-battle-15-round12-objective4-stable-loop.ss9"
+            )
+        )
+        phase_lagged["submission_phase"]["in_pending_wait_loop"] = False
         self.output.write_text(
             json.dumps(tampered, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
