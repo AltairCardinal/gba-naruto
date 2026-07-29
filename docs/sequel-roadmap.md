@@ -69,13 +69,15 @@
   `notes/character-runtime-unit-oam-bindings-20260730.md`。constructor/selector
   writer、非零 offset 语义、camera 调度、动画状态到帧及最终 screen-space 合成仍
   未闭合，Goal 保持 active。
-- 2026-07-30 角色自然 OAM 又与同 checkpoint 的 16×`0x3C` sprite task pool
+- 2026-07-30 角色自然 OAM 又与同 checkpoint 的 128×`0x3C` 全局 sprite task pool
   完成离线渲染身份绑定。91/91 个 checkpoint 均成功解析；59 个 OAM 同时满足
   资源三指针和 task origin，53 个进一步由 task 当前 animation/keyframe 唯一选中
   同一源 frame，并从 task origin、component geometry/flip、dynamic-copy tile
   base、palette 和 priority 精确重建完整 `attr0/attr1/attr2`。其余 6 个因当前
   frame 不一致降级为相关项，不误报为 identity。allocator/renderer 代码已证明
-  pool、字段和推进契约，独立 verifier 重读 ROM、父 artifact、视觉 manifest 与
+  pool、dispatcher、字段和推进契约；`0x030055F8` 已纠正为全局 slot 112，
+  不是 pool 基址，53 条角色观测位于 slots 120–127。独立 verifier 重读 ROM、
+  父 artifact、视觉 manifest 与
   91 个 `.ss9` 后得到 53 条相同结果。当前自然子集只闭合 dynamic-copy component
   0；task→实际 OAM allocator index/writer、多 component 输出累加、unit ownership、
   camera、window/blend 与最终屏幕合成仍未完成。成果见

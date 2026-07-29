@@ -3,7 +3,7 @@
   "artifact_schema": "character-runtime-oam-task-bindings-v1",
   "artifact_status": "accepted",
   "files": {
-    "bindings.json": "4b80e428d1a8292509d05048a29764f593cc56eb59c49b3523d8858e6d2cfd8e"
+    "bindings.json": "b441cfce5f3e9249ecb0bdb5505ec666498e8065fa7306bfdea7f7172d619563"
   },
   "source": {
     "source_oam_bindings_path": "artifacts/character-runtime-oam-bindings-v1/bindings.json",
@@ -22,8 +22,8 @@
       "--output",
       "artifacts/character-runtime-oam-task-bindings-v1/bindings.json"
     ],
-    "exporter_sha256": "20b18b2ac5cb5761a55c0da8e8f2a8bb7592757c18bdb817610142f62da1e8ba",
-    "test_sha256": "bdc22fe6c77cd7bd3a436e8189c00d3d59ea3bf1dbd520a2d54ea8483ba4eef6"
+    "exporter_sha256": "103018bed15a39ce003dcf03acabc589948bc20a98004ddb5b81e6691061ef7a",
+    "test_sha256": "e3cbea98516274a3b2446cd62cc2bfbad22f40c2d8ee9e354e7416e8cd09977e"
   },
   "verifier": {
     "command": [
@@ -34,7 +34,7 @@
       "--bindings",
       "artifacts/character-runtime-oam-task-bindings-v1/bindings.json"
     ],
-    "verifier_sha256": "f862741eecc24017cb244216829dcdefd42e9789a003475384da1891ecba97c1",
+    "verifier_sha256": "5ed4a8cc4c405259b97a96f3b7b3ba9b135fd431efa8a97fd999c64bd679a22f",
     "exit_code": 0,
     "report": {
       "verified": true,

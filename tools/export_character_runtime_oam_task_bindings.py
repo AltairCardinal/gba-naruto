@@ -36,9 +36,9 @@ SOURCE_DIRECTORY = Path("artifacts/character-battle-visuals-v1")
 SOURCE_MANIFEST_RELATIVE = SOURCE_DIRECTORY / "manifest.json"
 SOURCE_SCHEMA = "character-battle-visuals-v1"
 
-TASK_POOL_BASE = 0x030055F8
+TASK_POOL_BASE = 0x03003BB8
 TASK_RECORD_SIZE = 0x3C
-TASK_SLOT_COUNT = 16
+TASK_SLOT_COUNT = 128
 TASK_POOL_SIZE = TASK_RECORD_SIZE * TASK_SLOT_COUNT
 DYNAMIC_OBJ_COPY_FLAG = 0x00400000
 SHAPE_SIZE_BY_DIMENSIONS = {
@@ -57,6 +57,11 @@ SHAPE_SIZE_BY_DIMENSIONS = {
 }
 
 CODE_SLICES = {
+    "dispatcher": {
+        "start": 0x080627B0,
+        "end": 0x0806291A,
+        "sha256": "2a9a970b7cd4227b53d46ee2274e38c0fe0927919d4fd6611923aad81355857a",
+    },
     "allocator": {
         "start": 0x080625A4,
         "end": 0x080626B0,
@@ -166,6 +171,17 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
             "context_u32": "0x2C",
             "context_index_u32": "0x30",
         },
+        "dispatcher": {
+            **slices["dispatcher"],
+            "active_count": "0x03005BB8",
+            "pointer_list": "0x030059B8",
+            "shadow_oam_base": "0x0300027C",
+            "shadow_oam_end": "0x0300067C",
+            "pool_scan": (
+                "scan all 128 records at 0x03003BB8 + index*0x3C, "
+                "then dispatch the active pointer list"
+            ),
+        },
         "renderer": {
             **slices["renderer"],
             "task_selection": (
@@ -188,8 +204,8 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
         "allocator": {
             **slices["allocator"],
             "pool_proof": (
-                "reverse scan from 0x0300597C by index*0x3C proves 16 slots "
-                "from 0x030055F8"
+                "reverse scan from global slot 127 at 0x0300597C by "
+                "index*0x3C proves 128 slots from 0x03003BB8"
             ),
         },
         "presentation_owner_family": {

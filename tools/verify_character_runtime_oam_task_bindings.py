@@ -31,9 +31,9 @@ PARENT_PROMOTION_RELATIVE = PARENT_DIRECTORY / "manifest.json"
 SOURCE_MANIFEST_RELATIVE = Path(
     "artifacts/character-battle-visuals-v1/manifest.json"
 )
-TASK_POOL_BASE = 0x030055F8
+TASK_POOL_BASE = 0x03003BB8
 TASK_RECORD_SIZE = 0x3C
-TASK_SLOT_COUNT = 16
+TASK_SLOT_COUNT = 128
 TASK_POOL_SIZE = TASK_RECORD_SIZE * TASK_SLOT_COUNT
 DYNAMIC_OBJ_COPY_FLAG = 0x00400000
 SHAPE_SIZE_BY_DIMENSIONS = {
@@ -51,6 +51,11 @@ SHAPE_SIZE_BY_DIMENSIONS = {
     (32, 64): (2, 3),
 }
 CODE_SLICES = {
+    "dispatcher": (
+        0x080627B0,
+        0x0806291A,
+        "2a9a970b7cd4227b53d46ee2274e38c0fe0927919d4fd6611923aad81355857a",
+    ),
     "allocator": (
         0x080625A4,
         0x080626B0,
@@ -133,9 +138,9 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
     slices = _slice_metadata(rom)
     return {
         "task_pool": {
-            "base": "0x030055F8",
+            "base": "0x03003BB8",
             "record_size": 60,
-            "slot_count": 16,
+            "slot_count": 128,
             "last_slot": "0x0300597C",
         },
         "task_fields": {
@@ -152,6 +157,17 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
             "callback_u32": "0x28",
             "context_u32": "0x2C",
             "context_index_u32": "0x30",
+        },
+        "dispatcher": {
+            **slices["dispatcher"],
+            "active_count": "0x03005BB8",
+            "pointer_list": "0x030059B8",
+            "shadow_oam_base": "0x0300027C",
+            "shadow_oam_end": "0x0300067C",
+            "pool_scan": (
+                "scan all 128 records at 0x03003BB8 + index*0x3C, "
+                "then dispatch the active pointer list"
+            ),
         },
         "renderer": {
             **slices["renderer"],
@@ -175,8 +191,8 @@ def _static_contract(rom: bytes) -> dict[str, Any]:
         "allocator": {
             **slices["allocator"],
             "pool_proof": (
-                "reverse scan from 0x0300597C by index*0x3C proves 16 slots "
-                "from 0x030055F8"
+                "reverse scan from global slot 127 at 0x0300597C by "
+                "index*0x3C proves 128 slots from 0x03003BB8"
             ),
         },
         "presentation_owner_family": {
@@ -584,7 +600,7 @@ def _reconstruct(root: Path) -> dict[str, Any]:
                 "path": parent_checkpoint["path"],
                 "sha256": parent_checkpoint["sha256"],
                 "task_pool": {
-                    "address": "0x030055F8",
+                    "address": "0x03003BB8",
                     "size": len(pool),
                     "sha256": _digest(pool),
                     "recognized_resource_task_count": sum(
@@ -598,7 +614,7 @@ def _reconstruct(root: Path) -> dict[str, Any]:
     summary = {
         "checkpoint_count": len(parent["checkpoints"]),
         "checkpoint_parse_error_count": 0,
-        "task_pool_slot_count": 16,
+        "task_pool_slot_count": 128,
         "resource_and_origin_correlation_count": correlation_count,
         "frame_consistent_renderer_identity_count": binding_count,
         "frame_inconsistent_correlation_count": correlation_count - binding_count,

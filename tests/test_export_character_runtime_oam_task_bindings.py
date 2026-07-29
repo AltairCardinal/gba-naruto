@@ -38,7 +38,7 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
             {
                 "checkpoint_count": 91,
                 "checkpoint_parse_error_count": 0,
-                "task_pool_slot_count": 16,
+                "task_pool_slot_count": 128,
                 "resource_and_origin_correlation_count": 59,
                 "frame_consistent_renderer_identity_count": 53,
                 "frame_inconsistent_correlation_count": 6,
@@ -55,7 +55,7 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
         rows = checkpoint["bindings"]
 
         self.assertEqual([12, 13, 14], [row["oam_index"] for row in rows])
-        self.assertEqual([11, 13, 15], [row["task"]["slot"] for row in rows])
+        self.assertEqual([123, 125, 127], [row["task"]["slot"] for row in rows])
         self.assertEqual(
             ["0x0300588C", "0x03005904", "0x0300597C"],
             [row["task"]["address"] for row in rows],
@@ -99,12 +99,20 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
 
         self.assertEqual(
             {
-                "base": "0x030055F8",
+                "base": "0x03003BB8",
                 "record_size": 60,
-                "slot_count": 16,
+                "slot_count": 128,
                 "last_slot": "0x0300597C",
             },
             contract["task_pool"],
+        )
+        self.assertEqual("0x03005BB8", contract["dispatcher"]["active_count"])
+        self.assertEqual("0x030059B8", contract["dispatcher"]["pointer_list"])
+        self.assertEqual(
+            "0x0300027C", contract["dispatcher"]["shadow_oam_base"]
+        )
+        self.assertEqual(
+            "0x0300067C", contract["dispatcher"]["shadow_oam_end"]
         )
         self.assertEqual(
             "6c14764539f4a6071dfae9d1a0943a467ff931094f94aed74fbad587788db626",
@@ -119,6 +127,31 @@ class ExportCharacterRuntimeOamTaskBindingsTests(unittest.TestCase):
                 "same_family_as_bound_field_tasks_proven"
             ]
         )
+
+    def test_hashes_the_full_global_pool_not_only_the_last_sixteen_slots(self):
+        from tools.inspect_mgba_savestate import load_gba_state
+
+        checkpoint = self._checkpoint("scenario-46-lineup.ss9")
+        self.assertEqual(
+            {
+                "address": "0x03003BB8",
+                "size": 7680,
+                "sha256": (
+                    "4d6c12088c8477e30d5812722511def255782fa481a852688"
+                    "9214e971c0d9b63"
+                ),
+                "recognized_resource_task_count": 4,
+            },
+            checkpoint["task_pool"],
+        )
+
+        state = load_gba_state(ROOT / checkpoint["path"])
+        prefix = state.read_memory(0x03003BB8, 112 * 0x3C)
+        self.assertEqual(
+            "941f1c5364a0ec8a2c299882bb6582e939f2a3b63f025d236298406d2a8a6d80",
+            hashlib.sha256(prefix).hexdigest(),
+        )
+        self.assertNotEqual(bytes(len(prefix)), prefix)
 
     def test_scope_does_not_overclaim_unmatched_oam_or_final_composition(self):
         self.assertEqual(

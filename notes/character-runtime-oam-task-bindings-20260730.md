@@ -7,7 +7,7 @@
 53 个 OAM 唯一关联到同 checkpoint 中一个 frame-state-consistent task：
 
 - 91/91 个 checkpoint 均成功解析；
-- 16×`0x3C` 的 sprite task pool 已由 allocator 代码证明；
+- 128×`0x3C` 的全局 sprite task pool 已由 allocator 与 dispatcher 代码证明；
 - 59 个 OAM 同时满足资源三指针和 task origin；
 - 53 个又满足当前 animation/keyframe 选中的 frame，并精确重建完整
   `attr0/attr1/attr2`；
@@ -32,7 +32,7 @@ OAM。它不表示已经追踪到实际 OAM allocator index、逐帧 writer 或�
 - 角色视觉 manifest SHA-256：
   `a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c`
 - 本成果 `bindings.json` SHA-256：
-  `4b80e428d1a8292509d05048a29764f593cc56eb59c49b3523d8858e6d2cfd8e`
+  `b441cfce5f3e9249ecb0bdb5505ec666498e8065fa7306bfdea7f7172d619563`
 
 每个 checkpoint 都记录原始 `.ss9` SHA、完整 task pool SHA 和各 task
 record SHA。上游 OAM artifact 还反向绑定角色视觉 manifest；导出器和 verifier
@@ -40,15 +40,21 @@ record SHA。上游 OAM artifact 还反向绑定角色视觉 manifest；导出�
 
 ## task pool 与字段契约
 
-allocator `0x080625A4..0x080626B0` 从末槽 `0x0300597C` 按
-`index*0x3C` 反向扫描，证明 task pool 为：
+allocator `0x080625A4..0x080626B0` 从全局 slot 127
+`0x0300597C` 按 `index*0x3C` 反向扫描；dispatcher
+`0x080627B0..0x0806291A` 也遍历 index 0–127，并把活动 task 指针写到
+`0x030059B8`。因此全局 task pool 为：
 
 ```text
-base        = 0x030055F8
+base        = 0x03003BB8
 record_size = 0x3C
-slot_count  = 16
+slot_count  = 128
 last_slot   = 0x0300597C
 ```
+
+`0x030055F8` 只是全局 slot 112，不能作为 task pool 基址。本成果接受的 53 条
+角色观测均落在全局 slots 120–127；每个 checkpoint 的 pool SHA 仍覆盖全部
+128 条记录，而不只哈希角色恰好占用的尾部。
 
 本成果使用并由代码窗口绑定的字段如下：
 
@@ -112,16 +118,16 @@ attr2 = tile | (priority << 10) | (palette_bank << 12)
 
 | OAM | task slot / address | resource / frame | task origin | `attr0/1/2` |
 |---:|---|---|---|---|
-| 12 | 11 / `0x0300588C` | 18 / 0 | `(200,96)` | `8028/C0B8/2880` |
-| 13 | 13 / `0x03005904` | 9 / 0 | `(120,96)` | `8028/C068/1840` |
-| 14 | 15 / `0x0300597C` | 0 / 0 | `(40,96)` | `8028/C018/0800` |
+| 12 | 123 / `0x0300588C` | 18 / 0 | `(200,96)` | `8028/C0B8/2880` |
+| 13 | 125 / `0x03005904` | 9 / 0 | `(120,96)` | `8028/C068/1840` |
+| 14 | 127 / `0x0300597C` | 0 / 0 | `(40,96)` | `8028/C018/0800` |
 
 三条结果的坐标、shape/size、tile、palette、priority 和 flip 均由 task 与
 source component 重建，而不是从 OAM 反填。
 
 `scenario-41-result.ss9` OAM 0 则证明非零 keyframe 状态：
 
-- slot 15，resource 0；
+- 全局 slot 127，resource 0；
 - animation 0、keyframe 2、hold timer 6；
 - 当前选中 frame 2；
 - task origin `(100,96)` 加 component `(-16,-56)` 得到 OAM `(84,40)`；
