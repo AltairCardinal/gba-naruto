@@ -223,11 +223,22 @@ enqueue helper `0x080635B8..0x08063604`（SHA-256
 必须在构建器验证单帧 enqueue 数不超过容量、tile base/offset 不越过 OBJ tile
 index/VRAM 边界；否则 OAM 可能引用尚未填充或被覆盖的 tile。
 
+队列消费者 `0x0806365C..0x080636DC`（SHA-256
+`ec7573f6149a187012c360a2755fd8336c0f496c1519d1e727e9ff582eef2203`）
+逐槽处理 active 项。status 1 调用同步 CpuSet，以 `u16(size_bytes)>>1` 个 halfword
+完成 source→destination 拷贝，返回后立即清 active bit。dispatcher
+`0x080612BC..0x080614E4`（SHA-256
+`90568d99bb0ddfba74ce946781049494e117bd2273bd3b69843f7df420506817`）
+先在 `0x08061320` 调用 sprite task/render dispatcher，再在 `0x080613FC` 第一次
+flush 队列；另一运行分支还会在 `0x080614C2` 再次 flush。因此 renderer 在第一次
+flush 前创建的 status-1 拷贝会在同一次 dispatcher 调用中同步完成并释放槽位。
+
 当前 22 条 battle-effect sequence 的可达 render-attributes 为
 `0,256,512,784,1024,1280,1536,268435456`，构造器固定 flags 与 side flags 也都
 清 bit 22，因此此分支对当前已导出特效不可达。manifest 闭合的是通用 renderer 的
-enqueue/attr2/offset 公式；队列实际消费、拷贝完成帧、bit 23 与
-`0x01000008` 的玩法语义及 queue-full 运行时结果仍未签发。
+enqueue/attr2/offset、status-1 消费机制及相对 dispatcher 顺序；dispatcher 的外层
+间接入口尚未被直接证明为唯一硬件 VBlank phase，bit 23 与 `0x01000008` 的玩法语义
+及 queue-full 运行时结果也仍未签发。
 
 ## 运行证据交叉检查
 
@@ -273,7 +284,8 @@ OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束
   writer 证据，但完整调度、逐帧具体值及其他运行时输入尚未实例化为唯一 OAM 列表
   或 viewport 像素；
 - bit 22 动态 OBJ VRAM 的 enqueue/attr2/offset 公式已闭合且对当前 sequence
-  不可达；队列消费/完成时序、容量失败和玩法 flags 语义仍未闭合；
+  不可达；status-1 队列消费和 renderer→flush 相对顺序已经闭合，但外层硬件帧
+  phase、容量失败和玩法 flags 语义仍未闭合；
 - affine matrix 数值及 affine 像素光栅化未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；

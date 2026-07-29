@@ -605,6 +605,26 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         self.assertEqual(16, model["copy_queue"]["slot_count"])
         self.assertEqual("0x03005BBC", model["copy_queue"]["iwram_address"])
         self.assertEqual(
+            {
+                "consumer_code_range": "0x0806365C..0x080636DC",
+                "status_1_operation": (
+                    "CpuSet(source,destination,u16(size_bytes)>>1)"
+                ),
+                "status_1_unit": "16-bit halfwords",
+                "synchronous": True,
+                "completion_action": "clear queue slot active bit",
+                "dispatcher_render_call": "0x08061320 -> 0x08062924",
+                "dispatcher_first_flush_call": "0x080613FC -> 0x0806365C",
+                "dispatcher_optional_second_flush_call": (
+                    "0x080614C2 -> 0x0806365C"
+                ),
+                "relative_order": (
+                    "sprite task/render dispatch completes before first flush"
+                ),
+            },
+            model["copy_queue"]["execution"],
+        )
+        self.assertEqual(
             (
                 "u16(task.tile_base + running_dynamic_tile_offset) | "
                 "(u4(task.palette_bank) << 12) | "
@@ -625,8 +645,18 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "all_reachable_arguments_clear_bit_22"
             ]
         )
+        self.assertTrue(
+            model["model_boundaries"]["queued_copy_execution_mechanism_known"]
+        )
+        self.assertTrue(
+            model["model_boundaries"][
+                "queued_copy_relative_dispatch_order_known"
+            ]
+        )
         self.assertFalse(
-            model["model_boundaries"]["queued_copy_execution_timing_known"]
+            model["model_boundaries"][
+                "dispatcher_hardware_vblank_phase_known"
+            ]
         )
 
         slices = {
@@ -641,13 +671,28 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             "c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48",
             slices["dynamic_obj_vram_copy_queue_enqueue"]["sha256"],
         )
+        self.assertEqual(
+            "ec7573f6149a187012c360a2755fd8336c0f496c1519d1e727e9ff582eef2203",
+            slices["dynamic_obj_vram_copy_queue_consumer"]["sha256"],
+        )
+        self.assertEqual(
+            "90568d99bb0ddfba74ce946781049494e117bd2273bd3b69843f7df420506817",
+            slices["dynamic_obj_vram_dispatch_order"]["sha256"],
+        )
         self.assertTrue(
             self.manifest["scope"][
                 "dynamic_obj_vram_enqueue_and_attr2_formula_complete"
             ]
         )
+        self.assertTrue(
+            self.manifest["scope"][
+                "dynamic_obj_vram_copy_queue_consumer_complete"
+            ]
+        )
         self.assertFalse(
-            self.manifest["scope"]["dynamic_obj_vram_copy_execution_complete"]
+            self.manifest["scope"][
+                "dynamic_obj_vram_hardware_frame_phase_complete"
+            ]
         )
 
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
@@ -706,7 +751,8 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "pre_oam_visibility_gate_complete": True,
                 "concrete_runtime_offset_table_values_complete": False,
                 "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
-                "dynamic_obj_vram_copy_execution_complete": False,
+                "dynamic_obj_vram_copy_queue_consumer_complete": True,
+                "dynamic_obj_vram_hardware_frame_phase_complete": False,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,
