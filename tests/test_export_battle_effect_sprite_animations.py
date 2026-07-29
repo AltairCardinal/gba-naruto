@@ -307,6 +307,110 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         self.assertFalse(scope["screen_space_oam_composition_complete"])
         self.assertFalse(scope["runtime_affine_rasterization_complete"])
 
+    def test_closes_static_oam_attribute_formulas_without_claiming_affine_pixels(self):
+        model = self.manifest["oam_attribute_model"]
+        self.assertEqual(
+            {
+                "8x8": "0x00000000",
+                "8x16": "0x00008000",
+                "8x32": "0x40008000",
+                "16x8": "0x00004000",
+                "16x16": "0x40000000",
+                "16x32": "0x80008000",
+                "32x8": "0x40004000",
+                "32x16": "0x80004000",
+                "32x32": "0x80000000",
+                "32x64": "0xC0008000",
+                "64x32": "0xC0004000",
+                "64x64": "0xC0000000",
+            },
+            model["shape_size_combined_masks"],
+        )
+        self.assertEqual(
+            [
+                "8x8",
+                "8x16",
+                "8x32",
+                "16x8",
+                "16x16",
+                "32x8",
+                "32x16",
+                "32x32",
+            ],
+            model["observed_component_sizes"],
+        )
+        self.assertEqual(
+            "u8(renderer_final_y)",
+            model["attr0"]["y_coordinate"],
+        )
+        self.assertEqual(
+            "u9(renderer_final_x)",
+            model["attr1"]["x_coordinate"],
+        )
+        self.assertEqual(
+            "u2(component.tile_flags XOR ((task.render_flags & 0x00018000) >> 15))",
+            model["attr1"]["non_affine_flip_bits"],
+        )
+        self.assertEqual(
+            (
+                "(renderer_stack_mode_byte & 1) == 0 and task.byte_13 == 0 "
+                "and task.scale_xy_q8_8 == 0x01000100 and "
+                "(task.render_flags & 0x00080000) == 0"
+            ),
+            model["attr1"]["non_affine_flip_placement_guard"],
+        )
+        self.assertEqual(
+            "u16(task.tile_base + component.tile_index)",
+            model["attr2"]["tile_index"],
+        )
+        self.assertEqual(
+            "u4(task.palette_bank) << 12",
+            model["attr2"]["palette_bank"],
+        )
+        self.assertEqual(
+            "(task.render_flags & 0x000000C0) << 4",
+            model["attr2"]["priority"],
+        )
+        self.assertEqual(
+            [0, 256, 512, 784, 1024, 1280, 1536, 268435456],
+            model["normal_path_reachability"][
+                "reachable_render_attributes_arguments"
+            ],
+        )
+        self.assertTrue(
+            model["normal_path_reachability"][
+                "all_reachable_arguments_clear_bit_22"
+            ]
+        )
+        self.assertFalse(
+            model["model_boundaries"][
+                "pre_attr_coordinate_scale_and_clipping_applied"
+            ]
+        )
+        renderer_slice = next(
+            item
+            for item in self.manifest["consumer_code_slices"]
+            if item["name"] == "oam_shape_size_affine_and_attribute_writer"
+        )
+        self.assertEqual("0x08062D92", renderer_slice["gba_start"])
+        self.assertEqual("0x08063186", renderer_slice["gba_end"])
+        self.assertEqual(
+            "566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23",
+            renderer_slice["sha256"],
+        )
+
+        scope = self.manifest["scope"]
+        self.assertTrue(scope["oam_shape_size_encoding_complete"])
+        self.assertTrue(scope["oam_coordinate_field_wrapping_complete"])
+        self.assertTrue(
+            scope["normal_oam_tile_palette_priority_formula_complete"]
+        )
+        self.assertTrue(
+            scope["guarded_oam_non_affine_flip_formula_complete"]
+        )
+        self.assertFalse(scope["screen_space_oam_composition_complete"])
+        self.assertFalse(scope["runtime_affine_rasterization_complete"])
+
     def test_all_decompressed_tiles_are_referenced_by_component_geometry(self):
         for group in self.manifest["groups"]:
             coverage = group["tile_coverage"]
@@ -354,6 +458,10 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
                 "callback_child_variant_and_hold_complete": True,
                 "child_task_origin_formulas_complete": True,
                 "child_task_side_mirroring_formula_complete": True,
+                "oam_shape_size_encoding_complete": True,
+                "oam_coordinate_field_wrapping_complete": True,
+                "normal_oam_tile_palette_priority_formula_complete": True,
+                "guarded_oam_non_affine_flip_formula_complete": True,
                 "concrete_rng_trajectory_complete": False,
                 "callback_random_screen_coordinates_complete": False,
                 "parent_visible_release_tick_exact": False,
@@ -438,6 +546,41 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
             manifest["child_task_origin_model"]["rng_ballistic"][
                 "speed_transition"
             ] = "max(0, speed_t - 24)"
+            manifest["oam_attribute_model"]["attr2"]["priority"] = (
+                "(task.render_flags & 0x00000080) << 3"
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any("attr2.priority" in error for error in result["errors"]),
+                result["errors"],
+            )
+
+            manifest["oam_attribute_model"]["attr2"]["priority"] = (
+                "(task.render_flags & 0x000000C0) << 4"
+            )
+            manifest["oam_attribute_model"]["shape_size_combined_masks"][
+                "32x16"
+            ] = "0x40004000"
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_battle_effect_sprite_animations(ROOT, tampered)
+            self.assertTrue(
+                any(
+                    "shape_size_combined_masks.32x16" in error
+                    for error in result["errors"]
+                ),
+                result["errors"],
+            )
+
+            manifest["oam_attribute_model"]["shape_size_combined_masks"][
+                "32x16"
+            ] = "0x80004000"
             manifest_path.write_text(
                 json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",

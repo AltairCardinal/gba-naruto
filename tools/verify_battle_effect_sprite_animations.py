@@ -118,6 +118,13 @@ CODE_SLICES = (
         "0x08062C7C",
         "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313",
     ),
+    (
+        "oam_shape_size_affine_and_attribute_writer",
+        0x062D92,
+        "0x08062D92",
+        "0x08063186",
+        "566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23",
+    ),
 )
 
 
@@ -542,6 +549,101 @@ def _child_task_origin_model() -> dict[str, Any]:
     }
 
 
+def _oam_attribute_model(
+    groups: list[dict[str, Any]],
+    playback_plans: list[dict[str, Any]],
+) -> dict[str, Any]:
+    observed_sizes = sorted({
+        (component["width"], component["height"])
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+    })
+    render_attribute_arguments = sorted({
+        event["render_attributes_argument"]
+        for plan in playback_plans
+        for event in plan["spawn_events"]
+    })
+    return {
+        "code_range": "0x08062D92..0x08063186",
+        "combined_word_layout": "u32(attr1) << 16 | u16(attr0)",
+        "task_fields": {
+            "+0x00": "u32 render_flags",
+            "+0x10": "u16 tile_base",
+            "+0x12": "u8 palette_bank",
+        },
+        "shape_size_combined_masks": {
+            "8x8": "0x00000000",
+            "8x16": "0x00008000",
+            "8x32": "0x40008000",
+            "16x8": "0x00004000",
+            "16x16": "0x40000000",
+            "16x32": "0x80008000",
+            "32x8": "0x40004000",
+            "32x16": "0x80004000",
+            "32x32": "0x80000000",
+            "32x64": "0xC0008000",
+            "64x32": "0xC0004000",
+            "64x64": "0xC0000000",
+        },
+        "observed_component_sizes": [
+            f"{width}x{height}" for width, height in observed_sizes
+        ],
+        "attr0": {
+            "y_coordinate": "u8(renderer_final_y)",
+            "object_mode": "task.render_flags & 0x00000C00",
+            "affine_enable": "u1(component.affine_mode) << 8",
+            "global_bit7": "global_obj_control_byte & 0x80",
+            "shape_bits_source": "shape_size_combined_masks low u16",
+        },
+        "attr1": {
+            "x_coordinate": "u9(renderer_final_x)",
+            "non_affine_flip_bits": (
+                "u2(component.tile_flags XOR "
+                "((task.render_flags & 0x00018000) >> 15))"
+            ),
+            "non_affine_flip_placement": "flip_bits << 12",
+            "non_affine_flip_placement_guard": (
+                "(renderer_stack_mode_byte & 1) == 0 and "
+                "task.byte_13 == 0 and task.scale_xy_q8_8 == 0x01000100 "
+                "and (task.render_flags & 0x00080000) == 0"
+            ),
+            "size_bits_source": "shape_size_combined_masks high u16",
+        },
+        "attr2": {
+            "applicable_path": (
+                "battle-effect normal OBJ path where "
+                "(task.render_flags & 0x00400000) == 0"
+            ),
+            "tile_index": "u16(task.tile_base + component.tile_index)",
+            "palette_bank": "u4(task.palette_bank) << 12",
+            "priority": "(task.render_flags & 0x000000C0) << 4",
+            "formula": (
+                "u16(task.tile_base + component.tile_index) | "
+                "(u4(task.palette_bank) << 12) | "
+                "((task.render_flags & 0x000000C0) << 4)"
+            ),
+        },
+        "normal_path_reachability": {
+            "constructor_fixed_and_side_flags_clear_bit_22": True,
+            "reachable_render_attributes_arguments": render_attribute_arguments,
+            "all_reachable_arguments_clear_bit_22": all(
+                not value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+        },
+        "model_boundaries": {
+            "pre_attr_coordinate_flag_offsets_applied": False,
+            "pre_attr_coordinate_scale_and_clipping_applied": False,
+            "concrete_runtime_coordinates_applied": False,
+            "affine_matrix_values_applied": False,
+            "affine_rasterization_applied": False,
+            "dynamic_obj_vram_copy_path_applied": False,
+            "screen_clipping_applied": False,
+        },
+    }
+
+
 def _playback_plans(
     sequences: dict[str, Any],
     groups: list[dict[str, Any]],
@@ -919,6 +1021,7 @@ def _expected(
         },
         "consumer_code_slices": code_slices,
         "child_task_origin_model": _child_task_origin_model(),
+        "oam_attribute_model": _oam_attribute_model(groups, playback_plans),
         "groups": groups,
         "sequence_playback_plans": playback_plans,
         "parent_release_scheduler_boundary": {
@@ -942,6 +1045,10 @@ def _expected(
             "callback_child_variant_and_hold_complete": True,
             "child_task_origin_formulas_complete": True,
             "child_task_side_mirroring_formula_complete": True,
+            "oam_shape_size_encoding_complete": True,
+            "oam_coordinate_field_wrapping_complete": True,
+            "normal_oam_tile_palette_priority_formula_complete": True,
+            "guarded_oam_non_affine_flip_formula_complete": True,
             "concrete_rng_trajectory_complete": False,
             "callback_random_screen_coordinates_complete": False,
             "parent_visible_release_tick_exact": False,

@@ -14,7 +14,10 @@ definition、component、animation timeline 和父 callback spawn plan：
 - 22/22 sequence 的 callback spawn policy、child variant、spawn tick、child hold
   和最后 child 静态完成 tick；
 - 22/22 sequence 的 child task 原点公式，包括父对象静态偏移、对战侧水平镜像、
-  角色锚点跟随和 sequence 1 的 RNG/Q8.8 运动状态转移。
+  角色锚点跟随和 sequence 1 的 RNG/Q8.8 运动状态转移；
+- 最终 renderer 坐标到 OBJ attr0/attr1 的 8/9-bit 字段 wrap、12 种合法 shape/size
+  编码、普通 battle-effect attr2 的 tile/palette/priority 及受 guard 约束的
+  non-affine flip 公式。
 
 成果位于 `artifacts/battle-effect-sprite-animations-v1/`。它复用
 `battle-effect-resource-pairs-v1` 的图形/调色板和
@@ -131,6 +134,34 @@ renderer `0x08062C58..0x08062C7C` 又直接证明 component 坐标会与
 父坐标、对战 mode、actor Q8.8 坐标、RNG dispatch 目标/状态及每个 child 的 RNG
 结果仍是运行时输入，所以公式闭合不等于产生唯一绝对坐标。
 
+## OAM 静态属性合成
+
+renderer `0x08062D92..0x08063186` 的 `0x3F4` 字节切片 SHA-256 为
+`566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23`。
+它闭合下列普通 battle-effect OBJ 路径：
+
+- renderer 最终坐标写入 OAM 时，attr0 的 y 为 `u8(renderer_final_y)`，attr1 的 x
+  为 `u9(renderer_final_x)`；
+- renderer 支持 GBA OBJ 的 12 种合法矩形：`8×8`、`8×16`、`8×32`、
+  `16×8`、`16×16`、`16×32`、`32×8`、`32×16`、`32×32`、`32×64`、
+  `64×32`、`64×64`；当前 437 个 component 实际使用
+  `8×8/8×16/8×32/16×8/16×16/32×8/32×16/32×32` 八种尺寸；
+- 非 affine 路径的 H/V 位为
+  `u2(component.tile_flags XOR ((task.render_flags & 0x18000) >> 15))`，
+  再写入 attr1 bits 12–13；该 placement 还要求 renderer 栈 mode bit 0、task
+  `+0x13`、task scale pair `0x01000100` 和 render flags bit 19 满足 ROM guard；
+- 普通 attr2 路径使用
+  `u16(task.tile_base + component.tile_index)`、`u4(task.palette_bank)<<12`
+  和 `(task.render_flags & 0xC0)<<4`，后者正是 priority bits 10–11。
+
+manifest 保存完整 shape/size combined mask 表、当前实际尺寸集合和逐字段公式。该结论
+限定在当前 sequence 构造器可达且 `task.render_flags & 0x00400000 == 0` 的普通
+battle-effect 路径；22 条 sequence 的 8 种可达 render-attributes 参数和构造器固定/
+阵营 flags 均不设置 bit 22。bit 22 动态 OBJ VRAM 拷贝分支、affine matrix 数值和
+最终像素光栅化没有被本节签发。`0x08062C7C..0x08062D40` 的 flags 查表偏移、
+非默认 scale 和裁剪也尚未建模，所以本节只签发最终坐标字段的 8/9-bit wrap，不把
+`component + task origin` 直接冒充最终 attr 坐标。
+
 ## 运行证据交叉检查
 
 已有自然 OAM trace 的四个总时长与静态 timeline 完全一致：
@@ -161,18 +192,20 @@ python3 -m unittest tests.test_export_battle_effect_sprite_animations
 生产导出耗时 0.24 秒，最大 RSS 26,890,240 字节，无 swap。独立 verifier
 不导入领域 exporter，自行从 ROM 重建全部 definition、component、timeline、
 callback plan 和 PNG，结果为 18/18 groups、178/178 frames、437/437 components、
-23/23 animations、`errors=[]`。verifier 也独立保存预期位置模型并拒绝公式或
-sequence model ID 篡改；位置公式的语义依据仍是人工审计且由精确 Thumb 切片哈希
-约束，不把两份同结论实现冒充第二个指令级解释器。
+23/23 animations、`errors=[]`。verifier 也独立保存预期位置模型并拒绝公式、
+sequence model ID、OAM priority 或 shape/size mask 篡改；位置与 OAM 公式的语义依据
+仍是人工审计且由精确 Thumb 切片哈希约束，不把两份同结论实现冒充第二个指令级解释器。
 
 ## 尚未闭合
 
 - 源空间预览应用 component tile 顺序与 H/V flip，但不应用 screen-space base
-  position、priority、affine rasterization 或 callback 动态位移；child task 原点和
-  对战侧镜像公式已经闭合，但 component-local → OAM → viewport 仍未合成；
+  position、priority、affine rasterization 或 callback 动态位移；child task 原点、
+  对战侧镜像、最终 renderer 坐标字段 wrap、shape/size 和普通 attr2 公式已经闭合，
+  但 flags 偏移、scale/裁剪及运行时输入尚未实例化为唯一 OAM 列表或 viewport 像素；
+- bit 22 动态 OBJ VRAM 拷贝分支、affine matrix 数值及 affine 像素光栅化未闭合；
 - sequence 1 的公式已经闭合，唯一具体轨迹仍需确定性 RNG dispatch 状态与父对象状态；
 - parent 最终释放存在上述 0/1 scheduler tick 边界；
 - blend、palette transform 与音频绑定仍未全量闭合。
 
-因此本成果已闭合静态 child OAM 结构、帧选择、hold、callback spawn 状态机和 task
-原点公式，但不把源空间 frame PNG 或符号原点冒充最终屏幕帧。
+因此本成果已闭合静态 child OAM 结构、帧选择、hold、callback spawn 状态机、task
+原点和普通 OAM 属性公式，但不把源空间 frame PNG 或符号公式冒充最终屏幕帧。
