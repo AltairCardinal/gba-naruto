@@ -1,5 +1,16 @@
 # Tools
 
+## 实验工作区与 Git 成果准入
+
+ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽略的
+`build/experiments/` 中运行。验收后的最小成果通过哈希和 verifier 证据提升到
+`artifacts/`；已完成实验压缩归档，过期归档经缓冲区清理。完整流程见
+`docs/experiment-artifact-lifecycle.md`。
+
+`check_staged_artifact_policy.py` 由仓库 pre-commit hook 调用，只检查新加入的
+顶层成果目录。`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
+可逆地加入本地 Git 忽略清单，不移动或删除数据。
+
 ## `scan_rom.py`
 
 Preliminary static scanner for a GBA ROM.

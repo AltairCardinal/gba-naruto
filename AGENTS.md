@@ -9,6 +9,14 @@
 - 有效调试方法必须同时记录方法、结果及关键文件或地址范围。
 - 逆向结论变化时更新原记录；路线图进度变化时同步更新 `docs/sequel-roadmap.md`。
 
+## 分支与工作树边界
+
+- Butano 实现使用 `/Users/altair/github/gba-naruto` 的
+  `codex/butano-foundation-research`；逆向工程使用
+  `/Users/altair/github/gba-naruto-reverse` 的 `codex/reverse-engineering`。
+- 两边需要复用成果时通过已提交 commit 精确 cherry-pick；不得直接复制整个脏工作树。
+- 跨分支共享文档由当前集成人单点修改，避免两边同时写入。
+
 ## Goal 直接执行
 
 - 自动续跑或继续既有 `/goal` 开发前必须检查 Goal 状态；非 `active` 时不得继续该 Goal 的写操作。用户当前消息明确要求的独立操作仅按其授权范围执行。
@@ -36,6 +44,11 @@
 ## 证据与验收
 
 - 每次实验使用唯一 run ID，不覆盖原始产物；派生分析写入临时或新目录。
+- 实验必须由 `tools/experiment_workspace.py init` 建立在
+  `build/experiments/active/`；禁止直接向 `artifacts/` 生成候选文件。
+- 只有带文件哈希和 verifier 成功证据的 `final/` 才能 `promote` 到
+  `artifacts/`；新成果目录受 pre-commit 检查。
+- 任务完成后显式 `complete`；维护任务只归档已完成实验，不触碰 active 实验。
 - 结论必须关联输入、工具/ROM/快照哈希、关键地址和结果 manifest；失效结论标记为已取代，不删除历史证据。
 - 完成前运行与改动匹配的格式、单元、集成和必要的运行时验证；无法执行的检查必须明确说明。
 - `AGENTS.md` 只承担稳定行为约束；状态、权限、锁、预算和写入拦截必须由 Goal、Comet guard、hooks 或脚本实现，不得把文字规则当作硬隔离。
