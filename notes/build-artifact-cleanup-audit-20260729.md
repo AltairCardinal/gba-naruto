@@ -406,3 +406,25 @@ Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的
 图并被参考 manifest 指向，后者仍含未迁入持久 artifact 的原始 SAV/ROM 输入。其余约
 `1.21 GiB` 也继续按既有分类保留，主要是尚未完整成果化的录像、trace、快照、内存
 转储，以及测试或工具直接读取的音频、签名工具链和运行守卫。
+
+## 第十八轮清理：镜像 affine 运行成果承接
+
+镜像 affine 运行时 golden 已提交到 `artifacts/battle-effect-affine-runtime-v1/` 后，
+逐文件核对临时成功运行 `build/affine-mirror-runtime-20260729-02/`：
+
+- IO、OAM、PRAM、VRAM、输入/输出快照、截图、audit 和 guard 的 SHA-256 均与已提交
+  `mirror-raw/` 文件相同；临时 `done.json` 与持久 `audit.json` 相同；
+- `build/affine-runtime-export.json` 与已提交 `manifest.json` 的 JSON 语义完全相同；
+- 独立 verifier 不读取 `build/`，清理前后均报告 `errors=[]`、两个对象和运行时帧
+  `154` 验证通过；
+- 清理时没有进程占用成功运行目录。
+
+因此删除成功运行目录和临时 manifest，共回收 `312 KiB`；顶层 `build/` 从
+`1,271,656 KiB` 降至 `1,271,344 KiB`。失败对照
+`build/affine-mirror-runtime-20260729-01/` 仍只存在于临时目录，笔记明确用它记录
+“首个 callback 尚未推进到镜像 OAM”的阴性结果，尚未被持久 artifact 完整承接，
+所以继续保留。
+
+本轮没有清理并行场景 49 工作的未提交 artifact、临时 GPU/回放目录或
+`butano-sequel/build/`。其余内容继续沿用既有判定：只有原始输入、实验上下文、关键
+输出、manifest、哈希和独立验证入口均已持久化后，才按完整实验目录删除。
