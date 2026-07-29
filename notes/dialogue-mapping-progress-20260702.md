@@ -1,5 +1,10 @@
 # Dialogue Mapping - Deep Progress (2026-07-02)
 
+> **2026-07-29 边界纠正：** 下方第 3 项把 `0x0808942C` 误报为函数入口。
+> enclosing Thumb function 实际从 `0x08089310` 的 `push` 开始；
+> `0x0808942C` 只是内部 cache/expansion basic block，精确展开调用点为
+> `0x080894A8→0x080660A4` 和 `0x080894DE→0x08065EB8`。旧表述已被取代。
+
 ## What I've verified through ~4 hours of investigation
 
 1. **BREAKTHROUGH commit 473a737 partially wrong**:
@@ -13,7 +18,8 @@
    - These are valid Japanese kanji/kana (e.g., 奇 = strange, 訴 = complaint)
 
 3. **Renderer chain (verified via capstone disasm)**:
-   - 0x0808942C (THUMB): function start, sets r6 = r0 (= dialogue data ptr)
+   - [已取代的旧结论] 0x0808942C 曾被误认作 function start；实际只是
+     0x08089310 enclosing function 内的 basic block
    - 0x0808947A: `ldr r6, [pc, #0xe0]` → r6 = literal pool value 0x0201BD48 (EWRAM addr)
    - 0x0201BD48 contains ptr 0x06002000 (VRAM char base for tile rendering)
    - So dialogue data flows: records → SJIS bytes → tile indices → VRAM tiles → screen
@@ -60,7 +66,7 @@ and tile indices depends on the game's FONT TABLE which I haven't located yet.
 
 ## Status
 
-> 2026-07-29 更新：以下状态是历史快照。字库表、4602 个源字形和 renderer
+> 2026-07-29 更新：以下状态是历史快照。字库表、4602 个源字形和 cache/expansion
 > 链现已静态导出；`0x8B62` 不是换行，独立 `0x0A` 才是控制字节。当前映射
 > 为 19 个已命名字符加 1 个显式未确认码位。
 

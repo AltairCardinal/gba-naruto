@@ -69,6 +69,13 @@ EXPECTED_CODE_SLICES = (
         "sha256": "7e4316e63cbb44d09b26c7cc6592c580b83af0b328098c67669db1b05d1c784c",
     },
     {
+        "name": "sjis_expansion_core",
+        "file_offset": 0x065EB8,
+        "gba_address": "0x08065EB8",
+        "size": 0xCC,
+        "sha256": "0c5faad64f303f95a978dc8e8aad3a45753923ebbb7df8674c0fe8cf24cf7712",
+    },
+    {
         "name": "byte_lookup_and_expansion",
         "file_offset": 0x06606C,
         "gba_address": "0x0806606C",
@@ -76,11 +83,32 @@ EXPECTED_CODE_SLICES = (
         "sha256": "44442bbfae35bd6e11814fca10a3de9bf3fa9cfcb816a74fa4750cba9b4de168",
     },
     {
-        "name": "renderer_dual_branch",
+        "name": "cache_expansion_path",
         "file_offset": 0x08942C,
         "gba_address": "0x0808942C",
         "size": 0xB8,
         "sha256": "399a65ef6891c7c81acf42a52a8da2ee824bb80c77dcbd73f7a536845489e391",
+    },
+    {
+        "name": "text_parser_vertical_layout",
+        "file_offset": 0x066302,
+        "gba_address": "0x08066302",
+        "size": 0xA4,
+        "sha256": "66b825738fc35608b0a2eeb6641dd1d4a354b8716510e35cdb8d675f69e8fb03",
+    },
+    {
+        "name": "text_consumer_a_vertical_layout",
+        "file_offset": 0x08CE8C,
+        "gba_address": "0x0808CE8C",
+        "size": 0x7C,
+        "sha256": "d63541506eba58dc15f19989ef72cdbce3f4ccce748d48a7212fcfb333cb8ba7",
+    },
+    {
+        "name": "text_consumer_b_vertical_layout",
+        "file_offset": 0x08CF08,
+        "gba_address": "0x0808CF08",
+        "size": 0xA2,
+        "sha256": "c61ec8fb439575c53b0d0a1b46d6fd935501155fe6a46a5a76b5f0e426dfae7a",
     },
 )
 
@@ -91,6 +119,161 @@ def _sha256(data: bytes) -> str:
 
 def _pointer(value: int) -> str:
     return f"0x{value:08X}"
+
+
+def _u16_at_gba(rom: bytes, address: int) -> int:
+    offset = address - ROM_BASE
+    if not 0 <= offset <= len(rom) - 2:
+        raise ValueError(f"Thumb address {_pointer(address)} is outside the ROM")
+    return struct.unpack_from("<H", rom, offset)[0]
+
+
+def _thumb_bl_target(rom: bytes, address: int) -> int | None:
+    first = _u16_at_gba(rom, address)
+    second = _u16_at_gba(rom, address + 2)
+    if first & 0xF800 != 0xF000 or second & 0xF800 != 0xF800:
+        return None
+    offset = ((first & 0x7FF) << 12) | ((second & 0x7FF) << 1)
+    if offset & (1 << 22):
+        offset -= 1 << 23
+    return address + 4 + offset
+
+
+def _expect_thumb_sequence(
+    rom: bytes,
+    address: int,
+    expected: tuple[int, ...],
+    label: str,
+    errors: list[str],
+) -> bool:
+    actual = tuple(
+        _u16_at_gba(rom, address + index * 2)
+        for index in range(len(expected))
+    )
+    if actual != expected:
+        errors.append(
+            f"runtime_layouts.{label}: Thumb sequence at {_pointer(address)} "
+            f"expected {[hex(value) for value in expected]}, "
+            f"got {[hex(value) for value in actual]}"
+        )
+        return False
+    return True
+
+
+def _verify_layout_instructions(rom: bytes, errors: list[str]) -> int:
+    """Verify the instruction-level facts needed for three vertical layouts."""
+    consumers = (
+        (
+            "0x0806626C",
+            0x08066306,
+            (
+                (0x08066304, (0xAA05,), "pair destination sp+0x14"),
+                (
+                    0x08066384,
+                    (0xA805, 0x8800, 0x8020),
+                    "half 0 to current destination",
+                ),
+                (
+                    0x0806638A,
+                    (0x8931, 0x0049, 0x1909, 0xA805, 0x8840, 0x8008),
+                    "half 1 to destination plus width*2",
+                ),
+                (
+                    0x08066396,
+                    (0x89B0, 0x3001, 0x81B0),
+                    "horizontal cursor plus one",
+                ),
+            ),
+        ),
+        (
+            "0x0808CE8C",
+            0x0808CED2,
+            (
+                (
+                    0x0808CEC4,
+                    (0x466F,),
+                    "pair base retained from stack pointer",
+                ),
+                (0x0808CED0, (0x466A,), "pair destination stack pointer"),
+                (
+                    0x0808CEDC,
+                    (0x4640, 0x0044, 0x1964),
+                    "second-row destination equals current plus width*2",
+                ),
+                (
+                    0x0808CEE8,
+                    (0x8838, 0x8028, 0x8878, 0x8020),
+                    "ordered half stores to current and second row",
+                ),
+                (0x0808CEF2, (0x3502,), "destination advances one u16 cell"),
+            ),
+        ),
+        (
+            "0x0808CF08",
+            0x0808CF5E,
+            (
+                (
+                    0x0808CF3E,
+                    (0x0064, 0x46A1),
+                    "row stride equals width*2",
+                ),
+                (0x0808CF42, (0x46E8,), "pair base retained from stack pointer"),
+                (0x0808CF5C, (0x466A,), "pair destination stack pointer"),
+                (
+                    0x0808CF74,
+                    (0x4648, 0x1905),
+                    "second-row destination uses width*2 stride",
+                ),
+                (
+                    0x0808CF7E,
+                    (0x4641, 0x8808, 0x8020, 0x8848, 0x8028),
+                    "ordered half stores to current and second row",
+                ),
+                (
+                    0x0808CF8A,
+                    (0x4650, 0x3001, 0x0600, 0x0E00, 0x4682),
+                    "horizontal glyph index plus one",
+                ),
+            ),
+        ),
+    )
+    verified = 0
+    for consumer, callsite, sequences in consumers:
+        before = len(errors)
+        target = _thumb_bl_target(rom, callsite)
+        if target != 0x08065F84:
+            errors.append(
+                f"runtime_layouts.{consumer}: BL at {_pointer(callsite)} "
+                f"targets {None if target is None else _pointer(target)}, "
+                "expected 0x08065F84"
+            )
+        for address, expected, label in sequences:
+            _expect_thumb_sequence(
+                rom,
+                address,
+                expected,
+                f"{consumer}.{label}",
+                errors,
+            )
+        if len(errors) == before:
+            verified += 1
+
+    _expect_thumb_sequence(
+        rom,
+        0x08089310,
+        (0xB5F0,),
+        "cache enclosing function prologue",
+        errors,
+    )
+    if _u16_at_gba(rom, 0x080894A6) != 0x2100:
+        errors.append("runtime_expansion.byte cache call does not set arg1=0")
+    if _thumb_bl_target(rom, 0x080894A8) != 0x080660A4:
+        errors.append("runtime_expansion.byte cache BL target mismatch")
+    if _u16_at_gba(rom, 0x080894DC) != 0x2101:
+        errors.append("runtime_expansion.SJIS cache call does not set arg1=1")
+    if _thumb_bl_target(rom, 0x080894DE) != 0x08065EB8:
+        errors.append("runtime_expansion.SJIS cache BL target mismatch")
+    return verified
 
 
 def _source_raw(rom: bytes, pointer: int, size: int) -> bytes:
@@ -129,15 +312,19 @@ def _expand(source: bytes, palette_group: int) -> bytes:
 def _decode_record(source: bytes, width: int, height: int) -> bytes:
     if len(source) * 4 != width * height:
         raise ValueError("source record geometry is inconsistent")
-    if height != 8 or width % 8:
-        raise ValueError("source geometry is not a horizontal 8x8 tile row")
+    if width != 8 or height % 8:
+        raise ValueError("source geometry is not a vertical 8x8 tile stack")
+    tile_count = height // 8
+    if len(source) != tile_count * HALF_TILE_SOURCE_BYTES:
+        raise ValueError("source tile count is inconsistent")
     pixels = bytearray()
-    for y in range(height):
-        for x in range(width):
-            tile_index = x // 8
-            pixel_in_tile = y * 8 + x % 8
-            packed = source[tile_index * 16 + pixel_in_tile // 4]
-            pixels.append((packed >> ((pixel_in_tile % 4) * 2)) & 3)
+    for tile_index in range(tile_count):
+        tile = source[
+            tile_index * HALF_TILE_SOURCE_BYTES :
+            (tile_index + 1) * HALF_TILE_SOURCE_BYTES
+        ]
+        for packed in tile:
+            pixels.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
     return bytes(pixels)
 
 
@@ -515,7 +702,9 @@ def _verify_dataset(
     item_width: int,
     item_height: int,
     source_bytes_per_item: int,
+    item_layout: str,
     palette_group: int | None,
+    expansion_context: str | None,
     actual: Any,
     errors: list[str],
 ) -> set[str]:
@@ -567,6 +756,7 @@ def _verify_dataset(
         "item_count": item_count,
         "item_width": item_width,
         "item_height": item_height,
+        "item_layout": item_layout,
         "source_bytes_per_item": source_bytes_per_item,
         "source_bin": source_name,
         "source_size": len(source),
@@ -583,6 +773,8 @@ def _verify_dataset(
         "atlas_height": height,
     }
     if palette_group is not None:
+        if expansion_context is None:
+            errors.append(f"{name}: expanded dataset has no consumer context")
         expanded = _expand(source, palette_group)
         expanded_name = f"{name}-expanded-4bpp.bin"
         files.add(expanded_name)
@@ -596,7 +788,8 @@ def _verify_dataset(
             errors.append(f"{expanded_name}: {exc}")
         expected.update(
             {
-                "canonical_palette_group": palette_group,
+                "expansion_palette_group": palette_group,
+                "expansion_context": expansion_context,
                 "expanded_4bpp_bin": expanded_name,
                 "expanded_4bpp_size": len(expanded),
                 "expanded_4bpp_sha256": _sha256(expanded),
@@ -632,6 +825,7 @@ def verify_dialogue_font_atlases(
             "verified_logical_glyphs": 0,
             "verified_half_tiles": 0,
             "verified_atlases": 0,
+            "verified_layout_consumers": 0,
             "errors": [f"input: {exc}"],
         }
     if _sha256(rom) != ROM_SHA256:
@@ -795,16 +989,17 @@ def verify_dialogue_font_atlases(
             "pixels_per_byte": 4,
             "pixel_order_within_byte": "bits 1:0, 3:2, 5:4, 7:6",
             "sjis_record": {
-                "width": 16,
-                "height": 8,
-                "half_tiles": 2,
                 "bytes": SJIS_SOURCE_BYTES,
+                "half_tile_count": 2,
+                "half_tile_dimensions": [8, 8],
+                "half_tile_order": [0, 1],
+                "intrinsic_layout": "none",
             },
             "byte_record": {
-                "width": 8,
-                "height": 8,
-                "half_tiles": 1,
                 "bytes": BYTE_SOURCE_BYTES,
+                "tile_count": 1,
+                "tile_dimensions": [8, 8],
+                "intrinsic_layout": "single-tile",
             },
         },
         "runtime_expansion": {
@@ -813,16 +1008,65 @@ def verify_dialogue_font_atlases(
             ),
             "sjis_expander": "0x08065EB8",
             "byte_expander": "0x080660A4",
-            "sjis_renderer_arg1": 1,
-            "sjis_renderer_indices": [12, 13, 14, 15],
-            "byte_renderer_arg1": 0,
-            "byte_renderer_indices": [8, 9, 10, 11],
+            "sjis_cache_arg1": 1,
+            "sjis_cache_indices": [12, 13, 14, 15],
+            "byte_cache_arg1": 0,
+            "byte_cache_indices": [8, 9, 10, 11],
+            "cache_enclosing_function": "0x08089310",
+            "cache_path_anchor": "0x0808942C",
+            "byte_cache_callsite": "0x080894A8",
+            "sjis_cache_callsite": "0x080894DE",
+            "cache_path_final_layout": "undetermined",
             "sjis_output": (
-                "two adjacent horizontal 8x8 4bpp tiles (16x8 glyph)"
+                "two ordered 8x8 4bpp tiles; final layout is consumer-defined"
             ),
             "byte_output": "one 8x8 4bpp tile",
             "runtime_rgb_palette_verified": False,
         },
+        "runtime_layouts": [
+            {
+                "consumer": "0x0806626C",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_parser_vertical_layout",
+                "expander_callsite": "0x08066306",
+                "half_0_store": "0x08066388",
+                "half_1_store": "0x08066394",
+                "row_stride_evidence": "context width * 2 bytes",
+                "column_advance_evidence": "0x08066396..0x0806639A",
+            },
+            {
+                "consumer": "0x0808CE8C",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_consumer_a_vertical_layout",
+                "expander_callsite": "0x0808CED2",
+                "half_0_store": "0x0808CEEA",
+                "half_1_store": "0x0808CEEE",
+                "row_stride_evidence": "width * 2 bytes",
+                "column_advance_evidence": "0x0808CEF2",
+            },
+            {
+                "consumer": "0x0808CF08",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_consumer_b_vertical_layout",
+                "expander_callsite": "0x0808CF5E",
+                "half_0_store": "0x0808CF82",
+                "half_1_store": "0x0808CF86",
+                "row_stride_evidence": "width * 2 bytes",
+                "column_advance_evidence": "0x0808CF8A..0x0808CF92",
+            },
+        ],
         "visualization_palette": {
             "id": "diagnostic-source-2bpp-grayscale-v1",
             "bgr555_hex": EXPECTED_BGR555_HEX,
@@ -835,15 +1079,21 @@ def verify_dialogue_font_atlases(
             "sjis_lookup": "0x08065E80",
             "sjis_outer": "0x08065F84",
             "byte_lookup": "0x0806606C",
-            "renderer": "0x0808942C",
-            "renderer_byte_call": "0x080894A8",
-            "renderer_sjis_call": "0x080894DE",
+            "cache_enclosing_function": "0x08089310",
+            "cache_path_anchor": "0x0808942C",
+            "cache_byte_callsite": "0x080894A8",
+            "cache_sjis_callsite": "0x080894DE",
+            "vertical_layout_consumers": [
+                "0x0806626C",
+                "0x0808CE8C",
+                "0x0808CF08",
+            ],
             "code_slices": [dict(item) for item in EXPECTED_CODE_SLICES],
         },
         "scope": {
             "kind": (
                 "localized base-ROM 2bpp dialogue glyph sources plus "
-                "code-derived canonical 4bpp expansion"
+                "context-bound diagnostic 4bpp expansions"
             ),
             "runtime_rgb_palette_verified": False,
             "localized_base_rom_glyph_sources_exported": True,
@@ -864,6 +1114,7 @@ def verify_dialogue_font_atlases(
         raw = rom[item["file_offset"] : item["file_offset"] + item["size"]]
         if _sha256(raw) != item["sha256"]:
             errors.append(f"consumer_chain.{item['name']}: code slice mismatch")
+    verified_layout_consumers = _verify_layout_instructions(rom, errors)
 
     sjis_source = _raw_for(rom, sjis_records, SJIS_SOURCE_BYTES)
     byte_source = _raw_for(rom, byte_records, BYTE_SOURCE_BYTES)
@@ -885,10 +1136,12 @@ def verify_dialogue_font_atlases(
             "sjis-full",
             sjis_source,
             len(sjis_records),
-            16,
             8,
+            16,
             SJIS_SOURCE_BYTES,
+            "vertical-proven-consumer-layout",
             3,
+            "0x080894DE callsite in 0x08089310 function; arg1=1",
         ),
         "byte_full": (
             "byte-full",
@@ -897,7 +1150,9 @@ def verify_dialogue_font_atlases(
             8,
             8,
             BYTE_SOURCE_BYTES,
+            "single-tile",
             2,
+            "0x080894A8 callsite in 0x08089310 function; arg1=0",
         ),
         "all_unique_halves": (
             "all-unique-halves",
@@ -906,16 +1161,20 @@ def verify_dialogue_font_atlases(
             8,
             8,
             HALF_TILE_SOURCE_BYTES,
+            "single-tile",
+            None,
             None,
         ),
         "chapter_intro_used": (
             "chapter-intro-used",
             intro_source,
             len(intro_records),
-            16,
             8,
+            16,
             SJIS_SOURCE_BYTES,
+            "vertical-proven-consumer-layout",
             3,
+            "0x080894DE callsite in 0x08089310 function; arg1=1",
         ),
     }
     actual_datasets = manifest.get("datasets")
@@ -936,7 +1195,9 @@ def verify_dialogue_font_atlases(
                 item_width=spec[3],
                 item_height=spec[4],
                 source_bytes_per_item=spec[5],
-                palette_group=spec[6],
+                item_layout=spec[6],
+                palette_group=spec[7],
+                expansion_context=spec[8],
                 actual=actual_datasets[key],
                 errors=errors,
             )
@@ -963,6 +1224,9 @@ def verify_dialogue_font_atlases(
         ),
         "verified_half_tiles": len(half_addresses) if verified else 0,
         "verified_atlases": len(dataset_specs) if verified else 0,
+        "verified_layout_consumers": (
+            verified_layout_consumers if verified else 0
+        ),
         "errors": errors,
     }
 

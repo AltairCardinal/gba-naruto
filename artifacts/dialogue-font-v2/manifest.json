@@ -272777,8 +272777,9 @@
   "datasets": {
     "sjis_full": {
       "item_count": 4410,
-      "item_width": 16,
-      "item_height": 8,
+      "item_width": 8,
+      "item_height": 16,
+      "item_layout": "vertical-proven-consumer-layout",
       "source_bytes_per_item": 32,
       "source_bin": "sjis-full-source-2bpp.bin",
       "source_size": 141120,
@@ -272797,10 +272798,11 @@
       ],
       "all_zero_records": 76,
       "atlas_png": "sjis-full-atlas.png",
-      "atlas_png_sha256": "4fba40f4a2c170b5eba8c4b8b28fc03abcbe63a1c9719aa3927ba717a3c5fed3",
+      "atlas_png_sha256": "15b999824b915ee81cc48f5f833c9b63a4a70f864085df3dcd1853bbaabbd60b",
       "atlas_width": 256,
       "atlas_height": 2208,
-      "canonical_palette_group": 3,
+      "expansion_palette_group": 3,
+      "expansion_context": "0x080894DE callsite in 0x08089310 function; arg1=1",
       "expanded_4bpp_bin": "sjis-full-expanded-4bpp.bin",
       "expanded_4bpp_size": 282240,
       "expanded_4bpp_sha256": "586ef4b2b731f56a358c640297a43c5db634d49dff85cb8736b7877d6cee3338"
@@ -272809,6 +272811,7 @@
       "item_count": 192,
       "item_width": 8,
       "item_height": 8,
+      "item_layout": "single-tile",
       "source_bytes_per_item": 16,
       "source_bin": "byte-full-source-2bpp.bin",
       "source_size": 3072,
@@ -272830,7 +272833,8 @@
       "atlas_png_sha256": "95ce14ed0699b332bbc71f34ed9772c86a6d912f8b883f8c07bf16c1c39e33f4",
       "atlas_width": 256,
       "atlas_height": 48,
-      "canonical_palette_group": 2,
+      "expansion_palette_group": 2,
+      "expansion_context": "0x080894A8 callsite in 0x08089310 function; arg1=0",
       "expanded_4bpp_bin": "byte-full-expanded-4bpp.bin",
       "expanded_4bpp_size": 6144,
       "expanded_4bpp_sha256": "78d754494557e6701b315dc784456754376e944c052af619a7eeaf0479fee68f"
@@ -272839,6 +272843,7 @@
       "item_count": 9012,
       "item_width": 8,
       "item_height": 8,
+      "item_layout": "single-tile",
       "source_bytes_per_item": 16,
       "source_bin": "all-unique-halves-source-2bpp.bin",
       "source_size": 144192,
@@ -272863,8 +272868,9 @@
     },
     "chapter_intro_used": {
       "item_count": 517,
-      "item_width": 16,
-      "item_height": 8,
+      "item_width": 8,
+      "item_height": 16,
+      "item_layout": "vertical-proven-consumer-layout",
       "source_bytes_per_item": 32,
       "source_bin": "chapter-intro-used-source-2bpp.bin",
       "source_size": 16544,
@@ -272883,10 +272889,11 @@
       ],
       "all_zero_records": 0,
       "atlas_png": "chapter-intro-used-atlas.png",
-      "atlas_png_sha256": "09e29810e6571861a6d8f6adf8c85088aef76a4a157c4876c8e2ce2ed9e58764",
+      "atlas_png_sha256": "265f01a15bd6b75ffeb28fdd83cf5b9f03435d020a3729ad17ff7fea564b4ea3",
       "atlas_width": 256,
-      "atlas_height": 264,
-      "canonical_palette_group": 3,
+      "atlas_height": 272,
+      "expansion_palette_group": 3,
+      "expansion_context": "0x080894DE callsite in 0x08089310 function; arg1=1",
       "expanded_4bpp_bin": "chapter-intro-used-expanded-4bpp.bin",
       "expanded_4bpp_size": 33088,
       "expanded_4bpp_sha256": "c8d7d5ee1c2e4c59f069b54ca3bd1ced6bb53e326f0669e40d5c32998e06dd58"
@@ -272897,40 +272904,117 @@
     "pixels_per_byte": 4,
     "pixel_order_within_byte": "bits 1:0, 3:2, 5:4, 7:6",
     "sjis_record": {
-      "width": 16,
-      "height": 8,
-      "half_tiles": 2,
-      "bytes": 32
+      "bytes": 32,
+      "half_tile_count": 2,
+      "half_tile_dimensions": [
+        8,
+        8
+      ],
+      "half_tile_order": [
+        0,
+        1
+      ],
+      "intrinsic_layout": "none"
     },
     "byte_record": {
-      "width": 8,
-      "height": 8,
-      "half_tiles": 1,
-      "bytes": 16
+      "bytes": 16,
+      "tile_count": 1,
+      "tile_dimensions": [
+        8,
+        8
+      ],
+      "intrinsic_layout": "single-tile"
     }
   },
   "runtime_expansion": {
     "formula": "output_index = source_2bpp + (((arg1 & 1) + 2) << 2)",
     "sjis_expander": "0x08065EB8",
     "byte_expander": "0x080660A4",
-    "sjis_renderer_arg1": 1,
-    "sjis_renderer_indices": [
+    "sjis_cache_arg1": 1,
+    "sjis_cache_indices": [
       12,
       13,
       14,
       15
     ],
-    "byte_renderer_arg1": 0,
-    "byte_renderer_indices": [
+    "byte_cache_arg1": 0,
+    "byte_cache_indices": [
       8,
       9,
       10,
       11
     ],
-    "sjis_output": "two adjacent horizontal 8x8 4bpp tiles (16x8 glyph)",
+    "cache_enclosing_function": "0x08089310",
+    "cache_path_anchor": "0x0808942C",
+    "byte_cache_callsite": "0x080894A8",
+    "sjis_cache_callsite": "0x080894DE",
+    "cache_path_final_layout": "undetermined",
+    "sjis_output": "two ordered 8x8 4bpp tiles; final layout is consumer-defined",
     "byte_output": "one 8x8 4bpp tile",
     "runtime_rgb_palette_verified": false
   },
+  "runtime_layouts": [
+    {
+      "consumer": "0x0806626C",
+      "role": "tilemap-layout",
+      "glyph_dimensions": [
+        8,
+        16
+      ],
+      "half_tile_layout": "vertical",
+      "half_tile_order": [
+        "top",
+        "bottom"
+      ],
+      "horizontal_advance_tiles": 1,
+      "code_slice": "text_parser_vertical_layout",
+      "expander_callsite": "0x08066306",
+      "half_0_store": "0x08066388",
+      "half_1_store": "0x08066394",
+      "row_stride_evidence": "context width * 2 bytes",
+      "column_advance_evidence": "0x08066396..0x0806639A"
+    },
+    {
+      "consumer": "0x0808CE8C",
+      "role": "tilemap-layout",
+      "glyph_dimensions": [
+        8,
+        16
+      ],
+      "half_tile_layout": "vertical",
+      "half_tile_order": [
+        "top",
+        "bottom"
+      ],
+      "horizontal_advance_tiles": 1,
+      "code_slice": "text_consumer_a_vertical_layout",
+      "expander_callsite": "0x0808CED2",
+      "half_0_store": "0x0808CEEA",
+      "half_1_store": "0x0808CEEE",
+      "row_stride_evidence": "width * 2 bytes",
+      "column_advance_evidence": "0x0808CEF2"
+    },
+    {
+      "consumer": "0x0808CF08",
+      "role": "tilemap-layout",
+      "glyph_dimensions": [
+        8,
+        16
+      ],
+      "half_tile_layout": "vertical",
+      "half_tile_order": [
+        "top",
+        "bottom"
+      ],
+      "horizontal_advance_tiles": 1,
+      "code_slice": "text_consumer_b_vertical_layout",
+      "expander_callsite": "0x0808CF5E",
+      "half_0_store": "0x0808CF82",
+      "half_1_store": "0x0808CF86",
+      "row_stride_evidence": "width * 2 bytes",
+      "column_advance_evidence": "0x0808CF8A..0x0808CF92"
+    }
+  ],
   "visualization_palette": {
     "id": "diagnostic-source-2bpp-grayscale-v1",
     "bgr555_hex": "00004a29b556ff7f",
@@ -272964,9 +273048,15 @@
     "sjis_lookup": "0x08065E80",
     "sjis_outer": "0x08065F84",
     "byte_lookup": "0x0806606C",
-    "renderer": "0x0808942C",
-    "renderer_byte_call": "0x080894A8",
-    "renderer_sjis_call": "0x080894DE",
+    "cache_enclosing_function": "0x08089310",
+    "cache_path_anchor": "0x0808942C",
+    "cache_byte_callsite": "0x080894A8",
+    "cache_sjis_callsite": "0x080894DE",
+    "vertical_layout_consumers": [
+      "0x0806626C",
+      "0x0808CE8C",
+      "0x0808CF08"
+    ],
     "code_slices": [
       {
         "name": "sjis_lookup_and_expansion",
@@ -272983,6 +273073,13 @@
         "sha256": "7e4316e63cbb44d09b26c7cc6592c580b83af0b328098c67669db1b05d1c784c"
       },
       {
+        "name": "sjis_expansion_core",
+        "file_offset": 417464,
+        "gba_address": "0x08065EB8",
+        "size": 204,
+        "sha256": "0c5faad64f303f95a978dc8e8aad3a45753923ebbb7df8674c0fe8cf24cf7712"
+      },
+      {
         "name": "byte_lookup_and_expansion",
         "file_offset": 417900,
         "gba_address": "0x0806606C",
@@ -272990,16 +273087,37 @@
         "sha256": "44442bbfae35bd6e11814fca10a3de9bf3fa9cfcb816a74fa4750cba9b4de168"
       },
       {
-        "name": "renderer_dual_branch",
+        "name": "cache_expansion_path",
         "file_offset": 562220,
         "gba_address": "0x0808942C",
         "size": 184,
         "sha256": "399a65ef6891c7c81acf42a52a8da2ee824bb80c77dcbd73f7a536845489e391"
+      },
+      {
+        "name": "text_parser_vertical_layout",
+        "file_offset": 418562,
+        "gba_address": "0x08066302",
+        "size": 164,
+        "sha256": "66b825738fc35608b0a2eeb6641dd1d4a354b8716510e35cdb8d675f69e8fb03"
+      },
+      {
+        "name": "text_consumer_a_vertical_layout",
+        "file_offset": 577164,
+        "gba_address": "0x0808CE8C",
+        "size": 124,
+        "sha256": "d63541506eba58dc15f19989ef72cdbce3f4ccce748d48a7212fcfb333cb8ba7"
+      },
+      {
+        "name": "text_consumer_b_vertical_layout",
+        "file_offset": 577288,
+        "gba_address": "0x0808CF08",
+        "size": 162,
+        "sha256": "c61ec8fb439575c53b0d0a1b46d6fd935501155fe6a46a5a76b5f0e426dfae7a"
       }
     ]
   },
   "scope": {
-    "kind": "localized base-ROM 2bpp dialogue glyph sources plus code-derived canonical 4bpp expansion",
+    "kind": "localized base-ROM 2bpp dialogue glyph sources plus context-bound diagnostic 4bpp expansions",
     "runtime_rgb_palette_verified": false,
     "localized_base_rom_glyph_sources_exported": true,
     "group0_known_codes_use_sjis_table": true,

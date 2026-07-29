@@ -99,11 +99,22 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
             source["pixel_order_within_byte"],
         )
         self.assertEqual(
-            {"width": 16, "height": 8, "half_tiles": 2, "bytes": 32},
+            {
+                "bytes": 32,
+                "half_tile_count": 2,
+                "half_tile_dimensions": [8, 8],
+                "half_tile_order": [0, 1],
+                "intrinsic_layout": "none",
+            },
             source["sjis_record"],
         )
         self.assertEqual(
-            {"width": 8, "height": 8, "half_tiles": 1, "bytes": 16},
+            {
+                "bytes": 16,
+                "tile_count": 1,
+                "tile_dimensions": [8, 8],
+                "intrinsic_layout": "single-tile",
+            },
             source["byte_record"],
         )
         expansion = self.manifest["runtime_expansion"]
@@ -111,8 +122,94 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
             "output_index = source_2bpp + (((arg1 & 1) + 2) << 2)",
             expansion["formula"],
         )
-        self.assertEqual([12, 13, 14, 15], expansion["sjis_renderer_indices"])
-        self.assertEqual([8, 9, 10, 11], expansion["byte_renderer_indices"])
+        self.assertEqual(
+            [12, 13, 14, 15],
+            expansion["sjis_cache_indices"],
+        )
+        self.assertEqual(
+            [8, 9, 10, 11],
+            expansion["byte_cache_indices"],
+        )
+        self.assertEqual(
+            "two ordered 8x8 4bpp tiles; final layout is consumer-defined",
+            expansion["sjis_output"],
+        )
+
+    def test_runtime_consumers_prove_vertical_sjis_layout(self):
+        layouts = {
+            item["consumer"]: item
+            for item in self.manifest["runtime_layouts"]
+        }
+        for consumer in ("0x0806626C", "0x0808CE8C", "0x0808CF08"):
+            self.assertEqual(
+                {
+                    "consumer": consumer,
+                    "role": "tilemap-layout",
+                    "glyph_dimensions": [8, 16],
+                    "half_tile_layout": "vertical",
+                    "half_tile_order": ["top", "bottom"],
+                    "horizontal_advance_tiles": 1,
+                },
+                {
+                    key: layouts[consumer][key]
+                    for key in (
+                        "consumer",
+                        "role",
+                        "glyph_dimensions",
+                        "half_tile_layout",
+                        "half_tile_order",
+                        "horizontal_advance_tiles",
+                    )
+                },
+            )
+        expansion = self.manifest["runtime_expansion"]
+        self.assertEqual("0x08089310", expansion["cache_enclosing_function"])
+        self.assertEqual("0x0808942C", expansion["cache_path_anchor"])
+        self.assertEqual("0x080894A8", expansion["byte_cache_callsite"])
+        self.assertEqual("0x080894DE", expansion["sjis_cache_callsite"])
+        self.assertEqual(
+            "undetermined",
+            expansion["cache_path_final_layout"],
+        )
+        code_slices = {
+            item["name"]: item
+            for item in self.manifest["consumer_chain"]["code_slices"]
+        }
+        self.assertEqual(
+            "66b825738fc35608b0a2eeb6641dd1d4a354b8716510e35cdb8d675f69e8fb03",
+            code_slices["text_parser_vertical_layout"]["sha256"],
+        )
+        self.assertEqual(
+            "d63541506eba58dc15f19989ef72cdbce3f4ccce748d48a7212fcfb333cb8ba7",
+            code_slices["text_consumer_a_vertical_layout"]["sha256"],
+        )
+        self.assertEqual(
+            "c61ec8fb439575c53b0d0a1b46d6fd935501155fe6a46a5a76b5f0e426dfae7a",
+            code_slices["text_consumer_b_vertical_layout"]["sha256"],
+        )
+        self.assertIn("cache_expansion_path", code_slices)
+
+    def test_independent_verifier_decodes_layout_instruction_semantics(self):
+        from tools.verify_dialogue_font_atlases import (
+            _verify_layout_instructions,
+        )
+
+        rom = (ROOT / "rom/base.gba").read_bytes()
+        errors = []
+        self.assertEqual(3, _verify_layout_instructions(rom, errors))
+        self.assertEqual([], errors)
+
+        tampered = bytearray(rom)
+        tampered[0x066388] ^= 1
+        errors = []
+        self.assertEqual(2, _verify_layout_instructions(tampered, errors))
+        self.assertTrue(
+            any(
+                "half 0 to current destination" in error
+                for error in errors
+            ),
+            errors,
+        )
 
     def test_sjis_aux_byte_and_source_boundaries_come_from_rom(self):
         entries = self.manifest["sjis_entries"]
@@ -278,8 +375,19 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
         )
         self.assertEqual(["8B62"], unknowns)
 
-    def test_sjis_atlas_joins_tile_major_halves_row_by_row(self):
+    def test_sjis_atlas_stacks_ordered_half_tiles_vertically(self):
         dataset = self.manifest["datasets"]["sjis_full"]
+        self.assertEqual(8, dataset["item_width"])
+        self.assertEqual(16, dataset["item_height"])
+        self.assertEqual(
+            "vertical-proven-consumer-layout",
+            dataset["item_layout"],
+        )
+        self.assertEqual(3, dataset["expansion_palette_group"])
+        self.assertEqual(
+            "0x080894DE callsite in 0x08089310 function; arg1=1",
+            dataset["expansion_context"],
+        )
         glyph = next(
             glyph
             for glyph in self.manifest["sjis_glyphs"]
@@ -298,22 +406,16 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
                 for shift in (0, 2, 4, 6)
             ]
 
-        left = decode_half(record[:16])
-        right = decode_half(record[16:])
-        expected = b"".join(
-            bytes(
-                left[row * 8 : (row + 1) * 8]
-                + right[row * 8 : (row + 1) * 8]
-            )
-            for row in range(8)
-        )
+        top = decode_half(record[:16])
+        bottom = decode_half(record[16:])
+        expected = bytes(top + bottom)
 
         with Image.open(self.output_dir / dataset["atlas_png"]) as image:
             per_row = dataset["atlas_width"] // dataset["item_width"]
             item_index = glyph["logical_index"]
             x = (item_index % per_row) * dataset["item_width"]
             y = (item_index // per_row) * dataset["item_height"]
-            actual = image.crop((x, y, x + 16, y + 8)).tobytes()
+            actual = image.crop((x, y, x + 8, y + 16)).tobytes()
         self.assertEqual(expected, actual)
 
     def test_pngs_visualize_source_indices_without_runtime_color_claims(self):
@@ -348,6 +450,7 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
         self.assertEqual(4602, result["verified_logical_glyphs"])
         self.assertEqual(9012, result["verified_half_tiles"])
         self.assertEqual(4, result["verified_atlases"])
+        self.assertEqual(3, result["verified_layout_consumers"])
         self.assertEqual([], result["errors"])
 
         with tempfile.TemporaryDirectory() as temporary:

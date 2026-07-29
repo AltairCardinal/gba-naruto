@@ -78,6 +78,13 @@ CODE_SLICES = (
         "sha256": "7e4316e63cbb44d09b26c7cc6592c580b83af0b328098c67669db1b05d1c784c",
     },
     {
+        "name": "sjis_expansion_core",
+        "file_offset": 0x065EB8,
+        "gba_address": "0x08065EB8",
+        "size": 0xCC,
+        "sha256": "0c5faad64f303f95a978dc8e8aad3a45753923ebbb7df8674c0fe8cf24cf7712",
+    },
+    {
         "name": "byte_lookup_and_expansion",
         "file_offset": 0x06606C,
         "gba_address": "0x0806606C",
@@ -85,11 +92,32 @@ CODE_SLICES = (
         "sha256": "44442bbfae35bd6e11814fca10a3de9bf3fa9cfcb816a74fa4750cba9b4de168",
     },
     {
-        "name": "renderer_dual_branch",
+        "name": "cache_expansion_path",
         "file_offset": 0x08942C,
         "gba_address": "0x0808942C",
         "size": 0xB8,
         "sha256": "399a65ef6891c7c81acf42a52a8da2ee824bb80c77dcbd73f7a536845489e391",
+    },
+    {
+        "name": "text_parser_vertical_layout",
+        "file_offset": 0x066302,
+        "gba_address": "0x08066302",
+        "size": 0xA4,
+        "sha256": "66b825738fc35608b0a2eeb6641dd1d4a354b8716510e35cdb8d675f69e8fb03",
+    },
+    {
+        "name": "text_consumer_a_vertical_layout",
+        "file_offset": 0x08CE8C,
+        "gba_address": "0x0808CE8C",
+        "size": 0x7C,
+        "sha256": "d63541506eba58dc15f19989ef72cdbce3f4ccce748d48a7212fcfb333cb8ba7",
+    },
+    {
+        "name": "text_consumer_b_vertical_layout",
+        "file_offset": 0x08CF08,
+        "gba_address": "0x0808CF08",
+        "size": 0xA2,
+        "sha256": "c61ec8fb439575c53b0d0a1b46d6fd935501155fe6a46a5a76b5f0e426dfae7a",
     },
 )
 
@@ -152,20 +180,16 @@ def expand_2bpp_to_4bpp(
 def _decode_2bpp_record(source: bytes, *, width: int, height: int) -> bytes:
     if len(source) * 4 != width * height:
         raise ValueError("2bpp record size does not match its geometry")
-    if height != 8 or width % 8:
-        raise ValueError("dialogue source must be a horizontal row of 8x8 tiles")
-    tile_count = width // 8
-    tiles = []
+    if width != 8 or height % 8:
+        raise ValueError("dialogue atlas items must stack 8x8 tiles vertically")
+    tile_count = height // 8
+    if len(source) != tile_count * HALF_TILE_SOURCE_BYTES:
+        raise ValueError("dialogue source tile count is inconsistent")
+    pixels = bytearray()
     for tile_index in range(tile_count):
-        tile = bytearray()
         tile_source = source[tile_index * 16 : (tile_index + 1) * 16]
         for packed in tile_source:
-            tile.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
-        tiles.append(tile)
-    pixels = bytearray()
-    for row in range(height):
-        for tile in tiles:
-            pixels.extend(tile[row * 8 : (row + 1) * 8])
+            pixels.extend((packed >> shift) & 3 for shift in (0, 2, 4, 6))
     return bytes(pixels)
 
 
@@ -537,7 +561,9 @@ def _write_dataset(
     item_width: int,
     item_height: int,
     source_bytes_per_item: int,
+    item_layout: str,
     palette_group: int | None,
+    expansion_context: str | None,
 ) -> dict[str, Any]:
     source_name = f"{name}-source-2bpp.bin"
     png_name = f"{name}-atlas.png"
@@ -562,6 +588,7 @@ def _write_dataset(
         "item_count": item_count,
         "item_width": item_width,
         "item_height": item_height,
+        "item_layout": item_layout,
         "source_bytes_per_item": source_bytes_per_item,
         "source_bin": source_name,
         "source_size": len(source),
@@ -578,6 +605,8 @@ def _write_dataset(
         "atlas_height": height,
     }
     if palette_group is not None:
+        if expansion_context is None:
+            raise ValueError("expanded dataset requires a consumer context")
         expanded = expand_2bpp_to_4bpp(
             source,
             palette_group=palette_group,
@@ -586,7 +615,8 @@ def _write_dataset(
         (output_dir / expanded_name).write_bytes(expanded)
         result.update(
             {
-                "canonical_palette_group": palette_group,
+                "expansion_palette_group": palette_group,
+                "expansion_context": expansion_context,
                 "expanded_4bpp_bin": expanded_name,
                 "expanded_4bpp_size": len(expanded),
                 "expanded_4bpp_sha256": _sha256(expanded),
@@ -769,10 +799,12 @@ def build_manifest(
             name="sjis-full",
             source=sjis_source,
             item_count=len(sjis_records),
-            item_width=16,
-            item_height=8,
+            item_width=8,
+            item_height=16,
             source_bytes_per_item=SJIS_SOURCE_BYTES,
+            item_layout="vertical-proven-consumer-layout",
             palette_group=3,
+            expansion_context="0x080894DE callsite in 0x08089310 function; arg1=1",
         ),
         "byte_full": _write_dataset(
             output_dir,
@@ -782,7 +814,9 @@ def build_manifest(
             item_width=8,
             item_height=8,
             source_bytes_per_item=BYTE_SOURCE_BYTES,
+            item_layout="single-tile",
             palette_group=2,
+            expansion_context="0x080894A8 callsite in 0x08089310 function; arg1=0",
         ),
         "all_unique_halves": _write_dataset(
             output_dir,
@@ -792,17 +826,21 @@ def build_manifest(
             item_width=8,
             item_height=8,
             source_bytes_per_item=HALF_TILE_SOURCE_BYTES,
+            item_layout="single-tile",
             palette_group=None,
+            expansion_context=None,
         ),
         "chapter_intro_used": _write_dataset(
             output_dir,
             name="chapter-intro-used",
             source=intro_source,
             item_count=len(intro_records),
-            item_width=16,
-            item_height=8,
+            item_width=8,
+            item_height=16,
             source_bytes_per_item=SJIS_SOURCE_BYTES,
+            item_layout="vertical-proven-consumer-layout",
             palette_group=3,
+            expansion_context="0x080894DE callsite in 0x08089310 function; arg1=1",
         ),
     }
 
@@ -869,16 +907,17 @@ def build_manifest(
             "pixels_per_byte": 4,
             "pixel_order_within_byte": "bits 1:0, 3:2, 5:4, 7:6",
             "sjis_record": {
-                "width": 16,
-                "height": 8,
-                "half_tiles": 2,
                 "bytes": SJIS_SOURCE_BYTES,
+                "half_tile_count": 2,
+                "half_tile_dimensions": [8, 8],
+                "half_tile_order": [0, 1],
+                "intrinsic_layout": "none",
             },
             "byte_record": {
-                "width": 8,
-                "height": 8,
-                "half_tiles": 1,
                 "bytes": BYTE_SOURCE_BYTES,
+                "tile_count": 1,
+                "tile_dimensions": [8, 8],
+                "intrinsic_layout": "single-tile",
             },
         },
         "runtime_expansion": {
@@ -887,16 +926,65 @@ def build_manifest(
             ),
             "sjis_expander": "0x08065EB8",
             "byte_expander": "0x080660A4",
-            "sjis_renderer_arg1": 1,
-            "sjis_renderer_indices": [12, 13, 14, 15],
-            "byte_renderer_arg1": 0,
-            "byte_renderer_indices": [8, 9, 10, 11],
+            "sjis_cache_arg1": 1,
+            "sjis_cache_indices": [12, 13, 14, 15],
+            "byte_cache_arg1": 0,
+            "byte_cache_indices": [8, 9, 10, 11],
+            "cache_enclosing_function": "0x08089310",
+            "cache_path_anchor": "0x0808942C",
+            "byte_cache_callsite": "0x080894A8",
+            "sjis_cache_callsite": "0x080894DE",
+            "cache_path_final_layout": "undetermined",
             "sjis_output": (
-                "two adjacent horizontal 8x8 4bpp tiles (16x8 glyph)"
+                "two ordered 8x8 4bpp tiles; final layout is consumer-defined"
             ),
             "byte_output": "one 8x8 4bpp tile",
             "runtime_rgb_palette_verified": False,
         },
+        "runtime_layouts": [
+            {
+                "consumer": "0x0806626C",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_parser_vertical_layout",
+                "expander_callsite": "0x08066306",
+                "half_0_store": "0x08066388",
+                "half_1_store": "0x08066394",
+                "row_stride_evidence": "context width * 2 bytes",
+                "column_advance_evidence": "0x08066396..0x0806639A",
+            },
+            {
+                "consumer": "0x0808CE8C",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_consumer_a_vertical_layout",
+                "expander_callsite": "0x0808CED2",
+                "half_0_store": "0x0808CEEA",
+                "half_1_store": "0x0808CEEE",
+                "row_stride_evidence": "width * 2 bytes",
+                "column_advance_evidence": "0x0808CEF2",
+            },
+            {
+                "consumer": "0x0808CF08",
+                "role": "tilemap-layout",
+                "glyph_dimensions": [8, 16],
+                "half_tile_layout": "vertical",
+                "half_tile_order": ["top", "bottom"],
+                "horizontal_advance_tiles": 1,
+                "code_slice": "text_consumer_b_vertical_layout",
+                "expander_callsite": "0x0808CF5E",
+                "half_0_store": "0x0808CF82",
+                "half_1_store": "0x0808CF86",
+                "row_stride_evidence": "width * 2 bytes",
+                "column_advance_evidence": "0x0808CF8A..0x0808CF92",
+            },
+        ],
         "visualization_palette": {
             "id": "diagnostic-source-2bpp-grayscale-v1",
             "bgr555_hex": SOURCE_PALETTE_BGR555.hex(),
@@ -911,15 +999,21 @@ def build_manifest(
             "sjis_lookup": "0x08065E80",
             "sjis_outer": "0x08065F84",
             "byte_lookup": "0x0806606C",
-            "renderer": "0x0808942C",
-            "renderer_byte_call": "0x080894A8",
-            "renderer_sjis_call": "0x080894DE",
+            "cache_enclosing_function": "0x08089310",
+            "cache_path_anchor": "0x0808942C",
+            "cache_byte_callsite": "0x080894A8",
+            "cache_sjis_callsite": "0x080894DE",
+            "vertical_layout_consumers": [
+                "0x0806626C",
+                "0x0808CE8C",
+                "0x0808CF08",
+            ],
             "code_slices": code_slices,
         },
         "scope": {
             "kind": (
                 "localized base-ROM 2bpp dialogue glyph sources plus "
-                "code-derived canonical 4bpp expansion"
+                "context-bound diagnostic 4bpp expansions"
             ),
             "runtime_rgb_palette_verified": False,
             "localized_base_rom_glyph_sources_exported": True,

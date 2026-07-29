@@ -715,6 +715,13 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   8×16 纵向半块布局，位置 `(32,8)`、palette bank 14；唯一活动 OBJ 是
   `(184,8)` 的 16×8 选择光标。page 1/2 与选择切换时序仍未完成，证据见
   `notes/world-map-runtime-composition-20260729.md`。
+  同期回查字体消费链，纠正 `dialogue-font-v2` 把 32-byte SJIS 源记录固有解释为
+  16×8 水平字形的错误：源记录只定义两个有序 8×8 half-tile；已枚举的
+  `0x0806626C`、`0x0808CE8C`、`0x0808CF08` 三个 tilemap consumer 全部按
+  8×16 垂直排列；`0x0808942C` 只是 `0x08089310` 函数内部 cache path。
+  两张 SJIS 组合图集已按 8×16 重生成，ROM 源字节与 4bpp 展开保持不变，独立 verifier 复核
+  4602/4602 字形、9012/9012 half-tile。现有六个 accepted 世界地图快照的
+  `available_count` 均为 1，不能用无效 LEFT/RIGHT 输入冒充 page 1/2 验证。
   `menu-ui` 随后由 `0x08096138` 纠正为63×5 visual variant matrix，加 special
   variant 5 pair；旧20项是records 61–62。record 7 / variant 0 的单因素 pair A/B
   又令同一步 `ShowPortrait(1,7,0)` 从卡卡西变为小樱，因此升级 runtime_verified。

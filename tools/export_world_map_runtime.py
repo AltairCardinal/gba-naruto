@@ -20,7 +20,7 @@ STATE_PATH = "artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9
 STATE_SHA256 = "35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1"
 STATIC_MANIFEST_PATH = "artifacts/world-map-backgrounds-v1/manifest.json"
 STATIC_MANIFEST_SHA256 = (
-    "11dbd4129ae498bdbdb9e24d67f905c4b93ff20b1b2803a3e1c9b9b06a83ad44"
+    "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3"
 )
 CAPTURE_HASHES = {
     "audit.json": "307c25f37c6cd825f064946e2c5e5d1d09760eab335905f95a8af4e243a43026",

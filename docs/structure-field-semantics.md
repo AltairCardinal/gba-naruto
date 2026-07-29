@@ -195,9 +195,9 @@ dialogue glyph lookup is the separate `0x53D644` chain.
 
 The 26-entry SJIS table at `0x53D644` uses `<HBBI>` records:
 `lower`, `range_size`, `aux`, and `source_ptr`. Entries 0-24 have `aux=0`;
-entry 25 has `aux=4`. Each logical SJIS glyph is a 32-byte packed-2bpp,
-16×8 source record whose two 16-byte halves are the left and right 8×8 tiles.
-`0x08065EB8` expands them to adjacent 4bpp tiles.
+entry 25 has `aux=4`. Each logical SJIS glyph is a 32-byte packed-2bpp record
+containing two ordered 16-byte, 8×8 half-tiles. The source record is
+layout-neutral; `0x08065EB8` expands the halves to two 4bpp tiles.
 
 The two-entry single-byte table at `0x53D73C` uses `<BBHI>` records. Each
 logical glyph is one 16-byte packed-2bpp, 8×8 source record; `0x080660A4`
@@ -205,18 +205,23 @@ expands it to one 4bpp tile. Both branches use:
 
 `output_index = source_2bpp + (((arg1 & 1) + 2) << 2)`.
 
-The canonical renderer at `0x0808942C` supplies `arg1=1` for SJIS (indices
-12-15) and `arg1=0` for the byte branch (indices 8-11). In the localized base
+The enclosing function at `0x08089310` contains a cache/expansion path anchored
+at `0x0808942C`; its exact calls at `0x080894DE` and `0x080894A8` supply
+`arg1=1` for SJIS (indices 12-15) and `arg1=0` for the byte branch (indices
+8-11). In the localized base
 ROM, these source records already contain the Chinese replacement pixels:
 known group0 codes such as `0x88CF`, `0x8FC2`, and `0x9A6A` render `什`, `么`,
 and `真` according to the historical screenshot alignment. The ROM lookup
 independently proves their source pointers and pixel records, not the Unicode
 labels themselves. In particular, `0x8B62` is a non-empty unresolved glyph;
 the following independent `0x0A` byte is the newline control.
-`0x08065FEE` and `0x08065FFE` place the two expanded tiles into adjacent
-tilemap halfwords, proving the 16×8 horizontal geometry. Runtime RGB colors and
-a complete 4410-code Unicode naming catalog remain unresolved; group0 is a
-text-pointer group, not evidence of another font.
+`0x08065FEE` and `0x08065FFE` only return adjacent entries in a temporary
+tile-ID pair; they do not write the final tilemap. The verified tilemap
+consumers at `0x0806626C`, `0x0808CE8C`, and `0x0808CF08` place half 1 one row
+below half 0 and advance one cell horizontally, proving an 8×16 vertical
+layout for those consumers. Runtime RGB colors and a complete 4410-code
+Unicode naming catalog remain unresolved; group0 is a text-pointer group, not
+evidence of another font.
 
 ---
 

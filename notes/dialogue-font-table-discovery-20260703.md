@@ -3,9 +3,10 @@
 > **Correction:** visual QA and the Thumb consumers at `0x08065EB8` and
 > `0x080660A4` disproved the original “8×8 4bpp tile” interpretation. The
 > pointers below address packed 2bpp source records. The SJIS branch expands a
-> 32-byte, 16×8 source into two horizontal 8×8 4bpp tiles; the byte branch
-> expands a 16-byte, 8×8 source into one 8×8 4bpp tile. The address formula
-> remains valid.
+> 32-byte record into two ordered 8×8 4bpp tiles; the source record itself is
+> layout-neutral. All three enumerated tilemap consumers stack those tiles
+> vertically as an 8×16 glyph. The byte branch expands a 16-byte, 8×8 source
+> into one 8×8 4bpp tile. The address formula remains valid.
 
 ## THE KEY FINDING
 
@@ -32,8 +33,9 @@ The breakthrough in dialogue mapping research: **located the game's font table**
 For SJIS byte `S` (16-bit):
 1. Find entry where `lower <= S < lower + range_size`
 2. Compute: `source_addr = source_ptr + (S - entry.lower) * 32`
-3. Read 32 bytes as a 16×8 packed-2bpp record: the first 16 bytes are the
-   left 8×8 half and the next 16 bytes are the right 8×8 half.
+3. Read 32 bytes as two ordered packed-2bpp records: the first 16 bytes are
+   half 0 and the next 16 bytes are half 1; each half is 8×8, and source
+   storage does not specify their final screen layout.
 4. `0x08065EB8` expands each 2-bit source pixel into a 4bpp index:
    `source_2bpp + (((arg1 & 1) + 2) << 2)`.
 
@@ -55,7 +57,7 @@ For SJIS byte `S` (16-bit):
 
 - **Address**: GBA 0x0853D73C
 - **Function**: 0x0806606C (lui r4, [pc, #0x14])
-- **Used for**: the renderer's single-byte branch
+- **Used for**: the cache/expansion path's single-byte branch
 - **2 entries**: lower=0x20 (ASCII range), lower=0xA0 (high byte range)
 - **Source record**: 16-byte packed 2bpp, expanded to one 8×8 4bpp tile
 
@@ -83,17 +85,18 @@ independent `0x0A` newline control.
 ```
 1. SJIS bytes in records (ROM 0x8D99+) 
    → loaded to EWRAM at runtime
-2. Renderer function 0x0808942C (THUMB)
+2. Enclosing function 0x08089310 (THUMB); `0x0808942C` is an internal
+   cache/expansion basic-block anchor, not a function start
    - r0 = dialogue data pointer (r6 = r0)
    - r6 = 0x0201BD48 (literal pool at 0x0808955C)
 3. 0x08065E80 search_font_table(sjis_byte) 
    → returns entry index OR 0xff
 4. 0x08065EB8 glyph_expansion 
    → reads packed source at source_ptr + (sjis - lower) * 32
-   → expands it into two horizontal 8×8 4bpp tiles
-5. Tile graphics copied to VRAM 0x6002000+
-6. Tilemap entries in WRAM 0x0200A900 (with tile indices 304-309 etc.)
-7. Rendered on screen via BG3 screen block 3 (0x06001800)
+   → expands it into two ordered 8×8 4bpp tiles
+5. Final tilemap consumer chooses layout. The verified consumers at
+   0x0806626C, 0x0808CE8C and 0x0808CF08 write half 1 one tilemap row below
+   half 0 and advance horizontally by one cell, yielding 8×16 glyphs.
 ```
 
 ## Files Created

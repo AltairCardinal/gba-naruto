@@ -36,7 +36,7 @@ mGBA 崩溃。Guard 的 `completed` 结果遵循 owned-tree 停止后才写 summ
 - 派生 manifest：
   `artifacts/world-map-runtime-v1/manifest.json`
 - 派生 manifest SHA-256：
-  `8c1fdf66b3c01b37318eb03fd4282b5d7d88d1dece671af2c73fefe476a7134e`
+  `83a49eb6b8c65e0c29c3b47edf7217313ce34e96fbe40a10efed612b9643cda7`
 - Guard：`reason=completed`、`exit_code=0`、`completion_trigger=success-marker`、
   `degraded=false`、`protection_backend=posix-process-group`。
 
@@ -73,5 +73,9 @@ tile 数据、PRAM 和 OAM，并重新从 ROM 字形源生成 runtime tiles。�
 - 左右选择时 index、标签、背景和 OAM 的切换帧时序；
 - 不同章节的 available-count / unlock state 对菜单项和目的地的影响。
 
-下一步应从同一快照各执行一次确定性的最小 LEFT/RIGHT 输入，并在稳定帧复用 GPU
-抓取；不重新回放场景 42。完成时系统可用内存 65%，本轮没有 mGBA 崩溃。
+离线检查现有 scenario 42/44/45/46/47/48 accepted 世界地图快照后，六个快照均为
+`selected_index=0`、`available_count=1`，LEFT/RIGHT 不可能到达 page 1/2。
+因此不得对这些快照重复发送无效输入。下一步需要先取得 `available_count>1` 的自然
+解锁快照，或建立单字段、可回滚且有零输入对照的状态补丁，再复用同一 GPU 抓取链验证
+page 1/2 与选择切换时序；不重新回放场景 42。完成时系统可用内存 65%，本轮没有
+mGBA 崩溃。

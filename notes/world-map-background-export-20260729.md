@@ -51,9 +51,10 @@ loader 本身不做索引上界检查；导出器和 verifier 固定拒绝三条
 palette bank bits 均为零；三张 gfx 的像素索引范围均为 1..159，不使用 index 0。
 
 人工检查三张导出 PNG：画布均为完整 240×160 世界地图插画，边框连续、没有 tile
-错位或裁切；三组 gfx/palette 显示不同地点。首次静态导出曾把每条记录的两个 8×8
-半块横排为 16×8；后续 page 0 GPU capture 证明运行时实际将半块上下排列，所以已按
-四个 8×16 字形纠正为 32×16 标签预览。ID 1/2 的首码 `8140` 为空白字形，与源记录一致。
+错位或裁切；三组 gfx/palette 显示不同地点。首次静态导出曾沿用字体成果的错误水平
+假设；后续消费者审计与 page 0 GPU capture 均证明运行时把两个有序 8×8 half-tile
+上下排列，所以字体图集和本成果均按四个 8×16 字形生成 32×16 标签预览。
+ID 1/2 的首码 `8140` 为空白字形，与源记录一致。
 汉化 ROM 替换了名义 SJIS 字形，
 因此在没有更强文本映射证据前不擅自签发自然语言地点名。
 
@@ -64,7 +65,7 @@ palette bank bits 均为零；三张 gfx 的像素索引范围均为 1..159，�
 - 独立验证器：`tools/verify_world_map_backgrounds.py`
 - 测试：`tests/test_export_world_map_backgrounds.py`
 - manifest SHA-256：
-  `11dbd4129ae498bdbdb9e24d67f905c4b93ff20b1b2803a3e1c9b9b06a83ad44`
+  `b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3`
 
 ```sh
 python3 tools/export_world_map_backgrounds.py \
