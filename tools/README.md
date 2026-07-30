@@ -1332,3 +1332,25 @@ literal denominator and word/split-halfword transfer semantics. This zero result
 does not cover runtime reachability, non-literal register derivation,
 cross-function or indirect wrappers, custom loops, two-stage copies, all raw
 graphics, or generic image writeback.
+
+# Hash-bound staged RAM-to-GPU consumer inventory
+
+`export_rom_staged_gpu_copy_inventory.py` closes a deliberately finite allowlist
+of five RAM slots in three previously accepted consumer families: shadow OAM,
+the overview gradient tiles/palette/tilemap, and the generated battle status-bar
+tiles. A route is admitted only when its RAM range, GPU destination or formula,
+length, producer class and code hash are all fixed by upstream evidence.
+
+```bash
+python3 tools/export_rom_staged_gpu_copy_inventory.py
+python3 tools/verify_rom_staged_gpu_copy_inventory.py
+```
+
+The resulting six GPU copy routes contain no accepted raw ROM source. Shadow OAM
+is renderer-generated attribute metadata; overview and battle-status payloads
+are algorithm-generated. The independent verifier rebuilds the exact contract
+from the ROM and source artifacts without importing the exporter and rejects
+rehashed semantic tampering. This closes only the hash-bound allowlist. It does
+not cover the dialogue tilemap submit, the generic asynchronous transfer queue,
+unknown ROM-to-RAM producers, custom loops, all two-stage copies, all
+uncompressed graphics, or generic image writeback.

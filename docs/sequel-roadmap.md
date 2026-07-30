@@ -1251,6 +1251,21 @@ WebSocket
   `notes/rom-direct-dma-inventory-survey-20260730.md`。该零结果不覆盖非 literal
   基址、跨函数/间接 wrapper、自定义 loop 或 ROM→RAM→GPU 两段搬运；下一主线转向
   分阶段 RAM slot 与已知 GPU consumer 的有限连接分母，Goal 保持 active。
+- 2026-07-30：两段搬运主线已将此前散落的 hash-bound consumer 收敛为
+  `rom-staged-gpu-copy-inventory-v1`。严格 allowlist 只含 3 个 family、5 个
+  RAM slot 和 6 条 GPU copy route：shadow OAM 的两条等价提交、overview
+  tiles/palette/tilemap 三条固定 copy，以及 battle status bar 的五 tile 动态
+  BG VRAM copy。OAM 被固定为 renderer-generated metadata；overview 与 status
+  bar 被固定为过程式生成，因此 accepted/new raw ROM source 均为 0，不创建空
+  bundle。独立 verifier 不导入 exporter，从 ROM 和三份上游 accepted artifact
+  重建代码哈希、地址、长度、分类、payload 与 manifest，并拒绝重签后的 RAM
+  地址、分类、size 与 scope 篡改，返回
+  `3 families / 5 slots / 6 routes / 0 raw / errors=[]`。成果位于
+  `artifacts/rom-staged-gpu-copy-inventory-v1/`，说明见
+  `notes/rom-staged-gpu-copy-inventory-20260730.md`。该有限分母不覆盖对话
+  tilemap submit、通用异步 transfer queue、未知 ROM→RAM producer、custom
+  loop 或全部两段搬运；下一主线转向 queue ABI 或固定地址 custom loop，Goal
+  保持 active。
 - 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
   `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
   OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette

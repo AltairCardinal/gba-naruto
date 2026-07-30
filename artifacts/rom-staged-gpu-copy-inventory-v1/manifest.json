@@ -1,0 +1,82 @@
+{
+  "artifact_schema": "rom-staged-gpu-copy-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-staged-gpu-copy-inventory.json": "1e8a2f17ca7b839a627967938ffa544ba59e4cb4d366bbe1db2aee53d7de6b63"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_staged_gpu_copy_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-staged-gpu-copy-inventory-v1"
+    ],
+    "exporter_sha256": "ec650867cc49dcde8f345992cfc0d60a65c889835c3741fb865285d810d54364",
+    "test_sha256": "70108570bc05e579f50819a2b46da85522b67942ed49d4e96985a02e10f3b39e",
+    "verifier_sha256": "6ccddd68e24617b95ff2c4b4c11338ed88a3e4781374e23199c4c9fb9263c442"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_ram_to_gpu_consumers_complete": false,
+    "all_rom_to_ram_producers_complete": false,
+    "all_two_stage_copies_complete": false,
+    "allowlisted_ram_slots_classified": true,
+    "custom_copy_loops_complete": false,
+    "dialogue_tilemap_submit_complete": false,
+    "generic_image_writeback_complete": false,
+    "hash_bound_allowlisted_consumer_families_complete": true,
+    "indirect_transfer_queue_abi_complete": false,
+    "procedural_and_metadata_false_sources_excluded": true,
+    "raw_uncompressed_graphics_complete": false
+  },
+  "source": {
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "upstream_evidence": {
+      "oam": {
+        "path": "artifacts/character-runtime-oam-task-bindings-v1/bindings.json",
+        "sha256": "8930a32d0b72c5ea61b2cf66f1493fcac25fd98a8d75f4ddb488013bcc53771a"
+      },
+      "oam_manifest": {
+        "path": "artifacts/character-runtime-oam-task-bindings-v1/manifest.json",
+        "sha256": "df2fc83e3322c0584c9410f6b23c798e6dfd400f6a21377552395756152cddfc"
+      },
+      "overview": {
+        "path": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json",
+        "sha256": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d"
+      },
+      "overview_manifest": {
+        "path": "artifacts/overview-gradient-overlay-v1/manifest.json",
+        "sha256": "cd7c16abcd865827ea35fc7014e13b1681b69a7e17ecf45daa0a1f9a82be931e"
+      },
+      "status_bars": {
+        "path": "artifacts/battle-status-bars-v1/battle-status-bars.json",
+        "sha256": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb"
+      },
+      "status_bars_manifest": {
+        "path": "artifacts/battle-status-bars-v1/manifest.json",
+        "sha256": "d88242fa88213b96d8fe48430a0758a3bb79adf7dd6bb6d22e7d00da9711c0d0"
+      }
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_staged_gpu_copy_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-staged-gpu-copy-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_raw_source_count": 0,
+      "consumer_family_count": 3,
+      "errors": [],
+      "schema": "rom-staged-gpu-copy-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "6ccddd68e24617b95ff2c4b4c11338ed88a3e4781374e23199c4c9fb9263c442"
+  }
+}
