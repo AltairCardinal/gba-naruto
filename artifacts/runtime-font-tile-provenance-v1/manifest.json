@@ -1,0 +1,49 @@
+{
+  "artifact_schema": "runtime-font-tile-provenance-v1",
+  "artifact_status": "accepted",
+  "experiment": {
+    "run_id": "20260730-01",
+    "task": "runtime-unknown-bg-mechanism"
+  },
+  "files": {
+    "runtime-font-tile-provenance.json": "4787d0049a7d7b92e106b7eb560e0893271dcf979739031f06ad16f5714d6d5a"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_runtime_font_tile_provenance.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/runtime-font-tile-provenance-v1"
+    ],
+    "exporter_sha256": "99e7fd5b7ca52a669c853dd1c9c0868d62661e3109206dc97d4fd3653453a17b",
+    "test_sha256": "10cbec86ec85c5f94cb7ff359f6d82a0c44ff94f19af648ffd3d9143b1715f48",
+    "verifier_sha256": "57259a2210d1a4604249ba75e23f50310aeebc013fe8891593d88fbae7e8c592"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "cell_count": 62464,
+    "dialogue_font_manifest": "artifacts/dialogue-font-v2/manifest.json",
+    "parent_layer_count": 61
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_font_tile_provenance.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-font-tile-provenance-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "layer_count": 61,
+      "ordered_sjis_pair_count": 1050,
+      "schema": "runtime-font-tile-provenance-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "57259a2210d1a4604249ba75e23f50310aeebc013fe8891593d88fbae7e8c592"
+  }
+}

@@ -110,6 +110,18 @@
   单域命中冒充来源。成果见 `artifacts/runtime-layer-static-provenance-v1/` 与
   `notes/runtime-layer-static-provenance-20260730.md`；自然语言命名、
   camera/scroll writer、跨帧时序和未跟踪状态仍未闭合。
+- 2026-07-30 上述 61 个 `unidentified_runtime_payload` 又按 tilemap cell
+  完成字体组件来源审计。61 个 32×32 父图层共 62,464 个 cell，其中 2,827 个
+  精确命中非空 `dialogue-font-v2` 展开内容，26 个只命中全零字体源并保持歧义，
+  其余 59,611 个不属于已知字体内容。进一步按同列相邻、无 flip、同 palette bank、
+  SJIS half 0→half 1 的严格契约闭合 1,050 个唯一源字形对，覆盖 58 个父层、
+  226 个不同 SJIS 码；group 2/3 分别为 996/54 对。每层继续绑定原父记录
+  `unidentified_runtime_payload` 身份，绝不把含字形的复合 UI/BG 整层改标为动态
+  文字层。独立 verifier 从 ROM 重建 9,012 个字体 half、解析 `.ss9` 和 tilemap，
+  并拒绝字形、palette group、上下顺序、runtime hash 与额外文件篡改。成果见
+  `artifacts/runtime-font-tile-provenance-v1/` 与
+  `notes/runtime-font-tile-provenance-20260730.md`。非字体 tile、具体 writer、
+  Unicode 字符语义和未跟踪视觉状态仍未闭合，Goal 保持 active。
 - 2026-07-30 Mode 0 最终 compositor 核心已接入普通 1D OBJ、BG/OBJ/backdrop
   priority、WIN0、alpha 与 darken。对 91 个 tracked checkpoint 的 1211 个
   active OAM 做包围盒预索引后，89 帧与 `.ss9` 内嵌 PNG 逐 RGB 字节完全一致。
