@@ -1188,23 +1188,27 @@ WebSocket
   白名单绑定 865 条，剩余 31 条现全部按 ROM 地址顺序无损打包并记录压缩/解压
   哈希、指针引用、literal-load 用户、直接 loader 和分类代码窗口。旧版任意地址
   字符串判据误吞的 `0x085B6000` 排他边界已纠正为独立图形记录。静态消费者把其中
-  21 条送入 VRAM graphics、3 条送入 PRAM palette、7 条送入 WRAM visual
-  metadata；WRAM
-  项不冒充贴图。独立 verifier 从 ROM 重做扫描、解压、schema 绑定和 Thumb
+  20 条送入 VRAM graphics、3 条送入 PRAM palette、7 条送入 WRAM visual
+  metadata；另有 `0x08349368` 同时由 BG screenblock 目标和 32×20 u16 payload
+  结构闭合为 text-BG tilemap，不再冒充 4bpp 图形。独立 verifier 从 ROM 重做扫描、
+  解压、schema 绑定和 Thumb
   符号执行，并重建 bundle 全字节，得到 896/896、remaining 0、`errors=[]`。成果位于
   `artifacts/rom-pointer-lz77-inventory-v1/`，说明见
   `notes/rom-pointer-lz77-inventory-export-20260730.md`。这只闭合该限定静态分母；
   203 条无对齐指针的语法候选、未压缩图形/raw palette、运行时可达性、自然语言
   身份、通用写回和全部视觉状态仍不因本项升级，Goal 保持 active。
-- 2026-07-30：上述 31 条新增 LZ77 中的 21 条 VRAM graphics 已全部生成
+- 2026-07-30：上述 31 条新增 LZ77 中的 20 条 VRAM graphics 已全部生成
   source-order 4bpp tile atlas。静态 loader 在 32-byte 窗口内为 12 条绑定 raw
-  palette、为 4 条绑定 LZ77 palette，形成 16/21 条源色候选和 31 张
-  palette-bank candidate PNG；
-  其余 5 条输出明确标记的灰阶 index-only PNG，不伪造自然颜色。12 个 raw palette
+  palette、为 4 条绑定 LZ77 palette；另从全部 91 份已跟踪 `.ss9` 逐一验证完整
+  payload、1D hardware OAM tile 交集和 attr2 palette bank，为 `0x0812C8B0` 与
+  `0x0812D134` 唯一绑定 ROM `0x08457EA8`，形成 18/20 条源色候选和 33 张
+  palette-bank candidate PNG；其余 2 条输出明确标记的灰阶 index-only PNG，
+  不伪造自然颜色。12 个 raw palette
   段按 CpuSet/CpuFastSet 单位重建为 608-byte bundle，其中 `0x08405FF0` 的
   `r2=0x80` 路径按 256 bytes/8 bank 保留，`0x08463FFC` 的 CpuFastSet `r2=8`
   按 32 bytes 保留。独立 verifier 从 ROM 重做解压、copy 证据、atlas 和 PNG
-  全字节，得到 21 records / 36 previews / `errors=[]`。成果位于
+  全字节；它还独立解析 `.ss9`、OAM 和 PRAM 并拒绝 palette-bank 篡改，得到
+  20 records / 35 previews / `errors=[]`。成果位于
   `artifacts/rom-pointer-lz77-graphics-v1/`，说明见
-  `notes/rom-pointer-lz77-graphics-preview-20260730.md`。tilemap/OAM/最终组合、
-  五条未知 palette、未压缩图形和通用写回仍未闭合，Goal 保持 active。
+  `notes/rom-pointer-lz77-graphics-preview-20260730.md`。最终 OAM 组合、两条未知
+  palette、未压缩图形和通用写回仍未闭合，Goal 保持 active。

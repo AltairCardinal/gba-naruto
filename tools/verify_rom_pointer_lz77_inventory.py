@@ -368,8 +368,45 @@ def _classify_user(rom: bytes, user: int) -> tuple[str, str | None]:
     raise ValueError(f"no LZ77 wrapper call near {_addr(user)}")
 
 
+def _text_bg_tilemap_metadata(
+    decompressed: bytes, destinations: list[str]
+) -> dict[str, Any] | None:
+    if len(decompressed) != 32 * 20 * 2 or not destinations:
+        return None
+    numeric_destinations = [
+        int(destination, 16)
+        for destination in destinations
+        if destination.startswith("0x")
+    ]
+    if (
+        len(numeric_destinations) != len(destinations)
+        or any(
+            not 0x06000000 <= destination < 0x06010000
+            or (destination - 0x06000000) % 0x800
+            for destination in numeric_destinations
+        )
+    ):
+        return None
+    entries = struct.unpack("<640H", decompressed)
+    tile_indices = [entry & 0x03FF for entry in entries]
+    palette_banks = sorted({entry >> 12 for entry in entries})
+    if max(tile_indices) > 0x3F or len(palette_banks) != 1:
+        return None
+    return {
+        "width_entries": 32,
+        "height_entries": 20,
+        "entry_count": len(entries),
+        "entry_size": 2,
+        "tile_index_min": min(tile_indices),
+        "tile_index_max": max(tile_indices),
+        "palette_banks": palette_banks,
+        "horizontal_flip_count": sum(bool(entry & 0x0400) for entry in entries),
+        "vertical_flip_count": sum(bool(entry & 0x0800) for entry in entries),
+    }
+
+
 def _expected_classification(
-    rom: bytes, offset: int, users: list[int]
+    rom: bytes, offset: int, users: list[int], decompressed: bytes
 ) -> dict[str, Any]:
     observations = [_classify_user(rom, user) for user in users]
     kinds = {kind for kind, _ in observations}
@@ -385,7 +422,16 @@ def _expected_classification(
             if destination is not None
         )
     )
-    if kind == "graphics":
+    tilemap = (
+        _text_bg_tilemap_metadata(decompressed, destinations)
+        if kind == "graphics"
+        else None
+    )
+    if tilemap is not None:
+        kind = "visual_metadata"
+        route = "LZ77UnCompVram_wrapper"
+        domain = "VRAM_screenblock"
+    elif kind == "graphics":
         route = "LZ77UnCompVram_wrapper"
         domain = "VRAM"
     elif kind == "palette":
@@ -399,8 +445,15 @@ def _expected_classification(
         "load_route": route,
         "destination_domain": domain,
         "destination_addresses": destinations,
-        "evidence_type": "static_code",
+        "evidence_type": (
+            "static_code_and_payload_shape"
+            if tilemap is not None
+            else "static_code"
+        ),
     }
+    if tilemap is not None:
+        result["subtype"] = "text_bg_tilemap"
+        result["tilemap"] = tilemap
     result["code_windows"] = [
         {
             "gba_start": _addr(user),
@@ -636,7 +689,9 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
             errors.append(f"literal evidence mismatch: {_addr(ROM_BASE + offset)}")
         if record.get("nearby_direct_calls") != _direct_calls(rom, users):
             errors.append(f"call evidence mismatch: {_addr(ROM_BASE + offset)}")
-        expected_classification = _expected_classification(rom, offset, users)
+        expected_classification = _expected_classification(
+            rom, offset, users, decompressed
+        )
         if record.get("classification") != expected_classification:
             errors.append(f"classification mismatch: {_addr(ROM_BASE + offset)}")
         expected_compressed_bundle.extend(compressed)
@@ -679,7 +734,10 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
     expected_counts = {
         kind: sum(
             _expected_classification(
-                rom, offset, _literal_users(rom, refs[offset])
+                rom,
+                offset,
+                _literal_users(rom, refs[offset]),
+                _decode_lz77(rom, offset)[1],
             )["kind"]
             == kind
             for offset in uncovered

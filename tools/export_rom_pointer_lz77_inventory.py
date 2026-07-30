@@ -411,17 +411,67 @@ def _nearby_direct_calls(rom: bytes, users: list[int]) -> list[dict[str, Any]]:
     return [calls[key] for key in sorted(calls)]
 
 
+def _text_bg_tilemap_metadata(
+    decompressed: bytes, destinations: list[str]
+) -> dict[str, Any] | None:
+    if len(decompressed) != 32 * 20 * 2 or not destinations:
+        return None
+    numeric_destinations = [
+        int(destination, 16)
+        for destination in destinations
+        if destination.startswith("0x")
+    ]
+    if (
+        len(numeric_destinations) != len(destinations)
+        or any(
+            not 0x06000000 <= destination < 0x06010000
+            or (destination - 0x06000000) % 0x800
+            for destination in numeric_destinations
+        )
+    ):
+        return None
+    entries = struct.unpack("<640H", decompressed)
+    tile_indices = [entry & 0x03FF for entry in entries]
+    palette_banks = sorted({entry >> 12 for entry in entries})
+    if max(tile_indices) > 0x3F or len(palette_banks) != 1:
+        return None
+    return {
+        "width_entries": 32,
+        "height_entries": 20,
+        "entry_count": len(entries),
+        "entry_size": 2,
+        "tile_index_min": min(tile_indices),
+        "tile_index_max": max(tile_indices),
+        "palette_banks": palette_banks,
+        "horizontal_flip_count": sum(bool(entry & 0x0400) for entry in entries),
+        "vertical_flip_count": sum(bool(entry & 0x0800) for entry in entries),
+    }
+
+
 def _classification(
-    rom: bytes, offset: int, users: list[int]
+    rom: bytes, offset: int, users: list[int], decompressed: bytes
 ) -> dict[str, Any]:
     if offset in GRAPHICS_DESTINATIONS:
-        result = {
-            "kind": "graphics",
-            "load_route": "LZ77UnCompVram_wrapper",
-            "destination_domain": "VRAM",
-            "destination_addresses": GRAPHICS_DESTINATIONS[offset],
-            "evidence_type": "static_code",
-        }
+        destinations = GRAPHICS_DESTINATIONS[offset]
+        tilemap = _text_bg_tilemap_metadata(decompressed, destinations)
+        if tilemap is not None:
+            result = {
+                "kind": "visual_metadata",
+                "subtype": "text_bg_tilemap",
+                "load_route": "LZ77UnCompVram_wrapper",
+                "destination_domain": "VRAM_screenblock",
+                "destination_addresses": destinations,
+                "evidence_type": "static_code_and_payload_shape",
+                "tilemap": tilemap,
+            }
+        else:
+            result = {
+                "kind": "graphics",
+                "load_route": "LZ77UnCompVram_wrapper",
+                "destination_domain": "VRAM",
+                "destination_addresses": destinations,
+                "evidence_type": "static_code",
+            }
     elif offset in PALETTE_DESTINATIONS:
         result = {
             "kind": "palette",
@@ -505,7 +555,9 @@ def _build_payload(root: Path) -> tuple[dict[str, Any], dict[str, bytes]]:
             ],
             "literal_load_users": [_address(value) for value in users],
             "nearby_direct_calls": _nearby_direct_calls(rom, users),
-            "classification": _classification(rom, offset, users),
+            "classification": _classification(
+                rom, offset, users, decompressed
+            ),
         }
         records.append(record)
         compressed_bundle.extend(compressed)

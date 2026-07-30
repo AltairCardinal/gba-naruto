@@ -2,19 +2,21 @@
 
 ## 结论
 
-`rom-pointer-lz77-inventory-v1` 新增的 31 条记录中有 21 条被静态消费者送入
-VRAM。本轮用 `tools/export_rom_pointer_lz77_graphics.py` 将这 21 条建立为有限
-图形预览分母：
+`rom-pointer-lz77-inventory-v1` 新增的 31 条记录中有 20 条被静态消费者送入
+VRAM graphics；旧计数中的 `0x08349368` 已按静态目标与 payload 结构纠正为
+32×20 text-BG tilemap。本轮用 `tools/export_rom_pointer_lz77_graphics.py` 将
+20 条建立为有限图形预览分母：
 
 - 12 条图形在同一 loader 的 32-byte 代码窗口内绑定到 raw ROM palette；
 - 4 条图形在同一窗口内绑定到 LZ77 palette；
-- 16/21 条因此生成 31 张源调色板候选 atlas；
-- 其余 5 条生成 5 张明确标记为 `synthetic_index_only` 的灰阶索引 atlas；
-- 总计 21 条图形、36 张确定性 indexed PNG，分母内没有未导出的图形记录。
+- 2 条图形由 91 份已跟踪 checkpoint 中的 payload、hardware OAM 与 PRAM 状态绑定
+  到唯一 ROM palette；
+- 18/20 条因此生成 33 张源调色板候选 atlas；
+- 其余 2 条生成 2 张明确标记为 `synthetic_index_only` 的灰阶索引 atlas；
+- 总计 20 条图形、35 张确定性 indexed PNG，分母内没有未导出的图形记录。
 
-成果位于 `artifacts/rom-pointer-lz77-graphics-v1/`。它包含 36 张 PNG、一个
-catalog、一个 608-byte raw palette bundle 和 promotion manifest，共 39 个文件、
-约 204 KiB。
+成果位于 `artifacts/rom-pointer-lz77-graphics-v1/`。它包含 35 张 PNG、一个
+catalog、一个 608-byte raw palette bundle 和 promotion manifest，共 38 个文件。
 
 ## 调色板证据
 
@@ -46,12 +48,22 @@ raw palette 集合共 12 段：
 - `0x083F00C8 → 0x083F0AC8`
 - `0x083F08F4 → 0x083F0AC8`
 
-五条尚无 PRAM palette 静态绑定：
+两条静态未绑定图形已由自然 checkpoint 的 hardware OAM 闭合：
 
-- `0x0812C8B0`
-- `0x0812D134`
+- `0x0812C8B0` 在 `0x06016FE0`，覆盖 OBJ tile 895..898；
+  `actionable-move-grid.ss9` 有 8 个相交 OAM 观测；
+- `0x0812D134` 在 `0x06017060`，覆盖 OBJ tile 899..900；同一 checkpoint
+  有 4 个相交 OAM 观测。
+
+两者全部选择 OBJ palette bank 15（PRAM `0x050003E0`）；32-byte palette 哈希为
+`dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393`，
+在 ROM 中只有一个精确来源 `0x08457EA8`。导出器仍扫描全部 91 份已跟踪 `.ss9`；
+只要出现不同 palette bytes、不同 bank 或 ROM 中非唯一来源，就拒绝运行时绑定。
+catalog 只保存词法序最早的接纳 checkpoint 作为紧凑证据，同时记录扫描量和命中量。
+
+仍无可接纳 palette 的两条图形是：
+
 - `0x0812D2F0`
-- `0x08349368`
 - `0x083496F8`
 
 它们的灰阶 PNG 只用于看见 4bpp nibble 索引分布，catalog 明确保存合成 palette
@@ -69,18 +81,19 @@ python3 tools/verify_rom_pointer_lz77_graphics.py \
   --artifact-dir artifacts/rom-pointer-lz77-graphics-v1
 ```
 
-独立 verifier 不导入 exporter 或其他 `tools` 模块，也不保存 12/4/5 的绑定结论表。
-它从 ROM 重新解压 21 条图形和 3 条唯一 LZ palette，从全部 graphics literal user
+独立 verifier 不导入 exporter 或其他 `tools` 模块，也不保存绑定结论表。
+它从 ROM 重新解压 20 条图形和 3 条唯一 LZ palette，从全部 graphics literal user
 重新枚举 32-byte 窗口，并以 fail-closed 的 Thumb 数据流跟踪 BL 当时真实
 `r0/r1/r2`；未知指令和 BL 后均使 caller-clobbered 寄存器失效。由此独立发现
 raw palette 的 CpuSet/CpuFastSet 调用、单位数和 PRAM 目标，再重建 608-byte
-bundle、4bpp atlas 和 PNG 全字节。专用测试覆盖确定性、外来目录拒绝、跨 BL
-旧 `r0` 假绑定反例，以及 PNG、catalog 语义、raw bundle、manifest 重哈希和额外
-文件篡改拒绝；人工抽查了彩色、multi-bank 与 index-only 三类预览。
+bundle。对静态未绑定项，验证器自行严格解析 `.ss9` PNG/`gbAs`、GPU memory 与
+hardware OAM，重算 payload 位置、tile 交集、palette bank 和 ROM 唯一来源，再重建
+4bpp atlas 和 PNG 全字节。专用测试覆盖确定性、外来目录拒绝、跨 BL 旧 `r0`
+假绑定反例，以及 PNG、catalog 语义、runtime palette bank、raw bundle、manifest
+重哈希和额外文件篡改拒绝。
 
 ## 边界与下一步
 
-这些 PNG 是“source-order 4bpp tile atlas 候选”，没有 tilemap、OAM、palette
-bank 选择、优先级或运行时组合，因此不声称是最终可见画面。下一步优先沿五条
-palette 未知图形的 caller 和 PRAM 状态继续闭合颜色来源；随后再建立未压缩图形的
-有限分母。
+这些 PNG 是“source-order 4bpp tile atlas 候选”。两条 runtime 记录只使用 OAM
+选择源 palette，没有按 OAM 尺寸、坐标、优先级或其他图层生成最终画面，因此不声称
+是最终可见画面。两条未知图形继续保持未决；下一图像主线建立未压缩图形的有限分母。

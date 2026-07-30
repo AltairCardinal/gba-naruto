@@ -24,14 +24,17 @@ type-`0x10` 扫描，再只保留“源地址四字节对齐且至少被一个�
 
 | 分类 | 数量 | 接纳规则 |
 |---|---:|---|
-| graphics | 21 | `ldr r0` 后进入 `0x0809C0E8`，目标为 VRAM |
+| graphics | 20 | `ldr r0` 后进入 `0x0809C0E8`，目标为 VRAM，且 payload 不满足已证明的 text-BG 结构 |
 | palette | 3 | `ldr r0` 后进入 `0x0809C0E8`，目标为 PRAM |
-| visual metadata | 7 | 进入 `0x0809C0EC` 的 WRAM 缓冲，不能独立解释为贴图 |
+| visual metadata | 8 | 七条进入 WRAM；一条进入 BG screenblock 且为 32×20 text-BG tilemap |
 
 graphics 的解压目标覆盖固定 BG/OBJ VRAM 地址和一个动态 OBJ slot；palette 的
-目标是 `0x05000180`、`0x050003C0`、`0x05000000`。WRAM 七项只保留中性
-`visual_metadata` 名称，未按字节外观猜成 tilemap 或动画表。每个分类同时保存全部
-literal-load 用户起始的 16-byte ROM 代码窗口哈希，避免分类脱离消费者证据。
+目标是 `0x05000180`、`0x050003C0`、`0x05000000`。`0x08349368` 解压为
+640 个 little-endian u16：全部使用 palette bank 1，tile ID 范围 0..5，无水平翻转、
+12 个垂直翻转；同时静态加载到对齐的 BG screenblock `0x06001000`，因此归为
+`text_bg_tilemap` 而不是把 1280-byte tilemap 错渲染成 4bpp 图形。WRAM 七项仍只保留
+中性 `visual_metadata` 名称。每个分类同时保存全部 literal-load 用户起始的
+16-byte ROM 代码窗口哈希，避免分类脱离消费者证据。
 
 ## 上游绑定边界
 
@@ -63,20 +66,21 @@ python3 tools/verify_rom_pointer_lz77_inventory.py \
 独立 verifier 不导入 exporter 或其他 `tools` 模块；它重新扫描 ROM、解压记录、
 建立对齐指针索引、按 schema 白名单解析 17 份上游 JSON，并用受限 Thumb 符号执行
 从消费者指令直接推导 `r0` 源、`r1` 目标和解压 wrapper；分类不复制 exporter 的
-地址映射表。它还从 ROM 重建两个 bundle 全字节，要求 offset 连续、无重叠且覆盖
-到 EOF。测试覆盖四个成果文件逐字节篡改、重算 manifest 后的分类及契约语义篡改、
-bundle 尾部垃圾、重复导出确定性和外来目录拒绝。
+地址映射表。对于 VRAM 记录，它独立解析解压 payload，并只在 32×20、screenblock
+对齐、单 palette bank、低 tile ID 的条件同时成立时升级为 text-BG metadata。
+它还从 ROM 重建两个 bundle 全字节，要求 offset 连续、无重叠且覆盖到 EOF。测试
+覆盖四个成果文件逐字节篡改、重算 manifest 后的分类及契约语义篡改、bundle 尾部
+垃圾、重复导出确定性和外来目录拒绝。
 
 ## 明确未完成
 
 本成果只闭合“对齐 ROM 指针可达的严格 LZ77 记录”这一静态分母，不声称：
 
-- 896 条全部都是图像；其中七条已明确只进入 WRAM；
+- 896 条全部都是图像；其中七条已明确只进入 WRAM，另有一条是 BG tilemap；
 - 未压缩 tiles、raw palette、字体或过程式图形已经被这一分母覆盖；
 - 静态指针存在等于任意自然流程实际执行；
 - 所有资源已有自然语言业务名称、最终画面组合或安全写回；
 - 所有游戏视觉状态或实体 GBA 输出已经完成。
 
-下一图像闭环应沿同一批 loader 的已证明 raw palette copy，构建
-graphics/palette bundle 与可验证预览；随后再建立未压缩资源分母，不能回到无约束
-“字节像图像”扫描。
+后继图像成果已沿静态 palette copy 和运行时 OAM 绑定把 18/20 条图形关联到源色。
+下一主线应建立未压缩图形的有限分母，不能回到无约束“字节像图像”扫描。

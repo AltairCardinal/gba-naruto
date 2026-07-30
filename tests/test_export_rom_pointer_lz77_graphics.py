@@ -4,6 +4,7 @@ import shutil
 import struct
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 
@@ -23,10 +24,7 @@ RAW_PALETTES = {
     "0x08463FFC": 32,
 }
 UNRESOLVED = {
-    "0x0812C8B0",
-    "0x0812D134",
     "0x0812D2F0",
-    "0x08349368",
     "0x083496F8",
 }
 
@@ -74,25 +72,27 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
         self.assertEqual("rom-pointer-lz77-graphics-v1", self.catalog["schema"])
         self.assertEqual(
             {
-                "graphics_record_count": 21,
+                "graphics_record_count": 20,
                 "raw_palette_bound_count": 12,
+                "runtime_oam_palette_bound_count": 2,
                 "lz77_palette_bound_count": 4,
-                "source_palette_bound_count": 16,
-                "unresolved_palette_count": 5,
-                "source_palette_preview_count": 31,
-                "index_only_preview_count": 5,
-                "preview_file_count": 36,
+                "source_palette_bound_count": 18,
+                "unresolved_palette_count": 2,
+                "source_palette_preview_count": 33,
+                "index_only_preview_count": 2,
+                "preview_file_count": 35,
                 "raw_palette_source_count": 12,
                 "raw_palette_bundle_size": 608,
+                "runtime_checkpoint_count": 91,
             },
             self.catalog["summary"],
         )
-        self.assertEqual(21, len(self.catalog["graphics"]))
+        self.assertEqual(20, len(self.catalog["graphics"]))
         self.assertEqual(
             {
                 "window_bytes": 32,
                 "sources": (
-                    "all literal_load_users of the 21 source-inventory "
+                    "all literal_load_users of the 20 source-inventory "
                     "graphics records"
                 ),
                 "accepted_operations": [
@@ -102,12 +102,24 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
                         "exact unit count"
                     ),
                 ],
+                "runtime_oam_rule": (
+                    "scan every tracked .ss9 in lexical order; require the full "
+                    "graphics payload at its statically proven OBJ VRAM "
+                    "destination, an active hardware OAM object whose 4bpp tile "
+                    "range intersects it, one consistent attr2 palette bank, and "
+                    "one unique exact 32-byte ROM palette source"
+                ),
+                "runtime_conflict_policy": (
+                    "different selected palette bytes or non-unique ROM source "
+                    "leave the record unresolved"
+                ),
                 "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
                 "call_policy": (
                     "record actual arguments at BL, then invalidate r0-r3"
                 ),
                 "unresolved_rule": (
-                    "no accepted palette operation in any record window"
+                    "no accepted static palette operation and no accepted "
+                    "runtime OAM binding"
                 ),
             },
             self.catalog["selection_rule"],
@@ -120,6 +132,139 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
                 if entry["palette_binding"]["kind"] == "unresolved"
             },
         )
+
+    def test_binds_shared_battle_obj_palette_from_natural_oam(self):
+        entries = {
+            entry["graphics_address"]: entry
+            for entry in self.catalog["graphics"]
+        }
+        self.assertNotIn("0x08349368", entries)
+        expected = {
+            "0x0812C8B0": {
+                "destination": "0x06016FE0",
+                "tile_start": 895,
+                "tile_end": 899,
+                "oam_observation_count": 8,
+            },
+            "0x0812D134": {
+                "destination": "0x06017060",
+                "tile_start": 899,
+                "tile_end": 901,
+                "oam_observation_count": 4,
+            },
+        }
+        for address, runtime_expected in expected.items():
+            binding = entries[address]["palette_binding"]
+            self.assertEqual("runtime_oam_raw_rom", binding["kind"])
+            self.assertEqual(["0x08457EA8"], binding["source_addresses"])
+            evidence = binding["operation_evidence"]
+            self.assertEqual(1, len(evidence))
+            observation = evidence[0]
+            self.assertEqual(
+                "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+                observation["checkpoint_path"],
+            )
+            self.assertEqual(
+                "0x050003E0", observation["palette_address"]
+            )
+            self.assertEqual(15, observation["palette_bank"])
+            for key, value in runtime_expected.items():
+                self.assertEqual(value, observation[key])
+            self.assertEqual(
+                observation["palette_sha256"],
+                next(
+                    item["sha256"]
+                    for item in self.catalog["raw_palette_sources"]
+                    if item["gba_address"] == "0x08457EA8"
+                ),
+            )
+
+    def test_runtime_binding_fails_closed_on_palette_ambiguity(self):
+        from tools.export_rom_pointer_lz77_graphics import (
+            _discover_runtime_oam_binding,
+        )
+
+        graphics = bytes([0x55] * 32)
+        palette_a = bytes(range(32))
+        palette_b = bytes(range(32, 64))
+        record = {
+            "classification": {
+                "destination_addresses": ["0x06010000"],
+            }
+        }
+
+        class FakeState:
+            version_magic = 0x01000007
+
+            def __init__(self, palette, banks=(15,)):
+                self.palette = palette
+                self.banks = banks
+
+            def read_memory(self, address, size):
+                if address == 0x04000000:
+                    return struct.pack("<H", 0x40) + bytes(size - 2)
+                if address == 0x06010000:
+                    return graphics[:size]
+                if address == 0x07000000:
+                    oam = bytearray(0x400)
+                    for index, bank in enumerate(self.banks):
+                        struct.pack_into(
+                            "<HHH", oam, index * 8, 0, 0, bank << 12
+                        )
+                    for index in range(len(self.banks), 128):
+                        struct.pack_into(
+                            "<HHH", oam, index * 8, 0x0200, 0, 0
+                        )
+                    return bytes(oam)
+                if address == 0x050003E0:
+                    return self.palette[:size]
+                raise AssertionError(f"unexpected memory read: {address:#x}")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            first = root / "first.ss9"
+            second = root / "second.ss9"
+            first.write_bytes(b"first")
+            second.write_bytes(b"second")
+            rom = b"prefix" + palette_a + b"suffix"
+
+            with mock.patch(
+                "tools.export_rom_pointer_lz77_graphics.load_gba_state",
+                return_value=FakeState(palette_a, banks=(15, 14)),
+            ):
+                self.assertIsNone(
+                    _discover_runtime_oam_binding(
+                        root, rom, record, graphics, [first]
+                    )
+                )
+
+            states = {
+                first: FakeState(palette_a),
+                second: FakeState(palette_b),
+            }
+            with mock.patch(
+                "tools.export_rom_pointer_lz77_graphics.load_gba_state",
+                side_effect=lambda path: states[path],
+            ):
+                self.assertIsNone(
+                    _discover_runtime_oam_binding(
+                        root, rom + palette_b, record, graphics, [first, second]
+                    )
+                )
+
+            with mock.patch(
+                "tools.export_rom_pointer_lz77_graphics.load_gba_state",
+                return_value=FakeState(palette_a),
+            ):
+                self.assertIsNone(
+                    _discover_runtime_oam_binding(
+                        root,
+                        palette_a + b"gap" + palette_a,
+                        record,
+                        graphics,
+                        [first],
+                    )
+                )
 
     def test_packs_every_static_raw_palette_losslessly(self):
         bundle = (self.output / "raw-palettes.bgr555.bin").read_bytes()
@@ -219,8 +364,8 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
             for entry in self.catalog["graphics"]
             for preview in entry["previews"]
         ]
-        self.assertEqual(36, len(previews))
-        self.assertEqual(36, len({preview["file"] for preview in previews}))
+        self.assertEqual(35, len(previews))
+        self.assertEqual(35, len({preview["file"] for preview in previews}))
         for preview in previews:
             path = self.output / preview["file"]
             self.assertEqual(
@@ -233,7 +378,12 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
             self.assertEqual((8, 3), (bit_depth, color_type))
             self.assertIn(
                 preview["palette_origin"],
-                {"raw_rom", "lz77_rom", "synthetic_index_only"},
+                {
+                    "raw_rom",
+                    "runtime_oam_raw_rom",
+                    "lz77_rom",
+                    "synthetic_index_only",
+                },
             )
 
     def test_scope_keeps_candidate_previews_separate_from_final_images(self):
@@ -262,8 +412,8 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
         report = verify_artifact(ROOT, self.output)
         self.assertTrue(report["verified"], report["errors"])
         self.assertEqual([], report["errors"])
-        self.assertEqual(21, report["graphics_record_count"])
-        self.assertEqual(36, report["preview_file_count"])
+        self.assertEqual(20, report["graphics_record_count"])
+        self.assertEqual(35, report["preview_file_count"])
 
         with tempfile.TemporaryDirectory() as tmp:
             tampered = Path(tmp) / "artifact"
@@ -287,6 +437,38 @@ class ExportRomPointerLz77GraphicsTests(unittest.TestCase):
                 if entry["palette_binding"]["kind"] == "raw_rom"
             )
             bound["palette_binding"]["source_addresses"][0] = "0x08348F00"
+            catalog_path.write_text(
+                json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=True)
+                + "\n",
+                encoding="utf-8",
+            )
+            manifest_path = tampered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["files"]["graphics-catalog.json"] = hashlib.sha256(
+                catalog_path.read_bytes()
+            ).hexdigest()
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True)
+                + "\n",
+                encoding="utf-8",
+            )
+            rejected = verify_artifact(ROOT, tampered)
+            self.assertFalse(rejected["verified"], rejected["errors"])
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tampered = Path(tmp) / "artifact"
+            shutil.copytree(self.output, tampered)
+            catalog_path = tampered / "graphics-catalog.json"
+            catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+            bound = next(
+                entry
+                for entry in catalog["graphics"]
+                if entry["palette_binding"]["kind"]
+                == "runtime_oam_raw_rom"
+            )
+            bound["palette_binding"]["operation_evidence"][0][
+                "palette_bank"
+            ] = 14
             catalog_path.write_text(
                 json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=True)
                 + "\n",

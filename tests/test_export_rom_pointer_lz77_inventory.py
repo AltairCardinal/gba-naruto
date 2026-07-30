@@ -1,6 +1,7 @@
 import hashlib
 import json
 import shutil
+import struct
 import tempfile
 import unittest
 from pathlib import Path
@@ -141,9 +142,9 @@ class ExportRomPointerLz77InventoryTests(unittest.TestCase):
     def test_classifies_only_code_proven_hardware_routes(self):
         self.assertEqual(
             {
-                "graphics": 21,
+                "graphics": 20,
                 "palette": 3,
-                "visual_metadata": 7,
+                "visual_metadata": 8,
             },
             self.payload["classification_counts"],
         )
@@ -168,6 +169,26 @@ class ExportRomPointerLz77InventoryTests(unittest.TestCase):
             "LZ77UnCompWram_wrapper",
             records["0x0834928C"]["classification"]["load_route"],
         )
+        tilemap = records["0x08349368"]["classification"]
+        self.assertEqual("visual_metadata", tilemap["kind"])
+        self.assertEqual("text_bg_tilemap", tilemap["subtype"])
+        self.assertEqual("LZ77UnCompVram_wrapper", tilemap["load_route"])
+        self.assertEqual("VRAM_screenblock", tilemap["destination_domain"])
+        self.assertEqual(["0x06001000"], tilemap["destination_addresses"])
+        self.assertEqual(
+            {
+                "width_entries": 32,
+                "height_entries": 20,
+                "entry_count": 640,
+                "entry_size": 2,
+                "tile_index_min": 0,
+                "tile_index_max": 5,
+                "palette_banks": [1],
+                "horizontal_flip_count": 0,
+                "vertical_flip_count": 12,
+            },
+            tilemap["tilemap"],
+        )
         self.assertEqual(
             ["0x0600E800", "0x06006800"],
             records["0x08405EA4"]["classification"]["destination_addresses"],
@@ -186,6 +207,37 @@ class ExportRomPointerLz77InventoryTests(unittest.TestCase):
                 self.assertEqual(
                     window["sha256"], hashlib.sha256(data).hexdigest()
                 )
+
+    def test_tilemap_shape_rejects_ambiguous_payloads(self):
+        from tools.export_rom_pointer_lz77_inventory import (
+            _text_bg_tilemap_metadata,
+        )
+
+        valid = [0x1000] * 640
+        self.assertIsNotNone(
+            _text_bg_tilemap_metadata(
+                struct.pack("<640H", *valid), ["0x06001000"]
+            )
+        )
+        self.assertIsNone(
+            _text_bg_tilemap_metadata(
+                struct.pack("<640H", *valid), ["0x06001020"]
+            )
+        )
+        multiple_banks = valid.copy()
+        multiple_banks[-1] = 0x2000
+        self.assertIsNone(
+            _text_bg_tilemap_metadata(
+                struct.pack("<640H", *multiple_banks), ["0x06001000"]
+            )
+        )
+        high_tile = valid.copy()
+        high_tile[-1] = 0x1040
+        self.assertIsNone(
+            _text_bg_tilemap_metadata(
+                struct.pack("<640H", *high_tile), ["0x06001000"]
+            )
+        )
 
     def test_pins_the_exact_upstream_artifact_registry(self):
         registry = self.payload["upstream_binding_registry"]

@@ -46,20 +46,105 @@
       "graphics_address": "0x0812C8B0",
       "graphics_file_offset": 1231024,
       "palette_binding": {
-        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
-        "kind": "unresolved",
-        "operation_evidence": [],
-        "source_addresses": []
+        "discovery_rule": "full payload at static OBJ VRAM destination plus active hardware OAM palette bank across every tracked checkpoint and unique exact ROM palette",
+        "kind": "runtime_oam_raw_rom",
+        "operation_evidence": [
+          {
+            "checkpoint_path": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+            "checkpoint_sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+            "destination": "0x06016FE0",
+            "kind": "runtime_oam_raw_rom",
+            "matching_checkpoint_count": 47,
+            "oam_observation_count": 8,
+            "oam_observations": [
+              {
+                "height": 8,
+                "oam_index": 3,
+                "object_tile_end": 896,
+                "object_tile_start": 895,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 4,
+                "object_tile_end": 896,
+                "object_tile_start": 895,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 5,
+                "object_tile_end": 897,
+                "object_tile_start": 896,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 6,
+                "object_tile_end": 897,
+                "object_tile_start": 896,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 7,
+                "object_tile_end": 897,
+                "object_tile_start": 896,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 8,
+                "object_tile_end": 897,
+                "object_tile_start": 896,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 9,
+                "object_tile_end": 898,
+                "object_tile_start": 897,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 10,
+                "object_tile_end": 898,
+                "object_tile_start": 897,
+                "palette_bank": 15,
+                "width": 8
+              }
+            ],
+            "palette_address": "0x050003E0",
+            "palette_bank": 15,
+            "palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+            "savestate_version_magic": "0x01000007",
+            "scanned_checkpoint_count": 91,
+            "tile_end": 899,
+            "tile_start": 895,
+            "unique_rom_palette_source": "0x08457EA8"
+          }
+        ],
+        "source_addresses": [
+          "0x08457EA8"
+        ]
       },
       "previews": [
         {
-          "file": "previews/0812c8b0-index-only.png",
+          "file": "previews/0812c8b0-08457ea8-bank-00.png",
           "height": 8,
-          "palette_address": null,
+          "palette_address": "0x08457EA8",
           "palette_bank": 0,
-          "palette_origin": "synthetic_index_only",
-          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
-          "png_sha256": "6d94bb3a55b5473238d5b1f6fbe34a9a6a165f2ca90b0bb7e9a71bedd1fa6a28",
+          "palette_origin": "runtime_oam_raw_rom",
+          "palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+          "png_sha256": "8e73e61d93c1f870610ce2ceb2f229d70eee19c4b13ccb2ebc108a63be959f3e",
           "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
           "width": 32
         }
@@ -71,20 +156,73 @@
       "graphics_address": "0x0812D134",
       "graphics_file_offset": 1233204,
       "palette_binding": {
-        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
-        "kind": "unresolved",
-        "operation_evidence": [],
-        "source_addresses": []
+        "discovery_rule": "full payload at static OBJ VRAM destination plus active hardware OAM palette bank across every tracked checkpoint and unique exact ROM palette",
+        "kind": "runtime_oam_raw_rom",
+        "operation_evidence": [
+          {
+            "checkpoint_path": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+            "checkpoint_sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+            "destination": "0x06017060",
+            "kind": "runtime_oam_raw_rom",
+            "matching_checkpoint_count": 51,
+            "oam_observation_count": 4,
+            "oam_observations": [
+              {
+                "height": 8,
+                "oam_index": 12,
+                "object_tile_end": 900,
+                "object_tile_start": 899,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 13,
+                "object_tile_end": 900,
+                "object_tile_start": 899,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 14,
+                "object_tile_end": 900,
+                "object_tile_start": 899,
+                "palette_bank": 15,
+                "width": 8
+              },
+              {
+                "height": 8,
+                "oam_index": 15,
+                "object_tile_end": 900,
+                "object_tile_start": 899,
+                "palette_bank": 15,
+                "width": 8
+              }
+            ],
+            "palette_address": "0x050003E0",
+            "palette_bank": 15,
+            "palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+            "savestate_version_magic": "0x01000007",
+            "scanned_checkpoint_count": 91,
+            "tile_end": 901,
+            "tile_start": 899,
+            "unique_rom_palette_source": "0x08457EA8"
+          }
+        ],
+        "source_addresses": [
+          "0x08457EA8"
+        ]
       },
       "previews": [
         {
-          "file": "previews/0812d134-index-only.png",
+          "file": "previews/0812d134-08457ea8-bank-00.png",
           "height": 8,
-          "palette_address": null,
+          "palette_address": "0x08457EA8",
           "palette_bank": 0,
-          "palette_origin": "synthetic_index_only",
-          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
-          "png_sha256": "355146a97c7702c5955c10f7ab07ff67192c398c67bf9584970b4bb244e6e5b1",
+          "palette_origin": "runtime_oam_raw_rom",
+          "palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+          "png_sha256": "e9f80e3f63ce31679ea09323a951d9845214118cc28d3880d08f03fa14b6de99",
           "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
           "width": 16
         }
@@ -232,31 +370,6 @@
           "palette_origin": "raw_rom",
           "palette_sha256": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
           "png_sha256": "e449992353c0e685138d26eebbcd8740d37dafd32e426d4c66a969d567f7686d",
-          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
-          "width": 128
-        }
-      ]
-    },
-    {
-      "decompressed_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
-      "decompressed_size": 1280,
-      "graphics_address": "0x08349368",
-      "graphics_file_offset": 3445608,
-      "palette_binding": {
-        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
-        "kind": "unresolved",
-        "operation_evidence": [],
-        "source_addresses": []
-      },
-      "previews": [
-        {
-          "file": "previews/08349368-index-only.png",
-          "height": 24,
-          "palette_address": null,
-          "palette_bank": 0,
-          "palette_origin": "synthetic_index_only",
-          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
-          "png_sha256": "93edeb4bb358465435027bbcd190efe52639b9000df98ec7a09aeaf23488576b",
           "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
           "width": 128
         }
@@ -1088,9 +1201,9 @@
     }
   ],
   "implementation": {
-    "exporter_sha256": "bc98847830a7925f43dd086c7193684da13aa206391725d9c4587d2a5531580d",
-    "test_sha256": "23c88d584e7920723e0b741cb9553037bdb76ecd04899957ea874fcbe6cda42c",
-    "verifier_sha256": "5e2fab207f0f30db600bbe9dd11a746c7a35491e1eee85a120bc06328273fbf7"
+    "exporter_sha256": "e217ab943eb6157087867709430233b5f9db32773c874938f7c54e4a2b680fb8",
+    "test_sha256": "4088b8b9ad751345b9d422bfada89cd9db2343c862723856b94f5fad247d4a31",
+    "verifier_sha256": "69ba1fd76605d1a178ea36e1aa67f5a58d867c31aa7d641fe7a27eb48ca5b173"
   },
   "raw_palette_sources": [
     {
@@ -1487,27 +1600,31 @@
       "r0 ROM raw source -> CpuSet/CpuFastSet -> PRAM, exact unit count"
     ],
     "call_policy": "record actual arguments at BL, then invalidate r0-r3",
-    "sources": "all literal_load_users of the 21 source-inventory graphics records",
+    "runtime_conflict_policy": "different selected palette bytes or non-unique ROM source leave the record unresolved",
+    "runtime_oam_rule": "scan every tracked .ss9 in lexical order; require the full graphics payload at its statically proven OBJ VRAM destination, an active hardware OAM object whose 4bpp tile range intersects it, one consistent attr2 palette bank, and one unique exact 32-byte ROM palette source",
+    "sources": "all literal_load_users of the 20 source-inventory graphics records",
     "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
-    "unresolved_rule": "no accepted palette operation in any record window",
+    "unresolved_rule": "no accepted static palette operation and no accepted runtime OAM binding",
     "window_bytes": 32
   },
   "source_inventory": {
-    "manifest_sha256": "d524105b8a7892ff3c9129d9c8bde246d57d3f6de627fb3d62a71b83d0286dd2",
+    "manifest_sha256": "d4afca9d19c3b764ce40f460d9c73d7c19f908bf25c197d4b082bd6bc5c4bb33",
     "path": "artifacts/rom-pointer-lz77-inventory-v1",
-    "payload_sha256": "2ecf955805d1f69bc38b4b41c2215243f07a0ed40c357cfcc94545cff2284cd7"
+    "payload_sha256": "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
   },
   "summary": {
-    "graphics_record_count": 21,
-    "index_only_preview_count": 5,
+    "graphics_record_count": 20,
+    "index_only_preview_count": 2,
     "lz77_palette_bound_count": 4,
-    "preview_file_count": 36,
+    "preview_file_count": 35,
     "raw_palette_bound_count": 12,
     "raw_palette_bundle_size": 608,
     "raw_palette_source_count": 12,
-    "source_palette_bound_count": 16,
-    "source_palette_preview_count": 31,
-    "unresolved_palette_count": 5
+    "runtime_checkpoint_count": 91,
+    "runtime_oam_palette_bound_count": 2,
+    "source_palette_bound_count": 18,
+    "source_palette_preview_count": 33,
+    "unresolved_palette_count": 2
   },
   "synthetic_index_palette": {
     "purpose": "diagnostic index visibility only; not a ROM palette",

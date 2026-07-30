@@ -12,14 +12,14 @@
     }
   },
   "classification_counts": {
-    "graphics": 21,
+    "graphics": 20,
     "palette": 3,
-    "visual_metadata": 7
+    "visual_metadata": 8
   },
   "implementation": {
-    "exporter_sha256": "21a71a5359e0d96f3bd60bbe9319e36c73d7755875a79b03e58b1988d54df85c",
-    "test_sha256": "a0c34ee11d56d79dbaac8a0c827205e31f61699f59a92363bb4b413a5609e144",
-    "verifier_sha256": "db8b3c336c871f425afe3ffc05726d993e2a43bf38f0a29de1349ff3a04fec20"
+    "exporter_sha256": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "test_sha256": "bd86de48242b801e0854f3ffa99cef1a6ff96ed021a25dc55bdc66782ba5fc52",
+    "verifier_sha256": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b"
   },
   "new_records": [
     {
@@ -477,10 +477,24 @@
         "destination_addresses": [
           "0x06001000"
         ],
-        "destination_domain": "VRAM",
-        "evidence_type": "static_code",
-        "kind": "graphics",
-        "load_route": "LZ77UnCompVram_wrapper"
+        "destination_domain": "VRAM_screenblock",
+        "evidence_type": "static_code_and_payload_shape",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "subtype": "text_bg_tilemap",
+        "tilemap": {
+          "entry_count": 640,
+          "entry_size": 2,
+          "height_entries": 20,
+          "horizontal_flip_count": 0,
+          "palette_banks": [
+            1
+          ],
+          "tile_index_max": 5,
+          "tile_index_min": 0,
+          "vertical_flip_count": 12,
+          "width_entries": 32
+        }
       },
       "compressed_bundle_offset": 3761,
       "compressed_sha256": "259891ea9126d0d1c2683ecfdd392f22f2a8b926eb6f2bd4ef4b601935b7898b",

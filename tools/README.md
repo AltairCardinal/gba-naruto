@@ -1258,25 +1258,28 @@ The independent verifier reimplements LZ77 decoding, the aligned pointer index,
 schema binding and bounded Thumb symbolic execution, then reconstructs both bundles
 byte-for-byte from the ROM. The accepted artifact closes 896/896 records in this
 deliberately narrow static denominator and classifies the 31 newly exported records
-as 21 VRAM graphics, 3 PRAM palettes and 7 WRAM visual metadata records. It does not
-claim that all syntactically valid streams are
-resources, that all resources are compressed, or that static pointer reachability is
-runtime execution.
+as 20 VRAM graphics, 3 PRAM palettes, 7 WRAM visual metadata records and one
+32x20 text-BG tilemap loaded to an aligned VRAM screenblock. The tilemap
+classification requires both the consumer destination and decoded entry shape. It
+does not claim that all syntactically valid streams are resources, that all resources
+are compressed, or that static pointer reachability is runtime execution.
 
 # ROM pointer-reachable LZ77 graphics previews
 
 `export_rom_pointer_lz77_graphics.py` consumes the hash-pinned
 `rom-pointer-lz77-inventory-v1` artifact, independently binds nearby raw or LZ77
-palette loads, and exports source-order 4bpp tile-atlas candidates.
+palette loads, scans every tracked runtime checkpoint for fail-closed hardware OAM
+palette evidence, and exports source-order 4bpp tile-atlas candidates.
 
 ```bash
 python3 tools/export_rom_pointer_lz77_graphics.py
 python3 tools/verify_rom_pointer_lz77_graphics.py
 ```
 
-The artifact covers all 21 newly cataloged VRAM graphics records: 16 have a
-code-proven source palette and produce 31 palette-bank variants; five retain
-explicit synthetic grayscale index-only previews. The verifier reconstructs the
-raw palette bundle, LZ77 payloads, copy-unit semantics and all 36 indexed PNGs
-without importing the exporter. These atlases do not claim tilemap/OAM composition
-or final visible-screen identity.
+The artifact covers all 20 newly cataloged VRAM graphics records: 16 have a
+code-proven source palette, two more bind to a unique ROM palette through exact
+VRAM payload plus active OAM observations across 91 checkpoints, and two retain
+explicit synthetic grayscale index-only previews. The verifier independently parses
+the savestates and reconstructs the raw palette bundle, LZ77 payloads, copy-unit
+semantics and all 35 indexed PNGs without importing the exporter. These atlases do
+not claim final OAM composition or visible-screen identity.

@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import subprocess
 from typing import Any
 import zlib
 
@@ -21,14 +22,24 @@ ROM_BASE = 0x08000000
 ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
 SOURCE_ROOT = Path("artifacts/rom-pointer-lz77-inventory-v1")
 SOURCE_MANIFEST_SHA256 = (
-    "d524105b8a7892ff3c9129d9c8bde246d57d3f6de627fb3d62a71b83d0286dd2"
+    "d4afca9d19c3b764ce40f460d9c73d7c19f908bf25c197d4b082bd6bc5c4bb33"
 )
 SOURCE_PAYLOAD_SHA256 = (
-    "2ecf955805d1f69bc38b4b41c2215243f07a0ed40c357cfcc94545cff2284cd7"
+    "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
 )
+CHECKPOINT_DIRECTORY = Path("artifacts/runtime-checkpoints")
 CPU_FAST_SET = 0x0809C0DC
 CPU_SET = 0x0809C0E0
 LZ77_VRAM = 0x0809C0E8
+STATE_SIZE = 0x61000
+OBJ_VRAM_BASE = 0x06010000
+OBJ_VRAM_END = 0x06018000
+OBJ_PALETTE_BASE = 0x05000200
+OAM_SIZES = {
+    0: ((8, 8), (16, 16), (32, 32), (64, 64)),
+    1: ((16, 8), (32, 8), (32, 16), (64, 32)),
+    2: ((8, 16), (8, 32), (16, 32), (32, 64)),
+}
 SCOPE = {
     "new_pointer_reachable_graphics_records_cataloged": True,
     "source_palette_bound_subset_previewed": True,
@@ -42,7 +53,7 @@ SCOPE = {
 SELECTION_RULE = {
     "window_bytes": 32,
     "sources": (
-        "all literal_load_users of the 21 source-inventory graphics records"
+        "all literal_load_users of the 20 source-inventory graphics records"
     ),
     "accepted_operations": [
         "r0 ROM LZ77 source -> LZ77UnCompVram -> PRAM, size 32",
@@ -51,9 +62,23 @@ SELECTION_RULE = {
             "exact unit count"
         ),
     ],
+    "runtime_oam_rule": (
+        "scan every tracked .ss9 in lexical order; require the full graphics "
+        "payload at its statically proven OBJ VRAM destination, an active "
+        "hardware OAM object whose 4bpp tile range intersects it, one "
+        "consistent attr2 palette bank, and one unique exact 32-byte ROM "
+        "palette source"
+    ),
+    "runtime_conflict_policy": (
+        "different selected palette bytes or non-unique ROM source leave the "
+        "record unresolved"
+    ),
     "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
     "call_policy": "record actual arguments at BL, then invalidate r0-r3",
-    "unresolved_rule": "no accepted palette operation in any record window",
+    "unresolved_rule": (
+        "no accepted static palette operation and no accepted runtime OAM "
+        "binding"
+    ),
 }
 
 
@@ -63,6 +88,198 @@ def _sha(data: bytes) -> str:
 
 def _address(offset: int) -> str:
     return f"0x{ROM_BASE + offset:08X}"
+
+
+def _tracked_checkpoints(root: Path) -> list[Path]:
+    completed = subprocess.run(
+        [
+            "git",
+            "ls-files",
+            "-z",
+            "--",
+            f"{CHECKPOINT_DIRECTORY.as_posix()}/*.ss9",
+        ],
+        cwd=root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode:
+        raise ValueError("cannot enumerate tracked runtime checkpoints")
+    paths = sorted(
+        root / raw.decode("utf-8")
+        for raw in completed.stdout.split(b"\0")
+        if raw
+    )
+    if not paths or any(not path.is_file() for path in paths):
+        raise ValueError("tracked runtime checkpoint set is incomplete")
+    return paths
+
+
+def _load_state(path: Path) -> tuple[bytes, bytes]:
+    raw = path.read_bytes()
+    if not raw.startswith(b"\x89PNG\r\n\x1a\n"):
+        raise ValueError("savestate is not a PNG")
+    cursor = 8
+    state_payloads = []
+    saw_iend = False
+    while cursor < len(raw):
+        if cursor + 12 > len(raw):
+            raise ValueError("truncated savestate PNG")
+        size = struct.unpack_from(">I", raw, cursor)[0]
+        tag = raw[cursor + 4 : cursor + 8]
+        start = cursor + 8
+        end = start + size
+        if end + 4 > len(raw):
+            raise ValueError("truncated savestate PNG chunk")
+        payload = raw[start:end]
+        stored_crc = struct.unpack_from(">I", raw, end)[0]
+        if zlib.crc32(tag + payload) & 0xFFFFFFFF != stored_crc:
+            raise ValueError("savestate PNG CRC mismatch")
+        if tag == b"gbAs":
+            state_payloads.append(payload)
+        cursor = end + 4
+        if tag == b"IEND":
+            if payload or cursor != len(raw):
+                raise ValueError("invalid savestate PNG IEND")
+            saw_iend = True
+            break
+    if not saw_iend or len(state_payloads) != 1:
+        raise ValueError("savestate PNG state payload mismatch")
+    decompressor = zlib.decompressobj()
+    state = decompressor.decompress(state_payloads[0], STATE_SIZE + 1)
+    state += decompressor.flush()
+    if (
+        len(state) != STATE_SIZE
+        or not decompressor.eof
+        or decompressor.unused_data
+        or decompressor.unconsumed_tail
+    ):
+        raise ValueError("invalid compressed savestate payload")
+    version = struct.unpack_from("<I", state, 0)[0]
+    if not 0x01000000 <= version <= 0x0100000B:
+        raise ValueError("unsupported savestate version")
+    return raw, state
+
+
+def _state_memory(state: bytes, address: int, size: int) -> bytes:
+    regions = (
+        (0x04000000, 0x00400, 0x00400),
+        (0x05000000, 0x00400, 0x00800),
+        (0x07000000, 0x00400, 0x00C00),
+        (0x06000000, 0x18000, 0x01000),
+    )
+    for base, length, state_offset in regions:
+        relative = address - base
+        if 0 <= relative and relative + size <= length:
+            return state[state_offset + relative : state_offset + relative + size]
+    raise ValueError("savestate memory read is outside GPU memory")
+
+
+def _oam_intersections(
+    oam: bytes, resource_tile_start: int, resource_tile_end: int
+) -> list[dict[str, int]]:
+    observations = []
+    for index in range(128):
+        attr0, attr1, attr2 = struct.unpack_from("<HHH", oam, index * 8)
+        affine = bool(attr0 & 0x0100)
+        if not affine and attr0 & 0x0200:
+            continue
+        if attr0 & 0x2000:
+            continue
+        shape = (attr0 >> 14) & 3
+        size = (attr1 >> 14) & 3
+        if shape not in OAM_SIZES:
+            continue
+        width, height = OAM_SIZES[shape][size]
+        tile_start = attr2 & 0x03FF
+        tile_end = tile_start + width * height // 64
+        if tile_start >= resource_tile_end or tile_end <= resource_tile_start:
+            continue
+        observations.append(
+            {
+                "oam_index": index,
+                "object_tile_start": tile_start,
+                "object_tile_end": tile_end,
+                "palette_bank": (attr2 >> 12) & 0xF,
+                "width": width,
+                "height": height,
+            }
+        )
+    return observations
+
+
+def _runtime_binding(
+    root: Path,
+    rom: bytes,
+    record: dict[str, Any],
+    graphics: bytes,
+    checkpoints: list[Path],
+) -> tuple[int, list[dict[str, Any]]] | None:
+    if not graphics or len(graphics) % 32:
+        return None
+    destinations = [
+        int(destination, 16)
+        for destination in record["classification"]["destination_addresses"]
+        if destination.startswith("0x")
+        and OBJ_VRAM_BASE <= int(destination, 16) < OBJ_VRAM_END
+        and (int(destination, 16) - OBJ_VRAM_BASE) % 32 == 0
+    ]
+    accepted = []
+    selected: set[tuple[int, bytes]] = set()
+    for checkpoint in checkpoints:
+        raw, state = _load_state(checkpoint)
+        if not struct.unpack_from(
+            "<H", _state_memory(state, 0x04000000, 2)
+        )[0] & 0x40:
+            continue
+        oam = _state_memory(state, 0x07000000, 0x400)
+        for destination in destinations:
+            if _state_memory(state, destination, len(graphics)) != graphics:
+                continue
+            tile_start = (destination - OBJ_VRAM_BASE) // 32
+            tile_end = tile_start + len(graphics) // 32
+            observations = _oam_intersections(oam, tile_start, tile_end)
+            if not observations:
+                continue
+            banks = {item["palette_bank"] for item in observations}
+            if len(banks) != 1:
+                return None
+            bank = next(iter(banks))
+            palette_address = OBJ_PALETTE_BASE + bank * 32
+            palette = _state_memory(state, palette_address, 32)
+            selected.add((bank, palette))
+            accepted.append(
+                {
+                    "kind": "runtime_oam_raw_rom",
+                    "checkpoint_path": checkpoint.relative_to(root).as_posix(),
+                    "checkpoint_sha256": _sha(raw),
+                    "savestate_version_magic": (
+                        f"0x{struct.unpack_from('<I', state, 0)[0]:08X}"
+                    ),
+                    "destination": f"0x{destination:08X}",
+                    "tile_start": tile_start,
+                    "tile_end": tile_end,
+                    "oam_observation_count": len(observations),
+                    "oam_observations": observations,
+                    "palette_bank": bank,
+                    "palette_address": f"0x{palette_address:08X}",
+                    "palette_sha256": _sha(palette),
+                }
+            )
+    if not accepted or len(selected) != 1:
+        return None
+    _, palette = next(iter(selected))
+    source_offset = rom.find(palette)
+    if source_offset < 0 or rom.find(palette, source_offset + 1) >= 0:
+        return None
+    canonical = accepted[0]
+    canonical["matching_checkpoint_count"] = len(
+        {item["checkpoint_path"] for item in accepted}
+    )
+    canonical["scanned_checkpoint_count"] = len(checkpoints)
+    canonical["unique_rom_palette_source"] = _address(source_offset)
+    return source_offset, [canonical]
 
 
 def _decode_bl(address: int, first: int, second: int) -> int | None:
@@ -431,6 +648,9 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
         for item in source["new_records"]
         if item["classification"]["kind"] == "graphics"
     ]
+    checkpoints = _tracked_checkpoints(root)
+    if len(graphics_records) != 20:
+        errors.append("source graphics denominator mismatch")
     partition = {}
     raw_call_groups: dict[int, dict[str, dict[str, Any]]] = {}
     for source_record in graphics_records:
@@ -490,14 +710,40 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
                     operation["graphics_user"]
                 )
 
+    for source_record in graphics_records:
+        offset = source_record["file_offset"]
+        if partition[offset][0] != "unresolved":
+            continue
+        runtime = _runtime_binding(
+            root,
+            rom,
+            source_record,
+            _decode_lz77(rom, offset),
+            checkpoints,
+        )
+        if runtime is None:
+            continue
+        palette_offset, evidence = runtime
+        partition[offset] = (
+            "runtime_oam_raw_rom",
+            [palette_offset],
+            evidence,
+        )
+
     partition_counts = {
         kind: sum(value[0] == kind for value in partition.values())
-        for kind in ("raw_rom", "lz77_rom", "unresolved")
+        for kind in (
+            "raw_rom",
+            "runtime_oam_raw_rom",
+            "lz77_rom",
+            "unresolved",
+        )
     }
     if partition_counts != {
         "raw_rom": 12,
+        "runtime_oam_raw_rom": 2,
         "lz77_rom": 4,
-        "unresolved": 5,
+        "unresolved": 2,
     }:
         errors.append(f"discovered palette denominator mismatch: {partition_counts}")
 
@@ -544,6 +790,11 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
                 for palette_offset in palette_offsets
                 for data in [raw_data[palette_offset]]
                 for bank in range(len(data) // 32)
+            ]
+        elif kind == "runtime_oam_raw_rom":
+            variants = [
+                (palette_offset, 0, rom[palette_offset : palette_offset + 32])
+                for palette_offset in palette_offsets
             ]
         elif kind == "lz77_rom":
             variants = [
@@ -599,8 +850,16 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
                     "kind": kind,
                     "source_addresses": [_address(value) for value in palette_offsets],
                     "discovery_rule": (
-                        "actual r0 source to PRAM palette operation within the "
-                        "graphics literal user's 32-byte loader window"
+                        (
+                            "full payload at static OBJ VRAM destination plus "
+                            "active hardware OAM palette bank across every "
+                            "tracked checkpoint and unique exact ROM palette"
+                        )
+                        if kind == "runtime_oam_raw_rom"
+                        else (
+                            "actual r0 source to PRAM palette operation within "
+                            "the graphics literal user's 32-byte loader window"
+                        )
                     ),
                     "operation_evidence": operation_evidence,
                 },
@@ -611,16 +870,18 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
         errors.append("graphics catalog semantics mismatch")
 
     expected_summary = {
-        "graphics_record_count": 21,
+        "graphics_record_count": 20,
         "raw_palette_bound_count": 12,
+        "runtime_oam_palette_bound_count": 2,
         "lz77_palette_bound_count": 4,
-        "source_palette_bound_count": 16,
-        "unresolved_palette_count": 5,
+        "source_palette_bound_count": 18,
+        "unresolved_palette_count": 2,
         "source_palette_preview_count": source_preview_count,
         "index_only_preview_count": index_preview_count,
         "preview_file_count": source_preview_count + index_preview_count,
         "raw_palette_source_count": len(expected_raw_sources),
         "raw_palette_bundle_size": len(expected_raw_bundle),
+        "runtime_checkpoint_count": len(checkpoints),
     }
     if catalog.get("summary") != expected_summary:
         errors.append("summary mismatch")
@@ -658,7 +919,7 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
             "schema": VERIFY_SCHEMA,
             "verified": True,
             "errors": [],
-            "graphics_record_count": 21,
+            "graphics_record_count": 20,
             "preview_file_count": source_preview_count + index_preview_count,
         },
     }

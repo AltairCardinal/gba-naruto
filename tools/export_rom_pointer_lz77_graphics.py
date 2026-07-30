@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import struct
+import subprocess
 import tempfile
 from typing import Any
 import uuid
@@ -23,6 +24,7 @@ from tools.gba_image_export import (  # noqa: E402
     indexed_png_from_bgr555,
     render_4bpp_tile_atlas_indices,
 )
+from tools.inspect_mgba_savestate import load_gba_state  # noqa: E402
 from tools.thumb_branch import decode_thumb_bl  # noqa: E402
 
 
@@ -35,14 +37,23 @@ ROM_BASE = 0x08000000
 ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
 SOURCE_ROOT = Path("artifacts/rom-pointer-lz77-inventory-v1")
 SOURCE_MANIFEST_SHA256 = (
-    "d524105b8a7892ff3c9129d9c8bde246d57d3f6de627fb3d62a71b83d0286dd2"
+    "d4afca9d19c3b764ce40f460d9c73d7c19f908bf25c197d4b082bd6bc5c4bb33"
 )
 SOURCE_PAYLOAD_SHA256 = (
-    "2ecf955805d1f69bc38b4b41c2215243f07a0ed40c357cfcc94545cff2284cd7"
+    "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
 )
+CHECKPOINT_DIRECTORY = Path("artifacts/runtime-checkpoints")
 CPU_FAST_SET = 0x0809C0DC
 CPU_SET = 0x0809C0E0
 LZ77_VRAM = 0x0809C0E8
+OBJ_VRAM_BASE = 0x06010000
+OBJ_VRAM_END = 0x06018000
+OBJ_PALETTE_BASE = 0x05000200
+OAM_SIZES = {
+    0: ((8, 8), (16, 16), (32, 32), (64, 64)),
+    1: ((16, 8), (32, 8), (32, 16), (64, 32)),
+    2: ((8, 16), (8, 32), (16, 32), (32, 64)),
+}
 SCOPE = {
     "new_pointer_reachable_graphics_records_cataloged": True,
     "source_palette_bound_subset_previewed": True,
@@ -56,7 +67,7 @@ SCOPE = {
 SELECTION_RULE = {
     "window_bytes": 32,
     "sources": (
-        "all literal_load_users of the 21 source-inventory graphics records"
+        "all literal_load_users of the 20 source-inventory graphics records"
     ),
     "accepted_operations": [
         "r0 ROM LZ77 source -> LZ77UnCompVram -> PRAM, size 32",
@@ -65,9 +76,23 @@ SELECTION_RULE = {
             "exact unit count"
         ),
     ],
+    "runtime_oam_rule": (
+        "scan every tracked .ss9 in lexical order; require the full graphics "
+        "payload at its statically proven OBJ VRAM destination, an active "
+        "hardware OAM object whose 4bpp tile range intersects it, one "
+        "consistent attr2 palette bank, and one unique exact 32-byte ROM "
+        "palette source"
+    ),
+    "runtime_conflict_policy": (
+        "different selected palette bytes or non-unique ROM source leave the "
+        "record unresolved"
+    ),
     "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
     "call_policy": "record actual arguments at BL, then invalidate r0-r3",
-    "unresolved_rule": "no accepted palette operation in any record window",
+    "unresolved_rule": (
+        "no accepted static palette operation and no accepted runtime OAM "
+        "binding"
+    ),
 }
 
 
@@ -94,10 +119,151 @@ def _load_source(root: Path) -> tuple[dict[str, Any], bytes]:
             raise ValueError(f"source inventory file changed: {relative}")
     if (
         payload.get("schema") != "rom-pointer-lz77-inventory-v1"
-        or payload.get("classification_counts", {}).get("graphics") != 21
+        or payload.get("classification_counts", {}).get("graphics") != 20
     ):
         raise ValueError("source inventory graphics contract changed")
     return payload, (source / "uncovered-payloads.bin").read_bytes()
+
+
+def _tracked_checkpoints(root: Path) -> list[Path]:
+    completed = subprocess.run(
+        [
+            "git",
+            "ls-files",
+            "-z",
+            "--",
+            f"{CHECKPOINT_DIRECTORY.as_posix()}/*.ss9",
+        ],
+        cwd=root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode:
+        raise ValueError(
+            "cannot enumerate tracked checkpoints: "
+            + completed.stderr.decode("utf-8", "replace").strip()
+        )
+    paths = sorted(
+        root / raw.decode("utf-8")
+        for raw in completed.stdout.split(b"\0")
+        if raw
+    )
+    if not paths:
+        raise ValueError("no tracked runtime checkpoints found")
+    if any(not path.is_file() for path in paths):
+        raise ValueError("tracked runtime checkpoint is missing")
+    return paths
+
+
+def _active_4bpp_oam_intersections(
+    oam: bytes, *, resource_tile_start: int, resource_tile_end: int
+) -> list[dict[str, int]]:
+    observations = []
+    for index in range(128):
+        attr0, attr1, attr2 = struct.unpack_from("<HHH", oam, index * 8)
+        affine = bool(attr0 & 0x0100)
+        if not affine and attr0 & 0x0200:
+            continue
+        if attr0 & 0x2000:
+            continue
+        shape = (attr0 >> 14) & 3
+        size = (attr1 >> 14) & 3
+        if shape not in OAM_SIZES:
+            continue
+        width, height = OAM_SIZES[shape][size]
+        tile_start = attr2 & 0x03FF
+        tile_end = tile_start + width * height // 64
+        if tile_start >= resource_tile_end or tile_end <= resource_tile_start:
+            continue
+        observations.append(
+            {
+                "oam_index": index,
+                "object_tile_start": tile_start,
+                "object_tile_end": tile_end,
+                "palette_bank": (attr2 >> 12) & 0xF,
+                "width": width,
+                "height": height,
+            }
+        )
+    return observations
+
+
+def _discover_runtime_oam_binding(
+    root: Path,
+    rom: bytes,
+    record: dict[str, Any],
+    graphics: bytes,
+    checkpoints: list[Path],
+) -> tuple[int, list[dict[str, Any]]] | None:
+    if not graphics or len(graphics) % 32:
+        return None
+    destinations = [
+        int(destination, 16)
+        for destination in record["classification"]["destination_addresses"]
+        if destination.startswith("0x")
+        and OBJ_VRAM_BASE <= int(destination, 16) < OBJ_VRAM_END
+        and (int(destination, 16) - OBJ_VRAM_BASE) % 32 == 0
+    ]
+    accepted = []
+    selected: set[tuple[int, bytes]] = set()
+    for checkpoint in checkpoints:
+        raw = checkpoint.read_bytes()
+        state = load_gba_state(checkpoint)
+        io = state.read_memory(0x04000000, 0x400)
+        if not struct.unpack_from("<H", io, 0)[0] & 0x40:
+            continue
+        oam = state.read_memory(0x07000000, 0x400)
+        for destination in destinations:
+            if state.read_memory(destination, len(graphics)) != graphics:
+                continue
+            tile_start = (destination - OBJ_VRAM_BASE) // 32
+            tile_end = tile_start + len(graphics) // 32
+            observations = _active_4bpp_oam_intersections(
+                oam,
+                resource_tile_start=tile_start,
+                resource_tile_end=tile_end,
+            )
+            if not observations:
+                continue
+            banks = {item["palette_bank"] for item in observations}
+            if len(banks) != 1:
+                return None
+            bank = next(iter(banks))
+            palette_address = OBJ_PALETTE_BASE + bank * 32
+            palette = state.read_memory(palette_address, 32)
+            selected.add((bank, palette))
+            accepted.append(
+                {
+                    "kind": "runtime_oam_raw_rom",
+                    "checkpoint_path": checkpoint.relative_to(root).as_posix(),
+                    "checkpoint_sha256": _sha(raw),
+                    "savestate_version_magic": (
+                        f"0x{state.version_magic:08X}"
+                    ),
+                    "destination": f"0x{destination:08X}",
+                    "tile_start": tile_start,
+                    "tile_end": tile_end,
+                    "oam_observation_count": len(observations),
+                    "oam_observations": observations,
+                    "palette_bank": bank,
+                    "palette_address": f"0x{palette_address:08X}",
+                    "palette_sha256": _sha(palette),
+                }
+            )
+    if not accepted or len(selected) != 1:
+        return None
+    _, palette = next(iter(selected))
+    source_offset = rom.find(palette)
+    if source_offset < 0 or rom.find(palette, source_offset + 1) >= 0:
+        return None
+    canonical = accepted[0]
+    canonical["matching_checkpoint_count"] = len(
+        {item["checkpoint_path"] for item in accepted}
+    )
+    canonical["scanned_checkpoint_count"] = len(checkpoints)
+    canonical["unique_rom_palette_source"] = _address(source_offset)
+    return source_offset, [canonical]
 
 
 def _literal_value(rom: bytes, instruction_offset: int) -> tuple[int, int] | None:
@@ -293,8 +459,9 @@ def _build(
         for record in source["new_records"]
         if record["classification"]["kind"] == "graphics"
     ]
-    if len(graphics_records) != 21:
+    if len(graphics_records) != 20:
         raise ValueError("graphics palette denominator changed")
+    checkpoints = _tracked_checkpoints(root)
 
     discovered: dict[int, tuple[str, list[int], list[dict[str, Any]]]] = {}
     raw_operations: dict[int, dict[str, dict[str, Any]]] = {}
@@ -355,11 +522,41 @@ def _build(
             elif item["graphics_user"] not in by_call[callsite]["graphics_users"]:
                 by_call[callsite]["graphics_users"].append(item["graphics_user"])
 
+    for record in graphics_records:
+        offset = record["file_offset"]
+        if discovered[offset][0] != "unresolved":
+            continue
+        start = record["decompressed_bundle_offset"]
+        graphics = decompressed_bundle[
+            start : start + record["decompressed_size"]
+        ]
+        runtime = _discover_runtime_oam_binding(
+            root, rom, record, graphics, checkpoints
+        )
+        if runtime is None:
+            continue
+        palette_offset, evidence = runtime
+        discovered[offset] = (
+            "runtime_oam_raw_rom",
+            [palette_offset],
+            evidence,
+        )
+
     kind_counts = {
         kind: sum(value[0] == kind for value in discovered.values())
-        for kind in ("raw_rom", "lz77_rom", "unresolved")
+        for kind in (
+            "raw_rom",
+            "runtime_oam_raw_rom",
+            "lz77_rom",
+            "unresolved",
+        )
     }
-    if kind_counts != {"raw_rom": 12, "lz77_rom": 4, "unresolved": 5}:
+    if kind_counts != {
+        "raw_rom": 12,
+        "runtime_oam_raw_rom": 2,
+        "lz77_rom": 4,
+        "unresolved": 2,
+    }:
         raise ValueError(f"discovered palette denominator changed: {kind_counts}")
 
     raw_bundle = bytearray()
@@ -411,6 +608,11 @@ def _build(
                 for palette_offset in palette_offsets
                 for data in [raw_by_offset[palette_offset]]
                 for bank in range(len(data) // 32)
+            ]
+        elif kind == "runtime_oam_raw_rom":
+            palette_variants = [
+                (palette_offset, 0, rom[palette_offset : palette_offset + 32])
+                for palette_offset in palette_offsets
             ]
         elif kind == "lz77_rom":
             palette_variants = []
@@ -485,8 +687,16 @@ def _build(
                         _address(value) for value in palette_offsets
                     ],
                     "discovery_rule": (
-                        "actual r0 source to PRAM palette operation within the "
-                        "graphics literal user's 32-byte loader window"
+                        (
+                            "full payload at static OBJ VRAM destination plus "
+                            "active hardware OAM palette bank across every "
+                            "tracked checkpoint and unique exact ROM palette"
+                        )
+                        if kind == "runtime_oam_raw_rom"
+                        else (
+                            "actual r0 source to PRAM palette operation within "
+                            "the graphics literal user's 32-byte loader window"
+                        )
                     ),
                     "operation_evidence": operation_evidence,
                 },
@@ -506,9 +716,14 @@ def _build(
     summary = {
         "graphics_record_count": len(entries),
         "raw_palette_bound_count": kind_counts["raw_rom"],
+        "runtime_oam_palette_bound_count": kind_counts[
+            "runtime_oam_raw_rom"
+        ],
         "lz77_palette_bound_count": kind_counts["lz77_rom"],
         "source_palette_bound_count": (
-            kind_counts["raw_rom"] + kind_counts["lz77_rom"]
+            kind_counts["raw_rom"]
+            + kind_counts["runtime_oam_raw_rom"]
+            + kind_counts["lz77_rom"]
         ),
         "unresolved_palette_count": kind_counts["unresolved"],
         "source_palette_preview_count": source_palette_preview_count,
@@ -517,6 +732,7 @@ def _build(
         + index_only_preview_count,
         "raw_palette_source_count": len(raw_sources),
         "raw_palette_bundle_size": len(raw_bundle),
+        "runtime_checkpoint_count": len(checkpoints),
     }
     catalog = {
         "schema": SCHEMA,
