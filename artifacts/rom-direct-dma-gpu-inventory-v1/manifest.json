@@ -1,0 +1,52 @@
+{
+  "artifact_schema": "rom-direct-dma-gpu-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-direct-dma-gpu-inventory.json": "c6f5a00ce343203ad7afb57a0fb90c3543a1350a361c688d6f9de5e6b491dd38"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_direct_dma_gpu_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-direct-dma-gpu-inventory-v1"
+    ],
+    "exporter_sha256": "9157f8add8c7d67bb391aaa99135dcdc9b1498f355fc279308eb4643ff301da3",
+    "test_sha256": "74f1c8a984242b111c3c2e859d6765b119d9d13dd10dc0da1c663889222c5b63",
+    "verifier_sha256": "ae2362e6f0e39ea359b39b2cca60065f2c8c879f99b4832b66fe7e05b2ddea84"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_thumb_shaped_dma_register_literal_users_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_dma_wrappers_complete": false,
+    "literal_seeded_96_byte_rule_applied_to_full_rom": true,
+    "non_literal_dma_base_derivations_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false,
+    "two_stage_copies_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_direct_dma_gpu_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-direct-dma-gpu-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "constant_rom_gpu_transfer_count": 0,
+      "dma_register_literal_user_count": 21,
+      "errors": [],
+      "schema": "rom-direct-dma-gpu-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "ae2362e6f0e39ea359b39b2cca60065f2c8c879f99b4832b66fe7e05b2ddea84"
+  }
+}

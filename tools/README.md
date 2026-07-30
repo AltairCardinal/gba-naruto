@@ -1309,3 +1309,26 @@ from the ROM. This finite denominator deliberately excludes indirect calls,
 cross-function dataflow, DMA, custom copy loops and two-stage ROM-to-WRAM-to-VRAM
 transfers; zero accepted direct VRAM operations is not a claim that raw graphics are
 complete.
+
+# Direct DMA-register ROM-to-GPU inventory
+
+`export_rom_direct_dma_gpu_inventory.py` audits every halfword-aligned Thumb-shaped
+PC-relative literal load whose value lies in the DMA0–DMA3 register block. Its
+96-byte fail-closed symbolic window recognizes both 32-bit combined
+`CNT_L+CNT_H` stores and split 16-bit count/control stores, and accepts a transfer
+only when source, GPU destination, enable, nonzero count, width and ROM bounds are
+all fixed.
+
+```bash
+python3 tools/export_rom_direct_dma_gpu_inventory.py
+python3 tools/verify_rom_direct_dma_gpu_inventory.py
+```
+
+The accepted artifact audits 21 literal users (DMA0/1/2/3 = 2/7/2/10) and keeps
+all 21 as `not_proven_in_window`; it finds no new fixed direct ROM-to-GPU source
+under this rule. Representative proven negatives include IWRAM shadow-OAM to OAM
+and ROM boot data to IWRAM. The independent verifier separately reconstructs the
+literal denominator and word/split-halfword transfer semantics. This zero result
+does not cover runtime reachability, non-literal register derivation,
+cross-function or indirect wrappers, custom loops, two-stage copies, all raw
+graphics, or generic image writeback.

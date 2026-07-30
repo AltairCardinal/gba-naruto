@@ -1229,6 +1229,20 @@ WebSocket
   `not_proven_in_window`，不是已证明非 copy，也不声称运行时可达。该规则没有发现
   直接常量 ROM→VRAM tiles；下一步转向间接表、自定义 copy loop、DMA 和两段搬运，
   不把“直接 VRAM 命中为零”误报成未压缩图形已完成，Goal 保持 active。
+- 2026-07-30：DMA 主线已将全 ROM 的 direct register-literal 预审成果化为
+  `rom-direct-dma-gpu-inventory-v1`。全部 halfword 对齐位置中有 21 个
+  Thumb-shaped PC-relative literal user 指向 `0x040000B0..0x040000DF`，
+  DMA0/1/2/3 分布为 2/7/2/10。96-byte fail-closed 数据流同时支持 32 位
+  `CNT_L+CNT_H` 写和分离的 16 位 count/`CNT_H` 写；后者先以合成测试暴露旧实现
+  假阴性，再进入绿灯。当前规则没有固定 ROM→GPU 接纳项，21 项全部保留为
+  `not_proven_in_window`。代表性已证明路径是 `0x0300027C→0x07000000` 的
+  shadow-OAM 提交，以及 `0x08000104→0x0300007C` 的 ROM→IWRAM 初始化，均不是
+  新图像源。独立 verifier 不导入导出器，重建 literal、word/split-halfword
+  control 和逐项 JSON，返回 `21 users / 0 accepted / errors=[]`。成果位于
+  `artifacts/rom-direct-dma-gpu-inventory-v1/`，说明见
+  `notes/rom-direct-dma-inventory-survey-20260730.md`。该零结果不覆盖非 literal
+  基址、跨函数/间接 wrapper、自定义 loop 或 ROM→RAM→GPU 两段搬运；下一主线转向
+  分阶段 RAM slot 与已知 GPU consumer 的有限连接分母，Goal 保持 active。
 - 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
   `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
   OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette
