@@ -74,6 +74,30 @@
 }
 ```
 
+### `menu_portrait`
+
+把80×80索引色 PNG 原位回编到菜单/剧情立绘的 LZ77 图形槽和128字节
+BGR555 调色板。导入器按 `resource_id` 修改共享资源，因此清单会报告受影响的
+全部逻辑立绘别名。
+
+```json
+{
+  "id": "portrait_import",
+  "type": "menu_portrait",
+  "spec": "sequel/content/menu-portraits/portrait-edits.json"
+}
+```
+
+规格文件必须使用 `menu-portrait-import-v1`，并为每项编辑提供：
+
+- `resource_id` 和80×80、透明索引0、最多64色的模式 `P` PNG；
+- catalog 中的 gfx/palette 指针；
+- 原压缩图形和调色板 SHA-256。
+
+构建器只做原位固定长度写回。新 LZ77 数据超过原槽时直接失败，不扩 ROM、不移动
+资源，也不改指针；BGR555 未使用的 bit15 逐色继承原 ROM，避免无修改 PNG
+产生隐式字节变化；写入前仍经过全局 immutable-base 和补丁冲突门禁。
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -132,6 +156,7 @@ python3 tools/import_dialogue.py
 python3 tools/import_dialogue.py --bank sequel/content/text/dialogue-bank.json --content sequel/content/text/dialogue-patches.json
 python3 tools/import_map.py sequel/content/maps/episode-01-mountain-pass.json
 python3 tools/import_battle_config.py
+python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-edits.json
 ```
 
 ## 当前状态
@@ -142,6 +167,7 @@ python3 tools/import_battle_config.py
 - `dialogue` 高层导入补丁构建（同长度 + 变长 redirect 框架）
 - `pointer_redirect` 补丁类型
 - `chapter_script` 语义 codec、独立 allocator 与 payload+pointer 原子计划
+- `menu_portrait` 74套菜单/剧情立绘的受守卫原位图形/调色板回编
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 

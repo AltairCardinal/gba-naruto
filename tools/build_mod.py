@@ -245,6 +245,19 @@ def resolve_chapter_script_patch(ctx_roots: tuple[Path, Path], patch: dict) -> l
     )
 
 
+def resolve_menu_portrait_patch(
+    ctx_roots: tuple[Path, Path], patch: dict
+) -> list[dict]:
+    from import_menu_portraits import resolve_menu_portrait_patches
+
+    spec = ROOT / patch["spec"]
+    return resolve_menu_portrait_patches(
+        ROOT,
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -415,6 +428,22 @@ def build(project_path: Path) -> dict:
             sub_patches = resolve_chapter_script_patch((ROOT, ROOT), patch)
             for sp in sub_patches:
                 applied.append(apply_patch(data, sp, gate=safety_gate))
+        elif patch_type == "menu_portrait":
+            sub_patches = resolve_menu_portrait_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_id",
+                    "affected_portraits",
+                    "encoded_size",
+                    "slot_size",
+                    "padding_bytes",
+                    "source_png",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
 

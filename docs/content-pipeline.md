@@ -17,6 +17,9 @@ sequel/content/
       └── episode-01-mountain-pass.json
   └── units/
       └── sequel-units.json
+  └── menu-portraits/
+      ├── portrait-edits.json
+      └── *.png
 
          ↓ dialogue / chapter / map / battle importers
 
@@ -36,6 +39,7 @@ build/naruto-sequel-dev.gba   # Development ROM
 | `pointer_redirect` | Variable-length text | ✓ Framework |
 | `dialogue_var` | Dialogue bank + audited allocator | ✓ |
 | `chapter_script` | Semantic chapter spec + audited allocator | ✓ |
+| `menu_portrait` | Indexed 80×80 PNG + provenance-bound resource ID | ✓ In-place |
 | `map` | `episode-*-*.json` | ✓ Framework |
 | `battle_config` | `story/` + `units/` | ✓ Framework |
 
@@ -76,5 +80,7 @@ build/naruto-sequel-dev.gba   # Development ROM
 - New text longer than `max_bytes` requires `redirect_offset` in bank entry
 - Variable-length text redirect requires verified free ROM space
 - Chapter scripts must use the semantic importer; direct pointer-only editing is rejected
+- Menu portraits must remain indexed 80×80 PNGs with transparent index 0 and
+  at most 64 colors; compressed overflow fails closed instead of relocating data
 - All patches must have `enabled: true` in manifest to apply
 - Build verifies base ROM sha1 before applying patches

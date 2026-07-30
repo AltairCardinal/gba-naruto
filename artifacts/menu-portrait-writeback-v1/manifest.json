@@ -1,0 +1,35 @@
+{
+  "artifact_id": "menu-portrait-writeback-v1",
+  "artifact_schema": "menu-portrait-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "menu-portrait-writeback.json": "b93913423d13dabd00ae2d751237a97082a4e342ba4a1657cc2cd018802b6cf8"
+  },
+  "payload_file": "menu-portrait-writeback.json",
+  "payload_sha256": "b93913423d13dabd00ae2d751237a97082a4e342ba4a1657cc2cd018802b6cf8",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_logical_portrait_aliases_accounted": true,
+    "all_unique_resources_audited": true,
+    "arbitrary_png_slot_fit_complete": false,
+    "fixed_length_palette_writeback_complete": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "single_pixel_mutation_capacity_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_menu_portrait_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/menu-portrait-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

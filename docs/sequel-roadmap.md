@@ -1329,3 +1329,14 @@ WebSocket
   `artifacts/scene-visual-composites-v1/`，说明见
   `notes/scene-visual-composites-export-20260730.md`。逐 tick 过渡、
   presentation overlay、运行时像素等价和自然语言身份仍未闭合，Goal 保持 active。
+- 2026-07-30：菜单/剧情立绘从全量导出推进到受守卫原位回编。新增
+  `menu_portrait` 构建类型，将80×80模式P PNG逆变换为六段1D OBJ流，确定性
+  重压缩图形并写回128字节BGR555调色板；资源、catalog、基准ROM和原槽字节均以
+  指针及SHA-256失败关闭，共享资源会显式列出全部逻辑别名。容量审计覆盖74/74
+  唯一资源的原图重编码和74/74单像素修改，最小剩余槽空间均为4 bytes；311个
+  逻辑立绘全部计入别名分母。独立 verifier 不导入 importer/exporter，自行实现
+  LZ77编解码，从ROM和catalog重建全部记录，并拒绝重签后的容量篡改，返回
+  `74 resources / errors=[]`。成果位于
+  `artifacts/menu-portrait-writeback-v1/`，说明见
+  `notes/menu-portrait-writeback-20260730.md`。任意PNG容量、资源迁移、指针改写、
+  运行时像素等价和通用图像回编仍未完成，Goal保持active。

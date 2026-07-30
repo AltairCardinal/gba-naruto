@@ -11,6 +11,30 @@ ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽
 顶层成果目录。`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
 可逆地加入本地 Git 忽略清单，不移动或删除数据。
 
+## 菜单/剧情立绘原位回编
+
+`import_menu_portraits.py` 把 `menu-portraits-v1` 的80×80索引色 PNG 逆变换回
+六段1D OBJ流，以确定性 GBA LZ77 重压缩，并生成带 immutable-base 前置条件的
+固定长度图形/调色板补丁。PNG 必须为模式 `P`、透明索引0、最多64色；修改共享
+`resource_id` 会影响清单列出的全部逻辑别名。压缩结果超过原槽时失败关闭，不做
+隐式迁移或指针改写。调色板的未使用 bit15 逐色继承原 ROM，保证导出 PNG
+不经修改再导入时74/74资源均为零补丁。
+
+```bash
+python3 tools/import_menu_portraits.py \
+  sequel/content/menu-portraits/portrait-edits.json
+
+python3 tools/export_menu_portrait_writeback_audit.py \
+  --root . --output artifacts/menu-portrait-writeback-v1
+
+python3 tools/verify_menu_portrait_writeback_audit.py \
+  --root . --artifact artifacts/menu-portrait-writeback-v1
+```
+
+构建清单以 `type: menu_portrait` 和 `spec` 引用同一规格。正式容量审计覆盖
+74/74原始资源和74/74单像素修改，不能外推为任意 PNG 均能装入原槽；需要更大
+资源时仍须另建显式分配、迁移和指针更新方案。
+
 ## `scan_rom.py`
 
 Preliminary static scanner for a GBA ROM.
