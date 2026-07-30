@@ -1212,11 +1212,20 @@ WebSocket
   `artifacts/rom-pointer-lz77-graphics-v1/`，说明见
   `notes/rom-pointer-lz77-graphics-preview-20260730.md`。最终 OAM 组合、两条未知
   palette、未压缩图形和通用写回仍未闭合，Goal 保持 active。
-- 2026-07-30：未压缩图形主线完成 direct CpuSet/CpuFastSet 只读预审。全 ROM
-  共有 146 个直接 BL；32-byte fail-closed 常量参数窗口接纳 23 个固定 ROM→GPU
-  操作，当前全部为 PRAM、15 个唯一源。既有 LZ77 graphics palette 成果已覆盖
-  20 个操作/12 个源，新发现 `0x083F1E60`、`0x083F1F08`、`0x08406010` 三个
-  32-byte palette 源；没有发现直接常量 ROM→VRAM tiles。下一 artifact 固定该
-  146-call 分母并导出三个新源；随后转向间接表、自定义 copy loop 和两段搬运，
-  不把“直接 VRAM 命中为零”误报成未压缩图形已完成。设计边界见
-  `notes/rom-direct-cpuset-inventory-survey-20260730.md`。
+- 2026-07-30：未压缩图形主线已将 direct CpuSet/CpuFastSet 预审成果化为
+  `rom-direct-cpuset-gpu-inventory-v1`。全 ROM 146 个直接 BL 均进入固定分母；
+  32-byte fail-closed 常量参数窗口接纳 23 个固定 ROM→GPU 操作，当前全部为
+  PRAM、15 个唯一源，其余 123 个保留为窗口内未证明项。既有 LZ77 graphics palette
+  成果精确覆盖 20 个操作/12 个源；新增 `0x083F1E60`、`0x083F1F08`、
+  `0x08406010` 三个 32-byte palette 源已按地址顺序无损打包为 96 bytes。
+  `0x08405FF0` 的 256-byte copy 与严格 LZ77 源 `0x084060A8` 的交集被记录但
+  不重复打包。独立 verifier 不导入导出器，自行重建 BL、参数、control、LZ77
+  span、上游绑定、JSON 和 bundle，返回
+  `146 direct / 23 accepted / 3 new / errors=[]`；语义篡改即使重算 manifest
+  哈希也被拒绝。成果位于
+  `artifacts/rom-direct-cpuset-gpu-inventory-v1/`，说明见
+  `notes/rom-direct-cpuset-inventory-survey-20260730.md`。该分母没有发现直接
+  这里的 146 项是静态 direct-BL 编码分母，123 项只是
+  `not_proven_in_window`，不是已证明非 copy，也不声称运行时可达。该规则没有发现
+  直接常量 ROM→VRAM tiles；下一步转向间接表、自定义 copy loop、DMA 和两段搬运，
+  不把“直接 VRAM 命中为零”误报成未压缩图形已完成，Goal 保持 active。

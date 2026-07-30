@@ -1283,3 +1283,29 @@ explicit synthetic grayscale index-only previews. The verifier independently par
 the savestates and reconstructs the raw palette bundle, LZ77 payloads, copy-unit
 semantics and all 35 indexed PNGs without importing the exporter. These atlases do
 not claim final OAM composition or visible-screen identity.
+
+# Direct CpuSet/CpuFastSet ROM-to-GPU inventory
+
+`export_rom_direct_cpuset_gpu_inventory.py` audits every direct Thumb BL to the
+two BIOS copy wrappers in the immutable ROM. A 32-byte fail-closed symbolic window
+accepts an operation only when source, GPU destination and non-fill control are all
+constant. Existing raw-palette evidence is bound by the exact
+callsite/source/destination/size tuple, and strict LZ77 span intersections are
+preserved instead of being repackaged as raw resources.
+
+```bash
+python3 tools/export_rom_direct_cpuset_gpu_inventory.py
+python3 tools/verify_rom_direct_cpuset_gpu_inventory.py
+```
+
+The accepted artifact audits 146 statically decoded direct-BL encodings, accepts 23
+ROM-to-PRAM operations, leaves 123 as `not_proven_in_window`, binds 20 operations/12
+sources to the existing LZ77 graphics catalog, and losslessly packs three new 32-byte
+palette sources. `not_proven_in_window` is not proof that an encoding is not a copy or
+that it is runtime reachable. The independent verifier reimplements Thumb
+BL decoding, literal dataflow, CpuSet/CpuFastSet control semantics, strict LZ77 span
+parsing and upstream binding, then reconstructs the JSON and 96-byte bundle directly
+from the ROM. This finite denominator deliberately excludes indirect calls,
+cross-function dataflow, DMA, custom copy loops and two-stage ROM-to-WRAM-to-VRAM
+transfers; zero accepted direct VRAM operations is not a claim that raw graphics are
+complete.

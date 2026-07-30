@@ -34,9 +34,9 @@ fail-closed 参数数据流；只有 BL 时 `r0` 为固定 ROM 源、`r1` 为固
 低成本 MiniMax 初筛曾把 203 条“无对齐指针的 LZ77 语法候选”误写为未压缩图形；
 该结论与 LZ77 parser 证据冲突，已拒绝，不进入设计。
 
-## 下一有限分母
+## 已完成的有限分母
 
-建立 `rom-direct-cpuset-gpu-inventory-v1`：
+`rom-direct-cpuset-gpu-inventory-v1` 已按以下边界实现：
 
 1. 固定审计输入是全 ROM 146 个 direct BL；
 2. 接纳条件是 32-byte 窗口内 fail-closed 证明固定 ROM→PRAM/VRAM 与固定 control；
@@ -45,9 +45,36 @@ fail-closed 参数数据流；只有 BL 时 `r0` 为固定 ROM 源、`r1` 为固
 5. 与现有 graphics catalog 的 20 个操作按 callsite/source/destination/size 精确绑定；
 6. 三个新增 palette 源无损打包，并由独立 verifier 从 ROM 重做 BL、参数、交集、
    上游绑定与 bundle；
-7. 123 个未能在该窗口证明常量 GPU copy 的直接调用保留为明确 excluded 分母。
+7. 123 个未能在该窗口证明常量 GPU copy 的 direct-BL 编码保留为
+   `not_proven_in_window`；这不是“已证明非 copy”的否定结论。
 
-该成果只能证明“静态参数可证明的直接 BIOS copy”。间接 BLX、wrapper、动态表源、
+正式成果位于 `artifacts/rom-direct-cpuset-gpu-inventory-v1/`，仅含：
+
+- `rom-direct-cpuset-gpu-inventory.json`：146 个静态 direct-BL 编码、23 个接纳
+  操作及 123 个窗口内未证明项；
+- `new-raw-sources.bin`：三个新增源按 ROM 地址排序的 96-byte 无损 bundle；
+- `manifest.json`：精确文件集合、内容哈希、实现哈希及独立验证报告。
+
+独立验证器不导入导出器或仓库 Thumb helper，自行重做 BL 解码、32-byte
+fail-closed 数据流、CpuSet/CpuFastSet control、严格 LZ77 span、上游精确绑定和
+bundle 重建。正式验证结果为 `146 direct calls / 23 accepted / 3 new sources /
+errors=[]`；测试还证明即使修改 JSON 源地址并重新计算 manifest 文件哈希，也会因
+与 ROM 独立重建不一致而被拒绝。
+
+```sh
+python3 tools/export_rom_direct_cpuset_gpu_inventory.py \
+  --root . \
+  --output-dir artifacts/rom-direct-cpuset-gpu-inventory-v1
+python3 tools/verify_rom_direct_cpuset_gpu_inventory.py \
+  --root . \
+  --artifact-dir artifacts/rom-direct-cpuset-gpu-inventory-v1
+python3 -m unittest -v tests.test_export_rom_direct_cpuset_gpu_inventory
+```
+
+146 项分母来自全 ROM halfword 的静态 Thumb BL 解码，不声称 146 项都运行时可达。
+参数跟踪又只从 PC-relative ROM literal user 开始，限定于随后 32 bytes；若常量在
+更早位置、其他基本块或调用者中建立，该项会保持 `not_proven_in_window`。因此本成果
+只能证明“该规则下静态参数可证明的直接 BIOS copy”。间接 BLX、wrapper、动态表源、
 跨基本块/跨函数数据流、DMA、ROM→WRAM→VRAM 两段搬运和自定义 copy loop 均有意
 留到后续分母。由于本轮没有发现直接常量 ROM→VRAM，未压缩 tiles 主线下一步应优先
 枚举表驱动源和自定义搬运消费者。

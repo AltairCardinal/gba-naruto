@@ -1,0 +1,54 @@
+{
+  "artifact_schema": "rom-direct-cpuset-gpu-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "new-raw-sources.bin": "1d8631857bc9c71f880773e8628ec45feda6a0b8b685f39b5ac6ce3b442578de",
+    "rom-direct-cpuset-gpu-inventory.json": "aaf98e551ccd103b27432231ec607702cfc370768a403a7ca56d766b861275eb"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_direct_cpuset_gpu_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-direct-cpuset-gpu-inventory-v1"
+    ],
+    "exporter_sha256": "305d2896e83d484cf6d5dc14116e91ff5784c8e9378ddc4838c451759b5acbbe",
+    "test_sha256": "c2bd67fe14fd49b671363fda10d5fbc87ee0e994aec34b93dcff1a90599dfc21",
+    "verifier_sha256": "4a82168231876beba3b1c1511f01697d3ed28474e8982c1bf696f1a272751c95"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_static_direct_bl_encodings_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "dma_transfers_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_calls_complete": false,
+    "literal_seeded_32_byte_rule_applied_to_full_rom": true,
+    "new_raw_sources_losslessly_exported": true,
+    "raw_palettes_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_direct_cpuset_gpu_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-direct-cpuset-gpu-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "direct_call_count": 146,
+      "errors": [],
+      "new_source_count": 3,
+      "schema": "rom-direct-cpuset-gpu-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "4a82168231876beba3b1c1511f01697d3ed28474e8982c1bf696f1a272751c95"
+  }
+}
