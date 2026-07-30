@@ -1298,12 +1298,16 @@ WebSocket
   `0x08096D4C` 的 64 色 3/4 dim 公式，但不冒充 dim 运行时覆盖、
   `0x02002880` 全部生产者、所有肖像 palette 路径或通用回写已完成；下一图像
   主线转向剩余 scratch producer/custom loop，Goal 保持 active。
-- 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
-  `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
-  OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette
-  `0x08457EA8` 的一致性因此只保留为候选。`0x083496F8 → 0x06017580` 的同一
-  profile 初始化器确实先把 `0x083496B0` 写入 OBJ bank 14，但缺少 tile
-  940..943 的 attr2 使用证据，也不能按邻近加载升级。两条 catalog 记录继续
-  fail closed 为 `unresolved`；后续只从最近已验证快照捕获自然 OAM 使用，不重新
-  长导航。详见 `notes/unresolved-lz77-palette-survey-20260730.md`。本轮没有启动
-  mGBA，Goal 保持 active。
+- 2026-07-30：LZ77 图形目录剩余两条 palette 缺口已完成自然入口精确断点复核。
+  scenario 41 目标确认在 frame 114 命中 `0x08071BD0`，
+  `0x0812D2F0 → 0x06016400` 的 1,344 bytes 完全一致；人物图鉴初始化在
+  frame 54 命中 `0x0808B5EE`，`0x083496F8 → 0x06017580` 的 128 bytes
+  完全一致。两次命中当刻及 frame 差不超过 240 的后续采样都没有
+  hardware/shadow OAM 引用各自
+  tile 800..841 / 940..943，故 bank 15/14 与唯一 ROM palette
+  `0x08457EA8` / `0x083496B0` 仍只保留为候选，catalog 继续 fail closed 为
+  `unresolved`。固定探针、可复用输入/命中快照和完整 GPU 域已成果化到
+  `artifacts/lz77-palette-runtime-v1/`，独立 verifier 通过；两次受守卫运行峰值
+  RSS 为 `58.9765625/58.21875 MiB`，无残留。详见
+  `notes/unresolved-lz77-palette-survey-20260730.md`。后续不再重复这两条路线，
+  只在发现新的 attr2/OAM 生成链时重开绑定调查，Goal 保持 active。

@@ -1377,3 +1377,26 @@ checks the accepted upstream contracts, and rejects rehashed semantic or canonic
 JSON tampering. This closes direct calls to this queue only; it excludes indirect
 callers, other queues, runtime reachability, the status-3 post-flush lifecycle,
 dialogue tilemap submit, all raw graphics and generic image writeback.
+
+# LZ77 palette runtime probe
+
+`mgba_lz77_palette_probe.lua` only accepts the two hash-bound routes
+`scenario-41-target-confirmation` and `profile-browser-init`. It loads the supplied
+checkpoint, sends the fixed audited input schedule, stops at the resource's exact
+post-LZ77 PC, dumps PRAM/VRAM/OAM/shadow OAM and saves a hit checkpoint. It then
+watches both OAM copies for 240 frames and records either the first target-tile
+attr2 or the bounded `oam-not-observed` result. The script never exits mGBA itself;
+run it through `run_guarded.py` with the shared heavy lock and a done marker.
+
+The accepted captures are in `artifacts/lz77-palette-runtime-v1/`. Verify payload
+bytes, OAM absence, candidate palette uniqueness, hashes and guard results with:
+
+```bash
+python3 tools/verify_lz77_palette_runtime.py \
+  --root . \
+  --artifact-dir artifacts/lz77-palette-runtime-v1
+```
+
+This tool proves the two natural load boundaries and a bounded lack of OAM
+selection. It does not convert an adjacent palette into a binding and does not
+claim generic image writeback.
