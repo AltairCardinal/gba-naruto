@@ -103,8 +103,13 @@
   91/91 样本 blend control 非零、5 个启用 WIN0，因此预览严格标记为
   pre-window/pre-blend/BG-only，不冒充 OBJ、window、brightness 或最终硬件帧。
   成果见 `artifacts/runtime-bg-composites-v1/` 与
-  `notes/runtime-bg-composites-20260730.md`；runtime layer 的静态来源身份、
-  camera/scroll writer、跨帧时序和最终 screen composition 仍未闭合。
+  `notes/runtime-bg-composites-20260730.md`。后续独立来源目录把 91 个 checkpoint
+  的 199 个启用图层观测归并为 196 个唯一状态图层，并与六类、345 个静态候选逐字节
+  比对：28 个 graphics/tilemap/palette 三域精确命中、107 个部分命中、61 个保持
+  未识别。精确项只签发 regular BG entry 1/9 和 world-map page 0，不把 alias 或
+  单域命中冒充来源。成果见 `artifacts/runtime-layer-static-provenance-v1/` 与
+  `notes/runtime-layer-static-provenance-20260730.md`；自然语言命名、
+  camera/scroll writer、跨帧时序和未跟踪状态仍未闭合。
 - 2026-07-30 Mode 0 最终 compositor 核心已接入普通 1D OBJ、BG/OBJ/backdrop
   priority、WIN0、alpha 与 darken。对 91 个 tracked checkpoint 的 1211 个
   active OAM 做包围盒预索引后，89 帧与 `.ss9` 内嵌 PNG 逐 RGB 字节完全一致。
@@ -1117,4 +1122,9 @@ WebSocket
   `runtime-bg-composites-v1` 闭合；后续
   `runtime-screen-composites-v1` 又闭合 91 个已跟踪静态 GPU 状态的
   BG/OBJ/window/blend 合成，但不包含所有视觉状态、跨帧 scanline 行为或实体
-  GBA 输出，Goal 保持 active。
+  GBA 输出。其后的 `runtime-layer-static-provenance-v1` 又将这些 checkpoint
+  的 196 个唯一启用 BG 图层与六类 345 个静态候选做 byte-level 目录：28 个三域
+  精确来源、107 个部分候选、61 个未识别；独立 verifier 重建完整 payload 和
+  promotion manifest，并拒绝 classification、source manifest hash 与额外文件
+  篡改。该目录只闭合已观察图层的静态来源证据，不代表全游戏视觉状态、自然语言
+  场景名或 camera/跨帧语义，Goal 保持 active。
