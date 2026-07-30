@@ -1170,3 +1170,15 @@ WebSocket
   promotion manifest，并拒绝 classification、source manifest hash 与额外文件
   篡改。该目录只闭合已观察图层的静态来源证据，不代表全游戏视觉状态、自然语言
   场景名或 camera/跨帧语义，Goal 保持 active。
+- 2026-07-30：闭合已跟踪可见 BG 资源分母的最后缺口。`0x08068370` 从初始化器
+  BG tiles 24–33 的两组五 tile 模板，按
+  `floor(38*numerator/denominator)` 生成两种 style、39 个填充等级的完整战斗
+  状态条；全 ROM 四个直接 caller、palette bank 13、工作区及 EWRAM→VRAM/tilemap
+  transfer 路线均已静态绑定。30 个 checkpoint 的 60 条完整五 tile 序列全部唯一
+  反推出 `(style,fill_level)`，并逐坐标覆盖父 artifact 剩余的
+  181/181 cell、22/22 种内容，未命中为 0。成果位于
+  `artifacts/battle-status-bars-v1/`，说明见
+  `notes/battle-status-bars-export-20260730.md`；独立 verifier 自行重建
+  78 条生成族并返回 `errors=[]`。这使当前已跟踪“玩家可见图像资源”未知分母为
+  0/0，但不把未跟踪视觉状态、全部 caller 运行时绑定、跨帧最终合成或通用 ROM
+  回写冒充完成，Goal 保持 active。
