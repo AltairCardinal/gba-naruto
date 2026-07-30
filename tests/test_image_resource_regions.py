@@ -79,7 +79,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xB40000, 0xC00000),
+            (0xB40000, 0xB50000, "battle_effect_resources"),
+            (
+                registry.require(
+                    "battle-effects",
+                    "battle_effect_resources",
+                ).start,
+                registry.require(
+                    "battle-effects",
+                    "battle_effect_resources",
+                ).end,
+                registry.require(
+                    "battle-effects",
+                    "battle_effect_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xB50000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

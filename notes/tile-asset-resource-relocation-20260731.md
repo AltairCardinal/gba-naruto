@@ -51,8 +51,8 @@ importer 或 exporter；它重新解析 ROM 表、重建 323/709 分母、复验
 `RomLayout`、实现哈希集合、preservation spec、全部资源字节和 16 MiB 输出
 SHA-256。它还拒绝重新签名后的逻辑引用删减、实现哈希缺失和重叠分区。
 
-受资源守卫的正式导出峰值进程树 RSS 为 67.1875 MiB，独立验证峰值为
-54.60546875 MiB，均 `completed/0`、非降级。本里程碑没有启动 mGBA；扩容 ROM
+区域注册表更新后的受守卫重签导出峰值进程树RSS为78.43359375 MiB，独立验证
+峰值为54.81640625 MiB，均`completed/0`、非降级。本里程碑没有启动mGBA；扩容ROM
 的取指、读数及快照恢复能力沿用已验收的
 `artifacts/rom-expansion-profile-v1/`，不重复执行冗长导航。
 

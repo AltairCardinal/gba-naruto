@@ -1,0 +1,527 @@
+{
+  "schema": "battle-effect-resource-relocation-v1",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+  "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+  "partition": "sequel-image-assets",
+  "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "33b75b50718db2e52e47dcff3fe14b75b0ed8bb8ffb4bc7d021743389cd245a6",
+  "region": "battle-effects",
+  "region_owner": "battle_effect_resources",
+  "edits": [
+    {
+      "id": "graphics-d2bdbe77b17e",
+      "resource_type": "graphics",
+      "resource_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-01-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 1024,
+        "physical_offsets": [
+          3409648
+        ],
+        "pointer_offsets": [
+          5869860
+        ]
+      }
+    },
+    {
+      "id": "palette-baf6d1600521",
+      "resource_type": "palette",
+      "resource_sha256": "baf6d16005215ced81fbddd5597f08cbc12441e468e737be9a3fb9a89ac04b67",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-01-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3410384
+        ],
+        "pointer_offsets": [
+          5869864
+        ]
+      }
+    },
+    {
+      "id": "graphics-eb9589427bab",
+      "resource_type": "graphics",
+      "resource_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-02-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 9728,
+        "physical_offsets": [
+          3410680
+        ],
+        "pointer_offsets": [
+          5869868,
+          5869876
+        ]
+      }
+    },
+    {
+      "id": "palette-70c511e326da",
+      "resource_type": "palette",
+      "resource_sha256": "70c511e326da6ce384f358d0dfe798d71dd44f181f6bcaa693e77aa456f5422e",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-02-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3415976
+        ],
+        "pointer_offsets": [
+          5869872
+        ]
+      }
+    },
+    {
+      "id": "palette-c0e21753834c",
+      "resource_type": "palette",
+      "resource_sha256": "c0e21753834c2ca38588891ecf78596fa7234012bb0c1a3f69ceb2ccc7619f95",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-03-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3416896
+        ],
+        "pointer_offsets": [
+          5869880
+        ]
+      }
+    },
+    {
+      "id": "graphics-20ba57e9b2ee",
+      "resource_type": "graphics",
+      "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-04-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          3417816
+        ],
+        "pointer_offsets": [
+          5869884
+        ]
+      }
+    },
+    {
+      "id": "palette-4d7cc7492e04",
+      "resource_type": "palette",
+      "resource_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-04-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3418264
+        ],
+        "pointer_offsets": [
+          5869888
+        ]
+      }
+    },
+    {
+      "id": "graphics-6628fdc3365f",
+      "resource_type": "graphics",
+      "resource_sha256": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-05-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 3840,
+        "physical_offsets": [
+          3418424
+        ],
+        "pointer_offsets": [
+          5869892
+        ]
+      }
+    },
+    {
+      "id": "palette-c00b7ea1d674",
+      "resource_type": "palette",
+      "resource_sha256": "c00b7ea1d6748f60c387c12d2083da584a65a7e654e61a95bdfe25d1a803dc61",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-05-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3419592
+        ],
+        "pointer_offsets": [
+          5869896
+        ]
+      }
+    },
+    {
+      "id": "graphics-483d47b29f6f",
+      "resource_type": "graphics",
+      "resource_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-06-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 960,
+        "physical_offsets": [
+          3420444
+        ],
+        "pointer_offsets": [
+          5869900
+        ]
+      }
+    },
+    {
+      "id": "palette-6393b73a92bf",
+      "resource_type": "palette",
+      "resource_sha256": "6393b73a92bf5e950fdf7640a26ba76ea995c53aa8b984bc376559f0004d1aa5",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-06-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3420940
+        ],
+        "pointer_offsets": [
+          5869904
+        ]
+      }
+    },
+    {
+      "id": "graphics-4839e96e1374",
+      "resource_type": "graphics",
+      "resource_sha256": "4839e96e137469eb2a4ddc02c14e9c2f3b197a77b62467f9a19f70fea5ff2188",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-07-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 1024,
+        "physical_offsets": [
+          3422048
+        ],
+        "pointer_offsets": [
+          5869908
+        ]
+      }
+    },
+    {
+      "id": "palette-ade17055c76e",
+      "resource_type": "palette",
+      "resource_sha256": "ade17055c76ef587fea1acb9a01737ee10c199754b961c3dfc4d2a874fac85a4",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-07-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3422812
+        ],
+        "pointer_offsets": [
+          5869912
+        ]
+      }
+    },
+    {
+      "id": "graphics-42f39b22b077",
+      "resource_type": "graphics",
+      "resource_sha256": "42f39b22b077c6e33349f89436b07aa7d4e83527023b43e5d3347f7d4eb76749",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-08-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 2304,
+        "physical_offsets": [
+          3423624
+        ],
+        "pointer_offsets": [
+          5869916
+        ]
+      }
+    },
+    {
+      "id": "palette-609fd93993e4",
+      "resource_type": "palette",
+      "resource_sha256": "609fd93993e4e4222154a44932ba1d634c070864d5e2ac3de7e186216cd8a9d0",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-08-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3424928
+        ],
+        "pointer_offsets": [
+          5869920
+        ]
+      }
+    },
+    {
+      "id": "graphics-d0474020d782",
+      "resource_type": "graphics",
+      "resource_sha256": "d0474020d782fc88a6eeaa25768b09d367f3d9566354d713246b51d2179ede05",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-09-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 1024,
+        "physical_offsets": [
+          3425664
+        ],
+        "pointer_offsets": [
+          5869924
+        ]
+      }
+    },
+    {
+      "id": "palette-04cfd5469052",
+      "resource_type": "palette",
+      "resource_sha256": "04cfd54690521de6ca3649fe20c743c0c439273a66860671bb3614a00db6c413",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-09-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3426220
+        ],
+        "pointer_offsets": [
+          5869928
+        ]
+      }
+    },
+    {
+      "id": "graphics-942c4ee118b7",
+      "resource_type": "graphics",
+      "resource_sha256": "942c4ee118b7c21375ee8386fc253f0820dc0297105b5b0a4edb574188ef0906",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-10-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 768,
+        "physical_offsets": [
+          3427864
+        ],
+        "pointer_offsets": [
+          5869932
+        ]
+      }
+    },
+    {
+      "id": "palette-5c973ed0591a",
+      "resource_type": "palette",
+      "resource_sha256": "5c973ed0591a365d58cf976cb8bd6b5cf176bd620c79416475f3c4f98782cd0c",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-10-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3428100
+        ],
+        "pointer_offsets": [
+          5869936
+        ]
+      }
+    },
+    {
+      "id": "graphics-0b5d70562a4c",
+      "resource_type": "graphics",
+      "resource_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-11-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 1664,
+        "physical_offsets": [
+          3429020
+        ],
+        "pointer_offsets": [
+          5869940
+        ]
+      }
+    },
+    {
+      "id": "palette-29df643a21db",
+      "resource_type": "palette",
+      "resource_sha256": "29df643a21db41dd57a89be093d1fd7415717856dc018da65bc40926d5109b0c",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-11-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3429508
+        ],
+        "pointer_offsets": [
+          5869944
+        ]
+      }
+    },
+    {
+      "id": "graphics-e1da042b138c",
+      "resource_type": "graphics",
+      "resource_sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-12-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 2176,
+        "physical_offsets": [
+          3429736
+        ],
+        "pointer_offsets": [
+          5869948
+        ]
+      }
+    },
+    {
+      "id": "palette-79c80aa69e19",
+      "resource_type": "palette",
+      "resource_sha256": "79c80aa69e19aa0034f6b9828a5d9b7b6d9499b67b93c72f04d3ffcd0c7a8e43",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-12-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3430844
+        ],
+        "pointer_offsets": [
+          5869952
+        ]
+      }
+    },
+    {
+      "id": "graphics-64033fc15513",
+      "resource_type": "graphics",
+      "resource_sha256": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-13-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 1952,
+        "physical_offsets": [
+          3431112
+        ],
+        "pointer_offsets": [
+          5869956
+        ]
+      }
+    },
+    {
+      "id": "palette-afb5d06c793a",
+      "resource_type": "palette",
+      "resource_sha256": "afb5d06c793a020bbc7d21d56aceaf842e2c994c36d3adae2e458875baa1a4db",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-13-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3431668
+        ],
+        "pointer_offsets": [
+          5869960
+        ]
+      }
+    },
+    {
+      "id": "graphics-878505bd0d11",
+      "resource_type": "graphics",
+      "resource_sha256": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-14-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 5120,
+        "physical_offsets": [
+          3432036
+        ],
+        "pointer_offsets": [
+          5869964
+        ]
+      }
+    },
+    {
+      "id": "palette-2a4e16536349",
+      "resource_type": "palette",
+      "resource_sha256": "2a4e16536349b52f028284eacbaa3e6047b02047b6e77af7d26914320b514d29",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-14-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3434176
+        ],
+        "pointer_offsets": [
+          5869968
+        ]
+      }
+    },
+    {
+      "id": "graphics-caf034cec9cf",
+      "resource_type": "graphics",
+      "resource_sha256": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-15-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 3584,
+        "physical_offsets": [
+          3434776
+        ],
+        "pointer_offsets": [
+          5869972
+        ]
+      }
+    },
+    {
+      "id": "palette-cb86625b5c5d",
+      "resource_type": "palette",
+      "resource_sha256": "cb86625b5c5d976d388d055aeeb9cbae97effd7efb021bce01e252030b54d1e1",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-15-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3436336
+        ],
+        "pointer_offsets": [
+          5869976
+        ]
+      }
+    },
+    {
+      "id": "graphics-1ba47dbc5ca5",
+      "resource_type": "graphics",
+      "resource_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-16-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 2560,
+        "physical_offsets": [
+          3436908
+        ],
+        "pointer_offsets": [
+          5869980
+        ]
+      }
+    },
+    {
+      "id": "palette-3856b4b91a67",
+      "resource_type": "palette",
+      "resource_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-16-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3437692,
+          3438004
+        ],
+        "pointer_offsets": [
+          5869984,
+          5869992
+        ]
+      }
+    },
+    {
+      "id": "graphics-842b8ef56a35",
+      "resource_type": "graphics",
+      "resource_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-17-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 256,
+        "physical_offsets": [
+          3437900
+        ],
+        "pointer_offsets": [
+          5869988
+        ]
+      }
+    },
+    {
+      "id": "graphics-9162bda2e905",
+      "resource_type": "graphics",
+      "resource_sha256": "9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-18-graphics-4bpp.bin",
+      "expected": {
+        "decompressed_size": 3584,
+        "physical_offsets": [
+          3438836
+        ],
+        "pointer_offsets": [
+          5869996
+        ]
+      }
+    },
+    {
+      "id": "palette-d53a7a56bded",
+      "resource_type": "palette",
+      "resource_sha256": "d53a7a56bded0b6727002a3fb4ad69454dccee15e8f849ad3a16c3b5639244c1",
+      "source_file": "artifacts/battle-effect-resource-pairs-v1/group-18-palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          3440840
+        ],
+        "pointer_offsets": [
+          5870000
+        ]
+      }
+    }
+  ]
+}

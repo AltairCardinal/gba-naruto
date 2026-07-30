@@ -142,6 +142,26 @@ tile，palette 必须恰好32字节；导入器验证 pair table 指针、基准
 规格可用 `target_physical_offsets` 的 catalog 子集显式拆分，真正共用同一指针的
 逻辑别名仍不可隐式分裂。当前不迁移资源、不改指针，也不签发运行时表现等价。
 
+## 战斗特效资源可变长迁移
+
+`import_battle_effect_resource_relocations.py`把上述34份graphics/palette内容迁入
+`battle-effects`区域，并重写18个pair的36个精确指针字段。构建清单使用
+`type: battle_effect_resource_relocation`和完整spec。
+
+```bash
+python3 tools/export_battle_effect_resource_relocation_audit.py \
+  --root . --output artifacts/battle-effect-resource-relocation-v1
+
+python3 tools/verify_battle_effect_resource_relocation_audit.py \
+  --root . --artifact artifacts/battle-effect-resource-relocation-v1
+```
+
+专属区域为`0xB40000..0xB50000`。全量preservation存储20,216 bytes，实际占用
+`0xB40000..0xB44F24`，余45,276 bytes。默认迁移同内容的全部pair别名；
+`target_pointer_offsets`只能选择catalog中的指针子集，因此group 2/3共享graphics
+可显式分裂，group 16/17的同内容不同物理palette也保持可分离。graphics仍须由完整
+32-byte 4bpp tile组成，palette仍须恰好32 bytes。
+
 ## 菜单/剧情立绘原位回编
 
 `import_menu_portraits.py` 把 `menu-portraits-v1` 的80×80索引色 PNG 逆变换回

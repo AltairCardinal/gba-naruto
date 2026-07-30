@@ -143,15 +143,20 @@ class ImportBgResourceRelocationsTests(unittest.TestCase):
             "future-image-resources",
             "sequel_image_assets",
         )
+        battle_effects = regions.require(
+            "battle-effects",
+            "battle_effect_resources",
+        )
 
         self.assertEqual(
             (0xB00000, 0xB40000),
             (regular_bg.start, regular_bg.end),
         )
         self.assertEqual(
-            (0xB40000, 0xC00000),
-            (future.start, future.end),
+            (0xB40000, 0xB50000),
+            (battle_effects.start, battle_effects.end),
         )
+        self.assertEqual((0xB50000, 0xC00000), (future.start, future.end))
         worst_case = sum(
             4
             + row["decompressed_size"]
@@ -274,13 +279,13 @@ class ImportBgResourceRelocationsTests(unittest.TestCase):
         regular_bg = next(
             row for row in registry["regions"] if row["id"] == "regular-bg"
         )
-        future = next(
+        battle_effects = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "battle-effects"
         )
         regular_bg["end"] = "0xB00004"
-        future["start"] = "0xB00004"
+        battle_effects["start"] = "0xB00004"
         tiny_regions = ImageResourceRegions.from_dict(registry, self.layout)
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):
             resolve_bg_resource_relocation_patches(

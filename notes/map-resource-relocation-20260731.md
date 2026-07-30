@@ -25,7 +25,8 @@
 | `map-resources` | `map_resources` | `0x980000..0xA80000` |
 | `menu-portraits` | `menu_portrait_resources` | `0xA80000..0xB00000` |
 | `regular-bg` | `regular_bg_resources` | `0xB00000..0xB40000` |
-| `future-image-resources` | `sequel_image_assets` | `0xB40000..0xC00000` |
+| `battle-effects` | `battle_effect_resources` | `0xB40000..0xB50000` |
+| `future-image-resources` | `sequel_image_assets` | `0xB50000..0xC00000` |
 
 `tools/image_resource_regions.py` 验证父分区身份、全部边界、对齐、无重叠和无空洞。
 tile-assets 与地图的全量组合测试在同一 `PatchSafetyGate` 中应用 489 个分配补丁和
@@ -61,6 +62,6 @@ importer/exporter；它重新解析 47 个 header 和资源、重做精确指针
 `RomLayout`及区域注册表、重建166/217/249分母和16 MiB输出，并拒绝重签后的摘要
 篡改。
 
-受资源守卫的正式导出峰值进程树 RSS 为76.140625 MiB，独立验证峰值为
-50.97265625 MiB，均`completed/0`、非降级。本里程碑没有运行mGBA；它不声明
+区域注册表更新后的受守卫重签导出峰值进程树RSS为70.5859375 MiB，独立验证峰值
+为50.57421875 MiB，均`completed/0`、非降级。本里程碑没有运行mGBA；它不声明
 修改后全地图最终像素、动态overlay、camera或碰撞玩法语义已经运行时等价。

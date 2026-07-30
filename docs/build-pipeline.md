@@ -121,6 +121,23 @@ map-header 别名，并验证 layout→metatile→tile/palette 跨资源索引�
 }
 ```
 
+### `battle_effect_resource_relocation`
+
+把18组战斗特效的34份去重graphics/palette内容确定性重压缩到注册的
+`battle-effects`扩展区域，并重写36个经全ROM精确扫描闭合的pair-table指针。
+规格使用`battle-effect-resource-relocation-v1`，以资源类型、原内容SHA-256、
+物理payload列表和完整指针列表固定来源；可用`target_pointer_offsets`选择
+catalog允许的别名子集。所有内容、格式、别名、区域容量和旧指针前置条件均在返回
+计划前验证，失败时不产生部分分配。
+
+```json
+{
+  "id": "battle-effect-resource-relocation",
+  "type": "battle_effect_resource_relocation",
+  "spec": "sequel/content/battle-effect-resources/relocation-edits.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -267,6 +284,7 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `menu_portrait` 74套菜单/剧情立绘的受守卫原位图形/调色板回编
 - `map_resource` 166份地图内容资源的受守卫原位回编
 - `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
+- `battle_effect_resource_relocation` 34份战斗特效内容及36条指针的可变长迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编
