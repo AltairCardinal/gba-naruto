@@ -155,9 +155,9 @@
     }
   },
   "implementation": {
-    "exporter_sha256": "96bdef3dbf230b60923ac0406948c3d6c5c6b5da511e069f05410d905962abd5",
-    "test_sha256": "43f2397bd80bdb7d286c7133fd9a358fce2a726f581061361eeaf94f108b999d",
-    "verifier_sha256": "85545b8ed01160c0c8dced1104c8e2c269703e77422a6354e1bb59f491c5f287"
+    "exporter_sha256": "ef50ec1dc399ee11844b098da6d1a6c0926036ea5a6f4acb91acf649e6f489fa",
+    "test_sha256": "1284edaab842769fa5f2a04602b5e380770a752c35ca26a0c1376a4b6fe3780d",
+    "verifier_sha256": "7fd5df34052fa897b37068c7548285fa0c54b8e1e67f7e827523d92754382fe0"
   },
   "parent_unmatched_resolution": {
     "baseline": {
@@ -395,6 +395,323 @@
       "checkpoint": "alternate-character-overview.ss9",
       "parent_layer_key": "2fbdef9cfd54e82609eeff1b19b957bdcf495a0c57e65f4d1593322c3ec1d782:bg0",
       "parent_layer_sha256": "3777b2370fd5d31d681acba378fd1ff8b2c504f433d8f383cace6e119948d007"
+    },
+    "visible_resource_domain": {
+      "classification_contract": "Only cells inside the generated 30x20 viewport count as visible BG0 resource content. Screenblock columns 30-31 and rows 20-31 are storage padding and are excluded without claiming a source identity for their stale bytes.",
+      "effective_remaining": {
+        "global_visible_resource_unmatched_cell_count": 181,
+        "global_visible_resource_unmatched_distinct_hash_count": 22,
+        "target_layer_visible_resource_unmatched_cell_count": 0,
+        "target_layer_visible_resource_unmatched_distinct_hash_count": 0
+      },
+      "excluded_padding": {
+        "bottom_padding_cell_count": 384,
+        "cell_count": 417,
+        "classification": "outside_visible_tilemap_padding",
+        "distinct_hash_count": 7,
+        "parent_records": [
+          {
+            "cell_count": 404,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                350,
+                352
+              ],
+              [
+                382,
+                384
+              ],
+              [
+                414,
+                416
+              ],
+              [
+                446,
+                448
+              ],
+              [
+                478,
+                480
+              ],
+              [
+                510,
+                512
+              ],
+              [
+                542,
+                544
+              ],
+              [
+                574,
+                576
+              ],
+              [
+                606,
+                608
+              ],
+              [
+                638,
+                1024
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000000",
+            "runtime_tile_id": 0,
+            "runtime_tile_sha256": "4735d05070a29da92396b8cce5c91e98bf6a05243247ff633a41a56278d422c5"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                30,
+                31
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x06000060",
+            "runtime_tile_id": 3,
+            "runtime_tile_sha256": "edb699ba3a6b8ee73d813c324115c436b53e93b378bf51b4931c0bf14ec11d2c"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                31,
+                32
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x06000080",
+            "runtime_tile_id": 4,
+            "runtime_tile_sha256": "4735d05070a29da92396b8cce5c91e98bf6a05243247ff633a41a56278d422c5"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                62,
+                63
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x060001E0",
+            "runtime_tile_id": 15,
+            "runtime_tile_sha256": "506a5a1579704130921c3bb51c68bc0d851e57da05adb94c136f8c28e3690db4"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                63,
+                64
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x06000200",
+            "runtime_tile_id": 16,
+            "runtime_tile_sha256": "c52576e9c9e4c512192e6ffc5d02ee21656030b8228b2bd7166251cd7502edf5"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                94,
+                95
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x06000360",
+            "runtime_tile_id": 27,
+            "runtime_tile_sha256": "be85332e5c4d31d51453ec65690edadc8dbbf417b1c0ab1ebd57baeeb63e18f2"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                95,
+                96
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x06000380",
+            "runtime_tile_id": 28,
+            "runtime_tile_sha256": "4735d05070a29da92396b8cce5c91e98bf6a05243247ff633a41a56278d422c5"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                126,
+                127
+              ]
+            ],
+            "runtime_palette_bank": 1,
+            "runtime_tile_address": "0x060004E0",
+            "runtime_tile_id": 39,
+            "runtime_tile_sha256": "3cd93da9808a8ed6b7c36e2c32535120b3a7271bdf6a167b124a331b9935c705"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                254,
+                255
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x060008E0",
+            "runtime_tile_id": 71,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                255,
+                256
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000900",
+            "runtime_tile_id": 72,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                287,
+                288
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000A20",
+            "runtime_tile_id": 81,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                286,
+                287
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000A80",
+            "runtime_tile_id": 84,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                319,
+                320
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000AA0",
+            "runtime_tile_id": 85,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          },
+          {
+            "cell_count": 1,
+            "classification": "unmatched_nonfont_content",
+            "flip_hv": [
+              false,
+              false
+            ],
+            "linear_cell_ranges": [
+              [
+                318,
+                319
+              ]
+            ],
+            "runtime_palette_bank": 0,
+            "runtime_tile_address": "0x06000B00",
+            "runtime_tile_id": 88,
+            "runtime_tile_sha256": "7328ef714ebca37dd5b49b850178e6692094efb62c9aaa8bea04fccd69a9573f"
+          }
+        ],
+        "right_bottom_overlap_cell_count": 24,
+        "right_padding_cell_count": 57
+      },
+      "generated_visible_cell_count": 600,
+      "screenblock_dimensions": [
+        32,
+        32
+      ],
+      "unresolved_inside_visible_cell_count": 0,
+      "visible_dimensions": [
+        30,
+        20
+      ]
     }
   },
   "rom": {
@@ -445,8 +762,10 @@
     "generator_algorithm_code_verified": true,
     "generic_image_writeback_complete": false,
     "overview_checkpoint_hardware_destinations_exact": true,
+    "overview_checkpoint_visible_bg0_resource_domain_complete": true,
     "overview_checkpoint_work_buffers_exact": true,
     "overview_checkpoint_writer_identity_complete": true,
+    "parent_unknown_padding_excluded_from_visible_resource_denominator": true,
     "whole_overview_screen_source_identity_complete": false
   }
 }

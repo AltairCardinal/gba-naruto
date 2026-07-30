@@ -115,3 +115,8 @@ PNG 容器解析、Mode 0 BG tilemap 读取、4bpp atlas 重建和 BGR555 palett
 898 cell / 39 种未知内容中闭合 300 cell / 10 种，当前后继分母为
 598 cell / 29 种；本 artifact 自身的历史基线和 manifest 不改写。证据见
 `notes/overview-gradient-overlay-export-20260730.md`。
+
+同一后继 artifact 又证明余下 overview 417 cell / 7 种全部位于
+32×32 screenblock 的 30×20 可见域之外。它们在“来源未定”历史口径中继续保留，
+但从“玩家可见图像资源”待查分母排除；因此当前可见资源缺口为
+181 cell / 22 种 battle BG3 内容。

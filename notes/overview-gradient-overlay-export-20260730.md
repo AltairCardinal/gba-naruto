@@ -58,12 +58,27 @@ promotion manifest，并从父记录重新计算而非手填进度：
 独特来源。剩余 417 个 overview BG0 cell 包含旧 tilemap/UI 内容，不因本次渐变
 闭合而被升级。
 
+上述 417 个 cell 随后逐坐标复核，全部位于 32×32 screenblock 的可见
+30×20 域之外：
+
+- 57 个位于右侧 padding columns 30–31；
+- 384 个位于 bottom padding rows 20–31；
+- 两者有 24 个交集，去重后正好 417；
+- 可见 30×20 内的未解释 cell 为 0。
+
+因此必须保留两种不同口径：按原父 artifact 的“全 screenblock 来源”口径，
+它们仍是 417 cell / 7 种来源未定的旧字节；按“玩家可见图像资源”口径，它们是
+不参与显示的 storage padding，应从资源待查分母排除。排除后全局可见资源缺口为
+181 cell / 22 种内容，overview BG0 的可见资源域已完整闭合。该排除不为 padding
+字节附会来源，也不删除父历史记录。
+
 ## TDD 与独立验证
 
 - 第一次红阶段因导出模块不存在而失败；
 - 第二次红阶段分别因缺少父分母绑定、验证器接受重哈希后的公式语义篡改而失败；
 - 第三次红阶段因导出器缺少与父 artifact 一致的输出目标安全校验而失败；
 - 只读复核后的第四次红阶段证明重哈希后可伪造 runtime checkpoint 描述字段；
+- 第五次红阶段因缺少 30×20 可见域和 32×32 padding 的显式分类而失败；
 - 绿阶段定向测试 10/10 通过；
 - 独立 verifier 不导入 exporter 或其他 `tools` 模块，自行解析 `.ss9`、生成
   tiles/palette/tilemap、解码 Thumb BL、复核父分母并重建 PNG；
@@ -82,5 +97,6 @@ RSS 为 76.39 MiB。
 
 - overview 其余 BG/OBJ/window/blend 的完整来源；
 - 未观察 caller 或其他游戏视觉状态；
-- 剩余 598 个、29 种非字体未知内容；
+- 按父全 screenblock 来源口径剩余的 598 个、29 种内容；
+- 按可见资源口径剩余的 181 个、22 种 battle BG3 内容；
 - 通用图像编辑、编码与 ROM 回写。

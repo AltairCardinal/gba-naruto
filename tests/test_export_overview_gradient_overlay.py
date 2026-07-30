@@ -192,6 +192,45 @@ class ExportOverviewGradientOverlayTests(unittest.TestCase):
             },
             resolution["remaining"],
         )
+        visible = resolution["visible_resource_domain"]
+        self.assertEqual([32, 32], visible["screenblock_dimensions"])
+        self.assertEqual([30, 20], visible["visible_dimensions"])
+        self.assertEqual(600, visible["generated_visible_cell_count"])
+        self.assertEqual(0, visible["unresolved_inside_visible_cell_count"])
+        self.assertEqual(
+            {
+                "classification": "outside_visible_tilemap_padding",
+                "cell_count": 417,
+                "distinct_hash_count": 7,
+                "right_padding_cell_count": 57,
+                "bottom_padding_cell_count": 384,
+                "right_bottom_overlap_cell_count": 24,
+            },
+            {
+                key: visible["excluded_padding"][key]
+                for key in (
+                    "classification",
+                    "cell_count",
+                    "distinct_hash_count",
+                    "right_padding_cell_count",
+                    "bottom_padding_cell_count",
+                    "right_bottom_overlap_cell_count",
+                )
+            },
+        )
+        for record in visible["excluded_padding"]["parent_records"]:
+            for start, end in record["linear_cell_ranges"]:
+                for linear in range(start, end):
+                    self.assertTrue(linear % 32 >= 30 or linear // 32 >= 20)
+        self.assertEqual(
+            {
+                "global_visible_resource_unmatched_cell_count": 181,
+                "global_visible_resource_unmatched_distinct_hash_count": 22,
+                "target_layer_visible_resource_unmatched_cell_count": 0,
+                "target_layer_visible_resource_unmatched_distinct_hash_count": 0,
+            },
+            visible["effective_remaining"],
+        )
 
     def test_preview_is_complete_indexed_240x160_overlay(self):
         preview = self.payload["generated"]["preview"]
@@ -214,6 +253,8 @@ class ExportOverviewGradientOverlayTests(unittest.TestCase):
                 "overview_checkpoint_work_buffers_exact": True,
                 "overview_checkpoint_hardware_destinations_exact": True,
                 "overview_checkpoint_writer_identity_complete": True,
+                "overview_checkpoint_visible_bg0_resource_domain_complete": True,
+                "parent_unknown_padding_excluded_from_visible_resource_denominator": True,
                 "whole_overview_screen_source_identity_complete": False,
                 "all_callers_runtime_bound": False,
                 "all_game_visual_states_complete": False,

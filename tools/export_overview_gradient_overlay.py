@@ -80,6 +80,8 @@ SCOPE = {
     "overview_checkpoint_work_buffers_exact": True,
     "overview_checkpoint_hardware_destinations_exact": True,
     "overview_checkpoint_writer_identity_complete": True,
+    "overview_checkpoint_visible_bg0_resource_domain_complete": True,
+    "parent_unknown_padding_excluded_from_visible_resource_denominator": True,
     "whole_overview_screen_source_identity_complete": False,
     "all_callers_runtime_bound": False,
     "all_game_visual_states_complete": False,
@@ -219,6 +221,23 @@ def _parent_unmatched_resolution(root: Path, tiles: bytes) -> dict[str, Any]:
     resolved_ids = sorted(item["runtime_tile_id"] for item in resolved)
     resolved_hashes = {item["runtime_tile_sha256"] for item in resolved}
     resolved_cells = sum(item["cell_count"] for item in resolved)
+    padding = [
+        item
+        for item in layer["unmatched_nonfont_contents"]
+        if item["runtime_tile_sha256"] not in resolved_hashes
+    ]
+    padding_positions = [
+        linear
+        for item in padding
+        for start, end in item["linear_cell_ranges"]
+        for linear in range(start, end)
+    ]
+    inside_visible = [
+        linear
+        for linear in padding_positions
+        if linear % 32 < MAP_WIDTH and linear // 32 < MAP_HEIGHT
+    ]
+    padding_hashes = {item["runtime_tile_sha256"] for item in padding}
     layer_hashes = {
         item["runtime_tile_sha256"]
         for item in layer["unmatched_nonfont_contents"]
@@ -237,7 +256,10 @@ def _parent_unmatched_resolution(root: Path, tiles: bytes) -> dict[str, Any]:
         resolved_cells,
         len(resolved_hashes),
         resolved_ids,
-    ) != (898, 39, 717, 17, 300, 10, list(range(257, 267))):
+        len(padding_positions),
+        len(padding_hashes),
+        len(inside_visible),
+    ) != (898, 39, 717, 17, 300, 10, list(range(257, 267)), 417, 7, 0):
         raise ValueError("initializer parent unmatched denominator changed")
     if any(
         tile_hashes[item["runtime_tile_id"]] != item["runtime_tile_sha256"]
@@ -282,6 +304,46 @@ def _parent_unmatched_resolution(root: Path, tiles: bytes) -> dict[str, Any]:
             "target_layer_unmatched_cell_count": 717 - resolved_cells,
             "target_layer_unmatched_distinct_hash_count": len(
                 layer_hashes - resolved_hashes
+            ),
+        },
+        "visible_resource_domain": {
+            "screenblock_dimensions": [32, 32],
+            "visible_dimensions": [MAP_WIDTH, MAP_HEIGHT],
+            "generated_visible_cell_count": MAP_WIDTH * MAP_HEIGHT,
+            "unresolved_inside_visible_cell_count": len(inside_visible),
+            "excluded_padding": {
+                "classification": "outside_visible_tilemap_padding",
+                "cell_count": len(padding_positions),
+                "distinct_hash_count": len(padding_hashes),
+                "right_padding_cell_count": sum(
+                    linear % 32 >= MAP_WIDTH for linear in padding_positions
+                ),
+                "bottom_padding_cell_count": sum(
+                    linear // 32 >= MAP_HEIGHT for linear in padding_positions
+                ),
+                "right_bottom_overlap_cell_count": sum(
+                    linear % 32 >= MAP_WIDTH and linear // 32 >= MAP_HEIGHT
+                    for linear in padding_positions
+                ),
+                "parent_records": padding,
+            },
+            "effective_remaining": {
+                "global_visible_resource_unmatched_cell_count": (
+                    898 - resolved_cells - len(padding_positions)
+                ),
+                "global_visible_resource_unmatched_distinct_hash_count": len(
+                    global_hashes - resolved_hashes - padding_hashes
+                ),
+                "target_layer_visible_resource_unmatched_cell_count": len(
+                    inside_visible
+                ),
+                "target_layer_visible_resource_unmatched_distinct_hash_count": 0,
+            },
+            "classification_contract": (
+                "Only cells inside the generated 30x20 viewport count as "
+                "visible BG0 resource content. Screenblock columns 30-31 and "
+                "rows 20-31 are storage padding and are excluded without "
+                "claiming a source identity for their stale bytes."
             ),
         },
         "scope": (
