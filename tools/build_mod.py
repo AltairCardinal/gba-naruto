@@ -419,6 +419,30 @@ def resolve_character_battle_bundle_patch(
     )
 
 
+def resolve_tile_asset_resource_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_tile_asset_resources import (
+        resolve_tile_asset_resource_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "tile-assets relocation requires an explicit ROM layout"
+        )
+    spec = ROOT / patch["spec"]
+    return resolve_tile_asset_resource_patches(
+        ROOT,
+        spec,
+        rom=rom,
+        layout=layout,
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -806,6 +830,35 @@ def build(project_path: Path) -> dict:
                     "reference_count",
                     "compressed_payload_coincidences",
                     "unexpected_external_references",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "tile_asset_resource":
+            sub_patches = resolve_tile_asset_resource_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "source_pointer",
+                    "source_sha256",
+                    "replacement_sha256",
+                    "source_size",
+                    "replacement_size",
+                    "storage_kind",
+                    "new_pointer",
+                    "descriptor_id",
+                    "layer",
+                    "logical_aliases",
+                    "all_pointer_offsets",
+                    "target_pointer_offsets",
+                    "content_file",
                 ):
                     if key in sp:
                         result[key] = sp[key]

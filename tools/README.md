@@ -11,6 +11,31 @@ ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽
 顶层成果目录。`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
 可逆地加入本地 Git 忽略清单，不移动或删除数据。
 
+## Tile-assets 全量可变长迁移
+
+`import_tile_asset_resources.py` 覆盖 `0x085A320C` 表的323个物理资源和709条
+descriptor指针引用。graphics/tilemap 会确定性重压缩为GBA LZ77，palette保持
+raw BGR555；内容分配到`sequel-image-assets`后，只重写规格明确列出的别名。
+构建清单使用`type: tile_asset_resource`和`spec`。
+
+```bash
+python3 tools/import_tile_asset_resources.py \
+  sequel/content/tile-assets/resource-edits.json
+
+python3 tools/export_tile_asset_resource_relocation_audit.py \
+  --root . --output artifacts/tile-asset-resource-relocation-v1
+
+python3 tools/verify_tile_asset_resource_relocation_audit.py \
+  --root . --artifact artifacts/tile-asset-resource-relocation-v1
+```
+
+规格中的每个edit必须固定源指针、源内容SHA和完整
+`expected_pointer_offsets`；可用`target_pointer_offsets`选择经catalog验证的
+别名子集。导入器在分配前联合验证236个完整图层的tile几何、tilemap尺寸和索引、
+palette大小、8bpp像素色号及保留palette-bank位。任一编辑失败时不返回部分补丁。
+完整迁移占用`0x800000..0x89AE00`，分区余3,560,192 bytes。descriptor 0 partial D
+缺失的graphics/palette生产者及修改后最终像素等价不在本成果范围内。
+
 ## 战斗地图资源原位回编
 
 `import_map_resources.py` 以 `map-canvases-v1` 的内容 SHA 为编辑身份，将一份

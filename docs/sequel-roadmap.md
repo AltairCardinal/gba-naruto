@@ -1449,3 +1449,16 @@ WebSocket
   `notes/rom-expansion-character-bundle-relocation-20260731.md`。这闭合
   角色战斗视觉的变长结构、迁移和指针改写能力；修改后全部slot的自然运行选择、
   相机/priority/blend和最终像素时序等价仍未全量闭合，Goal保持active。
+- 2026-07-31：`0x085A320C` tile-assets表已从全量静态导出推进到可变长迁移。
+  75个非sentinel descriptor的236个完整图层及descriptor 0的1个partial D
+  tilemap形成323个物理资源：107 graphics、108 tilemap、108 palette，并有709条
+  descriptor逻辑指针引用；全ROM四字节对齐精确扫描的未知引用为0。新
+  `tile_asset_resource`构建类型把资源分配到`0x800000..0xC00000`，允许经catalog
+  约束的别名子集显式分裂，并联合验证4bpp/8bpp tile、tilemap尺寸/索引、palette
+  大小、8bpp色号及保留palette-bank位。全量preservation迁移占634,112 bytes，
+  末端`0x89AE00`，剩余3,560,192 bytes；独立verifier重新解析ROM和完整
+  `RomLayout`，重建323/709分母及16 MiB输出，并拒绝重签后的别名、实现哈希和
+  分区篡改。成果位于`artifacts/tile-asset-resource-relocation-v1/`，说明见
+  `notes/tile-asset-resource-relocation-20260731.md`。descriptor 0 partial D
+  缺失的graphics/palette生产者、修改后自然路线选择及最终window/blend/时序像素
+  等价仍未闭合，Goal保持active。

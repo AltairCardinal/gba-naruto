@@ -1,0 +1,49 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "tile-asset-resource-relocation-v1",
+  "artifact_schema": "tile-asset-resource-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "0758b5a523f98762d8365d7983d6a9ad18c383ca3c74d9878b6270e720287341",
+  "files": {
+    "relocation-audit.json": "0758b5a523f98762d8365d7983d6a9ad18c383ca3c74d9878b6270e720287341",
+    "full-relocation-spec.json": "7bcd00e9d3027f5acd8ae062195d4eba7b1c5c677d851fdd5b688f0cb428a4f1"
+  },
+  "scope": {
+    "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered 4 MiB image partition with no unknown aligned exact references.",
+    "editable": "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may change size where their layer geometry remains valid.",
+    "not_proved": "Modified-resource runtime pixel equivalence, final window/blend/timing composition, or the missing graphics/palette producers for descriptor 0 partial D."
+  },
+  "summary": {
+    "descriptor_count": 79,
+    "complete_layer_count": 236,
+    "partial_layer_count": 1,
+    "resource_count": 323,
+    "resource_type_counts": {
+      "graphics": 107,
+      "tilemap": 108,
+      "palette": 108
+    },
+    "logical_pointer_count": 709,
+    "unexpected_pointer_count": 0,
+    "allocation_start": 8388608,
+    "allocation_end": 9022720,
+    "allocated_span_bytes": 634112,
+    "relocated_stored_bytes": 633773,
+    "source_stored_bytes": 635194,
+    "source_content_bytes": 1159684,
+    "partition_end": 12582912,
+    "remaining_bytes": 3560192
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_tile_asset_resource_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/tile-asset-resource-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}
