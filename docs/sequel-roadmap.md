@@ -1224,8 +1224,17 @@ WebSocket
   `146 direct / 23 accepted / 3 new / errors=[]`；语义篡改即使重算 manifest
   哈希也被拒绝。成果位于
   `artifacts/rom-direct-cpuset-gpu-inventory-v1/`，说明见
-  `notes/rom-direct-cpuset-inventory-survey-20260730.md`。该分母没有发现直接
-  这里的 146 项是静态 direct-BL 编码分母，123 项只是
+  `notes/rom-direct-cpuset-inventory-survey-20260730.md`。这里的 146 项是静态
+  direct-BL 编码分母，123 项只是
   `not_proven_in_window`，不是已证明非 copy，也不声称运行时可达。该规则没有发现
   直接常量 ROM→VRAM tiles；下一步转向间接表、自定义 copy loop、DMA 和两段搬运，
   不把“直接 VRAM 命中为零”误报成未压缩图形已完成，Goal 保持 active。
+- 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
+  `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
+  OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette
+  `0x08457EA8` 的一致性因此只保留为候选。`0x083496F8 → 0x06017580` 的同一
+  profile 初始化器确实先把 `0x083496B0` 写入 OBJ bank 14，但缺少 tile
+  940..943 的 attr2 使用证据，也不能按邻近加载升级。两条 catalog 记录继续
+  fail closed 为 `unresolved`；后续只从最近已验证快照捕获自然 OAM 使用，不重新
+  长导航。详见 `notes/unresolved-lz77-palette-survey-20260730.md`。本轮没有启动
+  mGBA，Goal 保持 active。

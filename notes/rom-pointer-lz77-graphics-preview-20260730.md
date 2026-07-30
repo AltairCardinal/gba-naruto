@@ -96,4 +96,7 @@ hardware OAM，重算 payload 位置、tile 交集、palette bank 和 ROM 唯一
 
 这些 PNG 是“source-order 4bpp tile atlas 候选”。两条 runtime 记录只使用 OAM
 选择源 palette，没有按 OAM 尺寸、坐标、优先级或其他图层生成最终画面，因此不声称
-是最终可见画面。两条未知图形继续保持未决；下一图像主线建立未压缩图形的有限分母。
+是最终可见画面。两条未知图形的静态链、VRAM 驻留和候选 palette 已进一步复核，
+但没有 attr2 bank 证据，继续保持未决；详见
+`notes/unresolved-lz77-palette-survey-20260730.md`。下一次只从最近已验证快照做
+最小运行时闭环，不因邻近加载或 PRAM 同帧驻留伪造绑定。
