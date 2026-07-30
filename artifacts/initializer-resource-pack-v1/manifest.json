@@ -1,0 +1,61 @@
+{
+  "artifact_schema": "initializer-resource-pack-v1",
+  "artifact_status": "accepted",
+  "experiment": {
+    "run_id": "20260730-01",
+    "task": "runtime-nonfont-tile-provenance"
+  },
+  "files": {
+    "bg-graphics-atlas.png": "7ab70fd7361a212dd34459681907dbd3591caba6279a0d905122ec427cbf0d85",
+    "bg-graphics.bin": "d2338ea2e8d155029010b4dfac8f72e01e73a74e9ccccc8998f62ec0ba81909e",
+    "bg-graphics.lz77.bin": "65ec75afff379ad740b3e0e4d73b5c9b6d51289c1dbb0ea80264a93a09166103",
+    "bg-palette.bin": "f20fc5a725aba48ad552db95ec211c78b1bef25732c8978324a6bf72e64d72e5",
+    "bg-palette.lz77.bin": "4c657dea384298a2607427dddbf49e58dc0b70579617e7b64f56497e33eb2f49",
+    "initializer-resource-pack.json": "c096e70c033f804548446272c47d43bfefa72eed173841e152c630c5436efba8",
+    "obj-graphics-atlas.png": "6ccbd8d854fe8f0abc709213a87dbeaf9c5f1f5d665cff238c6bf9ccb7e8f516",
+    "obj-graphics.bin": "be06481834463afa0226757f897601ef07291106257bc716ef42bf4572df1848",
+    "obj-graphics.lz77.bin": "9ad033484a1970f11f0ed37df58c894f7a093505ecb6b12ff364a787e4cb539b",
+    "obj-palette.bin": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+    "obj-palette.lz77.bin": "cf94ad002a6878cb393843f9a6dcbe63ef05fbe514f0280f85c42ac8a25af7e1"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_initializer_resource_pack.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/initializer-resource-pack-v1"
+    ],
+    "exporter_sha256": "d416214e1de6229bff83351f2bfaabeb433bf9e074791e23e7ee1d61edb1bc01",
+    "test_sha256": "a42806078808ff8ff60254c775797c21f41560914090a3afdfaace24baf29f46",
+    "verifier_sha256": "ad86214120aaa37ebb1996897b5cc8dbb0105028e1f957c01a05e978ee6c1cd2"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "initializer_gba_address": "0x08065404",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "runtime_nonfont_cell_count": 59611,
+    "runtime_parent_layer_count": 61
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_initializer_resource_pack.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/initializer-resource-pack-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "nonfont_cell_count": 59611,
+      "resource_count": 4,
+      "runtime_layer_count": 61,
+      "schema": "initializer-resource-pack-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "ad86214120aaa37ebb1996897b5cc8dbb0105028e1f957c01a05e978ee6c1cd2"
+  }
+}

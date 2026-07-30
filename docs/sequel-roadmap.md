@@ -122,6 +122,20 @@
   `artifacts/runtime-font-tile-provenance-v1/` 与
   `notes/runtime-font-tile-provenance-20260730.md`。非字体 tile、具体 writer、
   Unicode 字符语义和未跟踪视觉状态仍未闭合，Goal 保持 active。
+- 2026-07-30 非字体主分母又闭合一个静态初始化器资源包。
+  `0x08065404..0x08065554` 从 literal pool 加载 BG gfx/palette
+  `0x0809C614/0x0809C870` 和 OBJ gfx/palette
+  `0x085B64E0/0x0809CBC4`；四项 LZ77/raw、64/48 tile 图集及 23 个 direct
+  caller 已无损导出。59,611 个非字体 cell 中，5,225 个独特内容 cell 在 58
+  个父层精确命中该 BG gfx，5,106 个满足 `+448` tile relocation；另有 48,815
+  个全零和 4,673 个通用填充 cell 保持别名，898 个/39 种内容仍未命中。只有
+  28 层的全部独特 cell 都满足固定偏移，palette 也只签发 source bank 0 →
+  runtime bank 14 的逐字节相等；所有父层继续保持
+  `unidentified_runtime_payload`。独立 verifier 自行重建 ROM、LZ77、atlas、
+  61 个 `.ss9` 和父 provenance，结果 `errors=[]`。成果见
+  `artifacts/initializer-resource-pack-v1/` 与
+  `notes/initializer-resource-pack-export-20260730.md`。静态 loader 证据不冒充
+  动态执行，OBJ 实例、剩余 39 种内容、writer、跨帧时序及未跟踪状态仍未闭合。
 - 2026-07-30 Mode 0 最终 compositor 核心已接入普通 1D OBJ、BG/OBJ/backdrop
   priority、WIN0、alpha 与 darken。对 91 个 tracked checkpoint 的 1211 个
   active OAM 做包围盒预索引后，89 帧与 `.ss9` 内嵌 PNG 逐 RGB 字节完全一致。
