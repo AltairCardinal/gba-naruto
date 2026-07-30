@@ -1,0 +1,37 @@
+{
+  "artifact_id": "scene-visual-transition-timelines-v1",
+  "artifact_schema": "scene-visual-transition-phases-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "frames.zip": "39812e9a2e065cf5ac1c43e50abb63be8cf4125edab7493f03a304c2c0f16d0f",
+    "scene-visual-transition-timelines.json": "24ab82165144c34b3e751c7dccb211c9bfb40b4eee5f20b9b3691119043f9e8c"
+  },
+  "payload_file": "scene-visual-transition-timelines.json",
+  "payload_sha256": "24ab82165144c34b3e751c7dccb211c9bfb40b4eee5f20b9b3691119043f9e8c",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "background_pre_spawn_order_complete": true,
+    "cross_task_scheduler_order_complete": false,
+    "finite_task_position_writes_complete": true,
+    "full_controller_timeline_complete": false,
+    "natural_language_identity_complete": false,
+    "presentation_overlay_composition_complete": false,
+    "runtime_pixel_equivalence": false,
+    "stable_endpoint_spatial_context_reconciled": true,
+    "state_2_and_state_20_counter_bounds_complete": true,
+    "state_3_external_wait_timing_complete": false,
+    "vblank_or_wall_frame_timing_complete": false,
+    "window_blend_mosaic_runtime_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_scene_visual_transition_timelines.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/scene-visual-transition-timelines-v1"
+    ],
+    "exit_code": 0
+  }
+}

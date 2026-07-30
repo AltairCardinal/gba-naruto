@@ -264,15 +264,17 @@ def _build_payload(
             "main_task_initial_x": [192, 160],
             "main_task_initial_y": [-160, 240],
             "main_task_target_y": [16, 64],
-            "exit_background_pack_id": 8,
-            "exit_obj_pack_id": 4,
+            "exit_reachable": False,
+            "exit_background_pack_id": None,
+            "exit_obj_pack_id": None,
         },
         {
             "mode": 1,
-            "main_pack_ids": list(range(8)),
+            "main_pack_ids": list(range(4, 8)),
             "main_task_initial_x": [48, 16],
             "main_task_initial_y": [-160, 240],
             "main_task_target_y": [16, 64],
+            "exit_reachable": True,
             "exit_background_pack_id": 8,
             "exit_obj_pack_id": 8,
         },
@@ -364,6 +366,8 @@ def _build_payload(
 
     exit_composites = []
     for mode in modes:
+        if not mode["exit_reachable"]:
+            continue
         background_pack = packs[mode["exit_background_pack_id"]]
         obj_pack = packs[mode["exit_obj_pack_id"]]
         scroll = (-40, 0)
@@ -464,6 +468,7 @@ def _build_payload(
         },
         "scope": {
             "controller_direct_call_modes_complete": True,
+            "controller_mode_pack_routes_complete": True,
             "stable_pack_row_bg_obj_layouts_complete": True,
             "bg_obj_priority_order_complete": True,
             "all_nine_source_packs_represented": True,

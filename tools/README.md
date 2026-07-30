@@ -35,6 +35,33 @@ python3 tools/verify_menu_portrait_writeback_audit.py \
 74/74原始资源和74/74单像素修改，不能外推为任意 PNG 均能装入原槽；需要更大
 资源时仍须另建显式分配、迁移和指针更新方案。
 
+## 角色场景控制器阶段与task运动
+
+`export_scene_visual_transition_timelines.py` 复用已验收的 scene-pack 资源和稳定
+合成器，按真实mode路由导出403次背景scroll写入；OBJ只在最后一次写入后spawn，
+其运动拆成16条独立task轨迹的521个callback见证。924张240×160 RGBA帧以固定
+时间戳、权限、顺序和stored方式写入单个 `frames.zip`。
+
+```bash
+python3 tools/run_guarded.py \
+  --summary build/resource-guard/scene-transition-export.json \
+  --cwd . --max-tree-rss-mib 1536 --wall-timeout-s 600 \
+  --idle-timeout-s 180 -- \
+  python3 tools/export_scene_visual_transition_timelines.py \
+  --root . --output artifacts/scene-visual-transition-timelines-v1
+
+python3 tools/run_guarded.py \
+  --summary build/resource-guard/scene-transition-verify.json \
+  --cwd . --max-tree-rss-mib 1536 --wall-timeout-s 600 \
+  --idle-timeout-s 180 -- \
+  python3 tools/verify_scene_visual_transition_timelines.py \
+  --root . --artifact artifacts/scene-visual-transition-timelines-v1
+```
+
+背景写入和task轨迹是两种不同记录：task帧只以稳定背景作空间参照，不代表实际
+controller同帧状态。state 3外部门禁、跨task调度、VBlank/wall-frame、
+presentation overlay、window/blend/mosaic和模拟器逐像素等价仍明确未闭合。
+
 ## `scan_rom.py`
 
 Preliminary static scanner for a GBA ROM.
@@ -1247,7 +1274,8 @@ state layout. It rejects missing, malformed, unsupported-version, and wrong-size
 
 `export_scene_visual_composites.py` combines the nine accepted scene-visual packs
 into every stable 240x160 BG+OBJ layout selected by the two direct controller
-modes: 12 main rows and two exit rows.
+modes: mode 0 main packs 0–3, nonzero-mode main packs 4–7, and the sole
+nonzero-mode pack-8 exit. This yields eight main rows and one exit row.
 
 ```bash
 python3 tools/export_scene_visual_composites.py \
@@ -1261,7 +1289,7 @@ python3 tools/verify_scene_visual_composites.py \
 The independent verifier derives the task-index motion branches, initial and
 target coordinates, counter-31 stop boundary, signed Q12 truncation, scroll
 steps, exit allocator arguments and BG/OBJ priorities from the immutable ROM.
-It then rebuilds all 14 composites from `scene-visual-packs-v1`, including the
+It then rebuilds all nine composites from `scene-visual-packs-v1`, including the
 exit priority-3 OBJ that is visible only through priority-2 BG index 0. The
 artifact covers stable pack-row BG+OBJ layouts only; it deliberately excludes
 transition frames, presentation overlays, window/blend/mosaic runtime behavior,

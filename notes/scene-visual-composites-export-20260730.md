@@ -6,9 +6,15 @@
 240×160 BG+OBJ 合成：
 
 - mode 0：main pack 0–3，共 4 张；
-- mode 1：main pack 0–7，共 8 张；
-- exit：两种 mode 均以 pack 8 为背景，分别以 pack 4 / pack 8 为 OBJ，共 2 张；
-- 合计 14 张，9/9 个 `scene-visual-packs-v1` 源 pack 均至少出现一次。
+- mode 1：main pack 4–7，共 4 张；
+- exit：只有 mode 1 可达，以 pack 8 同时作为背景和 OBJ，共 1 张；
+- 合计 9 张，9/9 个 `scene-visual-packs-v1` 源 pack 各进入唯一可达角色。
+
+旧版把非零 mode 错写成从 pack 0 开始，并为零 mode 构造了不存在的 pack 4 exit。
+ROM `0x0808C226..0x0808C23A` 实际把初始 pack / 排他上界设为 mode 0 的
+`0/4` 或非零 mode 的 `4/8`；`0x0808C3F6..0x0808C3FE` 又证明零 mode 在最后
+一个 main pack 后直接退出，只有非零 mode 进入 state 10。测试和独立 verifier
+现直接固定这两段指令，旧5张不可达组合已从artifact删除。
 
 成果位于 `artifacts/scene-visual-composites-v1/`。这里的“稳定”只表示 motion
 callback 不再改 task 坐标、控制器尚未销毁该 task 的保持区间；不包含进入/退出的
@@ -84,9 +90,8 @@ attr2 priority：
 因此 exit PNG 不能把整个 OBJ 无条件覆盖到背景之上。导出器保留完整 BG 索引画布，
 仅在 BG index 0 处合入 exit OBJ，并为每个 placement 记录源非透明像素和被 BG
 遮挡的像素数；独立 verifier 从 ROM 重新推导两种 flags/priority 并重建相同遮挡。
-稳定端点上，mode 0 的 562/562 与 mode 1 的 1515/1515 个 OBJ 非透明像素均被
-BG 遮挡，因此两张稳定 exit PNG 像素相同；这不否定过渡帧可能显示 OBJ。旧未提交
-实现生成的两张 exit PNG 因无条件覆盖而被取代。
+稳定端点上，唯一可达 exit 的1515/1515个OBJ非透明像素均被BG遮挡；这不否定
+过渡中的独立task位置可能透过透明区显示。
 
 allocator 从 OAM slot 127 向下寻找空槽。双 task 时 index 0 先得到 127，index 1
 后得到 126；相同 priority 下较小 OAM index 在前，因此离线合成先贴 task 0、再贴
@@ -114,8 +119,15 @@ python3 -m unittest tests.test_export_scene_visual_composites -v
 验证器不导入导出器。它从基准 ROM 的关键 Thumb 指令和 literal 独立提取 mode X、
 初始/目标 Y、counter 上限、Q12 shift、负数舍入、scroll 初值/步长和 exit
 allocator 参数，以及 BG0/OBJ priority 和 attr2 写入链，再从
-`scene-visual-packs-v1` 重建 14 张像素并核对完整文件集合、PNG/像素哈希、实现
+`scene-visual-packs-v1` 重建9张像素并核对完整文件集合、PNG/像素哈希、实现
 哈希和 promotion manifest。重新签名后篡改 task 坐标仍会失败。
 
 本里程碑只做小规模离线读取和 PNG 合成，没有启动 mGBA，不需要 heavy lock 或新
 快照，也没有触及 Butano worktree。
+
+## 后续时间线闭合
+
+同日的 `artifacts/scene-visual-transition-timelines-v1/` 进一步分离了403次
+背景scroll写入和16条独立task轨迹的521个callback见证。它不把同一dispatch内的
+两次scroll写入、controller与task调度或state 3外部门禁伪装成连续wall-frame时间线。
+详见 `notes/scene-visual-transition-timelines-20260730.md`。

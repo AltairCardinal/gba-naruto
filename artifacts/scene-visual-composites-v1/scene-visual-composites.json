@@ -63,8 +63,9 @@
   },
   "controller_modes": [
     {
-      "exit_background_pack_id": 8,
-      "exit_obj_pack_id": 4,
+      "exit_background_pack_id": null,
+      "exit_obj_pack_id": null,
+      "exit_reachable": false,
       "main_pack_ids": [
         0,
         1,
@@ -88,11 +89,8 @@
     {
       "exit_background_pack_id": 8,
       "exit_obj_pack_id": 8,
+      "exit_reachable": true,
       "main_pack_ids": [
-        0,
-        1,
-        2,
-        3,
         4,
         5,
         6,
@@ -114,69 +112,6 @@
     }
   ],
   "exit_composites": [
-    {
-      "background_pack_id": 8,
-      "background_priority": 2,
-      "background_screen_origin": [
-        40,
-        0
-      ],
-      "background_scroll_pixels": [
-        -40,
-        0
-      ],
-      "background_width_pixels": 160,
-      "file": "exit/mode-0-obj-pack-04-over-pack-08.png",
-      "height": 160,
-      "mode": 0,
-      "obj_pack_id": 4,
-      "obj_placements": [
-        {
-          "frame_id": 0,
-          "image_origin": [
-            85,
-            136
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 56,
-            "min_x": 0,
-            "min_y": 8
-          },
-          "occluded_by_background_pixel_count": 562,
-          "palette_bank": 0,
-          "source_nontransparent_pixel_count": 562,
-          "task_index": 0,
-          "task_position": [
-            85,
-            128
-          ]
-        }
-      ],
-      "obj_priority": 3,
-      "pixel_sha256": "769dedb7eb558bbad839e0b12185543847c17ade810dca0d85313c402d9d06de",
-      "png_mode": "RGBA",
-      "sha256": "004eaa617196423d62bf73142cf7f53e8e14abbc9e0508ed769d8aebe2c1ec85",
-      "task_initial_positions": [
-        [
-          240,
-          128
-        ]
-      ],
-      "task_positions": [
-        [
-          85,
-          128
-        ]
-      ],
-      "task_target_positions": [
-        [
-          80,
-          128
-        ]
-      ],
-      "width": 240
-    },
     {
       "background_pack_id": 8,
       "background_priority": 2,
@@ -242,9 +177,9 @@
     }
   ],
   "implementation": {
-    "tests/test_export_scene_visual_composites.py": "e9a7bb6fc22c6de3023d20d16897de36f3a44605931d1f4ed95c4f31cdc03cd2",
-    "tools/export_scene_visual_composites.py": "1327f07afab6a1bdb66517a0a3f08ff1952231819bc644cebefc35479ba640e4",
-    "tools/verify_scene_visual_composites.py": "54c20074ac8a558f0853f9e8bd783eb19400b8cfbd7032fc3827591d92f67355"
+    "tests/test_export_scene_visual_composites.py": "86417eb458437cb3754e2989b29ed965ba657c5cb465fae64b1a382abc83a849",
+    "tools/export_scene_visual_composites.py": "364a997f54ce5b22f94b087fa75a882caf6b8decc72ada82634930fe2645f74f",
+    "tools/verify_scene_visual_composites.py": "6ed97d66e3efd5a23ffcf4847060eec37d42af0cd908772e4df470dc2f5dcd71"
   },
   "layering": {
     "background_priority": 2,
@@ -640,386 +575,6 @@
     {
       "background_priority": 2,
       "background_screen_origin": [
-        88,
-        0
-      ],
-      "background_scroll_pixels": [
-        -88,
-        0
-      ],
-      "background_width_pixels": 152,
-      "file": "main/mode-1-pack-00.png",
-      "height": 160,
-      "mode": 1,
-      "obj_placements": [
-        {
-          "frame_id": 0,
-          "image_origin": [
-            48,
-            10
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 96,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 0,
-          "source_nontransparent_pixel_count": 1134,
-          "task_index": 0,
-          "task_position": [
-            48,
-            10
-          ]
-        },
-        {
-          "frame_id": 1,
-          "image_origin": [
-            16,
-            70
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 80,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 1,
-          "source_nontransparent_pixel_count": 891,
-          "task_index": 1,
-          "task_position": [
-            16,
-            70
-          ]
-        }
-      ],
-      "obj_priority": 2,
-      "pack_id": 0,
-      "pixel_sha256": "2157aa6bd2fd7d07d0ecdc2357c4536ae7bff6e84c2b11761343e296f58d032c",
-      "png_mode": "RGBA",
-      "sha256": "a595f1a97287576250c81c6360db3632322ca62288e9c8f6a039593ed94314b5",
-      "task_initial_positions": [
-        [
-          48,
-          -160
-        ],
-        [
-          16,
-          240
-        ]
-      ],
-      "task_positions": [
-        [
-          48,
-          10
-        ],
-        [
-          16,
-          70
-        ]
-      ],
-      "task_target_positions": [
-        [
-          48,
-          16
-        ],
-        [
-          16,
-          64
-        ]
-      ],
-      "width": 240
-    },
-    {
-      "background_priority": 2,
-      "background_screen_origin": [
-        72,
-        0
-      ],
-      "background_scroll_pixels": [
-        -72,
-        0
-      ],
-      "background_width_pixels": 168,
-      "file": "main/mode-1-pack-01.png",
-      "height": 160,
-      "mode": 1,
-      "obj_placements": [
-        {
-          "frame_id": 0,
-          "image_origin": [
-            48,
-            10
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 72,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 0,
-          "source_nontransparent_pixel_count": 1591,
-          "task_index": 0,
-          "task_position": [
-            48,
-            10
-          ]
-        },
-        {
-          "frame_id": 1,
-          "image_origin": [
-            16,
-            70
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 80,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 1,
-          "source_nontransparent_pixel_count": 1116,
-          "task_index": 1,
-          "task_position": [
-            16,
-            70
-          ]
-        }
-      ],
-      "obj_priority": 2,
-      "pack_id": 1,
-      "pixel_sha256": "71dedef68cbb2bf1a50c9ac9515fda8046fa49fcaefe7a01579e10e3fe0b58ca",
-      "png_mode": "RGBA",
-      "sha256": "d088fd3a0526a9dd6b53e306535bb2f7b0d91f8eeee903dcaac9f66264eae084",
-      "task_initial_positions": [
-        [
-          48,
-          -160
-        ],
-        [
-          16,
-          240
-        ]
-      ],
-      "task_positions": [
-        [
-          48,
-          10
-        ],
-        [
-          16,
-          70
-        ]
-      ],
-      "task_target_positions": [
-        [
-          48,
-          16
-        ],
-        [
-          16,
-          64
-        ]
-      ],
-      "width": 240
-    },
-    {
-      "background_priority": 2,
-      "background_screen_origin": [
-        80,
-        0
-      ],
-      "background_scroll_pixels": [
-        -80,
-        0
-      ],
-      "background_width_pixels": 160,
-      "file": "main/mode-1-pack-02.png",
-      "height": 160,
-      "mode": 1,
-      "obj_placements": [
-        {
-          "frame_id": 0,
-          "image_origin": [
-            48,
-            13
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 67,
-            "min_x": 0,
-            "min_y": 3
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 0,
-          "source_nontransparent_pixel_count": 1161,
-          "task_index": 0,
-          "task_position": [
-            48,
-            10
-          ]
-        },
-        {
-          "frame_id": 1,
-          "image_origin": [
-            16,
-            70
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 80,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 1,
-          "source_nontransparent_pixel_count": 594,
-          "task_index": 1,
-          "task_position": [
-            16,
-            70
-          ]
-        }
-      ],
-      "obj_priority": 2,
-      "pack_id": 2,
-      "pixel_sha256": "bee6920c34480588883e1d6598ea9564ad5a25631db9eaefcc6a3dec9f7aed6e",
-      "png_mode": "RGBA",
-      "sha256": "a1c8ee2ecf1d9ca246f5341c1f8f4e270acc1b7ef58a7892e63ad03a158a2877",
-      "task_initial_positions": [
-        [
-          48,
-          -160
-        ],
-        [
-          16,
-          240
-        ]
-      ],
-      "task_positions": [
-        [
-          48,
-          10
-        ],
-        [
-          16,
-          70
-        ]
-      ],
-      "task_target_positions": [
-        [
-          48,
-          16
-        ],
-        [
-          16,
-          64
-        ]
-      ],
-      "width": 240
-    },
-    {
-      "background_priority": 2,
-      "background_screen_origin": [
-        56,
-        0
-      ],
-      "background_scroll_pixels": [
-        -56,
-        0
-      ],
-      "background_width_pixels": 184,
-      "file": "main/mode-1-pack-03.png",
-      "height": 160,
-      "mode": 1,
-      "obj_placements": [
-        {
-          "frame_id": 0,
-          "image_origin": [
-            48,
-            10
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 80,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 0,
-          "source_nontransparent_pixel_count": 1074,
-          "task_index": 0,
-          "task_position": [
-            48,
-            10
-          ]
-        },
-        {
-          "frame_id": 1,
-          "image_origin": [
-            16,
-            70
-          ],
-          "local_bounds": {
-            "max_x": 32,
-            "max_y": 80,
-            "min_x": 0,
-            "min_y": 0
-          },
-          "occluded_by_background_pixel_count": 0,
-          "palette_bank": 1,
-          "source_nontransparent_pixel_count": 1381,
-          "task_index": 1,
-          "task_position": [
-            16,
-            70
-          ]
-        }
-      ],
-      "obj_priority": 2,
-      "pack_id": 3,
-      "pixel_sha256": "f9dae81ab127dde4eb800da44f405601d5d2698d10fa358c1977a27605bbe5d0",
-      "png_mode": "RGBA",
-      "sha256": "9989b019766404cc7be1ae6518261de8c0290116a67d52f1d0e438aadc37fed4",
-      "task_initial_positions": [
-        [
-          48,
-          -160
-        ],
-        [
-          16,
-          240
-        ]
-      ],
-      "task_positions": [
-        [
-          48,
-          10
-        ],
-        [
-          16,
-          70
-        ]
-      ],
-      "task_target_positions": [
-        [
-          48,
-          16
-        ],
-        [
-          16,
-          64
-        ]
-      ],
-      "width": 240
-    },
-    {
-      "background_priority": 2,
-      "background_screen_origin": [
         64,
         0
       ],
@@ -1384,6 +939,7 @@
     "all_nine_source_packs_represented": true,
     "bg_obj_priority_order_complete": true,
     "controller_direct_call_modes_complete": true,
+    "controller_mode_pack_routes_complete": true,
     "natural_language_identity_complete": false,
     "presentation_overlay_composition_complete": false,
     "runtime_pixel_equivalence": false,
@@ -1392,9 +948,9 @@
     "window_blend_mosaic_runtime_complete": false
   },
   "summary": {
-    "composite_count": 14,
-    "exit_composite_count": 2,
-    "main_composite_count": 12,
+    "composite_count": 9,
+    "exit_composite_count": 1,
+    "main_composite_count": 8,
     "source_pack_count": 9,
     "source_packs_represented": [
       0,

@@ -872,13 +872,13 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   活动位、16 位 timer 和 `0x20` 终止策略证明：16/16 animation 的零 duration
   会在 65,536 次 renderer 更新后回绕并循环同号 frame；116 个文件（含 16 份编辑器
   timeline JSON）由独立 verifier 复核。后续已从 controller 指令纠正并闭合
-  两种 mode 的 12 张 main 与 2 张 exit 稳定 BG+OBJ 合成：main task 最后更新只到
+  两种mode的真实路由已纠正为8张main与1张exit稳定BG+OBJ合成：main task最后更新只到
   counter 31，稳定 Y 为 10/70；exit 从 `(240,128)` 到稳定 `(85,128)`，并非旧
   未提交实现假设的目标端点。BG0 priority 2、main OBJ priority 2、exit OBJ
   priority 3 的链也已闭合；exit OBJ 只透过 BG index 0 显示，取代旧无条件覆盖
-  合成。OBJ frame、palette bank、animation 时序、稳定
-  viewport crop 与 pack-row BG+OBJ 合成现已闭合；逐 tick 过渡、presentation
-  overlay、mGBA 像素等价和自然语言名称仍保持未完成。证据见
+  合成。OBJ frame、palette bank、animation时序、稳定viewport crop及403次
+  背景scroll写入、521个独立task运动见证已闭合；state 3外部门禁、跨task调度、
+  presentation overlay、mGBA像素等价和自然语言名称仍保持未完成。证据见
   `notes/scene-visual-pack-export-20260729.md` 与
   `notes/scene-visual-composites-export-20260730.md`。
   紧接的 `0x085A8014` 已闭合为 3×`gfx/map/palette` 世界地图背景表：
@@ -1319,9 +1319,12 @@ WebSocket
   `notes/unresolved-lz77-palette-survey-20260730.md`。后续不再重复这两条路线，
   只在发现新的 attr2/OAM 生成链时重开绑定调查，Goal 保持 active。
 - 2026-07-30：闭合 `0x0808C214..0x0808C4CB` 两种直接调用 mode 的稳定
-  scene-pack BG+OBJ 合成。12 张 main 与 2 张 exit 覆盖 9/9 个源 pack；独立
+  scene-pack BG+OBJ 合成。后续路由审计纠正旧分母：mode 0只跑pack 0–3后退出，
+  非零mode只跑pack 4–7并进入唯一pack 8 exit，因此是8张main与1张exit，9/9个
+  源pack各进入唯一可达角色；旧5张不可达组合已删除。独立
   verifier 从 ROM 指令提取 task-index 运动分支、counter 31 停止边界、Q12 向零
-  截断、scroll、allocator 参数及 BG/OBJ priority，再重建全部 14 张 240×160
+  截断、mode初始pack/上界、退出分支、scroll、allocator参数及BG/OBJ priority，
+  再重建全部9张240×160
   PNG。审查发现并由两轮红测固定了旧未提交实现的三项 P0：main 不能按 mode 把 Y
   写成 16/64，exit 不能写成 `(0,128)`，priority 3 的 exit OBJ 也不能无条件覆盖
   priority 2 的 BG；正确稳定坐标分别为 Y `10/70` 与 `(85,128)`，exit OBJ 只在
@@ -1340,3 +1343,16 @@ WebSocket
   `artifacts/menu-portrait-writeback-v1/`，说明见
   `notes/menu-portrait-writeback-20260730.md`。任意PNG容量、资源迁移、指针改写、
   运行时像素等价和通用图像回编仍未完成，Goal保持active。
+- 2026-07-30：角色场景控制器的阶段模型已按ROM真实顺序离线闭合。8条main背景
+  轨道记录342次scroll写入，唯一exit记录61次，合计403次；main的初始scroll和
+  首次4像素更新明确属于同一dispatch，全部背景记录均不在spawn前绘制OBJ。
+  15条main task和1条exit task另记录521个“初态、有效位置更新、首个稳定回调”
+  局部见证，不假设controller与task一一同帧，合计924张PNG进入固定元数据的单个
+  约12MiB `frames.zip`。验证器不导入新导出器，从ROM重建跳转表基址、mode路由、
+  spawn顺序、state 2/20计数、task插值、全部PNG及ZIP元数据；重签后篡改spawn
+  语义或archive comment均被拒绝。测试/导出/验证均经heavy lock，峰值tree RSS
+  约50.15/35.09/37.32MiB，`completed/0`、非降级。
+  成果位于 `artifacts/scene-visual-transition-timelines-v1/`，说明见
+  `notes/scene-visual-transition-timelines-20260730.md`。state 3外部门禁时长、
+  跨task调度、VBlank/wall-frame、presentation overlay、window/blend/mosaic、
+  运行时像素等价和自然语言身份仍未闭合，Goal保持active。

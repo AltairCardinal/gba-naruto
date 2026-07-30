@@ -37,17 +37,17 @@ class ExportSceneVisualCompositesTests(unittest.TestCase):
         self.assertEqual(
             [
                 (0, list(range(4))),
-                (1, list(range(8))),
+                (1, list(range(4, 8))),
             ],
             [
                 (mode["mode"], mode["main_pack_ids"])
                 for mode in self.payload["controller_modes"]
             ],
         )
-        self.assertEqual(12, len(self.payload["main_composites"]))
-        self.assertEqual(2, len(self.payload["exit_composites"]))
+        self.assertEqual(8, len(self.payload["main_composites"]))
+        self.assertEqual(1, len(self.payload["exit_composites"]))
         self.assertEqual(
-            [(0, 4, 8), (1, 8, 8)],
+            [(1, 8, 8)],
             [
                 (
                     item["mode"],
@@ -56,6 +56,20 @@ class ExportSceneVisualCompositesTests(unittest.TestCase):
                 )
                 for item in self.payload["exit_composites"]
             ],
+        )
+        self.assertEqual(
+            list(range(9)),
+            sorted(
+                {item["pack_id"] for item in self.payload["main_composites"]}
+                | {
+                    item["background_pack_id"]
+                    for item in self.payload["exit_composites"]
+                }
+                | {
+                    item["obj_pack_id"]
+                    for item in self.payload["exit_composites"]
+                }
+            ),
         )
 
     def test_records_controller_derived_scroll_and_stable_task_positions(self):
@@ -167,15 +181,15 @@ class ExportSceneVisualCompositesTests(unittest.TestCase):
             for key in ("main_composites", "exit_composites")
             for item in self.payload[key]
         ]
-        self.assertEqual(14, len(files))
-        self.assertEqual(14, len(set(files)))
+        self.assertEqual(9, len(files))
+        self.assertEqual(9, len(set(files)))
         for relative in files:
             data = (self.output / relative).read_bytes()
             self.assertEqual(b"\x89PNG\r\n\x1a\n", data[:8])
 
         report = verify_scene_visual_composites(ROOT, self.output)
         self.assertTrue(report["verified"], report["errors"])
-        self.assertEqual(14, report["composite_count"])
+        self.assertEqual(9, report["composite_count"])
 
     def test_independent_verifier_rejects_resigned_semantic_tamper(self):
         payload = json.loads(

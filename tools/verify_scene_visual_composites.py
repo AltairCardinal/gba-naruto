@@ -251,6 +251,44 @@ def _derive_controller_model(rom: bytes) -> dict[str, Any]:
     }
 
 
+def _derive_controller_routes(rom: bytes) -> list[dict[str, Any]]:
+    for address, expected in {
+        0x0808C224: 0x4680,  # preserve zero/nonzero mode in r8
+        0x0808C226: 0x4240,
+        0x0808C22A: 0x4308,
+        0x0808C22C: 0x17C6,
+        0x0808C22E: 0x2004,
+        0x0808C230: 0x4006,  # initial pack = mode ? 4 : 0
+        0x0808C232: 0x2008,
+        0x0808C234: 0x2900,
+        0x0808C238: 0x2004,  # exclusive end = mode ? 8 : 4
+        0x0808C23A: 0x4682,
+        0x0808C3EA: 0x1C70,  # pack++
+        0x0808C3F2: 0x4556,  # compare pack with exclusive end
+        0x0808C3F6: 0x270A,  # tentatively enter exit state 10
+        0x0808C3F8: 0x4640,
+        0x0808C3FA: 0x2800,
+        0x0808C3FE: 0xE04C,  # zero mode exits instead
+    }.items():
+        _expect_halfword(rom, address, expected)
+    return [
+        {
+            "mode": 0,
+            "main_pack_ids": list(range(4)),
+            "exit_reachable": False,
+            "exit_background_pack_id": None,
+            "exit_obj_pack_id": None,
+        },
+        {
+            "mode": 1,
+            "main_pack_ids": list(range(4, 8)),
+            "exit_reachable": True,
+            "exit_background_pack_id": 8,
+            "exit_obj_pack_id": 8,
+        },
+    ]
+
+
 def _derive_layering_model(rom: bytes) -> dict[str, Any]:
     if _literal_word(rom, 0x0808BAF4, 1) != 0x04000008:
         raise ValueError("scene setup does not target BG0CNT")
@@ -433,19 +471,16 @@ def _expected_records(
     }
     main = []
     modes = []
-    for mode, pack_ids, exit_obj_pack_id in (
-        (0, range(4), 4),
-        (1, range(8), 8),
-    ):
+    routes = _derive_controller_routes(rom)
+    for route in routes:
+        mode = route["mode"]
+        pack_ids = route["main_pack_ids"]
         xs = controller["main_initial_x_by_mode"][mode]
         mode_spec = {
-            "mode": mode,
-            "main_pack_ids": list(pack_ids),
+            **route,
             "main_task_initial_x": xs,
             "main_task_initial_y": controller["main_initial_y"],
             "main_task_target_y": controller["main_target_y"],
-            "exit_background_pack_id": 8,
-            "exit_obj_pack_id": exit_obj_pack_id,
         }
         modes.append(mode_spec)
         for pack_id in pack_ids:
@@ -522,7 +557,11 @@ def _expected_records(
                 }
             )
     exits = []
-    for mode, obj_pack_id in ((0, 4), (1, 8)):
+    for route in routes:
+        if not route["exit_reachable"]:
+            continue
+        mode = route["mode"]
+        obj_pack_id = route["exit_obj_pack_id"]
         scroll = controller["exit_scroll"]
         background, background_indices = _background(packs[8], upstream)
         image, viewport_indices = _viewport(
@@ -678,10 +717,10 @@ def verify_scene_visual_composites(
             errors.append("layering model mismatch")
         actual_main = payload.get("main_composites")
         actual_exit = payload.get("exit_composites")
-        if not isinstance(actual_main, list) or len(actual_main) != 12:
+        if not isinstance(actual_main, list) or len(actual_main) != 8:
             errors.append("main composite denominator mismatch")
             actual_main = []
-        if not isinstance(actual_exit, list) or len(actual_exit) != 2:
+        if not isinstance(actual_exit, list) or len(actual_exit) != 1:
             errors.append("exit composite denominator mismatch")
             actual_exit = []
         for index, expected in enumerate(expected_main):
@@ -703,15 +742,16 @@ def verify_scene_visual_composites(
                     errors,
                 )
         if payload.get("summary") != {
-            "main_composite_count": 12,
-            "exit_composite_count": 2,
-            "composite_count": 14,
+            "main_composite_count": 8,
+            "exit_composite_count": 1,
+            "composite_count": 9,
             "source_pack_count": 9,
             "source_packs_represented": list(range(9)),
         }:
             errors.append("summary mismatch")
         expected_scope = {
             "controller_direct_call_modes_complete": True,
+            "controller_mode_pack_routes_complete": True,
             "stable_pack_row_bg_obj_layouts_complete": True,
             "bg_obj_priority_order_complete": True,
             "all_nine_source_packs_represented": True,
@@ -728,7 +768,7 @@ def verify_scene_visual_composites(
     return {
         "schema": "scene-visual-composites-verification-v1",
         "verified": not errors,
-        "composite_count": 14 if not errors else 0,
+        "composite_count": 9 if not errors else 0,
         "errors": errors,
     }
 
