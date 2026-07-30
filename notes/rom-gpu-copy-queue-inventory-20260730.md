@@ -101,7 +101,7 @@ bytes，因此绑定为既有菜单图像的两段链，不重复导出。
 | `0x0808812E` | `0x02002BC0` | `0x05000000` | 416 | 固定 EWRAM→PRAM |
 | `0x0808D9C6` | `0x02002AB0` | `0x06002000` | 352 | overview 过程式 tiles |
 | `0x0808DA0E` | `0x02002C10` | `0x050001A0` | 32 | overview 过程式 palette |
-| `0x08096536` | `0x02002880` | 动态 OBJ palette bank | 128 | producer 未闭合 |
+| `0x08096536` | `0x02002880` | 动态 OBJ palette bank | 128 | 已被后续成果取代：mode 0 producer 已闭合 |
 | `0x08096E44` | `0x02002880` | 动态 OBJ palette bank | 128 | helper 输出，完整 producer 语义未签发 |
 | `0x08098B6C` | `0x02002880` | 动态 BG palette bank | 32 | caller 内生成的变换 palette |
 | `0x08098D90` | `work+0x40` | 动态 BG palette bank | 32 | helper 生成的 work RAM palette |
@@ -110,6 +110,13 @@ bytes，因此绑定为既有菜单图像的两段链，不重复导出。
 `0x08098B6C` 邻近读取 `0x085A320C` 的 tile-assets descriptor，但 enqueue
 source 已是 `0x02002880`；仅凭邻近表地址不能把 descriptor 原字段冒充本次 raw
 palette source。
+
+上表中 `0x08096536` 的“producer 未闭合”是本成果生成时的历史分类，现已被
+`artifacts/portrait-palette-producers-v1/` 取代：后续成果通过全剧情
+opcode `0x17` 分母、mode 0 静态链和 mGBA 正负对照证明该 caller 接收
+`0x02002880` 的 64 色红色转场 palette。父 artifact 保持不可变，故在本说明中
+标记 superseded，而不重写旧 manifest。`0x08096E44` 的 dim helper 仍只有静态
+公式，运行时路径保持未完成。
 
 ## 完整性与边界
 

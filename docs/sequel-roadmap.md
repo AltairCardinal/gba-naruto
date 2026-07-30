@@ -1282,6 +1282,21 @@ WebSocket
   queue、运行时可达性、对话 tilemap submit、全部未压缩图像或通用写回；下一图像
   主线应追踪 `0x08096536` 的 `0x02002880` producer，或把固定地址 custom loop
   的零候选调查成果化，Goal 保持 active。
+- 2026-07-30：上述 `0x08096536` producer 已闭合。全量剧情 CFG 从 primary/
+  alternate 的 110 个非空 slot、98 个唯一根遍历 14,199 个唯一节点，得到
+  161 个唯一 opcode `0x17` 记录、193 次根引用；mode 0 为 48/161，其他
+  mode 分母也全部建账且解析失败为 0。跳转表纠正了早期把第一个 entry 误称
+  mode 1 的索引错误：`0x08096BD4` 实为 mode 0，它用 CpuSet fixed-source
+  把 `0x02002882` 起的 63 色填为 `0x001F`，进入 state `0x40` 后在 tick 8
+  通过 `0x08096536` 把 `0x02002880` 的 128 bytes 提交到动态 OBJ palette
+  bank。受控快照只改脚本游标两个字节；零输入 240 帧为 0 写入，单次 A 输入
+  命中完整 handler/fill/queue 链并记录 63 条连续 halfword 写，守卫峰值分别
+  `105.01953125/84.015625 MiB`，无 mGBA 残留或 crash report。成果位于
+  `artifacts/portrait-palette-producers-v1/`，说明见
+  `notes/portrait-palette-producers-20260730.md`。这同时静态固定
+  `0x08096D4C` 的 64 色 3/4 dim 公式，但不冒充 dim 运行时覆盖、
+  `0x02002880` 全部生产者、所有肖像 palette 路径或通用回写已完成；下一图像
+  主线转向剩余 scratch producer/custom loop，Goal 保持 active。
 - 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
   `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
   OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette
