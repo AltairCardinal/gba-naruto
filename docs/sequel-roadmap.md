@@ -1431,3 +1431,21 @@ WebSocket
   `notes/character-battle-structure-writeback-20260731.md`。新增/删除结构项、
   pointer/region迁移、运行时slot选择、相机/priority/blend及最终像素时序等价仍
   未完成，Goal保持active。
+- 2026-07-31：为解除角色视觉只能原位同长度修改的容量边界，正式建立统一
+  16 MiB ROM布局与分区门禁。Nintendo AGB 32 MiB Game Pak ROM地址空间和
+  mGBA源码上限先完成静态复核；受守卫运行又令CPU从`0x08600000`执行stub、读取
+  `0x08600100` marker并返回原入口继续启动，首个扩展分区的取指/读数因果链成立。
+  frame 60快照另经直接恢复并零输入运行30帧，ROM/EWRAM marker保持一致且恢复截图
+  与原图逐RGB相同，因此后续扩容调试可从该已验证快照继续。
+  新`character_battle_bundle`构建类型可原子迁移palette、变长graphics、
+  frame/component、frame pointer table、animation timeline和animation pointer
+  table，并同步重写全部descriptor别名。全量审计把250/250资源、342/342逻辑槽、
+  2,004帧、2,190 component、784 animation、3,187 keyframe和60,430 tile迁入
+  `0x600000..0x7FFFFF`，占2,020,612 bytes、余76,540 bytes。独立verifier重建
+  整个16 MiB输出和3,815条精确引用；唯一额外数值位于被独立指针引用的严格LZ77
+  压缩负载内，已作为coincidence建账，未知外部引用为0。证据位于
+  `artifacts/rom-expansion-profile-v1/`、
+  `artifacts/character-battle-bundle-relocation-v1/`和
+  `notes/rom-expansion-character-bundle-relocation-20260731.md`。这闭合
+  角色战斗视觉的变长结构、迁移和指针改写能力；修改后全部slot的自然运行选择、
+  相机/priority/blend和最终像素时序等价仍未全量闭合，Goal保持active。

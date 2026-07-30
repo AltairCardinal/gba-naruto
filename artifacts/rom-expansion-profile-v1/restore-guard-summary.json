@@ -1,0 +1,25 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 48816,
+  "peak_tree_rss_mib": 66.67578125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "env",
+    "QT_QPA_PLATFORM=offscreen",
+    "MGBA_EXPANSION_RESTORE_STATE=/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/boot-frame-60.ss9",
+    "MGBA_EXPANSION_RESTORE_OUTPUT_DIR=/Users/altair/github/gba-naruto-reverse/build/experiments/rom-expansion-probe-v1/restore-run-01",
+    "MGBA_EXPANSION_RESTORE_RUN_ID=rom-expansion-restore-20260731-run01",
+    "MGBA_EXPANSION_RESTORE_ROM_SHA256=88709b8a66a3cb916f1364e975ae7c58a60d779c51fc80784db5b3a24db721d5",
+    "MGBA_EXPANSION_RESTORE_DONE_MARKER=/Users/altair/github/gba-naruto-reverse/build/experiments/rom-expansion-probe-v1/restore-run-01/runtime.done",
+    "/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto-reverse/tools/mgba_rom_expansion_restore_probe.lua",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/rom-expansion-probe-v1/probe.gba"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-07-30T19:00:09.384786Z",
+  "finished_at": "2026-07-30T19:00:11.490369Z",
+  "completion_trigger": "success-marker"
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "rom-expansion-profile-v1",
+  "identity": "agb_standard_16mib_sequel_rom_profile",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "target_rom": {
+    "size": 16777216,
+    "fill_byte": 255,
+    "rom_base": "0x08000000",
+    "max_profile_size": 33554432,
+    "cartridge_profile": "agb-standard-game-pak-rom"
+  },
+  "hardware_evidence": {
+    "manual": "Nintendo AGB Programming Manual AGB-06-0001-002-B13, section 3.2.2.1",
+    "manual_claim": "Wait State 0 maps a 32 MiB Game Pak ROM space beginning at 0x08000000.",
+    "mgba_repository": "https://github.com/mgba-emu/mgba",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8"
+  },
+  "runtime_probe": {
+    "run_id": "rom-expansion-20260731-run01",
+    "probe_rom_sha256": "88709b8a66a3cb916f1364e975ae7c58a60d779c51fc80784db5b3a24db721d5",
+    "entry_patch": "0x08000000 -> 0x08600000",
+    "expanded_instruction_address": "0x08600000",
+    "expanded_marker_address": "0x08600100",
+    "ewram_scratch_address": "0x0203FFF0",
+    "marker_u32": "0x4258474D",
+    "first_frame_scratch": "0x4258474D",
+    "capture_frame": 60,
+    "capture_pc": "0x085CCC88",
+    "original_entry_target": "0x080000C0",
+    "game_boot_continued": true,
+    "guard_reason": "completed",
+    "guard_completion_trigger": "success-marker",
+    "guard_exit_code": 0,
+    "guard_degraded": false,
+    "peak_tree_rss_mib": 66.44140625,
+    "new_mgba_crash_report": false,
+    "owned_process_residue": false,
+    "snapshot_restore": {
+      "run_id": "rom-expansion-restore-20260731-run01",
+      "input_state": "artifacts/rom-expansion-profile-v1/boot-frame-60.ss9",
+      "restored_frame": 60,
+      "capture_delta": 30,
+      "rom_marker": "0x4258474D",
+      "scratch_marker": "0x4258474D",
+      "pc": "0x085CCC80",
+      "guard_reason": "completed",
+      "guard_completion_trigger": "success-marker",
+      "guard_exit_code": 0,
+      "guard_degraded": false,
+      "peak_tree_rss_mib": 66.67578125
+    }
+  },
+  "files": {
+    "sequel/rom-layout.json": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "316cbc6b4e47135e075617c76e78a1990180c15ac7a6e55c6b7d3fbec12b4b71",
+    "tools/build_mod.py": "f0809f9ee61f5a9bd73afeacc19d11f9863561b5c8233ac0d7abde88f20a8a34",
+    "tools/build_rom_expansion_probe.py": "c073252cb39fe5aa8510ecc60a4c0c54823a70dd497b82575f016a32649cb3db",
+    "tools/mgba_rom_expansion_probe.lua": "d196d3dad875b0025515c4ed63dc111be5c27d380926ae90de79cb97255c38bd",
+    "tools/mgba_rom_expansion_restore_probe.lua": "77c6bec2cb6187ae273c17e84262a180d88df29c016ddd0f089eef0d5f5c4ab5",
+    "artifacts/rom-expansion-profile-v1/build-manifest.json": "843566597af9251f4450dcda22d69aaa644f3fa9832e8f1d9506a22c32719563",
+    "artifacts/rom-expansion-profile-v1/runtime-evidence.json": "462cb89341336771ff3b5d508254cbc6e2fadf833e882136b3adc1f7dee07b08",
+    "artifacts/rom-expansion-profile-v1/guard-summary.json": "c3097006796dc2b3fc892958221735a9f023a20e20bd765c7c72c530e69ce740",
+    "artifacts/rom-expansion-profile-v1/boot-frame-60.ss9": "7ea3e16d1dce80253353f42f783ba791d9158e49aceb37afae768b507e410cbe",
+    "artifacts/rom-expansion-profile-v1/boot-frame-60.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6",
+    "artifacts/rom-expansion-profile-v1/restore-evidence.json": "b0337ae2bc62e78067bad34ec25c69c1c8fffac0b14b14194d6ba79dabb9ff8e",
+    "artifacts/rom-expansion-profile-v1/restore-guard-summary.json": "dbe2073167fc139dcaff49fdcd178903f95a6621be94e41098c10aacf085b4b9",
+    "artifacts/rom-expansion-profile-v1/restore-frame-30.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6"
+  },
+  "boundary": "This proves standard GBA addressability, mGBA CPU execution/data reads in the first expanded partition, and continued original-game boot. It does not by itself prove every address through 16 MiB, a specific flash cartridge implementation, or any relocated game resource."
+}

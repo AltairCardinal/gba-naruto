@@ -1522,3 +1522,41 @@ python3 tools/verify_lz77_palette_runtime.py \
 This tool proves the two natural load boundaries and a bounded lack of OAM
 selection. It does not convert an adjacent palette into a binding and does not
 claim generic image writeback.
+
+# ROM expansion layout and character battle bundle relocation
+
+`rom_layout.py` validates the hash-pinned 16 MiB build layout and its exclusive
+allocation partitions. `patch_safety.py` permits writes above the immutable 6 MiB
+base only when a patch declares the exact `expanded_ff` partition and owner.
+
+```bash
+python3 tools/build_rom_expansion_probe.py \
+  --output build/experiments/rom-expansion-probe-v1/probe.gba \
+  --manifest build/experiments/rom-expansion-probe-v1/build-manifest.json
+python3 tools/verify_rom_expansion_profile.py \
+  --manifest artifacts/rom-expansion-profile-v1/manifest.json
+```
+
+The profile includes both the initial guarded run and a second guarded
+zero-input run that directly reloads `boot-frame-60.ss9`, rechecks the expanded
+ROM/EWRAM marker and compares the restored screenshot byte-for-byte. The restore
+Lua script never terminates mGBA itself; the resource guard owns cleanup.
+
+`import_character_battle_bundles.py` is integrated into `build_mod.py` as
+`character_battle_bundle`. It rebuilds a whole palette/graphics/frame/animation
+bundle, rewrites internal pointer tables and every logical descriptor alias, and
+can therefore add or remove tiles, frames, components, animations and keyframes.
+Use the tracked full-preservation spec as the schema example:
+
+```bash
+python3 tools/export_character_battle_bundle_relocation_audit.py \
+  --output artifacts/character-battle-bundle-relocation-v1
+python3 tools/verify_character_battle_bundle_relocation_audit.py \
+  --artifact artifacts/character-battle-bundle-relocation-v1
+```
+
+The accepted audit relocates all 250 resources/342 descriptor slots into the
+registered 2 MiB partition and independently rebuilds the full 16 MiB output.
+It proves format, capacity, exact aligned references and deterministic build
+behavior. It does not prove modified-resource runtime selection, camera,
+priority/blend, final pixel timing or a particular physical flash cartridge.

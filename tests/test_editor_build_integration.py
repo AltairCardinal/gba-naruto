@@ -39,6 +39,10 @@ class EditorBuildIntegrationTests(unittest.TestCase):
                 ROOT / "sequel" / "patches" / "manifest.json",
                 root / "sequel" / "patches" / "manifest.json",
             )
+            shutil.copy2(
+                ROOT / "sequel" / "rom-layout.json",
+                root / "sequel" / "rom-layout.json",
+            )
             project = json.loads(
                 (ROOT / "sequel" / "project.json").read_text(encoding="utf-8")
             )

@@ -11,8 +11,17 @@ from pathlib import Path
 from typing import Any
 
 from patch_safety import PatchSafetyGate, with_base_precondition
+from rom_layout import RomLayout
 
 ROOT = Path(__file__).resolve().parent.parent
+
+LAYOUT_ALLOCATOR_BINDINGS = {
+    "dialogue_var": ("variable-dialogue", "dialogue_allocator"),
+    "chapter_script": (
+        "semantic-chapter-scripts",
+        "chapter_script_allocator",
+    ),
+}
 
 
 def editor_db_path() -> Path:
@@ -134,6 +143,48 @@ def apply_bytes_patch(
         "patch_class": patch_class,
         **safety_result,
     }
+
+
+def effective_patch_class(patch: dict) -> str:
+    """Expanded writes are allocations; ordinary writes stay base-ROM-bound."""
+    return "allocation" if "allocation" in patch else "game_effective"
+
+
+def validate_layout_allocators(
+    manifest: dict,
+    layout: RomLayout,
+    *,
+    allocator_bindings: dict[str, tuple[str, str]] = LAYOUT_ALLOCATOR_BINDINGS,
+) -> list[dict[str, object]]:
+    """Bind every enabled legacy allocator to one exact layout partition."""
+    results: list[dict[str, object]] = []
+    for patch in manifest.get("patches", []):
+        if not patch.get("enabled", True):
+            continue
+        patch_type = patch.get("type")
+        binding = allocator_bindings.get(patch_type)
+        if binding is None:
+            continue
+        partition_id, owner = binding
+        if "free_space_start" not in patch or "free_space_end" not in patch:
+            raise ValueError(
+                f"allocator patch {patch.get('id', '<unnamed>')} has no explicit "
+                "free-space bounds"
+            )
+        start = int(patch["free_space_start"], 0)
+        end = int(patch["free_space_end"], 0)
+        layout.require_exact_partition(partition_id, owner, start, end)
+        results.append(
+            {
+                "patch_id": patch.get("id", "<unnamed>"),
+                "patch_type": patch_type,
+                "partition": partition_id,
+                "owner": owner,
+                "start": start,
+                "end": end,
+            }
+        )
+    return results
 
 
 def apply_pointer_redirect_patch(
@@ -344,12 +395,41 @@ def resolve_character_battle_structure_patch(
     )
 
 
+def resolve_character_battle_bundle_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_character_battle_bundles import (
+        resolve_character_battle_bundle_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "character battle bundle relocation requires an explicit ROM layout"
+        )
+    spec = ROOT / patch["spec"]
+    return resolve_character_battle_bundle_patches(
+        ROOT,
+        spec,
+        rom=rom,
+        layout=layout,
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
     ptype = patch.get("sub_type", patch["type"])
     if ptype == "bytes":
-        return apply_bytes_patch(data, patch, gate=gate)
+        return apply_bytes_patch(
+            data,
+            patch,
+            gate=gate,
+            patch_class=effective_patch_class(patch),
+        )
     elif ptype == "pointer_redirect":
         return apply_pointer_redirect_patch(data, patch, gate=gate)
     else:
@@ -469,16 +549,51 @@ def build(project_path: Path) -> dict:
     manifest_path = ROOT / ctx.project["patch_manifest"]
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
-    data = bytearray(ctx.base_rom_path.read_bytes())
-    base_data = bytes(data)
-    safety_gate = PatchSafetyGate(base_data)
+    base_data = ctx.base_rom_path.read_bytes()
+    layout: RomLayout | None = None
+    allocator_bindings: list[dict[str, object]] = []
+    layout_path_value = ctx.project.get("rom_layout")
+    if layout_path_value is not None:
+        layout_path = ROOT / str(layout_path_value)
+        layout = RomLayout.from_path(layout_path, base_data)
+        allocator_bindings = validate_layout_allocators(manifest, layout)
+        if db_path.exists():
+            from build_db_patches import RESERVED_REGION_END, RESERVED_REGION_START
+
+            layout.require_exact_partition(
+                "editor-db-audit",
+                "editor_db_audit",
+                RESERVED_REGION_START,
+                RESERVED_REGION_END,
+            )
+            allocator_bindings.append(
+                {
+                    "patch_id": "editor-db-audit",
+                    "patch_type": "db_audit",
+                    "partition": "editor-db-audit",
+                    "owner": "editor_db_audit",
+                    "start": RESERVED_REGION_START,
+                    "end": RESERVED_REGION_END,
+                }
+            )
+        data = bytearray(layout.expanded_base())
+    else:
+        data = bytearray(base_data)
+    safety_gate = PatchSafetyGate(base_data, layout=layout)
     applied: list[dict] = []
     for patch in manifest["patches"]:
         if not patch.get("enabled", True):
             continue
         patch_type = patch["type"]
         if patch_type == "bytes":
-            applied.append(apply_bytes_patch(data, patch, gate=safety_gate))
+            applied.append(
+                apply_bytes_patch(
+                    data,
+                    patch,
+                    gate=safety_gate,
+                    patch_class=effective_patch_class(patch),
+                )
+            )
         elif patch_type == "dialogue":
             resolved_list = resolve_dialogue_patch((ROOT, ROOT), patch)
             for resolved in resolved_list:
@@ -658,6 +773,43 @@ def build(project_path: Path) -> dict:
                     if key in sp:
                         result[key] = sp[key]
                 applied.append(result)
+        elif patch_type == "character_battle_bundle":
+            sub_patches = resolve_character_battle_bundle_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_id",
+                    "slot_row",
+                    "affected_slot_rows",
+                    "logical_aliases",
+                    "old_descriptor",
+                    "new_pointers",
+                    "bundle_size",
+                    "graphics_size",
+                    "tile_count",
+                    "frame_count",
+                    "component_count",
+                    "animation_count",
+                    "keyframe_count",
+                    "graphics_file",
+                    "graphics_sha256",
+                    "palette_file",
+                    "palette_sha256",
+                    "catalog_sha256",
+                    "target_pointer_count",
+                    "reference_count",
+                    "compressed_payload_coincidences",
+                    "unexpected_external_references",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
         else:
             raise ValueError(f"unsupported patch type: {patch_type}")
 
@@ -691,6 +843,10 @@ def build(project_path: Path) -> dict:
         audit_patch = {
             **patch,
             "id": f"db_{patch.get('db_table', '?')}_{patch.get('db_row_id', '?')}",
+            "allocation": {
+                "partition": "editor-db-audit",
+                "owner": "editor_db_audit",
+            },
         }
         audit_safety_result = safety_gate.register(audit_patch, patch_class="audit")
         data[offset : offset + len(after)] = after
@@ -729,6 +885,9 @@ def build(project_path: Path) -> dict:
             "game_effective": sum(
                 p.get("patch_class") == "game_effective" for p in applied
             ),
+            "allocation": sum(
+                p.get("patch_class") == "allocation" for p in applied
+            ),
             "audit": sum(p.get("patch_class") == "audit" for p in applied),
             "diagnostic": sum(
                 p.get("patch_class") == "diagnostic" for p in applied
@@ -740,6 +899,12 @@ def build(project_path: Path) -> dict:
         },
         "patch_manifest": str(manifest_path.relative_to(ROOT)),
     }
+    if layout is not None:
+        report["rom_layout"] = {
+            "path": display_path(ROOT / str(layout_path_value)),
+            **layout.report(),
+            "allocator_bindings": allocator_bindings,
+        }
     ctx.report_path.parent.mkdir(parents=True, exist_ok=True)
     ctx.report_path.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"

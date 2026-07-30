@@ -6,8 +6,8 @@
   },
   "output_rom": {
     "path": "build/naruto-sequel-dev.gba",
-    "sha1": "8018d23fe80efe15f8f55c01aa8eb04f3ccb921f",
-    "size": 6291456
+    "sha1": "5dfdde0adb0c2c4f5b0bafba8cfaac0b896f6dfa",
+    "size": 16777216
   },
   "applied_patches": [
     {
@@ -110,6 +110,7 @@
   ],
   "patch_class_counts": {
     "game_effective": 9,
+    "allocation": 0,
     "audit": 0,
     "diagnostic": 0
   },
@@ -117,5 +118,82 @@
     "db_real": 0,
     "db_audit": 0
   },
-  "patch_manifest": "sequel/patches/manifest.json"
+  "patch_manifest": "sequel/patches/manifest.json",
+  "rom_layout": {
+    "path": "sequel/rom-layout.json",
+    "base_rom_size": 6291456,
+    "target_rom_size": 16777216,
+    "fill_byte": 255,
+    "cartridge_profile": "agb-standard-game-pak-rom",
+    "rom_base": "0x08000000",
+    "max_rom_size": 33554432,
+    "partitions": [
+      {
+        "id": "editor-db-audit",
+        "owner": "editor_db_audit",
+        "start": 6160384,
+        "end": 6225920,
+        "origin": "base_ff",
+        "alignment": 64
+      },
+      {
+        "id": "variable-dialogue",
+        "owner": "dialogue_allocator",
+        "start": 6225920,
+        "end": 6258688,
+        "origin": "base_ff",
+        "alignment": 4
+      },
+      {
+        "id": "semantic-chapter-scripts",
+        "owner": "chapter_script_allocator",
+        "start": 6258688,
+        "end": 6291456,
+        "origin": "base_ff",
+        "alignment": 4
+      },
+      {
+        "id": "character-battle-visual-bundles",
+        "owner": "character_battle_visuals",
+        "start": 6291456,
+        "end": 8388608,
+        "origin": "expanded_ff",
+        "alignment": 4
+      },
+      {
+        "id": "sequel-image-assets",
+        "owner": "sequel_image_assets",
+        "start": 8388608,
+        "end": 12582912,
+        "origin": "expanded_ff",
+        "alignment": 4
+      },
+      {
+        "id": "sequel-audio-text-config",
+        "owner": "sequel_nonvisual_assets",
+        "start": 12582912,
+        "end": 16777216,
+        "origin": "expanded_ff",
+        "alignment": 4
+      }
+    ],
+    "allocator_bindings": [
+      {
+        "patch_id": "dialogue_variable_allocator",
+        "patch_type": "dialogue_var",
+        "partition": "variable-dialogue",
+        "owner": "dialogue_allocator",
+        "start": 6225920,
+        "end": 6258688
+      },
+      {
+        "patch_id": "chapter_script_allocator",
+        "patch_type": "chapter_script",
+        "partition": "semantic-chapter-scripts",
+        "owner": "chapter_script_allocator",
+        "start": 6258688,
+        "end": 6291456
+      }
+    ]
+  }
 }

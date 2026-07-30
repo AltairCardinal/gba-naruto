@@ -1,0 +1,57 @@
+{
+  "schema": "rom-expansion-cpu-read-probe-v1",
+  "base_rom": "rom/base.gba",
+  "base_sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d",
+  "base_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "base_size": 6291456,
+  "layout": "sequel/rom-layout.json",
+  "layout_sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+  "cartridge_profile": "agb-standard-game-pak-rom",
+  "target_rom_size": 16777216,
+  "partition": "character-battle-visual-bundles",
+  "owner": "character_battle_visuals",
+  "original_entry_instruction": "0xEA00002E",
+  "original_entry_target": "0x080000C0",
+  "stub_address": "0x08600000",
+  "marker_address": "0x08600100",
+  "marker_hex": "4D475842",
+  "scratch_address": "0x0203FFF0",
+  "output_rom": "build/experiments/rom-expansion-probe-v1/probe.gba",
+  "output_sha256": "88709b8a66a3cb916f1364e975ae7c58a60d779c51fc80784db5b3a24db721d5",
+  "applied_patches": [
+    {
+      "id": "rom-expansion-probe-entry",
+      "patch_class": "game_effective",
+      "offset": 0,
+      "length": 4,
+      "before_sha256": "e3de0a6864e3119f5ccb28524e580cd769e44efefd06ba6c0bf7c2807bfd3a16",
+      "after_sha256": "86da019a20d51cfd490c94805a4e174b9334cbae8d80883078b9d8a04a80616c",
+      "overlap_disposition": "unique",
+      "duplicate_of": []
+    },
+    {
+      "id": "rom-expansion-probe-stub",
+      "patch_class": "allocation",
+      "offset": 6291456,
+      "length": 36,
+      "before_sha256": "c38236f1e6d5ba2e8616b0c8a115bf8bf0814ddae740ac6cbea93d063417cd0e",
+      "after_sha256": "dbead6c4393c759c2de375b444b698c2b3df30a9f9110db4e68d9d69d899a427",
+      "overlap_disposition": "unique",
+      "duplicate_of": [],
+      "allocation_partition": "character-battle-visual-bundles",
+      "allocation_owner": "character_battle_visuals"
+    },
+    {
+      "id": "rom-expansion-probe-marker",
+      "patch_class": "allocation",
+      "offset": 6291712,
+      "length": 4,
+      "before_sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e",
+      "after_sha256": "b6b6feb0da5d038ea19a0ca1432d2b476d13e8579d2fe213b305257163ce0387",
+      "overlap_disposition": "unique",
+      "duplicate_of": [],
+      "allocation_partition": "character-battle-visual-bundles",
+      "allocation_owner": "character_battle_visuals"
+    }
+  ]
+}

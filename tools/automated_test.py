@@ -141,6 +141,16 @@ def load_manifest() -> dict:
     return load_json(ROOT / "sequel/patches/manifest.json")
 
 
+def declared_output_size(project: dict, base: bytes) -> int:
+    layout_value = project.get("rom_layout")
+    if layout_value is None:
+        return len(base)
+    from tools.rom_layout import RomLayout
+
+    layout = RomLayout.from_path(ROOT / str(layout_value), base)
+    return layout.target_rom_size
+
+
 # ---------------------------------------------------------------------------
 # Suite: build
 # ---------------------------------------------------------------------------
@@ -167,8 +177,12 @@ def suite_build(runner: TestRunner) -> None:
         out_path = output_rom_path()
         assert base_path.exists(), f"base ROM not found: {base_path}"
         assert out_path.exists(), f"output ROM not found: {out_path}"
-        assert base_path.stat().st_size == out_path.stat().st_size, \
-            f"ROM size mismatch: base={base_path.stat().st_size} output={out_path.stat().st_size}"
+        base = base_path.read_bytes()
+        expected_size = declared_output_size(project, base)
+        assert out_path.stat().st_size == expected_size, (
+            f"ROM size mismatch: declared={expected_size} "
+            f"output={out_path.stat().st_size}"
+        )
 
     def test_report_exists() -> None:
         project = load_project()
@@ -180,6 +194,27 @@ def suite_build(runner: TestRunner) -> None:
         assert "applied_patches" in report, "build report missing applied_patches"
         assert len(report["applied_patches"]) > 0, "no patches applied"
 
+    def test_report_layout_matches() -> None:
+        project = load_project()
+        layout_value = project.get("rom_layout")
+        if layout_value is None:
+            return
+        from tools.rom_layout import RomLayout
+
+        base = (ROOT / project["base_rom"]["path"]).read_bytes()
+        layout = RomLayout.from_path(ROOT / str(layout_value), base)
+        report_layout = load_build_report().get("rom_layout")
+        assert isinstance(report_layout, dict), "build report missing rom_layout"
+        expected = {
+            "path": str(layout_value),
+            **layout.report(),
+        }
+        for key, value in expected.items():
+            assert report_layout.get(key) == value, (
+                f"build report rom_layout {key} mismatch: "
+                f"expected {value!r} got {report_layout.get(key)!r}"
+            )
+
     def test_base_sha1_matches() -> None:
         project = load_project()
         report = load_build_report()
@@ -189,9 +224,10 @@ def suite_build(runner: TestRunner) -> None:
 
     runner.run("build_mod.py runs without error", suite, test_build_runs)
     runner.run("output ROM file exists", suite, test_output_rom_exists)
-    runner.run("output ROM same size as base ROM", suite, test_output_rom_size)
+    runner.run("output ROM matches declared layout size", suite, test_output_rom_size)
     runner.run("build report JSON exists", suite, test_report_exists)
     runner.run("build report lists applied patches", suite, test_report_has_patches)
+    runner.run("build report matches declared ROM layout", suite, test_report_layout_matches)
     runner.run("base ROM sha1 matches project.json", suite, test_base_sha1_matches)
 
 
@@ -236,6 +272,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "battle_effect_resource", "character_battle_palette", "bg_resource",
             "character_battle_graphics",
             "character_battle_structure",
+            "character_battle_bundle",
         }
         errors = []
         for patch in manifest["patches"]:
@@ -304,19 +341,22 @@ def suite_patches(runner: TestRunner) -> None:
         assert not errors, "\n".join(errors)
 
     def test_no_unintended_changes() -> None:
-        """Verify ROM size unchanged and no obvious corruption (spot-check header)."""
+        """Verify declared ROM size and no obvious header corruption."""
         rom = _get_output_rom()
         project = load_project()
         base_path = ROOT / project["base_rom"]["path"]
         base = base_path.read_bytes()
-        assert len(rom) == len(base), f"ROM size changed: {len(base)} → {len(rom)}"
+        expected_size = declared_output_size(project, base)
+        assert len(rom) == expected_size, (
+            f"ROM size mismatch: declared={expected_size} output={len(rom)}"
+        )
         # GBA header (first 192 bytes) should be unchanged
         assert rom[:192] == base[:192], "GBA ROM header was modified unexpectedly"
 
     runner.run("build report has applied patch types", suite, test_report_patch_types_match)
     runner.run("bytes patches correctly applied in output ROM", suite, test_bytes_patches_applied)
     runner.run("pointer_redirect patches correctly applied in output ROM", suite, test_pointer_redirect_patches_applied)
-    runner.run("ROM size unchanged and header intact", suite, test_no_unintended_changes)
+    runner.run("ROM size matches layout and header is intact", suite, test_no_unintended_changes)
 
 
 # ---------------------------------------------------------------------------

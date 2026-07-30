@@ -1,11 +1,13 @@
-# Free ROM Space
+# ROM allocation space
 
 ## Summary
 
-The ROM contains approximately **128 KB of unallocated space** at the end of the file,
-verified by scanning for contiguous 0xFF-filled bytes after all known game data.
+The immutable base ROM contains an approximately **128 KiB** `0xFF` tail, but it is
+no longer unallocated. The complete 6 MiB base range and the expanded 16 MiB build
+range are owned by `sequel/rom-layout.json`; importers must request one exact
+partition instead of scanning for an apparently empty run.
 
-## Confirmed Region
+## Historical base-ROM tail
 
 | Property | Value |
 |---|---|
@@ -15,18 +17,28 @@ verified by scanning for contiguous 0xFF-filled bytes after all known game data.
 | Fill value | `0xFF` (GBA cartridge erased state) |
 | ROM file size | `0x600000` (6 MiB) |
 
-## Usage
+## Registered layout
 
-The usable tail is divided into non-overlapping audited owners:
+The current 16 MiB build is divided into non-overlapping audited owners:
 
 | Range | Owner |
 |---|---|
-| `0x5E0000..0x5EFFFF` | DB audit rows |
+| `0x5E0000..0x5EFFFF` | editor DB audit rows |
 | `0x5F0000..0x5F7FFF` | variable-length dialogue |
 | `0x5F8000..0x5FFFFF` | semantic chapter scripts |
+| `0x600000..0x7FFFFF` | character battle visual bundles |
+| `0x800000..0xBFFFFF` | sequel image assets |
+| `0xC00000..0xFFFFFF` | sequel audio, text and configuration |
 
 ### Allocation strategy
 
+- `tools/rom_layout.py` verifies the base hash, target power-of-two size, 32 MiB
+  profile ceiling, fill byte, alignment, overlap and owner.
+- Writes above the immutable base require `patch_class=allocation`, the exact
+  partition ID and the registered owner. Their virtual precondition must be the
+  declared `0xFF` fill.
+- Existing game-effective and audit writes remain bounded to the immutable 6 MiB
+  base; expansion cannot be used to bypass their source-byte preconditions.
 - Text is 4-byte aligned before writing.
 - Each entry occupies `len(encoded_text) + 1` bytes (null-terminated).
 - The cursor advances sequentially; no deallocation is performed.
@@ -38,7 +50,9 @@ The usable tail is divided into non-overlapping audited owners:
 
 ## Verification Method
 
-Performed a linear scan of the ROM file looking for the first 0xFF byte after
+The historical tail measurement was performed by scanning for the first `0xFF`
+byte after
 offset `0x5D0000`. The scan found a contiguous 0xFF run starting at `0x5DFBEC`
-and continuing to the end of the 6 MiB file (`0x5FFFFF`), confirming ~128 KB of
-free space. No game code or data was found in this range.
+and continuing to the end of the 6 MiB file (`0x5FFFFF`). Current allocation
+validity is instead established from the hash-pinned layout and each importer's
+full-plan safety checks; visual emptiness alone is not allocation evidence.
