@@ -50,7 +50,7 @@ for its dimensions and six resource streams. The former `fonts` candidate at
 | 18 | menu-ui (historical slug; real base `0x5A4DEC`) | runtime | `0x08096138` computes record ID×40 + variant×8. A single-factor record 7/variant 0 pair replacement changed the same `ShowPortrait(1,7,0)` frame from Kakashi to Sakura; script cursor and dispatch count were unchanged. |
 | 19 | palettes (historical slug; real base `0x53EE98`) | code | Corrected to fifteen 10-byte motion/effect records. Three consumers index with stride 10 and record 14 terminates with `field0=-1`; no palette semantics remain. |
 | 20 | positions (`0x5461C4`) | dynamic | WASM navigation reached the first battle; WRAM slot 1 x/y `(4,4)` uniquely matches group 40 / variant 0 / record 0 at ROM `0x588CA8`. Static code independently proves record `+2/+3` feeds unit coordinates. |
-| 21 | resource-pointers (`0x596F0C`) | code | Five 16-byte nested descriptors. `0x0807B220→0x080625A4` selects the 16-byte path, which indexes ID×16 and installs/copies four resource fields. |
+| 21 | resource-pointers (`0x596F0C`) | disproved | Not independent: `0x596F0C = 0x596D5C + 27×16`; the five tuples exactly equal character 4 visual slots 0..4 in `character-battle-visuals-v1`. The consumer selects that canonical subview. Empty tombstone; legacy writes disabled. |
 | 22 | sappy-engine (`0x09AE3C`) | code | Disassembly proves FIFO/DMA sound initialization and connects the public wrapper, dispatcher and track initializer. No controlled engine-code A/B is required or enabled. |
 | 23 | save-state (`0x53D848`) | runtime | Genuine tutorial victory followed by UI Save wrote a valid 32-KiB slot-1 image: active descriptors 0/2 have `Naruto-KONOHASENKI\0` headers and valid payload checksums; erased records remain all-FF. A cold restart recognized and restored Konoha. Physical records are 19-byte header + payload + checksum. Tutorial/title paths bypass the optional group 3..9 wrappers. |
 | 24 | legacy `skills` path / corrected ninja-tool templates (`0x545BE4`) | runtime | Natural Naruto technique-list UI selected high-bit ninja-tool ID 1 (十字手里剑) under 忍者组合拳 and hit `0x08070906→0x0806D910`. A one-byte row-1 `+4:6→7` A/B changed runtime `+4` and only the visible attack value `6x3→7x3`; multi-row UI correlation maps `+5` hit count, `+6` success rate, packed `+7` distance/line shape, and `+8` range. |
@@ -90,9 +90,9 @@ for its dimensions and six resource streams. The former `fonts` candidate at
 
 The save, maps, growth, story and fonts targets below are retained only as an
 investigation history. They have since been closed or disproved and must not be
-used as the current execution queue. Current priority is the 10 code-verified
+used as the current execution queue. Current priority is the 9 code-verified
 banks (`battle-encounters`, `cutscene-scripts`, `data-table-b`, `levels`,
-`map-events`, `map-sprites`, `palettes`, `resource-pointers`, `sappy-engine`,
+`map-events`, `map-sprites`, `palettes`, `sappy-engine`,
 `tile-assets`), remaining unit/skill field semantics, audio cue semantics and
 long-route player-visible regression evidence.
 

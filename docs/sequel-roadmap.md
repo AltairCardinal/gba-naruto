@@ -10,9 +10,9 @@
 
 ## 现状总览
 
-> 2026-07-13 当前调查闭合审计为 32/32：23 个有效数据 bank 均通过元数据和
-> 基准 ROM fidelity，另 9 个是带负证据、空 entries、禁写回的 `disproved`
-> tombstone。分布为 runtime 13 / code 10 / static 0 / disproved 9。32/32 只表示
+> 2026-07-30 当前调查闭合审计为 32/32：22 个有效数据 bank 均通过元数据和
+> 基准 ROM fidelity，另 10 个是带负证据、空 entries、禁写回的 `disproved`
+> tombstone。分布为 runtime 13 / code 9 / static 0 / disproved 10。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
@@ -745,9 +745,13 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 
 - 新增 `tools/audit_re_completion.py`，可重复检查 32 个 `sequel/content/*/bank.json` 的表偏移、格式字段、条目、验证标签和 Markdown 文档覆盖。
 - 审计产物为 `notes/re-completion-audit.json` 与 `notes/re-completion-audit.md`。
-- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。审计现采用双轨规则：23 个有效 bank 必须有非空 entries 和 ROM fidelity；9 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为 32/32，但这仍不代表动态语义或真实回写完成。
-- 最新严格审计分布为 0 个 `static_verified`、10 个 `code_verified`、13 个
-  `runtime_verified`、9 个 `disproved`；仍不能作为“100% 完成”的单独证据。
+- 首次审计结果为 23/32；随后已纠正错误偏移并从基准 ROM 重新提取。2026-07-30
+  又确认 `resource-pointers@0x596F0C` 是角色战斗视觉矩阵 rows 27..31 的重复
+  subview。审计现采用双轨规则：22 个有效 bank 必须有非空 entries 和 ROM
+  fidelity；10 个 `disproved` tombstone 必须为空、记录负证据并禁写回。调查闭合为
+  32/32，但这仍不代表动态语义或真实回写完成。
+- 最新严格审计分布为 0 个 `static_verified`、9 个 `code_verified`、13 个
+  `runtime_verified`、10 个 `disproved`；仍不能作为“100% 完成”的单独证据。
 
 ### 2026-07-11 Character growth 消费链修正
 
@@ -829,8 +833,9 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   分别修正为15条 motion/effect 参数与43条 sprite pair 并 code-verified；后者
   是 pair 24..42 的重复视图，已 tombstone。三个 legacy editor shape 均禁写。
 - `fonts` 旧表跨入 handler pairs，已证伪；`levels` 修正为 `0x5459C8`
-  45×12 effect/stat progression records；`resource-pointers` 修正为5×16嵌套
-  descriptor。后两者均由消费者升级 code_verified。
+  45×12 effect/stat progression records。`resource-pointers` 曾修正为5×16嵌套
+  descriptor，但 2026-07-30 进一步证明它是 `0x596D5C` 角色视觉矩阵
+  rows 27..31 的别名，现已 tombstone；`levels` 保持 code_verified。
 - levels 的真正 Continue 已复现：Naruto level 1、经验100/250、训练点`+BA=0`；
   自然 selector 证明“移动→对战→木叶丸对白”消费 primary scenario 41 脚本
   `0x08031A12..0x08031D5F`，44 次 dispatch 后 opcode 00 正常终止、无 SetBattle，
@@ -900,9 +905,10 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   存档进度或 levels 入口
 - 已新增 base-ROM 可独立重放的真实 battle 41 actionable checkpoint：Naruto
   `(4,10)`、Iruka `(4,4)`、map 36×44，strict arrival 全过。基于该边界的三条
-  专属探针进一步排除了入场期 `resource-pointers`、普通忍术下的组合关系 reader、
+  专属探针当时进一步排除了入场期 `resource-pointers`、普通忍术下的组合关系 reader、
   以及无效目标提示属于 `data-table-b` 的假设；三项严格保持 code_verified，下一步
-  从有效攻击/技能事件捕获真实运行 ID。详见
+  从有效攻击/技能事件捕获真实运行 ID。后续别名纠正证明
+  `resource-pointers` 无需再做独立运行时升级。详见
   `notes/remaining-runtime-bank-probes-20260713.md`。
 - battle 41 的最小编成诊断又把伊鲁卡移到相邻 `(5,10)`：敌对时可被范围光标选中，
   但教程拒绝直接攻击；同阵营时提交移动直接进入教程对白，skill-relation 专属 scratch
@@ -931,9 +937,11 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 - `battle_encounters` 的旧混合值解释仍需纠正；`cutscene_scripts` 已确认是八个
   视觉资源 pointer pair，不是脚本表。详见
   `notes/cutscene-visual-resource-consumer-20260712.md`。
-- 第二批已把 data table A/B、function pointers、menu UI、resource pointers、
-  sprite animations、tile assets 共 135 行转换为带严格校验的真实 ROM 回写；旧
-  audit-only 不可达代码已删除。palette 因表冲突证据不足仍保持隔离。
+- 第二批当时把 data table A/B、function pointers、menu UI、resource pointers、
+  sprite animations、tile assets 共 135 行转换为带严格校验的真实 ROM 回写。
+  后续身份纠正已经撤销其中多个 legacy partial view；2026-07-30 又证明
+  `resource-pointers@0x596F0C` 是角色视觉矩阵 rows 27..31 的别名，其生成器现为
+  diagnostic-only，禁止独立写入。palette 因表冲突证据不足仍保持隔离。
 
 ```
 P0-Step 1（mGBA调试） ✅

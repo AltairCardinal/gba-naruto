@@ -302,18 +302,12 @@ def populate_palettes(rom: bytes):
 
 
 def populate_resource_pointers(rom: bytes):
-    """Nested resource descriptors at 0x596F0C: 5×16 bytes."""
-    off = 0x596F0C
-    entries = []
-    for index in range(5):
-        values = struct.unpack_from("<4I", rom, off + index * 16)
-        entry = {"_index": index, "_raw_offset": off + index * 16}
-        for field_index, value in enumerate(values):
-            name = f"resource_ptr_{field_index}"
-            entry[name] = value
-            entry[f"{name}_hex"] = value.to_bytes(4, "little").hex()
-        entries.append(entry)
-    update_bank_json("resource-pointers", entries, force=True, verification="code_verified")
+    """Preserve the disproved alias tombstone.
+
+    0x596F0C is row 27 of the canonical character-battle visual matrix at
+    0x596D5C, not an independent bank.
+    """
+    return None
 
 
 def populate_sprite_animations(rom: bytes):

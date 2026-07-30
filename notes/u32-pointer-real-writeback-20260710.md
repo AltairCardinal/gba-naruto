@@ -1,5 +1,10 @@
 # u32 指针表真实回写（2026-07-10）
 
+> 2026-07-30 correction：本文记录当时的回写实验。`rom_resource_pointers`
+> 后续已证明是角色战斗视觉矩阵 rows 27..31 的重复视图，真实回写已撤销并改为
+> diagnostic-only。当前身份以
+> `notes/resource-pointer-alias-correction-20260730.md` 为准。
+
 ## 尝试内容
 
 - 核对 `tools/build_db_patches.py` 中 battle handler、cutscene、map event、map
@@ -47,7 +52,7 @@
 | `rom_data_table_b` | `0x5A2120..0x5A216C` | data | 20 |
 | `rom_function_pointers` | `0x53D5F4..0x53D61C` | Thumb | 11 |
 | `rom_menu_ui` | `0x5A5774..0x5A57C0` | data | 20 |
-| `rom_resource_pointers` | `0x596F0C..0x596F58` | data | 20 |
+| `rom_resource_pointers` | `0x596F0C..0x596F58` | alias | 已撤销；diagnostic-only |
 | `rom_sprite_animations` | `0x53F200..0x53F294` | data | 38 |
 | `rom_tile_assets` | `0x5A3218..0x5A322C` | data | 6 |
 

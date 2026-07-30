@@ -13,9 +13,9 @@
 - Draft PR：https://github.com/AltairCardinal/gba-naruto/pull/1；
 - 本轮开始时 HEAD：59dba83 feat(audio): verify player slot runtime behavior；
 - 调查闭合审计：32/32；
-- 其中 23 个有效数据 bank、9 个 disproved 且禁写回的 tombstone；
-- 证据分布：13 runtime_verified / 10 code_verified / 9 disproved；
-- 运行时 bank 覆盖率为 13/23，约 56.5%，不能写成整个逆向工程已完成 56.5%，
+- 其中 22 个有效数据 bank、10 个 disproved 且禁写回的 tombstone；
+- 证据分布：13 runtime_verified / 9 code_verified / 10 disproved；
+- 运行时 bank 覆盖率为 13/22，约 59.1%，不能写成整个逆向工程已完成 59.1%，
   更不能把 32/32 审计写成运行时 100%。
 
 仍为 code_verified 的十项：
@@ -27,9 +27,8 @@
 5. map-events；
 6. map-sprites；
 7. palettes；
-8. resource-pointers；
-9. sappy-engine；
-10. tile-assets。
+8. sappy-engine；
+9. tile-assets。
 
 ### 0.2 scenario 41 新进展
 

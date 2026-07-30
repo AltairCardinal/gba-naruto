@@ -9,10 +9,12 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Repository automated checks: 25/25 pass.
 - Node/WASM probe helpers: 34 tests pass.
 - `git diff --check`: pass.
-- Catalog identity audit: 32/32 investigations closed. This consists of 23
-  active data banks with ROM fidelity plus 9 documented, empty, write-disabled
+- Catalog identity audit: 32/32 investigations closed. This consists of 22
+  active data banks with ROM fidelity plus 10 documented, empty, write-disabled
   `disproved` tombstones; it is not a claim of 32 runtime-verified banks.
-- Evidence labels: 13 runtime, 10 code, 0 static, 9 disproved.
+- Evidence labels: 13 runtime, 9 code, 0 static, 10 disproved. The 2026-07-30
+  correction removes `resource-pointers@0x596F0C` as an independent bank
+  because it is character battle visual matrix rows 27..31.
 
 ## Runtime-closed chains
 
@@ -87,7 +89,7 @@ and all automated tests. It supersedes historical “100% complete” summaries.
 - Character growth field semantics are closed. Remaining field work is the full
   unit `0xB4` player-visible mapping and skills `+2/+3/+9`.
 - All formerly static banks now have a consumer or negative identity proof.
-  The 10 code-verified banks still require prioritized controlled runtime and
+  The 9 code-verified banks still require prioritized controlled runtime and
   player-visible semantic closure; code evidence alone is not a “100%” claim.
 
 ## Durable evidence and next route

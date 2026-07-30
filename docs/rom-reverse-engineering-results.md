@@ -302,14 +302,14 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - 0x07F065: Used 5 times (entries 1, 5, 7, 9, 11)
   - 0x07F149: Used 2 times (entries 3, 13)
 
-### 27. Resource Pointer Table ✨ NEW
+### 27. Historical Resource Pointer Candidate（2026-07-30 已证伪）
 - **Offset**: 0x596F0C
-- **Format**: 20 entries × u32 pointer to resource data in 0x17xxxx region
-- **Entry count**: 20
-- **Method**: Static analysis - found 20-entry pointer table in 0x59xxxx region
-- **Verification**: All entries point to valid ROM addresses in the 0x17xxxx resource region
-- **Notes**: Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.
-- **Entry format**: u32 pointer to resource data
+- **Current status**: `disproved` independent bank; empty, write-disabled tombstone
+- **Correction**: `0x596F0C = 0x596D5C + 27×16`; the former 20 u32 values are
+  five rows of the canonical character battle visual matrix, character 4 slots
+  0..4.
+- **Canonical evidence**:
+  `artifacts/character-battle-visuals-v1/manifest.json`
 
 ### 28. Data Table A ✨ NEW
 - **Offset**: 0x5A14A4
@@ -446,7 +446,8 @@ The following structures were discovered and documented in the Phase 2 remaining
 11. **Story/Chapter Table E** at 0x53C3C0 - 9 entries × u32 pointer to chapter data
 12. **Function Pointer Table** at 0x53D5F4 - 11 entries × u32 pointer to Thumb code
 13. **Battle Event Handler Table** at 0x53E6D8 - 14 entries × u32 pointer to Thumb event handler code
-14. **Resource Pointer Table** at 0x596F0C - 20 entries × u32 pointer to resource data in 0x17xxxx region
+14. **Historical resource-pointer candidate** at 0x596F0C — disproved alias of
+    character battle visual matrix rows 27..31; no independent entries
 15. **Data Table A** at 0x5A14A4 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
 16. **Data Table B** at 0x5A2120 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
 17. **Tile Asset Pointer Table** at 0x5A3218 - 6 entries × u32 pointer to tile/map data in 0x34xxxx region

@@ -1,102 +1,17 @@
 {
-    "version": 2,
-    "description": "Five 16-byte nested resource descriptors consumed by a sprite-task allocator.",
-    "table_offset": 5861132,
-    "table_offset_hex": "0x596F0C",
-    "entry_count": 5,
-    "entry_size": 16,
-    "entry_format": {
-        "fields": [
-            {
-                "offset": 0,
-                "size": 4,
-                "name": "resource_ptr_0",
-                "type": "u32"
-            },
-            {
-                "offset": 4,
-                "size": 4,
-                "name": "resource_ptr_1",
-                "type": "u32"
-            },
-            {
-                "offset": 8,
-                "size": 4,
-                "name": "resource_ptr_2",
-                "type": "u32"
-            },
-            {
-                "offset": 12,
-                "size": 4,
-                "name": "resource_ptr_3",
-                "type": "u32"
-            }
-        ]
-    },
-    "verification": "code_verified",
-    "verification_method": "0x0807B220 loads literal 0x08596F0C and passes the base to 0x080625A4 with the 16-byte descriptor flag. The 0x08062678 path indexes ID*16 and installs all four resource fields in the runtime object/copy path.",
-    "former_claim": "20 independent u32 resource pointers",
-    "notes": "The former rows merely flattened five four-pointer descriptors. Legacy one-pointer editor rows are diagnostic-only.",
-    "entries": [
-        {
-            "_index": 0,
-            "_raw_offset": 5861132,
-            "resource_ptr_0": 135742864,
-            "resource_ptr_0_hex": "90451708",
-            "resource_ptr_1": 135743168,
-            "resource_ptr_1_hex": "c0461708",
-            "resource_ptr_2": 135729072,
-            "resource_ptr_2_hex": "b00f1708",
-            "resource_ptr_3": 135729040,
-            "resource_ptr_3_hex": "900f1708"
-        },
-        {
-            "_index": 1,
-            "_raw_offset": 5861148,
-            "resource_ptr_0": 135748456,
-            "resource_ptr_0_hex": "685b1708",
-            "resource_ptr_1": 135748500,
-            "resource_ptr_1_hex": "945b1708",
-            "resource_ptr_2": 135743216,
-            "resource_ptr_2_hex": "f0461708",
-            "resource_ptr_3": 135729040,
-            "resource_ptr_3_hex": "900f1708"
-        },
-        {
-            "_index": 2,
-            "_raw_offset": 5861164,
-            "resource_ptr_0": 135753744,
-            "resource_ptr_0_hex": "10701708",
-            "resource_ptr_1": 135753792,
-            "resource_ptr_1_hex": "40701708",
-            "resource_ptr_2": 135748504,
-            "resource_ptr_2_hex": "985b1708",
-            "resource_ptr_3": 135729040,
-            "resource_ptr_3_hex": "900f1708"
-        },
-        {
-            "_index": 3,
-            "_raw_offset": 5861180,
-            "resource_ptr_0": 135761084,
-            "resource_ptr_0_hex": "bc8c1708",
-            "resource_ptr_1": 135761128,
-            "resource_ptr_1_hex": "e88c1708",
-            "resource_ptr_2": 135753796,
-            "resource_ptr_2_hex": "44701708",
-            "resource_ptr_3": 135729040,
-            "resource_ptr_3_hex": "900f1708"
-        },
-        {
-            "_index": 4,
-            "_raw_offset": 5861196,
-            "resource_ptr_0": 135766372,
-            "resource_ptr_0_hex": "64a11708",
-            "resource_ptr_1": 135766428,
-            "resource_ptr_1_hex": "9ca11708",
-            "resource_ptr_2": 135761132,
-            "resource_ptr_2_hex": "ec8c1708",
-            "resource_ptr_3": 135729040,
-            "resource_ptr_3_hex": "900f1708"
-        }
-    ]
+  "version": 3,
+  "description": "Disproved independent bank retained as a migration tombstone. 0x596F0C is character-battle visual matrix rows 27..31.",
+  "table_offset": 5861132,
+  "table_offset_hex": "0x596F0C",
+  "entry_count": 0,
+  "entry_size": 16,
+  "verification": "disproved",
+  "verification_method": "The canonical 62x9 matrix starts at 0x596D5C with 16-byte rows; 0x596F0C = 0x596D5C + 27*16. Its five pointer tuples exactly equal character 4 visual slots 0..4 in character-battle-visuals-v1. Consumer 0x0807B220 selects this same five-row subview through the generic 16-byte allocator.",
+  "superseded_by": "artifacts/character-battle-visuals-v1/manifest.json",
+  "do_not_write": true,
+  "entry_format": {
+    "fields": []
+  },
+  "notes": "The former five records were a valid but duplicated alias view, not an independent resource table. Legacy resource-pointer editor rows remain diagnostic-only; edit the canonical character battle visual matrix instead.",
+  "entries": []
 }

@@ -230,11 +230,13 @@ This file records confirmed and suspected ROM offsets.
 - **Verification**: Static analysis - found 14 consecutive u32 pointers, all pointing to valid ROM addresses with Thumb instructions.
 - **Discovered**: 2026-06-25
 
-### Resource Pointer Table
+### Historical Resource Pointer Candidate（已证伪）
 - **Offset**: 0x596F0C
-- **Format**: 20 entries × u32 pointer to resource data in 0x17xxxx region
-- **Notes**: Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.
-- **Verification**: Static analysis - found 20 consecutive u32 pointers, all pointing to valid ROM addresses in the 0x17xxxx resource region.
+- **Format**: canonical character battle visual matrix rows 27..31, 5×16 bytes
+- **Notes**: `0x596F0C = 0x596D5C + 27×16`; the five rows are character 4
+  visual slots 0..4 and are not independently editable.
+- **Verification**: `disproved` independent bank; see
+  `notes/resource-pointer-alias-correction-20260730.md`.
 - **Discovered**: 2026-06-25
 
 ### Data Table A

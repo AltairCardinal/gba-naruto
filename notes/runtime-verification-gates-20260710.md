@@ -107,7 +107,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 | 18 | menu-ui (`0x085A5774`) | 专门菜单路线 | 菜单操作命中表项消费者，指针目标与可见 UI 元素对应 |
 | 19 | palettes（当前 bank `0x0853F138`） | 专门 A/B | 先与 audio 拆分身份；目标 RGB555 数据实际上传到 palette RAM，单色改动方向符合预期 |
 | 20 | positions (`0x085461C4`) | 联合 | `0x0806E41E/0x0806E71E` 的 r5 公式成立，`+2/+3` 写到 slot 坐标并与画面一致 |
-| 21 | resource-pointers (`0x08596F0C`) | 专门资源路线 | 表项及嵌套目标被加载，目标与具体资源输出对应 |
+| 21 | resource-pointers (`0x08596F0C`) | 已证伪 | 2026-07-30 证明它是角色视觉矩阵 rows 27..31 的 subview；无需独立运行时升级，禁止独立写回 |
 | 22 | sappy-engine (`0x08079268` 代码范围) | 联合 | 实际命令 handler 命中且声道状态按命令变化 |
 | 23 | save-state (`0x0853D848`，handler `0x08068684`) | ✅ UI 保存+冷加载 | 真实首战后 slot 1 写出 32KiB；active descriptor 0/2 的 19-byte header + variable payload + checksum 有效，冷启动恢复木叶状态 |
 | 24 | skills (`0x08546100` 声称值) | 条件联合 | 主动技能读取独立已确认表行，至少一参数与实际效果对应；需解决 items 冲突 |
@@ -137,7 +137,7 @@ destination WRAM 32 bytes`。单位槽按 `0x020240C0 + slot*0x1D4` 计算。
 - `maps` / `encounter-zones` 同称 `0x53D610`，且地图描述符从 `0x53D914`
   开始；
 - `story-b..e` 必须有各自章节选择证据；
-- `data-table-a/b`、`menu-ui`、`resource-pointers` 和 `tile-assets` 尚缺已确认
+- `data-table-a/b`、`menu-ui` 和 `tile-assets` 尚缺已确认
   消费者，不能只靠一次游戏流程猜测通过。
 
 当前仓库没有有效战斗 savestate，现有 `.sav` 为擦除态，CLI 调试器不能注入按键；

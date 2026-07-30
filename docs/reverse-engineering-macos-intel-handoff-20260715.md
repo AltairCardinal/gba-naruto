@@ -1,5 +1,10 @@
 # GBA 木叶战记逆向工程：macOS Intel 迁移交接（2026-07-15）
 
+> 2026-07-30 身份纠正：`resource-pointers@0x596F0C` 是
+> `0x596D5C` 角色战斗视觉矩阵 rows 27..31 的别名，不是独立 bank。当前 32/32
+> 分布为 13 `runtime_verified` / 9 `code_verified` / 10 `disproved`；其余历史
+> 导航与 checkpoint 事实保持不变。
+
 ## 1. 交接目标与当前边界
 
 后续 runtime 实验转移到 macOS Intel，避免继续占用当前 Windows 桌面的键鼠和前台
@@ -8,8 +13,8 @@
 
 当前结论必须保持：
 
-- bank 调查闭合审计为 32/32，分布仍是 13 `runtime_verified` / 10
-  `code_verified` / 9 `disproved`；
+- bank 调查闭合审计为 32/32，分布是 13 `runtime_verified` / 9
+  `code_verified` / 10 `disproved`；
 - scenario 41 已固化稳定 controller-entry checkpoint；活动 raw `0x0808F957` 与
   `0x0808F952 → 0x080732B4` 静态 BL 门通过，并由两次 224-frame zero-input replay 接纳；
 - 玩家控制、MOVEDONE、胜利、EXP、升级与 postbattle 均为 `not-proven`；

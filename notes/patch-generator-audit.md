@@ -60,7 +60,7 @@
 | `generate_map_sprite_patches` | `map_sprites` | `0x5E0000 + i*64` | `0x53F1DC` | `1438-1473` | 地图精灵配置未生效 | **P1** |
 | `generate_menu_ui_patches` | `menu_ui` | `0x5E0000 + i*64` | `0x5A5774` | `1489-1524` | UI 指针未生效 | **P2** |
 | `generate_palette_patches` | `palettes` | `0x5E0000 + i*64` | `0x53F138` | `1540-1575` | 候选基址与 audio generator 相同，表身份冲突需先澄清 | **P1** |
-| `generate_resource_pointer_patches` | `resource_pointers` | `0x5E0000 + i*64` | `0x596F0C` | `1591-1626` | 资源替换链未生效 | **P1** |
+| `generate_resource_pointer_patches` | `resource_pointers` | diagnostic only | `0x596F0C` alias | `1591-1626` | 已证伪为角色视觉矩阵 rows 27..31；必须拒绝独立写入 | **closed** |
 | `generate_sappy_engine_patches` | `sappy_engine` | `0x5E0000 + i*64` | 记录值示例/注释涉及 `0x079668` | `1642-1675` | 即使 DB 标记 code_verified，本生成器仍只审计，不修改引擎 | **P1** |
 | `generate_save_state_patches` | `save_state` | `0x5E0000 + i*64` | `0x53D848` | `1691-1727` | 存档格式没有编辑闭环；误写会破坏兼容性，需单独测试 ROM | **P1** |
 | `generate_sprite_animation_patches` | `sprite_animations` | `0x5E0000 + i*64` | `0x53F200` | 动画指针未生效 | **P1** |

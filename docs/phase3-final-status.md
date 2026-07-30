@@ -119,7 +119,7 @@ consumer chain.
 | 18 | menu-ui | ✅ | — | static |
 | 19 | palettes | ✅ | — | static |
 | 20 | positions | ✅ | ✅ unit_position_patches | verified |
-| 21 | resource-pointers | ✅ | — | static |
+| 21 | resource-pointers（角色视觉矩阵别名） | tombstone | legacy rows diagnostic | disproved |
 | 22 | sappy-engine | ✅ | — | code_verified |
 | 23 | save-state | ✅ | — | runtime_verified (UI save + cold load) |
 | 24 | skills | ✅ | ✅ skill_patches | verified |

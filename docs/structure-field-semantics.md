@@ -373,11 +373,17 @@ the scenario configuration data.
 
 ---
 
-## 21. Nested resource descriptors (0x596F0C)
+## 21. Character battle visual alias (historical resource-pointers slug, 0x596F0C)
 
-**Format:** 5 × 16 bytes, four resource pointers per descriptor. The 16-byte
-path through `0x080625A4` indexes ID×16 and installs/copies the fields into a
-runtime sprite object. The old 20-u32 view merely flattened the records.
+**Status:** disproved independent bank; empty, write-disabled tombstone.
+
+The canonical 62×9 visual matrix starts at `0x596D5C` with 16-byte rows.
+`0x596F0C = 0x596D5C + 27×16`, so the former five records are exactly matrix
+rows 27..31: character 4 visual slots 0..4. Their four-pointer tuples match
+`artifacts/character-battle-visuals-v1/manifest.json` byte for byte.
+`0x0807B220` selects this five-row subview through the generic 16-byte
+allocator; it does not establish another resource table. Editing must use the
+canonical character visual matrix.
 
 ---
 

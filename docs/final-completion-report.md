@@ -8,6 +8,10 @@
 > at `0x54507A` and `0x545200` are superseded. The real code/runtime-verified
 > table is 63×`0x10` at `0x545068`; the B table is disproved and write-disabled.
 > See `notes/character-growth-runtime-chain-20260711.md`.
+>
+> Resource-pointer correction (2026-07-30): `0x596F0C` is character battle
+> visual matrix rows 27..31, not an independent bank. Its current bank is an
+> empty, write-disabled tombstone; the historical table below is superseded.
 
 ## Status correction (2026-07-10)
 
@@ -88,7 +92,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 18 | Visual variant matrix | 0x5A4DEC | 5 pairs × 63 | 63 | code_verified | legacy writes disabled |
 | 19 | Motion/effect parameters | 0x53EE98 | s16[5] × 15 | 15 | code_verified | legacy writes disabled |
 | 20 | Positions | 0x53D914 | scenario-dependent | 8 | static_verified | ✅ |
-| 21 | Nested resource descriptors | 0x596F0C | 4 pointers × 5 | 5 | code_verified | legacy writes disabled |
+| 21 | Character battle visual alias | 0x596F0C | matrix rows 27..31 | 0 | disproved | disabled |
 | 22 | Sappy Engine | 0x079668 | code region | 1 | code_verified | ✅ |
 | 23 | Save State | 0x53D848 | u32[2] × 10 | 10 | static_verified | ✅ |
 | 24 | Skills | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
@@ -140,7 +144,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | `generate_map_sprite_patches` | legacy map_sprites | diagnostic only | — |
 | `generate_menu_ui_patches` | menu_ui | 0x5A5774 | 4 |
 | `generate_palette_patches` | legacy palettes | diagnostic only | — |
-| `generate_resource_pointer_patches` | resource_pointers | 0x596F0C | 4 |
+| `generate_resource_pointer_patches` | legacy resource_pointers alias | diagnostic only | — |
 | `generate_sappy_engine_patches` | sappy_engine | 0x079668 | 64 |
 | `generate_save_state_patches` | save_state | 0x53D848 | 8 |
 | `generate_sprite_animation_patches` | legacy sprite_animations | diagnostic only | — |
@@ -203,7 +207,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 ## File Manifest
 
 ```
-sequel/content/*/bank.json          (32 files — all populated)
+sequel/content/*/bank.json          (32 files — active populated, disproved aliases empty)
 tools/build_db_patches.py           (32 generate_*_patches functions)
 tools/build_mod.py                  (integrated all 32)
 tools/automated_test.py             (17/17 PASS)
