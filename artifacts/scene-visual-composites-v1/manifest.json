@@ -1,0 +1,47 @@
+{
+  "artifact_id": "scene-visual-composites-v1",
+  "artifact_schema": "scene-visual-composites-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "exit/mode-0-obj-pack-04-over-pack-08.png": "004eaa617196423d62bf73142cf7f53e8e14abbc9e0508ed769d8aebe2c1ec85",
+    "exit/mode-1-obj-pack-08-over-pack-08.png": "004eaa617196423d62bf73142cf7f53e8e14abbc9e0508ed769d8aebe2c1ec85",
+    "main/mode-0-pack-00.png": "59575379baf4a833a05323861ebbf5eb8c295b72a0e1fe60a70b1d5afe5d9496",
+    "main/mode-0-pack-01.png": "e5eef725a5d0048f33b9b088f1bea83829d7543db86d17cbd082d82252e8e262",
+    "main/mode-0-pack-02.png": "3b346a8c435ff3565dcfffb0754d3ca32b092c278457ca510cfdb20e765ffdd2",
+    "main/mode-0-pack-03.png": "0d8fbf70faded2560c4787382dc32023bc4f28dcea7b25eb0fb8a73ad227d501",
+    "main/mode-1-pack-00.png": "a595f1a97287576250c81c6360db3632322ca62288e9c8f6a039593ed94314b5",
+    "main/mode-1-pack-01.png": "d088fd3a0526a9dd6b53e306535bb2f7b0d91f8eeee903dcaac9f66264eae084",
+    "main/mode-1-pack-02.png": "a1c8ee2ecf1d9ca246f5341c1f8f4e270acc1b7ef58a7892e63ad03a158a2877",
+    "main/mode-1-pack-03.png": "9989b019766404cc7be1ae6518261de8c0290116a67d52f1d0e438aadc37fed4",
+    "main/mode-1-pack-04.png": "38ef95256c445b89aa799c238fe4c072c7e6b44d784f960eb76cf30331658219",
+    "main/mode-1-pack-05.png": "458fef8ead44f979031949f95734c3f2440cd52c38efe8fcb71937b76eb50e0e",
+    "main/mode-1-pack-06.png": "0a94740f2fd71077f6c63c897f91f9bc8de034d0d12ba0eeb6a9209f08137095",
+    "main/mode-1-pack-07.png": "91120d20c9edecdc0fdbe3bb95484d014fcb82fd51dd1e0e55159ac5e2008afe",
+    "scene-visual-composites.json": "75244805eff8de05fbbf9ef66f8bed9c7ff453e0d13731a8243b1c4a0bdf7850"
+  },
+  "payload_file": "scene-visual-composites.json",
+  "payload_sha256": "75244805eff8de05fbbf9ef66f8bed9c7ff453e0d13731a8243b1c4a0bdf7850",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_nine_source_packs_represented": true,
+    "bg_obj_priority_order_complete": true,
+    "controller_direct_call_modes_complete": true,
+    "natural_language_identity_complete": false,
+    "presentation_overlay_composition_complete": false,
+    "runtime_pixel_equivalence": false,
+    "stable_pack_row_bg_obj_layouts_complete": true,
+    "transition_intermediate_frames_complete": false,
+    "window_blend_mosaic_runtime_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_scene_visual_composites.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/scene-visual-composites-v1"
+    ],
+    "exit_code": 0
+  }
+}

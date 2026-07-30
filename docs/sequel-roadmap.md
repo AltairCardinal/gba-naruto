@@ -871,9 +871,16 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   frame 已进入 `scene-visual-packs-v1`。进一步由 spawner `0xA0` flags、allocator
   活动位、16 位 timer 和 `0x20` 终止策略证明：16/16 animation 的零 duration
   会在 65,536 次 renderer 更新后回绕并循环同号 frame；116 个文件（含 16 份编辑器
-  timeline JSON）由独立 verifier 复核。OBJ frame、palette bank 和 animation 时序
-  已闭合，最终 viewport crop 与 screen-space composition 仍保持未完成；证据见
-  `notes/scene-visual-pack-export-20260729.md`。
+  timeline JSON）由独立 verifier 复核。后续已从 controller 指令纠正并闭合
+  两种 mode 的 12 张 main 与 2 张 exit 稳定 BG+OBJ 合成：main task 最后更新只到
+  counter 31，稳定 Y 为 10/70；exit 从 `(240,128)` 到稳定 `(85,128)`，并非旧
+  未提交实现假设的目标端点。BG0 priority 2、main OBJ priority 2、exit OBJ
+  priority 3 的链也已闭合；exit OBJ 只透过 BG index 0 显示，取代旧无条件覆盖
+  合成。OBJ frame、palette bank、animation 时序、稳定
+  viewport crop 与 pack-row BG+OBJ 合成现已闭合；逐 tick 过渡、presentation
+  overlay、mGBA 像素等价和自然语言名称仍保持未完成。证据见
+  `notes/scene-visual-pack-export-20260729.md` 与
+  `notes/scene-visual-composites-export-20260730.md`。
   紧接的 `0x085A8014` 已闭合为 3×`gfx/map/palette` 世界地图背景表：
   三张 8bpp、512-tile、240×160 完整画布与三条 `0x10` 编码标签已进入
   `world-map-backgrounds-v1`。三个压缩 map 指针不同但解压内容完全一致，故只保留
@@ -1311,3 +1318,14 @@ WebSocket
   RSS 为 `58.9765625/58.21875 MiB`，无残留。详见
   `notes/unresolved-lz77-palette-survey-20260730.md`。后续不再重复这两条路线，
   只在发现新的 attr2/OAM 生成链时重开绑定调查，Goal 保持 active。
+- 2026-07-30：闭合 `0x0808C214..0x0808C4CB` 两种直接调用 mode 的稳定
+  scene-pack BG+OBJ 合成。12 张 main 与 2 张 exit 覆盖 9/9 个源 pack；独立
+  verifier 从 ROM 指令提取 task-index 运动分支、counter 31 停止边界、Q12 向零
+  截断、scroll、allocator 参数及 BG/OBJ priority，再重建全部 14 张 240×160
+  PNG。审查发现并由两轮红测固定了旧未提交实现的三项 P0：main 不能按 mode 把 Y
+  写成 16/64，exit 不能写成 `(0,128)`，priority 3 的 exit OBJ 也不能无条件覆盖
+  priority 2 的 BG；正确稳定坐标分别为 Y `10/70` 与 `(85,128)`，exit OBJ 只在
+  BG index 0 处显示。成果位于
+  `artifacts/scene-visual-composites-v1/`，说明见
+  `notes/scene-visual-composites-export-20260730.md`。逐 tick 过渡、
+  presentation overlay、运行时像素等价和自然语言身份仍未闭合，Goal 保持 active。
