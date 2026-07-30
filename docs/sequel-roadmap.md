@@ -147,11 +147,12 @@
   身份不被顺带升级。随后逐坐标证明余下 417/7 全在 32×32 screenblock 的
   30×20 可见域之外：右侧 padding 57、底部 padding 384、交集 24，可见域内
   未解释 cell 为 0。它们在来源历史口径继续保留，但不再作为玩家可见资源；
-  全局可见资源缺口因此为 181 cell / 22 种 battle BG3 内容。独立 verifier
+  该阶段留下的全局可见资源缺口为 181 cell / 22 种 battle BG3 内容。独立 verifier
   拒绝公式语义篡改与目录符号链接，结果
   `errors=[]`。成果见 `artifacts/overview-gradient-overlay-v1/` 与
   `notes/overview-gradient-overlay-export-20260730.md`。本轮复用已有 checkpoint，
-  未启动 mGBA；其余 22 种可见 battle BG3 内容、未跟踪状态和通用图像回写仍未闭合。
+  未启动 mGBA；`battle-status-bars-v1` 随后逐项闭合这 181/181 cell、22/22 种内容，
+  因而当前已跟踪可见图像未知分母为 0/0。未跟踪状态和通用图像回写仍未闭合。
 - 2026-07-30 Mode 0 最终 compositor 核心已接入普通 1D OBJ、BG/OBJ/backdrop
   priority、WIN0、alpha 与 darken。对 91 个 tracked checkpoint 的 1211 个
   active OAM 做包围盒预索引后，89 帧与 `.ss9` 内嵌 PNG 逐 RGB 字节完全一致。
