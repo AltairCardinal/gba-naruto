@@ -1380,3 +1380,14 @@ WebSocket
   篡改。成果位于`artifacts/battle-effect-resource-writeback-v1/`，说明见
   `notes/battle-effect-resource-writeback-20260731.md`。迁移、指针改写、
   任意编辑容量及修改后OAM/affine/blend/时序/音频等价仍未完成，Goal保持active。
+- 2026-07-31：角色战斗视觉的完整 palette 分母已从只读导出推进到安全原位回编。
+  342个有效逻辑槽、250套descriptor资源收敛为48个互不重叠的32-byte物理
+  BGR555槽和40份唯一内容；新`character_battle_palette`构建类型按物理指针与
+  原始SHA标识编辑，同指针的全部resource/slot原子联动，内容相同但指针不同的槽
+  保持独立。基准ROM、catalog、558项descriptor指针、resource ID、slot row和
+  固定长度均失败关闭，48/48原始内容及48/48低位修改均可写回。独立verifier不
+  导入实现，从ROM重建`48 physical→250 resource→342 slot`并拒绝重签后的别名
+  篡改。成果位于`artifacts/character-battle-palette-writeback-v1/`，说明见
+  `notes/character-battle-palette-writeback-20260731.md`。250套graphics、
+  frame/component/animation结构、迁移/指针改写及修改后运行时像素等价仍未完成，
+  Goal保持active。

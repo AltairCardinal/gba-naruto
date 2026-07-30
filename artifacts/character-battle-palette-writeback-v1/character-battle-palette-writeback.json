@@ -1,0 +1,4482 @@
+{
+  "artifact_id": "character-battle-palette-writeback-v1",
+  "implementation": {
+    "tests/test_import_character_battle_palettes.py": "9d96e9986a5bae66765724ffd78144f51c04d40fcba4bd07c78bfa2d94b567f4",
+    "tools/automated_test.py": "26b94635fa047129595e79914c91e53350169d85dd80c0f8bdcf93d6dc9ab8c3",
+    "tools/build_mod.py": "ec93ee4ebe6f7ee3fd2381ae7e8bfa4e561f6f963330d0c5212f13fab87ce32b",
+    "tools/export_character_battle_palette_writeback_audit.py": "2a9ea1ed9b4686813e06057bd8c0ac56c8c96e02432bd96a10732f4873df89e9",
+    "tools/import_character_battle_palettes.py": "2abc7edf85b7e7d16a848474d271d27998dacb1e3664e2b93979be576aee2dfd",
+    "tools/verify_character_battle_palette_writeback_audit.py": "ea6a30cef860dc5a96c6bec1739ebf8e7f45a5011f1d33925bb78ada6f502387"
+  },
+  "palettes": [
+    {
+      "color_count": 16,
+      "file_offset": 1302640,
+      "gba_pointer": "0x0813E070",
+      "logical_aliases": [
+        {
+          "character_id": 1,
+          "resource_id": 0,
+          "slot_row": 0,
+          "table_pointer_offset": 5860712,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 1,
+          "resource_id": 1,
+          "slot_row": 1,
+          "table_pointer_offset": 5860728,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 1,
+          "resource_id": 2,
+          "slot_row": 2,
+          "table_pointer_offset": 5860744,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 1,
+          "resource_id": 3,
+          "slot_row": 3,
+          "table_pointer_offset": 5860760,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 1,
+          "resource_id": 4,
+          "slot_row": 4,
+          "table_pointer_offset": 5860776,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 1,
+          "resource_id": 5,
+          "slot_row": 5,
+          "table_pointer_offset": 5860792,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 1,
+          "resource_id": 6,
+          "slot_row": 6,
+          "table_pointer_offset": 5860808,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 1,
+          "resource_id": 7,
+          "slot_row": 7,
+          "table_pointer_offset": 5860824,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 1,
+          "resource_id": 8,
+          "slot_row": 8,
+          "table_pointer_offset": 5860840,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "8fab9afb53a8e291874b960327f54aa9655e1f3da59384ef0ab42b0bed3471ef"
+      },
+      "resource_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "resource_reference_count": 9,
+      "sha256": "5ed6559b7dbaee0832ff46c3961fd0e60ed89c6c9db5dd945d1135aa2dc52916",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "source_files": [
+        "resource-000/palette-bgr555.bin",
+        "resource-001/palette-bgr555.bin",
+        "resource-002/palette-bgr555.bin",
+        "resource-003/palette-bgr555.bin",
+        "resource-004/palette-bgr555.bin",
+        "resource-005/palette-bgr555.bin",
+        "resource-006/palette-bgr555.bin",
+        "resource-007/palette-bgr555.bin",
+        "resource-008/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1375608,
+      "gba_pointer": "0x0814FD78",
+      "logical_aliases": [
+        {
+          "character_id": 2,
+          "resource_id": 9,
+          "slot_row": 9,
+          "table_pointer_offset": 5860856,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 2,
+          "resource_id": 10,
+          "slot_row": 10,
+          "table_pointer_offset": 5860872,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 2,
+          "resource_id": 11,
+          "slot_row": 11,
+          "table_pointer_offset": 5860888,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 2,
+          "resource_id": 12,
+          "slot_row": 12,
+          "table_pointer_offset": 5860904,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 2,
+          "resource_id": 13,
+          "slot_row": 13,
+          "table_pointer_offset": 5860920,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 2,
+          "resource_id": 14,
+          "slot_row": 14,
+          "table_pointer_offset": 5860936,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 2,
+          "resource_id": 15,
+          "slot_row": 15,
+          "table_pointer_offset": 5860952,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 2,
+          "resource_id": 16,
+          "slot_row": 16,
+          "table_pointer_offset": 5860968,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 2,
+          "resource_id": 17,
+          "slot_row": 17,
+          "table_pointer_offset": 5860984,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "d5ac67ce557bbe36ead1b99dd56067dc5c68f539e588954dbc21d4bd05edfa74"
+      },
+      "resource_ids": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "resource_reference_count": 9,
+      "sha256": "429bf094da8e23da6161f5021825c87cefd6d1b6e1be8f339e6f92711d840aaf",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "source_files": [
+        "resource-009/palette-bgr555.bin",
+        "resource-010/palette-bgr555.bin",
+        "resource-011/palette-bgr555.bin",
+        "resource-012/palette-bgr555.bin",
+        "resource-013/palette-bgr555.bin",
+        "resource-014/palette-bgr555.bin",
+        "resource-015/palette-bgr555.bin",
+        "resource-016/palette-bgr555.bin",
+        "resource-017/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1443456,
+      "gba_pointer": "0x08160680",
+      "logical_aliases": [
+        {
+          "character_id": 3,
+          "resource_id": 18,
+          "slot_row": 18,
+          "table_pointer_offset": 5861000,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 3,
+          "resource_id": 19,
+          "slot_row": 19,
+          "table_pointer_offset": 5861016,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 3,
+          "resource_id": 20,
+          "slot_row": 20,
+          "table_pointer_offset": 5861032,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 3,
+          "resource_id": 21,
+          "slot_row": 21,
+          "table_pointer_offset": 5861048,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 3,
+          "resource_id": 22,
+          "slot_row": 22,
+          "table_pointer_offset": 5861064,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 3,
+          "resource_id": 23,
+          "slot_row": 23,
+          "table_pointer_offset": 5861080,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 3,
+          "resource_id": 24,
+          "slot_row": 24,
+          "table_pointer_offset": 5861096,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 3,
+          "resource_id": 25,
+          "slot_row": 25,
+          "table_pointer_offset": 5861112,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 3,
+          "resource_id": 26,
+          "slot_row": 26,
+          "table_pointer_offset": 5861128,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "0cfef047607b3141131e47ecc50250eec1dc08052468146a588ebddc64fafd84"
+      },
+      "resource_ids": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "resource_reference_count": 9,
+      "sha256": "e75e883dc31f2219ebcaa090e2ab9cb534491e02548bd921d465bc8d1f0f2d31",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "source_files": [
+        "resource-018/palette-bgr555.bin",
+        "resource-019/palette-bgr555.bin",
+        "resource-020/palette-bgr555.bin",
+        "resource-021/palette-bgr555.bin",
+        "resource-022/palette-bgr555.bin",
+        "resource-023/palette-bgr555.bin",
+        "resource-024/palette-bgr555.bin",
+        "resource-025/palette-bgr555.bin",
+        "resource-026/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1511312,
+      "gba_pointer": "0x08170F90",
+      "logical_aliases": [
+        {
+          "character_id": 4,
+          "resource_id": 27,
+          "slot_row": 27,
+          "table_pointer_offset": 5861144,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 4,
+          "resource_id": 28,
+          "slot_row": 28,
+          "table_pointer_offset": 5861160,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 4,
+          "resource_id": 29,
+          "slot_row": 29,
+          "table_pointer_offset": 5861176,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 4,
+          "resource_id": 30,
+          "slot_row": 30,
+          "table_pointer_offset": 5861192,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 4,
+          "resource_id": 31,
+          "slot_row": 31,
+          "table_pointer_offset": 5861208,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "3f0aca2025a041dbf32190441d18ebda343b8f75b054e936be1cef109fcc525e"
+      },
+      "resource_ids": [
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "resource_reference_count": 5,
+      "sha256": "29cb584c1663d74a6b079aec4e145eab8778c97c293d1c9007e12b6e673403ad",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "source_files": [
+        "resource-027/palette-bgr555.bin",
+        "resource-028/palette-bgr555.bin",
+        "resource-029/palette-bgr555.bin",
+        "resource-030/palette-bgr555.bin",
+        "resource-031/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1548708,
+      "gba_pointer": "0x0817A1A4",
+      "logical_aliases": [
+        {
+          "character_id": 5,
+          "resource_id": 32,
+          "slot_row": 36,
+          "table_pointer_offset": 5861288,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 5,
+          "resource_id": 33,
+          "slot_row": 37,
+          "table_pointer_offset": 5861304,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 5,
+          "resource_id": 34,
+          "slot_row": 38,
+          "table_pointer_offset": 5861320,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 5,
+          "resource_id": 35,
+          "slot_row": 39,
+          "table_pointer_offset": 5861336,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 5,
+          "resource_id": 36,
+          "slot_row": 40,
+          "table_pointer_offset": 5861352,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 31,
+          "resource_id": 33,
+          "slot_row": 271,
+          "table_pointer_offset": 5865048,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 31,
+          "resource_id": 34,
+          "slot_row": 272,
+          "table_pointer_offset": 5865064,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 31,
+          "resource_id": 35,
+          "slot_row": 273,
+          "table_pointer_offset": 5865080,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 36,
+          "resource_id": 33,
+          "slot_row": 316,
+          "table_pointer_offset": 5865768,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 36,
+          "resource_id": 34,
+          "slot_row": 317,
+          "table_pointer_offset": 5865784,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 37,
+          "resource_id": 33,
+          "slot_row": 325,
+          "table_pointer_offset": 5865912,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 37,
+          "resource_id": 34,
+          "slot_row": 326,
+          "table_pointer_offset": 5865928,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 38,
+          "resource_id": 33,
+          "slot_row": 334,
+          "table_pointer_offset": 5866056,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 38,
+          "resource_id": 34,
+          "slot_row": 335,
+          "table_pointer_offset": 5866072,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 39,
+          "resource_id": 33,
+          "slot_row": 343,
+          "table_pointer_offset": 5866200,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 39,
+          "resource_id": 34,
+          "slot_row": 344,
+          "table_pointer_offset": 5866216,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 40,
+          "resource_id": 33,
+          "slot_row": 352,
+          "table_pointer_offset": 5866344,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 40,
+          "resource_id": 34,
+          "slot_row": 353,
+          "table_pointer_offset": 5866360,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 41,
+          "resource_id": 33,
+          "slot_row": 361,
+          "table_pointer_offset": 5866488,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 41,
+          "resource_id": 34,
+          "slot_row": 362,
+          "table_pointer_offset": 5866504,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 41,
+          "resource_id": 35,
+          "slot_row": 363,
+          "table_pointer_offset": 5866520,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 42,
+          "resource_id": 33,
+          "slot_row": 370,
+          "table_pointer_offset": 5866632,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 42,
+          "resource_id": 34,
+          "slot_row": 371,
+          "table_pointer_offset": 5866648,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 42,
+          "resource_id": 35,
+          "slot_row": 372,
+          "table_pointer_offset": 5866664,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 42,
+          "resource_id": 36,
+          "slot_row": 373,
+          "table_pointer_offset": 5866680,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 43,
+          "resource_id": 32,
+          "slot_row": 378,
+          "table_pointer_offset": 5866760,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 43,
+          "resource_id": 33,
+          "slot_row": 379,
+          "table_pointer_offset": 5866776,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 43,
+          "resource_id": 34,
+          "slot_row": 380,
+          "table_pointer_offset": 5866792,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 43,
+          "resource_id": 35,
+          "slot_row": 381,
+          "table_pointer_offset": 5866808,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 43,
+          "resource_id": 36,
+          "slot_row": 382,
+          "table_pointer_offset": 5866824,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 44,
+          "resource_id": 32,
+          "slot_row": 387,
+          "table_pointer_offset": 5866904,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 44,
+          "resource_id": 33,
+          "slot_row": 388,
+          "table_pointer_offset": 5866920,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 44,
+          "resource_id": 34,
+          "slot_row": 389,
+          "table_pointer_offset": 5866936,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 44,
+          "resource_id": 35,
+          "slot_row": 390,
+          "table_pointer_offset": 5866952,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 44,
+          "resource_id": 36,
+          "slot_row": 391,
+          "table_pointer_offset": 5866968,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 45,
+          "resource_id": 32,
+          "slot_row": 396,
+          "table_pointer_offset": 5867048,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 45,
+          "resource_id": 33,
+          "slot_row": 397,
+          "table_pointer_offset": 5867064,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 45,
+          "resource_id": 34,
+          "slot_row": 398,
+          "table_pointer_offset": 5867080,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 45,
+          "resource_id": 35,
+          "slot_row": 399,
+          "table_pointer_offset": 5867096,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 45,
+          "resource_id": 36,
+          "slot_row": 400,
+          "table_pointer_offset": 5867112,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 46,
+          "resource_id": 32,
+          "slot_row": 405,
+          "table_pointer_offset": 5867192,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 46,
+          "resource_id": 33,
+          "slot_row": 406,
+          "table_pointer_offset": 5867208,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 46,
+          "resource_id": 34,
+          "slot_row": 407,
+          "table_pointer_offset": 5867224,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 46,
+          "resource_id": 35,
+          "slot_row": 408,
+          "table_pointer_offset": 5867240,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 46,
+          "resource_id": 36,
+          "slot_row": 409,
+          "table_pointer_offset": 5867256,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 47,
+          "resource_id": 32,
+          "slot_row": 414,
+          "table_pointer_offset": 5867336,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 47,
+          "resource_id": 33,
+          "slot_row": 415,
+          "table_pointer_offset": 5867352,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 47,
+          "resource_id": 34,
+          "slot_row": 416,
+          "table_pointer_offset": 5867368,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 47,
+          "resource_id": 35,
+          "slot_row": 417,
+          "table_pointer_offset": 5867384,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 47,
+          "resource_id": 36,
+          "slot_row": 418,
+          "table_pointer_offset": 5867400,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 48,
+          "resource_id": 32,
+          "slot_row": 423,
+          "table_pointer_offset": 5867480,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 48,
+          "resource_id": 33,
+          "slot_row": 424,
+          "table_pointer_offset": 5867496,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 48,
+          "resource_id": 34,
+          "slot_row": 425,
+          "table_pointer_offset": 5867512,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 48,
+          "resource_id": 35,
+          "slot_row": 426,
+          "table_pointer_offset": 5867528,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 48,
+          "resource_id": 36,
+          "slot_row": 427,
+          "table_pointer_offset": 5867544,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 49,
+          "resource_id": 32,
+          "slot_row": 432,
+          "table_pointer_offset": 5867624,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 49,
+          "resource_id": 33,
+          "slot_row": 433,
+          "table_pointer_offset": 5867640,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 49,
+          "resource_id": 34,
+          "slot_row": 434,
+          "table_pointer_offset": 5867656,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 49,
+          "resource_id": 35,
+          "slot_row": 435,
+          "table_pointer_offset": 5867672,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 49,
+          "resource_id": 36,
+          "slot_row": 436,
+          "table_pointer_offset": 5867688,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 50,
+          "resource_id": 32,
+          "slot_row": 441,
+          "table_pointer_offset": 5867768,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 50,
+          "resource_id": 33,
+          "slot_row": 442,
+          "table_pointer_offset": 5867784,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 50,
+          "resource_id": 34,
+          "slot_row": 443,
+          "table_pointer_offset": 5867800,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 50,
+          "resource_id": 35,
+          "slot_row": 444,
+          "table_pointer_offset": 5867816,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 50,
+          "resource_id": 36,
+          "slot_row": 445,
+          "table_pointer_offset": 5867832,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 51,
+          "resource_id": 32,
+          "slot_row": 450,
+          "table_pointer_offset": 5867912,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 51,
+          "resource_id": 33,
+          "slot_row": 451,
+          "table_pointer_offset": 5867928,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 51,
+          "resource_id": 34,
+          "slot_row": 452,
+          "table_pointer_offset": 5867944,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 51,
+          "resource_id": 35,
+          "slot_row": 453,
+          "table_pointer_offset": 5867960,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 51,
+          "resource_id": 36,
+          "slot_row": 454,
+          "table_pointer_offset": 5867976,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 52,
+          "resource_id": 32,
+          "slot_row": 459,
+          "table_pointer_offset": 5868056,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 52,
+          "resource_id": 33,
+          "slot_row": 460,
+          "table_pointer_offset": 5868072,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 52,
+          "resource_id": 34,
+          "slot_row": 461,
+          "table_pointer_offset": 5868088,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 52,
+          "resource_id": 35,
+          "slot_row": 462,
+          "table_pointer_offset": 5868104,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 52,
+          "resource_id": 36,
+          "slot_row": 463,
+          "table_pointer_offset": 5868120,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 53,
+          "resource_id": 32,
+          "slot_row": 468,
+          "table_pointer_offset": 5868200,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 53,
+          "resource_id": 33,
+          "slot_row": 469,
+          "table_pointer_offset": 5868216,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 53,
+          "resource_id": 34,
+          "slot_row": 470,
+          "table_pointer_offset": 5868232,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 53,
+          "resource_id": 35,
+          "slot_row": 471,
+          "table_pointer_offset": 5868248,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 53,
+          "resource_id": 36,
+          "slot_row": 472,
+          "table_pointer_offset": 5868264,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 54,
+          "resource_id": 32,
+          "slot_row": 477,
+          "table_pointer_offset": 5868344,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 54,
+          "resource_id": 33,
+          "slot_row": 478,
+          "table_pointer_offset": 5868360,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 54,
+          "resource_id": 34,
+          "slot_row": 479,
+          "table_pointer_offset": 5868376,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 54,
+          "resource_id": 35,
+          "slot_row": 480,
+          "table_pointer_offset": 5868392,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 54,
+          "resource_id": 36,
+          "slot_row": 481,
+          "table_pointer_offset": 5868408,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 55,
+          "resource_id": 33,
+          "slot_row": 487,
+          "table_pointer_offset": 5868504,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 55,
+          "resource_id": 34,
+          "slot_row": 488,
+          "table_pointer_offset": 5868520,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 56,
+          "resource_id": 32,
+          "slot_row": 495,
+          "table_pointer_offset": 5868632,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 56,
+          "resource_id": 33,
+          "slot_row": 496,
+          "table_pointer_offset": 5868648,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 56,
+          "resource_id": 34,
+          "slot_row": 497,
+          "table_pointer_offset": 5868664,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 56,
+          "resource_id": 35,
+          "slot_row": 498,
+          "table_pointer_offset": 5868680,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 56,
+          "resource_id": 36,
+          "slot_row": 499,
+          "table_pointer_offset": 5868696,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 61,
+          "resource_id": 32,
+          "slot_row": 540,
+          "table_pointer_offset": 5869352,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 61,
+          "resource_id": 33,
+          "slot_row": 541,
+          "table_pointer_offset": 5869368,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 61,
+          "resource_id": 34,
+          "slot_row": 542,
+          "table_pointer_offset": 5869384,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 61,
+          "resource_id": 35,
+          "slot_row": 543,
+          "table_pointer_offset": 5869400,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 61,
+          "resource_id": 36,
+          "slot_row": 544,
+          "table_pointer_offset": 5869416,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "d686df97bf511bf06aedf679f2164667085cdd400c0dde2536de656cfe1ca861"
+      },
+      "resource_ids": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "resource_reference_count": 5,
+      "sha256": "dff23eb44fdee22a717146768eeedc0e91a78b769a6444565cd689e2c09ccff2",
+      "size": 32,
+      "slot_reference_count": 97,
+      "slot_rows": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        271,
+        272,
+        273,
+        316,
+        317,
+        325,
+        326,
+        334,
+        335,
+        343,
+        344,
+        352,
+        353,
+        361,
+        362,
+        363,
+        370,
+        371,
+        372,
+        373,
+        378,
+        379,
+        380,
+        381,
+        382,
+        387,
+        388,
+        389,
+        390,
+        391,
+        396,
+        397,
+        398,
+        399,
+        400,
+        405,
+        406,
+        407,
+        408,
+        409,
+        414,
+        415,
+        416,
+        417,
+        418,
+        423,
+        424,
+        425,
+        426,
+        427,
+        432,
+        433,
+        434,
+        435,
+        436,
+        441,
+        442,
+        443,
+        444,
+        445,
+        450,
+        451,
+        452,
+        453,
+        454,
+        459,
+        460,
+        461,
+        462,
+        463,
+        468,
+        469,
+        470,
+        471,
+        472,
+        477,
+        478,
+        479,
+        480,
+        481,
+        487,
+        488,
+        495,
+        496,
+        497,
+        498,
+        499,
+        540,
+        541,
+        542,
+        543,
+        544
+      ],
+      "source_files": [
+        "resource-032/palette-bgr555.bin",
+        "resource-033/palette-bgr555.bin",
+        "resource-034/palette-bgr555.bin",
+        "resource-035/palette-bgr555.bin",
+        "resource-036/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1589176,
+      "gba_pointer": "0x08183FB8",
+      "logical_aliases": [
+        {
+          "character_id": 6,
+          "resource_id": 37,
+          "slot_row": 45,
+          "table_pointer_offset": 5861432,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 6,
+          "resource_id": 38,
+          "slot_row": 46,
+          "table_pointer_offset": 5861448,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 6,
+          "resource_id": 39,
+          "slot_row": 47,
+          "table_pointer_offset": 5861464,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 6,
+          "resource_id": 40,
+          "slot_row": 48,
+          "table_pointer_offset": 5861480,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 6,
+          "resource_id": 41,
+          "slot_row": 49,
+          "table_pointer_offset": 5861496,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "11e7d35b5df884d5d64ad6f2b055f3eae7dc8771f88c19313523789ae7063a75"
+      },
+      "resource_ids": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "resource_reference_count": 5,
+      "sha256": "3116b984a8cc7a2cbe4d850de26a7bf9f191a31b4ef60f757c27104010af97cc",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "source_files": [
+        "resource-037/palette-bgr555.bin",
+        "resource-038/palette-bgr555.bin",
+        "resource-039/palette-bgr555.bin",
+        "resource-040/palette-bgr555.bin",
+        "resource-041/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1626572,
+      "gba_pointer": "0x0818D1CC",
+      "logical_aliases": [
+        {
+          "character_id": 7,
+          "resource_id": 42,
+          "slot_row": 54,
+          "table_pointer_offset": 5861576,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 7,
+          "resource_id": 43,
+          "slot_row": 55,
+          "table_pointer_offset": 5861592,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 7,
+          "resource_id": 44,
+          "slot_row": 56,
+          "table_pointer_offset": 5861608,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 7,
+          "resource_id": 45,
+          "slot_row": 57,
+          "table_pointer_offset": 5861624,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 7,
+          "resource_id": 46,
+          "slot_row": 58,
+          "table_pointer_offset": 5861640,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 7,
+          "resource_id": 47,
+          "slot_row": 59,
+          "table_pointer_offset": 5861656,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 7,
+          "resource_id": 48,
+          "slot_row": 60,
+          "table_pointer_offset": 5861672,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 7,
+          "resource_id": 49,
+          "slot_row": 61,
+          "table_pointer_offset": 5861688,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 7,
+          "resource_id": 50,
+          "slot_row": 62,
+          "table_pointer_offset": 5861704,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "bc1b2a9464e9934c3827d159b1e711563c585a31688907f8367ca6d1f6f42ff4"
+      },
+      "resource_ids": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "resource_reference_count": 9,
+      "sha256": "df0272730e8206b2849f39bd075a454164eacd2d07348a47475b75ceaae2f65a",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "source_files": [
+        "resource-042/palette-bgr555.bin",
+        "resource-043/palette-bgr555.bin",
+        "resource-044/palette-bgr555.bin",
+        "resource-045/palette-bgr555.bin",
+        "resource-046/palette-bgr555.bin",
+        "resource-047/palette-bgr555.bin",
+        "resource-048/palette-bgr555.bin",
+        "resource-049/palette-bgr555.bin",
+        "resource-050/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1701588,
+      "gba_pointer": "0x0819F6D4",
+      "logical_aliases": [
+        {
+          "character_id": 8,
+          "resource_id": 51,
+          "slot_row": 63,
+          "table_pointer_offset": 5861720,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 8,
+          "resource_id": 52,
+          "slot_row": 64,
+          "table_pointer_offset": 5861736,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 8,
+          "resource_id": 53,
+          "slot_row": 65,
+          "table_pointer_offset": 5861752,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 8,
+          "resource_id": 54,
+          "slot_row": 66,
+          "table_pointer_offset": 5861768,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 8,
+          "resource_id": 55,
+          "slot_row": 67,
+          "table_pointer_offset": 5861784,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "d238bd30ef920fc20a4d398b42ccda2457ca81bcadbfb6514388c8559648f284"
+      },
+      "resource_ids": [
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "resource_reference_count": 5,
+      "sha256": "f732dfab85750b587d4a030577c6b848f78506825813710e9c7b5633d435d1d7",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        63,
+        64,
+        65,
+        66,
+        67
+      ],
+      "source_files": [
+        "resource-051/palette-bgr555.bin",
+        "resource-052/palette-bgr555.bin",
+        "resource-053/palette-bgr555.bin",
+        "resource-054/palette-bgr555.bin",
+        "resource-055/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1738984,
+      "gba_pointer": "0x081A88E8",
+      "logical_aliases": [
+        {
+          "character_id": 9,
+          "resource_id": 56,
+          "slot_row": 72,
+          "table_pointer_offset": 5861864,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 9,
+          "resource_id": 57,
+          "slot_row": 73,
+          "table_pointer_offset": 5861880,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 9,
+          "resource_id": 58,
+          "slot_row": 74,
+          "table_pointer_offset": 5861896,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 9,
+          "resource_id": 59,
+          "slot_row": 75,
+          "table_pointer_offset": 5861912,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 9,
+          "resource_id": 60,
+          "slot_row": 76,
+          "table_pointer_offset": 5861928,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "8eca322d150cd131d7210ef0adfe87dc753d9287ca9c487c80abe82dc07f3eba"
+      },
+      "resource_ids": [
+        56,
+        57,
+        58,
+        59,
+        60
+      ],
+      "resource_reference_count": 5,
+      "sha256": "7cf0b36a0ff1607cce4ad2285c67714a0c79a2201d6001be165a537b4445dfdc",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "source_files": [
+        "resource-056/palette-bgr555.bin",
+        "resource-057/palette-bgr555.bin",
+        "resource-058/palette-bgr555.bin",
+        "resource-059/palette-bgr555.bin",
+        "resource-060/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1777404,
+      "gba_pointer": "0x081B1EFC",
+      "logical_aliases": [
+        {
+          "character_id": 10,
+          "resource_id": 61,
+          "slot_row": 81,
+          "table_pointer_offset": 5862008,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 10,
+          "resource_id": 62,
+          "slot_row": 82,
+          "table_pointer_offset": 5862024,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 10,
+          "resource_id": 63,
+          "slot_row": 83,
+          "table_pointer_offset": 5862040,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 10,
+          "resource_id": 64,
+          "slot_row": 84,
+          "table_pointer_offset": 5862056,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 10,
+          "resource_id": 65,
+          "slot_row": 85,
+          "table_pointer_offset": 5862072,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "407eaf7e00a625f5e178feaf59c9b426937a719c7b021ecb42b7ae13df9bcd7a"
+      },
+      "resource_ids": [
+        61,
+        62,
+        63,
+        64,
+        65
+      ],
+      "resource_reference_count": 5,
+      "sha256": "57b0449ce2eb404dc22f2f951040351fcac0a3a79212f157b34dc62b51677134",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        81,
+        82,
+        83,
+        84,
+        85
+      ],
+      "source_files": [
+        "resource-061/palette-bgr555.bin",
+        "resource-062/palette-bgr555.bin",
+        "resource-063/palette-bgr555.bin",
+        "resource-064/palette-bgr555.bin",
+        "resource-065/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1814800,
+      "gba_pointer": "0x081BB110",
+      "logical_aliases": [
+        {
+          "character_id": 11,
+          "resource_id": 66,
+          "slot_row": 90,
+          "table_pointer_offset": 5862152,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 11,
+          "resource_id": 67,
+          "slot_row": 91,
+          "table_pointer_offset": 5862168,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 11,
+          "resource_id": 68,
+          "slot_row": 92,
+          "table_pointer_offset": 5862184,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 11,
+          "resource_id": 69,
+          "slot_row": 93,
+          "table_pointer_offset": 5862200,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 11,
+          "resource_id": 70,
+          "slot_row": 94,
+          "table_pointer_offset": 5862216,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "4d4f9ce3c08f3a42b376eb52f6c3e3cb6d8dfa82aec09aab232e0d45b0e75f62"
+      },
+      "resource_ids": [
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "resource_reference_count": 5,
+      "sha256": "ca0bedbc20cf6f05d4f95a226a533a4e32325b7b17d864b64b2cf24b1ccbe100",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        90,
+        91,
+        92,
+        93,
+        94
+      ],
+      "source_files": [
+        "resource-066/palette-bgr555.bin",
+        "resource-067/palette-bgr555.bin",
+        "resource-068/palette-bgr555.bin",
+        "resource-069/palette-bgr555.bin",
+        "resource-070/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1853220,
+      "gba_pointer": "0x081C4724",
+      "logical_aliases": [
+        {
+          "character_id": 12,
+          "resource_id": 71,
+          "slot_row": 99,
+          "table_pointer_offset": 5862296,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 12,
+          "resource_id": 72,
+          "slot_row": 100,
+          "table_pointer_offset": 5862312,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 12,
+          "resource_id": 73,
+          "slot_row": 101,
+          "table_pointer_offset": 5862328,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 12,
+          "resource_id": 74,
+          "slot_row": 102,
+          "table_pointer_offset": 5862344,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 12,
+          "resource_id": 75,
+          "slot_row": 103,
+          "table_pointer_offset": 5862360,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "33e3d9f4dd00f93cb09a9dc3919ef4f8f5abd2e17d8506ca6a8264f55aecda91"
+      },
+      "resource_ids": [
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "resource_reference_count": 5,
+      "sha256": "dad403d8acae6a3378c7f6402193e61b11dcb63a6f6a736152d58d74820d4abd",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        99,
+        100,
+        101,
+        102,
+        103
+      ],
+      "source_files": [
+        "resource-071/palette-bgr555.bin",
+        "resource-072/palette-bgr555.bin",
+        "resource-073/palette-bgr555.bin",
+        "resource-074/palette-bgr555.bin",
+        "resource-075/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1892696,
+      "gba_pointer": "0x081CE158",
+      "logical_aliases": [
+        {
+          "character_id": 13,
+          "resource_id": 76,
+          "slot_row": 108,
+          "table_pointer_offset": 5862440,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 13,
+          "resource_id": 77,
+          "slot_row": 109,
+          "table_pointer_offset": 5862456,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 13,
+          "resource_id": 78,
+          "slot_row": 110,
+          "table_pointer_offset": 5862472,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 13,
+          "resource_id": 79,
+          "slot_row": 111,
+          "table_pointer_offset": 5862488,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 13,
+          "resource_id": 80,
+          "slot_row": 112,
+          "table_pointer_offset": 5862504,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "aee6861af2f9bb67853192eb5d456467af11d099dda2d5f85c2a8bed2ab4f99a"
+      },
+      "resource_ids": [
+        76,
+        77,
+        78,
+        79,
+        80
+      ],
+      "resource_reference_count": 5,
+      "sha256": "cfc1619fd8d668e152f27b5239f38b5a36fee3351385b2909c1f21fdbd3df25d",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "source_files": [
+        "resource-076/palette-bgr555.bin",
+        "resource-077/palette-bgr555.bin",
+        "resource-078/palette-bgr555.bin",
+        "resource-079/palette-bgr555.bin",
+        "resource-080/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1929072,
+      "gba_pointer": "0x081D6F70",
+      "logical_aliases": [
+        {
+          "character_id": 14,
+          "resource_id": 81,
+          "slot_row": 117,
+          "table_pointer_offset": 5862584,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 14,
+          "resource_id": 82,
+          "slot_row": 118,
+          "table_pointer_offset": 5862600,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 14,
+          "resource_id": 83,
+          "slot_row": 119,
+          "table_pointer_offset": 5862616,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 14,
+          "resource_id": 84,
+          "slot_row": 120,
+          "table_pointer_offset": 5862632,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 14,
+          "resource_id": 85,
+          "slot_row": 121,
+          "table_pointer_offset": 5862648,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "06ed03a7ee55b2ff8104c5d6b64a4c1a13cb717212b0a12610087afb7d13910c"
+      },
+      "resource_ids": [
+        81,
+        82,
+        83,
+        84,
+        85
+      ],
+      "resource_reference_count": 5,
+      "sha256": "2247cfaa4e92f4c02cfb893636685dd354065ee9d60de1985497340b3600f98a",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "source_files": [
+        "resource-081/palette-bgr555.bin",
+        "resource-082/palette-bgr555.bin",
+        "resource-083/palette-bgr555.bin",
+        "resource-084/palette-bgr555.bin",
+        "resource-085/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 1969188,
+      "gba_pointer": "0x081E0C24",
+      "logical_aliases": [
+        {
+          "character_id": 15,
+          "resource_id": 86,
+          "slot_row": 126,
+          "table_pointer_offset": 5862728,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 15,
+          "resource_id": 87,
+          "slot_row": 127,
+          "table_pointer_offset": 5862744,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 15,
+          "resource_id": 88,
+          "slot_row": 128,
+          "table_pointer_offset": 5862760,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 15,
+          "resource_id": 89,
+          "slot_row": 129,
+          "table_pointer_offset": 5862776,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 15,
+          "resource_id": 90,
+          "slot_row": 130,
+          "table_pointer_offset": 5862792,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "43bebdabc4e6a4d9dae39b12251a45fb68d2ee1cd487f07b61fd54712eb8813b"
+      },
+      "resource_ids": [
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "resource_reference_count": 5,
+      "sha256": "7eaa8e5e762d88a40a204258abf17caba13b640c6478b13b1afd2511f78d2f32",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        126,
+        127,
+        128,
+        129,
+        130
+      ],
+      "source_files": [
+        "resource-086/palette-bgr555.bin",
+        "resource-087/palette-bgr555.bin",
+        "resource-088/palette-bgr555.bin",
+        "resource-089/palette-bgr555.bin",
+        "resource-090/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2009656,
+      "gba_pointer": "0x081EAA38",
+      "logical_aliases": [
+        {
+          "character_id": 16,
+          "resource_id": 91,
+          "slot_row": 135,
+          "table_pointer_offset": 5862872,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 16,
+          "resource_id": 92,
+          "slot_row": 136,
+          "table_pointer_offset": 5862888,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 16,
+          "resource_id": 93,
+          "slot_row": 137,
+          "table_pointer_offset": 5862904,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 16,
+          "resource_id": 94,
+          "slot_row": 138,
+          "table_pointer_offset": 5862920,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 16,
+          "resource_id": 95,
+          "slot_row": 139,
+          "table_pointer_offset": 5862936,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "7b0a3c6a7cbac34c18c4e4fdfd2d7bafc88a8bd302af2bdbc59a58a009598d21"
+      },
+      "resource_ids": [
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "resource_reference_count": 5,
+      "sha256": "eefbdcfeac2f9824e91f46d7b0d1a5f75b747c439878a92bc6fe9b552ee625bb",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        135,
+        136,
+        137,
+        138,
+        139
+      ],
+      "source_files": [
+        "resource-091/palette-bgr555.bin",
+        "resource-092/palette-bgr555.bin",
+        "resource-093/palette-bgr555.bin",
+        "resource-094/palette-bgr555.bin",
+        "resource-095/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2048076,
+      "gba_pointer": "0x081F404C",
+      "logical_aliases": [
+        {
+          "character_id": 17,
+          "resource_id": 96,
+          "slot_row": 144,
+          "table_pointer_offset": 5863016,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 17,
+          "resource_id": 97,
+          "slot_row": 145,
+          "table_pointer_offset": 5863032,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 17,
+          "resource_id": 98,
+          "slot_row": 146,
+          "table_pointer_offset": 5863048,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 17,
+          "resource_id": 99,
+          "slot_row": 147,
+          "table_pointer_offset": 5863064,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 17,
+          "resource_id": 100,
+          "slot_row": 148,
+          "table_pointer_offset": 5863080,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "79508d435938a0e5f4e24432d17bfb2243288b7f5879b772040309f0dbb5c2ce"
+      },
+      "resource_ids": [
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "resource_reference_count": 5,
+      "sha256": "b007a592710d36a06ecaefacb16dc64da66008b266257807c87cf51c82a35c66",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "source_files": [
+        "resource-096/palette-bgr555.bin",
+        "resource-097/palette-bgr555.bin",
+        "resource-098/palette-bgr555.bin",
+        "resource-099/palette-bgr555.bin",
+        "resource-100/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2086496,
+      "gba_pointer": "0x081FD660",
+      "logical_aliases": [
+        {
+          "character_id": 18,
+          "resource_id": 101,
+          "slot_row": 153,
+          "table_pointer_offset": 5863160,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 18,
+          "resource_id": 102,
+          "slot_row": 154,
+          "table_pointer_offset": 5863176,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 18,
+          "resource_id": 103,
+          "slot_row": 155,
+          "table_pointer_offset": 5863192,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 18,
+          "resource_id": 104,
+          "slot_row": 156,
+          "table_pointer_offset": 5863208,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 18,
+          "resource_id": 105,
+          "slot_row": 157,
+          "table_pointer_offset": 5863224,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "58888f2ebfb5dc76d774ec82fefb8e277522fd8621a65b9b61075a9ef5f5a8b3"
+      },
+      "resource_ids": [
+        101,
+        102,
+        103,
+        104,
+        105
+      ],
+      "resource_reference_count": 5,
+      "sha256": "c27cdd1c9aabd3a4b690eab7a8ce47b3a1dbe14ddc39fe802ee62016d5b9ab68",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        153,
+        154,
+        155,
+        156,
+        157
+      ],
+      "source_files": [
+        "resource-101/palette-bgr555.bin",
+        "resource-102/palette-bgr555.bin",
+        "resource-103/palette-bgr555.bin",
+        "resource-104/palette-bgr555.bin",
+        "resource-105/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2133724,
+      "gba_pointer": "0x08208EDC",
+      "logical_aliases": [
+        {
+          "character_id": 19,
+          "resource_id": 106,
+          "slot_row": 162,
+          "table_pointer_offset": 5863304,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 19,
+          "resource_id": 107,
+          "slot_row": 163,
+          "table_pointer_offset": 5863320,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 19,
+          "resource_id": 108,
+          "slot_row": 164,
+          "table_pointer_offset": 5863336,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 19,
+          "resource_id": 109,
+          "slot_row": 165,
+          "table_pointer_offset": 5863352,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 19,
+          "resource_id": 110,
+          "slot_row": 166,
+          "table_pointer_offset": 5863368,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "bee30d0a0055bb57ccf9442164892a6ff2d78eb1ae2b903dd6031e36f96f675c"
+      },
+      "resource_ids": [
+        106,
+        107,
+        108,
+        109,
+        110
+      ],
+      "resource_reference_count": 5,
+      "sha256": "7924c783a6615f8c4aa74978beac5b5fd947b66452ae869191a1ca60845146dc",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        162,
+        163,
+        164,
+        165,
+        166
+      ],
+      "source_files": [
+        "resource-106/palette-bgr555.bin",
+        "resource-107/palette-bgr555.bin",
+        "resource-108/palette-bgr555.bin",
+        "resource-109/palette-bgr555.bin",
+        "resource-110/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2174192,
+      "gba_pointer": "0x08212CF0",
+      "logical_aliases": [
+        {
+          "character_id": 20,
+          "resource_id": 111,
+          "slot_row": 171,
+          "table_pointer_offset": 5863448,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 20,
+          "resource_id": 112,
+          "slot_row": 172,
+          "table_pointer_offset": 5863464,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 20,
+          "resource_id": 113,
+          "slot_row": 173,
+          "table_pointer_offset": 5863480,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 20,
+          "resource_id": 114,
+          "slot_row": 174,
+          "table_pointer_offset": 5863496,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 20,
+          "resource_id": 115,
+          "slot_row": 175,
+          "table_pointer_offset": 5863512,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "b9dbdfd68cfad3d0e50fef2fba9713b8e61c3d39449dfe3e166f3f5d8efbf5da"
+      },
+      "resource_ids": [
+        111,
+        112,
+        113,
+        114,
+        115
+      ],
+      "resource_reference_count": 5,
+      "sha256": "23fd36adb7384a647c7d202aafb0e9cc59ee83d8b1ab1d2c914197f514850bee",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        171,
+        172,
+        173,
+        174,
+        175
+      ],
+      "source_files": [
+        "resource-111/palette-bgr555.bin",
+        "resource-112/palette-bgr555.bin",
+        "resource-113/palette-bgr555.bin",
+        "resource-114/palette-bgr555.bin",
+        "resource-115/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2217760,
+      "gba_pointer": "0x0821D720",
+      "logical_aliases": [
+        {
+          "character_id": 21,
+          "resource_id": 116,
+          "slot_row": 180,
+          "table_pointer_offset": 5863592,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 21,
+          "resource_id": 117,
+          "slot_row": 181,
+          "table_pointer_offset": 5863608,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 21,
+          "resource_id": 118,
+          "slot_row": 182,
+          "table_pointer_offset": 5863624,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 21,
+          "resource_id": 119,
+          "slot_row": 183,
+          "table_pointer_offset": 5863640,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 21,
+          "resource_id": 120,
+          "slot_row": 184,
+          "table_pointer_offset": 5863656,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "98b7597866558f3c9b80c59a1148e1f46f41414af2bcab8d93b53b897388d634"
+      },
+      "resource_ids": [
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "resource_reference_count": 5,
+      "sha256": "6a262f1352ab665892e49b4321478622308744c74b773aadfd03695d4538284c",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        180,
+        181,
+        182,
+        183,
+        184
+      ],
+      "source_files": [
+        "resource-116/palette-bgr555.bin",
+        "resource-117/palette-bgr555.bin",
+        "resource-118/palette-bgr555.bin",
+        "resource-119/palette-bgr555.bin",
+        "resource-120/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2255156,
+      "gba_pointer": "0x08226934",
+      "logical_aliases": [
+        {
+          "character_id": 22,
+          "resource_id": 121,
+          "slot_row": 189,
+          "table_pointer_offset": 5863736,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 22,
+          "resource_id": 122,
+          "slot_row": 190,
+          "table_pointer_offset": 5863752,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 22,
+          "resource_id": 123,
+          "slot_row": 191,
+          "table_pointer_offset": 5863768,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 22,
+          "resource_id": 124,
+          "slot_row": 192,
+          "table_pointer_offset": 5863784,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 22,
+          "resource_id": 125,
+          "slot_row": 193,
+          "table_pointer_offset": 5863800,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "54bf863a39d1c3219549868f573bf8d3a76312b20da5bc453cedb87a59bf01e0"
+      },
+      "resource_ids": [
+        121,
+        122,
+        123,
+        124,
+        125
+      ],
+      "resource_reference_count": 5,
+      "sha256": "26add03d0abcbeac241e8e47d69603371e7fb3f3ddd084cf8a8b2f44faf57a7d",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        189,
+        190,
+        191,
+        192,
+        193
+      ],
+      "source_files": [
+        "resource-121/palette-bgr555.bin",
+        "resource-122/palette-bgr555.bin",
+        "resource-123/palette-bgr555.bin",
+        "resource-124/palette-bgr555.bin",
+        "resource-125/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2293608,
+      "gba_pointer": "0x0822FF68",
+      "logical_aliases": [
+        {
+          "character_id": 23,
+          "resource_id": 126,
+          "slot_row": 198,
+          "table_pointer_offset": 5863880,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 23,
+          "resource_id": 127,
+          "slot_row": 199,
+          "table_pointer_offset": 5863896,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 23,
+          "resource_id": 128,
+          "slot_row": 200,
+          "table_pointer_offset": 5863912,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 23,
+          "resource_id": 129,
+          "slot_row": 201,
+          "table_pointer_offset": 5863928,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 23,
+          "resource_id": 130,
+          "slot_row": 202,
+          "table_pointer_offset": 5863944,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "54bf863a39d1c3219549868f573bf8d3a76312b20da5bc453cedb87a59bf01e0"
+      },
+      "resource_ids": [
+        126,
+        127,
+        128,
+        129,
+        130
+      ],
+      "resource_reference_count": 5,
+      "sha256": "26add03d0abcbeac241e8e47d69603371e7fb3f3ddd084cf8a8b2f44faf57a7d",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        198,
+        199,
+        200,
+        201,
+        202
+      ],
+      "source_files": [
+        "resource-126/palette-bgr555.bin",
+        "resource-127/palette-bgr555.bin",
+        "resource-128/palette-bgr555.bin",
+        "resource-129/palette-bgr555.bin",
+        "resource-130/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2332060,
+      "gba_pointer": "0x0823959C",
+      "logical_aliases": [
+        {
+          "character_id": 24,
+          "resource_id": 131,
+          "slot_row": 207,
+          "table_pointer_offset": 5864024,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 24,
+          "resource_id": 132,
+          "slot_row": 208,
+          "table_pointer_offset": 5864040,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 24,
+          "resource_id": 133,
+          "slot_row": 209,
+          "table_pointer_offset": 5864056,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 24,
+          "resource_id": 134,
+          "slot_row": 210,
+          "table_pointer_offset": 5864072,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 24,
+          "resource_id": 135,
+          "slot_row": 211,
+          "table_pointer_offset": 5864088,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "54bf863a39d1c3219549868f573bf8d3a76312b20da5bc453cedb87a59bf01e0"
+      },
+      "resource_ids": [
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "resource_reference_count": 5,
+      "sha256": "26add03d0abcbeac241e8e47d69603371e7fb3f3ddd084cf8a8b2f44faf57a7d",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        207,
+        208,
+        209,
+        210,
+        211
+      ],
+      "source_files": [
+        "resource-131/palette-bgr555.bin",
+        "resource-132/palette-bgr555.bin",
+        "resource-133/palette-bgr555.bin",
+        "resource-134/palette-bgr555.bin",
+        "resource-135/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2370512,
+      "gba_pointer": "0x08242BD0",
+      "logical_aliases": [
+        {
+          "character_id": 25,
+          "resource_id": 136,
+          "slot_row": 216,
+          "table_pointer_offset": 5864168,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 25,
+          "resource_id": 137,
+          "slot_row": 217,
+          "table_pointer_offset": 5864184,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 25,
+          "resource_id": 138,
+          "slot_row": 218,
+          "table_pointer_offset": 5864200,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 25,
+          "resource_id": 139,
+          "slot_row": 219,
+          "table_pointer_offset": 5864216,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 25,
+          "resource_id": 140,
+          "slot_row": 220,
+          "table_pointer_offset": 5864232,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 25,
+          "resource_id": 141,
+          "slot_row": 221,
+          "table_pointer_offset": 5864248,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 25,
+          "resource_id": 142,
+          "slot_row": 222,
+          "table_pointer_offset": 5864264,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 25,
+          "resource_id": 143,
+          "slot_row": 223,
+          "table_pointer_offset": 5864280,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 25,
+          "resource_id": 144,
+          "slot_row": 224,
+          "table_pointer_offset": 5864296,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "e9b6e752db959ff99e5894280ebc7bbc2fe5353cdf6861465bea4e511a8673b9"
+      },
+      "resource_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "resource_reference_count": 9,
+      "sha256": "e2bc6fd2547f601260c81217f749ea1857dc0ff30dd41d1c3231887e86e3085c",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224
+      ],
+      "source_files": [
+        "resource-136/palette-bgr555.bin",
+        "resource-137/palette-bgr555.bin",
+        "resource-138/palette-bgr555.bin",
+        "resource-139/palette-bgr555.bin",
+        "resource-140/palette-bgr555.bin",
+        "resource-141/palette-bgr555.bin",
+        "resource-142/palette-bgr555.bin",
+        "resource-143/palette-bgr555.bin",
+        "resource-144/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2436248,
+      "gba_pointer": "0x08252C98",
+      "logical_aliases": [
+        {
+          "character_id": 26,
+          "resource_id": 145,
+          "slot_row": 225,
+          "table_pointer_offset": 5864312,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 26,
+          "resource_id": 146,
+          "slot_row": 226,
+          "table_pointer_offset": 5864328,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 26,
+          "resource_id": 147,
+          "slot_row": 227,
+          "table_pointer_offset": 5864344,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 26,
+          "resource_id": 148,
+          "slot_row": 228,
+          "table_pointer_offset": 5864360,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 26,
+          "resource_id": 149,
+          "slot_row": 229,
+          "table_pointer_offset": 5864376,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 26,
+          "resource_id": 150,
+          "slot_row": 230,
+          "table_pointer_offset": 5864392,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 26,
+          "resource_id": 151,
+          "slot_row": 231,
+          "table_pointer_offset": 5864408,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 26,
+          "resource_id": 152,
+          "slot_row": 232,
+          "table_pointer_offset": 5864424,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 26,
+          "resource_id": 153,
+          "slot_row": 233,
+          "table_pointer_offset": 5864440,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "e9b6e752db959ff99e5894280ebc7bbc2fe5353cdf6861465bea4e511a8673b9"
+      },
+      "resource_ids": [
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153
+      ],
+      "resource_reference_count": 9,
+      "sha256": "e2bc6fd2547f601260c81217f749ea1857dc0ff30dd41d1c3231887e86e3085c",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233
+      ],
+      "source_files": [
+        "resource-145/palette-bgr555.bin",
+        "resource-146/palette-bgr555.bin",
+        "resource-147/palette-bgr555.bin",
+        "resource-148/palette-bgr555.bin",
+        "resource-149/palette-bgr555.bin",
+        "resource-150/palette-bgr555.bin",
+        "resource-151/palette-bgr555.bin",
+        "resource-152/palette-bgr555.bin",
+        "resource-153/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2506080,
+      "gba_pointer": "0x08263D60",
+      "logical_aliases": [
+        {
+          "character_id": 27,
+          "resource_id": 154,
+          "slot_row": 234,
+          "table_pointer_offset": 5864456,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 27,
+          "resource_id": 155,
+          "slot_row": 235,
+          "table_pointer_offset": 5864472,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 27,
+          "resource_id": 156,
+          "slot_row": 236,
+          "table_pointer_offset": 5864488,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 27,
+          "resource_id": 157,
+          "slot_row": 237,
+          "table_pointer_offset": 5864504,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 27,
+          "resource_id": 158,
+          "slot_row": 238,
+          "table_pointer_offset": 5864520,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 27,
+          "resource_id": 159,
+          "slot_row": 239,
+          "table_pointer_offset": 5864536,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 27,
+          "resource_id": 160,
+          "slot_row": 240,
+          "table_pointer_offset": 5864552,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 27,
+          "resource_id": 161,
+          "slot_row": 241,
+          "table_pointer_offset": 5864568,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 27,
+          "resource_id": 162,
+          "slot_row": 242,
+          "table_pointer_offset": 5864584,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "f73aadac59a090824aab6a97b59740040cddceecc287316db6ce8d76cd767ef5"
+      },
+      "resource_ids": [
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162
+      ],
+      "resource_reference_count": 9,
+      "sha256": "6655d0b7e4ea4d5cb4b6f2b4f93b5977f5d9fdf6142075ebbb5bbb7ba1e091a7",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242
+      ],
+      "source_files": [
+        "resource-154/palette-bgr555.bin",
+        "resource-155/palette-bgr555.bin",
+        "resource-156/palette-bgr555.bin",
+        "resource-157/palette-bgr555.bin",
+        "resource-158/palette-bgr555.bin",
+        "resource-159/palette-bgr555.bin",
+        "resource-160/palette-bgr555.bin",
+        "resource-161/palette-bgr555.bin",
+        "resource-162/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2571816,
+      "gba_pointer": "0x08273E28",
+      "logical_aliases": [
+        {
+          "character_id": 28,
+          "resource_id": 163,
+          "slot_row": 243,
+          "table_pointer_offset": 5864600,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 28,
+          "resource_id": 164,
+          "slot_row": 244,
+          "table_pointer_offset": 5864616,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 28,
+          "resource_id": 165,
+          "slot_row": 245,
+          "table_pointer_offset": 5864632,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 28,
+          "resource_id": 166,
+          "slot_row": 246,
+          "table_pointer_offset": 5864648,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 28,
+          "resource_id": 167,
+          "slot_row": 247,
+          "table_pointer_offset": 5864664,
+          "visual_slot": 4
+        },
+        {
+          "character_id": 28,
+          "resource_id": 168,
+          "slot_row": 248,
+          "table_pointer_offset": 5864680,
+          "visual_slot": 5
+        },
+        {
+          "character_id": 28,
+          "resource_id": 169,
+          "slot_row": 249,
+          "table_pointer_offset": 5864696,
+          "visual_slot": 6
+        },
+        {
+          "character_id": 28,
+          "resource_id": 170,
+          "slot_row": 250,
+          "table_pointer_offset": 5864712,
+          "visual_slot": 7
+        },
+        {
+          "character_id": 28,
+          "resource_id": 171,
+          "slot_row": 251,
+          "table_pointer_offset": 5864728,
+          "visual_slot": 8
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "558e4a487e3a92eae1c087d799808684eca17c630864374472d59ddb968e8fce"
+      },
+      "resource_ids": [
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171
+      ],
+      "resource_reference_count": 9,
+      "sha256": "824f6b08d38aec4576ba5538298d9ab9abb8d24e6c935c0ba3c933b26fb4b5c1",
+      "size": 32,
+      "slot_reference_count": 9,
+      "slot_rows": [
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251
+      ],
+      "source_files": [
+        "resource-163/palette-bgr555.bin",
+        "resource-164/palette-bgr555.bin",
+        "resource-165/palette-bgr555.bin",
+        "resource-166/palette-bgr555.bin",
+        "resource-167/palette-bgr555.bin",
+        "resource-168/palette-bgr555.bin",
+        "resource-169/palette-bgr555.bin",
+        "resource-170/palette-bgr555.bin",
+        "resource-171/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2637552,
+      "gba_pointer": "0x08283EF0",
+      "logical_aliases": [
+        {
+          "character_id": 29,
+          "resource_id": 172,
+          "slot_row": 252,
+          "table_pointer_offset": 5864744,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 29,
+          "resource_id": 173,
+          "slot_row": 253,
+          "table_pointer_offset": 5864760,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 29,
+          "resource_id": 174,
+          "slot_row": 254,
+          "table_pointer_offset": 5864776,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 29,
+          "resource_id": 175,
+          "slot_row": 255,
+          "table_pointer_offset": 5864792,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 29,
+          "resource_id": 176,
+          "slot_row": 256,
+          "table_pointer_offset": 5864808,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "d03a04fceed404f8c5bddb236b6e0e4c618ca391aa2b4e0f7bf05effe81a22da"
+      },
+      "resource_ids": [
+        172,
+        173,
+        174,
+        175,
+        176
+      ],
+      "resource_reference_count": 5,
+      "sha256": "62e63c0043b8fe4d2a20810ddeb7f214baec632e8ce47154aaff32ee77a1cc2e",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        252,
+        253,
+        254,
+        255,
+        256
+      ],
+      "source_files": [
+        "resource-172/palette-bgr555.bin",
+        "resource-173/palette-bgr555.bin",
+        "resource-174/palette-bgr555.bin",
+        "resource-175/palette-bgr555.bin",
+        "resource-176/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2678020,
+      "gba_pointer": "0x0828DD04",
+      "logical_aliases": [
+        {
+          "character_id": 30,
+          "resource_id": 177,
+          "slot_row": 261,
+          "table_pointer_offset": 5864888,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 30,
+          "resource_id": 178,
+          "slot_row": 262,
+          "table_pointer_offset": 5864904,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 30,
+          "resource_id": 179,
+          "slot_row": 263,
+          "table_pointer_offset": 5864920,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 30,
+          "resource_id": 180,
+          "slot_row": 264,
+          "table_pointer_offset": 5864936,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 30,
+          "resource_id": 181,
+          "slot_row": 265,
+          "table_pointer_offset": 5864952,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "2ed921041a3a8f8d0ec1416e1c530d554e00a939bc757f90a578e1c328afb6f6"
+      },
+      "resource_ids": [
+        177,
+        178,
+        179,
+        180,
+        181
+      ],
+      "resource_reference_count": 5,
+      "sha256": "1e4dbb7c584833941b9eb13f84a8a51b97f78a629fe78f2050b6bf6c0cc20ea6",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        261,
+        262,
+        263,
+        264,
+        265
+      ],
+      "source_files": [
+        "resource-177/palette-bgr555.bin",
+        "resource-178/palette-bgr555.bin",
+        "resource-179/palette-bgr555.bin",
+        "resource-180/palette-bgr555.bin",
+        "resource-181/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2713368,
+      "gba_pointer": "0x08296718",
+      "logical_aliases": [
+        {
+          "character_id": 31,
+          "resource_id": 182,
+          "slot_row": 270,
+          "table_pointer_offset": 5865032,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 31,
+          "resource_id": 183,
+          "slot_row": 274,
+          "table_pointer_offset": 5865096,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "c6e5825dc4bfa67e89640b859fdd338107b879ac5b8ae30e641f0b217975500e"
+      },
+      "resource_ids": [
+        182,
+        183
+      ],
+      "resource_reference_count": 2,
+      "sha256": "dde71d6cb8a70dddcdb097da44ec26c90369890542bd95a23d634fe44e97d104",
+      "size": 32,
+      "slot_reference_count": 2,
+      "slot_rows": [
+        270,
+        274
+      ],
+      "source_files": [
+        "resource-182/palette-bgr555.bin",
+        "resource-183/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2740048,
+      "gba_pointer": "0x0829CF50",
+      "logical_aliases": [
+        {
+          "character_id": 32,
+          "resource_id": 184,
+          "slot_row": 279,
+          "table_pointer_offset": 5865176,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 32,
+          "resource_id": 185,
+          "slot_row": 280,
+          "table_pointer_offset": 5865192,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 32,
+          "resource_id": 186,
+          "slot_row": 281,
+          "table_pointer_offset": 5865208,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 32,
+          "resource_id": 187,
+          "slot_row": 282,
+          "table_pointer_offset": 5865224,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 32,
+          "resource_id": 188,
+          "slot_row": 283,
+          "table_pointer_offset": 5865240,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "a610754595a4ef91fedec23822f236362629bb480d43a5ccedf167ff551c0588"
+      },
+      "resource_ids": [
+        184,
+        185,
+        186,
+        187,
+        188
+      ],
+      "resource_reference_count": 5,
+      "sha256": "bf62a325ec92950029bd437226d93a4f6f4215807f496eeede4908a95f1b215d",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        279,
+        280,
+        281,
+        282,
+        283
+      ],
+      "source_files": [
+        "resource-184/palette-bgr555.bin",
+        "resource-185/palette-bgr555.bin",
+        "resource-186/palette-bgr555.bin",
+        "resource-187/palette-bgr555.bin",
+        "resource-188/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2777444,
+      "gba_pointer": "0x082A6164",
+      "logical_aliases": [
+        {
+          "character_id": 33,
+          "resource_id": 189,
+          "slot_row": 288,
+          "table_pointer_offset": 5865320,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 33,
+          "resource_id": 190,
+          "slot_row": 289,
+          "table_pointer_offset": 5865336,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 33,
+          "resource_id": 191,
+          "slot_row": 290,
+          "table_pointer_offset": 5865352,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 33,
+          "resource_id": 192,
+          "slot_row": 291,
+          "table_pointer_offset": 5865368,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 33,
+          "resource_id": 193,
+          "slot_row": 292,
+          "table_pointer_offset": 5865384,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "9702d0dcbbed7c8d1ef4bcd32d41fad668e7ce46cd833ffd513ae6af47dc8dca"
+      },
+      "resource_ids": [
+        189,
+        190,
+        191,
+        192,
+        193
+      ],
+      "resource_reference_count": 5,
+      "sha256": "1a402986c2071a761f5151168e91d8b774986d8f08ade0db557eb4712d2e319f",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        288,
+        289,
+        290,
+        291,
+        292
+      ],
+      "source_files": [
+        "resource-189/palette-bgr555.bin",
+        "resource-190/palette-bgr555.bin",
+        "resource-191/palette-bgr555.bin",
+        "resource-192/palette-bgr555.bin",
+        "resource-193/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2814840,
+      "gba_pointer": "0x082AF378",
+      "logical_aliases": [
+        {
+          "character_id": 34,
+          "resource_id": 194,
+          "slot_row": 297,
+          "table_pointer_offset": 5865464,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 34,
+          "resource_id": 195,
+          "slot_row": 298,
+          "table_pointer_offset": 5865480,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 34,
+          "resource_id": 196,
+          "slot_row": 299,
+          "table_pointer_offset": 5865496,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 34,
+          "resource_id": 197,
+          "slot_row": 300,
+          "table_pointer_offset": 5865512,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 34,
+          "resource_id": 198,
+          "slot_row": 301,
+          "table_pointer_offset": 5865528,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "3c58f5b38dfed6eeb3d28a41275cf9205e57c6cfc2ea089e5437a1181ccc4d0e"
+      },
+      "resource_ids": [
+        194,
+        195,
+        196,
+        197,
+        198
+      ],
+      "resource_reference_count": 5,
+      "sha256": "ab5175dbba91d729177fa9070deeccd67dbe058f4fb90b2c9bf3e4b10936a027",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        297,
+        298,
+        299,
+        300,
+        301
+      ],
+      "source_files": [
+        "resource-194/palette-bgr555.bin",
+        "resource-195/palette-bgr555.bin",
+        "resource-196/palette-bgr555.bin",
+        "resource-197/palette-bgr555.bin",
+        "resource-198/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2852236,
+      "gba_pointer": "0x082B858C",
+      "logical_aliases": [
+        {
+          "character_id": 35,
+          "resource_id": 199,
+          "slot_row": 306,
+          "table_pointer_offset": 5865608,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 35,
+          "resource_id": 200,
+          "slot_row": 307,
+          "table_pointer_offset": 5865624,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 35,
+          "resource_id": 201,
+          "slot_row": 308,
+          "table_pointer_offset": 5865640,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 35,
+          "resource_id": 202,
+          "slot_row": 309,
+          "table_pointer_offset": 5865656,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 35,
+          "resource_id": 203,
+          "slot_row": 310,
+          "table_pointer_offset": 5865672,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "bbc5bc5eb8b503ec1256e0143bdf4b71c7538a4df12cdc79e998de84336e22b8"
+      },
+      "resource_ids": [
+        199,
+        200,
+        201,
+        202,
+        203
+      ],
+      "resource_reference_count": 5,
+      "sha256": "b845ad89cb902da45e7c74aa6009f15e54d49e1c2f386b9a30c5862ac946f988",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        306,
+        307,
+        308,
+        309,
+        310
+      ],
+      "source_files": [
+        "resource-199/palette-bgr555.bin",
+        "resource-200/palette-bgr555.bin",
+        "resource-201/palette-bgr555.bin",
+        "resource-202/palette-bgr555.bin",
+        "resource-203/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2890648,
+      "gba_pointer": "0x082C1B98",
+      "logical_aliases": [
+        {
+          "character_id": 36,
+          "resource_id": 204,
+          "slot_row": 315,
+          "table_pointer_offset": 5865752,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 36,
+          "resource_id": 205,
+          "slot_row": 318,
+          "table_pointer_offset": 5865800,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 36,
+          "resource_id": 206,
+          "slot_row": 319,
+          "table_pointer_offset": 5865816,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "c8bed1fd7c6db7fab50f47b450dfb3a360b768e7f8a80787ac9cbafdcdf2526b"
+      },
+      "resource_ids": [
+        204,
+        205,
+        206
+      ],
+      "resource_reference_count": 3,
+      "sha256": "af439143800d2832d27ade89db4e1724660fd3a6a776041f915fe6646c0033b9",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        315,
+        318,
+        319
+      ],
+      "source_files": [
+        "resource-204/palette-bgr555.bin",
+        "resource-205/palette-bgr555.bin",
+        "resource-206/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2930700,
+      "gba_pointer": "0x082CB80C",
+      "logical_aliases": [
+        {
+          "character_id": 37,
+          "resource_id": 207,
+          "slot_row": 324,
+          "table_pointer_offset": 5865896,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 37,
+          "resource_id": 208,
+          "slot_row": 327,
+          "table_pointer_offset": 5865944,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 37,
+          "resource_id": 209,
+          "slot_row": 328,
+          "table_pointer_offset": 5865960,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "e3154399140cd66a9b0d1a45446ba977c4f45aa64198b24bc50e85c1e05d1ee2"
+      },
+      "resource_ids": [
+        207,
+        208,
+        209
+      ],
+      "resource_reference_count": 3,
+      "sha256": "d8afa7c70856abfde42fda6c665cfeede8e449319a8d9174876f6c8a9429db42",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        324,
+        327,
+        328
+      ],
+      "source_files": [
+        "resource-207/palette-bgr555.bin",
+        "resource-208/palette-bgr555.bin",
+        "resource-209/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 2977052,
+      "gba_pointer": "0x082D6D1C",
+      "logical_aliases": [
+        {
+          "character_id": 38,
+          "resource_id": 210,
+          "slot_row": 333,
+          "table_pointer_offset": 5866040,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 38,
+          "resource_id": 211,
+          "slot_row": 336,
+          "table_pointer_offset": 5866088,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 38,
+          "resource_id": 212,
+          "slot_row": 337,
+          "table_pointer_offset": 5866104,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "8810f39121e1e4bf0b3585576071e60b49b974a3137e213dd60fabb4ad7b3432"
+      },
+      "resource_ids": [
+        210,
+        211,
+        212
+      ],
+      "resource_reference_count": 3,
+      "sha256": "32f28f87ac058425ae2debea7ecee057294ba94cfeb25d09d95c844b480d6241",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        333,
+        336,
+        337
+      ],
+      "source_files": [
+        "resource-210/palette-bgr555.bin",
+        "resource-211/palette-bgr555.bin",
+        "resource-212/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3027740,
+      "gba_pointer": "0x082E331C",
+      "logical_aliases": [
+        {
+          "character_id": 39,
+          "resource_id": 213,
+          "slot_row": 342,
+          "table_pointer_offset": 5866184,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 39,
+          "resource_id": 214,
+          "slot_row": 345,
+          "table_pointer_offset": 5866232,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 39,
+          "resource_id": 215,
+          "slot_row": 346,
+          "table_pointer_offset": 5866248,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "8cf4640722905d8218123bcc7258ec451b763412a62bddfacc517302ba30cd1b"
+      },
+      "resource_ids": [
+        213,
+        214,
+        215
+      ],
+      "resource_reference_count": 3,
+      "sha256": "5067c3ed35c0ce4a37c6731e15f42e66c11ed2c3f2c9c714212d1281dbc3fbc6",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        342,
+        345,
+        346
+      ],
+      "source_files": [
+        "resource-213/palette-bgr555.bin",
+        "resource-214/palette-bgr555.bin",
+        "resource-215/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3052228,
+      "gba_pointer": "0x082E92C4",
+      "logical_aliases": [
+        {
+          "character_id": 40,
+          "resource_id": 216,
+          "slot_row": 351,
+          "table_pointer_offset": 5866328,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 40,
+          "resource_id": 217,
+          "slot_row": 354,
+          "table_pointer_offset": 5866376,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 40,
+          "resource_id": 218,
+          "slot_row": 355,
+          "table_pointer_offset": 5866392,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "8cf4640722905d8218123bcc7258ec451b763412a62bddfacc517302ba30cd1b"
+      },
+      "resource_ids": [
+        216,
+        217,
+        218
+      ],
+      "resource_reference_count": 3,
+      "sha256": "5067c3ed35c0ce4a37c6731e15f42e66c11ed2c3f2c9c714212d1281dbc3fbc6",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        351,
+        354,
+        355
+      ],
+      "source_files": [
+        "resource-216/palette-bgr555.bin",
+        "resource-217/palette-bgr555.bin",
+        "resource-218/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3078240,
+      "gba_pointer": "0x082EF860",
+      "logical_aliases": [
+        {
+          "character_id": 41,
+          "resource_id": 219,
+          "slot_row": 360,
+          "table_pointer_offset": 5866472,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 41,
+          "resource_id": 220,
+          "slot_row": 364,
+          "table_pointer_offset": 5866536,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "b257ac8771afd1f6dd0214b4125e37410c4107dd88aff143a17f52cd421f1ae5"
+      },
+      "resource_ids": [
+        219,
+        220
+      ],
+      "resource_reference_count": 2,
+      "sha256": "d2762a2697a585d13d42de399966e48bce6f7abe9c67cb44160208bfe361a709",
+      "size": 32,
+      "slot_reference_count": 2,
+      "slot_rows": [
+        360,
+        364
+      ],
+      "source_files": [
+        "resource-219/palette-bgr555.bin",
+        "resource-220/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3099832,
+      "gba_pointer": "0x082F4CB8",
+      "logical_aliases": [
+        {
+          "character_id": 42,
+          "resource_id": 221,
+          "slot_row": 369,
+          "table_pointer_offset": 5866616,
+          "visual_slot": 0
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "ffedc9450a175579a59f540f590c743663750ba213852179b59c26556b888b1a"
+      },
+      "resource_ids": [
+        221
+      ],
+      "resource_reference_count": 1,
+      "sha256": "0ead71ee5debb29919ef6ff7d7d2a11387fee63871d51d111ad53144301ac52e",
+      "size": 32,
+      "slot_reference_count": 1,
+      "slot_rows": [
+        369
+      ],
+      "source_files": [
+        "resource-221/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3101952,
+      "gba_pointer": "0x082F5500",
+      "logical_aliases": [
+        {
+          "character_id": 55,
+          "resource_id": 222,
+          "slot_row": 486,
+          "table_pointer_offset": 5868488,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 55,
+          "resource_id": 223,
+          "slot_row": 489,
+          "table_pointer_offset": 5868536,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 55,
+          "resource_id": 224,
+          "slot_row": 490,
+          "table_pointer_offset": 5868552,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "a54db42a8cb40c8f24f463c3b713409c1b81b0f77105635c853a7a07b2f2201c"
+      },
+      "resource_ids": [
+        222,
+        223,
+        224
+      ],
+      "resource_reference_count": 3,
+      "sha256": "2733716bf33ea4d01e8a2fcf9d1fd0794314654f83e1e7adf5bdb9e9f892ac45",
+      "size": 32,
+      "slot_reference_count": 3,
+      "slot_rows": [
+        486,
+        489,
+        490
+      ],
+      "source_files": [
+        "resource-222/palette-bgr555.bin",
+        "resource-223/palette-bgr555.bin",
+        "resource-224/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3118232,
+      "gba_pointer": "0x082F9498",
+      "logical_aliases": [
+        {
+          "character_id": 57,
+          "resource_id": 225,
+          "slot_row": 504,
+          "table_pointer_offset": 5868776,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 57,
+          "resource_id": 226,
+          "slot_row": 505,
+          "table_pointer_offset": 5868792,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 57,
+          "resource_id": 227,
+          "slot_row": 506,
+          "table_pointer_offset": 5868808,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 57,
+          "resource_id": 228,
+          "slot_row": 507,
+          "table_pointer_offset": 5868824,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 57,
+          "resource_id": 229,
+          "slot_row": 508,
+          "table_pointer_offset": 5868840,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "d238bd30ef920fc20a4d398b42ccda2457ca81bcadbfb6514388c8559648f284"
+      },
+      "resource_ids": [
+        225,
+        226,
+        227,
+        228,
+        229
+      ],
+      "resource_reference_count": 5,
+      "sha256": "f732dfab85750b587d4a030577c6b848f78506825813710e9c7b5633d435d1d7",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        504,
+        505,
+        506,
+        507,
+        508
+      ],
+      "source_files": [
+        "resource-225/palette-bgr555.bin",
+        "resource-226/palette-bgr555.bin",
+        "resource-227/palette-bgr555.bin",
+        "resource-228/palette-bgr555.bin",
+        "resource-229/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3155628,
+      "gba_pointer": "0x083026AC",
+      "logical_aliases": [
+        {
+          "character_id": 58,
+          "resource_id": 230,
+          "slot_row": 513,
+          "table_pointer_offset": 5868920,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 58,
+          "resource_id": 231,
+          "slot_row": 514,
+          "table_pointer_offset": 5868936,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 58,
+          "resource_id": 232,
+          "slot_row": 515,
+          "table_pointer_offset": 5868952,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 58,
+          "resource_id": 233,
+          "slot_row": 516,
+          "table_pointer_offset": 5868968,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 58,
+          "resource_id": 234,
+          "slot_row": 517,
+          "table_pointer_offset": 5868984,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "43bebdabc4e6a4d9dae39b12251a45fb68d2ee1cd487f07b61fd54712eb8813b"
+      },
+      "resource_ids": [
+        230,
+        231,
+        232,
+        233,
+        234
+      ],
+      "resource_reference_count": 5,
+      "sha256": "7eaa8e5e762d88a40a204258abf17caba13b640c6478b13b1afd2511f78d2f32",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        513,
+        514,
+        515,
+        516,
+        517
+      ],
+      "source_files": [
+        "resource-230/palette-bgr555.bin",
+        "resource-231/palette-bgr555.bin",
+        "resource-232/palette-bgr555.bin",
+        "resource-233/palette-bgr555.bin",
+        "resource-234/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3194048,
+      "gba_pointer": "0x0830BCC0",
+      "logical_aliases": [
+        {
+          "character_id": 59,
+          "resource_id": 235,
+          "slot_row": 522,
+          "table_pointer_offset": 5869064,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 59,
+          "resource_id": 236,
+          "slot_row": 523,
+          "table_pointer_offset": 5869080,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 59,
+          "resource_id": 237,
+          "slot_row": 524,
+          "table_pointer_offset": 5869096,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 59,
+          "resource_id": 238,
+          "slot_row": 525,
+          "table_pointer_offset": 5869112,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 59,
+          "resource_id": 239,
+          "slot_row": 526,
+          "table_pointer_offset": 5869128,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "11e7d35b5df884d5d64ad6f2b055f3eae7dc8771f88c19313523789ae7063a75"
+      },
+      "resource_ids": [
+        235,
+        236,
+        237,
+        238,
+        239
+      ],
+      "resource_reference_count": 5,
+      "sha256": "3116b984a8cc7a2cbe4d850de26a7bf9f191a31b4ef60f757c27104010af97cc",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        522,
+        523,
+        524,
+        525,
+        526
+      ],
+      "source_files": [
+        "resource-235/palette-bgr555.bin",
+        "resource-236/palette-bgr555.bin",
+        "resource-237/palette-bgr555.bin",
+        "resource-238/palette-bgr555.bin",
+        "resource-239/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3235788,
+      "gba_pointer": "0x08315FCC",
+      "logical_aliases": [
+        {
+          "character_id": 60,
+          "resource_id": 240,
+          "slot_row": 531,
+          "table_pointer_offset": 5869208,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 60,
+          "resource_id": 241,
+          "slot_row": 532,
+          "table_pointer_offset": 5869224,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 60,
+          "resource_id": 242,
+          "slot_row": 533,
+          "table_pointer_offset": 5869240,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 60,
+          "resource_id": 243,
+          "slot_row": 534,
+          "table_pointer_offset": 5869256,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 60,
+          "resource_id": 244,
+          "slot_row": 535,
+          "table_pointer_offset": 5869272,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "a0227b65cbe6548940dab4849ad743aff7d91ec7c6797ecffbc29bad14e41389"
+      },
+      "resource_ids": [
+        240,
+        241,
+        242,
+        243,
+        244
+      ],
+      "resource_reference_count": 5,
+      "sha256": "097ab983c7ab5f27c3958897a5cde129abb447886db960c09967ad826da6663b",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        531,
+        532,
+        533,
+        534,
+        535
+      ],
+      "source_files": [
+        "resource-240/palette-bgr555.bin",
+        "resource-241/palette-bgr555.bin",
+        "resource-242/palette-bgr555.bin",
+        "resource-243/palette-bgr555.bin",
+        "resource-244/palette-bgr555.bin"
+      ]
+    },
+    {
+      "color_count": 16,
+      "file_offset": 3275264,
+      "gba_pointer": "0x0831FA00",
+      "logical_aliases": [
+        {
+          "character_id": 62,
+          "resource_id": 245,
+          "slot_row": 549,
+          "table_pointer_offset": 5869496,
+          "visual_slot": 0
+        },
+        {
+          "character_id": 62,
+          "resource_id": 246,
+          "slot_row": 550,
+          "table_pointer_offset": 5869512,
+          "visual_slot": 1
+        },
+        {
+          "character_id": 62,
+          "resource_id": 247,
+          "slot_row": 551,
+          "table_pointer_offset": 5869528,
+          "visual_slot": 2
+        },
+        {
+          "character_id": 62,
+          "resource_id": 248,
+          "slot_row": 552,
+          "table_pointer_offset": 5869544,
+          "visual_slot": 3
+        },
+        {
+          "character_id": 62,
+          "resource_id": 249,
+          "slot_row": 553,
+          "table_pointer_offset": 5869560,
+          "visual_slot": 4
+        }
+      ],
+      "mutation": {
+        "after": 133,
+        "before": 132,
+        "byte_offset": 2,
+        "fixed_length_writeback": true,
+        "kind": "first_nontransparent_color_low_bit_toggle",
+        "sha256": "bc1b2a9464e9934c3827d159b1e711563c585a31688907f8367ca6d1f6f42ff4"
+      },
+      "resource_ids": [
+        245,
+        246,
+        247,
+        248,
+        249
+      ],
+      "resource_reference_count": 5,
+      "sha256": "df0272730e8206b2849f39bd075a454164eacd2d07348a47475b75ceaae2f65a",
+      "size": 32,
+      "slot_reference_count": 5,
+      "slot_rows": [
+        549,
+        550,
+        551,
+        552,
+        553
+      ],
+      "source_files": [
+        "resource-245/palette-bgr555.bin",
+        "resource-246/palette-bgr555.bin",
+        "resource-247/palette-bgr555.bin",
+        "resource-248/palette-bgr555.bin",
+        "resource-249/palette-bgr555.bin"
+      ]
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "character-battle-palette-writeback-audit-v1",
+  "scope": {
+    "all_physical_palettes_audited": true,
+    "all_resource_references_accounted": true,
+    "all_slot_references_accounted": true,
+    "arbitrary_fixed_length_palette_writeback_complete": true,
+    "equal_content_distinct_pointers_independent": true,
+    "frame_structure_writeback_complete": false,
+    "generic_image_writeback_complete": false,
+    "graphics_writeback_complete": false,
+    "guarded_fixed_length_importer_available": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "same_pointer_aliases_atomic": true
+  },
+  "source_catalog": {
+    "path": "artifacts/character-battle-visuals-v1/manifest.json",
+    "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+  },
+  "summary": {
+    "mutation_writeback_count": 48,
+    "original_roundtrip_count": 48,
+    "physical_palette_count": 48,
+    "resource_reference_count": 250,
+    "slot_reference_count": 342,
+    "unique_content_count": 40
+  }
+}

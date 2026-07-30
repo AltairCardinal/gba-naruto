@@ -1,0 +1,45 @@
+{
+  "artifact_id": "character-battle-palette-writeback-v1",
+  "artifact_schema": "character-battle-palette-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "character-battle-palette-writeback.json": "39a6654043ac7961d7eaf88909d903232fa4adea679f4283a794216e83913b31"
+  },
+  "payload_file": "character-battle-palette-writeback.json",
+  "payload_sha256": "39a6654043ac7961d7eaf88909d903232fa4adea679f4283a794216e83913b31",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_physical_palettes_audited": true,
+    "all_resource_references_accounted": true,
+    "all_slot_references_accounted": true,
+    "arbitrary_fixed_length_palette_writeback_complete": true,
+    "equal_content_distinct_pointers_independent": true,
+    "frame_structure_writeback_complete": false,
+    "generic_image_writeback_complete": false,
+    "graphics_writeback_complete": false,
+    "guarded_fixed_length_importer_available": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "same_pointer_aliases_atomic": true
+  },
+  "summary": {
+    "mutation_writeback_count": 48,
+    "original_roundtrip_count": 48,
+    "physical_palette_count": 48,
+    "resource_reference_count": 250,
+    "slot_reference_count": 342,
+    "unique_content_count": 40
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_palette_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-palette-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

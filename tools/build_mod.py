@@ -286,6 +286,21 @@ def resolve_battle_effect_resource_patch(
     )
 
 
+def resolve_character_battle_palette_patch(
+    ctx_roots: tuple[Path, Path], patch: dict
+) -> list[dict]:
+    from import_character_battle_palettes import (
+        resolve_character_battle_palette_patches,
+    )
+
+    spec = ROOT / patch["spec"]
+    return resolve_character_battle_palette_patches(
+        ROOT,
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -510,6 +525,26 @@ def build(project_path: Path) -> dict:
                     "logical_aliases",
                     "content_physical_offsets",
                     "target_physical_offsets",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "character_battle_palette":
+            sub_patches = resolve_character_battle_palette_patch(
+                (ROOT, ROOT),
+                patch,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "palette_pointer",
+                    "palette_sha256",
+                    "replacement_sha256",
+                    "affected_resource_ids",
+                    "affected_slot_rows",
+                    "logical_aliases",
                     "source_file",
                 ):
                     if key in sp:

@@ -121,6 +121,22 @@ map-header 别名，并验证 layout→metatile→tile/palette 跨资源索引�
 }
 ```
 
+### `character_battle_palette`
+
+把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
+`character-battle-palette-import-v1`，以物理 palette 指针和原始32-byte
+SHA-256 标识48个槽；同指针的全部 resource/slot 自动联动，内容相同但指针不同的
+槽保持独立。输入必须恰好32 bytes，构建器会核对 catalog、descriptor 指针、
+resource ID、slot row 和 immutable base，不迁移资源或修改指针。
+
+```json
+{
+  "id": "character-battle-palette-import",
+  "type": "character_battle_palette",
+  "spec": "sequel/content/character-battle-palettes/palette-edits.json"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
