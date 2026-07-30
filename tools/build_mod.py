@@ -258,6 +258,19 @@ def resolve_menu_portrait_patch(
     )
 
 
+def resolve_map_resource_patch(
+    ctx_roots: tuple[Path, Path], patch: dict
+) -> list[dict]:
+    from import_map_resources import resolve_map_resource_patches
+
+    spec = ROOT / patch["spec"]
+    return resolve_map_resource_patches(
+        ROOT,
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -440,6 +453,25 @@ def build(project_path: Path) -> dict:
                     "slot_size",
                     "padding_bytes",
                     "source_png",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "map_resource":
+            sub_patches = resolve_map_resource_patch((ROOT, ROOT), patch)
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "resource_sha256",
+                    "replacement_sha256",
+                    "encoded_size",
+                    "slot_size",
+                    "padding_bytes",
+                    "affected_maps",
+                    "logical_aliases",
+                    "source_file",
                 ):
                     if key in sp:
                         result[key] = sp[key]

@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import struct
 import zlib
+from collections import deque
 
 from tools.extract_tileset import bgr555_to_rgb
 
@@ -84,6 +85,65 @@ def read_lz77_record(
                 produced += 1
                 cursor += 1
     return rom[offset:cursor]
+
+
+def encode_gba_lz77(data: bytes) -> bytes:
+    """Deterministically encode BIOS-compatible type-0x10 GBA LZ77."""
+    if not data or len(data) >= 1 << 24:
+        raise ValueError("GBA LZ77 input length must be 1..0xFFFFFF")
+    output = bytearray(
+        (0x10, len(data) & 0xFF, (len(data) >> 8) & 0xFF, len(data) >> 16)
+    )
+    positions: dict[bytes, deque[int]] = {}
+    cursor = 0
+    while cursor < len(data):
+        flags_offset = len(output)
+        output.append(0)
+        flags = 0
+        for token_index in range(8):
+            if cursor >= len(data):
+                break
+            best_length = 0
+            best_distance = 0
+            if cursor + 3 <= len(data):
+                key = data[cursor : cursor + 3]
+                candidates = positions.get(key, ())
+                for previous in reversed(candidates):
+                    distance = cursor - previous
+                    if distance > 0x1000:
+                        break
+                    length = 3
+                    while (
+                        length < 18
+                        and cursor + length < len(data)
+                        and data[previous + length] == data[cursor + length]
+                    ):
+                        length += 1
+                    if length > best_length:
+                        best_length = length
+                        best_distance = distance
+                    if length == 18:
+                        break
+            if best_length >= 3:
+                flags |= 1 << (7 - token_index)
+                encoded = ((best_length - 3) << 12) | (best_distance - 1)
+                output.extend((encoded >> 8, encoded & 0xFF))
+                advance = best_length
+            else:
+                output.append(data[cursor])
+                advance = 1
+
+            for position in range(cursor, cursor + advance):
+                if position + 3 > len(data):
+                    continue
+                key = data[position : position + 3]
+                bucket = positions.setdefault(key, deque())
+                bucket.append(position)
+                while bucket and position - bucket[0] > 0x1000:
+                    bucket.popleft()
+            cursor += advance
+        output[flags_offset] = flags
+    return bytes(output)
 
 
 def render_4bpp_tile_atlas_indices(

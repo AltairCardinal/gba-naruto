@@ -1356,3 +1356,15 @@ WebSocket
   `notes/scene-visual-transition-timelines-20260730.md`。state 3外部门禁时长、
   跨task调度、VBlank/wall-frame、presentation overlay、window/blend/mosaic、
   运行时像素等价和自然语言身份仍未闭合，Goal保持active。
+- 2026-07-30：全部战斗地图静态资源已从“只可导出”推进到受限原位回编。
+  47个map header的249条非空引用按ROM起点形成217个物理LZ77槽，再按资源类型与
+  解压内容去重为166份编辑资源；新`map_resource`构建类型会将一次内容修改同步
+  写回全部物理别名，并在返回补丁前验证基准ROM、catalog、内容SHA、长度、格式和
+  layout→metatile→tile/palette跨资源索引及所有槽容量。任一索引越界或槽溢出时
+  整项失败，header指针保持不变。完整容量审计证明
+  166/166内容、217/217物理槽可原样确定性重编码；固定低位变异有135/166内容、
+  163/217槽可装回，剩余31内容/54槽明确进入容量失败边界。独立verifier从ROM和
+  47个header重建`249→217→166`分母及LZ77编解码，并拒绝重签后的slot语义篡改。
+  成果位于`artifacts/map-resource-writeback-v1/`，说明见
+  `notes/map-resource-writeback-20260730.md`。超槽迁移、指针改写、完整画布PNG
+  反编译和全地图运行时像素等价仍未完成，Goal保持active。

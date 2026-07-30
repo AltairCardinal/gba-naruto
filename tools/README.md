@@ -11,6 +11,29 @@ ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽
 顶层成果目录。`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
 可逆地加入本地 Git 忽略清单，不移动或删除数据。
 
+## 战斗地图资源原位回编
+
+`import_map_resources.py` 以 `map-canvases-v1` 的内容 SHA 为编辑身份，将一份
+解压后的地图资源修改同步写回它的全部物理 LZ77 别名。当前分母是166份内容资源、
+217个物理槽和249条 map-header 逻辑引用，覆盖 tiles、BG 调色板、主/备选布局、
+metatile 定义及碰撞网格。
+
+```bash
+python3 tools/import_map_resources.py \
+  sequel/content/map-resources/map-resource-edits.json
+
+python3 tools/export_map_resource_writeback_audit.py \
+  --root . --output artifacts/map-resource-writeback-v1
+
+python3 tools/verify_map_resource_writeback_audit.py \
+  --root . --artifact artifacts/map-resource-writeback-v1
+```
+
+构建清单以 `type: map_resource` 和 `spec` 引用同一规格。回编器先验证基准 ROM、
+catalog、内容 SHA、长度、layout→metatile→tile/palette 的跨资源索引和全部物理槽，
+再一次性返回固定长度补丁；任一索引越界或任一别名槽容量不足时整项失败，不产生
+部分计划。当前不迁移资源、不改 header 指针，也不声称任意编辑均能装回原槽。
+
 ## 菜单/剧情立绘原位回编
 
 `import_menu_portraits.py` 把 `menu-portraits-v1` 的80×80索引色 PNG 逆变换回

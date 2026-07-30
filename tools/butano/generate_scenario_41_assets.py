@@ -61,25 +61,49 @@ CELL_SIZE = 16
 OBSTACLES = ((3, 9), (5, 9), (2, 7), (6, 7), (1, 4), (7, 4))
 
 
-def reconstruct_map(rom_path: Path) -> dict[str, object]:
-    """Rebuild map row 41 from its two-metatile coarse layout."""
+def reconstruct_map(
+    rom_path: Path,
+    map_id: int = 41,
+) -> dict[str, object]:
+    """Rebuild one map row from its two-metatile coarse layout."""
 
     rom = Path(rom_path).read_bytes()
     actual_hash = hashlib.sha256(rom).hexdigest()
     if actual_hash != EXPECTED_ROM_SHA256:
         raise ValueError(f"ROM SHA-256 mismatch: {actual_hash}")
-    entry = read_map_entries(rom)[41]
+    entries = read_map_entries(rom)
+    if not 0 <= map_id < len(entries):
+        raise ValueError(f"map ID {map_id} is out of range")
+    entry = entries[map_id]
     tile_data = lz77_decompress(rom, entry["tile_gfx_ptr"])
     palette_data = lz77_decompress(rom, entry["bg_palette_ptr"])
     layout = lz77_decompress(rom, entry["primary_layout_ptr"])
     metatiles = lz77_decompress(rom, entry["metatile_attributes_ptr"])
-    if len(layout) != 9 * 22 * 4 or len(metatiles) % 8:
-        raise ValueError("scenario 41 map resources have unexpected dimensions")
+    width_tiles = int(entry["width_tiles"])
+    height_tiles = int(entry["height_tiles"])
+    if (
+        width_tiles <= 0
+        or height_tiles <= 0
+        or width_tiles % 4
+        or height_tiles % 2
+    ):
+        raise ValueError(f"map {map_id} has invalid dimensions")
+    coarse_width = width_tiles // 4
+    coarse_height = height_tiles // 2
+    if (
+        len(layout) != coarse_width * coarse_height * 4
+        or len(metatiles) % 8
+    ):
+        raise ValueError(f"map {map_id} resources have unexpected dimensions")
 
-    tilemap = [0] * (36 * 44)
-    for coarse_y in range(22):
-        for coarse_x in range(9):
-            value = struct.unpack_from("<I", layout, (coarse_y * 9 + coarse_x) * 4)[0]
+    tilemap = [0] * (width_tiles * height_tiles)
+    for coarse_y in range(coarse_height):
+        for coarse_x in range(coarse_width):
+            value = struct.unpack_from(
+                "<I",
+                layout,
+                (coarse_y * coarse_width + coarse_x) * 4,
+            )[0]
             for half, metatile_index in enumerate((value & 0xFFFF, value >> 16)):
                 definition_offset = metatile_index * 8
                 if definition_offset + 8 > len(metatiles):
@@ -89,13 +113,17 @@ def reconstruct_map(rom_path: Path) -> dict[str, object]:
                     for local_x in range(2):
                         tile_x = coarse_x * 4 + half * 2 + local_x
                         tile_y = coarse_y * 2 + local_y
-                        tilemap[tile_y * 36 + tile_x] = definition[local_y * 2 + local_x]
+                        tilemap[
+                            tile_y * width_tiles + tile_x
+                        ] = definition[local_y * 2 + local_x]
 
     palette = parse_palette(palette_data)
-    pixels = bytearray(288 * 352)
-    for tile_y in range(44):
-        for tile_x in range(36):
-            entry_value = tilemap[tile_y * 36 + tile_x]
+    width = width_tiles * 8
+    height = height_tiles * 8
+    pixels = bytearray(width * height)
+    for tile_y in range(height_tiles):
+        for tile_x in range(width_tiles):
+            entry_value = tilemap[tile_y * width_tiles + tile_x]
             tile_index = entry_value & 0x3FF
             tile_offset = tile_index * 32
             if tile_offset + 32 > len(tile_data):
@@ -107,11 +135,15 @@ def reconstruct_map(rom_path: Path) -> dict[str, object]:
                     packed = tile_data[tile_offset + source_y * 4 + source_x // 2]
                     color = (packed >> (4 if source_x & 1 else 0)) & 0xF
                     palette_index = 0 if color == 0 else ((entry_value >> 12) & 0xF) * 16 + color
-                    pixels[(tile_y * 8 + pixel_y) * 288 + tile_x * 8 + pixel_x] = palette_index
+                    pixels[
+                        (tile_y * 8 + pixel_y) * width
+                        + tile_x * 8
+                        + pixel_x
+                    ] = palette_index
 
     return {
-        "width": 288,
-        "height": 352,
+        "width": width,
+        "height": height,
         "pixels": bytes(pixels),
         "palette": palette,
         "tilemap": tilemap,

@@ -1,0 +1,37 @@
+{
+  "artifact_id": "map-resource-writeback-v1",
+  "artifact_schema": "map-resource-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "map-resource-writeback.json": "444de72afa79c845bc30202987af6e035fee213175aa16d7b74d964dc2b82f31"
+  },
+  "payload_file": "map-resource-writeback.json",
+  "payload_sha256": "444de72afa79c845bc30202987af6e035fee213175aa16d7b74d964dc2b82f31",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_byte_mutation_audited": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "linked_resource_index_validation_complete": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map_resource_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map-resource-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}
