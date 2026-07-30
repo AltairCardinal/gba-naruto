@@ -1,0 +1,1287 @@
+{
+  "schema": "menu-portrait-relocation-v1",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "source_catalog": "artifacts/menu-portraits-v1/manifest.json",
+  "source_catalog_sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+  "partition": "sequel-image-assets",
+  "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "4ac246e2b003c33e2ac96dfbefa26c63031284d6b9a0a7df6a4694ebc31b453d",
+  "region": "menu-portraits",
+  "region_owner": "menu_portrait_resources",
+  "edits": [
+    {
+      "id": "portrait-000",
+      "resource_id": 0,
+      "png": "artifacts/menu-portraits-v1/portrait_01_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08408BD8",
+        "palette_pointer": "0x084098C4",
+        "compressed_sha256": "28d82e56b5c72c3d6eed4d59a224ebdbae3722310cefb0bc14f1d1e385bf48f1",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918228,
+          5919628,
+          5919636,
+          5919644,
+          5919652,
+          5919660,
+          5919668,
+          5919676,
+          5919684,
+          5919692,
+          5919700,
+          5919708,
+          5919716,
+          5919724,
+          5919732,
+          5919740,
+          5919748,
+          5919756,
+          5919764,
+          5919772,
+          5919780,
+          5919788,
+          5919796,
+          5919804,
+          5919812,
+          5919820,
+          5919868,
+          5919876,
+          5919884,
+          5919892,
+          5919900,
+          5920388,
+          5920396,
+          5920404,
+          5920412,
+          5920420
+        ]
+      }
+    },
+    {
+      "id": "portrait-001",
+      "resource_id": 1,
+      "png": "artifacts/menu-portraits-v1/portrait_01_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x08409944",
+        "palette_pointer": "0x0840A6A4",
+        "compressed_sha256": "9c1d7880d5370737bf8326bdbb80d0fe674f5cc4bd8c0f057650e1676c644eb5",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918236
+        ]
+      }
+    },
+    {
+      "id": "portrait-002",
+      "resource_id": 2,
+      "png": "artifacts/menu-portraits-v1/portrait_01_variant_2.png",
+      "expected": {
+        "gfx_pointer": "0x0840A724",
+        "palette_pointer": "0x0840B4F8",
+        "compressed_sha256": "f44a70e20996cb517243b4e336a9ab5f3dbe7d97dad26096684e45daa052259c",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918244
+        ]
+      }
+    },
+    {
+      "id": "portrait-003",
+      "resource_id": 3,
+      "png": "artifacts/menu-portraits-v1/portrait_01_variant_3.png",
+      "expected": {
+        "gfx_pointer": "0x0840B578",
+        "palette_pointer": "0x0840C260",
+        "compressed_sha256": "276f541fbae6a95312ffa17437358d8b9d1e8299925948a962ec98729590b134",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918252
+        ]
+      }
+    },
+    {
+      "id": "portrait-004",
+      "resource_id": 4,
+      "png": "artifacts/menu-portraits-v1/portrait_01_variant_4.png",
+      "expected": {
+        "gfx_pointer": "0x0840C2E0",
+        "palette_pointer": "0x0840D128",
+        "compressed_sha256": "392a3277a44f7a10264cf29bc09190d51f1342cb2ffc9d125e555f65d1635fb9",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918260
+        ]
+      }
+    },
+    {
+      "id": "portrait-005",
+      "resource_id": 5,
+      "png": "artifacts/menu-portraits-v1/portrait_02_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0840DF00",
+        "palette_pointer": "0x0840E9D8",
+        "compressed_sha256": "6e753d40a9bb4469b1286a62ec1565cee47edca7ac64aed6da39203505ceb12e",
+        "palette_sha256": "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870",
+        "pair_pointer_offsets": [
+          5918268
+        ]
+      }
+    },
+    {
+      "id": "portrait-006",
+      "resource_id": 6,
+      "png": "artifacts/menu-portraits-v1/portrait_02_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x0840EA58",
+        "palette_pointer": "0x0840F59C",
+        "compressed_sha256": "c2c18f11ea7b7283ca111cc598125a6d14351d9edec1b5bcf541e7046b3559b3",
+        "palette_sha256": "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870",
+        "pair_pointer_offsets": [
+          5918276
+        ]
+      }
+    },
+    {
+      "id": "portrait-007",
+      "resource_id": 7,
+      "png": "artifacts/menu-portraits-v1/portrait_02_variant_2.png",
+      "expected": {
+        "gfx_pointer": "0x0840F61C",
+        "palette_pointer": "0x0841029C",
+        "compressed_sha256": "e036620418006a809399130472d7188c203b59eb2d405864ab9894a00a24752a",
+        "palette_sha256": "ffe76189fb10ed6aad1fa877d7c6e768f78ce36412378ed322950d0f2354e6e8",
+        "pair_pointer_offsets": [
+          5918284
+        ]
+      }
+    },
+    {
+      "id": "portrait-008",
+      "resource_id": 8,
+      "png": "artifacts/menu-portraits-v1/portrait_02_variant_3.png",
+      "expected": {
+        "gfx_pointer": "0x0841031C",
+        "palette_pointer": "0x08410F60",
+        "compressed_sha256": "2e3a37b27a6341e85907a6a36edb9b16840136651299c4f1b1ba5e9a43c83ce8",
+        "palette_sha256": "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870",
+        "pair_pointer_offsets": [
+          5918292
+        ]
+      }
+    },
+    {
+      "id": "portrait-009",
+      "resource_id": 9,
+      "png": "artifacts/menu-portraits-v1/portrait_02_variant_4.png",
+      "expected": {
+        "gfx_pointer": "0x08410FE0",
+        "palette_pointer": "0x08411C54",
+        "compressed_sha256": "fd34c2037903c11ee5b988f365d8e2ac82e0fc98483258d46a560e5486c7962a",
+        "palette_sha256": "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870",
+        "pair_pointer_offsets": [
+          5918300
+        ]
+      }
+    },
+    {
+      "id": "portrait-010",
+      "resource_id": 10,
+      "png": "artifacts/menu-portraits-v1/portrait_03_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08411CD4",
+        "palette_pointer": "0x08412984",
+        "compressed_sha256": "d0aad816d0a71f2fb8df44522c8361cfe6efa613f9ac1c4bf3c05d6c76cd33c0",
+        "palette_sha256": "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad",
+        "pair_pointer_offsets": [
+          5918308
+        ]
+      }
+    },
+    {
+      "id": "portrait-011",
+      "resource_id": 11,
+      "png": "artifacts/menu-portraits-v1/portrait_03_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x08412A04",
+        "palette_pointer": "0x08413738",
+        "compressed_sha256": "b5b0f37335577e5ae6ed411248593ca5e004283e1fa7ea57a6f66c30e3100798",
+        "palette_sha256": "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad",
+        "pair_pointer_offsets": [
+          5918316
+        ]
+      }
+    },
+    {
+      "id": "portrait-012",
+      "resource_id": 12,
+      "png": "artifacts/menu-portraits-v1/portrait_03_variant_2.png",
+      "expected": {
+        "gfx_pointer": "0x084137B8",
+        "palette_pointer": "0x084146B0",
+        "compressed_sha256": "53c5b7bd22e33bc96bdfc37be2bf749f844f39ff9edea1d4781f054346cdbd02",
+        "palette_sha256": "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad",
+        "pair_pointer_offsets": [
+          5918324
+        ]
+      }
+    },
+    {
+      "id": "portrait-013",
+      "resource_id": 13,
+      "png": "artifacts/menu-portraits-v1/portrait_03_variant_3.png",
+      "expected": {
+        "gfx_pointer": "0x08414730",
+        "palette_pointer": "0x08415594",
+        "compressed_sha256": "ca66f64cd47d6f20f6ccf7319ba24acb057b7b9118b089fa58a665300f3acdcf",
+        "palette_sha256": "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad",
+        "pair_pointer_offsets": [
+          5918332
+        ]
+      }
+    },
+    {
+      "id": "portrait-014",
+      "resource_id": 14,
+      "png": "artifacts/menu-portraits-v1/portrait_03_variant_4.png",
+      "expected": {
+        "gfx_pointer": "0x08415614",
+        "palette_pointer": "0x084163B8",
+        "compressed_sha256": "375e0672462133aaedc825cf2ccd0964c0a3bb60b0403bfa713e3ca7591e088e",
+        "palette_sha256": "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad",
+        "pair_pointer_offsets": [
+          5918340
+        ]
+      }
+    },
+    {
+      "id": "portrait-015",
+      "resource_id": 15,
+      "png": "artifacts/menu-portraits-v1/portrait_04_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08416438",
+        "palette_pointer": "0x08417178",
+        "compressed_sha256": "a0f3abb39dab48be61a760142ebe52f58927188154f6b99237d2d8c08734849c",
+        "palette_sha256": "0db513ffa1c3930bfa173b24cc891947cdafbbde25f0490ef39ff56ee32c5762",
+        "pair_pointer_offsets": [
+          5918348,
+          5918356,
+          5918364,
+          5918372,
+          5918380
+        ]
+      }
+    },
+    {
+      "id": "portrait-016",
+      "resource_id": 16,
+      "png": "artifacts/menu-portraits-v1/portrait_05_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084171F8",
+        "palette_pointer": "0x08417BB4",
+        "compressed_sha256": "20008b5a74923df4a08269c1c81428418c511a468d3f290ab96c7f15d8c2313e",
+        "palette_sha256": "0d778fb7ebe5b69e0dcc20eb7a66c0eb1a82d30839968b688611dbc1755dc7b0",
+        "pair_pointer_offsets": [
+          5918388,
+          5918396,
+          5918404,
+          5918412,
+          5918420
+        ]
+      }
+    },
+    {
+      "id": "portrait-017",
+      "resource_id": 17,
+      "png": "artifacts/menu-portraits-v1/portrait_06_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08417C34",
+        "palette_pointer": "0x08418A08",
+        "compressed_sha256": "eb53641a47d57c3e84c0e51a8ec6436d461cdbacf1709b811c32fcda3b85edce",
+        "palette_sha256": "0a645f2f52411176213538b6d8bffa1f9d92ea9a7e26930582edb6d212d076fd",
+        "pair_pointer_offsets": [
+          5918428,
+          5918436,
+          5918444,
+          5918452,
+          5918460
+        ]
+      }
+    },
+    {
+      "id": "portrait-018",
+      "resource_id": 18,
+      "png": "artifacts/menu-portraits-v1/portrait_07_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08418A88",
+        "palette_pointer": "0x084196C8",
+        "compressed_sha256": "657eaa7d5342d80ae62b506efab3cce2a2be81a08285f012d71df7cc4ffbb2a1",
+        "palette_sha256": "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2",
+        "pair_pointer_offsets": [
+          5918468,
+          5918492,
+          5918500
+        ]
+      }
+    },
+    {
+      "id": "portrait-019",
+      "resource_id": 19,
+      "png": "artifacts/menu-portraits-v1/portrait_07_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x08419748",
+        "palette_pointer": "0x0841A35C",
+        "compressed_sha256": "6e7e9fd18d82c0f014760a989e1c74f2d2893509da9ece7466a0f944b470cb8d",
+        "palette_sha256": "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2",
+        "pair_pointer_offsets": [
+          5918476
+        ]
+      }
+    },
+    {
+      "id": "portrait-020",
+      "resource_id": 20,
+      "png": "artifacts/menu-portraits-v1/portrait_07_variant_2.png",
+      "expected": {
+        "gfx_pointer": "0x0841A3DC",
+        "palette_pointer": "0x0841B1D8",
+        "compressed_sha256": "ab6466aae455b7655d05f9e6d5b7c650e9d84eed04e5621755b39e83b843a280",
+        "palette_sha256": "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2",
+        "pair_pointer_offsets": [
+          5918484
+        ]
+      }
+    },
+    {
+      "id": "portrait-021",
+      "resource_id": 21,
+      "png": "artifacts/menu-portraits-v1/portrait_08_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841B258",
+        "palette_pointer": "0x0841BF8C",
+        "compressed_sha256": "c73d8a1b12c0aa9642c75402c7688806d0578e4826e386864de7686e652062ab",
+        "palette_sha256": "a632fc51a618b9a8a7ab456a74fedaa396fd0fc0192886d4df6cebef19fbbcda",
+        "pair_pointer_offsets": [
+          5918508,
+          5918524,
+          5918532,
+          5918540
+        ]
+      }
+    },
+    {
+      "id": "portrait-022",
+      "resource_id": 22,
+      "png": "artifacts/menu-portraits-v1/portrait_08_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x0841C00C",
+        "palette_pointer": "0x0841CCE8",
+        "compressed_sha256": "e4f5dd277ec295723c47ee92bb642871e1d25ac74daa839b8b75fcee7624e819",
+        "palette_sha256": "1d06aa620d48f520e6094d97be3c0d866c633a60ecffc977fb818348d549aa7f",
+        "pair_pointer_offsets": [
+          5918516
+        ]
+      }
+    },
+    {
+      "id": "portrait-023",
+      "resource_id": 23,
+      "png": "artifacts/menu-portraits-v1/portrait_09_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841CD68",
+        "palette_pointer": "0x0841D904",
+        "compressed_sha256": "af4263c47ee63df0dbd04d271f365fed4c68a2439a9360dca0e2b782af47b4e0",
+        "palette_sha256": "32d4ed914e03115c01783369a38f9c143c16368a30a04cdfa12e89a717acc343",
+        "pair_pointer_offsets": [
+          5918548,
+          5918556,
+          5918564,
+          5918572,
+          5918580
+        ]
+      }
+    },
+    {
+      "id": "portrait-024",
+      "resource_id": 24,
+      "png": "artifacts/menu-portraits-v1/portrait_10_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841D984",
+        "palette_pointer": "0x0841E44C",
+        "compressed_sha256": "15c757a3f2a5da8cf5684a50cb33a268738d6cc37b72d67cc6c2f0744bc7ec84",
+        "palette_sha256": "0ae9b301cfa6c494d9372d9bc90ca27e639629ae352ab30b9f83891f4244e02c",
+        "pair_pointer_offsets": [
+          5918588,
+          5918596,
+          5918604,
+          5918612,
+          5918620
+        ]
+      }
+    },
+    {
+      "id": "portrait-025",
+      "resource_id": 25,
+      "png": "artifacts/menu-portraits-v1/portrait_11_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841E4CC",
+        "palette_pointer": "0x0841EFB4",
+        "compressed_sha256": "014dfc75421a7f71af274730555da6c6ac85e63416d6cd68fdfcf2de36907c4a",
+        "palette_sha256": "d6c311241f0a349ee7b7db73fa1ef4fd1ebea5501a0a932bbea9a26f881f4f42",
+        "pair_pointer_offsets": [
+          5918628,
+          5918636,
+          5918644,
+          5918652,
+          5918660
+        ]
+      }
+    },
+    {
+      "id": "portrait-026",
+      "resource_id": 26,
+      "png": "artifacts/menu-portraits-v1/portrait_12_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841F034",
+        "palette_pointer": "0x0841F980",
+        "compressed_sha256": "96aeaef5d1ffe061dff0e3a574a005fcf840a6d7792d7f331a99336c259a56df",
+        "palette_sha256": "1198da7f51c341ca412a9ccdb802543852cf0425ba0194d5b3dba54e9587d5cf",
+        "pair_pointer_offsets": [
+          5918668,
+          5918676,
+          5918684,
+          5918692,
+          5918700
+        ]
+      }
+    },
+    {
+      "id": "portrait-027",
+      "resource_id": 27,
+      "png": "artifacts/menu-portraits-v1/portrait_13_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841FA00",
+        "palette_pointer": "0x08420604",
+        "compressed_sha256": "e51eba8bef676a6e5bf1b739d12aedc1e2301897e3460470e616aa9feea859c5",
+        "palette_sha256": "5a3a8d6fcc7e80f79b8e7a490907000f0215082768dc9db3d5a446bb21177efd",
+        "pair_pointer_offsets": [
+          5918708,
+          5918716,
+          5918724,
+          5918732,
+          5918740
+        ]
+      }
+    },
+    {
+      "id": "portrait-028",
+      "resource_id": 28,
+      "png": "artifacts/menu-portraits-v1/portrait_14_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08420684",
+        "palette_pointer": "0x0842126C",
+        "compressed_sha256": "a39958175bf10ad0f1e4dee176f24b9adeede898e354c00bf279777dc2e4aad8",
+        "palette_sha256": "a50f9d02a51c60165fb744b21896ee9e8a0f70a361c08b0d787acdda0b246849",
+        "pair_pointer_offsets": [
+          5918748,
+          5918756,
+          5918764,
+          5918772,
+          5918780
+        ]
+      }
+    },
+    {
+      "id": "portrait-029",
+      "resource_id": 29,
+      "png": "artifacts/menu-portraits-v1/portrait_15_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084212EC",
+        "palette_pointer": "0x08421DE8",
+        "compressed_sha256": "45aec54bf731197a1848c4ea5cd1b70f34ceeca6759c51fed798581042c148bf",
+        "palette_sha256": "eeee5d966f0b3d7c1bfe6de836693e62119991834fba040fe77800301f0d9e24",
+        "pair_pointer_offsets": [
+          5918788,
+          5918796,
+          5918804,
+          5918812,
+          5918820
+        ]
+      }
+    },
+    {
+      "id": "portrait-030",
+      "resource_id": 30,
+      "png": "artifacts/menu-portraits-v1/portrait_16_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08421E68",
+        "palette_pointer": "0x08422D4C",
+        "compressed_sha256": "9e2c9fc775fecf923d80d37702f296d0fdedc0fdb745247668578ab022432b0b",
+        "palette_sha256": "f25071e8f71abf7065c09187575f806f737725ada58af8980cb1eaa0775c6a54",
+        "pair_pointer_offsets": [
+          5918828,
+          5918836,
+          5918844,
+          5918852,
+          5918860
+        ]
+      }
+    },
+    {
+      "id": "portrait-031",
+      "resource_id": 31,
+      "png": "artifacts/menu-portraits-v1/portrait_17_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08422DCC",
+        "palette_pointer": "0x084239A8",
+        "compressed_sha256": "9492791bc6c6dae275a9b6ab32146f048cd2b4a921c0d58938db71067f737841",
+        "palette_sha256": "bc28c708720454a7cd8d36e2f69cabaead89fb7312fbf8b886625d2f2d85a7bc",
+        "pair_pointer_offsets": [
+          5918868,
+          5918876,
+          5918884,
+          5918892,
+          5918900
+        ]
+      }
+    },
+    {
+      "id": "portrait-032",
+      "resource_id": 32,
+      "png": "artifacts/menu-portraits-v1/portrait_18_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08423A28",
+        "palette_pointer": "0x0842491C",
+        "compressed_sha256": "97284d94fc0bf433a2752e415715962b5a7f68704b4e63f38db0dbc1bcc96984",
+        "palette_sha256": "2b09c0f0c3981b372afc340423eb9fbba84ff6963dec912dd42a5e9761853180",
+        "pair_pointer_offsets": [
+          5918908,
+          5918916,
+          5918924,
+          5918932,
+          5918940
+        ]
+      }
+    },
+    {
+      "id": "portrait-033",
+      "resource_id": 33,
+      "png": "artifacts/menu-portraits-v1/portrait_19_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842499C",
+        "palette_pointer": "0x08425478",
+        "compressed_sha256": "1e5d590aae05c57240c3e31845a7932077a6fa0c99c7c4529e883441d82b5074",
+        "palette_sha256": "d98ad0f3b344b8d2ef8ed3d62925ca51069fba4b7e2aaf1ee07ad0d3bdf6a8bb",
+        "pair_pointer_offsets": [
+          5918948,
+          5918956,
+          5918964,
+          5918972,
+          5918980
+        ]
+      }
+    },
+    {
+      "id": "portrait-034",
+      "resource_id": 34,
+      "png": "artifacts/menu-portraits-v1/portrait_20_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084254F8",
+        "palette_pointer": "0x084261D0",
+        "compressed_sha256": "c269e41d66d91d2f535ccf45375ab4adf88659b652352308b70b4451b2bb26fc",
+        "palette_sha256": "4379852a09d430f3df2179bd0432a0f04290375e2d30493a00093d515f7c4ff5",
+        "pair_pointer_offsets": [
+          5918988,
+          5919004,
+          5919020
+        ]
+      }
+    },
+    {
+      "id": "portrait-035",
+      "resource_id": 35,
+      "png": "artifacts/menu-portraits-v1/portrait_20_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x08426250",
+        "palette_pointer": "0x08426EB4",
+        "compressed_sha256": "a0a8a6b12b569baf941445407fb6564119b6b2fa67aed36214500ea11b54adc6",
+        "palette_sha256": "44ffcd19f7c4de593444748b43f0ab06ac3382437f4a318e938d784048d68e76",
+        "pair_pointer_offsets": [
+          5918996,
+          5919012
+        ]
+      }
+    },
+    {
+      "id": "portrait-036",
+      "resource_id": 36,
+      "png": "artifacts/menu-portraits-v1/portrait_21_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08426F34",
+        "palette_pointer": "0x08427B94",
+        "compressed_sha256": "376777fe05e14a9b9b5765e8cfc3adfcfe0731c32dd37803ace275330672c537",
+        "palette_sha256": "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115",
+        "pair_pointer_offsets": [
+          5919028,
+          5919052,
+          5919060
+        ]
+      }
+    },
+    {
+      "id": "portrait-037",
+      "resource_id": 37,
+      "png": "artifacts/menu-portraits-v1/portrait_21_variant_1.png",
+      "expected": {
+        "gfx_pointer": "0x08427C14",
+        "palette_pointer": "0x084287A4",
+        "compressed_sha256": "d8f9325da17c5ea5b132ee086e4b8ac66901594c5d55e54fde2efff105a84a98",
+        "palette_sha256": "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115",
+        "pair_pointer_offsets": [
+          5919036
+        ]
+      }
+    },
+    {
+      "id": "portrait-038",
+      "resource_id": 38,
+      "png": "artifacts/menu-portraits-v1/portrait_21_variant_2.png",
+      "expected": {
+        "gfx_pointer": "0x08428824",
+        "palette_pointer": "0x084291E4",
+        "compressed_sha256": "600501448ff53997452e79b11747149c40c2f069502c0737e2a7981dd259a125",
+        "palette_sha256": "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115",
+        "pair_pointer_offsets": [
+          5919044
+        ]
+      }
+    },
+    {
+      "id": "portrait-039",
+      "resource_id": 39,
+      "png": "artifacts/menu-portraits-v1/portrait_22_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08429264",
+        "palette_pointer": "0x08429DEC",
+        "compressed_sha256": "b48f2e0e0a6f75c136d0b718b335756efcb0e4cdcd61a3aec2cc4c1342a36782",
+        "palette_sha256": "b8b09b223ddcb8c95fd457975ae6f1e2adae86e9e9bf55966d4c5da09213951d",
+        "pair_pointer_offsets": [
+          5919068,
+          5919076,
+          5919084,
+          5919092,
+          5919100
+        ]
+      }
+    },
+    {
+      "id": "portrait-040",
+      "resource_id": 40,
+      "png": "artifacts/menu-portraits-v1/portrait_23_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08429E6C",
+        "palette_pointer": "0x0842A9E4",
+        "compressed_sha256": "6f0eb30ab31d23b889037527a319a0200ade9e03d241aa4c1493fbbbc7830b52",
+        "palette_sha256": "aa312981e98c39805bd2e2a76f080b6bfcfde2fd8d46291163070cdbcb655815",
+        "pair_pointer_offsets": [
+          5919108,
+          5919116,
+          5919124,
+          5919132,
+          5919140
+        ]
+      }
+    },
+    {
+      "id": "portrait-041",
+      "resource_id": 41,
+      "png": "artifacts/menu-portraits-v1/portrait_24_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842AA64",
+        "palette_pointer": "0x0842B4F4",
+        "compressed_sha256": "dd28ffc498e6fd0c82f6963615a7c60877a95b501b44ea0b2cbcc698a7112b07",
+        "palette_sha256": "9b0aae289831e190761366bcc32c8b94ddccc2249d83f12f68d435378039d7b2",
+        "pair_pointer_offsets": [
+          5919148,
+          5919156,
+          5919164,
+          5919172,
+          5919180
+        ]
+      }
+    },
+    {
+      "id": "portrait-042",
+      "resource_id": 42,
+      "png": "artifacts/menu-portraits-v1/portrait_25_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842B574",
+        "palette_pointer": "0x0842C1E4",
+        "compressed_sha256": "1cc6fc4b3fde8c229cc1c12a44f51a43d5818838a86a93c18dff13d9dc133b3e",
+        "palette_sha256": "5f93c544abb844d25e987e17b8d99a90a7687f0a1e565a3191f707cb156f9070",
+        "pair_pointer_offsets": [
+          5919188,
+          5919196,
+          5919204,
+          5919212,
+          5919220
+        ]
+      }
+    },
+    {
+      "id": "portrait-043",
+      "resource_id": 43,
+      "png": "artifacts/menu-portraits-v1/portrait_26_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842C264",
+        "palette_pointer": "0x0842CEB4",
+        "compressed_sha256": "1083a20ed6782ed324f4a3a36012ce2d356912d9508a948e69c732260b924ec3",
+        "palette_sha256": "d81ede110f21c89154e39021f9315b33b517853b46f454f2ac310bb2171a8a60",
+        "pair_pointer_offsets": [
+          5919228,
+          5919236,
+          5919244,
+          5919252,
+          5919260
+        ]
+      }
+    },
+    {
+      "id": "portrait-044",
+      "resource_id": 44,
+      "png": "artifacts/menu-portraits-v1/portrait_27_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842CF34",
+        "palette_pointer": "0x0842DDA8",
+        "compressed_sha256": "1a51a56611975b0082e01dc383c2236756d3a794a95c4ec04ad5f6cd39e444df",
+        "palette_sha256": "00aad1ac0aacae5488c4890e2f855dda0fb1fbd6fc7b00fc24e87ee44be1559b",
+        "pair_pointer_offsets": [
+          5919268,
+          5919276,
+          5919284,
+          5919292,
+          5919300
+        ]
+      }
+    },
+    {
+      "id": "portrait-045",
+      "resource_id": 45,
+      "png": "artifacts/menu-portraits-v1/portrait_28_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842DE28",
+        "palette_pointer": "0x0842E800",
+        "compressed_sha256": "cf723640d49dbada6654dee96aa4d116b0093d309b19e8133e205fc4dbfb2aa8",
+        "palette_sha256": "08e004ce13d94ab887359674e11d4180abaff65fcaec21b4610821572c8f09c6",
+        "pair_pointer_offsets": [
+          5919308,
+          5919316,
+          5919324,
+          5919332,
+          5919340
+        ]
+      }
+    },
+    {
+      "id": "portrait-046",
+      "resource_id": 46,
+      "png": "artifacts/menu-portraits-v1/portrait_29_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842E880",
+        "palette_pointer": "0x0842F288",
+        "compressed_sha256": "404bab5cc75533329a4e003ad3f0f6199d70372ab25179cee6e060e16c6aab10",
+        "palette_sha256": "97649a43d5103b468fd59326dec71917a9c44c55e3958d78a6d8aaea7363010f",
+        "pair_pointer_offsets": [
+          5919348,
+          5919356,
+          5919364,
+          5919372,
+          5919380
+        ]
+      }
+    },
+    {
+      "id": "portrait-047",
+      "resource_id": 47,
+      "png": "artifacts/menu-portraits-v1/portrait_30_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842F308",
+        "palette_pointer": "0x0842FE44",
+        "compressed_sha256": "28ffbbe560118d29cf556e1725de887b99178acd3abb35f918d77113615c21cc",
+        "palette_sha256": "eabc4999b3e9f04164a3fe3f3e2903ce348dc04f8b39a4eb1bc9be0ca9263f74",
+        "pair_pointer_offsets": [
+          5919388,
+          5919396,
+          5919404,
+          5919412,
+          5919420
+        ]
+      }
+    },
+    {
+      "id": "portrait-048",
+      "resource_id": 48,
+      "png": "artifacts/menu-portraits-v1/portrait_31_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0842FEC4",
+        "palette_pointer": "0x08430D04",
+        "compressed_sha256": "e76fcd902f89e6b839db08d949b66e7d075e32ba5deec4cff6b61d2030cefa0c",
+        "palette_sha256": "693c288904e57e45488417a379bbe7edb61b6937f613f80f082acf571fae5cbb",
+        "pair_pointer_offsets": [
+          5919428,
+          5919436,
+          5919444,
+          5919452,
+          5919460
+        ]
+      }
+    },
+    {
+      "id": "portrait-049",
+      "resource_id": 49,
+      "png": "artifacts/menu-portraits-v1/portrait_32_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08430D84",
+        "palette_pointer": "0x08431CC4",
+        "compressed_sha256": "d5c61ad1648c2cbcdf60c3b33ea6d1935dc9ac7b10dcd7ceb3c0307ff66bb0e2",
+        "palette_sha256": "78a877dee07cd62321844195d736ae623c453582d0e4d4bb0f98119a54437d21",
+        "pair_pointer_offsets": [
+          5919468,
+          5919476,
+          5919484,
+          5919492,
+          5919500
+        ]
+      }
+    },
+    {
+      "id": "portrait-050",
+      "resource_id": 50,
+      "png": "artifacts/menu-portraits-v1/portrait_33_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08431D44",
+        "palette_pointer": "0x08432C60",
+        "compressed_sha256": "ae367998646a853e34a6564bb3955be13e18c0836887fd2cd8871014090ddc8c",
+        "palette_sha256": "3b648b3de4aea981bbde2ab8970f0d6bb8992fab0df5b7d5a0d6a319a7ea531d",
+        "pair_pointer_offsets": [
+          5919508,
+          5919516,
+          5919524,
+          5919532,
+          5919540
+        ]
+      }
+    },
+    {
+      "id": "portrait-051",
+      "resource_id": 51,
+      "png": "artifacts/menu-portraits-v1/portrait_34_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08432CE0",
+        "palette_pointer": "0x08433C88",
+        "compressed_sha256": "36c64e471786fdeecaee330b96f10f9a9daf3ea411044b274c3893568462b256",
+        "palette_sha256": "f5834fbda65bcba3f93218855643dfbc666ffdcc0c42da1d1c0dd97c86d42608",
+        "pair_pointer_offsets": [
+          5919548,
+          5919556,
+          5919564,
+          5919572,
+          5919580
+        ]
+      }
+    },
+    {
+      "id": "portrait-052",
+      "resource_id": 52,
+      "png": "artifacts/menu-portraits-v1/portrait_35_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08433D08",
+        "palette_pointer": "0x08434618",
+        "compressed_sha256": "975b729c707fbeade0a9c4c5cafa84afb8dd81e614336a1a1126f975bdb2c941",
+        "palette_sha256": "2bed99153218cc8414b39e4d2eb426459daf1b4edb6f3e377c40cf5548cf3928",
+        "pair_pointer_offsets": [
+          5919588,
+          5919596,
+          5919604,
+          5919612,
+          5919620
+        ]
+      }
+    },
+    {
+      "id": "portrait-053",
+      "resource_id": 53,
+      "png": "artifacts/menu-portraits-v1/portrait_41_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08434698",
+        "palette_pointer": "0x08435278",
+        "compressed_sha256": "26a03f914bbaeec6cfe146cce846720214fc402176692afcb78dd3c1c0323dcf",
+        "palette_sha256": "b5cef28ee1e65e74b24113aff5889efe4cc1745dc22827bc44b0fe258e8257f0",
+        "pair_pointer_offsets": [
+          5919828,
+          5919836,
+          5919844,
+          5919852,
+          5919860
+        ]
+      }
+    },
+    {
+      "id": "portrait-054",
+      "resource_id": 54,
+      "png": "artifacts/menu-portraits-v1/portrait_43_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084352F8",
+        "palette_pointer": "0x084361F8",
+        "compressed_sha256": "df6796ad6a8ab4597b544ca3b65b18ef4b68dea35b764801f195c44746e626d1",
+        "palette_sha256": "fb9f0a52d11e40e1e7e1d09edd14713898365a98df0b489e2468ca17300ef3ca",
+        "pair_pointer_offsets": [
+          5919908,
+          5919916,
+          5919924,
+          5919932,
+          5919940
+        ]
+      }
+    },
+    {
+      "id": "portrait-055",
+      "resource_id": 55,
+      "png": "artifacts/menu-portraits-v1/portrait_44_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08436278",
+        "palette_pointer": "0x0843704C",
+        "compressed_sha256": "655b5353466916664607542fda0c4453814710183c62e37276a8473707916f8f",
+        "palette_sha256": "2377f398782ede005f5a205ef2e3ef1863b410f7c18838f0ccf1c6b2328dbec1",
+        "pair_pointer_offsets": [
+          5919948,
+          5919956,
+          5919964,
+          5919972,
+          5919980
+        ]
+      }
+    },
+    {
+      "id": "portrait-056",
+      "resource_id": 56,
+      "png": "artifacts/menu-portraits-v1/portrait_45_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084370CC",
+        "palette_pointer": "0x08437E2C",
+        "compressed_sha256": "ee758e79896a1b32e95028ab6b79735761d721a0dc82af027482c86a003ca455",
+        "palette_sha256": "8fbc6a75b41d71164f286578efd577d6658f673ba4464264e892668d7c400f2c",
+        "pair_pointer_offsets": [
+          5919988,
+          5919996,
+          5920004,
+          5920012,
+          5920020
+        ]
+      }
+    },
+    {
+      "id": "portrait-057",
+      "resource_id": 57,
+      "png": "artifacts/menu-portraits-v1/portrait_46_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08437EAC",
+        "palette_pointer": "0x08438B64",
+        "compressed_sha256": "99a0b69a1c00acb033cd00715f509f1a43a1027b637dbd90710828cb43378a83",
+        "palette_sha256": "872928d16bc4c0bee087c6bb37a95dcd05a466a3d6582e9161320da245836e6d",
+        "pair_pointer_offsets": [
+          5920028,
+          5920036,
+          5920044,
+          5920052,
+          5920060
+        ]
+      }
+    },
+    {
+      "id": "portrait-058",
+      "resource_id": 58,
+      "png": "artifacts/menu-portraits-v1/portrait_47_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08438BE4",
+        "palette_pointer": "0x08439838",
+        "compressed_sha256": "0241ce5ea64f46581c9713893fb3500510df38960966e3927640dca8d5984f30",
+        "palette_sha256": "b985723799278194eaf5f42d08fe1bfe088c66939a95cdb129f90acf466a6809",
+        "pair_pointer_offsets": [
+          5920068,
+          5920076,
+          5920084,
+          5920092,
+          5920100
+        ]
+      }
+    },
+    {
+      "id": "portrait-059",
+      "resource_id": 59,
+      "png": "artifacts/menu-portraits-v1/portrait_48_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084398B8",
+        "palette_pointer": "0x0843A4E4",
+        "compressed_sha256": "338234a97a2ec91714156544c3b0782dfb6a80784ef58c2d19b43c99a7c04e25",
+        "palette_sha256": "fcff9759e7a6288c4011b05d8010c569b603e8be856ce448b2d4ef327b404179",
+        "pair_pointer_offsets": [
+          5920108,
+          5920116,
+          5920124,
+          5920132,
+          5920140
+        ]
+      }
+    },
+    {
+      "id": "portrait-060",
+      "resource_id": 60,
+      "png": "artifacts/menu-portraits-v1/portrait_49_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843A564",
+        "palette_pointer": "0x0843B0F8",
+        "compressed_sha256": "ddfd211486229fb391c3908078e3c6845c9c7fe65b105cd8d32abc8e5c18f623",
+        "palette_sha256": "d5fa9bf555e5df0bb42345efb4b206743e440b608647ade324b3f9f5434d8df8",
+        "pair_pointer_offsets": [
+          5920148,
+          5920156,
+          5920164,
+          5920172,
+          5920180
+        ]
+      }
+    },
+    {
+      "id": "portrait-061",
+      "resource_id": 61,
+      "png": "artifacts/menu-portraits-v1/portrait_50_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843B178",
+        "palette_pointer": "0x0843BFB0",
+        "compressed_sha256": "3024b79f3e0204805cad989c6d98b36754aefee13ec9b9e12821e4b3459b3ce5",
+        "palette_sha256": "4b9c849410b4e5a5fbec764b2360aeec71c787b31f69b0328757d107c7d9191d",
+        "pair_pointer_offsets": [
+          5920188,
+          5920196,
+          5920204,
+          5920212,
+          5920220
+        ]
+      }
+    },
+    {
+      "id": "portrait-062",
+      "resource_id": 62,
+      "png": "artifacts/menu-portraits-v1/portrait_51_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843C030",
+        "palette_pointer": "0x0843CCE4",
+        "compressed_sha256": "7b70fc2ada87f5b8f61828beee1000773886a9abc2f7a5584d4fe971102e8b9b",
+        "palette_sha256": "355acde1d21e2093a92b46687c17f5768b5f99bbaa4d36be81a365f88cff1ddf",
+        "pair_pointer_offsets": [
+          5920228,
+          5920236,
+          5920244,
+          5920252,
+          5920260
+        ]
+      }
+    },
+    {
+      "id": "portrait-063",
+      "resource_id": 63,
+      "png": "artifacts/menu-portraits-v1/portrait_52_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843CD64",
+        "palette_pointer": "0x0843D938",
+        "compressed_sha256": "bbad281c50d7d82955e31781758fe0a7e329fcd44c3da6122358128e27833595",
+        "palette_sha256": "68cb0012f50be5a8573decc618b9720d5ba77a86eee77d567fe469f8727bf02d",
+        "pair_pointer_offsets": [
+          5920268,
+          5920276,
+          5920284,
+          5920292,
+          5920300
+        ]
+      }
+    },
+    {
+      "id": "portrait-064",
+      "resource_id": 64,
+      "png": "artifacts/menu-portraits-v1/portrait_53_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843D9B8",
+        "palette_pointer": "0x0843E4D0",
+        "compressed_sha256": "71a6a16dfd9bdb00c8a603c3923ca8223ba1f5383cf10d1786e4d53d7bd3686a",
+        "palette_sha256": "ea06f925dcaa8571c462ec9fa48936eecdf20eab1d96b4bae7d71816d8a7fc02",
+        "pair_pointer_offsets": [
+          5920308,
+          5920316,
+          5920324,
+          5920332,
+          5920340
+        ]
+      }
+    },
+    {
+      "id": "portrait-065",
+      "resource_id": 65,
+      "png": "artifacts/menu-portraits-v1/portrait_54_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843E550",
+        "palette_pointer": "0x0843EF4C",
+        "compressed_sha256": "0bb0a4a71d0ed7c6f87e73c8c6fce45c257895d7e890960f0e01d688637b5acb",
+        "palette_sha256": "e1066357fe4daf0fbebd67253733484ca62337edc6b687d3bd788c0a1c116268",
+        "pair_pointer_offsets": [
+          5920348,
+          5920356,
+          5920364,
+          5920372,
+          5920380
+        ]
+      }
+    },
+    {
+      "id": "portrait-066",
+      "resource_id": 66,
+      "png": "artifacts/menu-portraits-v1/portrait_56_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843EFCC",
+        "palette_pointer": "0x0843FBF8",
+        "compressed_sha256": "f6d4c362fd086d575f98115102ce66a36873f47dd96b47dc2d5a58054c759643",
+        "palette_sha256": "a1a175a75820755d8f88a45b0f95ec2211e2c24f5925c2bc0b74ed84c7cb1b84",
+        "pair_pointer_offsets": [
+          5920428,
+          5920436,
+          5920444,
+          5920452,
+          5920460
+        ]
+      }
+    },
+    {
+      "id": "portrait-067",
+      "resource_id": 67,
+      "png": "artifacts/menu-portraits-v1/portrait_57_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841B258",
+        "palette_pointer": "0x084098C4",
+        "compressed_sha256": "c73d8a1b12c0aa9642c75402c7688806d0578e4826e386864de7686e652062ab",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5920468,
+          5920476,
+          5920484,
+          5920492,
+          5920500
+        ]
+      }
+    },
+    {
+      "id": "portrait-068",
+      "resource_id": 68,
+      "png": "artifacts/menu-portraits-v1/portrait_58_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084212EC",
+        "palette_pointer": "0x084098C4",
+        "compressed_sha256": "45aec54bf731197a1848c4ea5cd1b70f34ceeca6759c51fed798581042c148bf",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5920508,
+          5920516,
+          5920524,
+          5920532,
+          5920540
+        ]
+      }
+    },
+    {
+      "id": "portrait-069",
+      "resource_id": 69,
+      "png": "artifacts/menu-portraits-v1/portrait_59_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x08417C34",
+        "palette_pointer": "0x084098C4",
+        "compressed_sha256": "eb53641a47d57c3e84c0e51a8ec6436d461cdbacf1709b811c32fcda3b85edce",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5920548,
+          5920556,
+          5920564,
+          5920572,
+          5920580
+        ]
+      }
+    },
+    {
+      "id": "portrait-070",
+      "resource_id": 70,
+      "png": "artifacts/menu-portraits-v1/portrait_60_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0841F034",
+        "palette_pointer": "0x084098C4",
+        "compressed_sha256": "96aeaef5d1ffe061dff0e3a574a005fcf840a6d7792d7f331a99336c259a56df",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5920588,
+          5920596,
+          5920604,
+          5920612,
+          5920620
+        ]
+      }
+    },
+    {
+      "id": "portrait-071",
+      "resource_id": 71,
+      "png": "artifacts/menu-portraits-v1/portrait_61_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x0843FC78",
+        "palette_pointer": "0x08440738",
+        "compressed_sha256": "a7a76da5623056b015d2bb4f894ccc506caf47612cc93e48798d1fa97fb008e9",
+        "palette_sha256": "6fbd394ee15a7443c041f0be9b55318932f2fcf8e5f7f54e2b9e181af281aca9",
+        "pair_pointer_offsets": [
+          5920628,
+          5920636,
+          5920644,
+          5920652,
+          5920660
+        ]
+      }
+    },
+    {
+      "id": "portrait-072",
+      "resource_id": 72,
+      "png": "artifacts/menu-portraits-v1/portrait_62_variant_0.png",
+      "expected": {
+        "gfx_pointer": "0x084407B8",
+        "palette_pointer": "0x08441324",
+        "compressed_sha256": "9425b31dd1177a66f47f2ca7340ae508453196d153a87474752fd9f234f0e51b",
+        "palette_sha256": "09b23009daaf4b7b35f00384f23abbcd7bfad62e0c5086b1698409f6a207a344",
+        "pair_pointer_offsets": [
+          5920668,
+          5920676,
+          5920684,
+          5920692,
+          5920700
+        ]
+      }
+    },
+    {
+      "id": "portrait-073",
+      "resource_id": 73,
+      "png": "artifacts/menu-portraits-v1/special_variant_5.png",
+      "expected": {
+        "gfx_pointer": "0x0840D1A8",
+        "palette_pointer": "0x0840DE80",
+        "compressed_sha256": "2dcca30335783b72a02b189507de61d0550c820d8ec8f6023122f758f051d7dd",
+        "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+        "pair_pointer_offsets": [
+          5918180
+        ]
+      }
+    }
+  ]
+}

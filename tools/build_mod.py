@@ -466,6 +466,29 @@ def resolve_map_resource_relocation_patch(
     )
 
 
+def resolve_menu_portrait_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_menu_portrait_relocations import (
+        resolve_menu_portrait_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "menu portrait relocation requires an explicit ROM layout"
+        )
+    return resolve_menu_portrait_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -634,7 +657,11 @@ def build(project_path: Path) -> dict:
             patch.get("enabled", True)
             and (
                 patch.get("type")
-                in {"tile_asset_resource", "map_resource_relocation"}
+                in {
+                    "tile_asset_resource",
+                    "map_resource_relocation",
+                    "menu_portrait_relocation",
+                }
                 or (
                     patch.get("type") == "bytes"
                     and patch.get("allocation", {}).get("partition")
@@ -940,6 +967,32 @@ def build(project_path: Path) -> dict:
                     "all_header_pointer_offsets",
                     "target_header_pointer_offsets",
                     "content_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "menu_portrait_relocation":
+            sub_patches = resolve_menu_portrait_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "resource_ids",
+                    "source_pointer",
+                    "source_sha256",
+                    "source_size",
+                    "replacement_sha256",
+                    "replacement_size",
+                    "new_pointer",
+                    "logical_aliases",
+                    "all_pointer_offsets",
+                    "target_pointer_offsets",
                 ):
                     if key in sp:
                         result[key] = sp[key]

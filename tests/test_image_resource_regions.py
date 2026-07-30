@@ -45,7 +45,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xA80000, 0xC00000),
+            (0xA80000, 0xB00000, "menu_portrait_resources"),
+            (
+                registry.require(
+                    "menu-portraits",
+                    "menu_portrait_resources",
+                ).start,
+                registry.require(
+                    "menu-portraits",
+                    "menu_portrait_resources",
+                ).end,
+                registry.require(
+                    "menu-portraits",
+                    "menu_portrait_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xB00000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

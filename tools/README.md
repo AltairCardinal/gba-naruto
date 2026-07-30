@@ -59,6 +59,25 @@ python3 tools/verify_map_resource_relocation_audit.py \
 `0x800000..0x980000`。`image_resource_regions.py`拒绝父分区不符、空洞、重叠或
 未对齐配置。全量地图迁移末端为`0x9DDEC3`，区域余663,869 bytes。
 
+## 菜单／剧情立绘可变长迁移
+
+`import_menu_portrait_relocations.py`把原`menu_portrait`的80×80 indexed PNG
+回编链扩展为区域迁移。74种逻辑pair共享70个graphics和70个palette物理payload；
+311个可见别名的622个pair指针均有全ROM精确引用分母。构建清单使用
+`type: menu_portrait_relocation`和完整spec。
+
+```bash
+python3 tools/export_menu_portrait_relocation_audit.py \
+  --root . --output artifacts/menu-portrait-relocation-v1
+
+python3 tools/verify_menu_portrait_relocation_audit.py \
+  --root . --artifact artifacts/menu-portrait-relocation-v1
+```
+
+专属区域为`0xA80000..0xB00000`；全量迁移末端`0xAB83C8`。可用
+`target_pair_pointer_offsets`拆分catalog允许的pair子集，但图像几何仍固定为
+80×80/6400-byte OBJ流，palette仍固定128 bytes。
+
 ## 战斗地图资源原位回编
 
 `import_map_resources.py` 以 `map-canvases-v1` 的内容 SHA 为编辑身份，将一份

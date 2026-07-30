@@ -1468,10 +1468,21 @@ WebSocket
   未知引用为0；新`map_resource_relocation`类型允许按catalog约束的header别名
   子集拆分，并在分配前重验全部layout→metatile→tile/palette索引及collision尺寸。
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
-  `0x800000..0x980000`，地图使用`0x980000..0xA80000`，未来图像保留
-  `0xA80000..0xC00000`；注册表强制无重叠、无空洞和对齐。地图全量迁移占
+  `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
+  `0xA80000..0xB00000`，未来图像保留`0xB00000..0xC00000`；注册表强制
+  无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
   `artifacts/map-resource-relocation-v1/`，说明见
   `notes/map-resource-relocation-20260731.md`。修改后全地图像素、动态overlay、
   camera和碰撞玩法语义的运行时等价仍未闭合，Goal保持active。
+- 2026-07-31：菜单／剧情立绘已从受限原位PNG回编推进到可变长成对迁移。
+  311个可见立绘对应74种逻辑pair、70个物理graphics和70个物理palette；
+  63×5矩阵与全局variant 5的622个指针字段经全ROM精确扫描，额外引用为0。
+  新`menu_portrait_relocation`类型继续接受80×80 indexed PNG，可按catalog约束
+  拆分pair别名，并把140个payload迁入注册的`0xA80000..0xB00000`区域。全量
+  preservation占230,344 bytes、末端`0xAB83C8`、区域余293,944 bytes；独立
+  verifier重建74/140/622分母及完整16 MiB输出。成果位于
+  `artifacts/menu-portrait-relocation-v1/`，说明见
+  `notes/menu-portrait-relocation-20260731.md`。任意尺寸、可变OBJ布局及修改后
+  菜单调色/转场/最终像素等价仍未闭合，Goal保持active。
