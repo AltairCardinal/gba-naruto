@@ -136,6 +136,18 @@
   `artifacts/initializer-resource-pack-v1/` 与
   `notes/initializer-resource-pack-export-20260730.md`。静态 loader 证据不冒充
   动态执行，OBJ 实例、剩余 39 种内容、writer、跨帧时序及未跟踪状态仍未闭合。
+- 2026-07-30 `alternate-character-overview.ss9` BG0 的 10 种灰阶 tile 已从
+  “静态包未命中”闭合为过程式生成来源。`0x0808D934` 按
+  `floor(y*15/80)+1` 生成 tiles 257–266、灰阶 palette bank 13 和
+  `0xD101..0xD10A` 的 30×20 tilemap；`0x0808DA90` 安装结果并写
+  `BG0CNT=0x0002`。generator/caller/controller 代码哈希、活动 task 恢复点以及
+  EWRAM/VRAM/PRAM 六个域都与固定 checkpoint 逐字节一致。新 artifact 还哈希绑定
+  初始化器父记录并重新计算分母：闭合 300 cell / 10 种内容，使全局未知量从
+  898/39 降到 598/29，overview BG0 自身从 717/17 降到 417/7；剩余内容和父层
+  身份不被顺带升级。独立 verifier 拒绝公式语义篡改与目录符号链接，结果
+  `errors=[]`。成果见 `artifacts/overview-gradient-overlay-v1/` 与
+  `notes/overview-gradient-overlay-export-20260730.md`。本轮复用已有 checkpoint，
+  未启动 mGBA；其余 29 种非字体内容、未跟踪状态和通用图像回写仍未闭合。
 - 2026-07-30 Mode 0 最终 compositor 核心已接入普通 1D OBJ、BG/OBJ/backdrop
   priority、WIN0、alpha 与 darken。对 91 个 tracked checkpoint 的 1211 个
   active OAM 做包围盒预索引后，89 帧与 `.ss9` 内嵌 PNG 逐 RGB 字节完全一致。

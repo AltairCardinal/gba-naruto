@@ -106,3 +106,12 @@ PNG 容器解析、Mode 0 BG tilemap 读取、4bpp atlas 重建和 BGR555 palett
 
 下一图像主线应围绕剩余 39 种内容的 loader/ROM 来源或 OBJ 实例绑定继续，
 不应重复扫描已经闭合的字体和本资源包内容。
+
+## 后续分母消减
+
+后续 `overview-gradient-overlay-v1` 已证明
+`alternate-character-overview.ss9` BG0 的 tiles 257–266 是
+`0x0808D934` 过程式生成内容，不是遗漏的静态资源。它从本成果固定的
+898 cell / 39 种未知内容中闭合 300 cell / 10 种，当前后继分母为
+598 cell / 29 种；本 artifact 自身的历史基线和 manifest 不改写。证据见
+`notes/overview-gradient-overlay-export-20260730.md`。

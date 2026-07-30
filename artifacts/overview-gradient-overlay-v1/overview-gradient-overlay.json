@@ -1,0 +1,452 @@
+{
+  "caller": {
+    "bg0cnt_value": "0x0002",
+    "bg0cnt_write": "0x0808DABC",
+    "code": {
+      "gba_end_exclusive": "0x0808DBB0",
+      "gba_start": "0x0808DA90",
+      "sha256": "511f6e58cf79fefdc5a20c37aa968bce976f23eb79bcc80bcd9f3d96810976ef",
+      "size": 288
+    },
+    "gba_address": "0x0808DA90",
+    "generator_call": "0x0808DAB8",
+    "generator_parameters": {
+      "charblock": 0,
+      "palette_bank": 13,
+      "tile_base": 256,
+      "work_buffer": "0x02002AB0"
+    }
+  },
+  "controller": {
+    "caller_call": "0x0808DCFC",
+    "code": {
+      "gba_end_exclusive": "0x0808E08E",
+      "gba_start": "0x0808DCE0",
+      "sha256": "d83823d4dbf8f136c5c119ac1ee2ab8a36955aba30afe80176f0a6dacf290585",
+      "size": 942
+    },
+    "gba_address": "0x0808DCE0",
+    "resume_after_yield": "0x0808DF1A"
+  },
+  "generated": {
+    "palette": {
+      "color_count": 16,
+      "file": "generated-palette.bgr555.bin",
+      "palette_bank": 13,
+      "sha256": "19b43b15fd2dcc824f03e524fad7a77d990ecb7b79eb3fa876ac862a53b7c7a5",
+      "size": 32
+    },
+    "preview": {
+      "dimensions": [
+        240,
+        160
+      ],
+      "file": "overview-gradient-overlay.png",
+      "semantics": "generated BG0 overlay before other BG/OBJ composition",
+      "sha256": "a33d3ac09b7b6f27611ee09aaaf9a4c26c242134227892f8754a27fd5d3ab971"
+    },
+    "tilemap": {
+      "dimensions": [
+        30,
+        20
+      ],
+      "file": "generated-tilemap-30x20.bin",
+      "layout": {
+        "blank_tile": 256,
+        "gradient_rows": [
+          {
+            "row": 4,
+            "tile": 53505
+          },
+          {
+            "row": 5,
+            "tile": 53506
+          },
+          {
+            "row": 6,
+            "tile": 53507
+          },
+          {
+            "row": 7,
+            "tile": 53508
+          },
+          {
+            "row": 8,
+            "tile": 53509
+          },
+          {
+            "row": 9,
+            "tile": 53510
+          },
+          {
+            "row": 10,
+            "tile": 53511
+          },
+          {
+            "row": 11,
+            "tile": 53512
+          },
+          {
+            "row": 12,
+            "tile": 53513
+          },
+          {
+            "row": 13,
+            "tile": 53514
+          }
+        ],
+        "palette_bank": 13
+      },
+      "sha256": "9d3188d3ef983613085b4808e19063e4bb1b4be955aa6e67041ae07a73a0d523",
+      "size": 1200
+    },
+    "tiles": {
+      "file": "generated-tiles.4bpp.bin",
+      "sha256": "9c54d11cc0b46d60728f59611b2181241626bfaad61c479536a14dbf0e54a2e4",
+      "size": 352,
+      "tile_base": 256,
+      "tile_count": 11
+    }
+  },
+  "generator": {
+    "code": {
+      "gba_end_exclusive": "0x0808DA80",
+      "gba_start": "0x0808D934",
+      "sha256": "d5c6e7269c416817aae299d3d987c27abda6c1bde1a1edea0932329ce7179e96",
+      "size": 332
+    },
+    "copy_routes": [
+      {
+        "call": "0x0808D9C6",
+        "destination": "0x06002000",
+        "size": 352,
+        "source": "0x02002AB0"
+      },
+      {
+        "call": "0x0808DA0E",
+        "destination": "0x050001A0",
+        "size": 32,
+        "source": "0x02002C10"
+      },
+      {
+        "call": "0x0808DA6E",
+        "destination": "0x06000000",
+        "destination_stride_cells": 32,
+        "dimensions": [
+          30,
+          20
+        ],
+        "source": "0x02002C30"
+      }
+    ],
+    "destinations": {
+      "pram_palette": "0x050001A0",
+      "vram_tilemap": "0x06000000",
+      "vram_tiles": "0x06002000",
+      "work_palette": "0x02002C10",
+      "work_tilemap": "0x02002C30",
+      "work_tiles": "0x02002AB0"
+    },
+    "formulas": {
+      "palette_bgr555": "component | component << 5 | component << 10",
+      "palette_component": "0 if index == 0 else 20 - index",
+      "pixel_index": "floor(y * 15 / 80) + 1",
+      "tile_scanline": "pixel_index repeated across all 8 pixels of scanline y"
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "96bdef3dbf230b60923ac0406948c3d6c5c6b5da511e069f05410d905962abd5",
+    "test_sha256": "43f2397bd80bdb7d286c7133fd9a358fce2a726f581061361eeaf94f108b999d",
+    "verifier_sha256": "85545b8ed01160c0c8dced1104c8e2c269703e77422a6354e1bb59f491c5f287"
+  },
+  "parent_unmatched_resolution": {
+    "baseline": {
+      "global_unmatched_cell_count": 898,
+      "global_unmatched_distinct_hash_count": 39,
+      "target_layer_unmatched_cell_count": 717,
+      "target_layer_unmatched_distinct_hash_count": 17
+    },
+    "parent": {
+      "artifact": "artifacts/initializer-resource-pack-v1/initializer-resource-pack.json",
+      "artifact_sha256": "c096e70c033f804548446272c47d43bfefa72eed173841e152c630c5436efba8",
+      "manifest": "artifacts/initializer-resource-pack-v1/manifest.json",
+      "manifest_sha256": "8fc7c3ea449b480c5065a97e70d0f6c5c0fa30a0dc3f942931f6be86264337a4"
+    },
+    "remaining": {
+      "global_unmatched_cell_count": 598,
+      "global_unmatched_distinct_hash_count": 29,
+      "target_layer_unmatched_cell_count": 417,
+      "target_layer_unmatched_distinct_hash_count": 7
+    },
+    "resolved": {
+      "cell_count": 300,
+      "classification": "generated_overview_gradient_content",
+      "distinct_hash_count": 10,
+      "parent_records": [
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              128,
+              158
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002020",
+          "runtime_tile_id": 257,
+          "runtime_tile_sha256": "8315e83d8f2685f0494e97c8a607cc9b9f57277e3b2ef61184ce55e3aac92e7e"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              160,
+              190
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002040",
+          "runtime_tile_id": 258,
+          "runtime_tile_sha256": "acfea8b5988c1fbbd151f41425c1c8af0d0f82e5925d5e9b0d63070934ba3344"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              192,
+              222
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002060",
+          "runtime_tile_id": 259,
+          "runtime_tile_sha256": "66dcd7f4c7fca324d7599033873110b6a193c5a4fd52e132c1e0b3151a6bbab3"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              224,
+              254
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002080",
+          "runtime_tile_id": 260,
+          "runtime_tile_sha256": "84c277f960bd3640b49d68afc037d30fc3352f60c52846e209ac4e5e435a3caa"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              256,
+              286
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x060020A0",
+          "runtime_tile_id": 261,
+          "runtime_tile_sha256": "6a8f085ccefd21c90a9bfe975edd7b62752a15792192627b3f2899048df22aef"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              288,
+              318
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x060020C0",
+          "runtime_tile_id": 262,
+          "runtime_tile_sha256": "211810fb9fa2e20556d8694bfe5b9875eae8b04c81bb354fc9ff5eb4e4f3221a"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              320,
+              350
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x060020E0",
+          "runtime_tile_id": 263,
+          "runtime_tile_sha256": "c92309b752a8bc3305f9aece52410b52164aa9f0c92f3bea2690013773e94272"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              352,
+              382
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002100",
+          "runtime_tile_id": 264,
+          "runtime_tile_sha256": "b5f92c171aa82154f0825e6041105c79ce228c5d443ff1dc6e7c6cb182a0e65e"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              384,
+              414
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002120",
+          "runtime_tile_id": 265,
+          "runtime_tile_sha256": "36b7b5d81232061ea1a3032a11769f2d152bec0eadb7c69c6e609d1df92d255b"
+        },
+        {
+          "cell_count": 30,
+          "classification": "unmatched_nonfont_content",
+          "flip_hv": [
+            false,
+            false
+          ],
+          "linear_cell_ranges": [
+            [
+              416,
+              446
+            ]
+          ],
+          "runtime_palette_bank": 13,
+          "runtime_tile_address": "0x06002140",
+          "runtime_tile_id": 266,
+          "runtime_tile_sha256": "5cb8518ebc09c4d71322038d6aa74c53e68f5275b90c6c8f91046da56e0ed72f"
+        }
+      ],
+      "runtime_tile_ids": [
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266
+      ],
+      "runtime_tile_sha256": [
+        "8315e83d8f2685f0494e97c8a607cc9b9f57277e3b2ef61184ce55e3aac92e7e",
+        "acfea8b5988c1fbbd151f41425c1c8af0d0f82e5925d5e9b0d63070934ba3344",
+        "66dcd7f4c7fca324d7599033873110b6a193c5a4fd52e132c1e0b3151a6bbab3",
+        "84c277f960bd3640b49d68afc037d30fc3352f60c52846e209ac4e5e435a3caa",
+        "6a8f085ccefd21c90a9bfe975edd7b62752a15792192627b3f2899048df22aef",
+        "211810fb9fa2e20556d8694bfe5b9875eae8b04c81bb354fc9ff5eb4e4f3221a",
+        "c92309b752a8bc3305f9aece52410b52164aa9f0c92f3bea2690013773e94272",
+        "b5f92c171aa82154f0825e6041105c79ce228c5d443ff1dc6e7c6cb182a0e65e",
+        "36b7b5d81232061ea1a3032a11769f2d152bec0eadb7c69c6e609d1df92d255b",
+        "5cb8518ebc09c4d71322038d6aa74c53e68f5275b90c6c8f91046da56e0ed72f"
+      ]
+    },
+    "scope": "This subtracts only exact generated tile-content matches from the hash-bound initializer unknown denominator; it does not reclassify the remaining target layer or any untracked visual state.",
+    "target_layer": {
+      "bg_index": 0,
+      "checkpoint": "alternate-character-overview.ss9",
+      "parent_layer_key": "2fbdef9cfd54e82609eeff1b19b957bdcf495a0c57e65f4d1593322c3ec1d782:bg0",
+      "parent_layer_sha256": "3777b2370fd5d31d681acba378fd1ff8b2c504f433d8f383cace6e119948d007"
+    }
+  },
+  "rom": {
+    "file": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "runtime_binding": {
+    "active_task": {
+      "controller_range": [
+        "0x0808DCE0",
+        "0x0808E08E"
+      ],
+      "lr": "0x0808DF1B",
+      "resume_pc": "0x0808DF1A",
+      "slot": 2,
+      "sp": "0x030011D4",
+      "type": 2
+    },
+    "bg0cnt": "0x0002",
+    "checkpoint": "artifacts/runtime-checkpoints/alternate-character-overview.ss9",
+    "checkpoint_sha256": "209bf3c7321fedc93a6c957fb2c7b46f0d48aa56ea5c4bb3858fce93d0a336f6",
+    "evidence_contract": "hash-bound generator and caller code, active overview controller task, and exact generated EWRAM/VRAM/PRAM domains jointly bind this checkpoint; no claim is made for unobserved callers",
+    "exact_matches": {
+      "pram_palette": true,
+      "vram_tilemap_visible_30x20": true,
+      "vram_tiles": true,
+      "work_palette": true,
+      "work_tilemap": true,
+      "work_tiles": true
+    },
+    "identity_status": "checkpoint_writer_proven",
+    "runtime_sha256": {
+      "pram_palette": "19b43b15fd2dcc824f03e524fad7a77d990ecb7b79eb3fa876ac862a53b7c7a5",
+      "vram_tilemap_visible_30x20": "9d3188d3ef983613085b4808e19063e4bb1b4be955aa6e67041ae07a73a0d523",
+      "vram_tiles": "9c54d11cc0b46d60728f59611b2181241626bfaad61c479536a14dbf0e54a2e4",
+      "work_palette": "19b43b15fd2dcc824f03e524fad7a77d990ecb7b79eb3fa876ac862a53b7c7a5",
+      "work_tilemap": "9d3188d3ef983613085b4808e19063e4bb1b4be955aa6e67041ae07a73a0d523",
+      "work_tiles": "9c54d11cc0b46d60728f59611b2181241626bfaad61c479536a14dbf0e54a2e4"
+    },
+    "tilemap_cell_count": 600,
+    "tilemap_exact_cell_count": 600
+  },
+  "schema": "overview-gradient-overlay-v1",
+  "scope": {
+    "all_callers_runtime_bound": false,
+    "all_game_visual_states_complete": false,
+    "generated_tiles_palette_tilemap_losslessly_exported": true,
+    "generator_algorithm_code_verified": true,
+    "generic_image_writeback_complete": false,
+    "overview_checkpoint_hardware_destinations_exact": true,
+    "overview_checkpoint_work_buffers_exact": true,
+    "overview_checkpoint_writer_identity_complete": true,
+    "whole_overview_screen_source_identity_complete": false
+  }
+}
