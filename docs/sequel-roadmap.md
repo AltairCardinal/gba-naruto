@@ -1405,3 +1405,16 @@ WebSocket
   `notes/bg-resource-writeback-20260731.md`。canvas底部运行时填充的PNG逆编译、
   资源迁移/指针改写、任意编辑容量、完整运行时选择和最终BG/OBJ/window/blend
   像素等价仍未完成，Goal保持active。
+- 2026-07-31：角色战斗视觉矩阵的250套 raw 4bpp graphics 已从无损导出推进到
+  固定长度安全回编。250个资源对应250个唯一物理指针和250份唯一内容，总计
+  60,430 tiles / 1,933,760 bytes；342个逻辑slot中的共享资源会完整披露全部
+  alias。新 `character_battle_graphics` 构建类型从基准ROM和catalog重建
+  2,004帧、2,190个component，逐资源验证
+  `max(tile_end)==graphics.size/32`、graphics末端等于首个frame/component指针，
+  并确认250个graphics彼此及与palette/component/frame table/timeline/animation
+  table零交叉。任意同长度且32-byte对齐的raw像素可原位覆盖；descriptor和结构
+  字节保持不变。独立verifier不导入实现，重建完整分母并拒绝重签语义篡改，成果
+  位于`artifacts/character-battle-graphics-writeback-v1/`，说明见
+  `notes/character-battle-graphics-writeback-20260731.md`。变长graphics、
+  frame/component/animation编辑、迁移/指针改写、运行时slot选择及修改后最终
+  像素等价仍未完成，Goal保持active。

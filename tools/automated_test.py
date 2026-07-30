@@ -234,6 +234,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "bytes", "dialogue", "pointer_redirect", "map", "battle_config",
             "dialogue_var", "chapter_script", "menu_portrait", "map_resource",
             "battle_effect_resource", "character_battle_palette", "bg_resource",
+            "character_battle_graphics",
         }
         errors = []
         for patch in manifest["patches"]:

@@ -156,6 +156,26 @@ graphics/palette/tilemap：tile index、4bpp palette bank 和8bpp像素索引均
 }
 ```
 
+### `character_battle_graphics`
+
+把角色战斗视觉矩阵的250套 raw 4bpp graphics 固定长度原位回编。规格使用
+`character-battle-graphics-import-v1`；每项以物理 graphics 指针、原始 SHA-256、
+resource ID、tile 数和完整 slot rows 标识。输入必须与原资源长度完全相同并按
+32-byte tile 对齐。
+
+构建器会从 catalog 和基准 ROM 重建342个逻辑槽、2,190个 component 和60,430个
+tile，验证每个资源的 `max(tile_end)==tile_count`，并确认 graphics 与 palette、
+component、frame/timeline 表零交叉。只改目标 graphics 字节，不修改 descriptor
+或结构指针。
+
+```json
+{
+  "id": "character-battle-graphics-import",
+  "type": "character_battle_graphics",
+  "spec": "sequel/content/character-battle-graphics/graphics-edits.json"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -230,6 +250,7 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
+- `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 

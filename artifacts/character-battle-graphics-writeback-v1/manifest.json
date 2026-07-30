@@ -1,0 +1,53 @@
+{
+  "artifact_id": "character-battle-graphics-writeback-v1",
+  "artifact_schema": "character-battle-graphics-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "character-battle-graphics-writeback.json": "61f5ddd4caf7ab565e8a13391c364dea247e7bf8fb41e212ff55fd87fa915fd6"
+  },
+  "payload_file": "character-battle-graphics-writeback.json",
+  "payload_sha256": "61f5ddd4caf7ab565e8a13391c364dea247e7bf8fb41e212ff55fd87fa915fd6",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_component_tile_ranges_accounted": true,
+    "all_physical_graphics_audited": true,
+    "all_resource_references_accounted": true,
+    "all_slot_references_accounted": true,
+    "arbitrary_fixed_length_raw_graphics_writeback_complete": true,
+    "frame_structure_writeback_complete": false,
+    "generic_image_writeback_complete": false,
+    "graphics_structure_non_overlap_complete": true,
+    "guarded_fixed_length_importer_available": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "runtime_slot_selection_complete": false,
+    "same_resource_slot_aliases_atomic": true,
+    "variable_length_writeback_complete": false
+  },
+  "summary": {
+    "component_count": 2190,
+    "frame_count": 2004,
+    "graphics_byte_count": 1933760,
+    "maximum_graphics_size": 26624,
+    "minimum_graphics_size": 1600,
+    "mutation_writeback_count": 250,
+    "original_roundtrip_count": 250,
+    "physical_graphics_count": 250,
+    "resource_count": 250,
+    "slot_reference_count": 342,
+    "tile_count": 60430,
+    "unique_content_count": 250
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_graphics_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-graphics-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}
