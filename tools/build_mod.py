@@ -329,6 +329,21 @@ def resolve_character_battle_graphics_patch(
     )
 
 
+def resolve_character_battle_structure_patch(
+    ctx_roots: tuple[Path, Path], patch: dict
+) -> list[dict]:
+    from import_character_battle_structures import (
+        resolve_character_battle_structure_patches,
+    )
+
+    spec = ROOT / patch["spec"]
+    return resolve_character_battle_structure_patches(
+        ROOT,
+        spec,
+        rom=(ROOT / "rom/base.gba").read_bytes(),
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
@@ -617,6 +632,28 @@ def build(project_path: Path) -> dict:
                     "affected_slot_rows",
                     "logical_aliases",
                     "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "character_battle_structure":
+            sub_patches = resolve_character_battle_structure_patch(
+                (ROOT, ROOT),
+                patch,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "structure_type",
+                    "resource_id",
+                    "frame_id",
+                    "component_index",
+                    "animation_id",
+                    "keyframe_index",
+                    "semantic_after",
+                    "affected_slot_rows",
+                    "logical_aliases",
                 ):
                     if key in sp:
                         result[key] = sp[key]

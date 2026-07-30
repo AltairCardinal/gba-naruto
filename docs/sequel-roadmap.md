@@ -1418,3 +1418,16 @@ WebSocket
   `notes/character-battle-graphics-writeback-20260731.md`。变长graphics、
   frame/component/animation编辑、迁移/指针改写、运行时slot选择及修改后最终
   像素等价仍未完成，Goal保持active。
+- 2026-07-31：角色战斗视觉结构已从只读解析推进到同布局高层回编。新
+  `character_battle_structure` 构建类型可修改现有component的tile、H/V flip、
+  s16局部坐标和12种已验证OBJ尺寸，也可修改animation keyframe的frame引用与
+  非零hold；每项只覆盖原20-byte/4-byte记录。构建前从ROM和catalog重建
+  250资源、342逻辑slot、2,004帧、2,190 component、784 animation和3,187
+  keyframe，并验证所有tile/frame边界、pointer table、region长度和terminator。
+  2,003个`ffff0000`及唯一`0x0825A8E4=fffb0000` trailer均原样保留。独立审计
+  证明2,190/2,190 component及3,187/3,187 keyframe可原样语义重编码且均有合法
+  同长度真实变异；verifier不导入实现并拒绝重签篡改。成果位于
+  `artifacts/character-battle-structure-writeback-v1/`，说明见
+  `notes/character-battle-structure-writeback-20260731.md`。新增/删除结构项、
+  pointer/region迁移、运行时slot选择、相机/priority/blend及最终像素时序等价仍
+  未完成，Goal保持active。

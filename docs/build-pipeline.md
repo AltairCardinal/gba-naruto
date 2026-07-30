@@ -176,6 +176,25 @@ component、frame/timeline 表零交叉。只改目标 graphics 字节，不修�
 }
 ```
 
+### `character_battle_structure`
+
+按高层字段编辑角色战斗视觉的现有 component 和 animation keyframe。规格使用
+`character-battle-structure-import-v1`；component 可改 tile、H/V flip、局部
+x/y 和已验证 OBJ 尺寸，keyframe 可改 frame ID 和非零 hold。
+
+构建器会重建250个资源、2,004帧、2,190个 component、784条 animation 和
+3,187个 keyframe，验证 tile/frame 边界及完整 slot alias。每项修改只覆盖原
+20-byte component 或4-byte keyframe；pointer table、数量、region 长度和
+terminator 均不可改变，唯一 `fffb0000` 异常 frame trailer 原样保留。
+
+```json
+{
+  "id": "character-battle-structure-import",
+  "type": "character_battle_structure",
+  "spec": "sequel/content/character-battle-structures/structure-edits.json"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -251,6 +270,7 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编
+- `character_battle_structure` 角色 component/keyframe 的同布局高层语义回编
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 

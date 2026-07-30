@@ -1,0 +1,51 @@
+{
+  "artifact_id": "character-battle-structure-writeback-v1",
+  "artifact_schema": "character-battle-structure-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "character-battle-structure-writeback.json": "020f65dbdb9041a9a6b99a93aba3c62abf889727e22afddf9e0624d44a480313"
+  },
+  "payload_file": "character-battle-structure-writeback.json",
+  "payload_sha256": "020f65dbdb9041a9a6b99a93aba3c62abf889727e22afddf9e0624d44a480313",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_animations_and_keyframes_audited": true,
+    "all_frames_and_components_audited": true,
+    "all_resources_audited": true,
+    "all_slot_aliases_accounted": true,
+    "anomalous_trailer_preserved": true,
+    "component_semantic_writeback_complete": true,
+    "keyframe_semantic_writeback_complete": true,
+    "pointer_rewrite_complete": false,
+    "pointer_tables_immutable": true,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "runtime_slot_selection_complete": false,
+    "terminators_immutable": true,
+    "variable_count_structure_writeback_complete": false
+  },
+  "summary": {
+    "animation_count": 784,
+    "anomalous_trailer_count": 1,
+    "component_count": 2190,
+    "component_mutation_count": 2190,
+    "component_roundtrip_count": 2190,
+    "frame_count": 2004,
+    "keyframe_count": 3187,
+    "keyframe_mutation_count": 3187,
+    "keyframe_roundtrip_count": 3187,
+    "resource_count": 250,
+    "slot_reference_count": 342
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_structure_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-structure-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}
