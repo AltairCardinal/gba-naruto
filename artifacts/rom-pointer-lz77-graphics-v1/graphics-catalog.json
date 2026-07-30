@@ -1,0 +1,1517 @@
+{
+  "graphics": [
+    {
+      "decompressed_sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40",
+      "decompressed_size": 1024,
+      "graphics_address": "0x080B9E94",
+      "graphics_file_offset": 761492,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "lz77_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x080694D2",
+            "code_sha256": "782c5ae9964738fc8a96b49759753c2a90b64fd022e18610a847c625d7cd57bb",
+            "code_size": 8,
+            "destination": "0x05000180",
+            "graphics_user": "0x080694C6",
+            "kind": "lz77_rom",
+            "loader": "LZ77UnCompVram",
+            "size": 32,
+            "source_address": "0x080B9F5C",
+            "source_load": "0x080694CE"
+          }
+        ],
+        "source_addresses": [
+          "0x080B9F5C"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/080b9e94-080b9f5c-bank-00.png",
+          "height": 16,
+          "palette_address": "0x080B9F5C",
+          "palette_bank": 0,
+          "palette_origin": "lz77_rom",
+          "palette_sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
+          "png_sha256": "f8b3c157f624ea28a431537e44c6f03b2b0a908c6e51c7a32686803798ff9709",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "97260176f5d96284f45e36a786b91951ae79e55dcb65c1dd11936ab368001a54",
+      "decompressed_size": 128,
+      "graphics_address": "0x0812C8B0",
+      "graphics_file_offset": 1231024,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "unresolved",
+        "operation_evidence": [],
+        "source_addresses": []
+      },
+      "previews": [
+        {
+          "file": "previews/0812c8b0-index-only.png",
+          "height": 8,
+          "palette_address": null,
+          "palette_bank": 0,
+          "palette_origin": "synthetic_index_only",
+          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+          "png_sha256": "6d94bb3a55b5473238d5b1f6fbe34a9a6a165f2ca90b0bb7e9a71bedd1fa6a28",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 32
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "a58292fac1752ac0fb2cae52b220f6c1d40a90eb4a5f396b5fa2e6558d7ffa64",
+      "decompressed_size": 64,
+      "graphics_address": "0x0812D134",
+      "graphics_file_offset": 1233204,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "unresolved",
+        "operation_evidence": [],
+        "source_addresses": []
+      },
+      "previews": [
+        {
+          "file": "previews/0812d134-index-only.png",
+          "height": 8,
+          "palette_address": null,
+          "palette_bank": 0,
+          "palette_origin": "synthetic_index_only",
+          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+          "png_sha256": "355146a97c7702c5955c10f7ab07ff67192c398c67bf9584970b4bb244e6e5b1",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 16
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "4659a40fdf0430232e594f3f8ac3a544e749c6e7de35a5d1d5805567556c0e15",
+      "decompressed_size": 1344,
+      "graphics_address": "0x0812D2F0",
+      "graphics_file_offset": 1233648,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "unresolved",
+        "operation_evidence": [],
+        "source_addresses": []
+      },
+      "previews": [
+        {
+          "file": "previews/0812d2f0-index-only.png",
+          "height": 24,
+          "palette_address": null,
+          "palette_bank": 0,
+          "palette_origin": "synthetic_index_only",
+          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+          "png_sha256": "a568194f034014d1284da087c16e61d64e39673a7204e44774dc0239b761ea0f",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "a1b8359ba32e4d709124e556abfd1ba53c535c547629abae13cbd24181338c71",
+      "decompressed_size": 2400,
+      "graphics_address": "0x083481E0",
+      "graphics_file_offset": 3441120,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "lz77_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08080EFE",
+            "code_sha256": "730f9d8d0c59b8b22fb429b2b3b2f026e781fd79cf743ba7760c3e27dd1ce46d",
+            "code_size": 8,
+            "destination": "0x050003C0",
+            "graphics_user": "0x08080EF2",
+            "kind": "lz77_rom",
+            "loader": "LZ77UnCompVram",
+            "size": 32,
+            "source_address": "0x08348668",
+            "source_load": "0x08080EFA"
+          }
+        ],
+        "source_addresses": [
+          "0x08348668"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/083481e0-08348668-bank-00.png",
+          "height": 40,
+          "palette_address": "0x08348668",
+          "palette_bank": 0,
+          "palette_origin": "lz77_rom",
+          "palette_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+          "png_sha256": "3dd57d37079c6b86260c205f82795f6bede662b2ef730b8aa4a40fd249ff39a7",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "0657b696d1702bd2a543b38857b46125731f34e6425effd3b030e41556895d79",
+      "decompressed_size": 960,
+      "graphics_address": "0x08348A3C",
+      "graphics_file_offset": 3443260,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808932A",
+            "code_sha256": "884e2802cb07dae66fb6b2d92582b8ecb3538ec07dfb821ad30eb2b169443a54",
+            "code_size": 10,
+            "destination": "0x05000300",
+            "graphics_user": "0x0808931C",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08348BE4",
+            "source_load": "0x08089324",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x08348BE4"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08348a3c-08348be4-bank-00.png",
+          "height": 16,
+          "palette_address": "0x08348BE4",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "6c8893d616cce74a88bbcc1b5ce8a91e5188c530d31b65f19c3ba1577467198e",
+          "png_sha256": "209b1206b1edc3071430d5f723f25305e8e307b85ba432d28a5678d92bf5826f",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+      "decompressed_size": 2176,
+      "graphics_address": "0x08348F00",
+      "graphics_file_offset": 3444480,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808B5E2",
+            "code_sha256": "6ca141535de5a216caabf767fef361bddb25505837cf900a254c2a738e0c7bc7",
+            "code_size": 10,
+            "destination": "0x05000020",
+            "graphics_user": "0x0808B5D4",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x0834941C",
+            "source_load": "0x0808B5DC",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x0834941C"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08348f00-0834941c-bank-00.png",
+          "height": 40,
+          "palette_address": "0x0834941C",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+          "png_sha256": "e449992353c0e685138d26eebbcd8740d37dafd32e426d4c66a969d567f7686d",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
+      "decompressed_size": 1280,
+      "graphics_address": "0x08349368",
+      "graphics_file_offset": 3445608,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "unresolved",
+        "operation_evidence": [],
+        "source_addresses": []
+      },
+      "previews": [
+        {
+          "file": "previews/08349368-index-only.png",
+          "height": 24,
+          "palette_address": null,
+          "palette_bank": 0,
+          "palette_origin": "synthetic_index_only",
+          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+          "png_sha256": "93edeb4bb358465435027bbcd190efe52639b9000df98ec7a09aeaf23488576b",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "01d33444012185e56e279086c4feb8eac4768b45446b4c861b2e5b3f05ebacae",
+      "decompressed_size": 1152,
+      "graphics_address": "0x0834943C",
+      "graphics_file_offset": 3445820,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808B5D0",
+            "code_sha256": "85e372bb9f8faad581c068c67363fcdfd55d8fcee8d147f86dfadd9ca6a692de",
+            "code_size": 10,
+            "destination": "0x050003C0",
+            "graphics_user": "0x0808B5C2",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x083496B0",
+            "source_load": "0x0808B5CA",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x083496B0"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/0834943c-083496b0-bank-00.png",
+          "height": 24,
+          "palette_address": "0x083496B0",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "ea3242236994abb7dd34e690f17a4257a7166f2586acd55c7743f0224b0dd3dd",
+          "png_sha256": "354980baf492069cbd3b19fcc5c5c7a0e2814f9f422970f49298f2e32d9a0d3e",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "0b079699856f54d695ce3190cae2cda5e74a17dcc2456813bc716b4f12cd375b",
+      "decompressed_size": 128,
+      "graphics_address": "0x083496F8",
+      "graphics_file_offset": 3446520,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "unresolved",
+        "operation_evidence": [],
+        "source_addresses": []
+      },
+      "previews": [
+        {
+          "file": "previews/083496f8-index-only.png",
+          "height": 8,
+          "palette_address": null,
+          "palette_bank": 0,
+          "palette_origin": "synthetic_index_only",
+          "palette_sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+          "png_sha256": "35553d25eb4748459a5e73db4b9beb777680e188a0e5e7d25e5edfe56e4ccca4",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 32
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "9244c573b838e6cffd516a43ffc110571669172e1bd7db329dffd5995003c392",
+      "decompressed_size": 4480,
+      "graphics_address": "0x083F00C8",
+      "graphics_file_offset": 4128968,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "lz77_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808B676",
+            "code_sha256": "9833ebec39b5116aa4369240923b365eea04dc4c837b22b735e660beed2b57ee",
+            "code_size": 10,
+            "destination": "0x05000000",
+            "graphics_user": "0x0808B65E",
+            "kind": "lz77_rom",
+            "loader": "LZ77UnCompVram",
+            "size": 32,
+            "source_address": "0x083F0AC8",
+            "source_load": "0x0808B670"
+          }
+        ],
+        "source_addresses": [
+          "0x083F0AC8"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/083f00c8-083f0ac8-bank-00.png",
+          "height": 72,
+          "palette_address": "0x083F0AC8",
+          "palette_bank": 0,
+          "palette_origin": "lz77_rom",
+          "palette_sha256": "a0b2e109a1f53d565e41bc05112ad6018b6a390b9b9dd902e93526a788a00217",
+          "png_sha256": "d891989c682715209fbfb11a9c177fd393bff7dd74a3cc899a4de02768b7d585",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "758151da506aaa50edcb3e2261418c5606daac309bf15d4e008a0046281fc7e4",
+      "decompressed_size": 1280,
+      "graphics_address": "0x083F08F4",
+      "graphics_file_offset": 4131060,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "lz77_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808B676",
+            "code_sha256": "9833ebec39b5116aa4369240923b365eea04dc4c837b22b735e660beed2b57ee",
+            "code_size": 10,
+            "destination": "0x05000000",
+            "graphics_user": "0x0808B666",
+            "kind": "lz77_rom",
+            "loader": "LZ77UnCompVram",
+            "size": 32,
+            "source_address": "0x083F0AC8",
+            "source_load": "0x0808B670"
+          }
+        ],
+        "source_addresses": [
+          "0x083F0AC8"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/083f08f4-083f0ac8-bank-00.png",
+          "height": 24,
+          "palette_address": "0x083F0AC8",
+          "palette_bank": 0,
+          "palette_origin": "lz77_rom",
+          "palette_sha256": "a0b2e109a1f53d565e41bc05112ad6018b6a390b9b9dd902e93526a788a00217",
+          "png_sha256": "9bca93755518363ffda705abebc9f3c7228b67036169467021668ebe3b90035d",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "dfaf8546650d59a8ad1ab1abf918feb4fbae953800e02806de14089dc6d2fbfd",
+      "decompressed_size": 2304,
+      "graphics_address": "0x083F21E4",
+      "graphics_file_offset": 4137444,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808BCC4",
+            "code_sha256": "a2d9409ea4d43c1eda01b69d231a3ac70a375d4d09233976836516d2b9112345",
+            "code_size": 10,
+            "destination": "0x05000200",
+            "graphics_user": "0x0808BCB6",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x083F2794",
+            "source_load": "0x0808BCBE",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x083F2794"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/083f21e4-083f2794-bank-00.png",
+          "height": 40,
+          "palette_address": "0x083F2794",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "14975f2391f88813040bbadc136bbfcaa736a408521af3701054bf0470d5a4f9",
+          "png_sha256": "ca8250bb13a99447647e6e8b244bd0da073c73006580bc8c1ddde7dff5e16fc6",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "7f3d6eba5afb1d4cd802b346f716d0aa65b23128dea4a57fdb31cfc29189a64f",
+      "decompressed_size": 1728,
+      "graphics_address": "0x083F2A18",
+      "graphics_file_offset": 4139544,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808BCD6",
+            "code_sha256": "bda1b5f26bde1e0a7ea81ea69a898b36d5b0ef2ae0471dd9abf10b5e4d02933d",
+            "code_size": 10,
+            "destination": "0x05000220",
+            "graphics_user": "0x0808BCC8",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x083F2CB0",
+            "source_load": "0x0808BCD0",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x083F2CB0"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/083f2a18-083f2cb0-bank-00.png",
+          "height": 32,
+          "palette_address": "0x083F2CB0",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
+          "png_sha256": "3f72da0184dd717ea7edd105e231a69017866bf7cab72f036696d09b2e5ed4ad",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "2c757d754c5f1c0e043bbbb878dbad37c221a6b2b60ab96f666680a94da08d91",
+      "decompressed_size": 512,
+      "graphics_address": "0x08405EA4",
+      "graphics_file_offset": 4218532,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08087046",
+            "code_sha256": "03dfffce1ea5040ff845cb165ffdad41b770996414eac664b395a9ecef7dc606",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x08087030",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08405FF0",
+            "source_load": "0x08087040",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808BFF4",
+            "code_sha256": "ba784035febc81186fa5c419369566a2b2750096f2afb1b09610fb6567b67802",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x0808BFDE",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 256,
+            "source_address": "0x08405FF0",
+            "source_load": "0x0808BFEE",
+            "unit_count": 128
+          },
+          {
+            "callsite": "0x0808C526",
+            "code_sha256": "7ee97bd30c7e6869db0e0806993d73fd02816ace64e154f2f94c8182e1092e2c",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x0808C50E",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08405FF0",
+            "source_load": "0x0808C520",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x08405FF0"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08405ea4-08405ff0-bank-00.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "4a62c376a2508420fd139a16e0c7b1c42a1e38e20f60b9c260a45799c1bda5e3",
+          "png_sha256": "38064d1ff784d255d88160ae908e9319c88a3e2eea472504ec970f1dea532793",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-01.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 1,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "31629052a5384238c3044fe8ac6de793aadd5fc2855b95da248a4a7a4a52871d",
+          "png_sha256": "39b036427cb4001ae5ab2b36a2ad5b9c121f4cf01e03ca0ca1592558c892bd83",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-02.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 2,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "ecac2d77d0fb5f6ea924f5a8aa0f643bf11f60c76df6ef61ec6a2cc104f4fcb5",
+          "png_sha256": "f69535790718178473188a76f074093e18420fa4e834ab4029a60fd49201fc3c",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-03.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 3,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "abf66aeb0e3a048b7e8fbdcf37a9568ba1e03c2c9ae8fd230fcba1290463f8e2",
+          "png_sha256": "9a503e98cb539b3bb6b3c66bcc311b627f67dbee64655f0975fd5ceb57bbe65d",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-04.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 4,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "44df60b35b3bf1eb6e57468d4922c199bd72104931051ccdefb467c8741a4934",
+          "png_sha256": "26ea5f5b64b9713f1bdfbf0ffa6ea8809227e073b827b61dbd456a7917ea6b2d",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-05.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 5,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "2f34b33a9facd89f3738e46a95dcefbb504afdfb719549aa065732915b365c83",
+          "png_sha256": "efc6b57405bd2c595a5cc859f07cad9f4a9b90699681a7cc6f71ef4ea70c6777",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-06.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 6,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "f1e0896171c3ef5d7bec3df5328fa46069cef1393cda6d3f03f4e5ef60454c2e",
+          "png_sha256": "de05be34db6fdd7cdd8a2d37f976f8d0c31d390a91dc7bf8e4855df49fe8acd5",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405ea4-08405ff0-bank-07.png",
+          "height": 8,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 7,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "9dca7deae878461d7e67bae4e60ac21e7c97cfe09e0d57bc69471a03079e902b",
+          "png_sha256": "a11180f91d47a18297de37eccbc04f5d415c8f333d4a78012910e101464ddd64",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "1b30ba083c2afd77ecf66986a1cecab33cef5a46147279af1e03815c281b2d70",
+      "decompressed_size": 1280,
+      "graphics_address": "0x08405F10",
+      "graphics_file_offset": 4218640,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08087046",
+            "code_sha256": "03dfffce1ea5040ff845cb165ffdad41b770996414eac664b395a9ecef7dc606",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x08087038",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08405FF0",
+            "source_load": "0x08087040",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808BFF4",
+            "code_sha256": "ba784035febc81186fa5c419369566a2b2750096f2afb1b09610fb6567b67802",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x0808BFE6",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 256,
+            "source_address": "0x08405FF0",
+            "source_load": "0x0808BFEE",
+            "unit_count": 128
+          },
+          {
+            "callsite": "0x0808C526",
+            "code_sha256": "7ee97bd30c7e6869db0e0806993d73fd02816ace64e154f2f94c8182e1092e2c",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x0808C516",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08405FF0",
+            "source_load": "0x0808C520",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x08405FF0"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08405f10-08405ff0-bank-00.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "4a62c376a2508420fd139a16e0c7b1c42a1e38e20f60b9c260a45799c1bda5e3",
+          "png_sha256": "ff5e234ac7bde218d81328a752f90de295170a0c9360beb28470754afa74eb6a",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-01.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 1,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "31629052a5384238c3044fe8ac6de793aadd5fc2855b95da248a4a7a4a52871d",
+          "png_sha256": "2e09d2e0945901f29f588eb2585cc90b67bdc4e9b4830d3e76865dd5f94e7669",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-02.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 2,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "ecac2d77d0fb5f6ea924f5a8aa0f643bf11f60c76df6ef61ec6a2cc104f4fcb5",
+          "png_sha256": "704afb31701877c295a4f7ee23cee1e6c316104d091d6731f6854f4a55b2e964",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-03.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 3,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "abf66aeb0e3a048b7e8fbdcf37a9568ba1e03c2c9ae8fd230fcba1290463f8e2",
+          "png_sha256": "85a34141f7d5f6d7ce4d5a0f46dcde90f04414306521f047935861785ad87f51",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-04.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 4,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "44df60b35b3bf1eb6e57468d4922c199bd72104931051ccdefb467c8741a4934",
+          "png_sha256": "466b5a082c8e890cc694b49ed694bbf070c2352b4592767119bb948f8f4beed9",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-05.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 5,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "2f34b33a9facd89f3738e46a95dcefbb504afdfb719549aa065732915b365c83",
+          "png_sha256": "ede26b63f7a1a2530256604699cbd67cf7ba33f98c271edc28f0d4413db65108",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-06.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 6,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "f1e0896171c3ef5d7bec3df5328fa46069cef1393cda6d3f03f4e5ef60454c2e",
+          "png_sha256": "d9d786f25e6310b8b18af46bb4d8e97a59791ffe5bdf43be2b740b84584e897b",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08405f10-08405ff0-bank-07.png",
+          "height": 24,
+          "palette_address": "0x08405FF0",
+          "palette_bank": 7,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "9dca7deae878461d7e67bae4e60ac21e7c97cfe09e0d57bc69471a03079e902b",
+          "png_sha256": "5533fe993a18e225e4d58246e3ca8c8207f869056b9b07c82046333f40800248",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "eea31d0d2012d3ec1c91a7c35340e4cdc25a8495c11092ec34f0a892401853ab",
+      "decompressed_size": 576,
+      "graphics_address": "0x08457D3C",
+      "graphics_file_offset": 4554044,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08079556",
+            "code_sha256": "c51a386364b310b615969f5de11fe948cc4caee460319404dc948b999c4dec97",
+            "code_size": 10,
+            "destination": "0x050003C0",
+            "graphics_user": "0x08079548",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08457EA8",
+            "source_load": "0x08079550",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808F1B8",
+            "code_sha256": "c62909950eac28cba189f2aa491793165c12edaba0dc48b1c9b73bc306ef440d",
+            "code_size": 10,
+            "destination": "0x050003C0",
+            "graphics_user": "0x0808F1A4",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08457EA8",
+            "source_load": "0x0808F1B2",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x08457EA8"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08457d3c-08457ea8-bank-00.png",
+          "height": 16,
+          "palette_address": "0x08457EA8",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+          "png_sha256": "7acf1e3e92c97d9eeecc3952b1b198f32b1c0daaf6d80c5228bb0103a0e313f5",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "537002ffe5973c72f365e22d67895350bb79ed76f4827bdd96a3d6be2b45242e",
+      "decompressed_size": 1792,
+      "graphics_address": "0x084580C8",
+      "graphics_file_offset": 4554952,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08086228",
+            "code_sha256": "d6133855fa7bf6d58afe0e9bfc777f273e2fc4634a2b900d364fda67c0537e60",
+            "code_size": 10,
+            "destination": "0x05000300",
+            "graphics_user": "0x0808621A",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x0845830C",
+            "source_load": "0x08086222",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808894C",
+            "code_sha256": "e56c4b966bb46c827751744bacff12a94da56ddf34c6ac63616d2d73ba7ccd60",
+            "code_size": 10,
+            "destination": "0x05000300",
+            "graphics_user": "0x0808893E",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x0845830C",
+            "source_load": "0x08088946",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808DD0E",
+            "code_sha256": "f297a160aebc87329870c06594a252b486617adb4f5a37cded72cf6bc134982e",
+            "code_size": 10,
+            "destination": "0x05000300",
+            "graphics_user": "0x0808DD00",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x0845830C",
+            "source_load": "0x0808DD08",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x0845830C"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/084580c8-0845830c-bank-00.png",
+          "height": 32,
+          "palette_address": "0x0845830C",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "379538be95492f6c67e56da98330241de43996021a339f41735769dd9e49fff2",
+          "png_sha256": "d82d2c39ed8d65538f6142389eeb1339089711702ef7d7b525d5fcce8d816822",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+      "decompressed_size": 3072,
+      "graphics_address": "0x08463688",
+      "graphics_file_offset": 4601480,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x08091668",
+            "code_sha256": "434448d33c6974a7da4048cf8ab93993b6b19edaec40a02c5ae03e447d47ac31",
+            "code_size": 10,
+            "destination": "0x05000180",
+            "graphics_user": "0x0809165A",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x084638D4",
+            "source_load": "0x08091662",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x08091672",
+            "code_sha256": "52f56ccfffb9a7bcb64d97263dd165446eec2274d7144adca9f5b4417755bb81",
+            "code_size": 10,
+            "destination": "0x050001A0",
+            "graphics_user": "0x0809165A",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x084638F4",
+            "source_load": "0x0809166C",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x084638D4",
+          "0x084638F4"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/08463688-084638d4-bank-00.png",
+          "height": 48,
+          "palette_address": "0x084638D4",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "1a3f7ca023287acbbe2f4f7aa80e52160f687e5d791603a96e8c04ec13a155e7",
+          "png_sha256": "b2c46de67529a389e91ad3e7fcd7bd088cf369decde38d586ba962e605a8d3a3",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        },
+        {
+          "file": "previews/08463688-084638f4-bank-00.png",
+          "height": 48,
+          "palette_address": "0x084638F4",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+          "png_sha256": "9e34cde1b258f444fdab3b24e99abeef005f2fb82498d61823ae17db52377341",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "2d9444c08bd4ad61bea7b9f977d423f960af2a0f4ee4257e3eecff5e1264aa15",
+      "decompressed_size": 1664,
+      "graphics_address": "0x085B6000",
+      "graphics_file_offset": 5988352,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x080706E2",
+            "code_sha256": "7c18f379bc4275c4ba482dfd02ceadbffb9e57f877b3e136ee9c3541e12bf3b9",
+            "code_size": 10,
+            "destination": "0x050003A0",
+            "graphics_user": "0x080706D4",
+            "kind": "raw_rom",
+            "loader": "CpuFastSet",
+            "size": 32,
+            "source_address": "0x08463FFC",
+            "source_load": "0x080706DC",
+            "unit_count": 8
+          },
+          {
+            "callsite": "0x08078B6C",
+            "code_sha256": "7243fea91696fd2c6aca195f2bb349ca99151a99ca1cd3d0347beb43103b6e3e",
+            "code_size": 16,
+            "destination": "0x05000380",
+            "graphics_user": "0x08078B58",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08463FFC",
+            "source_load": "0x08078B60",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0808ECFC",
+            "code_sha256": "efd33a5f45cbb8630850607b16a26be6ea5acea791130131d119b7c1566d173f",
+            "code_size": 10,
+            "destination": "0x05000380",
+            "graphics_user": "0x0808ECEE",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08463FFC",
+            "source_load": "0x0808ECF6",
+            "unit_count": 16
+          },
+          {
+            "callsite": "0x0809571E",
+            "code_sha256": "9b7748f059940604e8e77ecaf603fe4852d0fbb10621b5d84d9b841faab9a068",
+            "code_size": 16,
+            "destination": "0x05000380",
+            "graphics_user": "0x0809570A",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x08463FFC",
+            "source_load": "0x08095712",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x08463FFC"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/085b6000-08463ffc-bank-00.png",
+          "height": 32,
+          "palette_address": "0x08463FFC",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "f668cd9e033cf7ed9902633fe6b9c3df99bc0a9bcb0aa1219912cf2ab9262e18",
+          "png_sha256": "2f4a28b5310814a3ff8e46593f779bc7cfa992dc31101c72dd37b6b898220342",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    },
+    {
+      "decompressed_sha256": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+      "decompressed_size": 8576,
+      "graphics_address": "0x085B6880",
+      "graphics_file_offset": 5990528,
+      "palette_binding": {
+        "discovery_rule": "actual r0 source to PRAM palette operation within the graphics literal user's 32-byte loader window",
+        "kind": "raw_rom",
+        "operation_evidence": [
+          {
+            "callsite": "0x0808BBE2",
+            "code_sha256": "38fb045210385b72fc922c47b34369229f868d0d325b9b3a84dcedb641ac9acc",
+            "code_size": 10,
+            "destination": "0x05000100",
+            "graphics_user": "0x0808BBCC",
+            "kind": "raw_rom",
+            "loader": "CpuSet",
+            "size": 32,
+            "source_address": "0x083F0AF0",
+            "source_load": "0x0808BBDC",
+            "unit_count": 16
+          }
+        ],
+        "source_addresses": [
+          "0x083F0AF0"
+        ]
+      },
+      "previews": [
+        {
+          "file": "previews/085b6880-083f0af0-bank-00.png",
+          "height": 136,
+          "palette_address": "0x083F0AF0",
+          "palette_bank": 0,
+          "palette_origin": "raw_rom",
+          "palette_sha256": "b11c213e0969ea51fb69f3b7060b5efcd06ce14b5ebf5c3c15c1955d07a8b50b",
+          "png_sha256": "b7cad5de14aec779dd980396faebeb8a07c1cbd6617f0f48fbd7ea6c0f67bad8",
+          "rendering_scope": "4bpp source-order tile atlas candidate; no tilemap, OAM, palette-bank selection or runtime composition",
+          "width": 128
+        }
+      ]
+    }
+  ],
+  "implementation": {
+    "exporter_sha256": "bc98847830a7925f43dd086c7193684da13aa206391725d9c4587d2a5531580d",
+    "test_sha256": "23c88d584e7920723e0b741cb9553037bdb76ecd04899957ea874fcbe6cda42c",
+    "verifier_sha256": "5e2fab207f0f30db600bbe9dd11a746c7a35491e1eee85a120bc06328273fbf7"
+  },
+  "raw_palette_sources": [
+    {
+      "bundle_offset": 0,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808932A",
+          "code_sha256": "884e2802cb07dae66fb6b2d92582b8ecb3538ec07dfb821ad30eb2b169443a54",
+          "code_size": 10,
+          "destination": "0x05000300",
+          "graphics_users": [
+            "0x0808931C"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08089324",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 3443684,
+      "gba_address": "0x08348BE4",
+      "sha256": "6c8893d616cce74a88bbcc1b5ce8a91e5188c530d31b65f19c3ba1577467198e",
+      "size": 32
+    },
+    {
+      "bundle_offset": 32,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808B5E2",
+          "code_sha256": "6ca141535de5a216caabf767fef361bddb25505837cf900a254c2a738e0c7bc7",
+          "code_size": 10,
+          "destination": "0x05000020",
+          "graphics_users": [
+            "0x0808B5D4"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808B5DC",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 3445788,
+      "gba_address": "0x0834941C",
+      "sha256": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+      "size": 32
+    },
+    {
+      "bundle_offset": 64,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808B5D0",
+          "code_sha256": "85e372bb9f8faad581c068c67363fcdfd55d8fcee8d147f86dfadd9ca6a692de",
+          "code_size": 10,
+          "destination": "0x050003C0",
+          "graphics_users": [
+            "0x0808B5C2"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808B5CA",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 3446448,
+      "gba_address": "0x083496B0",
+      "sha256": "ea3242236994abb7dd34e690f17a4257a7166f2586acd55c7743f0224b0dd3dd",
+      "size": 32
+    },
+    {
+      "bundle_offset": 96,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808BBE2",
+          "code_sha256": "38fb045210385b72fc922c47b34369229f868d0d325b9b3a84dcedb641ac9acc",
+          "code_size": 10,
+          "destination": "0x05000100",
+          "graphics_users": [
+            "0x0808BBCC"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808BBDC",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4131568,
+      "gba_address": "0x083F0AF0",
+      "sha256": "b11c213e0969ea51fb69f3b7060b5efcd06ce14b5ebf5c3c15c1955d07a8b50b",
+      "size": 32
+    },
+    {
+      "bundle_offset": 128,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808BCC4",
+          "code_sha256": "a2d9409ea4d43c1eda01b69d231a3ac70a375d4d09233976836516d2b9112345",
+          "code_size": 10,
+          "destination": "0x05000200",
+          "graphics_users": [
+            "0x0808BCB6"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808BCBE",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4138900,
+      "gba_address": "0x083F2794",
+      "sha256": "14975f2391f88813040bbadc136bbfcaa736a408521af3701054bf0470d5a4f9",
+      "size": 32
+    },
+    {
+      "bundle_offset": 160,
+      "copy_evidence": [
+        {
+          "callsite": "0x0808BCD6",
+          "code_sha256": "bda1b5f26bde1e0a7ea81ea69a898b36d5b0ef2ae0471dd9abf10b5e4d02933d",
+          "code_size": 10,
+          "destination": "0x05000220",
+          "graphics_users": [
+            "0x0808BCC8"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808BCD0",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4140208,
+      "gba_address": "0x083F2CB0",
+      "sha256": "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
+      "size": 32
+    },
+    {
+      "bundle_offset": 192,
+      "copy_evidence": [
+        {
+          "callsite": "0x08087046",
+          "code_sha256": "03dfffce1ea5040ff845cb165ffdad41b770996414eac664b395a9ecef7dc606",
+          "code_size": 10,
+          "destination": "0x05000100",
+          "graphics_users": [
+            "0x08087030",
+            "0x08087038"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08087040",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0808BFF4",
+          "code_sha256": "ba784035febc81186fa5c419369566a2b2750096f2afb1b09610fb6567b67802",
+          "code_size": 10,
+          "destination": "0x05000100",
+          "graphics_users": [
+            "0x0808BFDE",
+            "0x0808BFE6"
+          ],
+          "loader": "CpuSet",
+          "size": 256,
+          "source_load": "0x0808BFEE",
+          "unit_count": 128
+        },
+        {
+          "callsite": "0x0808C526",
+          "code_sha256": "7ee97bd30c7e6869db0e0806993d73fd02816ace64e154f2f94c8182e1092e2c",
+          "code_size": 10,
+          "destination": "0x05000100",
+          "graphics_users": [
+            "0x0808C50E",
+            "0x0808C516"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808C520",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4218864,
+      "gba_address": "0x08405FF0",
+      "sha256": "5450eec1d4290fbece155869547a8caccefad7c39d36cf05b56fc9f6f1b7ec60",
+      "size": 256
+    },
+    {
+      "bundle_offset": 448,
+      "copy_evidence": [
+        {
+          "callsite": "0x08079556",
+          "code_sha256": "c51a386364b310b615969f5de11fe948cc4caee460319404dc948b999c4dec97",
+          "code_size": 10,
+          "destination": "0x050003C0",
+          "graphics_users": [
+            "0x08079548"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08079550",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0808F1B8",
+          "code_sha256": "c62909950eac28cba189f2aa491793165c12edaba0dc48b1c9b73bc306ef440d",
+          "code_size": 10,
+          "destination": "0x050003C0",
+          "graphics_users": [
+            "0x0808F1A4"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808F1B2",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4554408,
+      "gba_address": "0x08457EA8",
+      "sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+      "size": 32
+    },
+    {
+      "bundle_offset": 480,
+      "copy_evidence": [
+        {
+          "callsite": "0x08086228",
+          "code_sha256": "d6133855fa7bf6d58afe0e9bfc777f273e2fc4634a2b900d364fda67c0537e60",
+          "code_size": 10,
+          "destination": "0x05000300",
+          "graphics_users": [
+            "0x0808621A"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08086222",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0808894C",
+          "code_sha256": "e56c4b966bb46c827751744bacff12a94da56ddf34c6ac63616d2d73ba7ccd60",
+          "code_size": 10,
+          "destination": "0x05000300",
+          "graphics_users": [
+            "0x0808893E"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08088946",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0808DD0E",
+          "code_sha256": "f297a160aebc87329870c06594a252b486617adb4f5a37cded72cf6bc134982e",
+          "code_size": 10,
+          "destination": "0x05000300",
+          "graphics_users": [
+            "0x0808DD00"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808DD08",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4555532,
+      "gba_address": "0x0845830C",
+      "sha256": "379538be95492f6c67e56da98330241de43996021a339f41735769dd9e49fff2",
+      "size": 32
+    },
+    {
+      "bundle_offset": 512,
+      "copy_evidence": [
+        {
+          "callsite": "0x08091668",
+          "code_sha256": "434448d33c6974a7da4048cf8ab93993b6b19edaec40a02c5ae03e447d47ac31",
+          "code_size": 10,
+          "destination": "0x05000180",
+          "graphics_users": [
+            "0x0809165A"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08091662",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4602068,
+      "gba_address": "0x084638D4",
+      "sha256": "1a3f7ca023287acbbe2f4f7aa80e52160f687e5d791603a96e8c04ec13a155e7",
+      "size": 32
+    },
+    {
+      "bundle_offset": 544,
+      "copy_evidence": [
+        {
+          "callsite": "0x08091672",
+          "code_sha256": "52f56ccfffb9a7bcb64d97263dd165446eec2274d7144adca9f5b4417755bb81",
+          "code_size": 10,
+          "destination": "0x050001A0",
+          "graphics_users": [
+            "0x0809165A"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0809166C",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4602100,
+      "gba_address": "0x084638F4",
+      "sha256": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+      "size": 32
+    },
+    {
+      "bundle_offset": 576,
+      "copy_evidence": [
+        {
+          "callsite": "0x080706E2",
+          "code_sha256": "7c18f379bc4275c4ba482dfd02ceadbffb9e57f877b3e136ee9c3541e12bf3b9",
+          "code_size": 10,
+          "destination": "0x050003A0",
+          "graphics_users": [
+            "0x080706D4"
+          ],
+          "loader": "CpuFastSet",
+          "size": 32,
+          "source_load": "0x080706DC",
+          "unit_count": 8
+        },
+        {
+          "callsite": "0x08078B6C",
+          "code_sha256": "7243fea91696fd2c6aca195f2bb349ca99151a99ca1cd3d0347beb43103b6e3e",
+          "code_size": 16,
+          "destination": "0x05000380",
+          "graphics_users": [
+            "0x08078B58"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08078B60",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0808ECFC",
+          "code_sha256": "efd33a5f45cbb8630850607b16a26be6ea5acea791130131d119b7c1566d173f",
+          "code_size": 10,
+          "destination": "0x05000380",
+          "graphics_users": [
+            "0x0808ECEE"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x0808ECF6",
+          "unit_count": 16
+        },
+        {
+          "callsite": "0x0809571E",
+          "code_sha256": "9b7748f059940604e8e77ecaf603fe4852d0fbb10621b5d84d9b841faab9a068",
+          "code_size": 16,
+          "destination": "0x05000380",
+          "graphics_users": [
+            "0x0809570A"
+          ],
+          "loader": "CpuSet",
+          "size": 32,
+          "source_load": "0x08095712",
+          "unit_count": 16
+        }
+      ],
+      "file_offset": 4603900,
+      "gba_address": "0x08463FFC",
+      "sha256": "f668cd9e033cf7ed9902633fe6b9c3df99bc0a9bcb0aa1219912cf2ab9262e18",
+      "size": 32
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-pointer-lz77-graphics-v1",
+  "scope": {
+    "all_game_visual_states_complete": false,
+    "all_previews_are_final_visible_images": false,
+    "all_raw_graphics_complete": false,
+    "generic_image_writeback_complete": false,
+    "new_pointer_reachable_graphics_records_cataloged": true,
+    "source_palette_bound_subset_previewed": true,
+    "tilemap_or_oam_composition_complete": false,
+    "unresolved_palette_records_index_previewed": true
+  },
+  "selection_rule": {
+    "accepted_operations": [
+      "r0 ROM LZ77 source -> LZ77UnCompVram -> PRAM, size 32",
+      "r0 ROM raw source -> CpuSet/CpuFastSet -> PRAM, exact unit count"
+    ],
+    "call_policy": "record actual arguments at BL, then invalidate r0-r3",
+    "sources": "all literal_load_users of the 21 source-inventory graphics records",
+    "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
+    "unresolved_rule": "no accepted palette operation in any record window",
+    "window_bytes": 32
+  },
+  "source_inventory": {
+    "manifest_sha256": "d524105b8a7892ff3c9129d9c8bde246d57d3f6de627fb3d62a71b83d0286dd2",
+    "path": "artifacts/rom-pointer-lz77-inventory-v1",
+    "payload_sha256": "2ecf955805d1f69bc38b4b41c2215243f07a0ed40c357cfcc94545cff2284cd7"
+  },
+  "summary": {
+    "graphics_record_count": 21,
+    "index_only_preview_count": 5,
+    "lz77_palette_bound_count": 4,
+    "preview_file_count": 36,
+    "raw_palette_bound_count": 12,
+    "raw_palette_bundle_size": 608,
+    "raw_palette_source_count": 12,
+    "source_palette_bound_count": 16,
+    "source_palette_preview_count": 31,
+    "unresolved_palette_count": 5
+  },
+  "synthetic_index_palette": {
+    "purpose": "diagnostic index visibility only; not a ROM palette",
+    "sha256": "13c5ce1a392fa590f1dfaa160c0a223202c0d531663e77a4a5eb61d909e2fc29",
+    "size": 32
+  }
+}

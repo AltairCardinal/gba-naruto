@@ -1196,3 +1196,15 @@ WebSocket
   `notes/rom-pointer-lz77-inventory-export-20260730.md`。这只闭合该限定静态分母；
   203 条无对齐指针的语法候选、未压缩图形/raw palette、运行时可达性、自然语言
   身份、通用写回和全部视觉状态仍不因本项升级，Goal 保持 active。
+- 2026-07-30：上述 31 条新增 LZ77 中的 21 条 VRAM graphics 已全部生成
+  source-order 4bpp tile atlas。静态 loader 在 32-byte 窗口内为 12 条绑定 raw
+  palette、为 4 条绑定 LZ77 palette，形成 16/21 条源色候选和 31 张
+  palette-bank candidate PNG；
+  其余 5 条输出明确标记的灰阶 index-only PNG，不伪造自然颜色。12 个 raw palette
+  段按 CpuSet/CpuFastSet 单位重建为 608-byte bundle，其中 `0x08405FF0` 的
+  `r2=0x80` 路径按 256 bytes/8 bank 保留，`0x08463FFC` 的 CpuFastSet `r2=8`
+  按 32 bytes 保留。独立 verifier 从 ROM 重做解压、copy 证据、atlas 和 PNG
+  全字节，得到 21 records / 36 previews / `errors=[]`。成果位于
+  `artifacts/rom-pointer-lz77-graphics-v1/`，说明见
+  `notes/rom-pointer-lz77-graphics-preview-20260730.md`。tilemap/OAM/最终组合、
+  五条未知 palette、未压缩图形和通用写回仍未闭合，Goal 保持 active。

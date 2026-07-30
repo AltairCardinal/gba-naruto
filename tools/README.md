@@ -1262,3 +1262,21 @@ as 21 VRAM graphics, 3 PRAM palettes and 7 WRAM visual metadata records. It does
 claim that all syntactically valid streams are
 resources, that all resources are compressed, or that static pointer reachability is
 runtime execution.
+
+# ROM pointer-reachable LZ77 graphics previews
+
+`export_rom_pointer_lz77_graphics.py` consumes the hash-pinned
+`rom-pointer-lz77-inventory-v1` artifact, independently binds nearby raw or LZ77
+palette loads, and exports source-order 4bpp tile-atlas candidates.
+
+```bash
+python3 tools/export_rom_pointer_lz77_graphics.py
+python3 tools/verify_rom_pointer_lz77_graphics.py
+```
+
+The artifact covers all 21 newly cataloged VRAM graphics records: 16 have a
+code-proven source palette and produce 31 palette-bank variants; five retain
+explicit synthetic grayscale index-only previews. The verifier reconstructs the
+raw palette bundle, LZ77 payloads, copy-unit semantics and all 36 indexed PNGs
+without importing the exporter. These atlases do not claim tilemap/OAM composition
+or final visible-screen identity.
