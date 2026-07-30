@@ -1212,3 +1212,11 @@ WebSocket
   `artifacts/rom-pointer-lz77-graphics-v1/`，说明见
   `notes/rom-pointer-lz77-graphics-preview-20260730.md`。最终 OAM 组合、两条未知
   palette、未压缩图形和通用写回仍未闭合，Goal 保持 active。
+- 2026-07-30：未压缩图形主线完成 direct CpuSet/CpuFastSet 只读预审。全 ROM
+  共有 146 个直接 BL；32-byte fail-closed 常量参数窗口接纳 23 个固定 ROM→GPU
+  操作，当前全部为 PRAM、15 个唯一源。既有 LZ77 graphics palette 成果已覆盖
+  20 个操作/12 个源，新发现 `0x083F1E60`、`0x083F1F08`、`0x08406010` 三个
+  32-byte palette 源；没有发现直接常量 ROM→VRAM tiles。下一 artifact 固定该
+  146-call 分母并导出三个新源；随后转向间接表、自定义 copy loop 和两段搬运，
+  不把“直接 VRAM 命中为零”误报成未压缩图形已完成。设计边界见
+  `notes/rom-direct-cpuset-inventory-survey-20260730.md`。
