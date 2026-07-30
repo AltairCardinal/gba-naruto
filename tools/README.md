@@ -34,6 +34,29 @@ catalog、内容 SHA、长度、layout→metatile→tile/palette 的跨资源索
 再一次性返回固定长度补丁；任一索引越界或任一别名槽容量不足时整项失败，不产生
 部分计划。当前不迁移资源、不改 header 指针，也不声称任意编辑均能装回原槽。
 
+## 战斗特效资源原位回编
+
+`import_battle_effect_resources.py` 以 `battle-effect-resource-pairs-v1` 的
+graphics/palette 内容 SHA 为编辑身份。18个有效 group 的36条逻辑引用形成35个
+物理 LZ77 槽和34份内容资源；共享内容的全部 group 和物理槽会原子更新。
+
+```bash
+python3 tools/import_battle_effect_resources.py \
+  sequel/content/battle-effect-resources/resource-edits.json
+
+python3 tools/export_battle_effect_resource_writeback_audit.py \
+  --root . --output artifacts/battle-effect-resource-writeback-v1
+
+python3 tools/verify_battle_effect_resource_writeback_audit.py \
+  --root . --artifact artifacts/battle-effect-resource-writeback-v1
+```
+
+构建清单使用 `type: battle_effect_resource`。graphics 必须是完整32字节4bpp
+tile，palette 必须恰好32字节；导入器验证 pair table 指针、基准内容、全部别名槽
+和容量后才返回固定长度补丁。默认编辑全部同内容物理槽；若相同内容位于不同指针，
+规格可用 `target_physical_offsets` 的 catalog 子集显式拆分，真正共用同一指针的
+逻辑别名仍不可隐式分裂。当前不迁移资源、不改指针，也不签发运行时表现等价。
+
 ## 菜单/剧情立绘原位回编
 
 `import_menu_portraits.py` 把 `menu-portraits-v1` 的80×80索引色 PNG 逆变换回

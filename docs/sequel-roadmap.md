@@ -1368,3 +1368,15 @@ WebSocket
   成果位于`artifacts/map-resource-writeback-v1/`，说明见
   `notes/map-resource-writeback-20260730.md`。超槽迁移、指针改写、完整画布PNG
   反编译和全地图运行时像素等价仍未完成，Goal保持active。
+- 2026-07-31：18组战斗特效静态资源已从全量导出推进到受限原位回编。
+  pair table的36条graphics/palette逻辑引用形成35个物理LZ77槽，并按资源类型与
+  解压SHA去重为34份内容；group 2/3的共享graphics只写一个槽但保留两个逻辑别名，
+  group 16/17的同内容palette默认同步两个物理槽，也可按两个不同物理指针显式
+  拆分编辑，真正共用同一指针的逻辑别名不可分裂。新`battle_effect_resource`
+  构建类型验证基准ROM、catalog、pair指针、内容、格式和全部别名容量，任一槽溢出
+  即整项失败且36个指针保持不变。容量审计证明34/34内容、35/35槽可原样重编码；
+  固定低位变异有31/34内容、32/35槽、33/36逻辑引用可装回，三条溢出graphics
+  明确进入失败边界。独立verifier从ROM重建`36→35→34`并拒绝重签后的slot语义
+  篡改。成果位于`artifacts/battle-effect-resource-writeback-v1/`，说明见
+  `notes/battle-effect-resource-writeback-20260731.md`。迁移、指针改写、
+  任意编辑容量及修改后OAM/affine/blend/时序/音频等价仍未完成，Goal保持active。

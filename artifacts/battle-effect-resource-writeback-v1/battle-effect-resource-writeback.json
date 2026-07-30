@@ -1,0 +1,1620 @@
+{
+  "artifact_id": "battle-effect-resource-writeback-v1",
+  "implementation": {
+    "tests/test_import_battle_effect_resources.py": "1331e9586a1d46fef82931a2c1bc4c2bee63fd30d6df382b3e41698561f38293",
+    "tools/build_mod.py": "95cd3685280ed1bbc77234ce546ef6466b34b9a10a08f680578d23e0cf5adbe9",
+    "tools/export_battle_effect_resource_writeback_audit.py": "9cae0c6b6e03699660e5a04ee4022374050eebeee5a026f266ad1ebc2716d46b",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+    "tools/verify_battle_effect_resource_writeback_audit.py": "3a04ebcf76cf4cafb956bdd09a7aed128d21083cb148e1d8bbca56a0d6816e24"
+  },
+  "mutation_model": {
+    "graphics_byte_offset": 0,
+    "kind": "first_editable_unit_low_bit_toggle",
+    "palette_byte_offset": 2,
+    "purpose": "bounded capacity witness only; overflow remains fail-closed"
+  },
+  "resources": [
+    {
+      "decompressed_size": 1664,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 11,
+          "physical_offset": 3429020,
+          "resource_type": "graphics",
+          "source_file": "group-11-graphics-4bpp.bin",
+          "table_pointer_offset": 5869940
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "e05e1a6b315070c9d1d1dbeadaf2adc750a08b9e6eba531c37973018bd30feb7",
+      "mutation_encoded_sha256": "05ac2ebd9db12dc3ac237ca180593ae230e30374b43c4c3a894e5b4afd3daf99",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "7ff974e2effa7420ee9fe97ddd87ab424408dcb9d0c7018c033996d1b817d6f6",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3429020,
+          "gba_address": "0x0834529C",
+          "mutation_encoded_size": 487,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 486,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 488,
+          "source_compressed_sha256": "4e17f52dbf3145bf3f050802332baed8982a1926269cce5af730ac9e081ef521"
+        }
+      ],
+      "resource_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-11-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 2560,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 16,
+          "physical_offset": 3436908,
+          "resource_type": "graphics",
+          "source_file": "group-16-graphics-4bpp.bin",
+          "table_pointer_offset": 5869980
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "5181839a4f2a61c5bfbec4c9dae9d67768c330ea739e5b912fc9149200ad307a",
+      "mutation_encoded_sha256": "f2f1faa2474b7e7a3bc5665e362c7f1afdbbb892d42f63299f46a7d0d1c91352",
+      "mutation_fit_all_aliases": false,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "5d43a50e8a471ffe2559e1cbfdd6d36609cc8946e06ee0e8fef7eec2109fb2a3",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3436908,
+          "gba_address": "0x0834716C",
+          "mutation_encoded_size": 782,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 780,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 781,
+          "source_compressed_sha256": "9c51168a5c3e00fd331fcac1d457169f5b2f3bd75ee337bc573254afaddb2091"
+        }
+      ],
+      "resource_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-16-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 2048,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 4,
+          "physical_offset": 3417816,
+          "resource_type": "graphics",
+          "source_file": "group-04-graphics-4bpp.bin",
+          "table_pointer_offset": 5869884
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "54df3725a70bbf87b274adbf9f8e06f885e249d55941080d0d1b60b49aaf8a61",
+      "mutation_encoded_sha256": "1bae3440661d0e41d92268824ed6232a5873030c50fcc410646e236a9371f782",
+      "mutation_fit_all_aliases": false,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "44ebfc4f6e1551b9cd579afe32328f29411a1e3d62c3b83db2cc239a2a19f187",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3417816,
+          "gba_address": "0x083426D8",
+          "mutation_encoded_size": 448,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 445,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 447,
+          "source_compressed_sha256": "034f9601bb5df7698164696d20e34e29b9c578b2a80604c39721c05b2274b3d6"
+        }
+      ],
+      "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-04-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 2304,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 8,
+          "physical_offset": 3423624,
+          "resource_type": "graphics",
+          "source_file": "group-08-graphics-4bpp.bin",
+          "table_pointer_offset": 5869916
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "6e104b974bddb4e1631571dbf685dea5120b5b3c26bfaed1fb06e89f9ddfa5bd",
+      "mutation_encoded_sha256": "e0746feb432a8e3cb57564145083543c5b487352c2e46a86faa36fd38b218754",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "26443e4e908c9d98185d77c1518cb11994e24804f740484ed06ca877c935e61c",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3423624,
+          "gba_address": "0x08343D88",
+          "mutation_encoded_size": 1303,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 1303,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 1304,
+          "source_compressed_sha256": "48c81d61682f9f2b9f5721f336127de5a75fd82585bcd7e52dc07487a5f171d2"
+        }
+      ],
+      "resource_sha256": "42f39b22b077c6e33349f89436b07aa7d4e83527023b43e5d3347f7d4eb76749",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-08-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 1024,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 7,
+          "physical_offset": 3422048,
+          "resource_type": "graphics",
+          "source_file": "group-07-graphics-4bpp.bin",
+          "table_pointer_offset": 5869908
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "3986ce4d40a6e67ed47d260da82e70bfd34be9bd28feb57ef7bde839135cc921",
+      "mutation_encoded_sha256": "28a8edc8a78d9a34ed44b01e4a65f022f872b4152390f789fe2fbe049493e62a",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "f07bcc373fbf68aa0430b05c76a1c1e50b01a711b1194159dc4572244f52b994",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3422048,
+          "gba_address": "0x08343760",
+          "mutation_encoded_size": 764,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 763,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 764,
+          "source_compressed_sha256": "f53081df895b5747308f332c3543f1224bb1c124a142c0929c54455a73460fa7"
+        }
+      ],
+      "resource_sha256": "4839e96e137469eb2a4ddc02c14e9c2f3b197a77b62467f9a19f70fea5ff2188",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-07-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 960,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 6,
+          "physical_offset": 3420444,
+          "resource_type": "graphics",
+          "source_file": "group-06-graphics-4bpp.bin",
+          "table_pointer_offset": 5869900
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "766b582d89c96a4ec6969fd84d649ff7e6959236e815f61ea36a0890845a8206",
+      "mutation_encoded_sha256": "ccf1a47fc86d1329695a5534c1f2413c0e61fd5ec24029094844f21a143b78a6",
+      "mutation_fit_all_aliases": false,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "d8a78ee8ec2ded148a0dfa708ab49cd6686cf52ef8923b07f6ce65dd5fd74c18",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3420444,
+          "gba_address": "0x0834311C",
+          "mutation_encoded_size": 495,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 493,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 494,
+          "source_compressed_sha256": "89762a6f93322583e215f7839447dd560b433cd15e24682ccefa2b0ef256b201"
+        }
+      ],
+      "resource_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-06-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 1952,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 13,
+          "physical_offset": 3431112,
+          "resource_type": "graphics",
+          "source_file": "group-13-graphics-4bpp.bin",
+          "table_pointer_offset": 5869956
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "51b16cd106071dad851b896dd29b4e98a588a0c9bd49ca837fd7b95db03a665c",
+      "mutation_encoded_sha256": "e020d833fa11f3ae51989e04763ec070bc27aea3ce1b2c71d1d4e4e053c41365",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "9bef81a74ea7172c1e3d1de34f0ee2e17be12429358dc4a92523dec535104eae",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3431112,
+          "gba_address": "0x08345AC8",
+          "mutation_encoded_size": 552,
+          "mutation_fit": true,
+          "mutation_slot_margin": 3,
+          "original_reencoded_size": 553,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 555,
+          "source_compressed_sha256": "bd8ee08b2903850d002ffd1d019556c1c9b3c3e15672ca3d624a92c387e5d879"
+        }
+      ],
+      "resource_sha256": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-13-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 3840,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 5,
+          "physical_offset": 3418424,
+          "resource_type": "graphics",
+          "source_file": "group-05-graphics-4bpp.bin",
+          "table_pointer_offset": 5869892
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "2a848b616234c4df659cdb0ce0cc60fab248a905dcd67fa0b241be63bf922994",
+      "mutation_encoded_sha256": "129b778fc745d6363432567b50be1629e3045b8ffbadf6fe22c09930149f86be",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "d6edf15558e6a0148c7d8e1dd58b6936d122f3e1e46b954e2d1156a8f7084206",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3418424,
+          "gba_address": "0x08342938",
+          "mutation_encoded_size": 1164,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 1164,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 1165,
+          "source_compressed_sha256": "3b31a8dfb6d8687f85bb406a021a8fb5654495005fa6a74f29bac8b038cfa771"
+        }
+      ],
+      "resource_sha256": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-05-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 256,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 17,
+          "physical_offset": 3437900,
+          "resource_type": "graphics",
+          "source_file": "group-17-graphics-4bpp.bin",
+          "table_pointer_offset": 5869988
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "f060229da48877472bad3d79a55b47b0574fee24ee95be4b4ba60e3d3a0deead",
+      "mutation_encoded_sha256": "d0dbe72425f688510f3043af672761f8b2837bfa638ec3b8fc033541c6a3a67e",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "de5aa32caeb1c07c3d5c93620cb15db25dbd72ad207b7b7d8b2a712774f658a3",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3437900,
+          "gba_address": "0x0834754C",
+          "mutation_encoded_size": 103,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 102,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 103,
+          "source_compressed_sha256": "086b702e3592b777a929a1fb451b111f069434cebab5474eec9d8dbe43aa0d9b"
+        }
+      ],
+      "resource_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-17-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 5120,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 14,
+          "physical_offset": 3432036,
+          "resource_type": "graphics",
+          "source_file": "group-14-graphics-4bpp.bin",
+          "table_pointer_offset": 5869964
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "155e82df83719c7941f571b12474928f690a273a1e81fe1ebddb70c989f49356",
+      "mutation_encoded_sha256": "1e892e8a137268b0b5cec7f524c60f1637d775af5446c1763bfa311c69c9c1e9",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "c2a23b0d4a0ddbb26b3bf50187ae611463c39a7b198913fa645a8bc67eb30d97",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3432036,
+          "gba_address": "0x08345E64",
+          "mutation_encoded_size": 2129,
+          "mutation_fit": true,
+          "mutation_slot_margin": 9,
+          "original_reencoded_size": 2129,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 9,
+          "slot_size": 2138,
+          "source_compressed_sha256": "af2f0647ba71e1bcd65da8d0b4ab3cb6de0cf764ef8b6d5ec8ee1c6d2c455bd8"
+        }
+      ],
+      "resource_sha256": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-14-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 3584,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 18,
+          "physical_offset": 3438836,
+          "resource_type": "graphics",
+          "source_file": "group-18-graphics-4bpp.bin",
+          "table_pointer_offset": 5869996
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "b4d9f785b976f4a4dd332ab8f4488058fa5fbe239f5cb61e3600beb99de6a1e7",
+      "mutation_encoded_sha256": "81e6c1d986fecc7314e852dbadb3f51f348fd1232ea4d3373eea82a8a46e2245",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "c9af14577e7203a5c75c8b6b2e24f18b8deb81cf519587a8ebf6baada46b88d2",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3438836,
+          "gba_address": "0x083478F4",
+          "mutation_encoded_size": 2001,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 2000,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 2002,
+          "source_compressed_sha256": "d16b663e0ce5fe455af17a2bacdbe50720790be369798718769583c0f18b8cd3"
+        }
+      ],
+      "resource_sha256": "9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-18-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 768,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 10,
+          "physical_offset": 3427864,
+          "resource_type": "graphics",
+          "source_file": "group-10-graphics-4bpp.bin",
+          "table_pointer_offset": 5869932
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "fe9ad67fb6161a1222c587867f74b0542cd04cf2bfc6b5627ccfa1c0edf0396a",
+      "mutation_encoded_sha256": "c965a9b018fdd5cd47fb7a3d607283f690fd1754c680e3f00c7f1552bb7f3311",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "9833b87dbbcbd309a37146db36e3557ddfaf90526d55cfe733cc3604baeaa995",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3427864,
+          "gba_address": "0x08344E18",
+          "mutation_encoded_size": 235,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 234,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 235,
+          "source_compressed_sha256": "ad33e0a566e101569639bdcd20cbf7ac46483e1c1d7cd9c566700ccd5d1e1753"
+        }
+      ],
+      "resource_sha256": "942c4ee118b7c21375ee8386fc253f0820dc0297105b5b0a4edb574188ef0906",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-10-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 3584,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 15,
+          "physical_offset": 3434776,
+          "resource_type": "graphics",
+          "source_file": "group-15-graphics-4bpp.bin",
+          "table_pointer_offset": 5869972
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "22345dd5fdc3d15c351a021403a1507fc1e5a69ccd3420902c02a8d28a99be91",
+      "mutation_encoded_sha256": "215269cd0e36a1b60a4d81b115bc58e893fb3406aef79c3fef41f3fcae4730e6",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "65a0ccb1871375f600f87e1ff88d4c25954e172565c83d76fbeea773b82969c5",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3434776,
+          "gba_address": "0x08346918",
+          "mutation_encoded_size": 1556,
+          "mutation_fit": true,
+          "mutation_slot_margin": 4,
+          "original_reencoded_size": 1554,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 6,
+          "slot_size": 1560,
+          "source_compressed_sha256": "48fa623217fa34f3d0122d44bf67d86add3dfc0942fb0efdee8546653a95455f"
+        }
+      ],
+      "resource_sha256": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-15-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 1024,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 9,
+          "physical_offset": 3425664,
+          "resource_type": "graphics",
+          "source_file": "group-09-graphics-4bpp.bin",
+          "table_pointer_offset": 5869924
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "5e103bc9575baba19fe1b80ede676e43941e98af967704a53a84806d57a3617e",
+      "mutation_encoded_sha256": "1084a031d855d1abc77340aa5aa178d9cb888f8ae0236e4e818cbde656cccf7e",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "c5cc2bc4a17407b19300252c211b0ba3b6d5bd22f190fe0239a14c4c5d1a1305",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3425664,
+          "gba_address": "0x08344580",
+          "mutation_encoded_size": 549,
+          "mutation_fit": true,
+          "mutation_slot_margin": 5,
+          "original_reencoded_size": 553,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 554,
+          "source_compressed_sha256": "0f70689c50035dd34fe64a7d8c6daae57cf17d7476f108efbf2b3f9ee6f2bc2f"
+        }
+      ],
+      "resource_sha256": "d0474020d782fc88a6eeaa25768b09d367f3d9566354d713246b51d2179ede05",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-09-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 1024,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 1,
+          "physical_offset": 3409648,
+          "resource_type": "graphics",
+          "source_file": "group-01-graphics-4bpp.bin",
+          "table_pointer_offset": 5869860
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "c23c7d2c380a81184573158ce631a56bb6c762b034314615a934970b9ebf3622",
+      "mutation_encoded_sha256": "ff3e1d51428a5c85e67064d21f54fe50cf923b66ddf084c1670733039d71362e",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "9a9a5edbfac4a83506db649e028b1310bb88c3e673c00ced8837eb965b16484e",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3409648,
+          "gba_address": "0x083406F0",
+          "mutation_encoded_size": 735,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 734,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 735,
+          "source_compressed_sha256": "d27493ed7b1eaba88211d65e66ad5ef3b2478963ee67b4e8e47c4f1d83e69a83"
+        }
+      ],
+      "resource_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-01-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 2176,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 12,
+          "physical_offset": 3429736,
+          "resource_type": "graphics",
+          "source_file": "group-12-graphics-4bpp.bin",
+          "table_pointer_offset": 5869948
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "25c3eea17b425bd64ad4649baba9a61eca29e28d78678a1ee5efa830f688a96d",
+      "mutation_encoded_sha256": "834ee2cae5fbcd9058062dcbc3c1e506618bb4738677450f07e268f06138cd33",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "a1c9d1206743554ca00d0fb0be26a2c065981ca69444d20709b186f5f201752b",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3429736,
+          "gba_address": "0x08345568",
+          "mutation_encoded_size": 1105,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 1104,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 1106,
+          "source_compressed_sha256": "4ee371638b6dbe598a720cbd62cbdb5e1455559cf8a146a8ebfabd88b3cd1986"
+        }
+      ],
+      "resource_sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-12-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 9728,
+      "logical_alias_count": 2,
+      "logical_aliases": [
+        {
+          "group_id": 2,
+          "physical_offset": 3410680,
+          "resource_type": "graphics",
+          "source_file": "group-02-graphics-4bpp.bin",
+          "table_pointer_offset": 5869868
+        },
+        {
+          "group_id": 3,
+          "physical_offset": 3410680,
+          "resource_type": "graphics",
+          "source_file": "group-03-graphics-4bpp.bin",
+          "table_pointer_offset": 5869876
+        }
+      ],
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 0,
+        "resource_type": "graphics"
+      },
+      "mutation_decompressed_sha256": "9a959f47cb6e093e365b27a19cb30aac8564aea2cf9f20127288e5077c607349",
+      "mutation_encoded_sha256": "183796c257bc89623509223a1b128a757bd7fc20e56a0af47c4fe34f189f9b4e",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "2892a81b7be665799cc4c704e599cf6f7d49e3a3dbf92ff25a199f255e08be19",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3410680,
+          "gba_address": "0x08340AF8",
+          "mutation_encoded_size": 5290,
+          "mutation_fit": true,
+          "mutation_slot_margin": 4,
+          "original_reencoded_size": 5289,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 5,
+          "slot_size": 5294,
+          "source_compressed_sha256": "93e130c77a3e564400928f8d34af4b85cc4bf05bf45dc4d20996fa94e6d6e132"
+        }
+      ],
+      "resource_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+      "resource_type": "graphics",
+      "source_files": [
+        "group-02-graphics-4bpp.bin",
+        "group-03-graphics-4bpp.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 9,
+          "physical_offset": 3426220,
+          "resource_type": "palette",
+          "source_file": "group-09-palette-bgr555.bin",
+          "table_pointer_offset": 5869928
+        }
+      ],
+      "mutation": {
+        "after": 152,
+        "before": 153,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "3c4c344edde2e1d1001d78974e6431fd9fb15ef1f578133458194997afbe8cf2",
+      "mutation_encoded_sha256": "bd80fbdc2b2e95bc27bf6da7b0775ab56d47d4b1188a0f4dcbae32736aa6dddf",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "00368bc50adede2b2897fc82ece7b59bd5f0e1b442506dbfca5e3c60a4531dd7",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3426220,
+          "gba_address": "0x083447AC",
+          "mutation_encoded_size": 40,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 40,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 40,
+          "source_compressed_sha256": "00368bc50adede2b2897fc82ece7b59bd5f0e1b442506dbfca5e3c60a4531dd7"
+        }
+      ],
+      "resource_sha256": "04cfd54690521de6ca3649fe20c743c0c439273a66860671bb3614a00db6c413",
+      "resource_type": "palette",
+      "source_files": [
+        "group-09-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 11,
+          "physical_offset": 3429508,
+          "resource_type": "palette",
+          "source_file": "group-11-palette-bgr555.bin",
+          "table_pointer_offset": 5869944
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "651067f74b9f413fff2c6f018081365e9535999e3f89b9b31329fc49700ccf4c",
+      "mutation_encoded_sha256": "e34aa80b7427b447da3dea17081e5bb5755bceed20edb31889ed953ee3223afa",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "4536862b4b42f3666da32ddaa66863915f28728bb650bbee5852121913e5e195",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3429508,
+          "gba_address": "0x08345484",
+          "mutation_encoded_size": 26,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 26,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 27,
+          "source_compressed_sha256": "c8cbb486345df14adedfc8f929630b7a8362dd702781fac150373797ece2a955"
+        }
+      ],
+      "resource_sha256": "29df643a21db41dd57a89be093d1fd7415717856dc018da65bc40926d5109b0c",
+      "resource_type": "palette",
+      "source_files": [
+        "group-11-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 14,
+          "physical_offset": 3434176,
+          "resource_type": "palette",
+          "source_file": "group-14-palette-bgr555.bin",
+          "table_pointer_offset": 5869968
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "156c616c10f6b104244df3e5ba68e9aa39cf44dae9a075005408814c04d65359",
+      "mutation_encoded_sha256": "ca81aeb573b1578f6efc281b08e586cb22cba22509ce13cb6b4094d772707607",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "ecfe34a2dcb5d6c10523d0752da86b49610ed76a398ade1b342819d66db91517",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3434176,
+          "gba_address": "0x083466C0",
+          "mutation_encoded_size": 32,
+          "mutation_fit": true,
+          "mutation_slot_margin": 2,
+          "original_reencoded_size": 32,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 34,
+          "source_compressed_sha256": "63b66efe1f8966349836c76e41c5ad63746e52adc5427072b5578725cd552625"
+        }
+      ],
+      "resource_sha256": "2a4e16536349b52f028284eacbaa3e6047b02047b6e77af7d26914320b514d29",
+      "resource_type": "palette",
+      "source_files": [
+        "group-14-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 2,
+      "logical_aliases": [
+        {
+          "group_id": 16,
+          "physical_offset": 3437692,
+          "resource_type": "palette",
+          "source_file": "group-16-palette-bgr555.bin",
+          "table_pointer_offset": 5869984
+        },
+        {
+          "group_id": 17,
+          "physical_offset": 3438004,
+          "resource_type": "palette",
+          "source_file": "group-17-palette-bgr555.bin",
+          "table_pointer_offset": 5869992
+        }
+      ],
+      "mutation": {
+        "after": 255,
+        "before": 254,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "4ff82f565d9ab0f18f5410a69d9dd3836a6ae7b73ea7bc237dfba91be9c090fc",
+      "mutation_encoded_sha256": "394fc207225c07690f5c1c879c73a2d0063a67297d4bf635fbc02094b3997a66",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "2b8cafe1751069424f6148502b17e21e9f04044efe99c899c98ffbd2dbf1a5bc",
+      "physical_slot_count": 2,
+      "physical_slots": [
+        {
+          "file_offset": 3437692,
+          "gba_address": "0x0834747C",
+          "mutation_encoded_size": 39,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 39,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 40,
+          "source_compressed_sha256": "00389842638360144130df6bd7479e301662c956174f498c6f68d78fb4ff5d7a"
+        },
+        {
+          "file_offset": 3438004,
+          "gba_address": "0x083475B4",
+          "mutation_encoded_size": 39,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 39,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 40,
+          "source_compressed_sha256": "00389842638360144130df6bd7479e301662c956174f498c6f68d78fb4ff5d7a"
+        }
+      ],
+      "resource_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+      "resource_type": "palette",
+      "source_files": [
+        "group-16-palette-bgr555.bin",
+        "group-17-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 4,
+          "physical_offset": 3418264,
+          "resource_type": "palette",
+          "source_file": "group-04-palette-bgr555.bin",
+          "table_pointer_offset": 5869888
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "60ce57a0184487e952cbf7b2f4808cfa0ff63eab790b84b31d8f0b8194f1fd1c",
+      "mutation_encoded_sha256": "da459b0b0c19460b3299f6df192015842b5eb583400a2c654a1185f3afeee61f",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "70623f9514642867801db91dfdd22622b2d42c9e1d105e41ebc23a3a60330f08",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3418264,
+          "gba_address": "0x08342898",
+          "mutation_encoded_size": 21,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 21,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 22,
+          "source_compressed_sha256": "c0332d8891d304e2d5904194ab063e41e2a39ce36e04a32807f0f018acbb86f3"
+        }
+      ],
+      "resource_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
+      "resource_type": "palette",
+      "source_files": [
+        "group-04-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 10,
+          "physical_offset": 3428100,
+          "resource_type": "palette",
+          "source_file": "group-10-palette-bgr555.bin",
+          "table_pointer_offset": 5869936
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "a1b4377cda6b6cc2c5d3d2921d302eec8dd361952042fa828e43ca3f94918ff2",
+      "mutation_encoded_sha256": "4f7184fac2ad464ca5570a30c7b77b0435d1ee826779ee604342e51ee629044b",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "94a2294abd0bc905e2249604db7c6c03aed4f0be289309bb12272a9b01f7d839",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3428100,
+          "gba_address": "0x08344F04",
+          "mutation_encoded_size": 27,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 27,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 27,
+          "source_compressed_sha256": "94a2294abd0bc905e2249604db7c6c03aed4f0be289309bb12272a9b01f7d839"
+        }
+      ],
+      "resource_sha256": "5c973ed0591a365d58cf976cb8bd6b5cf176bd620c79416475f3c4f98782cd0c",
+      "resource_type": "palette",
+      "source_files": [
+        "group-10-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 8,
+          "physical_offset": 3424928,
+          "resource_type": "palette",
+          "source_file": "group-08-palette-bgr555.bin",
+          "table_pointer_offset": 5869920
+        }
+      ],
+      "mutation": {
+        "after": 58,
+        "before": 59,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "a48bbc93d80a356bddb74ac18ed15084dfd2bd2d15afedcbd9c6a7bbcc28ae70",
+      "mutation_encoded_sha256": "1383446dc26dde623c8d34450e8a1334acc96cbf71fb5a979a7bc5fe9c42cd0f",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "540fe65472f056ede1c6eb8777286d2839b8d7d10d6f7b3aceec38059bd1fea7",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3424928,
+          "gba_address": "0x083442A0",
+          "mutation_encoded_size": 32,
+          "mutation_fit": true,
+          "mutation_slot_margin": 2,
+          "original_reencoded_size": 32,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 34,
+          "source_compressed_sha256": "246e9ed79461714c36c5ab165b19c843aa5bec8aaf6d00dc99e7a324301f9e60"
+        }
+      ],
+      "resource_sha256": "609fd93993e4e4222154a44932ba1d634c070864d5e2ac3de7e186216cd8a9d0",
+      "resource_type": "palette",
+      "source_files": [
+        "group-08-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 6,
+          "physical_offset": 3420940,
+          "resource_type": "palette",
+          "source_file": "group-06-palette-bgr555.bin",
+          "table_pointer_offset": 5869904
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "ce67a65fd11305f3269129d85efbc62865ecd4b0a6c69afe2755f6a0544aa8cc",
+      "mutation_encoded_sha256": "12fb2de52e893b06865b6786304f31dc78ae6360e22ebc0a00d4bf1beddbc757",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "83c24862170cbff0433f83bdb3312142080287be3fb35ab7c6533215f4546fba",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3420940,
+          "gba_address": "0x0834330C",
+          "mutation_encoded_size": 27,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 27,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 27,
+          "source_compressed_sha256": "83c24862170cbff0433f83bdb3312142080287be3fb35ab7c6533215f4546fba"
+        }
+      ],
+      "resource_sha256": "6393b73a92bf5e950fdf7640a26ba76ea995c53aa8b984bc376559f0004d1aa5",
+      "resource_type": "palette",
+      "source_files": [
+        "group-06-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 2,
+          "physical_offset": 3415976,
+          "resource_type": "palette",
+          "source_file": "group-02-palette-bgr555.bin",
+          "table_pointer_offset": 5869872
+        }
+      ],
+      "mutation": {
+        "after": 157,
+        "before": 156,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "e743fe4c4a3f950f73e3e1c80687820cd3012ac4058b3d9fd58eda2cd29a1eac",
+      "mutation_encoded_sha256": "65e01b82d383d6ec6fb6e19624fcc02274ced8c941a03fecf469293147e877f3",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "984579adbbce5adef32970c44577f21469547cdbd3dde06ace4fe08854031ad9",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3415976,
+          "gba_address": "0x08341FA8",
+          "mutation_encoded_size": 40,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 40,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 40,
+          "source_compressed_sha256": "984579adbbce5adef32970c44577f21469547cdbd3dde06ace4fe08854031ad9"
+        }
+      ],
+      "resource_sha256": "70c511e326da6ce384f358d0dfe798d71dd44f181f6bcaa693e77aa456f5422e",
+      "resource_type": "palette",
+      "source_files": [
+        "group-02-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 12,
+          "physical_offset": 3430844,
+          "resource_type": "palette",
+          "source_file": "group-12-palette-bgr555.bin",
+          "table_pointer_offset": 5869952
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "08531e49550426c1a6f5570678af73b4c4cc272556939ea503a0ceaa4ac4d62e",
+      "mutation_encoded_sha256": "393c194b25351a73132a926588c9acc15f96b367cf32b42bb16cdaffa46ac8d0",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "495c757baec59cae8b8860bb27d2a82e8e1936c0cb4ca9e21b5e928818e9d092",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3430844,
+          "gba_address": "0x083459BC",
+          "mutation_encoded_size": 26,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 26,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 27,
+          "source_compressed_sha256": "738212674806cdcbee9d8bd1a201e9fd3649f98dcff8bc8f1107e5a71c057a67"
+        }
+      ],
+      "resource_sha256": "79c80aa69e19aa0034f6b9828a5d9b7b6d9499b67b93c72f04d3ffcd0c7a8e43",
+      "resource_type": "palette",
+      "source_files": [
+        "group-12-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 7,
+          "physical_offset": 3422812,
+          "resource_type": "palette",
+          "source_file": "group-07-palette-bgr555.bin",
+          "table_pointer_offset": 5869912
+        }
+      ],
+      "mutation": {
+        "after": 224,
+        "before": 225,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "ef1d77020685020da440a18ffd21a532d99c1b8e77ae226e82855849c8440310",
+      "mutation_encoded_sha256": "85f821b3bb79b068e6ab5e871bc78899819ed72fe88227ca32e64ebda84aebf6",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "96663eefd07d6f19685da067e0d4c4ee911b5a17e84ed5b66778bc365fd28604",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3422812,
+          "gba_address": "0x08343A5C",
+          "mutation_encoded_size": 28,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 28,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 29,
+          "source_compressed_sha256": "2beede550b0d4f3fc11491bc86e6fe1d1e565d0f3958c1f29d0679dd1a4552b0"
+        }
+      ],
+      "resource_sha256": "ade17055c76ef587fea1acb9a01737ee10c199754b961c3dfc4d2a874fac85a4",
+      "resource_type": "palette",
+      "source_files": [
+        "group-07-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 13,
+          "physical_offset": 3431668,
+          "resource_type": "palette",
+          "source_file": "group-13-palette-bgr555.bin",
+          "table_pointer_offset": 5869960
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "751f9094e8a41e16a192cc313f51ca87f3d58f131a899906d33feb76b6972f83",
+      "mutation_encoded_sha256": "d189493029b0f22d42dc752e8ef835be99f42b34daae94fb9c84d2c837675419",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "df100d0a663542afce8a8d34c7871748d2d23829829a3da536a4f244c706e1ea",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3431668,
+          "gba_address": "0x08345CF4",
+          "mutation_encoded_size": 26,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 26,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 27,
+          "source_compressed_sha256": "195f92cabd0e7160e18bda503856b9b085c4a8a59820db527fc1cce161bc318c"
+        }
+      ],
+      "resource_sha256": "afb5d06c793a020bbc7d21d56aceaf842e2c994c36d3adae2e458875baa1a4db",
+      "resource_type": "palette",
+      "source_files": [
+        "group-13-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 1,
+          "physical_offset": 3410384,
+          "resource_type": "palette",
+          "source_file": "group-01-palette-bgr555.bin",
+          "table_pointer_offset": 5869864
+        }
+      ],
+      "mutation": {
+        "after": 90,
+        "before": 91,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "148e3129f2f60650aa5226d52f12713ea5473d53d1906dcaee225fcb1541cb0c",
+      "mutation_encoded_sha256": "9212adba1d1e3a7ecc3e3c592aeb8a4c1d4464c9b45cd8f44a3cee63f4d6fd6d",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "c226c6bbeaabd4bf8242924e573c61dea5c3e7db1131982f4ceb17441c3a819a",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3410384,
+          "gba_address": "0x083409D0",
+          "mutation_encoded_size": 28,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 28,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 29,
+          "source_compressed_sha256": "64ca9f081dd7fa32aaf02832eeefda5a36c25024fcf3a990626237253a5db945"
+        }
+      ],
+      "resource_sha256": "baf6d16005215ced81fbddd5597f08cbc12441e468e737be9a3fb9a89ac04b67",
+      "resource_type": "palette",
+      "source_files": [
+        "group-01-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 5,
+          "physical_offset": 3419592,
+          "resource_type": "palette",
+          "source_file": "group-05-palette-bgr555.bin",
+          "table_pointer_offset": 5869896
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "10754dbb7af103658844979e6e0c0800b1fff30b3e9f6e33563a352ffab7d921",
+      "mutation_encoded_sha256": "70af045a6a07b3586a70dc09d9968cca1e49916e74256f91e674b7e9a1a9f4fc",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "d7f489b0e4c4185beef155fd4fe4d725600e6ef14000e342332a77365043a356",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3419592,
+          "gba_address": "0x08342DC8",
+          "mutation_encoded_size": 26,
+          "mutation_fit": true,
+          "mutation_slot_margin": 1,
+          "original_reencoded_size": 26,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 1,
+          "slot_size": 27,
+          "source_compressed_sha256": "b7049120fa6357ffb814c3a5e48966ea13a45abd5e9939dac5b6aa0f335dd9bd"
+        }
+      ],
+      "resource_sha256": "c00b7ea1d6748f60c387c12d2083da584a65a7e654e61a95bdfe25d1a803dc61",
+      "resource_type": "palette",
+      "source_files": [
+        "group-05-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 3,
+          "physical_offset": 3416896,
+          "resource_type": "palette",
+          "source_file": "group-03-palette-bgr555.bin",
+          "table_pointer_offset": 5869880
+        }
+      ],
+      "mutation": {
+        "after": 222,
+        "before": 223,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "d2397bf676beeceb7675da2e9cd592a3abb40287beef885922ff2f8b7214027d",
+      "mutation_encoded_sha256": "1a8ce428b348c84b4ee26f9e57b4504c2d9331e7a4c313740dc5404cb3cf257b",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "a1ce0346eecc12c1266902af1a097156ef47bbbf450d8fe89770c98973c113c1",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3416896,
+          "gba_address": "0x08342340",
+          "mutation_encoded_size": 40,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 40,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 40,
+          "source_compressed_sha256": "a1ce0346eecc12c1266902af1a097156ef47bbbf450d8fe89770c98973c113c1"
+        }
+      ],
+      "resource_sha256": "c0e21753834c2ca38588891ecf78596fa7234012bb0c1a3f69ceb2ccc7619f95",
+      "resource_type": "palette",
+      "source_files": [
+        "group-03-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 15,
+          "physical_offset": 3436336,
+          "resource_type": "palette",
+          "source_file": "group-15-palette-bgr555.bin",
+          "table_pointer_offset": 5869976
+        }
+      ],
+      "mutation": {
+        "after": 254,
+        "before": 255,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "966b92d97f73c09c614b338272a276af05e97c2e8e9a64357febbafedeb1b074",
+      "mutation_encoded_sha256": "a4ad8b241ef0bd6092fe289cabfd6ebe1603054c8abc9a17d8c3cce02fdb4c41",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "baf3dd16338595e6655dec3f3eb53430678c6f33fdcaac44a97300834c92b7b1",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3436336,
+          "gba_address": "0x08346F30",
+          "mutation_encoded_size": 32,
+          "mutation_fit": true,
+          "mutation_slot_margin": 2,
+          "original_reencoded_size": 32,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 2,
+          "slot_size": 34,
+          "source_compressed_sha256": "a6bbf289c28d500f4cc6f51c427781d974f3a3a6484fad2d6c6615a439ac517b"
+        }
+      ],
+      "resource_sha256": "cb86625b5c5d976d388d055aeeb9cbae97effd7efb021bce01e252030b54d1e1",
+      "resource_type": "palette",
+      "source_files": [
+        "group-15-palette-bgr555.bin"
+      ]
+    },
+    {
+      "decompressed_size": 32,
+      "logical_alias_count": 1,
+      "logical_aliases": [
+        {
+          "group_id": 18,
+          "physical_offset": 3440840,
+          "resource_type": "palette",
+          "source_file": "group-18-palette-bgr555.bin",
+          "table_pointer_offset": 5870000
+        }
+      ],
+      "mutation": {
+        "after": 157,
+        "before": 156,
+        "kind": "first_editable_unit_low_bit_toggle",
+        "offset": 2,
+        "resource_type": "palette"
+      },
+      "mutation_decompressed_sha256": "e91f50a96d71e6edee4cd842acd44a7e4defd969ad364f4648c9f50220ce2975",
+      "mutation_encoded_sha256": "9ac74d36bc3dc0ee07dd680b9aeca4f07377e9c20c7705670de8592d93972017",
+      "mutation_fit_all_aliases": true,
+      "original_fit_all_aliases": true,
+      "original_reencoded_sha256": "f6ea3eb4ac1206b25fd6ca145b237826dd118262dffb2f587899891ba8952e4e",
+      "physical_slot_count": 1,
+      "physical_slots": [
+        {
+          "file_offset": 3440840,
+          "gba_address": "0x083480C8",
+          "mutation_encoded_size": 40,
+          "mutation_fit": true,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 40,
+          "original_roundtrip_fit": true,
+          "original_slot_margin": 0,
+          "slot_size": 40,
+          "source_compressed_sha256": "f6ea3eb4ac1206b25fd6ca145b237826dd118262dffb2f587899891ba8952e4e"
+        }
+      ],
+      "resource_sha256": "d53a7a56bded0b6727002a3fb4ad69454dccee15e8f849ad3a16c3b5639244c1",
+      "resource_type": "palette",
+      "source_files": [
+        "group-18-palette-bgr555.bin"
+      ]
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "battle-effect-resource-writeback-audit-v1",
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_unit_mutation_audited": true,
+    "explicit_physical_slot_targeting_available": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false
+  },
+  "source_catalog": {
+    "content_resource_count": 34,
+    "logical_reference_count": 36,
+    "path": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "physical_slot_count": 35,
+    "sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+  },
+  "summary": {
+    "content_resource_count": 34,
+    "logical_reference_count": 36,
+    "minimum_mutation_slot_margin": -1,
+    "minimum_original_slot_margin": 0,
+    "mutation_fit_all_alias_content_count": 31,
+    "mutation_fit_logical_reference_count": 33,
+    "mutation_fit_slot_count": 32,
+    "mutation_overflow_content_count": 3,
+    "mutation_overflow_logical_reference_count": 3,
+    "mutation_overflow_slot_count": 3,
+    "original_roundtrip_fit_content_count": 34,
+    "original_roundtrip_fit_slot_count": 35,
+    "physical_slot_count": 35
+  }
+}

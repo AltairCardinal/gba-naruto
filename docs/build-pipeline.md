@@ -98,6 +98,29 @@ BGR555 调色板。导入器按 `resource_id` 修改共享资源，因此清单�
 资源，也不改指针；BGR555 未使用的 bit15 逐色继承原 ROM，避免无修改 PNG
 产生隐式字节变化；写入前仍经过全局 immutable-base 和补丁冲突门禁。
 
+### `map_resource`
+
+把已导出的地图 graphics、palette、主/备选 layout、metatile 和 collision 原始
+资源按内容身份原位回编。规格使用 `map-resource-import-v1`；一次修改会同步全部
+map-header 别名，并验证 layout→metatile→tile/palette 跨资源索引。任一索引越界
+或任一物理 LZ77 槽容量不足时整项失败，不修改 header 指针。
+
+### `battle_effect_resource`
+
+把18组战斗特效的4bpp graphics 或16色 BGR555 palette 原位回编。规格使用
+`battle-effect-resource-import-v1`，并以“资源类型 + 原始解压 SHA-256”标识
+34份内容资源。默认同步同内容的全部物理槽；如果相同内容位于不同指针，可显式提供
+`target_physical_offsets` 子集分别编辑，真正共用同一指针的逻辑 group 始终联动。
+任一目标槽超限时整项失败，不修改`0x0859911C` pair table。
+
+```json
+{
+  "id": "battle-effect-resource-import",
+  "type": "battle_effect_resource",
+  "spec": "sequel/content/battle-effect-resources/resource-edits.json"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -168,6 +191,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `pointer_redirect` 补丁类型
 - `chapter_script` 语义 codec、独立 allocator 与 payload+pointer 原子计划
 - `menu_portrait` 74套菜单/剧情立绘的受守卫原位图形/调色板回编
+- `map_resource` 166份地图内容资源的受守卫原位回编
+- `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 
