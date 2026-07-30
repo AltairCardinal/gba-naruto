@@ -137,6 +137,25 @@ resource ID、slot row 和 immutable base，不迁移资源或修改指针。
 }
 ```
 
+### `bg_resource`
+
+把 regular BG 表的 graphics、384-byte BGR555 palette 和32×10 u16 tilemap
+按内容身份原位回编。规格使用 `bg-resource-import-v1`；31份内容覆盖12个场景的
+36个物理 LZ77 槽和36条逻辑引用。默认同步同内容的全部物理槽，也可用 catalog
+约束的 `target_physical_offsets` 子集分别编辑。
+
+构建器会按 descriptor 的4bpp/8bpp mode 重新验证修改后的
+graphics/palette/tilemap：tile index、4bpp palette bank 和8bpp像素索引均必须
+合法。任一目标槽容量不足时整项失败，不修改 `0x0859903C` descriptor 表。
+
+```json
+{
+  "id": "bg-resource-import",
+  "type": "bg_resource",
+  "spec": "sequel/content/bg-resources/resource-edits.json"
+}
+```
+
 ### `map`
 
 从地图规格文件生成 ROM 补丁。当 `patch_ready: true` 且包含 `patches` 数组时触发。
@@ -209,6 +228,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `menu_portrait` 74套菜单/剧情立绘的受守卫原位图形/调色板回编
 - `map_resource` 166份地图内容资源的受守卫原位回编
 - `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
+- `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
+- `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `map` / `battle_config` 补丁类型入口（待格式逆向后填充）
 - 构建报告生成（`build/naruto-sequel-build-report.json`）
 

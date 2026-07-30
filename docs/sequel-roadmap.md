@@ -1391,3 +1391,17 @@ WebSocket
   `notes/character-battle-palette-writeback-20260731.md`。250套graphics、
   frame/component/animation结构、迁移/指针改写及修改后运行时像素等价仍未完成，
   Goal保持active。
+- 2026-07-31：regular BG 的12个有效 descriptor 已从完整画布导出推进到受限
+  原位回编。36条 graphics/palette/tilemap 逻辑引用对应36个互不重叠的物理
+  LZ77槽，按类型和解压SHA去重为31份内容；新 `bg_resource` 构建类型默认同步
+  同内容的全部物理槽，也允许按 catalog 约束的物理子集拆分编辑。写补丁前会以
+  修改后全视图验证4bpp/8bpp tile完整性、384-byte palette、32×10 u16 tilemap、
+  tile index、4bpp palette bank 和8bpp像素索引；任一槽溢出即整项失败且
+  `0x0859903C` descriptor 指针保持不变。容量审计证明31/31内容、36/36槽可原样
+  确定性重编码；固定低位变异有20/31内容、21/36槽可装回，11份内容/15个槽明确
+  进入失败边界，最差超3 bytes。独立 verifier 不导入实现，从ROM和catalog重建
+  `36 logical→36 physical→31 content` 并拒绝重签语义篡改。成果位于
+  `artifacts/bg-resource-writeback-v1/`，说明见
+  `notes/bg-resource-writeback-20260731.md`。canvas底部运行时填充的PNG逆编译、
+  资源迁移/指针改写、任意编辑容量、完整运行时选择和最终BG/OBJ/window/blend
+  像素等价仍未完成，Goal保持active。
