@@ -20,7 +20,8 @@
 - `menu-portraits`：`0xA80000..0xB00000`，512 KiB；
 - `regular-bg`：`0xB00000..0xB40000`，256 KiB；
 - `battle-effects`：`0xB40000..0xB50000`，64 KiB；
-- `future-image-resources`：`0xB50000..0xC00000`，704 KiB。
+- `story-visual-layers`：`0xB50000..0xB71000`；
+- `future-image-resources`：`0xB71000..0xC00000`。
 
 512 KiB可容纳70份6400-byte图形在全literal最坏LZ77编码下的存储，加70份
 128-byte palette及四字节对齐。正式preservation迁移结果：

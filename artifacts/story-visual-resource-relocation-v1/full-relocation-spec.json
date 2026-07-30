@@ -1,0 +1,795 @@
+{
+  "schema": "story-visual-resource-relocation-v1",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "source_catalog": "artifacts/story-visual-layers-v1/manifest.json",
+  "source_catalog_sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8",
+  "partition": "sequel-image-assets",
+  "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "52dd7e8ed6c3a9cbaeab0d2bc10ab708f7dfcc8b3f4fd47c20236cdce98c2393",
+  "region": "story-visual-layers",
+  "region_owner": "story_visual_resources",
+  "edits": [
+    {
+      "id": "graphics-eebb3c181bd2",
+      "resource_type": "graphics",
+      "resource_sha256": "eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399.4bpp.bin",
+      "expected": {
+        "decompressed_size": 1248,
+        "physical_offsets": [
+          1245008
+        ],
+        "pointer_offsets": [
+          5513884
+        ]
+      }
+    },
+    {
+      "id": "palette-5b4a67a7354e",
+      "resource_type": "palette",
+      "resource_sha256": "5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35",
+      "source_file": "artifacts/story-visual-resource-sources-v1/palette/5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35.bgr555.bin",
+      "expected": {
+        "decompressed_size": 32,
+        "physical_offsets": [
+          1245800,
+          1248560,
+          1251220,
+          1254052,
+          1256352,
+          1259792,
+          1262792,
+          1264156,
+          1266508,
+          1268832,
+          1270856,
+          1272872,
+          1275244,
+          1278260,
+          1281868,
+          1284716,
+          1288784,
+          1290168,
+          1291840,
+          1293960,
+          1295676,
+          1297268,
+          1299468,
+          1302064
+        ],
+        "pointer_offsets": [
+          5513888,
+          5513904,
+          5513920,
+          5513936,
+          5513952,
+          5513968,
+          5513984,
+          5514000,
+          5514016,
+          5514032,
+          5514048,
+          5514064,
+          5514080,
+          5514096,
+          5514112,
+          5514128,
+          5514144,
+          5514160,
+          5514176,
+          5514192,
+          5514208,
+          5514224,
+          5514240,
+          5514256
+        ]
+      }
+    },
+    {
+      "id": "tilemap-0d67a5681a8e",
+      "resource_type": "tilemap",
+      "resource_sha256": "0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1245840
+        ],
+        "pointer_offsets": [
+          5513892
+        ]
+      }
+    },
+    {
+      "id": "graphics-e949cec416aa",
+      "resource_type": "graphics",
+      "resource_sha256": "e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3552,
+        "physical_offsets": [
+          1246184
+        ],
+        "pointer_offsets": [
+          5513900
+        ]
+      }
+    },
+    {
+      "id": "tilemap-811b496c9f6f",
+      "resource_type": "tilemap",
+      "resource_sha256": "811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1248600
+        ],
+        "pointer_offsets": [
+          5513908
+        ]
+      }
+    },
+    {
+      "id": "graphics-2508dc1894d9",
+      "resource_type": "graphics",
+      "resource_sha256": "2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3200,
+        "physical_offsets": [
+          1249104
+        ],
+        "pointer_offsets": [
+          5513916
+        ]
+      }
+    },
+    {
+      "id": "tilemap-5632f29b7a84",
+      "resource_type": "tilemap",
+      "resource_sha256": "5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1251260
+        ],
+        "pointer_offsets": [
+          5513924
+        ]
+      }
+    },
+    {
+      "id": "graphics-51eb2ca969a8",
+      "resource_type": "graphics",
+      "resource_sha256": "51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2880,
+        "physical_offsets": [
+          1251736
+        ],
+        "pointer_offsets": [
+          5513932
+        ]
+      }
+    },
+    {
+      "id": "tilemap-8356aaa3dddc",
+      "resource_type": "tilemap",
+      "resource_sha256": "8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1254092
+        ],
+        "pointer_offsets": [
+          5513940
+        ]
+      }
+    },
+    {
+      "id": "graphics-3ec2f257de97",
+      "resource_type": "graphics",
+      "resource_sha256": "3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2400,
+        "physical_offsets": [
+          1254548
+        ],
+        "pointer_offsets": [
+          5513948
+        ]
+      }
+    },
+    {
+      "id": "tilemap-d7aef5375899",
+      "resource_type": "tilemap",
+      "resource_sha256": "d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1256392
+        ],
+        "pointer_offsets": [
+          5513956
+        ]
+      }
+    },
+    {
+      "id": "graphics-9455c6ae6de5",
+      "resource_type": "graphics",
+      "resource_sha256": "9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3.4bpp.bin",
+      "expected": {
+        "decompressed_size": 4256,
+        "physical_offsets": [
+          1256820
+        ],
+        "pointer_offsets": [
+          5513964
+        ]
+      }
+    },
+    {
+      "id": "tilemap-a72dd85cbe2c",
+      "resource_type": "tilemap",
+      "resource_sha256": "a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1259832
+        ],
+        "pointer_offsets": [
+          5513972
+        ]
+      }
+    },
+    {
+      "id": "graphics-80b110243f44",
+      "resource_type": "graphics",
+      "resource_sha256": "80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3264,
+        "physical_offsets": [
+          1260368
+        ],
+        "pointer_offsets": [
+          5513980
+        ]
+      }
+    },
+    {
+      "id": "tilemap-6b379a0abeea",
+      "resource_type": "tilemap",
+      "resource_sha256": "6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1262832
+        ],
+        "pointer_offsets": [
+          5513988
+        ]
+      }
+    },
+    {
+      "id": "graphics-83340aa1afd7",
+      "resource_type": "graphics",
+      "resource_sha256": "83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7.4bpp.bin",
+      "expected": {
+        "decompressed_size": 1408,
+        "physical_offsets": [
+          1263304
+        ],
+        "pointer_offsets": [
+          5513996
+        ]
+      }
+    },
+    {
+      "id": "tilemap-9b757a424a8c",
+      "resource_type": "tilemap",
+      "resource_sha256": "9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1264196
+        ],
+        "pointer_offsets": [
+          5514004
+        ]
+      }
+    },
+    {
+      "id": "graphics-3be76585d84d",
+      "resource_type": "graphics",
+      "resource_sha256": "3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2880,
+        "physical_offsets": [
+          1264532
+        ],
+        "pointer_offsets": [
+          5514012
+        ]
+      }
+    },
+    {
+      "id": "tilemap-5371154c9629",
+      "resource_type": "tilemap",
+      "resource_sha256": "5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1266548
+        ],
+        "pointer_offsets": [
+          5514020
+        ]
+      }
+    },
+    {
+      "id": "graphics-21a338a37b97",
+      "resource_type": "graphics",
+      "resource_sha256": "21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2848,
+        "physical_offsets": [
+          1266980
+        ],
+        "pointer_offsets": [
+          5514028
+        ]
+      }
+    },
+    {
+      "id": "tilemap-85b92fd69500",
+      "resource_type": "tilemap",
+      "resource_sha256": "85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1268872
+        ],
+        "pointer_offsets": [
+          5514036
+        ]
+      }
+    },
+    {
+      "id": "graphics-826ad76b1602",
+      "resource_type": "graphics",
+      "resource_sha256": "826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2368,
+        "physical_offsets": [
+          1269316
+        ],
+        "pointer_offsets": [
+          5514044
+        ]
+      }
+    },
+    {
+      "id": "tilemap-e677c1c5f863",
+      "resource_type": "tilemap",
+      "resource_sha256": "e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1270896
+        ],
+        "pointer_offsets": [
+          5514052
+        ]
+      }
+    },
+    {
+      "id": "graphics-5ca2d1bf6261",
+      "resource_type": "graphics",
+      "resource_sha256": "5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2400,
+        "physical_offsets": [
+          1271316
+        ],
+        "pointer_offsets": [
+          5514060
+        ]
+      }
+    },
+    {
+      "id": "tilemap-754e25b1cce7",
+      "resource_type": "tilemap",
+      "resource_sha256": "754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1272912
+        ],
+        "pointer_offsets": [
+          5514068
+        ]
+      }
+    },
+    {
+      "id": "graphics-127b3b92ac19",
+      "resource_type": "graphics",
+      "resource_sha256": "127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2848,
+        "physical_offsets": [
+          1273336
+        ],
+        "pointer_offsets": [
+          5514076
+        ]
+      }
+    },
+    {
+      "id": "tilemap-7b1f7df0d1a5",
+      "resource_type": "tilemap",
+      "resource_sha256": "7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1275284
+        ],
+        "pointer_offsets": [
+          5514084
+        ]
+      }
+    },
+    {
+      "id": "graphics-fb851da4dfbb",
+      "resource_type": "graphics",
+      "resource_sha256": "fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3584,
+        "physical_offsets": [
+          1275740
+        ],
+        "pointer_offsets": [
+          5514092
+        ]
+      }
+    },
+    {
+      "id": "tilemap-195562c29d15",
+      "resource_type": "tilemap",
+      "resource_sha256": "195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1278300
+        ],
+        "pointer_offsets": [
+          5514100
+        ]
+      }
+    },
+    {
+      "id": "graphics-a1cb81fe8416",
+      "resource_type": "graphics",
+      "resource_sha256": "a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d.4bpp.bin",
+      "expected": {
+        "decompressed_size": 4096,
+        "physical_offsets": [
+          1278788
+        ],
+        "pointer_offsets": [
+          5514108
+        ]
+      }
+    },
+    {
+      "id": "tilemap-7d5a774b71f9",
+      "resource_type": "tilemap",
+      "resource_sha256": "7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1281908
+        ],
+        "pointer_offsets": [
+          5514116
+        ]
+      }
+    },
+    {
+      "id": "graphics-f2bb17743698",
+      "resource_type": "graphics",
+      "resource_sha256": "f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3296,
+        "physical_offsets": [
+          1282444
+        ],
+        "pointer_offsets": [
+          5514124
+        ]
+      }
+    },
+    {
+      "id": "tilemap-a4c02916c0f3",
+      "resource_type": "tilemap",
+      "resource_sha256": "a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1284756
+        ],
+        "pointer_offsets": [
+          5514132
+        ]
+      }
+    },
+    {
+      "id": "graphics-3510922615ee",
+      "resource_type": "graphics",
+      "resource_sha256": "3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54.4bpp.bin",
+      "expected": {
+        "decompressed_size": 4768,
+        "physical_offsets": [
+          1285224
+        ],
+        "pointer_offsets": [
+          5514140
+        ]
+      }
+    },
+    {
+      "id": "tilemap-849081c9e737",
+      "resource_type": "tilemap",
+      "resource_sha256": "849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1288824
+        ],
+        "pointer_offsets": [
+          5514148
+        ]
+      }
+    },
+    {
+      "id": "graphics-12e6ed9845dd",
+      "resource_type": "graphics",
+      "resource_sha256": "12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca.4bpp.bin",
+      "expected": {
+        "decompressed_size": 1088,
+        "physical_offsets": [
+          1289416
+        ],
+        "pointer_offsets": [
+          5514156
+        ]
+      }
+    },
+    {
+      "id": "tilemap-43cb0267cd46",
+      "resource_type": "tilemap",
+      "resource_sha256": "43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1290208
+        ],
+        "pointer_offsets": [
+          5514164
+        ]
+      }
+    },
+    {
+      "id": "graphics-cd05d084edb3",
+      "resource_type": "graphics",
+      "resource_sha256": "cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20.4bpp.bin",
+      "expected": {
+        "decompressed_size": 1856,
+        "physical_offsets": [
+          1290528
+        ],
+        "pointer_offsets": [
+          5514172
+        ]
+      }
+    },
+    {
+      "id": "tilemap-3165f04f8e89",
+      "resource_type": "tilemap",
+      "resource_sha256": "3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1291880
+        ],
+        "pointer_offsets": [
+          5514180
+        ]
+      }
+    },
+    {
+      "id": "graphics-0bbeb4fe314a",
+      "resource_type": "graphics",
+      "resource_sha256": "0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2816,
+        "physical_offsets": [
+          1292244
+        ],
+        "pointer_offsets": [
+          5514188
+        ]
+      }
+    },
+    {
+      "id": "tilemap-59deae68338f",
+      "resource_type": "tilemap",
+      "resource_sha256": "59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1294000
+        ],
+        "pointer_offsets": [
+          5514196
+        ]
+      }
+    },
+    {
+      "id": "graphics-8997bcd4bc71",
+      "resource_type": "graphics",
+      "resource_sha256": "8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2016,
+        "physical_offsets": [
+          1294424
+        ],
+        "pointer_offsets": [
+          5514204
+        ]
+      }
+    },
+    {
+      "id": "tilemap-4f5be8e10cac",
+      "resource_type": "tilemap",
+      "resource_sha256": "4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1295716
+        ],
+        "pointer_offsets": [
+          5514212
+        ]
+      }
+    },
+    {
+      "id": "graphics-af8794baca9e",
+      "resource_type": "graphics",
+      "resource_sha256": "af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f.4bpp.bin",
+      "expected": {
+        "decompressed_size": 1792,
+        "physical_offsets": [
+          1296088
+        ],
+        "pointer_offsets": [
+          5514220
+        ]
+      }
+    },
+    {
+      "id": "tilemap-34e21ba29b59",
+      "resource_type": "tilemap",
+      "resource_sha256": "34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1297308
+        ],
+        "pointer_offsets": [
+          5514228
+        ]
+      }
+    },
+    {
+      "id": "graphics-24af7849dbfb",
+      "resource_type": "graphics",
+      "resource_sha256": "24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd.4bpp.bin",
+      "expected": {
+        "decompressed_size": 2560,
+        "physical_offsets": [
+          1297676
+        ],
+        "pointer_offsets": [
+          5514236
+        ]
+      }
+    },
+    {
+      "id": "tilemap-bb611579b091",
+      "resource_type": "tilemap",
+      "resource_sha256": "bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1299508
+        ],
+        "pointer_offsets": [
+          5514244
+        ]
+      }
+    },
+    {
+      "id": "graphics-0b07fe8227f9",
+      "resource_type": "graphics",
+      "resource_sha256": "0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347",
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347.4bpp.bin",
+      "expected": {
+        "decompressed_size": 3392,
+        "physical_offsets": [
+          1299944
+        ],
+        "pointer_offsets": [
+          5514252
+        ]
+      }
+    },
+    {
+      "id": "tilemap-59d43322b13c",
+      "resource_type": "tilemap",
+      "resource_sha256": "59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe",
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe.u16le.bin",
+      "expected": {
+        "decompressed_size": 2048,
+        "physical_offsets": [
+          1302104
+        ],
+        "pointer_offsets": [
+          5514260
+        ]
+      }
+    }
+  ]
+}

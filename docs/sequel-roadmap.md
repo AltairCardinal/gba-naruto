@@ -1470,7 +1470,8 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像保留
-  `0xB50000..0xC00000`；其间`0xB40000..0xB50000`现已划给战斗特效；注册表
+  `0xB71000..0xC00000`；其间`0xB40000..0xB50000`现已划给战斗特效，
+  `0xB50000..0xB71000`划给剧情透明BG3图层；注册表
   强制无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
@@ -1511,3 +1512,16 @@ WebSocket
   `notes/battle-effect-resource-relocation-20260731.md`。不同图形几何、OAM、
   affine、帧时序、blend/window、音频耦合及修改后最终像素等价仍未闭合，
   Goal保持active。
+- 2026-07-31：24条剧情透明BG3 descriptor已从静态导出推进到可变长迁移。
+  24 graphics、24 tilemap和24个物理palette流形成72个LZ77载荷，按类型与解压
+  SHA去重为49份内容；全ROM四字节对齐精确扫描额外引用为0。新
+  `story_visual_resource_relocation`类型允许graphics在1–192个4bpp tile内变长，
+  但要求同层32×32 tilemap精确覆盖从`0x140`开始的连续tile、palette固定32 bytes
+  且全部entry使用bank 15。全量原样迁移写入`0xB50000..0xB71000`，存储
+  56,551 bytes、末端`0xB5DD2D`、区域余78,547 bytes。共享palette的24个逻辑槽
+  可按catalog子集显式拆分，区域总容量不足时整批失败。完整tile-assets与剧情层
+  在同一安全门应用1,153个补丁无冲突，24个`config_id`继续索引原
+  `0x085A320C` descriptor行。成果位于
+  `artifacts/story-visual-resource-relocation-v1/`，说明见
+  `notes/story-visual-resource-relocation-20260731.md`。修改后自然剧情路线的
+  scroll/window/blend与最终像素等价仍未闭合，Goal保持active。

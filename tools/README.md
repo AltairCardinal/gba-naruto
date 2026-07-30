@@ -162,6 +162,32 @@ python3 tools/verify_battle_effect_resource_relocation_audit.py \
 可显式分裂，group 16/17的同内容不同物理palette也保持可分离。graphics仍须由完整
 32-byte 4bpp tile组成，palette仍须恰好32 bytes。
 
+## 剧情透明 BG3 图层可变长迁移
+
+`export_story_visual_resource_sources.py`一次性从24条`0x0854229C`
+descriptor导出49份去重可编辑源：24 graphics、1 palette、24 tilemap。
+`import_story_visual_resource_relocations.py`按内容SHA和精确指针槽识别资源，
+把载荷写入`story-visual-layers`区域并重写72个descriptor字段。构建清单使用
+`type: story_visual_resource_relocation`和完整spec。
+
+```bash
+python3 tools/export_story_visual_resource_sources.py \
+  --root . --output artifacts/story-visual-resource-sources-v1
+
+python3 tools/export_story_visual_resource_relocation_audit.py \
+  --root . --output artifacts/story-visual-resource-relocation-v1
+
+python3 tools/verify_story_visual_resource_relocation_audit.py \
+  --root . --artifact artifacts/story-visual-resource-relocation-v1
+```
+
+专属区域为`0xB50000..0xB71000`。每层palette固定32 bytes，tilemap固定
+32×32 u16并只能使用palette bank 15；graphics允许1–192个4bpp tile，但必须和
+同层tilemap共同形成从`0x140`开始的精确连续tile集合。共享palette可用
+`target_pointer_offsets`显式拆分。所有编辑还受区域总容量约束，容量不足时整批
+失败，不覆盖后续资源。`config_id`只关联已迁移的`0x085A320C` tile-assets
+descriptor，不在本迁移器中重复改写。
+
 ## 菜单/剧情立绘原位回编
 
 `import_menu_portraits.py` 把 `menu-portraits-v1` 的80×80索引色 PNG 逆变换回
