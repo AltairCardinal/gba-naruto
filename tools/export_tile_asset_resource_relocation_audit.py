@@ -19,9 +19,11 @@ for candidate in (REPO_ROOT, REPO_ROOT / "tools"):
 from build_mod import apply_patch
 from import_tile_asset_resources import (
     CATALOG_PATH,
+    REGION_REGISTRY_PATH,
     catalog_tile_asset_resources,
     resolve_tile_asset_resource_patches,
 )
+from image_resource_regions import ImageResourceRegions
 from patch_safety import PatchSafetyGate
 from rom_layout import RomLayout
 
@@ -29,6 +31,22 @@ from rom_layout import RomLayout
 ARTIFACT_ID = "tile-asset-resource-relocation-v1"
 PAYLOAD_NAME = "relocation-audit.json"
 SPEC_NAME = "full-relocation-spec.json"
+SCOPE = {
+    "proved": (
+        "All 323 graphics/tilemap/palette payloads and all 709 exact "
+        "descriptor pointers relocate into the registered tile-assets image "
+        "region with no unknown aligned exact references."
+    ),
+    "editable": (
+        "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may "
+        "change size where their layer geometry remains valid."
+    ),
+    "not_proved": (
+        "Modified-resource runtime pixel equivalence, final window/"
+        "blend/timing composition, or the missing graphics/palette "
+        "producers for descriptor 0 partial D."
+    ),
+}
 PAYLOAD_SCHEMA = "tile-asset-resource-relocation-audit-v1"
 
 
@@ -43,10 +61,11 @@ def _sha256_file(path: Path) -> str:
 def _spec(
     base: bytes,
     catalog_sha256: str,
+    registry_sha256: str,
     resources: dict[int, dict[str, Any]],
 ) -> dict[str, Any]:
     return {
-        "schema": "tile-asset-resource-import-v1",
+        "schema": "tile-asset-resource-import-v2",
         "description": (
             "Capacity/fidelity audit: relocate all 323 tile-assets payloads "
             "and all 709 exact descriptor pointer aliases without editing."
@@ -56,6 +75,10 @@ def _spec(
         "source_catalog_sha256": catalog_sha256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
+        "region_registry": REGION_REGISTRY_PATH.as_posix(),
+        "region_registry_sha256": registry_sha256,
+        "region": "tile-assets",
+        "region_owner": "tile_asset_resources",
         "edits": [
             {
                 "id": (
@@ -81,15 +104,24 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=True)
     base_path = root / "rom/base.gba"
     layout_path = root / "sequel/rom-layout.json"
+    registry_path = root / REGION_REGISTRY_PATH
     catalog_path = root / CATALOG_PATH
     base = base_path.read_bytes()
     layout = RomLayout.from_path(layout_path, base)
+    registry_bytes = registry_path.read_bytes()
+    regions = ImageResourceRegions.from_path(registry_path, layout)
+    region = regions.require("tile-assets", "tile_asset_resources")
     catalog_bytes = catalog_path.read_bytes()
     catalog = json.loads(catalog_bytes)
     resources = catalog_tile_asset_resources(root, base)
 
     spec_path = output / SPEC_NAME
-    spec = _spec(base, _sha256(catalog_bytes), resources)
+    spec = _spec(
+        base,
+        _sha256(catalog_bytes),
+        _sha256(registry_bytes),
+        resources,
+    )
     spec_path.write_text(
         json.dumps(spec, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -99,9 +131,10 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         spec_path,
         rom=base,
         layout=layout,
+        regions=regions,
     )
     data = bytearray(layout.expanded_base())
-    gate = PatchSafetyGate(base, layout=layout)
+    gate = PatchSafetyGate(base, layout=layout, image_regions=regions)
     applied = [apply_patch(data, patch, gate=gate) for patch in patches]
     allocations = [
         patch
@@ -121,9 +154,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
     ):
         raise ValueError("tile-assets relocation safety classes mismatch")
 
-    partition = next(
-        row for row in layout.partitions if row.id == "sequel-image-assets"
-    )
+    partition = regions.parent
     allocation_end = max(
         patch["offset"] + len(bytes.fromhex(patch["after_hex"]))
         for patch in allocations
@@ -174,9 +205,9 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         "unexpected_pointer_count": sum(
             len(row["unexpected_pointer_offsets"]) for row in resource_rows
         ),
-        "allocation_start": partition.start,
+        "allocation_start": region.start,
         "allocation_end": allocation_end,
-        "allocated_span_bytes": allocation_end - partition.start,
+        "allocated_span_bytes": allocation_end - region.start,
         "relocated_stored_bytes": sum(
             row["relocated_stored_size"] for row in resource_rows
         ),
@@ -186,8 +217,8 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         "source_content_bytes": sum(
             row["source_size"] for row in resource_rows
         ),
-        "partition_end": partition.end,
-        "remaining_bytes": partition.end - allocation_end,
+        "region_end": region.end,
+        "remaining_bytes": region.end - allocation_end,
     }
     expected = {
         "descriptor_count": 79,
@@ -211,6 +242,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
 
     implementation_paths = (
         "tools/import_tile_asset_resources.py",
+        "tools/image_resource_regions.py",
         "tools/rom_layout.py",
         "tools/patch_safety.py",
         "tools/build_mod.py",
@@ -229,6 +261,14 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             "partition": partition.id,
             "owner": partition.owner,
         },
+        "region_registry": {
+            "path": REGION_REGISTRY_PATH.as_posix(),
+            "sha256": _sha256(registry_bytes),
+            "region": region.id,
+            "owner": region.owner,
+            "start": region.start,
+            "end": region.end,
+        },
         "catalog": {
             "path": CATALOG_PATH.as_posix(),
             "sha256": _sha256(catalog_bytes),
@@ -245,22 +285,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         "summary": summary,
         "resources": resource_rows,
         "output_rom_sha256": _sha256(bytes(data)),
-        "scope": {
-            "proved": (
-                "All 323 graphics/tilemap/palette payloads and all 709 exact "
-                "descriptor pointers relocate into the registered 4 MiB image "
-                "partition with no unknown aligned exact references."
-            ),
-            "editable": (
-                "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may "
-                "change size where their layer geometry remains valid."
-            ),
-            "not_proved": (
-                "Modified-resource runtime pixel equivalence, final window/"
-                "blend/timing composition, or the missing graphics/palette "
-                "producers for descriptor 0 partial D."
-            ),
-        },
+        "scope": SCOPE,
     }
     payload_path = output / PAYLOAD_NAME
     payload_path.write_text(

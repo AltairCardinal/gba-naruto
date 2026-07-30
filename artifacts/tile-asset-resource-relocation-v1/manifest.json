@@ -4,13 +4,13 @@
   "artifact_schema": "tile-asset-resource-relocation-audit-v1",
   "artifact_status": "accepted",
   "payload_file": "relocation-audit.json",
-  "payload_sha256": "0758b5a523f98762d8365d7983d6a9ad18c383ca3c74d9878b6270e720287341",
+  "payload_sha256": "5facd4d905fb18eb0472cec2c73cdc34d061ea5b6e4e658a650736c9b942fad2",
   "files": {
-    "relocation-audit.json": "0758b5a523f98762d8365d7983d6a9ad18c383ca3c74d9878b6270e720287341",
-    "full-relocation-spec.json": "7bcd00e9d3027f5acd8ae062195d4eba7b1c5c677d851fdd5b688f0cb428a4f1"
+    "relocation-audit.json": "5facd4d905fb18eb0472cec2c73cdc34d061ea5b6e4e658a650736c9b942fad2",
+    "full-relocation-spec.json": "4a6ae2b83511f5a84718c34335a272cc25e53010f3a8cd204114359e5d485f63"
   },
   "scope": {
-    "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered 4 MiB image partition with no unknown aligned exact references.",
+    "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered tile-assets image region with no unknown aligned exact references.",
     "editable": "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may change size where their layer geometry remains valid.",
     "not_proved": "Modified-resource runtime pixel equivalence, final window/blend/timing composition, or the missing graphics/palette producers for descriptor 0 partial D."
   },
@@ -32,8 +32,8 @@
     "relocated_stored_bytes": 633773,
     "source_stored_bytes": 635194,
     "source_content_bytes": 1159684,
-    "partition_end": 12582912,
-    "remaining_bytes": 3560192
+    "region_end": 9961472,
+    "remaining_bytes": 938752
   },
   "verifier": {
     "command": [

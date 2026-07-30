@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from image_resource_regions import ImageResourceRegions
     from rom_layout import RomLayout
 
 
@@ -30,9 +31,16 @@ class PatchSafetyGate:
 
     VALID_CLASSES = {"game_effective", "allocation", "audit"}
 
-    def __init__(self, base_rom: bytes, *, layout: "RomLayout | None" = None):
+    def __init__(
+        self,
+        base_rom: bytes,
+        *,
+        layout: "RomLayout | None" = None,
+        image_regions: "ImageResourceRegions | None" = None,
+    ):
         self.base_rom = base_rom
         self.layout = layout
+        self.image_regions = image_regions
         self._spans: list[PatchSpan] = []
 
     def register(self, patch: dict, *, patch_class: str) -> dict[str, object]:
@@ -80,6 +88,31 @@ class PatchSafetyGate:
                 "allocation_partition": partition.id,
                 "allocation_owner": partition.owner,
             }
+            if partition.id == "sequel-image-assets":
+                if self.image_regions is None:
+                    raise ValueError(
+                        f"allocation patch {patch_id} requires the image "
+                        "resource region registry"
+                    )
+                if self.image_regions.parent != partition:
+                    raise ValueError(
+                        "image resource region registry parent mismatch"
+                    )
+                region_id = str(allocation.get("region", ""))
+                region_owner = str(allocation.get("region_owner", ""))
+                region = self.image_regions.require(region_id, region_owner)
+                if start < region.start or end > region.end:
+                    raise ValueError(
+                        f"allocation patch {patch_id} range "
+                        f"0x{start:X}..0x{end:X} is outside image region "
+                        f"{region.id} 0x{region.start:X}..0x{region.end:X}"
+                    )
+                allocation_result.update(
+                    {
+                        "allocation_region": region.id,
+                        "allocation_region_owner": region.owner,
+                    }
+                )
         elif end > len(self.base_rom):
             if self.layout is not None and end <= self.layout.target_rom_size:
                 raise ValueError(

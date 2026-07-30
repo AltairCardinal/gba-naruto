@@ -9,6 +9,7 @@ from pathlib import Path
 from unittest import mock
 
 from tools.extract_tileset import lz77_decompress
+from tools.image_resource_regions import ImageResourceRegions
 from tools.rom_layout import RomLayout
 
 
@@ -46,7 +47,7 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
         path.write_text(
             json.dumps(
                 {
-                    "schema": "tile-asset-resource-import-v1",
+                    "schema": "tile-asset-resource-import-v2",
                     "base_rom_sha256": hashlib.sha256(self.base).hexdigest(),
                     "source_catalog": CATALOG_PATH.as_posix(),
                     "source_catalog_sha256": hashlib.sha256(
@@ -54,6 +55,14 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
                     ).hexdigest(),
                     "partition": "sequel-image-assets",
                     "owner": "sequel_image_assets",
+                    "region_registry": "sequel/image-resource-regions.json",
+                    "region_registry_sha256": hashlib.sha256(
+                        (
+                            ROOT / "sequel/image-resource-regions.json"
+                        ).read_bytes()
+                    ).hexdigest(),
+                    "region": "tile-assets",
+                    "region_owner": "tile_asset_resources",
                     "edits": edits,
                 }
             ),
@@ -100,6 +109,28 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
             },
         )
 
+    def test_v1_spec_is_rejected_after_region_contract_upgrade(self):
+        from tools.import_tile_asset_resources import (
+            resolve_tile_asset_resource_patches,
+        )
+
+        resource = next(iter(self._resources().values()))
+        spec_path = self._write_spec([self._edit(resource)])
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+        spec["schema"] = "tile-asset-resource-import-v1"
+        spec_path.write_text(json.dumps(spec), encoding="utf-8")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "expected schema tile-asset-resource-import-v2",
+        ):
+            resolve_tile_asset_resource_patches(
+                ROOT,
+                spec_path,
+                rom=self.base,
+                layout=self.layout,
+            )
+
     def test_preservation_relocation_allocates_and_redirects_every_alias(self):
         from tools.import_tile_asset_resources import (
             resolve_tile_asset_resource_patches,
@@ -127,6 +158,7 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
             "sequel-image-assets",
             allocation["allocation"]["partition"],
         )
+        self.assertEqual("tile-assets", allocation["allocation"]["region"])
         self.assertEqual(
             resource["source_content"],
             lz77_decompress(bytes.fromhex(allocation["after_hex"]), 0),
@@ -318,21 +350,20 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
             )
 
         payload = json.loads(
-            (ROOT / "sequel/rom-layout.json").read_text(encoding="utf-8")
+            (ROOT / "sequel/image-resource-regions.json").read_text(
+                encoding="utf-8"
+            )
         )
-        partition = next(
-            row
-            for row in payload["partitions"]
-            if row["id"] == "sequel-image-assets"
-        )
-        partition["end"] = "0x800004"
-        tiny_layout = RomLayout.from_dict(payload, self.base)
+        payload["regions"][0]["end"] = "0x800004"
+        payload["regions"][1]["start"] = "0x800004"
+        tiny_regions = ImageResourceRegions.from_dict(payload, self.layout)
         with self.assertRaisesRegex(ValueError, "partition capacity"):
             resolve_tile_asset_resource_patches(
                 ROOT,
                 self._write_spec([self._edit(resource)], "overflow.json"),
                 rom=self.base,
-                layout=tiny_layout,
+                layout=self.layout,
+                regions=tiny_regions,
             )
 
     def test_unified_build_applies_tile_asset_allocation_and_redirects(self):
@@ -350,6 +381,9 @@ class ImportTileAssetResourcesTests(unittest.TestCase):
         (build_root / "rom/custom-base.gba").write_bytes(self.base)
         (build_root / "sequel/rom-layout.json").write_bytes(
             (ROOT / "sequel/rom-layout.json").read_bytes()
+        )
+        (build_root / "sequel/image-resource-regions.json").write_bytes(
+            (ROOT / "sequel/image-resource-regions.json").read_bytes()
         )
         (build_root / CATALOG_PATH).write_bytes(
             (ROOT / CATALOG_PATH).read_bytes()

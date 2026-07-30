@@ -15,7 +15,7 @@ ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽
 
 `import_tile_asset_resources.py` 覆盖 `0x085A320C` 表的323个物理资源和709条
 descriptor指针引用。graphics/tilemap 会确定性重压缩为GBA LZ77，palette保持
-raw BGR555；内容分配到`sequel-image-assets`后，只重写规格明确列出的别名。
+raw BGR555；内容分配到父分区内的`tile-assets`注册区域后，只重写规格明确列出的别名。
 构建清单使用`type: tile_asset_resource`和`spec`。
 
 ```bash
@@ -33,8 +33,31 @@ python3 tools/verify_tile_asset_resource_relocation_audit.py \
 `expected_pointer_offsets`；可用`target_pointer_offsets`选择经catalog验证的
 别名子集。导入器在分配前联合验证236个完整图层的tile几何、tilemap尺寸和索引、
 palette大小、8bpp像素色号及保留palette-bank位。任一编辑失败时不返回部分补丁。
-完整迁移占用`0x800000..0x89AE00`，分区余3,560,192 bytes。descriptor 0 partial D
+完整迁移占用`0x800000..0x89AE00`，区域余938,752 bytes。descriptor 0 partial D
 缺失的graphics/palette生产者及修改后最终像素等价不在本成果范围内。
+
+## 战斗地图资源可变长迁移
+
+`import_map_resource_relocations.py` 在保留旧`map_resource`原位模式的同时，
+为166份去重地图内容提供可变长迁移。217个原物理槽的249条map-header指针均有
+精确引用分母；编辑可默认联动全部别名或用
+`target_header_pointer_offsets`选择catalog子集。构建清单使用
+`type: map_resource_relocation`。
+
+```bash
+python3 tools/import_map_resource_relocations.py \
+  sequel/content/map-resources/relocation-edits.json
+
+python3 tools/export_map_resource_relocation_audit.py \
+  --root . --output artifacts/map-resource-relocation-v1
+
+python3 tools/verify_map_resource_relocation_audit.py \
+  --root . --artifact artifacts/map-resource-relocation-v1
+```
+
+地图资源固定使用`map-resources`区域`0x980000..0xA80000`；tile-assets使用
+`0x800000..0x980000`。`image_resource_regions.py`拒绝父分区不符、空洞、重叠或
+未对齐配置。全量地图迁移末端为`0x9DDEC3`，区域余663,869 bytes。
 
 ## 战斗地图资源原位回编
 

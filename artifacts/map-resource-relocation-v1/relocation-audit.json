@@ -1,0 +1,4124 @@
+{
+  "schema": "map-resource-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "a756619a65cbacae672bda4bb3275035020b55693c6af46c90ac52c7b2b559c2",
+    "region": "map-resources",
+    "owner": "map_resources",
+    "start": 9961472,
+    "end": 11010048
+  },
+  "catalog": {
+    "path": "artifacts/map-canvases-v1/manifest.json",
+    "sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "80438057f12f93a25db873cedafa57312915e95f7c2daab5cbe1d7061c3810e7"
+  },
+  "implementation": {
+    "tools/import_map_resource_relocations.py": "6e804b74db0c1f6462cd535c578bd133be1859a4dd0817a9e8ae75ef114532e2",
+    "tools/import_map_resources.py": "d53fc8a7df6769f08dad9f245e03b45023d8d2c8a5e16e7510d5f0aca098ae05",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "3710c977ca65a026c9c05b6005e6f7e3d32d5806fad7d98548a1a159e5362969"
+  },
+  "summary": {
+    "map_count": 47,
+    "content_resource_count": 166,
+    "physical_source_count": 217,
+    "logical_reference_count": 249,
+    "resource_type_counts": {
+      "alternate_layout": 12,
+      "bg_palette": 15,
+      "collision_grid": 35,
+      "metatile_definitions": 35,
+      "primary_layout": 35,
+      "tile_graphics": 34
+    },
+    "unexpected_pointer_count": 0,
+    "allocation_start": 9961472,
+    "allocation_end": 10346179,
+    "allocated_span_bytes": 384707,
+    "relocated_stored_bytes": 384459,
+    "source_physical_stored_bytes": 468956,
+    "source_content_bytes": 548704,
+    "region_end": 11010048,
+    "remaining_bytes": 663869
+  },
+  "resources": [
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "34cf11df93495221b7c763fe9344d2e1b2391d79ef16e23ae4cd4b681e35d6c0",
+      "source_size": 21504,
+      "physical_offsets": [
+        761728
+      ],
+      "source_pointers": [
+        "0x080B9F80"
+      ],
+      "source_stored_sizes": [
+        13957
+      ],
+      "allocation_offset": 9961472,
+      "relocated_stored_size": 13930,
+      "relocated_stored_sha256": "b8fab2073d5933c959ed8c2661156ae672e0e12678826ca5c1362a8f91e65bd3",
+      "new_pointer": "0x08980000",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495060
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "4813b131825480cd54ce73153ab53b37b0646d889624a057f6a2aae3ebdb4392",
+      "source_size": 384,
+      "physical_offsets": [
+        775688
+      ],
+      "source_pointers": [
+        "0x080BD608"
+      ],
+      "source_stored_sizes": [
+        260
+      ],
+      "allocation_offset": 9975404,
+      "relocated_stored_size": 259,
+      "relocated_stored_sha256": "6bb2e2870877291bd1b72b31a0a785b992e4ef6fac67c6605e2ce1bce280bf2e",
+      "new_pointer": "0x0898366C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495064
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "96b3a84da8b7e783c3bfb11e21de3c9f681a666f1b9631dd8cb139b857422b76",
+      "source_size": 2944,
+      "physical_offsets": [
+        775948
+      ],
+      "source_pointers": [
+        "0x080BD70C"
+      ],
+      "source_stored_sizes": [
+        2035
+      ],
+      "allocation_offset": 9975664,
+      "relocated_stored_size": 2035,
+      "relocated_stored_sha256": "0cf7f421510b43feafe0070b9e05998a667ef8778f548d183104e3eef68eb5de",
+      "new_pointer": "0x08983770",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495068
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "66de60bfbe6deea36bb1371ff087189815c4cc39e373a7aa59672bb2a174f172",
+      "source_size": 2944,
+      "physical_offsets": [
+        777984
+      ],
+      "source_pointers": [
+        "0x080BDF00"
+      ],
+      "source_stored_sizes": [
+        524
+      ],
+      "allocation_offset": 9977700,
+      "relocated_stored_size": 524,
+      "relocated_stored_sha256": "615a04905af308ee274d267bc849ef059f1134b0075b5979360847cb5a5e81b8",
+      "new_pointer": "0x08983F64",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495072
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "8c6a1c8a8fe924d98f274c623a07e5c5e5ce2c5146c9223a44eaa06bbd5f768a",
+      "source_size": 6160,
+      "physical_offsets": [
+        778508
+      ],
+      "source_pointers": [
+        "0x080BE10C"
+      ],
+      "source_stored_sizes": [
+        4418
+      ],
+      "allocation_offset": 9978224,
+      "relocated_stored_size": 4418,
+      "relocated_stored_sha256": "6e34d99527f3ed35759167ec4e8733d53849690cfbf1bbb9d3df08e574f7de6d",
+      "new_pointer": "0x08984170",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495076
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "7fb4ceb2891f5879247dd0c18eb7988edab3abc23083ef38dcae16a280d6a036",
+      "source_size": 1472,
+      "physical_offsets": [
+        782928
+      ],
+      "source_pointers": [
+        "0x080BF250"
+      ],
+      "source_stored_sizes": [
+        200
+      ],
+      "allocation_offset": 9982644,
+      "relocated_stored_size": 199,
+      "relocated_stored_sha256": "8481d026fc709b367485bb2b02feccec4cf194b64abbb993fcdb4540f0c2b259",
+      "new_pointer": "0x089852B4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495080
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "abc426383929d4f54b520bb7a66366275439deff02d8ddc29fa3ff5eb62d482d",
+      "source_size": 10240,
+      "physical_offsets": [
+        783128
+      ],
+      "source_pointers": [
+        "0x080BF318"
+      ],
+      "source_stored_sizes": [
+        9042
+      ],
+      "allocation_offset": 9982844,
+      "relocated_stored_size": 9037,
+      "relocated_stored_sha256": "9e986a5fd1679d72291a3bdd7a51bd6f1ea62788f84147eff7d42374b2007206",
+      "new_pointer": "0x0898537C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495092
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4",
+      "source_size": 384,
+      "physical_offsets": [
+        792172,
+        803180,
+        810788,
+        820308,
+        958708,
+        980040,
+        1005644,
+        1146524,
+        1158492,
+        1170460,
+        1182428,
+        1194396,
+        1206364,
+        1218332
+      ],
+      "source_pointers": [
+        "0x080C166C",
+        "0x080C416C",
+        "0x080C5F24",
+        "0x080C8454",
+        "0x080EA0F4",
+        "0x080EF448",
+        "0x080F584C",
+        "0x08117E9C",
+        "0x0811AD5C",
+        "0x0811DC1C",
+        "0x08120ADC",
+        "0x0812399C",
+        "0x0812685C",
+        "0x0812971C"
+      ],
+      "source_stored_sizes": [
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163,
+        163
+      ],
+      "allocation_offset": 9991884,
+      "relocated_stored_size": 163,
+      "relocated_stored_sha256": "e49f776b570b8dc09619126e51e697783061568fb15af7800dfba17441a74690",
+      "new_pointer": "0x089876CC",
+      "logical_reference_count": 15,
+      "header_pointer_offsets": [
+        5495096,
+        5495128,
+        5495160,
+        5495192,
+        5495512,
+        5495576,
+        5495640,
+        5496120,
+        5496312,
+        5496344,
+        5496376,
+        5496408,
+        5496440,
+        5496472,
+        5496504
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "486e2baf67afab542597a2140f3afa43c8628476eb693548246ad32233d0e6fa",
+      "source_size": 900,
+      "physical_offsets": [
+        792336
+      ],
+      "source_pointers": [
+        "0x080C1710"
+      ],
+      "source_stored_sizes": [
+        476
+      ],
+      "allocation_offset": 9992048,
+      "relocated_stored_size": 476,
+      "relocated_stored_sha256": "abe247eea843ce710ec10a3e52f3aa43b73bb47c4d0822b785335ced73aaddd8",
+      "new_pointer": "0x08987770",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495100
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "aece8fb210522e6043533c761f781b94329eddaf22e01eaa4b9918db36190ddb",
+      "source_size": 1152,
+      "physical_offsets": [
+        792812
+      ],
+      "source_pointers": [
+        "0x080C18EC"
+      ],
+      "source_stored_sizes": [
+        958
+      ],
+      "allocation_offset": 9992524,
+      "relocated_stored_size": 958,
+      "relocated_stored_sha256": "90bdeeaccbba1d52e71984696b8b9cc16157eac16a9efdd9be4b0457b3daaf2e",
+      "new_pointer": "0x0898794C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495108
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "84abb3f0fca37732c10cbcc990f405806326762cff97293721da59e289934e01",
+      "source_size": 450,
+      "physical_offsets": [
+        793772
+      ],
+      "source_pointers": [
+        "0x080C1CAC"
+      ],
+      "source_stored_sizes": [
+        74
+      ],
+      "allocation_offset": 9993484,
+      "relocated_stored_size": 73,
+      "relocated_stored_sha256": "41790d2e94eb904c134e91dc728ff0fcdc9bedcf9d81ead81761b53ecfa75812",
+      "new_pointer": "0x08987D0C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495112
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "2d49f865486a98cdc7de055f86f6012a0cd4d53b7286067b8b59bdb83238d6e8",
+      "source_size": 11264,
+      "physical_offsets": [
+        793848
+      ],
+      "source_pointers": [
+        "0x080C1CF8"
+      ],
+      "source_stored_sizes": [
+        9332
+      ],
+      "allocation_offset": 9993560,
+      "relocated_stored_size": 9326,
+      "relocated_stored_sha256": "528f4fb971d1a45c0460c9107f2684f240272c38ce5d21a1eed0bc1dc26d5575",
+      "new_pointer": "0x08987D58",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495124
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "0128940ed16e831bce05a6713a38e3652efe95f16ccbd0c00edebb19c5d9d658",
+      "source_size": 648,
+      "physical_offsets": [
+        803344
+      ],
+      "source_pointers": [
+        "0x080C4210"
+      ],
+      "source_stored_sizes": [
+        465
+      ],
+      "allocation_offset": 10002888,
+      "relocated_stored_size": 465,
+      "relocated_stored_sha256": "f9ceaecd87cb29f8d828ec077f75fb78d61155b400588082a6b5409c16972c18",
+      "new_pointer": "0x0898A1C8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495132
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "c76196def79f1aa61f9939b2f382170812a9ec239d0451e0297a1d842cb2e89a",
+      "source_size": 1320,
+      "physical_offsets": [
+        803812
+      ],
+      "source_pointers": [
+        "0x080C43E4"
+      ],
+      "source_stored_sizes": [
+        1120
+      ],
+      "allocation_offset": 10003356,
+      "relocated_stored_size": 1120,
+      "relocated_stored_sha256": "f6d38425ca655b5c57f271692c9c210ab533941995bba09c7be33599f6c36132",
+      "new_pointer": "0x0898A39C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495140
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "c06a190612735178b9042e9d06903e99199257f9213933e10b2523581f740b01",
+      "source_size": 324,
+      "physical_offsets": [
+        804932
+      ],
+      "source_pointers": [
+        "0x080C4844"
+      ],
+      "source_stored_sizes": [
+        59
+      ],
+      "allocation_offset": 10004476,
+      "relocated_stored_size": 58,
+      "relocated_stored_sha256": "0ec02267951a018fff338792f261c9cde04a7c6ff8fc800b33e8751cc98b598e",
+      "new_pointer": "0x0898A7FC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495144
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "de763decdee482151edd3a09097c7144d17ddcd918882b67660ff204391c04d2",
+      "source_size": 7168,
+      "physical_offsets": [
+        804992
+      ],
+      "source_pointers": [
+        "0x080C4880"
+      ],
+      "source_stored_sizes": [
+        5796
+      ],
+      "allocation_offset": 10004536,
+      "relocated_stored_size": 5791,
+      "relocated_stored_sha256": "357a5a7ab9848f6e663f8a87f13a0a481f6b4493483b933b7e8fb61fb0dd9fad",
+      "new_pointer": "0x0898A838",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495156
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "2b992b1a630336b7d659392eca3d26cf095c55ed4eddd4bb7d1dec304e31e04f",
+      "source_size": 720,
+      "physical_offsets": [
+        810952
+      ],
+      "source_pointers": [
+        "0x080C5FC8"
+      ],
+      "source_stored_sizes": [
+        374
+      ],
+      "allocation_offset": 10010328,
+      "relocated_stored_size": 373,
+      "relocated_stored_sha256": "05c014fd45f98cf1da3e6cf15c227bf13829d8ebe29c03213850f35b7b497156",
+      "new_pointer": "0x0898BED8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495164
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "e78da6f29627d36f257712f3f6da83a326f2fb66b2a416c14978761b307b71dd",
+      "source_size": 968,
+      "physical_offsets": [
+        811328
+      ],
+      "source_pointers": [
+        "0x080C6140"
+      ],
+      "source_stored_sizes": [
+        718
+      ],
+      "allocation_offset": 10010704,
+      "relocated_stored_size": 718,
+      "relocated_stored_sha256": "7c8fcffb4024e3ead772fa6aac72082dedc8f28d947e06dadba00192b76f2701",
+      "new_pointer": "0x0898C050",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495172
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "3c020524c098098e49ca8762374092b24066c2db4403bfa0cdb7daf20b494006",
+      "source_size": 360,
+      "physical_offsets": [
+        812048
+      ],
+      "source_pointers": [
+        "0x080C6410"
+      ],
+      "source_stored_sizes": [
+        64
+      ],
+      "allocation_offset": 10011424,
+      "relocated_stored_size": 63,
+      "relocated_stored_sha256": "eb6290c7ffd9f1494424f9cc841e3cad107b3b9811351a98e9a6793008b6b083",
+      "new_pointer": "0x0898C320",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495176
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "bbc04eb56931cd53bcfbfb348658e39c268237417885bcd1148ee9e4cae412e4",
+      "source_size": 9216,
+      "physical_offsets": [
+        812112
+      ],
+      "source_pointers": [
+        "0x080C6450"
+      ],
+      "source_stored_sizes": [
+        8195
+      ],
+      "allocation_offset": 10011488,
+      "relocated_stored_size": 8190,
+      "relocated_stored_sha256": "01e854e1b8273e165f00c3f45c2aa7615fa6037ec629ddd98789196b180a9622",
+      "new_pointer": "0x0898C360",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495188
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "be91d92571f348b89b0532c2de100cbd8150aefb5087776604aabcc42502d3f4",
+      "source_size": 720,
+      "physical_offsets": [
+        820472
+      ],
+      "source_pointers": [
+        "0x080C84F8"
+      ],
+      "source_stored_sizes": [
+        480
+      ],
+      "allocation_offset": 10019680,
+      "relocated_stored_size": 480,
+      "relocated_stored_sha256": "be6f0ecbf256cecf4450b5abf5fe0848a01f0cfd8a959dcf3e221a409d716a5d",
+      "new_pointer": "0x0898E360",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495196
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "0b83fd0c667d38192d0bc04d0076e3e544ff8aca0ba1fa31fa5896637df54822",
+      "source_size": 1312,
+      "physical_offsets": [
+        820952
+      ],
+      "source_pointers": [
+        "0x080C86D8"
+      ],
+      "source_stored_sizes": [
+        995
+      ],
+      "allocation_offset": 10020160,
+      "relocated_stored_size": 995,
+      "relocated_stored_sha256": "e430475136a4368380bb0e110047f30fabe558ed7cda866f72ef37daa4342981",
+      "new_pointer": "0x0898E540",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495204
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "623f90f38ccb04e764c01b75ace51021eb670abb4a621e9b493f5380a39d4d87",
+      "source_size": 360,
+      "physical_offsets": [
+        821948
+      ],
+      "source_pointers": [
+        "0x080C8ABC"
+      ],
+      "source_stored_sizes": [
+        55
+      ],
+      "allocation_offset": 10021156,
+      "relocated_stored_size": 54,
+      "relocated_stored_sha256": "514711eb427937777159693838891bffcf52027bf164e64c6c4c89f01e3231ab",
+      "new_pointer": "0x0898E924",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495208
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "418b7e4c59a33dc72d3aa176712f2e81716dedaea7a8179e0d02ca5643bda9b5",
+      "source_size": 10240,
+      "physical_offsets": [
+        822004
+      ],
+      "source_pointers": [
+        "0x080C8AF4"
+      ],
+      "source_stored_sizes": [
+        8095
+      ],
+      "allocation_offset": 10021212,
+      "relocated_stored_size": 8090,
+      "relocated_stored_sha256": "0549c2f49fb7a509ace225f77a87b8216092faa4628adc0c2c1cf0216795fdaf",
+      "new_pointer": "0x0898E95C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495220
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "06a619b79781e3bdfa20ab20599f9eb8311ad1a417df9f25f5fb173536077b2d",
+      "source_size": 384,
+      "physical_offsets": [
+        830100
+      ],
+      "source_pointers": [
+        "0x080CAA94"
+      ],
+      "source_stored_sizes": [
+        153
+      ],
+      "allocation_offset": 10029304,
+      "relocated_stored_size": 152,
+      "relocated_stored_sha256": "96bf282fdb859ea42d88ef5a75a90e9cbede6c96bb7732aa53355a69a9c6df13",
+      "new_pointer": "0x089908F8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495224
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "ac3005f1926c67cc6a84a0c9b5fccdb2038c4040216cd0d555751c847758b86c",
+      "source_size": 828,
+      "physical_offsets": [
+        830256
+      ],
+      "source_pointers": [
+        "0x080CAB30"
+      ],
+      "source_stored_sizes": [
+        518
+      ],
+      "allocation_offset": 10029456,
+      "relocated_stored_size": 518,
+      "relocated_stored_sha256": "40a99c76fd2f689a4172485edcebb8704fbd61efc0889b0aa1db6992c1e35665",
+      "new_pointer": "0x08990990",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495228
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "b34daabaa72fb644c78b8da2bb2e37a51eb40dccae7a24d5d2b56a27fce570cc",
+      "source_size": 1304,
+      "physical_offsets": [
+        830776
+      ],
+      "source_pointers": [
+        "0x080CAD38"
+      ],
+      "source_stored_sizes": [
+        1024
+      ],
+      "allocation_offset": 10029976,
+      "relocated_stored_size": 1024,
+      "relocated_stored_sha256": "fd42134abed1b16c23d4e5431b3f78afbab69a93ce00d4cef203f8b75ed40b2f",
+      "new_pointer": "0x08990B98",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495236
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "e28c276b7cfeb6272c1f7bfdaf0568635a0a458d0f1309a061946d934ce9d0e8",
+      "source_size": 414,
+      "physical_offsets": [
+        831800
+      ],
+      "source_pointers": [
+        "0x080CB138"
+      ],
+      "source_stored_sizes": [
+        83
+      ],
+      "allocation_offset": 10031000,
+      "relocated_stored_size": 81,
+      "relocated_stored_sha256": "16768cb203fa2e685d3cef71653475431d351b4af80dd7373fd30116d221c852",
+      "new_pointer": "0x08990F98",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495240
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "d31318e741836e4ee47b3e3b1fd613fe3da057298af472406ce9bc40464f1c34",
+      "source_size": 8192,
+      "physical_offsets": [
+        831884
+      ],
+      "source_pointers": [
+        "0x080CB18C"
+      ],
+      "source_stored_sizes": [
+        6600
+      ],
+      "allocation_offset": 10031084,
+      "relocated_stored_size": 6590,
+      "relocated_stored_sha256": "1c2df0efb7f6cc5e48251ec61c0d8dfb14705dbfc9fdca5fdb142f32a001a202",
+      "new_pointer": "0x08990FEC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495252
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "c607f2e9ec5e7e20e815852ddc8c1402a4224652fc2ad776cd9af1c600ed60f7",
+      "source_size": 384,
+      "physical_offsets": [
+        838484
+      ],
+      "source_pointers": [
+        "0x080CCB54"
+      ],
+      "source_stored_sizes": [
+        210
+      ],
+      "allocation_offset": 10037676,
+      "relocated_stored_size": 209,
+      "relocated_stored_sha256": "8723077b6a6b50e3951202b051e5818c7273cefbf4bbe1d7a26d9a20212a8471",
+      "new_pointer": "0x089929AC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495256
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "0e418c43713a19587f118f6d9a43975297810ddbb445b988825c1135243a97fa",
+      "source_size": 960,
+      "physical_offsets": [
+        838696
+      ],
+      "source_pointers": [
+        "0x080CCC28"
+      ],
+      "source_stored_sizes": [
+        498
+      ],
+      "allocation_offset": 10037888,
+      "relocated_stored_size": 498,
+      "relocated_stored_sha256": "e52f6cfe48d8e82fedc3662aaf5c899545071ce064b90ca6ef85c6f89040dbb0",
+      "new_pointer": "0x08992A80",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495260
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "14b9f7c92534e0a1df1b0aa9bab71ce9e7dab1e69c19f61dad1e7175a905b80b",
+      "source_size": 1352,
+      "physical_offsets": [
+        839196
+      ],
+      "source_pointers": [
+        "0x080CCE1C"
+      ],
+      "source_stored_sizes": [
+        1024
+      ],
+      "allocation_offset": 10038388,
+      "relocated_stored_size": 1024,
+      "relocated_stored_sha256": "07f260de63b1ab5937dd10c52aaf5e7b1684712633e51ba69fd15e41fba86d7e",
+      "new_pointer": "0x08992C74",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495268
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "e56732e5b2a5f4e72ac70915576d0e6f6452b0564f261c4d403be04954c80c14",
+      "source_size": 480,
+      "physical_offsets": [
+        840220
+      ],
+      "source_pointers": [
+        "0x080CD21C"
+      ],
+      "source_stored_sizes": [
+        68
+      ],
+      "allocation_offset": 10039412,
+      "relocated_stored_size": 67,
+      "relocated_stored_sha256": "e32a496966c95ca4c1f48897f94c1cf24b506d3bca006f1a28b78d4e514cf112",
+      "new_pointer": "0x08993074",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495272
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "417c5f71e04df48e3c54258c7eb6e45dc306c3dd8fa500d6dd0da8310198d949",
+      "source_size": 21504,
+      "physical_offsets": [
+        840288
+      ],
+      "source_pointers": [
+        "0x080CD260"
+      ],
+      "source_stored_sizes": [
+        11762
+      ],
+      "allocation_offset": 10039480,
+      "relocated_stored_size": 11745,
+      "relocated_stored_sha256": "07b6ac78301e1150f1e73371e55b0e5955a4ca41093bd8460bf3840f79bcefe2",
+      "new_pointer": "0x089930B8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495284
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "15e59e0ebb05d396d26b32caadf1614f7d111ec53a135c730a9c62b176d72d76",
+      "source_size": 384,
+      "physical_offsets": [
+        852052
+      ],
+      "source_pointers": [
+        "0x080D0054"
+      ],
+      "source_stored_sizes": [
+        253
+      ],
+      "allocation_offset": 10051228,
+      "relocated_stored_size": 252,
+      "relocated_stored_sha256": "9ad784f14d62c7aa2f3f7d992f6792f6129fd51c4c813ba858e6cf453a443d84",
+      "new_pointer": "0x08995E9C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495288
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "d77aac99581940f15fd39f1b366457a3d6994f85e789b51233c85b5ee1d61ef9",
+      "source_size": 960,
+      "physical_offsets": [
+        852308
+      ],
+      "source_pointers": [
+        "0x080D0154"
+      ],
+      "source_stored_sizes": [
+        710
+      ],
+      "allocation_offset": 10051480,
+      "relocated_stored_size": 710,
+      "relocated_stored_sha256": "81cce78db52c5b94bd57a7e1011ec46593199941da984369120963b774be4cc1",
+      "new_pointer": "0x08995F98",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495292
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "5fa2e862f205acf91496cae67bdce01ae73681a09aa4a3a9d0da22218164efb8",
+      "source_size": 960,
+      "physical_offsets": [
+        853020
+      ],
+      "source_pointers": [
+        "0x080D041C"
+      ],
+      "source_stored_sizes": [
+        540
+      ],
+      "allocation_offset": 10052192,
+      "relocated_stored_size": 540,
+      "relocated_stored_sha256": "79426142d5e1aabce2e3209afffd9f7caec640a4ada6935982f18b77f35b0cab",
+      "new_pointer": "0x08996260",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495296
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "32583d668f538ea691e4521ebede3564bf337be6ef2258f59830129848873769",
+      "source_size": 3544,
+      "physical_offsets": [
+        853560
+      ],
+      "source_pointers": [
+        "0x080D0638"
+      ],
+      "source_stored_sizes": [
+        3069
+      ],
+      "allocation_offset": 10052732,
+      "relocated_stored_size": 3069,
+      "relocated_stored_sha256": "bb8c1536c40127f5e6d60de72e6a2d97058c0885afc33fbc9e286a3eb76dced5",
+      "new_pointer": "0x0899647C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495300
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "9b51c4133eeca6afae43e411954c0099e05ccde5de7a5242a3e8cb45029919bd",
+      "source_size": 480,
+      "physical_offsets": [
+        856632
+      ],
+      "source_pointers": [
+        "0x080D1238"
+      ],
+      "source_stored_sizes": [
+        76
+      ],
+      "allocation_offset": 10055804,
+      "relocated_stored_size": 75,
+      "relocated_stored_sha256": "dafee1af5915504e286e00981f371e888798312073c346812b6a3d6b2bd756b7",
+      "new_pointer": "0x0899707C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495304
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "657184de66d2b8b6c16267eb6d6a334a74d564466d9b66efd7767215c8ade5b3",
+      "source_size": 16384,
+      "physical_offsets": [
+        856708
+      ],
+      "source_pointers": [
+        "0x080D1284"
+      ],
+      "source_stored_sizes": [
+        12547
+      ],
+      "allocation_offset": 10055880,
+      "relocated_stored_size": 12526,
+      "relocated_stored_sha256": "7305eb5635b31e833be7d40bbf48eedfad3c4df884f484cb2fd2ffee574ce05c",
+      "new_pointer": "0x089970C8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495316
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "8fb4fe55e33020d757eaf24b5582b7c58e342f2fe2850ec9faed3b9a573cf5d2",
+      "source_size": 384,
+      "physical_offsets": [
+        869256
+      ],
+      "source_pointers": [
+        "0x080D4388"
+      ],
+      "source_stored_sizes": [
+        244
+      ],
+      "allocation_offset": 10068408,
+      "relocated_stored_size": 243,
+      "relocated_stored_sha256": "87fc164ea08c2acacbbdbb059b8cfdb24d927b0c9117d077fc186f11ed7250a9",
+      "new_pointer": "0x0899A1B8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495320
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "5121c5c47e4792b5af390a9c14dfcd81f525a4a86b468eb9fc063cbbd0e203c0",
+      "source_size": 960,
+      "physical_offsets": [
+        869500
+      ],
+      "source_pointers": [
+        "0x080D447C"
+      ],
+      "source_stored_sizes": [
+        487
+      ],
+      "allocation_offset": 10068652,
+      "relocated_stored_size": 487,
+      "relocated_stored_sha256": "1f1bc9765a30783eafdfc6f8e6da32e1563e2916de5a85fc4bcfd9de2b518b09",
+      "new_pointer": "0x0899A2AC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495324
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "836384c5b95b45afb4d4c63581bbce0ec2cdb3243041a127df2f0b0f86e95b07",
+      "source_size": 960,
+      "physical_offsets": [
+        869988
+      ],
+      "source_pointers": [
+        "0x080D4664"
+      ],
+      "source_stored_sizes": [
+        247
+      ],
+      "allocation_offset": 10069140,
+      "relocated_stored_size": 247,
+      "relocated_stored_sha256": "f2f7cd42b9fdfb10901c5218b0f51e24558d19bfce324ff1d5267d9f9461ff83",
+      "new_pointer": "0x0899A494",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495328
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "48d8670e8c04505f5826bd1deb3b57da1eca95f6217b3b1f89f31d93c1dbf5b2",
+      "source_size": 1816,
+      "physical_offsets": [
+        870236
+      ],
+      "source_pointers": [
+        "0x080D475C"
+      ],
+      "source_stored_sizes": [
+        1599
+      ],
+      "allocation_offset": 10069388,
+      "relocated_stored_size": 1599,
+      "relocated_stored_sha256": "d499f09af60c4c6c961aaac921855a5d2606c0f0dcd2aa8058ac95848d3547ad",
+      "new_pointer": "0x0899A58C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495332
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "3d1b7699aac3521ad1da6cc0483710eea8a922f9c4be46959fbd6a62120f5522",
+      "source_size": 480,
+      "physical_offsets": [
+        871836
+      ],
+      "source_pointers": [
+        "0x080D4D9C"
+      ],
+      "source_stored_sizes": [
+        72
+      ],
+      "allocation_offset": 10070988,
+      "relocated_stored_size": 72,
+      "relocated_stored_sha256": "ea31553f3bb2911567fa5af6e14ccefbd6d7c61a7bac58c1d4d7964c3d2f8849",
+      "new_pointer": "0x0899ABCC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495336
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "f966926f51bf1dd00d6c73d70f9ea7f7ef4a54e300633fcc80298d076f0bb66a",
+      "source_size": 22528,
+      "physical_offsets": [
+        871908
+      ],
+      "source_pointers": [
+        "0x080D4DE4"
+      ],
+      "source_stored_sizes": [
+        14398
+      ],
+      "allocation_offset": 10071060,
+      "relocated_stored_size": 14379,
+      "relocated_stored_sha256": "9c03b3baad5fccb2c48f1566d76983d192dfa1a513ac476dc35dff0f430fbc17",
+      "new_pointer": "0x0899AC14",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495348
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "bdb15e88f379675f2bb26619ef6899f278df6d5f5abfc4cf583ea1c6ac12bb12",
+      "source_size": 384,
+      "physical_offsets": [
+        886308,
+        900056,
+        917064,
+        935024
+      ],
+      "source_pointers": [
+        "0x080D8624",
+        "0x080DBBD8",
+        "0x080DFE48",
+        "0x080E4470"
+      ],
+      "source_stored_sizes": [
+        273,
+        273,
+        273,
+        273
+      ],
+      "allocation_offset": 10085440,
+      "relocated_stored_size": 271,
+      "relocated_stored_sha256": "817fe161f448e17e5b188d076a46e12513974622289909d44bf1314865e1a121",
+      "new_pointer": "0x0899E440",
+      "logical_reference_count": 5,
+      "header_pointer_offsets": [
+        5495352,
+        5495384,
+        5495416,
+        5495448,
+        5496184
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "925661754c1db09be6a2a0efdf25ffd8d16d0b1c282ccc94cb1106d998746d1b",
+      "source_size": 2048,
+      "physical_offsets": [
+        886584
+      ],
+      "source_pointers": [
+        "0x080D8738"
+      ],
+      "source_stored_sizes": [
+        667
+      ],
+      "allocation_offset": 10085712,
+      "relocated_stored_size": 667,
+      "relocated_stored_sha256": "e364c489a7df9e1a022efdf020548b4cd65af1b001f78e896ba00844bfdd649a",
+      "new_pointer": "0x0899E550",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495356
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "3af66ee04d56d3f7be0dde47d0764b94a7b7fd1751e64418597d317a68b07454",
+      "source_size": 2048,
+      "physical_offsets": [
+        887252
+      ],
+      "source_pointers": [
+        "0x080D89D4"
+      ],
+      "source_stored_sizes": [
+        769
+      ],
+      "allocation_offset": 10086380,
+      "relocated_stored_size": 769,
+      "relocated_stored_sha256": "764f4dcc20e24cbcfcefa2d4efaa03fe95ad62c94adc50ddc2d5da9f2ee9f664",
+      "new_pointer": "0x0899E7EC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495360
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "e300befabb9e59dfdce21982e0c95ff4debe1170f03132962484705f32325ea5",
+      "source_size": 3016,
+      "physical_offsets": [
+        888024
+      ],
+      "source_pointers": [
+        "0x080D8CD8"
+      ],
+      "source_stored_sizes": [
+        2582
+      ],
+      "allocation_offset": 10087152,
+      "relocated_stored_size": 2581,
+      "relocated_stored_sha256": "9c22ba7cc0ea488ca780f04fbdc91616f1bd96a5ad19eb99f94ab573034d861c",
+      "new_pointer": "0x0899EAF0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495364
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "032920c40549f3aea5973fffb352423797266aa8bda10822464ec88ba496d166",
+      "source_size": 1024,
+      "physical_offsets": [
+        890608
+      ],
+      "source_pointers": [
+        "0x080D96F0"
+      ],
+      "source_stored_sizes": [
+        142
+      ],
+      "allocation_offset": 10089736,
+      "relocated_stored_size": 141,
+      "relocated_stored_sha256": "d5a1c10ec1d26fd61ee16436ee5103f871d337e57ae4a38aa2e9cabd45134bdf",
+      "new_pointer": "0x0899F508",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495368
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "034e1780daad2c0f78148c13f53aadd3e55d6f20405c979cbedb5595cd83886c",
+      "source_size": 15360,
+      "physical_offsets": [
+        890752
+      ],
+      "source_pointers": [
+        "0x080D9780"
+      ],
+      "source_stored_sizes": [
+        9301
+      ],
+      "allocation_offset": 10089880,
+      "relocated_stored_size": 9289,
+      "relocated_stored_sha256": "a6a65f6f3af4dd389d341ce05e32dcb06628fff1fa335d99cfa708ec501585d5",
+      "new_pointer": "0x0899F598",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495380
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "8fa53bc63e5aa232dcf13678606b4833ba1cc176b2c81756781e0cc15c6958c7",
+      "source_size": 1344,
+      "physical_offsets": [
+        900332
+      ],
+      "source_pointers": [
+        "0x080DBCEC"
+      ],
+      "source_stored_sizes": [
+        426
+      ],
+      "allocation_offset": 10099172,
+      "relocated_stored_size": 426,
+      "relocated_stored_sha256": "98879a5ab6f5cef3f8d518820870fc3badc7ef8951383cbe4cd0abfb28e9e47e",
+      "new_pointer": "0x089A19E4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495388
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "5230c78bf331a7229e30d1aaac7c96f227d51038918dc81648238b0ecb3c2f5b",
+      "source_size": 1344,
+      "physical_offsets": [
+        900760
+      ],
+      "source_pointers": [
+        "0x080DBE98"
+      ],
+      "source_stored_sizes": [
+        516
+      ],
+      "allocation_offset": 10099600,
+      "relocated_stored_size": 516,
+      "relocated_stored_sha256": "d5e5e6bf8b7176330e21f8fd49451c783c409f3b3cfb555e2b0fc671573e521c",
+      "new_pointer": "0x089A1B90",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495392
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "f71f5dc55003c0c586fe9e75052e0435de5992f98b53c7a943f04a306a1853fa",
+      "source_size": 1920,
+      "physical_offsets": [
+        901276
+      ],
+      "source_pointers": [
+        "0x080DC09C"
+      ],
+      "source_stored_sizes": [
+        1611
+      ],
+      "allocation_offset": 10100116,
+      "relocated_stored_size": 1610,
+      "relocated_stored_sha256": "e76f0c40fd6ac8b1235c45477f71d58b90de45804ba91b7ad4d591faa413b665",
+      "new_pointer": "0x089A1D94",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495396
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "be7623bc28038807ce59679fb2fa805c5392078ac5cb0fe1bb3064dbf21e38a5",
+      "source_size": 672,
+      "physical_offsets": [
+        902888
+      ],
+      "source_pointers": [
+        "0x080DC6E8"
+      ],
+      "source_stored_sizes": [
+        95
+      ],
+      "allocation_offset": 10101728,
+      "relocated_stored_size": 94,
+      "relocated_stored_sha256": "060ef43d06a3d9e641751d0924a58f433cdd4d087877b4c642196eecc785284d",
+      "new_pointer": "0x089A23E0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495400
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "b62b08c9a1bb3daead6a563354efbac3ca84a40e4cc83cdc4b4db7a61b9a224a",
+      "source_size": 21504,
+      "physical_offsets": [
+        902984
+      ],
+      "source_pointers": [
+        "0x080DC748"
+      ],
+      "source_stored_sizes": [
+        14077
+      ],
+      "allocation_offset": 10101824,
+      "relocated_stored_size": 14058,
+      "relocated_stored_sha256": "a099078d20e0ff7a35d9a075de49172b618e16a09e6f71557f8989a534332312",
+      "new_pointer": "0x089A2440",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495412
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "fcc47a83fcd9c451b8ecccf46db13cd6e9d2f8535b9aac60b911dc18aaa50c22",
+      "source_size": 2040,
+      "physical_offsets": [
+        917340
+      ],
+      "source_pointers": [
+        "0x080DFF5C"
+      ],
+      "source_stored_sizes": [
+        646
+      ],
+      "allocation_offset": 10115884,
+      "relocated_stored_size": 646,
+      "relocated_stored_sha256": "355d2d283bd38673eb4f65ad47f945451ddd33ce8ee3d00ba5a369431b8863a0",
+      "new_pointer": "0x089A5B2C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495420
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "72b368ba537cd2ee18c9f4a6104b47a73b5f79c76dc4ff458b831abf2d8a09c1",
+      "source_size": 2040,
+      "physical_offsets": [
+        917988
+      ],
+      "source_pointers": [
+        "0x080E01E4"
+      ],
+      "source_stored_sizes": [
+        738
+      ],
+      "allocation_offset": 10116532,
+      "relocated_stored_size": 738,
+      "relocated_stored_sha256": "676ce95c5286c5956048d5df9600d0e56f52f01bb3b2381a52bd6aa0c8a46037",
+      "new_pointer": "0x089A5DB4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495424
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "16eed7c7e93d138a911d338d2748c13c625684d935e0b1a2f7bd45f4341c2373",
+      "source_size": 2728,
+      "physical_offsets": [
+        918728
+      ],
+      "source_pointers": [
+        "0x080E04C8"
+      ],
+      "source_stored_sizes": [
+        2414
+      ],
+      "allocation_offset": 10117272,
+      "relocated_stored_size": 2413,
+      "relocated_stored_sha256": "f2bd6e8b37096cd5275910033d8fed695982d595e3509d6bf909f000893c7dc3",
+      "new_pointer": "0x089A6098",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495428
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "439804d823149d9ae5b56608940808cb2d68d1e8692f3dc58e71fe5e3cc564cf",
+      "source_size": 1020,
+      "physical_offsets": [
+        921144
+      ],
+      "source_pointers": [
+        "0x080E0E38"
+      ],
+      "source_stored_sizes": [
+        140
+      ],
+      "allocation_offset": 10119688,
+      "relocated_stored_size": 139,
+      "relocated_stored_sha256": "31390ef0b19471912e0efa77cd7deed71cae52c27eec572b6ad0e0a3e4013bbf",
+      "new_pointer": "0x089A6A08",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495432
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "a0856767fcac5947d2a9cb88f36054ede401dfe133ffd5e0bceaa48c3ae7064a",
+      "source_size": 19456,
+      "physical_offsets": [
+        921284
+      ],
+      "source_pointers": [
+        "0x080E0EC4"
+      ],
+      "source_stored_sizes": [
+        13739
+      ],
+      "allocation_offset": 10119828,
+      "relocated_stored_size": 13720,
+      "relocated_stored_sha256": "9a8edb0ddcace66b6f4bc32bcdc1a2e1eefb014a37f4e0e5c4c530c2b97a7682",
+      "new_pointer": "0x089A6A94",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495444,
+        5496180
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "f568c66771e5d816f5365b403130959c1dc1f2ba4ec29fc729410696fc286552",
+      "source_size": 1408,
+      "physical_offsets": [
+        935300
+      ],
+      "source_pointers": [
+        "0x080E4584"
+      ],
+      "source_stored_sizes": [
+        537
+      ],
+      "allocation_offset": 10133548,
+      "relocated_stored_size": 537,
+      "relocated_stored_sha256": "6f2d72983fd8ad995e89f1e11e38bb394506545282db5b2358ef68717d551316",
+      "new_pointer": "0x089AA02C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495452,
+        5496188
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "396761792002b1701a3f84529c036f4a54d8d58649043242244aa119df164a4a",
+      "source_size": 1408,
+      "physical_offsets": [
+        935840
+      ],
+      "source_pointers": [
+        "0x080E47A0"
+      ],
+      "source_stored_sizes": [
+        497
+      ],
+      "allocation_offset": 10134088,
+      "relocated_stored_size": 497,
+      "relocated_stored_sha256": "f772b116478443dde1d2ab33cdb0cd42f25271aa57a13c4dc842435010d68dfd",
+      "new_pointer": "0x089AA248",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495456,
+        5496192
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "0f46df4d6e03c8201f9775186cb4a48fe3139eb466aebf001dbdf9244e8f21db",
+      "source_size": 2056,
+      "physical_offsets": [
+        936340
+      ],
+      "source_pointers": [
+        "0x080E4994"
+      ],
+      "source_stored_sizes": [
+        1850
+      ],
+      "allocation_offset": 10134588,
+      "relocated_stored_size": 1848,
+      "relocated_stored_sha256": "f0003c60f1fe8df6ca87ef8e8ddd6502ed9136d45d469fe3c9f41dadd15a9225",
+      "new_pointer": "0x089AA43C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495460,
+        5496196
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "50402c03354bfc545bf636ced62f8fa520267744d93f97b2946d7af2da4ebeec",
+      "source_size": 704,
+      "physical_offsets": [
+        938192
+      ],
+      "source_pointers": [
+        "0x080E50D0"
+      ],
+      "source_stored_sizes": [
+        104
+      ],
+      "allocation_offset": 10136436,
+      "relocated_stored_size": 102,
+      "relocated_stored_sha256": "48d0ceaed706dc479a1f6e0329e7e36431de01100b1687d599ac3051da57c89d",
+      "new_pointer": "0x089AAB74",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495464,
+        5496200
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "8bb463e5a2324a638054ec6ceae922622bf985950b69347c9ff0b4c0ddb315f2",
+      "source_size": 10240,
+      "physical_offsets": [
+        938296
+      ],
+      "source_pointers": [
+        "0x080E5138"
+      ],
+      "source_stored_sizes": [
+        8531
+      ],
+      "allocation_offset": 10136540,
+      "relocated_stored_size": 8525,
+      "relocated_stored_sha256": "a065e5aa25c1091cedcbd1233a2234938193d5e1b4ec0faff4bd919ff41c210f",
+      "new_pointer": "0x089AABDC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495476
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "65f3a5786911786390f7c664871057566f92c3a695fc35214bdbc0cac67ddcde",
+      "source_size": 384,
+      "physical_offsets": [
+        946828,
+        969536,
+        993016
+      ],
+      "source_pointers": [
+        "0x080E728C",
+        "0x080ECB40",
+        "0x080F26F8"
+      ],
+      "source_stored_sizes": [
+        184,
+        184,
+        184
+      ],
+      "allocation_offset": 10145068,
+      "relocated_stored_size": 184,
+      "relocated_stored_sha256": "0db1b04d9e1b6060ce7da7f2bb6d0866441fd08d81ca8850039cace03d08fabe",
+      "new_pointer": "0x089ACD2C",
+      "logical_reference_count": 3,
+      "header_pointer_offsets": [
+        5495480,
+        5495544,
+        5495608
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "09602be5685b9c454126f519a8469acc6558ede84c265513ab6004643bd24856",
+      "source_size": 1092,
+      "physical_offsets": [
+        947012
+      ],
+      "source_pointers": [
+        "0x080E7344"
+      ],
+      "source_stored_sizes": [
+        573
+      ],
+      "allocation_offset": 10145252,
+      "relocated_stored_size": 573,
+      "relocated_stored_sha256": "97e0d30a220c5918b11da55fc7b6f531508cfd6c0881206572e327ff1c95ff29",
+      "new_pointer": "0x089ACDE4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495484
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "adf6cfd36f9f2132c8c7cc61da6567c854ca2397baa403dfb29e315dfd66b90c",
+      "source_size": 1304,
+      "physical_offsets": [
+        947588
+      ],
+      "source_pointers": [
+        "0x080E7584"
+      ],
+      "source_stored_sizes": [
+        1049
+      ],
+      "allocation_offset": 10145828,
+      "relocated_stored_size": 1049,
+      "relocated_stored_sha256": "f72ab1895e23ea2e789d8f17fe93aba2907344b4ba7bfdd4f7d5c63d0fcae52c",
+      "new_pointer": "0x089AD024",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495492
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "37273d8d6a9777e5596e151fa7580bb577132121584386a94fb2dce9406fbaa0",
+      "source_size": 546,
+      "physical_offsets": [
+        948640
+      ],
+      "source_pointers": [
+        "0x080E79A0"
+      ],
+      "source_stored_sizes": [
+        84
+      ],
+      "allocation_offset": 10146880,
+      "relocated_stored_size": 83,
+      "relocated_stored_sha256": "6c11d43175147c51bb9d537d4849fc1a1dbd67effde0779efcb6b37fd7cc613b",
+      "new_pointer": "0x089AD440",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495496
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "d88423c2bf965218553831cc0227c5cb4cdcc94b646883f14d9b90ffe2d0e36e",
+      "source_size": 12288,
+      "physical_offsets": [
+        948724
+      ],
+      "source_pointers": [
+        "0x080E79F4"
+      ],
+      "source_stored_sizes": [
+        9984
+      ],
+      "allocation_offset": 10146964,
+      "relocated_stored_size": 9979,
+      "relocated_stored_sha256": "422ec021ef7ad878bfd07f5fce48afa6557fc6f886c70dcef5f38091cbbd691d",
+      "new_pointer": "0x089AD494",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495508
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "ef9bd4557ffd7ef367a89b8cd50913ce78c2b2f638c7e72b5497b8e91c21bf90",
+      "source_size": 1140,
+      "physical_offsets": [
+        958872
+      ],
+      "source_pointers": [
+        "0x080EA198"
+      ],
+      "source_stored_sizes": [
+        595
+      ],
+      "allocation_offset": 10156944,
+      "relocated_stored_size": 595,
+      "relocated_stored_sha256": "8374fb82a907d32100e87a469be0339d11427e35ed7897b987121df329108183",
+      "new_pointer": "0x089AFB90",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495516
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "5dd4f8c619162c6175ee95d898075475c94a5a0c7f1febefa56ecaa58ad8b3d7",
+      "source_size": 1392,
+      "physical_offsets": [
+        959468
+      ],
+      "source_pointers": [
+        "0x080EA3EC"
+      ],
+      "source_stored_sizes": [
+        1195
+      ],
+      "allocation_offset": 10157540,
+      "relocated_stored_size": 1195,
+      "relocated_stored_sha256": "5c7edc7edd6ef49b06de8c9be329d452d5c3bc73383b60808ef01013fbf934ec",
+      "new_pointer": "0x089AFDE4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495524
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "1c861e488115a41b8bdb2ede0ae02163643efcd74e18b55e451fd7042e2622dd",
+      "source_size": 570,
+      "physical_offsets": [
+        960664
+      ],
+      "source_pointers": [
+        "0x080EA898"
+      ],
+      "source_stored_sizes": [
+        100
+      ],
+      "allocation_offset": 10158736,
+      "relocated_stored_size": 96,
+      "relocated_stored_sha256": "7504bd05fc04d2b11a39dbde1a9992a1d98db6c23fa920096343095c084625b9",
+      "new_pointer": "0x089B0290",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495528
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "0863f1832ffc87ed68a3cf1ccf2b5fc444771d78ecaf25cd87b18cc2ffd51fde",
+      "source_size": 10240,
+      "physical_offsets": [
+        960764
+      ],
+      "source_pointers": [
+        "0x080EA8FC"
+      ],
+      "source_stored_sizes": [
+        8769
+      ],
+      "allocation_offset": 10158832,
+      "relocated_stored_size": 8763,
+      "relocated_stored_sha256": "e421a50081efee999c69e21ea70ffd85e3a9f906739313fc37a38d7992a83478",
+      "new_pointer": "0x089B02F0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495540
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "43852fa96b4f26549635e1f21e29fcf86b56b28abb84a8a2d03bfe21091cf617",
+      "source_size": 1008,
+      "physical_offsets": [
+        969720
+      ],
+      "source_pointers": [
+        "0x080ECBF8"
+      ],
+      "source_stored_sizes": [
+        579
+      ],
+      "allocation_offset": 10167596,
+      "relocated_stored_size": 579,
+      "relocated_stored_sha256": "54de936b2675cea5d286cdfca207076003a052110c21e2aad90a8824e6395561",
+      "new_pointer": "0x089B252C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495548
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "7ebf7a1e7f6c667add0c6b7d07f3ede294d2ca75efe9c4bd6e82718352df1b32",
+      "source_size": 1304,
+      "physical_offsets": [
+        970300
+      ],
+      "source_pointers": [
+        "0x080ECE3C"
+      ],
+      "source_stored_sizes": [
+        1073
+      ],
+      "allocation_offset": 10168176,
+      "relocated_stored_size": 1073,
+      "relocated_stored_sha256": "35cb0a318fb73c5f34e49e3d99c4896b647c490780ffc9a973dee26af47ad813",
+      "new_pointer": "0x089B2770",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495556
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "0f201d4bbcbd88192fcb92d773ae5ca434382a47ca8ec41fb8e489c49dc8d654",
+      "source_size": 504,
+      "physical_offsets": [
+        971376
+      ],
+      "source_pointers": [
+        "0x080ED270"
+      ],
+      "source_stored_sizes": [
+        93
+      ],
+      "allocation_offset": 10169252,
+      "relocated_stored_size": 92,
+      "relocated_stored_sha256": "d1922e508cc632834ddec439b81823bcf1afa408b196dcae5921009194210893",
+      "new_pointer": "0x089B2BA4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495560
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "954fa15925b8b9fa6ad7f37d53de62f3565943fbc6f43751a99a0ae50cf5d4f9",
+      "source_size": 10240,
+      "physical_offsets": [
+        971472,
+        1087596
+      ],
+      "source_pointers": [
+        "0x080ED2D0",
+        "0x0810986C"
+      ],
+      "source_stored_sizes": [
+        8568,
+        8568
+      ],
+      "allocation_offset": 10169344,
+      "relocated_stored_size": 8561,
+      "relocated_stored_sha256": "0961a85d9f4131d08179c59fd06f236eadcc2aa36219cd445fc2e642a1cc2ec1",
+      "new_pointer": "0x089B2C00",
+      "logical_reference_count": 3,
+      "header_pointer_offsets": [
+        5495572,
+        5495956,
+        5496116
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "eea2899b75638c11a90b28f8dc0957460c09f4eea17788185430f4879729a4eb",
+      "source_size": 720,
+      "physical_offsets": [
+        980204
+      ],
+      "source_pointers": [
+        "0x080EF4EC"
+      ],
+      "source_stored_sizes": [
+        442
+      ],
+      "allocation_offset": 10177908,
+      "relocated_stored_size": 442,
+      "relocated_stored_sha256": "4127ac6d4fc7990f5748c2c88a658cf55596bc60a47f916d7ca895322b6f6afb",
+      "new_pointer": "0x089B4D74",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495580,
+        5496124
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "f2dcefc2741881fd756b229cfd31168e050ad3ccd79f860577b244e9128c95a0",
+      "source_size": 1184,
+      "physical_offsets": [
+        980648
+      ],
+      "source_pointers": [
+        "0x080EF6A8"
+      ],
+      "source_stored_sizes": [
+        996
+      ],
+      "allocation_offset": 10178352,
+      "relocated_stored_size": 996,
+      "relocated_stored_sha256": "192d12778aeb6d4bf81cda44b841a5aac8f45c99258e10e7c93ca65b9413d2be",
+      "new_pointer": "0x089B4F30",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495588,
+        5496132
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "73844f0fc6033517576425ab77a289f877ff5251de5f2e879ddbf67e74882ac6",
+      "source_size": 360,
+      "physical_offsets": [
+        981644
+      ],
+      "source_pointers": [
+        "0x080EFA8C"
+      ],
+      "source_stored_sizes": [
+        63
+      ],
+      "allocation_offset": 10179348,
+      "relocated_stored_size": 62,
+      "relocated_stored_sha256": "6b36478c9dd37e7984b418c54f63e3113fda76b831fe5a4eac0b03ba10f9f0d4",
+      "new_pointer": "0x089B5314",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495592,
+        5496136
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "1288a253c3c44641a46089acbbe4f422994cd45bb05590f1392c775d4c367e2e",
+      "source_size": 13312,
+      "physical_offsets": [
+        981708
+      ],
+      "source_pointers": [
+        "0x080EFACC"
+      ],
+      "source_stored_sizes": [
+        11305
+      ],
+      "allocation_offset": 10179412,
+      "relocated_stored_size": 11298,
+      "relocated_stored_sha256": "6763bf3f0561c9df759e98a8ca93f39d92a72bcb1dbeeabb66ab743a81547870",
+      "new_pointer": "0x089B5354",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495604
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "66822194dbddd956c70fe04f4ca59ca6950b9d053fc2bd6524b617152d446a4e",
+      "source_size": 960,
+      "physical_offsets": [
+        993200
+      ],
+      "source_pointers": [
+        "0x080F27B0"
+      ],
+      "source_stored_sizes": [
+        645
+      ],
+      "allocation_offset": 10190712,
+      "relocated_stored_size": 645,
+      "relocated_stored_sha256": "8de71655ea68cd8ef832d92237ecd8020839ca52dc21417d053770ae58d359ce",
+      "new_pointer": "0x089B7F78",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495612
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "b00354c5cf04edca1e98a3a4ef8522ba4b35eab4653921c6cf3d14850ab3ef5c",
+      "source_size": 1792,
+      "physical_offsets": [
+        993848
+      ],
+      "source_pointers": [
+        "0x080F2A38"
+      ],
+      "source_stored_sizes": [
+        1483
+      ],
+      "allocation_offset": 10191360,
+      "relocated_stored_size": 1483,
+      "relocated_stored_sha256": "5bb550268a417bcbbb7cb75a1f2cc5e6541bb0e7ceb27a495dda0aef4f44eb77",
+      "new_pointer": "0x089B8200",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495620
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "afecd20a4d57ec73938ec5d900b6ec857bc5c0fe5e9507662ee7a9fd7103c4a7",
+      "source_size": 480,
+      "physical_offsets": [
+        995332
+      ],
+      "source_pointers": [
+        "0x080F3004"
+      ],
+      "source_stored_sizes": [
+        90
+      ],
+      "allocation_offset": 10192844,
+      "relocated_stored_size": 87,
+      "relocated_stored_sha256": "087f66662529f604ac79d55ee4d428d859aaf2fec9b0ba81a67b56a3805a4619",
+      "new_pointer": "0x089B87CC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495624
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "d3612ea545fc15d6163da761abf609cfbd97d254eccb5bb4b56b16cc53a03979",
+      "source_size": 12288,
+      "physical_offsets": [
+        995424
+      ],
+      "source_pointers": [
+        "0x080F3060"
+      ],
+      "source_stored_sizes": [
+        10219
+      ],
+      "allocation_offset": 10192932,
+      "relocated_stored_size": 10211,
+      "relocated_stored_sha256": "735944c627fbcd8178b2283edc86596577578ae009883c85ac2094a0712cc933",
+      "new_pointer": "0x089B8824",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495636
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "42266cab45f1b4200cc609e9e31c2a9a64634ce268a00c74f5370d09b7c684c2",
+      "source_size": 1260,
+      "physical_offsets": [
+        1005808
+      ],
+      "source_pointers": [
+        "0x080F58F0"
+      ],
+      "source_stored_sizes": [
+        649
+      ],
+      "allocation_offset": 10203144,
+      "relocated_stored_size": 649,
+      "relocated_stored_sha256": "2982a84574fa9f509101d8b609c38b2f6cc9db15d38a33799bafb529ff3d6f99",
+      "new_pointer": "0x089BB008",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495644
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "e8929dd378222bd8056bd71d3bb47c673517cf08734133f03c1166b23770d8aa",
+      "source_size": 1472,
+      "physical_offsets": [
+        1006460
+      ],
+      "source_pointers": [
+        "0x080F5B7C"
+      ],
+      "source_stored_sizes": [
+        1250
+      ],
+      "allocation_offset": 10203796,
+      "relocated_stored_size": 1250,
+      "relocated_stored_sha256": "5a54ded5f52143a893d84bd931c1fc5493ab83cdfbb39d0d32ec2dbc536f6494",
+      "new_pointer": "0x089BB294",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495652
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "5fa3f75ca03c51f260d8f599f680562fd4bce18b663cebeba24f791837218da5",
+      "source_size": 630,
+      "physical_offsets": [
+        1007712
+      ],
+      "source_pointers": [
+        "0x080F6060"
+      ],
+      "source_stored_sizes": [
+        106
+      ],
+      "allocation_offset": 10205048,
+      "relocated_stored_size": 105,
+      "relocated_stored_sha256": "507a411754a446f5397a962e519b8143c379428efd0443d84845d5eb570281f0",
+      "new_pointer": "0x089BB778",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495656
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "fb3bd924c31fde0ba9fc81a5cc8ad4716ce0fca7ef35eb481a2e712366edcbca",
+      "source_size": 7168,
+      "physical_offsets": [
+        1007820
+      ],
+      "source_pointers": [
+        "0x080F60CC"
+      ],
+      "source_stored_sizes": [
+        5438
+      ],
+      "allocation_offset": 10205156,
+      "relocated_stored_size": 5432,
+      "relocated_stored_sha256": "acc820999f156179f3b407c9460b0f84a39f1cdc37509cb466c014f6bcb85189",
+      "new_pointer": "0x089BB7E4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495668
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "51ba0c3ab85312b61bc033d097720780ae8e034187f595c895c066e8148451bd",
+      "source_size": 384,
+      "physical_offsets": [
+        1013260,
+        1023104
+      ],
+      "source_pointers": [
+        "0x080F760C",
+        "0x080F9C80"
+      ],
+      "source_stored_sizes": [
+        174,
+        174
+      ],
+      "allocation_offset": 10210588,
+      "relocated_stored_size": 174,
+      "relocated_stored_sha256": "ea13fd80ed8c8853b276ed1a182e45c020116a03637e99b23470c4afc2a1d4be",
+      "new_pointer": "0x089BCD1C",
+      "logical_reference_count": 3,
+      "header_pointer_offsets": [
+        5495672,
+        5495704,
+        5496280
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "a886512517b7e54abac0c2592c72f88b7d7bded869391e885b1c44d7ebd9b3ba",
+      "source_size": 1260,
+      "physical_offsets": [
+        1013436
+      ],
+      "source_pointers": [
+        "0x080F76BC"
+      ],
+      "source_stored_sizes": [
+        490
+      ],
+      "allocation_offset": 10210764,
+      "relocated_stored_size": 490,
+      "relocated_stored_sha256": "f66e6a2f33515eab3bcd296c39035dc336ea28b83fffd4ed58888573439b9c27",
+      "new_pointer": "0x089BCDCC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495676
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "0265e3d287114bc8272385bfa46d31f6c5645275613af867e2eae5cb0e911d0a",
+      "source_size": 848,
+      "physical_offsets": [
+        1013928
+      ],
+      "source_pointers": [
+        "0x080F78A8"
+      ],
+      "source_stored_sizes": [
+        688
+      ],
+      "allocation_offset": 10211256,
+      "relocated_stored_size": 688,
+      "relocated_stored_sha256": "05ab55421e89280d95629a745657cdf75d6acae6629b4ec13c5555189051c95e",
+      "new_pointer": "0x089BCFB8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495684
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "f3ef842d9befd5bcc0d3e9b184aa9c533d500f94cf733684e0ac07535dd2c52c",
+      "source_size": 630,
+      "physical_offsets": [
+        1014616
+      ],
+      "source_pointers": [
+        "0x080F7B58"
+      ],
+      "source_stored_sizes": [
+        96
+      ],
+      "allocation_offset": 10211944,
+      "relocated_stored_size": 95,
+      "relocated_stored_sha256": "4480a217ea49dbb9f0132f2c440162da4e0cac59d3fbba3d32c6ffb4e10d1a4b",
+      "new_pointer": "0x089BD268",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495688
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "200fea56081881c0be81e71821bbf7b2dcdceee8100994535c6b626e24c45425",
+      "source_size": 10240,
+      "physical_offsets": [
+        1014712
+      ],
+      "source_pointers": [
+        "0x080F7BB8"
+      ],
+      "source_stored_sizes": [
+        8392
+      ],
+      "allocation_offset": 10212040,
+      "relocated_stored_size": 8388,
+      "relocated_stored_sha256": "246e22cdaaadc08725a3d911aab2e5973fa0b3ecefdb5aa41055fce851b7b552",
+      "new_pointer": "0x089BD2C8",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495700,
+        5496276
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "66269e267227ed5dcc6cb5c26dcfbae34c4c0906f717b8ac4cc8a39f136fa8d0",
+      "source_size": 1260,
+      "physical_offsets": [
+        1023280
+      ],
+      "source_pointers": [
+        "0x080F9D30"
+      ],
+      "source_stored_sizes": [
+        483
+      ],
+      "allocation_offset": 10220428,
+      "relocated_stored_size": 483,
+      "relocated_stored_sha256": "4b65c596db6be69063f0a3ca144488c2be23d5becd99e498e877983affd97bc7",
+      "new_pointer": "0x089BF38C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495708,
+        5496284
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "cf98ca167bf16f1dbbde6997de139ddfdbcd15227193d8fad850c1d83e410c00",
+      "source_size": 984,
+      "physical_offsets": [
+        1023764
+      ],
+      "source_pointers": [
+        "0x080F9F14"
+      ],
+      "source_stored_sizes": [
+        906
+      ],
+      "allocation_offset": 10220912,
+      "relocated_stored_size": 906,
+      "relocated_stored_sha256": "7759246d53ab66ce7ae89ad7a6f6d5a3a7a9bafc527049ee52ed08f7e4ac68a8",
+      "new_pointer": "0x089BF570",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495716,
+        5496292
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "9f3ec0717962bded3925bd0f01fa4ebd42d3813b1c0025bfd9060822261d45d4",
+      "source_size": 630,
+      "physical_offsets": [
+        1024672
+      ],
+      "source_pointers": [
+        "0x080FA2A0"
+      ],
+      "source_stored_sizes": [
+        92
+      ],
+      "allocation_offset": 10221820,
+      "relocated_stored_size": 91,
+      "relocated_stored_sha256": "d47295d845487b1730d4d7aa739a1fe3de2fdfa10af87c0f49c214c7ef69bafb",
+      "new_pointer": "0x089BF8FC",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495720,
+        5496296
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "edc2e0568abc064c7d82d82230a4e4aea8a8fe2bed245ccd39fa82c43db25467",
+      "source_size": 5120,
+      "physical_offsets": [
+        1024764
+      ],
+      "source_pointers": [
+        "0x080FA2FC"
+      ],
+      "source_stored_sizes": [
+        3364
+      ],
+      "allocation_offset": 10221912,
+      "relocated_stored_size": 3357,
+      "relocated_stored_sha256": "34518d9f309ee35a2b95230dddcf62bb8d5903ad5935fb770787d2adf4338b82",
+      "new_pointer": "0x089BF958",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495732,
+        5496148
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "927ad48fa83a22f983f959495831a965e50f19fcf9375feb7000c7b48793cf8e",
+      "source_size": 384,
+      "physical_offsets": [
+        1028128
+      ],
+      "source_pointers": [
+        "0x080FB020"
+      ],
+      "source_stored_sizes": [
+        159
+      ],
+      "allocation_offset": 10225272,
+      "relocated_stored_size": 159,
+      "relocated_stored_sha256": "6568537463a963766079e0518add981d9ab00df229d735e3f63dce9122c04e66",
+      "new_pointer": "0x089C0678",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495736,
+        5496152
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "ae511534eb966c35b4b9fcdb2f8890602a1bd01b447a720d892db220992e8b77",
+      "source_size": 576,
+      "physical_offsets": [
+        1028288
+      ],
+      "source_pointers": [
+        "0x080FB0C0"
+      ],
+      "source_stored_sizes": [
+        295
+      ],
+      "allocation_offset": 10225432,
+      "relocated_stored_size": 294,
+      "relocated_stored_sha256": "06203f0dc67ed6f642eac9bc87b79f19afedd83a6cc6058d5b5a03acf8710d00",
+      "new_pointer": "0x089C0718",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495740,
+        5496156
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "1c19c8891291a5bdc1fc87afbb1b36c4206da6758200fb648e9347944af3b9fc",
+      "source_size": 576,
+      "physical_offsets": [
+        1028584
+      ],
+      "source_pointers": [
+        "0x080FB1E8"
+      ],
+      "source_stored_sizes": [
+        91
+      ],
+      "allocation_offset": 10225728,
+      "relocated_stored_size": 90,
+      "relocated_stored_sha256": "ba16ac9fd206b51db1932a5e3897822884349ebb77557633fd1a832fe005fd95",
+      "new_pointer": "0x089C0840",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495744,
+        5496160
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "8712df3ed6ac3ae69c00683ad19c20f4f7ba88ee77061795f6b6d25720272acd",
+      "source_size": 848,
+      "physical_offsets": [
+        1028676
+      ],
+      "source_pointers": [
+        "0x080FB244"
+      ],
+      "source_stored_sizes": [
+        664
+      ],
+      "allocation_offset": 10225820,
+      "relocated_stored_size": 663,
+      "relocated_stored_sha256": "584c9db023acedc24f3227c0b48adeb6c2fe5d860809412e443ef926278aa175",
+      "new_pointer": "0x089C089C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495748,
+        5496164
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "7c7eb6e3424999a1e7b3d035ec4bc79151a93b5d01b76dd62438e6d5cee1aa49",
+      "source_size": 288,
+      "physical_offsets": [
+        1029340
+      ],
+      "source_pointers": [
+        "0x080FB4DC"
+      ],
+      "source_stored_sizes": [
+        44
+      ],
+      "allocation_offset": 10226484,
+      "relocated_stored_size": 43,
+      "relocated_stored_sha256": "41ab7aef54a487bea79d28dcbb305e6bdf101deaa8a63450f31e48f5f3429dbd",
+      "new_pointer": "0x089C0B34",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495752,
+        5496168
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "3a0df36540c047dae9228dcc3cccf03b9ed73862d80c162d42630d5e59bc5fa6",
+      "source_size": 8192,
+      "physical_offsets": [
+        1029384
+      ],
+      "source_pointers": [
+        "0x080FB508"
+      ],
+      "source_stored_sizes": [
+        4511
+      ],
+      "allocation_offset": 10226528,
+      "relocated_stored_size": 4503,
+      "relocated_stored_sha256": "dffbe5ecb3cf3d1f92c07883d16b0b97d612a6c5e40aec1f28e52ca23ff6c14a",
+      "new_pointer": "0x089C0B60",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495764
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "52eea576ad95a2a4bfded647d2a83004b53eb308765c669cb6a9df17fabcb368",
+      "source_size": 384,
+      "physical_offsets": [
+        1033896,
+        1040472
+      ],
+      "source_pointers": [
+        "0x080FC6A8",
+        "0x080FE058"
+      ],
+      "source_stored_sizes": [
+        152,
+        152
+      ],
+      "allocation_offset": 10231032,
+      "relocated_stored_size": 152,
+      "relocated_stored_sha256": "bc16ab1af3311e7702ee2362eeef28e4f38ee615d9cb4c136ddfd04f06863429",
+      "new_pointer": "0x089C1CF8",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495768,
+        5495800
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "9c13abbf14471909e4d271e5e28439e45db49a554527fe7406adb8847517db3a",
+      "source_size": 1040,
+      "physical_offsets": [
+        1034048
+      ],
+      "source_pointers": [
+        "0x080FC740"
+      ],
+      "source_stored_sizes": [
+        424
+      ],
+      "allocation_offset": 10231184,
+      "relocated_stored_size": 423,
+      "relocated_stored_sha256": "f258a9620d5003c2a13629b4c0e3c6dd6e7ede4d8db71ac58c3c97042edb09a4",
+      "new_pointer": "0x089C1D90",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495772
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "e526f34973eb0bf2e565284b94085862ebb8dd5b89e0cbb2543b0af0c01e0b9d",
+      "source_size": 1040,
+      "physical_offsets": [
+        1034472
+      ],
+      "source_pointers": [
+        "0x080FC8E8"
+      ],
+      "source_stored_sizes": [
+        162
+      ],
+      "allocation_offset": 10231608,
+      "relocated_stored_size": 161,
+      "relocated_stored_sha256": "21f18f12b853e43c78dc0d1105a5bbb5b04c4bb018181ebc2eaa10579e2d3bde",
+      "new_pointer": "0x089C1F38",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495776
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "8545547c391b722de77e14950e1add412e291dc18204ea5bcd20e4abc4737d30",
+      "source_size": 1072,
+      "physical_offsets": [
+        1034636
+      ],
+      "source_pointers": [
+        "0x080FC98C"
+      ],
+      "source_stored_sizes": [
+        922
+      ],
+      "allocation_offset": 10231772,
+      "relocated_stored_size": 921,
+      "relocated_stored_sha256": "d2878f358d710038a090900cca8fbf62632c6642d8617032deec3c4403435c89",
+      "new_pointer": "0x089C1FDC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495780
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "b48d01cd6f9e18232083dc4026d77c865f48297b4e061f4090e4fab41f5dddba",
+      "source_size": 520,
+      "physical_offsets": [
+        1035560
+      ],
+      "source_pointers": [
+        "0x080FCD28"
+      ],
+      "source_stored_sizes": [
+        81
+      ],
+      "allocation_offset": 10232696,
+      "relocated_stored_size": 80,
+      "relocated_stored_sha256": "ad6e8e8dcc0c4dda1bdf52ff054ea007b894490b3c5ebd572cf4ae45b3e46149",
+      "new_pointer": "0x089C2378",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495784
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "73775dff44a7a7ac3face8a41517630007c291735a3a704eea586b57fa1a1a48",
+      "source_size": 9216,
+      "physical_offsets": [
+        1035644
+      ],
+      "source_pointers": [
+        "0x080FCD7C"
+      ],
+      "source_stored_sizes": [
+        4825
+      ],
+      "allocation_offset": 10232776,
+      "relocated_stored_size": 4817,
+      "relocated_stored_sha256": "8938c2ad88daa39f9a79fa276f974f7e992f0676c749fe3dfcb0be84acd44786",
+      "new_pointer": "0x089C23C8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495796
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "948f79edf9d0b74fcfafb7d4b9c5c6debf6dcc276c6ff2740c0271e9f313d4be",
+      "source_size": 1020,
+      "physical_offsets": [
+        1040624
+      ],
+      "source_pointers": [
+        "0x080FE0F0"
+      ],
+      "source_stored_sizes": [
+        522
+      ],
+      "allocation_offset": 10237596,
+      "relocated_stored_size": 521,
+      "relocated_stored_sha256": "147ad272c975bc2151fce2fb154a16a5df78efcf12503efabfc2d73706257ee3",
+      "new_pointer": "0x089C369C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495804
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "80c4c31a8ec4421837b6d3504ca457b53e55ee045a5a639d2edad4859e232350",
+      "source_size": 1020,
+      "physical_offsets": [
+        1041148
+      ],
+      "source_pointers": [
+        "0x080FE2FC"
+      ],
+      "source_stored_sizes": [
+        177
+      ],
+      "allocation_offset": 10238120,
+      "relocated_stored_size": 176,
+      "relocated_stored_sha256": "6ddfa3edf33b2f59d12b0b7076e7365fa60467dd0d0899a5aec974a1ba9a19c0",
+      "new_pointer": "0x089C38A8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495808
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "8709cc0fbe8634583726b264d61a6260c9ff6c5fb00c6ced5555cc946750988a",
+      "source_size": 1192,
+      "physical_offsets": [
+        1041328
+      ],
+      "source_pointers": [
+        "0x080FE3B0"
+      ],
+      "source_stored_sizes": [
+        1001
+      ],
+      "allocation_offset": 10238296,
+      "relocated_stored_size": 1000,
+      "relocated_stored_sha256": "0fe3c22e2aa178d21e0a418cbbab758fe6d7946e7d78334b1c5a0761298b8fac",
+      "new_pointer": "0x089C3958",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495812
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "98a4bc7337184416dd7c5b8a703e3b14e6a37c9b24f7ecee729acb9344311dbd",
+      "source_size": 510,
+      "physical_offsets": [
+        1042332
+      ],
+      "source_pointers": [
+        "0x080FE79C"
+      ],
+      "source_stored_sizes": [
+        96
+      ],
+      "allocation_offset": 10239296,
+      "relocated_stored_size": 95,
+      "relocated_stored_sha256": "fe4b986a8657db8f3166c93b673904d49ffe82ce02cadcf2a1759d8554071ae1",
+      "new_pointer": "0x089C3D40",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495816
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "535dce89629d189450832f29d6dcda1200ec5b8a8c73422e942507db5b3e982f",
+      "source_size": 10240,
+      "physical_offsets": [
+        1042428
+      ],
+      "source_pointers": [
+        "0x080FE7FC"
+      ],
+      "source_stored_sizes": [
+        8581
+      ],
+      "allocation_offset": 10239392,
+      "relocated_stored_size": 8574,
+      "relocated_stored_sha256": "3c664c1f3ad620763df5b04889cdf8396931fdf5f096066a8c28da4f34ea1400",
+      "new_pointer": "0x089C3DA0",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495828,
+        5496212
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "4c6c88ffc6061f9481ccfbca1b53d6dd7c20f75d9f9433853bad33b500873dc3",
+      "source_size": 384,
+      "physical_offsets": [
+        1051012,
+        1062588,
+        1073036,
+        1116800,
+        1229192
+      ],
+      "source_pointers": [
+        "0x08100984",
+        "0x081036BC",
+        "0x08105F8C",
+        "0x08110A80",
+        "0x0812C188"
+      ],
+      "source_stored_sizes": [
+        182,
+        182,
+        182,
+        182,
+        182
+      ],
+      "allocation_offset": 10247968,
+      "relocated_stored_size": 182,
+      "relocated_stored_sha256": "5ee393c3081d1ec14f45cdef606ca5ff10e200dd9b7168845c611cc671660e92",
+      "new_pointer": "0x089C5F20",
+      "logical_reference_count": 6,
+      "header_pointer_offsets": [
+        5495832,
+        5495864,
+        5495896,
+        5496024,
+        5496216,
+        5496536
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "5bb5e1cb8b673d178dd0e1c801916feb1b41feb9599a9413ed3d76dcdfa561b4",
+      "source_size": 884,
+      "physical_offsets": [
+        1051196
+      ],
+      "source_pointers": [
+        "0x08100A3C"
+      ],
+      "source_stored_sizes": [
+        507
+      ],
+      "allocation_offset": 10248152,
+      "relocated_stored_size": 507,
+      "relocated_stored_sha256": "855ae1ac01fe8447c550546748bb9fecd82fcbe5c3012a83ce398dea59c95285",
+      "new_pointer": "0x089C5FD8",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495836,
+        5496220
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "cbfaf2ffeebed75ace107b9f8ed44893094546517c195afe3417506e0d51ccce",
+      "source_size": 1224,
+      "physical_offsets": [
+        1051704
+      ],
+      "source_pointers": [
+        "0x08100C38"
+      ],
+      "source_stored_sizes": [
+        1017
+      ],
+      "allocation_offset": 10248660,
+      "relocated_stored_size": 1017,
+      "relocated_stored_sha256": "b073afb1ed35e045eb239e8121c7cba2880cfc509bb9e30d7c41c5a0f86426fa",
+      "new_pointer": "0x089C61D4",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495844,
+        5496228
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "8043ee5031d0ce997900fc6f1cb8e6fc08a5b91ecf1750ea9cc66fe31a02cf89",
+      "source_size": 442,
+      "physical_offsets": [
+        1052724
+      ],
+      "source_pointers": [
+        "0x08101034"
+      ],
+      "source_stored_sizes": [
+        77
+      ],
+      "allocation_offset": 10249680,
+      "relocated_stored_size": 76,
+      "relocated_stored_sha256": "f100fde22f51fe04cb3d8d05c111b2d2a9ff7a699694a71bf77c4e1bd25c830a",
+      "new_pointer": "0x089C65D0",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495848,
+        5496232
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "c52a823922a15cbcf71f8d53d0804d981ee1bddac7946d6340f39b83570356a7",
+      "source_size": 12288,
+      "physical_offsets": [
+        1052804
+      ],
+      "source_pointers": [
+        "0x08101084"
+      ],
+      "source_stored_sizes": [
+        9784
+      ],
+      "allocation_offset": 10249756,
+      "relocated_stored_size": 9776,
+      "relocated_stored_sha256": "503a48036f67b2c1216dbc06d3d442af76e29102729427244d46eb74852ea381",
+      "new_pointer": "0x089C661C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495860
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "645f226c94de79e0cfd045f5ba9fb8eecc8736bb8702d1726189ab0d1713cec9",
+      "source_size": 1040,
+      "physical_offsets": [
+        1062772
+      ],
+      "source_pointers": [
+        "0x08103774"
+      ],
+      "source_stored_sizes": [
+        569
+      ],
+      "allocation_offset": 10259532,
+      "relocated_stored_size": 569,
+      "relocated_stored_sha256": "eee319fc32362445873bb72221361f30302010b8ea0c3fde66b43c964c39172c",
+      "new_pointer": "0x089C8C4C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495868
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "aaabf2e2919bf21d330eac188838ac7ced5c71223d88676b4eeeb91352f793bc",
+      "source_size": 1336,
+      "physical_offsets": [
+        1063344
+      ],
+      "source_pointers": [
+        "0x081039B0"
+      ],
+      "source_stored_sizes": [
+        1157
+      ],
+      "allocation_offset": 10260104,
+      "relocated_stored_size": 1157,
+      "relocated_stored_sha256": "0f1405899f26fcb9784ffb86c5bce256b9304e586539cf91111092cef4b50313",
+      "new_pointer": "0x089C8E88",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495876
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "96b77d817dbd8faef27e44af0afef0d7de7d6156de8bc60fa28e51373f0bb633",
+      "source_size": 520,
+      "physical_offsets": [
+        1064504
+      ],
+      "source_pointers": [
+        "0x08103E38"
+      ],
+      "source_stored_sizes": [
+        87
+      ],
+      "allocation_offset": 10261264,
+      "relocated_stored_size": 86,
+      "relocated_stored_sha256": "f43da96771d17aec8fcdbf520fa50ba37ef73327709f7993aba1c40db5c9f9de",
+      "new_pointer": "0x089C9310",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495880
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "287d15f618d23023c22c6ea4423efaf482debe71af82fbbcf4e477ced4e2d205",
+      "source_size": 10240,
+      "physical_offsets": [
+        1064592
+      ],
+      "source_pointers": [
+        "0x08103E90"
+      ],
+      "source_stored_sizes": [
+        8444
+      ],
+      "allocation_offset": 10261352,
+      "relocated_stored_size": 8438,
+      "relocated_stored_sha256": "a162ce06449ec5ed52d99e5807b05ee853e9b6db256442cb7255fcd19c2fbc68",
+      "new_pointer": "0x089C9368",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495892
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "00de4d60e8a72d3e0328c0ef5a88a44c9f7033ba100c771d42d38e62da39583a",
+      "source_size": 880,
+      "physical_offsets": [
+        1073220
+      ],
+      "source_pointers": [
+        "0x08106044"
+      ],
+      "source_stored_sizes": [
+        477
+      ],
+      "allocation_offset": 10269792,
+      "relocated_stored_size": 477,
+      "relocated_stored_sha256": "cef15fdd4877d14a858f441a5e41731c8920abd4d309bc8cc8b6e102e426146e",
+      "new_pointer": "0x089CB460",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495900
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "7e393ae01b386ce5d673d8dc17aa4525004b781757d80b922c13e43f060139dd",
+      "source_size": 1136,
+      "physical_offsets": [
+        1073700
+      ],
+      "source_pointers": [
+        "0x08106224"
+      ],
+      "source_stored_sizes": [
+        967
+      ],
+      "allocation_offset": 10270272,
+      "relocated_stored_size": 967,
+      "relocated_stored_sha256": "c4245d036fc0e7584c72f52ee55dfe060ed48849ece60ee9c8af106299040da0",
+      "new_pointer": "0x089CB640",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495908
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "8a74e2d1506b75f9a2fbee5a3187e300c5b4c02d32fe3435be0f3d4abd7e766a",
+      "source_size": 440,
+      "physical_offsets": [
+        1074668
+      ],
+      "source_pointers": [
+        "0x081065EC"
+      ],
+      "source_stored_sizes": [
+        71
+      ],
+      "allocation_offset": 10271240,
+      "relocated_stored_size": 70,
+      "relocated_stored_sha256": "31cca1fdc961d8acb1d7882974728b03b2b61057a1024398b486946fc9570708",
+      "new_pointer": "0x089CBA08",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495912
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "77efed5406e2b2e6cc65df5d76dbaa4b40ad18b750f152e65d4adea771b1de31",
+      "source_size": 12288,
+      "physical_offsets": [
+        1074740
+      ],
+      "source_pointers": [
+        "0x08106634"
+      ],
+      "source_stored_sizes": [
+        10787
+      ],
+      "allocation_offset": 10271312,
+      "relocated_stored_size": 10780,
+      "relocated_stored_sha256": "3cd71074ef63ac6afc47e0c9805cd25d858846c36f478530d9ced74546b0fb8b",
+      "new_pointer": "0x089CBA50",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495924,
+        5496244
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "a3630571454f5971ee0647e34994a414d30966b9a20b78022e5b9132b4c00ce5",
+      "source_size": 384,
+      "physical_offsets": [
+        1085528,
+        1096164,
+        1106628
+      ],
+      "source_pointers": [
+        "0x08109058",
+        "0x0810B9E4",
+        "0x0810E2C4"
+      ],
+      "source_stored_sizes": [
+        173,
+        173,
+        173
+      ],
+      "allocation_offset": 10282092,
+      "relocated_stored_size": 173,
+      "relocated_stored_sha256": "79ed7c6cff39a757a3a57b4e5d1efa055a4e41289dca8ce5e38c7cf807d85921",
+      "new_pointer": "0x089CE46C",
+      "logical_reference_count": 4,
+      "header_pointer_offsets": [
+        5495928,
+        5495960,
+        5495992,
+        5496248
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "42e145ee0c059d64a70c52cdb536aa62224e389295e2fe9cdc36fd99e1c53862",
+      "source_size": 924,
+      "physical_offsets": [
+        1085704
+      ],
+      "source_pointers": [
+        "0x08109108"
+      ],
+      "source_stored_sizes": [
+        557
+      ],
+      "allocation_offset": 10282268,
+      "relocated_stored_size": 557,
+      "relocated_stored_sha256": "a774acaa4520b09de9d33da3df6e14ff8ef4a111bf04ea1fd95bc6f9f981197a",
+      "new_pointer": "0x089CE51C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495932,
+        5496252
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "4c85a9c396094b3a218b0868e59117b2e6af098bd80846481b02d5342e1fce91",
+      "source_size": 1376,
+      "physical_offsets": [
+        1086264
+      ],
+      "source_pointers": [
+        "0x08109338"
+      ],
+      "source_stored_sizes": [
+        1241
+      ],
+      "allocation_offset": 10282828,
+      "relocated_stored_size": 1241,
+      "relocated_stored_sha256": "d49c9f57ee347be37e718d6e6a4ee3d9a4b3c2b4d9e73fe6a90d782b5eb2ff4a",
+      "new_pointer": "0x089CE74C",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495940,
+        5496260
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "c46bcf2c97c3f595f3b8d0d74a31573af59035fba6fc2be580ffb7203d0f5073",
+      "source_size": 462,
+      "physical_offsets": [
+        1087508
+      ],
+      "source_pointers": [
+        "0x08109814"
+      ],
+      "source_stored_sizes": [
+        87
+      ],
+      "allocation_offset": 10284072,
+      "relocated_stored_size": 86,
+      "relocated_stored_sha256": "b665aefda75af1b78ead59ef419b1b15d3ec4969c5115151df497597d16fd711",
+      "new_pointer": "0x089CEC28",
+      "logical_reference_count": 2,
+      "header_pointer_offsets": [
+        5495944,
+        5496264
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "8bb3b141b1fd1372b0c12b9dce794f48679362d13a0450dc98ea717fd3eb7529",
+      "source_size": 828,
+      "physical_offsets": [
+        1096340
+      ],
+      "source_pointers": [
+        "0x0810BA94"
+      ],
+      "source_stored_sizes": [
+        492
+      ],
+      "allocation_offset": 10284160,
+      "relocated_stored_size": 492,
+      "relocated_stored_sha256": "5237a13cf148d8aaf5b11e121e260e761a8791ad8c84ddfd86ce1d4279377042",
+      "new_pointer": "0x089CEC80",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495964
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "31e428db90855589aa7513ae112d8205c797723c78f3255a5883e9cf8342c5d3",
+      "source_size": 1040,
+      "physical_offsets": [
+        1096832
+      ],
+      "source_pointers": [
+        "0x0810BC80"
+      ],
+      "source_stored_sizes": [
+        937
+      ],
+      "allocation_offset": 10284652,
+      "relocated_stored_size": 937,
+      "relocated_stored_sha256": "13700ed623605852b4a9d42b682deb3320c6c3bfd5e747fa2a56d17af95af085",
+      "new_pointer": "0x089CEE6C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495972
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "b2e18c9ae1933ce239253c68776c65cb3d528e279c3c4c8c7fc026edba28fbf0",
+      "source_size": 414,
+      "physical_offsets": [
+        1097772
+      ],
+      "source_pointers": [
+        "0x0810C02C"
+      ],
+      "source_stored_sizes": [
+        82
+      ],
+      "allocation_offset": 10285592,
+      "relocated_stored_size": 80,
+      "relocated_stored_sha256": "0f88c549f4c646beb8f91b5fa4c2fd31e4539d4dafec9967207fc0836e8df7bd",
+      "new_pointer": "0x089CF218",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495976
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "a030a5cd3e34207bca4585be91567f48670eedc1d91193c12cc000517f4a4dec",
+      "source_size": 10240,
+      "physical_offsets": [
+        1097856
+      ],
+      "source_pointers": [
+        "0x0810C080"
+      ],
+      "source_stored_sizes": [
+        8770
+      ],
+      "allocation_offset": 10285672,
+      "relocated_stored_size": 8764,
+      "relocated_stored_sha256": "fa0b3e0e84e6c63fc0aca1595369a87cd5b5e6a3d20f9de2ecda288eb284cdce",
+      "new_pointer": "0x089CF268",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495988
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "0dff6c8149c4fe1a3765c087b206662cdeb9826c898fa414f5f7ec9969ab7473",
+      "source_size": 720,
+      "physical_offsets": [
+        1106804
+      ],
+      "source_pointers": [
+        "0x0810E374"
+      ],
+      "source_stored_sizes": [
+        450
+      ],
+      "allocation_offset": 10294436,
+      "relocated_stored_size": 450,
+      "relocated_stored_sha256": "f2d7b4bc5cea95972e8dd9665e8110491fc0f02ae57a642da3b237f630f6868a",
+      "new_pointer": "0x089D14A4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5495996
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "9e9d378a269c5fb64a107117fd17cbacf1361967d8a8c871877a078760e90ab2",
+      "source_size": 1016,
+      "physical_offsets": [
+        1107256
+      ],
+      "source_pointers": [
+        "0x0810E538"
+      ],
+      "source_stored_sizes": [
+        935
+      ],
+      "allocation_offset": 10294888,
+      "relocated_stored_size": 935,
+      "relocated_stored_sha256": "5c90fad461bcb4dc7d463f411d7a25c693a4d2352bb3a1a7739d03752ac4d6db",
+      "new_pointer": "0x089D1668",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496004
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "08a43ebc41f0c0fe5f7d1678579765af3fe17060660ee80d571e3a21707340ac",
+      "source_size": 360,
+      "physical_offsets": [
+        1108192
+      ],
+      "source_pointers": [
+        "0x0810E8E0"
+      ],
+      "source_stored_sizes": [
+        68
+      ],
+      "allocation_offset": 10295824,
+      "relocated_stored_size": 67,
+      "relocated_stored_sha256": "833d9b99c4e6f5c6c0d18aed5835cc5b45c19d5df006fb13c97c7394ff6f64b7",
+      "new_pointer": "0x089D1A10",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496008
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "773c9ddef20c1b1c37bdbdf413018af28a0ea0adeccd09320a5608276989942c",
+      "source_size": 10240,
+      "physical_offsets": [
+        1108260
+      ],
+      "source_pointers": [
+        "0x0810E924"
+      ],
+      "source_stored_sizes": [
+        8540
+      ],
+      "allocation_offset": 10295892,
+      "relocated_stored_size": 8535,
+      "relocated_stored_sha256": "87b04a7ae098e05404dd7d38b51bab4f6b1edff3c81665d52462c0114e092339",
+      "new_pointer": "0x089D1A54",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496020
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "3065e58bbd0b266d14a51fd77a39b1e0169b900597866fa93a82fe3875a4f145",
+      "source_size": 1040,
+      "physical_offsets": [
+        1116984
+      ],
+      "source_pointers": [
+        "0x08110B38"
+      ],
+      "source_stored_sizes": [
+        556
+      ],
+      "allocation_offset": 10304428,
+      "relocated_stored_size": 556,
+      "relocated_stored_sha256": "c0732f13e9f1db3fb233431739b7c5e806b748dd9f11cec1e9fff0718f281d8e",
+      "new_pointer": "0x089D3BAC",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496028
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "5261f0d4755bf3b72f6bede6d8565701e49065d50665488aaf1ebd497b4c2c20",
+      "source_size": 1192,
+      "physical_offsets": [
+        1117540
+      ],
+      "source_pointers": [
+        "0x08110D64"
+      ],
+      "source_stored_sizes": [
+        1002
+      ],
+      "allocation_offset": 10304984,
+      "relocated_stored_size": 1002,
+      "relocated_stored_sha256": "d4693361f4f3b60b9af8eea54ed1275d9e75c6c65e9555cb4a6af0cb16f70fe0",
+      "new_pointer": "0x089D3DD8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496036
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "17e203f8341213f7a0b3e10f398fedf56a4f0ea892ae933cf13323408be2e0ca",
+      "source_size": 520,
+      "physical_offsets": [
+        1118544
+      ],
+      "source_pointers": [
+        "0x08111150"
+      ],
+      "source_stored_sizes": [
+        80
+      ],
+      "allocation_offset": 10305988,
+      "relocated_stored_size": 79,
+      "relocated_stored_sha256": "01b56bf29e387bec87814c71146d01c222aec1d0e812dfb997a7201448b1f2b6",
+      "new_pointer": "0x089D41C4",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496040
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "aee69d26baff6749b310be1c400e00748fe615316dc3c6d6b02ea52e89368270",
+      "source_size": 7168,
+      "physical_offsets": [
+        1118624
+      ],
+      "source_pointers": [
+        "0x081111A0"
+      ],
+      "source_stored_sizes": [
+        4287
+      ],
+      "allocation_offset": 10306068,
+      "relocated_stored_size": 4267,
+      "relocated_stored_sha256": "8fa9470f1bebc60fc699da944644939c6f1e58189754edf1b3ee45c99839130d",
+      "new_pointer": "0x089D4214",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496052
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "b9916fc9ba66955b558d29c5c363c416670b3daae4691c078a6b1fe7baab6eeb",
+      "source_size": 384,
+      "physical_offsets": [
+        1122912
+      ],
+      "source_pointers": [
+        "0x08112260"
+      ],
+      "source_stored_sizes": [
+        158
+      ],
+      "allocation_offset": 10310336,
+      "relocated_stored_size": 157,
+      "relocated_stored_sha256": "cedb7d522848959d4164abc1cb46a9cde730f42903a2c13e3d3f7813dd6a02b9",
+      "new_pointer": "0x089D52C0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496056
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "020cd48c6bba32950b62ac806e515cdfa38a6c1094b7388414b6a9439a2c63b0",
+      "source_size": 924,
+      "physical_offsets": [
+        1123072
+      ],
+      "source_pointers": [
+        "0x08112300"
+      ],
+      "source_stored_sizes": [
+        422
+      ],
+      "allocation_offset": 10310496,
+      "relocated_stored_size": 420,
+      "relocated_stored_sha256": "3f18969d5999db10b047041dec200ef2efd5405a61c4c43ba1446d1db6e178bd",
+      "new_pointer": "0x089D5360",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496060
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "d02af90bf12bab0fa7cfe0ddcf40b69a3ea71f8df6f46814678ea681dbffe390",
+      "source_size": 924,
+      "physical_offsets": [
+        1123496
+      ],
+      "source_pointers": [
+        "0x081124A8"
+      ],
+      "source_stored_sizes": [
+        143
+      ],
+      "allocation_offset": 10310916,
+      "relocated_stored_size": 142,
+      "relocated_stored_sha256": "4fd630d7671699f9a016cda9c854ee8a2618f5171cd10c26f1fecfa509e6e059",
+      "new_pointer": "0x089D5504",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496064
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "9f70cf0f8901112eb64716e1afffb4a02f797250c6cac70477802cfa7303ffa3",
+      "source_size": 1024,
+      "physical_offsets": [
+        1123640
+      ],
+      "source_pointers": [
+        "0x08112538"
+      ],
+      "source_stored_sizes": [
+        828
+      ],
+      "allocation_offset": 10311060,
+      "relocated_stored_size": 826,
+      "relocated_stored_sha256": "b02531811c4dcec6b6b9c82168c76c2edbd207f95c489b2b92e0a7f5aaafa604",
+      "new_pointer": "0x089D5594",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496068
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "feb29d7ff92ff55e902f61471b230aa9bb58aa64f719c1cefa820ec9d41623b6",
+      "source_size": 462,
+      "physical_offsets": [
+        1124468
+      ],
+      "source_pointers": [
+        "0x08112874"
+      ],
+      "source_stored_sizes": [
+        68
+      ],
+      "allocation_offset": 10311888,
+      "relocated_stored_size": 65,
+      "relocated_stored_sha256": "aa1f4f1adbef49911dee33a1b1368b18c2bdda637ffac2232c4e6fa686479ffe",
+      "new_pointer": "0x089D58D0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496072
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "6c3184b0c786d8aaf1f383848f4dc394db7505f2d1c75f1ed111c5353f9ad62b",
+      "source_size": 15360,
+      "physical_offsets": [
+        1124536
+      ],
+      "source_pointers": [
+        "0x081128B8"
+      ],
+      "source_stored_sizes": [
+        9279
+      ],
+      "allocation_offset": 10311956,
+      "relocated_stored_size": 9264,
+      "relocated_stored_sha256": "417d5b362293a69b9e1bdb49ce4c8c1a3b105e066f0173609f11c6dd768dcf03",
+      "new_pointer": "0x089D5914",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496084
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "bg_palette",
+      "source_sha256": "93682f0b95f73942be1e65ce08d2e2807bcc01188dd928a8bc84388a3371b0c8",
+      "source_size": 384,
+      "physical_offsets": [
+        1133816
+      ],
+      "source_pointers": [
+        "0x08114CF8"
+      ],
+      "source_stored_sizes": [
+        226
+      ],
+      "allocation_offset": 10321220,
+      "relocated_stored_size": 226,
+      "relocated_stored_sha256": "621386bbe24392ae51dfbf153e1a1ff4164e18c9c6facd5ff110557dd15f4003",
+      "new_pointer": "0x089D7D44",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496088
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "c87a90026a6299d969d70174ef7ade16d196a9db8bdc00629f36714ee0f08881",
+      "source_size": 1352,
+      "physical_offsets": [
+        1134044
+      ],
+      "source_pointers": [
+        "0x08114DDC"
+      ],
+      "source_stored_sizes": [
+        671
+      ],
+      "allocation_offset": 10321448,
+      "relocated_stored_size": 671,
+      "relocated_stored_sha256": "8c92f81a2a5475002e34da5b6f594cfae8a14e812e0e190828a0609027098ed9",
+      "new_pointer": "0x089D7E28",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496092
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "alternate_layout",
+      "source_sha256": "f277c5b50d2b94dde173d66bfa0b064e49596300c98f19b31e31119ff9f7f13d",
+      "source_size": 1352,
+      "physical_offsets": [
+        1134716
+      ],
+      "source_pointers": [
+        "0x0811507C"
+      ],
+      "source_stored_sizes": [
+        238
+      ],
+      "allocation_offset": 10322120,
+      "relocated_stored_size": 238,
+      "relocated_stored_sha256": "e44efe6232c20dad24368faa8843634bee33b2c7334bc819951f700d662ce2e6",
+      "new_pointer": "0x089D80C8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496096
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "37c18ec11650b7301a6c657859d17b09ff91664c91a9a9f26979edbf6c18be4e",
+      "source_size": 1672,
+      "physical_offsets": [
+        1134956
+      ],
+      "source_pointers": [
+        "0x0811516C"
+      ],
+      "source_stored_sizes": [
+        1423
+      ],
+      "allocation_offset": 10322360,
+      "relocated_stored_size": 1422,
+      "relocated_stored_sha256": "05b3d09da1b7ce5219c75a4fdb7a3e1a818e70aab13c64cfe2f07815a6ef1332",
+      "new_pointer": "0x089D81B8",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496100
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "233b18424490a34a770ef8c0ccac9ed83efd56654dd8284d3b523525056a663d",
+      "source_size": 676,
+      "physical_offsets": [
+        1136380
+      ],
+      "source_pointers": [
+        "0x081156FC"
+      ],
+      "source_stored_sizes": [
+        98
+      ],
+      "allocation_offset": 10323784,
+      "relocated_stored_size": 97,
+      "relocated_stored_sha256": "f49c307e4d83012c5c74df940d8c6fcb781ccd2df48c39ebfcce1978ad31abfd",
+      "new_pointer": "0x089D8748",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496104
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "f7d4ac8b041bfcd7d5f1a2103e3402185fd57a35651a0f1d75e47e48d47a44c2",
+      "source_size": 12288,
+      "physical_offsets": [
+        1136480,
+        1148448,
+        1160416,
+        1172384,
+        1184352,
+        1196320,
+        1208288
+      ],
+      "source_pointers": [
+        "0x08115760",
+        "0x08118620",
+        "0x0811B4E0",
+        "0x0811E3A0",
+        "0x08121260",
+        "0x08124120",
+        "0x08126FE0"
+      ],
+      "source_stored_sizes": [
+        10043,
+        10043,
+        10043,
+        10043,
+        10043,
+        10043,
+        10043
+      ],
+      "allocation_offset": 10323884,
+      "relocated_stored_size": 10036,
+      "relocated_stored_sha256": "f8c98c3afad552c2ab3b5ce8b68e05c621bce19594c6b6192598a15bf5c5168f",
+      "new_pointer": "0x089D87AC",
+      "logical_reference_count": 7,
+      "header_pointer_offsets": [
+        5496308,
+        5496340,
+        5496372,
+        5496404,
+        5496436,
+        5496468,
+        5496500
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+      "source_size": 792,
+      "physical_offsets": [
+        1146688,
+        1158656,
+        1170624,
+        1182592,
+        1194560,
+        1206528,
+        1218496
+      ],
+      "source_pointers": [
+        "0x08117F40",
+        "0x0811AE00",
+        "0x0811DCC0",
+        "0x08120B80",
+        "0x08123A40",
+        "0x08126900",
+        "0x081297C0"
+      ],
+      "source_stored_sizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500
+      ],
+      "allocation_offset": 10333920,
+      "relocated_stored_size": 500,
+      "relocated_stored_sha256": "1d3c3b080818df78e4928b1614f1da31089911402eb45ea3d107a8d2a723af96",
+      "new_pointer": "0x089DAEE0",
+      "logical_reference_count": 7,
+      "header_pointer_offsets": [
+        5496316,
+        5496348,
+        5496380,
+        5496412,
+        5496444,
+        5496476,
+        5496508
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "f557bf169836e7b1abdf2e6fac94887f0f50b9293a9976eb8e7c93d64e3bb3db",
+      "source_size": 1376,
+      "physical_offsets": [
+        1147188,
+        1159156,
+        1171124,
+        1183092,
+        1195060,
+        1207028,
+        1218996
+      ],
+      "source_pointers": [
+        "0x08118134",
+        "0x0811AFF4",
+        "0x0811DEB4",
+        "0x08120D74",
+        "0x08123C34",
+        "0x08126AF4",
+        "0x081299B4"
+      ],
+      "source_stored_sizes": [
+        1188,
+        1188,
+        1188,
+        1188,
+        1188,
+        1188,
+        1188
+      ],
+      "allocation_offset": 10334420,
+      "relocated_stored_size": 1188,
+      "relocated_stored_sha256": "44630fccb717e8eacd17aba0d71617f799e596749c34a99055f36e06bfb0e5e5",
+      "new_pointer": "0x089DB0D4",
+      "logical_reference_count": 7,
+      "header_pointer_offsets": [
+        5496324,
+        5496356,
+        5496388,
+        5496420,
+        5496452,
+        5496484,
+        5496516
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "source_size": 396,
+      "physical_offsets": [
+        1148376,
+        1160344,
+        1172312,
+        1184280,
+        1196248,
+        1208216,
+        1220184
+      ],
+      "source_pointers": [
+        "0x081185D8",
+        "0x0811B498",
+        "0x0811E358",
+        "0x08121218",
+        "0x081240D8",
+        "0x08126F98",
+        "0x08129E58"
+      ],
+      "source_stored_sizes": [
+        72,
+        72,
+        72,
+        72,
+        72,
+        72,
+        72
+      ],
+      "allocation_offset": 10335608,
+      "relocated_stored_size": 71,
+      "relocated_stored_sha256": "c87c0b952db7f7c787845848484b5aa0c23e1287b0ef00594c35ee79ea045c1c",
+      "new_pointer": "0x089DB578",
+      "logical_reference_count": 7,
+      "header_pointer_offsets": [
+        5496328,
+        5496360,
+        5496392,
+        5496424,
+        5496456,
+        5496488,
+        5496520
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "tile_graphics",
+      "source_sha256": "5a3576a86bba459a3d5a2b0f41cb7b7930adcbd108c0ebed16736ef1beb3a48d",
+      "source_size": 10240,
+      "physical_offsets": [
+        1220256
+      ],
+      "source_pointers": [
+        "0x08129EA0"
+      ],
+      "source_stored_sizes": [
+        8935
+      ],
+      "allocation_offset": 10335680,
+      "relocated_stored_size": 8928,
+      "relocated_stored_sha256": "95e18457369122ef0843f5182433ebd5241634ac4e09b011464a3dced08a3ed9",
+      "new_pointer": "0x089DB5C0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496532
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "primary_layout",
+      "source_sha256": "d18c9dca75fdf3d9d3166f31c71f4053d032f04427594794742ae16ce2960e6e",
+      "source_size": 880,
+      "physical_offsets": [
+        1229376
+      ],
+      "source_pointers": [
+        "0x0812C240"
+      ],
+      "source_stored_sizes": [
+        511
+      ],
+      "allocation_offset": 10344608,
+      "relocated_stored_size": 511,
+      "relocated_stored_sha256": "3fddf9af69a024daa060ecd1b9d5f18c4e79b5ca749cf7482281a2c00de07b83",
+      "new_pointer": "0x089DD8A0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496540
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "metatile_definitions",
+      "source_sha256": "0e73d54adfb7ef4ae6d240852fa53bc056839d24b665a3a2bfae92b09dd854d9",
+      "source_size": 1080,
+      "physical_offsets": [
+        1229888
+      ],
+      "source_pointers": [
+        "0x0812C440"
+      ],
+      "source_stored_sizes": [
+        972
+      ],
+      "allocation_offset": 10345120,
+      "relocated_stored_size": 972,
+      "relocated_stored_sha256": "0f95ee3c078309c98a2710624da1cfca7edfe4036a96130acb0978273e700124",
+      "new_pointer": "0x089DDAA0",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496548
+      ],
+      "unexpected_pointer_offsets": []
+    },
+    {
+      "resource_type": "collision_grid",
+      "source_sha256": "7b15b55965d5ab937a687ed0e7365611f335e53d83108c519e661957f3bab60b",
+      "source_size": 440,
+      "physical_offsets": [
+        1230860
+      ],
+      "source_pointers": [
+        "0x0812C80C"
+      ],
+      "source_stored_sizes": [
+        90
+      ],
+      "allocation_offset": 10346092,
+      "relocated_stored_size": 87,
+      "relocated_stored_sha256": "a0dc8ba3f0c1df7fc563821bb52966844a6bf8d1ad85d755a4fe935d0743414a",
+      "new_pointer": "0x089DDE6C",
+      "logical_reference_count": 1,
+      "header_pointer_offsets": [
+        5496552
+      ],
+      "unexpected_pointer_offsets": []
+    }
+  ],
+  "output_rom_sha256": "b9b0a6a085c363ce81c2e5a6a4159d1bb5cf26132a781d9d4e9438fb63a89dea",
+  "scope": {
+    "proved": "All 166 deduplicated map contents and 249 exact map-header pointers relocate into the registered map image region.",
+    "editable": "Map graphics, palettes, layouts, metatiles and collision grids may change size while every linked map remains valid.",
+    "not_proved": "Modified-map runtime pixel equivalence, dynamic overlays, camera behavior or final collision gameplay semantics."
+  }
+}

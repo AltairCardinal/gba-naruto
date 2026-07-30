@@ -366,6 +366,26 @@ class BuildExpansionIntegrationTests(unittest.TestCase):
         self.assertEqual("allocation", result["patch_class"])
         self.assertEqual(bytes.fromhex("01020304"), data[0x20:0x24])
 
+    def test_generic_allocation_cannot_bypass_the_safety_gate(self):
+        from tools import build_mod
+
+        data = bytearray(bytes([0xFF] * 64))
+        with self.assertRaisesRegex(ValueError, "requires a safety gate"):
+            build_mod.apply_patch(
+                data,
+                {
+                    "id": "unchecked-allocation",
+                    "type": "bytes",
+                    "offset": 0x20,
+                    "before_hex": "ffffffff",
+                    "after_hex": "01020304",
+                    "allocation": {
+                        "partition": "visual-relocation",
+                        "owner": "character_visuals",
+                    },
+                },
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

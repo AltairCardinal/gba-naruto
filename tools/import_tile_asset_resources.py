@@ -18,14 +18,16 @@ if str(REPO_ROOT) not in sys.path:
 
 from tools.extract_tileset import lz77_decompress
 from tools.gba_image_export import encode_gba_lz77, read_lz77_record
+from tools.image_resource_regions import ImageResourceRegions
 from tools.rom_layout import RomLayout
 
 
 ROM_BASE = 0x08000000
 ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
 CATALOG_PATH = Path("artifacts/tile-assets-bg-v2/manifest.json")
+REGION_REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 CATALOG_SCHEMA = "tile-assets-bg-export-v2"
-SPEC_SCHEMA = "tile-asset-resource-import-v1"
+SPEC_SCHEMA = "tile-asset-resource-import-v2"
 TABLE_OFFSET = 0x5A320C
 TABLE_ENTRY_COUNT = 79
 TABLE_ENTRY_SIZE = 0x44
@@ -443,6 +445,7 @@ def resolve_tile_asset_resource_patches(
     *,
     rom: bytes | None = None,
     layout: RomLayout | None = None,
+    regions: ImageResourceRegions | None = None,
 ) -> list[dict[str, Any]]:
     root = root.resolve()
     spec_path = _resolve_path(root, str(spec_path))
@@ -480,6 +483,24 @@ def resolve_tile_asset_resource_patches(
         or partition.start < len(base)
     ):
         raise ValueError("tile-assets allocation partition contract mismatch")
+    if spec.get("region_registry") != REGION_REGISTRY_PATH.as_posix():
+        raise ValueError("tile-assets region registry path mismatch")
+    registry_path = root / REGION_REGISTRY_PATH
+    registry_bytes = registry_path.read_bytes()
+    if spec.get("region_registry_sha256") != _sha256(registry_bytes):
+        raise ValueError("tile-assets region registry SHA-256 mismatch")
+    regions = regions or ImageResourceRegions.from_path(
+        registry_path,
+        layout,
+    )
+    if regions.parent != partition:
+        raise ValueError("tile-assets region parent mismatch")
+    region = regions.require(
+        str(spec.get("region")),
+        str(spec.get("region_owner")),
+    )
+    if region.id != "tile-assets" or region.owner != "tile_asset_resources":
+        raise ValueError("tile-assets allocation region contract mismatch")
     edits = spec.get("edits")
     if not isinstance(edits, list) or not edits:
         raise ValueError("tile-assets edits must be a non-empty list")
@@ -549,16 +570,16 @@ def resolve_tile_asset_resource_patches(
 
     _validate_all_layers(catalog, resources, replacements)
     plans.sort(key=lambda item: _pointer(item["resource"]["source_pointer"]))
-    cursor = partition.start
+    cursor = region.start
     patches: list[dict[str, Any]] = []
     for plan in plans:
         cursor = (cursor + 3) & ~3
         encoded = plan["encoded"]
         end = cursor + len(encoded)
-        if end > partition.end:
+        if end > region.end:
             raise ValueError(
                 "tile-assets partition capacity exceeded: "
-                f"need 0x{end:X}, end is 0x{partition.end:X}"
+                f"need 0x{end:X}, end is 0x{region.end:X}"
             )
         resource = plan["resource"]
         new_pointer = ROM_BASE + cursor
@@ -596,6 +617,8 @@ def resolve_tile_asset_resource_patches(
                 "allocation": {
                     "partition": partition.id,
                     "owner": partition.owner,
+                    "region": region.id,
+                    "region_owner": region.owner,
                 },
                 **common,
             }

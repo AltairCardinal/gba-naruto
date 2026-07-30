@@ -1453,12 +1453,25 @@ WebSocket
   75个非sentinel descriptor的236个完整图层及descriptor 0的1个partial D
   tilemap形成323个物理资源：107 graphics、108 tilemap、108 palette，并有709条
   descriptor逻辑指针引用；全ROM四字节对齐精确扫描的未知引用为0。新
-  `tile_asset_resource`构建类型把资源分配到`0x800000..0xC00000`，允许经catalog
+  `tile_asset_resource`构建类型把资源分配到`0x800000..0x980000`，允许经catalog
   约束的别名子集显式分裂，并联合验证4bpp/8bpp tile、tilemap尺寸/索引、palette
   大小、8bpp色号及保留palette-bank位。全量preservation迁移占634,112 bytes，
-  末端`0x89AE00`，剩余3,560,192 bytes；独立verifier重新解析ROM和完整
+  末端`0x89AE00`，在注册的`0x800000..0x980000`区域内剩余938,752 bytes；
+  独立verifier重新解析ROM和完整
   `RomLayout`，重建323/709分母及16 MiB输出，并拒绝重签后的别名、实现哈希和
   分区篡改。成果位于`artifacts/tile-asset-resource-relocation-v1/`，说明见
   `notes/tile-asset-resource-relocation-20260731.md`。descriptor 0 partial D
   缺失的graphics/palette生产者、修改后自然路线选择及最终window/blend/时序像素
   等价仍未闭合，Goal保持active。
+- 2026-07-31：47张战斗地图的六类静态资源已从受限原位回编推进到可变长迁移。
+  166份去重内容、217个原物理LZ77槽和249条map-header逻辑指针经全ROM精确扫描，
+  未知引用为0；新`map_resource_relocation`类型允许按catalog约束的header别名
+  子集拆分，并在分配前重验全部layout→metatile→tile/palette索引及collision尺寸。
+  为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
+  `0x800000..0x980000`，地图使用`0x980000..0xA80000`，未来图像保留
+  `0xA80000..0xC00000`；注册表强制无重叠、无空洞和对齐。地图全量迁移占
+  384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
+  同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
+  `artifacts/map-resource-relocation-v1/`，说明见
+  `notes/map-resource-relocation-20260731.md`。修改后全地图像素、动态overlay、
+  camera和碰撞玩法语义的运行时等价仍未闭合，Goal保持active。

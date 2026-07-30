@@ -12,6 +12,14 @@
     "partition": "sequel-image-assets",
     "owner": "sequel_image_assets"
   },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "a756619a65cbacae672bda4bb3275035020b55693c6af46c90ac52c7b2b559c2",
+    "region": "tile-assets",
+    "owner": "tile_asset_resources",
+    "start": 8388608,
+    "end": 9961472
+  },
   "catalog": {
     "path": "artifacts/tile-assets-bg-v2/manifest.json",
     "sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
@@ -19,13 +27,14 @@
   },
   "authoring_spec": {
     "file": "full-relocation-spec.json",
-    "sha256": "7bcd00e9d3027f5acd8ae062195d4eba7b1c5c677d851fdd5b688f0cb428a4f1"
+    "sha256": "4a6ae2b83511f5a84718c34335a272cc25e53010f3a8cd204114359e5d485f63"
   },
   "implementation": {
-    "tools/import_tile_asset_resources.py": "016211845a875880bc93dd55393bd5705f098d920296c8ddb0e8f937238ae596",
+    "tools/import_tile_asset_resources.py": "86a448518b682519fcde37ae5b558497acd281f578dbd8939b8ebb2fca95cb4a",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
-    "tools/patch_safety.py": "316cbc6b4e47135e075617c76e78a1990180c15ac7a6e55c6b7d3fbec12b4b71",
-    "tools/build_mod.py": "6d3531d8a90da7b3650f7097e6371711ef2befaa727c9bb8eb3da2e32f7a1c1d"
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "3710c977ca65a026c9c05b6005e6f7e3d32d5806fad7d98548a1a159e5362969"
   },
   "summary": {
     "descriptor_count": 79,
@@ -45,8 +54,8 @@
     "relocated_stored_bytes": 633773,
     "source_stored_bytes": 635194,
     "source_content_bytes": 1159684,
-    "partition_end": 12582912,
-    "remaining_bytes": 3560192
+    "region_end": 9961472,
+    "remaining_bytes": 938752
   },
   "resources": [
     {
@@ -7221,7 +7230,7 @@
   ],
   "output_rom_sha256": "ba01464017afc9a2fa5cc705e2f15afcbf6d136bda1fee182df79d779016cb4e",
   "scope": {
-    "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered 4 MiB image partition with no unknown aligned exact references.",
+    "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered tile-assets image region with no unknown aligned exact references.",
     "editable": "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may change size where their layer geometry remains valid.",
     "not_proved": "Modified-resource runtime pixel equivalence, final window/blend/timing composition, or the missing graphics/palette producers for descriptor 0 partial D."
   }

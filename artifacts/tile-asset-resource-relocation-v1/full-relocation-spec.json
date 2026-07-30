@@ -1,11 +1,15 @@
 {
-  "schema": "tile-asset-resource-import-v1",
+  "schema": "tile-asset-resource-import-v2",
   "description": "Capacity/fidelity audit: relocate all 323 tile-assets payloads and all 709 exact descriptor pointer aliases without editing.",
   "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "source_catalog": "artifacts/tile-assets-bg-v2/manifest.json",
   "source_catalog_sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
   "partition": "sequel-image-assets",
   "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "a756619a65cbacae672bda4bb3275035020b55693c6af46c90ac52c7b2b559c2",
+  "region": "tile-assets",
+  "region_owner": "tile_asset_resources",
   "edits": [
     {
       "id": "graphics-3497bc-relocation",

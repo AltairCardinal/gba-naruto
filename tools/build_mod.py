@@ -443,11 +443,39 @@ def resolve_tile_asset_resource_patch(
     )
 
 
+def resolve_map_resource_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_map_resource_relocations import (
+        resolve_map_resource_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "map resource relocation requires an explicit ROM layout"
+        )
+    return resolve_map_resource_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def apply_patch(
     data: bytearray, patch: dict, *, gate: PatchSafetyGate | None = None
 ) -> dict:
     ptype = patch.get("sub_type", patch["type"])
     if ptype == "bytes":
+        if "allocation" in patch and gate is None:
+            raise ValueError(
+                f"allocation patch {patch.get('id', '<unnamed>')} "
+                "requires a safety gate"
+            )
         return apply_bytes_patch(
             data,
             patch,
@@ -575,6 +603,7 @@ def build(project_path: Path) -> dict:
 
     base_data = ctx.base_rom_path.read_bytes()
     layout: RomLayout | None = None
+    image_regions = None
     allocator_bindings: list[dict[str, object]] = []
     layout_path_value = ctx.project.get("rom_layout")
     if layout_path_value is not None:
@@ -601,9 +630,33 @@ def build(project_path: Path) -> dict:
                 }
             )
         data = bytearray(layout.expanded_base())
+        needs_image_regions = any(
+            patch.get("enabled", True)
+            and (
+                patch.get("type")
+                in {"tile_asset_resource", "map_resource_relocation"}
+                or (
+                    patch.get("type") == "bytes"
+                    and patch.get("allocation", {}).get("partition")
+                    == "sequel-image-assets"
+                )
+            )
+            for patch in manifest["patches"]
+        )
+        if needs_image_regions:
+            from image_resource_regions import ImageResourceRegions
+
+            image_regions = ImageResourceRegions.from_path(
+                ROOT / "sequel/image-resource-regions.json",
+                layout,
+            )
     else:
         data = bytearray(base_data)
-    safety_gate = PatchSafetyGate(base_data, layout=layout)
+    safety_gate = PatchSafetyGate(
+        base_data,
+        layout=layout,
+        image_regions=image_regions,
+    )
     applied: list[dict] = []
     for patch in manifest["patches"]:
         if not patch.get("enabled", True):
@@ -858,6 +911,34 @@ def build(project_path: Path) -> dict:
                     "logical_aliases",
                     "all_pointer_offsets",
                     "target_pointer_offsets",
+                    "content_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "map_resource_relocation":
+            sub_patches = resolve_map_resource_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "source_sha256",
+                    "replacement_sha256",
+                    "source_size",
+                    "replacement_size",
+                    "physical_offsets",
+                    "source_pointers",
+                    "new_pointer",
+                    "map_id",
+                    "logical_aliases",
+                    "all_header_pointer_offsets",
+                    "target_header_pointer_offsets",
                     "content_file",
                 ):
                     if key in sp:

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "description": "图像资源族在sequel-image-assets父分区内的稳定所有权；各迁移器不得从父分区起点独立分配。",
+  "parent_partition": "sequel-image-assets",
+  "parent_owner": "sequel_image_assets",
+  "regions": [
+    {
+      "id": "tile-assets",
+      "owner": "tile_asset_resources",
+      "start": "0x800000",
+      "end": "0x980000",
+      "alignment": 4
+    },
+    {
+      "id": "map-resources",
+      "owner": "map_resources",
+      "start": "0x980000",
+      "end": "0xA80000",
+      "alignment": 4
+    },
+    {
+      "id": "future-image-resources",
+      "owner": "sequel_image_assets",
+      "start": "0xA80000",
+      "end": "0xC00000",
+      "alignment": 4
+    }
+  ]
+}

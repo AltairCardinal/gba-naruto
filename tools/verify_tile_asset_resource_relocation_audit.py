@@ -18,6 +18,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from tools.extract_tileset import lz77_decompress
 from tools.gba_image_export import encode_gba_lz77, read_lz77_record
+from tools.image_resource_regions import ImageResourceRegions
 from tools.rom_layout import RomLayout
 
 
@@ -28,6 +29,22 @@ TABLE_ENTRY_SIZE = 0x44
 TABLE_SHA256 = "0db18948a6619ac723bebc60f9c2b79f1fea1786c6e80db389064c5f07655f73"
 ARTIFACT_ID = "tile-asset-resource-relocation-v1"
 PAYLOAD_NAME = "relocation-audit.json"
+EXPECTED_SCOPE = {
+    "proved": (
+        "All 323 graphics/tilemap/palette payloads and all 709 exact "
+        "descriptor pointers relocate into the registered tile-assets image "
+        "region with no unknown aligned exact references."
+    ),
+    "editable": (
+        "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may "
+        "change size where their layer geometry remains valid."
+    ),
+    "not_proved": (
+        "Modified-resource runtime pixel equivalence, final window/"
+        "blend/timing composition, or the missing graphics/palette "
+        "producers for descriptor 0 partial D."
+    ),
+}
 SPEC_NAME = "full-relocation-spec.json"
 PAYLOAD_SCHEMA = "tile-asset-resource-relocation-audit-v1"
 SENTINELS = {13, 31, 32, 46}
@@ -295,7 +312,8 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
         if payload.get("schema") != PAYLOAD_SCHEMA:
             raise ValueError("audit payload schema mismatch")
         if (
-            promotion.get("scope") != payload.get("scope")
+            payload.get("scope") != EXPECTED_SCOPE
+            or promotion.get("scope") != EXPECTED_SCOPE
             or promotion.get("summary") != payload.get("summary")
         ):
             raise ValueError("promotion scope/summary mismatch")
@@ -332,6 +350,28 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             or target_size != payload["layout"]["target_rom_size"]
         ):
             raise ValueError("image partition contract mismatch")
+        registry_spec = payload["region_registry"]
+        if registry_spec["path"] != "sequel/image-resource-regions.json":
+            raise ValueError("image region registry path mismatch")
+        registry_path = root / registry_spec["path"]
+        if _sha256_file(registry_path) != registry_spec["sha256"]:
+            raise ValueError("image region registry SHA-256 mismatch")
+        regions = ImageResourceRegions.from_path(registry_path, layout)
+        if regions.parent != partition:
+            raise ValueError("image region parent mismatch")
+        region = regions.require(
+            str(registry_spec["region"]),
+            str(registry_spec["owner"]),
+        )
+        if (
+            region.id != "tile-assets"
+            or region.owner != "tile_asset_resources"
+            or region.start != 0x800000
+            or region.end != 0x980000
+            or registry_spec["start"] != region.start
+            or registry_spec["end"] != region.end
+        ):
+            raise ValueError("tile-assets region contract mismatch")
 
         catalog_path = root / payload["catalog"]["path"]
         catalog_bytes = catalog_path.read_bytes()
@@ -357,16 +397,24 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             "source_catalog_sha256",
             "partition",
             "owner",
+            "region_registry",
+            "region_registry_sha256",
+            "region",
+            "region_owner",
             "edits",
         }
         if (
             set(spec) != expected_spec_keys
-            or spec["schema"] != "tile-asset-resource-import-v1"
+            or spec["schema"] != "tile-asset-resource-import-v2"
             or spec["base_rom_sha256"] != _sha256(base)
             or spec["source_catalog"] != payload["catalog"]["path"]
             or spec["source_catalog_sha256"] != _sha256(catalog_bytes)
             or spec["partition"] != partition.id
             or spec["owner"] != partition.owner
+            or spec["region_registry"] != registry_spec["path"]
+            or spec["region_registry_sha256"] != registry_spec["sha256"]
+            or spec["region"] != region.id
+            or spec["region_owner"] != region.owner
             or len(spec["edits"]) != 323
         ):
             raise ValueError("authoring preservation spec contract mismatch")
@@ -398,6 +446,7 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
 
         expected_implementation_paths = {
             "tools/import_tile_asset_resources.py",
+            "tools/image_resource_regions.py",
             "tools/rom_layout.py",
             "tools/patch_safety.py",
             "tools/build_mod.py",
@@ -411,7 +460,7 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
         output = bytearray(
             base + bytes([fill_byte]) * (target_size - len(base))
         )
-        cursor = partition_start
+        cursor = region.start
         expected_rows = []
         for pointer, resource in resources.items():
             cursor = (cursor + 3) & ~3
@@ -421,7 +470,7 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
                 else encode_gba_lz77(resource["source_content"])
             )
             end = cursor + len(encoded)
-            if end > partition_end:
+            if end > region.end:
                 raise ValueError("independent relocation exceeds partition")
             output[cursor:end] = encoded
             new_pointer = ROM_BASE + cursor
@@ -466,9 +515,9 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             "resource_type_counts": type_counts,
             "logical_pointer_count": 709,
             "unexpected_pointer_count": 0,
-            "allocation_start": partition_start,
+            "allocation_start": region.start,
             "allocation_end": cursor,
-            "allocated_span_bytes": cursor - partition_start,
+            "allocated_span_bytes": cursor - region.start,
             "relocated_stored_bytes": sum(
                 row["relocated_stored_size"] for row in expected_rows
             ),
@@ -478,8 +527,8 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             "source_content_bytes": sum(
                 row["source_size"] for row in expected_rows
             ),
-            "partition_end": partition_end,
-            "remaining_bytes": partition_end - cursor,
+            "region_end": region.end,
+            "remaining_bytes": region.end - cursor,
         }
         if payload["summary"] != expected_summary:
             raise ValueError("relocation summary mismatch")

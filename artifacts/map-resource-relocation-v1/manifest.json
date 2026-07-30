@@ -1,0 +1,51 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "map-resource-relocation-v1",
+  "artifact_schema": "map-resource-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "715835de981b8bf3f1b9a9fa082c490ce7551850120660bc788cb0b930067309",
+  "files": {
+    "relocation-audit.json": "715835de981b8bf3f1b9a9fa082c490ce7551850120660bc788cb0b930067309",
+    "full-relocation-spec.json": "80438057f12f93a25db873cedafa57312915e95f7c2daab5cbe1d7061c3810e7"
+  },
+  "scope": {
+    "proved": "All 166 deduplicated map contents and 249 exact map-header pointers relocate into the registered map image region.",
+    "editable": "Map graphics, palettes, layouts, metatiles and collision grids may change size while every linked map remains valid.",
+    "not_proved": "Modified-map runtime pixel equivalence, dynamic overlays, camera behavior or final collision gameplay semantics."
+  },
+  "summary": {
+    "map_count": 47,
+    "content_resource_count": 166,
+    "physical_source_count": 217,
+    "logical_reference_count": 249,
+    "resource_type_counts": {
+      "alternate_layout": 12,
+      "bg_palette": 15,
+      "collision_grid": 35,
+      "metatile_definitions": 35,
+      "primary_layout": 35,
+      "tile_graphics": 34
+    },
+    "unexpected_pointer_count": 0,
+    "allocation_start": 9961472,
+    "allocation_end": 10346179,
+    "allocated_span_bytes": 384707,
+    "relocated_stored_bytes": 384459,
+    "source_physical_stored_bytes": 468956,
+    "source_content_bytes": 548704,
+    "region_end": 11010048,
+    "remaining_bytes": 663869
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map_resource_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map-resource-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

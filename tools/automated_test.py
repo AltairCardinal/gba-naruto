@@ -274,6 +274,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "character_battle_structure",
             "character_battle_bundle",
             "tile_asset_resource",
+            "map_resource_relocation",
         }
         errors = []
         for patch in manifest["patches"]:

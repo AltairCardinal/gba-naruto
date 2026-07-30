@@ -122,7 +122,8 @@ class TileAssetResourceRelocationAuditTests(unittest.TestCase):
         self.assertEqual(236, summary["complete_layer_count"])
         self.assertEqual(1, summary["partial_layer_count"])
         self.assertEqual(0x800000, summary["allocation_start"])
-        self.assertLessEqual(summary["allocation_end"], 0xC00000)
+        self.assertLessEqual(summary["allocation_end"], 0x980000)
+        self.assertEqual(0x980000, summary["region_end"])
         self.assertGreater(summary["remaining_bytes"], 0)
         self.assertEqual(0, summary["unexpected_pointer_count"])
         self.assertEqual("git-artifact-promotion-v1", promotion["schema"])
@@ -141,6 +142,38 @@ class TileAssetResourceRelocationAuditTests(unittest.TestCase):
         )
         self.assertTrue(tampered_verification["errors"])
         self.assertTrue(semantic_tampered_verification["errors"])
+
+    def test_resigned_scope_overclaim_is_rejected(self):
+        from tools.export_tile_asset_resource_relocation_audit import (
+            export_audit,
+        )
+        from tools.verify_tile_asset_resource_relocation_audit import (
+            verify_audit,
+        )
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            artifact = Path(temp_dir) / "tile-assets"
+            export_audit(ROOT, artifact)
+            payload = json.loads(
+                (artifact / "relocation-audit.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            payload["scope"]["not_proved"] = "Everything is proved."
+            self._resign_payload(artifact, payload)
+            promotion_path = artifact / "manifest.json"
+            promotion = json.loads(
+                promotion_path.read_text(encoding="utf-8")
+            )
+            promotion["scope"] = payload["scope"]
+            promotion_path.write_text(
+                json.dumps(promotion, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            verification = verify_audit(ROOT, artifact)
+
+        self.assertTrue(verification["errors"])
 
     def test_verifier_rejects_missing_implementation_hash_and_invalid_layout(self):
         from tools.export_tile_asset_resource_relocation_audit import (
@@ -172,7 +205,9 @@ class TileAssetResourceRelocationAuditTests(unittest.TestCase):
             for relative in (
                 "rom/base.gba",
                 "sequel/rom-layout.json",
+                "sequel/image-resource-regions.json",
                 "artifacts/tile-assets-bg-v2/manifest.json",
+                "tools/image_resource_regions.py",
                 "tools/import_tile_asset_resources.py",
                 "tools/rom_layout.py",
                 "tools/patch_safety.py",

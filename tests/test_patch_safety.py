@@ -5,6 +5,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
 from patch_safety import PatchSafetyGate, with_base_precondition
+from image_resource_regions import ImageResourceRegions
+from rom_layout import RomLayout
 
 
 class PatchSafetyGateTests(unittest.TestCase):
@@ -70,6 +72,60 @@ class PatchSafetyGateTests(unittest.TestCase):
                 {"id": "bad", "offset": 31, "before_hex": "1f", "after_hex": "aabb"},
                 patch_class="game_effective",
             )
+
+    def test_image_parent_allocations_require_and_obey_registered_region(self):
+        root = Path(__file__).resolve().parents[1]
+        base = (root / "rom/base.gba").read_bytes()
+        layout = RomLayout.from_path(root / "sequel/rom-layout.json", base)
+        regions = ImageResourceRegions.from_path(
+            root / "sequel/image-resource-regions.json",
+            layout,
+        )
+        patch = {
+            "id": "image-allocation",
+            "offset": 0x800000,
+            "before_hex": "ff",
+            "after_hex": "00",
+            "allocation": {
+                "partition": "sequel-image-assets",
+                "owner": "sequel_image_assets",
+                "region": "map-resources",
+                "region_owner": "map_resources",
+            },
+        }
+        with self.assertRaisesRegex(ValueError, "region registry"):
+            PatchSafetyGate(base, layout=layout).register(
+                patch,
+                patch_class="allocation",
+            )
+        with self.assertRaisesRegex(ValueError, "outside.*map-resources"):
+            PatchSafetyGate(
+                base,
+                layout=layout,
+                image_regions=regions,
+            ).register(
+                patch,
+                patch_class="allocation",
+            )
+
+        valid = {
+            **patch,
+            "allocation": {
+                **patch["allocation"],
+                "region": "tile-assets",
+                "region_owner": "tile_asset_resources",
+            },
+        }
+        result = PatchSafetyGate(
+            base,
+            layout=layout,
+            image_regions=regions,
+        ).register(valid, patch_class="allocation")
+        self.assertEqual("tile-assets", result["allocation_region"])
+        self.assertEqual(
+            "tile_asset_resources",
+            result["allocation_region_owner"],
+        )
 
 
 if __name__ == "__main__":
