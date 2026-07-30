@@ -62,7 +62,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xB00000, 0xC00000),
+            (0xB00000, 0xB40000, "regular_bg_resources"),
+            (
+                registry.require(
+                    "regular-bg",
+                    "regular_bg_resources",
+                ).start,
+                registry.require(
+                    "regular-bg",
+                    "regular_bg_resources",
+                ).end,
+                registry.require(
+                    "regular-bg",
+                    "regular_bg_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xB40000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

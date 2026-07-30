@@ -78,6 +78,24 @@ python3 tools/verify_menu_portrait_relocation_audit.py \
 `target_pair_pointer_offsets`拆分catalog允许的pair子集，但图像几何仍固定为
 80×80/6400-byte OBJ流，palette仍固定128 bytes。
 
+## Regular BG 可变长迁移
+
+`import_bg_resource_relocations.py`复用原`bg_resource`的12-entry联合格式验证，
+把31份graphics/palette/tilemap内容迁入`regular-bg`区域，并重写36个已闭合的
+descriptor指针。构建清单使用`type: bg_resource_relocation`和完整spec。
+
+```bash
+python3 tools/export_bg_resource_relocation_audit.py \
+  --root . --output artifacts/bg-resource-relocation-v1
+
+python3 tools/verify_bg_resource_relocation_audit.py \
+  --root . --artifact artifacts/bg-resource-relocation-v1
+```
+
+专属区域为`0xB00000..0xB40000`；全量迁移末端`0xB1542D`，余175,059 bytes。
+`target_pointer_offsets`只允许catalog中的descriptor子集；graphics解压尺寸、
+384-byte palette、640-byte tilemap和4bpp/8bpp索引关系仍必须满足原consumer契约。
+
 ## 战斗地图资源原位回编
 
 `import_map_resources.py` 以 `map-canvases-v1` 的内容 SHA 为编辑身份，将一份

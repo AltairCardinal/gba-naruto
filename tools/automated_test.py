@@ -276,6 +276,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "tile_asset_resource",
             "map_resource_relocation",
             "menu_portrait_relocation",
+            "bg_resource_relocation",
         }
         errors = []
         for patch in manifest["patches"]:

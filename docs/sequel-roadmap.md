@@ -1469,8 +1469,8 @@ WebSocket
   子集拆分，并在分配前重验全部layout→metatile→tile/palette索引及collision尺寸。
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
-  `0xA80000..0xB00000`，未来图像保留`0xB00000..0xC00000`；注册表强制
-  无重叠、无空洞和对齐。地图全量迁移占
+  `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像保留
+  `0xB40000..0xC00000`；注册表强制无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
   `artifacts/map-resource-relocation-v1/`，说明见
@@ -1486,3 +1486,14 @@ WebSocket
   `artifacts/menu-portrait-relocation-v1/`，说明见
   `notes/menu-portrait-relocation-20260731.md`。任意尺寸、可变OBJ布局及修改后
   菜单调色/转场/最终像素等价仍未闭合，Goal保持active。
+- 2026-07-31：regular BG的12个有效descriptor已从受限原位回编推进到可变长
+  迁移。31份去重内容（11 graphics、12 palette、8 tilemap）、36个物理LZ77
+  payload和36个descriptor指针字段经全ROM精确扫描，额外引用为0。新
+  `bg_resource_relocation`类型允许按catalog约束拆分同内容descriptor别名，并在
+  分配前重验12个场景的4bpp/8bpp tile几何、tilemap索引、palette bank和8bpp
+  色号。全量preservation迁入`0xB00000..0xB40000`，存储87,037 bytes，占用跨度
+  87,085 bytes，末端`0xB1542D`、区域余175,059 bytes；独立verifier重建
+  31/36/36分母及完整16 MiB输出。成果位于
+  `artifacts/bg-resource-relocation-v1/`，说明见
+  `notes/bg-resource-relocation-20260731.md`。不同画布几何、底部运行时填充、
+  修改后选择/滚动/OBJ/window/blend及最终像素等价仍未闭合，Goal保持active。

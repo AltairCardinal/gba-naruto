@@ -18,7 +18,8 @@
 图像区域注册表将原`future-image-resources`无缝细分为：
 
 - `menu-portraits`：`0xA80000..0xB00000`，512 KiB；
-- `future-image-resources`：`0xB00000..0xC00000`，1 MiB。
+- `regular-bg`：`0xB00000..0xB40000`，256 KiB；
+- `future-image-resources`：`0xB40000..0xC00000`，768 KiB。
 
 512 KiB可容纳70份6400-byte图形在全literal最坏LZ77编码下的存储，加70份
 128-byte palette及四字节对齐。正式preservation迁移结果：
@@ -40,8 +41,8 @@ importer或exporter；它复用旧独立审计器的独立LZ77实现，从ROM、
 PNG哈希、完整spec、区域注册表和实现哈希重新建立74/140/622分母，重建16 MiB
 输出。重新签名后删减summary或把`not_proved`改成过度声明都会被拒绝。
 
-受资源守卫的正式导出峰值进程树RSS为61.99609375 MiB，独立验证峰值为
-48.68359375 MiB，均`completed/0`、非降级。本里程碑没有运行mGBA，并明确不证明：
+受资源守卫的正式导出峰值进程树RSS为66.02734375 MiB，独立验证峰值为
+48.0546875 MiB，均`completed/0`、非降级。本里程碑没有运行mGBA，并明确不证明：
 
 - 80×80以外的任意尺寸或可变OBJ组件布局；
 - 修改后所有菜单、剧情、调色变换和转场的运行时像素等价；

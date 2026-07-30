@@ -1,0 +1,489 @@
+{
+  "schema": "bg-resource-relocation-v1",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "source_catalog": "artifacts/bg-resource-canvases-v1/manifest.json",
+  "source_catalog_sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e",
+  "partition": "sequel-image-assets",
+  "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "91c8a93f0cbac37c1c8d90c4f1086a8698a68745372ebfc5e30c04b43b22bce7",
+  "region": "regular-bg",
+  "region_owner": "regular_bg_resources",
+  "edits": [
+    {
+      "id": "graphics-c5463fdae806",
+      "resource_type": "graphics",
+      "resource_sha256": "c5463fdae80642349f275722801017ff3e23bdffa88190ca111a3184bafd38c1",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/graphics.bin",
+      "expected": {
+        "decompressed_size": 3072,
+        "physical_offsets": [
+          3316788,
+          3336056
+        ],
+        "pointer_offsets": [
+          5869644,
+          5869740
+        ]
+      }
+    },
+    {
+      "id": "palette-3c86d0417247",
+      "resource_type": "palette",
+      "resource_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3319892
+        ],
+        "pointer_offsets": [
+          5869648
+        ]
+      }
+    },
+    {
+      "id": "tilemap-5bfb7c60fb1a",
+      "resource_type": "tilemap",
+      "resource_sha256": "5bfb7c60fb1aec2f55c04b733a50d68bd14f0c8618e7c0de69d00a7e08ab4367",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3320056,
+          3339344
+        ],
+        "pointer_offsets": [
+          5869652,
+          5869748
+        ]
+      }
+    },
+    {
+      "id": "graphics-37b3ac4f45cd",
+      "resource_type": "graphics",
+      "resource_sha256": "37b3ac4f45cd4bd3ac06101b1612eef4ca7ccf5236109a80670c202a74f4fc25",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/graphics.bin",
+      "expected": {
+        "decompressed_size": 3072,
+        "physical_offsets": [
+          3320324
+        ],
+        "pointer_offsets": [
+          5869660
+        ]
+      }
+    },
+    {
+      "id": "palette-77631f375493",
+      "resource_type": "palette",
+      "resource_sha256": "77631f3754934e8454a90c6365c2716c347aec09a0c84240b0653e1d1cffddcc",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3323176
+        ],
+        "pointer_offsets": [
+          5869664
+        ]
+      }
+    },
+    {
+      "id": "tilemap-453fa620d737",
+      "resource_type": "tilemap",
+      "resource_sha256": "453fa620d73725b83c19762fc83d8ddd821bdca88ca0eaa0f6c0d3f911e641e4",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3323368
+        ],
+        "pointer_offsets": [
+          5869668
+        ]
+      }
+    },
+    {
+      "id": "graphics-f6335f057cc5",
+      "resource_type": "graphics",
+      "resource_sha256": "f6335f057cc579ad8f66c4a42c9451284cd661c039918ff1345f6e6ad2e032a4",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/graphics.bin",
+      "expected": {
+        "decompressed_size": 4096,
+        "physical_offsets": [
+          3323628
+        ],
+        "pointer_offsets": [
+          5869676
+        ]
+      }
+    },
+    {
+      "id": "palette-cc2d212b6ffa",
+      "resource_type": "palette",
+      "resource_sha256": "cc2d212b6ffab81c28ff3e1b48306f4ca7fc4cf241ff26f10395995a4ed1ac70",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3326800
+        ],
+        "pointer_offsets": [
+          5869680
+        ]
+      }
+    },
+    {
+      "id": "tilemap-0887d65b20c1",
+      "resource_type": "tilemap",
+      "resource_sha256": "0887d65b20c192657d028ee47e09fcd7352cd637467c9712a20229af2a8501e7",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3327060
+        ],
+        "pointer_offsets": [
+          5869684
+        ]
+      }
+    },
+    {
+      "id": "graphics-62bdfc1f1e6b",
+      "resource_type": "graphics",
+      "resource_sha256": "62bdfc1f1e6bd16dca14a510cd71dfdf827ca4312290c8f7cc0b75e07620ab28",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/graphics.bin",
+      "expected": {
+        "decompressed_size": 5120,
+        "physical_offsets": [
+          3327432
+        ],
+        "pointer_offsets": [
+          5869692
+        ]
+      }
+    },
+    {
+      "id": "palette-52eea576ad95",
+      "resource_type": "palette",
+      "resource_sha256": "52eea576ad95a2a4bfded647d2a83004b53eb308765c669cb6a9df17fabcb368",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3330360
+        ],
+        "pointer_offsets": [
+          5869696
+        ]
+      }
+    },
+    {
+      "id": "tilemap-57a13ab27310",
+      "resource_type": "tilemap",
+      "resource_sha256": "57a13ab27310c6d71240a120c734fc51da23421ac7b56c3b2f53c550a6cf2ded",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3330512
+        ],
+        "pointer_offsets": [
+          5869700
+        ]
+      }
+    },
+    {
+      "id": "graphics-14c4c8b62448",
+      "resource_type": "graphics",
+      "resource_sha256": "14c4c8b624480ff485a6a8dd06300150eb1249c2abe6a0ef1e0651cc4169a1be",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/graphics.bin",
+      "expected": {
+        "decompressed_size": 3072,
+        "physical_offsets": [
+          3330952
+        ],
+        "pointer_offsets": [
+          5869708
+        ]
+      }
+    },
+    {
+      "id": "palette-b9916fc9ba66",
+      "resource_type": "palette",
+      "resource_sha256": "b9916fc9ba66955b558d29c5c363c416670b3daae4691c078a6b1fe7baab6eeb",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3332824
+        ],
+        "pointer_offsets": [
+          5869712
+        ]
+      }
+    },
+    {
+      "id": "tilemap-8fc68bb93e6f",
+      "resource_type": "tilemap",
+      "resource_sha256": "8fc68bb93e6f4bc7aeddc74318d52bac82bad81f414091844c81bd974a8ef07d",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3332984
+        ],
+        "pointer_offsets": [
+          5869716
+        ]
+      }
+    },
+    {
+      "id": "graphics-d74f7f49e9ee",
+      "resource_type": "graphics",
+      "resource_sha256": "d74f7f49e9eeb9866264df4714c61f466549206aa80ab79663c423b1a47051f2",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/graphics.bin",
+      "expected": {
+        "decompressed_size": 3072,
+        "physical_offsets": [
+          3333228
+        ],
+        "pointer_offsets": [
+          5869724
+        ]
+      }
+    },
+    {
+      "id": "palette-93682f0b95f7",
+      "resource_type": "palette",
+      "resource_sha256": "93682f0b95f73942be1e65ce08d2e2807bcc01188dd928a8bc84388a3371b0c8",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3335476
+        ],
+        "pointer_offsets": [
+          5869728
+        ]
+      }
+    },
+    {
+      "id": "tilemap-fee8abb1bfd4",
+      "resource_type": "tilemap",
+      "resource_sha256": "fee8abb1bfd430a747cc4652bf1efd403487e51d75b00307a0041c9bb00e6d0d",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3335704
+        ],
+        "pointer_offsets": [
+          5869732
+        ]
+      }
+    },
+    {
+      "id": "palette-4c6c88ffc606",
+      "resource_type": "palette",
+      "resource_sha256": "4c6c88ffc6061f9481ccfbca1b53d6dd7c20f75d9f9433853bad33b500873dc3",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-07/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3339160
+        ],
+        "pointer_offsets": [
+          5869744
+        ]
+      }
+    },
+    {
+      "id": "graphics-298f88e6750c",
+      "resource_type": "graphics",
+      "resource_sha256": "298f88e6750cac7a61d854afcf0cc9b961d98d5b59bfc5824f294930557192d1",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/graphics.bin",
+      "expected": {
+        "decompressed_size": 19264,
+        "physical_offsets": [
+          3339612
+        ],
+        "pointer_offsets": [
+          5869772
+        ]
+      }
+    },
+    {
+      "id": "palette-2f2cefc763c0",
+      "resource_type": "palette",
+      "resource_sha256": "2f2cefc763c0b0700f547bccbc924481536d521c4351aaf0b3837315386a56d4",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3354172
+        ],
+        "pointer_offsets": [
+          5869776
+        ]
+      }
+    },
+    {
+      "id": "tilemap-606c1f83b5f5",
+      "resource_type": "tilemap",
+      "resource_sha256": "606c1f83b5f5031eb69e7191d0ad3eccdbb3af146c6e6de1f0dbffe52921acf8",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3354548,
+          3369092,
+          3383320,
+          3408956
+        ],
+        "pointer_offsets": [
+          5869780,
+          5869796,
+          5869812,
+          5869844
+        ]
+      }
+    },
+    {
+      "id": "graphics-f7944eca537e",
+      "resource_type": "graphics",
+      "resource_sha256": "f7944eca537efda7d5125ec3d5fbd0df4bcef9a6f8892e2fbbb05c00e9a3c28f",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-10/graphics.bin",
+      "expected": {
+        "decompressed_size": 19264,
+        "physical_offsets": [
+          3355240
+        ],
+        "pointer_offsets": [
+          5869788
+        ]
+      }
+    },
+    {
+      "id": "palette-54cae38f2fe5",
+      "resource_type": "palette",
+      "resource_sha256": "54cae38f2fe5e768646657116c0f94c283d317fd1d9eee53dbd7938dd1ef9f58",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-10/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3368728
+        ],
+        "pointer_offsets": [
+          5869792
+        ]
+      }
+    },
+    {
+      "id": "graphics-4ec2de1c99a3",
+      "resource_type": "graphics",
+      "resource_sha256": "4ec2de1c99a3e1cb35c0d34ac92df8eba4bb4076d7fcf06b1b4dcc64f8e0bb6f",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-11/graphics.bin",
+      "expected": {
+        "decompressed_size": 19264,
+        "physical_offsets": [
+          3369784
+        ],
+        "pointer_offsets": [
+          5869804
+        ]
+      }
+    },
+    {
+      "id": "palette-5ff668723e1c",
+      "resource_type": "palette",
+      "resource_sha256": "5ff668723e1c86d542bc9b7e17b4e207b3c1faf552c6ef07c00da6a13244ecf3",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-11/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3382944
+        ],
+        "pointer_offsets": [
+          5869808
+        ]
+      }
+    },
+    {
+      "id": "graphics-fc0e1d85c475",
+      "resource_type": "graphics",
+      "resource_sha256": "fc0e1d85c475fb2a524ac54b1fc7213bcc46f36f688fd60573fb14aa1126c98c",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/graphics.bin",
+      "expected": {
+        "decompressed_size": 16192,
+        "physical_offsets": [
+          3384012
+        ],
+        "pointer_offsets": [
+          5869820
+        ]
+      }
+    },
+    {
+      "id": "palette-2b767e58517b",
+      "resource_type": "palette",
+      "resource_sha256": "2b767e58517bff3f6c649100991f75bc6e306df734efe11123af23b09ccd02c5",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3393208
+        ],
+        "pointer_offsets": [
+          5869824
+        ]
+      }
+    },
+    {
+      "id": "tilemap-c82a44f60afc",
+      "resource_type": "tilemap",
+      "resource_sha256": "c82a44f60afc4e8923bf331e4a048ea0f7313dc92a21239c89793ed1f2dcfc70",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/tilemap-u16le.bin",
+      "expected": {
+        "decompressed_size": 640,
+        "physical_offsets": [
+          3393584
+        ],
+        "pointer_offsets": [
+          5869828
+        ]
+      }
+    },
+    {
+      "id": "graphics-877b6a1be8c2",
+      "resource_type": "graphics",
+      "resource_sha256": "877b6a1be8c225d72fb90495f1f6c0e5d8d1a7d748939d9efe8461f7e36eca09",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-13/graphics.bin",
+      "expected": {
+        "decompressed_size": 19264,
+        "physical_offsets": [
+          3394196
+        ],
+        "pointer_offsets": [
+          5869836
+        ]
+      }
+    },
+    {
+      "id": "palette-c6b2f1fc6c24",
+      "resource_type": "palette",
+      "resource_sha256": "c6b2f1fc6c248c2f61200704fa7f829af103fe723b3d8289349e1757c1d42e42",
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-13/palette-bgr555.bin",
+      "expected": {
+        "decompressed_size": 384,
+        "physical_offsets": [
+          3408612
+        ],
+        "pointer_offsets": [
+          5869840
+        ]
+      }
+    }
+  ]
+}

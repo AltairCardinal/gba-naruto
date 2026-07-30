@@ -140,13 +140,18 @@ class ImportMenuPortraitRelocationsTests(unittest.TestCase):
             "menu-portraits",
             "menu_portrait_resources",
         )
+        regular_bg = regions.require(
+            "regular-bg",
+            "regular_bg_resources",
+        )
         future = regions.require(
             "future-image-resources",
             "sequel_image_assets",
         )
 
         self.assertEqual((0xA80000, 0xB00000), (portraits.start, portraits.end))
-        self.assertEqual((0xB00000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xB00000, 0xB40000), (regular_bg.start, regular_bg.end))
+        self.assertEqual((0xB40000, 0xC00000), (future.start, future.end))
         worst_case_lz77 = 4 + (6400 + 7) // 8 + 6400
         worst_case_span = 70 * worst_case_lz77 + 70 * 128 + 140 * 3
         self.assertLess(worst_case_span, portraits.end - portraits.start)
@@ -394,13 +399,13 @@ class ImportMenuPortraitRelocationsTests(unittest.TestCase):
         menu = next(
             row for row in registry["regions"] if row["id"] == "menu-portraits"
         )
-        future = next(
+        regular_bg = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "regular-bg"
         )
         menu["end"] = "0xA80004"
-        future["start"] = "0xA80004"
+        regular_bg["start"] = "0xA80004"
         tiny_regions = ImageResourceRegions.from_dict(registry, self.layout)
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):
             resolve_menu_portrait_relocation_patches(

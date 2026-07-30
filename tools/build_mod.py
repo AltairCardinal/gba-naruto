@@ -365,6 +365,27 @@ def resolve_bg_resource_patch(
     )
 
 
+def resolve_bg_resource_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_bg_resource_relocations import (
+        resolve_bg_resource_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError("BG relocation requires an explicit ROM layout")
+    return resolve_bg_resource_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_graphics_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -661,6 +682,7 @@ def build(project_path: Path) -> dict:
                     "tile_asset_resource",
                     "map_resource_relocation",
                     "menu_portrait_relocation",
+                    "bg_resource_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -993,6 +1015,33 @@ def build(project_path: Path) -> dict:
                     "logical_aliases",
                     "all_pointer_offsets",
                     "target_pointer_offsets",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "bg_resource_relocation":
+            sub_patches = resolve_bg_resource_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "resource_sha256",
+                    "replacement_sha256",
+                    "decompressed_size",
+                    "encoded_size",
+                    "source_pointer",
+                    "new_pointer",
+                    "physical_offsets",
+                    "logical_aliases",
+                    "all_pointer_offsets",
+                    "target_pointer_offsets",
+                    "source_file",
                 ):
                     if key in sp:
                         result[key] = sp[key]

@@ -1,0 +1,1089 @@
+{
+  "schema": "bg-resource-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "91c8a93f0cbac37c1c8d90c4f1086a8698a68745372ebfc5e30c04b43b22bce7",
+    "region": "regular-bg",
+    "owner": "regular_bg_resources",
+    "start": 11534336,
+    "end": 11796480
+  },
+  "catalog": {
+    "path": "artifacts/bg-resource-canvases-v1/manifest.json",
+    "sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "915f5a05d4dac1283a3a67f97eca48d2d9c3b2ebf784caa677040a4bd7464f85"
+  },
+  "implementation": {
+    "tools/import_bg_resource_relocations.py": "40b32649f3148b6501aeea745cc49f43e9d835b9c17cb50e87b71ed8d117c949",
+    "tools/import_bg_resources.py": "d4c1a3bea1d4b14453581697d233c2e8c288fe05ff9def6721a267eddb914ce6",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "5cf120cb4d976257e951fb6c5c771f05adefb0b2cbcda7213ac264431a9867d9",
+    "tools/export_bg_resource_relocation_audit.py": "aa85ea2f1834d5d59e31593326125284d99fc34f42185021e64e6979d09f6d01",
+    "tools/verify_bg_resource_relocation_audit.py": "858d3f565973d5988dc57172fd7004f9485cadbe9e748a90c009620af11fda29",
+    "tools/verify_bg_resource_writeback_audit.py": "521ca928406a1bee10ad7f60d528033f821d7d075d65163a36adfbe23f058161"
+  },
+  "summary": {
+    "entry_count": 12,
+    "content_resource_count": 31,
+    "physical_payload_count": 36,
+    "logical_pointer_count": 36,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 31,
+    "pointer_patch_count": 36,
+    "allocation_start": 11534336,
+    "allocation_end": 11621421,
+    "region_end": 11796480,
+    "stored_payload_bytes": 87037,
+    "allocation_span": 87085,
+    "remaining_bytes": 175059,
+    "applied_patch_count": 67
+  },
+  "resources": [
+    {
+      "id": "regular-bg-graphics-000",
+      "resource_type": "graphics",
+      "resource_sha256": "c5463fdae80642349f275722801017ff3e23bdffa88190ca111a3184bafd38c1",
+      "replacement_sha256": "c5463fdae80642349f275722801017ff3e23bdffa88190ca111a3184bafd38c1",
+      "decompressed_size": 3072,
+      "encoded_size": 3100,
+      "new_pointer": 145752064,
+      "offset": 11534336,
+      "physical_offsets": [
+        3316788,
+        3336056
+      ],
+      "all_pointer_offsets": [
+        5869644,
+        5869740
+      ],
+      "target_pointer_offsets": [
+        5869644,
+        5869740
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 1,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869644,
+          "physical_offset": 3316788,
+          "source_file": "entry-01/graphics.bin",
+          "source_pointer": 137534516
+        },
+        {
+          "entry_id": 7,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869740,
+          "physical_offset": 3336056,
+          "source_file": "entry-07/graphics.bin",
+          "source_pointer": 137553784
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-001",
+      "resource_type": "palette",
+      "resource_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4",
+      "replacement_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4",
+      "decompressed_size": 384,
+      "encoded_size": 163,
+      "new_pointer": 145755164,
+      "offset": 11537436,
+      "physical_offsets": [
+        3319892
+      ],
+      "all_pointer_offsets": [
+        5869648
+      ],
+      "target_pointer_offsets": [
+        5869648
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 1,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869648,
+          "physical_offset": 3319892,
+          "source_file": "entry-01/palette-bgr555.bin",
+          "source_pointer": 137537620
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-002",
+      "resource_type": "tilemap",
+      "resource_sha256": "5bfb7c60fb1aec2f55c04b733a50d68bd14f0c8618e7c0de69d00a7e08ab4367",
+      "replacement_sha256": "5bfb7c60fb1aec2f55c04b733a50d68bd14f0c8618e7c0de69d00a7e08ab4367",
+      "decompressed_size": 640,
+      "encoded_size": 268,
+      "new_pointer": 145755328,
+      "offset": 11537600,
+      "physical_offsets": [
+        3320056,
+        3339344
+      ],
+      "all_pointer_offsets": [
+        5869652,
+        5869748
+      ],
+      "target_pointer_offsets": [
+        5869652,
+        5869748
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 1,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869652,
+          "physical_offset": 3320056,
+          "source_file": "entry-01/tilemap-u16le.bin",
+          "source_pointer": 137537784
+        },
+        {
+          "entry_id": 7,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869748,
+          "physical_offset": 3339344,
+          "source_file": "entry-07/tilemap-u16le.bin",
+          "source_pointer": 137557072
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-01/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-003",
+      "resource_type": "graphics",
+      "resource_sha256": "37b3ac4f45cd4bd3ac06101b1612eef4ca7ccf5236109a80670c202a74f4fc25",
+      "replacement_sha256": "37b3ac4f45cd4bd3ac06101b1612eef4ca7ccf5236109a80670c202a74f4fc25",
+      "decompressed_size": 3072,
+      "encoded_size": 2846,
+      "new_pointer": 145755596,
+      "offset": 11537868,
+      "physical_offsets": [
+        3320324
+      ],
+      "all_pointer_offsets": [
+        5869660
+      ],
+      "target_pointer_offsets": [
+        5869660
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 2,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869660,
+          "physical_offset": 3320324,
+          "source_file": "entry-02/graphics.bin",
+          "source_pointer": 137538052
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-004",
+      "resource_type": "palette",
+      "resource_sha256": "77631f3754934e8454a90c6365c2716c347aec09a0c84240b0653e1d1cffddcc",
+      "replacement_sha256": "77631f3754934e8454a90c6365c2716c347aec09a0c84240b0653e1d1cffddcc",
+      "decompressed_size": 384,
+      "encoded_size": 191,
+      "new_pointer": 145758444,
+      "offset": 11540716,
+      "physical_offsets": [
+        3323176
+      ],
+      "all_pointer_offsets": [
+        5869664
+      ],
+      "target_pointer_offsets": [
+        5869664
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 2,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869664,
+          "physical_offset": 3323176,
+          "source_file": "entry-02/palette-bgr555.bin",
+          "source_pointer": 137540904
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-005",
+      "resource_type": "tilemap",
+      "resource_sha256": "453fa620d73725b83c19762fc83d8ddd821bdca88ca0eaa0f6c0d3f911e641e4",
+      "replacement_sha256": "453fa620d73725b83c19762fc83d8ddd821bdca88ca0eaa0f6c0d3f911e641e4",
+      "decompressed_size": 640,
+      "encoded_size": 259,
+      "new_pointer": 145758636,
+      "offset": 11540908,
+      "physical_offsets": [
+        3323368
+      ],
+      "all_pointer_offsets": [
+        5869668
+      ],
+      "target_pointer_offsets": [
+        5869668
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 2,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869668,
+          "physical_offset": 3323368,
+          "source_file": "entry-02/tilemap-u16le.bin",
+          "source_pointer": 137541096
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-02/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-006",
+      "resource_type": "graphics",
+      "resource_sha256": "f6335f057cc579ad8f66c4a42c9451284cd661c039918ff1345f6e6ad2e032a4",
+      "replacement_sha256": "f6335f057cc579ad8f66c4a42c9451284cd661c039918ff1345f6e6ad2e032a4",
+      "decompressed_size": 4096,
+      "encoded_size": 3165,
+      "new_pointer": 145758896,
+      "offset": 11541168,
+      "physical_offsets": [
+        3323628
+      ],
+      "all_pointer_offsets": [
+        5869676
+      ],
+      "target_pointer_offsets": [
+        5869676
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 3,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869676,
+          "physical_offset": 3323628,
+          "source_file": "entry-03/graphics.bin",
+          "source_pointer": 137541356
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-007",
+      "resource_type": "palette",
+      "resource_sha256": "cc2d212b6ffab81c28ff3e1b48306f4ca7fc4cf241ff26f10395995a4ed1ac70",
+      "replacement_sha256": "cc2d212b6ffab81c28ff3e1b48306f4ca7fc4cf241ff26f10395995a4ed1ac70",
+      "decompressed_size": 384,
+      "encoded_size": 258,
+      "new_pointer": 145762064,
+      "offset": 11544336,
+      "physical_offsets": [
+        3326800
+      ],
+      "all_pointer_offsets": [
+        5869680
+      ],
+      "target_pointer_offsets": [
+        5869680
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 3,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869680,
+          "physical_offset": 3326800,
+          "source_file": "entry-03/palette-bgr555.bin",
+          "source_pointer": 137544528
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-008",
+      "resource_type": "tilemap",
+      "resource_sha256": "0887d65b20c192657d028ee47e09fcd7352cd637467c9712a20229af2a8501e7",
+      "replacement_sha256": "0887d65b20c192657d028ee47e09fcd7352cd637467c9712a20229af2a8501e7",
+      "decompressed_size": 640,
+      "encoded_size": 372,
+      "new_pointer": 145762324,
+      "offset": 11544596,
+      "physical_offsets": [
+        3327060
+      ],
+      "all_pointer_offsets": [
+        5869684
+      ],
+      "target_pointer_offsets": [
+        5869684
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 3,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869684,
+          "physical_offset": 3327060,
+          "source_file": "entry-03/tilemap-u16le.bin",
+          "source_pointer": 137544788
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-03/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-009",
+      "resource_type": "graphics",
+      "resource_sha256": "62bdfc1f1e6bd16dca14a510cd71dfdf827ca4312290c8f7cc0b75e07620ab28",
+      "replacement_sha256": "62bdfc1f1e6bd16dca14a510cd71dfdf827ca4312290c8f7cc0b75e07620ab28",
+      "decompressed_size": 5120,
+      "encoded_size": 2919,
+      "new_pointer": 145762696,
+      "offset": 11544968,
+      "physical_offsets": [
+        3327432
+      ],
+      "all_pointer_offsets": [
+        5869692
+      ],
+      "target_pointer_offsets": [
+        5869692
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 4,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869692,
+          "physical_offset": 3327432,
+          "source_file": "entry-04/graphics.bin",
+          "source_pointer": 137545160
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-010",
+      "resource_type": "palette",
+      "resource_sha256": "52eea576ad95a2a4bfded647d2a83004b53eb308765c669cb6a9df17fabcb368",
+      "replacement_sha256": "52eea576ad95a2a4bfded647d2a83004b53eb308765c669cb6a9df17fabcb368",
+      "decompressed_size": 384,
+      "encoded_size": 152,
+      "new_pointer": 145765616,
+      "offset": 11547888,
+      "physical_offsets": [
+        3330360
+      ],
+      "all_pointer_offsets": [
+        5869696
+      ],
+      "target_pointer_offsets": [
+        5869696
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 4,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869696,
+          "physical_offset": 3330360,
+          "source_file": "entry-04/palette-bgr555.bin",
+          "source_pointer": 137548088
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-011",
+      "resource_type": "tilemap",
+      "resource_sha256": "57a13ab27310c6d71240a120c734fc51da23421ac7b56c3b2f53c550a6cf2ded",
+      "replacement_sha256": "57a13ab27310c6d71240a120c734fc51da23421ac7b56c3b2f53c550a6cf2ded",
+      "decompressed_size": 640,
+      "encoded_size": 440,
+      "new_pointer": 145765768,
+      "offset": 11548040,
+      "physical_offsets": [
+        3330512
+      ],
+      "all_pointer_offsets": [
+        5869700
+      ],
+      "target_pointer_offsets": [
+        5869700
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 4,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869700,
+          "physical_offset": 3330512,
+          "source_file": "entry-04/tilemap-u16le.bin",
+          "source_pointer": 137548240
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-04/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-012",
+      "resource_type": "graphics",
+      "resource_sha256": "14c4c8b624480ff485a6a8dd06300150eb1249c2abe6a0ef1e0651cc4169a1be",
+      "replacement_sha256": "14c4c8b624480ff485a6a8dd06300150eb1249c2abe6a0ef1e0651cc4169a1be",
+      "decompressed_size": 3072,
+      "encoded_size": 1857,
+      "new_pointer": 145766208,
+      "offset": 11548480,
+      "physical_offsets": [
+        3330952
+      ],
+      "all_pointer_offsets": [
+        5869708
+      ],
+      "target_pointer_offsets": [
+        5869708
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 5,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869708,
+          "physical_offset": 3330952,
+          "source_file": "entry-05/graphics.bin",
+          "source_pointer": 137548680
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-013",
+      "resource_type": "palette",
+      "resource_sha256": "b9916fc9ba66955b558d29c5c363c416670b3daae4691c078a6b1fe7baab6eeb",
+      "replacement_sha256": "b9916fc9ba66955b558d29c5c363c416670b3daae4691c078a6b1fe7baab6eeb",
+      "decompressed_size": 384,
+      "encoded_size": 157,
+      "new_pointer": 145768068,
+      "offset": 11550340,
+      "physical_offsets": [
+        3332824
+      ],
+      "all_pointer_offsets": [
+        5869712
+      ],
+      "target_pointer_offsets": [
+        5869712
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 5,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869712,
+          "physical_offset": 3332824,
+          "source_file": "entry-05/palette-bgr555.bin",
+          "source_pointer": 137550552
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-014",
+      "resource_type": "tilemap",
+      "resource_sha256": "8fc68bb93e6f4bc7aeddc74318d52bac82bad81f414091844c81bd974a8ef07d",
+      "replacement_sha256": "8fc68bb93e6f4bc7aeddc74318d52bac82bad81f414091844c81bd974a8ef07d",
+      "decompressed_size": 640,
+      "encoded_size": 241,
+      "new_pointer": 145768228,
+      "offset": 11550500,
+      "physical_offsets": [
+        3332984
+      ],
+      "all_pointer_offsets": [
+        5869716
+      ],
+      "target_pointer_offsets": [
+        5869716
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 5,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869716,
+          "physical_offset": 3332984,
+          "source_file": "entry-05/tilemap-u16le.bin",
+          "source_pointer": 137550712
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-05/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-015",
+      "resource_type": "graphics",
+      "resource_sha256": "d74f7f49e9eeb9866264df4714c61f466549206aa80ab79663c423b1a47051f2",
+      "replacement_sha256": "d74f7f49e9eeb9866264df4714c61f466549206aa80ab79663c423b1a47051f2",
+      "decompressed_size": 3072,
+      "encoded_size": 2243,
+      "new_pointer": 145768472,
+      "offset": 11550744,
+      "physical_offsets": [
+        3333228
+      ],
+      "all_pointer_offsets": [
+        5869724
+      ],
+      "target_pointer_offsets": [
+        5869724
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 6,
+          "mode_flag": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869724,
+          "physical_offset": 3333228,
+          "source_file": "entry-06/graphics.bin",
+          "source_pointer": 137550956
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-016",
+      "resource_type": "palette",
+      "resource_sha256": "93682f0b95f73942be1e65ce08d2e2807bcc01188dd928a8bc84388a3371b0c8",
+      "replacement_sha256": "93682f0b95f73942be1e65ce08d2e2807bcc01188dd928a8bc84388a3371b0c8",
+      "decompressed_size": 384,
+      "encoded_size": 226,
+      "new_pointer": 145770716,
+      "offset": 11552988,
+      "physical_offsets": [
+        3335476
+      ],
+      "all_pointer_offsets": [
+        5869728
+      ],
+      "target_pointer_offsets": [
+        5869728
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 6,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869728,
+          "physical_offset": 3335476,
+          "source_file": "entry-06/palette-bgr555.bin",
+          "source_pointer": 137553204
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-017",
+      "resource_type": "tilemap",
+      "resource_sha256": "fee8abb1bfd430a747cc4652bf1efd403487e51d75b00307a0041c9bb00e6d0d",
+      "replacement_sha256": "fee8abb1bfd430a747cc4652bf1efd403487e51d75b00307a0041c9bb00e6d0d",
+      "decompressed_size": 640,
+      "encoded_size": 349,
+      "new_pointer": 145770944,
+      "offset": 11553216,
+      "physical_offsets": [
+        3335704
+      ],
+      "all_pointer_offsets": [
+        5869732
+      ],
+      "target_pointer_offsets": [
+        5869732
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 6,
+          "mode_flag": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869732,
+          "physical_offset": 3335704,
+          "source_file": "entry-06/tilemap-u16le.bin",
+          "source_pointer": 137553432
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-06/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-palette-018",
+      "resource_type": "palette",
+      "resource_sha256": "4c6c88ffc6061f9481ccfbca1b53d6dd7c20f75d9f9433853bad33b500873dc3",
+      "replacement_sha256": "4c6c88ffc6061f9481ccfbca1b53d6dd7c20f75d9f9433853bad33b500873dc3",
+      "decompressed_size": 384,
+      "encoded_size": 182,
+      "new_pointer": 145771296,
+      "offset": 11553568,
+      "physical_offsets": [
+        3339160
+      ],
+      "all_pointer_offsets": [
+        5869744
+      ],
+      "target_pointer_offsets": [
+        5869744
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 7,
+          "mode_flag": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869744,
+          "physical_offset": 3339160,
+          "source_file": "entry-07/palette-bgr555.bin",
+          "source_pointer": 137556888
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-07/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-graphics-019",
+      "resource_type": "graphics",
+      "resource_sha256": "298f88e6750cac7a61d854afcf0cc9b961d98d5b59bfc5824f294930557192d1",
+      "replacement_sha256": "298f88e6750cac7a61d854afcf0cc9b961d98d5b59bfc5824f294930557192d1",
+      "decompressed_size": 19264,
+      "encoded_size": 14487,
+      "new_pointer": 145771480,
+      "offset": 11553752,
+      "physical_offsets": [
+        3339612
+      ],
+      "all_pointer_offsets": [
+        5869772
+      ],
+      "target_pointer_offsets": [
+        5869772
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 9,
+          "mode_flag": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869772,
+          "physical_offset": 3339612,
+          "source_file": "entry-09/graphics.bin",
+          "source_pointer": 137557340
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-020",
+      "resource_type": "palette",
+      "resource_sha256": "2f2cefc763c0b0700f547bccbc924481536d521c4351aaf0b3837315386a56d4",
+      "replacement_sha256": "2f2cefc763c0b0700f547bccbc924481536d521c4351aaf0b3837315386a56d4",
+      "decompressed_size": 384,
+      "encoded_size": 374,
+      "new_pointer": 145785968,
+      "offset": 11568240,
+      "physical_offsets": [
+        3354172
+      ],
+      "all_pointer_offsets": [
+        5869776
+      ],
+      "target_pointer_offsets": [
+        5869776
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 9,
+          "mode_flag": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869776,
+          "physical_offset": 3354172,
+          "source_file": "entry-09/palette-bgr555.bin",
+          "source_pointer": 137571900
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-021",
+      "resource_type": "tilemap",
+      "resource_sha256": "606c1f83b5f5031eb69e7191d0ad3eccdbb3af146c6e6de1f0dbffe52921acf8",
+      "replacement_sha256": "606c1f83b5f5031eb69e7191d0ad3eccdbb3af146c6e6de1f0dbffe52921acf8",
+      "decompressed_size": 640,
+      "encoded_size": 692,
+      "new_pointer": 145786344,
+      "offset": 11568616,
+      "physical_offsets": [
+        3354548,
+        3369092,
+        3383320,
+        3408956
+      ],
+      "all_pointer_offsets": [
+        5869780,
+        5869796,
+        5869812,
+        5869844
+      ],
+      "target_pointer_offsets": [
+        5869780,
+        5869796,
+        5869812,
+        5869844
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 9,
+          "mode_flag": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869780,
+          "physical_offset": 3354548,
+          "source_file": "entry-09/tilemap-u16le.bin",
+          "source_pointer": 137572276
+        },
+        {
+          "entry_id": 10,
+          "mode_flag": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869796,
+          "physical_offset": 3369092,
+          "source_file": "entry-10/tilemap-u16le.bin",
+          "source_pointer": 137586820
+        },
+        {
+          "entry_id": 11,
+          "mode_flag": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869812,
+          "physical_offset": 3383320,
+          "source_file": "entry-11/tilemap-u16le.bin",
+          "source_pointer": 137601048
+        },
+        {
+          "entry_id": 13,
+          "mode_flag": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869844,
+          "physical_offset": 3408956,
+          "source_file": "entry-13/tilemap-u16le.bin",
+          "source_pointer": 137626684
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-09/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-022",
+      "resource_type": "graphics",
+      "resource_sha256": "f7944eca537efda7d5125ec3d5fbd0df4bcef9a6f8892e2fbbb05c00e9a3c28f",
+      "replacement_sha256": "f7944eca537efda7d5125ec3d5fbd0df4bcef9a6f8892e2fbbb05c00e9a3c28f",
+      "decompressed_size": 19264,
+      "encoded_size": 13414,
+      "new_pointer": 145787036,
+      "offset": 11569308,
+      "physical_offsets": [
+        3355240
+      ],
+      "all_pointer_offsets": [
+        5869788
+      ],
+      "target_pointer_offsets": [
+        5869788
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 10,
+          "mode_flag": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869788,
+          "physical_offset": 3355240,
+          "source_file": "entry-10/graphics.bin",
+          "source_pointer": 137572968
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-10/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-023",
+      "resource_type": "palette",
+      "resource_sha256": "54cae38f2fe5e768646657116c0f94c283d317fd1d9eee53dbd7938dd1ef9f58",
+      "replacement_sha256": "54cae38f2fe5e768646657116c0f94c283d317fd1d9eee53dbd7938dd1ef9f58",
+      "decompressed_size": 384,
+      "encoded_size": 362,
+      "new_pointer": 145800452,
+      "offset": 11582724,
+      "physical_offsets": [
+        3368728
+      ],
+      "all_pointer_offsets": [
+        5869792
+      ],
+      "target_pointer_offsets": [
+        5869792
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 10,
+          "mode_flag": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869792,
+          "physical_offset": 3368728,
+          "source_file": "entry-10/palette-bgr555.bin",
+          "source_pointer": 137586456
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-10/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-graphics-024",
+      "resource_type": "graphics",
+      "resource_sha256": "4ec2de1c99a3e1cb35c0d34ac92df8eba4bb4076d7fcf06b1b4dcc64f8e0bb6f",
+      "replacement_sha256": "4ec2de1c99a3e1cb35c0d34ac92df8eba4bb4076d7fcf06b1b4dcc64f8e0bb6f",
+      "decompressed_size": 19264,
+      "encoded_size": 13085,
+      "new_pointer": 145800816,
+      "offset": 11583088,
+      "physical_offsets": [
+        3369784
+      ],
+      "all_pointer_offsets": [
+        5869804
+      ],
+      "target_pointer_offsets": [
+        5869804
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 11,
+          "mode_flag": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869804,
+          "physical_offset": 3369784,
+          "source_file": "entry-11/graphics.bin",
+          "source_pointer": 137587512
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-11/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-025",
+      "resource_type": "palette",
+      "resource_sha256": "5ff668723e1c86d542bc9b7e17b4e207b3c1faf552c6ef07c00da6a13244ecf3",
+      "replacement_sha256": "5ff668723e1c86d542bc9b7e17b4e207b3c1faf552c6ef07c00da6a13244ecf3",
+      "decompressed_size": 384,
+      "encoded_size": 373,
+      "new_pointer": 145813904,
+      "offset": 11596176,
+      "physical_offsets": [
+        3382944
+      ],
+      "all_pointer_offsets": [
+        5869808
+      ],
+      "target_pointer_offsets": [
+        5869808
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 11,
+          "mode_flag": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869808,
+          "physical_offset": 3382944,
+          "source_file": "entry-11/palette-bgr555.bin",
+          "source_pointer": 137600672
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-11/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-graphics-026",
+      "resource_type": "graphics",
+      "resource_sha256": "fc0e1d85c475fb2a524ac54b1fc7213bcc46f36f688fd60573fb14aa1126c98c",
+      "replacement_sha256": "fc0e1d85c475fb2a524ac54b1fc7213bcc46f36f688fd60573fb14aa1126c98c",
+      "decompressed_size": 16192,
+      "encoded_size": 9162,
+      "new_pointer": 145814280,
+      "offset": 11596552,
+      "physical_offsets": [
+        3384012
+      ],
+      "all_pointer_offsets": [
+        5869820
+      ],
+      "target_pointer_offsets": [
+        5869820
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 12,
+          "mode_flag": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869820,
+          "physical_offset": 3384012,
+          "source_file": "entry-12/graphics.bin",
+          "source_pointer": 137601740
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-027",
+      "resource_type": "palette",
+      "resource_sha256": "2b767e58517bff3f6c649100991f75bc6e306df734efe11123af23b09ccd02c5",
+      "replacement_sha256": "2b767e58517bff3f6c649100991f75bc6e306df734efe11123af23b09ccd02c5",
+      "decompressed_size": 384,
+      "encoded_size": 373,
+      "new_pointer": 145823444,
+      "offset": 11605716,
+      "physical_offsets": [
+        3393208
+      ],
+      "all_pointer_offsets": [
+        5869824
+      ],
+      "target_pointer_offsets": [
+        5869824
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 12,
+          "mode_flag": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869824,
+          "physical_offset": 3393208,
+          "source_file": "entry-12/palette-bgr555.bin",
+          "source_pointer": 137610936
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/palette-bgr555.bin"
+    },
+    {
+      "id": "regular-bg-tilemap-028",
+      "resource_type": "tilemap",
+      "resource_sha256": "c82a44f60afc4e8923bf331e4a048ea0f7313dc92a21239c89793ed1f2dcfc70",
+      "replacement_sha256": "c82a44f60afc4e8923bf331e4a048ea0f7313dc92a21239c89793ed1f2dcfc70",
+      "decompressed_size": 640,
+      "encoded_size": 610,
+      "new_pointer": 145823820,
+      "offset": 11606092,
+      "physical_offsets": [
+        3393584
+      ],
+      "all_pointer_offsets": [
+        5869828
+      ],
+      "target_pointer_offsets": [
+        5869828
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 12,
+          "mode_flag": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5869828,
+          "physical_offset": 3393584,
+          "source_file": "entry-12/tilemap-u16le.bin",
+          "source_pointer": 137611312
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-12/tilemap-u16le.bin"
+    },
+    {
+      "id": "regular-bg-graphics-029",
+      "resource_type": "graphics",
+      "resource_sha256": "877b6a1be8c225d72fb90495f1f6c0e5d8d1a7d748939d9efe8461f7e36eca09",
+      "replacement_sha256": "877b6a1be8c225d72fb90495f1f6c0e5d8d1a7d748939d9efe8461f7e36eca09",
+      "decompressed_size": 19264,
+      "encoded_size": 14376,
+      "new_pointer": 145824432,
+      "offset": 11606704,
+      "physical_offsets": [
+        3394196
+      ],
+      "all_pointer_offsets": [
+        5869836
+      ],
+      "target_pointer_offsets": [
+        5869836
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 13,
+          "mode_flag": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5869836,
+          "physical_offset": 3394196,
+          "source_file": "entry-13/graphics.bin",
+          "source_pointer": 137611924
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-13/graphics.bin"
+    },
+    {
+      "id": "regular-bg-palette-030",
+      "resource_type": "palette",
+      "resource_sha256": "c6b2f1fc6c248c2f61200704fa7f829af103fe723b3d8289349e1757c1d42e42",
+      "replacement_sha256": "c6b2f1fc6c248c2f61200704fa7f829af103fe723b3d8289349e1757c1d42e42",
+      "decompressed_size": 384,
+      "encoded_size": 341,
+      "new_pointer": 145838808,
+      "offset": 11621080,
+      "physical_offsets": [
+        3408612
+      ],
+      "all_pointer_offsets": [
+        5869840
+      ],
+      "target_pointer_offsets": [
+        5869840
+      ],
+      "logical_aliases": [
+        {
+          "entry_id": 13,
+          "mode_flag": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869840,
+          "physical_offset": 3408612,
+          "source_file": "entry-13/palette-bgr555.bin",
+          "source_pointer": 137626340
+        }
+      ],
+      "source_file": "artifacts/bg-resource-canvases-v1/entry-13/palette-bgr555.bin"
+    }
+  ],
+  "output_rom_sha256": "507617f37c0fbabd3a25a5bd8380ee7c8e9f02fd074937359d47aa7bc51019d6",
+  "scope": {
+    "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region.",
+    "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+    "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence."
+  }
+}
