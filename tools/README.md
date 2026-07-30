@@ -1239,3 +1239,26 @@ does not claim all visual states or generic ROM image writeback. The contact she
 uses the deterministic `canonical-indexed-png-stored-deflate-v1` encoding contract,
 and replacement of an existing output directory requires a complete accepted
 manifest, an exact file inventory and valid hashes for every old artifact file.
+
+# ROM pointer-reachable LZ77 inventory
+
+`export_rom_pointer_lz77_inventory.py` scans the immutable ROM for strict GBA
+type-`0x10` records, retains only four-byte-aligned sources referenced by an aligned
+ROM u32, binds only schema-allowlisted resource-start fields from 17 hash-pinned
+artifact JSON files, and losslessly packs the remaining records without creating
+hundreds of small files. Boundary/range fields, raw descriptor words and unknown
+paths never count as prior bindings.
+
+```bash
+python3 tools/export_rom_pointer_lz77_inventory.py
+python3 tools/verify_rom_pointer_lz77_inventory.py
+```
+
+The independent verifier reimplements LZ77 decoding, the aligned pointer index,
+schema binding and bounded Thumb symbolic execution, then reconstructs both bundles
+byte-for-byte from the ROM. The accepted artifact closes 896/896 records in this
+deliberately narrow static denominator and classifies the 31 newly exported records
+as 21 VRAM graphics, 3 PRAM palettes and 7 WRAM visual metadata records. It does not
+claim that all syntactically valid streams are
+resources, that all resources are compressed, or that static pointer reachability is
+runtime execution.

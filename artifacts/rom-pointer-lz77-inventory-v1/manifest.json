@@ -1,0 +1,62 @@
+{
+  "artifact_id": "rom-pointer-lz77-inventory-v1",
+  "artifact_schema": "rom-pointer-lz77-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-pointer-lz77-inventory.json": "2ecf955805d1f69bc38b4b41c2215243f07a0ed40c357cfcc94545cff2284cd7",
+    "uncovered-payloads.bin": "70a10f7028738de02277fb9a4a696022a305a83700b37f11c531acd440c52eb5",
+    "uncovered-records.lz77.bin": "27418b03a9d86850a0996f625b9d4d4547e993a0b96610944e8c0de8585a9c3e"
+  },
+  "payload_file": "rom-pointer-lz77-inventory.json",
+  "payload_schema": "rom-pointer-lz77-inventory-v1",
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_pointer_lz77_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-pointer-lz77-inventory-v1"
+    ],
+    "exporter_sha256": "21a71a5359e0d96f3bd60bbe9319e36c73d7755875a79b03e58b1988d54df85c",
+    "test_sha256": "a0c34ee11d56d79dbaac8a0c827205e31f61699f59a92363bb4b413a5609e144",
+    "verifier_sha256": "db8b3c336c871f425afe3ffc05726d993e2a43bf38f0a29de1349ff3a04fec20"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "aligned_pointer_reachable_lz77_denominator_complete": true,
+    "all_denominator_records_artifact_bound": true,
+    "all_game_visual_states_complete": false,
+    "all_records_are_graphics": false,
+    "generic_image_writeback_complete": false,
+    "natural_language_identity_complete": false,
+    "procedural_graphics_complete": false,
+    "raw_palettes_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false,
+    "strict_lz77_syntax_scan_complete": true,
+    "uncovered_records_losslessly_exported": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_pointer_lz77_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-pointer-lz77-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "aligned_pointer_reachable_record_count": 896,
+      "errors": [],
+      "newly_exported_record_count": 31,
+      "previously_bound_record_count": 865,
+      "remaining_unbound_record_count": 0,
+      "schema": "rom-pointer-lz77-inventory-verification-v1",
+      "strict_lz77_record_count": 1099,
+      "verified": true
+    },
+    "verifier_sha256": "db8b3c336c871f425afe3ffc05726d993e2a43bf38f0a29de1349ff3a04fec20"
+  }
+}

@@ -1182,3 +1182,17 @@ WebSocket
   78 条生成族并返回 `errors=[]`。这使当前已跟踪“玩家可见图像资源”未知分母为
   0/0，但不把未跟踪视觉状态、全部 caller 运行时绑定、跨帧最终合成或通用 ROM
   回写冒充完成，Goal 保持 active。
+- 2026-07-30：建立全 ROM 的有限 LZ77 静态资源分母。逐字节严格解析得到
+  1,099 条 type-`0x10` 语法记录，只保留源地址四字节对齐且至少有一个对齐 ROM
+  u32 指针引用的 896 条；17 份哈希固定的既有 artifact JSON 按资源起点 schema
+  白名单绑定 865 条，剩余 31 条现全部按 ROM 地址顺序无损打包并记录压缩/解压
+  哈希、指针引用、literal-load 用户、直接 loader 和分类代码窗口。旧版任意地址
+  字符串判据误吞的 `0x085B6000` 排他边界已纠正为独立图形记录。静态消费者把其中
+  21 条送入 VRAM graphics、3 条送入 PRAM palette、7 条送入 WRAM visual
+  metadata；WRAM
+  项不冒充贴图。独立 verifier 从 ROM 重做扫描、解压、schema 绑定和 Thumb
+  符号执行，并重建 bundle 全字节，得到 896/896、remaining 0、`errors=[]`。成果位于
+  `artifacts/rom-pointer-lz77-inventory-v1/`，说明见
+  `notes/rom-pointer-lz77-inventory-export-20260730.md`。这只闭合该限定静态分母；
+  203 条无对齐指针的语法候选、未压缩图形/raw palette、运行时可达性、自然语言
+  身份、通用写回和全部视觉状态仍不因本项升级，Goal 保持 active。
