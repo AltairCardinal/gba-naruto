@@ -1266,6 +1266,22 @@ WebSocket
   tilemap submit、通用异步 transfer queue、未知 ROM→RAM producer、custom
   loop 或全部两段搬运；下一主线转向 queue ABI 或固定地址 custom loop，Goal
   保持 active。
+- 2026-07-30：共享 GPU copy queue 已从“未知 ABI”闭合为全 ROM 直接调用分母。
+  `0x080635B8` 使用 IWRAM `0x03005BBC` 的 16×16-byte slot；status 1 保存
+  source/destination/u16 size，consumer `0x0806365C` 以
+  `CpuSet(...,size>>1)` 同步执行并释放 slot。status 3 的 stride/row 结构及本次
+  consumer 逐行行为也已固定，但 bit 0 后续生命周期保持未完成。全 ROM Thumb BL
+  解码得到且只得到 14 个直接 caller：5 个读取既有 `menu-ui` palette，1 个把
+  同表 LZ77 graphics 解压并调整后从 RAM 提交，6 个使用已知 RAM 源，1 个固定
+  RAM buffer 的 producer 未知，1 个 battle-effect task source 保持动态；
+  新 ROM source 为 0。独立 verifier 不导入 exporter，重建 14 个 BL、queue/
+  selector/caller 代码哈希、上游 bank 绑定、canonical JSON 与 manifest，并拒绝
+  重签语义篡改。成果位于
+  `artifacts/rom-gpu-copy-queue-inventory-v1/`，说明见
+  `notes/rom-gpu-copy-queue-inventory-20260730.md`。这不覆盖间接 caller、其他
+  queue、运行时可达性、对话 tilemap submit、全部未压缩图像或通用写回；下一图像
+  主线应追踪 `0x08096536` 的 `0x02002880` producer，或把固定地址 custom loop
+  的零候选调查成果化，Goal 保持 active。
 - 2026-07-30：对 LZ77 图形目录剩余两条 palette 缺口做了定向负证据复核。
   `0x0812D2F0 → 0x06016400` 在 18 个 checkpoint 中完整驻留，但 hardware/shadow
   OAM 均未引用 OBJ tile 800..841；bank 15 与唯一 ROM palette

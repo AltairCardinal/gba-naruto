@@ -1354,3 +1354,26 @@ rehashed semantic tampering. This closes only the hash-bound allowlist. It does
 not cover the dialogue tilemap submit, the generic asynchronous transfer queue,
 unknown ROM-to-RAM producers, custom loops, all two-stage copies, all
 uncompressed graphics, or generic image writeback.
+
+# Shared GPU-copy queue inventory
+
+`export_rom_gpu_copy_queue_inventory.py` scans the immutable ROM for every direct
+Thumb BL to the shared enqueue helper at `0x080635B8`, reconstructs the 16-slot
+IWRAM queue ABI and classifies every caller without promoting dynamic task or RAM
+values to ROM addresses.
+
+```bash
+python3 tools/export_rom_gpu_copy_queue_inventory.py
+python3 tools/verify_rom_gpu_copy_queue_inventory.py
+```
+
+The accepted denominator contains 14 direct callers. Five are dynamic selectors
+into the existing `menu-ui` 128-byte palette records; one is the existing menu
+portrait LZ77 graphics after RAM transformation; six use code-proven RAM sources;
+one fixed EWRAM source has an unresolved producer; and one battle-effect task source
+remains dynamically unresolved. No new ROM source is exported. The independent
+verifier reimplements Thumb BL decoding, rebuilds caller and queue code hashes,
+checks the accepted upstream contracts, and rejects rehashed semantic or canonical
+JSON tampering. This closes direct calls to this queue only; it excludes indirect
+callers, other queues, runtime reachability, the status-3 post-flush lifecycle,
+dialogue tilemap submit, all raw graphics and generic image writeback.

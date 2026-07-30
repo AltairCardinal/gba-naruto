@@ -1,0 +1,637 @@
+{
+  "direct_callers": [
+    {
+      "callsite": "0x08063168",
+      "callsite_window": {
+        "end_exclusive": "0x0806316C",
+        "sha256": "b7d64503275a35a4a270310bd9432d9568398a6fae0681f2edb51eebf8227f0e",
+        "size": 36,
+        "start": "0x08063148"
+      },
+      "classification": "dynamic_unresolved_source",
+      "destination": "0x06010000+u16(task.tile_base+running_dynamic_tile_offset)*32",
+      "existing_artifact_overlap": {
+        "id": "battle_effect_dynamic_obj_queue_model",
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json"
+      },
+      "function_code": {
+        "end_exclusive": "0x080631F6",
+        "sha256": "fe6814464976f17f5e708266b02a79aaa195d1bf96985fa852b80d1f3df9afc3",
+        "size": 212,
+        "start": "0x08063122"
+      },
+      "reason": "The task source field is not statically proven to be a mapped ROM address for any reachable runtime instance.",
+      "size_bytes": "u16(trunc0_div64(s16(component.width)*s16(component.height))*32)",
+      "source": "task.tile_source_ptr+s16(component.tile_index)*32"
+    },
+    {
+      "callsite": "0x0808812E",
+      "callsite_window": {
+        "end_exclusive": "0x08088132",
+        "sha256": "f59bd80c176f02a00b709deb90329101500dec0adafac9f85207adf5ce64859e",
+        "size": 36,
+        "start": "0x0808810E"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x05000000",
+      "reason": "Fixed EWRAM-to-PRAM copy; no ROM source is used by enqueue.",
+      "size_bytes": 416,
+      "source": "0x02002BC0"
+    },
+    {
+      "callsite": "0x0808D9C6",
+      "callsite_window": {
+        "end_exclusive": "0x0808D9CA",
+        "sha256": "9f67296b82e947b4c52e38366c92f0759c543ecc24212965fc8af7098a4dab21",
+        "size": 36,
+        "start": "0x0808D9A6"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x06002000",
+      "function_code": {
+        "end_exclusive": "0x0808DA80",
+        "sha256": "d5c6e7269c416817aae299d3d987c27abda6c1bde1a1edea0932329ce7179e96",
+        "size": 332,
+        "start": "0x0808D934"
+      },
+      "reason": "Overview tiles are generated in EWRAM before enqueue.",
+      "resource_binding": {
+        "id": "overview_generated_bg0_tiles",
+        "path": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json"
+      },
+      "size_bytes": 352,
+      "source": "0x02002AB0"
+    },
+    {
+      "callsite": "0x0808DA0E",
+      "callsite_window": {
+        "end_exclusive": "0x0808DA12",
+        "sha256": "fd6c11e2eaa6325309bb1f86df31e459ac3c0862d8e8b53b554a8b9e4b397368",
+        "size": 36,
+        "start": "0x0808D9EE"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x050001A0",
+      "function_code": {
+        "end_exclusive": "0x0808DA80",
+        "sha256": "d5c6e7269c416817aae299d3d987c27abda6c1bde1a1edea0932329ce7179e96",
+        "size": 332,
+        "start": "0x0808D934"
+      },
+      "reason": "Overview palette is generated in EWRAM before enqueue.",
+      "resource_binding": {
+        "id": "overview_generated_bg0_palette",
+        "path": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json"
+      },
+      "size_bytes": 32,
+      "source": "0x02002C10"
+    },
+    {
+      "callsite": "0x080962EE",
+      "callsite_window": {
+        "end_exclusive": "0x080962F2",
+        "sha256": "b70cfe8c4711b60aabeee0ad86ce66719279c9d860ead69b02ade86fb422cf3f",
+        "size": 36,
+        "start": "0x080962CE"
+      },
+      "classification": "existing_rom_derived_ram",
+      "destination": "0x06010000+u16(r3_in)*32",
+      "function_code": {
+        "end_exclusive": "0x08096312",
+        "sha256": "61927150e2c1eb609147f8e8f71aee1e0848e69f98fec9b1aca986ee94b3905e",
+        "size": 426,
+        "start": "0x08096168"
+      },
+      "reason": "The same function LZ77-decompresses Pair(r1_in,r2_in).gfx_ptr into this buffer and adjusts its tile bytes before enqueue.",
+      "resource_binding": {
+        "id": "menu_ui_graphics_transformed_in_ram",
+        "path": "artifacts/menu-portraits-v1/manifest.json"
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 6400,
+      "source": "stack_arg_6_graphics_work_buffer"
+    },
+    {
+      "callsite": "0x080962FE",
+      "callsite_window": {
+        "end_exclusive": "0x08096302",
+        "sha256": "d79d3e755a5c46737c5512a071890922ab9d73e83aaccde557846a9885f09db2",
+        "size": 36,
+        "start": "0x080962DE"
+      },
+      "classification": "existing_rom_source",
+      "destination": "0x05000200+u8(stack_arg_5)*32",
+      "function_code": {
+        "end_exclusive": "0x08096312",
+        "sha256": "61927150e2c1eb609147f8e8f71aee1e0848e69f98fec9b1aca986ee94b3905e",
+        "size": 426,
+        "start": "0x08096168"
+      },
+      "reason": "Dynamic selector into the accepted menu-ui palette bank.",
+      "resource_binding": {
+        "id": "menu_ui_palette_records",
+        "path": "sequel/content/menu-ui/bank.json",
+        "pointer_field": "palette_ptr_<variant>",
+        "record_count": 63,
+        "record_size": 40,
+        "source_size": 128,
+        "special_variant": "0x085A4DE4",
+        "table": "0x085A4DEC",
+        "variant_count": 5
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 128,
+      "source": "u32[Pair(r1_in,r2_in)+4]"
+    },
+    {
+      "callsite": "0x08096536",
+      "callsite_window": {
+        "end_exclusive": "0x0809653A",
+        "sha256": "ba5dc39968125d9dcb56a4dd64987a7d87beb4ab7d0cd27d6de16e9ac95efe1a",
+        "size": 36,
+        "start": "0x08096516"
+      },
+      "classification": "unknown_ram_producer",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "function_code": {
+        "end_exclusive": "0x080965E8",
+        "sha256": "4cd8d31e04d17e0e2ac5489b6109b562f15c049021e57c3ec1f8c81d4aa233d6",
+        "size": 708,
+        "start": "0x08096324"
+      },
+      "reason": "The enqueue source is fixed EWRAM, but this caller-local branch does not prove the buffer producer.",
+      "size_bytes": 128,
+      "source": "0x02002880"
+    },
+    {
+      "callsite": "0x0809655C",
+      "callsite_window": {
+        "end_exclusive": "0x08096560",
+        "sha256": "69ba0c5d4a451c36f5f5710969d077b422dc0fe5e26dbe29a96cef3fb21c7bf0",
+        "size": 36,
+        "start": "0x0809653C"
+      },
+      "classification": "existing_rom_source",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "function_code": {
+        "end_exclusive": "0x080965E8",
+        "sha256": "4cd8d31e04d17e0e2ac5489b6109b562f15c049021e57c3ec1f8c81d4aa233d6",
+        "size": 708,
+        "start": "0x08096324"
+      },
+      "reason": "Dynamic selector into the accepted menu-ui palette bank.",
+      "resource_binding": {
+        "id": "menu_ui_palette_records",
+        "path": "sequel/content/menu-ui/bank.json",
+        "pointer_field": "palette_ptr_<variant>",
+        "record_count": 63,
+        "record_size": 40,
+        "source_size": 128,
+        "special_variant": "0x085A4DE4",
+        "table": "0x085A4DEC",
+        "variant_count": 5
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 128,
+      "source": "u32[Pair(u8(state_plus_0x2C+2),u8(state_plus_0x2C+3))+4]"
+    },
+    {
+      "callsite": "0x080965A4",
+      "callsite_window": {
+        "end_exclusive": "0x080965A8",
+        "sha256": "b61e7aac4b6ea1466fc4224f2f9eddb339a5088cab1a6fd103399f12906071e6",
+        "size": 36,
+        "start": "0x08096584"
+      },
+      "classification": "existing_rom_source",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "function_code": {
+        "end_exclusive": "0x080965E8",
+        "sha256": "4cd8d31e04d17e0e2ac5489b6109b562f15c049021e57c3ec1f8c81d4aa233d6",
+        "size": 708,
+        "start": "0x08096324"
+      },
+      "reason": "Dynamic selector into the accepted menu-ui palette bank.",
+      "resource_binding": {
+        "id": "menu_ui_palette_records",
+        "path": "sequel/content/menu-ui/bank.json",
+        "pointer_field": "palette_ptr_<variant>",
+        "record_count": 63,
+        "record_size": 40,
+        "source_size": 128,
+        "special_variant": "0x085A4DE4",
+        "table": "0x085A4DEC",
+        "variant_count": 5
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 128,
+      "source": "u32[Pair(u8(state_plus_0x2C+2),u8(state_plus_0x2C+3))+4]"
+    },
+    {
+      "callsite": "0x08096DBA",
+      "callsite_window": {
+        "end_exclusive": "0x08096DBE",
+        "sha256": "25052f8b15d84d1d38083660e607afe823a74d511c5e7d3b9b59e56b752e07dd",
+        "size": 36,
+        "start": "0x08096D9A"
+      },
+      "classification": "existing_rom_source",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "reason": "Dynamic selector into the accepted menu-ui palette bank.",
+      "resource_binding": {
+        "id": "menu_ui_palette_records",
+        "path": "sequel/content/menu-ui/bank.json",
+        "pointer_field": "palette_ptr_<variant>",
+        "record_count": 63,
+        "record_size": 40,
+        "source_size": 128,
+        "special_variant": "0x085A4DE4",
+        "table": "0x085A4DEC",
+        "variant_count": 5
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 128,
+      "source": "u32[Pair(u8(state_plus_0x2C+2),u8(state_plus_0x2C+3))+4]"
+    },
+    {
+      "callsite": "0x08096E00",
+      "callsite_window": {
+        "end_exclusive": "0x08096E04",
+        "sha256": "c18c6f2c797159c00100c59775163858ccf18196ccf7f16dc8641bf378ac35ac",
+        "size": 36,
+        "start": "0x08096DE0"
+      },
+      "classification": "existing_rom_source",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "function_code": {
+        "end_exclusive": "0x08096E52",
+        "sha256": "a0bad94b78b489589e10075ce24144fff81a5e1d5798a2ee8dd1ccafdf38a9e3",
+        "size": 126,
+        "start": "0x08096DD4"
+      },
+      "reason": "Dynamic selector into the accepted menu-ui palette bank.",
+      "resource_binding": {
+        "id": "menu_ui_palette_records",
+        "path": "sequel/content/menu-ui/bank.json",
+        "pointer_field": "palette_ptr_<variant>",
+        "record_count": 63,
+        "record_size": 40,
+        "source_size": 128,
+        "special_variant": "0x085A4DE4",
+        "table": "0x085A4DEC",
+        "variant_count": 5
+      },
+      "selector": {
+        "dynamic_zero_sentinel_possible": true,
+        "fields": {
+          "gfx_ptr": 0,
+          "palette_ptr": 4
+        },
+        "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+        "function": "0x08096138"
+      },
+      "size_bytes": 128,
+      "source": "u32[Pair(u8(state_plus_0x2C+2),u8(state_plus_0x2C+3))+4]"
+    },
+    {
+      "callsite": "0x08096E44",
+      "callsite_window": {
+        "end_exclusive": "0x08096E48",
+        "sha256": "6c5997527d55143d6351ac45eecad3127acd710e098312ca932c2bef9d47a060",
+        "size": 36,
+        "start": "0x08096E24"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x05000200+u8(state_plus_0x2C+7)*32",
+      "function_code": {
+        "end_exclusive": "0x08096E52",
+        "sha256": "a0bad94b78b489589e10075ce24144fff81a5e1d5798a2ee8dd1ccafdf38a9e3",
+        "size": 126,
+        "start": "0x08096DD4"
+      },
+      "reason": "A preceding helper writes the fixed EWRAM buffer from a dynamic palette pointer; its complete producer semantics remain intentionally unclaimed.",
+      "size_bytes": 128,
+      "source": "0x02002880"
+    },
+    {
+      "callsite": "0x08098B6C",
+      "callsite_window": {
+        "end_exclusive": "0x08098B70",
+        "sha256": "1e3de4b533cc5ac1d0f069bc70a0f2960b3eec71a83927dff257a7738f3ca68d",
+        "size": 36,
+        "start": "0x08098B4C"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x05000000+u8(0x0203120C+0x0D)*32",
+      "excluded_neighbor": {
+        "id": "tile_assets_bg_descriptor_table",
+        "path": "artifacts/tile-assets-bg-v2/manifest.json",
+        "table": "0x085A320C"
+      },
+      "function_code": {
+        "end_exclusive": "0x08098B80",
+        "sha256": "6aa8398e841887c32b59be61ce8ab58ec91bce4fb0931d070b27ad28e9222fbc",
+        "size": 260,
+        "start": "0x08098A7C"
+      },
+      "reason": "The function generates a transformed 16-color palette in EWRAM; nearby 0x085A320C is not the enqueue source.",
+      "size_bytes": 32,
+      "source": "0x02002880"
+    },
+    {
+      "callsite": "0x08098D90",
+      "callsite_window": {
+        "end_exclusive": "0x08098D94",
+        "sha256": "185ee1147e5ff354f7a14814344f27e39ee58f04cb37cb4937cceae2e186b1ad",
+        "size": 36,
+        "start": "0x08098D70"
+      },
+      "classification": "known_ram_source",
+      "destination": "0x05000000+u8(work_ram_object+0x0B)*32",
+      "reason": "The immediately preceding helper generates the queued palette in the work object; no ROM-to-work producer is proven.",
+      "size_bytes": 32,
+      "source": "work_ram_object+0x40"
+    }
+  ],
+  "implementation": {
+    "exporter_sha256": "07559d7411ba0b852963be36cbf23484523ac6f0bd5913e1a246ea4fd5131c65",
+    "test_sha256": "8e1a465d24e717a8eb7529e590dfc49b9d4db46596298d653d4a0c4aff0120e9",
+    "verifier_sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+  },
+  "instruction_evidence": {
+    "fixed_ram_source_literals": {
+      "0x0808812E": "0x02002BC0",
+      "0x08096536": "0x02002880",
+      "0x08096E44": "0x02002880",
+      "0x08098B6C": "0x02002880"
+    },
+    "helper_chains": {
+      "0x08096E44": "0x08096E3A -> 0x08096D4C",
+      "0x08098D90": "0x08098D86 -> 0x080986B0"
+    },
+    "menu_graphics_staged_route": {
+      "enqueue_callsite": "0x080962EE",
+      "lz77_source": "Pair(r1_in,r2_in).gfx_ptr",
+      "lz77_target": "0x0809C0EC",
+      "size_bytes": 6400,
+      "source": "stack_arg_6_graphics_work_buffer"
+    },
+    "menu_pair_selector": {
+      "palette_field_offset": 4,
+      "record_stride": 40,
+      "special_variant": "0x085A4DE4",
+      "table_base": "0x085A4DEC",
+      "variant_stride": 8
+    },
+    "menu_palette_routes": [
+      {
+        "destination_base": "0x05000200",
+        "enqueue_callsite": "0x080962FE",
+        "palette_load": "0x080962F8",
+        "palette_load_offset": 4,
+        "selector_callsite": "0x08096298",
+        "selector_target": "0x08096138",
+        "size_bytes": 128
+      },
+      {
+        "destination_base": "0x05000200",
+        "enqueue_callsite": "0x0809655C",
+        "palette_load": "0x08096550",
+        "palette_load_offset": 4,
+        "selector_callsite": "0x0809654C",
+        "selector_target": "0x08096138",
+        "size_bytes": 128
+      },
+      {
+        "destination_base": "0x05000200",
+        "enqueue_callsite": "0x080965A4",
+        "palette_load": "0x08096598",
+        "palette_load_offset": 4,
+        "selector_callsite": "0x08096594",
+        "selector_target": "0x08096138",
+        "size_bytes": 128
+      },
+      {
+        "destination_base": "0x05000200",
+        "enqueue_callsite": "0x08096DBA",
+        "palette_load": "0x08096DB4",
+        "palette_load_offset": 4,
+        "selector_callsite": "0x08096DB0",
+        "selector_target": "0x08096138",
+        "size_bytes": 128
+      },
+      {
+        "destination_base": "0x05000200",
+        "enqueue_callsite": "0x08096E00",
+        "palette_load": "0x08096DFA",
+        "palette_load_offset": 4,
+        "selector_callsite": "0x08096DF6",
+        "selector_target": "0x08096138",
+        "size_bytes": 128
+      }
+    ]
+  },
+  "menu_pair_selector": {
+    "code": {
+      "end_exclusive": "0x08096162",
+      "sha256": "6a981ff31b2c8dbf979d0ffab751ccfa395e70e2a6e85380f549535295fee96e",
+      "size": 42,
+      "start": "0x08096138"
+    },
+    "formula": "Pair(record,variant<5)=0x085A4DEC+record*40+variant*8; Pair(record,variant=5)=0x085A4DE4",
+    "zero_sentinel_boundary": "dynamic record/variant expressions do not guarantee a nonzero source pointer"
+  },
+  "new_rom_sources": [],
+  "queue_abi": {
+    "consumer": {
+      "end_exclusive": "0x080636DC",
+      "sha256": "ec7573f6149a187012c360a2755fd8336c0f496c1519d1e727e9ff582eef2203",
+      "size": 128,
+      "start": "0x0806365C"
+    },
+    "dispatch_boundary": "relative call order is code-proven; unique hardware VBlank phase and status-3 post-flush lifecycle are not",
+    "dispatch_calls": {
+      "first_flush": "0x080613FC -> 0x0806365C",
+      "optional_second_flush": "0x080614C2 -> 0x0806365C",
+      "renderer": "0x08061320 -> 0x08062924"
+    },
+    "dispatcher_order": {
+      "end_exclusive": "0x080614E4",
+      "sha256": "90568d99bb0ddfba74ce946781049494e117bd2273bd3b69843f7df420506817",
+      "size": 552,
+      "start": "0x080612BC"
+    },
+    "enqueue_helper": {
+      "end_exclusive": "0x08063604",
+      "sha256": "c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48",
+      "size": 76,
+      "start": "0x080635B8"
+    },
+    "enqueue_result": "1 when a free slot is reserved; 0 when full",
+    "queue_end_exclusive": "0x03005CBC",
+    "queue_start": "0x03005BBC",
+    "slot_count": 16,
+    "slot_stride": 16,
+    "status_1_completion": "clear flags bit 0",
+    "status_1_consumer": "CpuSet(source,destination,u16(size_bytes)>>1)",
+    "status_1_fields": [
+      {
+        "name": "flags",
+        "offset": 0,
+        "type": "u32"
+      },
+      {
+        "name": "source",
+        "offset": 4,
+        "type": "u32"
+      },
+      {
+        "name": "destination",
+        "offset": 8,
+        "type": "u32"
+      },
+      {
+        "name": "size_bytes",
+        "offset": 12,
+        "type": "u16"
+      }
+    ],
+    "status_3_consumer": "for i<row_count: CpuSet(source+2*stride*i,destination+64*i,stride)",
+    "status_3_enqueue_helper": {
+      "end_exclusive": "0x0806365C",
+      "sha256": "1047025449c9094921f9e0b1229014cfb9f1ed9e4f919d87253bf62e3b57331a",
+      "size": 88,
+      "start": "0x08063604"
+    },
+    "status_3_fields": [
+      {
+        "name": "flags",
+        "offset": 0,
+        "type": "u32",
+        "value": 3
+      },
+      {
+        "name": "source",
+        "offset": 4,
+        "type": "u32"
+      },
+      {
+        "name": "destination",
+        "offset": 8,
+        "type": "u32"
+      },
+      {
+        "name": "source_stride_halfwords",
+        "offset": 12,
+        "type": "u16"
+      },
+      {
+        "name": "row_count",
+        "offset": 14,
+        "type": "u16"
+      }
+    ],
+    "status_3_observed_completion": "clear flags bit 1; bit 0 remains set"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-gpu-copy-queue-inventory-v1",
+  "scope": {
+    "all_async_transfer_queues_complete": false,
+    "all_game_visual_states_complete": false,
+    "dialogue_tilemap_submit_complete": false,
+    "direct_caller_resource_classification_complete": true,
+    "direct_thumb_bl_callers_complete": true,
+    "generic_image_writeback_complete": false,
+    "indirect_enqueue_callers_complete": false,
+    "queue_status_1_abi_complete": true,
+    "queue_status_3_enqueue_shape_complete": true,
+    "queue_status_3_lifecycle_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "selection_rule": {
+    "classification_window": "caller-local register flow may bind a source only when the queue arguments or an accepted upstream table relationship are explicit",
+    "denominator": "every halfword-aligned Thumb BL in the hash-bound base ROM whose decoded target is 0x080635B8",
+    "dynamic_value_policy": "record IDs, variants, task fields, work pointers and palette banks remain expressions and are never promoted to constants",
+    "new_source_policy": "a ROM source already present in an accepted artifact is bound to that artifact and is not exported again"
+  },
+  "summary": {
+    "direct_caller_count": 14,
+    "dynamic_unresolved_source_caller_count": 1,
+    "existing_rom_derived_ram_caller_count": 1,
+    "existing_rom_source_caller_count": 5,
+    "known_ram_source_caller_count": 6,
+    "new_rom_source_count": 0,
+    "unknown_ram_producer_caller_count": 1
+  },
+  "upstream_evidence": {
+    "battle_effect_queue": {
+      "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+      "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+    },
+    "menu_portraits": {
+      "path": "artifacts/menu-portraits-v1/manifest.json",
+      "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+    },
+    "menu_ui_bank": {
+      "path": "sequel/content/menu-ui/bank.json",
+      "sha256": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7"
+    },
+    "overview": {
+      "path": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json",
+      "sha256": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d"
+    },
+    "overview_manifest": {
+      "path": "artifacts/overview-gradient-overlay-v1/manifest.json",
+      "sha256": "cd7c16abcd865827ea35fc7014e13b1681b69a7e17ecf45daa0a1f9a82be931e"
+    },
+    "tile_assets_bg": {
+      "path": "artifacts/tile-assets-bg-v2/manifest.json",
+      "sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749"
+    }
+  }
+}

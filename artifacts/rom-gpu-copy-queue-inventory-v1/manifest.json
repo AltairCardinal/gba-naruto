@@ -1,0 +1,83 @@
+{
+  "artifact_schema": "rom-gpu-copy-queue-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-gpu-copy-queue-inventory.json": "798b72cbeb69cae522f77f586794cd0bf9d1775d57d590479daf89e808ca23bf"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_gpu_copy_queue_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-gpu-copy-queue-inventory-v1"
+    ],
+    "exporter_sha256": "07559d7411ba0b852963be36cbf23484523ac6f0bd5913e1a246ea4fd5131c65",
+    "test_sha256": "8e1a465d24e717a8eb7529e590dfc49b9d4db46596298d653d4a0c4aff0120e9",
+    "verifier_sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_async_transfer_queues_complete": false,
+    "all_game_visual_states_complete": false,
+    "dialogue_tilemap_submit_complete": false,
+    "direct_caller_resource_classification_complete": true,
+    "direct_thumb_bl_callers_complete": true,
+    "generic_image_writeback_complete": false,
+    "indirect_enqueue_callers_complete": false,
+    "queue_status_1_abi_complete": true,
+    "queue_status_3_enqueue_shape_complete": true,
+    "queue_status_3_lifecycle_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "source": {
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "upstream_evidence": {
+      "battle_effect_queue": {
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      "menu_portraits": {
+        "path": "artifacts/menu-portraits-v1/manifest.json",
+        "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+      },
+      "menu_ui_bank": {
+        "path": "sequel/content/menu-ui/bank.json",
+        "sha256": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7"
+      },
+      "overview": {
+        "path": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json",
+        "sha256": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d"
+      },
+      "overview_manifest": {
+        "path": "artifacts/overview-gradient-overlay-v1/manifest.json",
+        "sha256": "cd7c16abcd865827ea35fc7014e13b1681b69a7e17ecf45daa0a1f9a82be931e"
+      },
+      "tile_assets_bg": {
+        "path": "artifacts/tile-assets-bg-v2/manifest.json",
+        "sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749"
+      }
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_gpu_copy_queue_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-gpu-copy-queue-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "direct_caller_count": 14,
+      "errors": [],
+      "new_rom_source_count": 0,
+      "schema": "rom-gpu-copy-queue-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+  }
+}
