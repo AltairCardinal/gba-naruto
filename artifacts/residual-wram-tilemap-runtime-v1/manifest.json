@@ -1,0 +1,51 @@
+{
+  "artifact_id": "residual-wram-tilemap-runtime-v1",
+  "artifact_schema": "residual-wram-tilemap-runtime-evidence-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "audit.json": "4d01d7eb4734265bca12fed4c89750733fb2a3359f8a80e22eb3c1dcbd959ddc",
+    "final-queue.bin": "b68e066491517dfceaa3dd27cdde79b5e0c69e9af3aef9054a48551ccb1e7398",
+    "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "final.ss9": "fbfd4b5aa0ceda8e239ae0d965c05429e1edc64e9bd7dfba9567f968460348ff",
+    "guard.json": "54f4085ff2ed6b3307d7125c8ef97b5e5f09edd689ce548dee86e3e5cd17a5b7",
+    "hit.ss9": "b946057c5de600c5d856031ea93119718e6bb14aaffdf086ac61a4b68b18a768",
+    "queue-at-consumer.bin": "409038a84b409a60554f83cf8d244e0bccfd7eb199b27b450ec24da83602f687",
+    "runtime-evidence.json": "cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62",
+    "vram-at-consumer.bin": "62ed48913082503bc7caf73f2a881e2fc036fe6d6d1fabd7e6c8533781fe9935",
+    "vram-final.bin": "d4aafaeae376abea0a3726fd8f02c77d3e62fca6ec26d5750f4fe7ec93161105"
+  },
+  "implementation": {
+    "tests/test_mgba_wram_tilemap_probe_script.py": "b99973e5c13c4f7ae0dbc7df7f79f24da714d5b4de3c4c5efed4433c73090a20",
+    "tests/test_residual_wram_tilemap_runtime_evidence.py": "5e2e5e7e6545134f6e7558d29a47d8f07631b4822019f8d93c757e2a39b2d7aa",
+    "tools/export_residual_wram_tilemap_runtime_evidence.py": "9b9906946d04c305b2f55a3622fe57ea130fbd625104ec140f2475c32b53b9a8",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/mgba_wram_tilemap_probe.lua": "d466c3a2127e5c124b713ae4ea05149cf29fc4535c90b552d773f482ddaa58ea",
+    "tools/verify_residual_wram_tilemap_runtime_evidence.py": "263b045af98ae5d5465b309d3cdca927c30778a7b4656b2856dc992b31708378"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "exact_natural_language_identity_verified": false,
+    "exclusive_writer_causality_verified": false,
+    "final_vram_rows_equal_rom_tilemap": true,
+    "modified_rom_pixel_equivalence_verified": false,
+    "natural_base_rom_reachability_verified": true,
+    "natural_queue_consumer_flush_verified": true,
+    "other_two_direct_queue_sources_runtime_verified": false,
+    "post_consumer_queue_retirement_verified": true,
+    "queue_slot_status3_verified": true,
+    "zero_input_checkpoint_continuation_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_runtime_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-runtime-v1"
+    ],
+    "exit_code": 0
+  }
+}

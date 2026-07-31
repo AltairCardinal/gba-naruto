@@ -1569,6 +1569,32 @@ and palette payloads, VRAM/PRAM destinations, source/effective tile ranges and
 the `0x02BC` transformed-tile relationship. Both WRAM tilemap relocation types
 require this artifact's exact path and SHA-256.
 
+# Residual WRAM tilemap natural runtime flush
+
+`mgba_wram_tilemap_probe.lua` resumes a hash-pinned natural checkpoint before
+installing its breakpoints and applies no GBA input. The first accepted run proves
+that source `0x0834928C` reaches load call `0x0808AD3A`, occupies a status-3 queue
+slot, then observes that entry retired and the 15x20 strided BG rows at
+`0x0600001E` exact at the next frame boundary after entering `0x0806365C`.
+
+```bash
+python3 tools/export_residual_wram_tilemap_runtime_evidence.py \
+  --root . \
+  --run build/experiments/active/residual-wram-tilemap-reachability/selection-post-consumer-zero-20260731 \
+  --output build/experiments/active/residual-wram-tilemap-reachability/selection-post-consumer-zero-20260731/final
+python3 tools/verify_residual_wram_tilemap_runtime_evidence.py \
+  --root . --artifact artifacts/residual-wram-tilemap-runtime-v1
+```
+
+The independent verifier decodes the ROM LZ77 stream, parses the raw queue slot,
+extracts the 20 destination rows at consumer entry and the next frame boundary,
+requires the final 600 bytes to equal the ROM payload exactly, and requires the
+captured status-3 entry to be absent from all 16 final queue slots. It also validates
+the accepted parent manifest/evidence/audit that produced the natural input state.
+The artifact keeps reusable hit and final savestates. Its accepted scope is 1/3
+direct queue sources; exclusive-writer causality, the two scene-panel sources,
+modified-ROM pixel equivalence and exact natural-language identity remain open.
+
 # Residual WRAM tilemap batch relocation
 
 `import_residual_wram_tilemap_relocations.py` consumes the accepted ABI artifact

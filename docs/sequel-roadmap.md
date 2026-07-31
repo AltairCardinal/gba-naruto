@@ -1671,3 +1671,19 @@ WebSocket
   `notes/residual-wram-tilemap-resource-ownership-20260731.md`。queue槽/自然
   flush、运行时可达性、精确业务名称及修改后最终像素/时序仍未闭合，Goal保持
   active。
+- 2026-07-31：三条直接status-3 queue tilemap中的首条已完成自然运行时闭环。
+  复用`lz77-palette-runtime-v1`中人物图鉴初始化自然命中快照，零输入续跑在frame 0
+  命中`0x0808AD3A`，固定`0x0834928C→0x02002B48`；frame 2首次命中共享consumer
+  `0x0806365C`，slot 0为status 3、目标`0x0600001E`、行宽15 halfword、20行。
+  consumer当刻的目标行尚不等于源；紧接的frame 3边界，20行拼接的600 bytes与ROM
+  LZ77解压payload逐字节一致、前后600/600 bytes变化，16个queue slot中该status-3
+  记录数已从1变0。独立verifier重做LZ77、解析consumer前后slot并从两份96KiB
+  VRAM dump抽取stride行；同时固定并语义复核产生输入快照的accepted父
+  manifest/evidence/audit，以及ABI/ownership父manifest，拒绝重签父证据、目标/VRAM、
+  额外文件和符号链接篡改。三帧正式运行经统一heavy lock，`completed/0`、无残留；
+  相同快照的80帧开发复核峰值RSS为`62.9453125 MiB`。成果位于
+  `artifacts/residual-wram-tilemap-runtime-v1/`，说明见
+  `notes/residual-wram-tilemap-runtime-reachability-20260731.md`。直接queue子分母现为
+  1/3；这闭合本记录的自然queue route，但不签发frame 2入口至frame 3边界间的
+  排他writer因果。`0x083F1C98`、`0x085B67E0`及修改后最终像素A/B仍未闭合，
+  Goal保持active。
