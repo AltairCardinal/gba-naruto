@@ -1761,3 +1761,19 @@ WebSocket
   篡改。成果位于`artifacts/map41-primary-layout-pixel-ab-v1/`，说明见
   `notes/map41-primary-layout-pixel-ab-20260801.md`。该代表性链已闭合；其他地图/
   资源类型、完整camera/overlay/碰撞玩法和实体GBA仍未全量签发，Goal保持active。
+- 2026-08-01：同一map 41自然入口又批量闭合tile graphics、BG palette和metatile
+  definitions三类修改ROM最终像素A/B。四份ROM共享三项allocation和三项map41
+  header redirect的完全相同拓扑，均从同一preloader零状态快照独立输入A后到达
+  battle 41。tiles候选只令VRAM `0x06006A20:34→35`并改变`(160,32)`一个像素；
+  palette候选只令PRAM `0x0500004A:0D→0C`并改变119像素；metatile候选只令
+  EWRAM `0x0201E05C:19→1A`和VRAM `0x06000418:19→1A`，改变56像素。三边
+  IO/OAM及非目标完整内存域均相同，外部PNG与各自ss9内嵌画面逐RGB一致。独立
+  verifier从基准ROM和六项ledger重建四份16 MiB ROM，重扫全部alias、验证三类
+  payload、primary layout、五个完整内存域及从BG0状态重建的精确坐标/前后RGB；
+  它将frame 80时共同被后续writer覆盖的1,080个graphics byte明确建账，不冒充
+  整份12 KiB loader exact。四次guard均`completed/0`、非degraded，峰值RSS为
+  55.9609375–56.0625 MiB。成果位于
+  `artifacts/map41-visual-resource-matrix-v1/`，说明见
+  `notes/map41-visual-resource-matrix-20260801.md`。map41四个主要视觉资源类型已有
+  代表性自然像素链；其他地图、alternate layout、碰撞、camera/overlay和实体GBA
+  仍未全量签发，Goal保持active。
