@@ -429,6 +429,29 @@ def resolve_generic_sprite_bundle_relocation_patch(
     )
 
 
+def resolve_cutscene_obj_bundle_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_cutscene_obj_bundle_relocations import (
+        resolve_cutscene_obj_bundle_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "Cutscene OBJ relocation requires an explicit ROM layout"
+        )
+    return resolve_cutscene_obj_bundle_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -779,6 +802,7 @@ def build(project_path: Path) -> dict:
                     "story_visual_resource_relocation",
                     "world_map_background_relocation",
                     "generic_sprite_bundle_relocation",
+                    "cutscene_obj_bundle_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1247,6 +1271,38 @@ def build(project_path: Path) -> dict:
                     "animation_pointer",
                     "component_pointer",
                     "sequence_pointer",
+                    "pointer_role",
+                    "new_pointer",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "cutscene_obj_bundle_relocation":
+            sub_patches = resolve_cutscene_obj_bundle_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "replacement_sha256",
+                    "decompressed_size",
+                    "encoded_size",
+                    "tile_count",
+                    "resource_id",
+                    "frame_count",
+                    "animation_count",
+                    "component_counts",
+                    "keyframe_counts",
+                    "definition_table_pointer",
+                    "animation_table_pointer",
+                    "component_pointers",
+                    "sequence_pointers",
                     "pointer_role",
                     "new_pointer",
                     "source_file",

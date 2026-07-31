@@ -1,0 +1,63 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "cutscene-obj-bundle-relocation-v1",
+  "artifact_schema": "cutscene-obj-bundle-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "d7be6d9ab029ed73b9e9dd2ef6a339c8d15f68ef08f612bac1f54d1ed62899b4",
+  "files": {
+    "full-relocation-spec.json": "e4cb980810ae5151a5209c7fa91192eec610f3a98c94aeb4272652ee21e1c1f3",
+    "relocation-audit.json": "d7be6d9ab029ed73b9e9dd2ef6a339c8d15f68ef08f612bac1f54d1ed62899b4",
+    "resource_0.4bpp.bin": "ff3e1b090a18378eb51b2c25ad7e9115ea33d6c9afe11ceeb09cbd392a5496c5",
+    "resource_0.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+    "resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+    "resource_1.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+    "resource_2.4bpp.bin": "ff180630c246cf7c9e161576b33c0e734157a2a927c07be6bc90a80619654079",
+    "resource_2.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+    "resource_3.4bpp.bin": "d2b44e9c68dc23771249bedfb7397de35f19e6769f99a91f86512b7604b43ec1",
+    "resource_3.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+  },
+  "scope": {
+    "proved": "All four fixed Cutscene OBJ IDs, 10 source frames/components, 10 source animations/keyframes and all 36 exact source pointer references are accounted for; 12 allocations and 16 root pointer patches rebuild a 16 MiB ROM.",
+    "editable": "Each fixed ID may use 1..256 complete 4bpp tiles and one 16-color palette. The fixed 2/2/2/4 frame and animation slots each support 1..2 valid GBA OBJ components and a non-empty variable keyframe timeline with u16 durations.",
+    "not_proved": "Adding a fifth ID, changing the fixed frame/animation slot counts, more than two simultaneous components per frame, caller-level scene cleanup, or final screen-composited pixel/timing equivalence after modification."
+  },
+  "summary": {
+    "resource_count": 4,
+    "frame_count": 10,
+    "component_count": 10,
+    "animation_count": 10,
+    "keyframe_count": 10,
+    "frame_counts": [
+      2,
+      2,
+      2,
+      4
+    ],
+    "runtime_tile_base": 768,
+    "maximum_safe_graphics_tiles": 256,
+    "runtime_loader_call_count": 4,
+    "source_pointer_reference_count": 36,
+    "unexpected_source_pointer_count": 0,
+    "allocation_count": 12,
+    "pointer_patch_count": 16,
+    "allocation_start": 12189696,
+    "allocation_end": 12194540,
+    "region_end": 12255232,
+    "stored_payload_bytes": 4831,
+    "allocation_span": 4844,
+    "remaining_bytes": 60692,
+    "applied_patch_count": 28
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_cutscene_obj_bundle_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/cutscene-obj-bundle-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

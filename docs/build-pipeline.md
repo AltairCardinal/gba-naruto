@@ -171,6 +171,24 @@ ID全集、OBJ tile范围、区域容量和旧指针前置条件。
 }
 ```
 
+### `cutscene_obj_bundle_relocation`
+
+把固定 `0..3` 的四个 Cutscene OBJ ID、各自 graphics/palette、固定
+`2/2/2/4` 个 frame/animation 槽及其 component/timeline 迁移到注册的
+`cutscene-obj-bundle` 扩展区域。规格使用
+`cutscene-obj-bundle-relocation-v1`；每个 graphics 支持1–256个完整4bpp
+tile，palette固定16色，每个frame支持1–2个合法GBA OBJ component，每个
+animation槽支持非空变长keyframe序列。构建前核对两张四记录表、4个自然loader
+调用、36条精确源引用、固定ID/槽位、tile/OAM范围和区域容量。
+
+```json
+{
+  "id": "cutscene-obj-bundle-relocation",
+  "type": "cutscene_obj_bundle_relocation",
+  "spec": "sequel/content/cutscene-obj/relocation.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -321,6 +339,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `world_map_background_relocation` 三页世界地图的7份内容及9条指针的可变长迁移
 - `generic_sprite_bundle_relocation` 43个固定通用Sprite ID、共享像素/调色板
   及component list的可变长迁移
+- `cutscene_obj_bundle_relocation` 4个固定Cutscene OBJ ID、10个frame/component
+  与10条可变timeline的可变长迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

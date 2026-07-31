@@ -1470,9 +1470,10 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xBA0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBB0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
-  世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle；注册表
+  世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
+  `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
   强制无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
@@ -1551,3 +1552,17 @@ WebSocket
   `artifacts/generic-sprite-bundle-relocation-v1/`，说明见
   `notes/generic-sprite-bundle-relocation-20260731.md`。新增ID、多动画/帧、
   场景专用覆盖和修改后最终屏幕像素/时序等价仍未闭合，Goal保持active。
+- 2026-07-31：4个固定Cutscene OBJ ID已从全量静态导出推进到bundle可变长
+  迁移。两张四记录表及内部10个component list、10条timeline形成36条精确源
+  指针引用，未知引用为0；全ROM Thumb BL扫描只得到4个自然loader调用，ID集合
+  严格为`0..3`，`0x53DFB0`保持独立。graphics固定解压到OBJ tile base
+  `0x300`，因此迁移器允许每个ID使用1–256个完整4bpp tile、16色palette；
+  loader硬编码的frame/animation槽数保持`[2,2,2,4]`，每帧支持1–2个合法
+  component，每条animation支持非空变长keyframe timeline。完整保持迁入
+  `0xBA0000..0xBB0000`，形成12个allocation和16个根pointer patch，共28项
+  安全写入。独立verifier自行重建36条源引用、LZ77、全部内外指针和16 MiB输出；
+  capability fixture独立覆盖256 tile、11 component和11 keyframe。成果位于
+  `artifacts/cutscene-obj-bundle-relocation-v1/`，说明见
+  `notes/cutscene-obj-bundle-relocation-20260731.md`。新增第五ID、改变固定
+  frame/animation槽数、调用者场景清理及修改后最终屏幕像素/时序等价仍未闭合，
+  Goal保持active。

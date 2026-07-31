@@ -168,7 +168,7 @@ class ImportGenericSpriteBundleRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB90000, 0xBA0000), (sprite.start, sprite.end))
-        self.assertEqual((0xBA0000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBB0000, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_all_payloads_and_exact_references(self):
         from tools.build_mod import apply_patch
@@ -339,13 +339,13 @@ class ImportGenericSpriteBundleRelocationsTests(unittest.TestCase):
             for row in registry["regions"]
             if row["id"] == "generic-sprite-bundle"
         )
-        future = next(
+        cutscene = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "cutscene-obj-bundle"
         )
         sprite["end"] = "0xB90004"
-        future["start"] = "0xB90004"
+        cutscene["start"] = "0xB90004"
         tiny = ImageResourceRegions.from_dict(registry, self.layout)
 
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):

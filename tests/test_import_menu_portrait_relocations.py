@@ -151,7 +151,7 @@ class ImportMenuPortraitRelocationsTests(unittest.TestCase):
 
         self.assertEqual((0xA80000, 0xB00000), (portraits.start, portraits.end))
         self.assertEqual((0xB00000, 0xB40000), (regular_bg.start, regular_bg.end))
-        self.assertEqual((0xBA0000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBB0000, 0xC00000), (future.start, future.end))
         worst_case_lz77 = 4 + (6400 + 7) // 8 + 6400
         worst_case_span = 70 * worst_case_lz77 + 70 * 128 + 140 * 3
         self.assertLess(worst_case_span, portraits.end - portraits.start)

@@ -29,7 +29,8 @@
 | `story-visual-layers` | `story_visual_resources` | `0xB50000..0xB71000` |
 | `world-map-backgrounds` | `world_map_background_resources` | `0xB71000..0xB90000` |
 | `generic-sprite-bundle` | `generic_sprite_resources` | `0xB90000..0xBA0000` |
-| `future-image-resources` | `sequel_image_assets` | `0xBA0000..0xC00000` |
+| `cutscene-obj-bundle` | `cutscene_obj_resources` | `0xBA0000..0xBB0000` |
+| `future-image-resources` | `sequel_image_assets` | `0xBB0000..0xC00000` |
 
 `tools/image_resource_regions.py` 验证父分区身份、全部边界、对齐、无重叠和无空洞。
 tile-assets 与地图的全量组合测试在同一 `PatchSafetyGate` 中应用 489 个分配补丁和

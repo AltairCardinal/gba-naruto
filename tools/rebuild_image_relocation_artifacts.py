@@ -48,6 +48,10 @@ FAMILIES = (
         "generic_sprite_bundle",
         "generic-sprite-bundle-relocation-v1",
     ),
+    (
+        "cutscene_obj_bundle",
+        "cutscene-obj-bundle-relocation-v1",
+    ),
 )
 
 
