@@ -1856,3 +1856,48 @@ queue-post and replay states, admitting only offset `0x0A16` after the flush.
 This artifact proves a controlled representative edit, not natural entry, full
 animation timing, exclusive-writer behavior, every WRAM tilemap or physical-GBA
 output.
+
+# Map 41 primary-layout natural pixel A/B
+
+`build_map41_primary_layout_pixel_ab.py` builds a preservation baseline and a
+single-cell candidate through the production map-resource relocation path. It splits
+only map 41 from the primary-layout alias shared by maps 39–45 and swaps coarse cell
+`(1,6)` from `0x00350022` to `0x00220035`.
+
+Run each ROM with `run_macos_mgba_single_input.py` from the accepted, pre-loader
+`scenario-41-start-row.ss9`, using the same single A event at frames `5/13` and capture
+frame 80. Do not reuse either variant's generated state as the other variant's parent.
+Create a managed experiment first, keep the build and guarded runs under that run,
+export only to its `final/`, verify there, then promote and archive it:
+
+```bash
+TASK=map41-primary-layout-pixel-ab
+RUN_ID=<unique-run-id>
+python3 tools/experiment_workspace.py init --task "$TASK" --run-id "$RUN_ID"
+RUN_DIR="build/experiments/active/$TASK/$RUN_ID"
+
+python3 tools/build_map41_primary_layout_pixel_ab.py \
+  --output "$RUN_DIR/build"
+# Run baseline/candidate independently into "$RUN_DIR/baseline" and
+# "$RUN_DIR/candidate" with run_macos_mgba_single_input.py.
+
+python3 tools/export_map41_primary_layout_pixel_ab_evidence.py \
+  --root . --run-dir "$RUN_DIR" --output "$RUN_DIR/final"
+python3 tools/verify_map41_primary_layout_pixel_ab_evidence.py \
+  --root . --artifact "$RUN_DIR/final"
+python3 tools/experiment_workspace.py promote \
+  --task "$TASK" --run-id "$RUN_ID" \
+  --artifact-name map41-primary-layout-pixel-ab-v1
+python3 tools/experiment_workspace.py archive \
+  --task "$TASK" --run-id "$RUN_ID"
+```
+
+The verifier reconstructs both 16 MiB ROMs from their two-entry ledgers, checks the
+map-41-only alias redirect, proves the parent has not loaded a map, and requires the
+post-input EWRAM layout to equal the relocated payload. It independently expands the
+edited metatiles into the exact eight changed BG0 entries and renders the visible cell
+from ROM graphics/palette data. Each external PNG must have the same normalized RGB
+pixels as the screenshot embedded in its `.ss9`; the two final screenshots must then
+differ at exactly 204 pixels inside `[8,0,39,7]`. This proves a natural representative
+map-layout edit, not every map, camera/overlay timing, collision gameplay, exact
+loader-PC tracing, or physical GBA output.

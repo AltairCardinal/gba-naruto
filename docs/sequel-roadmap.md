@@ -1746,3 +1746,18 @@ WebSocket
   `notes/residual-wram-tilemap-pixel-ab-20260801.md`。这解除该代表性派生源的
   “修改ROM最终像素A/B”缺口，但入口仍为controlled；完整时序、排他writer、其余
   WRAM tilemap逐项像素A/B及实体GBA输出仍未签发，Goal保持active。
+- 2026-08-01：47张战斗地图的生产迁移能力新增首条自然loader到最终像素A/B。
+  map 39–45共享同一primary layout；构建器只拆分map 41的header pointer
+  `0x53DE3C`，另外六个alias保持原指针，并把coarse cell `(1,6)`从
+  `0x00350022`交换为`0x00220035`。baseline/candidate均从loader前、map runtime
+  全零的accepted `scenario-41-start-row.ss9`独立输入同一个A；frame 80都到达
+  battle 41 / map 36×44。各自792-byte EWRAM layout精确等于`0x08980000`的迁移
+  LZ77内容，完整EWRAM只差目标word的两个byte，完整VRAM只差由两个metatile展开的
+  八个BG0 entry低byte，IO/PRAM/OAM完全相同。实际BG0 scroll `(24,104)`令目标
+  cell的下半部位于屏幕`[8,0,39,7]`；独立ROM tile/palette oracle与两边可见
+  32×8像素逐项相等，mGBA最终截图恰好只差该区域204像素。两次守卫运行峰值RSS为
+  56.0546875/56.14453125 MiB，无进程或监听残留。独立verifier从基准ROM和两项
+  patch ledger重建两份16 MiB ROM，并拒绝重签后的layout、alias和input audit
+  篡改。成果位于`artifacts/map41-primary-layout-pixel-ab-v1/`，说明见
+  `notes/map41-primary-layout-pixel-ab-20260801.md`。该代表性链已闭合；其他地图/
+  资源类型、完整camera/overlay/碰撞玩法和实体GBA仍未全量签发，Goal保持active。

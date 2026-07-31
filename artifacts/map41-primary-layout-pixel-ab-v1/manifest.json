@@ -1,0 +1,57 @@
+{
+  "artifact_id": "map41-primary-layout-pixel-ab-v1",
+  "artifact_schema": "map41-primary-layout-pixel-ab-evidence-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline/audit.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+    "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+    "baseline/frame80.ss9": "e38e0e154ce0db7d07f8a6c24342f85045cff26e068fcd70f049ed846663c61a",
+    "baseline/guard.json": "12b1ab7be1b00a424e334ee1aa0244a8126576991a921349b0f0e943db843960",
+    "baseline/sentinel.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+    "build-manifest.json": "b6e0cb12022840322b8e6b2ac2738062d9732152f1bc6b00c4ee5268c24bd6e4",
+    "candidate/audit.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+    "candidate/frame80.png": "8d138b2a72f2a9b2fe973f333f74e420fc5464fbe7d65ed04f750735287524bf",
+    "candidate/frame80.ss9": "44d0433aa9acb634f45b4db0934f6b68a3b13ea471e799c3b9c2bebacdbc14ee",
+    "candidate/guard.json": "47bc5bab3d3a6f9932a65247516532be2cf8ec34c5a7f55971813c5bf38d6095",
+    "candidate/sentinel.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+    "runtime-evidence.json": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be"
+  },
+  "implementation_sha256": {
+    "tests/test_build_map41_primary_layout_pixel_ab.py": "4d7b5b61f6a9b0f22d97ec94981215d307e77e324b50e7346bd6c8153146b7b3",
+    "tests/test_map41_primary_layout_pixel_ab_evidence.py": "c188cd94b11b6a9fca5e6659023e9afcc43e1468de24f96b687738632f7985a6",
+    "tools/build_map41_primary_layout_pixel_ab.py": "f52f33180008ec455cf53a91d888ce7ce04af74e65e3c39b90db5f40e5adcdbc",
+    "tools/export_map41_primary_layout_pixel_ab_evidence.py": "6574de24c2cedf05dfb27e6d29a5b63e48ab741d85f8d06b7fba60fb3be4e8b1",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_map41_primary_layout_pixel_ab_evidence.py": "75db0249f17db5e0ac44ea779b717cf612528616ee6c8820a64a4d189c715bd5"
+  },
+  "parent": {
+    "loader_state": "pre-map-load",
+    "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+    "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "exact_ewram_vram_pixel_diff_verified": true,
+    "exact_loader_pc_runtime_trace": false,
+    "full_camera_timing": false,
+    "map41_alias_split_verified": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "preloader_zero_to_runtime_resource_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map41-primary-layout-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}
