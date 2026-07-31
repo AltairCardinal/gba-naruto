@@ -52,6 +52,10 @@ FAMILIES = (
         "cutscene_obj_bundle",
         "cutscene-obj-bundle-relocation-v1",
     ),
+    (
+        "residual_lz77_graphics",
+        "residual-lz77-graphics-relocation-v1",
+    ),
 )
 
 

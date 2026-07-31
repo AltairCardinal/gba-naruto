@@ -631,7 +631,7 @@ class ImportStoryVisualResourceRelocationsTests(unittest.TestCase):
             },
             regions["story-visual-layers"],
         )
-        self.assertEqual("0xBB0000", regions["future-image-resources"]["start"])
+        self.assertEqual("0xBC0000", regions["future-image-resources"]["start"])
         self.assertEqual("0xC00000", regions["future-image-resources"]["end"])
 
 

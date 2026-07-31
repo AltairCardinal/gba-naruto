@@ -189,6 +189,24 @@ animation槽支持非空变长keyframe序列。构建前核对两张四记录表
 }
 ```
 
+### `residual_lz77_graphics_relocation`
+
+把十个表驱动图像域之外、仍由对齐 ROM 指针直接加载的20条4bpp LZ77图形迁移到
+注册的`residual-lz77-graphics`扩展区域。规格使用
+`residual-lz77-graphics-relocation-v1`，必须一次提供完整20项；每项保持原解压
+tile数，但可替换全部4bpp内容并使用可变压缩长度。构建前重新验证基准ROM、
+inventory/catalog哈希、20项全集、34个全ROM精确根指针、LZ77 round-trip、
+旧指针前值和64 KiB区域容量。palette仍从原位置加载，两条未知palette绑定不会被
+自动提升。
+
+```json
+{
+  "id": "residual-lz77-graphics-relocation",
+  "type": "residual_lz77_graphics_relocation",
+  "spec": "sequel/content/residual-lz77-graphics/relocation.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -341,6 +359,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
   及component list的可变长迁移
 - `cutscene_obj_bundle_relocation` 4个固定Cutscene OBJ ID、10个frame/component
   与10条可变timeline的可变长迁移
+- `residual_lz77_graphics_relocation` 20条残余4bpp LZ77图形及34个根指针的
+  固定解压尺寸、可变压缩长度迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

@@ -452,6 +452,29 @@ def resolve_cutscene_obj_bundle_relocation_patch(
     )
 
 
+def resolve_residual_lz77_graphics_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_residual_lz77_graphics_relocations import (
+        resolve_residual_lz77_graphics_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "residual LZ77 graphics relocation requires an explicit ROM layout"
+        )
+    return resolve_residual_lz77_graphics_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -803,6 +826,7 @@ def build(project_path: Path) -> dict:
                     "world_map_background_relocation",
                     "generic_sprite_bundle_relocation",
                     "cutscene_obj_bundle_relocation",
+                    "residual_lz77_graphics_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1305,6 +1329,34 @@ def build(project_path: Path) -> dict:
                     "sequence_pointers",
                     "pointer_role",
                     "new_pointer",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "residual_lz77_graphics_relocation":
+            sub_patches = resolve_residual_lz77_graphics_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "source_pointer",
+                    "new_pointer",
+                    "replacement_sha256",
+                    "decompressed_size",
+                    "encoded_size",
+                    "tile_count",
+                    "destination_addresses",
+                    "palette_binding_kind",
+                    "palette_source_addresses",
+                    "pointer_offsets",
+                    "pointer_role",
                     "source_file",
                 ):
                     if key in sp:

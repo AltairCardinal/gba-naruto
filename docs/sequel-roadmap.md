@@ -1470,7 +1470,7 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xBB0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBC0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
   世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
   `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
@@ -1565,4 +1565,17 @@ WebSocket
   `artifacts/cutscene-obj-bundle-relocation-v1/`，说明见
   `notes/cutscene-obj-bundle-relocation-20260731.md`。新增第五ID、改变固定
   frame/animation槽数、调用者场景清理及修改后最终屏幕像素/时序等价仍未闭合，
+  Goal保持active。
+- 2026-07-31：十个表驱动图像域之外的残余指针可达LZ77分母已推进到图形
+  payload迁移。严格分母31条中，20条是4bpp图形、3条是LZ77 palette、7条是
+  WRAM visual metadata、1条是32×20 text-BG tilemap；本里程碑只迁移20条真实
+  图形，不混淆类型。20项形成36,640-byte解压数据和34个精确根指针，完整保持
+  迁入`0xBB0000..0xBC0000`，形成20个allocation、34个pointer patch，共54项
+  安全写入。每项可替换全部tile但保持原解压长度，压缩长度不再受旧槽限制；
+  `0x0812D2F0`与`0x083496F8`的palette绑定继续保持未决。独立verifier不导入
+  迁移器/导出器，自行重建20/34分母、LZ77、完整16 MiB输出及20项均修改首tile
+  的capability fixture。成果位于
+  `artifacts/residual-lz77-graphics-relocation-v1/`，说明见
+  `notes/residual-lz77-graphics-relocation-20260731.md`。palette编辑、
+  metadata/tilemap ABI、业务命名及修改后最终屏幕像素/时序等价仍未闭合，
   Goal保持active。

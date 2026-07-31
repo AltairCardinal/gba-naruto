@@ -24,7 +24,8 @@
 - `world-map-backgrounds`：`0xB71000..0xB90000`；
 - `generic-sprite-bundle`：`0xB90000..0xBA0000`；
 - `cutscene-obj-bundle`：`0xBA0000..0xBB0000`；
-- `future-image-resources`：`0xBB0000..0xC00000`。
+- `residual-lz77-graphics`：`0xBB0000..0xBC0000`；
+- `future-image-resources`：`0xBC0000..0xC00000`。
 
 512 KiB可容纳70份6400-byte图形在全literal最坏LZ77编码下的存储，加70份
 128-byte palette及四字节对齐。正式preservation迁移结果：

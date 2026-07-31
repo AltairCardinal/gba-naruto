@@ -162,7 +162,7 @@ class ImportCutsceneObjBundleRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBA0000, 0xBB0000), (cutscene.start, cutscene.end))
-        self.assertEqual((0xBB0000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC0000, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_twelve_payloads_and_sixteen_roots(self):
         from tools.build_mod import apply_patch
@@ -379,13 +379,13 @@ class ImportCutsceneObjBundleRelocationsTests(unittest.TestCase):
             for row in registry["regions"]
             if row["id"] == "cutscene-obj-bundle"
         )
-        future = next(
+        residual = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "residual-lz77-graphics"
         )
         cutscene["end"] = "0xBA0004"
-        future["start"] = "0xBA0004"
+        residual["start"] = "0xBA0004"
         tiny = ImageResourceRegions.from_dict(registry, self.layout)
 
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):

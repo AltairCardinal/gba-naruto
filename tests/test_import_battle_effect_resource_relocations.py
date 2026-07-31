@@ -148,7 +148,7 @@ class ImportBattleEffectResourceRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB40000, 0xB50000), (effects.start, effects.end))
-        self.assertEqual((0xBB0000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC0000, 0xC00000), (future.start, future.end))
         worst_case = sum(
             4
             + row["decompressed_size"]

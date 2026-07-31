@@ -164,7 +164,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xBB0000, 0xC00000),
+            (0xBB0000, 0xBC0000, "residual_lz77_graphics"),
+            (
+                registry.require(
+                    "residual-lz77-graphics",
+                    "residual_lz77_graphics",
+                ).start,
+                registry.require(
+                    "residual-lz77-graphics",
+                    "residual_lz77_graphics",
+                ).end,
+                registry.require(
+                    "residual-lz77-graphics",
+                    "residual_lz77_graphics",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xBC0000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",
