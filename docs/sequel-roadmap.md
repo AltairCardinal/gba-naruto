@@ -1791,3 +1791,18 @@ WebSocket
   `notes/character-battle-graphics-pixel-ab-20260801.md`。本证据只签发resource 0 /
   frame 3代表链，不外推至其余249个资源、342个逻辑槽、完整动作合成或实体GBA，
   Goal保持active。
+- 2026-08-01：同一resource 0自然入口又批量闭合palette、component geometry和
+  animation timeline三类修改ROM最终像素A/B。四份16 MiB ROM共享相同bundle与
+  descriptor topology，只分别在`0x600002:84→85`、`0x60486C:F0→F1`、
+  `0x604A64:03→04`有单byte差异。palette边完整内存只差PRAM
+  `0x05000202`，268个最终像素统一由`(33,33,33)→(41,33,33)`；component边只差
+  OAM entry 0 attr1 `0xC068→0xC069`，634个像素体现角色相对背景右移一像素；
+  timeline边的task仍为animation 1/keyframe 0，但源帧3变为4，动态OBJ的1 KiB分别
+  逐字节等于ROM tiles `96..127`和`128..159`，完整内存只在VRAM差394 bytes，最终
+  改变616像素。独立verifier从基准ROM和四份bundle重建完整ROM，并固定task、五个
+  内存域、OAM、最终像素、父快照、mGBA build/binary、audit和两层guard；重签后的
+  bundle、PRAM/OAM/VRAM/task、截图、证据、父链、build/scope/verifier篡改均被负测
+  拒绝。成果位于`artifacts/character-battle-visual-resource-matrix-v1/`，说明见
+  `notes/character-battle-visual-resource-matrix-20260801.md`。当前只签发resource 0
+  的三个代表字段，不外推至其余249个资源、完整动画推进、动作合成或实体GBA，Goal
+  保持active。
