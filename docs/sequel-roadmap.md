@@ -1729,3 +1729,20 @@ WebSocket
   说明见`notes/residual-wram-transformed-tilemap-runtime-20260801.md`。入口链含
   `0x020240BC: 0→1`补丁，故只签发controlled结论；自然入口、修改ROM像素A/B、
   完整演出时序与排他writer因果仍未闭合，Goal保持active。
+- 2026-08-01：派生WRAM tilemap新增修改ROM最终像素A/B。生产迁移器把
+  `0x084635D8`的`(8,8)`从`0xD80C`改为`0xD80B`，基线/候选均重定向到
+  `0x08BC15AC`且解压源只差byte 208。复用同一accepted choice-state3快照和同一
+  输入后，两边在frame 150/cycle `1198116187`命中相同load；staging的
+  `0x0C→0x0B`经`+0x02BC`变换为`0xDAC8→0xDAC7`，queue flush后只改变VRAM
+  `0x06000A16`对应entry。从各自queue-post快照零输入续跑一帧，mGBA截图恰好差
+  **50像素**，坐标边界`[88,64,95,71]`且集合与独立ROM tile oracle完全一致。
+  独立verifier从基准ROM与八项patch ledger重建两份16 MiB ROM，并重做LZ77、
+  load/load-post寄存器与staging、BG1配置/scroll、charbase tile、PRAM、VRAM行及
+  PNG检查；四对完整96 KiB VRAM证明load/load-post零差异、queue-post/下一帧
+  仅offset `0x0A16`不同，重签patch ledger、staging、BG1 scroll或区外VRAM篡改
+  均被拒绝。正式序列峰值
+  RSS为122.8203125/123.79296875 MiB。成果位于
+  `artifacts/residual-wram-tilemap-pixel-ab-v1/`，说明见
+  `notes/residual-wram-tilemap-pixel-ab-20260801.md`。这解除该代表性派生源的
+  “修改ROM最终像素A/B”缺口，但入口仍为controlled；完整时序、排他writer、其余
+  WRAM tilemap逐项像素A/B及实体GBA输出仍未签发，Goal保持active。

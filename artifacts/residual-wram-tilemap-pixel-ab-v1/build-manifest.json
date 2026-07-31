@@ -1,0 +1,525 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edit": {
+    "after_entry": "0xD80B",
+    "before_entry": "0xD80C",
+    "column": 8,
+    "decoded_differing_byte_offsets": [
+      208
+    ],
+    "effective_after_entry": "0xDAC7",
+    "effective_before_entry": "0xDAC8",
+    "entry_index": 104,
+    "row": 8,
+    "source_pointer": "0x084635D8",
+    "tile_add": "0x02BC",
+    "vram_entry_address": "0x06000A16"
+  },
+  "isolation": {
+    "decoded_source_diff_count": 1,
+    "same_pointer_redirects": true,
+    "same_runtime_source_pointer": true
+  },
+  "patch_ledgers": {
+    "baseline": [
+      {
+        "after_hex": "102003000001a001a002a003a07e0400079001f013f013f01310010503a006a007a008f013f013c0f013f013a009a00aa00b3ca00cf013f013f013f013a00d03a00ea00fa010a0bdf013fff013f013f0f9f0bdf013f013f013f0bdfff013f013f0133013f0bdf013f013f013ff3013f0a9f013f013f013f0a9f013f013fef013f1df70bdf013f013f0139013",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-083f2108",
+        "kind": "allocation",
+        "new_pointer": "0x08BC1400",
+        "offset": 12325888,
+        "replacement_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+        "source_pointer": "0x083F2108"
+      },
+      {
+        "after_hex": "0014bc08",
+        "before_hex": "08213f08",
+        "id": "residual-wram-derived-tilemap-083f2108.pointer-08bd60",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC1400",
+        "offset": 572768,
+        "replacement_sha256": null,
+        "source_pointer": "0x083F2108"
+      },
+      {
+        "after_hex": "102001003000c0f001900101c002c00403c004c005801306c01107c008400109c00a4015100bc00c000f0dc00ec0150fc010000911401712000b4513400b14c015000d16200b0517c017cc186053190017551a00071b00071c806b1d000f411e000718c408c01f80175020001721200922c023c00524c025c026200d2700175028200929000923c02ac0042bc02cc02d10a9c82e88403b2fc030000f31c03201c033c034c025cc70550405cc35c036a0ff",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-084634b8",
+        "kind": "allocation",
+        "new_pointer": "0x08BC148C",
+        "offset": 12326028,
+        "replacement_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+        "source_pointer": "0x084634B8"
+      },
+      {
+        "after_hex": "8c14bc08",
+        "before_hex": "b8344608",
+        "id": "residual-wram-derived-tilemap-084634b8.pointer-090bdc",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC148C",
+        "offset": 592860,
+        "replacement_sha256": null,
+        "source_pointer": "0x084634B8"
+      },
+      {
+        "after_hex": "102001000100d005d437d000e001012edc09d438d039e017143ad00820013be01905dc003cd023dc08d03dd0453ee01b3fd040003341f01900d042d00cd808d043dbf081401944f019401945f019f019a960014620b547f019d04800174049f017d04ad04bd01400d4",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-0846356c",
+        "kind": "allocation",
+        "new_pointer": "0x08BC1540",
+        "offset": 12326208,
+        "replacement_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+        "source_pointer": "0x0846356C"
+      },
+      {
+        "after_hex": "4015bc08",
+        "before_hex": "6c354608",
+        "id": "residual-wram-derived-tilemap-0846356c.pointer-090ddc",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC1540",
+        "offset": 593372,
+        "replacement_sha256": null,
+        "source_pointer": "0x0846356C"
+      },
+      {
+        "after_hex": "102001000100d005d437d000a001404c00032edc09d438d04039601314d84dd023d0054ed03ad00820013b4015444f000b38d850000b05dc003cd023dc08d03dd02251d010150cdc52603d3f28d040001153000309d84250d4906b54204d55d00ad885901539d438d430674460131005d456201157d058d0050cd808d045401759206b503f20554260195ad05bd0285cd0706b46203b47d05d0ad05ed05fa0ed48001749c0c10110014ad04bd014d4",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-084635d8",
+        "kind": "allocation",
+        "new_pointer": "0x08BC15AC",
+        "offset": 12326316,
+        "replacement_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+        "source_pointer": "0x084635D8"
+      },
+      {
+        "after_hex": "ac15bc08",
+        "before_hex": "d8354608",
+        "id": "residual-wram-derived-tilemap-084635d8.pointer-090de8",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC15AC",
+        "offset": 593384,
+        "replacement_sha256": null,
+        "source_pointer": "0x084635D8"
+      }
+    ],
+    "candidate": [
+      {
+        "after_hex": "102003000001a001a002a003a07e0400079001f013f013f01310010503a006a007a008f013f013c0f013f013a009a00aa00b3ca00cf013f013f013f013a00d03a00ea00fa010a0bdf013fff013f013f0f9f0bdf013f013f013f0bdfff013f013f0133013f0bdf013f013f013ff3013f0a9f013f013f013f0a9f013f013fef013f1df70bdf013f013f0139013",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-083f2108",
+        "kind": "allocation",
+        "new_pointer": "0x08BC1400",
+        "offset": 12325888,
+        "replacement_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+        "source_pointer": "0x083F2108"
+      },
+      {
+        "after_hex": "0014bc08",
+        "before_hex": "08213f08",
+        "id": "residual-wram-derived-tilemap-083f2108.pointer-08bd60",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC1400",
+        "offset": 572768,
+        "replacement_sha256": null,
+        "source_pointer": "0x083F2108"
+      },
+      {
+        "after_hex": "102001003000c0f001900101c002c00403c004c005801306c01107c008400109c00a4015100bc00c000f0dc00ec0150fc010000911401712000b4513400b14c015000d16200b0517c017cc186053190017551a00071b00071c806b1d000f411e000718c408c01f80175020001721200922c023c00524c025c026200d2700175028200929000923c02ac0042bc02cc02d10a9c82e88403b2fc030000f31c03201c033c034c025cc70550405cc35c036a0ff",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-084634b8",
+        "kind": "allocation",
+        "new_pointer": "0x08BC148C",
+        "offset": 12326028,
+        "replacement_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+        "source_pointer": "0x084634B8"
+      },
+      {
+        "after_hex": "8c14bc08",
+        "before_hex": "b8344608",
+        "id": "residual-wram-derived-tilemap-084634b8.pointer-090bdc",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC148C",
+        "offset": 592860,
+        "replacement_sha256": null,
+        "source_pointer": "0x084634B8"
+      },
+      {
+        "after_hex": "102001000100d005d437d000e001012edc09d438d039e017143ad00820013be01905dc003cd023dc08d03dd0453ee01b3fd040003341f01900d042d00cd808d043dbf081401944f019401945f019f019a960014620b547f019d04800174049f017d04ad04bd01400d4",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-0846356c",
+        "kind": "allocation",
+        "new_pointer": "0x08BC1540",
+        "offset": 12326208,
+        "replacement_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+        "source_pointer": "0x0846356C"
+      },
+      {
+        "after_hex": "4015bc08",
+        "before_hex": "6c354608",
+        "id": "residual-wram-derived-tilemap-0846356c.pointer-090ddc",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC1540",
+        "offset": 593372,
+        "replacement_sha256": null,
+        "source_pointer": "0x0846356C"
+      },
+      {
+        "after_hex": "102001000100d005d437d000a001404c00032edc09d438d04039601314d84dd023d0054ed03ad00820013b4015444f000b38d850000b05dc003cd023dc08d03dd02251d010150cdc52603d3f28d040001153000309d84250d4906b54204d55d00ad885901539d438d430674460131005d456201157d058d0050cd808d045401759206b443f205542d00b40195ad00a5bd05cd0706b46203b4702d05dd05ed05fa0ed48b0001749c10110014ad04bd00014d4",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "residual-wram-derived-tilemap-084635d8",
+        "kind": "allocation",
+        "new_pointer": "0x08BC15AC",
+        "offset": 12326316,
+        "replacement_sha256": "945aec4bdd403d89b3ccbe6034cc34a6c68780e60783088177832c26978bdd30",
+        "source_pointer": "0x084635D8"
+      },
+      {
+        "after_hex": "ac15bc08",
+        "before_hex": "d8354608",
+        "id": "residual-wram-derived-tilemap-084635d8.pointer-090de8",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08BC15AC",
+        "offset": 593384,
+        "replacement_sha256": null,
+        "source_pointer": "0x084635D8"
+      }
+    ]
+  },
+  "pixel_oracle": {
+    "after_tile_index": 711,
+    "before_tile_index": 712,
+    "expected_screen_pixels": [
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 88,
+        "y": 64
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 64
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 64
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 64
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 64
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 88,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 65
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 88,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 66
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 88,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 94,
+        "y": 67
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 88,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 94,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 95,
+        "y": 68
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 89,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 94,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 95,
+        "y": 69
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 90,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 94,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 95,
+        "y": 70
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 91,
+        "y": 71
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 92,
+        "y": 71
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 93,
+        "y": 71
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 94,
+        "y": 71
+      },
+      {
+        "after_palette_index": 0,
+        "before_palette_index": 1,
+        "x": 95,
+        "y": 71
+      }
+    ],
+    "graphics_pointer": "0x08463688",
+    "graphics_tile_base": 700,
+    "palette_bank": 13,
+    "palette_pointer": "0x084638F4",
+    "screen_bbox": [
+      88,
+      64,
+      95,
+      71
+    ],
+    "source_tile_differing_pixel_count": 50,
+    "vertical_flip": true
+  },
+  "roms": {
+    "baseline": {
+      "path": "baseline.gba",
+      "sha256": "bcf83aba98abd840b422a57eecb1144f9c63fcdec9d6aab17a01729539bbe061",
+      "size": 16777216,
+      "spec": "baseline-spec.json",
+      "target_decoded_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640"
+    },
+    "candidate": {
+      "path": "candidate.gba",
+      "sha256": "1e947c35fa0691e588389337e6aa900fa3f78306c0473dce0dbb457cc00eb1dd",
+      "size": 16777216,
+      "spec": "candidate-spec.json",
+      "target_decoded_sha256": "945aec4bdd403d89b3ccbe6034cc34a6c68780e60783088177832c26978bdd30"
+    }
+  },
+  "runtime_source_pointer": "0x08BC15AC",
+  "schema": "residual-wram-tilemap-pixel-ab-build-v1"
+}

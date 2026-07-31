@@ -1827,3 +1827,32 @@ registered 2 MiB partition and independently rebuilds the full 16 MiB output.
 It proves format, capacity, exact aligned references and deterministic build
 behavior. It does not prove modified-resource runtime selection, camera,
 priority/blend, final pixel timing or a particular physical flash cartridge.
+
+# Derived WRAM tilemap modified-ROM pixel A/B
+
+`build_residual_wram_tilemap_pixel_ab.py` builds a preservation baseline and a
+single-entry candidate through the production derived-tilemap relocation path.
+The fixed edit changes source `0x084635D8` row 8/column 8 from `0xD80C` to
+`0xD80B`; both ROMs use relocated runtime pointer `0x08BC15AC`.
+
+Run both ROMs only through `run_guarded.py` and the shared heavy lock, reusing the
+accepted `choice-state3.ss9` checkpoint. Promote the compact evidence and verify
+it with:
+
+```bash
+python3 tools/export_residual_wram_tilemap_pixel_ab_evidence.py \
+  --root . --run-dir <guarded-run-dir> \
+  --output artifacts/residual-wram-tilemap-pixel-ab-v1
+python3 tools/verify_residual_wram_tilemap_pixel_ab_evidence.py \
+  --root . --artifact artifacts/residual-wram-tilemap-pixel-ab-v1
+```
+
+The verifier independently reconstructs both 16 MiB ROMs from the base ROM and
+the eight-entry patch ledgers, then checks the relocated LZ77 payload, load and
+load-post states, isolated source byte, transformed entry, BG1 registers,
+charbase/palette ownership, strided VRAM rows and the exact 50-pixel next-frame
+mGBA difference. It also compares all 96 KiB of VRAM across load, load-post,
+queue-post and replay states, admitting only offset `0x0A16` after the flush.
+This artifact proves a controlled representative edit, not natural entry, full
+animation timing, exclusive-writer behavior, every WRAM tilemap or physical-GBA
+output.
