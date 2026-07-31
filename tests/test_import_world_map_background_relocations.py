@@ -141,7 +141,7 @@ class ImportWorldMapBackgroundRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB71000, 0xB90000), (world.start, world.end))
-        self.assertEqual((0xBC0400, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC0C00, 0xC00000), (future.start, future.end))
         worst_case = (
             3 * (4 + 512 * 64 + (512 * 64 + 7) // 8 + 3)
             + 3 * (4 + 1200 + (1200 + 7) // 8 + 3)

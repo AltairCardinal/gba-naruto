@@ -1,0 +1,51 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "residual-text-bg-tilemap-relocation-v1",
+  "artifact_schema": "residual-text-bg-tilemap-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "05e9af1e90cb33630811e9460e3d8ed8e8cd586bbae0a8b16852c259f8e4332b",
+  "files": {
+    "full-relocation-spec.json": "ca820baec3056be78429d365ad3404ad16cb8033a1d8174c3b576c44f797e657",
+    "relocation-audit.json": "05e9af1e90cb33630811e9460e3d8ed8e8cd586bbae0a8b16852c259f8e4332b",
+    "tilemap.bin": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c"
+  },
+  "scope": {
+    "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM.",
+    "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+    "not_proved": "Editing its font/tile graphics or palette, changing the screenblock destination, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence."
+  },
+  "summary": {
+    "source_count": 1,
+    "source_pointer_reference_count": 1,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 178,
+    "decoded_size": 1280,
+    "entry_count": 640,
+    "tile_index_min": 0,
+    "tile_index_max": 5,
+    "palette_banks": [
+      1
+    ],
+    "allocation_count": 1,
+    "pointer_patch_count": 1,
+    "allocation_start": 12321792,
+    "allocation_end": 12321970,
+    "region_end": 12323840,
+    "stored_payload_bytes": 178,
+    "allocation_span": 178,
+    "remaining_bytes": 1870,
+    "applied_patch_count": 2
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_text_bg_tilemap_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-text-bg-tilemap-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -198,7 +198,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xBC0400, 0xC00000),
+            (0xBC0400, 0xBC0C00, "residual_text_bg_tilemap"),
+            (
+                registry.require(
+                    "residual-text-bg-tilemap",
+                    "residual_text_bg_tilemap",
+                ).start,
+                registry.require(
+                    "residual-text-bg-tilemap",
+                    "residual_text_bg_tilemap",
+                ).end,
+                registry.require(
+                    "residual-text-bg-tilemap",
+                    "residual_text_bg_tilemap",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xBC0C00, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

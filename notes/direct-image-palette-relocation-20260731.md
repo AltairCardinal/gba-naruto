@@ -26,7 +26,8 @@
 图像区域注册表新增：
 
 - `direct-image-palettes`：`0xBC0000..0xBC0400`；
-- `future-image-resources`相应收缩为`0xBC0400..0xC00000`。
+- `residual-text-bg-tilemap`：`0xBC0400..0xBC0C00`；
+- `future-image-resources`相应收缩为`0xBC0C00..0xC00000`。
 
 完整保持迁移生成17个allocation和29个pointer patch，共46项安全写入。存储载荷
 786 bytes，占用跨度788 bytes，末端`0xBC0314`，区域剩余236 bytes；输出ROM为
@@ -70,6 +71,7 @@ verbose输出避免长测试被idle守卫误判，最终`completed/0`，峰值12
 本成果不证明：
 
 - `0x0812D2F0`与`0x083496F8`两条残余图形的palette身份；
-- 7条WRAM visual metadata和1条32×20 text-BG tilemap的ABI与迁移；
+- 7条WRAM visual metadata，以及不属于本artifact scope的32×20 text-BG
+  tilemap；后者随后由`residual-text-bg-tilemap-relocation-v1`独立闭合迁移；
 - PRAM目标地址、copy长度或业务名称可任意改变；
 - 修改后自然路线的OAM、window、blend、帧时序和最终屏幕像素等价。

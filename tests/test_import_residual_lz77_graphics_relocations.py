@@ -124,7 +124,7 @@ class ImportResidualLz77GraphicsRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBB0000, 0xBC0000), (residual.start, residual.end))
-        self.assertEqual((0xBC0400, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC0C00, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_twenty_payloads_and_thirty_four_roots(
         self,

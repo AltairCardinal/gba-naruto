@@ -498,6 +498,29 @@ def resolve_direct_image_palette_relocation_patch(
     )
 
 
+def resolve_residual_text_bg_tilemap_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_residual_text_bg_tilemap_relocations import (
+        resolve_residual_text_bg_tilemap_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "residual text-BG tilemap relocation requires an explicit ROM layout"
+        )
+    return resolve_residual_text_bg_tilemap_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -851,6 +874,7 @@ def build(project_path: Path) -> dict:
                     "cutscene_obj_bundle_relocation",
                     "residual_lz77_graphics_relocation",
                     "direct_image_palette_relocation",
+                    "residual_text_bg_tilemap_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1411,6 +1435,35 @@ def build(project_path: Path) -> dict:
                     "locked_ranges",
                     "pointer_role",
                     "alias_offset",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "residual_text_bg_tilemap_relocation":
+            sub_patches = resolve_residual_text_bg_tilemap_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "source_pointer",
+                    "new_pointer",
+                    "replacement_sha256",
+                    "decoded_size",
+                    "encoded_size",
+                    "entry_count",
+                    "tile_index_range",
+                    "palette_banks",
+                    "horizontal_flip_count",
+                    "vertical_flip_count",
+                    "destination",
+                    "pointer_role",
                     "source_file",
                 ):
                     if key in sp:

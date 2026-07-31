@@ -284,6 +284,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "cutscene_obj_bundle_relocation",
             "residual_lz77_graphics_relocation",
             "direct_image_palette_relocation",
+            "residual_text_bg_tilemap_relocation",
         }
         errors = []
         for patch in manifest["patches"]:

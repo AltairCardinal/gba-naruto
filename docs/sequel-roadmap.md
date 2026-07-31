@@ -1470,7 +1470,7 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xBC0400..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBC0C00..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
   世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
   `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
@@ -1590,5 +1590,18 @@ WebSocket
   capability fixture。成果位于
   `artifacts/direct-image-palette-relocation-v1/`，说明见
   `notes/direct-image-palette-relocation-20260731.md`。两条残余图形的palette
-  身份、7条WRAM visual metadata、1条text-BG tilemap ABI及修改后最终屏幕
-  像素/时序等价仍未闭合，Goal保持active。
+  身份、7条WRAM visual metadata及修改后最终屏幕像素/时序等价仍未闭合，
+  Goal保持active。
+- 2026-07-31：残余LZ77分母中唯一的text-BG tilemap已推进到可变存储迁移。
+  `0x08349368`的178-byte LZ77流解压为32×20、640个little-endian u16 entry，
+  唯一全ROM对齐根为`0x0808B464`；原内容只使用tile 0–5、palette bank 1、0个
+  H flip和12个V flip。新`residual_text_bg_tilemap_relocation`允许在上述tile/
+  palette边界内编辑全部640项及标准H/V flip，原样压缩178 bytes写入
+  `0xBC0400..0xBC04B2`，形成1个allocation和1个pointer patch。注册区域
+  `0xBC0400..0xBC0C00`按全literal最坏1444 bytes预留，最坏仍余604 bytes。
+  独立verifier不导入生产迁移器/导出器，自行重建LZ77、代码/consumer合同、
+  1/1分母、全局区域连续性、完整16 MiB输出和单entry capability fixture。
+  成果位于`artifacts/residual-text-bg-tilemap-relocation-v1/`，说明见
+  `notes/residual-text-bg-tilemap-relocation-20260731.md`。对应tile graphics/
+  palette所有权、剩余12行screenblock、另一流复用`0x06001000`的运行时顺序、
+  业务名称及最终屏幕像素/时序等价仍未闭合，Goal保持active。

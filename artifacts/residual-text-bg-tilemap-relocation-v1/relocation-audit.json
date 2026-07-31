@@ -1,0 +1,103 @@
+{
+  "schema": "residual-text-bg-tilemap-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "546cbdcd72a13ccc314343a8c4d75532bcf037324d6b7e5ee6a8fdeca8bad505",
+    "region": "residual-text-bg-tilemap",
+    "owner": "residual_text_bg_tilemap",
+    "start": 12321792,
+    "end": 12323840
+  },
+  "inventory": {
+    "path": "artifacts/rom-pointer-lz77-inventory-v1/rom-pointer-lz77-inventory.json",
+    "sha256": "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "ca820baec3056be78429d365ad3404ad16cb8033a1d8174c3b576c44f797e657"
+  },
+  "implementation": {
+    "tools/export_rom_pointer_lz77_inventory.py": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "tools/verify_rom_pointer_lz77_inventory.py": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b",
+    "tools/import_residual_text_bg_tilemap_relocations.py": "5c6e0e59ef2ff87da2c08f91f62a2f23533c9360d2ef79869a4485dc270bf5ec",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "7aa4c7a84c7752a95fe0065925191b152cabdb2aec4a3cf99ad8a8f05320043b",
+    "tools/export_residual_text_bg_tilemap_relocation_audit.py": "991e109ce6e9b0bf114de6fca4e87bc883cc676036543dab5c164a1b90e63a62",
+    "tools/verify_residual_text_bg_tilemap_relocation_audit.py": "7c003afb9d3d6633d6e923cde01f8cdbe2573c1880959b80fd5413f319079cc3"
+  },
+  "summary": {
+    "source_count": 1,
+    "source_pointer_reference_count": 1,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 178,
+    "decoded_size": 1280,
+    "entry_count": 640,
+    "tile_index_min": 0,
+    "tile_index_max": 5,
+    "palette_banks": [
+      1
+    ],
+    "allocation_count": 1,
+    "pointer_patch_count": 1,
+    "allocation_start": 12321792,
+    "allocation_end": 12321970,
+    "region_end": 12323840,
+    "stored_payload_bytes": 178,
+    "allocation_span": 178,
+    "remaining_bytes": 1870,
+    "applied_patch_count": 2
+  },
+  "allocation": {
+    "id": "residual-text-bg-tilemap",
+    "offset": 12321792,
+    "source_pointer": 137663336,
+    "new_pointer": 146539520,
+    "replacement_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
+    "decoded_size": 1280,
+    "encoded_size": 178,
+    "entry_count": 640,
+    "tile_index_range": [
+      0,
+      5
+    ],
+    "palette_banks": [
+      1
+    ],
+    "horizontal_flip_count": 0,
+    "vertical_flip_count": 12,
+    "destination": "0x06001000"
+  },
+  "pointer_patch": {
+    "id": "residual-text-bg-tilemap.pointer-08b464",
+    "offset": 570468,
+    "source_pointer": 137663336,
+    "new_pointer": 146539520,
+    "pointer_role": "tilemap_source"
+  },
+  "output_rom_sha256": "b097462767a02f7c604198f83a9f79e75476809ee44efe3d30945aa7ea5a695c",
+  "capability_fixture": {
+    "mutation": "increment entry 0 tile index modulo 6",
+    "changed_entries": 1,
+    "output_rom_sha256": "4f46eb5bc575644d34fbec4d3a9867e5c840a1fb86da0182c84676cdbbf1c069"
+  },
+  "scope": {
+    "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM.",
+    "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+    "not_proved": "Editing its font/tile graphics or palette, changing the screenblock destination, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence."
+  }
+}

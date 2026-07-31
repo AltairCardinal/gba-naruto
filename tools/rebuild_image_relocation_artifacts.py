@@ -60,6 +60,10 @@ FAMILIES = (
         "direct_image_palette",
         "direct-image-palette-relocation-v1",
     ),
+    (
+        "residual_text_bg_tilemap",
+        "residual-text-bg-tilemap-relocation-v1",
+    ),
 )
 
 
