@@ -1517,6 +1517,25 @@ classification requires both the consumer destination and decoded entry shape. I
 does not claim that all syntactically valid streams are resources, that all resources
 are compressed, or that static pointer reachability is runtime execution.
 
+# Residual WRAM tilemap ABI audit
+
+`export_residual_wram_tilemap_abi.py` consumes the hash-pinned pointer-reachable
+LZ77 inventory and promotes only local `LZ77UnCompWram` calls that are immediately
+bound to the status-3 strided GPU queue. It packs the three proven tilemaps into one
+binary instead of generating hundreds of small files.
+
+```bash
+python3 tools/export_residual_wram_tilemap_abi.py
+python3 tools/verify_residual_wram_tilemap_abi.py
+```
+
+The independent verifier reconstructs the seven-record WRAM visual-metadata
+denominator, all three local load/submit code windows, the shared queue consumer,
+657 u16 screen entries and the exact bundle. Four other WRAM payloads remain
+explicitly unresolved; payload shape alone never promotes them to tilemaps. This
+artifact proves an ABI catalog, not runtime reachability, final composition or
+generic writeback.
+
 # ROM pointer-reachable LZ77 graphics previews
 
 `export_rom_pointer_lz77_graphics.py` consumes the hash-pinned

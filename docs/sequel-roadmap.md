@@ -1605,3 +1605,14 @@ WebSocket
   `notes/residual-text-bg-tilemap-relocation-20260731.md`。对应tile graphics/
   palette所有权、剩余12行screenblock、另一流复用`0x06001000`的运行时顺序、
   业务名称及最终屏幕像素/时序等价仍未闭合，Goal保持active。
+- 2026-07-31：7条残余`WRAM_dynamic` visual metadata已从混合未知集合推进到
+  有限ABI目录。其中`0x0834928C`、`0x083F1C98`、`0x085B67E0`均由局部
+  `LZ77UnCompWram`后紧接status-3逐行GPU queue的代码链证明为15×20、24×12、
+  23×3局部BG tilemap，共657个u16 entry/1,314 bytes；目标分别是screenblock 0
+  的row 0/column 15，以及screenblock 31的row 0/column 8和row 17/column 7。
+  独立verifier从ROM和固定inventory重建7条分母、三段route、共享queue consumer、
+  完整bundle与manifest，重新签名后篡改destination或queue call均被拒绝。成果位于
+  `artifacts/residual-wram-tilemap-abi-v1/`，说明见
+  `notes/residual-wram-tilemap-abi-20260731.md`。其余4条WRAM payload、队列槽成功
+  与自然flush、BG/palette/graphics所有权、可编辑迁移及最终像素/时序仍未完成，
+  Goal保持active。
