@@ -45,6 +45,8 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
         from tools.import_residual_wram_derived_tilemap_relocations import (
             ABI_PATH,
             ABI_SHA256,
+            OWNERSHIP_PATH,
+            OWNERSHIP_SHA256,
         )
 
         registry = ROOT / "sequel/image-resource-regions.json"
@@ -57,6 +59,10 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
                     "base_rom_sha256": hashlib.sha256(self.base).hexdigest(),
                     "abi_artifact": ABI_PATH.as_posix(),
                     "abi_sha256": ABI_SHA256,
+                    "resource_ownership_artifact": (
+                        OWNERSHIP_PATH.as_posix()
+                    ),
+                    "resource_ownership_sha256": OWNERSHIP_SHA256,
                     "partition": "sequel-image-assets",
                     "owner": "sequel_image_assets",
                     "region_registry": "sequel/image-resource-regions.json",
@@ -78,6 +84,23 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
             encoding="utf-8",
         )
         return path
+
+    def test_spec_requires_verified_resource_ownership(self):
+        from tools.import_residual_wram_derived_tilemap_relocations import (
+            resolve_residual_wram_derived_tilemap_relocation_patches,
+        )
+
+        spec_path = self._spec()
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+        del spec["resource_ownership_sha256"]
+        spec_path.write_text(json.dumps(spec), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "ownership"):
+            resolve_residual_wram_derived_tilemap_relocation_patches(
+                ROOT,
+                spec_path,
+                rom=self.base,
+                layout=self.layout,
+            )
 
     def test_catalog_closes_four_sources_and_transfer_contracts(self):
         self.assertEqual(
@@ -244,6 +267,7 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
         from tools import automated_test, build_mod
         from tools.import_residual_wram_derived_tilemap_relocations import (
             ABI_PATH,
+            OWNERSHIP_PATH,
         )
 
         runner = automated_test.TestRunner()
@@ -268,6 +292,7 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
             "sequel/patches",
             "sequel/content/residual-wram-derived-tilemaps",
             ABI_PATH.parent,
+            OWNERSHIP_PATH.parent,
         ):
             (build_root / relative).mkdir(parents=True, exist_ok=True)
         (build_root / "rom/custom-base.gba").write_bytes(self.base)
@@ -275,6 +300,7 @@ class ImportResidualWramDerivedTilemapRelocationsTests(unittest.TestCase):
             "sequel/rom-layout.json",
             "sequel/image-resource-regions.json",
             ABI_PATH,
+            OWNERSHIP_PATH,
         ):
             destination = build_root / relative
             destination.write_bytes((ROOT / relative).read_bytes())

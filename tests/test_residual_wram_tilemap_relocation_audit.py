@@ -81,6 +81,9 @@ class ResidualWramTilemapRelocationAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             artifact = Path(temporary) / "tilemaps"
             payload = export_audit(ROOT, artifact)
+            spec = json.loads(
+                (artifact / "full-relocation-spec.json").read_text()
+            )
             verified = verify_audit(ROOT, artifact)
 
         summary = payload["summary"]
@@ -95,6 +98,29 @@ class ResidualWramTilemapRelocationAuditTests(unittest.TestCase):
         self.assertLessEqual(summary["allocation_end"], 0xBC1400)
         self.assertEqual(0xBC1400, summary["region_end"])
         self.assertEqual(3, payload["capability_fixture"]["changed_entries"])
+        self.assertEqual(
+            {
+                "path": (
+                    "artifacts/residual-wram-tilemap-resource-ownership-v1/"
+                    "resource-ownership.json"
+                ),
+                "sha256": (
+                    "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be"
+                    "83a37aa90b5ced7"
+                ),
+                "verified_source_count": 3,
+            },
+            payload["resource_ownership"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["path"],
+            spec["resource_ownership_artifact"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["sha256"],
+            spec["resource_ownership_sha256"],
+        )
+        self.assertNotIn("ownership", payload["scope"]["not_proved"])
         self.assertEqual([], verified["errors"])
         self.assertEqual(3, verified["verified_sources"])
         self.assertEqual(3, verified["verified_source_pointers"])
@@ -114,6 +140,29 @@ class ResidualWramTilemapRelocationAuditTests(unittest.TestCase):
         )
         self.assertEqual([], report["errors"])
         self.assertEqual(3, report["verified_sources"])
+
+    def test_manifest_requires_implementation_hashes(self):
+        from tools.export_residual_wram_tilemap_relocation_audit import (
+            export_audit,
+        )
+        from tools.verify_residual_wram_tilemap_relocation_audit import (
+            verify_audit,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            artifact = Path(temporary) / "tilemaps"
+            payload = export_audit(ROOT, artifact)
+            manifest_path = artifact / "manifest.json"
+            manifest = json.loads(manifest_path.read_text())
+            self.assertEqual(
+                payload["implementation"],
+                manifest["implementation"],
+            )
+            del manifest["implementation"]
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+            )
+            self.assertTrue(verify_audit(ROOT, artifact)["errors"])
 
     def test_resigned_payload_spec_tilemap_and_extra_files_are_rejected(self):
         from tools.export_residual_wram_tilemap_relocation_audit import (

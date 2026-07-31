@@ -1,0 +1,43 @@
+{
+  "artifact_id": "residual-wram-tilemap-resource-ownership-v1",
+  "artifact_schema": "residual-wram-tilemap-resource-ownership-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "resource-ownership.json": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+  },
+  "implementation": {
+    "tools/export_residual_wram_tilemap_resource_ownership.py": "b1bed7cd5a38efe439c18fdb9e82338bf5e8bc99c14ad640ca5cb74cd28feea2",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/verify_residual_wram_tilemap_resource_ownership.py": "0382308f7e5581f95368ddfd0375075d5d32a69f0b437206d79ca678a21689f1"
+  },
+  "payload_file": "resource-ownership.json",
+  "payload_sha256": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_menu_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "queue_slot_and_natural_flush_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "summary": {
+    "bg_control_complete_count": 7,
+    "graphics_ownership_complete_count": 7,
+    "palette_ownership_complete_count": 7,
+    "remaining_unresolved_count": 0,
+    "tilemap_source_count": 7
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_resource_ownership.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-resource-ownership-v1"
+    ],
+    "exit_code": 0
+  }
+}

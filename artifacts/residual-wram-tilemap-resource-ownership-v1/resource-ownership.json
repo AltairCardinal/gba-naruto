@@ -1,0 +1,605 @@
+{
+  "ownership_records": [
+    {
+      "bg": {
+        "charbase_address": "0x06004000",
+        "charbase_index": 1,
+        "color_mode": "4bpp",
+        "control_value": "0x0006",
+        "name": "BG0",
+        "priority": 2,
+        "register": "0x04000008",
+        "screenbase_address": "0x06000000",
+        "screenbase_index": 0,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808B5E6",
+          "name": "selection_resource_setup",
+          "sha256": "97b9cdcaf6e092990995efabea800a38851f01d06ca60696906a8d5e706ba129",
+          "start": "0x0808B5C2"
+        },
+        {
+          "end_exclusive": "0x0808AD08",
+          "name": "selection_bg_setup",
+          "sha256": "8320604211493d5be52f4450d2dee2fb3f418429731ef9dadb177b6326145157",
+          "start": "0x0808ACF2"
+        }
+      ],
+      "effective_tile_index_range": [
+        6,
+        67
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+        "decompressed_size": 2176,
+        "load_call": "0x0808B5D8",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          0,
+          67
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-06",
+        "source_load": "0x0808B5D4",
+        "source_pointer": "0x08348F00",
+        "tile_bytes": 32,
+        "tile_count": 68,
+        "vram_destination": "0x06004000"
+      },
+      "natural_callers": [
+        "0x0808F844",
+        "0x0808FA04"
+      ],
+      "palettes": [
+        {
+          "bank": 1,
+          "load_call": "0x0808B5E2",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x05000020",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+          "size": 32,
+          "source_load": "0x0808B5DC",
+          "source_pointer": "0x0834941C"
+        }
+      ],
+      "scene_identity": "selection_grid_overlay",
+      "setup_function": "0x0808B58C",
+      "source_tile_index_range": [
+        6,
+        67
+      ],
+      "tile_index_add": 0,
+      "tilemap_abi_sha256": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+      "tilemap_classification": "direct_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x0834928C",
+      "vram_destination": "0x0600001E"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x0600C000",
+        "charbase_index": 3,
+        "color_mode": "4bpp",
+        "control_value": "0x1F0D",
+        "name": "BG1",
+        "priority": 1,
+        "register": "0x0400000A",
+        "screenbase_address": "0x0600F800",
+        "screenbase_index": 31,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808BB0C",
+          "name": "scene_bg_setup",
+          "sha256": "8060a9f9ea88d19209616ea8b83183b31b3d5459f2e1e988a3939b012d6b3622",
+          "start": "0x0808BAF4"
+        },
+        {
+          "end_exclusive": "0x0808BC38",
+          "name": "scene_resource_setup",
+          "sha256": "09e0b41f0153a93aeb58590a5ce04462c37a35a2ea3eeefd81f7c7ffc75768de",
+          "start": "0x0808BBCC"
+        }
+      ],
+      "effective_tile_index_range": [
+        0,
+        267
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+        "decompressed_size": 8576,
+        "load_call": "0x0808BBD0",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          0,
+          267
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-19",
+        "source_load": "0x0808BBCC",
+        "source_pointer": "0x085B6880",
+        "tile_bytes": 32,
+        "tile_count": 268,
+        "vram_destination": "0x0600C000"
+      },
+      "natural_callers": [
+        "0x0808F814"
+      ],
+      "palettes": [
+        {
+          "bank": 8,
+          "load_call": "0x0808BBE2",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x05000100",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "b11c213e0969ea51fb69f3b7060b5efcd06ce14b5ebf5c3c15c1955d07a8b50b",
+          "size": 32,
+          "source_load": "0x0808BBDC",
+          "source_pointer": "0x083F0AF0"
+        }
+      ],
+      "scene_identity": "scene_setup_bg1_upper_panel",
+      "setup_function": "0x0808BAB0",
+      "source_tile_index_range": [
+        0,
+        267
+      ],
+      "tile_index_add": 0,
+      "tilemap_abi_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+      "tilemap_classification": "direct_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x083F1C98",
+      "vram_destination": "0x0600F810"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x0600C000",
+        "charbase_index": 3,
+        "color_mode": "4bpp",
+        "control_value": "0x1F0D",
+        "name": "BG1",
+        "priority": 1,
+        "register": "0x0400000A",
+        "screenbase_address": "0x0600F800",
+        "screenbase_index": 31,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808BB0C",
+          "name": "scene_bg_setup",
+          "sha256": "8060a9f9ea88d19209616ea8b83183b31b3d5459f2e1e988a3939b012d6b3622",
+          "start": "0x0808BAF4"
+        },
+        {
+          "end_exclusive": "0x0808BC38",
+          "name": "scene_resource_setup",
+          "sha256": "09e0b41f0153a93aeb58590a5ce04462c37a35a2ea3eeefd81f7c7ffc75768de",
+          "start": "0x0808BBCC"
+        }
+      ],
+      "effective_tile_index_range": [
+        0,
+        86
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+        "decompressed_size": 8576,
+        "load_call": "0x0808BBD0",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          0,
+          267
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-19",
+        "source_load": "0x0808BBCC",
+        "source_pointer": "0x085B6880",
+        "tile_bytes": 32,
+        "tile_count": 268,
+        "vram_destination": "0x0600C000"
+      },
+      "natural_callers": [
+        "0x0808F814"
+      ],
+      "palettes": [
+        {
+          "bank": 9,
+          "load_call": "0x0808BC06",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x05000120",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "19567cb1079d1340c6f018d9f3019069126f53f2e2577cc3a15765d96fe39de3",
+          "size": 32,
+          "source_load": "0x0808BC00",
+          "source_pointer": "0x083F1E60"
+        }
+      ],
+      "scene_identity": "scene_setup_bg1_lower_panel",
+      "setup_function": "0x0808BAB0",
+      "source_tile_index_range": [
+        0,
+        86
+      ],
+      "tile_index_add": 0,
+      "tilemap_abi_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+      "tilemap_classification": "direct_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x085B67E0",
+      "vram_destination": "0x0600FC4E"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x0600C000",
+        "charbase_index": 3,
+        "color_mode": "4bpp",
+        "control_value": "0x020F",
+        "name": "BG2",
+        "priority": 3,
+        "register": "0x0400000C",
+        "screenbase_address": "0x06001000",
+        "screenbase_index": 2,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808BB0C",
+          "name": "scene_bg_setup",
+          "sha256": "8060a9f9ea88d19209616ea8b83183b31b3d5459f2e1e988a3939b012d6b3622",
+          "start": "0x0808BAF4"
+        },
+        {
+          "end_exclusive": "0x0808BC38",
+          "name": "scene_resource_setup",
+          "sha256": "09e0b41f0153a93aeb58590a5ce04462c37a35a2ea3eeefd81f7c7ffc75768de",
+          "start": "0x0808BBCC"
+        }
+      ],
+      "effective_tile_index_range": [
+        1,
+        16
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+        "decompressed_size": 8576,
+        "load_call": "0x0808BBD0",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          0,
+          267
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-19",
+        "source_load": "0x0808BBCC",
+        "source_pointer": "0x085B6880",
+        "tile_bytes": 32,
+        "tile_count": 268,
+        "vram_destination": "0x0600C000"
+      },
+      "natural_callers": [
+        "0x0808F814"
+      ],
+      "palettes": [
+        {
+          "bank": 10,
+          "load_call": "0x0808BC26",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x05000140",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "48847c38fed3966e5ccea283d1e0d90e464cb6acad11e5788e62a8eeaf8d7c74",
+          "size": 32,
+          "source_load": "0x0808BC20",
+          "source_pointer": "0x083F1F08"
+        }
+      ],
+      "scene_identity": "scene_setup_bg2_cropped_panel",
+      "setup_function": "0x0808BAB0",
+      "source_tile_index_range": [
+        1,
+        16
+      ],
+      "tile_index_add": 0,
+      "tilemap_abi_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+      "tilemap_classification": "direct_cpu_crop_tilemap",
+      "tilemap_source_pointer": "0x083F2108",
+      "vram_destination": "0x06001100"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x06004000",
+        "charbase_index": 1,
+        "color_mode": "4bpp",
+        "control_value": "0x0105",
+        "name": "BG1",
+        "priority": 1,
+        "register": "0x0400000A",
+        "screenbase_address": "0x06000800",
+        "screenbase_index": 1,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808FA00",
+          "name": "three_option_overlay_dispatch",
+          "sha256": "3c80bae909b940fb752934ed51820e7bcbad14ae9a83c242140ab076cdb561bd",
+          "start": "0x0808F9E2"
+        },
+        {
+          "end_exclusive": "0x08091676",
+          "name": "three_option_overlay_setup",
+          "sha256": "0790e7fa21116a9185026ee2b63df2674967730440459e710247ce8a4bbb6c24",
+          "start": "0x0809163E"
+        },
+        {
+          "end_exclusive": "0x0809106C",
+          "name": "three_option_overlay_creator",
+          "sha256": "78031d7d87306ccc9a6753a73c94f09fe02b4572dac55df56fe446377e11bfd6",
+          "start": "0x08091000"
+        }
+      ],
+      "effective_tile_index_range": [
+        700,
+        754
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+        "decompressed_size": 3072,
+        "load_call": "0x0809165E",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          700,
+          795
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-17",
+        "source_load": "0x0809165A",
+        "source_pointer": "0x08463688",
+        "tile_bytes": 32,
+        "tile_count": 96,
+        "vram_destination": "0x06009780"
+      },
+      "natural_callers": [
+        "0x0808F9E2",
+        "0x0808F9EC"
+      ],
+      "palettes": [
+        {
+          "bank": 12,
+          "load_call": "0x08091668",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x05000180",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "1a3f7ca023287acbbe2f4f7aa80e52160f687e5d791603a96e8c04ec13a155e7",
+          "size": 32,
+          "source_load": "0x08091662",
+          "source_pointer": "0x084638D4"
+        }
+      ],
+      "scene_identity": "state_0200_0210_three_option_overlay_phase_a",
+      "setup_function": "0x080914D8",
+      "source_tile_index_range": [
+        0,
+        54
+      ],
+      "tile_index_add": 700,
+      "tilemap_abi_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+      "tilemap_classification": "transformed_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x084634B8",
+      "vram_destination": "0x06000806"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x06004000",
+        "charbase_index": 1,
+        "color_mode": "4bpp",
+        "control_value": "0x0105",
+        "name": "BG1",
+        "priority": 1,
+        "register": "0x0400000A",
+        "screenbase_address": "0x06000800",
+        "screenbase_index": 1,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808FA00",
+          "name": "three_option_overlay_dispatch",
+          "sha256": "3c80bae909b940fb752934ed51820e7bcbad14ae9a83c242140ab076cdb561bd",
+          "start": "0x0808F9E2"
+        },
+        {
+          "end_exclusive": "0x08091676",
+          "name": "three_option_overlay_setup",
+          "sha256": "0790e7fa21116a9185026ee2b63df2674967730440459e710247ce8a4bbb6c24",
+          "start": "0x0809163E"
+        },
+        {
+          "end_exclusive": "0x0809106C",
+          "name": "three_option_overlay_creator",
+          "sha256": "78031d7d87306ccc9a6753a73c94f09fe02b4572dac55df56fe446377e11bfd6",
+          "start": "0x08091000"
+        }
+      ],
+      "effective_tile_index_range": [
+        700,
+        775
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+        "decompressed_size": 3072,
+        "load_call": "0x0809165E",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          700,
+          795
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-17",
+        "source_load": "0x0809165A",
+        "source_pointer": "0x08463688",
+        "tile_bytes": 32,
+        "tile_count": 96,
+        "vram_destination": "0x06009780"
+      },
+      "natural_callers": [
+        "0x0808F9E2",
+        "0x0808F9EC"
+      ],
+      "palettes": [
+        {
+          "bank": 13,
+          "load_call": "0x08091672",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x050001A0",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+          "size": 32,
+          "source_load": "0x0809166C",
+          "source_pointer": "0x084638F4"
+        }
+      ],
+      "scene_identity": "state_0200_0210_three_option_overlay_phase_b_initial",
+      "setup_function": "0x080914D8",
+      "source_tile_index_range": [
+        0,
+        75
+      ],
+      "tile_index_add": 700,
+      "tilemap_abi_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+      "tilemap_classification": "transformed_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x0846356C",
+      "vram_destination": "0x06000806"
+    },
+    {
+      "bg": {
+        "charbase_address": "0x06004000",
+        "charbase_index": 1,
+        "color_mode": "4bpp",
+        "control_value": "0x0105",
+        "name": "BG1",
+        "priority": 1,
+        "register": "0x0400000A",
+        "screenbase_address": "0x06000800",
+        "screenbase_index": 1,
+        "size_code": 0
+      },
+      "code_windows": [
+        {
+          "end_exclusive": "0x0808FA00",
+          "name": "three_option_overlay_dispatch",
+          "sha256": "3c80bae909b940fb752934ed51820e7bcbad14ae9a83c242140ab076cdb561bd",
+          "start": "0x0808F9E2"
+        },
+        {
+          "end_exclusive": "0x08091676",
+          "name": "three_option_overlay_setup",
+          "sha256": "0790e7fa21116a9185026ee2b63df2674967730440459e710247ce8a4bbb6c24",
+          "start": "0x0809163E"
+        },
+        {
+          "end_exclusive": "0x0809106C",
+          "name": "three_option_overlay_creator",
+          "sha256": "78031d7d87306ccc9a6753a73c94f09fe02b4572dac55df56fe446377e11bfd6",
+          "start": "0x08091000"
+        }
+      ],
+      "effective_tile_index_range": [
+        700,
+        795
+      ],
+      "evidence_level": "static_proved",
+      "graphics": {
+        "decompressed_sha256": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+        "decompressed_size": 3072,
+        "load_call": "0x0809165E",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "loaded_tile_index_range": [
+          700,
+          795
+        ],
+        "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+        "relocation_id": "residual-lz77-graphics-17",
+        "source_load": "0x0809165A",
+        "source_pointer": "0x08463688",
+        "tile_bytes": 32,
+        "tile_count": 96,
+        "vram_destination": "0x06009780"
+      },
+      "natural_callers": [
+        "0x0808F9E2",
+        "0x0808F9EC"
+      ],
+      "palettes": [
+        {
+          "bank": 13,
+          "load_call": "0x08091672",
+          "load_route": "CpuSet_wrapper",
+          "pram_destination": "0x050001A0",
+          "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+          "size": 32,
+          "source_load": "0x0809166C",
+          "source_pointer": "0x084638F4"
+        }
+      ],
+      "scene_identity": "state_0200_0210_three_option_overlay_phase_b_second",
+      "setup_function": "0x080914D8",
+      "source_tile_index_range": [
+        0,
+        95
+      ],
+      "tile_index_add": 700,
+      "tilemap_abi_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+      "tilemap_classification": "transformed_strided_queue_tilemap",
+      "tilemap_source_pointer": "0x084635D8",
+      "vram_destination": "0x06000806"
+    }
+  ],
+  "remaining_unresolved": [],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "schema": "residual-wram-tilemap-resource-ownership-v1",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_menu_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "queue_slot_and_natural_flush_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "source_artifacts": [
+    {
+      "path": "artifacts/rom-pointer-lz77-graphics-v1/graphics-catalog.json",
+      "sha256": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d"
+    },
+    {
+      "path": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "sha256": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b"
+    },
+    {
+      "path": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "sha256": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa"
+    }
+  ],
+  "summary": {
+    "bg_control_complete_count": 7,
+    "graphics_ownership_complete_count": 7,
+    "palette_ownership_complete_count": 7,
+    "remaining_unresolved_count": 0,
+    "tilemap_source_count": 7
+  },
+  "tilemap_abi": {
+    "path": "artifacts/residual-wram-visual-metadata-abi-v2/residual-wram-visual-metadata-abi.json",
+    "sha256": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260"
+  }
+}

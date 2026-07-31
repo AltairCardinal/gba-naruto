@@ -4,6 +4,9 @@
 > tilemap 已由
 > `notes/residual-wram-derived-tilemap-relocation-20260731.md`
 > 完成 ABI 与独立迁移；7 条有限分母现均已有可变存储路径。
+> 7 条 BG/graphics/palette 归属随后又由
+> `notes/residual-wram-tilemap-resource-ownership-20260731.md`
+> 全部闭合，两套迁移规格现强制绑定该成果。
 
 ## 结论
 
@@ -67,11 +70,10 @@ artifact JSON中的197项实现文件哈希，当前不一致为0。
 
 ## 未闭合边界
 
-- 四条 `0x083F2108`、`0x084634B8`、`0x0846356C`、`0x084635D8` 的 ABI；
 - computed-pointer 隐藏 consumer 的全 ROM 证明；
 - status-3 queue 槽成功、自然 flush 和运行时可达性；
-- BG/graphics/palette 所有权、业务名称；
+- 精确业务名称；
 - 修改后最终屏幕像素和跨帧时序等价。
 
-下一图像主线继续追踪剩余四条 WRAM payload 的直接消费者；只有代码闭合 ABI 后
-才允许扩充本批量迁移 schema。
+四条派生 ABI 及 7/7 BG/graphics/palette 归属均已由后续成果闭合，不再属于本域
+缺口。

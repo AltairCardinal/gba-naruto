@@ -19,6 +19,13 @@ ABI_PATH = Path(
     "residual-wram-tilemap-abi.json"
 )
 ABI_SHA256 = "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc"
+OWNERSHIP_PATH = Path(
+    "artifacts/residual-wram-tilemap-resource-ownership-v1/"
+    "resource-ownership.json"
+)
+OWNERSHIP_SHA256 = (
+    "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+)
 REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 LAYOUT_PATH = Path("sequel/rom-layout.json")
 ARTIFACT_ID = "residual-wram-tilemap-relocation-v1"
@@ -36,6 +43,8 @@ SOURCE_ROOTS = {
 IMPLEMENTATION_PATHS = (
     "tools/export_residual_wram_tilemap_abi.py",
     "tools/verify_residual_wram_tilemap_abi.py",
+    "tools/export_residual_wram_tilemap_resource_ownership.py",
+    "tools/verify_residual_wram_tilemap_resource_ownership.py",
     "tools/import_residual_wram_tilemap_relocations.py",
     "tools/extract_tileset.py",
     "tools/gba_image_export.py",
@@ -50,7 +59,9 @@ SCOPE = {
     "proved": (
         "The three pointer/literal-reachable residual WRAM tilemaps at "
         "0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned "
-        "source roots relocate into one owned region of a 16 MiB ROM."
+        "source roots relocate into one owned region of a 16 MiB ROM, with "
+        "their BG controls, graphics and palettes bound to a separately "
+        "verified seven-source ownership catalog."
     ),
     "editable": (
         "All 657 entries keep their proven geometry and palette bank while "
@@ -59,9 +70,9 @@ SCOPE = {
     ),
     "not_proved": (
         "Computed-pointer consumers outside the proved pointer/literal roots, "
-        "the four unresolved WRAM payloads, queue-slot success or natural "
-        "flush, BG/graphics/palette ownership, natural-language screen "
-        "identity, and final screen pixel or timing equivalence."
+        "queue-slot success or natural flush, runtime reachability of every "
+        "static caller, exact natural-language screen identity, and final "
+        "screen pixel or timing equivalence."
     ),
 }
 
@@ -344,17 +355,49 @@ def _validate_layout_and_regions(
         raise ValueError("residual WRAM tilemap region mismatch")
 
 
-def _asset_path(root: Path, artifact: Path, name: str) -> str:
-    path = artifact / name
-    try:
-        return path.relative_to(root).as_posix()
-    except ValueError:
-        return str(path)
+def _published_asset_path(name: str) -> str:
+    return f"artifacts/{ARTIFACT_ID}/{name}"
+
+
+def _ownership_records(root: Path) -> dict[int, dict[str, Any]]:
+    raw = (root / OWNERSHIP_PATH).read_bytes()
+    if _sha256(raw) != OWNERSHIP_SHA256:
+        raise ValueError("resource ownership hash mismatch")
+    ownership = json.loads(raw)
+    if (
+        ownership.get("schema")
+        != "residual-wram-tilemap-resource-ownership-v1"
+        or ownership.get("summary")
+        != {
+            "bg_control_complete_count": 7,
+            "graphics_ownership_complete_count": 7,
+            "palette_ownership_complete_count": 7,
+            "remaining_unresolved_count": 0,
+            "tilemap_source_count": 7,
+        }
+        or ownership.get("remaining_unresolved") != []
+        or not ownership.get("scope", {}).get(
+            "graphics_and_palette_ownership_complete"
+        )
+    ):
+        raise ValueError("resource ownership contract mismatch")
+    rows = ownership.get("ownership_records")
+    if not isinstance(rows, list) or len(rows) != 7:
+        raise ValueError("resource ownership denominator mismatch")
+    records = {
+        int(row.get("tilemap_source_pointer", "0"), 16): row
+        for row in rows
+        if isinstance(row, dict)
+    }
+    if len(records) != 7:
+        raise ValueError("resource ownership source set mismatch")
+    return records
 
 
 def _source_records(
     base: bytes,
     abi: dict[str, Any],
+    ownership: dict[int, dict[str, Any]],
 ) -> list[tuple[int, dict[str, Any], bytes]]:
     if (
         abi.get("schema") != "residual-wram-tilemap-abi-v1"
@@ -380,6 +423,18 @@ def _source_records(
         pointer = int(record.get("source_pointer", "0"), 16)
         if pointer not in SOURCE_ROOTS:
             raise ValueError("ABI source pointer mismatch")
+        owner = ownership.get(pointer)
+        if (
+            not isinstance(owner, dict)
+            or owner.get("vram_destination") != record["vram_destination"]
+            or owner.get("source_tile_index_range")
+            != record["tilemap"]["tile_index_range"]
+            or owner.get("effective_tile_index_range")
+            != record["tilemap"]["tile_index_range"]
+            or [row.get("bank") for row in owner.get("palettes", [])]
+            != record["tilemap"]["palette_banks"]
+        ):
+            raise ValueError("resource ownership source mismatch")
         decoded, consumed = _decode_lz77(base, pointer - ROM_BASE)
         compressed = base[
             pointer - ROM_BASE :
@@ -507,6 +562,7 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             or manifest.get("payload_file") != PAYLOAD_NAME
             or manifest.get("payload_sha256") != files[PAYLOAD_NAME]
             or manifest.get("files") != files
+            or manifest.get("implementation") != payload.get("implementation")
             or manifest.get("scope") != SCOPE
             or manifest.get("verifier")
             != {
@@ -529,12 +585,13 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
         if _sha256(abi_bytes) != ABI_SHA256:
             raise ValueError("ABI hash mismatch")
         abi = json.loads(abi_bytes)
+        ownership = _ownership_records(root)
         layout_bytes = (root / LAYOUT_PATH).read_bytes()
         registry_bytes = (root / REGISTRY_PATH).read_bytes()
         layout = json.loads(layout_bytes)
         registry = json.loads(registry_bytes)
         _validate_layout_and_regions(base, layout, registry)
-        source_rows = _source_records(base, abi)
+        source_rows = _source_records(base, abi, ownership)
         expected_resources = []
         artifact_sources = []
         for pointer, record, source_decoded in source_rows:
@@ -546,7 +603,7 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             expected_resources.append(
                 {
                     "source_pointer": f"0x{pointer:08X}",
-                    "tilemap_file": _asset_path(root, artifact, name),
+                    "tilemap_file": _published_asset_path(name),
                 }
             )
             artifact_sources.append((pointer, record, decoded))
@@ -555,6 +612,8 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             "base_rom_sha256": ROM_SHA256,
             "abi_artifact": ABI_PATH.as_posix(),
             "abi_sha256": ABI_SHA256,
+            "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+            "resource_ownership_sha256": OWNERSHIP_SHA256,
             "partition": "sequel-image-assets",
             "owner": "sequel_image_assets",
             "region_registry": REGISTRY_PATH.as_posix(),
@@ -640,6 +699,11 @@ def verify_audit(root: Path, artifact: Path) -> dict[str, Any]:
             "abi": {
                 "path": ABI_PATH.as_posix(),
                 "sha256": ABI_SHA256,
+            },
+            "resource_ownership": {
+                "path": OWNERSHIP_PATH.as_posix(),
+                "sha256": OWNERSHIP_SHA256,
+                "verified_source_count": 3,
             },
             "authoring_spec": {
                 "file": SPEC_NAME,

@@ -29,6 +29,13 @@ ABI_PATH = Path(
     "residual-wram-tilemap-abi.json"
 )
 ABI_SHA256 = "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc"
+OWNERSHIP_PATH = Path(
+    "artifacts/residual-wram-tilemap-resource-ownership-v1/"
+    "resource-ownership.json"
+)
+OWNERSHIP_SHA256 = (
+    "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+)
 REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 SPEC_SCHEMA = "residual-wram-tilemap-relocation-v1"
 REGION_ID = "residual-wram-tilemaps"
@@ -152,6 +159,30 @@ def _metadata(data: bytes, contract: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _ownership_records(root: Path) -> dict[int, dict[str, Any]]:
+    ownership_bytes = (root / OWNERSHIP_PATH).read_bytes()
+    if _sha256(ownership_bytes) != OWNERSHIP_SHA256:
+        raise ValueError("residual WRAM tilemap ownership SHA-256 mismatch")
+    ownership = json.loads(ownership_bytes)
+    if (
+        ownership.get("schema")
+        != "residual-wram-tilemap-resource-ownership-v1"
+        or ownership.get("summary", {}).get("tilemap_source_count") != 7
+        or ownership.get("summary", {}).get("remaining_unresolved_count") != 0
+        or not ownership.get("scope", {}).get(
+            "graphics_and_palette_ownership_complete"
+        )
+    ):
+        raise ValueError("residual WRAM tilemap ownership contract mismatch")
+    records = ownership.get("ownership_records")
+    if not isinstance(records, list) or len(records) != 7:
+        raise ValueError("residual WRAM tilemap ownership denominator mismatch")
+    return {
+        int(record["tilemap_source_pointer"], 16): record
+        for record in records
+    }
+
+
 def catalog_residual_wram_tilemaps(
     root: Path,
     rom: bytes | None = None,
@@ -189,10 +220,14 @@ def catalog_residual_wram_tilemaps(
     }
     if set(by_pointer) != set(SOURCE_CONTRACTS):
         raise ValueError("residual WRAM tilemap source set mismatch")
+    ownership = _ownership_records(root)
+    if not set(SOURCE_CONTRACTS).issubset(ownership):
+        raise ValueError("residual WRAM tilemap ownership source mismatch")
 
     result = []
     for pointer, contract in SOURCE_CONTRACTS.items():
         record = by_pointer[pointer]
+        owner = ownership[pointer]
         source_offset = pointer - ROM_BASE
         compressed = base[
             source_offset : source_offset + contract["compressed_size"]
@@ -228,6 +263,20 @@ def catalog_residual_wram_tilemaps(
         ):
             raise ValueError(
                 f"residual WRAM tilemap source contract mismatch: "
+                f"0x{pointer:08X}"
+            )
+        if (
+            owner.get("vram_destination")
+            != contract["vram_destination"]
+            or owner.get("source_tile_index_range")
+            != list(contract["tile_index_range"])
+            or owner.get("effective_tile_index_range")
+            != list(contract["tile_index_range"])
+            or owner.get("palettes", [{}])[0].get("bank")
+            != contract["palette_bank"]
+        ):
+            raise ValueError(
+                f"residual WRAM tilemap ownership mismatch: "
                 f"0x{pointer:08X}"
             )
         pointer_offsets = _aligned_pointer_offsets(base, pointer)
@@ -294,6 +343,8 @@ def resolve_residual_wram_tilemap_relocation_patches(
         "base_rom_sha256": ROM_SHA256,
         "abi_artifact": ABI_PATH.as_posix(),
         "abi_sha256": ABI_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),

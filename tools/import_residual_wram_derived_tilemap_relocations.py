@@ -29,6 +29,13 @@ ABI_PATH = Path(
     "residual-wram-visual-metadata-abi.json"
 )
 ABI_SHA256 = "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260"
+OWNERSHIP_PATH = Path(
+    "artifacts/residual-wram-tilemap-resource-ownership-v1/"
+    "resource-ownership.json"
+)
+OWNERSHIP_SHA256 = (
+    "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+)
 REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 SPEC_SCHEMA = "residual-wram-derived-tilemap-relocation-v1"
 REGION_ID = "residual-wram-derived-tilemaps"
@@ -157,6 +164,32 @@ def _metadata(data: bytes, contract: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _ownership_records(root: Path) -> dict[int, dict[str, Any]]:
+    ownership_bytes = (root / OWNERSHIP_PATH).read_bytes()
+    if _sha256(ownership_bytes) != OWNERSHIP_SHA256:
+        raise ValueError(
+            "derived WRAM tilemap ownership SHA-256 mismatch"
+        )
+    ownership = json.loads(ownership_bytes)
+    if (
+        ownership.get("schema")
+        != "residual-wram-tilemap-resource-ownership-v1"
+        or ownership.get("summary", {}).get("tilemap_source_count") != 7
+        or ownership.get("summary", {}).get("remaining_unresolved_count") != 0
+        or not ownership.get("scope", {}).get(
+            "graphics_and_palette_ownership_complete"
+        )
+    ):
+        raise ValueError("derived WRAM tilemap ownership contract mismatch")
+    records = ownership.get("ownership_records")
+    if not isinstance(records, list) or len(records) != 7:
+        raise ValueError("derived WRAM tilemap ownership denominator mismatch")
+    return {
+        int(record["tilemap_source_pointer"], 16): record
+        for record in records
+    }
+
+
 def catalog_residual_wram_derived_tilemaps(
     root: Path,
     rom: bytes | None = None,
@@ -183,10 +216,14 @@ def catalog_residual_wram_derived_tilemaps(
     }
     if set(SOURCE_CONTRACTS) - set(records):
         raise ValueError("derived WRAM tilemap ABI source set mismatch")
+    ownership = _ownership_records(root)
+    if set(SOURCE_CONTRACTS) - set(ownership):
+        raise ValueError("derived WRAM tilemap ownership source mismatch")
 
     result = []
     for pointer, contract in SOURCE_CONTRACTS.items():
         record = records[pointer]
+        owner = ownership[pointer]
         offset = pointer - ROM_BASE
         compressed = base[offset : offset + contract["compressed_size"]]
         decoded = lz77_decompress(base, offset)
@@ -217,6 +254,30 @@ def catalog_residual_wram_derived_tilemaps(
         ):
             raise ValueError(
                 f"derived WRAM tilemap source contract mismatch: "
+                f"0x{pointer:08X}"
+            )
+        tile_add = (
+            0x02BC
+            if contract["classification"]
+            == "transformed_strided_queue_tilemap"
+            else 0
+        )
+        expected_effective = [
+            contract["tile_range"][0] + tile_add,
+            contract["tile_range"][1] + tile_add,
+        ]
+        if (
+            owner.get("vram_destination") != contract["destination"]
+            or owner.get("source_tile_index_range")
+            != list(contract["tile_range"])
+            or owner.get("effective_tile_index_range")
+            != expected_effective
+            or owner.get("tile_index_add") != tile_add
+            or owner.get("palettes", [{}])[0].get("bank")
+            != contract["palette_bank"]
+        ):
+            raise ValueError(
+                f"derived WRAM tilemap ownership mismatch: "
                 f"0x{pointer:08X}"
             )
         result.append(
@@ -261,6 +322,8 @@ def resolve_residual_wram_derived_tilemap_relocation_patches(
         "base_rom_sha256": ROM_SHA256,
         "abi_artifact": ABI_PATH.as_posix(),
         "abi_sha256": ABI_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),

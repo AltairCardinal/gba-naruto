@@ -26,6 +26,8 @@ from tools.image_resource_regions import ImageResourceRegions
 from tools.import_residual_wram_derived_tilemap_relocations import (
     ABI_PATH,
     ABI_SHA256,
+    OWNERSHIP_PATH,
+    OWNERSHIP_SHA256,
     REGISTRY_PATH,
     ROM_SHA256,
     catalog_residual_wram_derived_tilemaps,
@@ -42,6 +44,8 @@ SPEC_NAME = "full-relocation-spec.json"
 IMPLEMENTATION_PATHS = (
     "tools/export_residual_wram_visual_metadata_abi.py",
     "tools/verify_residual_wram_visual_metadata_abi.py",
+    "tools/export_residual_wram_tilemap_resource_ownership.py",
+    "tools/verify_residual_wram_tilemap_resource_ownership.py",
     "tools/import_residual_wram_derived_tilemap_relocations.py",
     "tools/extract_tileset.py",
     "tools/gba_image_export.py",
@@ -56,7 +60,9 @@ IMPLEMENTATION_PATHS = (
 SCOPE = {
     "proved": (
         "All four remaining pointer-reachable WRAM tilemap sources and their "
-        "four exact aligned roots relocate into an owned 16 MiB ROM region."
+        "four exact aligned roots relocate into an owned 16 MiB ROM region, "
+        "with their BG controls, graphics and palettes bound to a separately "
+        "verified seven-source ownership catalog."
     ),
     "editable": (
         "All 832 u16 entries keep source geometry and palette bank while "
@@ -64,9 +70,9 @@ SCOPE = {
         "flip bits."
     ),
     "not_proved": (
-        "Natural runtime reachability, queue-slot success and flush, graphics "
-        "or palette ownership, natural-language screen identity, and final "
-        "screen pixel or timing equivalence."
+        "Natural runtime reachability, queue-slot success and flush, exact "
+        "natural-language screen identity, and final screen pixel or timing "
+        "equivalence."
     ),
 }
 
@@ -81,12 +87,8 @@ def _canonical_json(value: object) -> bytes:
     ).encode()
 
 
-def _asset_path(root: Path, output: Path, name: str) -> str:
-    path = output / name
-    try:
-        return path.relative_to(root).as_posix()
-    except ValueError:
-        return str(path)
+def _published_asset_path(name: str) -> str:
+    return f"artifacts/{ARTIFACT_ID}/{name}"
 
 
 def _literal_worst_case(sizes: list[int], start: int) -> int:
@@ -163,6 +165,8 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         raise ValueError("derived WRAM tilemap audit base ROM mismatch")
     if _sha256((root / ABI_PATH).read_bytes()) != ABI_SHA256:
         raise ValueError("derived WRAM tilemap audit ABI mismatch")
+    if _sha256((root / OWNERSHIP_PATH).read_bytes()) != OWNERSHIP_SHA256:
+        raise ValueError("derived WRAM tilemap audit ownership mismatch")
     layout_path = root / "sequel/rom-layout.json"
     layout = RomLayout.from_path(layout_path, base)
     registry_path = root / REGISTRY_PATH
@@ -181,7 +185,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         resources.append(
             {
                 "source_pointer": f"0x{row['source_pointer']:08X}",
-                "tilemap_file": _asset_path(root, output, name),
+                "tilemap_file": _published_asset_path(name),
             }
         )
         source_rows.append(
@@ -201,6 +205,8 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         "base_rom_sha256": ROM_SHA256,
         "abi_artifact": ABI_PATH.as_posix(),
         "abi_sha256": ABI_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),
@@ -211,13 +217,26 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
     }
     spec_path = output / SPEC_NAME
     spec_path.write_bytes(_canonical_json(spec))
-    patches = resolve_residual_wram_derived_tilemap_relocation_patches(
-        root,
-        spec_path,
-        rom=base,
-        layout=layout,
-        regions=regions,
-    )
+    execution_spec = copy.deepcopy(spec)
+    for resource in execution_spec["resources"]:
+        resource["tilemap_file"] = str(
+            output / Path(resource["tilemap_file"]).name
+        )
+    experiments = root / "build/experiments"
+    experiments.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(
+        prefix=".residual-wram-derived-export-",
+        dir=experiments,
+    ) as temporary:
+        execution_spec_path = Path(temporary) / "execution-spec.json"
+        execution_spec_path.write_bytes(_canonical_json(execution_spec))
+        patches = resolve_residual_wram_derived_tilemap_relocation_patches(
+            root,
+            execution_spec_path,
+            rom=base,
+            layout=layout,
+            regions=regions,
+        )
     rebuilt = _apply(base, layout, regions, patches)
     allocations = [row for row in patches if "allocation" in row]
     redirects = [row for row in patches if "allocation" not in row]
@@ -268,6 +287,11 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             "end": region.end,
         },
         "abi": {"path": ABI_PATH.as_posix(), "sha256": ABI_SHA256},
+        "resource_ownership": {
+            "path": OWNERSHIP_PATH.as_posix(),
+            "sha256": OWNERSHIP_SHA256,
+            "verified_source_count": len(catalog),
+        },
         "authoring_spec": {
             "file": SPEC_NAME,
             "sha256": _sha256(spec_path.read_bytes()),
@@ -298,7 +322,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             base,
             layout,
             regions,
-            spec,
+            execution_spec,
         ),
         "output_rom_sha256": _sha256(rebuilt),
         "implementation": {

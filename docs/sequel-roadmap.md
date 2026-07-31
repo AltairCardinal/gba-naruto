@@ -1645,3 +1645,16 @@ WebSocket
   `notes/residual-wram-derived-tilemap-relocation-20260731.md`。自然入口、
   queue槽/flush、graphics/palette所有权、业务名称及最终像素/时序仍未闭合，
   Goal保持active。
+- 2026-07-31：上述7条残余WRAM tilemap的BG、graphics与palette归属已全部闭合。
+  三条直接源分别绑定BG0/BG1、`0x08348F00/0x085B6880` graphics与palette
+  bank 1/8/9；裁切源绑定BG2、共享`0x085B6880`与bank 10；三条变换源绑定
+  BG1、`0x08463688`及bank 12/13，并严格证明
+  `charbase1 + 0x02BC*32 = 0x06009780`。新ownership artifact从ROM、ABI、
+  graphics/palette迁移规格和代码窗口独立重建7/7，未决0。两套tilemap迁移器、
+  authoring spec和独立verifier现均固定ownership路径/SHA并交叉检查VRAM目标、
+  源/有效tile范围、tile add和palette bank；3源与4源正式artifact经实验目录验证
+  后重新promotion。证据位于
+  `artifacts/residual-wram-tilemap-resource-ownership-v1/`，说明见
+  `notes/residual-wram-tilemap-resource-ownership-20260731.md`。queue槽/自然
+  flush、运行时可达性、精确业务名称及修改后最终像素/时序仍未闭合，Goal保持
+  active。

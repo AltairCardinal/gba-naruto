@@ -247,6 +247,34 @@ u16 entry；每项只能选择tile 0–5、palette bank 1及标准H/V flip位。
 }
 ```
 
+### `residual_wram_tilemap_relocation`
+
+把3条直接WRAM→GPU queue tilemap作为完整批次迁移到
+`0xBC0C00..0xBC1400`。规格除ABI、ROM和区域哈希外，还必须固定7源资源归属
+artifact；构建器逐源交叉检查BG目标、graphics覆盖、palette bank及tile范围。
+
+```json
+{
+  "id": "residual-wram-tilemap-relocation",
+  "type": "residual_wram_tilemap_relocation",
+  "spec": "artifacts/residual-wram-tilemap-relocation-v1/full-relocation-spec.json"
+}
+```
+
+### `residual_wram_derived_tilemap_relocation`
+
+把1条40×10裁切tilemap和3条12×12、运行时加`0x02BC`的变换tilemap作为完整
+批次迁移到`0xBC1400..0xBC1C00`。规格固定综合ABI及同一7源资源归属artifact；
+任何VRAM目标、有效tile范围、tile add或palette bank漂移都会在写ROM前失败。
+
+```json
+{
+  "id": "residual-wram-derived-tilemap-relocation",
+  "type": "residual_wram_derived_tilemap_relocation",
+  "spec": "artifacts/residual-wram-derived-tilemap-relocation-v1/full-relocation-spec.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -405,6 +433,10 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
   精确根指针的可变存储迁移
 - `residual_text_bg_tilemap_relocation` 唯一残余32×20 text-BG tilemap及
   唯一根指针的可变存储迁移
+- `residual_wram_tilemap_relocation` 3条直接WRAM tilemap、3个根指针及资源归属
+  门禁的可变存储迁移
+- `residual_wram_derived_tilemap_relocation` 4条裁切/变换WRAM tilemap、4个根
+  指针及资源归属门禁的可变存储迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

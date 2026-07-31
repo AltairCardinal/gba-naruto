@@ -12,6 +12,27 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ResidualWramDerivedTilemapRelocationAuditTests(unittest.TestCase):
+    def test_independent_ownership_check_rejects_wrong_vram_destination(self):
+        from tools.verify_residual_wram_derived_tilemap_relocation_audit import (
+            _validate_ownership_source,
+        )
+
+        owner = {
+            "vram_destination": "0x06000808",
+            "source_tile_index_range": [0, 54],
+            "effective_tile_index_range": [700, 754],
+            "tile_index_add": 0x02BC,
+            "palettes": [{"bank": 12}],
+        }
+        with self.assertRaisesRegex(ValueError, "ownership"):
+            _validate_ownership_source(
+                owner,
+                destination=0x06000806,
+                tile_range=(0, 54),
+                tile_add=0x02BC,
+                palette_bank=12,
+            )
+
     def test_exporter_starts_in_clean_subprocess(self):
         result = subprocess.run(
             [
@@ -55,6 +76,11 @@ class ResidualWramDerivedTilemapRelocationAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             artifact = Path(temporary) / "artifact"
             payload = export_audit(ROOT, artifact)
+            spec = json.loads(
+                (artifact / "full-relocation-spec.json").read_text(
+                    encoding="utf-8"
+                )
+            )
             report = verify_audit(ROOT, artifact)
         self.assertEqual(
             {
@@ -78,6 +104,29 @@ class ResidualWramDerivedTilemapRelocationAuditTests(unittest.TestCase):
         self.assertEqual([], report["errors"])
         self.assertEqual(4, report["verified_sources"])
         self.assertEqual(4, payload["capability_fixture"]["changed_entries"])
+        self.assertEqual(
+            {
+                "path": (
+                    "artifacts/residual-wram-tilemap-resource-ownership-v1/"
+                    "resource-ownership.json"
+                ),
+                "sha256": (
+                    "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be"
+                    "83a37aa90b5ced7"
+                ),
+                "verified_source_count": 4,
+            },
+            payload["resource_ownership"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["path"],
+            spec["resource_ownership_artifact"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["sha256"],
+            spec["resource_ownership_sha256"],
+        )
+        self.assertNotIn("ownership", payload["scope"]["not_proved"])
         self.assertEqual(
             payload["output_rom_sha256"],
             report["rebuilt_output_rom_sha256"],

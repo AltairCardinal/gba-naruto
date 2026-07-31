@@ -1529,12 +1529,28 @@ python3 tools/export_residual_wram_tilemap_abi.py
 python3 tools/verify_residual_wram_tilemap_abi.py
 ```
 
-The independent verifier reconstructs the seven-record WRAM visual-metadata
-denominator, all three local load/submit code windows, the shared queue consumer,
-657 u16 screen entries and the exact bundle. Four other WRAM payloads remain
-explicitly unresolved; payload shape alone never promotes them to tilemaps. This
-artifact proves an ABI catalog, not runtime reachability, final composition or
-generic writeback.
+The v1 independent verifier reconstructs the original three direct queue
+tilemaps. The later `residual-wram-visual-metadata-abi-v2` closes all seven
+records, including one cropped direct-copy source and three transformed queue
+sources. Payload shape alone never promotes a record to a tilemap. These ABI
+artifacts do not prove runtime reachability, final composition or generic
+writeback.
+
+# Residual WRAM tilemap resource ownership
+
+`export_residual_wram_tilemap_resource_ownership.py` binds all seven tilemaps to
+their BG control, graphics load and palette load using hash-pinned ROM windows and
+the accepted graphics/palette relocation catalogs.
+
+```bash
+python3 tools/export_residual_wram_tilemap_resource_ownership.py
+python3 tools/verify_residual_wram_tilemap_resource_ownership.py
+```
+
+The independent verifier reconstructs the seven-source denominator, all graphics
+and palette payloads, VRAM/PRAM destinations, source/effective tile ranges and
+the `0x02BC` transformed-tile relationship. Both WRAM tilemap relocation types
+require this artifact's exact path and SHA-256.
 
 # Residual WRAM tilemap batch relocation
 
@@ -1551,9 +1567,11 @@ python3 tools/verify_residual_wram_tilemap_relocation_audit.py
 Each source keeps its decoded geometry, palette bank and observed tile range but
 may edit every entry and the standard H/V flip bits. The independent verifier
 rebuilds the 16 MiB ROM and all six patches without importing the production
-importer or exporter. This does not prove computed-pointer consumers, queue
-availability/flush, graphics or palette ownership, final pixels, or any of the
-four still-unresolved WRAM payloads.
+importer or exporter, and independently enforces the ownership artifact. The
+four derived sources use
+`import_residual_wram_derived_tilemap_relocations.py` and the adjacent
+`0xBC1400..0xBC1C00` region. Neither path proves queue availability/flush,
+runtime reachability, exact screen identity or final pixels/timing.
 
 # ROM pointer-reachable LZ77 graphics previews
 

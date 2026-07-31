@@ -74,5 +74,7 @@ little-endian u16 文件：
 ## 边界
 
 本里程碑证明 7/7 有限 WRAM visual-metadata 来源的静态 ABI，并完成后四条的
-可变存储迁移；不证明自然入口可达、queue 槽成功与自然 flush、对应 graphics/
-palette 所有权、业务名称，或修改后最终屏幕的像素和跨帧时序等价。
+可变存储迁移。后续
+`notes/residual-wram-tilemap-resource-ownership-20260731.md` 已闭合对应
+BG/graphics/palette 归属并将固定哈希接入本迁移规格；仍不证明自然入口可达、
+queue 槽成功与自然 flush、精确业务名称，或修改后最终屏幕的像素和跨帧时序等价。
