@@ -406,6 +406,29 @@ def resolve_world_map_background_relocation_patch(
     )
 
 
+def resolve_generic_sprite_bundle_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_generic_sprite_bundle_relocations import (
+        resolve_generic_sprite_bundle_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "generic Sprite relocation requires an explicit ROM layout"
+        )
+    return resolve_generic_sprite_bundle_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -755,6 +778,7 @@ def build(project_path: Path) -> dict:
                     "battle_effect_resource_relocation",
                     "story_visual_resource_relocation",
                     "world_map_background_relocation",
+                    "generic_sprite_bundle_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1195,6 +1219,36 @@ def build(project_path: Path) -> dict:
                     "logical_aliases",
                     "all_pointer_offsets",
                     "target_pointer_offsets",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "generic_sprite_bundle_relocation":
+            sub_patches = resolve_generic_sprite_bundle_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "replacement_sha256",
+                    "decompressed_size",
+                    "encoded_size",
+                    "tile_count",
+                    "entry_id",
+                    "component_count",
+                    "tile_base_offset",
+                    "definition_pointer",
+                    "animation_pointer",
+                    "component_pointer",
+                    "sequence_pointer",
+                    "pointer_role",
+                    "new_pointer",
                     "source_file",
                 ):
                     if key in sp:

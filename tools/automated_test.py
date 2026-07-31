@@ -280,6 +280,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "battle_effect_resource_relocation",
             "story_visual_resource_relocation",
             "world_map_background_relocation",
+            "generic_sprite_bundle_relocation",
         }
         errors = []
         for patch in manifest["patches"]:

@@ -44,6 +44,10 @@ FAMILIES = (
         "world_map_background",
         "world-map-background-relocation-v1",
     ),
+    (
+        "generic_sprite_bundle",
+        "generic-sprite-bundle-relocation-v1",
+    ),
 )
 
 

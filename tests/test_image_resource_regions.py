@@ -130,7 +130,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xB90000, 0xC00000),
+            (0xB90000, 0xBA0000, "generic_sprite_resources"),
+            (
+                registry.require(
+                    "generic-sprite-bundle",
+                    "generic_sprite_resources",
+                ).start,
+                registry.require(
+                    "generic-sprite-bundle",
+                    "generic_sprite_resources",
+                ).end,
+                registry.require(
+                    "generic-sprite-bundle",
+                    "generic_sprite_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xBA0000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

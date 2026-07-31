@@ -141,7 +141,7 @@ class ImportWorldMapBackgroundRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB71000, 0xB90000), (world.start, world.end))
-        self.assertEqual((0xB90000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBA0000, 0xC00000), (future.start, future.end))
         worst_case = (
             3 * (4 + 512 * 64 + (512 * 64 + 7) // 8 + 3)
             + 3 * (4 + 1200 + (1200 + 7) // 8 + 3)
@@ -301,13 +301,13 @@ class ImportWorldMapBackgroundRelocationsTests(unittest.TestCase):
             for row in registry["regions"]
             if row["id"] == "world-map-backgrounds"
         )
-        future = next(
+        generic_sprite = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "generic-sprite-bundle"
         )
         world["end"] = "0xB71004"
-        future["start"] = "0xB71004"
+        generic_sprite["start"] = "0xB71004"
         tiny = ImageResourceRegions.from_dict(registry, self.layout)
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):
             resolve_world_map_background_relocation_patches(

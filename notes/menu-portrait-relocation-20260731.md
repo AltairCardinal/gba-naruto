@@ -22,7 +22,8 @@
 - `battle-effects`：`0xB40000..0xB50000`，64 KiB；
 - `story-visual-layers`：`0xB50000..0xB71000`；
 - `world-map-backgrounds`：`0xB71000..0xB90000`；
-- `future-image-resources`：`0xB90000..0xC00000`。
+- `generic-sprite-bundle`：`0xB90000..0xBA0000`；
+- `future-image-resources`：`0xBA0000..0xC00000`。
 
 512 KiB可容纳70份6400-byte图形在全literal最坏LZ77编码下的存储，加70份
 128-byte palette及四字节对齐。正式preservation迁移结果：

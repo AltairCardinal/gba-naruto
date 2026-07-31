@@ -154,6 +154,23 @@ tile，tilemap固定30×20，palette固定160色。构建前会联合验证tile�
 }
 ```
 
+### `generic_sprite_bundle_relocation`
+
+把固定 `0..42` 的43个通用 Sprite ID、共享 graphics/palette 及每项 component
+list迁移到注册的 `generic-sprite-bundle` 扩展区域。规格使用
+`generic-sprite-bundle-relocation-v1`；graphics允许1–97个完整4bpp tile，
+palette固定16色，每个ID允许1–2个合法GBA OBJ component。animation 0继续固定
+为frame 0保持1 tick后停止。构建前核对两个源catalog、174条精确源引用、43个
+ID全集、OBJ tile范围、区域容量和旧指针前置条件。
+
+```json
+{
+  "id": "generic-sprite-bundle-relocation",
+  "type": "generic_sprite_bundle_relocation",
+  "spec": "sequel/content/generic-sprites/relocation.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -302,6 +319,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
 - `battle_effect_resource_relocation` 34份战斗特效内容及36条指针的可变长迁移
 - `world_map_background_relocation` 三页世界地图的7份内容及9条指针的可变长迁移
+- `generic_sprite_bundle_relocation` 43个固定通用Sprite ID、共享像素/调色板
+  及component list的可变长迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

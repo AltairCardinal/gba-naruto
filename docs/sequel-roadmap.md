@@ -1470,9 +1470,9 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xB90000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBA0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
-  世界地图背景；注册表
+  世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle；注册表
   强制无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
@@ -1538,3 +1538,16 @@ WebSocket
   `artifacts/world-map-background-relocation-v1/`，说明见
   `notes/world-map-background-relocation-20260731.md`。地点标签编辑、解锁规则、
   page 1/2修改后的自然选择、光标/转场和最终合成像素等价仍未闭合，Goal保持active。
+- 2026-07-31：43个固定通用Sprite ID已从静态像素/动画导出推进到bundle可变长
+  迁移。43个definition、43个animation table、43个component list、43个
+  animation-0 sequence及graphics/palette各一份，共174条精确源指针引用；
+  全ROM四字节对齐扫描未知引用为0。12个自然加载调用的OBJ tile base只取
+  `0x34E/0x39F`，故最高基址927在1024-tile OBJ空间内留下97 tile；迁移器允许
+  graphics为1–97个完整4bpp tile、palette固定16色、每个固定ID含1–2个合法
+  component，并在98 tile时失败关闭。全量保持迁入
+  `0xB90000..0xBA0000`，形成45个allocation、88个外部pointer patch和43个
+  tile-base patch，共176项安全写入。独立verifier不导入迁移器/导出器，自行重建
+  43/45/174分母、LZ77、全部bundle内外指针和16 MiB输出。成果位于
+  `artifacts/generic-sprite-bundle-relocation-v1/`，说明见
+  `notes/generic-sprite-bundle-relocation-20260731.md`。新增ID、多动画/帧、
+  场景专用覆盖和修改后最终屏幕像素/时序等价仍未闭合，Goal保持active。
