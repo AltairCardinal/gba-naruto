@@ -1,5 +1,10 @@
 # 残余 WRAM tilemap ABI 审计（2026-07-31）
 
+> 后续更新：原文保留的是第一阶段 3/7 结论。其余 4 条已在
+> `notes/residual-wram-derived-tilemap-relocation-20260731.md` 闭合；
+> 当前综合 ABI 为 `artifacts/residual-wram-visual-metadata-abi-v2/`，
+> 7/7 已完成，未决为 0。
+
 ## 结论
 
 指针可达 LZ77 inventory 中 7 条 `WRAM_dynamic` visual metadata 已建立有限分母。

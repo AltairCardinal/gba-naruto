@@ -544,6 +544,30 @@ def resolve_residual_wram_tilemap_relocation_patch(
     )
 
 
+def resolve_residual_wram_derived_tilemap_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_residual_wram_derived_tilemap_relocations import (
+        resolve_residual_wram_derived_tilemap_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "residual WRAM derived tilemap relocation requires an explicit "
+            "ROM layout"
+        )
+    return resolve_residual_wram_derived_tilemap_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -899,6 +923,7 @@ def build(project_path: Path) -> dict:
                     "direct_image_palette_relocation",
                     "residual_text_bg_tilemap_relocation",
                     "residual_wram_tilemap_relocation",
+                    "residual_wram_derived_tilemap_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1519,6 +1544,40 @@ def build(project_path: Path) -> dict:
                     "vertical_flip_count",
                     "vram_destination",
                     "screenblock",
+                    "pointer_role",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "residual_wram_derived_tilemap_relocation":
+            sub_patches = (
+                resolve_residual_wram_derived_tilemap_relocation_patch(
+                    (ROOT, ROOT),
+                    patch,
+                    layout=layout,
+                    rom=base_data,
+                )
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "classification",
+                    "source_pointer",
+                    "new_pointer",
+                    "replacement_sha256",
+                    "decoded_size",
+                    "encoded_size",
+                    "width_entries",
+                    "height_entries",
+                    "entry_count",
+                    "tile_index_range",
+                    "palette_banks",
+                    "horizontal_flip_count",
+                    "vertical_flip_count",
+                    "vram_destination",
                     "pointer_role",
                     "source_file",
                 ):

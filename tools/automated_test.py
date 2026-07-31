@@ -286,6 +286,7 @@ def suite_manifest(runner: TestRunner) -> None:
             "direct_image_palette_relocation",
             "residual_text_bg_tilemap_relocation",
             "residual_wram_tilemap_relocation",
+            "residual_wram_derived_tilemap_relocation",
         }
         errors = []
         for patch in manifest["patches"]:

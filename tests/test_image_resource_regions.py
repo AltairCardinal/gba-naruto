@@ -232,7 +232,28 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xBC1400, 0xC00000),
+            (
+                0xBC1400,
+                0xBC1C00,
+                "residual_wram_derived_tilemaps",
+            ),
+            (
+                registry.require(
+                    "residual-wram-derived-tilemaps",
+                    "residual_wram_derived_tilemaps",
+                ).start,
+                registry.require(
+                    "residual-wram-derived-tilemaps",
+                    "residual_wram_derived_tilemaps",
+                ).end,
+                registry.require(
+                    "residual-wram-derived-tilemaps",
+                    "residual_wram_derived_tilemaps",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xBC1C00, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

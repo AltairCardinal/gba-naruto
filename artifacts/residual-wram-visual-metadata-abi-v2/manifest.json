@@ -1,0 +1,52 @@
+{
+  "artifact_id": "residual-wram-visual-metadata-abi-v2",
+  "artifact_schema": "residual-wram-visual-metadata-abi-v2",
+  "artifact_status": "accepted",
+  "files": {
+    "residual-wram-visual-metadata-abi.json": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260",
+    "tilemap-sources.bin": "62ee8249d04e5b00aaf8b9ba3ef2619a766dd2c9b60109867245db4b538dee8d"
+  },
+  "implementation": {
+    "tools/export_residual_wram_visual_metadata_abi.py": "12c26f67c7b66c9a9b099411285f311c15b51ab66e7fe2f9571ed6d040f7f63c",
+    "tools/export_rom_pointer_lz77_inventory.py": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/verify_residual_wram_visual_metadata_abi.py": "2457715f79efa4c8f4e0327c2a8e91d48a46890274cfd87fdd3beb1963b7507b",
+    "tools/verify_rom_pointer_lz77_inventory.py": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b"
+  },
+  "payload_file": "residual-wram-visual-metadata-abi.json",
+  "payload_sha256": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+    "all_seven_source_abis_complete": true,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "generic_wram_visual_metadata_writeback_complete": false,
+    "graphics_and_palette_ownership_complete": false,
+    "natural_language_screen_identity_complete": false,
+    "queue_slot_and_natural_flush_complete": false,
+    "remaining_unresolved_source_abis": false,
+    "runtime_reachability_complete": false
+  },
+  "summary": {
+    "direct_cpu_crop_count": 1,
+    "direct_strided_queue_count": 3,
+    "remaining_unresolved_count": 0,
+    "tilemap_entry_count": 1489,
+    "tilemap_payload_bytes": 2978,
+    "tilemap_source_count": 7,
+    "transformed_strided_queue_count": 3,
+    "wram_visual_metadata_denominator": 7
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_visual_metadata_abi.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-visual-metadata-abi-v2"
+    ],
+    "exit_code": 0
+  }
+}

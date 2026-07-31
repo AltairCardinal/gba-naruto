@@ -1629,3 +1629,19 @@ WebSocket
   `notes/residual-wram-tilemap-relocation-20260731.md`。剩余4条WRAM payload、
   computed-pointer consumer、自然queue flush、资源所有权及最终像素/时序仍未
   完成，Goal保持active。
+- 2026-07-31：7条`WRAM_dynamic / visual_metadata`有限分母已全部闭合为
+  tilemap源，原剩余4条不再保持未知。`0x083F2108`是40×10源，consumer逐行
+  取前32项直写screenblock 2 row 4–13；`0x084634B8`、`0x0846356C`和
+  `0x084635D8`均为12×12源，经坐标裁剪、entry加`0x02BC`后写入临时
+  12×12缓冲并向`0x06000806`提交。综合
+  `residual-wram-visual-metadata-abi-v2`从ROM和代码窗口独立重建7/7、
+  1,489个u16/2,978 bytes，未决为0。后四条又作为单一批量域迁入新注册区域
+  `0xBC1400..0xBC1C00`：4个allocation、4个唯一根redirect，存储597 bytes、
+  含对齐占603 bytes、末端`0xBC165B`、区域余1,445 bytes；全literal最坏
+  1,888 bytes仍可容纳。独立verifier不导入生产迁移器/导出器，自行重建LZ77、
+  区域连续性、四个根和完整16 MiB输出。证据位于
+  `artifacts/residual-wram-visual-metadata-abi-v2/`、
+  `artifacts/residual-wram-derived-tilemap-relocation-v1/`，说明见
+  `notes/residual-wram-derived-tilemap-relocation-20260731.md`。自然入口、
+  queue槽/flush、graphics/palette所有权、业务名称及最终像素/时序仍未闭合，
+  Goal保持active。

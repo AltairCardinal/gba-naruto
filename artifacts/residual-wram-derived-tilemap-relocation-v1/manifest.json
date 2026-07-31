@@ -1,0 +1,62 @@
+{
+  "artifact_id": "residual-wram-derived-tilemap-relocation-v1",
+  "artifact_schema": "residual-wram-derived-tilemap-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "full-relocation-spec.json": "1415c635dd854479ba93aaecb7edaf6f63a47be7f4af66bb953f08dd4f922822",
+    "relocation-audit.json": "dddfd777697a4d0c8ffa0f43f99c1cee80280a6c58c459e1fd3948fc5f3d9298",
+    "tilemap-083f2108.bin": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+    "tilemap-084634b8.bin": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+    "tilemap-0846356c.bin": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+    "tilemap-084635d8.bin": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640"
+  },
+  "implementation": {
+    "tools/automated_test.py": "1dade122a7723a00032ab0817a4b6c9d64a41be5c9fd79c0c11555891b5dfd3c",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_residual_wram_derived_tilemap_relocation_audit.py": "676b090981473936f0fcc80cc30d4abbd6d7bef6337b7905e33b55db0fb8324e",
+    "tools/export_residual_wram_visual_metadata_abi.py": "12c26f67c7b66c9a9b099411285f311c15b51ab66e7fe2f9571ed6d040f7f63c",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_residual_wram_derived_tilemap_relocations.py": "bd09ae64fdbd4ab6098d677d70bfc1e82145367f908455b278c0adbaaf164131",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/verify_residual_wram_derived_tilemap_relocation_audit.py": "886695b9b492f42a593a10ae647a275980919636f392e428bf86d743c4c6a625",
+    "tools/verify_residual_wram_visual_metadata_abi.py": "2457715f79efa4c8f4e0327c2a8e91d48a46890274cfd87fdd3beb1963b7507b"
+  },
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "dddfd777697a4d0c8ffa0f43f99c1cee80280a6c58c459e1fd3948fc5f3d9298",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "editable": "All 832 u16 entries keep source geometry and palette bank while selecting tiles inside each source's observed range and using H/V flip bits.",
+    "not_proved": "Natural runtime reachability, queue-slot success and flush, graphics or palette ownership, natural-language screen identity, and final screen pixel or timing equivalence.",
+    "proved": "All four remaining pointer-reachable WRAM tilemap sources and their four exact aligned roots relocate into an owned 16 MiB ROM region."
+  },
+  "summary": {
+    "allocation_count": 4,
+    "allocation_end": 12326491,
+    "allocation_span": 603,
+    "allocation_start": 12325888,
+    "applied_patch_count": 8,
+    "decoded_size": 1664,
+    "entry_count": 832,
+    "literal_lz77_worst_case_bytes_with_alignment": 1888,
+    "pointer_patch_count": 4,
+    "region_end": 12327936,
+    "remaining_bytes": 1445,
+    "source_count": 4,
+    "source_pointer_reference_count": 4,
+    "stored_payload_bytes": 597
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_derived_tilemap_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-derived-tilemap-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

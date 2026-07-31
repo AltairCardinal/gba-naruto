@@ -124,7 +124,7 @@ class ImportResidualWramTilemapRelocationsTests(unittest.TestCase):
             "sequel_image_assets",
         )
         self.assertEqual((0xBC0C00, 0xBC1400), (current.start, current.end))
-        self.assertEqual((0xBC1400, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC1C00, 0xC00000), (future.start, future.end))
 
     def test_preservation_relocates_all_payloads_and_all_roots(self):
         from tools.build_mod import apply_patch

@@ -1,5 +1,10 @@
 # 残余 WRAM tilemap 批量迁移（2026-07-31）
 
+> 后续更新：本文只覆盖第一批 3 条直接 queue tilemap。其余 4 条裁切/变换
+> tilemap 已由
+> `notes/residual-wram-derived-tilemap-relocation-20260731.md`
+> 完成 ABI 与独立迁移；7 条有限分母现均已有可变存储路径。
+
 ## 结论
 
 ABI 已证明的三条 WRAM→status-3 GPU queue tilemap 现已作为一个批量域获得受保护的
