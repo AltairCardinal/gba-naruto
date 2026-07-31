@@ -1536,6 +1536,25 @@ explicitly unresolved; payload shape alone never promotes them to tilemaps. This
 artifact proves an ABI catalog, not runtime reachability, final composition or
 generic writeback.
 
+# Residual WRAM tilemap batch relocation
+
+`import_residual_wram_tilemap_relocations.py` consumes the accepted ABI artifact
+and relocates the three proved 15x20, 24x12 and 23x3 tilemaps as one batch. The
+three allocations live only in the registered `0xBC0C00..0xBC1400` region and
+redirect the three exact aligned literal roots.
+
+```bash
+python3 tools/export_residual_wram_tilemap_relocation_audit.py
+python3 tools/verify_residual_wram_tilemap_relocation_audit.py
+```
+
+Each source keeps its decoded geometry, palette bank and observed tile range but
+may edit every entry and the standard H/V flip bits. The independent verifier
+rebuilds the 16 MiB ROM and all six patches without importing the production
+importer or exporter. This does not prove computed-pointer consumers, queue
+availability/flush, graphics or palette ownership, final pixels, or any of the
+four still-unresolved WRAM payloads.
+
 # ROM pointer-reachable LZ77 graphics previews
 
 `export_rom_pointer_lz77_graphics.py` consumes the hash-pinned

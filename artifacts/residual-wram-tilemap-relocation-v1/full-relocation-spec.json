@@ -1,0 +1,26 @@
+{
+  "schema": "residual-wram-tilemap-relocation-v1",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "abi_artifact": "artifacts/residual-wram-tilemap-abi-v1/residual-wram-tilemap-abi.json",
+  "abi_sha256": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc",
+  "partition": "sequel-image-assets",
+  "owner": "sequel_image_assets",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "456a109ecadbac8d1165493b55e30e174eb8d0a3e2425ce0d19435238bd7be33",
+  "region": "residual-wram-tilemaps",
+  "region_owner": "residual_wram_tilemaps",
+  "resources": [
+    {
+      "source_pointer": "0x0834928C",
+      "tilemap_file": "artifacts/residual-wram-tilemap-relocation-v1/tilemap-0834928c.bin"
+    },
+    {
+      "source_pointer": "0x083F1C98",
+      "tilemap_file": "artifacts/residual-wram-tilemap-relocation-v1/tilemap-083f1c98.bin"
+    },
+    {
+      "source_pointer": "0x085B67E0",
+      "tilemap_file": "artifacts/residual-wram-tilemap-relocation-v1/tilemap-085b67e0.bin"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "residual-wram-tilemap-relocation-v1",
+  "artifact_schema": "residual-wram-tilemap-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "0b6087660d06ee5145e1b93b5b581898503b8f3d91e29b33c3129b1668766866",
+  "files": {
+    "full-relocation-spec.json": "b45dc353023ad94374e60ecee5e0456de6073526f406d0ad0359b6772ea0872d",
+    "relocation-audit.json": "0b6087660d06ee5145e1b93b5b581898503b8f3d91e29b33c3129b1668766866",
+    "tilemap-0834928c.bin": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+    "tilemap-083f1c98.bin": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+    "tilemap-085b67e0.bin": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675"
+  },
+  "scope": {
+    "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM.",
+    "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+    "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, the four unresolved WRAM payloads, queue-slot success or natural flush, BG/graphics/palette ownership, natural-language screen identity, and final screen pixel or timing equivalence."
+  },
+  "summary": {
+    "source_count": 3,
+    "source_pointer_reference_count": 3,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 821,
+    "decoded_size": 1314,
+    "entry_count": 657,
+    "allocation_count": 3,
+    "pointer_patch_count": 3,
+    "allocation_start": 12323840,
+    "allocation_end": 12324666,
+    "region_end": 12325888,
+    "stored_payload_bytes": 821,
+    "allocation_span": 826,
+    "remaining_bytes": 1222,
+    "literal_lz77_worst_case_bytes_with_alignment": 1492,
+    "applied_patch_count": 6
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1616,3 +1616,16 @@ WebSocket
   `notes/residual-wram-tilemap-abi-20260731.md`。其余4条WRAM payload、队列槽成功
   与自然flush、BG/palette/graphics所有权、可编辑迁移及最终像素/时序仍未完成，
   Goal保持active。
+- 2026-07-31：上述3条已证明WRAM tilemap已作为单一批量域推进到可变存储迁移。
+  三条source各只有一个全ROM对齐literal根且没有span内部别名；新
+  `residual_wram_tilemap_relocation`类型保持15×20、24×12、23×3几何和各自
+  palette/tile边界，允许编辑全部657个entry及H/V flip。注册表从未来区域切出
+  `0xBC0C00..0xBC1400`，原样迁移存储821 bytes、含对齐占用826 bytes、末端
+  `0xBC0F3A`、区域余1,222 bytes；全literal最坏含对齐为1,492 bytes，仍安全。
+  独立verifier不导入生产迁移器/导出器，自行重建LZ77、三项allocation、三项根
+  redirect、全局RomLayout/区域注册表、完整16 MiB输出和三项同时变异fixture。
+  注册表哈希变化后12个既有图像迁移artifact已全部重建、独立验证，旧哈希剩余0。
+  成果位于`artifacts/residual-wram-tilemap-relocation-v1/`，说明见
+  `notes/residual-wram-tilemap-relocation-20260731.md`。剩余4条WRAM payload、
+  computed-pointer consumer、自然queue flush、资源所有权及最终像素/时序仍未
+  完成，Goal保持active。

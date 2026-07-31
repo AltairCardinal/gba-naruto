@@ -1,0 +1,179 @@
+{
+  "schema": "residual-wram-tilemap-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "456a109ecadbac8d1165493b55e30e174eb8d0a3e2425ce0d19435238bd7be33",
+    "region": "residual-wram-tilemaps",
+    "owner": "residual_wram_tilemaps",
+    "start": 12323840,
+    "end": 12325888
+  },
+  "abi": {
+    "path": "artifacts/residual-wram-tilemap-abi-v1/residual-wram-tilemap-abi.json",
+    "sha256": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "b45dc353023ad94374e60ecee5e0456de6073526f406d0ad0359b6772ea0872d"
+  },
+  "implementation": {
+    "tools/export_residual_wram_tilemap_abi.py": "ad074e83890053169502a966bdcf88e52e228203e6d0fc810e33a04669028132",
+    "tools/verify_residual_wram_tilemap_abi.py": "0c93e0dadb122170a87b9d03042f5dd7cecc75d84cb88b6b2210ae3beedde8cd",
+    "tools/import_residual_wram_tilemap_relocations.py": "8e55e8bc8c8eaab4923bba4415f1f06f960f433bfa4658ca3ac33898d404a32e",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "3ca1c4707bb700c4f4e06d77f5307316e405438d35ead55cbee30511adc6f0ae",
+    "tools/export_residual_wram_tilemap_relocation_audit.py": "a81eefaf1ee759f412fd24540701d298feb83c5281ec2ba20171e536c9132eea",
+    "tools/verify_residual_wram_tilemap_relocation_audit.py": "1520eef7285c2cf4683d39f0337db6c74ba9779c0f3a3ecf8b207f1b8112d071"
+  },
+  "summary": {
+    "source_count": 3,
+    "source_pointer_reference_count": 3,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 821,
+    "decoded_size": 1314,
+    "entry_count": 657,
+    "allocation_count": 3,
+    "pointer_patch_count": 3,
+    "allocation_start": 12323840,
+    "allocation_end": 12324666,
+    "region_end": 12325888,
+    "stored_payload_bytes": 821,
+    "allocation_span": 826,
+    "remaining_bytes": 1222,
+    "literal_lz77_worst_case_bytes_with_alignment": 1492,
+    "applied_patch_count": 6
+  },
+  "allocations": [
+    {
+      "id": "residual-wram-tilemap-0834928c",
+      "offset": 12323840,
+      "source_pointer": 137663116,
+      "new_pointer": 146541568,
+      "replacement_sha256": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+      "decoded_size": 600,
+      "encoded_size": 217,
+      "width_entries": 15,
+      "height_entries": 20,
+      "entry_count": 300,
+      "tile_index_range": [
+        6,
+        67
+      ],
+      "palette_banks": [
+        1
+      ],
+      "horizontal_flip_count": 20,
+      "vertical_flip_count": 15,
+      "vram_destination": "0x0600001E",
+      "screenblock": {
+        "index": 0,
+        "row": 0,
+        "column": 15
+      }
+    },
+    {
+      "id": "residual-wram-tilemap-083f1c98",
+      "offset": 12324060,
+      "source_pointer": 138353816,
+      "new_pointer": 146541788,
+      "replacement_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+      "decoded_size": 576,
+      "encoded_size": 454,
+      "width_entries": 24,
+      "height_entries": 12,
+      "entry_count": 288,
+      "tile_index_range": [
+        0,
+        267
+      ],
+      "palette_banks": [
+        8
+      ],
+      "horizontal_flip_count": 0,
+      "vertical_flip_count": 0,
+      "vram_destination": "0x0600F810",
+      "screenblock": {
+        "index": 31,
+        "row": 0,
+        "column": 8
+      }
+    },
+    {
+      "id": "residual-wram-tilemap-085b67e0",
+      "offset": 12324516,
+      "source_pointer": 140208096,
+      "new_pointer": 146542244,
+      "replacement_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+      "decoded_size": 138,
+      "encoded_size": 150,
+      "width_entries": 23,
+      "height_entries": 3,
+      "entry_count": 69,
+      "tile_index_range": [
+        0,
+        86
+      ],
+      "palette_banks": [
+        9
+      ],
+      "horizontal_flip_count": 0,
+      "vertical_flip_count": 0,
+      "vram_destination": "0x0600FC4E",
+      "screenblock": {
+        "index": 31,
+        "row": 17,
+        "column": 7
+      }
+    }
+  ],
+  "pointer_patches": [
+    {
+      "id": "residual-wram-tilemap-0834928c.pointer-08aee0",
+      "offset": 569056,
+      "source_pointer": 137663116,
+      "new_pointer": 146541568,
+      "pointer_role": "tilemap_source"
+    },
+    {
+      "id": "residual-wram-tilemap-083f1c98.pointer-08bd38",
+      "offset": 572728,
+      "source_pointer": 138353816,
+      "new_pointer": 146541788,
+      "pointer_role": "tilemap_source"
+    },
+    {
+      "id": "residual-wram-tilemap-085b67e0.pointer-08bd48",
+      "offset": 572744,
+      "source_pointer": 140208096,
+      "new_pointer": 146542244,
+      "pointer_role": "tilemap_source"
+    }
+  ],
+  "output_rom_sha256": "a5a865c5cd4e7669ffa07d6b08dc96e78a98fdf92219ffce0060f06fae75b975",
+  "capability_fixture": {
+    "mutation": "toggle H-flip on entry 0 of every tilemap",
+    "changed_entries": 3,
+    "output_rom_sha256": "56834ecdfc6c6bebfd49b1fe454ca985ae0be1d499f36798f8297f4df81e02df"
+  },
+  "scope": {
+    "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM.",
+    "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+    "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, the four unresolved WRAM payloads, queue-slot success or natural flush, BG/graphics/palette ownership, natural-language screen identity, and final screen pixel or timing equivalence."
+  }
+}

@@ -129,7 +129,7 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBC0400, 0xBC0C00), (tilemap.start, tilemap.end))
-        self.assertEqual((0xBC0C00, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC1400, 0xC00000), (future.start, future.end))
 
     def test_preservation_relocates_payload_and_only_root_into_full_rom(self):
         from tools.build_mod import apply_patch
