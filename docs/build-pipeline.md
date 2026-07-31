@@ -138,6 +138,22 @@ catalog允许的别名子集。所有内容、格式、别名、区域容量和�
 }
 ```
 
+### `world_map_background_relocation`
+
+把三页世界地图的 graphics、tilemap 和 palette 分配到注册的
+`world-map-backgrounds` 扩展区域，并重写 `0x085A8014` 表中的9个精确指针。
+规格使用 `world-map-background-relocation-v1`；graphics 支持1–512个完整8bpp
+tile，tilemap固定30×20，palette固定160色。构建前会联合验证tile索引、像素色号、
+别名子集、旧指针、区域容量和catalog来源，任一失败不产生部分分配。
+
+```json
+{
+  "id": "world-map-background-relocation",
+  "type": "world_map_background_relocation",
+  "spec": "sequel/content/world-map-backgrounds/relocation.json"
+}
+```
+
 ### `character_battle_palette`
 
 把角色战斗视觉矩阵引用的16色 BGR555 palette 原位回编。规格使用
@@ -285,6 +301,7 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
 - `map_resource` 166份地图内容资源的受守卫原位回编
 - `battle_effect_resource` 34份战斗特效图形/调色板内容的受守卫原位回编
 - `battle_effect_resource_relocation` 34份战斗特效内容及36条指针的可变长迁移
+- `world_map_background_relocation` 三页世界地图的7份内容及9条指针的可变长迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

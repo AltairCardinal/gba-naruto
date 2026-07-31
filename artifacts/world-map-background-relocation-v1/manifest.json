@@ -1,0 +1,44 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "world-map-background-relocation-v1",
+  "artifact_schema": "world-map-background-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "1d0f0746b21236dafeea4eca3473c982e455c8bb1c130d331ed0de95d341870d",
+  "files": {
+    "relocation-audit.json": "1d0f0746b21236dafeea4eca3473c982e455c8bb1c130d331ed0de95d341870d",
+    "full-relocation-spec.json": "c1f042e555f61470a7617d43caec32065cc3ec3b2dcdc9b573a7741561d4a984"
+  },
+  "scope": {
+    "proved": "All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region.",
+    "editable": "Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.",
+    "not_proved": "Location-label text edits, unlock rules, page 1/2 natural runtime selection, cursor behavior, transition timing or final composed pixel equivalence after modification."
+  },
+  "summary": {
+    "page_count": 3,
+    "content_resource_count": 7,
+    "physical_payload_count": 9,
+    "logical_pointer_count": 9,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 7,
+    "pointer_patch_count": 9,
+    "allocation_start": 11997184,
+    "allocation_end": 12087268,
+    "region_end": 12124160,
+    "stored_payload_bytes": 90082,
+    "allocation_span": 90084,
+    "remaining_bytes": 36892,
+    "applied_patch_count": 16
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_world_map_background_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/world-map-background-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

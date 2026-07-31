@@ -383,6 +383,29 @@ def resolve_story_visual_resource_relocation_patch(
     )
 
 
+def resolve_world_map_background_relocation_patch(
+    ctx_roots: tuple[Path, Path],
+    patch: dict,
+    *,
+    layout: RomLayout | None,
+    rom: bytes,
+) -> list[dict]:
+    from import_world_map_background_relocations import (
+        resolve_world_map_background_relocation_patches,
+    )
+
+    if layout is None:
+        raise ValueError(
+            "world-map relocation requires an explicit ROM layout"
+        )
+    return resolve_world_map_background_relocation_patches(
+        ROOT,
+        ROOT / patch["spec"],
+        rom=rom,
+        layout=layout,
+    )
+
+
 def resolve_character_battle_palette_patch(
     ctx_roots: tuple[Path, Path], patch: dict
 ) -> list[dict]:
@@ -731,6 +754,7 @@ def build(project_path: Path) -> dict:
                     "bg_resource_relocation",
                     "battle_effect_resource_relocation",
                     "story_visual_resource_relocation",
+                    "world_map_background_relocation",
                 }
                 or (
                     patch.get("type") == "bytes"
@@ -1137,6 +1161,34 @@ def build(project_path: Path) -> dict:
                     "replacement_sha256",
                     "decompressed_size",
                     "encoded_size",
+                    "source_pointer",
+                    "new_pointer",
+                    "physical_offsets",
+                    "logical_aliases",
+                    "all_pointer_offsets",
+                    "target_pointer_offsets",
+                    "source_file",
+                ):
+                    if key in sp:
+                        result[key] = sp[key]
+                applied.append(result)
+        elif patch_type == "world_map_background_relocation":
+            sub_patches = resolve_world_map_background_relocation_patch(
+                (ROOT, ROOT),
+                patch,
+                layout=layout,
+                rom=base_data,
+            )
+            for sp in sub_patches:
+                result = apply_patch(data, sp, gate=safety_gate)
+                for key in (
+                    "asset_type",
+                    "resource_type",
+                    "resource_sha256",
+                    "replacement_sha256",
+                    "decompressed_size",
+                    "encoded_size",
+                    "storage_kind",
                     "source_pointer",
                     "new_pointer",
                     "physical_offsets",

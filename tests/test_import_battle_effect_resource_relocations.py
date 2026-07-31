@@ -148,7 +148,7 @@ class ImportBattleEffectResourceRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB40000, 0xB50000), (effects.start, effects.end))
-        self.assertEqual((0xB50000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xB90000, 0xC00000), (future.start, future.end))
         worst_case = sum(
             4
             + row["decompressed_size"]
@@ -378,13 +378,13 @@ class ImportBattleEffectResourceRelocationsTests(unittest.TestCase):
             for row in registry["regions"]
             if row["id"] == "battle-effects"
         )
-        future = next(
+        story = next(
             row
             for row in registry["regions"]
-            if row["id"] == "future-image-resources"
+            if row["id"] == "story-visual-layers"
         )
         effects["end"] = "0xB40004"
-        future["start"] = "0xB40004"
+        story["start"] = "0xB40004"
         tiny_regions = ImageResourceRegions.from_dict(registry, self.layout)
         with self.assertRaisesRegex(ValueError, "exceeds.*registered region"):
             resolve_battle_effect_resource_relocation_patches(

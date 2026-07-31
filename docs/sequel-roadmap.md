@@ -1469,9 +1469,10 @@ WebSocket
   子集拆分，并在分配前重验全部layout→metatile→tile/palette索引及collision尺寸。
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
-  `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像保留
-  `0xB71000..0xC00000`；其间`0xB40000..0xB50000`现已划给战斗特效，
-  `0xB50000..0xB71000`划给剧情透明BG3图层；注册表
+  `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
+  `0xB90000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
+  世界地图背景；注册表
   强制无重叠、无空洞和对齐。地图全量迁移占
   384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
@@ -1525,3 +1526,15 @@ WebSocket
   `artifacts/story-visual-resource-relocation-v1/`，说明见
   `notes/story-visual-resource-relocation-20260731.md`。修改后自然剧情路线的
   scroll/window/blend与最终像素等价仍未闭合，Goal保持active。
+- 2026-07-31：三页世界地图背景已从全量静态导出推进到可变长迁移。三条
+  `gfx/map/palette`记录形成9个物理载荷和9个descriptor指针；三个物理map的
+  解压内容相同，按类型与SHA去重后为7份编辑内容。全ROM四字节对齐精确扫描的
+  额外引用为0。新`world_map_background_relocation`类型允许按catalog约束拆分
+  tilemap别名，graphics支持1–512个完整8bpp tile，并联合验证30×20 tilemap、
+  160色palette、tile索引和像素色号。全量原样迁移写入注册的
+  `0xB71000..0xB90000`，存储90,082 bytes、占用跨度90,084 bytes、末端
+  `0xB86FE4`、区域余36,892 bytes；独立verifier自行编码LZ77、重建7/9/9分母
+  及完整16 MiB输出。成果位于
+  `artifacts/world-map-background-relocation-v1/`，说明见
+  `notes/world-map-background-relocation-20260731.md`。地点标签编辑、解锁规则、
+  page 1/2修改后的自然选择、光标/转场和最终合成像素等价仍未闭合，Goal保持active。

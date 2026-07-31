@@ -40,6 +40,10 @@ FAMILIES = (
         "story_visual_resource",
         "story-visual-resource-relocation-v1",
     ),
+    (
+        "world_map_background",
+        "world-map-background-relocation-v1",
+    ),
 )
 
 

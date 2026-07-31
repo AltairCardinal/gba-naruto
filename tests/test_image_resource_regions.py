@@ -96,7 +96,41 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xB50000, 0xC00000),
+            (0xB50000, 0xB71000, "story_visual_resources"),
+            (
+                registry.require(
+                    "story-visual-layers",
+                    "story_visual_resources",
+                ).start,
+                registry.require(
+                    "story-visual-layers",
+                    "story_visual_resources",
+                ).end,
+                registry.require(
+                    "story-visual-layers",
+                    "story_visual_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xB71000, 0xB90000, "world_map_background_resources"),
+            (
+                registry.require(
+                    "world-map-backgrounds",
+                    "world_map_background_resources",
+                ).start,
+                registry.require(
+                    "world-map-backgrounds",
+                    "world_map_background_resources",
+                ).end,
+                registry.require(
+                    "world-map-backgrounds",
+                    "world_map_background_resources",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xB90000, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",
