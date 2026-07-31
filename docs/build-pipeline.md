@@ -236,8 +236,11 @@ inventory/catalog哈希、20项全集、34个全ROM精确根指针、LZ77 round-
 u16 entry；每项只能选择tile 0–5、palette bank 1及标准H/V flip位。
 
 构建前会验证基准ROM与inventory哈希、`0x08349368`源流、1280-byte解压内容、
-唯一根`0x0808B464`、consumer代码窗口、LZ77 round-trip、区域容量和旧指针前值。
-任一条件漂移时不返回部分补丁。
+唯一根`0x0808B464`、consumer代码窗口，以及
+`residual-text-bg-tilemap-resource-ownership-v1`的固定路径与SHA。ownership
+进一步锁定BG2 `0x0204`、graphics `0x08348F00`的tiles 0–67和palette
+`0x0834941C` bank 1。LZ77 round-trip、区域容量或旧指针前值任一漂移时不返回
+部分补丁。
 
 ```json
 {

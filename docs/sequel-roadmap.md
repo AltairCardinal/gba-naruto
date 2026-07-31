@@ -1605,6 +1605,19 @@ WebSocket
   `notes/residual-text-bg-tilemap-relocation-20260731.md`。对应tile graphics/
   palette所有权、剩余12行screenblock、另一流复用`0x06001000`的运行时顺序、
   业务名称及最终屏幕像素/时序等价仍未闭合，Goal保持active。
+- 2026-07-31：上述text-BG tilemap的资源归属已闭合。自然静态链
+  `0x0808F844/0x0808FA04 → 0x0808B58C → 0x0808B640 → 0x0808B2C8`
+  先把`0x08348F00`的68个4bpp tile加载到BG charbase 1、把raw
+  `0x0834941C`加载到palette bank 1，再把`0x08349368`写入BG2 screenblock 2；
+  `BG2CNT=0x0204`，tilemap使用的tiles 0–5完整落在graphics tiles 0–67内，
+  并与同family overlay使用的tiles 6–67互补。独立ownership verifier从ROM重建
+  两次LZ77、palette、BG位域和代码窗口，重新签名篡改VRAM目标仍会失败。
+  text-BG迁移spec/importer/verifier现均固定ownership路径/SHA，正式迁移artifact
+  已重新promotion。证据位于
+  `artifacts/residual-text-bg-tilemap-resource-ownership-v1/`，说明见
+  `notes/residual-text-bg-tilemap-resource-ownership-20260731.md`。现有91个
+  tracked checkpoint仍没有已证明自然命中该链的样本；VRAM复用顺序、剩余12行、
+  精确业务名称及最终像素/时序继续未闭合，Goal保持active。
 - 2026-07-31：7条残余`WRAM_dynamic` visual metadata已从混合未知集合推进到
   有限ABI目录。其中`0x0834928C`、`0x083F1C98`、`0x085B67E0`均由局部
   `LZ77UnCompWram`后紧接status-3逐行GPU queue的代码链证明为15×20、24×12、

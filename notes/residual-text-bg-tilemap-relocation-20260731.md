@@ -57,7 +57,9 @@ mGBA，因此没有新建快照。
 ROM源字节不与其他LZ77流或相邻raw palette重叠，但`0x08405F10`的另一条流也可能
 在不同时间使用`0x06001000`。当前没有证据证明两者共存或互斥。本成果还不证明：
 
-- text-BG对应的tile graphics、palette及自然语言业务身份；
+- text-BG对应的graphics/palette/BG2归属已由后续
+  `residual-text-bg-tilemap-resource-ownership-v1`闭合，并被本迁移链固定；
+- 精确自然语言业务身份；
 - 32×32 screenblock中未由1280-byte payload覆盖的剩余12行；
 - `0x0808B352→0x08067158`调用的语义；
 - 修改后自然路线的加载顺序、最终屏幕像素与时序等价。

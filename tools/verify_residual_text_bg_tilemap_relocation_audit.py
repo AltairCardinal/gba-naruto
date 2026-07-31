@@ -22,6 +22,13 @@ INVENTORY_PATH = Path(
 INVENTORY_SHA256 = (
     "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
 )
+OWNERSHIP_PATH = Path(
+    "artifacts/residual-text-bg-tilemap-resource-ownership-v1/"
+    "resource-ownership.json"
+)
+OWNERSHIP_SHA256 = (
+    "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741"
+)
 REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 LAYOUT_PATH = Path("sequel/rom-layout.json")
 ARTIFACT_ID = "residual-text-bg-tilemap-relocation-v1"
@@ -37,6 +44,8 @@ TARGET_ROM_SIZE = 0x1000000
 IMPLEMENTATION_PATHS = (
     "tools/export_rom_pointer_lz77_inventory.py",
     "tools/verify_rom_pointer_lz77_inventory.py",
+    "tools/export_residual_text_bg_tilemap_resource_ownership.py",
+    "tools/verify_residual_text_bg_tilemap_resource_ownership.py",
     "tools/import_residual_text_bg_tilemap_relocations.py",
     "tools/gba_image_export.py",
     "tools/image_resource_regions.py",
@@ -50,17 +59,19 @@ SCOPE = {
     "proved": (
         "The single pointer-reachable residual text-BG tilemap at "
         "0x08349368 and its only aligned source-pointer root relocate into "
-        "a 16 MiB ROM."
+        "a 16 MiB ROM, with BG2, graphics and palette ownership bound to a "
+        "separately verified artifact."
     ),
     "editable": (
         "All 640 32x20 screen entries may select tile 0..5, palette bank 1, "
         "and standard horizontal or vertical flip bits."
     ),
     "not_proved": (
-        "Editing its font/tile graphics or palette, changing the screenblock "
-        "destination, the runtime ordering against another stream that may "
-        "reuse 0x06001000, assigning a natural-language screen identity, and "
-        "final screen-composited runtime equivalence."
+        "Changing the screenblock destination, coordinated semantic authoring "
+        "across its separately relocatable graphics/palette resources, the "
+        "runtime ordering against another stream that may reuse 0x06001000, "
+        "assigning a natural-language screen identity, and final "
+        "screen-composited runtime equivalence."
     ),
 }
 
@@ -452,17 +463,27 @@ def _rebuild(
 
 
 def _resolve_asset(root: Path, artifact: Path, value: object) -> Path:
-    if not isinstance(value, str):
+    if value != f"artifacts/{ARTIFACT_ID}/{TILEMAP_NAME}":
         raise ValueError("tilemap_file is invalid")
-    path = Path(value)
-    resolved = path.resolve() if path.is_absolute() else (root / path).resolve()
-    expected = (artifact / TILEMAP_NAME).resolve()
-    if resolved != expected:
-        raise ValueError("tilemap_file escapes artifact")
-    return resolved
+    return (artifact / TILEMAP_NAME).resolve()
 
 
 def _verify(root: Path, artifact: Path) -> dict[str, Any]:
+    expected_names = {
+        "manifest.json",
+        PAYLOAD_NAME,
+        SPEC_NAME,
+        TILEMAP_NAME,
+    }
+    actual_names = {
+        path.relative_to(artifact).as_posix()
+        for path in artifact.rglob("*")
+        if path.is_file()
+    }
+    if actual_names != expected_names:
+        raise ValueError("artifact file set mismatch")
+    if any(path.is_symlink() for path in artifact.rglob("*")):
+        raise ValueError("artifact contains symbolic links")
     manifest = json.loads((artifact / "manifest.json").read_text())
     if (
         manifest.get("schema") != "git-artifact-promotion-v1"
@@ -475,8 +496,7 @@ def _verify(root: Path, artifact: Path) -> dict[str, Any]:
     files = manifest.get("files")
     if not isinstance(files, dict):
         raise ValueError("manifest files mismatch")
-    names = {path.name for path in artifact.iterdir() if path.is_file()}
-    if names != set(files) | {"manifest.json"}:
+    if expected_names != set(files) | {"manifest.json"}:
         raise ValueError("artifact file set mismatch")
     for name, digest in files.items():
         if _sha256((artifact / name).read_bytes()) != digest:
@@ -502,6 +522,32 @@ def _verify(root: Path, artifact: Path) -> dict[str, Any]:
     inventory_bytes = (root / INVENTORY_PATH).read_bytes()
     if _sha256(inventory_bytes) != INVENTORY_SHA256:
         raise ValueError("inventory hash mismatch")
+    ownership_bytes = (root / OWNERSHIP_PATH).read_bytes()
+    if _sha256(ownership_bytes) != OWNERSHIP_SHA256:
+        raise ValueError("resource ownership hash mismatch")
+    ownership = json.loads(ownership_bytes)
+    ownership_record = ownership.get("ownership_record", {})
+    if (
+        ownership.get("schema")
+        != "residual-text-bg-tilemap-resource-ownership-v1"
+        or ownership.get("summary", {}).get("tilemap_source_count") != 1
+        or ownership.get("summary", {}).get("remaining_unresolved_count") != 0
+        or ownership_record.get("tilemap_source_pointer") != "0x08349368"
+        or ownership_record.get("vram_destination") != "0x06001000"
+        or ownership_record.get("tile_index_range") != [0, 5]
+        or ownership_record.get("palette_banks") != [1]
+        or ownership_record.get("bg", {}).get("control_value") != "0x0204"
+        or ownership_record.get("graphics", {}).get("source_pointer")
+        != "0x08348F00"
+        or ownership_record.get("graphics", {}).get(
+            "loaded_tile_index_range"
+        )
+        != [0, 67]
+        or ownership_record.get("palette", {}).get("source_pointer")
+        != "0x0834941C"
+        or ownership_record.get("palette", {}).get("bank") != 1
+    ):
+        raise ValueError("resource ownership contract mismatch")
     layout_bytes = (root / LAYOUT_PATH).read_bytes()
     registry_bytes = (root / REGISTRY_PATH).read_bytes()
     _validate_layout_regions(
@@ -534,6 +580,11 @@ def _verify(root: Path, artifact: Path) -> dict[str, Any]:
             "path": INVENTORY_PATH.as_posix(),
             "sha256": INVENTORY_SHA256,
         },
+        "resource_ownership": {
+            "path": OWNERSHIP_PATH.as_posix(),
+            "sha256": OWNERSHIP_SHA256,
+            "verified_source_count": 1,
+        },
     }
     for key, expected in metadata.items():
         if payload.get(key) != expected:
@@ -544,11 +595,15 @@ def _verify(root: Path, artifact: Path) -> dict[str, Any]:
     }
     if payload.get("implementation") != implementation:
         raise ValueError("implementation hash mismatch")
+    if manifest.get("implementation") != implementation:
+        raise ValueError("manifest implementation hash mismatch")
     expected_spec = {
         "schema": "residual-text-bg-tilemap-relocation-v1",
         "base_rom_sha256": ROM_SHA256,
         "inventory": INVENTORY_PATH.as_posix(),
         "inventory_sha256": INVENTORY_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),

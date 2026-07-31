@@ -80,6 +80,9 @@ class ResidualTextBgTilemapRelocationAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             artifact = Path(temporary) / "tilemap"
             payload = export_audit(ROOT, artifact)
+            spec = json.loads(
+                (artifact / "full-relocation-spec.json").read_text()
+            )
             verified = verify_audit(ROOT, artifact)
 
         summary = payload["summary"]
@@ -94,6 +97,29 @@ class ResidualTextBgTilemapRelocationAuditTests(unittest.TestCase):
         self.assertLessEqual(summary["allocation_end"], 0xBC0C00)
         self.assertEqual(0xBC0C00, summary["region_end"])
         self.assertEqual(1, payload["capability_fixture"]["changed_entries"])
+        self.assertEqual(
+            {
+                "path": (
+                    "artifacts/"
+                    "residual-text-bg-tilemap-resource-ownership-v1/"
+                    "resource-ownership.json"
+                ),
+                "sha256": (
+                    "95c4baf0febd70151d68c08d276bb694daa1f544035466f"
+                    "9b078f73e538d8741"
+                ),
+                "verified_source_count": 1,
+            },
+            payload["resource_ownership"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["path"],
+            spec["resource_ownership_artifact"],
+        )
+        self.assertEqual(
+            payload["resource_ownership"]["sha256"],
+            spec["resource_ownership_sha256"],
+        )
         self.assertEqual([], verified["errors"])
         self.assertEqual(1, verified["verified_sources"])
         self.assertEqual(1, verified["verified_source_pointers"])
@@ -101,6 +127,29 @@ class ResidualTextBgTilemapRelocationAuditTests(unittest.TestCase):
             payload["output_rom_sha256"],
             verified["rebuilt_output_rom_sha256"],
         )
+
+    def test_manifest_requires_implementation_hashes(self):
+        from tools.export_residual_text_bg_tilemap_relocation_audit import (
+            export_audit,
+        )
+        from tools.verify_residual_text_bg_tilemap_relocation_audit import (
+            verify_audit,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            artifact = Path(temporary) / "tilemap"
+            payload = export_audit(ROOT, artifact)
+            manifest_path = artifact / "manifest.json"
+            manifest = json.loads(manifest_path.read_text())
+            self.assertEqual(
+                payload["implementation"],
+                manifest["implementation"],
+            )
+            del manifest["implementation"]
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+            )
+            self.assertTrue(verify_audit(ROOT, artifact)["errors"])
 
     def test_resigned_summary_spec_tilemap_and_extra_files_are_rejected(self):
         from tools.export_residual_text_bg_tilemap_relocation_audit import (
@@ -144,6 +193,28 @@ class ResidualTextBgTilemapRelocationAuditTests(unittest.TestCase):
             artifact = Path(temporary) / "tilemap"
             export_audit(ROOT, artifact)
             (artifact / "extra.bin").write_bytes(b"unexpected")
+            self.assertTrue(verify_audit(ROOT, artifact)["errors"])
+
+    def test_nested_files_and_symlinks_are_rejected(self):
+        from tools.export_residual_text_bg_tilemap_relocation_audit import (
+            export_audit,
+        )
+        from tools.verify_residual_text_bg_tilemap_relocation_audit import (
+            verify_audit,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            artifact = Path(temporary) / "tilemap"
+            export_audit(ROOT, artifact)
+            nested = artifact / "build/experiments"
+            nested.mkdir(parents=True)
+            (nested / "leak.bin").write_bytes(b"unexpected")
+            self.assertTrue(verify_audit(ROOT, artifact)["errors"])
+
+        with tempfile.TemporaryDirectory() as temporary:
+            artifact = Path(temporary) / "tilemap"
+            export_audit(ROOT, artifact)
+            (artifact / "linked.bin").symlink_to(artifact / "tilemap.bin")
             self.assertTrue(verify_audit(ROOT, artifact)["errors"])
 
     def test_resigned_overlapping_global_region_registry_is_rejected(self):

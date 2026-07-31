@@ -26,6 +26,8 @@ from tools.image_resource_regions import ImageResourceRegions
 from tools.import_residual_text_bg_tilemap_relocations import (
     INVENTORY_PATH,
     INVENTORY_SHA256,
+    OWNERSHIP_PATH,
+    OWNERSHIP_SHA256,
     REGISTRY_PATH,
     ROM_SHA256,
     SOURCE_POINTER,
@@ -44,6 +46,8 @@ TILEMAP_NAME = "tilemap.bin"
 IMPLEMENTATION_PATHS = (
     "tools/export_rom_pointer_lz77_inventory.py",
     "tools/verify_rom_pointer_lz77_inventory.py",
+    "tools/export_residual_text_bg_tilemap_resource_ownership.py",
+    "tools/verify_residual_text_bg_tilemap_resource_ownership.py",
     "tools/import_residual_text_bg_tilemap_relocations.py",
     "tools/gba_image_export.py",
     "tools/image_resource_regions.py",
@@ -57,17 +61,19 @@ SCOPE = {
     "proved": (
         "The single pointer-reachable residual text-BG tilemap at "
         "0x08349368 and its only aligned source-pointer root relocate into "
-        "a 16 MiB ROM."
+        "a 16 MiB ROM, with BG2, graphics and palette ownership bound to a "
+        "separately verified artifact."
     ),
     "editable": (
         "All 640 32x20 screen entries may select tile 0..5, palette bank 1, "
         "and standard horizontal or vertical flip bits."
     ),
     "not_proved": (
-        "Editing its font/tile graphics or palette, changing the screenblock "
-        "destination, the runtime ordering against another stream that may "
-        "reuse 0x06001000, assigning a natural-language screen identity, and "
-        "final screen-composited runtime equivalence."
+        "Changing the screenblock destination, coordinated semantic authoring "
+        "across its separately relocatable graphics/palette resources, the "
+        "runtime ordering against another stream that may reuse 0x06001000, "
+        "assigning a natural-language screen identity, and final "
+        "screen-composited runtime equivalence."
     ),
 }
 
@@ -76,12 +82,8 @@ def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _asset_path(root: Path, output: Path, name: str) -> str:
-    path = output / name
-    try:
-        return path.relative_to(root).as_posix()
-    except ValueError:
-        return str(path)
+def _published_asset_path(name: str) -> str:
+    return f"artifacts/{ARTIFACT_ID}/{name}"
 
 
 def _apply(
@@ -110,6 +112,8 @@ def _source_spec(
         "base_rom_sha256": ROM_SHA256,
         "inventory": INVENTORY_PATH.as_posix(),
         "inventory_sha256": INVENTORY_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),
@@ -117,7 +121,7 @@ def _source_spec(
         "region": "residual-text-bg-tilemap",
         "region_owner": "residual_text_bg_tilemap",
         "source_pointer": f"0x{SOURCE_POINTER:08X}",
-        "tilemap_file": _asset_path(root, output, TILEMAP_NAME),
+        "tilemap_file": _published_asset_path(TILEMAP_NAME),
     }
 
 
@@ -170,6 +174,8 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         raise ValueError("residual text-BG tilemap audit base ROM mismatch")
     if _sha256((root / INVENTORY_PATH).read_bytes()) != INVENTORY_SHA256:
         raise ValueError("residual text-BG tilemap audit inventory mismatch")
+    if _sha256((root / OWNERSHIP_PATH).read_bytes()) != OWNERSHIP_SHA256:
+        raise ValueError("residual text-BG tilemap audit ownership mismatch")
     layout_path = root / "sequel/rom-layout.json"
     layout = RomLayout.from_path(layout_path, base)
     registry_path = root / REGISTRY_PATH
@@ -182,13 +188,23 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
     spec = _source_spec(root, output, base)
     spec_path = output / SPEC_NAME
     spec_path.write_text(json.dumps(spec, indent=2) + "\n")
-    patches = resolve_residual_text_bg_tilemap_relocation_patches(
-        root,
-        spec_path,
-        rom=base,
-        layout=layout,
-        regions=regions,
-    )
+    execution_spec = copy.deepcopy(spec)
+    execution_spec["tilemap_file"] = str(output / TILEMAP_NAME)
+    with tempfile.TemporaryDirectory(
+        prefix=".residual-text-bg-tilemap-export-",
+        dir=root / "build/experiments",
+    ) as temporary:
+        execution_spec_path = Path(temporary) / "execution-spec.json"
+        execution_spec_path.write_text(
+            json.dumps(execution_spec, indent=2) + "\n"
+        )
+        patches = resolve_residual_text_bg_tilemap_relocation_patches(
+            root,
+            execution_spec_path,
+            rom=base,
+            layout=layout,
+            regions=regions,
+        )
     output_rom = _apply(base, layout, regions, patches)
     allocation = next(row for row in patches if "allocation" in row)
     redirect = next(row for row in patches if "allocation" not in row)
@@ -239,6 +255,11 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             "path": INVENTORY_PATH.as_posix(),
             "sha256": INVENTORY_SHA256,
         },
+        "resource_ownership": {
+            "path": OWNERSHIP_PATH.as_posix(),
+            "sha256": OWNERSHIP_SHA256,
+            "verified_source_count": 1,
+        },
         "authoring_spec": {
             "file": SPEC_NAME,
             "sha256": _sha256(spec_path.read_bytes()),
@@ -282,7 +303,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             base,
             layout,
             regions,
-            spec,
+            execution_spec,
         ),
         "scope": SCOPE,
     }
@@ -301,6 +322,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
         "payload_file": PAYLOAD_NAME,
         "payload_sha256": files[PAYLOAD_NAME],
         "files": files,
+        "implementation": payload["implementation"],
         "scope": SCOPE,
         "summary": summary,
         "verifier": {

@@ -1,0 +1,45 @@
+{
+  "artifact_id": "residual-text-bg-tilemap-resource-ownership-v1",
+  "artifact_schema": "residual-text-bg-tilemap-resource-ownership-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "resource-ownership.json": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741"
+  },
+  "implementation": {
+    "tools/export_residual_text_bg_tilemap_resource_ownership.py": "3b2ea866e603298c96d1289f78b02835e726f9d0f6cbd273359ec48d54a1daa7",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/verify_residual_text_bg_tilemap_resource_ownership.py": "48e5695382da41c31bae37cea9478a5528efd3af424fbc871e6cc94c61f06af5"
+  },
+  "payload_file": "resource-ownership.json",
+  "payload_sha256": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_screen_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "remaining_screenblock_rows_complete": false,
+    "runtime_order_against_vram_reusers_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "summary": {
+    "bg_control_complete_count": 1,
+    "graphics_ownership_complete_count": 1,
+    "palette_ownership_complete_count": 1,
+    "remaining_unresolved_count": 0,
+    "tilemap_source_count": 1
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_text_bg_tilemap_resource_ownership.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-text-bg-tilemap-resource-ownership-v1"
+    ],
+    "exit_code": 0
+  }
+}

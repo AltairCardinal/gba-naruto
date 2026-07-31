@@ -1,0 +1,153 @@
+{
+  "ownership_record": {
+    "bg": {
+      "charbase_address": "0x06004000",
+      "charbase_index": 1,
+      "color_mode": "4bpp",
+      "control_value": "0x0204",
+      "display_enable_or_mask": "0x0500",
+      "display_shadow": "0x0300004C",
+      "name": "BG2",
+      "priority": 0,
+      "register": "0x0400000C",
+      "screenbase_address": "0x06001000",
+      "screenbase_index": 2,
+      "size_code": 0
+    },
+    "code_windows": [
+      {
+        "end_exclusive": "0x0808B5E6",
+        "name": "selection_resource_setup",
+        "sha256": "97b9cdcaf6e092990995efabea800a38851f01d06ca60696906a8d5e706ba129",
+        "start": "0x0808B5C2"
+      },
+      {
+        "end_exclusive": "0x0808B356",
+        "name": "text_bg_setup",
+        "sha256": "1c06792a63713ba899c935e9862c8cc8ff54171be9b76dee5451e1dde51c1a2f",
+        "start": "0x0808B2EA"
+      },
+      {
+        "end_exclusive": "0x0808B64E",
+        "name": "text_bg_loop_link",
+        "sha256": "3eb118d7e7bd1903555a54065c5331d05e04b3233ab66051575a66a89977d3ba",
+        "start": "0x0808B640"
+      },
+      {
+        "end_exclusive": "0x0808F848",
+        "name": "selection_entry_a",
+        "sha256": "b54d2c5ad70dcc190b662533c5877838c7753da5395f9c274e93e8caf6ad56ff",
+        "start": "0x0808F844"
+      },
+      {
+        "end_exclusive": "0x0808FA08",
+        "name": "selection_entry_b",
+        "sha256": "c824488f54f856316626a62f6d001f5c1125ffe715f5f3d072db8dc1b3a926d1",
+        "start": "0x0808FA04"
+      }
+    ],
+    "evidence_level": "static_proved",
+    "geometry": {
+      "height_entries": 20,
+      "width_entries": 32
+    },
+    "graphics": {
+      "compressed_sha256": "98554f122b4f14986160dfbefe7dcc0dad3ff5ba62cbd87d0d9cc9e34eb77438",
+      "compressed_size": 907,
+      "decompressed_sha256": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+      "decompressed_size": 2176,
+      "load_call": "0x0808B5D8",
+      "load_route": "LZ77UnCompVram_wrapper",
+      "loaded_tile_index_range": [
+        0,
+        67
+      ],
+      "relocation_artifact": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "relocation_id": "residual-lz77-graphics-06",
+      "source_load": "0x0808B5D4",
+      "source_pointer": "0x08348F00",
+      "tile_bytes": 32,
+      "tile_count": 68,
+      "vram_destination": "0x06004000"
+    },
+    "horizontal_flip_count": 0,
+    "natural_entry_callers": [
+      "0x0808F844",
+      "0x0808FA04"
+    ],
+    "palette": {
+      "bank": 1,
+      "load_call": "0x0808B5E2",
+      "load_route": "CpuSet_wrapper",
+      "pram_destination": "0x05000020",
+      "relocation_artifact": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "sha256": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+      "size": 32,
+      "source_load": "0x0808B5DC",
+      "source_pointer": "0x0834941C"
+    },
+    "palette_banks": [
+      1
+    ],
+    "resource_setup_function": "0x0808B58C",
+    "scene_identity": "selection_flow_text_bg_panel",
+    "setup_link_call": "0x0808B640",
+    "tile_index_range": [
+      0,
+      5
+    ],
+    "tilemap_classification": "text_bg_tilemap",
+    "tilemap_compressed_sha256": "259891ea9126d0d1c2683ecfdd392f22f2a8b926eb6f2bd4ef4b601935b7898b",
+    "tilemap_compressed_size": 178,
+    "tilemap_decompressed_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
+    "tilemap_decompressed_size": 1280,
+    "tilemap_load_call": "0x0808B34C",
+    "tilemap_load_route": "LZ77UnCompVram_wrapper",
+    "tilemap_setup_function": "0x0808B2C8",
+    "tilemap_source_load": "0x0808B348",
+    "tilemap_source_pointer": "0x08349368",
+    "vertical_flip_count": 12,
+    "vram_destination": "0x06001000"
+  },
+  "remaining_unresolved": [],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "schema": "residual-text-bg-tilemap-resource-ownership-v1",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_screen_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "remaining_screenblock_rows_complete": false,
+    "runtime_order_against_vram_reusers_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "source_artifacts": [
+    {
+      "path": "artifacts/rom-pointer-lz77-inventory-v1/rom-pointer-lz77-inventory.json",
+      "sha256": "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
+    },
+    {
+      "path": "artifacts/rom-pointer-lz77-graphics-v1/graphics-catalog.json",
+      "sha256": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d"
+    },
+    {
+      "path": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "sha256": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b"
+    },
+    {
+      "path": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "sha256": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa"
+    }
+  ],
+  "summary": {
+    "bg_control_complete_count": 1,
+    "graphics_ownership_complete_count": 1,
+    "palette_ownership_complete_count": 1,
+    "remaining_unresolved_count": 0,
+    "tilemap_source_count": 1
+  }
+}

@@ -60,6 +60,15 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
                     "inventory_sha256": hashlib.sha256(
                         (ROOT / INVENTORY_PATH).read_bytes()
                     ).hexdigest(),
+                    "resource_ownership_artifact": (
+                        "artifacts/"
+                        "residual-text-bg-tilemap-resource-ownership-v1/"
+                        "resource-ownership.json"
+                    ),
+                    "resource_ownership_sha256": (
+                        "95c4baf0febd70151d68c08d276bb694daa1f544035466f"
+                        "9b078f73e538d8741"
+                    ),
                     "partition": "sequel-image-assets",
                     "owner": "sequel_image_assets",
                     "region_registry": "sequel/image-resource-regions.json",
@@ -75,6 +84,28 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
             encoding="utf-8",
         )
         return path
+
+    def test_spec_requires_verified_resource_ownership(self):
+        from tools.import_residual_text_bg_tilemap_relocations import (
+            resolve_residual_text_bg_tilemap_relocation_patches,
+        )
+
+        for missing in (
+            "resource_ownership_artifact",
+            "resource_ownership_sha256",
+        ):
+            with self.subTest(missing=missing):
+                spec_path = self._write_spec(name=f"missing-{missing}.json")
+                spec = json.loads(spec_path.read_text())
+                del spec[missing]
+                spec_path.write_text(json.dumps(spec))
+                with self.assertRaisesRegex(ValueError, missing):
+                    resolve_residual_text_bg_tilemap_relocation_patches(
+                        ROOT,
+                        spec_path,
+                        rom=self.base,
+                        layout=self.layout,
+                    )
 
     def test_catalog_closes_the_single_text_bg_tilemap_and_root(self):
         catalog = self.catalog
@@ -129,7 +160,7 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBC0400, 0xBC0C00), (tilemap.start, tilemap.end))
-        self.assertEqual((0xBC1400, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC1C00, 0xC00000), (future.start, future.end))
 
     def test_preservation_relocates_payload_and_only_root_into_full_rom(self):
         from tools.build_mod import apply_patch
@@ -228,6 +259,7 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
         from tools import automated_test, build_mod
         from tools.import_residual_text_bg_tilemap_relocations import (
             INVENTORY_PATH,
+            OWNERSHIP_PATH,
         )
 
         runner = automated_test.TestRunner()
@@ -252,6 +284,7 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
             "sequel/patches",
             "sequel/content/residual-text-bg-tilemap",
             INVENTORY_PATH.parent,
+            OWNERSHIP_PATH.parent,
         ):
             (build_root / relative).mkdir(parents=True, exist_ok=True)
         (build_root / "rom/custom-base.gba").write_bytes(self.base)
@@ -259,6 +292,7 @@ class ImportResidualTextBgTilemapRelocationsTests(unittest.TestCase):
             "sequel/rom-layout.json",
             "sequel/image-resource-regions.json",
             INVENTORY_PATH,
+            OWNERSHIP_PATH,
         ):
             destination = build_root / relative
             destination.write_bytes((ROOT / relative).read_bytes())

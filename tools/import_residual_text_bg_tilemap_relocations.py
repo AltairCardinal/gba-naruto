@@ -32,6 +32,13 @@ INVENTORY_PATH = Path(
 INVENTORY_SHA256 = (
     "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
 )
+OWNERSHIP_PATH = Path(
+    "artifacts/residual-text-bg-tilemap-resource-ownership-v1/"
+    "resource-ownership.json"
+)
+OWNERSHIP_SHA256 = (
+    "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741"
+)
 REGISTRY_PATH = Path("sequel/image-resource-regions.json")
 SPEC_SCHEMA = "residual-text-bg-tilemap-relocation-v1"
 SOURCE_POINTER = 0x08349368
@@ -74,6 +81,36 @@ def _tilemap_metadata(data: bytes) -> dict[str, Any]:
     }
 
 
+def _ownership_record(root: Path) -> dict[str, Any]:
+    ownership_bytes = (root / OWNERSHIP_PATH).read_bytes()
+    if _sha256(ownership_bytes) != OWNERSHIP_SHA256:
+        raise ValueError("residual text-BG ownership SHA-256 mismatch")
+    ownership = json.loads(ownership_bytes)
+    record = ownership.get("ownership_record")
+    if (
+        ownership.get("schema")
+        != "residual-text-bg-tilemap-resource-ownership-v1"
+        or ownership.get("summary")
+        != {
+            "tilemap_source_count": 1,
+            "bg_control_complete_count": 1,
+            "graphics_ownership_complete_count": 1,
+            "palette_ownership_complete_count": 1,
+            "remaining_unresolved_count": 0,
+        }
+        or ownership.get("remaining_unresolved") != []
+        or not ownership.get("scope", {}).get(
+            "graphics_and_palette_ownership_complete"
+        )
+        or not ownership.get("scope", {}).get(
+            "bg_control_ownership_complete"
+        )
+        or not isinstance(record, dict)
+    ):
+        raise ValueError("residual text-BG ownership contract mismatch")
+    return record
+
+
 def catalog_residual_text_bg_tilemap(
     root: Path,
     rom: bytes | None = None,
@@ -87,6 +124,7 @@ def catalog_residual_text_bg_tilemap(
     if _sha256(inventory_bytes) != INVENTORY_SHA256:
         raise ValueError("residual text-BG tilemap inventory SHA-256 mismatch")
     inventory = json.loads(inventory_bytes)
+    owner = _ownership_record(root)
     matches = [
         row
         for row in inventory.get("new_records", [])
@@ -156,6 +194,17 @@ def catalog_residual_text_bg_tilemap(
                 "target": "0x08067158",
             },
         ]
+        or owner.get("tilemap_source_pointer") != f"0x{SOURCE_POINTER:08X}"
+        or owner.get("tilemap_decompressed_sha256")
+        != record.get("decompressed_sha256")
+        or owner.get("vram_destination") != "0x06001000"
+        or owner.get("tile_index_range") != [0, MAX_TILE_INDEX]
+        or owner.get("palette_banks") != [PALETTE_BANK]
+        or owner.get("bg", {}).get("control_value") != "0x0204"
+        or owner.get("graphics", {}).get("source_pointer") != "0x08348F00"
+        or owner.get("graphics", {}).get("loaded_tile_index_range") != [0, 67]
+        or owner.get("palette", {}).get("source_pointer") != "0x0834941C"
+        or owner.get("palette", {}).get("bank") != PALETTE_BANK
     ):
         raise ValueError("residual text-BG tilemap source contract mismatch")
     pointer_offsets = _aligned_pointer_offsets(base, SOURCE_POINTER)
@@ -210,6 +259,8 @@ def resolve_residual_text_bg_tilemap_relocation_patches(
         "base_rom_sha256": ROM_SHA256,
         "inventory": INVENTORY_PATH.as_posix(),
         "inventory_sha256": INVENTORY_SHA256,
+        "resource_ownership_artifact": OWNERSHIP_PATH.as_posix(),
+        "resource_ownership_sha256": OWNERSHIP_SHA256,
         "partition": "sequel-image-assets",
         "owner": "sequel_image_assets",
         "region_registry": REGISTRY_PATH.as_posix(),

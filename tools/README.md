@@ -1517,6 +1517,23 @@ classification requires both the consumer destination and decoded entry shape. I
 does not claim that all syntactically valid streams are resources, that all resources
 are compressed, or that static pointer reachability is runtime execution.
 
+# Residual text-BG tilemap resource ownership
+
+`export_residual_text_bg_tilemap_resource_ownership.py` binds the
+`0x08349368` 32x20 tilemap to BG2 control `0x0204`, graphics
+`0x08348F00` at charbase 1 and raw palette `0x0834941C` in bank 1.
+
+```bash
+python3 tools/export_residual_text_bg_tilemap_resource_ownership.py
+python3 tools/verify_residual_text_bg_tilemap_resource_ownership.py
+```
+
+The independent verifier reconstructs the tilemap and graphics LZ77 streams,
+palette bytes, BG bit fields, resource setup and natural static caller chain.
+`residual-text-bg-tilemap-relocation-v1` requires the ownership payload's exact
+path and SHA-256. This does not prove runtime reachability, VRAM reuse ordering,
+the remaining 12 screenblock rows or final pixels/timing.
+
 # Residual WRAM tilemap ABI audit
 
 `export_residual_wram_tilemap_abi.py` consumes the hash-pinned pointer-reachable
