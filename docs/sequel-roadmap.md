@@ -1701,3 +1701,15 @@ WebSocket
   `artifacts/residual-wram-tilemap-runtime-v2/`，说明见
   `notes/residual-wram-tilemap-runtime-reachability-20260731.md`。本子分母已闭合，但
   修改ROM后的最终像素A/B、完整演出时序和排他writer因果仍未闭合，Goal保持active。
+- 2026-07-31：四条派生WRAM tilemap中的CPU裁切源`0x083F2108`完成自然运行时
+  闭环，子分母由0/4推进为**1/4**。复用已验收scene-panel setup快照零输入5帧，
+  frame 3固定命中`0x0808BC2E`的`0x083F2108→0x02002880`加载，并紧接命中
+  `0x0808B79C`，LR=`0x0808BC3B`。consumer入口的800-byte WRAM与ROM解压源逐字节
+  一致，同刻`0x06001100`的640 bytes尚不等于源；最终精确等于该WRAM逐行保留前
+  32项、丢弃右侧8项后的结果，640/640 bytes变化。独立verifier自行解压ROM、重建
+  裁切、固定父runtime v2/ABI/ownership、audit/done/guard、WRAM及load/consumer
+  寄存器，并拒绝重签篡改。正式mGBA运行经统一heavy lock，`completed/0`、非
+  degraded，峰值RSS 106.78515625 MiB。成果位于
+  `artifacts/residual-wram-crop-tilemap-runtime-v1/`，说明见
+  `notes/residual-wram-derived-tilemap-relocation-20260731.md`。其余三条12×12坐标
+  变换queue源、修改ROM像素A/B和排他writer因果仍未闭合，Goal保持active。

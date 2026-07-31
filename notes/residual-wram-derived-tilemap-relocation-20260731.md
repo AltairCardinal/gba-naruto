@@ -71,10 +71,31 @@ little-endian u16 文件：
 - artifact 刷新峰值 99 MiB，verifier sweep 峰值约 65 MiB，均由同一 heavy
   lock 保护；本里程碑没有启动 mGBA，因此不需要新增快照。
 
+## `0x083F2108` 自然运行时闭环
+
+`artifacts/residual-wram-crop-tilemap-runtime-v1/` 从已验收的
+`residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9` 零输入续跑 5 帧：
+
+- frame 3 命中 load `0x0808BC2E`，固定
+  `0x083F2108→0x02002880`；紧随其后的首个 consumer `0x0808B79C` 的
+  LR=`0x0808BC3B`，与 scene-panel submit 返回点一致。
+- consumer 入口保存的 `0x02002880` 运行时 WRAM 800 bytes 与 ROM 解压源逐字节
+  一致；同刻 `0x06001100..0x06001380` 尚不等于目标。最终 640 bytes 精确等于
+  该 WRAM 每行保留前 32 项、丢弃右侧 8 项后的结果，640/640 bytes 发生变化。
+- 专用探针保留 load/consumer/final 三个可复用快照；运行经统一 heavy lock，
+  `completed/0`、非 degraded、无残留，峰值 owned-tree RSS 106.78515625 MiB。
+
+独立 verifier 不导入导出器，也不复用其 LZ77；它固定父 runtime v2、综合 ABI、
+ownership、audit/done、guard、load/consumer 寄存器、800-byte WRAM 与两份 96 KiB
+VRAM，并从运行时 WRAM 重新构造 32×10 裁切结果。重签后篡改 consumer、任一行
+边界、裁切宽度或最终 VRAM 均会失败。
+四条派生 WRAM tilemap 的自然运行时子分母由 0/4 推进为 **1/4**。
+
 ## 边界
 
 本里程碑证明 7/7 有限 WRAM visual-metadata 来源的静态 ABI，并完成后四条的
-可变存储迁移。后续
+可变存储迁移，其中 `0x083F2108` 已补齐自然 load、consumer 与最终 VRAM 闭环。后续
 `notes/residual-wram-tilemap-resource-ownership-20260731.md` 已闭合对应
-BG/graphics/palette 归属并将固定哈希接入本迁移规格；仍不证明自然入口可达、
-queue 槽成功与自然 flush、精确业务名称，或修改后最终屏幕的像素和跨帧时序等价。
+BG/graphics/palette 归属并将固定哈希接入本迁移规格；另外三条变换源仍不证明自然
+入口、queue 槽与 flush。本成果也不签发精确业务名称、排他 writer 因果，或修改后
+最终屏幕的像素和跨帧时序等价。

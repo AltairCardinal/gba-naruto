@@ -1,0 +1,107 @@
+{
+  "consumer_hit": {
+    "cycle": "875898094",
+    "frame": 3,
+    "lr": "0x0808BC3B",
+    "pc": "0x0808B79E",
+    "registers": {
+      "r0": "0x00000001",
+      "r1": "0x00000000",
+      "r2": "0x00000010",
+      "r3": "0x00000000"
+    },
+    "target": "0x0808B79C"
+  },
+  "crop_flush": {
+    "changed_byte_count": 640,
+    "consumer_entry_equals_expected": false,
+    "consumer_entry_sha256": "9e132485d5107211de325a45e7917cbe3e4b5b9cde3e4ee91d7d2102317759ee",
+    "consumer_wram_equals_source": true,
+    "consumer_wram_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+    "discarded_right_entries_per_row": 8,
+    "expected_crop_sha256": "2ee189fba63e9984db61abf98ceefa3a81601f9f00fc2cc1f543c14166718ef0",
+    "expected_crop_size": 640,
+    "final_equals_expected": true,
+    "final_sha256": "2ee189fba63e9984db61abf98ceefa3a81601f9f00fc2cc1f543c14166718ef0",
+    "height_entries": 10,
+    "source_decompressed_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+    "source_decompressed_size": 800,
+    "source_pointer": "0x083F2108",
+    "source_width_entries": 40,
+    "submitted_width_entries": 32,
+    "vram_destination": "0x06001100",
+    "wram_source": "0x02002880"
+  },
+  "emulator": {
+    "binary_sha256": "4856a8f95a32d0d2d97e0141a4dbe33c162abf27295a8f85ed8fb3c17a42ea72",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "load_hit": {
+    "cycle": "875887742",
+    "frame": 3,
+    "lr": "0x0808BC2B",
+    "pc": "0x0808BC30",
+    "registers": {
+      "r0": "0x083F2108",
+      "r1": "0x02002880",
+      "r2": "0x00000010",
+      "r3": "0x00000170"
+    },
+    "target": "0x0808BC2E"
+  },
+  "parent_runtime": {
+    "artifact": "artifacts/residual-wram-tilemap-runtime-v2",
+    "checkpoint": "scene-panel-setup.ss9",
+    "checkpoint_sha256": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000",
+    "evidence_sha256": "38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617",
+    "manifest_sha256": "73eb055798b1c93a59d9fc6c9bab16525933d2ea9ccfab066fe4b70b6d65d1f7"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "run": {
+    "audit_sha256": "c363f3710d2e1cae274f28eb93de4788376b95a8e435cf003cb3f2213c7f5c5b",
+    "capture_frames": 5,
+    "consumer_checkpoint_sha256": "df68206aeaf2b1b818af4fe57be8ddf847e4c1bd79f3f737ed50bb5e5b2fea4a",
+    "consumer_vram_sha256": "688c884f16c460ade320f15957f1ac265dd1a6bbd1c90ae245f56a21dc817e14",
+    "consumer_wram_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+    "final_checkpoint_sha256": "370547490831eee5fe578a933a1fa7c0cac744fcbb9f2e4eb93bddfaed220ed2",
+    "final_vram_sha256": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+    "guard_sha256": "b1677143406ceb92c658b7c2b194f500ab7a9302f8705829df3157b1cec5a8e8",
+    "inputs": [],
+    "load_checkpoint_sha256": "73842f7222e9f29a81c44aa37af66775f8cdd3be85d35ea6b3151ed5a2ac78ee",
+    "peak_tree_rss_mib": 106.78515625,
+    "run_id": "scene-panel-crop-consumer-wram-zero5-20260731"
+  },
+  "schema": "residual-wram-crop-tilemap-runtime-evidence-v1",
+  "scope": {
+    "crop_consumer_entry_verified": true,
+    "exclusive_writer_causality_verified": false,
+    "final_vram_crop_equals_rom_source_verified": true,
+    "modified_rom_pixel_equivalence_verified": false,
+    "natural_base_rom_reachability_verified": true,
+    "zero_input_checkpoint_continuation_verified": true
+  },
+  "source_artifacts": {
+    "abi": {
+      "path": "artifacts/residual-wram-visual-metadata-abi-v2/residual-wram-visual-metadata-abi.json",
+      "sha256": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260"
+    },
+    "ownership": {
+      "path": "artifacts/residual-wram-tilemap-resource-ownership-v1/resource-ownership.json",
+      "sha256": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+    }
+  },
+  "summary": {
+    "derived_tilemap_denominator": 4,
+    "remaining_runtime_count": 3,
+    "remaining_source_pointers": [
+      "0x084634B8",
+      "0x0846356C",
+      "0x084635D8"
+    ],
+    "runtime_verified_count": 1,
+    "verified_source_pointer": "0x083F2108"
+  }
+}

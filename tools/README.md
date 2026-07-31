@@ -1614,6 +1614,24 @@ python3 tools/verify_residual_wram_tilemap_runtime_v2.py \
 Exclusive-writer causality, modified-ROM pixel equivalence and exact natural-language
 identity remain outside both runtime artifacts.
 
+The adjacent 40x10 WRAM source uses a different direct CPU crop consumer. Its
+dedicated zero-input probe resumes the v2 setup checkpoint, observes the ROM source
+load and the first `0x0808B79C` entry from return address `0x0808BC3B`, then proves
+that the 800-byte consumer-entry WRAM equals the decoded ROM source and the final
+32x10 VRAM region equals the first 32 entries of every 40-entry WRAM row.
+
+```bash
+python3 tools/export_residual_wram_crop_tilemap_runtime_evidence.py \
+  --root . \
+  --run build/experiments/active/residual-wram-crop-tilemap-runtime/scene-panel-crop-consumer-wram-zero5-20260731 \
+  --output build/experiments/active/residual-wram-crop-tilemap-runtime/residual-wram-crop-tilemap-runtime-v1-export-20260731/final
+python3 tools/verify_residual_wram_crop_tilemap_runtime_evidence.py \
+  --root . --artifact artifacts/residual-wram-crop-tilemap-runtime-v1
+```
+
+This closes 1/4 of the derived WRAM tilemap runtime denominator. The three
+coordinate-transform queue sources remain open.
+
 # Residual WRAM tilemap batch relocation
 
 `import_residual_wram_tilemap_relocations.py` consumes the accepted ABI artifact
