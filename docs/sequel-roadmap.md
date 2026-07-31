@@ -1713,3 +1713,19 @@ WebSocket
   `artifacts/residual-wram-crop-tilemap-runtime-v1/`，说明见
   `notes/residual-wram-derived-tilemap-relocation-20260731.md`。其余三条12×12坐标
   变换queue源、修改ROM像素A/B和排他writer因果仍未闭合，Goal保持active。
+- 2026-08-01：派生WRAM tilemap中剩余三条12×12坐标变换源已在受控入口下完成
+  运行时闭环，子分母由1/4推进为**4/4**（其中CPU裁切源1条为自然入口，变换源3条
+  为受控入口）。三条source分别在`0x08090B5C/0x08090D56/0x08090DC4`加载，
+  load完成后的`0x0200A640` staging均与各自ROM LZ77解压结果逐字节一致；变换后
+  都以`0x0200A760 → 0x06000806`、12×12提交。独立事务固定严格cycle顺序，解析
+  完整16槽queue得到slot 0/2/0的status `3→2`，并从96 KiB VRAM dump按64-byte
+  行距重建目标区域：flush前与输出不同，flush后288 bytes逐字节一致，变化字节数
+  为18/17/9。phase B还强制首条post早于第二条load，排除共享submit串证。
+  正式mGBA运行经统一heavy lock，`completed/0`、非degraded，峰值RSS为
+  116.7890625/116.734375 MiB。独立verifier不导入exporter，自行检查ROM解压、
+  queue、`.ss9`内存、strided VRAM、ABI/ownership、父快照链及所有SHA；并从每条
+  load-post快照的旧输出独立重建唯一3×3裁剪与`+0x02BC`更新，拒绝重签cycle、来源、
+  变换输出、状态和VRAM篡改。成果位于`artifacts/residual-wram-transformed-tilemap-runtime-v1/`，
+  说明见`notes/residual-wram-transformed-tilemap-runtime-20260801.md`。入口链含
+  `0x020240BC: 0→1`补丁，故只签发controlled结论；自然入口、修改ROM像素A/B、
+  完整演出时序与排他writer因果仍未闭合，Goal保持active。
