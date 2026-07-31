@@ -1,0 +1,85 @@
+{
+  "artifact_id": "character-battle-graphics-pixel-ab-v1",
+  "artifact_schema": "character-battle-graphics-pixel-ab-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline/audit.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+    "baseline/bundle.bin": "10b78ae7a78d886531b49b3d4810008f191bea11eadc62f364ad873bd79d636d",
+    "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+    "baseline/frame80.ss9": "99846a652a25c4716ddcfcb616d17bf0c66d2bc26813717b532546204ccd6ac2",
+    "baseline/guard.json": "9223495585e1507b9403732ab765ef0f7096d526d644c739ab5875610c553f6f",
+    "baseline/sentinel.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+    "build-manifest.json": "4dd708286e41dd6a7f4cafc4aa3fcbc9895381c9b5ff4889f930f032abccac0d",
+    "candidate/audit.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+    "candidate/bundle.bin": "4a1523058a958909842e4cd5925795d8b2ba7cf9fdfd037ddee9bc759720c7c2",
+    "candidate/frame80.png": "ff00d40c06e4daee1ce204ba4c302d28712b48e636d78ffbd22a564cff6f5f7f",
+    "candidate/frame80.ss9": "20ecfa1ff5c444f7b9483f3efd5c8d20bf6d386bfe7c304c1e52f98c5ea29f33",
+    "candidate/guard.json": "f43ccdd0ecfe9c48c8834a33037570ac41e653432153003e7b996933f447b0d0",
+    "candidate/sentinel.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+    "runtime-evidence.json": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5"
+  },
+  "implementation_sha256": {
+    "tests/test_build_character_battle_graphics_pixel_ab.py": "d0ad533953b71199d41b1fc8142ce71948a9c3f8932eed7485480d1292b9dcdb",
+    "tests/test_character_battle_graphics_pixel_ab_evidence.py": "3628df50ea4246e9323c9fe14397f2edbf878862eefb48dcdc2c16f41e73bd65",
+    "tools/build_character_battle_graphics_pixel_ab.py": "93e8d0e0b8fb17a235acc8023dc6f94028e18461d5118b138580f45c2692530e",
+    "tools/export_character_battle_graphics_pixel_ab_evidence.py": "614c3fc622ee3d7d5a5b257a02b000bca59ba20cca8167f4e3ef5fa6332d5703",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_character_battle_graphics_pixel_ab_evidence.py": "11db8d75d72070d0d0f9a236e14b18590a69ca7a6e6911ef993619f75e6a1bba"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+    "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_250_resources_runtime_verified": false,
+    "all_character_slots_runtime_verified": false,
+    "camera_blend_transform_verified": false,
+    "character_resource_0_frame_3_graphics_pixel_ab": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "relocated_bundle_runtime_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_graphics_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-graphics-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "frame_id": 3,
+      "memory_differences": {
+        "VRAM": [
+          65830
+        ]
+      },
+      "pixel_changes": [
+        [
+          117,
+          25,
+          [
+            33,
+            33,
+            33
+          ],
+          [
+            255,
+            0,
+            0
+          ]
+        ]
+      ],
+      "resource_id": 0,
+      "verified": true
+    }
+  }
+}

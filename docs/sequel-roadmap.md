@@ -1777,3 +1777,17 @@ WebSocket
   `notes/map41-visual-resource-matrix-20260801.md`。map41四个主要视觉资源类型已有
   代表性自然像素链；其他地图、alternate layout、碰撞、camera/overlay和实体GBA
   仍未全量签发，Goal保持active。
+- 2026-08-01：角色战斗视觉资源新增首条修改ROM自然最终像素A/B。生产bundle迁移器
+  把resource 0（鸣人visual slot 0）的palette、18 KiB graphics、component、frame、
+  timeline和animation table整体迁移到`0x08600000..0x08604B60`，两份16 MiB ROM
+  拓扑相同且只在graphics `+0xD26`有`0x12→0x42`单字节差异。两边从同一accepted
+  preloader快照独立输入A后到达battle 41；完整EWRAM/IO/PRAM/OAM相同，完整VRAM
+  只差`0x06010126`。独立verifier从`DISPCNT=0x1940`、OAM entry 0、1D OBJ mapping、
+  BG priority/透明度和OBJ palette重算局部`(13,17)`到屏幕`(117,25)`，最终PNG恰好
+  只在该点由`(33,33,33)`变为`(255,0,0)`。它固定五个内存域及原始run身份，并拒绝
+  重签后的bundle、savestate display、audit/guard、build和scope篡改。两次guard均
+  `completed/0`、非degraded，峰值RSS为109.78125/109.01171875 MiB。成果位于
+  `artifacts/character-battle-graphics-pixel-ab-v1/`，说明见
+  `notes/character-battle-graphics-pixel-ab-20260801.md`。本证据只签发resource 0 /
+  frame 3代表链，不外推至其余249个资源、342个逻辑槽、完整动作合成或实体GBA，
+  Goal保持active。
