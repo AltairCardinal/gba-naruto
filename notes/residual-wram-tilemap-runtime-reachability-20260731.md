@@ -1,4 +1,4 @@
-# 残余 WRAM tilemap 首条自然 queue/flush 运行时闭环（2026-07-31）
+# 残余 WRAM tilemap 自然 queue/flush 运行时闭环（2026-07-31）
 
 ## 结论
 
@@ -41,10 +41,34 @@ VRAM 行，并拒绝重签后的目标地址、VRAM、额外文件或符号链�
   owned-tree RSS `62.9453125 MiB`，结果相同，但不作为正式 payload 的替代。
 - 未修改 `rom/base.gba` 或用户的 `rom/base.sav`；运行使用实验目录内的 ROM 副本。
 
+## v2：三条直接 queue source 全部闭合
+
+`residual-wram-tilemap-runtime-v2` 保留 v1 历史结论，并从 v1 已验收的
+`final.ss9`（SHA-256 `fbfd4b5a…348ff`）继续：只在 frame 18–20 按一次 B，frame 28
+自然命中 scene-panel setup `0x0808BAB0`，保存 setup 断点快照
+`6fed9fe8…76000`。从该快照零输入运行 5 帧，得到：
+
+- frame 2：`0x0808BBD8` 加载 `0x083F1C98→0x02002B78`；
+  `0x0808BBFC` 加载 `0x085B67E0→0x02002DB8`。
+- frame 3 首次进入 `0x0806365C` 时，slot 0 是
+  `(status=3, 0x02002B78, 0x0600F810, 24, 12)`，slot 1 是
+  `(status=3, 0x02002DB8, 0x0600FC4E, 23, 3)`，且各自精确出现一次。
+- frame 5 最终快照中两条记录均转为 status 2，而不是被表述为“清零”。按 64-byte
+  VRAM 行距抽取后，24×12 的 576 bytes 与 ROM 解压 payload 完全一致，变化
+  473 bytes；23×3 的 138 bytes 也完全一致，变化 134 bytes。consumer 前两块均
+  不等于 ROM 源。
+
+正式成果位于 `artifacts/residual-wram-tilemap-runtime-v2/`。独立 verifier 不导入
+导出器，也不复用其 LZ77 实现；它固定 v1 accepted manifest/evidence/final-state、
+ABI/ownership payload、单次 B bridge、setup 快照、零输入 audit/done、guard、两条
+queue slot、status 3→2 转移及两段 VRAM 行。重签后篡改 bridge 快照、queue 目标或
+最终 VRAM 均会失败。两次 mGBA 运行均经统一 heavy lock，结果为 `completed/0`、
+非 degraded、无残留，峰值 owned-tree RSS 分别为 111.28515625 MiB 与
+107.046875 MiB。
+
 ## 当前边界
 
-直接 queue tilemap 的运行时分母现为 1/3。`0x083F1C98`、`0x085B67E0` 仍需在
-自然场景入口证明 load、slot 和 flush；裁切/变换的另外四条属于 7 条总分母，但不应
-混入本 3 条直接 queue 子分母。本成果也不签发精确业务名称、修改 ROM 后的最终像素
-A/B、完整跨帧演出时序，或“frame 2 入口至 frame 3 边界之间绝无其他 writer”的
-排他因果结论。
+三条直接 status-3 queue tilemap 的自然运行时分母现为 **3/3**。裁切/变换的另外
+四条属于 7 条 WRAM tilemap 总分母，其 consumer 机制不同，不能混入本子分母。
+本成果仍不签发精确业务名称、修改 ROM 后的最终像素 A/B、完整跨帧演出时序，或
+consumer 入口至最终边界之间“绝无其他 writer”的排他因果结论。

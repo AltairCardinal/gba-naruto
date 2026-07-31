@@ -1591,9 +1591,28 @@ extracts the 20 destination rows at consumer entry and the next frame boundary,
 requires the final 600 bytes to equal the ROM payload exactly, and requires the
 captured status-3 entry to be absent from all 16 final queue slots. It also validates
 the accepted parent manifest/evidence/audit that produced the natural input state.
-The artifact keeps reusable hit and final savestates. Its accepted scope is 1/3
-direct queue sources; exclusive-writer causality, the two scene-panel sources,
-modified-ROM pixel equivalence and exact natural-language identity remain open.
+The artifact keeps reusable hit and final savestates. Its v1 accepted scope is 1/3
+direct queue sources.
+
+The v2 artifact starts from that accepted v1 final checkpoint, applies exactly one
+`B` input to reach `0x0808BAB0`, saves the setup-breakpoint checkpoint, then uses a
+five-frame zero-input continuation. It proves both scene-panel sources occupy their
+exact status-3 slots, transition to status 2 after consumption, and reproduce the
+24x12 and 23x3 ROM tilemaps in strided VRAM. Together with v1 this closes the direct
+queue sub-denominator at 3/3.
+
+```bash
+python3 tools/export_residual_wram_tilemap_runtime_v2.py \
+  --root . \
+  --bridge-run build/experiments/active/residual-wram-tilemap-reachability/scene-panel-v1-parent-b-bridge-20260731 \
+  --zero-run build/experiments/active/residual-wram-tilemap-reachability/scene-panel-v1-parent-direct-sources-zero5-20260731 \
+  --output build/experiments/active/residual-wram-tilemap-reachability/residual-wram-tilemap-runtime-v2-export-20260731/final
+python3 tools/verify_residual_wram_tilemap_runtime_v2.py \
+  --root . --artifact artifacts/residual-wram-tilemap-runtime-v2
+```
+
+Exclusive-writer causality, modified-ROM pixel equivalence and exact natural-language
+identity remain outside both runtime artifacts.
 
 # Residual WRAM tilemap batch relocation
 

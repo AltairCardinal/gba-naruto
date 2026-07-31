@@ -1,0 +1,56 @@
+{
+  "artifact_id": "residual-wram-tilemap-runtime-v2",
+  "artifact_schema": "residual-wram-tilemap-runtime-evidence-v2",
+  "artifact_status": "accepted",
+  "files": {
+    "bridge-audit.json": "1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04",
+    "bridge-done.json": "1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04",
+    "bridge-guard.json": "b7b152d6c8302b642093380ddcc68745e4584864e53c0b61d2cf2ef30b35d7f3",
+    "final-queue.bin": "2299b783127b333297a56823ad651b93c6b986acdf355f2f8555a722f69bac77",
+    "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "final.ss9": "2edda36267e671e7ed07d2d58d6e974381d7dea2cd9df2ae2b538c56a356edcc",
+    "queue-at-consumer.bin": "5c885f8b7eed3cf80e9d6873a6f1464bc979f1afc59d457897a41d7d758c6ffb",
+    "runtime-evidence.json": "38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617",
+    "scene-panel-setup.ss9": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000",
+    "vram-at-consumer.bin": "15f7bfb95822aa550520bc9c5945ff41b0d54c496d5f253f00aa8a02f79691eb",
+    "vram-final.bin": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+    "zero-audit.json": "340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd",
+    "zero-done.json": "340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd",
+    "zero-guard.json": "0f7fe5e642ad8fb5667bef6f86b077651679716ca940d12ad0ad9c26f4f5197c"
+  },
+  "implementation": {
+    "tests/test_mgba_wram_tilemap_probe_script.py": "b99973e5c13c4f7ae0dbc7df7f79f24da714d5b4de3c4c5efed4433c73090a20",
+    "tests/test_mgba_wram_tilemap_single_input_probe_script.py": "bbd6a0d6629dd456c1cc54294554383daa9ee982e126cf9712bab8a9d8ac3b78",
+    "tests/test_residual_wram_tilemap_runtime_v2.py": "d37cc7a0c91cbedcdeb321f6db59954d3a12dffe97374e7c654792efa3f490fa",
+    "tools/export_residual_wram_tilemap_runtime_v2.py": "a36a87c5c5d9d40e47aedb11722cf9efab4a0bbf04bec6c2ef9e87b900b412a7",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/mgba_wram_tilemap_probe.lua": "d466c3a2127e5c124b713ae4ea05149cf29fc4535c90b552d773f482ddaa58ea",
+    "tools/mgba_wram_tilemap_single_input_probe.lua": "ee65e33398a8b8d3016eea8112f4b31ab67b9c9c4bd1d5287184d43a1f1e53b3",
+    "tools/verify_residual_wram_tilemap_runtime_v2.py": "1df22dfb7b2522d2d0105ae0409cf152f19d84bb5503187b77005fd592c9a1ca"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_direct_queue_sources_runtime_verified": true,
+    "exact_natural_language_identity_verified": false,
+    "exclusive_writer_causality_verified": false,
+    "final_vram_rows_equal_rom_tilemaps": true,
+    "modified_rom_pixel_equivalence_verified": false,
+    "natural_base_rom_reachability_verified": true,
+    "queue_status_transition_3_to_2_verified": true,
+    "single_input_bridge_verified": true,
+    "zero_input_checkpoint_continuation_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_runtime_v2.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-runtime-v2"
+    ],
+    "exit_code": 0
+  }
+}

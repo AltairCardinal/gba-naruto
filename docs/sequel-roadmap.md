@@ -1687,3 +1687,17 @@ WebSocket
   1/3；这闭合本记录的自然queue route，但不签发frame 2入口至frame 3边界间的
   排他writer因果。`0x083F1C98`、`0x085B67E0`及修改后最终像素A/B仍未闭合，
   Goal保持active。
+- 2026-07-31：三条直接status-3 queue tilemap的自然运行时子分母已由1/3推进到
+  **3/3**。从`residual-wram-tilemap-runtime-v1/final.ss9`只输入一次B，在frame 28
+  命中`0x0808BAB0`并保存setup断点快照；其后5帧零输入续跑于frame 2同时命中
+  `0x083F1C98→0x02002B78`和`0x085B67E0→0x02002DB8`的LZ77加载。frame 3首个
+  consumer快照中，slot 0/1分别是目标`0x0600F810`的24×12记录和目标
+  `0x0600FC4E`的23×3记录，均为status 3且精确出现一次；最终两项均转为status 2。
+  按64-byte行距抽出的576/138 bytes分别与ROM解压payload逐字节一致，consumer前
+  均不相等，变化字节数为473/134。新独立verifier自行实现LZ77，固定v1父成果、
+  ABI/ownership、bridge与zero-input audit/done、guard、快照、queue及VRAM，并拒绝
+  重签篡改。两次正式mGBA运行均经统一heavy lock，`completed/0`、非degraded，峰值
+  RSS为111.28515625/107.046875 MiB。成果位于
+  `artifacts/residual-wram-tilemap-runtime-v2/`，说明见
+  `notes/residual-wram-tilemap-runtime-reachability-20260731.md`。本子分母已闭合，但
+  修改ROM后的最终像素A/B、完整演出时序和排他writer因果仍未闭合，Goal保持active。
