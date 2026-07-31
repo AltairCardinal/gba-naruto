@@ -1470,7 +1470,7 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xBC0000..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBC0400..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
   世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
   `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
@@ -1579,3 +1579,16 @@ WebSocket
   `notes/residual-lz77-graphics-relocation-20260731.md`。palette编辑、
   metadata/tilemap ABI、业务命名及修改后最终屏幕像素/时序等价仍未闭合，
   Goal保持active。
+- 2026-07-31：所有已严格证明由ROM直接复制到PRAM的图像调色板已推进到可变存储
+  迁移。18个逻辑源收敛为17个物理资源和29个全ROM精确根指针：3个LZ77调色板
+  固定解压为96 bytes，14个raw BGR555物理资源合计672 bytes。迁移器把786 bytes
+  存储写入`0xBC0000..0xBC0314`，形成17个allocation、29个pointer patch，
+  共46项安全写入，注册区域`0xBC0000..0xBC0400`剩余236 bytes。
+  `0x08406010`继续严格指向`0x08405FF0+0x20`；父资源尾部与剧情LZ77流重叠的
+  72 bytes被锁定，任何修改均失败关闭。独立verifier不导入迁移器或导出器，
+  自行重建inventory、catalog、别名、锁定区、完整16 MiB输出和17项均可编辑的
+  capability fixture。成果位于
+  `artifacts/direct-image-palette-relocation-v1/`，说明见
+  `notes/direct-image-palette-relocation-20260731.md`。两条残余图形的palette
+  身份、7条WRAM visual metadata、1条text-BG tilemap ABI及修改后最终屏幕
+  像素/时序等价仍未闭合，Goal保持active。

@@ -203,7 +203,28 @@ inventory/catalog哈希、20项全集、34个全ROM精确根指针、LZ77 round-
 {
   "id": "residual-lz77-graphics-relocation",
   "type": "residual_lz77_graphics_relocation",
-  "spec": "sequel/content/residual-lz77-graphics/relocation.json"
+  "spec": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json"
+}
+```
+
+### `direct_image_palette_relocation`
+
+把所有已严格证明由 ROM 直接复制到 PRAM 的调色板迁移到注册的
+`direct-image-palettes` 扩展区域。规格使用
+`direct-image-palette-relocation-v1`，必须一次提供完整的17个物理资源：
+3个固定解压为32 bytes的LZ77调色板和14个固定长度raw BGR555资源。它们覆盖
+18个逻辑源和29个全ROM精确根指针。
+
+构建器会重建LZ77与direct CpuSet inventory、graphics catalog、range alias和
+全部旧指针前值。`0x08406010`必须保持为`0x08405FF0+0x20`，而
+`0x08405FF0+0xB8..+0x100`与剧情LZ77流重叠的72 bytes禁止编辑。任一资源缺失、
+重复、尺寸错误、锁定区变化、区域超限或引用漂移时整项失败。
+
+```json
+{
+  "id": "direct-image-palette-relocation",
+  "type": "direct_image_palette_relocation",
+  "spec": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json"
 }
 ```
 
@@ -361,6 +382,8 @@ python3 tools/import_menu_portraits.py sequel/content/menu-portraits/portrait-ed
   与10条可变timeline的可变长迁移
 - `residual_lz77_graphics_relocation` 20条残余4bpp LZ77图形及34个根指针的
   固定解压尺寸、可变压缩长度迁移
+- `direct_image_palette_relocation` 18个逻辑调色板源、17个物理资源及29个
+  精确根指针的可变存储迁移
 - `character_battle_palette` 48个角色战斗物理调色板槽的固定长度安全回编
 - `bg_resource` 31份 regular BG graphics/palette/tilemap 内容的受守卫原位回编
 - `character_battle_graphics` 250套角色战斗 raw 4bpp 图形的固定长度安全回编

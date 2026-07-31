@@ -181,7 +181,24 @@ class ImageResourceRegionsTests(unittest.TestCase):
             ),
         )
         self.assertEqual(
-            (0xBC0000, 0xC00000),
+            (0xBC0000, 0xBC0400, "direct_image_palettes"),
+            (
+                registry.require(
+                    "direct-image-palettes",
+                    "direct_image_palettes",
+                ).start,
+                registry.require(
+                    "direct-image-palettes",
+                    "direct_image_palettes",
+                ).end,
+                registry.require(
+                    "direct-image-palettes",
+                    "direct_image_palettes",
+                ).owner,
+            ),
+        )
+        self.assertEqual(
+            (0xBC0400, 0xC00000),
             (
                 registry.require(
                     "future-image-resources",

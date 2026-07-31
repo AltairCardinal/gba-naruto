@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RebuildImageRelocationArtifactsTests(unittest.TestCase):
-    def test_plan_rebuilds_sources_then_all_eleven_audits_and_verifiers(self):
+    def test_plan_rebuilds_sources_then_all_twelve_audits_and_verifiers(self):
         from tools.rebuild_image_relocation_artifacts import build_plan
 
         plan = build_plan(ROOT)
@@ -17,7 +17,7 @@ class RebuildImageRelocationArtifactsTests(unittest.TestCase):
             "tools/export_story_visual_resource_sources.py",
             plan[0][1],
         )
-        self.assertEqual(23, len(plan))
+        self.assertEqual(25, len(plan))
         self.assertEqual(
             {
                 "character-battle-bundle-relocation-v1",
@@ -31,6 +31,7 @@ class RebuildImageRelocationArtifactsTests(unittest.TestCase):
                 "generic-sprite-bundle-relocation-v1",
                 "cutscene-obj-bundle-relocation-v1",
                 "residual-lz77-graphics-relocation-v1",
+                "direct-image-palette-relocation-v1",
             },
             {
                 argument.split("/", 1)[1]

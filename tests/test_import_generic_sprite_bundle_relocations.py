@@ -168,7 +168,7 @@ class ImportGenericSpriteBundleRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xB90000, 0xBA0000), (sprite.start, sprite.end))
-        self.assertEqual((0xBC0000, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC0400, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_all_payloads_and_exact_references(self):
         from tools.build_mod import apply_patch

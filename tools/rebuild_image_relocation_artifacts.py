@@ -56,6 +56,10 @@ FAMILIES = (
         "residual_lz77_graphics",
         "residual-lz77-graphics-relocation-v1",
     ),
+    (
+        "direct_image_palette",
+        "direct-image-palette-relocation-v1",
+    ),
 )
 
 
