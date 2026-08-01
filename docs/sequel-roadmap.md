@@ -1908,3 +1908,18 @@ WebSocket
   `artifacts/battle-effect-group1-pixel-ab-v1/`，
   说明见`notes/battle-effect-group1-pixel-ab-20260801.md`。其余14组、其他帧、完整
   弹道RNG/affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。
+- 2026-08-01：现有持久状态的战斗特效身份已从逐组证据升级为全量离线目录。accepted
+  `runtime-screen-composites-v1`仍诚实保留91个父checkpoint；Git后续新增的两份
+  确认页作为`post-parent extensions`单列，当前93/93个tracked `.ss9`全部解析，
+  1,254个active OAM中有3个在同一自然快照唯一绑定group 1 / frame 6 /
+  component 0、OBJ load tile 768和完全一致的16色palette。四份accepted natural
+  pixel A/B baseline与一份group 2 affine golden另列为5个supplemental state，9个
+  OAM独立覆盖groups `[1,2,5,11,14]`，因此已有持久运行时资源身份覆盖为5/18
+  （27.78%），但production自然像素A/B仍保持4/18（22.22%）。匹配必须先以
+  `attr2 tile-component tile`推导load base，再要求完整group graphics逐字节一致，
+  共享graphics及重复frame保持显式歧义。独立verifier不导入导出器，使用既有GPU
+  decoder重建93+5状态和12条匹配，并拒绝frame身份篡改；10项定向测试最大RSS约
+  25.5 MiB、swap 0，未启动mGBA。成果位于
+  `artifacts/battle-effect-runtime-oam-bindings-v1/`，说明见
+  `notes/battle-effect-runtime-oam-bindings-20260801.md`。task/selector排他writer、
+  全帧/跨帧时序、RNG、blend/window/audio与实体GBA仍未闭合，Goal保持active。
