@@ -1,0 +1,52 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-11-cross-shuriken",
+  "group_id": 11,
+  "sequence_id": 13,
+  "selector": {
+    "kind": "ninja_tool",
+    "id": 1,
+    "encoded_action_id": 129
+  },
+  "frame_id": 0,
+  "component_index": 0,
+  "component_pixel_xy": [4, 5],
+  "graphics_byte_offset": 22,
+  "before_byte": 33,
+  "after_byte": 34,
+  "before_index": 1,
+  "after_index": 2,
+  "screen_xy": [172, 61],
+  "before_rgb": [255, 255, 255],
+  "after_rgb": [255, 214, 181],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-11-graphics-4bpp.bin",
+  "source_graphics_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
+  "pair_pointer_offset": 5869940,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 488,
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+  "input_state_sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139",
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation-evidence.json",
+  "input_evidence_sha256": "f3d6b84355fc5e6168d05898807108b7c61fb088e27adb50b736e64a0a61ba80",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 106
+  },
+  "runtime_oam": {
+    "oam_index": 0,
+    "attributes": ["0x0038", "0x40A8", "0x6960"],
+    "obj_tile_base": 352,
+    "obj_vram_address": "0x06012C00",
+    "palette_bank": 6
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73"
+  }
+}

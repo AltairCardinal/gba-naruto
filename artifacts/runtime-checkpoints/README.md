@@ -47,6 +47,7 @@ Expected SHA-256:
 | `scenario-41-pre-controller-after-a.ss9` | `1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646` | accepted Down → unique A → 19-frame zero settle; stable pre-controller state only, not controller/player-control evidence |
 | `scenario-41-controller-entry.ss9` | `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6` | accepted stable controller-entry state after two exact 224-frame zero-input replays; not player-control evidence |
 | `scenario-41-player-turn.ss9` | `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171` | accepted stable player-control boundary; reusable starting point for the first natural turn, but not MOVEDONE/victory/postbattle evidence |
+| `scenario-50-cross-shuriken-confirmation.ss9` | `57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139` | accepted scenario 50 Naruto ninja-tool 1 confirmation prompt; final A has not yet been pressed |
 
 ## Scenario 41 checkpoint ledger
 
@@ -236,6 +237,17 @@ high-bit action and the one-byte skill-1 attack-power A/B (`6x3` to `7x3`).
 
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
+
+`scenario-50-cross-shuriken-confirmation.ss9` is the reusable pre-effect boundary
+for natural cross-shuriken tests. A single guarded input-sequence replay replaces ten
+historical segmented runs. Its audit records the same PNG SHA as the earlier segmented
+run, but the repository does not retain both external PNGs and therefore does not treat
+their byte equality as independently reproducible. Its compact evidence file binds the
+parent, exact ten-event schedule, emulator/tool hashes,
+51.87890625 MiB peak RSS and clean process/listener teardown. The state stops at the
+“可以吗？” prompt: the next A selects ninja tool 1 → encoded action 129 → sequence 13
+→ resource group 11. It does not itself prove the post-confirmation effect; that claim
+is independently verified by `artifacts/battle-effect-group11-pixel-ab-v1/`.
 
 ## One-time setup
 

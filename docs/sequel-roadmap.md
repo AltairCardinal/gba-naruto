@@ -1862,3 +1862,16 @@ WebSocket
   `notes/battle-effect-group5-pixel-ab-20260801.md`。当前只签发18组中的group 5和
   frame 1代表链，不外推其他组/帧、完整affine/blend/时序/音频或实体GBA；Goal保持
   active。
+- 2026-08-01：战斗特效自然最终像素A/B由1组推进到**2/18组**。scenario 50中鸣人
+  自然选择忍具1“十字手里剑”，对应encoded action 129→sequence 13→group 11；原
+  十段导航已由通用多输入runner合并成一次guarded运行，并固化为最终确认A之前的
+  `scenario-50-cross-shuriken-confirmation.ss9`；其审计与历史逐段运行记录了相同
+  PNG SHA，但仓库不把两份外部PNG字节一致性作为独立可复算结论。两份
+  16 MiB ROM共享`0x08B40000` relocation及488-byte安全LZ77拓扑，candidate只把
+  graphics offset `0x16:21→22`。最终六个完整内存域仅VRAM
+  `0x06012C16`一字节不同，mGBA PNG仅`(172,61)`由白色变为肤色；完整graphics、
+  palette bank 6、OAM entry 0和独立Mode-0输出均精确匹配。两次A/B运行峰值RSS为
+  56.09765625/55.85546875 MiB且无残留。成果位于
+  `artifacts/battle-effect-group11-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group11-pixel-ab-20260801.md`。其余16组、其他帧、完整
+  affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。

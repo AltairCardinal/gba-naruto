@@ -162,6 +162,28 @@ python3 tools/verify_battle_effect_resource_relocation_audit.py \
 可显式分裂，group 16/17的同内容不同物理palette也保持可分离。graphics仍须由完整
 32-byte 4bpp tile组成，palette仍须恰好32 bytes。
 
+### 战斗特效自然像素 A/B 批量链
+
+`run_macos_mgba_input_sequence.py`配合`mgba_input_sequence_replay.lua`可在一次
+guarded mGBA进程内执行多组按键时序并保存最终PNG/状态，适合把已确认的长导航固化
+为复用checkpoint。`build_battle_effect_pixel_ab.py`、
+`export_battle_effect_pixel_ab_evidence.py`和独立
+`verify_battle_effect_pixel_ab_evidence.py`读取一个fail-closed profile，以同一
+production relocation拓扑构建基线/单像素候选、规范化运行证据并从基准ROM重建验证。
+
+```bash
+python3 tools/run_macos_mgba_input_sequence.py --help
+python3 tools/build_battle_effect_pixel_ab.py \
+  --profile sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json \
+  --output build/experiments/active/battle-effect-group11/build
+python3 tools/verify_battle_effect_pixel_ab_evidence.py \
+  --artifact artifacts/battle-effect-group11-pixel-ab-v1
+```
+
+当前profile签发scenario 50自然忍具1 → sequence 13 → group 11、frame 0的单像素链。
+输入checkpoint停在最终确认A之前，避免每次重放十段菜单/战斗导航。该profile不证明
+其余group/frame、完整affine/blend/时序/音频或实体GBA。
+
 ## 剧情透明 BG3 图层可变长迁移
 
 `export_story_visual_resource_sources.py`一次性从24条`0x0854229C`
