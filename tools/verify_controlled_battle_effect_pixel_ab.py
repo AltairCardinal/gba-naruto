@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independently verify the controlled group-18 final-pixel A/B artifact."""
+"""Independently verify an allowlisted controlled final-pixel A/B artifact."""
 
 from __future__ import annotations
 
@@ -32,17 +32,6 @@ from tools.verify_menu_portrait_writeback_audit import _encode_lz77
 
 
 EVIDENCE_SCHEMA = "controlled-battle-effect-pixel-ab-runtime-v1"
-EXPECTED_VERIFIER = {
-    "command": [
-        "python3",
-        "tools/verify_controlled_battle_effect_pixel_ab.py",
-        "--root",
-        ".",
-        "--artifact",
-        "artifacts/battle-effect-group18-controlled-pixel-ab-v1",
-    ],
-    "exit_code": 0,
-}
 ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
 VARIANTS = ("baseline", "candidate")
 PHASES = ("renderer-post", "submit-post", "ack-post")
@@ -84,6 +73,93 @@ IMPLEMENTATION_PATHS = (
     "tests/test_export_controlled_battle_effect_pixel_ab.py",
     "tests/test_verify_controlled_battle_effect_pixel_ab.py",
 )
+
+CASE_CONTRACTS = {
+    "group-03-sequence-03-side-0-direct-spawn": {
+        "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-03-sequence-03-side-0-direct-spawn.json",
+        "group_id": 3,
+        "sequence_id": 3,
+        "definition": 0x083425D8,
+        "animation": 0x083426CC,
+        "case_row": 0,
+        "graphics_filename": "group-03-graphics-4bpp.bin",
+        "task_slot": 109,
+        "tile_base": 256,
+        "palette_bank": 4,
+        "palette_prefix": 30,
+        "palette_mismatches": [30, 31],
+        "submission_counts": [1, 1, 2],
+        "encoded_size": 5294,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59912C, 0x599134],
+        "target_pointer_offsets": [0x599134],
+        "source_graphics_pointer": 0x08340AF8,
+        "build_pointer_lists_required": True,
+        "graphics_offset": 207,
+        "before_byte": 3,
+        "after_byte": 14,
+        "oam_index": 22,
+        "oam_attributes": ["0x0028", "0x9078", "0x4900"],
+        "vram_difference": 0x120CF,
+        "absolute_difference": "0x060120CF",
+        "pixel": {
+            "x": 129,
+            "y": 51,
+            "before_rgb": [247, 115, 0],
+            "after_rgb": [115, 107, 99],
+        },
+    },
+    "group-18-sequence-07-direct-spawn": {
+        "artifact": "artifacts/battle-effect-group18-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-18-sequence-07-direct-spawn.json",
+        "group_id": 18,
+        "sequence_id": 7,
+        "definition": 0x0834819C,
+        "animation": 0x083481DC,
+        "case_row": 2,
+        "graphics_filename": "group-18-graphics-4bpp.bin",
+        "task_slot": 109,
+        "tile_base": 768,
+        "palette_bank": 12,
+        "palette_prefix": 32,
+        "palette_mismatches": [],
+        "submission_counts": [0, 0, 1],
+        "encoded_size": 2002,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x5991AC],
+        "target_pointer_offsets": [0x5991AC],
+        "source_graphics_pointer": 0x083478F4,
+        "build_pointer_lists_required": False,
+        "graphics_offset": 202,
+        "before_byte": 68,
+        "after_byte": 65,
+        "oam_index": 17,
+        "oam_attributes": ["0x0021", "0x8068", "0xCB00"],
+        "vram_difference": 0x160CA,
+        "absolute_difference": "0x060160CA",
+        "pixel": {
+            "x": 124,
+            "y": 43,
+            "before_rgb": [181, 181, 181],
+            "after_rgb": [231, 231, 231],
+        },
+    },
+}
+
+
+def _expected_verifier(contract: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "command": [
+            "python3",
+            "tools/verify_controlled_battle_effect_pixel_ab.py",
+            "--root",
+            ".",
+            "--artifact",
+            contract["artifact"],
+        ],
+        "exit_code": 0,
+    }
 
 
 def _sha256(data: bytes) -> str:
@@ -215,12 +291,15 @@ def _pixel_changes(left: bytes, right: bytes) -> list[dict[str, Any]]:
     return rows
 
 
-def _target_task(state: Any) -> dict[str, Any]:
+def _target_task(state: Any, contract: dict[str, Any]) -> dict[str, Any]:
     rows = []
     for slot in range(128):
         raw = state.read_memory(0x03003BB8 + slot * 0x3C, 0x3C)
         flags = struct.unpack_from("<I", raw)[0]
-        if flags & 1 and struct.unpack_from("<II", raw, 0x1C) == (0x0834819C, 0x083481DC):
+        if flags & 1 and struct.unpack_from("<II", raw, 0x1C) == (
+            contract["definition"],
+            contract["animation"],
+        ):
             rows.append(
                 {
                     "slot": slot,
@@ -229,8 +308,8 @@ def _target_task(state: Any) -> dict[str, Any]:
                     "anchor_y": struct.unpack_from("<h", raw, 6)[0],
                     "tile_base": struct.unpack_from("<H", raw, 0x10)[0],
                     "palette_bank": raw[0x12],
-                    "definition_pointer": "0x0834819C",
-                    "animation_pointer": "0x083481DC",
+                    "definition_pointer": f"0x{contract['definition']:08X}",
+                    "animation_pointer": f"0x{contract['animation']:08X}",
                 }
             )
     if len(rows) != 1:
@@ -244,14 +323,16 @@ def _target_task(state: Any) -> dict[str, Any]:
     return rows[0]
 
 
-def _rebuild_rom(base: bytes, graphics: bytes) -> bytes:
+def _rebuild_rom(base: bytes, graphics: bytes, contract: dict[str, Any]) -> bytes:
     encoded = _encode_lz77(graphics)
-    if len(encoded) != 2002:
+    if len(encoded) != contract["encoded_size"]:
         raise ValueError("controlled pixel independent encoded size mismatch")
     relocated = bytearray(base + bytes([0xFF]) * (0x1000000 - len(base)))
-    relocated[0xB40000:0xB40000 + len(encoded)] = encoded
-    struct.pack_into("<I", relocated, 0x5991AC, 0x08B40000)
-    return build_expected_probe(bytes(relocated), CASE_ROWS[2])
+    allocation = contract["allocation_offset"]
+    relocated[allocation:allocation + len(encoded)] = encoded
+    for pointer_offset in contract["target_pointer_offsets"]:
+        struct.pack_into("<I", relocated, pointer_offset, 0x08000000 + allocation)
+    return build_expected_probe(bytes(relocated), CASE_ROWS[contract["case_row"]])
 
 
 def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
@@ -259,11 +340,14 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
     artifact = Path(artifact).resolve(strict=True)
     manifest = _json(artifact / "manifest.json")
     evidence = _json(artifact / "evidence.json")
+    contract = CASE_CONTRACTS.get(evidence.get("case_id"))
+    if contract is None:
+        raise ValueError("controlled pixel case is not allowlisted")
     if (
         manifest.get("schema") != "git-artifact-promotion-v1"
         or manifest.get("artifact_schema") != EVIDENCE_SCHEMA
         or manifest.get("artifact_status") != "accepted"
-        or manifest.get("verifier") != EXPECTED_VERIFIER
+        or manifest.get("verifier") != _expected_verifier(contract)
         or evidence.get("schema") != EVIDENCE_SCHEMA
         or evidence.get("verified") is not True
     ):
@@ -289,11 +373,29 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         or manifest.get("profile") != evidence.get("profile")
         or manifest.get("profile_sha256") != evidence.get("profile_sha256")
         or profile.get("schema") != "controlled-battle-effect-pixel-ab-profile-v1"
-        or profile.get("case_id") != "group-18-sequence-07-direct-spawn"
-        or profile.get("group_id") != 18
-        or profile.get("sequence_id") != 7
+        or evidence.get("profile") != contract["profile"]
+        or profile.get("case_id") != evidence.get("case_id")
+        or profile.get("group_id") != contract["group_id"]
+        or profile.get("sequence_id") != contract["sequence_id"]
         or profile.get("natural_gameplay_route") is not False
         or profile.get("production_resource_relocation") is not True
+        or profile.get("graphics_byte_offset") != contract["graphics_offset"]
+        or profile.get("before_byte") != contract["before_byte"]
+        or profile.get("after_byte") != contract["after_byte"]
+        or profile.get("runtime_oam", {}).get("oam_index") != contract["oam_index"]
+        or profile.get("runtime_oam", {}).get("attributes") != contract["oam_attributes"]
+        or profile.get("runtime_oam", {}).get("obj_tile_base") != contract["tile_base"]
+        or profile.get("runtime_oam", {}).get("palette_bank") != contract["palette_bank"]
+        or profile.get("expected_encoded_size") != contract["encoded_size"]
+        or profile.get("graphics_allocation_offset") != contract["allocation_offset"]
+        or profile.get(
+            "source_pointer_offsets", [profile.get("pair_pointer_offset")]
+        )
+        != contract["source_pointer_offsets"]
+        or profile.get(
+            "target_pointer_offsets", [profile.get("pair_pointer_offset")]
+        )
+        != contract["target_pointer_offsets"]
     ):
         raise ValueError("controlled pixel profile contract mismatch")
     expected_scope = {
@@ -329,6 +431,36 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         or build.get("same_patch_topology") is not True
         or build.get("same_encoded_size") is not True
         or build.get("same_probe_bytes") is not True
+        or build.get("group_id") != contract["group_id"]
+        or build.get("sequence_id") != contract["sequence_id"]
+        or (
+            contract["build_pointer_lists_required"]
+            and build.get("source_pointer_offsets")
+            != contract["source_pointer_offsets"]
+        )
+        or (
+            contract["build_pointer_lists_required"]
+            and build.get("target_pointer_offsets")
+            != contract["target_pointer_offsets"]
+        )
+        or (
+            not contract["build_pointer_lists_required"]
+            and build.get("source_pointer_offsets")
+            not in (None, contract["source_pointer_offsets"])
+        )
+        or (
+            not contract["build_pointer_lists_required"]
+            and build.get("target_pointer_offsets")
+            not in (None, contract["target_pointer_offsets"])
+        )
+        or evidence.get("build", {}).get("encoded_graphics_size")
+        != contract["encoded_size"]
+        or evidence.get("build", {}).get("allocation_offset")
+        != contract["allocation_offset"]
+        or evidence.get("build", {}).get("source_pointer_offsets")
+        != contract["source_pointer_offsets"]
+        or evidence.get("build", {}).get("pointer_offsets")
+        != contract["target_pointer_offsets"]
         or evidence.get("build", {}).get("manifest_sha256")
         != _sha256(payloads["build/build-manifest.json"])
     ):
@@ -337,19 +469,25 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
     base = (root / "rom/base.gba").read_bytes()
     if len(base) != 0x600000 or _sha256(base) != ROM_SHA256:
         raise ValueError("controlled pixel base ROM mismatch")
+    if any(
+        struct.unpack_from("<I", base, offset)[0]
+        != contract["source_graphics_pointer"]
+        for offset in contract["source_pointer_offsets"]
+    ):
+        raise ValueError("controlled pixel source pointer alias mismatch")
     graphics = {
-        variant: payloads[f"build/{variant}/group-18-graphics-4bpp.bin"]
+        variant: payloads[f"build/{variant}/{contract['graphics_filename']}"]
         for variant in VARIANTS
     }
     if (
         _diff(graphics["baseline"], graphics["candidate"])
-        != [profile["graphics_byte_offset"]]
-        or graphics["baseline"][profile["graphics_byte_offset"]] != profile["before_byte"]
-        or graphics["candidate"][profile["graphics_byte_offset"]] != profile["after_byte"]
+        != [contract["graphics_offset"]]
+        or graphics["baseline"][contract["graphics_offset"]] != contract["before_byte"]
+        or graphics["candidate"][contract["graphics_offset"]] != contract["after_byte"]
     ):
         raise ValueError("controlled pixel raw graphics mutation mismatch")
     for variant in VARIANTS:
-        rebuilt = _rebuild_rom(base, graphics[variant])
+        rebuilt = _rebuild_rom(base, graphics[variant], contract)
         if _sha256(rebuilt) != build["variants"][variant]["rom_sha256"]:
             raise ValueError(f"controlled pixel independently rebuilt ROM mismatch: {variant}")
 
@@ -391,9 +529,9 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 or run_profile.get("source_rom_sha256") != rom_sha
                 or audit.get("schema") != "mgba-battle-effect-phase-capture-v1"
                 or audit.get("outcome") != "three-phase-captured"
-                or audit.get("group_id") != 18
-                or audit.get("definition_pointer") != "0x0834819C"
-                or audit.get("animation_pointer") != "0x083481DC"
+                or audit.get("group_id") != contract["group_id"]
+                or audit.get("definition_pointer") != f"0x{contract['definition']:08X}"
+                or audit.get("animation_pointer") != f"0x{contract['animation']:08X}"
                 or audit.get("input_mode") != "zero-input-active-state"
                 or audit.get("inputs") != []
                 or audit.get("automatic_inputs") != []
@@ -438,7 +576,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 )
                 address = state.registers[15] - 2
                 cycle = int(meta.get("cycle", -1))
-                current_task = _target_task(state)
+                current_task = _target_task(state, contract)
                 if (
                     address != PHASE_ADDRESSES[index]
                     or meta.get("name") != phase
@@ -457,10 +595,19 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                         len(graphics[variant]),
                     )
                     != graphics[variant]
-                    or state.read_memory(
-                        0x05000200 + current_task["palette_bank"] * 32, len(palette)
+                    or _diff(
+                        state.read_memory(
+                            0x05000200 + current_task["palette_bank"] * 32,
+                            len(palette),
+                        ),
+                        palette,
                     )
-                    != palette
+                    != contract["palette_mismatches"]
+                    or state.read_memory(
+                        0x05000200 + current_task["palette_bank"] * 32,
+                        contract["palette_prefix"],
+                    )
+                    != palette[:contract["palette_prefix"]]
                 ):
                     raise ValueError(f"controlled pixel runtime phase mismatch: {variant}/{phase}")
                 dump_contracts = {
@@ -480,7 +627,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                             f"controlled pixel runtime phase dump mismatch: {variant}/{phase}/{name}"
                         )
                 if payloads[f"{phase_prefix}/capture-submission.bin"] != bytes(
-                    [PHASE_PENDING[index], 1 if phase == "ack-post" else 0]
+                    [PHASE_PENDING[index], contract["submission_counts"][index]]
                 ):
                     raise ValueError(
                         f"controlled pixel runtime submission mismatch: {variant}/{phase}"
@@ -546,9 +693,11 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 raise ValueError(f"controlled pixel run record mismatch: {variant}")
             ack_state = phase_states[-1]
             attrs = struct.unpack_from(
-                "<HHH", ack_state.read_memory(HARDWARE_OAM, 0x400), 17 * 8
+                "<HHH",
+                ack_state.read_memory(HARDWARE_OAM, 0x400),
+                contract["oam_index"] * 8,
             )
-            if [f"0x{value:04X}" for value in attrs] != profile["runtime_oam"]["attributes"]:
+            if [f"0x{value:04X}" for value in attrs] != contract["oam_attributes"]:
                 raise ValueError(f"controlled pixel runtime OAM mismatch: {variant}")
             states[variant] = ack_state
             rendered[variant] = render_checkpoint(temp / f"{variant}-ack-post.ss9")[0]
@@ -560,15 +709,11 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         )
         for name, (address, size) in DOMAINS.items()
     }
-    expected_memory = {**{name: [] for name in DOMAINS}, "VRAM": [0x160CA]}
-    expected_pixel = [
-        {
-            "x": 124,
-            "y": 43,
-            "before_rgb": [181, 181, 181],
-            "after_rgb": [231, 231, 231],
-        }
-    ]
+    expected_memory = {
+        **{name: [] for name in DOMAINS},
+        "VRAM": [contract["vram_difference"]],
+    }
+    expected_pixel = [contract["pixel"]]
     pixels = _pixel_changes(rendered["baseline"], rendered["candidate"])
     capture_hashes = {
         variant: _sha256(
@@ -585,12 +730,22 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
     if (
         memory != expected_memory
         or evidence.get("runtime", {}).get("memory_differences") != memory
-        or evidence.get("runtime", {}).get("memory_absolute_difference") != "0x060160CA"
+        or evidence.get("runtime", {}).get("memory_absolute_difference")
+        != contract["absolute_difference"]
         or pixels != expected_pixel
         or evidence.get("runtime", {}).get("pixel_changes") != pixels
-        or evidence.get("runtime", {}).get("graphics_difference_offsets") != [202]
-        or evidence.get("runtime", {}).get("oam_index") != 17
+        or evidence.get("runtime", {}).get("graphics_difference_offsets")
+        != [contract["graphics_offset"]]
+        or evidence.get("runtime", {}).get("oam_index") != contract["oam_index"]
+        or evidence.get("runtime", {}).get("oam_attributes")
+        != contract["oam_attributes"]
         or evidence.get("runtime", {}).get("palette_equal") is not True
+        or evidence.get("runtime", {}).get("source_palette_matched_prefix_bytes")
+        != contract["palette_prefix"]
+        or evidence.get("runtime", {}).get("source_palette_mismatch_offsets")
+        != contract["palette_mismatches"]
+        or evidence.get("runtime", {}).get("full_source_palette_equal")
+        != (not contract["palette_mismatches"])
         or capture_hashes["baseline"] != capture_hashes["candidate"]
         or evidence.get("runtime", {}).get("pixel_render_source")
         != "offline-mode0-from-ack-savestate"
@@ -605,8 +760,8 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
     return {
         "verified": True,
         "errors": [],
-        "group_id": 18,
-        "sequence_id": 7,
+        "group_id": contract["group_id"],
+        "sequence_id": contract["sequence_id"],
         "controlled_final_pixel_writeback": True,
         "mgba_capture_pixel_ab": False,
         "natural_gameplay_route": False,
@@ -618,11 +773,21 @@ def verify_evidence(root: Path, artifact: Path) -> dict[str, Any]:
     try:
         return _verify_or_raise(root, artifact)
     except Exception as error:
+        group_id = 0
+        sequence_id = 0
+        try:
+            candidate = _json(Path(artifact) / "evidence.json")
+            contract = CASE_CONTRACTS.get(candidate.get("case_id"))
+            if contract is not None:
+                group_id = contract["group_id"]
+                sequence_id = contract["sequence_id"]
+        except Exception:
+            pass
         return {
             "verified": False,
             "errors": [str(error)],
-            "group_id": 18,
-            "sequence_id": 7,
+            "group_id": group_id,
+            "sequence_id": sequence_id,
             "controlled_final_pixel_writeback": False,
             "mgba_capture_pixel_ab": False,
             "natural_gameplay_route": False,

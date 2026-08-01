@@ -9,7 +9,10 @@
     ],
     "same_encoded_size": true,
     "same_patch_topology": true,
-    "same_probe_bytes": true
+    "same_probe_bytes": true,
+    "source_pointer_offsets": [
+      5869996
+    ]
   },
   "case_id": "group-18-sequence-07-direct-spawn",
   "edit": {
@@ -661,6 +664,7 @@
     }
   ],
   "runtime": {
+    "full_source_palette_equal": true,
     "graphics_difference_offsets": [
       202
     ],
@@ -704,7 +708,9 @@
         "y": 43
       }
     ],
-    "pixel_render_source": "offline-mode0-from-ack-savestate"
+    "pixel_render_source": "offline-mode0-from-ack-savestate",
+    "source_palette_matched_prefix_bytes": 32,
+    "source_palette_mismatch_offsets": []
   },
   "schema": "controlled-battle-effect-pixel-ab-runtime-v1",
   "scope": {

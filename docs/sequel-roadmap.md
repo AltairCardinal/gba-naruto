@@ -2072,3 +2072,19 @@ WebSocket
   所以production自然最终像素A/B保持`5/18`，技术资源/task身份保持`18/18`；candidate
   guard的0.171875 MiB样本因采样不足不参与统计。下一步优先闭合group 3自然allocator
   上游与exclusive pointer relocation；完整动画、音频、实体GBA仍未签发，Goal保持active。
+- 2026-08-02：group 3 / sequence 3 / side 0 已从受控资源/task身份推进到production
+  relocation最终单像素写回。group 2/3的graphics表项`0x59912C/0x599134`原本共同
+  指向`0x08340AF8`；构建器只把group 3的`0x599134`拆分重定向到`0x08B40000`，
+  group 2保持原指针。两份ROM共享5,294-byte安全LZ77和完全相同的直接入口探针，
+  candidate只改graphics offset`0xCF:03→0E`。六个完整内存域仅VRAM
+  `0x060120CF`一字节不同；OAM entry 22`0x0028/0x9078/0x4900`的水平翻转把源像素
+  `(22,11)`映射到屏幕`(129,51)`，离线Mode-0只令该像素从`(247,115,0)`变为
+  `(115,107,99)`。两份原始mGBA capture PNG逐字节相同，明确不作为像素A/B。
+  runtime palette与ROM源仅前30 bytes一致、尾offset 30/31为`0100`对`6C2D`；所选
+  索引3/14在匹配范围内，但artifact固定`full_source_palette_equal=false`。独立
+  verifier重建共享alias、两份16 MiB ROM、三相task/OAM、六内存域与最终像素，并拒绝
+  扩大group 2 redirect或完整palette声明。成果位于
+  `artifacts/battle-effect-group03-controlled-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group3-controlled-pixel-ab-20260802.md`。该入口仍为受控，故
+  production自然像素保持`5/18`、技术身份保持`18/18`；自然allocator上游、非镜像
+  分支、palette尾字生命周期、完整动画/音频与实体GBA仍未签发，Goal保持active。

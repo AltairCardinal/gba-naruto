@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
+GROUP3_ARTIFACT = ROOT / "artifacts/battle-effect-group03-controlled-pixel-ab-v1"
 
 
 class ExportControlledBattleEffectPixelAbTests(unittest.TestCase):
@@ -96,6 +97,34 @@ class ExportControlledBattleEffectPixelAbTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_group3_promotes_only_the_selected_shared_alias_and_palette_prefix(self):
+        evidence = json.loads(
+            (GROUP3_ARTIFACT / "evidence.json").read_text(encoding="utf-8")
+        )
+        self.assertTrue(evidence["verified"])
+        self.assertEqual(evidence["group_id"], 3)
+        self.assertEqual(evidence["sequence_id"], 3)
+        self.assertFalse(evidence["scope"]["natural_gameplay_route"])
+        self.assertEqual(evidence["scope"]["production_natural_pixel_ab"], "5/18")
+        self.assertEqual(evidence["build"]["source_pointer_offsets"], [0x59912C, 0x599134])
+        self.assertEqual(evidence["build"]["pointer_offsets"], [0x599134])
+        self.assertEqual(evidence["runtime"]["memory_differences"]["VRAM"], [0x120CF])
+        self.assertEqual(
+            evidence["runtime"]["pixel_changes"],
+            [
+                {
+                    "x": 129,
+                    "y": 51,
+                    "before_rgb": [247, 115, 0],
+                    "after_rgb": [115, 107, 99],
+                }
+            ],
+        )
+        self.assertTrue(evidence["runtime"]["palette_equal"])
+        self.assertEqual(evidence["runtime"]["source_palette_matched_prefix_bytes"], 30)
+        self.assertEqual(evidence["runtime"]["source_palette_mismatch_offsets"], [30, 31])
+        self.assertFalse(evidence["runtime"]["full_source_palette_equal"])
 
 
 if __name__ == "__main__":

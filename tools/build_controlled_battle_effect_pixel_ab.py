@@ -114,7 +114,10 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
 
     case_id = profile.get("case_id")
     case = CASES_BY_ID.get(case_id)
-    if case is None or case.group_id != 18 or case.sequence_id != 7 or case.side is not None:
+    if case_id not in {
+        "group-03-sequence-03-side-0-direct-spawn",
+        "group-18-sequence-07-direct-spawn",
+    } or case is None:
         raise ValueError("controlled battle-effect pixel case contract mismatch")
     group_id = _require_int(profile.get("group_id"), "group_id")
     sequence_id = _require_int(profile.get("sequence_id"), "sequence_id")
@@ -164,13 +167,15 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
     if (
         direct_case.get("group_id") != group_id
         or direct_case.get("sequence_id") != sequence_id
-        or direct_case.get("side") is not None
+        or direct_case.get("side") != case.side
         or direct_case.get("resource", {}).get("graphics_sha256") != graphics_sha
         or direct_case.get("resource", {}).get("palette_sha256") != palette_sha
         or ack_phase.get("savestate_sha256") != direct.get("ack_state_sha256")
         or not isinstance(target_task, dict)
-        or target_task.get("tile_base") != 768
-        or target_task.get("palette_bank") != 12
+        or target_task.get("tile_base")
+        != profile.get("runtime_oam", {}).get("obj_tile_base")
+        or target_task.get("palette_bank")
+        != profile.get("runtime_oam", {}).get("palette_bank")
     ):
         raise ValueError("controlled battle-effect pixel direct runtime evidence mismatch")
 
@@ -228,15 +233,16 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
     except (KeyError, TypeError, ValueError) as error:
         raise ValueError("controlled battle-effect pixel runtime OAM mismatch") from error
     expected_tile = (obj_vram - 0x06010000) // 32 + tile_index
+    mapped_x = width - 1 - pixel_x if attr1 & 0x1000 else pixel_x
+    mapped_y = height - 1 - pixel_y if attr1 & 0x2000 else pixel_y
     if (
-        runtime_oam.get("oam_index") != 17
+        not isinstance(runtime_oam.get("oam_index"), int)
         or runtime_oam.get("obj_tile_base") != expected_tile
-        or runtime_oam.get("palette_bank") != 12
+        or runtime_oam.get("palette_bank") != target_task.get("palette_bank")
         or attr2 & 0x3FF != expected_tile
-        or attr2 >> 12 != 12
+        or (attr2 >> 12) & 0xF != runtime_oam.get("palette_bank")
         or attr0 & 0x0100
-        or attr1 & 0x3000
-        or [((attr1 & 0x1FF) + pixel_x), ((attr0 & 0xFF) + pixel_y)] != screen
+        or [((attr1 & 0x1FF) + mapped_x), ((attr0 & 0xFF) + mapped_y)] != screen
     ):
         raise ValueError("controlled battle-effect pixel runtime OAM mapping mismatch")
 
@@ -290,8 +296,21 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         resource_sha256=profile["source_graphics_sha256"],
     )
     expected = source_edit.get("expected")
-    if not isinstance(expected, dict) or expected.get("pointer_offsets") != [contract["pointer_offset"]]:
-        raise ValueError("controlled battle-effect pixel requires an exclusive pointer")
+    if not isinstance(expected, dict):
+        raise ValueError("controlled battle-effect pixel relocation provenance is missing")
+    source_pointer_offsets = expected.get("pointer_offsets")
+    if profile.get("source_pointer_offsets", source_pointer_offsets) != source_pointer_offsets:
+        raise ValueError("controlled battle-effect pixel source pointer aliases mismatch")
+    target_pointer_offsets = profile.get(
+        "target_pointer_offsets", [contract["pointer_offset"]]
+    )
+    if (
+        not isinstance(source_pointer_offsets, list)
+        or not isinstance(target_pointer_offsets, list)
+        or target_pointer_offsets != [contract["pointer_offset"]]
+        or not set(target_pointer_offsets).issubset(source_pointer_offsets)
+    ):
+        raise ValueError("controlled battle-effect pixel target pointer alias mismatch")
 
     output.mkdir(parents=True, exist_ok=True)
     layout = RomLayout.from_path(root / "sequel/rom-layout.json", base)
@@ -300,12 +319,13 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
     for variant, graphics in (("baseline", source), ("candidate", candidate)):
         variant_dir = output / variant
         variant_dir.mkdir()
-        graphics_path = variant_dir / "group-18-graphics-4bpp.bin"
+        graphics_path = variant_dir / f"group-{profile['group_id']:02d}-graphics-4bpp.bin"
         graphics_path.write_bytes(graphics)
         spec = {key: copy.deepcopy(value) for key, value in parent_spec.items() if key != "edits"}
         edit = copy.deepcopy(source_edit)
         edit["id"] = f"{profile['profile_id']}-{variant}"
         edit["source_file"] = str(graphics_path)
+        edit["target_pointer_offsets"] = target_pointer_offsets
         spec["edits"] = [edit]
         spec_path = variant_dir / "spec.json"
         _write_json(spec_path, spec)
@@ -365,6 +385,8 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         "runtime_oam": profile["runtime_oam"],
         "direct_runtime": profile["direct_runtime"],
         "catalogs": profile["catalogs"],
+        "source_pointer_offsets": source_pointer_offsets,
+        "target_pointer_offsets": target_pointer_offsets,
         "edit": {
             key: profile[key]
             for key in (

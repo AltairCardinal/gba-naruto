@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
+GROUP3_ARTIFACT = ROOT / "artifacts/battle-effect-group03-controlled-pixel-ab-v1"
 
 
 class VerifyControlledBattleEffectPixelAbTests(unittest.TestCase):
@@ -105,6 +106,68 @@ class VerifyControlledBattleEffectPixelAbTests(unittest.TestCase):
                     archive.addfile(info, io.BytesIO())
             with self.assertRaisesRegex(ValueError, "member count"):
                 _tar_payloads(archive_path)
+
+    def test_verifies_group3_shared_alias_split_pixel_artifact(self):
+        from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP3_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+        self.assertEqual(result["group_id"], 3)
+        self.assertFalse(result["natural_gameplay_route"])
+
+    def test_group3_rejects_claiming_full_source_palette_equality(self):
+        from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence
+
+        with tempfile.TemporaryDirectory() as temporary:
+            altered = Path(temporary) / "artifact"
+            shutil.copytree(GROUP3_ARTIFACT, altered)
+            evidence_path = altered / "evidence.json"
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            evidence["runtime"]["full_source_palette_equal"] = True
+            evidence_path.write_text(
+                json.dumps(evidence, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            manifest_path = altered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            import hashlib
+
+            manifest["files"]["evidence.json"] = hashlib.sha256(
+                evidence_path.read_bytes()
+            ).hexdigest()
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_evidence(ROOT, altered)
+            self.assertFalse(result["verified"])
+
+    def test_group3_rejects_expanding_the_redirect_to_the_group2_alias(self):
+        from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence
+
+        with tempfile.TemporaryDirectory() as temporary:
+            altered = Path(temporary) / "artifact"
+            shutil.copytree(GROUP3_ARTIFACT, altered)
+            evidence_path = altered / "evidence.json"
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            evidence["build"]["pointer_offsets"] = [0x59912C, 0x599134]
+            evidence_path.write_text(
+                json.dumps(evidence, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            manifest_path = altered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            import hashlib
+
+            manifest["files"]["evidence.json"] = hashlib.sha256(
+                evidence_path.read_bytes()
+            ).hexdigest()
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            result = verify_evidence(ROOT, altered)
+            self.assertFalse(result["verified"])
 
 
 if __name__ == "__main__":

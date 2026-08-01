@@ -15,6 +15,11 @@ PROFILE = (
     / "sequel/content/battle-effect-controlled-pixel-ab/"
     "group-18-sequence-07-direct-spawn.json"
 )
+GROUP3_PROFILE = (
+    ROOT
+    / "sequel/content/battle-effect-controlled-pixel-ab/"
+    "group-03-sequence-03-side-0-direct-spawn.json"
+)
 
 
 class ControlledBattleEffectPixelAbRunnerTests(unittest.TestCase):
@@ -85,6 +90,26 @@ class ControlledBattleEffectPixelAbRunnerTests(unittest.TestCase):
             profile.write_text("{}\n", encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "inside repository"):
                 self.runner._repository_relative_file(profile, "toolchain profile")
+
+    def test_prepares_group3_alias_split_profile(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            build_root = output / "build"
+            build = self.builder.build_pair(ROOT, GROUP3_PROFILE, build_root)
+            row = self.runner.prepare_variant(
+                output / "runs",
+                build_root=build_root,
+                build=build,
+                variant="baseline",
+            )
+            profile = json.loads(row["profile"].read_text(encoding="utf-8"))
+            self.assertEqual(profile["group_id"], 3)
+            self.assertEqual(profile["sequence_id"], 3)
+            self.assertEqual(profile["side"], 0)
+            self.assertEqual(profile["allocator_reset"]["tile_start"], "0x0100")
+            self.assertEqual(profile["allocator_reset"]["tile_end"], "0x039F")
+            self.assertEqual(profile["allocator_reset"]["palette_start"], 4)
+            self.assertEqual(profile["pixel_contract"]["screen_xy"], [129, 51])
 
 
 if __name__ == "__main__":

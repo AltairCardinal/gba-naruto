@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Promote controlled group-18 production-relocation pixel A/B evidence."""
+"""Promote an allowlisted controlled battle-effect pixel A/B artifact."""
 
 from __future__ import annotations
 
@@ -30,7 +30,6 @@ from tools.verify_battle_effect_direct_spawn_runtime import (
 
 
 EVIDENCE_SCHEMA = "controlled-battle-effect-pixel-ab-runtime-v1"
-ARTIFACT_RELATIVE = "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
 VARIANTS = ("baseline", "candidate")
 PHASES = ("renderer-post", "submit-post", "ack-post")
 PHASE_ADDRESSES = (0x08063328, 0x08061126, 0x080612AA)
@@ -68,6 +67,57 @@ IMPLEMENTATION_PATHS = (
     "tests/test_export_controlled_battle_effect_pixel_ab.py",
     "tests/test_verify_controlled_battle_effect_pixel_ab.py",
 )
+
+CASE_CONTRACTS = {
+    "group-03-sequence-03-side-0-direct-spawn": {
+        "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
+        "group_id": 3,
+        "sequence_id": 3,
+        "definition": 0x083425D8,
+        "animation": 0x083426CC,
+        "graphics_filename": "group-03-graphics-4bpp.bin",
+        "task_slot": 109,
+        "tile_base": 256,
+        "palette_bank": 4,
+        "graphics_address": 0x06012000,
+        "palette_address": 0x05000280,
+        "palette_prefix": 30,
+        "palette_mismatches": [30, 31],
+        "submission_counts": [1, 1, 2],
+        "encoded_size": 5294,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59912C, 0x599134],
+        "target_pointer_offsets": [0x599134],
+        "source_graphics_pointer": 0x08340AF8,
+        "build_pointer_lists_required": True,
+        "vram_difference": 0x120CF,
+        "absolute_difference": "0x060120CF",
+    },
+    "group-18-sequence-07-direct-spawn": {
+        "artifact": "artifacts/battle-effect-group18-controlled-pixel-ab-v1",
+        "group_id": 18,
+        "sequence_id": 7,
+        "definition": 0x0834819C,
+        "animation": 0x083481DC,
+        "graphics_filename": "group-18-graphics-4bpp.bin",
+        "task_slot": 109,
+        "tile_base": 768,
+        "palette_bank": 12,
+        "graphics_address": 0x06016000,
+        "palette_address": 0x05000380,
+        "palette_prefix": 32,
+        "palette_mismatches": [],
+        "submission_counts": [0, 0, 1],
+        "encoded_size": 2002,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x5991AC],
+        "target_pointer_offsets": [0x5991AC],
+        "source_graphics_pointer": 0x083478F4,
+        "build_pointer_lists_required": False,
+        "vram_difference": 0x160CA,
+        "absolute_difference": "0x060160CA",
+    },
+}
 
 
 def _sha256(data: bytes) -> str:
@@ -125,12 +175,12 @@ def _save_rgb(path: Path, pixels: bytes) -> None:
     Image.frombytes("RGB", (240, 160), pixels).save(path, optimize=False)
 
 
-def _raw_paths(source: Path) -> list[Path]:
+def _raw_paths(source: Path, graphics_filename: str) -> list[Path]:
     selected = [source / "batch-audit.json", source / "build/build-manifest.json"]
     for variant in VARIANTS:
         selected.extend(
             [
-                source / f"build/{variant}/group-18-graphics-4bpp.bin",
+                source / f"build/{variant}/{graphics_filename}",
                 source / f"build/{variant}/spec.json",
                 source / f"runs/{variant}/profile.json",
                 source / f"runs/{variant}/guard-summary.json",
@@ -175,6 +225,9 @@ def _phase_transaction(
     animation: int,
     graphics: bytes,
     palette: bytes,
+    palette_prefix: int,
+    palette_mismatches: list[int],
+    submission_counts: list[int],
 ) -> dict[str, Any]:
     run = source / f"runs/{variant}"
     audit = _json(run / "output/audit.json")
@@ -215,8 +268,17 @@ def _phase_transaction(
             or meta.get("task_flags") != targets[0]["flags"]
             or state.read_memory(0x06010000 + targets[0]["tile_base"] * 32, len(graphics))
             != graphics
-            or state.read_memory(0x05000200 + targets[0]["palette_bank"] * 32, len(palette))
-            != palette
+            or _diff(
+                state.read_memory(
+                    0x05000200 + targets[0]["palette_bank"] * 32, len(palette)
+                ),
+                palette,
+            )
+            != palette_mismatches
+            or state.read_memory(
+                0x05000200 + targets[0]["palette_bank"] * 32, palette_prefix
+            )
+            != palette[:palette_prefix]
         ):
             raise ValueError(f"controlled pixel {variant} phase mismatch: {phase}")
         dump_contracts = {
@@ -234,7 +296,7 @@ def _phase_transaction(
                     f"controlled pixel {variant} phase dump mismatch: {phase}/{name}"
                 )
         if (phase_root / "capture-submission.bin").read_bytes() != bytes(
-            [PHASE_PENDING[index], 1 if phase == "ack-post" else 0]
+            [PHASE_PENDING[index], submission_counts[index]]
         ):
             raise ValueError(f"controlled pixel {variant} submission mismatch: {phase}")
         previous_cycle = cycle
@@ -276,6 +338,9 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         raise ValueError("controlled pixel artifact output must be empty")
     profile, _ = _validate_profile(root, profile_path)
+    contract = CASE_CONTRACTS.get(profile["case_id"])
+    if contract is None:
+        raise ValueError("controlled pixel case is not allowlisted")
     parent_result = verify_direct_artifact(
         root / "artifacts/battle-effect-direct-spawn-runtime-v1"
     )
@@ -292,6 +357,41 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         or build.get("same_patch_topology") is not True
         or build.get("same_encoded_size") is not True
         or build.get("same_probe_bytes") is not True
+        or build.get("group_id") != contract["group_id"]
+        or build.get("sequence_id") != contract["sequence_id"]
+        or (
+            contract["build_pointer_lists_required"]
+            and build.get("source_pointer_offsets")
+            != contract["source_pointer_offsets"]
+        )
+        or (
+            contract["build_pointer_lists_required"]
+            and build.get("target_pointer_offsets")
+            != contract["target_pointer_offsets"]
+        )
+        or (
+            not contract["build_pointer_lists_required"]
+            and build.get("source_pointer_offsets")
+            not in (None, contract["source_pointer_offsets"])
+        )
+        or (
+            not contract["build_pointer_lists_required"]
+            and build.get("target_pointer_offsets")
+            not in (None, contract["target_pointer_offsets"])
+        )
+        or any(
+            build.get("variants", {}).get(variant, {}).get("encoded_graphics_size")
+            != contract["encoded_size"]
+            or build.get("variants", {}).get(variant, {}).get(
+                "graphics_allocation_offset"
+            )
+            != contract["allocation_offset"]
+            or build.get("variants", {}).get(variant, {}).get(
+                "redirect_pointer_offsets"
+            )
+            != contract["target_pointer_offsets"]
+            for variant in VARIANTS
+        )
         or batch.get("build_manifest_sha256") != _sha256_file(source / "build/build-manifest.json")
     ):
         raise ValueError("controlled pixel build/batch contract mismatch")
@@ -332,22 +432,32 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
 
     definition = int(audits["baseline"]["definition_pointer"], 16)
     animation = int(audits["baseline"]["animation_pointer"], 16)
+    if definition != contract["definition"] or animation != contract["animation"]:
+        raise ValueError("controlled pixel runtime identity mismatch")
     graphics = {}
     target_tasks = {}
     phase_transactions = {}
     palette = (root / profile["source_palette"]).read_bytes()
     for variant in VARIANTS:
-        graphics[variant] = (source / f"build/{variant}/group-18-graphics-4bpp.bin").read_bytes()
+        graphics[variant] = (
+            source / f"build/{variant}/{contract['graphics_filename']}"
+        ).read_bytes()
         targets = _target_tasks(states[variant], definition, animation)
         if len(targets) != 1 or targets[0]["slot"] not in _active_slots(states[variant]):
             raise ValueError(f"controlled pixel {variant} target task mismatch")
         target = targets[0]
         if (
-            target["slot"] != 109
-            or target["tile_base"] != 768
-            or target["palette_bank"] != 12
-            or states[variant].read_memory(0x06016000, len(graphics[variant])) != graphics[variant]
-            or states[variant].read_memory(0x05000380, 32) != palette
+            target["slot"] != contract["task_slot"]
+            or target["tile_base"] != contract["tile_base"]
+            or target["palette_bank"] != contract["palette_bank"]
+            or states[variant].read_memory(
+                contract["graphics_address"], len(graphics[variant])
+            )
+            != graphics[variant]
+            or _diff(
+                states[variant].read_memory(contract["palette_address"], 32), palette
+            )
+            != contract["palette_mismatches"]
         ):
             raise ValueError(f"controlled pixel {variant} runtime resource mismatch")
         oam_offset = profile["runtime_oam"]["oam_index"] * 8
@@ -356,7 +466,15 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             raise ValueError(f"controlled pixel {variant} runtime OAM mismatch")
         target_tasks[variant] = target
         phase_transactions[variant] = _phase_transaction(
-            source, variant, definition, animation, graphics[variant], palette
+            source,
+            variant,
+            definition,
+            animation,
+            graphics[variant],
+            palette,
+            contract["palette_prefix"],
+            contract["palette_mismatches"],
+            contract["submission_counts"],
         )
 
     graphics_diffs = _diff(graphics["baseline"], graphics["candidate"])
@@ -369,7 +487,10 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         )
         for name, (address, size) in DOMAINS.items()
     }
-    if memory != {**{name: [] for name in DOMAINS}, "VRAM": [0x160CA]}:
+    if memory != {
+        **{name: [] for name in DOMAINS},
+        "VRAM": [contract["vram_difference"]],
+    }:
         raise ValueError("controlled pixel runtime memory isolation mismatch")
     rendered = {
         variant: render_checkpoint(source / f"runs/{variant}/output/ack-post/capture.ss9")[0]
@@ -396,7 +517,11 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
     output.mkdir(parents=True, exist_ok=True)
     _save_rgb(output / "baseline.png", rendered["baseline"])
     _save_rgb(output / "candidate.png", rendered["candidate"])
-    raw_inventory = _write_tar(source, _raw_paths(source), output / "raw.tar")
+    raw_inventory = _write_tar(
+        source,
+        _raw_paths(source, contract["graphics_filename"]),
+        output / "raw.tar",
+    )
     run_rows = []
     batch_rows = {row["variant"]: row for row in batch["runs"]}
     for variant in VARIANTS:
@@ -422,8 +547,8 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         "profile": profile_path.relative_to(root).as_posix(),
         "profile_sha256": _sha256_file(profile_path),
         "case_id": profile["case_id"],
-        "group_id": 18,
-        "sequence_id": 7,
+        "group_id": contract["group_id"],
+        "sequence_id": contract["sequence_id"],
         "scope": {
             "execution_mode": "controlled-direct-spawn",
             "production_resource_relocation": True,
@@ -439,15 +564,16 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             "same_patch_topology": True,
             "same_encoded_size": True,
             "same_probe_bytes": True,
-            "encoded_graphics_size": 2002,
-            "allocation_offset": 0xB40000,
-            "pointer_offsets": [0x5991AC],
+            "encoded_graphics_size": contract["encoded_size"],
+            "allocation_offset": contract["allocation_offset"],
+            "source_pointer_offsets": contract["source_pointer_offsets"],
+            "pointer_offsets": contract["target_pointer_offsets"],
         },
         "runs": run_rows,
         "runtime": {
             "graphics_difference_offsets": graphics_diffs,
             "memory_differences": memory,
-            "memory_absolute_difference": "0x060160CA",
+            "memory_absolute_difference": contract["absolute_difference"],
             "pixel_changes": pixels,
             "pixel_render_source": "offline-mode0-from-ack-savestate",
             "mgba_capture_pngs": {
@@ -456,9 +582,12 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
                 "byte_equal": True,
                 "used_for_pixel_ab": False,
             },
-            "oam_index": 17,
+            "oam_index": profile["runtime_oam"]["oam_index"],
             "oam_attributes": profile["runtime_oam"]["attributes"],
             "palette_equal": True,
+            "source_palette_matched_prefix_bytes": contract["palette_prefix"],
+            "source_palette_mismatch_offsets": contract["palette_mismatches"],
+            "full_source_palette_equal": not contract["palette_mismatches"],
         },
         "parent_direct_spawn_verifier": parent_result,
         "raw_inventory": raw_inventory,
@@ -486,7 +615,7 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
                 "--root",
                 ".",
                 "--artifact",
-                ARTIFACT_RELATIVE,
+                contract["artifact"],
             ],
             "exit_code": 0,
         },
