@@ -1979,3 +1979,21 @@ WebSocket
   分母会实际运行task-binding独立verifier，并精确哈希锁定两个被导入verifier、
   savestate parser及对应测试；单组verifier重新校验audit/manifest/当前profile三方
   SHA一致。batch还拒绝绝对路径、`..`及符号链接逃逸。
+- 2026-08-01：此前未观察的13组战斗特效已完成一次零输入受控入口批处理，但证据按
+  目标task严格分为10个正事务与3个负结果。所有case都从同一accepted battle checkpoint
+  恢复，scratch `0→1`，并捕获`binder-return→renderer→submit→ack`；只有groups
+  `[4,6,7,8,9,10,12,13,16,17]`在后三相出现唯一稳定的definition/animation task，
+  task派生OBJ VRAM graphics和OBJ palette又与静态resource pair逐字节一致。
+  groups `[3,15,18]`四相均无目标task，也没有完整目标graphics/palette，因此保持负例，
+  不把碎片字节命中冒充成功。正式artifact仍只有三个文件，其中约13 MiB的确定性
+  `raw-batch.tar`完整归档729个来源成员（batch/profile/audit/guard/完成标记及四相全部
+  审计输出）；独立verifier逐项重建PC、scratch、dispatcher顺序、task、资源和OAM提交，
+  并将10个正例的25个可见component精确绑定到shadow/hardware OAM index。group 9保留
+  post-frame-advance边界，group 10屏外component不伪造绑定；固定父SHA与完整依赖清单
+  阻止替换catalog后自行重签。verifier拒绝正负、自然指标、member、guard/RSS、task、
+  dispatcher和OAM绑定篡改。受控技术事务为`10/13`，与既有已观察组（含supplemental）取并集为
+  `15/18`，但production自然像素A/B仍为`4/18`、既有observed phase仍为`5/18`、tracked
+  checkpoint仍为93；group18/sequence18未覆盖。4个短run的RSS约0.17 MiB属于欠采样，
+  不生成批次峰值/均值声明。成果位于`artifacts/battle-effect-controlled-runtime-v1/`，
+  说明见`notes/battle-effect-controlled-runtime-20260801.md`。下一步为group3/18复现
+  selector+object-spawn入口，并为group15补齐action/side上下文；Goal保持active。

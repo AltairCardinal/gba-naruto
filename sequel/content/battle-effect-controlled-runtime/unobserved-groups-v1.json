@@ -1,0 +1,23 @@
+{
+  "schema": "battle-effect-controlled-sequence-batch-v1",
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+  "input_state_sha256": "7d6796a767d574f5f7a91935c3c1e65ce44edbc51aa5a6b587784d4730bbe94f",
+  "scratch_address": "0x0203FF40",
+  "scratch_expected_hex": "00000000",
+  "cases": [
+    {"group_id": 3, "sequence_id": 3},
+    {"group_id": 4, "sequence_id": 4},
+    {"group_id": 6, "sequence_id": 8},
+    {"group_id": 7, "sequence_id": 9},
+    {"group_id": 8, "sequence_id": 10},
+    {"group_id": 9, "sequence_id": 11},
+    {"group_id": 10, "sequence_id": 12},
+    {"group_id": 12, "sequence_id": 14},
+    {"group_id": 13, "sequence_id": 15},
+    {"group_id": 15, "sequence_id": 17},
+    {"group_id": 16, "sequence_id": 19},
+    {"group_id": 17, "sequence_id": 20},
+    {"group_id": 18, "sequence_id": 7}
+  ],
+  "boundary": "Controlled entry calls the game's complete effect-sequence binder from an accepted battle checkpoint. It proves runtime resource loading, task identity and renderer/submission/ack behavior for the selected sequence, but is supplemental and does not count as natural gameplay pixel-A/B evidence."
+}
