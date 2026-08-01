@@ -14,6 +14,11 @@ import sys
 from typing import Any, Mapping, Sequence
 
 try:
+    from tools.macos_mgba_toolchain_profile import (
+        CURRENT_MGBA_SOURCE_COMMIT,
+        CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        validate_current_toolchain_profile,
+    )
     from tools.macos_mgba_runtime_residue import RuntimeResidueError, probe_runtime_residue
     from tools.run_macos_mgba_input_sequence import encode_schedule, parse_input_events
     from tools.run_macos_mgba_replay import (
@@ -33,6 +38,11 @@ try:
     )
     from tools.run_macos_mgba_single_input import PNG_SIGNATURE, _absolute, _load_json, _require_fresh_regular
 except ModuleNotFoundError:
+    from macos_mgba_toolchain_profile import (
+        CURRENT_MGBA_SOURCE_COMMIT,
+        CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        validate_current_toolchain_profile,
+    )
     from macos_mgba_runtime_residue import RuntimeResidueError, probe_runtime_residue
     from run_macos_mgba_input_sequence import encode_schedule, parse_input_events
     from run_macos_mgba_replay import (
@@ -58,8 +68,6 @@ PHASE_SCRIPT = ROOT / "tools/mgba_battle_effect_phase_capture.lua"
 PHASE_SCRIPT_SHA256 = "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5"
 ANIMATIONS = ROOT / "artifacts/battle-effect-sprite-animations-v1/manifest.json"
 ANIMATIONS_SHA256 = "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
-CURRENT_TOOLCHAIN_PROFILE_SHA256 = "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
-CURRENT_MGBA_SOURCE_COMMIT = "d8bad14b4540f9114246c0281d74985cf81adc68"
 PHASE_TAIL_FRAMES = 60
 PHASES = (
     ("renderer-post", "0x08063328"),
@@ -176,40 +184,6 @@ def load_capture_profile(profile_path: Path, animations_path: Path) -> dict[str,
         "animations_path": animations_path,
         "animations_sha256": sha256_file(animations_path),
     }
-
-
-def validate_current_toolchain_profile(
-    profile_path: Path, binary: Path, expected_binary_sha256: str
-) -> dict[str, Any]:
-    """Validate the current desktop mGBA against its accepted runtime evidence."""
-    profile = _object(profile_path, "mGBA runtime profile")
-    if profile.get("schema") != "rom-expansion-profile-v1":
-        raise ReplayError("mGBA runtime profile schema mismatch")
-    if profile.get("identity") != "agb_standard_16mib_sequel_rom_profile":
-        raise ReplayError("mGBA runtime profile identity mismatch")
-    hardware = profile.get("hardware_evidence")
-    if not isinstance(hardware, dict):
-        raise ReplayError("mGBA runtime profile hardware evidence is missing")
-    if hardware.get("mgba_source_commit") != CURRENT_MGBA_SOURCE_COMMIT:
-        raise ReplayError("mGBA runtime profile source commit mismatch")
-    if hardware.get("mgba_binary_sha256") != expected_binary_sha256:
-        raise ReplayError("mGBA runtime profile binary hash mismatch")
-    validate_expected_hash(binary, expected_binary_sha256, "mGBA binary")
-    runtime = profile.get("runtime_probe")
-    if not isinstance(runtime, dict):
-        raise ReplayError("mGBA runtime profile probe evidence is missing")
-    expected_runtime = {
-        "guard_reason": "completed",
-        "guard_completion_trigger": "success-marker",
-        "guard_exit_code": 0,
-        "guard_degraded": False,
-        "new_mgba_crash_report": False,
-        "owned_process_residue": False,
-    }
-    for field, expected in expected_runtime.items():
-        if runtime.get(field) != expected:
-            raise ReplayError(f"mGBA runtime profile {field} mismatch")
-    return profile
 
 
 def validate_phase_payload(payload: Mapping[str, object], expected: Mapping[str, object]) -> None:

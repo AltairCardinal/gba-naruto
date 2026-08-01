@@ -137,6 +137,113 @@ class InputSequenceRunnerContractTests(unittest.TestCase):
         with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
             parser.parse_args(["--replay-script", "/tmp/a.lua"])
 
+    def test_parser_requires_exactly_one_toolchain_provenance_mode(self):
+        parser = self.runner.build_parser()
+        common = [
+            "--binary", "mGBA",
+            "--expected-binary-sha256", "0" * 64,
+            "--rom", "base.gba",
+            "--state", "input.ss9",
+            "--expected-rom-sha256", "1" * 64,
+            "--expected-state-sha256", "2" * 64,
+            "--input-event", "A:5:13",
+            "--capture-frame", "20",
+            "--staged-rom", "staged.gba",
+            "--output-state", "after.ss9",
+            "--output-png", "after.png",
+            "--audit", "audit.json",
+            "--sentinel", "sentinel.json",
+            "--guard-summary", "guard.json",
+        ]
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            parser.parse_args(common)
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            parser.parse_args(
+                common
+                + [
+                    "--toolchain-profile", "runtime-profile.json",
+                    "--build-manifest", "legacy-manifest.json",
+                ]
+            )
+        current = parser.parse_args(
+            common + ["--toolchain-profile", "runtime-profile.json"]
+        )
+        legacy = parser.parse_args(
+            common
+            + [
+                "--build-manifest", "legacy-manifest.json",
+                "--expected-build-manifest-sha256", "3" * 64,
+            ]
+        )
+        self.assertEqual(current.toolchain_profile, Path("runtime-profile.json"))
+        self.assertIsNone(current.build_manifest)
+        self.assertEqual(legacy.build_manifest, Path("legacy-manifest.json"))
+        self.assertIsNone(legacy.toolchain_profile)
+
+    def test_current_profile_mode_validates_and_records_pinned_provenance(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            binary = root / "mGBA"
+            binary.write_bytes(b"current-desktop-mgba")
+            os.chmod(binary, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+            binary_sha = self.runner.sha256_file(binary)
+            profile = root / "runtime-profile.json"
+            profile.write_text(
+                json.dumps(
+                    {
+                        "schema": "rom-expansion-profile-v1",
+                        "identity": "agb_standard_16mib_sequel_rom_profile",
+                        "hardware_evidence": {
+                            "mgba_source_commit": self.runner.CURRENT_MGBA_SOURCE_COMMIT,
+                            "mgba_binary_sha256": binary_sha,
+                        },
+                        "runtime_probe": {
+                            "guard_reason": "completed",
+                            "guard_completion_trigger": "success-marker",
+                            "guard_exit_code": 0,
+                            "guard_degraded": False,
+                            "new_mgba_crash_report": False,
+                            "owned_process_residue": False,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            rom = root / "source" / "base.gba"
+            state = root / "source" / "input.ss9"
+            rom.parent.mkdir()
+            rom.write_bytes(b"rom")
+            state.write_bytes(b"state")
+            out = root / "out"
+            argv = [
+                "--binary", str(binary),
+                "--toolchain-profile", str(profile),
+                "--expected-binary-sha256", binary_sha,
+                "--rom", str(rom),
+                "--state", str(state),
+                "--expected-rom-sha256", self.runner.sha256_file(rom),
+                "--expected-state-sha256", self.runner.sha256_file(state),
+                "--input-event", "A:5:13",
+                "--capture-frame", "20",
+                "--staged-rom", str(out / "staged.gba"),
+                "--output-state", str(out / "after.ss9"),
+                "--output-png", str(out / "after.png"),
+                "--audit", str(out / "audit.json"),
+                "--sentinel", str(out / "sentinel.json"),
+                "--guard-summary", str(out / "guard.json"),
+            ]
+            profile_sha = self.runner.sha256_file(profile)
+            with mock.patch.object(
+                self.runner, "CURRENT_TOOLCHAIN_PROFILE_SHA256", profile_sha
+            ):
+                args = self.runner.validate_args(
+                    self.runner.build_parser().parse_args(argv)
+                )
+            self.assertEqual(args.toolchain_kind, "current-desktop-runtime-profile")
+            self.assertEqual(args.toolchain_artifact, profile.resolve())
+            self.assertEqual(args.toolchain_artifact_sha256, profile_sha)
+            self.assertIsNone(args.toolchain_patch_sha256)
+
 
 class InputSequenceRunnerIntegrationTests(unittest.TestCase):
     def test_main_wires_exact_schedule_guard_and_finalized_evidence(self):

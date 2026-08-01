@@ -18,7 +18,7 @@ try:
         RuntimeResidueError,
         probe_runtime_residue,
     )
-    from tools.run_macos_mgba_battle_effect_phase_capture import (
+    from tools.macos_mgba_toolchain_profile import (
         CURRENT_MGBA_SOURCE_COMMIT,
         CURRENT_TOOLCHAIN_PROFILE_SHA256,
         validate_current_toolchain_profile,
@@ -54,7 +54,7 @@ except ModuleNotFoundError:
         RuntimeResidueError,
         probe_runtime_residue,
     )
-    from run_macos_mgba_battle_effect_phase_capture import (
+    from macos_mgba_toolchain_profile import (
         CURRENT_MGBA_SOURCE_COMMIT,
         CURRENT_TOOLCHAIN_PROFILE_SHA256,
         validate_current_toolchain_profile,

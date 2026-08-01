@@ -42,6 +42,11 @@ try:
         _require_fresh_regular,
         _validate_payload_fields,
     )
+    from tools.macos_mgba_toolchain_profile import (
+        CURRENT_MGBA_SOURCE_COMMIT,
+        CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        validate_current_toolchain_profile,
+    )
 except ModuleNotFoundError:
     from macos_mgba_runtime_residue import RuntimeResidueError, probe_runtime_residue
     from run_macos_mgba_replay import (
@@ -67,6 +72,11 @@ except ModuleNotFoundError:
         _require_absent,
         _require_fresh_regular,
         _validate_payload_fields,
+    )
+    from macos_mgba_toolchain_profile import (
+        CURRENT_MGBA_SOURCE_COMMIT,
+        CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        validate_current_toolchain_profile,
     )
 
 
@@ -140,8 +150,10 @@ def validate_input_sequence_payload(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
-    parser.add_argument("--build-manifest", type=Path, required=True)
-    parser.add_argument("--expected-build-manifest-sha256", required=True)
+    toolchain = parser.add_mutually_exclusive_group(required=True)
+    toolchain.add_argument("--toolchain-profile", type=Path)
+    toolchain.add_argument("--build-manifest", type=Path)
+    parser.add_argument("--expected-build-manifest-sha256")
     parser.add_argument("--expected-binary-sha256", required=True)
     parser.add_argument("--rom", type=Path, required=True)
     parser.add_argument("--state", type=Path, required=True)
@@ -164,9 +176,20 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
     args.events = parse_input_events(args.input_event, args.capture_frame)
     if args.wall_timeout_s <= 0 or args.idle_timeout_s <= 0:
         raise ReplayError("wall and idle timeouts must be positive")
+    args.binary = canonical_input(args.binary, "mGBA binary")
+    if args.toolchain_profile is not None:
+        args.toolchain_profile = canonical_input(
+            args.toolchain_profile, "mGBA runtime profile"
+        )
+        toolchain_artifact = args.toolchain_profile
+    else:
+        args.build_manifest = canonical_input(
+            args.build_manifest, "legacy build manifest"
+        )
+        toolchain_artifact = args.build_manifest
     inputs = {
-        "binary": canonical_input(args.binary, "mGBA binary"),
-        "build_manifest": canonical_input(args.build_manifest, "build manifest"),
+        "binary": args.binary,
+        "toolchain_artifact": toolchain_artifact,
         "rom": canonical_input(args.rom, "ROM"),
         "state": canonical_input(args.state, "input state"),
         "input_sequence_script": canonical_input(
@@ -227,15 +250,40 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
     args.source_save = source_save
     if not os.access(args.binary, os.X_OK):
         raise ReplayError(f"mGBA binary is not executable: {args.binary}")
-    validate_expected_hash(
-        args.build_manifest,
-        args.expected_build_manifest_sha256,
-        "build manifest",
-    )
     validate_expected_hash(args.binary, args.expected_binary_sha256, "mGBA binary")
-    args.build_manifest_payload = validate_build_manifest(
-        args.build_manifest, args.binary, args.expected_binary_sha256
-    )
+    if args.toolchain_profile is not None:
+        if args.expected_build_manifest_sha256 is not None:
+            raise ReplayError("current mGBA mode must not supply a legacy manifest hash")
+        validate_expected_hash(
+            args.toolchain_profile,
+            CURRENT_TOOLCHAIN_PROFILE_SHA256,
+            "mGBA runtime profile",
+        )
+        payload = validate_current_toolchain_profile(
+            args.toolchain_profile, args.binary, args.expected_binary_sha256
+        )
+        args.toolchain_artifact = args.toolchain_profile
+        args.toolchain_artifact_sha256 = CURRENT_TOOLCHAIN_PROFILE_SHA256
+        args.toolchain_kind = "current-desktop-runtime-profile"
+        args.toolchain_source_commit = CURRENT_MGBA_SOURCE_COMMIT
+        args.toolchain_patch_sha256 = None
+    else:
+        if args.expected_build_manifest_sha256 is None:
+            raise ReplayError("legacy mGBA mode requires its expected manifest hash")
+        validate_expected_hash(
+            args.build_manifest,
+            args.expected_build_manifest_sha256,
+            "legacy build manifest",
+        )
+        payload = validate_build_manifest(
+            args.build_manifest, args.binary, args.expected_binary_sha256
+        )
+        args.toolchain_artifact = args.build_manifest
+        args.toolchain_artifact_sha256 = args.expected_build_manifest_sha256
+        args.toolchain_kind = "legacy-checkpoint-compatible-build-manifest"
+        args.toolchain_source_commit = payload["source_commit"]
+        args.toolchain_patch_sha256 = EXPECTED_PATCH_SHA256
+    args.toolchain_payload = payload
     validate_expected_hash(args.rom, args.expected_rom_sha256, "ROM")
     validate_expected_hash(args.state, args.expected_state_sha256, "state")
     return args
@@ -320,7 +368,11 @@ def _validate_output_bundle(
 def _revalidate_critical_inputs(args: argparse.Namespace) -> None:
     _require_absent(args.source_save, "source ROM save sidecar")
     for path, expected, label in (
-        (args.build_manifest, args.expected_build_manifest_sha256, "build manifest"),
+        (
+            args.toolchain_artifact,
+            args.toolchain_artifact_sha256,
+            "mGBA toolchain provenance",
+        ),
         (args.binary, args.expected_binary_sha256, "mGBA binary"),
         (args.rom, args.expected_rom_sha256, "ROM"),
         (args.state, args.expected_state_sha256, "state"),
@@ -344,9 +396,13 @@ def _finalize(
     finalized.update(
         {
             "binary_sha256": args.expected_binary_sha256,
-            "patch_sha256": EXPECTED_PATCH_SHA256,
-            "build_manifest": str(args.build_manifest),
-            "build_manifest_sha256": args.expected_build_manifest_sha256,
+            "toolchain": {
+                "kind": args.toolchain_kind,
+                "path": str(args.toolchain_artifact),
+                "sha256": args.toolchain_artifact_sha256,
+                "source_commit": args.toolchain_source_commit,
+                "patch_sha256": args.toolchain_patch_sha256,
+            },
             "replay_script": str(args.input_sequence_script),
             "replay_script_sha256": EXPECTED_INPUT_SEQUENCE_SCRIPT_SHA256,
             "output_state_sha256": bundle["state_sha256"],
@@ -360,6 +416,14 @@ def _finalize(
             "staged_rom_sha256": sha256_file(args.staged_rom),
         }
     )
+    if args.build_manifest is not None:
+        finalized.update(
+            {
+                "patch_sha256": EXPECTED_PATCH_SHA256,
+                "build_manifest": str(args.build_manifest),
+                "build_manifest_sha256": args.expected_build_manifest_sha256,
+            }
+        )
     encoded = json.dumps(finalized, indent=2, sort_keys=True) + "\n"
     args.audit.write_text(encoded, encoding="utf-8")
     args.sentinel.write_text(encoded, encoding="utf-8")

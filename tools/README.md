@@ -191,7 +191,9 @@ python3 tools/verify_battle_effect_resource_relocation_audit.py \
 
 `run_macos_mgba_input_sequence.py`配合`mgba_input_sequence_replay.lua`可在一次
 guarded mGBA进程内执行多组按键时序并保存最终PNG/状态，适合把已确认的长导航固化
-为复用checkpoint。`build_battle_effect_pixel_ab.py`、
+为复用checkpoint。当前桌面版必须传入已接受的`--toolchain-profile`；只有旧检查点兼容
+二进制才使用`--build-manifest`及其固定哈希，两种 provenance 互斥并写入最终审计。
+`build_battle_effect_pixel_ab.py`、
 `export_battle_effect_pixel_ab_evidence.py`和独立
 `verify_battle_effect_pixel_ab_evidence.py`读取一个fail-closed profile，以同一
 production relocation拓扑构建基线/单像素候选、规范化运行证据并从基准ROM重建验证。
