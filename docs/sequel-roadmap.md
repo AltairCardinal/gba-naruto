@@ -2100,3 +2100,13 @@ WebSocket
   像素仍为`5/18`。成果见
   `notes/battlefield-object-effect-chain-20260802.md`；下一步定位67–72的原版取得/装备
   路径并捕获自然选择、对象到期和原生handler的同次运行时命中，Goal保持active。
+- 2026-08-02：上述 savestate 种子扫描已纠正持久库存漏项。扫描器除活动对象和单位
+  战斗槽外，现同时检查 `0x02023FD4` 的 `0x71` 字节忍具库存；对应 TDD 先因缺少
+  `inventory_special_tools` 失败，最小实现后通过。受守卫重扫原 1,164 份存档全部解析
+  成功，得到 248 个路径命中、224 个不同 state SHA，全部为忍具68数量1；活动目标对象
+  和已装备目标忍具仍为0。已跟踪的
+  `scenario-47-battle-13-postbattle-world-map.ss9` 即含该库存，SHA为
+  `e80779dc048fd862d0a8fc1a47f77bcfe1ab06810859f38015c562679958b800`，因此不再需要
+  重新调查取得路径。扫描峰值tree RSS 20.28515625 MiB，未启动mGBA。下一步从该快照
+  进入装备UI并固化装备后checkpoint，再捕获C4对象、E5到期和原生group3 handler；
+  production自然最终像素仍为`5/18`，Goal保持active。

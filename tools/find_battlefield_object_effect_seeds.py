@@ -25,6 +25,8 @@ UNIT_STRIDE = 0x1D4
 TOOL_COUNT_OFFSET = 0xB0
 TOOL_FIRST_ID_OFFSET = 0xB1
 TOOL_SLOT_COUNT = 15
+NINJA_TOOL_INVENTORY = 0x02023FD4
+NINJA_TOOL_INVENTORY_SIZE = 0x71
 SPECIAL_ENCODED_ACTIONS = set(range(0xC3, 0xC9))
 SPECIAL_TOOL_IDS = set(range(67, 73))
 
@@ -64,9 +66,16 @@ def inspect_state(state: Any) -> dict[str, list[dict[str, Any]]]:
                         "ninja_tool_id": tool_id,
                     }
                 )
+    inventory = state.read_memory(NINJA_TOOL_INVENTORY, NINJA_TOOL_INVENTORY_SIZE)
+    inventory_special_tools = [
+        {"ninja_tool_id": tool_id, "count": inventory[tool_id]}
+        for tool_id in sorted(SPECIAL_TOOL_IDS)
+        if inventory[tool_id]
+    ]
     return {
         "active_special_objects": active_special_objects,
         "equipped_special_tools": equipped_special_tools,
+        "inventory_special_tools": inventory_special_tools,
     }
 
 

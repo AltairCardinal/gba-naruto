@@ -30,6 +30,7 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         unit[0xB0] = 1
         unit[0xB1] = 67
         state.write(0x020240C0 + 2 * 0x1D4, unit)
+        state.write(0x02023FD4 + 69, bytes([2]))
 
         result = inspect_state(state)
         self.assertEqual(
@@ -39,6 +40,10 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         self.assertEqual(
             result["equipped_special_tools"],
             [{"unit_slot": 2, "character_id": 3, "tool_slot": 0, "ninja_tool_id": 67}],
+        )
+        self.assertEqual(
+            result["inventory_special_tools"],
+            [{"ninja_tool_id": 69, "count": 2}],
         )
 
     def test_ignores_inactive_objects_and_unused_unit_bytes(self):
@@ -55,6 +60,7 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         result = inspect_state(state)
         self.assertEqual(result["active_special_objects"], [])
         self.assertEqual(result["equipped_special_tools"], [])
+        self.assertEqual(result["inventory_special_tools"], [])
 
     def test_missing_input_is_an_error_instead_of_a_zero_hit_scan(self):
         from tools.find_battlefield_object_effect_seeds import scan_paths

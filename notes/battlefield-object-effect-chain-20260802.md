@@ -48,12 +48,25 @@
 `tools/find_battlefield_object_effect_seeds.py` 可批量扫描 mGBA 存档，只接受：
 
 - state 为 1/2 且 `object+4` 为 `0xC3..0xC8` 的活动战场对象；
-- 有效单位在 `unit+0xB0` 声明范围内实际装备的忍具 67–72。
+- 有效单位在 `unit+0xB0` 声明范围内实际装备的忍具 67–72；
+- 持久忍具库存 `0x02023FD4..0x02024044` 中 ID 67–72 的非零数量。
 
-2026-08-02 经 `tools/run_guarded.py` 扫描 `artifacts/` 的 183 份和 `build/` 的 981 份
-存档，共 1,164 份，全部解析成功但命中 0；修正输入 fail-closed 后的复跑 guard 峰值
-tree RSS 为 20.16015625 MiB。
-因此当前没有可直接恢复的自然种子，本轮未启动 mGBA，也不把静态链或既有受控
-single-pixel 证据计入 production 自然最终像素分母。下一步需要从原版内容中定位忍具
-67–72 的取得/装备路径，或建立明确标为受控的装备前置后，再以一次自然 UI 选择和到期
-命中闭合运行时链。
+第一版扫描遗漏了持久库存，只能证明当时没有活动对象或已经装入单位战斗槽的目标忍具，
+不能证明没有可恢复种子。补齐库存后，经 `tools/run_guarded.py` 重新扫描 `artifacts/`
+的 183 份和 `build/` 的 981 份存档，共 1,164 份，全部解析成功并命中 248 个路径；
+这些命中均为库存中的忍具 68、数量 1，没有活动 `0xC3..0xC8` 对象，也没有已装备的
+忍具 67–72。224 个不同 savestate SHA 中包含已跟踪 checkpoint：
+
+- `artifacts/runtime-checkpoints/scenario-47-battle-13-postbattle-world-map.ss9`
+- SHA-256：`e80779dc048fd862d0a8fc1a47f77bcfe1ab06810859f38015c562679958b800`
+
+复跑输出位于忽略的实验目录
+`build/experiments/active/20260802-group3-seed-scan/seeds-inventory.json`，SHA-256 为
+`226358f776c85b84efcd499e8f19d6db8fe3997679cdb6dab7ae2a33dbd82a28`；guard 摘要 SHA-256
+为 `403d2425f64c06395a2566f8c878145d43473ad2cf3baa5bea75a3de21ef9367`，峰值 tree RSS
+为 20.28515625 MiB。扫描本身未启动 mGBA。
+
+因此下一步不再调查取得路径，而是从该世界地图 checkpoint 进入装备 UI，把库存 68
+装入角色战斗槽，保存并验证新的可恢复 checkpoint，再以自然 UI 选择和对象到期命中
+闭合运行时链。静态链和既有受控 single-pixel 证据仍不计入 production 自然最终像素
+分母。
