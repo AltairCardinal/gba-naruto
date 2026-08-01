@@ -22,6 +22,7 @@ if str(REPO_ROOT) not in sys.path:
 from tools.build_battle_effect_pixel_ab import (
     BUILD_SCHEMA,
     PROFILE_SCHEMA,
+    _runtime_oam_instances,
     _validate_profile,
     build_pair,
 )
@@ -120,6 +121,151 @@ def _pixel_changes(left: bytes, right: bytes) -> list[dict[str, Any]]:
                 }
             )
     return changes
+
+
+def _expected_pixels(profile: dict[str, Any]) -> list[dict[str, Any]]:
+    coordinates = profile.get("screen_pixels", [profile.get("screen_xy")])
+    if not isinstance(coordinates, list) or not coordinates:
+        raise ValueError("battle-effect pixel expected screen pixels are invalid")
+    return [
+        {
+            "x": coordinate[0],
+            "y": coordinate[1],
+            "before_rgb": profile["before_rgb"],
+            "after_rgb": profile["after_rgb"],
+        }
+        for coordinate in coordinates
+    ]
+
+
+def _runtime_component_obj_tile_base(
+    profile: dict[str, Any], component_tile_index: int
+) -> int:
+    runtime_oam = profile.get("runtime_oam")
+    if not isinstance(runtime_oam, dict):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    try:
+        address = int(runtime_oam.get("obj_vram_address"), 16)
+    except (TypeError, ValueError) as error:
+        raise ValueError(
+            "battle-effect pixel runtime component tile mapping mismatch"
+        ) from error
+    if (
+        not isinstance(component_tile_index, int)
+        or isinstance(component_tile_index, bool)
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    delta = address - 0x06010000
+    expected = delta // 32 + component_tile_index
+    if (
+        delta < 0
+        or delta % 32
+        or not 0 <= expected < 1024
+        or runtime_oam.get("obj_tile_base") != expected
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    return expected
+
+
+def _preload_evidence(
+    obj_vram: bytes,
+    baseline: bytes,
+    candidate: bytes,
+    target_offset: int,
+) -> dict[str, Any]:
+    locations: list[str] = []
+    cursor = 0
+    while True:
+        found = obj_vram.find(baseline, cursor)
+        if found < 0:
+            break
+        locations.append(f"0x{0x06010000 + found:08X}")
+        cursor = found + 1
+    candidate_absent = obj_vram.find(candidate) < 0
+    target_candidate_absent = (
+        0 <= target_offset <= len(obj_vram) - len(candidate)
+        and obj_vram[target_offset : target_offset + len(candidate)] != candidate
+    )
+    if not candidate_absent or not target_candidate_absent:
+        raise ValueError("battle-effect pixel candidate exists before natural input")
+    return {
+        "candidate_resource_absent_before_input": True,
+        "target_candidate_absent_before_input": True,
+        "stale_baseline_locations": locations,
+    }
+
+
+def _valid_implementation_hashes(
+    value: object, expected_paths: tuple[str, ...]
+) -> bool:
+    return (
+        isinstance(value, dict)
+        and set(value) == set(expected_paths)
+        and all(
+            isinstance(digest, str)
+            and len(digest) == 64
+            and all(character in "0123456789abcdef" for character in digest)
+            for digest in value.values()
+        )
+    )
+
+
+def _generation_implementation_hashes(
+    raw: Path,
+    raw_hashes: dict[str, str],
+    current: dict[str, str],
+) -> dict[str, str]:
+    source_manifest = raw.parent / "manifest.json"
+    if not source_manifest.is_file():
+        return current
+    manifest = _json(source_manifest)
+    if manifest.get("raw_files") != raw_hashes:
+        return current
+    historical = manifest.get(
+        "generated_with_implementation_sha256",
+        manifest.get("implementation_sha256"),
+    )
+    if not _valid_implementation_hashes(historical, IMPLEMENTATION_PATHS):
+        raise ValueError("battle-effect pixel generation provenance is invalid")
+    return dict(historical)
+
+
+def _build_manifest_profile_metadata_matches(
+    build: dict[str, Any], profile: dict[str, Any], profile_sha256: str
+) -> bool:
+    if (
+        build.get("profile_sha256") == profile_sha256
+        and build.get("runtime_oam") == profile.get("runtime_oam")
+    ):
+        return True
+    runtime_oam = profile.get("runtime_oam")
+    historical_sha = build.get("profile_sha256")
+    return (
+        isinstance(runtime_oam, dict)
+        and "instances" in runtime_oam
+        and isinstance(historical_sha, str)
+        and len(historical_sha) == 64
+        and all(character in "0123456789abcdef" for character in historical_sha)
+        and build.get("runtime_oam")
+        == {key: value for key, value in runtime_oam.items() if key != "instances"}
+    )
+
+
+def _build_manifest_reproducible_with_profile_extension(
+    historical: dict[str, Any], current: dict[str, Any], profile: dict[str, Any]
+) -> bool:
+    if historical == current:
+        return True
+    if not _build_manifest_profile_metadata_matches(
+        historical, profile, current.get("profile_sha256")
+    ):
+        return False
+    keys = set(historical) | set(current)
+    return all(
+        historical.get(key) == current.get(key)
+        for key in keys
+        if key not in {"profile_sha256", "runtime_oam"}
+    )
 
 
 def _selector_scope(selector: object) -> dict[str, bool]:
@@ -326,11 +472,17 @@ def export_evidence(
     profile, contract = _validate_profile(root, profile_path)
     if profile.get("schema") != PROFILE_SCHEMA:
         raise ValueError("battle-effect pixel evidence profile mismatch")
+    _runtime_component_obj_tile_base(
+        profile, contract["component"]["tile_index"]
+    )
     actual_raw = {
         path.relative_to(raw_root) for path in raw_root.rglob("*") if path.is_file()
     }
     if actual_raw != {Path(name) for name in _raw_files(profile)}:
         raise ValueError("battle-effect pixel raw evidence file set mismatch")
+    source_raw_hashes = {
+        name: _sha256_file(raw_root / name) for name in _raw_files(profile)
+    }
     if output.exists() and any(output.iterdir()):
         raise ValueError("battle-effect pixel evidence output must be empty")
     output.mkdir(parents=True, exist_ok=True)
@@ -343,7 +495,9 @@ def export_evidence(
     if (
         build.get("schema") != BUILD_SCHEMA
         or build.get("profile_id") != profile["profile_id"]
-        or build.get("profile_sha256") != _sha256_file(profile_path)
+        or not _build_manifest_profile_metadata_matches(
+            build, profile, _sha256_file(profile_path)
+        )
         or build.get("input_state") != profile["input_state"]
         or build.get("input_state_sha256") != profile["input_state_sha256"]
         or build.get("input_evidence") != profile["input_evidence"]
@@ -354,7 +508,10 @@ def export_evidence(
     ):
         raise ValueError("battle-effect pixel build manifest contract mismatch")
     with tempfile.TemporaryDirectory() as temporary:
-        if build_pair(root, profile_path, Path(temporary) / "build") != build:
+        current_build = build_pair(root, profile_path, Path(temporary) / "build")
+        if not _build_manifest_reproducible_with_profile_extension(
+            build, current_build, profile
+        ):
             raise ValueError("battle-effect pixel build manifest is not reproducible")
 
     group = profile["group_id"]
@@ -400,10 +557,10 @@ def export_evidence(
     palette = palette_path.read_bytes()
     vram_address = int(profile["runtime_oam"]["obj_vram_address"], 16)
     palette_address = 0x05000200 + profile["runtime_oam"]["palette_bank"] * 32
-    oam_address = 0x07000000 + profile["runtime_oam"]["oam_index"] * 8
-    expected_oam = b"".join(
-        int(value, 16).to_bytes(2, "little")
-        for value in profile["runtime_oam"]["attributes"]
+    oam_instances = _runtime_oam_instances(
+        profile,
+        profile["component_pixel_xy"][0],
+        profile["component_pixel_xy"][1],
     )
     for variant in VARIANTS:
         rendered, _ = render_checkpoint(raw / variant / f"frame{frame}.ss9")
@@ -411,26 +568,39 @@ def export_evidence(
             states[variant].read_memory(vram_address, len(graphics[variant]))
             != graphics[variant]
             or states[variant].read_memory(palette_address, len(palette)) != palette
-            or states[variant].read_memory(oam_address, 6) != expected_oam
             or rendered != _rgb(raw / variant / f"frame{frame}.png")
         ):
             raise ValueError(f"battle-effect pixel {variant} natural route mismatch")
+        for instance in oam_instances:
+            address = 0x07000000 + instance["oam_index"] * 8
+            expected = b"".join(
+                int(value, 16).to_bytes(2, "little")
+                for value in instance["attributes"]
+            )
+            if states[variant].read_memory(address, 6) != expected:
+                raise ValueError(
+                    f"battle-effect pixel {variant} OAM instance mismatch"
+                )
 
     input_state = load_gba_state(root / profile["input_state"])
-    if input_state.read_memory(0x06010000, 0x8000).find(graphics["baseline"]) >= 0:
-        raise ValueError("battle-effect pixel natural pre-load boundary mismatch")
+    input_obj_vram = input_state.read_memory(0x06010000, 0x8000)
+    target_offset = int(profile["runtime_oam"]["obj_vram_address"], 16) - 0x06010000
+    preload = _preload_evidence(
+        input_obj_vram,
+        graphics["baseline"],
+        graphics["candidate"],
+        target_offset,
+    )
+    input_presence = (
+        {"resource_absent_before_input": True}
+        if not preload["stale_baseline_locations"]
+        else preload
+    )
 
     baseline_rgb = _rgb(raw / "baseline" / f"frame{frame}.png")
     candidate_rgb = _rgb(raw / "candidate" / f"frame{frame}.png")
     changes = _pixel_changes(baseline_rgb, candidate_rgb)
-    expected_pixels = [
-        {
-            "x": profile["screen_xy"][0],
-            "y": profile["screen_xy"][1],
-            "before_rgb": profile["before_rgb"],
-            "after_rgb": profile["after_rgb"],
-        }
-    ]
+    expected_pixels = _expected_pixels(profile)
     if changes != expected_pixels:
         raise ValueError("battle-effect pixel final pixel isolation mismatch")
 
@@ -450,7 +620,7 @@ def export_evidence(
                 - profile["runtime_input"]["down_frame"],
             },
             "capture_frame": frame,
-            "resource_absent_before_input": True,
+            **input_presence,
         },
         "binding": build["binding"],
         "edit": build["edit"],
@@ -463,14 +633,19 @@ def export_evidence(
             "oam_entry": profile["runtime_oam"]["oam_index"],
             "oam_attributes": profile["runtime_oam"]["attributes"],
             "palette_bank": profile["runtime_oam"]["palette_bank"],
+            **(
+                {"oam_instances": oam_instances}
+                if "instances" in profile["runtime_oam"]
+                else {}
+            ),
             "renderer_exact": True,
             "pixels": {
                 "count": len(changes),
                 "bbox": [
-                    profile["screen_xy"][0],
-                    profile["screen_xy"][1],
-                    profile["screen_xy"][0],
-                    profile["screen_xy"][1],
+                    min(pixel["x"] for pixel in changes),
+                    min(pixel["y"] for pixel in changes),
+                    max(pixel["x"] for pixel in changes),
+                    max(pixel["y"] for pixel in changes),
                 ],
                 "baseline_rgb_sha256": _sha256(baseline_rgb),
                 "candidate_rgb_sha256": _sha256(candidate_rgb),
@@ -489,6 +664,9 @@ def export_evidence(
     }
     implementation_hashes = {
         path: _sha256_file(root / path) for path in IMPLEMENTATION_PATHS
+    }
+    raw_hashes = {
+        name: _sha256_file(raw / name) for name in _raw_files(profile)
     }
     manifest = {
         "schema": "git-artifact-promotion-v1",
@@ -509,10 +687,11 @@ def export_evidence(
         "payload_file": "runtime-evidence.json",
         "payload_sha256": _sha256_file(output / "runtime-evidence.json"),
         "files": files,
-        "raw_files": {
-            name: _sha256_file(raw / name) for name in _raw_files(profile)
-        },
-        "implementation_sha256": implementation_hashes,
+        "raw_files": raw_hashes,
+        "generated_with_implementation_sha256": _generation_implementation_hashes(
+            raw_root, source_raw_hashes, implementation_hashes
+        ),
+        "verified_with_implementation_sha256": implementation_hashes,
         "verifier": {
             "command": [
                 "python3",

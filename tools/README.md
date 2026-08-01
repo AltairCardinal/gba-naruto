@@ -180,11 +180,17 @@ python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group11-pixel-ab-v1
 python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group14-pixel-ab-v1
+python3 tools/verify_battle_effect_pixel_ab_evidence.py \
+  --artifact artifacts/battle-effect-group1-pixel-ab-v1
 ```
 
-当前profile同时支持`ninja_tool`和`active_action` selector，分别签发scenario 50
+当前profile同时支持`ninja_tool`和`active_action` selector，并允许自然selector的
+trigger sequence/group与被验证资源sequence/group不同。现已分别签发scenario 50
 自然忍具1 → sequence 13 → group 11，以及scenario 47主动动作16 → sequence 16 →
-group 14的frame 0单像素链。输入checkpoint均停在最终确认A之前，避免重复长导航。
+group 14的frame 0单像素链，以及scenario 41 action 5直接sequence 6/group 5再触发
+sequence 1/group 1三实例尘土的frame 2单源像素链。多实例profile逐项绑定OAM、
+frame/component和最终差异可见性；artifact manifest将raw证据生成实现哈希与当前
+复核实现哈希分开记录。输入checkpoint均停在最终确认A之前，避免重复长导航。
 这些profile不证明其余group/frame、完整affine/blend/时序/音频或实体GBA。
 
 ## 剧情透明 BG3 图层可变长迁移

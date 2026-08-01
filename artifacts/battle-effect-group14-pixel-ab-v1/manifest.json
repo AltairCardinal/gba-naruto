@@ -21,7 +21,7 @@
     "raw/candidate/spec.json": "7c4bd7e4ef4c832bbc609e7e0b3b210be8d289dcc3d419cd4c5e549c10ea824b",
     "runtime-evidence.json": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
   },
-  "implementation_sha256": {
+  "generated_with_implementation_sha256": {
     "tools/build_battle_effect_pixel_ab.py": "1e7a978bd54dc027e0a4e4c7d5d829ec4bf4d21dd2a37e2dc45ee310eebdf424",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
     "tools/export_battle_effect_pixel_ab_evidence.py": "71c961871f93329ab06eca2fd05d15827a92b926482225666369deee2f284460",
@@ -75,6 +75,23 @@
   },
   "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
   "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+  "verified_with_implementation_sha256": {
+    "tools/build_battle_effect_pixel_ab.py": "0911637aefc20bd52f18ed6363df72114493c7a5a88968088bdebe69f01ebbed",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_battle_effect_pixel_ab_evidence.py": "b947a59ac91611a43e2432437b3a52f553d85584c4982f1be683251efb63330e",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
+    "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_input_sequence_replay.lua": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_input_sequence.py": "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_battle_effect_pixel_ab_evidence.py": "e5dd67b93831553fd1d725e4a23870dc52fc1fead4c1eda80279a382bcfcc562"
+  },
   "verifier": {
     "command": [
       "python3",

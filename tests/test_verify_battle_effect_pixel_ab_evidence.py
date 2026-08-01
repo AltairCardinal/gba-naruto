@@ -11,15 +11,124 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/battle-effect-group11-pixel-ab-v1"
+GROUP1_ARTIFACT = ROOT / "artifacts/battle-effect-group1-pixel-ab-v1"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 GROUP14_ARTIFACT = ROOT / "artifacts/battle-effect-group14-pixel-ab-v1"
+GROUP5_ARTIFACT = ROOT / "artifacts/battle-effect-group5-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_independently_derives_runtime_tile_from_component_source(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        profile = {
+            "runtime_oam": {
+                "obj_vram_address": "0x06012000",
+                "obj_tile_base": 264,
+            }
+        }
+        self.assertEqual(verifier._runtime_component_obj_tile_base(profile, 8), 264)
+        profile["runtime_oam"]["obj_tile_base"] = 265
+        with self.assertRaisesRegex(ValueError, "component tile mapping"):
+            verifier._runtime_component_obj_tile_base(profile, 8)
+
+    def test_accepts_historical_generation_and_current_verification_hashes(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        manifest = {
+            "generated_with_implementation_sha256": {
+                path: "1" * 64 for path in verifier.IMPLEMENTATION_PATHS
+            },
+            "verified_with_implementation_sha256": {
+                path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+                for path in verifier.IMPLEMENTATION_PATHS
+            },
+        }
+
+        verifier._validate_implementation_provenance(ROOT, manifest)
+
+    def test_rejects_legacy_ambiguous_implementation_hash_field(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        manifest = {
+            "implementation_sha256": {
+                path: "1" * 64 for path in verifier.IMPLEMENTATION_PATHS
+            }
+        }
+        with self.assertRaisesRegex(ValueError, "implementation provenance"):
+            verifier._validate_implementation_provenance(ROOT, manifest)
+
+    def test_preload_evidence_allows_recorded_stale_baseline_elsewhere(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        baseline = b"ABCD"
+        candidate = b"ABXD"
+        vram = bytearray(32)
+        vram[16:20] = baseline
+
+        self.assertEqual(
+            verifier._preload_evidence(bytes(vram), baseline, candidate, 0),
+            {
+                "candidate_resource_absent_before_input": True,
+                "target_candidate_absent_before_input": True,
+                "stale_baseline_locations": ["0x06010010"],
+            },
+        )
+
+    def test_expected_pixels_support_multiple_rendered_instances(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        profile = {
+            "screen_xy": [44, 73],
+            "screen_pixels": [[44, 73], [37, 77]],
+            "before_rgb": [148, 140, 90],
+            "after_rgb": [222, 214, 148],
+        }
+
+        self.assertEqual(len(verifier._expected_pixels(profile)), 2)
+
     def test_accepts_active_action_confirmation_checkpoint_contract(self):
         from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
 
         profile = json.loads(GROUP14_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
+    def test_accepts_promoted_action5_artifact_as_trigger_checkpoint_evidence(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP14_PROFILE.read_text(encoding="utf-8"))
+        evidence = GROUP5_ARTIFACT / "runtime-evidence.json"
+        profile.update(
+            {
+                "group_id": 1,
+                "sequence_id": 1,
+                "trigger_sequence_id": 6,
+                "trigger_group_id": 5,
+                "selector": {
+                    "kind": "active_action",
+                    "id": 5,
+                    "encoded_action_id": 5,
+                },
+                "input_state": (
+                    "artifacts/runtime-checkpoints/"
+                    "scenario-41-attack-confirmation.ss9"
+                ),
+                "input_state_sha256": (
+                    "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f"
+                ),
+                "input_evidence": evidence.relative_to(ROOT).as_posix(),
+                "input_evidence_sha256": hashlib.sha256(
+                    evidence.read_bytes()
+                ).hexdigest(),
+                "runtime_input": {
+                    "key": "A",
+                    "down_frame": 5,
+                    "up_frame": 13,
+                    "capture_frame": 120,
+                },
+            }
+        )
+
         _verify_checkpoint(ROOT, profile)
 
     def test_independent_ledger_uses_production_lowercase_pointer_id(self):
@@ -48,7 +157,7 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
                 for item in value:
                     yield from strings(item)
 
-        for artifact in (ARTIFACT, GROUP14_ARTIFACT):
+        for artifact in (ARTIFACT, GROUP1_ARTIFACT, GROUP14_ARTIFACT):
             for path in artifact.rglob("*.json"):
                 payload = json.loads(path.read_text(encoding="utf-8"))
                 self.assertEqual(
@@ -79,6 +188,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_multi_instance_action_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP1_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_verifies_promoted_active_action_artifact(self):

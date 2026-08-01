@@ -75,6 +75,137 @@ def _require_int_pair(value: object, label: str) -> tuple[int, int]:
     return (_require_int(value[0], label), _require_int(value[1], label))
 
 
+def _profile_screen_pixels(profile: Mapping[str, Any]) -> list[tuple[int, int]]:
+    primary = _require_int_pair(profile.get("screen_xy"), "screen_xy")
+    raw = profile.get("screen_pixels", [list(primary)])
+    if not isinstance(raw, list) or not raw:
+        raise ValueError("battle-effect pixel screen_pixels must be nonempty")
+    pixels = [_require_int_pair(value, "screen_pixels") for value in raw]
+    if (
+        pixels[0] != primary
+        or len(set(pixels)) != len(pixels)
+        or any(not 0 <= x < 240 or not 0 <= y < 160 for x, y in pixels)
+    ):
+        raise ValueError("battle-effect pixel screen_pixels contract mismatch")
+    return pixels
+
+
+def _runtime_component_obj_tile_base(
+    profile: Mapping[str, Any], component_tile_index: int
+) -> int:
+    runtime_oam = profile.get("runtime_oam")
+    if not isinstance(runtime_oam, dict):
+        raise ValueError("battle-effect pixel runtime_oam must be an object")
+    try:
+        address = int(runtime_oam.get("obj_vram_address"), 16)
+    except (TypeError, ValueError) as error:
+        raise ValueError(
+            "battle-effect pixel runtime component tile mapping mismatch"
+        ) from error
+    if (
+        not isinstance(component_tile_index, int)
+        or isinstance(component_tile_index, bool)
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    delta = address - 0x06010000
+    expected = delta // 32 + component_tile_index
+    if (
+        delta < 0
+        or delta % 32
+        or not 0 <= expected < 1024
+        or runtime_oam.get("obj_tile_base") != expected
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    return expected
+
+
+def _runtime_oam_instances(
+    profile: Mapping[str, Any], pixel_x: int, pixel_y: int
+) -> list[dict[str, Any]]:
+    runtime_oam = profile.get("runtime_oam")
+    if not isinstance(runtime_oam, dict):
+        raise ValueError("battle-effect pixel runtime_oam must be an object")
+    primary_attributes = runtime_oam.get("attributes")
+    if not isinstance(primary_attributes, list) or len(primary_attributes) != 3:
+        raise ValueError("battle-effect pixel runtime OAM attributes are invalid")
+    raw_instances = runtime_oam.get("instances")
+    if raw_instances is None:
+        raw_instances = [
+            {
+                "oam_index": runtime_oam.get("oam_index"),
+                "attributes": primary_attributes,
+                "frame_id": profile.get("frame_id"),
+                "component_index": profile.get("component_index"),
+                "component_pixel_xy": profile.get("component_pixel_xy"),
+                "source_pixel_screen_xy": profile.get("screen_xy"),
+                "visible_in_final_difference": True,
+            }
+        ]
+    if not isinstance(raw_instances, list) or not raw_instances:
+        raise ValueError("battle-effect pixel runtime OAM instances are invalid")
+
+    screen_pixels = _profile_screen_pixels(profile)
+    instances: list[dict[str, Any]] = []
+    indices: set[int] = set()
+    for raw in raw_instances:
+        if not isinstance(raw, dict):
+            raise ValueError("battle-effect pixel runtime OAM instance is invalid")
+        index = _require_int(raw.get("oam_index"), "runtime OAM instance index")
+        attributes = raw.get("attributes")
+        if not isinstance(attributes, list) or len(attributes) != 3:
+            raise ValueError("battle-effect pixel runtime OAM instance attributes are invalid")
+        try:
+            attr0, attr1, attr2 = (int(value, 16) for value in attributes)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "battle-effect pixel runtime OAM instance attributes are invalid"
+            ) from error
+        source_xy = _require_int_pair(
+            raw.get("source_pixel_screen_xy"), "runtime OAM instance screen pixel"
+        )
+        component_xy = _require_int_pair(
+            raw.get("component_pixel_xy"), "runtime OAM instance component pixel"
+        )
+        visible = raw.get("visible_in_final_difference")
+        if (
+            not 0 <= index < 128
+            or index in indices
+            or component_xy != (pixel_x, pixel_y)
+            or raw.get("frame_id") != profile.get("frame_id")
+            or raw.get("component_index") != profile.get("component_index")
+            or attr2 & 0x3FF != runtime_oam.get("obj_tile_base")
+            or attr2 >> 12 != runtime_oam.get("palette_bank")
+            or not isinstance(visible, bool)
+        ):
+            raise ValueError("battle-effect pixel runtime OAM instance contract mismatch")
+        if ((attr1 & 0x1FF) + pixel_x, (attr0 & 0xFF) + pixel_y) != source_xy:
+            raise ValueError("battle-effect pixel runtime OAM instance screen mapping mismatch")
+        indices.add(index)
+        instances.append(dict(raw))
+
+    primary = instances[0]
+    if (
+        primary["oam_index"] != runtime_oam.get("oam_index")
+        or primary["attributes"] != primary_attributes
+        or tuple(primary["source_pixel_screen_xy"])
+        != _require_int_pair(profile.get("screen_xy"), "screen_xy")
+        or primary["visible_in_final_difference"] is not True
+        or [
+            tuple(item["source_pixel_screen_xy"])
+            for item in instances
+            if item["visible_in_final_difference"]
+        ]
+        != screen_pixels
+        or any(
+            tuple(item["source_pixel_screen_xy"]) in screen_pixels
+            for item in instances
+            if not item["visible_in_final_difference"]
+        )
+    ):
+        raise ValueError("battle-effect pixel runtime OAM instance visibility mismatch")
+    return instances
+
+
 def _require_relative_file(root: Path, value: object, label: str) -> Path:
     if not isinstance(value, str) or not value:
         raise ValueError(f"battle-effect pixel {label} must be a repository path")
@@ -177,8 +308,9 @@ def _resolve_selector_binding(
     sequence_bindings: Mapping[str, Any],
     *,
     sequence_id: int,
+    trigger_sequence_id: int | None = None,
 ) -> tuple[dict[str, Any], dict[str, int]]:
-    """Resolve a supported action selector without weakening its ID contract."""
+    """Resolve the natural selector and retain the distinct resource sequence."""
 
     if not isinstance(selector, dict):
         raise ValueError("battle-effect pixel selector contract mismatch")
@@ -205,16 +337,22 @@ def _resolve_selector_binding(
         binding_encoded_action_id = selector_id
     else:
         raise ValueError("battle-effect pixel selector contract mismatch")
+    actual_trigger_sequence_id = (
+        sequence_id if trigger_sequence_id is None else trigger_sequence_id
+    )
     if (
         binding_encoded_action_id != encoded_action_id
-        or binding.get("sequence_id") != sequence_id
+        or binding.get("sequence_id") != actual_trigger_sequence_id
     ):
         raise ValueError(f"battle-effect pixel {kind} binding mismatch")
-    return binding, {
+    build_binding = {
         id_key: selector_id,
         "encoded_action_id": encoded_action_id,
         "sequence_id": sequence_id,
     }
+    if actual_trigger_sequence_id != sequence_id:
+        build_binding["trigger_sequence_id"] = actual_trigger_sequence_id
+    return binding, build_binding
 
 
 def _validate_profile(
@@ -226,12 +364,22 @@ def _validate_profile(
 
     group_id = _require_int(profile.get("group_id"), "group_id")
     sequence_id = _require_int(profile.get("sequence_id"), "sequence_id")
+    trigger_sequence_id = profile.get("trigger_sequence_id", sequence_id)
+    trigger_sequence_id = _require_int(
+        trigger_sequence_id, "trigger_sequence_id"
+    )
+    trigger_group_id = profile.get("trigger_group_id", group_id)
+    trigger_group_id = _require_int(trigger_group_id, "trigger_group_id")
+    if (trigger_sequence_id == sequence_id) != (trigger_group_id == group_id):
+        raise ValueError(
+            "battle-effect pixel trigger sequence/group distinction mismatch"
+        )
     frame_id = _require_int(profile.get("frame_id"), "frame_id")
     component_index = _require_int(profile.get("component_index"), "component_index")
     pixel_x, pixel_y = _require_int_pair(
         profile.get("component_pixel_xy"), "component_pixel_xy"
     )
-    screen_x, screen_y = _require_int_pair(profile.get("screen_xy"), "screen_xy")
+    screen_x, screen_y = _profile_screen_pixels(profile)[0]
     graphics_byte_offset = _require_int(
         profile.get("graphics_byte_offset"), "graphics_byte_offset"
     )
@@ -337,6 +485,7 @@ def _validate_profile(
         profile.get("selector"),
         catalog_payloads["sequence_bindings"],
         sequence_id=sequence_id,
+        trigger_sequence_id=trigger_sequence_id,
     )
     sequence = _find(
         catalog_payloads["sequence_bindings"].get("sequences"),
@@ -345,25 +494,18 @@ def _validate_profile(
     )
     if group_id not in sequence.get("nonzero_resource_group_ids", []):
         raise ValueError("battle-effect pixel sequence group mismatch")
-
-    runtime_oam = profile.get("runtime_oam")
-    if not isinstance(runtime_oam, dict):
-        raise ValueError("battle-effect pixel runtime_oam must be an object")
-    attributes = runtime_oam.get("attributes")
-    if not isinstance(attributes, list) or len(attributes) != 3:
-        raise ValueError("battle-effect pixel runtime OAM attributes are invalid")
-    try:
-        attr0, attr1, attr2 = (int(value, 16) for value in attributes)
-    except (TypeError, ValueError) as error:
-        raise ValueError("battle-effect pixel runtime OAM attributes are invalid") from error
-    oam_x = attr1 & 0x1FF
-    oam_y = attr0 & 0xFF
-    if (
-        [oam_x + pixel_x, oam_y + pixel_y] != [screen_x, screen_y]
-        or attr2 & 0x3FF != runtime_oam.get("obj_tile_base")
-        or attr2 >> 12 != runtime_oam.get("palette_bank")
+    trigger_sequence = _find(
+        catalog_payloads["sequence_bindings"].get("sequences"),
+        "trigger sequence descriptor",
+        sequence_id=trigger_sequence_id,
+    )
+    if trigger_group_id not in trigger_sequence.get(
+        "nonzero_resource_group_ids", []
     ):
-        raise ValueError("battle-effect pixel runtime screen mapping mismatch")
+        raise ValueError("battle-effect pixel trigger sequence group mismatch")
+
+    _runtime_component_obj_tile_base(profile, component.get("tile_index"))
+    _runtime_oam_instances(profile, pixel_x, pixel_y)
 
     runtime_input = profile.get("runtime_input")
     if (
@@ -387,6 +529,7 @@ def _validate_profile(
         "binding": binding,
         "build_binding": build_binding,
         "sequence": sequence,
+        "trigger_sequence": trigger_sequence,
         "allocation_offset": allocation_offset,
         "expected_encoded_size": expected_encoded_size,
     }
@@ -511,6 +654,11 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
             "screen_xy": profile["screen_xy"],
             "before_rgb": profile["before_rgb"],
             "after_rgb": profile["after_rgb"],
+            **(
+                {"screen_pixels": profile["screen_pixels"]}
+                if "screen_pixels" in profile
+                else {}
+            ),
         },
         "catalogs": profile["catalogs"],
         "same_patch_topology": _topology(baseline_ledger)

@@ -1888,3 +1888,23 @@ WebSocket
   两份ROM并返回`errors=[]`；成果位于`artifacts/battle-effect-group14-pixel-ab-v1/`，
   说明见`notes/battle-effect-group14-pixel-ab-20260801.md`。其余15组、其他帧、
   完整affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。
+- 2026-08-01：战斗特效自然最终像素A/B由3组推进到**4/18组**。复用scenario 41
+  攻击确认checkpoint，只输入一次A；同一自然action 5路径中观察到直接selector
+  sequence 6/group 5以及sequence 1/group 1的三个弹道尘土子任务。通用profile新增
+  trigger sequence/group与资源sequence/group分离，避免把间接表现误写成直接绑定。
+  两份16 MiB ROM共享`0x08B40000` relocation及735-byte安全LZ77拓扑，candidate
+  只改解压offset `262:40→10`。frame 90完整1,024-byte graphics位于
+  `0x06012000`，三个OAM均为frame 2；六个内存域仅VRAM `0x06012106`一字节不同，
+  最终PNG在两个未遮挡实例`(44,73)/(37,77)`由`(148,140,90)`变为
+  `(222,214,148)`；第三实例未进入最终像素差异，证据不推断具体原因。三个实例的
+  OAM索引、attr0/1/2、frame、component与候选坐标均由profile及独立verifier约束。
+  verifier另从`0x06012000`推出OBJ load tile基址256，再与component源tile 8相加，
+  要求三个attr2低10位均为264，避免frame/component只停留在自述字段。
+  checkpoint的`0x06016000`保留旧
+  基线缓存，证据明确记录它并另证候选在输入前缺席、目标区重新装入各自ROM内容。
+  两次guard峰值RSS为55.87109375/56.1484375 MiB且无PGID/listener残留；独立
+  verifier返回`errors=[]`。group 1/11/14 manifest现分别记录历史生成实现哈希和
+  当前复核实现哈希，不再覆盖raw证据的生成来源。成果位于
+  `artifacts/battle-effect-group1-pixel-ab-v1/`，
+  说明见`notes/battle-effect-group1-pixel-ab-20260801.md`。其余14组、其他帧、完整
+  弹道RNG/affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。

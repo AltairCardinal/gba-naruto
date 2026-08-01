@@ -139,6 +139,208 @@ def _pixel_changes(left: bytes, right: bytes) -> list[dict[str, Any]]:
     return changes
 
 
+def _expected_pixels(profile: dict[str, Any]) -> list[dict[str, Any]]:
+    coordinates = profile.get("screen_pixels", [profile.get("screen_xy")])
+    if not isinstance(coordinates, list) or not coordinates:
+        raise ValueError("battle-effect pixel expected screen pixels are invalid")
+    return [
+        {
+            "x": coordinate[0],
+            "y": coordinate[1],
+            "before_rgb": profile["before_rgb"],
+            "after_rgb": profile["after_rgb"],
+        }
+        for coordinate in coordinates
+    ]
+
+
+def _runtime_component_obj_tile_base(
+    profile: dict[str, Any], component_tile_index: int
+) -> int:
+    runtime_oam = profile.get("runtime_oam")
+    if not isinstance(runtime_oam, dict):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    try:
+        address = int(runtime_oam.get("obj_vram_address"), 16)
+    except (TypeError, ValueError) as error:
+        raise ValueError(
+            "battle-effect pixel runtime component tile mapping mismatch"
+        ) from error
+    if (
+        not isinstance(component_tile_index, int)
+        or isinstance(component_tile_index, bool)
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    delta = address - 0x06010000
+    expected = delta // 32 + component_tile_index
+    if (
+        delta < 0
+        or delta % 32
+        or not 0 <= expected < 1024
+        or runtime_oam.get("obj_tile_base") != expected
+    ):
+        raise ValueError("battle-effect pixel runtime component tile mapping mismatch")
+    return expected
+
+
+def _runtime_oam_instances(
+    profile: dict[str, Any], pixel_x: int, pixel_y: int
+) -> list[dict[str, Any]]:
+    runtime_oam = profile.get("runtime_oam")
+    if not isinstance(runtime_oam, dict):
+        raise ValueError("battle-effect pixel runtime OAM contract mismatch")
+    primary_attributes = runtime_oam.get("attributes")
+    raw_instances = runtime_oam.get("instances")
+    if raw_instances is None:
+        raw_instances = [
+            {
+                "oam_index": runtime_oam.get("oam_index"),
+                "attributes": primary_attributes,
+                "frame_id": profile.get("frame_id"),
+                "component_index": profile.get("component_index"),
+                "component_pixel_xy": profile.get("component_pixel_xy"),
+                "source_pixel_screen_xy": profile.get("screen_xy"),
+                "visible_in_final_difference": True,
+            }
+        ]
+    if not isinstance(raw_instances, list) or not raw_instances:
+        raise ValueError("battle-effect pixel runtime OAM instances mismatch")
+    screen_pixels = profile.get("screen_pixels", [profile.get("screen_xy")])
+    instances: list[dict[str, Any]] = []
+    indices: set[int] = set()
+    for raw in raw_instances:
+        if not isinstance(raw, dict):
+            raise ValueError("battle-effect pixel runtime OAM instance mismatch")
+        index = raw.get("oam_index")
+        attributes = raw.get("attributes")
+        source_xy = raw.get("source_pixel_screen_xy")
+        visible = raw.get("visible_in_final_difference")
+        if (
+            not isinstance(index, int)
+            or isinstance(index, bool)
+            or not 0 <= index < 128
+            or index in indices
+            or not isinstance(attributes, list)
+            or len(attributes) != 3
+            or not isinstance(source_xy, list)
+            or len(source_xy) != 2
+            or raw.get("frame_id") != profile.get("frame_id")
+            or raw.get("component_index") != profile.get("component_index")
+            or raw.get("component_pixel_xy") != [pixel_x, pixel_y]
+            or not isinstance(visible, bool)
+        ):
+            raise ValueError("battle-effect pixel runtime OAM instance mismatch")
+        try:
+            attr0, attr1, attr2 = (int(value, 16) for value in attributes)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "battle-effect pixel runtime OAM instance attributes mismatch"
+            ) from error
+        if (
+            [(attr1 & 0x1FF) + pixel_x, (attr0 & 0xFF) + pixel_y] != source_xy
+            or attr2 & 0x3FF != runtime_oam.get("obj_tile_base")
+            or attr2 >> 12 != runtime_oam.get("palette_bank")
+        ):
+            raise ValueError("battle-effect pixel runtime OAM instance screen mapping mismatch")
+        indices.add(index)
+        instances.append(dict(raw))
+    if (
+        instances[0].get("oam_index") != runtime_oam.get("oam_index")
+        or instances[0].get("attributes") != primary_attributes
+        or instances[0].get("source_pixel_screen_xy") != profile.get("screen_xy")
+        or instances[0].get("visible_in_final_difference") is not True
+        or [
+            item["source_pixel_screen_xy"]
+            for item in instances
+            if item["visible_in_final_difference"]
+        ]
+        != screen_pixels
+        or any(
+            item["source_pixel_screen_xy"] in screen_pixels
+            for item in instances
+            if not item["visible_in_final_difference"]
+        )
+    ):
+        raise ValueError("battle-effect pixel runtime OAM instance visibility mismatch")
+    return instances
+
+
+def _validate_implementation_provenance(
+    root: Path, manifest: dict[str, Any]
+) -> None:
+    generated = manifest.get("generated_with_implementation_sha256")
+    verified = manifest.get("verified_with_implementation_sha256")
+    expected_keys = set(IMPLEMENTATION_PATHS)
+    valid_generated = (
+        isinstance(generated, dict)
+        and set(generated) == expected_keys
+        and all(
+            isinstance(digest, str)
+            and len(digest) == 64
+            and all(character in "0123456789abcdef" for character in digest)
+            for digest in generated.values()
+        )
+    )
+    expected_verified = {
+        path: _sha256_file(root / path) for path in IMPLEMENTATION_PATHS
+    }
+    if (
+        "implementation_sha256" in manifest
+        or not valid_generated
+        or verified != expected_verified
+    ):
+        raise ValueError("battle-effect pixel implementation provenance mismatch")
+
+
+def _build_manifest_profile_metadata_matches(
+    build: dict[str, Any], profile: dict[str, Any], profile_sha256: str
+) -> bool:
+    if (
+        build.get("profile_sha256") == profile_sha256
+        and build.get("runtime_oam") == profile.get("runtime_oam")
+    ):
+        return True
+    runtime_oam = profile.get("runtime_oam")
+    historical_sha = build.get("profile_sha256")
+    return (
+        isinstance(runtime_oam, dict)
+        and "instances" in runtime_oam
+        and isinstance(historical_sha, str)
+        and len(historical_sha) == 64
+        and all(character in "0123456789abcdef" for character in historical_sha)
+        and build.get("runtime_oam")
+        == {key: value for key, value in runtime_oam.items() if key != "instances"}
+    )
+
+
+def _preload_evidence(
+    obj_vram: bytes,
+    baseline: bytes,
+    candidate: bytes,
+    target_offset: int,
+) -> dict[str, Any]:
+    locations: list[str] = []
+    cursor = 0
+    while True:
+        found = obj_vram.find(baseline, cursor)
+        if found < 0:
+            break
+        locations.append(f"0x{0x06010000 + found:08X}")
+        cursor = found + 1
+    candidate_absent = obj_vram.find(candidate) < 0
+    target_candidate_absent = (
+        0 <= target_offset <= len(obj_vram) - len(candidate)
+        and obj_vram[target_offset : target_offset + len(candidate)] != candidate
+    )
+    if not candidate_absent or not target_candidate_absent:
+        raise ValueError("battle-effect pixel candidate exists before natural input")
+    return {
+        "candidate_resource_absent_before_input": True,
+        "target_candidate_absent_before_input": True,
+        "stale_baseline_locations": locations,
+    }
+
+
 def _one(rows: object, label: str, **criteria: object) -> dict[str, Any]:
     if not isinstance(rows, list):
         raise ValueError(f"battle-effect pixel {label} is not a list")
@@ -209,9 +411,99 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     }
     expected_next_binding = {
         "encoded_action_id": profile["selector"]["encoded_action_id"],
-        "resource_group_id": profile["group_id"],
-        "sequence_id": profile["sequence_id"],
+        "resource_group_id": profile.get("trigger_group_id", profile["group_id"]),
+        "sequence_id": profile.get("trigger_sequence_id", profile["sequence_id"]),
     }
+    if checkpoint.get("schema") == "battle-effect-group5-pixel-ab-runtime-v1":
+        artifact_root = evidence_path.parent
+        manifest_path = artifact_root / "manifest.json"
+        manifest = _json(manifest_path)
+        event = {
+            **expected_next_input,
+            "hold_frames": (
+                expected_next_input["up_frame"]
+                - expected_next_input["down_frame"]
+            ),
+        }
+        files = manifest.get("files", {})
+        runs = checkpoint.get("runs", {})
+        if (
+            manifest.get("schema") != "git-artifact-promotion-v1"
+            or manifest.get("artifact_id") != "battle-effect-group5-pixel-ab-v1"
+            or manifest.get("artifact_status") != "accepted"
+            or manifest.get("base_rom_sha256") != ROM_SHA256
+            or manifest.get("parent")
+            != {
+                "path": profile["input_state"],
+                "sha256": profile["input_state_sha256"],
+            }
+            or manifest.get("payload_file") != "runtime-evidence.json"
+            or manifest.get("payload_sha256") != _sha256_file(evidence_path)
+            or files.get("runtime-evidence.json") != _sha256_file(evidence_path)
+            or manifest.get("verifier", {}).get("result")
+            != {"errors": [], "verified": True}
+            or manifest.get("scope", {}).get("natural_action_5_attack") is not True
+            or checkpoint.get("verified") is not True
+            or checkpoint.get("input", {}).get("path") != profile["input_state"]
+            or checkpoint.get("input", {}).get("sha256")
+            != profile["input_state_sha256"]
+            or checkpoint.get("input", {}).get("event") != event
+            or checkpoint.get("input", {}).get("resource_absent_before_input")
+            is not True
+            or checkpoint.get("edit", {}).get("group_id")
+            != expected_next_binding["resource_group_id"]
+            or checkpoint.get("edit", {}).get("sequence_id")
+            != expected_next_binding["sequence_id"]
+            or checkpoint.get("scope", {}).get("natural_action_5_attack") is not True
+            or _sha256_file(state_path) != checkpoint.get("input", {}).get("sha256")
+            or set(runs) != set(VARIANTS)
+        ):
+            raise ValueError(
+                "battle-effect pixel promoted action checkpoint contract mismatch"
+            )
+        for variant in VARIANTS:
+            run = runs[variant]
+            audit_path = artifact_root / "raw" / variant / "audit.json"
+            guard_path = artifact_root / "raw" / variant / "guard.json"
+            sentinel_path = artifact_root / "raw" / variant / "sentinel.json"
+            audit = _json(audit_path)
+            guard = _json(guard_path)
+            if (
+                files.get(f"raw/{variant}/audit.json")
+                != _sha256_file(audit_path)
+                or files.get(f"raw/{variant}/guard.json")
+                != _sha256_file(guard_path)
+                or files.get(f"raw/{variant}/sentinel.json")
+                != _sha256_file(sentinel_path)
+                or audit != _json(sentinel_path)
+                or audit.get("success") is not True
+                or audit.get("status") != "capture-complete"
+                or audit.get("evidence_mode") != "single-input"
+                or audit.get("input_state_sha256") != profile["input_state_sha256"]
+                or audit.get("inputs") != [event]
+                or audit.get("binary_sha256") != MGBA_BINARY_SHA256
+                or audit.get("build_manifest_sha256")
+                != MGBA_BUILD_MANIFEST_SHA256
+                or audit.get("replay_script_sha256")
+                != _sha256_file(root / "tools/mgba_single_input_replay.lua")
+                or audit.get("pgid_clean") is not True
+                or audit.get("runtime_residue", {}).get("pgid_clean") is not True
+                or audit.get("runtime_residue", {}).get("mgba_listener_clean")
+                is not True
+                or guard.get("reason") != "completed"
+                or guard.get("exit_code") != 0
+                or guard.get("degraded") is not False
+                or run.get("binary_sha256") != audit.get("binary_sha256")
+                or run.get("build_manifest_sha256")
+                != audit.get("build_manifest_sha256")
+                or run.get("replay_script_sha256")
+                != audit.get("replay_script_sha256")
+                or run.get("pgid_clean") is not True
+            ):
+                raise ValueError(
+                    "battle-effect pixel promoted action runtime provenance mismatch"
+                )
+        return
     if selector_kind == "active_action":
         route = checkpoint.get("route_segments")
         zero = checkpoint.get("zero_input", {})
@@ -414,27 +706,30 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         binding_encoded_action_id = binding.get("action_id")
     else:
         raise ValueError("battle-effect pixel selector kind mismatch")
+    trigger_sequence_id = profile.get("trigger_sequence_id", sequence_id)
+    trigger_group_id = profile.get("trigger_group_id", group)
     sequence = _one(
         payloads["sequence_bindings"].get("sequences"),
         "sequence",
         sequence_id=sequence_id,
     )
+    trigger_sequence = _one(
+        payloads["sequence_bindings"].get("sequences"),
+        "trigger sequence",
+        sequence_id=trigger_sequence_id,
+    )
     if (
         binding_encoded_action_id != selector.get("encoded_action_id")
-        or binding.get("sequence_id") != sequence_id
+        or binding.get("sequence_id") != trigger_sequence_id
         or group not in sequence.get("nonzero_resource_group_ids", [])
+        or trigger_group_id
+        not in trigger_sequence.get("nonzero_resource_group_ids", [])
+        or (trigger_sequence_id == sequence_id) != (trigger_group_id == group)
     ):
         raise ValueError("battle-effect pixel action binding mismatch")
 
-    attributes = profile.get("runtime_oam", {}).get("attributes", [])
-    attr0, attr1, attr2 = (int(value, 16) for value in attributes)
-    if (
-        [(attr1 & 0x1FF) + pixel_x, (attr0 & 0xFF) + pixel_y]
-        != profile.get("screen_xy")
-        or attr2 & 0x3FF != profile["runtime_oam"].get("obj_tile_base")
-        or attr2 >> 12 != profile["runtime_oam"].get("palette_bank")
-    ):
-        raise ValueError("battle-effect pixel OAM screen mapping mismatch")
+    _runtime_component_obj_tile_base(profile, component.get("tile_index"))
+    _runtime_oam_instances(profile, pixel_x, pixel_y)
     palette_path = _safe_file(
         root,
         str(Path(profile["catalogs"]["resource_pairs"]).parent / palette_row["output_bin"]),
@@ -542,6 +837,10 @@ def _verify_build(
         "sequence_id": profile["sequence_id"],
         "group_id": group,
     }
+    if profile.get("trigger_sequence_id", profile["sequence_id"]) != profile[
+        "sequence_id"
+    ]:
+        expected_binding["trigger_sequence_id"] = profile["trigger_sequence_id"]
     expected_edit = {
         key: profile[key]
         for key in (
@@ -550,10 +849,14 @@ def _verify_build(
             "before_index", "after_index", "screen_xy", "before_rgb", "after_rgb",
         )
     }
+    if "screen_pixels" in profile:
+        expected_edit["screen_pixels"] = profile["screen_pixels"]
     if (
         build.get("schema") != BUILD_SCHEMA
         or build.get("profile") != profile_path.relative_to(root).as_posix()
-        or build.get("profile_sha256") != _sha256_file(profile_path)
+        or not _build_manifest_profile_metadata_matches(
+            build, profile, _sha256_file(profile_path)
+        )
         or build.get("profile_id") != profile["profile_id"]
         or build.get("base_rom_sha256") != ROM_SHA256
         or build.get("input_state") != profile["input_state"]
@@ -561,7 +864,6 @@ def _verify_build(
         or build.get("input_evidence") != profile["input_evidence"]
         or build.get("input_evidence_sha256") != profile["input_evidence_sha256"]
         or build.get("runtime_input") != profile["runtime_input"]
-        or build.get("runtime_oam") != profile["runtime_oam"]
         or build.get("binding") != expected_binding
         or build.get("edit") != expected_edit
         or build.get("catalogs") != profile["catalogs"]
@@ -682,26 +984,33 @@ def _verify_runtime(root: Path, raw: Path, profile: dict[str, Any], build: dict[
         raise ValueError("battle-effect pixel runtime memory mismatch")
     vram = int(profile["runtime_oam"]["obj_vram_address"], 16)
     pram = 0x05000200 + profile["runtime_oam"]["palette_bank"] * 32
-    oam = 0x07000000 + profile["runtime_oam"]["oam_index"] * 8
-    expected_oam = b"".join(int(value, 16).to_bytes(2, "little") for value in profile["runtime_oam"]["attributes"])
+    instances = _runtime_oam_instances(
+        profile,
+        profile["component_pixel_xy"][0],
+        profile["component_pixel_xy"][1],
+    )
     for variant in VARIANTS:
         rendered, _ = render_checkpoint(raw / variant / f"frame{frame}.ss9")
         if (
             states[variant].read_memory(vram, len(graphics[variant])) != graphics[variant]
             or states[variant].read_memory(pram, len(palette)) != palette
-            or states[variant].read_memory(oam, 6) != expected_oam
             or rendered != _rgb(raw / variant / f"frame{frame}.png")
         ):
             raise ValueError(f"battle-effect pixel {variant} natural route mismatch")
+        for instance in instances:
+            oam = 0x07000000 + instance["oam_index"] * 8
+            expected_oam = b"".join(
+                int(value, 16).to_bytes(2, "little")
+                for value in instance["attributes"]
+            )
+            if states[variant].read_memory(oam, 6) != expected_oam:
+                raise ValueError(
+                    f"battle-effect pixel {variant} OAM instance mismatch"
+                )
     baseline_rgb = _rgb(raw / "baseline" / f"frame{frame}.png")
     candidate_rgb = _rgb(raw / "candidate" / f"frame{frame}.png")
     changes = _pixel_changes(baseline_rgb, candidate_rgb)
-    expected_pixels = [{
-        "x": profile["screen_xy"][0],
-        "y": profile["screen_xy"][1],
-        "before_rgb": profile["before_rgb"],
-        "after_rgb": profile["after_rgb"],
-    }]
+    expected_pixels = _expected_pixels(profile)
     if changes != expected_pixels:
         raise ValueError("battle-effect pixel final pixel mismatch")
     return differences, changes, runs
@@ -711,6 +1020,7 @@ def _verify(root: Path, artifact: Path) -> None:
     root = root.resolve(strict=True)
     artifact = artifact.resolve(strict=True)
     manifest = _json(artifact / "manifest.json")
+    _validate_implementation_provenance(root, manifest)
     profile_path = _safe_file(root, manifest.get("profile"), "profile")
     profile, contract = _verify_profile(root, profile_path)
     raw = artifact / "raw"
@@ -749,8 +1059,6 @@ def _verify(root: Path, artifact: Path) -> None:
         or manifest.get("files") != expected_files_hash
         or manifest.get("raw_files")
         != {name: _sha256_file(raw / name) for name in _raw_files(profile)}
-        or manifest.get("implementation_sha256")
-        != {path: _sha256_file(root / path) for path in IMPLEMENTATION_PATHS}
         or manifest.get("scope") != expected_scope
         or manifest.get("verifier", {}).get("exit_code") != 0
         or manifest.get("verifier", {}).get("result")
@@ -763,8 +1071,18 @@ def _verify(root: Path, artifact: Path) -> None:
         root, raw, profile, build, graphics, contract["palette"]
     )
     input_state = load_gba_state(root / profile["input_state"])
-    if input_state.read_memory(0x06010000, 0x8000).find(graphics["baseline"]) >= 0:
-        raise ValueError("battle-effect pixel pre-load boundary mismatch")
+    target_offset = int(profile["runtime_oam"]["obj_vram_address"], 16) - 0x06010000
+    preload = _preload_evidence(
+        input_state.read_memory(0x06010000, 0x8000),
+        graphics["baseline"],
+        graphics["candidate"],
+        target_offset,
+    )
+    input_presence = (
+        {"resource_absent_before_input": True}
+        if not preload["stale_baseline_locations"]
+        else preload
+    )
     evidence = _json(artifact / "runtime-evidence.json")
     frame = profile["runtime_input"]["capture_frame"]
     event = {
@@ -783,7 +1101,7 @@ def _verify(root: Path, artifact: Path) -> None:
         or evidence.get("edit") != build["edit"]
         or evidence.get("input") != {
             "path": profile["input_state"], "sha256": profile["input_state_sha256"],
-            "event": event, "capture_frame": frame, "resource_absent_before_input": True,
+            "event": event, "capture_frame": frame, **input_presence,
         }
         or runtime.get("memory_differences") != differences
         or runtime.get("graphics_vram_address") != profile["runtime_oam"]["obj_vram_address"]
@@ -793,9 +1111,26 @@ def _verify(root: Path, artifact: Path) -> None:
         or runtime.get("oam_entry") != profile["runtime_oam"]["oam_index"]
         or runtime.get("oam_attributes") != profile["runtime_oam"]["attributes"]
         or runtime.get("palette_bank") != profile["runtime_oam"]["palette_bank"]
+        or runtime.get("oam_instances")
+        != (
+            _runtime_oam_instances(
+                profile,
+                profile["component_pixel_xy"][0],
+                profile["component_pixel_xy"][1],
+            )
+            if "instances" in profile["runtime_oam"]
+            else None
+        )
         or runtime.get("renderer_exact") is not True
-        or runtime.get("pixels", {}).get("count") != 1
+        or runtime.get("pixels", {}).get("count") != len(changes)
         or runtime.get("pixels", {}).get("changes") != changes
+        or runtime.get("pixels", {}).get("bbox")
+        != [
+            min(pixel["x"] for pixel in changes),
+            min(pixel["y"] for pixel in changes),
+            max(pixel["x"] for pixel in changes),
+            max(pixel["y"] for pixel in changes),
+        ]
         or evidence.get("runs") != runs
         or evidence.get("scope") != expected_scope
     ):

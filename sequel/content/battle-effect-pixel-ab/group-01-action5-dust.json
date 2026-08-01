@@ -1,0 +1,84 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-01-action5-dust",
+  "group_id": 1,
+  "sequence_id": 1,
+  "trigger_sequence_id": 6,
+  "trigger_group_id": 5,
+  "selector": {
+    "kind": "active_action",
+    "id": 5,
+    "encoded_action_id": 5
+  },
+  "frame_id": 2,
+  "component_index": 0,
+  "component_pixel_xy": [5, 1],
+  "graphics_byte_offset": 262,
+  "before_byte": 64,
+  "after_byte": 16,
+  "before_index": 4,
+  "after_index": 1,
+  "screen_xy": [44, 73],
+  "screen_pixels": [[44, 73], [37, 77]],
+  "before_rgb": [148, 140, 90],
+  "after_rgb": [222, 214, 148],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-01-graphics-4bpp.bin",
+  "source_graphics_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+  "pair_pointer_offset": 5869860,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 735,
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+  "input_state_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+  "input_evidence": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
+  "input_evidence_sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 90
+  },
+  "runtime_oam": {
+    "oam_index": 0,
+    "attributes": ["0x0048", "0x4027", "0x4908"],
+    "obj_tile_base": 264,
+    "obj_vram_address": "0x06012000",
+    "palette_bank": 4,
+    "instances": [
+      {
+        "oam_index": 0,
+        "attributes": ["0x0048", "0x4027", "0x4908"],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [5, 1],
+        "source_pixel_screen_xy": [44, 73],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 1,
+        "attributes": ["0x004C", "0x4020", "0x4908"],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [5, 1],
+        "source_pixel_screen_xy": [37, 77],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 2,
+        "attributes": ["0x0055", "0x4023", "0x4908"],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [5, 1],
+        "source_pixel_screen_xy": [40, 86],
+        "visible_in_final_difference": false
+      }
+    ]
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73"
+  }
+}

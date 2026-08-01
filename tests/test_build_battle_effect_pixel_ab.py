@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json"
+GROUP1_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-01-action5-dust.json"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 
 
@@ -88,6 +89,89 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
             },
         )
 
+    def test_active_action_can_trigger_a_distinct_resource_sequence(self):
+        catalog = json.loads(
+            (
+                ROOT
+                / "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        binding, build_binding = self.builder._resolve_selector_binding(
+            {
+                "kind": "active_action",
+                "id": 5,
+                "encoded_action_id": 5,
+            },
+            catalog,
+            sequence_id=1,
+            trigger_sequence_id=6,
+        )
+
+        self.assertEqual(binding["action_id"], 5)
+        self.assertEqual(binding["sequence_id"], 6)
+        self.assertEqual(
+            build_binding,
+            {
+                "active_action_id": 5,
+                "encoded_action_id": 5,
+                "sequence_id": 1,
+                "trigger_sequence_id": 6,
+            },
+        )
+
+    def test_profile_screen_pixels_supports_multiple_rendered_instances(self):
+        profile = {
+            "screen_xy": [44, 73],
+            "screen_pixels": [[44, 73], [37, 77]],
+        }
+
+        self.assertEqual(
+            self.builder._profile_screen_pixels(profile),
+            [(44, 73), (37, 77)],
+        )
+
+    def test_runtime_oam_instances_bind_every_natural_child(self):
+        profile = json.loads(GROUP1_PROFILE.read_text(encoding="utf-8"))
+
+        instances = self.builder._runtime_oam_instances(profile, 5, 1)
+
+        self.assertEqual([item["oam_index"] for item in instances], [0, 1, 2])
+        self.assertEqual(
+            [item["source_pixel_screen_xy"] for item in instances],
+            [[44, 73], [37, 77], [40, 86]],
+        )
+        self.assertEqual(
+            [item["visible_in_final_difference"] for item in instances],
+            [True, True, False],
+        )
+
+    def test_runtime_oam_instances_reject_unbound_secondary_attributes(self):
+        profile = json.loads(GROUP1_PROFILE.read_text(encoding="utf-8"))
+        profile["runtime_oam"]["instances"][1]["attributes"][1] = "0x4021"
+
+        with self.assertRaisesRegex(ValueError, "OAM instance screen mapping"):
+            self.builder._runtime_oam_instances(profile, 5, 1)
+
+    def test_runtime_oam_instances_require_boolean_visibility(self):
+        profile = json.loads(GROUP1_PROFILE.read_text(encoding="utf-8"))
+        profile["runtime_oam"]["instances"][2][
+            "visible_in_final_difference"
+        ] = 0
+
+        with self.assertRaisesRegex(ValueError, "OAM instance contract"):
+            self.builder._runtime_oam_instances(profile, 5, 1)
+
+    def test_runtime_oam_tile_is_bound_to_loaded_component_tile(self):
+        profile = json.loads(GROUP1_PROFILE.read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            self.builder._runtime_component_obj_tile_base(profile, 8), 264
+        )
+        profile["runtime_oam"]["obj_tile_base"] = 265
+        with self.assertRaisesRegex(ValueError, "component tile mapping"):
+            self.builder._runtime_component_obj_tile_base(profile, 8)
+
     def test_group14_active_action_profile_builds_same_topology_pair(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = self.builder.build_pair(
@@ -111,6 +195,26 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
             self.assertEqual(
                 result["variants"][variant]["encoded_graphics_size"], 2138
             )
+
+    def test_group1_profile_keeps_trigger_and_resource_sequences_distinct(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP1_PROFILE, Path(tmp) / "pair"
+            )
+
+        self.assertEqual(
+            result["binding"],
+            {
+                "active_action_id": 5,
+                "encoded_action_id": 5,
+                "sequence_id": 1,
+                "trigger_sequence_id": 6,
+                "group_id": 1,
+            },
+        )
+        self.assertEqual(result["edit"]["screen_pixels"], [[44, 73], [37, 77]])
+        self.assertTrue(result["same_patch_topology"])
+        self.assertTrue(result["same_encoded_size"])
 
     def test_profile_tampering_fails_closed(self):
         profile = json.loads(PROFILE.read_text(encoding="utf-8"))
