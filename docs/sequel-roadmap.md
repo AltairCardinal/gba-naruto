@@ -2013,3 +2013,16 @@ WebSocket
   对照膨胀负测，返回`errors=[]`；说明见
   `notes/battle-effect-group15-allocator-side-runtime-20260801.md`。
   下一步从桃地再不斩自然action 64/65捕获`0x0807F0FC→0x0807F10C`；Goal保持active。
+- 2026-08-02：原受控负例 group 3/18 已通过直接 selector→spawn 入口闭合为四个正
+  事务。group 3旧探针误用`0x300..0x37F`的128-tile窗口，而其graphics为304 tiles，
+  selector稳定返回`0xFF`；改用同子系统可复现的`0x100..0x39F / palette 4..14`
+  受控容量窗口后，side 0/1均返回handle 0并形成slot 109。group 18的sequences 7/18
+  则保留自然入口使用的`0x300..0x37F / 12..14`，两案均形成同一资源task。四案均闭合
+  renderer→submit→ack、完整graphics及OAM提交；group 18 palette为32/32，group 3
+  palette在观察边界为30/32且尾字覆盖被明确保留。至此18组均至少有一条自然或受控
+  资源/task身份，技术子分母为`18/18`，但production自然最终像素A/B仍为`4/18`，不
+  冒充完整玩法或图像完成。成果位于
+  `artifacts/battle-effect-direct-spawn-runtime-v1/`，说明见
+  `notes/battle-effect-direct-spawn-runtime-20260802.md`；group 3自然allocator上游、
+  非镜像分支、palette尾字生命周期、自然入口、完整动画/像素及实体GBA仍未完成，
+  Goal保持active。
