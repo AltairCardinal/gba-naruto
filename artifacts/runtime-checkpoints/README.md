@@ -49,6 +49,8 @@ Expected SHA-256:
 | `scenario-41-player-turn.ss9` | `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171` | accepted stable player-control boundary; reusable starting point for the first natural turn, but not MOVEDONE/victory/postbattle evidence |
 | `scenario-50-cross-shuriken-confirmation.ss9` | `57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139` | accepted scenario 50 Naruto ninja-tool 1 confirmation prompt; final A has not yet been pressed |
 | `scenario-47-tool67-equipped-world-map.ss9` | `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601` | accepted base-ROM world-map boundary after Naruto naturally equips ninja-tool 67 `引爆牌`; restored once and persistent slot revalidated |
+| `scenario-49-battle-14-tool67-entry.ss9` | `2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c` | accepted battle 14 entry reached naturally from the equipped checkpoint; Naruto persistent template and battle-local unit slot both retain ninja-tool 67 |
+| `scenario-49-battle-14-tool67-active-c3.ss9` | `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939` | accepted battle 14 boundary after natural use of `引爆牌`; active object slot 3 is state 1/action `0xC3` with two turns remaining |
 
 ## Scenario 41 checkpoint ledger
 

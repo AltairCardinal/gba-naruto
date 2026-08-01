@@ -1,0 +1,61 @@
+{
+  "artifact_status": "accepted",
+  "active_object": {
+    "encoded_action": "0xC3",
+    "remaining_turns": 2,
+    "slot": 3,
+    "state": 1
+  },
+  "guard": {
+    "completion_trigger": "success-marker",
+    "degraded": false,
+    "exit_code": 0,
+    "guard_summary_sha256": "fe7db685aba6b55a10a1d95e1331b8bab4723a64a12d6486803d668829d8dd8f",
+    "mgba_listener_clean": true,
+    "peak_tree_rss_mib": 65.66015625,
+    "pgid_clean": true
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-entry.ss9",
+    "sha256": "2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c"
+  },
+  "output": {
+    "external_png_sha256": "a61d3fab21dcb98a1aa307b0e8c93c84e2645df6f9a4a0e6c84e052a39b294a6",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-active-c3.ss9",
+    "sha256": "401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939",
+    "visible_boundary": "battle 14 after natural use of 引爆牌 and creation of delayed object C3"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "confirmation_audit_sha256": "662eb716fb0c8b8d0f780942bb92bd12234cfaef47cbe9f9407cdf13b05ae0ce",
+    "confirmation_parent_sha256": "95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+  },
+  "route": {
+    "description": "The entry checkpoint was naturally advanced through unit introductions, Naruto selection, action-menu cancellation, 引爆牌 selection, one-cell-right target selection, and an explicit yes confirmation.",
+    "final_input": {
+      "capture_frame": 600,
+      "down_frame": 18,
+      "hold_frames": 2,
+      "key": "A",
+      "up_frame": 20
+    }
+  },
+  "runtime_binding": {
+    "encoded_action": "0xC3",
+    "expiry_action": "0xE4",
+    "ninja_tool_id": 67,
+    "resource_group_id": 3
+  },
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "scope": {
+    "checkpoint_restore_verified": false,
+    "natural_action_submission_verified": true,
+    "natural_equipment_commit_verified": true,
+    "natural_expiry_handler_verified": false,
+    "natural_object_creation_verified": true
+  }
+}

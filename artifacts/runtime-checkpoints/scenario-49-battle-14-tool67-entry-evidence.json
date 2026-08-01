@@ -1,0 +1,83 @@
+{
+  "artifact_status": "accepted",
+  "battle": {
+    "battle_control_address": "0x02026804",
+    "battle_control_bytes": "000e000000000000",
+    "battle_id": 14,
+    "battle_local_tool": {
+      "character_id": 1,
+      "ninja_tool_id": 67,
+      "tool_slot": 0,
+      "unit_slot": 1
+    },
+    "persistent_tool": {
+      "character_id": 1,
+      "ninja_tool_id": 67,
+      "template_slot": 1,
+      "tool_slot": 0
+    }
+  },
+  "guard": {
+    "completion_trigger": "success-marker",
+    "degraded": false,
+    "exit_code": 0,
+    "guard_summary_sha256": "b37a0a8f31cc0cae914864678f11ff14033d348792045d60c45e234325148363",
+    "mgba_listener_clean": true,
+    "peak_tree_rss_mib": 65.40625,
+    "pgid_clean": true
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-47-tool67-equipped-world-map.ss9",
+    "sha256": "ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601"
+  },
+  "inventory": {
+    "count": 1,
+    "ninja_tool_id": 67
+  },
+  "output": {
+    "external_png_sha256": "b312ea452b985e39adfc8e62e86ced05bc3fa7720402b43434b7a3a18095c46d",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-entry.ss9",
+    "sha256": "2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c",
+    "visible_boundary": "scenario 49 battle 14 entry before natural player action"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "final_input_audit_sha256": "fa2211f5e3818bcd3490b3a2864a065a392c01b1d8f794129fbc4bf90c30b1ba",
+    "final_input_parent_sha256": "8e828ec1eea569499238cc037723c52ebc18ebbcc79e268bf43689d136ac4e8a",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+  },
+  "route": {
+    "description": "The accepted equipped-world-map checkpoint was advanced through scenario 48 academy dialogue, scenario 49 training-ground dialogue, the task menu, and the final start-task confirmation using only explicit guarded A/B/directional input sequences.",
+    "final_input": {
+      "capture_frame": 360,
+      "down_frame": 18,
+      "hold_frames": 2,
+      "key": "A",
+      "up_frame": 20
+    }
+  },
+  "runtime_binding": {
+    "encoded_action": "0xC3",
+    "expiry_action": "0xE4",
+    "ninja_tool_id": 67,
+    "resource_group_id": 3
+  },
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "scope": {
+    "battle_local_copy_verified": true,
+    "checkpoint_restore_verified": true,
+    "natural_action_submission_verified": false,
+    "natural_equipment_commit_verified": true,
+    "natural_expiry_handler_verified": false,
+    "natural_object_creation_verified": false
+  },
+  "restore_validation": {
+    "audit_sha256": "68c7b1723b2bd76ed8fa08544ba9d0ae89d756e8abb419d25f644c75d118a639",
+    "input": "A",
+    "output_state_sha256": "655350bb98eaf0848c606925256b08d10e96b0ac84c4e50193db9d7d51cbfc31",
+    "persistent_and_battle_local_tool67_revalidated": true
+  }
+}

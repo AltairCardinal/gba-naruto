@@ -2121,3 +2121,20 @@ WebSocket
   `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601`。下一步从它推进
   scenario48纯剧情与scenario49演习场，进入battle14验证持久槽复制为战斗槽，再自然提交
   工具67并等待C3对象到期为E4/group3；production自然最终像素仍为`5/18`。
+- 2026-08-02：从已验收的忍具67世界地图恢复点，经显式受守卫输入自然推进 scenario 48
+  学院剧情、scenario 49 演习场剧情及“开始任务”确认，进入实际 battle ID 14。新
+  `scenario-49-battle-14-tool67-entry.ss9` SHA为
+  `2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c`；battle control
+  为`00 0E 00 00 00 00 00 00`，鸣人持久模板和新建战斗单位的首忍具槽均为67，库存
+  数量仍为1，活动延迟对象为0。最终确认运行峰值65.40625 MiB，非degraded且无进程或
+  listener残留。该 checkpoint 免除后续重复剧情导航，并首次证明自然建战会复制目标
+  忍具到战斗槽；尚未提交行动、创建C3对象或到期为E4，因此production自然像素仍为
+  `5/18`，Goal保持active。
+- 2026-08-02：从新battle 14入口恢复后，经单位展示/开场对白、取消默认移动、自然选择
+  “引爆牌”、目标右移一格及确认“是”，首次生成真实延迟对象。新
+  `scenario-49-battle-14-tool67-active-c3.ss9` SHA为
+  `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939`；扫描得到唯一
+  slot 3/state 1/action `C3`/remaining turns 2，战斗槽中的工具已消费而持久模板与库存
+  保持67/数量1。最终运行峰值65.66015625 MiB，非degraded且无进程/listener残留。
+  自然行动提交和C3对象创建已闭合；E4到期、group 3 handler及修改ROM自然最终像素仍未
+  闭合，production自然像素保持`5/18`，Goal保持active。

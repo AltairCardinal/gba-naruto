@@ -78,3 +78,22 @@
 输入链、当前 profile/二进制、clean guard 和 `67 → C3 → E4 → group 3` 绑定。下一步从
 该快照自然推进到 battle 14，验证战斗槽复制、选择、对象到期和 handler；在此之前静态链
 仍不计入 production 自然最终像素分母。
+
+随后从该正式世界地图快照继续使用显式、受守卫的按键序列，通过 scenario 48 学院剧情、
+scenario 49 演习场剧情和“开始任务”确认，进入实际 battle ID 14。新恢复点
+`artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-entry.ss9` 的 SHA-256 为
+`2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c`；battle control
+`0x02026804..0x0202680B` 为 `00 0E 00 00 00 00 00 00`。鸣人持久模板 slot 1 和战斗
+单位 slot 1 的首个忍具槽均为 67，库存数量仍为 1，活动 `C3..C8` 对象仍为 0。这证明
+装备在自然建战时被复制到战斗单位，而不是仅停留在世界地图模板。最终确认运行峰值
+tree RSS 为 65.40625 MiB，非 degraded 且无 PGID/listener 残留。该边界尚未提交忍具
+行动，因此不签发 `C3` 对象创建、`E4` 到期或 group 3 自然最终像素结论。
+
+从该入口恢复后，先通过单位展示与开场对白进入鸣人行动菜单，取消默认移动，再自然选择
+“引爆牌”、将目标向右移动一格并确认“是”。确认后的正式快照
+`artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-active-c3.ss9` SHA-256 为
+`401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939`。扫描得到唯一目标
+对象：slot 3、state 1、encoded action `0xC3`、remaining turns 2；战斗槽中的忍具已消费，
+持久模板仍保留工具67，库存数量仍为1。最终单输入运行峰值65.66015625 MiB，非degraded
+且无PGID/listener残留。这首次闭合工具67的自然行动提交与C3对象创建；E4到期、原生
+group 3 handler和修改ROM最终像素仍待后续回合验证。
