@@ -2088,3 +2088,15 @@ WebSocket
   `notes/battle-effect-group3-controlled-pixel-ab-20260802.md`。该入口仍为受控，故
   production自然像素保持`5/18`、技术身份保持`18/18`；自然allocator上游、非镜像
   分支、palette尾字生命周期、完整动画/音频与实体GBA仍未签发，Goal保持active。
+- 2026-08-02：group 3 的自然 allocator 上游已从未知生产者推进为原 ROM 静态端到端
+  生产链。忍具67–72的effect code均为`0x18`，经`0x08077514`把encoded action
+  `C3..C8`写入type-1战场对象`+4`；阵营结束控制器调用`0x08081B70`，对象到期时对该
+  字段加`0x21`生成`E4..E9`，随后经`0x0807AB34→0x0807F414`进入`action > 0xE3`
+  路径，执行`0x100..0x39F / palette 4..14` reset，并由六条相同表项分派至原生
+  `0x0807F208`。分析器和独立verifier已锁定ROM、模板、代码片段、BL目标和handler表；
+  篡改自然完成声明或handler映射会被拒绝。受守卫扫描`artifacts/`与`build/`共1,164份
+  存档，全部解析成功但没有活动C3–C8对象或实际装备的忍具67–72；输入fail-closed
+  修正后的复跑峰值RSS为20.16015625 MiB。因此没有盲目启动mGBA，production自然最终
+  像素仍为`5/18`。成果见
+  `notes/battlefield-object-effect-chain-20260802.md`；下一步定位67–72的原版取得/装备
+  路径并捕获自然选择、对象到期和原生handler的同次运行时命中，Goal保持active。

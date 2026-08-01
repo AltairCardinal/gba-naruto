@@ -1,5 +1,30 @@
 # Tools
 
+## 战场对象延迟特效链
+
+`analyze_battlefield_object_effect_chain.py` 从基准 ROM 验证忍具 67–72 经 type-1
+战场对象到期生成动作 `E4..E9`、执行 wide allocator reset 并进入 Group 3 原生
+handler 的静态生产链。`verify_battlefield_object_effect_chain.py` 独立复核生成的 JSON：
+
+```bash
+python3 tools/analyze_battlefield_object_effect_chain.py \
+  --output notes/battlefield-object-effect-chain-bindings-20260802.json
+python3 tools/verify_battlefield_object_effect_chain.py \
+  notes/battlefield-object-effect-chain-bindings-20260802.json
+```
+
+查找可恢复的自然运行时种子时，用统一 heavy lock 扫描存档；扫描器只接受活动对象或
+有效单位声明范围内的实际装备槽，不把失活对象和残留字节当作命中：
+
+```bash
+python3 tools/run_guarded.py --summary build/seed-scan-guard.json -- \
+  python3 tools/find_battlefield_object_effect_seeds.py artifacts build \
+  --output build/seed-scan.json
+```
+
+静态链和种子扫描均不等于自然玩法闭环；只有自然 UI 选择、对象到期和 handler 同次
+运行时命中后，才能提升自然完成度。
+
 ## 实验工作区与 Git 成果准入
 
 ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽略的

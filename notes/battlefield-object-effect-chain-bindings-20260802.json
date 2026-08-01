@@ -1,0 +1,163 @@
+{
+  "allocator_contract": {
+    "end_tile": 927,
+    "palette_bank": 4,
+    "palette_count": 14,
+    "start_tile": 256
+  },
+  "boundary": "静态证据闭合了忍具 67–72 经 type-1 战场对象到期生成 E4–E9 并分派至原生 handler 的完整生产链；尚未取得自然装备、选择和到期的运行时命中，因此不计为自然玩法闭环。",
+  "chain": {
+    "effect_orchestrator": "0x0807F414",
+    "effect_orchestrator_callsite": "0x0807ABD4",
+    "event_action_store": "0x080755FA",
+    "expiry_action_delta": 33,
+    "expiry_event_builder": "0x08081B70",
+    "native_handler": "0x0807F208",
+    "object_action_read": "0x08081D74",
+    "object_allocator": "0x08081024",
+    "object_allocator_callsite": "0x0807752C",
+    "presentation_initializer": "0x0807AB34",
+    "presentation_initializer_callsite": "0x08081F60",
+    "primary_dispatch_load": "0x0807FD28",
+    "side_end_caller": "0x08073688",
+    "special_action_threshold": "action > 0xE3",
+    "trampoline_callsite": "0x0807FD3A",
+    "type_1_object_builder": "0x08077514",
+    "wide_allocator_reset_callsite": "0x0807FD14"
+  },
+  "evidence": {
+    "event_action_store": {
+      "end": "0x08075602",
+      "sha256": "7301adbc80a6e486987c9fb526067ebcc2782875163b1cc96ed46c6013ad4df4",
+      "start": "0x080755FA"
+    },
+    "expiry_event_builder": {
+      "end": "0x0808203E",
+      "sha256": "c575f74ad7453e16a348e53fb3dbe352e0f91ea1f181f95a3970b34fb542ff70",
+      "start": "0x08081B70"
+    },
+    "native_handler": {
+      "end": "0x0807F278",
+      "sha256": "56d49600380dd6ecd7830b11fe9fa54851cf9e3b85fa63daec038ff5bed5917a",
+      "start": "0x0807F208"
+    },
+    "object_allocator": {
+      "end": "0x08081084",
+      "sha256": "c2d9429855e9a91fabf5783581a0466a88a63f209dded259c359aef7e5ba73e8",
+      "start": "0x08081024"
+    },
+    "presentation_initializer_call": {
+      "end": "0x0807ABD8",
+      "sha256": "e7256a40f68e7fa059da3cb19d674e72c6c0f49518437f93056d6907beff5d8c",
+      "start": "0x0807ABC8"
+    },
+    "side_end_controller": {
+      "end": "0x0807368C",
+      "sha256": "2a0c42d909bf81f19ce2246cc1ce386bc70e97bbcf95ab0842263770d4758622",
+      "start": "0x0807367C"
+    },
+    "special_action_threshold": {
+      "end": "0x0807F4F0",
+      "sha256": "f749d481ea36d628ad833f70bb58a565dbef41be35b8b22f41418548a89e04ed",
+      "start": "0x0807F4E2"
+    },
+    "type_1_object_builder": {
+      "end": "0x08077532",
+      "sha256": "575b1743e7a1467926f7d97c859d3a76c4de7b2deea72bef2a87592ba8c248fa",
+      "start": "0x08077514"
+    },
+    "wide_reset_and_primary_dispatch": {
+      "end": "0x0807FD3E",
+      "sha256": "85af47b24f2632b3b291f9393eb533eb24ff8e3614ef53b6a0565d6a4f0afccf",
+      "start": "0x0807FD0A"
+    }
+  },
+  "evidence_level": "static_end_to_end_producer_chain",
+  "identity": "ninja_tool_battlefield_object_delayed_effect_chain",
+  "mappings": [
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 0,
+      "encoded_action": "0xC3",
+      "expiry_action": "0xE4",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 67,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    },
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 0,
+      "encoded_action": "0xC4",
+      "expiry_action": "0xE5",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 68,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    },
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 0,
+      "encoded_action": "0xC5",
+      "expiry_action": "0xE6",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 69,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    },
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 64,
+      "encoded_action": "0xC6",
+      "expiry_action": "0xE7",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 70,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    },
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 64,
+      "encoded_action": "0xC7",
+      "expiry_action": "0xE8",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 71,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    },
+    {
+      "battlefield_object_type": 1,
+      "effect_code": 24,
+      "effect_flags": 64,
+      "encoded_action": "0xC8",
+      "expiry_action": "0xE9",
+      "expiry_action_delta": 33,
+      "ninja_tool_id": 72,
+      "object_encoded_action_offset": 4,
+      "primary_handler": "0x0807F209",
+      "resolver_handler": "0x08077514",
+      "secondary_handler": null
+    }
+  ],
+  "natural_gameplay_route_closed": false,
+  "natural_runtime_observed": false,
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "source_semantics": "notes/battle-action-template-semantics-bindings-20260723.json"
+}
