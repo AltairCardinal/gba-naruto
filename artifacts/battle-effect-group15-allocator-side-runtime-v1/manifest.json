@@ -1,0 +1,44 @@
+{
+  "artifact_path": "artifacts/battle-effect-group15-allocator-side-runtime-v1",
+  "artifact_schema": "battle-effect-group15-allocator-side-runtime-v1",
+  "artifact_status": "accepted",
+  "description": "Group 15 controlled allocator-reset and binder-side task evidence.",
+  "files": {
+    "evidence.json": "510c8c615c8369b4e90e065dd41bb25ba88f43c6c466634e9d8e1f9ea7727e1b",
+    "raw-batch.tar": "9da484c2d8f839d8fbf58403ff3b74d9202b1ff6b010ea2f474574f37ed30dd5"
+  },
+  "repository_files": {
+    "tests/test_build_controlled_battle_effect_allocator_reset_probe.py": "9dd7ae402e8b58bc7ff00d99b9490490b8210d1b1fd2065629ea8c4f81e2b8b6",
+    "tests/test_export_battle_effect_group15_allocator_side_runtime.py": "d69503f9ee51fa51835067e9f3e26d318342768871e8c28ca485f3fc4ca9992e",
+    "tests/test_run_battle_effect_allocator_reset_batch.py": "e881d99b521b8a074c522fd3ca2da456b9ca024699f63f6fb1632abf7832a63b",
+    "tests/test_verify_battle_effect_group15_allocator_side_runtime.py": "fda3269f5030043a1808fe7d18533ca5e2ac57e4840495fd752215061a617955",
+    "tools/build_controlled_battle_effect_allocator_reset_probe.py": "0c47b02df176c6b55e58ef53aa09eae252ed7aa6ee9135a0f634a354ec6b21d9",
+    "tools/build_save_state_runtime_probe.py": "f11ad18cdca695f317866a209ba14b6f12aa25ad507e409674ae1c11006e6c7c",
+    "tools/export_battle_effect_group15_allocator_side_runtime.py": "fed376090d0efa61d3b855a5564204fe337018c4115ce07945e0a805e3009ec1",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/macos_mgba_runtime_residue.py": "92cedb0e5878434e12cb448643b1af06232a057c7af245f269a82bf4d0488c68",
+    "tools/mgba_controlled_battle_effect_capture.lua": "81e9639dedfd3517fcc00032a222b87a870ec6db6396aef9bc41e246aab7ec41",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/project_resource_guard.py": "3731a3394a271538e8660f6ada182b1a930f5c56e23bc6e17c80354809a2716a",
+    "tools/run_battle_effect_allocator_reset_batch.py": "1e62bbed8899f2b71eb979a80e4ea6baee533abfb2439d59b4e7d73995c929dd",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
+    "tools/run_macos_mgba_controlled_battle_effect_capture.py": "cc1cf086a1e394d3233db3120c96b46a78004311491f44316eca1b021cbc7d0e",
+    "tools/run_macos_mgba_input_sequence.py": "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907",
+    "tools/run_macos_mgba_replay.py": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_controlled_runtime.py": "63169e14e8e796ee7266e6c8429806d3186a65dbe53a136ac830be73aeff576b",
+    "tools/verify_battle_effect_group15_allocator_side_runtime.py": "d69fc451128a3fc230a9d76602d407021ecb476fe6514294267d6bcf0d92e696"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_group15_allocator_side_runtime.py",
+      "artifacts/battle-effect-group15-allocator-side-runtime-v1"
+    ],
+    "exit_code": 0,
+    "result": "verified"
+  }
+}

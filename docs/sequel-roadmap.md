@@ -1997,3 +1997,19 @@ WebSocket
   不生成批次峰值/均值声明。成果位于`artifacts/battle-effect-controlled-runtime-v1/`，
   说明见`notes/battle-effect-controlled-runtime-20260801.md`。下一步为group3/18复现
   selector+object-spawn入口，并为group15补齐action/side上下文；Goal保持active。
+- 2026-08-01：group 15 / sequence 17 的旧负例已拆成资源分配器与 side 两个相邻变量。
+  父artifact经其独立verifier复核，且新verifier独立重建旧probe并从父归档四相
+  `.ss9`复算：原no-reset/side-0 case的selector均为`0xFF`；复用自然sequence-18调用点的
+  `0x0807FDCC(0x300,0x37F,12,14)`后，side 0/1 selector均为有效handle 0。在相同
+  reset下，side 0仍无目标task，side 1则于renderer/submit/ack稳定产生slot 108，
+  definition/animation为`0x0834711C/0x08347168`，3,584-byte graphics和32-byte
+  palette逐字节吻合。两份probe ROM仅`0x0809E852`一个字节不同，因而可把task出现
+  归因到side。该task anchor `(-98,62)`且唯一frame-0 component完全位于屏外，所以
+  只升级受控selector/resource/task覆盖，不签发可见OAM、自然action 64/65入口或像素
+  A/B。113个来源成员已归档到
+  `artifacts/battle-effect-group15-allocator-side-runtime-v1/`。独立verifier还固定
+  group15 graphics/palette、mGBA binary、toolchain profile/source commit、capture
+  script及完整guard/runner依赖链，并通过资源替换后重签、runtime binary重签和父
+  对照膨胀负测，返回`errors=[]`；说明见
+  `notes/battle-effect-group15-allocator-side-runtime-20260801.md`。
+  下一步从桃地再不斩自然action 64/65捕获`0x0807F0FC→0x0807F10C`；Goal保持active。
