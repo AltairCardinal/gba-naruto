@@ -1849,3 +1849,16 @@ WebSocket
   `notes/vram-safe-lz77-runtime-20260801.md` 与
   `artifacts/cutscene-obj-id1-pixel-ab-v1/`；其他Cutscene ID/动画与其余资源的逐项
   自然像素链仍未全量闭合，Goal保持active。
+- 2026-08-01：战斗特效新增首条production relocation自然最终像素A/B。scenario 41
+  攻击确认页只输入一次A，自然action 5→sequence 6→group 5；两份16 MiB ROM都只把
+  group 5 graphics迁移到`0x08B40000`，allocation、pointer redirect及1,165-byte
+  安全LZ77大小完全相同。frame 150完整3,840-byte graphics与各自ROM解压内容逐字节
+  相等，位于OBJ tile base 288；palette bank 5和OAM entry 1保持相同。candidate只将
+  解压offset `0x200:02→04`，六个完整内存域仅VRAM `0x06012600`一字节不同，最终
+  mGBA PNG也只在`(160,48)`由`(255,222,198)→(189,123,115)`。独立Mode-0
+  compositor对两边逐RGB exact，verifier拒绝raw state和重签语义篡改。两次guard均
+  `completed/0`、非degraded，峰值RSS为56.23828125/56.109375 MiB且无进程/listener
+  残留。成果位于`artifacts/battle-effect-group5-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group5-pixel-ab-20260801.md`。当前只签发18组中的group 5和
+  frame 1代表链，不外推其他组/帧、完整affine/blend/时序/音频或实体GBA；Goal保持
+  active。

@@ -1,0 +1,91 @@
+{
+  "artifact_id": "battle-effect-group5-pixel-ab-v1",
+  "artifact_schema": "battle-effect-group5-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "files": {
+    "raw/baseline/audit.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+    "raw/baseline/frame150.png": "80d13b88e1f3f8ad324faf780f8f14fc9329f894035f9a8c8518d9c937d1b22a",
+    "raw/baseline/frame150.ss9": "a91c8cf865a1ac78c82dae7c9578815c469c7c0c1e2c68977d94aa3288125950",
+    "raw/baseline/group-05-graphics-4bpp.bin": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+    "raw/baseline/guard.json": "8f77e3864fa341d2dfdcba9d201d9fa3cd2995c1912704e14dae6be31a35efbb",
+    "raw/baseline/sentinel.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+    "raw/baseline/spec.json": "eb6e22ecac326a7b28692706894ab01b1d6cd289a0a62808afeb5aadaf45c473",
+    "raw/build-manifest.json": "e88eca03dfb14d72d6fc57aaa861c220910af2bf9132eecf8f3a008cdbca5d4d",
+    "raw/candidate/audit.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+    "raw/candidate/frame150.png": "b9a643ccd68722aaa2929ed65bd03253548297c44080e5182fa9309af41e500d",
+    "raw/candidate/frame150.ss9": "b86d40e60b1a8f2ed147f26a0eb1b1aea1fb6c80ceecb8375dfbda598f66b533",
+    "raw/candidate/group-05-graphics-4bpp.bin": "8a418cc83c61101ac7380e5313f4b0577bb42465a378ab21fb617b22af2f43e1",
+    "raw/candidate/guard.json": "19adeeac38c1f26cad942c91384b6bebcaf166b0549984d68ba2a65f08cea351",
+    "raw/candidate/sentinel.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+    "raw/candidate/spec.json": "22ca65a9805df193f1a7d34de1719e11e2140dbd9ae30d246272fa57d653002b",
+    "runtime-evidence.json": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
+  },
+  "implementation_sha256": {
+    "tools/build_battle_effect_group5_pixel_ab.py": "b068d11abd269daa51c2cbd66c0d28dfb075b3ac7bc87257f613aba44f27589e",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_battle_effect_group5_pixel_ab_evidence.py": "adacbc4a91038589227d35954eec212b5f8bcda950b9cd4282444eb849a045b8",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
+    "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_battle_effect_group5_pixel_ab_evidence.py": "cc0323a20ea7d043a4ccebb0cf4a12061d697ab5e412bfecc382820617d0566c",
+    "tools/verify_menu_portrait_writeback_audit.py": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+    "sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98",
+  "raw_files": {
+    "baseline/audit.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+    "baseline/frame150.png": "80d13b88e1f3f8ad324faf780f8f14fc9329f894035f9a8c8518d9c937d1b22a",
+    "baseline/frame150.ss9": "a91c8cf865a1ac78c82dae7c9578815c469c7c0c1e2c68977d94aa3288125950",
+    "baseline/group-05-graphics-4bpp.bin": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+    "baseline/guard.json": "8f77e3864fa341d2dfdcba9d201d9fa3cd2995c1912704e14dae6be31a35efbb",
+    "baseline/sentinel.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+    "baseline/spec.json": "eb6e22ecac326a7b28692706894ab01b1d6cd289a0a62808afeb5aadaf45c473",
+    "build-manifest.json": "e88eca03dfb14d72d6fc57aaa861c220910af2bf9132eecf8f3a008cdbca5d4d",
+    "candidate/audit.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+    "candidate/frame150.png": "b9a643ccd68722aaa2929ed65bd03253548297c44080e5182fa9309af41e500d",
+    "candidate/frame150.ss9": "b86d40e60b1a8f2ed147f26a0eb1b1aea1fb6c80ceecb8375dfbda598f66b533",
+    "candidate/group-05-graphics-4bpp.bin": "8a418cc83c61101ac7380e5313f4b0577bb42465a378ab21fb617b22af2f43e1",
+    "candidate/guard.json": "19adeeac38c1f26cad942c91384b6bebcaf166b0549984d68ba2a65f08cea351",
+    "candidate/sentinel.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+    "candidate/spec.json": "22ca65a9805df193f1a7d34de1719e11e2140dbd9ae30d246272fa57d653002b"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "affine_blend_timing_audio_equivalence": false,
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_5_frames_runtime_verified": false,
+    "natural_action_5_attack": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "sequence_6_group_5_frame_1_graphics_single_pixel": true
+  },
+  "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+  "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group5-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

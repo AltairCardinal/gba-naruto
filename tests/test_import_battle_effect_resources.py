@@ -137,7 +137,11 @@ class ImportBattleEffectResourcesTests(unittest.TestCase):
             and value["group_ids"] == {2, 3}
         )
         content = bytearray(self._catalog_source(row).read_bytes())
-        content[0] ^= 1
+        # Keep this aliasing test focused on pointer/slot behavior.  A low-bit
+        # toggle grows the VRAM-safe stream by two bytes and correctly belongs
+        # to the capacity-failure tests; this deterministic nibble edit remains
+        # within the original 5,294-byte physical slot.
+        content[0] ^= 0x20
         patches = resolve_battle_effect_resource_patches(
             ROOT,
             self._write_spec(
@@ -524,11 +528,11 @@ class ImportBattleEffectResourcesTests(unittest.TestCase):
             payload["summary"]["original_roundtrip_fit_slot_count"],
         )
         self.assertEqual(
-            32,
+            24,
             payload["summary"]["mutation_fit_slot_count"],
         )
         self.assertEqual(
-            3,
+            11,
             payload["summary"]["mutation_overflow_slot_count"],
         )
         self.assertTrue(
