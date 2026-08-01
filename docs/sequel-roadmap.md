@@ -2054,5 +2054,21 @@ WebSocket
   均已闭合。两次guard峰值RSS约66 MiB且都无PGID/listener残留。成果位于
   `artifacts/battle-effect-group15-natural-runtime-v1/`，说明见
   `notes/battle-effect-group15-natural-runtime-20260802.md`。这不签发action 65、
-  原剧情可达性或修改后最终像素A/B，production自然像素分母仍为`4/18`；下一步复用
-  同一确认页快照完成group 15 relocation baseline/candidate单像素对照，Goal保持active。
+  原剧情可达性或修改后最终像素A/B；后续已复用同一确认页快照闭合group 15
+  relocation单像素对照，当前production自然像素分母为`5/18`，Goal保持active。
+- 2026-08-02：group 18 / sequence 7 已从受控直接入口的资源/task/OAM身份推进到
+  production relocation最终单像素写回。baseline/candidate使用完全相同的直接
+  selector→spawn探针、分配窗口和2,002-byte LZ77拓扑，candidate只把解压graphics
+  offset `0xCA`由`0x44`改为`0x41`。六个完整内存域中仅VRAM
+  `0x060160CA`一字节不同；OAM entry 17 `0x0021/0x8068/0xCB00`把源像素
+  `(20,10)`映射到屏幕`(124,43)`；从两份mGBA ack存档离线重建的Mode-0图仅将该像素
+  从`(181,181,181)`改为`(231,231,231)`。原始mGBA capture PNG两变体逐字节相同，
+  明确不作为像素A/B证据。独立verifier重新运行父direct-spawn verifier、独立编码并
+  重建两份16 MiB ROM，从六份三相存档复算PC/cycle、pending `0→1→0`、稳定task、
+  资源与shadow/hardware OAM提交，再复核tar全集、六内存域与离线Mode-0像素，返回
+  `verified=true, errors=[]`。成果位于
+  `artifacts/battle-effect-group18-controlled-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group18-controlled-pixel-ab-20260802.md`。该路线明确为受控入口，
+  所以production自然最终像素A/B保持`5/18`，技术资源/task身份保持`18/18`；candidate
+  guard的0.171875 MiB样本因采样不足不参与统计。下一步优先闭合group 3自然allocator
+  上游与exclusive pointer relocation；完整动画、音频、实体GBA仍未签发，Goal保持active。

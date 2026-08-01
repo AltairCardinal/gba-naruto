@@ -66,5 +66,6 @@ group 3 的 9,728-byte graphics 在三相均逐字节一致；32-byte palette �
   的有效采样峰值为 74.2578125 MiB；其余三次约 0.17 MiB 属于短运行采样遗漏，已从
   内存统计中排除，不能作为真实峰值。
 
-仍未完成：group 3 的自然 allocator 上游、group 3 非镜像分支、group 3 palette 尾字
-生命周期、group 3/18 自然玩法入口、完整动画、最终像素 A/B、音频耦合与实体 GBA。
+后续 group 18 已闭合生产 relocation 下的受控最终像素写回；仍未完成的是 group 3
+自然 allocator 上游、非镜像分支、palette 尾字生命周期与最终像素 A/B，以及
+group 3/18 的自然玩法入口、group 18 自然最终像素 A/B、完整动画、音频耦合与实体 GBA。
