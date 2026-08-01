@@ -6,7 +6,7 @@
 拆成两个相邻变量：
 
 1. 原 case 不重置资源分配器且使用 side 0，selector 返回 `0xFF`；
-2. 加入 ROM 自然调用点已经使用的
+2. 加入 ROM 多个自然 reset 调用者之一已经使用的
    `0x0807FDCC(0x300,0x37F,12,14)` 后，side 0/1 的 selector 都返回有效 handle `0`；
 3. 在完全相同的 reset 条件下，side 0 仍无目标 task，side 1 则在
    renderer/submit/ack 稳定出现 slot 108，definition/animation 为
@@ -34,6 +34,13 @@ group 15 的受控 selector/resource/task 覆盖，明确保持：
 下一步应在桃地再不斩（unit 20）的自然 action 64“水遁・水龙弹术”或 action 65
 “水遁・大瀑布术”链路中捕获 `0x0807F0FC → 0x0807F10C`，而不是继续猜测 parent
 坐标或直接改写 task。
+
+> 2026-08-02 更新：上述自然 action 64 路线已由
+> `artifacts/battle-effect-group15-natural-runtime-v1/` 闭合。它证明 action 64
+> 经过动态 side-1 sequence-17 binder，并在全局三相事务中稳定产生 group 15 task；
+> 它不声称该 task 排他拥有全局 OAM 变化。本受控 artifact
+> 继续只作为 allocator/side 单因素对照。尚未证明窄窗口 reset 是 action 64 的自然
+> 前置调用；ROM 还存在宽窗口和参数部分动态的 reset caller。
 
 ## 可复算证据
 

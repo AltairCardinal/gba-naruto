@@ -1,0 +1,43 @@
+{
+  "artifact_schema": "battle-effect-group15-natural-runtime-v1",
+  "artifact_status": "accepted",
+  "description": "Natural battle-8 action 64 to side-1 sequence 17/group-15 runtime transaction.",
+  "files": {
+    "evidence.json": "8ef082733ef9580249c279925c3722e351c55416be224528f4232e6cddf9c247",
+    "raw-runtime.tar": "5eaca2e4892fcb985d17b507f8d4a91121db8f0e133f48115ccaed26f879f504"
+  },
+  "repository_files": {
+    "tests/test_export_battle_effect_group15_natural_runtime.py": "14c262a02387c7b76eb0ebd2777c1e681f1c7d650f51a8c60e365cc1a9aa32d5",
+    "tests/test_mgba_group15_natural_branch_trace_script.py": "4ff341422e834d7c4c966365c7c360a7387a1583a39a049097c8c56b37a14a76",
+    "tests/test_run_macos_mgba_group15_natural_branch_trace.py": "c4795ff10de273995ed489f439492430af1310d72a3dc4e145e7563ac6fe713c",
+    "tests/test_verify_battle_effect_group15_natural_runtime.py": "856494aad6a81ca2142dcc077eaf4c3685cb9738c4a92d195d9f3d34b5a25f95",
+    "tools/build_chapter_battle_route_probe.py": "107524d9fed892c8d0561e56629b2e4a2df1d4ef0c55b40cfd620567bc9c1fa4",
+    "tools/build_chapter_script_probe.py": "c0f6bd905d35158ad4bb5cc2f7b78b7224340af92cea186c8d17e7d8dc78b7ed",
+    "tools/build_save_state_runtime_probe.py": "f11ad18cdca695f317866a209ba14b6f12aa25ad507e409674ae1c11006e6c7c",
+    "tools/export_battle_effect_group15_natural_runtime.py": "84552ec6054f714ffd750f61427deba262b9f2e29c97ed54c34240976a6e0d53",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/macos_mgba_runtime_residue.py": "92cedb0e5878434e12cb448643b1af06232a057c7af245f269a82bf4d0488c68",
+    "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+    "tools/mgba_group15_natural_branch_trace.lua": "782cfd0c2125ef4753b2504271ed67c9438fe119d7a384dd961d07d7ccbb4f83",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/project_resource_guard.py": "3731a3394a271538e8660f6ada182b1a930f5c56e23bc6e17c80354809a2716a",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
+    "tools/run_macos_mgba_group15_natural_branch_trace.py": "dc0273add442090a10372c8dc8c8002808a60dbf63f89a0cc22e60de6180adba",
+    "tools/run_macos_mgba_input_sequence.py": "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907",
+    "tools/run_macos_mgba_replay.py": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_group15_natural_runtime.py": "bb3a371b5652c4d05221a4ba11c3a00e66ba606448ab3d846c2e48fa9253b91a"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_group15_natural_runtime.py",
+      "--artifact",
+      "artifacts/battle-effect-group15-natural-runtime-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -2026,3 +2026,20 @@ WebSocket
   `notes/battle-effect-direct-spawn-runtime-20260802.md`；group 3自然allocator上游、
   非镜像分支、palette尾字生命周期、自然入口、完整动画/像素及实体GBA仍未完成，
   Goal保持active。
+- 2026-08-02：group 15 已从 allocator/side 受控对照推进到自然 action 64 运行时
+  闭环。primary scenario 39 诊断 route 只把 `SetBattle(40,2)` 的 battle ID 字节改为
+  8；复用已验证的结束回合确认快照，只输入一次 A 后，原 battle 8 AI 自然选择桃地
+  再不斩 action 64。observer 唯一命中
+  `0x0807A222→0x0807F064→0x0807F09E→0x0807F0FC→0x0807F10C→0x0807C5E8`，
+  分类值为0，binder两端均为side 1/sequence 17；三份相位存档在派生地址
+  `0x02027428`均读出action `0x40`。随后slot 124以definition/animation
+  `0x0834711C/0x08347168`稳定存在于6个active task的ordinal 3；全局
+  renderer/submit/ack pending=`0→1→0`且ack后完整shadow/hardware OAM相等，但不作
+  排他task→OAM归因。48个原始成员压入单一确定性tar，独立verifier从基准ROM、
+  observer、完成标记、最终state/PNG、`.ss9`、task pool和OAM重算后返回`errors=[]`；
+  branch的route/state/script/guard/run ID绑定、完整guard传递依赖和tar读取前大小上限
+  均已闭合。两次guard峰值RSS约66 MiB且都无PGID/listener残留。成果位于
+  `artifacts/battle-effect-group15-natural-runtime-v1/`，说明见
+  `notes/battle-effect-group15-natural-runtime-20260802.md`。这不签发action 65、
+  原剧情可达性或修改后最终像素A/B，production自然像素分母仍为`4/18`；下一步复用
+  同一确认页快照完成group 15 relocation baseline/candidate单像素对照，Goal保持active。
