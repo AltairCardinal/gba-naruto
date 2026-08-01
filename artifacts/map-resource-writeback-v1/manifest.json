@@ -3,10 +3,10 @@
   "artifact_schema": "map-resource-writeback-audit-v1",
   "artifact_status": "accepted",
   "files": {
-    "map-resource-writeback.json": "3b0944b50e350559e3712896f1650482cd8c135027155ba9f00036007c388b75"
+    "map-resource-writeback.json": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e"
   },
   "payload_file": "map-resource-writeback.json",
-  "payload_sha256": "3b0944b50e350559e3712896f1650482cd8c135027155ba9f00036007c388b75",
+  "payload_sha256": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e",
   "schema": "git-artifact-promotion-v1",
   "scope": {
     "all_content_resources_audited": true,
@@ -21,7 +21,8 @@
     "original_roundtrip_capacity_complete": true,
     "pointer_rewrite_complete": false,
     "resource_relocation_complete": false,
-    "runtime_pixel_equivalence": false
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
   },
   "verifier": {
     "command": [

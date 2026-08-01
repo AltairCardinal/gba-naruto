@@ -198,6 +198,8 @@ def _encode_lz77(data: bytes) -> bytes:
                     distance = cursor - previous
                     if distance > 0x1000:
                         break
+                    if distance == 1:
+                        continue
                     length = 3
                     while (
                         length < 18

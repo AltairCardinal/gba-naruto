@@ -34,7 +34,7 @@ class BuildMenuPortraitPixelAbTests(unittest.TestCase):
                     "canvas_byte_offset": 3240,
                     "stream_byte_offset": 5184,
                     "before_index": 52,
-                    "after_index": 55,
+                    "after_index": 14,
                 },
                 manifest["edit"],
             )
@@ -45,7 +45,7 @@ class BuildMenuPortraitPixelAbTests(unittest.TestCase):
 
             variants = manifest["variants"]
             roms = {}
-            for variant, expected_graphics_size in (("baseline", 3287), ("candidate", 3288)):
+            for variant, expected_graphics_size in (("baseline", 3306), ("candidate", 3306)):
                 row = variants[variant]
                 rom = (output / row["rom_path"]).read_bytes()
                 roms[variant] = rom
@@ -54,9 +54,9 @@ class BuildMenuPortraitPixelAbTests(unittest.TestCase):
                 self.assertEqual(4, len(row["patch_ledger"]))
                 graphics, palette, gfx_redirect, palette_redirect = row["patch_ledger"]
                 self.assertEqual((0xA80000, expected_graphics_size), (graphics["offset"], graphics["size"]))
-                self.assertEqual((0xA80CD8, 128), (palette["offset"], palette["size"]))
+                self.assertEqual((0xA80CEC, 128), (palette["offset"], palette["size"]))
                 self.assertEqual((0x5A4E14, "0000a808"), (gfx_redirect["offset"], gfx_redirect["after_hex"]))
-                self.assertEqual((0x5A4E18, "d80ca808"), (palette_redirect["offset"], palette_redirect["after_hex"]))
+                self.assertEqual((0x5A4E18, "ec0ca808"), (palette_redirect["offset"], palette_redirect["after_hex"]))
                 self.assertEqual(row["graphics_sha256"], _sha256(lz77_decompress(rom, 0xA80000)))
 
             baseline = lz77_decompress(roms["baseline"], 0xA80000)
@@ -68,7 +68,7 @@ class BuildMenuPortraitPixelAbTests(unittest.TestCase):
             ]
             self.assertEqual([5184], differences)
             self.assertEqual(52, baseline[5184])
-            self.assertEqual(55, candidate[5184])
+            self.assertEqual(14, candidate[5184])
             self.assertEqual(
                 roms["baseline"][0x5A4E14:0x5A4E1C],
                 roms["candidate"][0x5A4E14:0x5A4E1C],

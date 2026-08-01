@@ -36,6 +36,7 @@ IMPLEMENTATION_PATHS = (
     "tools/verify_battle_effect_resource_writeback_audit.py",
     "tools/build_mod.py",
     "tests/test_import_battle_effect_resources.py",
+    "tests/test_vram_safe_fixed_slot_audits.py",
 )
 
 
@@ -168,7 +169,7 @@ def _build_payload(root: Path) -> dict[str, Any]:
         mutation_content_fit,
         mutation_slot_fit,
         mutation_logical_fit,
-    ) != (34, 35, 36, 34, 35, 31, 32, 33):
+    ) != (34, 35, 36, 34, 35, 23, 24, 24):
         raise ValueError("battle-effect write-back denominator mismatch")
 
     scope = {
@@ -180,6 +181,7 @@ def _build_payload(root: Path) -> dict[str, Any]:
         "atomic_all_alias_capacity_gate": True,
         "explicit_physical_slot_targeting_available": True,
         "deterministic_first_unit_mutation_audited": True,
+        "vram_safe_encoding_audited": True,
         "arbitrary_edit_capacity_complete": False,
         "resource_relocation_complete": False,
         "pointer_rewrite_complete": False,

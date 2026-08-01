@@ -306,7 +306,7 @@ def export_evidence(root: Path, raw_root: Path, output: Path) -> dict[str, Any]:
     common_overwrites = overwrite_offsets["baseline"]
     if (
         common_overwrites != overwrite_offsets["candidate"]
-        or len(common_overwrites) != 806
+        or common_overwrites
         or GRAPHICS_BYTE_OFFSET in common_overwrites
         or any(
             states["baseline"].read_memory(0x06004000 + offset, 1)

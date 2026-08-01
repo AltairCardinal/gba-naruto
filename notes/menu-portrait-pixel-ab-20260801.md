@@ -8,13 +8,13 @@
 目标是 portrait row 1 / variant 0（鸣人）、catalog resource 0。resource 0 共有
 36 个逻辑别名；本轮通过 production `menu_portrait_relocation` 只拆分并重定向
 pair `0x5A4E14`，没有连带修改另外 35 个别名。baseline 与 candidate 均把 graphics
-迁移到 `0x08A80000`、palette 迁移到 `0x08A80CD8`，两个 descriptor pointer 完全
+迁移到 `0x08A80000`、palette 迁移到 `0x08A80CEC`，两个 descriptor pointer 完全
 相同。
 
 candidate 只把 80×80 authored canvas 的 `(40,40)` 从 palette index `52` 改为
-`55`。六组件 1D OBJ 逆变换后，解压 graphics 只有 stream byte `5184` 从
-`52→55`；palette 128 bytes 不变。压缩流长度分别为 3287/3288 bytes，因此压缩
-ROM 区间有多字节差异，但解压语义保持严格单字节。
+`14`。六组件 1D OBJ 逆变换后，解压 graphics 只有 stream byte `5184` 从
+`52→14`；palette 128 bytes 不变。两份 VRAM 安全压缩流均为 3306 bytes，分配与
+指针拓扑完全相同。
 
 ## 自然预加载与输入
 
@@ -33,26 +33,25 @@ ROM 区间有多字节差异，但解压语义保持严格单字节。
 ## 运行结果
 
 - 两边完整 IO、PRAM、OAM 相同；
-- EWRAM 只有 `0x02003CC0: 52→55`；
-- OBJ VRAM 只有 `0x06011440: 52→55`；
+- EWRAM 只有 `0x02003CC0: 52→14`；
+- OBJ VRAM 只有 `0x06011440: 52→14`；
 - 两边 `0x06010000..0x060118FF` 均逐字节等于各自 6400-byte authored graphics；
 - `0x05000200..0x0500027F` 均等于 catalog palette；
 - OAM entries 1..6 完全相同，六组件共同覆盖 80×80 立绘；
 - mGBA 最终 PNG 只有屏幕 `(56,48)` 一个像素不同：
-  `(239,189,165)→(222,222,82)`；
+  `(239,189,165)→(99,74,57)`；
 - 仓库 Mode-0 compositor 从各自 ss9 重建后与各自 mGBA PNG 逐 RGB 完全一致。
 
-IWRAM `0x03007F9C` 还保留一个运行后栈／scratch byte 差异，已在完整内存差分中如实
-建账；它不参与目标 graphics、palette、OAM 或最终像素因果链。EWRAM decompression
-work 区前部在 frame 80 已被后续工作复用，因此只签发目标 byte 和最终 OBJ VRAM 的
-全流一致性，不误报整段 EWRAM scratch 仍等于初始解压流。
+完整 IWRAM、IO、PRAM、OAM 均零差异。EWRAM decompression work 区前部在 frame 80
+已被后续工作复用，因此只签发目标 byte 和最终 OBJ VRAM 的全流一致性，不误报整段
+EWRAM scratch 仍等于初始解压流。
 
 ## 证据、安全和复现
 
 原始两次运行只保留 ss9、PNG、audit、sentinel、guard、authoring PNG/spec 和 build
 manifest；两份 16 MiB ROM 与 staged ROM 留在临时实验目录，不进入 Git。两次运行
 均经共享 heavy lock、2 GiB 启动门槛、512 MiB owned-tree RSS ceiling 和进程／监听
-残留检查，`completed/0`、非 degraded，峰值分别为 55.87890625 和 56.10546875 MiB。
+残留检查，`completed/0`、非 degraded，峰值分别为 55.96484375 和 56.1328125 MiB。
 raw audit/spec 中的绝对实验目录和 staged ROM 路径只作为当次运行 provenance 保留；
 临时目录清理后不可直接按这些历史路径复跑，独立 verifier 也不依赖它们存在。
 

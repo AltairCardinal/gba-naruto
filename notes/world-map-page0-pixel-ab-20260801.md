@@ -12,10 +12,10 @@ graphics 从 `0x084414E4` 迁移到 `0x08B71000`，并只重写 descriptor point
 `(116,76)` 从 palette index `112` 改为 `137`；tile 243 在 30×20 tilemap 中只
 出现一次。
 
-两边独立编码后的 LZ77 均为 31,963 bytes，ROM SHA-256 分别为：
+两边独立编码后的 VRAM 安全 LZ77 均为 31,988 bytes，ROM SHA-256 分别为：
 
-- baseline：`58b2a447b125fdf4ae0099a0b41de9c5ea7e32fa5f2bde600f1c2d867198e6c1`；
-- candidate：`a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b`。
+- baseline：`f0493edf59196524786fa234a7fdb64dc524e6d89c509e234ea00361fb92ca85`；
+- candidate：`b0202dace931eae32e91a270636578e0fb0d8d59ef1edc521693909f7f0987aa`。
 
 ## 自然预加载与输入
 
@@ -42,11 +42,10 @@ baseline/candidate 分别只在 frame 5 按 A、frame 13 松开，frame 80 捕�
 - 最终 PNG 只有 `(116,76)` 一个像素不同：
   `(189,165,107)→(66,33,0)`。
 
-frame 80 的 32 KiB graphics 区并非整段仍等于 loader 输出：两边都有完全相同的
-806 个 byte 被后续运行时 writer 覆盖。独立 verifier 对这些 offset 以有序 u32
-序列哈希建账，要求两边 offset 集合和运行值完全相同，并确认目标 byte 15588 不在
-覆盖集合中。因此本成果只签发目标像素因果链，不把捕获帧误报为“完整 32 KiB
-graphics 仍保持首次加载值”。
+frame 80 的完整 32 KiB graphics 区与各自 loader 源逐字节相等。旧证据中的 806 个
+所谓共同覆盖字节是 distance-1 LZ77 在 `LZ77UnCompVram` 半字提交下产生的损坏，
+不是后续 writer；安全编码后覆盖计数为 0。根因与全量回归见
+`notes/vram-safe-lz77-runtime-20260801.md`。
 
 ## 被排除的 tile 1 候选
 
@@ -62,8 +61,8 @@ accepted artifact。
 正式 raw 只保留两边的 32 KiB authored graphics、ss9、PNG、audit、sentinel、
 guard、spec 和 build manifest；两份构建 ROM 与 staged ROM 不进入 Git。mGBA 两次
 运行都经共享 heavy lock 和 owned-tree 守卫，`completed/0`、非 degraded、无进程或
-监听残留，峰值 RSS 为 56.0234375 / 55.77734375 MiB。promotion exporter/verifier
-也经同一守卫运行，最终重签导出峰值 93.30859375 MiB；没有重新启动 mGBA。
+监听残留，峰值 RSS 为 56.09765625 / 55.890625 MiB。promotion exporter/verifier
+也经同一守卫运行，最终重签导出峰值 96.5078125 MiB。
 
 ```bash
 python3 tools/export_world_map_page0_pixel_ab_evidence.py \
@@ -78,7 +77,7 @@ python3 tools/verify_world_map_page0_pixel_ab_evidence.py \
 
 独立 verifier 不导入 builder、exporter 或 production importer。它从基准 ROM 重建
 page 0 descriptor、tile/pixel 地址、两份 LZ77 和完整 16 MiB ROM，验证 page 1/2
-descriptor 不变、自然 pre-load、六个完整内存域、806 个共同覆盖、palette、
+descriptor 不变、自然 pre-load、六个完整内存域、完整 graphics、palette、
 tilemap、renderer、最终像素、audit/guard、文件全集及实现哈希。负测覆盖重签后的
 像素语义和 raw savestate 篡改。
 

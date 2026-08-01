@@ -88,7 +88,7 @@ class MapResourceRelocationAuditTests(unittest.TestCase):
         self.assertEqual(0, summary["unexpected_pointer_count"])
         self.assertEqual(0x980000, summary["allocation_start"])
         self.assertEqual(0xA80000, summary["region_end"])
-        self.assertEqual(0x9DDEC3, summary["allocation_end"])
+        self.assertEqual(0x9DE03E, summary["allocation_end"])
         self.assertGreater(summary["remaining_bytes"], 0)
         self.assertEqual([], verification["errors"])
         self.assertEqual(166, verification["verified_resources"])

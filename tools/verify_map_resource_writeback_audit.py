@@ -23,6 +23,7 @@ IMPLEMENTATION_PATHS = (
     "tools/verify_map_resource_writeback_audit.py",
     "tools/build_mod.py",
     "tests/test_import_map_resources.py",
+    "tests/test_vram_safe_fixed_slot_audits.py",
 )
 ROLE_POINTER_OFFSETS = {
     "tile_graphics": 4,
@@ -130,6 +131,8 @@ def _encode(data: bytes) -> bytes:
                     distance = cursor - previous
                     if distance > 0x1000:
                         break
+                    if distance == 1:
+                        continue
                     length = 3
                     while (
                         length < 18
@@ -329,6 +332,16 @@ def _expected_payload(root: Path) -> dict[str, Any]:
         for row in resources
         for slot in row["physical_slots"]
     )
+    if (
+        len(resources),
+        physical_slots,
+        logical_references,
+        original_content_fit,
+        original_slot_fit,
+        mutation_content_fit,
+        mutation_slot_fit,
+    ) != (166, 217, 249, 166, 217, 70, 91):
+        raise ValueError("map resource safe write-back denominator mismatch")
     scope = {
         "all_content_resources_audited": True,
         "all_physical_slots_audited": True,
@@ -338,6 +351,7 @@ def _expected_payload(root: Path) -> dict[str, Any]:
         "atomic_all_alias_capacity_gate": True,
         "linked_resource_index_validation_complete": True,
         "deterministic_first_byte_mutation_audited": True,
+        "vram_safe_encoding_audited": True,
         "arbitrary_edit_capacity_complete": False,
         "resource_relocation_complete": False,
         "pointer_rewrite_complete": False,

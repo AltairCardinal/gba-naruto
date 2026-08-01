@@ -45,10 +45,10 @@ CANDIDATE_GRAPHICS_SHA256 = (
     "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e"
 )
 BASELINE_ROM_SHA256 = (
-    "58b2a447b125fdf4ae0099a0b41de9c5ea7e32fa5f2bde600f1c2d867198e6c1"
+    "f0493edf59196524786fa234a7fdb64dc524e6d89c509e234ea00361fb92ca85"
 )
 CANDIDATE_ROM_SHA256 = (
-    "a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b"
+    "b0202dace931eae32e91a270636578e0fb0d8d59ef1edc521693909f7f0987aa"
 )
 PALETTE_SHA256 = "605542775b27eba571bd59996f69ca7c2858132660f741e08b8b1573676a08af"
 TILEMAP_SHA256 = "6713f99e017c9e29c80972f338b577ee9fd5e1873cc8051ace13ab32e3803412"
@@ -260,7 +260,7 @@ def _expected_patch_ledger(graphics: bytes) -> list[dict[str, Any]]:
 
 def _rebuild_rom(base: bytes, graphics: bytes) -> bytes:
     encoded = _encode_lz77(graphics)
-    if len(encoded) != 31963:
+    if len(encoded) != 31988:
         raise ValueError("world-map independent encoded size mismatch")
     rom = bytearray(base + bytes([0xFF]) * (0x1000000 - len(base)))
     rom[GRAPHICS_ALLOCATION_OFFSET : GRAPHICS_ALLOCATION_OFFSET + len(encoded)] = encoded
@@ -411,8 +411,8 @@ def _verify(root: Path, artifact: Path) -> None:
             "same_redirect_pointer": True,
             "page_1_and_2_descriptors_unchanged": True,
             "rom_changed_offset_count": 1,
-            "rom_changed_offsets": [0xB71000 + 14675],
-            "changed_span": [0xB71000 + 14675, 0xB71000 + 14676],
+            "rom_changed_offsets": [0xB71000 + 14692],
+            "changed_span": [0xB71000 + 14692, 0xB71000 + 14693],
         }
         or set(build.get("variants", {})) != {"baseline", "candidate"}
     ):
@@ -517,7 +517,7 @@ def _verify(root: Path, artifact: Path) -> None:
     common_overwrites = overwrite_offsets["baseline"]
     if (
         common_overwrites != overwrite_offsets["candidate"]
-        or len(common_overwrites) != 806
+        or common_overwrites
         or GRAPHICS_BYTE_OFFSET in common_overwrites
         or any(
             states["baseline"].read_memory(0x06004000 + offset, 1)
@@ -566,7 +566,7 @@ def _verify(root: Path, artifact: Path) -> None:
             "graphics_vram_address": "0x06004000",
             "palette_pram_address": "0x05000000",
             "tilemap_vram_address": "0x06000000",
-            "common_overwrite_count": 806,
+            "common_overwrite_count": 0,
             "common_overwrite_offsets_sha256": _sha256(packed_overwrites),
             "renderer_exact": True,
             "pixels": {

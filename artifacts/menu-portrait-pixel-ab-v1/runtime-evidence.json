@@ -1,6 +1,6 @@
 {
   "edit": {
-    "after_index": 55,
+    "after_index": 14,
     "before_index": 52,
     "canvas_byte_offset": 3240,
     "canvas_xy": [
@@ -37,35 +37,35 @@
     "baseline": {
       "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
       "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
-      "child_pgid": 69850,
-      "guard_sha256": "8daa348096c577c482f5cba57dbdb8f755b48bf42fc4d9e0b118dd952215db2b",
-      "peak_tree_rss_mib": 55.87890625,
+      "child_pgid": 82738,
+      "guard_sha256": "22fa3f012cb69d8a12044b35757aed31541d67f784576fff5db1b4766627af3c",
+      "peak_tree_rss_mib": 55.96484375,
       "pgid_clean": true,
       "png_sha256": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
       "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
-      "rom_sha256": "c92015c777cba12a2b35309f0a689e1d7e06c3724f272df6232f1120efae5eb3",
-      "run_id": "5bb416213a72856d49e3f5fdf10fc5c6",
-      "state_sha256": "ffcf4e28c81a3c701887a2223b95b4c990c22cba3d5f1c008b239b9bec625115"
+      "rom_sha256": "202301cc0bcb246269e200db3c5ced1aa3ec8e7547e2f21c26d81df5db95fc3a",
+      "run_id": "539f04c4735a6245d5d314bb678ad330",
+      "state_sha256": "189bcc8d12f3176596d97a28a9abd56305178657fff6f36793841d98b66ed492"
     },
     "candidate": {
       "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
       "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
-      "child_pgid": 69882,
-      "guard_sha256": "84362fcf6deec9554f7f758b9e5c53491765c0f3c1715db51ee79bbf85267732",
-      "peak_tree_rss_mib": 56.10546875,
+      "child_pgid": 82776,
+      "guard_sha256": "a187f260caf0addfd611995b78f8d6393de6e8012f65fc9320733f68a2868f01",
+      "peak_tree_rss_mib": 56.1328125,
       "pgid_clean": true,
-      "png_sha256": "518637bad2f89b200352c8486eff4bd16e3bfd3a30364876f89112f3ab341459",
+      "png_sha256": "ffad0b4540e55d0fdcffd2038c6811545d5a86bb68eb8c66d090b7d6b279dfdf",
       "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
-      "rom_sha256": "430e390e63b77be072c0c0e9e176a8f11476bd67923fc4a211b8eb65437e2cec",
-      "run_id": "f0999bc51632f3a7d45dd1d23c6ebcfa",
-      "state_sha256": "b26a4832d960bcab5a2c62ee5cf6e92ed81721d50da1a69128830b0572ce3c04"
+      "rom_sha256": "26a08a91628c4fc511a796db27a29518c7303e8a7294665afbf21b99dce42311",
+      "run_id": "1cb9d52f25c115236bfc60aa35d66c09",
+      "state_sha256": "41e45eb4374b425911532165e332ee7acf9d8b55156c7c4088ac627b64214fdf"
     }
   },
   "runtime": {
     "baseline_ewram_byte": 52,
     "baseline_vram_byte": 52,
-    "candidate_ewram_byte": 55,
-    "candidate_vram_byte": 55,
+    "candidate_ewram_byte": 14,
+    "candidate_vram_byte": 14,
     "changed_ewram_address": "0x02003CC0",
     "changed_vram_address": "0x06011440",
     "ewram_decompression_work_address": "0x02002880",
@@ -74,9 +74,7 @@
         15552
       ],
       "IO": [],
-      "IWRAM": [
-        32668
-      ],
+      "IWRAM": [],
       "OAM": [],
       "PRAM": [],
       "VRAM": [
@@ -93,13 +91,13 @@
         56,
         48
       ],
-      "candidate_rgb_sha256": "c7901c9532dd0c05a77b2110b1a70d9555b2e70225fa82737e47da9feff446f0",
+      "candidate_rgb_sha256": "f4ffd0cee4f4aa889b3598c4707b88dd7dd0ab67e40dc6bd96045cb49c8a79ed",
       "changes": [
         {
           "after_rgb": [
-            222,
-            222,
-            82
+            99,
+            74,
+            57
           ],
           "before_rgb": [
             239,

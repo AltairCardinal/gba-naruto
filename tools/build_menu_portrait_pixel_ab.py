@@ -47,9 +47,9 @@ CANVAS_XY = (40, 40)
 CANVAS_BYTE_OFFSET = CANVAS_XY[1] * 80 + CANVAS_XY[0]
 STREAM_BYTE_OFFSET = 5184
 BEFORE_INDEX = 52
-AFTER_INDEX = 55
+AFTER_INDEX = 14
 GRAPHICS_ALLOCATION_OFFSET = 0xA80000
-PALETTE_ALLOCATION_OFFSET = 0xA80CD8
+PALETTE_ALLOCATION_OFFSET = 0xA80CEC
 VARIANTS = ("baseline", "candidate")
 
 
@@ -238,7 +238,7 @@ def build_pair(root: Path, output: Path) -> dict[str, Any]:
             layout=layout,
             regions=regions,
         )
-        expected_sizes = (3287 if variant == "baseline" else 3288, 128, 4, 4)
+        expected_sizes = (3306, 128, 4, 4)
         if (
             len(patches) != 4
             or tuple(len(bytes.fromhex(row["after_hex"])) for row in patches)

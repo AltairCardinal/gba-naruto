@@ -112,6 +112,11 @@ def encode_gba_lz77(data: bytes) -> bytes:
                     distance = cursor - previous
                     if distance > 0x1000:
                         break
+                    # LZ77UnCompVram commits output as 16-bit writes.  A
+                    # distance-one overlap can therefore read the buffered
+                    # low byte before it has reached VRAM.
+                    if distance == 1:
+                        continue
                     length = 3
                     while (
                         length < 18

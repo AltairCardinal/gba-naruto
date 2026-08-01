@@ -1,0 +1,64 @@
+{
+  "audit": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-obj-id1-pixel-ab-20260801-r2/runtime/baseline-fixed/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+  "build_manifest": "/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json",
+  "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+  "capture_frame": 512,
+  "child_pgid": 79759,
+  "evidence_mode": "single-input",
+  "frame": 512,
+  "guard_summary_sha256": "28e998a552969e1931f899afcd9c6d2c2fcaa423eaa9e05995bb688338475e4d",
+  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+  "input_state_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "output_png": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-obj-id1-pixel-ab-20260801-r2/runtime/baseline-fixed/frame512.png",
+  "output_png_sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+  "output_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-obj-id1-pixel-ab-20260801-r2/runtime/baseline-fixed/frame512.ss9",
+  "output_state_sha256": "7c0379d448d3c81c7b6734117873df06beceeb53609880cde466b15f4c15ceb5",
+  "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+  "peak_tree_rss_mib": 56.0,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+  "run_id": "91883e17d3d9f01e1e57b9e149f30a2c",
+  "runtime_residue": {
+    "checked_at": "2026-08-01T01:08:27.703523Z",
+    "checked_pgid": 79759,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-obj-id1-pixel-ab-20260801-r2/runtime/baseline-fixed/sentinel.json",
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-obj-id1-pixel-ab-20260801-r2/runtime/baseline-fixed/staged.gba",
+  "staged_rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+  "status": "capture-complete",
+  "success": true,
+  "zero_input_verified": false
+}

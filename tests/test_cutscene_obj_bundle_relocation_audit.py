@@ -13,6 +13,30 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class CutsceneObjBundleRelocationAuditTests(unittest.TestCase):
+    def test_independent_encoder_avoids_vram_unsafe_distance_one(self):
+        from tools.verify_cutscene_obj_bundle_relocation_audit import _encode_lz77
+
+        encoded = _encode_lz77(b"\x7f" * 64)
+        size = int.from_bytes(encoded[1:4], "little")
+        cursor = 4
+        produced = 0
+        distances = []
+        while produced < size:
+            flags = encoded[cursor]
+            cursor += 1
+            for bit in range(7, -1, -1):
+                if produced >= size:
+                    break
+                if flags & (1 << bit):
+                    token = (encoded[cursor] << 8) | encoded[cursor + 1]
+                    cursor += 2
+                    produced += (token >> 12) + 3
+                    distances.append((token & 0x0FFF) + 1)
+                else:
+                    cursor += 1
+                    produced += 1
+        self.assertNotIn(1, distances)
+
     @staticmethod
     def _resign(artifact: Path, payload: dict) -> None:
         payload_path = artifact / "relocation-audit.json"

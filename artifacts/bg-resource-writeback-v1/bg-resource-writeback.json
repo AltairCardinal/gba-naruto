@@ -2,12 +2,13 @@
   "artifact_id": "bg-resource-writeback-v1",
   "implementation": {
     "tests/test_import_bg_resources.py": "74419fcc961513cef2c1d01a4c4a34ba425fdc9ba4a8597894361770eb375eda",
+    "tests/test_vram_safe_fixed_slot_audits.py": "c4be3e9e14bf7de1f294167399977ec6181ad665cf4159692d76b5aa8db69fde",
     "tools/automated_test.py": "1dade122a7723a00032ab0817a4b6c9d64a41be5c9fd79c0c11555891b5dfd3c",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
-    "tools/export_bg_resource_writeback_audit.py": "66b0d21bdd35f13f70dae6704861fa9906a1be106f497388316199fd68482024",
-    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/export_bg_resource_writeback_audit.py": "9d467a90e52486b093ce1de873c852a850620d11c9c0ce2e2557c6f8da0b0ec0",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
     "tools/import_bg_resources.py": "d4c1a3bea1d4b14453581697d233c2e8c288fe05ff9def6721a267eddb914ce6",
-    "tools/verify_bg_resource_writeback_audit.py": "521ca928406a1bee10ad7f60d528033f821d7d075d65163a36adfbe23f058161"
+    "tools/verify_bg_resource_writeback_audit.py": "567b4016ca3236f2c73dd97467776868340d01b45f9bf3f70b192482f275afa5"
   },
   "mutation_model": {
     "graphics_byte_offset": 0,
@@ -38,21 +39,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "5835579e216922be9f6f4e45aaa6c65dd6a74f7eccb7f5597fb23a6de01bee0b",
-      "mutation_encoded_sha256": "195d5ff48b27217f4c9c776373c13f44d943f9b3159dc90207bb1d948539db7f",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "50478706d7694dde9032cbf07f2806f0244dd5d1ec80db63cc4833beeb1b1126",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "bbbf96e2c2ee8a5b8dbd6c4c9dd06de415027b8aeff3765c027b39ea6bfc5d1f",
+      "original_reencoded_sha256": "c576b29afc52d54bb0b4f287b4661b02edaeb7864c77954f9d218ae7c8f13c02",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3330952,
           "gba_address": "0x0832D388",
-          "mutation_encoded_size": 1858,
-          "mutation_fit": true,
-          "mutation_slot_margin": 11,
-          "original_reencoded_size": 1857,
+          "mutation_encoded_size": 1870,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 1869,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 12,
+          "original_slot_margin": 0,
           "slot_size": 1869,
           "source_compressed_sha256": "c576b29afc52d54bb0b4f287b4661b02edaeb7864c77954f9d218ae7c8f13c02"
         }
@@ -84,21 +85,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "3d71b60c78e6785675e185783495573cb1c9695ca147a14c447e27c100d876da",
-      "mutation_encoded_sha256": "628591fd1318cbf4d6ae2f5512364dfad7223979ed56f58b2fd394eccd2a5187",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "4fa1511412bb883af471236de02185e2742081a542edbbb6df6eaf74bfa8fbcd",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "448c0be7d0564a7cb14225dda94abd839052e8441ae219d8362b31107f132fe8",
+      "original_reencoded_sha256": "e030865379303d7bdb384094a2a0c1e71520242dd95ccd24dead39e861fd36cb",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3339612,
           "gba_address": "0x0832F55C",
-          "mutation_encoded_size": 14489,
-          "mutation_fit": true,
-          "mutation_slot_margin": 69,
-          "original_reencoded_size": 14487,
+          "mutation_encoded_size": 14559,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 14558,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 71,
+          "original_slot_margin": 0,
           "slot_size": 14558,
           "source_compressed_sha256": "e030865379303d7bdb384094a2a0c1e71520242dd95ccd24dead39e861fd36cb"
         }
@@ -130,21 +131,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "64015cbf99adbdc6592be59903d4dc25a748cf2060ef395cab81a79111754526",
-      "mutation_encoded_sha256": "c6cf35891f295d0cbfb84859bb4b2cd4c8d75c24d15bf1912eafa3b9db6d36b0",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "e41662728818bfbb6232bfff8ea26f2334221f2bdf6bce05a98fc0c934c0b7ad",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "f9a32c08d0aa8e136f4263e7c6f0f28836c0a64ef45965cb1efac840e70acdee",
+      "original_reencoded_sha256": "155cc53f4262ecaaba0e0f1bfc0e8c096a583384c3389bbfc8b37c5e70ac1588",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3320324,
           "gba_address": "0x0832AA04",
-          "mutation_encoded_size": 2847,
-          "mutation_fit": true,
-          "mutation_slot_margin": 3,
-          "original_reencoded_size": 2846,
+          "mutation_encoded_size": 2851,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 2850,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 4,
+          "original_slot_margin": 0,
           "slot_size": 2850,
           "source_compressed_sha256": "155cc53f4262ecaaba0e0f1bfc0e8c096a583384c3389bbfc8b37c5e70ac1588"
         }
@@ -176,21 +177,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "e39c4624c2a6469d0376182a62664222d0008025cbf720452ff4c0a2e87ec30e",
-      "mutation_encoded_sha256": "d20990d2de5fa27349e39dd7f5f6f03d7605823dd30262947c10199835301ddb",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "ae97bb7512cf5626d5ecaeac7ba173fc56b47998c6b4be65225dfb95ef36c668",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "1ae445415b5863823712d3c5b1b594bb74a2fe4d22b4a95828f0d3b8baeeeb1e",
+      "original_reencoded_sha256": "038f1f6cc715a39f9b7eafc89b654f16b328fba4b4c3b227c25a5265593ead79",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3369784,
           "gba_address": "0x08336B38",
-          "mutation_encoded_size": 13088,
-          "mutation_fit": true,
-          "mutation_slot_margin": 69,
-          "original_reencoded_size": 13085,
+          "mutation_encoded_size": 13158,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 13157,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 72,
+          "original_slot_margin": 0,
           "slot_size": 13157,
           "source_compressed_sha256": "038f1f6cc715a39f9b7eafc89b654f16b328fba4b4c3b227c25a5265593ead79"
         }
@@ -222,21 +223,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "425334208fba8126e8e5e1b229b1dd0cecd116d048e87ff798c1995fb5632aa4",
-      "mutation_encoded_sha256": "f67422fe635924bff22ca490962aa00e344efd3cf88c5c53eb451abe8f42f259",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "3cb9087d4b6421a1607f8b6595b63658871b3d736769e7fda86c17b9fbfee27b",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "c4b68c2caae4749e42cbf0be1267bfa0b29597df439c0736c12aa24bf6346a02",
+      "original_reencoded_sha256": "c76f1dc4b6fe82dd008abaf89f78f4b75b8a03eac942dfe73646ddab754263c5",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3327432,
           "gba_address": "0x0832C5C8",
-          "mutation_encoded_size": 2921,
-          "mutation_fit": true,
-          "mutation_slot_margin": 7,
-          "original_reencoded_size": 2919,
+          "mutation_encoded_size": 2929,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 2928,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 9,
+          "original_slot_margin": 0,
           "slot_size": 2928,
           "source_compressed_sha256": "c76f1dc4b6fe82dd008abaf89f78f4b75b8a03eac942dfe73646ddab754263c5"
         }
@@ -268,21 +269,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "ffee6d8998a9cd3bdafda3f3185f95ac58d48d86249e6aaef44dc435bc7e3099",
-      "mutation_encoded_sha256": "96de9428d3d025f45aa6d850165c6276e25743fd0e9151477a47f92661bf5298",
+      "mutation_encoded_sha256": "c64456c4f4959984e4d192130341076be12cf73c320e1fec96df21770dda01e2",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "1040e97a64750d4eff17bcf4f74a775c188375fe982db956b0966cbfc2710352",
+      "original_reencoded_sha256": "ff512b6c7b89ebb618f332815e6b8d5268b03d024310b8e208ea87f985334c83",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3394196,
           "gba_address": "0x0833CA94",
-          "mutation_encoded_size": 14376,
+          "mutation_encoded_size": 14414,
           "mutation_fit": true,
-          "mutation_slot_margin": 38,
-          "original_reencoded_size": 14376,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 14414,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 38,
+          "original_slot_margin": 0,
           "slot_size": 14414,
           "source_compressed_sha256": "ff512b6c7b89ebb618f332815e6b8d5268b03d024310b8e208ea87f985334c83"
         }
@@ -322,33 +323,33 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "8e8ea824f5d78da3e4150c4c7e9bd147486a7a730a0b927d89d95c27ff86b4bd",
-      "mutation_encoded_sha256": "4cfeea6689fa0d854ccdf3f1a915f30837505e0bd486527622808e1f9b435267",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "01052f616af812e13e14b93d1d3190a65c6bea0cefe9e78e6df7d090a122804b",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "85a9662b143a6615d1d2efeb94e167211488b39a0c17050a5473bbeabd2be663",
+      "original_reencoded_sha256": "12aa367a364d612a5456ecbe136d2053c8c99cec71ec998d757c42c6aa599c8c",
       "physical_slot_count": 2,
       "physical_slots": [
         {
           "file_offset": 3316788,
           "gba_address": "0x08329C34",
-          "mutation_encoded_size": 3101,
-          "mutation_fit": true,
-          "mutation_slot_margin": 2,
-          "original_reencoded_size": 3100,
+          "mutation_encoded_size": 3104,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 3103,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 3,
+          "original_slot_margin": 0,
           "slot_size": 3103,
           "source_compressed_sha256": "12aa367a364d612a5456ecbe136d2053c8c99cec71ec998d757c42c6aa599c8c"
         },
         {
           "file_offset": 3336056,
           "gba_address": "0x0832E778",
-          "mutation_encoded_size": 3101,
-          "mutation_fit": true,
-          "mutation_slot_margin": 2,
-          "original_reencoded_size": 3100,
+          "mutation_encoded_size": 3104,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 3103,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 3,
+          "original_slot_margin": 0,
           "slot_size": 3103,
           "source_compressed_sha256": "12aa367a364d612a5456ecbe136d2053c8c99cec71ec998d757c42c6aa599c8c"
         }
@@ -381,21 +382,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "7cd20c95f4042a246e3961f56656bd32c21cecaa25f61a9809cf0fff036e3ac5",
-      "mutation_encoded_sha256": "3ba5cb48c3a128df65cea959d8da8dd4b9200b2809ab609100fc68d93bcb243e",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "eaf58a973f9ec9890b08aaed0b4878b6ef1f997235b9011d2ef6ff74fc3c34d8",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "0901f3d01fbfe618ceec88d67847fa9a18bb1c1bf91f8572f385be55c57d5ab8",
+      "original_reencoded_sha256": "39fe9230dbe38cc2b3f91adcea83051deed83a5339b1f3fd279e6371726fe3a8",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3333228,
           "gba_address": "0x0832DC6C",
-          "mutation_encoded_size": 2244,
-          "mutation_fit": true,
-          "mutation_slot_margin": 2,
-          "original_reencoded_size": 2243,
+          "mutation_encoded_size": 2247,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 2246,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 3,
+          "original_slot_margin": 0,
           "slot_size": 2246,
           "source_compressed_sha256": "39fe9230dbe38cc2b3f91adcea83051deed83a5339b1f3fd279e6371726fe3a8"
         }
@@ -427,21 +428,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "e9c9a15bf7b57ca187035f47134f47264352b19ef1a1bc375bb7552e44c16bce",
-      "mutation_encoded_sha256": "7b14277442e732cd2d85e31600af7e4d4f3a54d992725107c6615f09f9c8b296",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "8d7b238de283219cfc426fa7b175784577a2d3be7cd54b50afaca87542f74f22",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "71f49fef802d7515059097e608d34b31906686a952d768b835068caa7a347984",
+      "original_reencoded_sha256": "d0a7794879a300b7cbdd2d1cf44b856020b611998ff474edb0aceb8507074583",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3323628,
           "gba_address": "0x0832B6EC",
-          "mutation_encoded_size": 3166,
-          "mutation_fit": true,
-          "mutation_slot_margin": 4,
-          "original_reencoded_size": 3165,
+          "mutation_encoded_size": 3171,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 3170,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 5,
+          "original_slot_margin": 0,
           "slot_size": 3170,
           "source_compressed_sha256": "d0a7794879a300b7cbdd2d1cf44b856020b611998ff474edb0aceb8507074583"
         }
@@ -473,21 +474,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "7273d05bf6d76e8eee8b1752aa027dc47700f7eff354124a1a67523c138d04c5",
-      "mutation_encoded_sha256": "68b4d129eeb2a6778a7b5e8f0603b942f99c233020f619ee1dd5017ff8322cd9",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "3dd531f8dc3248a8c0e2f8097e8b0dcae19e8cd87c91e57026a6f41173bdf7fa",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "d18b6af1c0662a83fc0f81ad63e93b06fdaf5188fe25bdc0d6f30d766f7aa1f9",
+      "original_reencoded_sha256": "cbd37412de9f202f839eeb33867806350d32ebbfd471f2849b21d299b25316ce",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3355240,
           "gba_address": "0x08333268",
-          "mutation_encoded_size": 13415,
-          "mutation_fit": true,
-          "mutation_slot_margin": 71,
-          "original_reencoded_size": 13414,
+          "mutation_encoded_size": 13487,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 13486,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 72,
+          "original_slot_margin": 0,
           "slot_size": 13486,
           "source_compressed_sha256": "cbd37412de9f202f839eeb33867806350d32ebbfd471f2849b21d299b25316ce"
         }
@@ -519,21 +520,21 @@
         "resource_type": "graphics"
       },
       "mutation_decompressed_sha256": "f6601e4fdbdf9548d952c3e9c2f03bd43eb1e22e1d3549b849481fabf8d40014",
-      "mutation_encoded_sha256": "3599bfe73f8572b49e6ae52f8c1c4c25ed3ed512155e6b8db8ede49d927f3ab7",
-      "mutation_fit_all_aliases": true,
+      "mutation_encoded_sha256": "f321a0adf291f8db1336b1ebfe9135967ae50b560a79d1142e569eb8b7ef6f88",
+      "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "c0ddcdde88f725d409d16c9fc44007a92cf920185bdbf0b165435e68490f166a",
+      "original_reencoded_sha256": "17350919cff4081aab4b59731713b2d68844e704e9a23964b024ba7309eb2eaa",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3384012,
           "gba_address": "0x0833A2CC",
-          "mutation_encoded_size": 9164,
-          "mutation_fit": true,
-          "mutation_slot_margin": 31,
-          "original_reencoded_size": 9162,
+          "mutation_encoded_size": 9196,
+          "mutation_fit": false,
+          "mutation_slot_margin": -1,
+          "original_reencoded_size": 9195,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 33,
+          "original_slot_margin": 0,
           "slot_size": 9195,
           "source_compressed_sha256": "17350919cff4081aab4b59731713b2d68844e704e9a23964b024ba7309eb2eaa"
         }
@@ -565,21 +566,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "a8982170accbb789da10f92a182ab81a8ea6fb5ae86916c4263304e90f2f8708",
-      "mutation_encoded_sha256": "37ab403976a45eb8fed5d88359f943dc8cb8bf11542dc4b545ce1a87f5a43bca",
+      "mutation_encoded_sha256": "914a1f1383909d3ebe4ae4bcc149883a9f06add7511e4aa2129198a1f11aa8db",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "5cab3cb91e78bde1438b870f7b2f178185f73f363370333510e9961687b0e011",
+      "original_reencoded_sha256": "68febde53409ae9528fe39716868b9ba7fe1a989f8adbfb7adc90d6f28d0961b",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3393208,
           "gba_address": "0x0833C6B8",
-          "mutation_encoded_size": 373,
+          "mutation_encoded_size": 374,
           "mutation_fit": true,
-          "mutation_slot_margin": 1,
-          "original_reencoded_size": 373,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 374,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 374,
           "source_compressed_sha256": "68febde53409ae9528fe39716868b9ba7fe1a989f8adbfb7adc90d6f28d0961b"
         }
@@ -611,21 +612,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "a69cc45cf9257c22daf3de793e756b790065ff4f121342256845c44f5a8adb37",
-      "mutation_encoded_sha256": "1132de2e6aac6faee078d96323476a8860790dbf429486852e75ca8c5e5b307c",
+      "mutation_encoded_sha256": "36c44bb296ae820dc495b8207e85abf68ba3385a4b3078df51a33cccc7b214bf",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "077f7d6b611c711d9874a920a080484808168143eddc332052c709b7d47598d5",
+      "original_reencoded_sha256": "2ab92bb1762c314647f8606ffed6a0f02d44b0dbb87bdd952c000d97d7a7937f",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3354172,
           "gba_address": "0x08332E3C",
-          "mutation_encoded_size": 374,
+          "mutation_encoded_size": 375,
           "mutation_fit": true,
-          "mutation_slot_margin": 1,
-          "original_reencoded_size": 374,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 375,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 375,
           "source_compressed_sha256": "2ab92bb1762c314647f8606ffed6a0f02d44b0dbb87bdd952c000d97d7a7937f"
         }
@@ -657,10 +658,10 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "1ef49ffc4e8774068fc860ee8c906700dc9c55a9d6ac07f0801351f651e636d3",
-      "mutation_encoded_sha256": "53a8a932512e16ef208bfcce08f85961380e854ea66007a373b12da747a68047",
+      "mutation_encoded_sha256": "04875971ab4d4f27b27dd8376fce35c9b57921419792f92be04e27584ec04103",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "e49f776b570b8dc09619126e51e697783061568fb15af7800dfba17441a74690",
+      "original_reencoded_sha256": "8cae112e96b056fc7b504967ac37e4c52b4a610e41652fbc140bf396eef16662",
       "physical_slot_count": 1,
       "physical_slots": [
         {
@@ -703,10 +704,10 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "6da4152564725f9e8e7ac181c1145fa5c3ab30bee99457ffb9f64969203f7dab",
-      "mutation_encoded_sha256": "51964bb15a0d08871d5284380d80076ac34bb1782b1a9e3345b66041699eb875",
+      "mutation_encoded_sha256": "5eda7a7f510709a97f4bf1b2486a6e929e78aa95a0db8b2c33d7485d4d64fd10",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "5ee393c3081d1ec14f45cdef606ca5ff10e200dd9b7168845c611cc671660e92",
+      "original_reencoded_sha256": "57ce63053cc1bb39a3b84047b27ea5d82053b556cbb5bcb294c8ad3edd1e3379",
       "physical_slot_count": 1,
       "physical_slots": [
         {
@@ -749,10 +750,10 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "84d86df0ef4cea2137ae74fce964ca7de004eaa12571a27e5e6028ce03c7b1f5",
-      "mutation_encoded_sha256": "349e46fa66e833cab78da97f5e49710c8ca6a782f36e34572a06832a80b47f3f",
+      "mutation_encoded_sha256": "1c5ceeaec52985ec0af894fc5814683ee98b8d3deb797538bfdd4daad2ecb796",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "bc16ab1af3311e7702ee2362eeef28e4f38ee615d9cb4c136ddfd04f06863429",
+      "original_reencoded_sha256": "f125bbbae93dd5c7e9a56e543744e4668cb9428f0cb04dd76133b4c32d299eed",
       "physical_slot_count": 1,
       "physical_slots": [
         {
@@ -795,21 +796,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "5af965810b9fe331747e6d6bfc550828b97fcbf2664e7d462455138ddc27dd82",
-      "mutation_encoded_sha256": "fc8a4b03fe9c4054d3a8ddc2df6f544b8a5819a3aaad25b0155f49769f6aadef",
+      "mutation_encoded_sha256": "df50c3067182b9c04fd4ca92ceed28a567293b66c4f86dc5c86be37dd497cb31",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "1811b5b5ee2d24d29b76910c28593faf8b93dc2fb34cb7c9140ab5b137134810",
+      "original_reencoded_sha256": "68d13c2a8805ffe676ac23e5a52853af103e4fc124eea5d426edae4fa370e53f",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3368728,
           "gba_address": "0x08336718",
-          "mutation_encoded_size": 362,
+          "mutation_encoded_size": 363,
           "mutation_fit": true,
-          "mutation_slot_margin": 1,
-          "original_reencoded_size": 362,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 363,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 363,
           "source_compressed_sha256": "68d13c2a8805ffe676ac23e5a52853af103e4fc124eea5d426edae4fa370e53f"
         }
@@ -841,21 +842,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "a17a1c4a2a2318ea09d0496e240faf460129a03b799e27d0ea4d51572df3d649",
-      "mutation_encoded_sha256": "35a1675a7e401de46b976a3a20d516c83c27e4eb1c7078ea89255795493ae7cd",
+      "mutation_encoded_sha256": "8d1450594660a68a5e25f513c9d4d8a6ccab05a63126799f9ed06b964ed4e4ec",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "638da89189788f597c5db1b1b32fd760766f53d1bbdf5773543da6686841dea3",
+      "original_reencoded_sha256": "8e1e342d51c5898aada7ce08c65ef094e9719303e586bdf714a5a9f47c349e79",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3382944,
           "gba_address": "0x08339EA0",
-          "mutation_encoded_size": 373,
+          "mutation_encoded_size": 374,
           "mutation_fit": true,
-          "mutation_slot_margin": 1,
-          "original_reencoded_size": 373,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 374,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 374,
           "source_compressed_sha256": "8e1e342d51c5898aada7ce08c65ef094e9719303e586bdf714a5a9f47c349e79"
         }
@@ -887,21 +888,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "34cc9829f1cea2ab093906399bda9c714c8647d3456e7c7db945436c5518ac1a",
-      "mutation_encoded_sha256": "d5bd225af26d3387c0a4a607c31f58260ce345c52a0720ec7586f49eb4e772b7",
+      "mutation_encoded_sha256": "2bbe8f0f49e00462c9d288f86568a623a244300d7fc7e029cd85a5625f5d1485",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "2971ab5b7be220bc5411e67ef58c12f794d066aeab59f3aa6bb6b247f28d38e2",
+      "original_reencoded_sha256": "134a52bc1e7025f4cf2881fdc5914f9be036483b459e6d9f4c1439b3fc52cf93",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3323176,
           "gba_address": "0x0832B528",
-          "mutation_encoded_size": 194,
+          "mutation_encoded_size": 195,
           "mutation_fit": false,
-          "mutation_slot_margin": -2,
-          "original_reencoded_size": 191,
+          "mutation_slot_margin": -3,
+          "original_reencoded_size": 192,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 192,
           "source_compressed_sha256": "134a52bc1e7025f4cf2881fdc5914f9be036483b459e6d9f4c1439b3fc52cf93"
         }
@@ -933,10 +934,10 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "8088d610df5479d167846a1aa8da8dd1f2ca54d984c6a8cb5e26a4f520b1ce57",
-      "mutation_encoded_sha256": "f7402fec6f684c7fafea23649583fa37ea66430e4397cc0252c06f8345515311",
+      "mutation_encoded_sha256": "049816c47b4419fbe5c273448472427b36666e0093e074eb8762d775203b4ab6",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "621386bbe24392ae51dfbf153e1a1ff4164e18c9c6facd5ff110557dd15f4003",
+      "original_reencoded_sha256": "89c67c839e07d182ce42f3b2056429ce4d781281ea0f099a233c970a990d583c",
       "physical_slot_count": 1,
       "physical_slots": [
         {
@@ -979,21 +980,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "96fafbf1b0849ef616531b3a6751984272ec2fcb6c57581866c0955576c9a05e",
-      "mutation_encoded_sha256": "a9e8fe4750a48be9619282dda3b1bacf6d2bdb4fda7a93ebd142b2971ecada46",
+      "mutation_encoded_sha256": "fc81120cdab8f1629749dc171a49a9c528de1cd2f5e9babf264b995e23234df5",
       "mutation_fit_all_aliases": false,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "cedb7d522848959d4164abc1cb46a9cde730f42903a2c13e3d3f7813dd6a02b9",
+      "original_reencoded_sha256": "638c46c91583f744dbd09646ae8e1e641a13e9290b42a003d9d89f6e6e37f10c",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3332824,
           "gba_address": "0x0832DAD8",
-          "mutation_encoded_size": 159,
+          "mutation_encoded_size": 161,
           "mutation_fit": false,
-          "mutation_slot_margin": -1,
-          "original_reencoded_size": 157,
+          "mutation_slot_margin": -3,
+          "original_reencoded_size": 158,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 158,
           "source_compressed_sha256": "638c46c91583f744dbd09646ae8e1e641a13e9290b42a003d9d89f6e6e37f10c"
         }
@@ -1071,21 +1072,21 @@
         "resource_type": "palette"
       },
       "mutation_decompressed_sha256": "5cbbed877b088c87cd33a57d59bbd7fcdac1b5a0d14a6ac12ad1cdda044ee8a6",
-      "mutation_encoded_sha256": "cd30c80f23cb05add8a3a94df00ff2fdd0cb35c565bac1e191f2ad0c8c1574ef",
+      "mutation_encoded_sha256": "b8b9b3849cf784f1949d56dd0874849fd5f5a8ee608cc6375a351dc32dded224",
       "mutation_fit_all_aliases": true,
       "original_fit_all_aliases": true,
-      "original_reencoded_sha256": "4086e0d38b534567045a22a64b7d5b5066abe909fac6dd997116041de663e245",
+      "original_reencoded_sha256": "4ac474adefaee6e58740b46b3ce17e0ab8d22cdd686336f41c52c81204e0a791",
       "physical_slot_count": 1,
       "physical_slots": [
         {
           "file_offset": 3326800,
           "gba_address": "0x0832C350",
-          "mutation_encoded_size": 258,
+          "mutation_encoded_size": 259,
           "mutation_fit": true,
-          "mutation_slot_margin": 1,
-          "original_reencoded_size": 258,
+          "mutation_slot_margin": 0,
+          "original_reencoded_size": 259,
           "original_roundtrip_fit": true,
-          "original_slot_margin": 1,
+          "original_slot_margin": 0,
           "slot_size": 259,
           "source_compressed_sha256": "4ac474adefaee6e58740b46b3ce17e0ab8d22cdd686336f41c52c81204e0a791"
         }
@@ -1570,7 +1571,8 @@
     "pointer_rewrite_complete": false,
     "resource_relocation_complete": false,
     "runtime_entry_selection_complete": false,
-    "runtime_pixel_equivalence": false
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
   },
   "source_catalog": {
     "content_resource_count": 31,
@@ -1584,12 +1586,12 @@
     "logical_reference_count": 36,
     "minimum_mutation_slot_margin": -3,
     "minimum_original_slot_margin": 0,
-    "mutation_fit_all_alias_content_count": 20,
-    "mutation_fit_logical_reference_count": 21,
-    "mutation_fit_slot_count": 21,
-    "mutation_overflow_content_count": 11,
-    "mutation_overflow_logical_reference_count": 15,
-    "mutation_overflow_slot_count": 15,
+    "mutation_fit_all_alias_content_count": 10,
+    "mutation_fit_logical_reference_count": 10,
+    "mutation_fit_slot_count": 10,
+    "mutation_overflow_content_count": 21,
+    "mutation_overflow_logical_reference_count": 26,
+    "mutation_overflow_slot_count": 26,
     "original_roundtrip_fit_content_count": 31,
     "original_roundtrip_fit_slot_count": 36,
     "physical_slot_count": 36

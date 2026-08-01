@@ -32,13 +32,13 @@
     "tools/export_cutscene_obj_assets.py": "ad3404abe9cbd860a2e1c2f2b43d76a7d5c334343e5b2313a414825e798c674b",
     "tools/verify_cutscene_obj_export.py": "8f8dee83cdbf8da910cd7165fce167a9840394b1a079dd7526531218f99d32d3",
     "tools/import_cutscene_obj_bundle_relocations.py": "81b5b11c79331146c967471624a778f277dcc07ba0d991e5cd12c26e77b140ac",
-    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
     "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
     "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
     "tools/export_cutscene_obj_bundle_relocation_audit.py": "830b61d3ea70e6febf54b62ce7ba59a760d4ce81f7a7bd8de5fea51c7ee5b676",
-    "tools/verify_cutscene_obj_bundle_relocation_audit.py": "80aeb583953d5658ad9b95f7b96013a6b29f7e2c2d1f08ccf2c6fc327ae05f69"
+    "tools/verify_cutscene_obj_bundle_relocation_audit.py": "89be6dea865626e331c6c30c89263dc0aa104507472a5888a3e40bad92cb09bb"
   },
   "summary": {
     "resource_count": 4,
@@ -60,11 +60,11 @@
     "allocation_count": 12,
     "pointer_patch_count": 16,
     "allocation_start": 12189696,
-    "allocation_end": 12194540,
+    "allocation_end": 12194544,
     "region_end": 12255232,
-    "stored_payload_bytes": 4831,
-    "allocation_span": 4844,
-    "remaining_bytes": 60692,
+    "stored_payload_bytes": 4835,
+    "allocation_span": 4848,
+    "remaining_bytes": 60688,
     "applied_patch_count": 28
   },
   "allocations": [
@@ -74,7 +74,7 @@
       "offset": 12189696,
       "resource_id": 0,
       "decompressed_size": 4096,
-      "encoded_size": 1111,
+      "encoded_size": 1112,
       "replacement_sha256": "ff3e1b090a18378eb51b2c25ad7e9115ea33d6c9afe11ceeb09cbd392a5496c5",
       "tile_count": 128
     },
@@ -119,7 +119,7 @@
       "offset": 12190912,
       "resource_id": 1,
       "decompressed_size": 4096,
-      "encoded_size": 1186,
+      "encoded_size": 1187,
       "replacement_sha256": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
       "tile_count": 128
     },
@@ -164,23 +164,23 @@
       "offset": 12192204,
       "resource_id": 2,
       "decompressed_size": 4096,
-      "encoded_size": 1112,
+      "encoded_size": 1113,
       "replacement_sha256": "ff180630c246cf7c9e161576b33c0e734157a2a927c07be6bc90a80619654079",
       "tile_count": 128
     },
     {
-      "id": "cutscene-obj-palette-ba0e24",
+      "id": "cutscene-obj-palette-ba0e28",
       "resource_type": "palette",
-      "offset": 12193316,
+      "offset": 12193320,
       "resource_id": 2,
       "decompressed_size": 32,
       "encoded_size": 22,
       "replacement_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
     },
     {
-      "id": "cutscene-obj-resource_bundle-ba0e3c",
+      "id": "cutscene-obj-resource_bundle-ba0e40",
       "resource_type": "resource_bundle",
-      "offset": 12193340,
+      "offset": 12193344,
       "resource_id": 2,
       "frame_count": 2,
       "animation_count": 2,
@@ -192,40 +192,40 @@
         1,
         1
       ],
-      "definition_table_pointer": 146411132,
-      "animation_table_pointer": 146411140,
+      "definition_table_pointer": 146411136,
+      "animation_table_pointer": 146411144,
       "component_pointers": [
-        146411068,
-        146411092
+        146411072,
+        146411096
       ],
       "sequence_pointers": [
-        146411116,
-        146411124
+        146411120,
+        146411128
       ]
     },
     {
-      "id": "cutscene-obj-graphics-ba0e8c",
+      "id": "cutscene-obj-graphics-ba0e90",
       "resource_type": "graphics",
-      "offset": 12193420,
+      "offset": 12193424,
       "resource_id": 3,
       "decompressed_size": 2048,
-      "encoded_size": 934,
+      "encoded_size": 935,
       "replacement_sha256": "d2b44e9c68dc23771249bedfb7397de35f19e6769f99a91f86512b7604b43ec1",
       "tile_count": 64
     },
     {
-      "id": "cutscene-obj-palette-ba1234",
+      "id": "cutscene-obj-palette-ba1238",
       "resource_type": "palette",
-      "offset": 12194356,
+      "offset": 12194360,
       "resource_id": 3,
       "decompressed_size": 32,
       "encoded_size": 22,
       "replacement_sha256": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
     },
     {
-      "id": "cutscene-obj-resource_bundle-ba124c",
+      "id": "cutscene-obj-resource_bundle-ba1250",
       "resource_type": "resource_bundle",
-      "offset": 12194380,
+      "offset": 12194384,
       "resource_id": 3,
       "frame_count": 4,
       "animation_count": 4,
@@ -241,19 +241,19 @@
         1,
         1
       ],
-      "definition_table_pointer": 146412236,
-      "animation_table_pointer": 146412252,
+      "definition_table_pointer": 146412240,
+      "animation_table_pointer": 146412256,
       "component_pointers": [
-        146412108,
-        146412132,
-        146412156,
-        146412180
+        146412112,
+        146412136,
+        146412160,
+        146412184
       ],
       "sequence_pointers": [
-        146412204,
-        146412212,
-        146412220,
-        146412228
+        146412208,
+        146412216,
+        146412224,
+        146412232
       ]
     }
   ],
@@ -276,10 +276,10 @@
     "keyframe_count": 11,
     "allocation_count": 12,
     "pointer_patch_count": 16,
-    "allocation_end": 12195304,
-    "output_rom_sha256": "f6e1a299f2b8b900abfb923089b6921bee42fd539d5504d6ccbf07f0935f0660"
+    "allocation_end": 12195312,
+    "output_rom_sha256": "06b097e4834fee98eb36de08be94a71f7744e3537d2851d6f660ee364e006c25"
   },
-  "output_rom_sha256": "00ceb2b2c7715feb176de30a2c190611155e7d753846d2f419acec21bd5c1a5e",
+  "output_rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
   "scope": {
     "proved": "All four fixed Cutscene OBJ IDs, 10 source frames/components, 10 source animations/keyframes and all 36 exact source pointer references are accounted for; 12 allocations and 16 root pointer patches rebuild a 16 MiB ROM.",
     "editable": "Each fixed ID may use 1..256 complete 4bpp tiles and one 16-color palette. The fixed 2/2/2/4 frame and animation slots each support 1..2 valid GBA OBJ components and a non-empty variable keyframe timeline with u16 durations.",

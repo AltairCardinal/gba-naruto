@@ -32,14 +32,14 @@
     "tools/import_world_map_background_relocations.py": "97c84865bc7be957e37dc53c0e4947cd24acef1de47531d5a12b4c0620b0fe9e",
     "tools/export_world_map_backgrounds.py": "4b93d729fdeb7cca34232a71cfb209acb4c01ccfbd5dee03a715001079c19824",
     "tools/verify_world_map_backgrounds.py": "cba7504d100cf54c0f9fe5d30b1b410f37e86b455f3fbbc3ebe5cfb41fbeae2d",
-    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
     "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
     "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
     "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
     "tools/export_world_map_background_relocation_audit.py": "50ace99cb4741476b053754f1b1dbfe02a73626dd954a45dc9b329790fbfdfb1",
-    "tools/verify_world_map_background_relocation_audit.py": "d7175ded768a7d602b3d4415a2add57ee87b2db098524776f84a07ab65af2b71"
+    "tools/verify_world_map_background_relocation_audit.py": "581425d998bae99c828b61a5bc68bb7064626c5ba939e2aa8a92a77343954c9f"
   },
   "summary": {
     "page_count": 3,
@@ -50,11 +50,11 @@
     "allocation_count": 7,
     "pointer_patch_count": 9,
     "allocation_start": 11997184,
-    "allocation_end": 12087268,
+    "allocation_end": 12087376,
     "region_end": 12124160,
-    "stored_payload_bytes": 90082,
-    "allocation_span": 90084,
-    "remaining_bytes": 36892,
+    "stored_payload_bytes": 90191,
+    "allocation_span": 90192,
+    "remaining_bytes": 36784,
     "applied_patch_count": 16
   },
   "resources": [
@@ -64,7 +64,7 @@
       "resource_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
       "replacement_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
       "decompressed_size": 32768,
-      "encoded_size": 31963,
+      "encoded_size": 31988,
       "storage_kind": "lz77",
       "new_pointer": 146214912,
       "offset": 11997184,
@@ -94,10 +94,10 @@
       "resource_sha256": "06f18201563ade7d8d824bb225a3f97f7f51cd6c4d878a8d27e6c443cbe8affe",
       "replacement_sha256": "06f18201563ade7d8d824bb225a3f97f7f51cd6c4d878a8d27e6c443cbe8affe",
       "decompressed_size": 32768,
-      "encoded_size": 27319,
+      "encoded_size": 27356,
       "storage_kind": "lz77",
-      "new_pointer": 146246876,
-      "offset": 12029148,
+      "new_pointer": 146246900,
+      "offset": 12029172,
       "physical_offsets": [
         4495292
       ],
@@ -124,10 +124,10 @@
       "resource_sha256": "5d2b7ae2220f3492dd897738749e5eb8dad326b0764a4169db0da1bcd8395fdb",
       "replacement_sha256": "5d2b7ae2220f3492dd897738749e5eb8dad326b0764a4169db0da1bcd8395fdb",
       "decompressed_size": 32768,
-      "encoded_size": 28652,
+      "encoded_size": 28699,
       "storage_kind": "lz77",
-      "new_pointer": 146274196,
-      "offset": 12056468,
+      "new_pointer": 146274256,
+      "offset": 12056528,
       "physical_offsets": [
         4524156
       ],
@@ -156,8 +156,8 @@
       "decompressed_size": 1200,
       "encoded_size": 1188,
       "storage_kind": "lz77",
-      "new_pointer": 146302848,
-      "offset": 12085120,
+      "new_pointer": 146302956,
+      "offset": 12085228,
       "physical_offsets": [
         4493784,
         4522648,
@@ -206,8 +206,8 @@
       "decompressed_size": 320,
       "encoded_size": 320,
       "storage_kind": "raw",
-      "new_pointer": 146304036,
-      "offset": 12086308,
+      "new_pointer": 146304144,
+      "offset": 12086416,
       "physical_offsets": [
         4461476
       ],
@@ -236,8 +236,8 @@
       "decompressed_size": 320,
       "encoded_size": 320,
       "storage_kind": "raw",
-      "new_pointer": 146304356,
-      "offset": 12086628,
+      "new_pointer": 146304464,
+      "offset": 12086736,
       "physical_offsets": [
         4494972
       ],
@@ -266,8 +266,8 @@
       "decompressed_size": 320,
       "encoded_size": 320,
       "storage_kind": "raw",
-      "new_pointer": 146304676,
-      "offset": 12086948,
+      "new_pointer": 146304784,
+      "offset": 12087056,
       "physical_offsets": [
         4523836
       ],
@@ -289,7 +289,7 @@
       "source_file": "artifacts/world-map-backgrounds-v1/page-02/palette.bgr555.bin"
     }
   ],
-  "output_rom_sha256": "f8f659f5c5f3b4108ef39bc9f9be8f0898d5a9b4d885ccee4dd41a71f9dbd3fe",
+  "output_rom_sha256": "7bc1b295cee244e4d8e16611597d077eafd47694cb09d2b8a35ba302584e524e",
   "scope": {
     "proved": "All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region.",
     "editable": "Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.",

@@ -32,6 +32,7 @@ IMPLEMENTATION_PATHS = (
     "tools/build_mod.py",
     "tools/automated_test.py",
     "tests/test_import_bg_resources.py",
+    "tests/test_vram_safe_fixed_slot_audits.py",
 )
 
 
@@ -129,6 +130,8 @@ def _encode(data: bytes) -> bytes:
                     distance = cursor - previous
                     if distance > 0x1000:
                         break
+                    if distance == 1:
+                        continue
                     length = 3
                     while (
                         length < 18
@@ -420,7 +423,7 @@ def _expected_payload(root: Path) -> dict[str, Any]:
         mutation_content_fit,
         mutation_slot_fit,
         mutation_logical_fit,
-    ) != (31, 36, 36, 31, 36, 20, 21, 21):
+    ) != (31, 36, 36, 31, 36, 10, 10, 10):
         raise ValueError("BG write-back denominator mismatch")
     scope = {
         "all_content_resources_audited": True,
@@ -432,6 +435,7 @@ def _expected_payload(root: Path) -> dict[str, Any]:
         "explicit_physical_slot_targeting_available": True,
         "linked_resource_validation_complete": True,
         "deterministic_first_unit_mutation_audited": True,
+        "vram_safe_encoding_audited": True,
         "arbitrary_edit_capacity_complete": False,
         "resource_relocation_complete": False,
         "pointer_rewrite_complete": False,

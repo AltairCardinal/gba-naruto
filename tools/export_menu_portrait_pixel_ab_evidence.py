@@ -62,7 +62,7 @@ DOMAINS = {
 }
 EXPECTED_DIFFERENCES = {
     "EWRAM": [0x3CC0],
-    "IWRAM": [0x7F9C],
+    "IWRAM": [],
     "IO": [],
     "PRAM": [],
     "VRAM": [0x11440],
@@ -157,7 +157,7 @@ def _pixels(baseline: Path, candidate: Path) -> dict[str, Any]:
             "x": 56,
             "y": 48,
             "before_rgb": [239, 189, 165],
-            "after_rgb": [222, 222, 82],
+            "after_rgb": [99, 74, 57],
         }
     ]:
         raise ValueError("menu portrait final pixel isolation mismatch")

@@ -31,9 +31,9 @@
   "implementation": {
     "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
     "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
-    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
     "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
-    "tools/verify_battle_effect_resource_writeback_audit.py": "3a04ebcf76cf4cafb956bdd09a7aed128d21083cb148e1d8bbca56a0d6816e24",
+    "tools/verify_battle_effect_resource_writeback_audit.py": "117042e30a9cb84bca910379321fd145341652779db1f2c53ca09c41d933f708",
     "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
     "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
@@ -50,11 +50,11 @@
     "allocation_count": 34,
     "pointer_patch_count": 36,
     "allocation_start": 11796480,
-    "allocation_end": 11816740,
+    "allocation_end": 11816792,
     "region_end": 11862016,
-    "stored_payload_bytes": 20216,
-    "allocation_span": 20260,
-    "remaining_bytes": 45276,
+    "stored_payload_bytes": 20269,
+    "allocation_span": 20312,
+    "remaining_bytes": 45224,
     "applied_patch_count": 70
   },
   "resources": [
@@ -64,7 +64,7 @@
       "resource_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
       "replacement_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
       "decompressed_size": 1024,
-      "encoded_size": 734,
+      "encoded_size": 735,
       "new_pointer": 146014208,
       "offset": 11796480,
       "physical_offsets": [
@@ -94,7 +94,7 @@
       "resource_sha256": "baf6d16005215ced81fbddd5597f08cbc12441e468e737be9a3fb9a89ac04b67",
       "replacement_sha256": "baf6d16005215ced81fbddd5597f08cbc12441e468e737be9a3fb9a89ac04b67",
       "decompressed_size": 32,
-      "encoded_size": 28,
+      "encoded_size": 29,
       "new_pointer": 146014944,
       "offset": 11797216,
       "physical_offsets": [
@@ -124,9 +124,9 @@
       "resource_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
       "replacement_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
       "decompressed_size": 9728,
-      "encoded_size": 5289,
-      "new_pointer": 146014972,
-      "offset": 11797244,
+      "encoded_size": 5294,
+      "new_pointer": 146014976,
+      "offset": 11797248,
       "physical_offsets": [
         3410680
       ],
@@ -165,8 +165,8 @@
       "replacement_sha256": "70c511e326da6ce384f358d0dfe798d71dd44f181f6bcaa693e77aa456f5422e",
       "decompressed_size": 32,
       "encoded_size": 40,
-      "new_pointer": 146020264,
-      "offset": 11802536,
+      "new_pointer": 146020272,
+      "offset": 11802544,
       "physical_offsets": [
         3415976
       ],
@@ -195,8 +195,8 @@
       "replacement_sha256": "c0e21753834c2ca38588891ecf78596fa7234012bb0c1a3f69ceb2ccc7619f95",
       "decompressed_size": 32,
       "encoded_size": 40,
-      "new_pointer": 146020304,
-      "offset": 11802576,
+      "new_pointer": 146020312,
+      "offset": 11802584,
       "physical_offsets": [
         3416896
       ],
@@ -224,9 +224,9 @@
       "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
       "replacement_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
       "decompressed_size": 2048,
-      "encoded_size": 445,
-      "new_pointer": 146020344,
-      "offset": 11802616,
+      "encoded_size": 447,
+      "new_pointer": 146020352,
+      "offset": 11802624,
       "physical_offsets": [
         3417816
       ],
@@ -254,9 +254,9 @@
       "resource_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
       "replacement_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
       "decompressed_size": 32,
-      "encoded_size": 21,
-      "new_pointer": 146020792,
-      "offset": 11803064,
+      "encoded_size": 22,
+      "new_pointer": 146020800,
+      "offset": 11803072,
       "physical_offsets": [
         3418264
       ],
@@ -284,9 +284,9 @@
       "resource_sha256": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
       "replacement_sha256": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
       "decompressed_size": 3840,
-      "encoded_size": 1164,
-      "new_pointer": 146020816,
-      "offset": 11803088,
+      "encoded_size": 1165,
+      "new_pointer": 146020824,
+      "offset": 11803096,
       "physical_offsets": [
         3418424
       ],
@@ -314,9 +314,9 @@
       "resource_sha256": "c00b7ea1d6748f60c387c12d2083da584a65a7e654e61a95bdfe25d1a803dc61",
       "replacement_sha256": "c00b7ea1d6748f60c387c12d2083da584a65a7e654e61a95bdfe25d1a803dc61",
       "decompressed_size": 32,
-      "encoded_size": 26,
-      "new_pointer": 146021980,
-      "offset": 11804252,
+      "encoded_size": 27,
+      "new_pointer": 146021992,
+      "offset": 11804264,
       "physical_offsets": [
         3419592
       ],
@@ -344,9 +344,9 @@
       "resource_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
       "replacement_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
       "decompressed_size": 960,
-      "encoded_size": 493,
-      "new_pointer": 146022008,
-      "offset": 11804280,
+      "encoded_size": 494,
+      "new_pointer": 146022020,
+      "offset": 11804292,
       "physical_offsets": [
         3420444
       ],
@@ -375,8 +375,8 @@
       "replacement_sha256": "6393b73a92bf5e950fdf7640a26ba76ea995c53aa8b984bc376559f0004d1aa5",
       "decompressed_size": 32,
       "encoded_size": 27,
-      "new_pointer": 146022504,
-      "offset": 11804776,
+      "new_pointer": 146022516,
+      "offset": 11804788,
       "physical_offsets": [
         3420940
       ],
@@ -404,9 +404,9 @@
       "resource_sha256": "4839e96e137469eb2a4ddc02c14e9c2f3b197a77b62467f9a19f70fea5ff2188",
       "replacement_sha256": "4839e96e137469eb2a4ddc02c14e9c2f3b197a77b62467f9a19f70fea5ff2188",
       "decompressed_size": 1024,
-      "encoded_size": 763,
-      "new_pointer": 146022532,
-      "offset": 11804804,
+      "encoded_size": 764,
+      "new_pointer": 146022544,
+      "offset": 11804816,
       "physical_offsets": [
         3422048
       ],
@@ -434,9 +434,9 @@
       "resource_sha256": "ade17055c76ef587fea1acb9a01737ee10c199754b961c3dfc4d2a874fac85a4",
       "replacement_sha256": "ade17055c76ef587fea1acb9a01737ee10c199754b961c3dfc4d2a874fac85a4",
       "decompressed_size": 32,
-      "encoded_size": 28,
-      "new_pointer": 146023296,
-      "offset": 11805568,
+      "encoded_size": 29,
+      "new_pointer": 146023308,
+      "offset": 11805580,
       "physical_offsets": [
         3422812
       ],
@@ -464,9 +464,9 @@
       "resource_sha256": "42f39b22b077c6e33349f89436b07aa7d4e83527023b43e5d3347f7d4eb76749",
       "replacement_sha256": "42f39b22b077c6e33349f89436b07aa7d4e83527023b43e5d3347f7d4eb76749",
       "decompressed_size": 2304,
-      "encoded_size": 1303,
-      "new_pointer": 146023324,
-      "offset": 11805596,
+      "encoded_size": 1304,
+      "new_pointer": 146023340,
+      "offset": 11805612,
       "physical_offsets": [
         3423624
       ],
@@ -494,9 +494,9 @@
       "resource_sha256": "609fd93993e4e4222154a44932ba1d634c070864d5e2ac3de7e186216cd8a9d0",
       "replacement_sha256": "609fd93993e4e4222154a44932ba1d634c070864d5e2ac3de7e186216cd8a9d0",
       "decompressed_size": 32,
-      "encoded_size": 32,
-      "new_pointer": 146024628,
-      "offset": 11806900,
+      "encoded_size": 34,
+      "new_pointer": 146024644,
+      "offset": 11806916,
       "physical_offsets": [
         3424928
       ],
@@ -524,9 +524,9 @@
       "resource_sha256": "d0474020d782fc88a6eeaa25768b09d367f3d9566354d713246b51d2179ede05",
       "replacement_sha256": "d0474020d782fc88a6eeaa25768b09d367f3d9566354d713246b51d2179ede05",
       "decompressed_size": 1024,
-      "encoded_size": 553,
-      "new_pointer": 146024660,
-      "offset": 11806932,
+      "encoded_size": 554,
+      "new_pointer": 146024680,
+      "offset": 11806952,
       "physical_offsets": [
         3425664
       ],
@@ -555,8 +555,8 @@
       "replacement_sha256": "04cfd54690521de6ca3649fe20c743c0c439273a66860671bb3614a00db6c413",
       "decompressed_size": 32,
       "encoded_size": 40,
-      "new_pointer": 146025216,
-      "offset": 11807488,
+      "new_pointer": 146025236,
+      "offset": 11807508,
       "physical_offsets": [
         3426220
       ],
@@ -584,9 +584,9 @@
       "resource_sha256": "942c4ee118b7c21375ee8386fc253f0820dc0297105b5b0a4edb574188ef0906",
       "replacement_sha256": "942c4ee118b7c21375ee8386fc253f0820dc0297105b5b0a4edb574188ef0906",
       "decompressed_size": 768,
-      "encoded_size": 234,
-      "new_pointer": 146025256,
-      "offset": 11807528,
+      "encoded_size": 235,
+      "new_pointer": 146025276,
+      "offset": 11807548,
       "physical_offsets": [
         3427864
       ],
@@ -615,8 +615,8 @@
       "replacement_sha256": "5c973ed0591a365d58cf976cb8bd6b5cf176bd620c79416475f3c4f98782cd0c",
       "decompressed_size": 32,
       "encoded_size": 27,
-      "new_pointer": 146025492,
-      "offset": 11807764,
+      "new_pointer": 146025512,
+      "offset": 11807784,
       "physical_offsets": [
         3428100
       ],
@@ -644,9 +644,9 @@
       "resource_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
       "replacement_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
       "decompressed_size": 1664,
-      "encoded_size": 486,
-      "new_pointer": 146025520,
-      "offset": 11807792,
+      "encoded_size": 488,
+      "new_pointer": 146025540,
+      "offset": 11807812,
       "physical_offsets": [
         3429020
       ],
@@ -674,9 +674,9 @@
       "resource_sha256": "29df643a21db41dd57a89be093d1fd7415717856dc018da65bc40926d5109b0c",
       "replacement_sha256": "29df643a21db41dd57a89be093d1fd7415717856dc018da65bc40926d5109b0c",
       "decompressed_size": 32,
-      "encoded_size": 26,
-      "new_pointer": 146026008,
-      "offset": 11808280,
+      "encoded_size": 27,
+      "new_pointer": 146026028,
+      "offset": 11808300,
       "physical_offsets": [
         3429508
       ],
@@ -704,9 +704,9 @@
       "resource_sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
       "replacement_sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
       "decompressed_size": 2176,
-      "encoded_size": 1104,
-      "new_pointer": 146026036,
-      "offset": 11808308,
+      "encoded_size": 1106,
+      "new_pointer": 146026056,
+      "offset": 11808328,
       "physical_offsets": [
         3429736
       ],
@@ -734,9 +734,9 @@
       "resource_sha256": "79c80aa69e19aa0034f6b9828a5d9b7b6d9499b67b93c72f04d3ffcd0c7a8e43",
       "replacement_sha256": "79c80aa69e19aa0034f6b9828a5d9b7b6d9499b67b93c72f04d3ffcd0c7a8e43",
       "decompressed_size": 32,
-      "encoded_size": 26,
-      "new_pointer": 146027140,
-      "offset": 11809412,
+      "encoded_size": 27,
+      "new_pointer": 146027164,
+      "offset": 11809436,
       "physical_offsets": [
         3430844
       ],
@@ -764,9 +764,9 @@
       "resource_sha256": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
       "replacement_sha256": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
       "decompressed_size": 1952,
-      "encoded_size": 553,
-      "new_pointer": 146027168,
-      "offset": 11809440,
+      "encoded_size": 555,
+      "new_pointer": 146027192,
+      "offset": 11809464,
       "physical_offsets": [
         3431112
       ],
@@ -794,9 +794,9 @@
       "resource_sha256": "afb5d06c793a020bbc7d21d56aceaf842e2c994c36d3adae2e458875baa1a4db",
       "replacement_sha256": "afb5d06c793a020bbc7d21d56aceaf842e2c994c36d3adae2e458875baa1a4db",
       "decompressed_size": 32,
-      "encoded_size": 26,
-      "new_pointer": 146027724,
-      "offset": 11809996,
+      "encoded_size": 27,
+      "new_pointer": 146027748,
+      "offset": 11810020,
       "physical_offsets": [
         3431668
       ],
@@ -824,9 +824,9 @@
       "resource_sha256": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
       "replacement_sha256": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
       "decompressed_size": 5120,
-      "encoded_size": 2129,
-      "new_pointer": 146027752,
-      "offset": 11810024,
+      "encoded_size": 2138,
+      "new_pointer": 146027776,
+      "offset": 11810048,
       "physical_offsets": [
         3432036
       ],
@@ -854,9 +854,9 @@
       "resource_sha256": "2a4e16536349b52f028284eacbaa3e6047b02047b6e77af7d26914320b514d29",
       "replacement_sha256": "2a4e16536349b52f028284eacbaa3e6047b02047b6e77af7d26914320b514d29",
       "decompressed_size": 32,
-      "encoded_size": 32,
-      "new_pointer": 146029884,
-      "offset": 11812156,
+      "encoded_size": 34,
+      "new_pointer": 146029916,
+      "offset": 11812188,
       "physical_offsets": [
         3434176
       ],
@@ -884,9 +884,9 @@
       "resource_sha256": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
       "replacement_sha256": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
       "decompressed_size": 3584,
-      "encoded_size": 1554,
-      "new_pointer": 146029916,
-      "offset": 11812188,
+      "encoded_size": 1560,
+      "new_pointer": 146029952,
+      "offset": 11812224,
       "physical_offsets": [
         3434776
       ],
@@ -914,9 +914,9 @@
       "resource_sha256": "cb86625b5c5d976d388d055aeeb9cbae97effd7efb021bce01e252030b54d1e1",
       "replacement_sha256": "cb86625b5c5d976d388d055aeeb9cbae97effd7efb021bce01e252030b54d1e1",
       "decompressed_size": 32,
-      "encoded_size": 32,
-      "new_pointer": 146031472,
-      "offset": 11813744,
+      "encoded_size": 34,
+      "new_pointer": 146031512,
+      "offset": 11813784,
       "physical_offsets": [
         3436336
       ],
@@ -944,9 +944,9 @@
       "resource_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
       "replacement_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
       "decompressed_size": 2560,
-      "encoded_size": 780,
-      "new_pointer": 146031504,
-      "offset": 11813776,
+      "encoded_size": 781,
+      "new_pointer": 146031548,
+      "offset": 11813820,
       "physical_offsets": [
         3436908
       ],
@@ -974,9 +974,9 @@
       "resource_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
       "replacement_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
       "decompressed_size": 32,
-      "encoded_size": 39,
-      "new_pointer": 146032284,
-      "offset": 11814556,
+      "encoded_size": 40,
+      "new_pointer": 146032332,
+      "offset": 11814604,
       "physical_offsets": [
         3437692,
         3438004
@@ -1015,9 +1015,9 @@
       "resource_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
       "replacement_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
       "decompressed_size": 256,
-      "encoded_size": 102,
-      "new_pointer": 146032324,
-      "offset": 11814596,
+      "encoded_size": 103,
+      "new_pointer": 146032372,
+      "offset": 11814644,
       "physical_offsets": [
         3437900
       ],
@@ -1045,9 +1045,9 @@
       "resource_sha256": "9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55",
       "replacement_sha256": "9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55",
       "decompressed_size": 3584,
-      "encoded_size": 2000,
-      "new_pointer": 146032428,
-      "offset": 11814700,
+      "encoded_size": 2002,
+      "new_pointer": 146032476,
+      "offset": 11814748,
       "physical_offsets": [
         3438836
       ],
@@ -1076,8 +1076,8 @@
       "replacement_sha256": "d53a7a56bded0b6727002a3fb4ad69454dccee15e8f849ad3a16c3b5639244c1",
       "decompressed_size": 32,
       "encoded_size": 40,
-      "new_pointer": 146034428,
-      "offset": 11816700,
+      "new_pointer": 146034480,
+      "offset": 11816752,
       "physical_offsets": [
         3440840
       ],
@@ -1100,7 +1100,7 @@
       "source_file": "artifacts/battle-effect-resource-pairs-v1/group-18-palette-bgr555.bin"
     }
   ],
-  "output_rom_sha256": "83507cad7ab111bd32d2bb1860e39e3d60b4f2a2c76cf92518dc0112b0b254e7",
+  "output_rom_sha256": "48c394ee4429bad64fd5d64f2a136601ef4b70b168d677a97f5436c46bbdab7a",
   "scope": {
     "proved": "All 34 battle-effect content resources, representing 35 physical LZ77 payloads and all 36 exact pair-table pointer fields, relocate into the registered battle-effects image region.",
     "editable": "Complete 4bpp graphics tiles and 32-byte palettes may change without original compressed-slot limits; catalog-approved aliases may split while every selected graphics/palette pair remains explicit.",

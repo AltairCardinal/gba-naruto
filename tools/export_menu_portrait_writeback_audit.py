@@ -32,6 +32,7 @@ IMPLEMENTATION_PATHS = (
     "tools/verify_menu_portrait_writeback_audit.py",
     "tools/build_mod.py",
     "tests/test_import_menu_portraits.py",
+    "tests/test_vram_safe_fixed_slot_audits.py",
 )
 
 
@@ -87,11 +88,16 @@ def _resource_record(rom: bytes, source: dict[str, Any]) -> dict[str, Any]:
     mutation_encoded = encode_gba_lz77(mutated_bytes)
     if lz77_decompress(mutation_encoded, 0) != mutated_bytes:
         raise ValueError(f"resource {resource_id} mutation round-trip mismatch")
-    fixed_slot = mutation_encoded + compressed[len(mutation_encoded) :]
-    if len(fixed_slot) != slot_size:
-        raise ValueError(f"resource {resource_id} mutation exceeds fixed slot")
-    if lz77_decompress(fixed_slot, 0) != mutated_bytes:
-        raise ValueError(f"resource {resource_id} fixed-slot decode mismatch")
+    mutation_fit = len(mutation_encoded) <= slot_size
+    fixed_slot = None
+    fixed_slot_decode_verified = False
+    if mutation_fit:
+        fixed_slot = mutation_encoded + compressed[len(mutation_encoded) :]
+        if len(fixed_slot) != slot_size:
+            raise ValueError(f"resource {resource_id} fixed-slot size mismatch")
+        if lz77_decompress(fixed_slot, 0) != mutated_bytes:
+            raise ValueError(f"resource {resource_id} fixed-slot decode mismatch")
+        fixed_slot_decode_verified = True
 
     return {
         "resource_id": resource_id,
@@ -115,9 +121,11 @@ def _resource_record(rom: bytes, source: dict[str, Any]) -> dict[str, Any]:
         "single_pixel_mutation_encoded_sha256": _sha256_bytes(mutation_encoded),
         "single_pixel_mutation_decompressed_sha256": _sha256_bytes(mutated_bytes),
         "single_pixel_mutation_slot_margin": slot_size - len(mutation_encoded),
-        "single_pixel_mutation_fit": len(mutation_encoded) <= slot_size,
-        "fixed_slot_patch_sha256": _sha256_bytes(fixed_slot),
-        "fixed_slot_decode_verified": True,
+        "single_pixel_mutation_fit": mutation_fit,
+        "fixed_slot_patch_sha256": (
+            _sha256_bytes(fixed_slot) if fixed_slot is not None else None
+        ),
+        "fixed_slot_decode_verified": fixed_slot_decode_verified,
         "palette_size": len(palette),
         "palette_fixed_length_writeback": len(palette) == 128,
     }
@@ -134,14 +142,16 @@ def _build_payload(root: Path) -> dict[str, Any]:
     original_fit = sum(row["original_roundtrip_fit"] for row in resources)
     mutation_fit = sum(row["single_pixel_mutation_fit"] for row in resources)
     palette_fit = sum(row["palette_fixed_length_writeback"] for row in resources)
-    if (original_fit, mutation_fit, palette_fit) != (74, 74, 74):
+    if (original_fit, mutation_fit, palette_fit) != (74, 37, 74):
         raise ValueError("menu portrait fixed-slot denominator is incomplete")
 
     scope = {
         "all_unique_resources_audited": True,
         "all_logical_portrait_aliases_accounted": True,
         "original_roundtrip_capacity_complete": True,
-        "single_pixel_mutation_capacity_complete": True,
+        "single_pixel_mutation_capacity_complete": mutation_fit == len(resources),
+        "vram_safe_encoding_audited": True,
+        "fixed_slot_overflow_reported": True,
         "fixed_length_palette_writeback_complete": True,
         "guarded_in_place_importer_available": True,
         "arbitrary_png_slot_fit_complete": False,

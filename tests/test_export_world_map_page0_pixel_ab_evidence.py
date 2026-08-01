@@ -43,7 +43,7 @@ class ExportWorldMapPage0PixelAbEvidenceTests(unittest.TestCase):
                 ],
                 evidence["runtime"]["pixels"]["changes"],
             )
-            self.assertEqual(806, evidence["runtime"]["common_overwrite_count"])
+            self.assertEqual(0, evidence["runtime"]["common_overwrite_count"])
             manifest = json.loads(
                 (output / "manifest.json").read_text(encoding="utf-8")
             )

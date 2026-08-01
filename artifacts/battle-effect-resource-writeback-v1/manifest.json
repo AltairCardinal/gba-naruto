@@ -3,10 +3,10 @@
   "artifact_schema": "battle-effect-resource-writeback-audit-v1",
   "artifact_status": "accepted",
   "files": {
-    "battle-effect-resource-writeback.json": "e03ff73fe441f639fdaa1cc89006bc9d6fb9a3a04d6f4b5d86bef748bf228b17"
+    "battle-effect-resource-writeback.json": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534"
   },
   "payload_file": "battle-effect-resource-writeback.json",
-  "payload_sha256": "e03ff73fe441f639fdaa1cc89006bc9d6fb9a3a04d6f4b5d86bef748bf228b17",
+  "payload_sha256": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534",
   "schema": "git-artifact-promotion-v1",
   "scope": {
     "all_content_resources_audited": true,
@@ -21,7 +21,8 @@
     "original_roundtrip_capacity_complete": true,
     "pointer_rewrite_complete": false,
     "resource_relocation_complete": false,
-    "runtime_pixel_equivalence": false
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
   },
   "verifier": {
     "command": [

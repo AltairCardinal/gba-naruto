@@ -23,8 +23,8 @@
   "input_state_sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555",
   "isolation": {
     "changed_span": [
-      12011859,
-      12011860
+      12011876,
+      12011877
     ],
     "decoded_graphics_offsets": [
       15588
@@ -32,7 +32,7 @@
     "page_1_and_2_descriptors_unchanged": true,
     "rom_changed_offset_count": 1,
     "rom_changed_offsets": [
-      12011859
+      12011876
     ],
     "same_allocation_address": true,
     "same_redirect_pointer": true
@@ -47,7 +47,7 @@
       "patch_ledger": [
         {
           "after_hex": null,
-          "after_sha256": "c283d6f2f5cde240d74e3de127a1b3cc53f538218a6045287318b10898247e2c",
+          "after_sha256": "1090cdfc949d04e8bb6e106b7a7bd9cba5daa5130197b9fd15bc1cb93a7b0fc9",
           "allocation": {
             "owner": "sequel_image_assets",
             "partition": "sequel-image-assets",
@@ -56,13 +56,13 @@
           },
           "asset_type": "world_map_background_relocation",
           "before_hex": null,
-          "before_sha256": "7284b1ea1217a670226ea7b10ff3e7974caee04e3a28ff041e1d66447604fcf1",
+          "before_sha256": "49cd7d16d73cb43eaf401509af3f51cdecdc35effe6c6a1b4279f7ca3cbfbe0c",
           "id": "world-map-graphics-00",
           "kind": "allocation",
           "new_pointer": 146214912,
           "offset": 11997184,
           "resource_type": "graphics",
-          "size": 31963,
+          "size": 31988,
           "target_pointer_offsets": [
             5931028
           ]
@@ -86,7 +86,7 @@
         }
       ],
       "rom_path": "baseline/baseline.gba",
-      "rom_sha256": "58b2a447b125fdf4ae0099a0b41de9c5ea7e32fa5f2bde600f1c2d867198e6c1",
+      "rom_sha256": "f0493edf59196524786fa234a7fdb64dc524e6d89c509e234ea00361fb92ca85",
       "rom_size": 16777216,
       "spec_path": "baseline/spec.json"
     },
@@ -96,7 +96,7 @@
       "patch_ledger": [
         {
           "after_hex": null,
-          "after_sha256": "4ea6655959e9c14b7421849c28ee83d889ecf803f6ddb3fa2f62bf553cc45673",
+          "after_sha256": "cfc4b2c29be15716e68d1649c60694dcbe5fa2122ea92a55709c6989ee310e6c",
           "allocation": {
             "owner": "sequel_image_assets",
             "partition": "sequel-image-assets",
@@ -105,13 +105,13 @@
           },
           "asset_type": "world_map_background_relocation",
           "before_hex": null,
-          "before_sha256": "7284b1ea1217a670226ea7b10ff3e7974caee04e3a28ff041e1d66447604fcf1",
+          "before_sha256": "49cd7d16d73cb43eaf401509af3f51cdecdc35effe6c6a1b4279f7ca3cbfbe0c",
           "id": "world-map-graphics-00",
           "kind": "allocation",
           "new_pointer": 146214912,
           "offset": 11997184,
           "resource_type": "graphics",
-          "size": 31963,
+          "size": 31988,
           "target_pointer_offsets": [
             5931028
           ]
@@ -135,7 +135,7 @@
         }
       ],
       "rom_path": "candidate/candidate.gba",
-      "rom_sha256": "a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b",
+      "rom_sha256": "b0202dace931eae32e91a270636578e0fb0d8d59ef1edc521693909f7f0987aa",
       "rom_size": 16777216,
       "spec_path": "candidate/spec.json"
     }

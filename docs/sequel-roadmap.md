@@ -1475,7 +1475,7 @@ WebSocket
   世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
   `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
   强制无重叠、无空洞和对齐。地图全量迁移占
-  384,707 bytes、末端`0x9DDEC3`、区域余663,869 bytes。tile与地图全量组合在
+  385,086 bytes、末端`0x9DE03E`、区域余663,490 bytes。tile与地图全量组合在
   同一安全门应用489个分配和958个指针补丁，共1,447项无冲突。成果位于
   `artifacts/map-resource-relocation-v1/`，说明见
   `notes/map-resource-relocation-20260731.md`。修改后全地图像素、动态overlay、
@@ -1485,7 +1485,7 @@ WebSocket
   63×5矩阵与全局variant 5的622个指针字段经全ROM精确扫描，额外引用为0。
   新`menu_portrait_relocation`类型继续接受80×80 indexed PNG，可按catalog约束
   拆分pair别名，并把140个payload迁入注册的`0xA80000..0xB00000`区域。全量
-  preservation占230,344 bytes、末端`0xAB83C8`、区域余293,944 bytes；独立
+  preservation占231,372 bytes、末端`0xAB87CC`、区域余292,916 bytes；独立
   verifier重建74/140/622分母及完整16 MiB输出。成果位于
   `artifacts/menu-portrait-relocation-v1/`，说明见
   `notes/menu-portrait-relocation-20260731.md`。任意尺寸、可变OBJ布局及修改后
@@ -1808,17 +1808,17 @@ WebSocket
   保持active。
 - 2026-08-01：菜单／剧情立绘新增首条production relocation自然最终像素A/B。
   resource 0有36个逻辑别名，本轮只拆分row 1 / variant 0的pair `0x5A4E14`；两边
-  graphics/palette共同迁移到`0x08A80000/0x08A80CD8`，candidate只把80×80画布
-  `(40,40)`的index `52→55`，解压OBJ stream仅byte 5184不同。两份ROM从自然
+  graphics/palette共同迁移到`0x08A80000/0x08A80CEC`，candidate只把80×80画布
+  `(40,40)`的index `52→14`，解压OBJ stream仅byte 5184不同。两份ROM从自然
   `scenario-41-postbattle-dialogue-9.ss9`独立输入一次A；其下一条脚本命令是
   `0x08031F6E: ShowPortrait(0,1,0)`，输入前目标graphics不在动态OBJ VRAM。
   frame 80的IO/PRAM/OAM完全相同，EWRAM只差`0x02003CC0`，VRAM只差
   `0x06011440`，两边完整6400-byte OBJ流和128-byte palette分别等于各自ROM资源；
-  最终PNG只有屏幕`(56,48)`一个像素由`(239,189,165)→(222,222,82)`，Mode-0
+  最终PNG只有屏幕`(56,48)`一个像素由`(239,189,165)→(99,74,57)`，Mode-0
   compositor也与两张mGBA PNG逐RGB exact。独立verifier自行重建六组件stream、
   BGR555、LZ77、两份16 MiB ROM、自然脚本边界、内存域、OAM、像素及运行来源，
   并拒绝重签后的语义与raw state篡改。两次guard均`completed/0`、非degraded，峰值
-  RSS为55.87890625/56.10546875 MiB。成果位于
+  RSS为55.96484375/56.1328125 MiB。成果位于
   `artifacts/menu-portrait-pixel-ab-v1/`，说明见
   `notes/menu-portrait-pixel-ab-20260801.md`。该链只签发row 1 / variant 0代表样本，
   不外推至其余310个逻辑立绘、全部转场或实体GBA，Goal保持active。
@@ -1828,11 +1828,24 @@ WebSocket
   `112→137`。两边从script cursor `0x08031FE7`、page 0资源尚未装入的自然对白
   checkpoint独立输入一次A；frame 80的EWRAM/IWRAM/IO/PRAM/OAM零差异，VRAM只在
   `0x06007CE4`有该byte差异，最终PNG也只在`(116,76)`由
-  `(189,165,107)→(66,33,0)`。捕获帧有806个graphics byte被两边相同的后续writer
-  覆盖，已按共同offset和值建账，目标byte不在其中；不冒充整份32 KiB仍等于首次
-  loader输出。首轮tile 1候选实际扩散为13个VRAM byte/155个像素，已作为过程式模板
+  `(189,165,107)→(66,33,0)`。安全编码后捕获帧完整32 KiB graphics与各自loader
+  源逐字节一致；旧证据的806-byte差异已在后续回归中确认为编码损坏。首轮tile 1
+  候选实际扩散为13个VRAM byte/155个像素，已作为过程式模板
   假设拒绝。独立verifier重建LZ77、两份16 MiB ROM、page 1/2 descriptor、六个
   内存域、tilemap/palette、renderer、audit/guard及文件全集，并拒绝重签语义和raw
   state篡改。成果位于`artifacts/world-map-page0-pixel-ab-v1/`，说明见
   `notes/world-map-page0-pixel-ab-20260801.md`。page 1/2、切换/解锁、标签、光标和
   实体GBA仍未签发，Goal保持active。
+- 2026-08-01：修复共享 GBA LZ77 编码器与 `LZ77UnCompVram` 不兼容的问题。旧编码
+  允许distance 1重叠复制，字节级离线解压虽正确，但BIOS半字提交VRAM会读到尚未
+  提交的低字节。TDD加入独立VRAM半字解码器和所有独立编码器的distance-1禁用测试；
+  13份图像重定位成果及其依赖证据全部按安全编码重签并独立验证。固定槽位微改动的
+  真实容量修正为菜单立绘37/74、地图70/166、战斗特效23/34、regular BG 10/31；
+  其余编辑继续由已完成的可变长重定位链承载。菜单立绘和世界地图page 0均重新运行
+  mGBA，后者旧有806-byte VRAM“共同覆盖”被证实为编码损坏，修复后完整32 KiB与源
+  一致。新增Cutscene OBJ ID 1自然胜利加载最终像素A/B：完整VRAM只差
+  `0x06016052`，最终只差屏幕`(60,52)`一个像素。三组正式运行峰值均约56 MiB，
+  无mGBA崩溃、进程或监听残留。成果见
+  `notes/vram-safe-lz77-runtime-20260801.md` 与
+  `artifacts/cutscene-obj-id1-pixel-ab-v1/`；其他Cutscene ID/动画与其余资源的逐项
+  自然像素链仍未全量闭合，Goal保持active。

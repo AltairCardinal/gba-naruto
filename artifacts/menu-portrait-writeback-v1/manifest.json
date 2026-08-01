@@ -3,23 +3,25 @@
   "artifact_schema": "menu-portrait-writeback-audit-v1",
   "artifact_status": "accepted",
   "files": {
-    "menu-portrait-writeback.json": "c23d28b50f15a36070efb1bed1db134c0018a4f6753f3277dc93c68693add43a"
+    "menu-portrait-writeback.json": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
   },
   "payload_file": "menu-portrait-writeback.json",
-  "payload_sha256": "c23d28b50f15a36070efb1bed1db134c0018a4f6753f3277dc93c68693add43a",
+  "payload_sha256": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679",
   "schema": "git-artifact-promotion-v1",
   "scope": {
     "all_logical_portrait_aliases_accounted": true,
     "all_unique_resources_audited": true,
     "arbitrary_png_slot_fit_complete": false,
     "fixed_length_palette_writeback_complete": true,
+    "fixed_slot_overflow_reported": true,
     "generic_image_writeback_complete": false,
     "guarded_in_place_importer_available": true,
     "original_roundtrip_capacity_complete": true,
     "pointer_rewrite_complete": false,
     "resource_relocation_complete": false,
     "runtime_pixel_equivalence": false,
-    "single_pixel_mutation_capacity_complete": true
+    "single_pixel_mutation_capacity_complete": false,
+    "vram_safe_encoding_audited": true
   },
   "verifier": {
     "command": [

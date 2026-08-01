@@ -44,13 +44,13 @@
     "tools/export_rom_direct_cpuset_gpu_inventory.py": "305d2896e83d484cf6d5dc14116e91ff5784c8e9378ddc4838c451759b5acbbe",
     "tools/verify_rom_direct_cpuset_gpu_inventory.py": "4a82168231876beba3b1c1511f01697d3ed28474e8982c1bf696f1a272751c95",
     "tools/import_direct_image_palette_relocations.py": "a0e25d3bd6c662306a508c22f497e146f72258e519a064176ac86f28e43e8fd2",
-    "tools/gba_image_export.py": "ed78704408e83bf0953038cf97651b56a4bec3f2a96cb5413a1e1feb1cbbac0e",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
     "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
     "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
     "tools/export_direct_image_palette_relocation_audit.py": "203612572944360adbd673828780280bc2ea65d7d5480c5ac27d130a76c8339d",
-    "tools/verify_direct_image_palette_relocation_audit.py": "79c7b5f287beb43a086d42e7b7307230da2d32aa7a73026e0780a54c5875038b"
+    "tools/verify_direct_image_palette_relocation_audit.py": "fdcf0b9ef0851f2730456a36fa3322df8384baec542bb14fdc5d3036b15de951"
   },
   "summary": {
     "logical_source_count": 18,
@@ -68,7 +68,7 @@
     "allocation_start": 12320768,
     "allocation_end": 12321556,
     "region_end": 12321792,
-    "stored_payload_bytes": 786,
+    "stored_payload_bytes": 788,
     "allocation_span": 788,
     "remaining_bytes": 236,
     "applied_patch_count": 46
@@ -84,7 +84,7 @@
       "new_pointer": 146538496,
       "storage_kind": "lz77",
       "decoded_size": 32,
-      "encoded_size": 35,
+      "encoded_size": 36,
       "color_count": 16,
       "replacement_sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
       "pointer_offsets": [
@@ -103,7 +103,7 @@
       "new_pointer": 146538532,
       "storage_kind": "lz77",
       "decoded_size": 32,
-      "encoded_size": 39,
+      "encoded_size": 40,
       "color_count": 16,
       "replacement_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
       "pointer_offsets": [
@@ -658,12 +658,12 @@
       "alias_offset": 0
     }
   ],
-  "output_rom_sha256": "b6c116f82ce9cf19ab3346bd7149a497c01d7ccbdbc2ce9ea24b04ea6407b6a5",
+  "output_rom_sha256": "638b1534e0e0d5f955ea06266cad783ed05b6a74575273302229bd17988c5cd2",
   "capability_fixture": {
     "mutation": "xor byte 2 in every physical palette and byte 0x22 in 0x08405FF0 to cover its nested logical alias",
     "changed_resources": 17,
     "changed_logical_sources": 18,
-    "output_rom_sha256": "34d971e6cbe9d984cc6802ce71b2e8121a95fcd65fe8a86207077d1f5933c0d9"
+    "output_rom_sha256": "5fd75d28022efa498370c14567e9304270c0cf9432e122097164c6ed5a126ba2"
   },
   "scope": {
     "proved": "All 18 strictly proven direct ROM-to-PRAM palette source addresses and all 29 exact aligned source-pointer roots are accounted for as 17 physical allocations. A preservation relocation rebuilds a 16 MiB ROM.",

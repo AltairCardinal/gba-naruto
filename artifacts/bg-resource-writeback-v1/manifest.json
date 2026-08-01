@@ -3,10 +3,10 @@
   "artifact_schema": "bg-resource-writeback-audit-v1",
   "artifact_status": "accepted",
   "files": {
-    "bg-resource-writeback.json": "5559db42c8b57893d79f33e949c71541ac89e131a8f12b3f855c4ec65cacc867"
+    "bg-resource-writeback.json": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e"
   },
   "payload_file": "bg-resource-writeback.json",
-  "payload_sha256": "5559db42c8b57893d79f33e949c71541ac89e131a8f12b3f855c4ec65cacc867",
+  "payload_sha256": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e",
   "schema": "git-artifact-promotion-v1",
   "scope": {
     "all_content_resources_audited": true,
@@ -23,7 +23,8 @@
     "pointer_rewrite_complete": false,
     "resource_relocation_complete": false,
     "runtime_entry_selection_complete": false,
-    "runtime_pixel_equivalence": false
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
   },
   "verifier": {
     "command": [

@@ -246,7 +246,7 @@ def export_audit(root: Path, output: Path) -> dict[str, Any]:
             "tile_graphics": 34,
         },
         "unexpected_pointer_count": 0,
-        "allocation_end": 0x9DDEC3,
+        "allocation_end": 0x9DE03E,
     }
     for key, value in expected.items():
         if summary[key] != value:

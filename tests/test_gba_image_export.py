@@ -8,11 +8,53 @@ import unittest
 import zlib
 
 from tools.gba_image_export import (
+    encode_gba_lz77,
     indexed_png_from_bgr555,
     read_lz77_record,
     render_4bpp_tile_atlas_indices,
     render_4bpp_tile_block_indices,
 )
+
+
+def _decode_lz77_vram_halfwords(record: bytes) -> bytes:
+    """Model the committed-halfword behavior of BIOS LZ77UnCompVram."""
+    size = int.from_bytes(record[1:4], "little")
+    committed = bytearray(size)
+    cursor = 4
+    dest = 0
+    halfword = 0
+
+    def emit(value: int) -> None:
+        nonlocal dest, halfword
+        if dest & 1:
+            halfword |= value << 8
+            committed[dest - 1 : dest + 1] = halfword.to_bytes(2, "little")
+        else:
+            halfword = value
+        dest += 1
+
+    while dest < size:
+        flags = record[cursor]
+        cursor += 1
+        for bit in range(7, -1, -1):
+            if dest >= size:
+                break
+            if flags & (1 << bit):
+                token = (record[cursor] << 8) | record[cursor + 1]
+                cursor += 2
+                length = (token >> 12) + 3
+                source = dest - (token & 0x0FFF) - 1
+                for _ in range(length):
+                    word_offset = source & ~1
+                    word = int.from_bytes(
+                        committed[word_offset : word_offset + 2], "little"
+                    )
+                    emit((word >> (8 * (source & 1))) & 0xFF)
+                    source += 1
+            else:
+                emit(record[cursor])
+                cursor += 1
+    return bytes(committed)
 
 
 def _chunks(png: bytes) -> dict[bytes, bytes]:
@@ -27,6 +69,11 @@ def _chunks(png: bytes) -> dict[bytes, bytes]:
 
 
 class GbaImageExportTests(unittest.TestCase):
+    def test_lz77_encoder_is_safe_for_bios_vram_halfword_writes(self):
+        source = b"\x7f" * 64
+        encoded = encode_gba_lz77(source)
+        self.assertEqual(source, _decode_lz77_vram_halfwords(encoded))
+
     def test_reads_exactly_one_literal_lz77_record(self):
         record = b"\x10\x04\x00\x00\x00ABCD"
         rom = b"prefix" + record + b"trailing"

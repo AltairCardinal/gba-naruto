@@ -19,7 +19,7 @@ definition/animation 根指针；`0x0853DFB0` 是独立对象，不属于第五�
 完整保持迁移写入 `cutscene-obj-bundle` 区域
 `0xBA0000..0xBB0000`，形成 12 个 allocation、16 个根指针 patch，共 28 项
 安全写入。输出 ROM 为 16 MiB，SHA-256：
-`00ceb2b2c7715feb176de30a2c190611155e7d753846d2f419acec21bd5c1a5e`。
+`4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16`。
 
 ## 可编辑边界
 
@@ -48,13 +48,24 @@ definition/animation 根指针；`0x0853DFB0` 是独立对象，不属于第五�
 调用点、36 条源指针、确定性 LZ77、component/timeline bundle、16 个根指针和
 完整 16 MiB 输出。capability fixture 独立验证 256 tile、11 个 component 和
 11 个 keyframe，输出 SHA-256：
-`f6e1a299f2b8b900abfb923089b6921bee42fd539d5504d6ccbf07f0935f0660`。
+`06b097e4834fee98eb36de08be94a71f7744e3537d2851d6f660ee364e006c25`。
 
-正式导出与验证均经统一 heavy lock。导出峰值 RSS 40.125 MiB，验证峰值
-23.473 MiB，无超时、swap 或异常退出。
+共享 LZ77 编码器改为符合 `LZ77UnCompVram` 半字提交语义后，本成果及 capability
+fixture 已重新导出、独立验证；详情见 `notes/vram-safe-lz77-runtime-20260801.md`。
+
+## ID 1 自然最终像素链
+
+`artifacts/cutscene-obj-id1-pixel-ab-v1/` 从 accepted
+`scenario-41-combat-popup.ss9` 只输入一次 A，自然进入胜利演出。candidate 只把
+resource 1 / frame 0 / tile 2 local `(4,4)` 的 source byte 82 从 `0x11→0x12`。
+frame 512 时六个完整内存域中只有 VRAM `0x06016052` 不同；两边完整 4 KiB
+graphics 均等于各自 ROM 解压源，OAM entry 1 保持 tile `0x300`、palette bank 12、
+位置 `(40,48)`。最终 PNG 只有 `(60,52)` 从白色变为灰色，独立 Mode-0 renderer
+与两张 mGBA PNG 逐 RGB 相等。两次运行峰值 RSS 为 56.0/55.8046875 MiB，均无
+进程或监听残留。
 
 ## 未证明边界
 
 本成果不证明第五个 ID、改变固定 frame/animation 槽数、单帧超过两个 component、
-调用者层面的场景清理，以及修改后最终屏幕合成像素与时序等价。里程碑只做离线
-ROM 重建，没有启动 mGBA，因此不需要新增模拟器快照。
+调用者层面的场景清理，以及全部 ID/animation 的最终屏幕合成像素与时序等价。
+ID 1 / frame 0 代表性自然链已闭合，但 ID 0、2、3 与其余动画仍未逐项签发。

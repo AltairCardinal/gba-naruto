@@ -29,7 +29,7 @@ INPUT_PATH = Path("artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue
 INPUT_SHA256 = "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8"
 PAIR_OFFSET = 0x5A4E14
 GRAPHICS_OFFSET = 0xA80000
-PALETTE_OFFSET = 0xA80CD8
+PALETTE_OFFSET = 0xA80CEC
 STREAM_OFFSET = 5184
 COMPONENTS = (
     (64, 64, 16, 16, 0, 256),
@@ -90,7 +90,7 @@ DOMAINS = {
 }
 EXPECTED_DIFFERENCES = {
     "EWRAM": [0x3CC0],
-    "IWRAM": [0x7F9C],
+    "IWRAM": [],
     "IO": [],
     "PRAM": [],
     "VRAM": [0x11440],
@@ -245,13 +245,13 @@ def _rebuild_rom(
     palette: bytes,
 ) -> bytes:
     encoded = _encode_lz77(stream)
-    if len(encoded) not in (3287, 3288):
+    if len(encoded) != 3306:
         raise ValueError("portrait independent encoded size mismatch")
     rom = bytearray(base + bytes([0xFF]) * (0x1000000 - len(base)))
     rom[GRAPHICS_OFFSET : GRAPHICS_OFFSET + len(encoded)] = encoded
     rom[PALETTE_OFFSET : PALETTE_OFFSET + 128] = palette
     rom[PAIR_OFFSET : PAIR_OFFSET + 4] = (0x08A80000).to_bytes(4, "little")
-    rom[PAIR_OFFSET + 4 : PAIR_OFFSET + 8] = (0x08A80CD8).to_bytes(4, "little")
+    rom[PAIR_OFFSET + 4 : PAIR_OFFSET + 8] = (0x08A80CEC).to_bytes(4, "little")
     return bytes(rom)
 
 
@@ -371,7 +371,7 @@ def _verify(root: Path, artifact: Path) -> None:
             "canvas_byte_offset": 3240,
             "stream_byte_offset": STREAM_OFFSET,
             "before_index": 52,
-            "after_index": 55,
+            "after_index": 14,
         }
         or set(build.get("variants", {})) != {"baseline", "candidate"}
     ):
@@ -398,7 +398,7 @@ def _verify(root: Path, artifact: Path) -> None:
     if (
         _diff(streams["baseline"], streams["candidate"]) != [STREAM_OFFSET]
         or streams["baseline"][STREAM_OFFSET] != 52
-        or streams["candidate"][STREAM_OFFSET] != 55
+        or streams["candidate"][STREAM_OFFSET] != 14
         or palettes["baseline"] != palettes["candidate"]
         or palettes["baseline"] != original_palette
     ):
@@ -447,7 +447,7 @@ def _verify(root: Path, artifact: Path) -> None:
             "x": 56,
             "y": 48,
             "before_rgb": [239, 189, 165],
-            "after_rgb": [222, 222, 82],
+            "after_rgb": [99, 74, 57],
         }
     ]
     if changes != expected_changes:
@@ -460,9 +460,9 @@ def _verify(root: Path, artifact: Path) -> None:
         or evidence.get("runtime", {}).get("pixels", {}).get("count") != 1
         or evidence.get("runtime", {}).get("pixels", {}).get("bbox") != [56, 48, 56, 48]
         or evidence.get("runtime", {}).get("baseline_vram_byte") != 52
-        or evidence.get("runtime", {}).get("candidate_vram_byte") != 55
+        or evidence.get("runtime", {}).get("candidate_vram_byte") != 14
         or evidence.get("runtime", {}).get("baseline_ewram_byte") != 52
-        or evidence.get("runtime", {}).get("candidate_ewram_byte") != 55
+        or evidence.get("runtime", {}).get("candidate_ewram_byte") != 14
         or evidence.get("input", {}).get("target_absent_before_input") is not True
         or set(evidence.get("runs", {})) != {"baseline", "candidate"}
     ):
