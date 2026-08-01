@@ -1,0 +1,14 @@
+{
+  "schema": "battle-effect-phase-capture-profile-v1",
+  "profile_id": "group-11-cross-shuriken-frame106",
+  "group_id": 11,
+  "sequence_id": 13,
+  "input_mode": "zero-input-active-state",
+  "input_state": "artifacts/battle-effect-group11-pixel-ab-v1/raw/baseline/frame106.ss9",
+  "input_state_sha256": "0cb839b5ac6972724b9551afd260ca2a91443399f6c3d1bae7ec2b7f917ae625",
+  "source_runtime_evidence": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
+  "source_runtime_evidence_sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead",
+  "source_rom_sha256": "8e24aa7de358ba92a4a5c7347e9c5898d7304b9e9a2bed4cf0a9906da5be0ff6",
+  "timeout_frames": 30,
+  "boundary": "The input state already contains one naturally created group-11 task. No key is injected; the capture covers only its next renderer, submit, and acknowledgement transaction."
+}

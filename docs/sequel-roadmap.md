@@ -1941,3 +1941,20 @@ WebSocket
   `notes/battle-effect-runtime-oam-task-bindings-20260801.md`。affine、多component
   dynamic-copy、精确writer/allocator index、跨帧时序、未观察13组及实体GBA仍未闭合，
   Goal保持active。
+- 2026-08-01：战斗特效 task/OAM 证据新增首条精确跨帧提交事务。直接复用已验收的
+  group 11 active-task `frame106.ss9`，不重做十段导航且零输入运行；同一 slot 124
+  task 在 renderer tail `0x08063328`、主循环 submit post `0x08061126` 与 ack post
+  `0x080612AA` 依次命中；三份存档按mGBA Thumb breakpoint的`saved r15-2`
+  独立恢复出相同地址，cycle严格递增，pending为`0→1→0`。renderer生成的
+  shadow OAM 与旧 hardware OAM 不同，submit 后 hardware 仍未改变，ack 后完整
+  1 KiB hardware OAM精确等于该shadow；task pool、group 11指针对、active
+  dispatcher中slot 124唯一成员关系及九类稳定内存又由三份`.ss9`独立复算。同一
+  dispatcher还有slots 125/127，故完整OAM变化不排他归因给slot 124。该结果纠正了
+  把VBlank return `0x08061324`作为唯一
+  renderer 后边界的旧假设。独立 verifier 不导入生产器，并将 byte-wise live MMIO
+  `io.bin` 明确限制为哈希锁定但不与存档 I/O image 等同。正式 artifact 约716 KiB；
+  guarded run 非degraded、success-marker完成且无PGID/listener残留，未重复启动模拟器。
+  成果位于`artifacts/battle-effect-frame-phase-v1/`，说明见
+  `notes/battle-effect-frame-phase-20260801.md`。该里程碑只签发group 11一个代表task
+  的一次事务，不改变production自然像素A/B `4/18`分母；其余group、affine、
+  multi-component、dynamic-copy、通用writer index与实体GBA仍未闭合，Goal保持active。
