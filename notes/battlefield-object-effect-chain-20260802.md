@@ -49,12 +49,16 @@
 
 - state 为 1/2 且 `object+4` 为 `0xC3..0xC8` 的活动战场对象；
 - 有效单位在 `unit+0xB0` 声明范围内实际装备的忍具 67–72；
-- 持久忍具库存 `0x02023FD4..0x02024044` 中 ID 67–72 的非零数量。
+- 持久忍具库存 `0x02023FD4..0x02024044` 中 ID 67–72 的非零数量；其中前两字节
+  分别是总数和空位，工具 ID `n` 位于偏移 `n+1`；
+- 24 槽持久角色模板池 `0x02022E34 + slot*0xBC` 的 `+0xB0/+0xB1...`
+  装备计数与工具 ID，不把“尚未进入战斗”误报成未装备。
 
 第一版扫描遗漏了持久库存，只能证明当时没有活动对象或已经装入单位战斗槽的目标忍具，
 不能证明没有可恢复种子。补齐库存后，经 `tools/run_guarded.py` 重新扫描 `artifacts/`
 的 183 份和 `build/` 的 981 份存档，共 1,164 份，全部解析成功并命中 248 个路径；
-这些命中均为库存中的忍具 68、数量 1，没有活动 `0xC3..0xC8` 对象，也没有已装备的
+第二次自然 UI 复核发现库存偏移曾被直接当成工具 ID：这些命中实际均为库存中的忍具
+67、数量 1；旧“忍具 68”结论已取代。原始语料中没有活动 `0xC3..0xC8` 对象，也没有已装备的
 忍具 67–72。224 个不同 savestate SHA 中包含已跟踪 checkpoint：
 
 - `artifacts/runtime-checkpoints/scenario-47-battle-13-postbattle-world-map.ss9`
@@ -66,7 +70,11 @@
 为 `403d2425f64c06395a2566f8c878145d43473ad2cf3baa5bea75a3de21ef9367`，峰值 tree RSS
 为 20.28515625 MiB。扫描本身未启动 mGBA。
 
-因此下一步不再调查取得路径，而是从该世界地图 checkpoint 进入装备 UI，把库存 68
-装入角色战斗槽，保存并验证新的可恢复 checkpoint，再以自然 UI 选择和对象到期命中
-闭合运行时链。静态链和既有受控 single-pixel 证据仍不计入 production 自然最终像素
-分母。
+从该世界地图 checkpoint 经自然 UI 展开 18 件库存，向下 13 次选中画面可见“引爆牌”，
+按 A 后鸣人持久模板 `0x02022FA1` 从工具 1 变为工具 67，库存数量保持 1。随后以该状态
+重新启动当前桌面 mGBA 并按四次 B 返回世界地图，证明 checkpoint 可恢复且装备仍保持。
+正式快照为 `artifacts/runtime-checkpoints/scenario-47-tool67-equipped-world-map.ss9`，SHA-256
+为 `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601`；证据文件记录六段
+输入链、当前 profile/二进制、clean guard 和 `67 → C3 → E4 → group 3` 绑定。下一步从
+该快照自然推进到 battle 14，验证战斗槽复制、选择、对象到期和 handler；在此之前静态链
+仍不计入 production 自然最终像素分母。

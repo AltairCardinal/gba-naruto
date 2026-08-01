@@ -1,0 +1,95 @@
+{
+  "artifact_status": "accepted",
+  "correction": {
+    "inventory_layout": "0x02023FD4 stores total count, 0x02023FD5 is the empty marker, and ninja-tool ID 1 starts at 0x02023FD6; inventory byte offset is therefore tool_id + 1",
+    "misleading_ignored_run_slug": "Historical ignored run names containing tool68 refer to inventory offset 68; the natural UI and persistent value prove the actual ninja-tool ID is 67"
+  },
+  "guard": {
+    "all_completion_triggers": "success-marker",
+    "all_degraded": false,
+    "all_exit_codes": 0,
+    "all_mgba_listeners_clean": true,
+    "all_pgids_clean": true,
+    "maximum_peak_tree_rss_mib": 65.578125
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-47-battle-13-postbattle-world-map.ss9",
+    "sha256": "e80779dc048fd862d0a8fc1a47f77bcfe1ab06810859f38015c562679958b800"
+  },
+  "inventory": {
+    "address": "0x02024018",
+    "count_after": 1,
+    "count_before": 1,
+    "ninja_tool_id": 67
+  },
+  "output": {
+    "embedded_rgb_sha256": "8f08fef30a3e72a380e0125f923ca056ac607222268e9b1015567f919aef15a4",
+    "external_png_sha256": "29e73eb47ddf6ad252d7b12c72de50c8e47a0fd00b7477210b2b8feae98f15a1",
+    "path": "artifacts/runtime-checkpoints/scenario-47-tool67-equipped-world-map.ss9",
+    "sha256": "ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601",
+    "visible_boundary": "木叶之里 world map after leaving the equipment UI"
+  },
+  "persistent_commit": {
+    "address": "0x02022FA1",
+    "after": 67,
+    "before": 1,
+    "character_id": 1,
+    "template_slot": 1,
+    "tool_slot": 0
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+  },
+  "route_segments": [
+    {
+      "audit_sha256": "f975c2d59416c567920a3df1113ea300ca03c9549d0f02c2b3796501a3c2769e",
+      "inputs": ["Down", "A", "Down", "Down", "A"],
+      "output_state_sha256": "f37a091eede72fbbed5e9a731af76f7c53505ff9e1e47737d4bc7a50549fdc8b"
+    },
+    {
+      "audit_sha256": "b5da249f25ead600686a5b1f8698e6071f3d54d13ab26bec0a5434767e183758",
+      "inputs": ["Down", "Down", "A"],
+      "output_state_sha256": "d33d20c32c6a4dc584e398f8328b4bc09e9844ea225d91ec9fe91aadcecd93fe"
+    },
+    {
+      "audit_sha256": "9985d1408e6334057b653580e7247055ac1c875847a6b203aef548d69d663bcc",
+      "inputs": ["A", "A"],
+      "output_state_sha256": "f7f8ded979a519c41274338e3b0280af7c2e30e4f9c1c8cb1fc719124c0132dd"
+    },
+    {
+      "audit_sha256": "fedb28f56ef006cdbcaae83abd3a1d7d3faef71868e24ba420942e5b346b40f7",
+      "inputs": ["Down x13"],
+      "output_state_sha256": "0de804d7eb17db5b83e931969bade4c2782918c99fd491764ad8e81b85c35c3e",
+      "visible_selection": "引爆牌"
+    },
+    {
+      "audit_sha256": "c90aabdde3285c33e8eb82ad8592a0fad4d3449738efa0306bab0dfd5fafce78",
+      "inputs": ["A"],
+      "output_state_sha256": "4f36fa09d57e3afe81090ce2ca9b5d1507fe309126cb9e77baded7545acbd46c",
+      "persistent_commit": true
+    },
+    {
+      "audit_sha256": "8fbdaf8dd03fbd549da1e45864efaedab0396f50d1ca458e3fb1a40528a9c320",
+      "inputs": ["B", "B", "B", "B"],
+      "output_state_sha256": "ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601",
+      "restore_and_exit_verified": true
+    }
+  ],
+  "runtime_binding": {
+    "encoded_action": "0xC3",
+    "expiry_action": "0xE4",
+    "ninja_tool_id": 67,
+    "resource_group_id": 3
+  },
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "scope": {
+    "battle_local_copy_verified": false,
+    "checkpoint_restore_verified": true,
+    "natural_equipment_commit_verified": true,
+    "natural_expiry_handler_verified": false
+  }
+}

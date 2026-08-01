@@ -30,7 +30,13 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         unit[0xB0] = 1
         unit[0xB1] = 67
         state.write(0x020240C0 + 2 * 0x1D4, unit)
-        state.write(0x02023FD4 + 69, bytes([2]))
+        persistent = bytearray(0xBC)
+        persistent[0] = 4
+        persistent[0xB0] = 1
+        persistent[0xB1] = 68
+        state.write(0x02022E34 + 4 * 0xBC, persistent)
+        # Inventory bytes 0/1 are total/empty; tool ID 69 lives at offset 70.
+        state.write(0x02023FD4 + 70, bytes([2]))
 
         result = inspect_state(state)
         self.assertEqual(
@@ -40,6 +46,10 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         self.assertEqual(
             result["equipped_special_tools"],
             [{"unit_slot": 2, "character_id": 3, "tool_slot": 0, "ninja_tool_id": 67}],
+        )
+        self.assertEqual(
+            result["persistent_equipped_special_tools"],
+            [{"template_slot": 4, "character_id": 4, "tool_slot": 0, "ninja_tool_id": 68}],
         )
         self.assertEqual(
             result["inventory_special_tools"],
@@ -57,9 +67,13 @@ class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
         unit = bytearray(0x1D4)
         unit[0xB1] = 68
         state.write(0x020240C0, unit)
+        persistent = bytearray(0xBC)
+        persistent[0xB1] = 69
+        state.write(0x02022E34, persistent)
         result = inspect_state(state)
         self.assertEqual(result["active_special_objects"], [])
         self.assertEqual(result["equipped_special_tools"], [])
+        self.assertEqual(result["persistent_equipped_special_tools"], [])
         self.assertEqual(result["inventory_special_tools"], [])
 
     def test_missing_input_is_an_error_instead_of_a_zero_hit_scan(self):

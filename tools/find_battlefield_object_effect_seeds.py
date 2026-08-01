@@ -22,11 +22,16 @@ OBJECT_STRIDE = 0x10
 UNIT_POOL = 0x020240C0
 UNIT_COUNT = 13
 UNIT_STRIDE = 0x1D4
+PERSISTENT_TEMPLATE_POOL = 0x02022E34
+PERSISTENT_TEMPLATE_COUNT = 24
+PERSISTENT_TEMPLATE_STRIDE = 0xBC
 TOOL_COUNT_OFFSET = 0xB0
 TOOL_FIRST_ID_OFFSET = 0xB1
 TOOL_SLOT_COUNT = 15
+PERSISTENT_TOOL_SLOT_COUNT = PERSISTENT_TEMPLATE_STRIDE - TOOL_FIRST_ID_OFFSET
 NINJA_TOOL_INVENTORY = 0x02023FD4
 NINJA_TOOL_INVENTORY_SIZE = 0x71
+NINJA_TOOL_INVENTORY_ID_BIAS = 1
 SPECIAL_ENCODED_ACTIONS = set(range(0xC3, 0xC9))
 SPECIAL_TOOL_IDS = set(range(67, 73))
 
@@ -66,15 +71,42 @@ def inspect_state(state: Any) -> dict[str, list[dict[str, Any]]]:
                         "ninja_tool_id": tool_id,
                     }
                 )
+    persistent_equipped_special_tools = []
+    for template_slot in range(PERSISTENT_TEMPLATE_COUNT):
+        raw = state.read_memory(
+            PERSISTENT_TEMPLATE_POOL
+            + template_slot * PERSISTENT_TEMPLATE_STRIDE,
+            PERSISTENT_TEMPLATE_STRIDE,
+        )
+        character_id = raw[0]
+        if character_id == 0:
+            continue
+        equipped_count = min(raw[TOOL_COUNT_OFFSET], PERSISTENT_TOOL_SLOT_COUNT)
+        for tool_slot, tool_id in enumerate(
+            raw[TOOL_FIRST_ID_OFFSET : TOOL_FIRST_ID_OFFSET + equipped_count]
+        ):
+            if tool_id in SPECIAL_TOOL_IDS:
+                persistent_equipped_special_tools.append(
+                    {
+                        "template_slot": template_slot,
+                        "character_id": character_id,
+                        "tool_slot": tool_slot,
+                        "ninja_tool_id": tool_id,
+                    }
+                )
     inventory = state.read_memory(NINJA_TOOL_INVENTORY, NINJA_TOOL_INVENTORY_SIZE)
     inventory_special_tools = [
-        {"ninja_tool_id": tool_id, "count": inventory[tool_id]}
+        {
+            "ninja_tool_id": tool_id,
+            "count": inventory[tool_id + NINJA_TOOL_INVENTORY_ID_BIAS],
+        }
         for tool_id in sorted(SPECIAL_TOOL_IDS)
-        if inventory[tool_id]
+        if inventory[tool_id + NINJA_TOOL_INVENTORY_ID_BIAS]
     ]
     return {
         "active_special_objects": active_special_objects,
         "equipped_special_tools": equipped_special_tools,
+        "persistent_equipped_special_tools": persistent_equipped_special_tools,
         "inventory_special_tools": inventory_special_tools,
     }
 

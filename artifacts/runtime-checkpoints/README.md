@@ -48,6 +48,7 @@ Expected SHA-256:
 | `scenario-41-controller-entry.ss9` | `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6` | accepted stable controller-entry state after two exact 224-frame zero-input replays; not player-control evidence |
 | `scenario-41-player-turn.ss9` | `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171` | accepted stable player-control boundary; reusable starting point for the first natural turn, but not MOVEDONE/victory/postbattle evidence |
 | `scenario-50-cross-shuriken-confirmation.ss9` | `57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139` | accepted scenario 50 Naruto ninja-tool 1 confirmation prompt; final A has not yet been pressed |
+| `scenario-47-tool67-equipped-world-map.ss9` | `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601` | accepted base-ROM world-map boundary after Naruto naturally equips ninja-tool 67 `引爆牌`; restored once and persistent slot revalidated |
 
 ## Scenario 41 checkpoint ledger
 

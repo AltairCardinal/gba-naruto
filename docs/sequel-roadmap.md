@@ -2103,10 +2103,21 @@ WebSocket
 - 2026-08-02：上述 savestate 种子扫描已纠正持久库存漏项。扫描器除活动对象和单位
   战斗槽外，现同时检查 `0x02023FD4` 的 `0x71` 字节忍具库存；对应 TDD 先因缺少
   `inventory_special_tools` 失败，最小实现后通过。受守卫重扫原 1,164 份存档全部解析
-  成功，得到 248 个路径命中、224 个不同 state SHA，全部为忍具68数量1；活动目标对象
+  成功，得到 248 个路径命中、224 个不同 state SHA。后续自然 UI 取证发现库存前两字节
+  是总数/空位，工具 ID 需按偏移减 1，因此这些命中实际全部为忍具67数量1；旧“忍具68”
+  结论已取代。活动目标对象
   和已装备目标忍具仍为0。已跟踪的
   `scenario-47-battle-13-postbattle-world-map.ss9` 即含该库存，SHA为
   `e80779dc048fd862d0a8fc1a47f77bcfe1ab06810859f38015c562679958b800`，因此不再需要
   重新调查取得路径。扫描峰值tree RSS 20.28515625 MiB，未启动mGBA。下一步从该快照
-  进入装备UI并固化装备后checkpoint，再捕获C4对象、E5到期和原生group3 handler；
+  进入装备UI并固化装备后checkpoint，再捕获C3对象、E4到期和原生group3 handler；
   production自然最终像素仍为`5/18`，Goal保持active。
+- 2026-08-02：已从上述世界地图快照自然进入装备 UI，展开 18 件库存后向下 13 次选中
+  可见“引爆牌”，最终 A 使鸣人持久模板首装备槽 `0x02022FA1` 从工具1变为工具67，库存
+  数量保持1。确认后的状态被最新桌面mGBA重新加载并以四次B正常返回世界地图，持久装备
+  复核仍为角色1/工具67；六段运行峰值不超过65.578125 MiB，全部success-marker、非
+  degraded且无进程/listener残留。新恢复点
+  `scenario-47-tool67-equipped-world-map.ss9` SHA为
+  `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601`。下一步从它推进
+  scenario48纯剧情与scenario49演习场，进入battle14验证持久槽复制为战斗槽，再自然提交
+  工具67并等待C3对象到期为E4/group3；production自然最终像素仍为`5/18`。
