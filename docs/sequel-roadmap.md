@@ -1923,3 +1923,21 @@ WebSocket
   `artifacts/battle-effect-runtime-oam-bindings-v1/`，说明见
   `notes/battle-effect-runtime-oam-bindings-20260801.md`。task/selector排他writer、
   全帧/跨帧时序、RNG、blend/window/audio与实体GBA仍未闭合，Goal保持active。
+- 2026-08-01：上述内容身份又与同一批快照的全局sprite task pool完成严格关联。
+  战斗特效不能沿用角色的三指针资源身份：真实task `+0x24`可为零或动态tile/action
+  地址，与静态group graphics不同；18组实际由唯一的`(+0x1C definition,+0x20
+  animation)`指针对识别。批处理重建93+5个状态的128×`0x3C` task pool、active
+  dispatcher、`0x03000054`运行时偏移、shadow/hardware OAM与提交相位；98/98个
+  dispatcher逐项一致，12个活动特效task覆盖groups `[1,2,5,11,14]`。tracked
+  scenario 50中的slots 113/114/115均选择group 1/frame 6；anchor、component
+  `(-8,-8)`和Y offset 24精确重建OAM 17/18/19的完整attr0/1/2，三条均同时命中
+  shadow与hardware。dispatch ordinals `12/13/14`与OAM indices `17/18/19`不同，
+  因而未把调度顺序冒充writer index。82个状态全OAM缓冲一致，其余16个差异全部位于
+  代码证明的pending wait窗口，未解释差异0。五份supplemental只保留frame-phase
+  观察，不污染tracked自然分母。独立verifier重建全部字段并拒绝runtime-offset和
+  group身份、parent promotion与source provenance篡改；13项测试最大RSS约30 MiB、
+  swap 0，未启动mGBA。成果位于
+  `artifacts/battle-effect-runtime-oam-task-bindings-v1/`，说明见
+  `notes/battle-effect-runtime-oam-task-bindings-20260801.md`。affine、多component
+  dynamic-copy、精确writer/allocator index、跨帧时序、未观察13组及实体GBA仍未闭合，
+  Goal保持active。
