@@ -25,8 +25,6 @@ SOURCE_COMMIT = "26b7884bc25a5933960f3cdcd98bac1ae14d42e2"
 BACKPORT_COMMIT = "7cacae126207de5499857439b9c7919bf8e882c2"
 EXPECTED_PATCH_SHA256 = "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6"
 EXPECTED_LABEL = "mGBA 0.10.5 + Qt script backport"
-CURRENT_TOOLCHAIN_PROFILE_SHA256 = "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
-CURRENT_MGBA_SOURCE_COMMIT = "d8bad14b4540f9114246c0281d74985cf81adc68"
 MIN_AVAILABLE_MIB = 4096
 MAX_TREE_RSS_MIB = 1536
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
@@ -168,40 +166,6 @@ def validate_build_manifest(
     for key, value in expected.items():
         if payload.get(key) != value:
             raise ReplayError(f"build manifest {key} mismatch: expected {value}, got {payload.get(key)}")
-    return payload
-
-
-def validate_current_toolchain_profile(
-    path: Path, binary: Path, expected_binary_sha256: str
-) -> dict[str, object]:
-    """Validate the accepted current desktop mGBA runtime profile."""
-    payload = _load_json(path, "mGBA runtime profile")
-    if payload.get("schema") != "rom-expansion-profile-v1":
-        raise ReplayError("mGBA runtime profile schema mismatch")
-    if payload.get("identity") != "agb_standard_16mib_sequel_rom_profile":
-        raise ReplayError("mGBA runtime profile identity mismatch")
-    hardware = payload.get("hardware_evidence")
-    if not isinstance(hardware, dict):
-        raise ReplayError("mGBA runtime profile hardware evidence is missing")
-    if hardware.get("mgba_source_commit") != CURRENT_MGBA_SOURCE_COMMIT:
-        raise ReplayError("mGBA runtime profile source commit mismatch")
-    if hardware.get("mgba_binary_sha256") != expected_binary_sha256:
-        raise ReplayError("mGBA runtime profile binary hash mismatch")
-    validate_expected_hash(binary, expected_binary_sha256, "mGBA binary")
-    runtime = payload.get("runtime_probe")
-    if not isinstance(runtime, dict):
-        raise ReplayError("mGBA runtime profile probe evidence is missing")
-    expected_runtime = {
-        "guard_reason": "completed",
-        "guard_completion_trigger": "success-marker",
-        "guard_exit_code": 0,
-        "guard_degraded": False,
-        "new_mgba_crash_report": False,
-        "owned_process_residue": False,
-    }
-    for field, expected in expected_runtime.items():
-        if runtime.get(field) != expected:
-            raise ReplayError(f"mGBA runtime profile {field} mismatch")
     return payload
 
 

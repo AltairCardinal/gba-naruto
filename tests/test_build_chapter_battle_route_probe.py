@@ -2,8 +2,13 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+import tempfile
 
-from tools.build_chapter_battle_route_probe import BATTLE_COMMAND_OFFSET, build_probe
+from tools.build_chapter_battle_route_probe import (
+    BATTLE_COMMAND_OFFSET,
+    build_probe,
+    write_probe,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +39,37 @@ class ChapterBattleRouteProbeTests(unittest.TestCase):
         changed[BATTLE_COMMAND_OFFSET + 1] ^= 1
         with self.assertRaises(ValueError):
             build_probe(bytes(changed), battle_id=8, verify_sha1=False)
+
+    def test_writer_refuses_to_overwrite_source_rom(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "base.gba"
+            source.write_bytes(self.base)
+            original = source.read_bytes()
+            with self.assertRaises(ValueError):
+                write_probe(source, source, battle_id=8)
+            self.assertEqual(source.read_bytes(), original)
+
+    def test_writer_refuses_symlinks_and_existing_outputs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "base.gba"
+            source.write_bytes(self.base)
+            source_link = root / "base-link.gba"
+            source_link.symlink_to(source)
+            output_link = root / "output-link.gba"
+            output_link.symlink_to(source)
+            existing = root / "existing.gba"
+            existing.write_bytes(b"keep")
+            for base_rom, output_rom in (
+                (source_link, root / "from-link.gba"),
+                (source, output_link),
+                (source, existing),
+            ):
+                with self.subTest(base_rom=base_rom, output_rom=output_rom):
+                    with self.assertRaises(ValueError):
+                        write_probe(base_rom, output_rom, battle_id=8)
+            self.assertEqual(existing.read_bytes(), b"keep")
+            self.assertEqual(source.read_bytes(), self.base)
 
 
 if __name__ == "__main__":
