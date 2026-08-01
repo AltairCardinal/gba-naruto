@@ -51,6 +51,7 @@ Expected SHA-256:
 | `scenario-47-tool67-equipped-world-map.ss9` | `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601` | accepted base-ROM world-map boundary after Naruto naturally equips ninja-tool 67 `引爆牌`; restored once and persistent slot revalidated |
 | `scenario-49-battle-14-tool67-entry.ss9` | `2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c` | accepted battle 14 entry reached naturally from the equipped checkpoint; Naruto persistent template and battle-local unit slot both retain ninja-tool 67 |
 | `scenario-49-battle-14-tool67-active-c3.ss9` | `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939` | accepted battle 14 boundary after natural use of `引爆牌`; active object slot 3 is state 1/action `0xC3` with two turns remaining |
+| `scenario-49-battle-14-tool67-expiry-ready.ss9` | `34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501` | accepted battle 14 boundary with the same natural `C3` object at zero remaining turns, immediately before zero-input group-3 expiry capture |
 
 ## Scenario 41 checkpoint ledger
 

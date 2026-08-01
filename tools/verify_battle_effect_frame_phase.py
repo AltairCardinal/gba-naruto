@@ -12,8 +12,14 @@ from typing import Any
 
 try:
     from tools.inspect_mgba_savestate import PNG_SIGNATURE, load_gba_state
+    from tools.verify_battlefield_object_effect_chain import (
+        verify_manifest as verify_battlefield_object_effect_chain,
+    )
 except ModuleNotFoundError:
     from inspect_mgba_savestate import PNG_SIGNATURE, load_gba_state
+    from verify_battlefield_object_effect_chain import (
+        verify_manifest as verify_battlefield_object_effect_chain,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +48,9 @@ TASK_COUNT = 128
 EXPECTED_TOOLCHAIN_SCHEMA = "rom-expansion-profile-v1"
 EXPECTED_TOOLCHAIN_IDENTITY = "agb_standard_16mib_sequel_rom_profile"
 SOURCE_PROVENANCE_SCHEMA = "battle-effect-phase-source-provenance-v1"
+DELAYED_OBJECT_TABLE = 0x02026604
+DELAYED_OBJECT_STRIDE = 0x10
+ANIMATION_CATALOG = ROOT / "artifacts/battle-effect-sprite-animations-v1/manifest.json"
 
 
 def _sha256(path: Path) -> str:
@@ -78,6 +87,146 @@ def _repository_path(root: Path, raw: Any, label: str) -> Path:
     return resolved
 
 
+def validate_natural_delayed_object_source(
+    root: Path,
+    evidence_path: Path,
+    provenance: dict[str, Any],
+    *,
+    group_id: int,
+    input_state_path: str,
+    input_state_sha256: str,
+    rom_sha256: str,
+) -> None:
+    if provenance.get("source_kind") != "natural_delayed_object_checkpoint":
+        raise ValueError("natural delayed source kind mismatch")
+    if "accepted_parent" in provenance:
+        raise ValueError("natural delayed source must not declare an accepted parent")
+    evidence = _object(evidence_path)
+    output = evidence.get("output", {})
+    evidence_provenance = evidence.get("provenance", {})
+    runtime_binding = evidence.get("runtime_binding", {})
+    scope = evidence.get("scope", {})
+    if (
+        evidence.get("schema") != "runtime-checkpoint-input-chain-evidence-v1"
+        or evidence.get("artifact_status") != "accepted"
+    ):
+        raise ValueError("natural delayed checkpoint evidence is not accepted")
+    if (
+        not isinstance(output, dict)
+        or output.get("path") != input_state_path
+        or output.get("sha256") != input_state_sha256
+    ):
+        raise ValueError("natural delayed checkpoint state identity mismatch")
+    if not isinstance(evidence_provenance, dict) or evidence_provenance.get(
+        "base_rom_sha256"
+    ) != rom_sha256:
+        raise ValueError("natural delayed checkpoint base ROM mismatch")
+    if not isinstance(scope, dict):
+        raise ValueError("natural delayed checkpoint scope mismatch")
+    for field, label in (
+        ("natural_action_submission_verified", "natural action submission"),
+        ("natural_object_creation_verified", "natural object creation"),
+        ("natural_countdown_zero_verified", "natural countdown zero"),
+    ):
+        if scope.get(field) is not True:
+            raise ValueError(f"natural delayed checkpoint {label} is not verified")
+    if scope.get("natural_expiry_handler_verified") is not False:
+        raise ValueError("natural delayed checkpoint natural expiry handler must be unverified")
+
+    delayed = provenance.get("delayed_object", {})
+    expected_delayed = {
+        "slot": 3,
+        "state": 1,
+        "encoded_action": "0xC3",
+        "remaining_turns": 0,
+        "expiry_action": "0xE4",
+        "resource_group_id": group_id,
+    }
+    if not isinstance(delayed, dict) or delayed != expected_delayed:
+        if isinstance(delayed, dict) and delayed.get("remaining_turns") != 0:
+            raise ValueError("natural delayed object remaining turns mismatch")
+        raise ValueError("natural delayed object contract mismatch")
+    if not isinstance(runtime_binding, dict):
+        raise ValueError("natural delayed object evidence binding mismatch")
+    if runtime_binding.get("ninja_tool_id") != 67:
+        raise ValueError("natural delayed checkpoint ninja tool mismatch")
+    if any(
+        runtime_binding.get(field) != expected_delayed[field]
+        for field in (
+            "slot",
+            "state",
+            "encoded_action",
+            "remaining_turns",
+            "expiry_action",
+            "resource_group_id",
+        )
+    ):
+        raise ValueError("natural delayed object evidence binding mismatch")
+
+    state_path = _repository_path(root, input_state_path, "profile input state")
+    if _sha256(state_path) != input_state_sha256:
+        raise ValueError("natural delayed input state hash mismatch")
+    state = load_gba_state(state_path)
+    raw_object = state.read_memory(
+        DELAYED_OBJECT_TABLE + delayed["slot"] * DELAYED_OBJECT_STRIDE,
+        DELAYED_OBJECT_STRIDE,
+    )
+    if (
+        raw_object[0] != delayed["state"]
+        or raw_object[4] != int(delayed["encoded_action"], 16)
+        or int.from_bytes(raw_object[6:8], "little") != delayed["remaining_turns"]
+    ):
+        raise ValueError("natural delayed object does not match input savestate")
+
+    animation_catalog = _object(ANIMATION_CATALOG)
+    definition, animation = effect_group_identity(animation_catalog, group_id)
+    active_group_tasks = 0
+    for slot in range(TASK_COUNT):
+        task = state.read_memory(TASK_BASE + slot * TASK_SIZE, TASK_SIZE)
+        if (
+            int.from_bytes(task[0:4], "little") & 1
+            and int.from_bytes(task[0x1C:0x20], "little") == definition
+            and int.from_bytes(task[0x20:0x24], "little") == animation
+        ):
+            active_group_tasks += 1
+    if active_group_tasks:
+        raise ValueError("natural delayed input already contains an active target group task")
+
+    chain_info = provenance.get("static_chain", {})
+    if not isinstance(chain_info, dict):
+        raise ValueError("natural delayed static chain is missing")
+    chain_path = _repository_path(
+        root, chain_info.get("path"), "natural delayed static chain"
+    )
+    if _sha256(chain_path) != chain_info.get("sha256"):
+        raise ValueError("natural delayed static chain hash mismatch")
+    chain = _object(chain_path)
+    chain_result = verify_battlefield_object_effect_chain(
+        root, Path(chain.get("rom", "")), chain_path
+    )
+    if chain_result.get("errors"):
+        raise ValueError("natural delayed static chain verifier rejected source")
+    mappings = chain.get("mappings", [])
+    matches = [
+        row
+        for row in mappings
+        if isinstance(row, dict)
+        and row.get("encoded_action") == delayed["encoded_action"]
+        and row.get("expiry_action") == delayed["expiry_action"]
+        and row.get("ninja_tool_id") == 67
+        and row.get("primary_handler") == "0x0807F209"
+    ]
+    if (
+        chain.get("rom_sha256") != rom_sha256
+        or chain.get("evidence_level") != "static_end_to_end_producer_chain"
+        or chain.get("natural_runtime_observed") is not False
+        or chain.get("natural_gameplay_route_closed") is not False
+        or chain.get("chain", {}).get("native_handler") != "0x0807F208"
+        or len(matches) != 1
+    ):
+        raise ValueError("natural delayed static chain semantics mismatch")
+
+
 def validate_source_runtime_provenance(
     root: Path,
     profile: dict[str, Any],
@@ -106,6 +255,18 @@ def validate_source_runtime_provenance(
     evidence_hash = _sha256(evidence_path)
     if evidence_hash != source.get("sha256"):
         raise ValueError("source runtime evidence hash mismatch")
+
+    if provenance.get("source_kind") == "natural_delayed_object_checkpoint":
+        validate_natural_delayed_object_source(
+            root,
+            evidence_path,
+            provenance,
+            group_id=group_id,
+            input_state_path=input_state_path,
+            input_state_sha256=input_state_sha256,
+            rom_sha256=rom_sha256,
+        )
+        return
 
     parent = provenance.get("accepted_parent", {})
     if not isinstance(parent, dict):

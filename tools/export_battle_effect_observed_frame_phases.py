@@ -17,15 +17,19 @@ SCHEMA = "battle-effect-observed-frame-phases-v1"
 PHASE_ARTIFACTS = {
     1: Path("artifacts/battle-effect-frame-phase-group1-v1"),
     2: Path("artifacts/battle-effect-frame-phase-group2-v1"),
+    3: Path("artifacts/battle-effect-frame-phase-group3-natural-v1"),
     5: Path("artifacts/battle-effect-frame-phase-group5-v1"),
     11: Path("artifacts/battle-effect-frame-phase-v1"),
     14: Path("artifacts/battle-effect-frame-phase-group14-v1"),
 }
+PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
+NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
 PIXEL_AB_ARTIFACTS = {
     1: Path("artifacts/battle-effect-group1-pixel-ab-v1"),
     5: Path("artifacts/battle-effect-group5-pixel-ab-v1"),
     11: Path("artifacts/battle-effect-group11-pixel-ab-v1"),
     14: Path("artifacts/battle-effect-group14-pixel-ab-v1"),
+    15: Path("artifacts/battle-effect-group15-pixel-ab-v1"),
 }
 BATCH_SPEC = Path(
     "sequel/content/battle-effect-phase-capture/observed-groups-batch-v1.json"
@@ -94,8 +98,8 @@ def build_coverage(root: Path) -> dict[str, Any]:
         raise ValueError("observed task bindings are not hash-locked by the promotion")
     observed = _object(root / OBSERVED_SOURCE)
     observed_ids = observed.get("summary", {}).get("all_persisted_observed_group_ids")
-    if observed_ids != sorted(PHASE_ARTIFACTS):
-        raise ValueError("observed group source differs from phase artifact set")
+    if observed_ids != PERSISTED_OBSERVED_GROUP_IDS:
+        raise ValueError("persisted observed group source mismatch")
     batch = _object(root / BATCH_SPEC)
     batch_ids = [row.get("group_id") for row in batch.get("cases", [])]
     if batch_ids != [1, 2, 5, 14] or batch.get("already_promoted_group_ids") != [11]:
@@ -124,6 +128,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
         "all_group_denominator": all_groups,
         "observed_group_denominator": len(observed_ids),
         "observed_group_ids": observed_ids,
+        "natural_delayed_extension_group_ids": NATURAL_DELAYED_EXTENSION_GROUP_IDS,
         "phase_verified_group_count": len(phase_rows),
         "phase_verified_group_ids": [row["group_id"] for row in phase_rows],
         "phase_artifacts": phase_rows,
@@ -141,6 +146,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
         },
         "scope": {
             "all_observed_groups_have_one_verified_phase_transaction": True,
+            "natural_delayed_group3_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -148,8 +154,9 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "physical_gba_verified": False,
         },
         "boundary": (
-            "Five of 18 groups have one verified global renderer/submit/ack transaction. "
-            "Only groups 1, 5, 11 and 14 have production modified-ROM pixel A/B evidence."
+            "Six of 18 groups have one verified global renderer/submit/ack transaction; "
+            "group 3 is a natural delayed-object extension beyond the five-group persisted corpus. "
+            "Only groups 1, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence."
         ),
     }
 

@@ -35,11 +35,16 @@ CAPTURE_SUFFIXES = (
 )
 REPOSITORY_FILES = (
     "tools/export_battle_effect_frame_phase.py",
+    "tools/rebuild_battle_effect_frame_phase_artifacts.py",
     "tools/verify_battle_effect_frame_phase.py",
+    "tools/verify_battlefield_object_effect_chain.py",
+    "tools/thumb_branch.py",
     "tools/mgba_battle_effect_phase_capture.lua",
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tests/test_export_battle_effect_frame_phase.py",
+    "tests/test_rebuild_battle_effect_frame_phase_artifacts.py",
     "tests/test_verify_battle_effect_frame_phase.py",
+    "tests/test_verify_battlefield_object_effect_chain.py",
     "tests/test_mgba_battle_effect_phase_capture_script.py",
     "tests/test_run_macos_mgba_battle_effect_phase_capture.py",
     "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",

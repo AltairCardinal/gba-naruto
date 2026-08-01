@@ -20,15 +20,19 @@ except ModuleNotFoundError:
 EXPECTED = {
     1: Path("artifacts/battle-effect-frame-phase-group1-v1"),
     2: Path("artifacts/battle-effect-frame-phase-group2-v1"),
+    3: Path("artifacts/battle-effect-frame-phase-group3-natural-v1"),
     5: Path("artifacts/battle-effect-frame-phase-group5-v1"),
     11: Path("artifacts/battle-effect-frame-phase-v1"),
     14: Path("artifacts/battle-effect-frame-phase-group14-v1"),
 }
+PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
+NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
 PIXEL_AB = {
     1: Path("artifacts/battle-effect-group1-pixel-ab-v1"),
     5: Path("artifacts/battle-effect-group5-pixel-ab-v1"),
     11: Path("artifacts/battle-effect-group11-pixel-ab-v1"),
     14: Path("artifacts/battle-effect-group14-pixel-ab-v1"),
+    15: Path("artifacts/battle-effect-group15-pixel-ab-v1"),
 }
 OBSERVED_ARTIFACT = Path("artifacts/battle-effect-runtime-oam-task-bindings-v1")
 OBSERVED_PAYLOAD = OBSERVED_ARTIFACT / "bindings.json"
@@ -120,9 +124,10 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
         observed_ids = observed.get("summary", {}).get("all_persisted_observed_group_ids")
         binding_verification = verify_bindings(root, observed_path)
         if (
-            observed_ids != sorted(EXPECTED)
+            observed_ids != PERSISTED_OBSERVED_GROUP_IDS
             or not binding_verification.get("verified")
-            or binding_verification.get("observed_group_ids") != sorted(EXPECTED)
+            or binding_verification.get("observed_group_ids")
+            != PERSISTED_OBSERVED_GROUP_IDS
         ):
             errors.append("observed group source mismatch")
         batch_source = coverage.get("sources", {}).get("batch_spec", {})
@@ -165,6 +170,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
                 errors.append(f"pixel A/B manifest hash mismatch: {group_id}")
         expected_scope = {
             "all_observed_groups_have_one_verified_phase_transaction": True,
+            "natural_delayed_group3_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -176,10 +182,12 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
         if (
             coverage.get("all_group_denominator") != 18
             or coverage.get("observed_group_denominator") != 5
-            or coverage.get("observed_group_ids") != sorted(EXPECTED)
-            or coverage.get("phase_verified_group_count") != 5
+            or coverage.get("observed_group_ids") != PERSISTED_OBSERVED_GROUP_IDS
+            or coverage.get("natural_delayed_extension_group_ids")
+            != NATURAL_DELAYED_EXTENSION_GROUP_IDS
+            or coverage.get("phase_verified_group_count") != 6
             or coverage.get("phase_verified_group_ids") != sorted(EXPECTED)
-            or coverage.get("production_pixel_ab_group_count") != 4
+            or coverage.get("production_pixel_ab_group_count") != 5
             or coverage.get("production_pixel_ab_group_ids") != sorted(PIXEL_AB)
         ):
             errors.append("coverage summary denominator mismatch")
@@ -188,9 +196,9 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
     return {
         "verified": not errors,
         "errors": errors,
-        "phase_verified_groups": 5 if not errors else 0,
+        "phase_verified_groups": 6 if not errors else 0,
         "all_groups": 18,
-        "production_pixel_ab_groups": 4 if not errors else 0,
+        "production_pixel_ab_groups": 5 if not errors else 0,
     }
 
 

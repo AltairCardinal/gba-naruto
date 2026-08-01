@@ -2138,3 +2138,15 @@ WebSocket
   保持67/数量1。最终运行峰值65.66015625 MiB，非degraded且无进程/listener残留。
   自然行动提交和C3对象创建已闭合；E4到期、group 3 handler及修改ROM自然最终像素仍未
   闭合，production自然像素保持`5/18`，Goal保持active。
+- 2026-08-02：group 3 已从自然 C3 对象创建推进到原生 E4 到期与精确跨帧提交。
+  从 `scenario-49-battle-14-tool67-active-c3.ss9` 正常完成三名玩家单位的面向/不防御
+  与回合推进，固化唯一 slot 3/state 1/action C3/remaining 0 的
+  `scenario-49-battle-14-tool67-expiry-ready.ss9`；随后生产 profile 零输入恢复，
+  frame 67/67/68 在 `0x08063328/0x08061126/0x080612AA` 捕获 slot 126 的
+  renderer→submit→ack，pending 严格为 `0→1→0`，ack 后完整 shadow/hardware OAM
+  相等。新来源 verifier 同时约束自然提交、对象创建、C3/0 savestate、输入时无group 3
+  task及独立通过的C3→E4静态链。guard峰值71.33203125 MiB，非degraded且无残留。
+  成果位于`artifacts/battle-effect-frame-phase-group3-natural-v1/`，说明见
+  `notes/battle-effect-group3-natural-expiry-phase-20260802.md`。精确phase覆盖由5/18
+  提升到**6/18**；聚合artifact同时纠正production自然像素为既有**5/18**。本轮仍是
+  基准ROM，下一步把exclusive relocation与该自然入口组合，Goal保持active。

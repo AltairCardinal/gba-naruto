@@ -18,9 +18,224 @@ OBSERVED_GROUP_ARTIFACTS = {
     5: (ROOT / "artifacts/battle-effect-frame-phase-group5-v1", 2),
     14: (ROOT / "artifacts/battle-effect-frame-phase-group14-v1", 2),
 }
+NATURAL_DELAYED_PROFILE = (
+    ROOT
+    / "sequel/content/battle-effect-phase-capture/group-03-natural-tool67-expiry.json"
+)
+NATURAL_DELAYED_ARTIFACT = (
+    ROOT / "artifacts/battle-effect-frame-phase-group3-natural-v1"
+)
 
 
 class BattleEffectFramePhaseVerifierTests(unittest.TestCase):
+    def _natural_source_fixture(self, temporary_root):
+        profile = json.loads(NATURAL_DELAYED_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        contract = next(
+            row
+            for row in catalog["profiles"]
+            if row["profile_id"] == profile["profile_id"]
+        )
+        contract = json.loads(json.dumps(contract))
+        for relative in (
+            profile["input_state"],
+            profile["source_runtime_evidence"],
+            contract["static_chain"]["path"],
+            "notes/battle-action-template-semantics-bindings-20260723.json",
+            "rom/base.gba",
+        ):
+            source = ROOT / relative
+            destination = temporary_root / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+        return profile, contract
+
+    def test_accepts_natural_delayed_object_checkpoint_provenance(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = json.loads(NATURAL_DELAYED_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        contract = next(
+            row
+            for row in catalog["profiles"]
+            if row["profile_id"] == profile["profile_id"]
+        )
+        verifier.validate_source_runtime_provenance(
+            ROOT,
+            profile,
+            contract,
+            group_id=3,
+            input_state_path=profile["input_state"],
+            input_state_sha256=profile["input_state_sha256"],
+            rom_sha256=profile["source_rom_sha256"],
+        )
+
+    def test_accepts_natural_group3_expiry_phase_artifact(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        result = verifier.verify_artifact(NATURAL_DELAYED_ARTIFACT)
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(result["group_id"], 3)
+        self.assertEqual(result["pending_sequence"], [0, 1, 0])
+        self.assertEqual(result["target_dispatch_ordinals"], [0, 0, 0])
+        self.assertTrue(result["ack_shadow_matches_hardware"])
+
+    def test_rejects_natural_delayed_object_contract_tampering(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = json.loads(NATURAL_DELAYED_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        original = next(
+            row
+            for row in catalog["profiles"]
+            if row["profile_id"] == profile["profile_id"]
+        )
+        cases = (
+            ("remaining turns", lambda row: row["delayed_object"].__setitem__("remaining_turns", 1)),
+            ("static chain hash", lambda row: row["static_chain"].__setitem__("sha256", "0" * 64)),
+        )
+        for expected, mutate in cases:
+            with self.subTest(expected=expected):
+                contract = json.loads(json.dumps(original))
+                mutate(contract)
+                with self.assertRaisesRegex(ValueError, expected):
+                    verifier.validate_source_runtime_provenance(
+                        ROOT,
+                        profile,
+                        contract,
+                        group_id=3,
+                        input_state_path=profile["input_state"],
+                        input_state_sha256=profile["input_state_sha256"],
+                        rom_sha256=profile["source_rom_sha256"],
+                    )
+
+    def test_rejects_natural_delayed_source_semantic_tampering(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        cases = (
+            (
+                "natural action submission",
+                lambda evidence, contract: evidence["scope"].__setitem__(
+                    "natural_action_submission_verified", False
+                ),
+            ),
+            (
+                "natural object creation",
+                lambda evidence, contract: evidence["scope"].__setitem__(
+                    "natural_object_creation_verified", False
+                ),
+            ),
+            (
+                "natural expiry handler",
+                lambda evidence, contract: evidence["scope"].__setitem__(
+                    "natural_expiry_handler_verified", True
+                ),
+            ),
+            (
+                "ninja tool",
+                lambda evidence, contract: evidence["runtime_binding"].__setitem__(
+                    "ninja_tool_id", 68
+                ),
+            ),
+            (
+                "base ROM",
+                lambda evidence, contract: evidence["provenance"].__setitem__(
+                    "base_rom_sha256", "0" * 64
+                ),
+            ),
+        )
+        for expected, mutate in cases:
+            with self.subTest(expected=expected), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp).resolve()
+                profile, contract = self._natural_source_fixture(root)
+                evidence_path = root / profile["source_runtime_evidence"]
+                evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+                mutate(evidence, contract)
+                evidence_path.write_text(
+                    json.dumps(evidence, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+                evidence_hash = hashlib.sha256(evidence_path.read_bytes()).hexdigest()
+                profile["source_runtime_evidence_sha256"] = evidence_hash
+                contract["source_evidence"]["sha256"] = evidence_hash
+                with self.assertRaisesRegex(ValueError, expected):
+                    verifier.validate_source_runtime_provenance(
+                        root,
+                        profile,
+                        contract,
+                        group_id=3,
+                        input_state_path=profile["input_state"],
+                        input_state_sha256=profile["input_state_sha256"],
+                        rom_sha256=profile["source_rom_sha256"],
+                    )
+
+    def test_rejects_natural_delayed_source_with_accepted_parent(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = json.loads(NATURAL_DELAYED_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        contract = json.loads(
+            json.dumps(
+                next(
+                    row
+                    for row in catalog["profiles"]
+                    if row["profile_id"] == profile["profile_id"]
+                )
+            )
+        )
+        contract["accepted_parent"] = {}
+        with self.assertRaisesRegex(ValueError, "accepted parent"):
+            verifier.validate_source_runtime_provenance(
+                ROOT,
+                profile,
+                contract,
+                group_id=3,
+                input_state_path=profile["input_state"],
+                input_state_sha256=profile["input_state_sha256"],
+                rom_sha256=profile["source_rom_sha256"],
+            )
+
+    def test_rejects_natural_delayed_source_when_static_chain_verifier_fails(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            profile, contract = self._natural_source_fixture(root)
+            chain_path = root / contract["static_chain"]["path"]
+            chain = json.loads(chain_path.read_text(encoding="utf-8"))
+            chain["allocator_contract"]["end_tile"] -= 1
+            chain_path.write_text(
+                json.dumps(chain, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            contract["static_chain"]["sha256"] = hashlib.sha256(
+                chain_path.read_bytes()
+            ).hexdigest()
+            with self.assertRaisesRegex(ValueError, "static chain verifier"):
+                verifier.validate_source_runtime_provenance(
+                    root,
+                    profile,
+                    contract,
+                    group_id=3,
+                    input_state_path=profile["input_state"],
+                    input_state_sha256=profile["input_state_sha256"],
+                    rom_sha256=profile["source_rom_sha256"],
+                )
+
     def test_independent_verifier_accepts_production_artifact(self):
         verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
         source = inspect.getsource(verifier)

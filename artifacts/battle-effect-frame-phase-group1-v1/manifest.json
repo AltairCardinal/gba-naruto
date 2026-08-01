@@ -123,15 +123,20 @@
   "repository_files": {
     "artifacts/rom-expansion-profile-v1/profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "sequel/content/battle-effect-phase-capture/group-01-tracked-dust.json": "1deba3c53644646a22eb0ea114dd4985501c71b37d2f40bfa700937203ca228b",
-    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "a90762edc84bf0d8cfa5cd5f2d7aa242eb7746ced1b09ea416b42fba4a3d6355",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "7b64b7cae580b2639267eec2bdcce5c53b235bcbcf2498c378abbf48b937e00e",
     "tests/test_export_battle_effect_frame_phase.py": "5c71b45c3c34b8a0b01546af93b226681bebb438330e4ff24097b51c34236720",
     "tests/test_mgba_battle_effect_phase_capture_script.py": "3d243d23cd0ee88a3e197446ff210699ef562443d00b0fb2f93250ea7c08db50",
+    "tests/test_rebuild_battle_effect_frame_phase_artifacts.py": "926d9cd304c5357486623993656b48d77a755593f70fd9eaf754384edff9ea2d",
     "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "97b1b62b819d68fb1403381cea422378f217699413d44f099cc2b50db8a2b043",
-    "tests/test_verify_battle_effect_frame_phase.py": "3b03c6919186251f0950420ab2b0ceaf27bdd579686ea3e304db6f8dcdbe2454",
-    "tools/export_battle_effect_frame_phase.py": "5b777fda4b97745f716bc50d737dcb5975c422fb05464ebedf10d00418f67e82",
+    "tests/test_verify_battle_effect_frame_phase.py": "53bedf38ec406b8eeb3afc59b60551a515a714b49d7bef2f66d7ba3eadbebf12",
+    "tests/test_verify_battlefield_object_effect_chain.py": "fcf43068f850a3269fdd1c66ddb8d9088be9d052284d93be7f7139aacd308ee4",
+    "tools/export_battle_effect_frame_phase.py": "e8513308b9b79a4b442c975fa8661fd0bc1f7f3713f5a430bc7d648ad0b4170e",
     "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
-    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
-    "tools/verify_battle_effect_frame_phase.py": "e612d8c289780cf54c312b6b808503aba9747f6e9927ea400c88d1a051411d9e"
+    "tools/rebuild_battle_effect_frame_phase_artifacts.py": "0b55086e94b4950523bed857893a8b95f3125c05e5e1dccaa9e0c6f7f1aa0b21",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "a9b832594e514546fc298e6fe4958a9a1138fd0c8298007b5f45455685e19855",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_frame_phase.py": "4dc2116c37c2b32becc00b4770fe3e6d2f186c83da0833142d06d4c3467058a5",
+    "tools/verify_battlefield_object_effect_chain.py": "1d6914dd5ab444d48b08ceaa5de43fe6c35cbd07c34f75b7f0178293843b5760"
   },
   "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "run_id": "cd98182569083f0e0219a3385b693d36",
@@ -139,7 +144,7 @@
   "source_runtime_provenance": {
     "catalog": {
       "path": "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
-      "sha256": "a90762edc84bf0d8cfa5cd5f2d7aa242eb7746ced1b09ea416b42fba4a3d6355"
+      "sha256": "7b64b7cae580b2639267eec2bdcce5c53b235bcbcf2498c378abbf48b937e00e"
     },
     "contract": {
       "accepted_parent": {
@@ -169,7 +174,7 @@
       "python3",
       "tools/verify_battle_effect_frame_phase.py",
       "--artifact",
-      "artifacts/battle-effect-frame-phase-group1-v1"
+      "artifacts/.battle-effect-frame-phase-group1-v1-refresh-1g3x6vim/rebuilt"
     ],
     "exit_code": 0,
     "result": {
