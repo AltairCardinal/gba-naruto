@@ -1875,3 +1875,16 @@ WebSocket
   `artifacts/battle-effect-group11-pixel-ab-v1/`，说明见
   `notes/battle-effect-group11-pixel-ab-20260801.md`。其余16组、其他帧、完整
   affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。
+- 2026-08-01：战斗特效自然最终像素A/B由2组推进到**3/18组**。scenario 47中佐助
+  自然选择主动动作16“火遁·豪火球术”，对应encoded action 16→sequence 16→
+  group 14；从已跟踪turn-5快照到最终确认页的9段正确输入链及零输入稳定性已固化为
+  可恢复checkpoint，错误方向试探未进入成果。两份16 MiB ROM共享`0x08B40000`
+  relocation及2,138-byte安全LZ77拓扑，candidate只把graphics offset
+  `0x3A:33→23`。确认后frame 516的完整5,120-byte graphics与各自ROM源逐字节一致，
+  OAM entry 1为`0x0030/0x80A0/0x5920`、OBJ tile base 288、palette bank 5；六个
+  完整内存域仅VRAM `0x0601243A`一字节不同，mGBA PNG也仅屏幕`(173,54)`由
+  `(255,165,49)→(255,239,107)`。两次正式guard峰值RSS为55.95703125/
+  56.078125 MiB，非degraded且无PGID/listener残留。独立verifier从基准ROM重建
+  两份ROM并返回`errors=[]`；成果位于`artifacts/battle-effect-group14-pixel-ab-v1/`，
+  说明见`notes/battle-effect-group14-pixel-ab-20260801.md`。其余15组、其他帧、
+  完整affine/blend/时序/音频及实体GBA仍未全量签发，Goal保持active。

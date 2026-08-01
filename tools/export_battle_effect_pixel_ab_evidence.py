@@ -122,6 +122,23 @@ def _pixel_changes(left: bytes, right: bytes) -> list[dict[str, Any]]:
     return changes
 
 
+def _selector_scope(selector: object) -> dict[str, bool]:
+    if not isinstance(selector, dict) or selector.get("kind") not in {
+        "ninja_tool",
+        "active_action",
+    }:
+        raise ValueError("battle-effect pixel selector scope mismatch")
+    return {
+        f"natural_{selector['kind']}_route": True,
+        "production_relocation_route": True,
+        "single_group_single_frame_single_pixel": True,
+        "all_18_effect_groups_runtime_verified": False,
+        "all_group_frames_runtime_verified": False,
+        "full_affine_blend_timing_audio_equivalence": False,
+        "physical_gba_verified": False,
+    }
+
+
 def _raw_files(profile: dict[str, Any]) -> tuple[str, ...]:
     frame = profile["runtime_input"]["capture_frame"]
     group = profile["group_id"]
@@ -461,15 +478,7 @@ def export_evidence(
             },
         },
         "runs": runs,
-        "scope": {
-            "natural_ninja_tool_route": True,
-            "production_relocation_route": True,
-            "single_group_single_frame_single_pixel": True,
-            "all_18_effect_groups_runtime_verified": False,
-            "all_group_frames_runtime_verified": False,
-            "full_affine_blend_timing_audio_equivalence": False,
-            "physical_gba_verified": False,
-        },
+        "scope": _selector_scope(profile["selector"]),
     }
     _write_json(output / "runtime-evidence.json", evidence)
 

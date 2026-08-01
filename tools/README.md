@@ -178,11 +178,14 @@ python3 tools/build_battle_effect_pixel_ab.py \
   --output build/experiments/active/battle-effect-group11/build
 python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group11-pixel-ab-v1
+python3 tools/verify_battle_effect_pixel_ab_evidence.py \
+  --artifact artifacts/battle-effect-group14-pixel-ab-v1
 ```
 
-当前profile签发scenario 50自然忍具1 → sequence 13 → group 11、frame 0的单像素链。
-输入checkpoint停在最终确认A之前，避免每次重放十段菜单/战斗导航。该profile不证明
-其余group/frame、完整affine/blend/时序/音频或实体GBA。
+当前profile同时支持`ninja_tool`和`active_action` selector，分别签发scenario 50
+自然忍具1 → sequence 13 → group 11，以及scenario 47主动动作16 → sequence 16 →
+group 14的frame 0单像素链。输入checkpoint均停在最终确认A之前，避免重复长导航。
+这些profile不证明其余group/frame、完整affine/blend/时序/音频或实体GBA。
 
 ## 剧情透明 BG3 图层可变长迁移
 

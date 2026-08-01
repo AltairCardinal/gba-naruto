@@ -172,6 +172,51 @@ def _find(rows: object, label: str, **criteria: object) -> dict[str, Any]:
     return matches[0]
 
 
+def _resolve_selector_binding(
+    selector: object,
+    sequence_bindings: Mapping[str, Any],
+    *,
+    sequence_id: int,
+) -> tuple[dict[str, Any], dict[str, int]]:
+    """Resolve a supported action selector without weakening its ID contract."""
+
+    if not isinstance(selector, dict):
+        raise ValueError("battle-effect pixel selector contract mismatch")
+    kind = selector.get("kind")
+    selector_id = _require_int(selector.get("id"), "selector id")
+    encoded_action_id = _require_int(
+        selector.get("encoded_action_id"), "encoded_action_id"
+    )
+    if kind == "ninja_tool":
+        binding = _find(
+            sequence_bindings.get("ninja_tool_bindings"),
+            "ninja-tool binding",
+            ninja_tool_id=selector_id,
+        )
+        id_key = "ninja_tool_id"
+        binding_encoded_action_id = binding.get("encoded_action_id")
+    elif kind == "active_action":
+        binding = _find(
+            sequence_bindings.get("active_action_bindings"),
+            "active-action binding",
+            action_id=selector_id,
+        )
+        id_key = "active_action_id"
+        binding_encoded_action_id = selector_id
+    else:
+        raise ValueError("battle-effect pixel selector contract mismatch")
+    if (
+        binding_encoded_action_id != encoded_action_id
+        or binding.get("sequence_id") != sequence_id
+    ):
+        raise ValueError(f"battle-effect pixel {kind} binding mismatch")
+    return binding, {
+        id_key: selector_id,
+        "encoded_action_id": encoded_action_id,
+        "sequence_id": sequence_id,
+    }
+
+
 def _validate_profile(
     root: Path, profile_path: Path
 ) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -288,23 +333,11 @@ def _validate_profile(
     ):
         raise ValueError("battle-effect pixel nibble isolation mismatch")
 
-    selector = profile.get("selector")
-    if not isinstance(selector, dict) or selector.get("kind") != "ninja_tool":
-        raise ValueError("battle-effect pixel selector contract mismatch")
-    selector_id = _require_int(selector.get("id"), "selector id")
-    encoded_action_id = _require_int(
-        selector.get("encoded_action_id"), "encoded_action_id"
+    binding, build_binding = _resolve_selector_binding(
+        profile.get("selector"),
+        catalog_payloads["sequence_bindings"],
+        sequence_id=sequence_id,
     )
-    binding = _find(
-        catalog_payloads["sequence_bindings"].get("ninja_tool_bindings"),
-        "ninja-tool binding",
-        ninja_tool_id=selector_id,
-    )
-    if (
-        binding.get("encoded_action_id") != encoded_action_id
-        or binding.get("sequence_id") != sequence_id
-    ):
-        raise ValueError("battle-effect pixel ninja-tool binding mismatch")
     sequence = _find(
         catalog_payloads["sequence_bindings"].get("sequences"),
         "sequence descriptor",
@@ -352,6 +385,7 @@ def _validate_profile(
         "frame": frame,
         "component": component,
         "binding": binding,
+        "build_binding": build_binding,
         "sequence": sequence,
         "allocation_offset": allocation_offset,
         "expected_encoded_size": expected_encoded_size,
@@ -464,12 +498,7 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         "input_evidence_sha256": profile["input_evidence_sha256"],
         "runtime_input": profile["runtime_input"],
         "runtime_oam": profile["runtime_oam"],
-        "binding": {
-            "ninja_tool_id": profile["selector"]["id"],
-            "encoded_action_id": profile["selector"]["encoded_action_id"],
-            "sequence_id": profile["sequence_id"],
-            "group_id": profile["group_id"],
-        },
+        "binding": {**contract["build_binding"], "group_id": profile["group_id"]},
         "edit": {
             "frame_id": profile["frame_id"],
             "component_index": profile["component_index"],

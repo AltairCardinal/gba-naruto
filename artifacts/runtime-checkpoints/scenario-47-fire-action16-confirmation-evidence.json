@@ -1,0 +1,128 @@
+{
+  "artifact_status": "accepted",
+  "boundary": {
+    "description": "scenario 47 battle, Sasuke active action 16 fire confirmation prompt before the final A",
+    "final_confirmation_pressed": false,
+    "next_input": {
+      "down_frame": 5,
+      "key": "A",
+      "up_frame": 13
+    },
+    "next_runtime_binding": {
+      "encoded_action_id": 16,
+      "resource_group_id": 14,
+      "sequence_id": 16
+    }
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn5-retreat.ss9",
+    "sha256": "529b3e0f64d5b9a161994765efa25f341f9d8d5b772d45f5f3cc8df9fadd6e55"
+  },
+  "output": {
+    "capture_frame": 260,
+    "embedded_rgb_sha256": "da2ca180fc7966f4907341093c3eefd94287103585feaad8df62f409cce1aed3",
+    "path": "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9",
+    "png_sha256": "a6d994a1e0a5b3ad5b7d8b5930a15d1d05817a4c07342295ede4776451874640",
+    "sha256": "50330328232cb626fa6888bce0cc67f5bb6386317d76cf9dfdb1945a8ed6d1dd"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "mgba_binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "mgba_build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "replay_script": "tools/mgba_single_input_replay.lua",
+    "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d"
+  },
+  "route_segments": [
+    {
+      "input_state_sha256": "529b3e0f64d5b9a161994765efa25f341f9d8d5b772d45f5f3cc8df9fadd6e55",
+      "inputs": [{"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13}],
+      "output_state_sha256": "0f99fdefb4fb949465da77c5f706cfc242a43f7e37bc615809ad7df276e00f68",
+      "run_id": "s47-turn5-dismiss-20260801-01"
+    },
+    {
+      "input_state_sha256": "0f99fdefb4fb949465da77c5f706cfc242a43f7e37bc615809ad7df276e00f68",
+      "inputs": [
+        {"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13},
+        {"down_frame": 140, "hold_frames": 8, "key": "A", "up_frame": 148},
+        {"down_frame": 280, "hold_frames": 8, "key": "A", "up_frame": 288}
+      ],
+      "output_state_sha256": "758812ff6981d07bff041bddd8cbe4d25c7809fff62786195cda1875a34dd0aa",
+      "run_id": "s47-turn5-dismiss-tail-20260801-01"
+    },
+    {
+      "input_state_sha256": "758812ff6981d07bff041bddd8cbe4d25c7809fff62786195cda1875a34dd0aa",
+      "inputs": [{"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13}],
+      "output_state_sha256": "2723004d3548c29d3d39305853f9b0eea4625499b3f37a57f676d4ff1bbd0cc7",
+      "run_id": "s47-turn5-dismiss-final-20260801-01"
+    },
+    {
+      "input_state_sha256": "2723004d3548c29d3d39305853f9b0eea4625499b3f37a57f676d4ff1bbd0cc7",
+      "inputs": [
+        {"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13},
+        {"down_frame": 180, "hold_frames": 8, "key": "A", "up_frame": 188}
+      ],
+      "output_state_sha256": "c5de6a066840d2a24ddfa7b1091fc82344b2c291aaf373b9aa0848ce4ff1009e",
+      "run_id": "s47-turn5-dismiss-end-20260801-01"
+    },
+    {
+      "input_state_sha256": "c5de6a066840d2a24ddfa7b1091fc82344b2c291aaf373b9aa0848ce4ff1009e",
+      "inputs": [
+        {"down_frame": 5, "hold_frames": 8, "key": "R", "up_frame": 13},
+        {"down_frame": 140, "hold_frames": 8, "key": "A", "up_frame": 148},
+        {"down_frame": 260, "hold_frames": 8, "key": "Down", "up_frame": 268},
+        {"down_frame": 380, "hold_frames": 8, "key": "A", "up_frame": 388},
+        {"down_frame": 500, "hold_frames": 8, "key": "A", "up_frame": 508}
+      ],
+      "output_state_sha256": "6bf78d23bfba93ce251b7fe7e9a6dd483dd2578e135b931ddf212d276d0e1f05",
+      "run_id": "s47-turn5-fire-route-a-20260801-01"
+    },
+    {
+      "input_state_sha256": "6bf78d23bfba93ce251b7fe7e9a6dd483dd2578e135b931ddf212d276d0e1f05",
+      "inputs": [{"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13}],
+      "output_state_sha256": "3f2910d4dd9ab0d5dbc86363bee3c0dfa27c018eb6d520063af05a88dee1dfb5",
+      "run_id": "s47-turn5-fire-confirm-continue-20260801-01"
+    },
+    {
+      "input_state_sha256": "3f2910d4dd9ab0d5dbc86363bee3c0dfa27c018eb6d520063af05a88dee1dfb5",
+      "inputs": [{"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13}],
+      "output_state_sha256": "fd2b65f3b6fbc7c1df45b74eeb3d384c702175b8dae9115e49d83cd2ff8a923f",
+      "run_id": "s47-turn5-fire-target-grid-20260801-01"
+    },
+    {
+      "input_state_sha256": "fd2b65f3b6fbc7c1df45b74eeb3d384c702175b8dae9115e49d83cd2ff8a923f",
+      "inputs": [
+        {"down_frame": 5, "hold_frames": 8, "key": "Down", "up_frame": 13},
+        {"down_frame": 160, "hold_frames": 1, "key": "A", "up_frame": 161}
+      ],
+      "output_state_sha256": "3df6ee6ada1c9d95531c50d809e3030415af51dac72f182b575af4a920a6d67d",
+      "run_id": "s47-turn5-fire-valid-target-20260801-01"
+    },
+    {
+      "input_state_sha256": "3df6ee6ada1c9d95531c50d809e3030415af51dac72f182b575af4a920a6d67d",
+      "inputs": [{"down_frame": 5, "hold_frames": 1, "key": "A", "up_frame": 6}],
+      "output_state_sha256": "50330328232cb626fa6888bce0cc67f5bb6386317d76cf9dfdb1945a8ed6d1dd",
+      "run_id": "s47-turn5-fire-final-confirm-20260801-03"
+    }
+  ],
+  "schema": "runtime-active-action-confirmation-evidence-v1",
+  "scope": {
+    "natural_active_action_route": true,
+    "post_confirmation_effect_runtime": false,
+    "zero_input_stability_verified": true
+  },
+  "zero_input": {
+    "capture_frame": 240,
+    "degraded": false,
+    "embedded_rgb_sha256": "9f62fe465f09c05c989e66b9ff800b69c0bcb6330493f2b73450af1b8fad750a",
+    "exit_code": 0,
+    "input_state_sha256": "50330328232cb626fa6888bce0cc67f5bb6386317d76cf9dfdb1945a8ed6d1dd",
+    "mgba_listener_clean": true,
+    "output_png_sha256": "9d80fb3d037faf964ea1546e591e8675d041e9d86d3bfed8eea255b4dd6983bd",
+    "output_state_sha256": "cbcc6620fc269834112ffd9e262e64de002b8e573e9101fc7adc8404063f6e20",
+    "peak_tree_rss_mib": 51.86328125,
+    "pgid_clean": true,
+    "reason": "completed",
+    "replay_script": "tools/mgba_checkpoint_replay.lua",
+    "replay_script_sha256": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659"
+  }
+}

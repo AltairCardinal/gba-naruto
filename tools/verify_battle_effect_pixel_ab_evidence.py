@@ -37,6 +37,7 @@ MGBA_BUILD_MANIFEST_SHA256 = (
     "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d"
 )
 VARIANTS = ("baseline", "candidate")
+INPUT_KEYS = {"A", "B", "L", "R", "Up", "Down", "Left", "Right", "Start"}
 DOMAINS = {
     "EWRAM": (0x02000000, 0x40000),
     "IWRAM": (0x03000000, 0x8000),
@@ -152,6 +153,23 @@ def _one(rows: object, label: str, **criteria: object) -> dict[str, Any]:
     return matches[0]
 
 
+def _selector_scope(selector: object) -> dict[str, bool]:
+    if not isinstance(selector, dict) or selector.get("kind") not in {
+        "ninja_tool",
+        "active_action",
+    }:
+        raise ValueError("battle-effect pixel selector scope mismatch")
+    return {
+        f"natural_{selector['kind']}_route": True,
+        "production_relocation_route": True,
+        "single_group_single_frame_single_pixel": True,
+        "all_18_effect_groups_runtime_verified": False,
+        "all_group_frames_runtime_verified": False,
+        "full_affine_blend_timing_audio_equivalence": False,
+        "physical_gba_verified": False,
+    }
+
+
 def _raw_files(profile: dict[str, Any]) -> tuple[str, ...]:
     frame = profile["runtime_input"]["capture_frame"]
     group = profile["group_id"]
@@ -183,6 +201,88 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     parent = checkpoint.get("input", {})
     parent_path = _safe_file(root, parent.get("path"), "checkpoint parent")
     next_binding = checkpoint.get("boundary", {}).get("next_runtime_binding", {})
+    selector_kind = profile.get("selector", {}).get("kind")
+    expected_next_input = {
+        "key": profile["runtime_input"]["key"],
+        "down_frame": profile["runtime_input"]["down_frame"],
+        "up_frame": profile["runtime_input"]["up_frame"],
+    }
+    expected_next_binding = {
+        "encoded_action_id": profile["selector"]["encoded_action_id"],
+        "resource_group_id": profile["group_id"],
+        "sequence_id": profile["sequence_id"],
+    }
+    if selector_kind == "active_action":
+        route = checkpoint.get("route_segments")
+        zero = checkpoint.get("zero_input", {})
+        if not isinstance(route, list) or not route:
+            raise ValueError("battle-effect pixel active-action route is incomplete")
+        cursor = parent.get("sha256")
+        run_ids: set[str] = set()
+        for segment in route:
+            if (
+                not isinstance(segment, dict)
+                or segment.get("input_state_sha256") != cursor
+                or not isinstance(segment.get("inputs"), list)
+                or not segment["inputs"]
+                or not isinstance(segment.get("run_id"), str)
+                or segment["run_id"] in run_ids
+            ):
+                raise ValueError("battle-effect pixel active-action route chain mismatch")
+            for event in segment["inputs"]:
+                if (
+                    not isinstance(event, dict)
+                    or event.get("key") not in INPUT_KEYS
+                    or not 0
+                    <= event.get("down_frame", -1)
+                    < event.get("up_frame", -1)
+                    or event.get("hold_frames")
+                    != event["up_frame"] - event["down_frame"]
+                ):
+                    raise ValueError("battle-effect pixel active-action route input mismatch")
+            run_ids.add(segment["run_id"])
+            cursor = segment.get("output_state_sha256")
+        if (
+            checkpoint.get("schema")
+            != "runtime-active-action-confirmation-evidence-v1"
+            or checkpoint.get("artifact_status") != "accepted"
+            or checkpoint.get("output", {}).get("path") != profile["input_state"]
+            or checkpoint.get("output", {}).get("sha256")
+            != profile["input_state_sha256"]
+            or cursor != profile["input_state_sha256"]
+            or png_screen_fingerprint(state_path).get("rgb_pixels_sha256")
+            != checkpoint.get("output", {}).get("embedded_rgb_sha256")
+            or _sha256_file(parent_path) != parent.get("sha256")
+            or checkpoint.get("provenance", {}).get("base_rom_sha256") != ROM_SHA256
+            or checkpoint.get("provenance", {}).get("mgba_binary_sha256")
+            != MGBA_BINARY_SHA256
+            or checkpoint.get("provenance", {}).get("mgba_build_manifest_sha256")
+            != MGBA_BUILD_MANIFEST_SHA256
+            or checkpoint.get("provenance", {}).get("replay_script")
+            != "tools/mgba_single_input_replay.lua"
+            or _sha256_file(root / "tools/mgba_single_input_replay.lua")
+            != checkpoint.get("provenance", {}).get("replay_script_sha256")
+            or checkpoint.get("boundary", {}).get("final_confirmation_pressed") is not False
+            or checkpoint.get("boundary", {}).get("next_input") != expected_next_input
+            or next_binding != expected_next_binding
+            or checkpoint.get("scope")
+            != {
+                "natural_active_action_route": True,
+                "post_confirmation_effect_runtime": False,
+                "zero_input_stability_verified": True,
+            }
+            or zero.get("input_state_sha256") != profile["input_state_sha256"]
+            or zero.get("reason") != "completed"
+            or zero.get("exit_code") != 0
+            or zero.get("degraded") is not False
+            or zero.get("pgid_clean") is not True
+            or zero.get("mgba_listener_clean") is not True
+            or zero.get("replay_script") != "tools/mgba_checkpoint_replay.lua"
+            or _sha256_file(root / "tools/mgba_checkpoint_replay.lua")
+            != zero.get("replay_script_sha256")
+        ):
+            raise ValueError("battle-effect pixel active-action checkpoint contract mismatch")
+        return
     if (
         checkpoint.get("schema") != "runtime-checkpoint-input-sequence-evidence-v1"
         or checkpoint.get("artifact_status") != "accepted"
@@ -210,18 +310,8 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
         or checkpoint.get("guard", {}).get("pgid_clean") is not True
         or checkpoint.get("guard", {}).get("mgba_listener_clean") is not True
         or checkpoint.get("boundary", {}).get("final_confirmation_pressed") is not False
-        or checkpoint.get("boundary", {}).get("next_input")
-        != {
-            "key": profile["runtime_input"]["key"],
-            "down_frame": profile["runtime_input"]["down_frame"],
-            "up_frame": profile["runtime_input"]["up_frame"],
-        }
-        or next_binding
-        != {
-            "encoded_action_id": profile["selector"]["encoded_action_id"],
-            "resource_group_id": profile["group_id"],
-            "sequence_id": profile["sequence_id"],
-        }
+        or checkpoint.get("boundary", {}).get("next_input") != expected_next_input
+        or next_binding != expected_next_binding
         or len(checkpoint.get("inputs", [])) != 10
         or checkpoint.get("scope", {}).get(
             "historical_segmented_reference_hash_recorded_equal"
@@ -307,19 +397,30 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         raise ValueError("battle-effect pixel animation/pixel mapping mismatch")
 
     selector = profile.get("selector", {})
-    binding = _one(
-        payloads["sequence_bindings"].get("ninja_tool_bindings"),
-        "ninja tool",
-        ninja_tool_id=selector.get("id"),
-    )
+    selector_kind = selector.get("kind")
+    if selector_kind == "ninja_tool":
+        binding = _one(
+            payloads["sequence_bindings"].get("ninja_tool_bindings"),
+            "ninja tool",
+            ninja_tool_id=selector.get("id"),
+        )
+        binding_encoded_action_id = binding.get("encoded_action_id")
+    elif selector_kind == "active_action":
+        binding = _one(
+            payloads["sequence_bindings"].get("active_action_bindings"),
+            "active action",
+            action_id=selector.get("id"),
+        )
+        binding_encoded_action_id = binding.get("action_id")
+    else:
+        raise ValueError("battle-effect pixel selector kind mismatch")
     sequence = _one(
         payloads["sequence_bindings"].get("sequences"),
         "sequence",
         sequence_id=sequence_id,
     )
     if (
-        selector.get("kind") != "ninja_tool"
-        or binding.get("encoded_action_id") != selector.get("encoded_action_id")
+        binding_encoded_action_id != selector.get("encoded_action_id")
         or binding.get("sequence_id") != sequence_id
         or group not in sequence.get("nonzero_resource_group_ids", [])
     ):
@@ -375,7 +476,7 @@ def _ledger(profile: dict[str, Any], source_sha: str, graphics: bytes) -> list[d
             "decompressed_size": len(graphics),
         },
         {
-            "id": f"battle-effect-graphics-000.pointer-{pointer_offset:X}",
+            "id": f"battle-effect-graphics-000.pointer-{pointer_offset:x}",
             "kind": "redirect",
             "asset_type": "battle_effect_resource_pointer",
             "resource_type": "graphics",
@@ -430,8 +531,13 @@ def _verify_build(
         variant: _rebuild_rom(contract["base"], profile, content)
         for variant, content in graphics.items()
     }
+    selector_id_key = (
+        "ninja_tool_id"
+        if profile["selector"]["kind"] == "ninja_tool"
+        else "active_action_id"
+    )
     expected_binding = {
-        "ninja_tool_id": profile["selector"]["id"],
+        selector_id_key: profile["selector"]["id"],
         "encoded_action_id": profile["selector"]["encoded_action_id"],
         "sequence_id": profile["sequence_id"],
         "group_id": group,
@@ -624,15 +730,7 @@ def _verify(root: Path, artifact: Path) -> None:
         for path in sorted(artifact.rglob("*"))
         if path.is_file() and path.name != "manifest.json"
     }
-    expected_scope = {
-        "natural_ninja_tool_route": True,
-        "production_relocation_route": True,
-        "single_group_single_frame_single_pixel": True,
-        "all_18_effect_groups_runtime_verified": False,
-        "all_group_frames_runtime_verified": False,
-        "full_affine_blend_timing_audio_equivalence": False,
-        "physical_gba_verified": False,
-    }
+    expected_scope = _selector_scope(profile["selector"])
     if (
         manifest.get("schema") != PROMOTION_SCHEMA
         or manifest.get("artifact_schema") != EVIDENCE_SCHEMA
