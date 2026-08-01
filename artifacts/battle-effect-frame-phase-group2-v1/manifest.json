@@ -1,0 +1,201 @@
+{
+  "animations": {
+    "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+  },
+  "artifact_schema": "battle-effect-frame-phase-v1",
+  "artifact_status": "accepted",
+  "boundary": "The accepted supplemental state contains three natural group-2 affine tasks. No key or task mutation is injected; the capture covers the next global renderer, submit, and acknowledgement transaction containing the first matching group-2 task and remains supplemental rather than production pixel-A/B evidence.",
+  "breakpoint_pc_semantics": {
+    "mgba_source": "src/arm/debugger/debugger.c:_checkBreakpoints",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "mode": "Thumb",
+    "saved_r15_to_breakpoint": "saved_r15 - 2"
+  },
+  "description": "One zero-input renderer transaction containing an active group 2 task, captured after rendering, submission, and acknowledgement.",
+  "dump_semantics": {
+    "live_byte_read_boundary": "mGBA byte-wise MMIO reads are hash-locked live observations but are not required to equal the emulator's serialized I/O image.",
+    "live_byte_read_only": [
+      "io.bin"
+    ],
+    "savestate_exact": [
+      "task-pool.bin",
+      "active-count.bin",
+      "active-pointers.bin",
+      "runtime-offsets.bin",
+      "shadow-oam.bin",
+      "hardware-oam.bin",
+      "submission.bin",
+      "vram.bin",
+      "pram.bin"
+    ]
+  },
+  "files": {
+    "guard-summary.json": "276107d1235baa0a63682e447a4d993e5974bafaab5d2ffe0ebdb800321e6316",
+    "raw/ack-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+    "raw/ack-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+    "raw/ack-post/capture-hardware-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+    "raw/ack-post/capture-io.bin": "d8e502a9da2483817cee187732b773d5fa3e367a474d725d94bfd348c81a129d",
+    "raw/ack-post/capture-phase.json": "94cf716669f88425076ebc1e64e0638ca70531b713a5e315102ac2c96a51ae4f",
+    "raw/ack-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+    "raw/ack-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/ack-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+    "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+    "raw/ack-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+    "raw/ack-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+    "raw/ack-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+    "raw/ack-post/capture.ss9": "44780200742b102be8b90bb5f36b5d8dc365be44847b442a53e33f0a21fd27ba",
+    "raw/renderer-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+    "raw/renderer-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+    "raw/renderer-post/capture-hardware-oam.bin": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+    "raw/renderer-post/capture-io.bin": "a1d35f3bbd05192166a43b20c04693199125157c6b7b740010d83a573ca1eb00",
+    "raw/renderer-post/capture-phase.json": "58fc8d0192365bc359e75a204fd85b5dcd468a243c0f5e33853027f9d49b6ff4",
+    "raw/renderer-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+    "raw/renderer-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/renderer-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+    "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+    "raw/renderer-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+    "raw/renderer-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+    "raw/renderer-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+    "raw/renderer-post/capture.ss9": "fe76a96da4bd6b2ad8b4e6528b5c2d945b276a3c728f01f3bc5e2cb0b28a52a2",
+    "raw/submit-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+    "raw/submit-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+    "raw/submit-post/capture-hardware-oam.bin": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+    "raw/submit-post/capture-io.bin": "a0b567a6d0e701e58498b83e938ecf3ae9f28113d768edb67fe5aba7b0eab8f6",
+    "raw/submit-post/capture-phase.json": "7189a0e6eab19de9786fe41e93c958953cc280a2e90f9a7147f2829af3dd25d0",
+    "raw/submit-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+    "raw/submit-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/submit-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+    "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+    "raw/submit-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+    "raw/submit-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+    "raw/submit-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+    "raw/submit-post/capture.ss9": "f6cad461e3638593b162818d6eb32bd9a7a2ed6c1075c275be6cc59e842f88c4",
+    "runtime-audit.json": "ae6fdd6ab2097bc8cc5acea86a04cf452e20e4dd8fbc5027334c619446a28444"
+  },
+  "group_id": 2,
+  "input_mode": "zero-input-active-state",
+  "input_state": {
+    "path": "artifacts/battle-effect-affine-runtime-v1/raw/state-0154.ss9",
+    "sha256": "60028c26e1a529c9542b1e9644dcd35d341cfcfe593cde1b3359c1e2817e3c93"
+  },
+  "inputs": [],
+  "phase_script_sha256": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+  "phase_sequence": [
+    {
+      "address": "0x08063328",
+      "copy_route": null,
+      "cycle": "292596252953",
+      "frame": 0,
+      "name": "renderer-post",
+      "pending": 0,
+      "task_address": "0x030057D8",
+      "task_flags": "0xC1003481",
+      "task_slot": 120
+    },
+    {
+      "address": "0x08061126",
+      "copy_route": null,
+      "cycle": "292596253316",
+      "frame": 0,
+      "name": "submit-post",
+      "pending": 1,
+      "task_address": "0x030057D8",
+      "task_flags": "0xC1003481",
+      "task_slot": 120
+    },
+    {
+      "address": "0x080612AA",
+      "copy_route": null,
+      "cycle": "292596444338",
+      "frame": 1,
+      "name": "ack-post",
+      "pending": 0,
+      "task_address": "0x030057D8",
+      "task_flags": "0xC1003481",
+      "task_slot": 120
+    }
+  ],
+  "profile": {
+    "path": "sequel/content/battle-effect-phase-capture/group-02-affine-frame154.json",
+    "sha256": "073f4b51854265e7810eb623e51425628540804b0772d90b21d8827076168b53"
+  },
+  "repository_files": {
+    "artifacts/rom-expansion-profile-v1/profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "sequel/content/battle-effect-phase-capture/group-02-affine-frame154.json": "073f4b51854265e7810eb623e51425628540804b0772d90b21d8827076168b53",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "a90762edc84bf0d8cfa5cd5f2d7aa242eb7746ced1b09ea416b42fba4a3d6355",
+    "tests/test_export_battle_effect_frame_phase.py": "5c71b45c3c34b8a0b01546af93b226681bebb438330e4ff24097b51c34236720",
+    "tests/test_mgba_battle_effect_phase_capture_script.py": "3d243d23cd0ee88a3e197446ff210699ef562443d00b0fb2f93250ea7c08db50",
+    "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "97b1b62b819d68fb1403381cea422378f217699413d44f099cc2b50db8a2b043",
+    "tests/test_verify_battle_effect_frame_phase.py": "3b03c6919186251f0950420ab2b0ceaf27bdd579686ea3e304db6f8dcdbe2454",
+    "tools/export_battle_effect_frame_phase.py": "5b777fda4b97745f716bc50d737dcb5975c422fb05464ebedf10d00418f67e82",
+    "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
+    "tools/verify_battle_effect_frame_phase.py": "e612d8c289780cf54c312b6b808503aba9747f6e9927ea400c88d1a051411d9e"
+  },
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "run_id": "42f8ebe525c91c57ff9035ace105ef06",
+  "schema": "git-artifact-promotion-v1",
+  "source_runtime_provenance": {
+    "catalog": {
+      "path": "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
+      "sha256": "a90762edc84bf0d8cfa5cd5f2d7aa242eb7746ced1b09ea416b42fba4a3d6355"
+    },
+    "contract": {
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-runtime-oam-task-bindings-v1",
+        "manifest_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/manifest.json",
+        "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+        "payload_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+        "payload_sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+      },
+      "group_id": 2,
+      "profile_id": "group-02-affine-frame154",
+      "source_evidence": {
+        "path": "artifacts/battle-effect-affine-runtime-v1/manifest.json",
+        "sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c"
+      }
+    }
+  },
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_frame_phase.py",
+      "--artifact",
+      "artifacts/battle-effect-frame-phase-group2-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "ack_shadow_matches_hardware": true,
+      "breakpoint_addresses": [
+        "0x08063328",
+        "0x08061126",
+        "0x080612AA"
+      ],
+      "errors": [],
+      "group_id": 2,
+      "non_state_equivalent_dumps": [
+        "io.bin"
+      ],
+      "pending_sequence": [
+        0,
+        1,
+        0
+      ],
+      "renderer_shadow_differs_from_hardware": true,
+      "target_dispatch_ordinals": [
+        0,
+        0,
+        0
+      ],
+      "verified": true
+    }
+  }
+}

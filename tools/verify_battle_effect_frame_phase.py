@@ -39,10 +39,9 @@ LIVE_ONLY_DUMPS = {"io.bin": 0x400}
 TASK_BASE = 0x03003BB8
 TASK_SIZE = 0x3C
 TASK_COUNT = 128
-EXPECTED_DEFINITION = 0x08345530
-EXPECTED_ANIMATION = 0x08345564
 EXPECTED_TOOLCHAIN_SCHEMA = "rom-expansion-profile-v1"
 EXPECTED_TOOLCHAIN_IDENTITY = "agb_standard_16mib_sequel_rom_profile"
+SOURCE_PROVENANCE_SCHEMA = "battle-effect-phase-source-provenance-v1"
 
 
 def _sha256(path: Path) -> str:
@@ -63,6 +62,142 @@ def _object(path: Path) -> dict[str, Any]:
 def _record_error(errors: list[str], condition: bool, message: str) -> None:
     if not condition:
         errors.append(message)
+
+
+def _repository_path(root: Path, raw: Any, label: str) -> Path:
+    if not isinstance(raw, str):
+        raise ValueError(f"{label} path is missing")
+    relative = Path(raw)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError(f"{label} path is not repository-relative")
+    try:
+        resolved = (root / relative).resolve(strict=True)
+        resolved.relative_to(root)
+    except (OSError, ValueError) as error:
+        raise ValueError(f"{label} path escapes or is missing") from error
+    return resolved
+
+
+def validate_source_runtime_provenance(
+    root: Path,
+    profile: dict[str, Any],
+    provenance: dict[str, Any],
+    *,
+    group_id: int,
+    input_state_path: str,
+    input_state_sha256: str,
+    rom_sha256: str,
+) -> None:
+    if (
+        provenance.get("profile_id") != profile.get("profile_id")
+        or provenance.get("group_id") != group_id
+    ):
+        raise ValueError("source runtime provenance profile identity mismatch")
+    source = provenance.get("source_evidence", {})
+    if (
+        not isinstance(source, dict)
+        or source.get("path") != profile.get("source_runtime_evidence")
+        or source.get("sha256") != profile.get("source_runtime_evidence_sha256")
+    ):
+        raise ValueError("source runtime evidence differs from capture profile")
+    evidence_path = _repository_path(
+        root, source.get("path"), "source runtime evidence"
+    )
+    evidence_hash = _sha256(evidence_path)
+    if evidence_hash != source.get("sha256"):
+        raise ValueError("source runtime evidence hash mismatch")
+
+    parent = provenance.get("accepted_parent", {})
+    if not isinstance(parent, dict):
+        raise ValueError("source runtime accepted parent is missing")
+    promotion_path = _repository_path(
+        root,
+        parent.get("manifest_path"),
+        "source runtime artifact manifest",
+    )
+    promotion_hash = _sha256(promotion_path)
+    if promotion_hash != parent.get("manifest_sha256"):
+        raise ValueError("source runtime artifact manifest hash mismatch")
+    promotion = _object(promotion_path)
+    artifact_schema = parent.get("artifact_schema")
+    if (
+        promotion.get("schema") != "git-artifact-promotion-v1"
+        or promotion.get("artifact_status") != "accepted"
+        or promotion.get("artifact_schema") != artifact_schema
+    ):
+        raise ValueError("source runtime artifact is not accepted with the declared schema")
+    payload_path = _repository_path(
+        root, parent.get("payload_path"), "source runtime accepted payload"
+    )
+    payload_hash = _sha256(payload_path)
+    if payload_hash != parent.get("payload_sha256"):
+        raise ValueError("source runtime accepted payload hash mismatch")
+    try:
+        payload_relative = payload_path.relative_to(promotion_path.parent).as_posix()
+    except ValueError as error:
+        raise ValueError("source runtime accepted payload is outside its promotion") from error
+    if promotion.get("files", {}).get(payload_relative) != payload_hash:
+        raise ValueError("source runtime accepted payload is not promotion hash-locked")
+
+    evidence = _object(payload_path)
+    if artifact_schema == "battle-effect-runtime-oam-task-bindings-v1":
+        if evidence.get("schema") != artifact_schema:
+            raise ValueError("source task-binding evidence schema mismatch")
+        rom = evidence.get("rom", {})
+        if not isinstance(rom, dict) or rom.get("sha256") != rom_sha256:
+            raise ValueError("source task-binding ROM mismatch")
+        states = evidence.get("tracked_checkpoints", []) + evidence.get(
+            "supplemental_states", []
+        )
+        matches = [
+            row
+            for row in states
+            if isinstance(row, dict)
+            and row.get("path") == input_state_path
+            and row.get("sha256") == input_state_sha256
+        ]
+        if len(matches) != 1:
+            raise ValueError("source task-binding input state identity mismatch")
+        groups = {
+            task.get("group_id")
+            for task in matches[0].get("active_effect_tasks", [])
+            if isinstance(task, dict)
+        }
+        if group_id not in groups:
+            raise ValueError("source task-binding group is absent from the input state")
+        return
+
+    if artifact_schema not in {
+        "battle-effect-pixel-ab-runtime-v1",
+        "battle-effect-group5-pixel-ab-runtime-v1",
+    }:
+        raise ValueError("source runtime artifact schema is unsupported")
+    if evidence.get("schema") != artifact_schema or evidence.get("verified") is not True:
+        raise ValueError("source pixel A/B evidence schema or verification mismatch")
+    binding = evidence.get("binding", {})
+    edit = evidence.get("edit", {})
+    evidence_group = (
+        binding.get("group_id") if isinstance(binding, dict) else None
+    )
+    if evidence_group is None and isinstance(edit, dict):
+        evidence_group = edit.get("group_id")
+    if evidence_group != group_id:
+        raise ValueError("source pixel A/B group mismatch")
+    baseline = evidence.get("runs", {}).get("baseline", {})
+    if (
+        not isinstance(baseline, dict)
+        or baseline.get("state_sha256") != input_state_sha256
+        or baseline.get("rom_sha256") != rom_sha256
+    ):
+        raise ValueError("source pixel A/B baseline state or ROM mismatch")
+    try:
+        state_relative = _repository_path(
+            root, input_state_path, "profile input state"
+        ).relative_to(promotion_path.parent).as_posix()
+    except ValueError as error:
+        raise ValueError("profile input state is outside the source artifact") from error
+    if promotion.get("files", {}).get(state_relative) != input_state_sha256:
+        raise ValueError("profile input state is not hash-locked by the source artifact")
 
 
 def thumb_breakpoint_address(saved_pc: int, cpsr: int) -> int:
@@ -102,6 +237,27 @@ def target_dispatch_ordinal(slots: list[int], target_slot: int) -> int:
     return matches[0]
 
 
+def effect_group_identity(catalog: dict[str, Any], group_id: int) -> tuple[int, int]:
+    groups = catalog.get("groups")
+    if (
+        not isinstance(groups, list)
+        or catalog.get("schema") != "battle-effect-sprite-animations-v1"
+        or catalog.get("group_count") != len(groups)
+        or len(groups) != 18
+    ):
+        raise ValueError("battle-effect animation catalog denominator mismatch")
+    matches = [row for row in groups if row.get("group_id") == group_id]
+    if len(matches) != 1:
+        raise ValueError("battle-effect group must occur exactly once in animation catalog")
+    try:
+        return (
+            int(matches[0]["definition_pointer_table"], 16),
+            int(matches[0]["animation_pointer_table"], 16),
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("battle-effect group pointer identity is invalid") from error
+
+
 def verify_artifact(artifact: Path) -> dict[str, Any]:
     artifact = Path(artifact).resolve()
     errors: list[str] = []
@@ -112,6 +268,8 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
     target_dispatch_ordinals: list[int] = []
     buffers: dict[str, dict[str, bytes]] = {}
     group_id: int | None = None
+    expected_definition: int | None = None
+    expected_animation: int | None = None
     ack_match = False
     renderer_differs = False
 
@@ -144,7 +302,13 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         "artifact schema mismatch",
     )
     _record_error(errors, manifest.get("artifact_status") == "accepted", "artifact is not accepted")
-    _record_error(errors, group_id == 11, "group id is not 11")
+    _record_error(
+        errors,
+        isinstance(group_id, int)
+        and not isinstance(group_id, bool)
+        and 1 <= group_id <= 18,
+        "group id is outside 1..18",
+    )
     _record_error(errors, manifest.get("input_mode") == "zero-input-active-state", "input mode mismatch")
     _record_error(errors, manifest.get("inputs") == [], "manifest contains input events")
     dump_semantics = manifest.get("dump_semantics", {})
@@ -181,16 +345,66 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         profile_path = ROOT / str(profile_info.get("path", ""))
         _record_error(errors, profile_path.is_file(), "capture profile is missing")
         if profile_path.is_file():
-            _record_error(errors, _sha256(profile_path) == profile_info.get("sha256"), "capture profile hash mismatch")
+            profile_hash = _sha256(profile_path)
+            _record_error(errors, profile_hash == profile_info.get("sha256"), "capture profile hash mismatch")
+            _record_error(
+                errors,
+                audit.get("profile_sha256")
+                == profile_info.get("sha256")
+                == profile_hash,
+                "runtime audit profile hash mismatch",
+            )
             profile = _object(profile_path)
             input_info = manifest.get("input_state", {})
             input_path = ROOT / str(input_info.get("path", "")) if isinstance(input_info, dict) else ROOT
             _record_error(errors, profile.get("schema") == "battle-effect-phase-capture-profile-v1", "capture profile schema mismatch")
             _record_error(errors, profile.get("group_id") == group_id, "capture profile group mismatch")
+            _record_error(errors, profile.get("source_rom_sha256") == manifest.get("rom_sha256"), "profile source ROM hash mismatch")
             _record_error(errors, input_path.is_file(), "input savestate is missing")
             if input_path.is_file() and isinstance(input_info, dict):
                 _record_error(errors, _sha256(input_path) == input_info.get("sha256"), "input savestate hash mismatch")
                 _record_error(errors, profile.get("input_state_sha256") == input_info.get("sha256"), "profile input hash mismatch")
+            source_info = manifest.get("source_runtime_provenance", {})
+            if not isinstance(source_info, dict):
+                errors.append("source runtime provenance is missing")
+            else:
+                try:
+                    catalog_info = source_info.get("catalog", {})
+                    catalog_path = _repository_path(
+                        ROOT,
+                        catalog_info.get("path") if isinstance(catalog_info, dict) else None,
+                        "source runtime provenance catalog",
+                    )
+                    if _sha256(catalog_path) != catalog_info.get("sha256"):
+                        raise ValueError("source runtime provenance catalog hash mismatch")
+                    catalog = _object(catalog_path)
+                    if catalog.get("schema") != SOURCE_PROVENANCE_SCHEMA:
+                        raise ValueError("source runtime provenance catalog schema mismatch")
+                    matches = [
+                        row
+                        for row in catalog.get("profiles", [])
+                        if isinstance(row, dict)
+                        and row.get("profile_id") == profile.get("profile_id")
+                        and row.get("group_id") == group_id
+                    ]
+                    if len(matches) != 1:
+                        raise ValueError("source runtime provenance contract mismatch")
+                    contract = source_info.get("contract")
+                    if not isinstance(contract, dict):
+                        raise ValueError("source runtime provenance contract mismatch")
+                    validate_source_runtime_provenance(
+                        ROOT,
+                        profile,
+                        contract,
+                        group_id=int(group_id),
+                        input_state_path=str(input_info.get("path", "")),
+                        input_state_sha256=str(input_info.get("sha256", "")),
+                        rom_sha256=str(manifest.get("rom_sha256", "")),
+                    )
+                    if contract != matches[0]:
+                        raise ValueError("source runtime provenance contract mismatch")
+                except (OSError, TypeError, ValueError, json.JSONDecodeError) as error:
+                    errors.append(str(error))
     else:
         errors.append("capture profile provenance is missing")
 
@@ -200,6 +414,12 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         _record_error(errors, animations_path.is_file(), "animation catalog is missing")
         if animations_path.is_file():
             _record_error(errors, _sha256(animations_path) == animations_info.get("sha256"), "animation catalog hash mismatch")
+            try:
+                expected_definition, expected_animation = effect_group_identity(
+                    _object(animations_path), int(group_id)
+                )
+            except (TypeError, ValueError) as error:
+                errors.append(str(error))
     else:
         errors.append("animation catalog provenance is missing")
 
@@ -263,8 +483,8 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
             _record_error(errors, bool(flags & 1), f"{name} task is inactive")
             _record_error(errors, phase.get("task_flags") == f"0x{flags:08X}", f"{name} task flags mismatch")
             _record_error(errors, phase.get("task_address") == f"0x{TASK_BASE + slot * TASK_SIZE:08X}", f"{name} task address mismatch")
-            _record_error(errors, definition == EXPECTED_DEFINITION, f"{name} definition pointer mismatch")
-            _record_error(errors, animation == EXPECTED_ANIMATION, f"{name} animation pointer mismatch")
+            _record_error(errors, expected_definition is not None and definition == expected_definition, f"{name} definition pointer mismatch")
+            _record_error(errors, expected_animation is not None and animation == expected_animation, f"{name} animation pointer mismatch")
             try:
                 active_slots = decode_active_task_slots(
                     state.read_memory(0x03005BB8, 1),
@@ -293,8 +513,9 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
     _record_error(errors, len(task_slots) == 3 and len(set(task_slots)) == 1, "phase task identity changed")
     _record_error(
         errors,
-        target_dispatch_ordinals == [0, 0, 0],
-        "target task dispatcher ordinal changed or is not zero",
+        len(target_dispatch_ordinals) == 3
+        and len(set(target_dispatch_ordinals)) == 1,
+        "target task dispatcher ordinal changed across phases",
     )
     if len(buffers) == 3:
         renderer = buffers["renderer-post"]

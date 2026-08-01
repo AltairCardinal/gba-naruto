@@ -7,6 +7,11 @@ from pathlib import Path
 
 
 class BattleEffectFramePhaseExporterTests(unittest.TestCase):
+    def test_description_names_the_actual_effect_group(self):
+        exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
+        self.assertIn("group 1", exporter.artifact_description(1))
+        self.assertNotIn("group 11", exporter.artifact_description(1))
+
     def test_collects_only_complete_three_phase_capture_files(self):
         exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
         with tempfile.TemporaryDirectory() as tmp:

@@ -42,7 +42,18 @@ REPOSITORY_FILES = (
     "tests/test_verify_battle_effect_frame_phase.py",
     "tests/test_mgba_battle_effect_phase_capture_script.py",
     "tests/test_run_macos_mgba_battle_effect_phase_capture.py",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
 )
+SOURCE_PROVENANCE = Path(
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+)
+
+
+def artifact_description(group_id: int) -> str:
+    return (
+        f"One zero-input renderer transaction containing an active group {group_id} "
+        "task, captured after rendering, submission, and acknowledgement."
+    )
 
 
 def _sha256(path: Path) -> str:
@@ -76,6 +87,36 @@ def collect_phase_files(source_dir: Path) -> dict[str, Path]:
                 raise ValueError(f"missing or empty phase capture file: {path}")
             files[relative] = path
     return files
+
+
+def source_provenance(profile: dict[str, Any]) -> dict[str, Any]:
+    catalog_path = ROOT / SOURCE_PROVENANCE
+    catalog = _object(catalog_path, "battle-effect phase source provenance")
+    if catalog.get("schema") != "battle-effect-phase-source-provenance-v1":
+        raise ValueError("battle-effect phase source provenance schema mismatch")
+    matches = [
+        row
+        for row in catalog.get("profiles", [])
+        if isinstance(row, dict)
+        and row.get("profile_id") == profile.get("profile_id")
+        and row.get("group_id") == profile.get("group_id")
+    ]
+    if len(matches) != 1:
+        raise ValueError("capture profile must have one source provenance row")
+    source = matches[0].get("source_evidence", {})
+    if (
+        not isinstance(source, dict)
+        or source.get("path") != profile.get("source_runtime_evidence")
+        or source.get("sha256") != profile.get("source_runtime_evidence_sha256")
+    ):
+        raise ValueError("capture profile source evidence differs from provenance catalog")
+    return {
+        "catalog": {
+            "path": SOURCE_PROVENANCE.as_posix(),
+            "sha256": _sha256(catalog_path),
+        },
+        "contract": matches[0],
+    }
 
 
 def _repository_hashes(profile: Path, toolchain_profile: Path) -> dict[str, str]:
@@ -112,6 +153,7 @@ def export_artifact(
     audit = _object(audit_path, "runtime audit")
     guard = _object(guard_summary_path, "guard summary")
     profile = _object(profile_path, "capture profile")
+    provenance = source_provenance(profile)
     if audit.get("schema") != "mgba-battle-effect-phase-capture-v1":
         raise ValueError("runtime audit schema mismatch")
     if audit.get("outcome") != "three-phase-captured":
@@ -171,10 +213,7 @@ def export_artifact(
             "schema": PROMOTION_SCHEMA,
             "artifact_schema": SCHEMA,
             "artifact_status": "accepted",
-            "description": (
-                "One zero-input renderer transaction containing an active group-11 "
-                "task, captured after rendering, submission, and acknowledgement."
-            ),
+            "description": artifact_description(audit["group_id"]),
             "group_id": audit["group_id"],
             "run_id": audit["run_id"],
             "input_mode": audit["input_mode"],
@@ -189,6 +228,7 @@ def export_artifact(
                 "path": profile_path.relative_to(ROOT).as_posix(),
                 "sha256": _sha256(profile_path),
             },
+            "source_runtime_provenance": provenance,
             "animations": {
                 "path": Path(audit["animations"]).resolve().relative_to(ROOT).as_posix(),
                 "sha256": audit["animations_sha256"],
@@ -260,7 +300,7 @@ def export_artifact(
             "python3",
             "tools/verify_battle_effect_frame_phase.py",
             "--artifact",
-            "artifacts/battle-effect-frame-phase-v1",
+            artifact_path.relative_to(ROOT).as_posix(),
         ],
         "exit_code": completed.returncode,
         "result": verification,

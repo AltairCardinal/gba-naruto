@@ -1958,3 +1958,24 @@ WebSocket
   `notes/battle-effect-frame-phase-20260801.md`。该里程碑只签发group 11一个代表task
   的一次事务，不改变production自然像素A/B `4/18`分母；其余group、affine、
   multi-component、dynamic-copy、通用writer index与实体GBA仍未闭合，Goal保持active。
+- 2026-08-01：战斗特效精确跨帧提交相位由单一group 11推进到当前全部已观察groups
+  `[1,2,5,11,14]`，子分母`1/5→5/5`，全18组覆盖为`5/18`（27.78%）。新增批处理
+  runner会先一次性验证四份profile/state/ROM hash，再串行调用单组guarded runner；
+  group 1/2/5/14均零输入从既有accepted快照恢复，不重复长导航。五组都从`.ss9`
+  独立恢复Thumb breakpoint地址，cycle严格递增、pending=`0→1→0`，renderer生成的
+  shadow在submit时尚未进入hardware，ack后完整1 KiB精确相等；目标task在active
+  dispatcher中唯一出现，ordinals分别为`12/0/2/0/2`。group 2首次覆盖affine事务，
+  但仍是supplemental。四次新运行均`completed/0`、非degraded且无PGID/listener
+  残留；group 5 baseline又经heavy guard确定性重建，峰值RSS 82.24609375 MiB。
+  独立聚合verifier从18-group catalog、5-group task binding来源、batch spec和五份
+  单组artifact重算，返回`phase_verified_groups=5/all_groups=18/errors=[]`，并单独锁定
+  production修改ROM最终像素A/B仍为`4/18`，没有把phase覆盖冒充pixel覆盖。成果位于
+  `artifacts/battle-effect-observed-frame-phases-v1/`及四个新增单组phase artifact，
+  说明见`notes/battle-effect-observed-frame-phases-20260801.md`。未观察13组、全帧、
+  排他task→OAM writer、dynamic-copy、blend/window、音频和实体GBA仍未闭合，Goal
+  保持active。
+  独立审查随后补齐来源链：运行profile保持原audit哈希不变，独立provenance catalog
+  将其source evidence绑定到accepted父manifest/载荷，并验证state、ROM、group；聚合
+  分母会实际运行task-binding独立verifier，并精确哈希锁定两个被导入verifier、
+  savestate parser及对应测试；单组verifier重新校验audit/manifest/当前profile三方
+  SHA一致。batch还拒绝绝对路径、`..`及符号链接逃逸。

@@ -1,0 +1,56 @@
+{
+  "schema": "battle-effect-phase-batch-v1",
+  "observed_group_denominator": 5,
+  "already_promoted_group_ids": [11],
+  "cases": [
+    {
+      "case_id": "group-01-tracked-dust",
+      "group_id": 1,
+      "profile": "sequel/content/battle-effect-phase-capture/group-01-tracked-dust.json",
+      "profile_sha256": "1deba3c53644646a22eb0ea114dd4985501c71b37d2f40bfa700937203ca228b",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "default_rom": "rom/base.gba"
+    },
+    {
+      "case_id": "group-02-affine-frame154",
+      "group_id": 2,
+      "profile": "sequel/content/battle-effect-phase-capture/group-02-affine-frame154.json",
+      "profile_sha256": "073f4b51854265e7810eb623e51425628540804b0772d90b21d8827076168b53",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "default_rom": "rom/base.gba"
+    },
+    {
+      "case_id": "group-05-action5-hit-frame150",
+      "group_id": 5,
+      "profile": "sequel/content/battle-effect-phase-capture/group-05-action5-hit-frame150.json",
+      "profile_sha256": "5873e575f2115d5763c2f43545885e7e224115353c0f9628820315f092e84e80",
+      "rom_sha256": "699674cc9316e3c9d307ac093dc8145273097bd393ae67630dd31631a9b18179",
+      "rom_rebuild": [
+        "python3",
+        "tools/build_battle_effect_group5_pixel_ab.py",
+        "--root",
+        ".",
+        "--output",
+        "<build-output>"
+      ]
+    },
+    {
+      "case_id": "group-14-fire-frame516",
+      "group_id": 14,
+      "profile": "sequel/content/battle-effect-phase-capture/group-14-fire-frame516.json",
+      "profile_sha256": "f70a4611feadd795059e793c8a5926a09b6d6659e0936a9525b95787820b7a6c",
+      "rom_sha256": "97d318c7e9279d96f8bf1fb07d2af8cf9040a67afc77120eee9994f439f1ffb0",
+      "rom_rebuild": [
+        "python3",
+        "tools/build_battle_effect_pixel_ab.py",
+        "--root",
+        ".",
+        "--profile",
+        "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json",
+        "--output",
+        "<build-output>"
+      ]
+    }
+  ],
+  "boundary": "This batch closes the next renderer/submit/ack transaction only for the four already-observed groups that lack a phase artifact. It does not change the 4/18 production pixel-A/B denominator or claim coverage of the 13 unobserved groups."
+}

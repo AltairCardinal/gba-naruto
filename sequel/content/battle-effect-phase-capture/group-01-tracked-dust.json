@@ -1,0 +1,14 @@
+{
+  "schema": "battle-effect-phase-capture-profile-v1",
+  "profile_id": "group-01-tracked-dust",
+  "group_id": 1,
+  "sequence_id": 1,
+  "input_mode": "zero-input-active-state",
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+  "input_state_sha256": "7d6796a767d574f5f7a91935c3c1e65ce44edbc51aa5a6b587784d4730bbe94f",
+  "source_runtime_evidence": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+  "source_runtime_evidence_sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c",
+  "source_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "timeout_frames": 30,
+  "boundary": "The tracked input state contains three naturally created group-1 tasks among other active sprite tasks. No key is injected; the capture covers the next global renderer, submit, and acknowledgement transaction containing the first matching group-1 task."
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "battle-effect-phase-capture-profile-v1",
+  "profile_id": "group-02-affine-frame154",
+  "group_id": 2,
+  "sequence_id": 2,
+  "input_mode": "zero-input-active-state",
+  "input_state": "artifacts/battle-effect-affine-runtime-v1/raw/state-0154.ss9",
+  "input_state_sha256": "60028c26e1a529c9542b1e9644dcd35d341cfcfe593cde1b3359c1e2817e3c93",
+  "source_runtime_evidence": "artifacts/battle-effect-affine-runtime-v1/manifest.json",
+  "source_runtime_evidence_sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c",
+  "source_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "timeout_frames": 30,
+  "boundary": "The accepted supplemental state contains three natural group-2 affine tasks. No key or task mutation is injected; the capture covers the next global renderer, submit, and acknowledgement transaction containing the first matching group-2 task and remains supplemental rather than production pixel-A/B evidence."
+}

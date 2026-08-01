@@ -1,0 +1,111 @@
+{
+  "all_group_denominator": 18,
+  "boundary": "Five of 18 groups have one verified global renderer/submit/ack transaction. Only groups 1, 5, 11 and 14 have production modified-ROM pixel A/B evidence.",
+  "observed_group_denominator": 5,
+  "observed_group_ids": [
+    1,
+    2,
+    5,
+    11,
+    14
+  ],
+  "phase_artifacts": [
+    {
+      "group_id": 1,
+      "input_mode": "zero-input-active-state",
+      "manifest_sha256": "17d26eaecf5d4de0cc8c7239af0c6c198069da4acf4831fda068884d185edad7",
+      "path": "artifacts/battle-effect-frame-phase-group1-v1",
+      "run_id": "cd98182569083f0e0219a3385b693d36"
+    },
+    {
+      "group_id": 2,
+      "input_mode": "zero-input-active-state",
+      "manifest_sha256": "f2f7c4bdc72c3c4daffbbdf6ac298683af2c15b0f7e1baa12c25df1d4be62667",
+      "path": "artifacts/battle-effect-frame-phase-group2-v1",
+      "run_id": "42f8ebe525c91c57ff9035ace105ef06"
+    },
+    {
+      "group_id": 5,
+      "input_mode": "zero-input-active-state",
+      "manifest_sha256": "c37dd5f7e02ec39d60fdaef3b253f0ceee782d760fbec931169158b672f27051",
+      "path": "artifacts/battle-effect-frame-phase-group5-v1",
+      "run_id": "659862c9bf0d4d72561653657758e475"
+    },
+    {
+      "group_id": 11,
+      "input_mode": "zero-input-active-state",
+      "manifest_sha256": "17efed8c565c961a9886b77d0947e41df8a6f0022a139dd6a92123a087eb73d7",
+      "path": "artifacts/battle-effect-frame-phase-v1",
+      "run_id": "54a34ea85a2e06bdc569f56873899b85"
+    },
+    {
+      "group_id": 14,
+      "input_mode": "zero-input-active-state",
+      "manifest_sha256": "ad62ea3036be87202ccdfde65751c78c9a90fb6bf9e6728648c4ba36086d4b30",
+      "path": "artifacts/battle-effect-frame-phase-group14-v1",
+      "run_id": "77fc7f5dec207ab32ac75402ef857aae"
+    }
+  ],
+  "phase_verified_group_count": 5,
+  "phase_verified_group_ids": [
+    1,
+    2,
+    5,
+    11,
+    14
+  ],
+  "production_pixel_ab_artifacts": [
+    {
+      "group_id": 1,
+      "manifest_sha256": "09271a000dc79bbb5c2ccc108386d64bdf7db4b8801ab8b6bc249bdfa33844b2",
+      "path": "artifacts/battle-effect-group1-pixel-ab-v1"
+    },
+    {
+      "group_id": 5,
+      "manifest_sha256": "6a01ad7d5bb926b759186a1edb3c123c2659b92aacd9652e2df0266077caa662",
+      "path": "artifacts/battle-effect-group5-pixel-ab-v1"
+    },
+    {
+      "group_id": 11,
+      "manifest_sha256": "3d7535e190c0d94953059311bffdf44a084a62cae81726dfdefed97a4ef6fdac",
+      "path": "artifacts/battle-effect-group11-pixel-ab-v1"
+    },
+    {
+      "group_id": 14,
+      "manifest_sha256": "e2770be145915fd96502b10c2718c7a7146ade4c8639847ac6ea9d7efbb968fb",
+      "path": "artifacts/battle-effect-group14-pixel-ab-v1"
+    }
+  ],
+  "production_pixel_ab_group_count": 4,
+  "production_pixel_ab_group_ids": [
+    1,
+    5,
+    11,
+    14
+  ],
+  "schema": "battle-effect-observed-frame-phases-v1",
+  "scope": {
+    "all_18_groups_phase_verified": false,
+    "all_observed_groups_have_one_verified_phase_transaction": true,
+    "group2_affine_transaction_included": true,
+    "physical_gba_verified": false,
+    "production_pixel_ab_all_18_groups": false,
+    "target_task_exclusive_oam_causality": false
+  },
+  "sources": {
+    "animations": {
+      "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+      "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+    },
+    "batch_spec": {
+      "path": "sequel/content/battle-effect-phase-capture/observed-groups-batch-v1.json",
+      "sha256": "cd3dcc7909a2df9887d50b2a592fd9d86b6c4f463482c42aa2d84e2504120209"
+    },
+    "observed_task_bindings": {
+      "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+      "path": "artifacts/battle-effect-runtime-oam-task-bindings-v1",
+      "payload_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+      "payload_sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+    }
+  }
+}

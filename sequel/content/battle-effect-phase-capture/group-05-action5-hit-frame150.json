@@ -1,0 +1,14 @@
+{
+  "schema": "battle-effect-phase-capture-profile-v1",
+  "profile_id": "group-05-action5-hit-frame150",
+  "group_id": 5,
+  "sequence_id": 6,
+  "input_mode": "zero-input-active-state",
+  "input_state": "artifacts/battle-effect-group5-pixel-ab-v1/raw/baseline/frame150.ss9",
+  "input_state_sha256": "a91c8cf865a1ac78c82dae7c9578815c469c7c0c1e2c68977d94aa3288125950",
+  "source_runtime_evidence": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
+  "source_runtime_evidence_sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98",
+  "source_rom_sha256": "699674cc9316e3c9d307ac093dc8145273097bd393ae67630dd31631a9b18179",
+  "timeout_frames": 30,
+  "boundary": "The accepted production baseline state contains one naturally created group-5 task. No key is injected; the capture covers only the next global renderer, submit, and acknowledgement transaction containing that task."
+}

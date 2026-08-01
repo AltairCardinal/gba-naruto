@@ -1,0 +1,81 @@
+{
+  "schema": "battle-effect-phase-source-provenance-v1",
+  "profiles": [
+    {
+      "profile_id": "group-01-tracked-dust",
+      "group_id": 1,
+      "source_evidence": {
+        "path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+        "sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+      },
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-runtime-oam-task-bindings-v1",
+        "manifest_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/manifest.json",
+        "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+        "payload_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+        "payload_sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+      }
+    },
+    {
+      "profile_id": "group-02-affine-frame154",
+      "group_id": 2,
+      "source_evidence": {
+        "path": "artifacts/battle-effect-affine-runtime-v1/manifest.json",
+        "sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c"
+      },
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-runtime-oam-task-bindings-v1",
+        "manifest_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/manifest.json",
+        "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+        "payload_path": "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json",
+        "payload_sha256": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+      }
+    },
+    {
+      "profile_id": "group-05-action5-hit-frame150",
+      "group_id": 5,
+      "source_evidence": {
+        "path": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
+      },
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-group5-pixel-ab-runtime-v1",
+        "manifest_path": "artifacts/battle-effect-group5-pixel-ab-v1/manifest.json",
+        "manifest_sha256": "6a01ad7d5bb926b759186a1edb3c123c2659b92aacd9652e2df0266077caa662",
+        "payload_path": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
+        "payload_sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
+      }
+    },
+    {
+      "profile_id": "group-11-cross-shuriken-frame106",
+      "group_id": 11,
+      "source_evidence": {
+        "path": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
+      },
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+        "manifest_path": "artifacts/battle-effect-group11-pixel-ab-v1/manifest.json",
+        "manifest_sha256": "3d7535e190c0d94953059311bffdf44a084a62cae81726dfdefed97a4ef6fdac",
+        "payload_path": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
+        "payload_sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
+      }
+    },
+    {
+      "profile_id": "group-14-fire-frame516",
+      "group_id": 14,
+      "source_evidence": {
+        "path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+      },
+      "accepted_parent": {
+        "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+        "manifest_path": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
+        "manifest_sha256": "e2770be145915fd96502b10c2718c7a7146ade4c8639847ac6ea9d7efbb968fb",
+        "payload_path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
+        "payload_sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+      }
+    }
+  ],
+  "boundary": "The capture profile remains byte-identical to the runtime audit. This catalog binds its source-evidence claim to an accepted parent artifact whose payload independently contains the input state, ROM and effect-group identity."
+}
