@@ -36,6 +36,13 @@ MGBA_BINARY_SHA256 = (
 MGBA_BUILD_MANIFEST_SHA256 = (
     "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d"
 )
+CURRENT_MGBA_BINARY_SHA256 = (
+    "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8"
+)
+CURRENT_TOOLCHAIN_PROFILE_SHA256 = (
+    "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+)
+CURRENT_MGBA_SOURCE_COMMIT = "d8bad14b4540f9114246c0281d74985cf81adc68"
 VARIANTS = ("baseline", "candidate")
 INPUT_KEYS = {"A", "B", "L", "R", "Up", "Down", "Left", "Right", "Start"}
 DOMAINS = {
@@ -46,7 +53,7 @@ DOMAINS = {
     "VRAM": (0x06000000, 0x18000),
     "OAM": (0x07000000, 0x400),
 }
-IMPLEMENTATION_PATHS = (
+LEGACY_IMPLEMENTATION_PATHS = (
     "tools/build_battle_effect_pixel_ab.py",
     "tools/export_battle_effect_pixel_ab_evidence.py",
     "tools/verify_battle_effect_pixel_ab_evidence.py",
@@ -63,6 +70,15 @@ IMPLEMENTATION_PATHS = (
     "tools/inspect_mgba_savestate.py",
     "tools/render_mode0_checkpoint.py",
 )
+INTERMEDIATE_IMPLEMENTATION_PATHS = LEGACY_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_single_input_current.py",
+)
+IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_effect_phase_capture.py",
+    "tools/run_macos_mgba_replay.py",
+    "tools/macos_mgba_runtime_residue.py",
+    "tools/verify_battle_effect_group15_natural_runtime.py",
+)
 
 
 def _sha256(data: bytes) -> str:
@@ -71,6 +87,45 @@ def _sha256(data: bytes) -> str:
 
 def _sha256_file(path: Path) -> str:
     return _sha256(path.read_bytes())
+
+
+def _runtime_toolchain_contract(
+    root: Path, profile: dict[str, Any]
+) -> dict[str, Any]:
+    configured = profile.get("runtime_toolchain")
+    if configured is None:
+        return {
+            "kind": "legacy-build-manifest",
+            "binary_sha256": MGBA_BINARY_SHA256,
+            "build_manifest_sha256": MGBA_BUILD_MANIFEST_SHA256,
+        }
+    expected = {
+        "kind": "current-desktop-runtime-profile",
+        "path": "artifacts/rom-expansion-profile-v1/profile.json",
+        "sha256": CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        "binary_sha256": CURRENT_MGBA_BINARY_SHA256,
+        "source_commit": CURRENT_MGBA_SOURCE_COMMIT,
+    }
+    if configured != expected:
+        raise ValueError("battle-effect pixel current runtime toolchain contract mismatch")
+    path = _safe_file(root, expected["path"], "current runtime profile")
+    payload = _json(path)
+    hardware = payload.get("hardware_evidence", {})
+    runtime = payload.get("runtime_probe", {})
+    if (
+        _sha256_file(path) != expected["sha256"]
+        or payload.get("schema") != "rom-expansion-profile-v1"
+        or hardware.get("mgba_binary_sha256") != expected["binary_sha256"]
+        or hardware.get("mgba_source_commit") != expected["source_commit"]
+        or runtime.get("guard_reason") != "completed"
+        or runtime.get("guard_completion_trigger") != "success-marker"
+        or runtime.get("guard_exit_code") != 0
+        or runtime.get("guard_degraded") is not False
+        or runtime.get("new_mgba_crash_report") is not False
+        or runtime.get("owned_process_residue") is not False
+    ):
+        raise ValueError("battle-effect pixel current runtime profile contract mismatch")
+    return dict(expected)
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -184,7 +239,12 @@ def _runtime_component_obj_tile_base(
 
 
 def _runtime_oam_instances(
-    profile: dict[str, Any], pixel_x: int, pixel_y: int
+    profile: dict[str, Any],
+    pixel_x: int,
+    pixel_y: int,
+    *,
+    component_width: int | None = None,
+    component_height: int | None = None,
 ) -> list[dict[str, Any]]:
     runtime_oam = profile.get("runtime_oam")
     if not isinstance(runtime_oam, dict):
@@ -236,8 +296,20 @@ def _runtime_oam_instances(
             raise ValueError(
                 "battle-effect pixel runtime OAM instance attributes mismatch"
             ) from error
+        affine = bool(attr0 & 0x0100)
+        flip_x = not affine and bool(attr1 & 0x1000)
+        flip_y = not affine and bool(attr1 & 0x2000)
+        if (flip_x and component_width is None) or (
+            flip_y and component_height is None
+        ):
+            raise ValueError(
+                "battle-effect pixel flipped OAM instance requires component dimensions"
+            )
+        screen_pixel_x = component_width - 1 - pixel_x if flip_x else pixel_x
+        screen_pixel_y = component_height - 1 - pixel_y if flip_y else pixel_y
         if (
-            [(attr1 & 0x1FF) + pixel_x, (attr0 & 0xFF) + pixel_y] != source_xy
+            [(attr1 & 0x1FF) + screen_pixel_x, (attr0 & 0xFF) + screen_pixel_y]
+            != source_xy
             or attr2 & 0x3FF != runtime_oam.get("obj_tile_base")
             or attr2 >> 12 != runtime_oam.get("palette_bank")
         ):
@@ -270,10 +342,14 @@ def _validate_implementation_provenance(
 ) -> None:
     generated = manifest.get("generated_with_implementation_sha256")
     verified = manifest.get("verified_with_implementation_sha256")
-    expected_keys = set(IMPLEMENTATION_PATHS)
     valid_generated = (
         isinstance(generated, dict)
-        and set(generated) == expected_keys
+        and set(generated)
+        in (
+            set(LEGACY_IMPLEMENTATION_PATHS),
+            set(INTERMEDIATE_IMPLEMENTATION_PATHS),
+            set(IMPLEMENTATION_PATHS),
+        )
         and all(
             isinstance(digest, str)
             and len(digest) == 64
@@ -400,6 +476,61 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     ):
         raise ValueError("battle-effect pixel checkpoint hash mismatch")
     checkpoint = _json(evidence_path)
+    if checkpoint.get("schema") == "battle-effect-group15-natural-runtime-v1":
+        from tools.verify_battle_effect_group15_natural_runtime import (
+            read_safe_tar,
+            verify_artifact,
+        )
+
+        artifact_root = evidence_path.parent
+        parent_result = verify_artifact(artifact_root)
+        payloads = read_safe_tar(artifact_root / "raw-runtime.tar")
+        execution = checkpoint.get("execution", {})
+        selected = checkpoint.get("branch", {}).get("selected_chain", [])
+        phase = checkpoint.get("phase", {})
+        rows = phase.get("rows", [])
+        expected_event = {
+            "key": profile["runtime_input"]["key"],
+            "down_frame": profile["runtime_input"]["down_frame"],
+            "up_frame": profile["runtime_input"]["up_frame"],
+            "hold_frames": (
+                profile["runtime_input"]["up_frame"]
+                - profile["runtime_input"]["down_frame"]
+            ),
+        }
+        if (
+            parent_result.get("verified") is not True
+            or parent_result.get("action_id") != profile["selector"]["id"]
+            or parent_result.get("sequence_id") != profile["sequence_id"]
+            or parent_result.get("group_id") != profile["group_id"]
+            or payloads.get("source/input-state.ss9") != state_path.read_bytes()
+            or execution.get("action_id") != profile["selector"]["id"]
+            or execution.get("sequence_id") != profile["sequence_id"]
+            or execution.get("group_id") != profile["group_id"]
+            or execution.get("input") != expected_event
+            or execution.get("automatic_inputs") != []
+            or execution.get("recovery_inputs") != []
+            or not isinstance(selected, list)
+            or len(selected) != 6
+            or any(
+                int(row.get("r0", "-1"), 16) != 1
+                or int(row.get("r1", "-1"), 16) != 17
+                or int(row.get("r2", "-1"), 16) != 0x770
+                for row in selected[-2:]
+            )
+            or phase.get("definition_pointer") != "0x0834711C"
+            or phase.get("animation_pointer") != "0x08347168"
+            or phase.get("task_slot") != 124
+            or not isinstance(rows, list)
+            or len(rows) != 3
+            or rows[-1].get("name") != "ack-post"
+            or rows[-1].get("frame") != 1548
+            or rows[-1].get("global_shadow_matches_hardware") is not True
+        ):
+            raise ValueError(
+                "battle-effect pixel group15 natural checkpoint contract mismatch"
+            )
+        return
     parent = checkpoint.get("input", {})
     parent_path = _safe_file(root, parent.get("path"), "checkpoint parent")
     next_binding = checkpoint.get("boundary", {}).get("next_runtime_binding", {})
@@ -617,6 +748,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
     profile = _json(profile_path)
     if profile.get("schema") != PROFILE_SCHEMA:
         raise ValueError("battle-effect pixel profile schema mismatch")
+    _runtime_toolchain_contract(root, profile)
     _verify_checkpoint(root, profile)
     base = (root / "rom/base.gba").read_bytes()
     if len(base) != 0x600000 or _sha256(base) != ROM_SHA256:
@@ -729,7 +861,13 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         raise ValueError("battle-effect pixel action binding mismatch")
 
     _runtime_component_obj_tile_base(profile, component.get("tile_index"))
-    _runtime_oam_instances(profile, pixel_x, pixel_y)
+    _runtime_oam_instances(
+        profile,
+        pixel_x,
+        pixel_y,
+        component_width=component.get("width"),
+        component_height=component.get("height"),
+    )
     palette_path = _safe_file(
         root,
         str(Path(profile["catalogs"]["resource_pairs"]).parent / palette_row["output_bin"]),
@@ -740,6 +878,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         "source": source,
         "resource": resource,
         "palette": palette_path.read_bytes(),
+        "component": component,
     }
 
 
@@ -903,7 +1042,28 @@ def _verify_build(
     return build, graphics
 
 
-def _verify_runtime(root: Path, raw: Path, profile: dict[str, Any], build: dict[str, Any], graphics: dict[str, bytes], palette: bytes) -> tuple[dict[str, list[int]], list[dict[str, Any]], dict[str, dict[str, Any]]]:
+def _verify_runtime(
+    root: Path,
+    raw: Path,
+    profile: dict[str, Any],
+    build: dict[str, Any],
+    graphics: dict[str, bytes],
+    palette: bytes,
+    component: dict[str, Any],
+) -> tuple[
+    dict[str, list[int]],
+    list[dict[str, Any]],
+    dict[str, dict[str, Any]],
+]:
+    toolchain = _runtime_toolchain_contract(root, profile)
+    current = toolchain["kind"] == "current-desktop-runtime-profile"
+    expected_runtime_toolchain = {
+        "kind": "current-desktop-runtime-profile",
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        "source_commit": CURRENT_MGBA_SOURCE_COMMIT,
+        "patch_sha256": None,
+    }
     frame = profile["runtime_input"]["capture_frame"]
     event = {
         "key": profile["runtime_input"]["key"],
@@ -929,9 +1089,24 @@ def _verify_runtime(root: Path, raw: Path, profile: dict[str, Any], build: dict[
             or audit.get("capture_frame") != frame
             or audit.get("automatic_inputs") != []
             or audit.get("recovery_inputs") != []
-            or audit.get("binary_sha256") != MGBA_BINARY_SHA256
-            or audit.get("build_manifest_sha256")
-            != MGBA_BUILD_MANIFEST_SHA256
+            or audit.get("binary_sha256") != toolchain["binary_sha256"]
+            or (
+                current
+                and (
+                    "build_manifest_sha256" in audit
+                    or "build_manifest" in audit
+                    or audit.get("toolchain") != expected_runtime_toolchain
+                )
+            )
+            or (
+                not current
+                and (
+                    audit.get("build_manifest_sha256")
+                    != MGBA_BUILD_MANIFEST_SHA256
+                    or audit.get("build_manifest")
+                    != "toolchain/mgba-build-manifest.json"
+                )
+            )
             or audit.get("replay_script_sha256")
             != _sha256_file(root / "tools/mgba_single_input_replay.lua")
             or audit.get("input_state_sha256") != profile["input_state_sha256"]
@@ -957,19 +1132,23 @@ def _verify_runtime(root: Path, raw: Path, profile: dict[str, Any], build: dict[
         ):
             raise ValueError(f"battle-effect pixel {variant} runtime provenance mismatch")
         states[variant] = load_gba_state(state_path)
-        runs[variant] = {
+        run = {
             "run_id": audit["run_id"],
             "rom_sha256": audit["rom_sha256"],
             "state_sha256": audit["output_state_sha256"],
             "png_sha256": audit["output_png_sha256"],
             "binary_sha256": audit["binary_sha256"],
-            "build_manifest_sha256": audit["build_manifest_sha256"],
             "replay_script_sha256": audit["replay_script_sha256"],
             "guard_sha256": audit["guard_summary_sha256"],
             "child_pgid": audit["child_pgid"],
             "peak_tree_rss_mib": audit["peak_tree_rss_mib"],
             "pgid_clean": True,
         }
+        if current:
+            run["toolchain"] = dict(audit["toolchain"])
+        else:
+            run["build_manifest_sha256"] = audit["build_manifest_sha256"]
+        runs[variant] = run
     differences = {
         name: _diff(
             states["baseline"].read_memory(address, size),
@@ -988,6 +1167,8 @@ def _verify_runtime(root: Path, raw: Path, profile: dict[str, Any], build: dict[
         profile,
         profile["component_pixel_xy"][0],
         profile["component_pixel_xy"][1],
+        component_width=component.get("width"),
+        component_height=component.get("height"),
     )
     for variant in VARIANTS:
         rendered, _ = render_checkpoint(raw / variant / f"frame{frame}.ss9")
@@ -1068,7 +1249,13 @@ def _verify(root: Path, artifact: Path) -> None:
         raise ValueError("battle-effect pixel manifest mismatch")
     build, graphics = _verify_build(root, raw, profile_path, profile, contract)
     differences, changes, runs = _verify_runtime(
-        root, raw, profile, build, graphics, contract["palette"]
+        root,
+        raw,
+        profile,
+        build,
+        graphics,
+        contract["palette"],
+        contract["component"],
     )
     input_state = load_gba_state(root / profile["input_state"])
     target_offset = int(profile["runtime_oam"]["obj_vram_address"], 16) - 0x06010000

@@ -1923,6 +1923,19 @@ WebSocket
   `artifacts/battle-effect-runtime-oam-bindings-v1/`，说明见
   `notes/battle-effect-runtime-oam-bindings-20260801.md`。task/selector排他writer、
   全帧/跨帧时序、RNG、blend/window/audio与实体GBA仍未闭合，Goal保持active。
+- 2026-08-02：战斗特效生产修改 ROM 的自然最终像素 A/B 由4组推进到**5/18组**。
+  battle 8 的原始 AI 自然选择 action 64，经 side 1、sequence 17 绑定group 15；
+  从父artifact归档中成果化确认前checkpoint，只输入`A:60:68`并在frame 1549捕获。
+  两份16 MiB ROM保持1,560-byte相同LZ77拓扑，candidate只改解压offset
+  `0xA3:23→24`；六个完整内存域仅VRAM`0x060124A3`一字节不同。OAM entry 1
+  `0x0030/0x9030/0x5920`的水平翻转把源像素`(14,8)`映射到屏幕`(65,56)`，最终
+  PNG也仅该像素由`(82,140,255)→(0,82,255)`。独立verifier完整复验父自然artifact、
+  checkpoint tar成员、当前桌面mGBA profile、ROM重建、OAM/VRAM/PRAM与Mode-0输出；
+  两次guard峰值RSS为69.54296875/69.5390625 MiB且无PGID/listener残留。历史单输入
+  runner保持原SHA，新runner独立承载当前工具链；group 1/11/14只重签当前验证实现
+  哈希，raw与运行结论不变。成果位于`artifacts/battle-effect-group15-pixel-ab-v1/`，
+  说明见`notes/battle-effect-group15-pixel-ab-20260802.md`。其余13组、group 15其他
+  8帧、完整blend/window/音频及实体GBA仍未签发，Goal保持active。
 - 2026-08-01：上述内容身份又与同一批快照的全局sprite task pool完成严格关联。
   战斗特效不能沿用角色的三指针资源身份：真实task `+0x24`可为零或动态tile/action
   地址，与静态group graphics不同；18组实际由唯一的`(+0x1C definition,+0x20

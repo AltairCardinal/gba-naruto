@@ -37,6 +37,13 @@ MGBA_BINARY_SHA256 = (
 MGBA_BUILD_MANIFEST_SHA256 = (
     "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d"
 )
+CURRENT_MGBA_BINARY_SHA256 = (
+    "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8"
+)
+CURRENT_TOOLCHAIN_PROFILE_SHA256 = (
+    "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+)
+CURRENT_MGBA_SOURCE_COMMIT = "d8bad14b4540f9114246c0281d74985cf81adc68"
 VARIANTS = ("baseline", "candidate")
 DOMAINS = {
     "EWRAM": (0x02000000, 0x40000),
@@ -46,7 +53,7 @@ DOMAINS = {
     "VRAM": (0x06000000, 0x18000),
     "OAM": (0x07000000, 0x400),
 }
-IMPLEMENTATION_PATHS = (
+LEGACY_IMPLEMENTATION_PATHS = (
     "tools/build_battle_effect_pixel_ab.py",
     "tools/export_battle_effect_pixel_ab_evidence.py",
     "tools/verify_battle_effect_pixel_ab_evidence.py",
@@ -63,6 +70,15 @@ IMPLEMENTATION_PATHS = (
     "tools/inspect_mgba_savestate.py",
     "tools/render_mode0_checkpoint.py",
 )
+INTERMEDIATE_IMPLEMENTATION_PATHS = LEGACY_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_single_input_current.py",
+)
+IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_effect_phase_capture.py",
+    "tools/run_macos_mgba_replay.py",
+    "tools/macos_mgba_runtime_residue.py",
+    "tools/verify_battle_effect_group15_natural_runtime.py",
+)
 
 
 def _sha256(data: bytes) -> str:
@@ -71,6 +87,49 @@ def _sha256(data: bytes) -> str:
 
 def _sha256_file(path: Path) -> str:
     return _sha256(path.read_bytes())
+
+
+def _runtime_toolchain_contract(
+    root: Path, profile: dict[str, Any]
+) -> dict[str, Any]:
+    configured = profile.get("runtime_toolchain")
+    if configured is None:
+        return {
+            "kind": "legacy-build-manifest",
+            "binary_sha256": MGBA_BINARY_SHA256,
+            "build_manifest_sha256": MGBA_BUILD_MANIFEST_SHA256,
+        }
+    expected = {
+        "kind": "current-desktop-runtime-profile",
+        "path": "artifacts/rom-expansion-profile-v1/profile.json",
+        "sha256": CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        "binary_sha256": CURRENT_MGBA_BINARY_SHA256,
+        "source_commit": CURRENT_MGBA_SOURCE_COMMIT,
+    }
+    if configured != expected:
+        raise ValueError("battle-effect pixel current runtime toolchain contract mismatch")
+    path = (root / expected["path"]).resolve(strict=True)
+    if (
+        root.resolve(strict=True) not in path.parents
+        or _sha256_file(path) != expected["sha256"]
+    ):
+        raise ValueError("battle-effect pixel current runtime profile hash mismatch")
+    payload = _json(path)
+    hardware = payload.get("hardware_evidence", {})
+    runtime = payload.get("runtime_probe", {})
+    if (
+        payload.get("schema") != "rom-expansion-profile-v1"
+        or hardware.get("mgba_binary_sha256") != expected["binary_sha256"]
+        or hardware.get("mgba_source_commit") != expected["source_commit"]
+        or runtime.get("guard_reason") != "completed"
+        or runtime.get("guard_completion_trigger") != "success-marker"
+        or runtime.get("guard_exit_code") != 0
+        or runtime.get("guard_degraded") is not False
+        or runtime.get("new_mgba_crash_report") is not False
+        or runtime.get("owned_process_residue") is not False
+    ):
+        raise ValueError("battle-effect pixel current runtime profile contract mismatch")
+    return dict(expected)
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -225,7 +284,14 @@ def _generation_implementation_hashes(
         "generated_with_implementation_sha256",
         manifest.get("implementation_sha256"),
     )
-    if not _valid_implementation_hashes(historical, IMPLEMENTATION_PATHS):
+    if not any(
+        _valid_implementation_hashes(historical, paths)
+        for paths in (
+            LEGACY_IMPLEMENTATION_PATHS,
+            INTERMEDIATE_IMPLEMENTATION_PATHS,
+            IMPLEMENTATION_PATHS,
+        )
+    ):
         raise ValueError("battle-effect pixel generation provenance is invalid")
     return dict(historical)
 
@@ -368,7 +434,6 @@ def _canonicalize(raw: Path, profile: dict[str, Any]) -> None:
         audit.update(
             {
                 "audit": f"raw/{variant}/audit.json",
-                "build_manifest": "toolchain/mgba-build-manifest.json",
                 "input_state": profile["input_state"],
                 "output_png": f"raw/{variant}/frame{frame}.png",
                 "output_state": f"raw/{variant}/frame{frame}.ss9",
@@ -378,6 +443,19 @@ def _canonicalize(raw: Path, profile: dict[str, Any]) -> None:
                 "guard_summary_sha256": _sha256_file(guard_path),
             }
         )
+        configured_toolchain = profile.get("runtime_toolchain")
+        if configured_toolchain is None:
+            audit["build_manifest"] = "toolchain/mgba-build-manifest.json"
+        else:
+            audit.pop("build_manifest", None)
+            audit.pop("build_manifest_sha256", None)
+            audit["toolchain"] = {
+                "kind": configured_toolchain["kind"],
+                "path": "toolchain/mgba-runtime-profile.json",
+                "sha256": configured_toolchain["sha256"],
+                "source_commit": configured_toolchain["source_commit"],
+                "patch_sha256": None,
+            }
         _write_json(audit_path, audit)
         _write_json(raw / variant / "sentinel.json", audit)
 
@@ -399,6 +477,15 @@ def _validate_audit(
     build: dict[str, Any],
     profile: dict[str, Any],
 ) -> dict[str, Any]:
+    toolchain = _runtime_toolchain_contract(root, profile)
+    current = toolchain["kind"] == "current-desktop-runtime-profile"
+    expected_runtime_toolchain = {
+        "kind": "current-desktop-runtime-profile",
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": CURRENT_TOOLCHAIN_PROFILE_SHA256,
+        "source_commit": CURRENT_MGBA_SOURCE_COMMIT,
+        "patch_sha256": None,
+    }
     frame = profile["runtime_input"]["capture_frame"]
     runtime_input = profile["runtime_input"]
     event = {
@@ -425,9 +512,24 @@ def _validate_audit(
         or audit.get("capture_frame") != frame
         or audit.get("automatic_inputs") != []
         or audit.get("recovery_inputs") != []
-        or audit.get("binary_sha256") != MGBA_BINARY_SHA256
-        or audit.get("build_manifest_sha256")
-        != MGBA_BUILD_MANIFEST_SHA256
+        or audit.get("binary_sha256") != toolchain["binary_sha256"]
+        or (
+            current
+            and (
+                "build_manifest_sha256" in audit
+                or "build_manifest" in audit
+                or audit.get("toolchain") != expected_runtime_toolchain
+            )
+        )
+        or (
+            not current
+            and (
+                audit.get("build_manifest_sha256")
+                != MGBA_BUILD_MANIFEST_SHA256
+                or audit.get("build_manifest")
+                != "toolchain/mgba-build-manifest.json"
+            )
+        )
         or audit.get("replay_script_sha256")
         != _sha256_file(root / "tools/mgba_single_input_replay.lua")
         or audit.get("output_state_sha256") != _sha256_file(state_path)
@@ -444,19 +546,23 @@ def _validate_audit(
         or guard.get("peak_tree_rss_mib") != audit.get("peak_tree_rss_mib")
     ):
         raise ValueError(f"battle-effect pixel {variant} runtime provenance mismatch")
-    return {
+    result = {
         "run_id": audit["run_id"],
         "rom_sha256": audit["rom_sha256"],
         "state_sha256": audit["output_state_sha256"],
         "png_sha256": audit["output_png_sha256"],
         "binary_sha256": audit["binary_sha256"],
-        "build_manifest_sha256": audit["build_manifest_sha256"],
         "replay_script_sha256": audit["replay_script_sha256"],
         "guard_sha256": audit["guard_summary_sha256"],
         "child_pgid": audit["child_pgid"],
         "peak_tree_rss_mib": audit["peak_tree_rss_mib"],
         "pgid_clean": True,
     }
+    if current:
+        result["toolchain"] = dict(audit["toolchain"])
+    else:
+        result["build_manifest_sha256"] = audit["build_manifest_sha256"]
+    return result
 
 
 def export_evidence(
@@ -472,6 +578,7 @@ def export_evidence(
     profile, contract = _validate_profile(root, profile_path)
     if profile.get("schema") != PROFILE_SCHEMA:
         raise ValueError("battle-effect pixel evidence profile mismatch")
+    _runtime_toolchain_contract(root, profile)
     _runtime_component_obj_tile_base(
         profile, contract["component"]["tile_index"]
     )
@@ -561,6 +668,8 @@ def export_evidence(
         profile,
         profile["component_pixel_xy"][0],
         profile["component_pixel_xy"][1],
+        component_width=contract["component"]["width"],
+        component_height=contract["component"]["height"],
     )
     for variant in VARIANTS:
         rendered, _ = render_checkpoint(raw / variant / f"frame{frame}.ss9")

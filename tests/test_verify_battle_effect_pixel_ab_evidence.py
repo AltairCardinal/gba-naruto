@@ -15,9 +15,31 @@ GROUP1_ARTIFACT = ROOT / "artifacts/battle-effect-group1-pixel-ab-v1"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 GROUP14_ARTIFACT = ROOT / "artifacts/battle-effect-group14-pixel-ab-v1"
 GROUP5_ARTIFACT = ROOT / "artifacts/battle-effect-group5-pixel-ab-v1"
+GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
+GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_independently_maps_source_pixel_through_horizontal_flip(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        profile = json.loads(GROUP15_PROFILE.read_text(encoding="utf-8"))
+        instances = verifier._runtime_oam_instances(
+            profile,
+            14,
+            8,
+            component_width=32,
+            component_height=32,
+        )
+
+        self.assertEqual(instances[0]["source_pixel_screen_xy"], [65, 56])
+
+    def test_accepts_group15_natural_runtime_checkpoint_contract(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP15_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
     def test_independently_derives_runtime_tile_from_component_source(self):
         from tools import verify_battle_effect_pixel_ab_evidence as verifier
 
@@ -157,7 +179,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
                 for item in value:
                     yield from strings(item)
 
-        for artifact in (ARTIFACT, GROUP1_ARTIFACT, GROUP14_ARTIFACT):
+        for artifact in (
+            ARTIFACT,
+            GROUP1_ARTIFACT,
+            GROUP14_ARTIFACT,
+            GROUP15_ARTIFACT,
+        ):
             for path in artifact.rglob("*.json"):
                 payload = json.loads(path.read_text(encoding="utf-8"))
                 self.assertEqual(
@@ -200,6 +227,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, GROUP14_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_current_toolchain_flipped_pixel_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP15_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_rejects_resigned_semantic_tampering(self):

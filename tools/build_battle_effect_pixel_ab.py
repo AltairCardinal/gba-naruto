@@ -120,7 +120,12 @@ def _runtime_component_obj_tile_base(
 
 
 def _runtime_oam_instances(
-    profile: Mapping[str, Any], pixel_x: int, pixel_y: int
+    profile: Mapping[str, Any],
+    pixel_x: int,
+    pixel_y: int,
+    *,
+    component_width: int | None = None,
+    component_height: int | None = None,
 ) -> list[dict[str, Any]]:
     runtime_oam = profile.get("runtime_oam")
     if not isinstance(runtime_oam, dict):
@@ -167,6 +172,21 @@ def _runtime_oam_instances(
             raw.get("component_pixel_xy"), "runtime OAM instance component pixel"
         )
         visible = raw.get("visible_in_final_difference")
+        affine = bool(attr0 & 0x0100)
+        flip_x = not affine and bool(attr1 & 0x1000)
+        flip_y = not affine and bool(attr1 & 0x2000)
+        if (flip_x and component_width is None) or (
+            flip_y and component_height is None
+        ):
+            raise ValueError(
+                "battle-effect pixel flipped OAM instance requires component dimensions"
+            )
+        screen_pixel_x = (
+            component_width - 1 - pixel_x if flip_x else pixel_x
+        )
+        screen_pixel_y = (
+            component_height - 1 - pixel_y if flip_y else pixel_y
+        )
         if (
             not 0 <= index < 128
             or index in indices
@@ -178,7 +198,10 @@ def _runtime_oam_instances(
             or not isinstance(visible, bool)
         ):
             raise ValueError("battle-effect pixel runtime OAM instance contract mismatch")
-        if ((attr1 & 0x1FF) + pixel_x, (attr0 & 0xFF) + pixel_y) != source_xy:
+        if (
+            (attr1 & 0x1FF) + screen_pixel_x,
+            (attr0 & 0xFF) + screen_pixel_y,
+        ) != source_xy:
             raise ValueError("battle-effect pixel runtime OAM instance screen mapping mismatch")
         indices.add(index)
         instances.append(dict(raw))
@@ -505,7 +528,13 @@ def _validate_profile(
         raise ValueError("battle-effect pixel trigger sequence group mismatch")
 
     _runtime_component_obj_tile_base(profile, component.get("tile_index"))
-    _runtime_oam_instances(profile, pixel_x, pixel_y)
+    _runtime_oam_instances(
+        profile,
+        pixel_x,
+        pixel_y,
+        component_width=width,
+        component_height=height,
+    )
 
     runtime_input = profile.get("runtime_input")
     if (

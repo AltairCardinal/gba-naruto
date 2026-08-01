@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json"
 GROUP1_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-01-action5-dust.json"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
+GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -162,6 +163,58 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "OAM instance contract"):
             self.builder._runtime_oam_instances(profile, 5, 1)
 
+    def test_runtime_oam_instances_map_source_pixel_through_horizontal_flip(self):
+        profile = {
+            "frame_id": 0,
+            "component_index": 0,
+            "component_pixel_xy": [12, 10],
+            "screen_xy": [67, 58],
+            "runtime_oam": {
+                "oam_index": 1,
+                "attributes": ["0x0030", "0x9030", "0x5920"],
+                "obj_tile_base": 288,
+                "palette_bank": 5,
+            },
+        }
+
+        instances = self.builder._runtime_oam_instances(
+            profile,
+            12,
+            10,
+            component_width=32,
+            component_height=32,
+        )
+
+        self.assertEqual(instances[0]["source_pixel_screen_xy"], [67, 58])
+
+    def test_active_action_selector_resolves_action64_sequence17(self):
+        catalog = json.loads(
+            (
+                ROOT
+                / "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        binding, build_binding = self.builder._resolve_selector_binding(
+            {
+                "kind": "active_action",
+                "id": 64,
+                "encoded_action_id": 64,
+            },
+            catalog,
+            sequence_id=17,
+        )
+
+        self.assertEqual(binding["action_id"], 64)
+        self.assertEqual(binding["sequence_id"], 17)
+        self.assertEqual(
+            build_binding,
+            {
+                "active_action_id": 64,
+                "encoded_action_id": 64,
+                "sequence_id": 17,
+            },
+        )
+
     def test_runtime_oam_tile_is_bound_to_loaded_component_tile(self):
         profile = json.loads(GROUP1_PROFILE.read_text(encoding="utf-8"))
 
@@ -194,6 +247,31 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
         for variant in ("baseline", "candidate"):
             self.assertEqual(
                 result["variants"][variant]["encoded_graphics_size"], 2138
+            )
+
+    def test_group15_natural_action_profile_builds_flipped_single_pixel_pair(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP15_PROFILE, Path(tmp) / "pair"
+            )
+
+        self.assertEqual(
+            result["binding"],
+            {
+                "active_action_id": 64,
+                "encoded_action_id": 64,
+                "sequence_id": 17,
+                "group_id": 15,
+            },
+        )
+        self.assertEqual(result["edit"]["graphics_byte_offset"], 163)
+        self.assertEqual(result["edit"]["screen_xy"], [65, 56])
+        self.assertEqual(result["runtime_oam"]["attributes"][1], "0x9030")
+        self.assertTrue(result["same_patch_topology"])
+        self.assertTrue(result["same_encoded_size"])
+        for variant in ("baseline", "candidate"):
+            self.assertEqual(
+                result["variants"][variant]["encoded_graphics_size"], 1560
             )
 
     def test_group1_profile_keeps_trigger_and_resource_sequences_distinct(self):

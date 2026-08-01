@@ -48,7 +48,8 @@ OBJ VRAM 也没有完整目标 graphics，OBJ palette banks 没有完整目标 p
 - 受控目标资源/task/OAM 事务：`10/13`；
 - 与既有已观察 groups `[1,2,5,11,14]`（包含 supplemental 快照）取并集：`15/18`。
   这是补充技术覆盖，不是自然玩法覆盖；
-- production 修改 ROM 最终像素 A/B 仍为 `4/18`；
+- production 修改 ROM 最终像素 A/B 已由后续 group 15 自然 action 64 闭环提升为
+  `5/18`；本 artifact 自身的受控批次结论不变；
 - 自然/既有快照 frame-phase 覆盖仍为 `5/18`；
 - tracked parent checkpoint 分母仍为 `93`；
 - group 18 的 sequence 18 路径尚未覆盖。sequence 7 受控失败不能证明 group 18
@@ -72,5 +73,7 @@ PGID 与 mGBA listener 无残留。9 次 RSS 采样约为 `71.46–73.82 MiB`；
 
 - group 3 / sequence 3 与 group 18 / sequences 7、18 的自然 callsite 在 selector 后
   还调用对象 spawner，下一探针必须复现 selector+spawn 参数，不能只调用通用 binder。
-- group 15 / sequence 17 需要补 action/side/runtime context；在静态或自然证据确定
-  上游状态前，不猜测 side 参数或把当前负结果改写为资源缺失。
+- group 15 / sequence 17 的 action/side/runtime context 已由后续自然 action 64、
+  side 1 证据与单像素 A/B 闭合；见
+  `notes/battle-effect-group15-pixel-ab-20260802.md`。本批次保留的负结果仍是其原始
+  受控入口事实，不追溯改写。

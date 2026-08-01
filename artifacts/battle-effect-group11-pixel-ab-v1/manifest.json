@@ -76,21 +76,26 @@
   "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
   "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
   "verified_with_implementation_sha256": {
-    "tools/build_battle_effect_pixel_ab.py": "0911637aefc20bd52f18ed6363df72114493c7a5a88968088bdebe69f01ebbed",
+    "tools/build_battle_effect_pixel_ab.py": "dc31acca331b87d00da9d535583fb10080995841689f6b03f56c1c8f9d0feb23",
     "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
-    "tools/export_battle_effect_pixel_ab_evidence.py": "b947a59ac91611a43e2432437b3a52f553d85584c4982f1be683251efb63330e",
+    "tools/export_battle_effect_pixel_ab_evidence.py": "d7f81180e14b69af795d3998ce801923197bca7e88bcb52bdf097a408519b2cc",
     "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
     "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
     "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
     "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/macos_mgba_runtime_residue.py": "92cedb0e5878434e12cb448643b1af06232a057c7af245f269a82bf4d0488c68",
     "tools/mgba_input_sequence_replay.lua": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
     "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
     "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
     "tools/render_mode0_checkpoint.py": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
     "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
     "tools/run_macos_mgba_input_sequence.py": "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907",
+    "tools/run_macos_mgba_replay.py": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
     "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
-    "tools/verify_battle_effect_pixel_ab_evidence.py": "e5dd67b93831553fd1d725e4a23870dc52fc1fead4c1eda80279a382bcfcc562"
+    "tools/run_macos_mgba_single_input_current.py": "4c4db13604d57bb6bf0bde17297efd3eee773b0e057483cd1f67c09ba06ecc13",
+    "tools/verify_battle_effect_group15_natural_runtime.py": "bb3a371b5652c4d05221a4ba11c3a00e66ba606448ab3d846c2e48fa9253b91a",
+    "tools/verify_battle_effect_pixel_ab_evidence.py": "51446b65a49e9686590bf8b8bd88dbf5b75d2631317a5deb97132bb8986ef24a"
   },
   "verifier": {
     "command": [

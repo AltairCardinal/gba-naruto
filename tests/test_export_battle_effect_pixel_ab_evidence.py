@@ -13,9 +13,26 @@ PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.
 ARTIFACT = ROOT / "artifacts/battle-effect-group11-pixel-ab-v1"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 GROUP14_ARTIFACT = ROOT / "artifacts/battle-effect-group14-pixel-ab-v1"
+GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
+GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
 
 
 class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_current_runtime_toolchain_contract_is_bound_to_tracked_profile(self):
+        from tools import export_battle_effect_pixel_ab_evidence as exporter
+
+        profile = json.loads(GROUP15_PROFILE.read_text(encoding="utf-8"))
+        self.assertEqual(
+            exporter._runtime_toolchain_contract(ROOT, profile),
+            {
+                "kind": "current-desktop-runtime-profile",
+                "path": "artifacts/rom-expansion-profile-v1/profile.json",
+                "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+                "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+                "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+            },
+        )
+
     def test_runtime_tile_base_derives_from_vram_load_and_component(self):
         from tools import export_battle_effect_pixel_ab_evidence as exporter
 
@@ -242,6 +259,24 @@ class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
             ],
         )
         self.assertTrue(evidence["scope"]["natural_active_action_route"])
+
+    def test_reexports_group15_current_toolchain_flipped_pixel_chain(self):
+        from tools.export_battle_effect_pixel_ab_evidence import export_evidence
+
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = export_evidence(
+                ROOT,
+                GROUP15_PROFILE,
+                GROUP15_ARTIFACT / "raw",
+                Path(tmp) / "artifact",
+            )
+
+        self.assertEqual(evidence["runtime"]["memory_differences"]["VRAM"], [0x124A3])
+        self.assertEqual(evidence["runtime"]["pixels"]["changes"][0]["x"], 65)
+        self.assertEqual(
+            evidence["runs"]["baseline"]["toolchain"]["kind"],
+            "current-desktop-runtime-profile",
+        )
 
     def test_rejects_resigned_runtime_tool_provenance(self):
         from tools.export_battle_effect_pixel_ab_evidence import export_evidence
