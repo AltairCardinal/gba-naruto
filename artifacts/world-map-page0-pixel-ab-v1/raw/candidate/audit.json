@@ -1,0 +1,64 @@
+{
+  "audit": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/runtime/candidate/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+  "build_manifest": "/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json",
+  "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+  "capture_frame": 80,
+  "child_pgid": 73152,
+  "evidence_mode": "single-input",
+  "frame": 80,
+  "guard_summary_sha256": "0bfa44b2761cf72c8535d71af6fb74c733698645e8a1e4355b9813cca2396890",
+  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9",
+  "input_state_sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555",
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "output_png": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/runtime/candidate/frame80.png",
+  "output_png_sha256": "f8d4de7fb80628cb75465f5d7005dadc9033e468452b3cdd2152f321db8a1b54",
+  "output_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/runtime/candidate/frame80.ss9",
+  "output_state_sha256": "1d6f86c6216a4d8bd3cc17d621df3e0c3bbacaa34914269749878f426c2db1a5",
+  "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+  "peak_tree_rss_mib": 55.77734375,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b",
+  "run_id": "ad37b1167e1e46239ba4c583a4dd5bc3",
+  "runtime_residue": {
+    "checked_at": "2026-08-01T00:12:26.968295Z",
+    "checked_pgid": 73152,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/runtime/candidate/sentinel.json",
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/runtime/candidate/staged.gba",
+  "staged_rom_sha256": "a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b",
+  "status": "capture-complete",
+  "success": true,
+  "zero_input_verified": false
+}

@@ -1822,3 +1822,17 @@ WebSocket
   `artifacts/menu-portrait-pixel-ab-v1/`，说明见
   `notes/menu-portrait-pixel-ab-20260801.md`。该链只签发row 1 / variant 0代表样本，
   不外推至其余310个逻辑立绘、全部转场或实体GBA，Goal保持active。
+- 2026-08-01：世界地图page 0新增首条production relocation自然最终像素A/B。
+  两份ROM均把graphics重定位到`0x08B71000`并只重写page 0 pointer；candidate只把
+  32 KiB源的byte 15588、tile 243 local `(4,4)`、画布`(116,76)`从index
+  `112→137`。两边从script cursor `0x08031FE7`、page 0资源尚未装入的自然对白
+  checkpoint独立输入一次A；frame 80的EWRAM/IWRAM/IO/PRAM/OAM零差异，VRAM只在
+  `0x06007CE4`有该byte差异，最终PNG也只在`(116,76)`由
+  `(189,165,107)→(66,33,0)`。捕获帧有806个graphics byte被两边相同的后续writer
+  覆盖，已按共同offset和值建账，目标byte不在其中；不冒充整份32 KiB仍等于首次
+  loader输出。首轮tile 1候选实际扩散为13个VRAM byte/155个像素，已作为过程式模板
+  假设拒绝。独立verifier重建LZ77、两份16 MiB ROM、page 1/2 descriptor、六个
+  内存域、tilemap/palette、renderer、audit/guard及文件全集，并拒绝重签语义和raw
+  state篡改。成果位于`artifacts/world-map-page0-pixel-ab-v1/`，说明见
+  `notes/world-map-page0-pixel-ab-20260801.md`。page 1/2、切换/解锁、标签、光标和
+  实体GBA仍未签发，Goal保持active。

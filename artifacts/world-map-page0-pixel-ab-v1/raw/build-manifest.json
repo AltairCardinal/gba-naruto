@@ -1,0 +1,143 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edit": {
+    "after_index": 137,
+    "before_index": 112,
+    "canvas_xy": [
+      116,
+      76
+    ],
+    "graphics_byte_offset": 15588,
+    "page_id": 0,
+    "resource_type": "graphics",
+    "table_pointer_offset": 5931028,
+    "tile_id": 243
+  },
+  "input": {
+    "capture_frame": 80,
+    "down_frame": 5,
+    "key": "A",
+    "up_frame": 13
+  },
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9",
+  "input_state_sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555",
+  "isolation": {
+    "changed_span": [
+      12011859,
+      12011860
+    ],
+    "decoded_graphics_offsets": [
+      15588
+    ],
+    "page_1_and_2_descriptors_unchanged": true,
+    "rom_changed_offset_count": 1,
+    "rom_changed_offsets": [
+      12011859
+    ],
+    "same_allocation_address": true,
+    "same_redirect_pointer": true
+  },
+  "schema": "world-map-page0-pixel-ab-build-v1",
+  "source_catalog": "artifacts/world-map-backgrounds-v1/manifest.json",
+  "source_catalog_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3",
+  "variants": {
+    "baseline": {
+      "graphics_path": "baseline/background.8bpp.bin",
+      "graphics_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "c283d6f2f5cde240d74e3de127a1b3cc53f538218a6045287318b10898247e2c",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "world-map-backgrounds",
+            "region_owner": "world_map_background_resources"
+          },
+          "asset_type": "world_map_background_relocation",
+          "before_hex": null,
+          "before_sha256": "7284b1ea1217a670226ea7b10ff3e7974caee04e3a28ff041e1d66447604fcf1",
+          "id": "world-map-graphics-00",
+          "kind": "allocation",
+          "new_pointer": 146214912,
+          "offset": 11997184,
+          "resource_type": "graphics",
+          "size": 31963,
+          "target_pointer_offsets": [
+            5931028
+          ]
+        },
+        {
+          "after_hex": "0010b708",
+          "after_sha256": "3096c3f3b98f89b310d875a48eacd2c502d0c005eb7919741b8159dae4c886ea",
+          "allocation": null,
+          "asset_type": "world_map_background_pointer",
+          "before_hex": "e4144408",
+          "before_sha256": "2a185e9827224869b7275355c06f176dfb0883eb7572fb13cadd19ad2e33e5fd",
+          "id": "world-map-graphics-00.pointer-5a8014",
+          "kind": "redirect",
+          "new_pointer": 146214912,
+          "offset": 5931028,
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5931028
+          ]
+        }
+      ],
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "58b2a447b125fdf4ae0099a0b41de9c5ea7e32fa5f2bde600f1c2d867198e6c1",
+      "rom_size": 16777216,
+      "spec_path": "baseline/spec.json"
+    },
+    "candidate": {
+      "graphics_path": "candidate/background.8bpp.bin",
+      "graphics_sha256": "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "4ea6655959e9c14b7421849c28ee83d889ecf803f6ddb3fa2f62bf553cc45673",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "world-map-backgrounds",
+            "region_owner": "world_map_background_resources"
+          },
+          "asset_type": "world_map_background_relocation",
+          "before_hex": null,
+          "before_sha256": "7284b1ea1217a670226ea7b10ff3e7974caee04e3a28ff041e1d66447604fcf1",
+          "id": "world-map-graphics-00",
+          "kind": "allocation",
+          "new_pointer": 146214912,
+          "offset": 11997184,
+          "resource_type": "graphics",
+          "size": 31963,
+          "target_pointer_offsets": [
+            5931028
+          ]
+        },
+        {
+          "after_hex": "0010b708",
+          "after_sha256": "3096c3f3b98f89b310d875a48eacd2c502d0c005eb7919741b8159dae4c886ea",
+          "allocation": null,
+          "asset_type": "world_map_background_pointer",
+          "before_hex": "e4144408",
+          "before_sha256": "2a185e9827224869b7275355c06f176dfb0883eb7572fb13cadd19ad2e33e5fd",
+          "id": "world-map-graphics-00.pointer-5a8014",
+          "kind": "redirect",
+          "new_pointer": 146214912,
+          "offset": 5931028,
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5931028
+          ]
+        }
+      ],
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "a859355a2a370ee46fab7648224a2f3e31497262a52559e6cfa243b8f40a3a8b",
+      "rom_size": 16777216,
+      "spec_path": "candidate/spec.json"
+    }
+  }
+}

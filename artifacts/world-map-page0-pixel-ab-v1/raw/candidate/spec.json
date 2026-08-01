@@ -1,0 +1,32 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edits": [
+    {
+      "expected": {
+        "decompressed_size": 32768,
+        "physical_offsets": [
+          4461796
+        ],
+        "pointer_offsets": [
+          5931028
+        ]
+      },
+      "id": "world-map-page0-graphics-pixel-ab-candidate",
+      "resource_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+      "resource_type": "graphics",
+      "source_file": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/world-map-page0-pixel-ab/world-map-page0-pixel-ab-20260801-r2/build/candidate/background.8bpp.bin",
+      "target_pointer_offsets": [
+        5931028
+      ]
+    }
+  ],
+  "owner": "sequel_image_assets",
+  "partition": "sequel-image-assets",
+  "region": "world-map-backgrounds",
+  "region_owner": "world_map_background_resources",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+  "schema": "world-map-background-relocation-v1",
+  "source_catalog": "artifacts/world-map-backgrounds-v1/manifest.json",
+  "source_catalog_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3"
+}
