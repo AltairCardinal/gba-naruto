@@ -159,7 +159,7 @@ class ImportDirectImagePaletteRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBC0000, 0xBC0400), (palettes.start, palettes.end))
-        self.assertEqual((0xBC0C00, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC1C00, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_seventeen_payloads_and_all_roots(self):
         from tools.build_mod import apply_patch

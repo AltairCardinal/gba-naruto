@@ -1,0 +1,129 @@
+{
+  "edit": {
+    "after_index": 55,
+    "before_index": 52,
+    "canvas_byte_offset": 3240,
+    "canvas_xy": [
+      40,
+      40
+    ],
+    "pair_pointer_offset": 5918228,
+    "portrait_id": 1,
+    "resource_id": 0,
+    "stream_byte_offset": 5184,
+    "variant": 0
+  },
+  "input": {
+    "capture_frame": 80,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "next_show_portrait_command": {
+      "address": "0x08031F6E",
+      "bytes": "02000100",
+      "portrait_id": 1,
+      "slot": 0,
+      "variant": 0
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9",
+    "script_cursor": "0x08031F42",
+    "sha256": "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8",
+    "target_absent_before_input": true
+  },
+  "runs": {
+    "baseline": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 69850,
+      "guard_sha256": "8daa348096c577c482f5cba57dbdb8f755b48bf42fc4d9e0b118dd952215db2b",
+      "peak_tree_rss_mib": 55.87890625,
+      "pgid_clean": true,
+      "png_sha256": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "c92015c777cba12a2b35309f0a689e1d7e06c3724f272df6232f1120efae5eb3",
+      "run_id": "5bb416213a72856d49e3f5fdf10fc5c6",
+      "state_sha256": "ffcf4e28c81a3c701887a2223b95b4c990c22cba3d5f1c008b239b9bec625115"
+    },
+    "candidate": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 69882,
+      "guard_sha256": "84362fcf6deec9554f7f758b9e5c53491765c0f3c1715db51ee79bbf85267732",
+      "peak_tree_rss_mib": 56.10546875,
+      "pgid_clean": true,
+      "png_sha256": "518637bad2f89b200352c8486eff4bd16e3bfd3a30364876f89112f3ab341459",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "430e390e63b77be072c0c0e9e176a8f11476bd67923fc4a211b8eb65437e2cec",
+      "run_id": "f0999bc51632f3a7d45dd1d23c6ebcfa",
+      "state_sha256": "b26a4832d960bcab5a2c62ee5cf6e92ed81721d50da1a69128830b0572ce3c04"
+    }
+  },
+  "runtime": {
+    "baseline_ewram_byte": 52,
+    "baseline_vram_byte": 52,
+    "candidate_ewram_byte": 55,
+    "candidate_vram_byte": 55,
+    "changed_ewram_address": "0x02003CC0",
+    "changed_vram_address": "0x06011440",
+    "ewram_decompression_work_address": "0x02002880",
+    "memory_differences": {
+      "EWRAM": [
+        15552
+      ],
+      "IO": [],
+      "IWRAM": [
+        32668
+      ],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        70720
+      ]
+    },
+    "oam_entries_1_through_6_hex": "28a050800808000008a0508018080000486030802808fc004860108038080001082010c0480800004820d040c8080000",
+    "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+    "pixels": {
+      "baseline_rgb_sha256": "aada62ba20f1629f42db886114b96fd17c05c73cb7ee58f137628913747a22bc",
+      "bbox": [
+        56,
+        48,
+        56,
+        48
+      ],
+      "candidate_rgb_sha256": "c7901c9532dd0c05a77b2110b1a70d9555b2e70225fa82737e47da9feff446f0",
+      "changes": [
+        {
+          "after_rgb": [
+            222,
+            222,
+            82
+          ],
+          "before_rgb": [
+            239,
+            189,
+            165
+          ],
+          "x": 56,
+          "y": 48
+        }
+      ],
+      "count": 1
+    },
+    "pram_palette_address": "0x05000200",
+    "renderer_exact": true,
+    "vram_graphics_address": "0x06010000"
+  },
+  "schema": "menu-portrait-pixel-ab-runtime-v1",
+  "scope": {
+    "all_311_portraits_runtime_verified": false,
+    "all_portrait_transitions_runtime_verified": false,
+    "natural_show_portrait_load": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "row_1_variant_0_single_pixel": true
+  },
+  "verified": true
+}

@@ -162,7 +162,7 @@ class ImportCutsceneObjBundleRelocationsTests(unittest.TestCase):
         )
 
         self.assertEqual((0xBA0000, 0xBB0000), (cutscene.start, cutscene.end))
-        self.assertEqual((0xBC0C00, 0xC00000), (future.start, future.end))
+        self.assertEqual((0xBC1C00, 0xC00000), (future.start, future.end))
 
     def test_full_preservation_relocates_twelve_payloads_and_sixteen_roots(self):
         from tools.build_mod import apply_patch

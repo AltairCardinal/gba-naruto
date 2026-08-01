@@ -1470,7 +1470,7 @@ WebSocket
   为防止迁移器各自从同一父分区起点分配，新增图像资源区域注册表：tile-assets使用
   `0x800000..0x980000`，地图使用`0x980000..0xA80000`，菜单立绘使用
   `0xA80000..0xB00000`，regular BG使用`0xB00000..0xB40000`，未来图像当前保留
-  `0xBC0C00..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
+  `0xBC1C00..0xC00000`；其间`0xB40000..0xB50000`划给战斗特效，
   `0xB50000..0xB71000`划给剧情透明BG3图层，`0xB71000..0xB90000`划给
   世界地图背景，`0xB90000..0xBA0000`划给通用Sprite bundle，
   `0xBA0000..0xBB0000`划给Cutscene OBJ bundle；注册表
@@ -1806,3 +1806,19 @@ WebSocket
   `notes/character-battle-visual-resource-matrix-20260801.md`。当前只签发resource 0
   的三个代表字段，不外推至其余249个资源、完整动画推进、动作合成或实体GBA，Goal
   保持active。
+- 2026-08-01：菜单／剧情立绘新增首条production relocation自然最终像素A/B。
+  resource 0有36个逻辑别名，本轮只拆分row 1 / variant 0的pair `0x5A4E14`；两边
+  graphics/palette共同迁移到`0x08A80000/0x08A80CD8`，candidate只把80×80画布
+  `(40,40)`的index `52→55`，解压OBJ stream仅byte 5184不同。两份ROM从自然
+  `scenario-41-postbattle-dialogue-9.ss9`独立输入一次A；其下一条脚本命令是
+  `0x08031F6E: ShowPortrait(0,1,0)`，输入前目标graphics不在动态OBJ VRAM。
+  frame 80的IO/PRAM/OAM完全相同，EWRAM只差`0x02003CC0`，VRAM只差
+  `0x06011440`，两边完整6400-byte OBJ流和128-byte palette分别等于各自ROM资源；
+  最终PNG只有屏幕`(56,48)`一个像素由`(239,189,165)→(222,222,82)`，Mode-0
+  compositor也与两张mGBA PNG逐RGB exact。独立verifier自行重建六组件stream、
+  BGR555、LZ77、两份16 MiB ROM、自然脚本边界、内存域、OAM、像素及运行来源，
+  并拒绝重签后的语义与raw state篡改。两次guard均`completed/0`、非degraded，峰值
+  RSS为55.87890625/56.10546875 MiB。成果位于
+  `artifacts/menu-portrait-pixel-ab-v1/`，说明见
+  `notes/menu-portrait-pixel-ab-20260801.md`。该链只签发row 1 / variant 0代表样本，
+  不外推至其余310个逻辑立绘、全部转场或实体GBA，Goal保持active。
