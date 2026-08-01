@@ -137,6 +137,64 @@ class InputSequenceRunnerContractTests(unittest.TestCase):
         with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
             parser.parse_args(["--replay-script", "/tmp/a.lua"])
 
+    def test_cli_accepts_current_desktop_toolchain_profile_without_legacy_manifest(self):
+        parser = self.runner.build_parser()
+        args = parser.parse_args(
+            [
+                "--binary", "/tmp/mGBA",
+                "--toolchain-profile", "/tmp/profile.json",
+                "--expected-binary-sha256", "a" * 64,
+                "--rom", "/tmp/base.gba",
+                "--state", "/tmp/input.ss9",
+                "--expected-rom-sha256", "b" * 64,
+                "--expected-state-sha256", "c" * 64,
+                "--input-event", "A:5:13",
+                "--capture-frame", "80",
+                "--staged-rom", "/tmp/out/staged.gba",
+                "--output-state", "/tmp/out/after.ss9",
+                "--output-png", "/tmp/out/after.png",
+                "--audit", "/tmp/out/audit.json",
+                "--sentinel", "/tmp/out/sentinel.json",
+                "--guard-summary", "/tmp/out/guard.json",
+            ]
+        )
+        self.assertEqual(args.toolchain_profile, Path("/tmp/profile.json"))
+        self.assertIsNone(args.build_manifest)
+        self.assertIsNone(args.expected_build_manifest_sha256)
+
+    def test_current_desktop_profile_validation_is_reused_by_sequence_runner(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            binary = root / "mGBA"
+            binary.write_bytes(b"current desktop binary")
+            binary_sha = self.runner.sha256_file(binary)
+            profile = root / "profile.json"
+            profile.write_text(
+                json.dumps(
+                    {
+                        "schema": "rom-expansion-profile-v1",
+                        "identity": "agb_standard_16mib_sequel_rom_profile",
+                        "hardware_evidence": {
+                            "mgba_source_commit": self.runner.CURRENT_MGBA_SOURCE_COMMIT,
+                            "mgba_binary_sha256": binary_sha,
+                        },
+                        "runtime_probe": {
+                            "guard_reason": "completed",
+                            "guard_completion_trigger": "success-marker",
+                            "guard_exit_code": 0,
+                            "guard_degraded": False,
+                            "new_mgba_crash_report": False,
+                            "owned_process_residue": False,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            payload = self.runner.validate_current_toolchain_profile(
+                profile, binary, binary_sha
+            )
+            self.assertEqual(payload["schema"], "rom-expansion-profile-v1")
+
 
 class InputSequenceRunnerIntegrationTests(unittest.TestCase):
     def test_main_wires_exact_schedule_guard_and_finalized_evidence(self):
@@ -306,6 +364,10 @@ class InputSequenceRunnerIntegrationTests(unittest.TestCase):
             final = json.loads(paths["audit"].read_text(encoding="utf-8"))
             self.assertEqual(final["inputs"], expected_events)
             self.assertEqual(final["runtime_residue"], clean)
+            self.assertEqual(final["build_manifest"], str(manifest.resolve()))
+            self.assertEqual(
+                final["build_manifest_sha256"], runner.sha256_file(manifest)
+            )
             self.assertEqual(final["replay_script_sha256"], runner.sha256_file(LUA))
             self.assertEqual(final["staged_rom_sha256"], runner.sha256_file(rom))
             self.assertEqual(

@@ -172,7 +172,17 @@ guarded mGBA进程内执行多组按键时序并保存最终PNG/状态，适合�
 production relocation拓扑构建基线/单像素候选、规范化运行证据并从基准ROM重建验证。
 
 ```bash
-python3 tools/run_macos_mgba_input_sequence.py --help
+python3 tools/run_macos_mgba_input_sequence.py \
+  --binary /absolute/path/to/mGBA \
+  --toolchain-profile artifacts/rom-expansion-profile-v1/profile.json \
+  --expected-binary-sha256 <sha256> \
+  --rom <probe.gba> --expected-rom-sha256 <sha256> \
+  --state <checkpoint.ss9> --expected-state-sha256 <sha256> \
+  --input-event A:5:13 --capture-frame 160 \
+  --staged-rom <isolated/staged.gba> \
+  --output-state <after.ss9> --output-png <after.png> \
+  --audit <audit.json> --sentinel <sentinel.json> \
+  --guard-summary <guard-summary.json>
 python3 tools/build_battle_effect_pixel_ab.py \
   --profile sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json \
   --output build/experiments/active/battle-effect-group11/build
@@ -182,6 +192,19 @@ python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group14-pixel-ab-v1
 python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group1-pixel-ab-v1
+```
+
+当前桌面 mGBA 必须使用固定 `--toolchain-profile`；旧 0.10.5 backport 仍可用互斥的
+`--build-manifest` 与 `--expected-build-manifest-sha256`。两种模式共享 heavy lock、
+内存上限、输入/输出隔离、进程树与监听端口残留检查。源 ROM 与 staged ROM 不得同目录。
+
+`build_chapter_battle_route_probe.py`保留 primary scenario 39 的完整脚本，只替换已验证
+`SetBattle(40,2)` 的 battle ID 字节；它用于复用原剧情、战前菜单和启动链进入指定的
+0..46 battle formation，不等同于自然原版关卡选择，也不应作为生产 ROM 编辑器。
+
+```bash
+python3 tools/build_chapter_battle_route_probe.py \
+  rom/base.gba build/experiments/active/<task>/battle8.gba --battle-id 8
 ```
 
 当前profile同时支持`ninja_tool`和`active_action` selector，并允许自然selector的
