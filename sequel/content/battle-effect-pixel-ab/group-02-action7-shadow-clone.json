@@ -1,0 +1,147 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-02-action7-shadow-clone",
+  "group_id": 2,
+  "sequence_id": 2,
+  "selector": {
+    "kind": "active_action_handler_immediate",
+    "id": 7,
+    "encoded_action_id": 7,
+    "pair_slot": "primary",
+    "handler_start": "0x0807E1C8",
+    "selector_callsite": "0x0807E1D0"
+  },
+  "frame_id": 2,
+  "component_index": 0,
+  "component_pixel_xy": [
+    8,
+    12
+  ],
+  "graphics_byte_offset": 688,
+  "before_byte": 50,
+  "after_byte": 52,
+  "before_index": 2,
+  "after_index": 4,
+  "screen_xy": [
+    64,
+    82
+  ],
+  "screen_pixels": [
+    [
+      64,
+      82
+    ]
+  ],
+  "before_rgb": [
+    255,
+    255,
+    247
+  ],
+  "after_rgb": [
+    255,
+    255,
+    197
+  ],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-02-graphics-4bpp.bin",
+  "source_graphics_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+  "pair_pointer_offset": 5869868,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 5294,
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+  "input_state_sha256": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71",
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation-evidence.json",
+  "input_evidence_sha256": "a309ce3848a6266ce3ff35774953e0824d9f3addc15f266ea8b81165b27c1654",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 510
+  },
+  "runtime_oam": {
+    "oam_index": 5,
+    "attributes": [
+      "0x0446",
+      "0x8038",
+      "0x4910"
+    ],
+    "obj_tile_base": 272,
+    "obj_vram_address": "0x06012000",
+    "palette_bank": 4,
+    "instances": [
+      {
+        "oam_index": 5,
+        "attributes": [
+          "0x0446",
+          "0x8038",
+          "0x4910"
+        ],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "source_pixel_screen_xy": [
+          64,
+          82
+        ],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 7,
+        "attributes": [
+          "0x0438",
+          "0x8034",
+          "0x4910"
+        ],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "source_pixel_screen_xy": [
+          60,
+          68
+        ],
+        "visible_in_final_difference": false
+      },
+      {
+        "oam_index": 8,
+        "attributes": [
+          "0x0440",
+          "0x8028",
+          "0x4910"
+        ],
+        "frame_id": 2,
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "source_pixel_screen_xy": [
+          48,
+          76
+        ],
+        "visible_in_final_difference": false
+      }
+    ]
+  },
+  "runtime_toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73",
+    "hardcoded_selector_producers": "notes/battle-effect-hardcoded-selector-producers-20260802.json",
+    "hardcoded_selector_producers_sha256": "6b1e94181f9f513c8bb46735b6b85ac1172cdcf84f9ffd868c57685b67994588"
+  }
+}

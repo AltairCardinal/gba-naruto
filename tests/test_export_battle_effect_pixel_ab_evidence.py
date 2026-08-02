@@ -15,6 +15,8 @@ GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-ac
 GROUP14_ARTIFACT = ROOT / "artifacts/battle-effect-group14-pixel-ab-v1"
 GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
 GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
+GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
+GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
 
 
 class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
@@ -195,6 +197,16 @@ class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
             },
         )
 
+    def test_hardcoded_action_handler_uses_distinct_natural_route_scope(self):
+        from tools import export_battle_effect_pixel_ab_evidence as exporter
+
+        scope = exporter._selector_scope(
+            {"kind": "active_action_handler_immediate"}
+        )
+
+        self.assertTrue(scope["natural_active_action_handler_immediate_route"])
+        self.assertTrue(scope["production_relocation_route"])
+
     def test_reexports_group11_natural_single_pixel_chain(self):
         from tools.export_battle_effect_pixel_ab_evidence import export_evidence
 
@@ -301,6 +313,27 @@ class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         self.assertEqual(
             evidence["runs"]["baseline"]["toolchain"]["kind"],
             "current-desktop-runtime-profile",
+        )
+
+    def test_reexports_group2_hardcoded_action_handler_pixel_chain(self):
+        from tools.export_battle_effect_pixel_ab_evidence import export_evidence
+
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = export_evidence(
+                ROOT,
+                GROUP2_PROFILE,
+                GROUP2_ARTIFACT / "raw",
+                Path(tmp) / "artifact",
+            )
+
+        self.assertEqual(evidence["binding"]["active_action_id"], 7)
+        self.assertEqual(evidence["binding"]["sequence_id"], 2)
+        self.assertEqual(evidence["binding"]["group_id"], 2)
+        self.assertEqual(evidence["runtime"]["pixels"]["count"], 1)
+        self.assertEqual(evidence["runtime"]["pixels"]["changes"][0]["x"], 64)
+        self.assertTrue(evidence["runtime"]["renderer_exact"])
+        self.assertTrue(
+            evidence["scope"]["natural_active_action_handler_immediate_route"]
         )
 
     def test_rejects_resigned_runtime_tool_provenance(self):

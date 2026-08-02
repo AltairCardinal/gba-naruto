@@ -1,0 +1,33 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edits": [
+    {
+      "expected": {
+        "decompressed_size": 9728,
+        "physical_offsets": [
+          3410680
+        ],
+        "pointer_offsets": [
+          5869868,
+          5869876
+        ]
+      },
+      "id": "group-02-action7-shadow-clone-candidate",
+      "resource_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+      "resource_type": "graphics",
+      "source_file": "raw/candidate/group-02-graphics-4bpp.bin",
+      "target_pointer_offsets": [
+        5869868
+      ]
+    }
+  ],
+  "owner": "sequel_image_assets",
+  "partition": "sequel-image-assets",
+  "region": "battle-effects",
+  "region_owner": "battle_effect_resources",
+  "region_registry": "sequel/image-resource-regions.json",
+  "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+  "schema": "battle-effect-resource-relocation-v1",
+  "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+  "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+}

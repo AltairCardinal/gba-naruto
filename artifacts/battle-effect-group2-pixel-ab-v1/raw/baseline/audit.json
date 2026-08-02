@@ -1,0 +1,68 @@
+{
+  "audit": "raw/baseline/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+  "capture_frame": 510,
+  "child_pgid": 94777,
+  "evidence_mode": "single-input",
+  "frame": 510,
+  "guard_summary_sha256": "1b9b6dfe98cf2874bb289f287de461de0cf32413751995489b9828f6cfb69c2c",
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+  "input_state_sha256": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71",
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "output_png": "raw/baseline/frame510.png",
+  "output_png_sha256": "177ed832b46253ddc54922036e3f6f65d4cd816361caa3888973066be0fae81d",
+  "output_state": "raw/baseline/frame510.ss9",
+  "output_state_sha256": "313d12bb7d09ee5127f62536a6fb9569c8883d8f65402ca3dcb2b7d630f7a04f",
+  "peak_tree_rss_mib": 69.6171875,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "a55c302a42878673762a1c7eb3d88d19ad06a89e2ebda72f56a9a40641debe3f",
+  "run_id": "8f5c418295f49c9d1b8718eb29ee7509",
+  "runtime_residue": {
+    "checked_at": "2026-08-02T06:34:27.367792Z",
+    "checked_pgid": 94777,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "raw/baseline/sentinel.json",
+  "staged_rom": "runtime-only/baseline/staged.gba",
+  "staged_rom_sha256": "a55c302a42878673762a1c7eb3d88d19ad06a89e2ebda72f56a9a40641debe3f",
+  "status": "capture-complete",
+  "success": true,
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "toolchain/mgba-runtime-profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "zero_input_verified": false
+}

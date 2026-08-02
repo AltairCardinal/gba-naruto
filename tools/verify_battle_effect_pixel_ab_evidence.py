@@ -73,11 +73,18 @@ LEGACY_IMPLEMENTATION_PATHS = (
 INTERMEDIATE_IMPLEMENTATION_PATHS = LEGACY_IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_single_input_current.py",
 )
-IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
+PRE_HARDCODED_IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tools/run_macos_mgba_replay.py",
     "tools/macos_mgba_runtime_residue.py",
     "tools/verify_battle_effect_group15_natural_runtime.py",
+)
+PRE_HARDCODED_OBSERVER_IMPLEMENTATION_PATHS = PRE_HARDCODED_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_ai_action_observer.py",
+    "tools/mgba_battle_ai_action_observer.lua",
+)
+IMPLEMENTATION_PATHS = PRE_HARDCODED_IMPLEMENTATION_PATHS + (
+    "tools/analyze_battle_effect_hardcoded_selector_producers.py",
 )
 OBSERVER_IMPLEMENTATION_PATHS = IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_battle_ai_action_observer.py",
@@ -413,6 +420,8 @@ def _validate_implementation_provenance(
         in (
             set(LEGACY_IMPLEMENTATION_PATHS),
             set(INTERMEDIATE_IMPLEMENTATION_PATHS),
+            set(PRE_HARDCODED_IMPLEMENTATION_PATHS),
+            set(PRE_HARDCODED_OBSERVER_IMPLEMENTATION_PATHS),
             set(IMPLEMENTATION_PATHS),
             set(OBSERVER_IMPLEMENTATION_PATHS),
         )
@@ -501,6 +510,7 @@ def _selector_scope(selector: object) -> dict[str, bool]:
     if not isinstance(selector, dict) or selector.get("kind") not in {
         "ninja_tool",
         "active_action",
+        "active_action_handler_immediate",
     }:
         raise ValueError("battle-effect pixel selector scope mismatch")
     return {
@@ -542,6 +552,113 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     ):
         raise ValueError("battle-effect pixel checkpoint hash mismatch")
     checkpoint = _json(evidence_path)
+    if checkpoint.get("schema") == "battle-effect-hardcoded-action-confirmation-v1":
+        parent = checkpoint.get("parent", {})
+        recorded = checkpoint.get("checkpoint", {})
+        route = checkpoint.get("route", {})
+        provenance = checkpoint.get("provenance", {})
+        guard = checkpoint.get("guard", {})
+        selector = profile.get("selector", {})
+        parent_path = _safe_file(root, parent.get("path"), "checkpoint parent")
+        png_path = _safe_file(root, recorded.get("png"), "checkpoint PNG")
+        toolchain_path = _safe_file(
+            root, provenance.get("toolchain_profile"), "checkpoint toolchain"
+        )
+        replay_path = _safe_file(
+            root, provenance.get("replay_script"), "checkpoint replay script"
+        )
+        expected_route = [
+            ("A", 5, 13),
+            ("Down", 120, 128),
+            ("A", 165, 173),
+            ("Down", 255, 263),
+            ("A", 355, 363),
+            ("Left", 455, 463),
+            ("A", 510, 518),
+            ("A", 605, 613),
+        ]
+        expected_inputs = [
+            {
+                "key": key,
+                "down_frame": down,
+                "up_frame": up,
+                "hold_frames": up - down,
+            }
+            for key, down, up in expected_route
+        ]
+        expected_action = {
+            "action_id": selector.get("id"),
+            "display_name": "影分身术",
+            "handler_start": selector.get("handler_start"),
+            "pair_slot": selector.get("pair_slot"),
+            "hardcoded_selector_callsite": selector.get("selector_callsite"),
+            "hardcoded_sequence_id": profile.get("sequence_id"),
+            "resource_group_id": profile.get("group_id"),
+            "dynamic_action_sequence_id": 0,
+        }
+        if (
+            checkpoint.get("verified") is not True
+            or selector.get("kind") != "active_action_handler_immediate"
+            or checkpoint.get("action") != expected_action
+            or _sha256_file(parent_path) != parent.get("sha256")
+            or recorded.get("path") != profile.get("input_state")
+            or recorded.get("sha256") != profile.get("input_state_sha256")
+            or _sha256_file(state_path) != recorded.get("sha256")
+            or _sha256_file(png_path) != recorded.get("png_sha256")
+            or _sha256(_rgb(png_path))
+            != png_screen_fingerprint(state_path).get("rgb_pixels_sha256")
+            or recorded.get("boundary")
+            != "final_yes_no_confirmation_before_execution"
+            or recorded.get("next_input")
+            != {
+                "key": profile["runtime_input"]["key"],
+                "down_frame": profile["runtime_input"]["down_frame"],
+                "up_frame": profile["runtime_input"]["up_frame"],
+            }
+            or route
+            != {
+                "capture_frame": 700,
+                "inputs": expected_inputs,
+                "automatic_inputs": [],
+                "recovery_inputs": [],
+            }
+            or provenance.get("base_rom_sha256") != ROM_SHA256
+            or provenance.get("toolchain_profile_sha256")
+            != CURRENT_TOOLCHAIN_PROFILE_SHA256
+            or _sha256_file(toolchain_path) != CURRENT_TOOLCHAIN_PROFILE_SHA256
+            or provenance.get("mgba_binary_sha256")
+            != CURRENT_MGBA_BINARY_SHA256
+            or provenance.get("mgba_source_commit") != CURRENT_MGBA_SOURCE_COMMIT
+            or provenance.get("replay_script_sha256") != _sha256_file(replay_path)
+            or not all(
+                isinstance(provenance.get(name), str)
+                and len(provenance[name]) == 64
+                and all(character in "0123456789abcdef" for character in provenance[name])
+                for name in ("source_audit_sha256", "source_guard_sha256")
+            )
+            or guard
+            != {
+                "reason": "completed",
+                "exit_code": 0,
+                "degraded": False,
+                "peak_tree_rss_mib": 65.640625,
+                "pgid_clean": True,
+                "mgba_listener_clean": True,
+                "staged_save_removed": True,
+            }
+            or checkpoint.get("scope")
+            != {
+                "natural_player_action_route": True,
+                "hardcoded_handler_link_static": True,
+                "modified_resource_runtime": False,
+                "physical_gba_verified": False,
+            }
+            or any(value.startswith("/") for value in _strings(checkpoint))
+        ):
+            raise ValueError(
+                "battle-effect hardcoded-action checkpoint contract mismatch"
+            )
+        return
     if checkpoint.get("schema") == "battle-effect-active-action-runtime-v1":
         _verify_promotion_manifest(
             evidence_path.parent,
@@ -972,7 +1089,10 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
     if not isinstance(catalogs, dict):
         raise ValueError("battle-effect pixel catalogs are invalid")
     payloads = {}
-    for name in ("resource_pairs", "animations", "sequence_bindings"):
+    catalog_names = ["resource_pairs", "animations", "sequence_bindings"]
+    if profile.get("selector", {}).get("kind") == "active_action_handler_immediate":
+        catalog_names.append("hardcoded_selector_producers")
+    for name in catalog_names:
         path = _safe_file(root, catalogs.get(name), name)
         if _sha256_file(path) != catalogs.get(f"{name}_sha256"):
             raise ValueError(f"battle-effect pixel {name} hash mismatch")
@@ -1036,6 +1156,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
 
     selector = profile.get("selector", {})
     selector_kind = selector.get("kind")
+    dynamic_action_sequence_id = None
     if selector_kind == "ninja_tool":
         binding = _one(
             payloads["sequence_bindings"].get("ninja_tool_bindings"),
@@ -1050,6 +1171,51 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
             action_id=selector.get("id"),
         )
         binding_encoded_action_id = binding.get("action_id")
+    elif selector_kind == "active_action_handler_immediate":
+        action_binding = _one(
+            payloads["sequence_bindings"].get("active_action_bindings"),
+            "active action",
+            action_id=selector.get("id"),
+        )
+        producer_catalog = payloads.get("hardcoded_selector_producers", {})
+        sequence_row = producer_catalog.get("by_sequence", {}).get(str(sequence_id))
+        if (
+            producer_catalog.get("schema")
+            != "battle-effect-hardcoded-selector-producers-v1"
+            or not isinstance(sequence_row, dict)
+        ):
+            raise ValueError("battle-effect pixel hardcoded producer mismatch")
+        calls = [
+            row
+            for row in sequence_row.get("callsites", [])
+            if isinstance(row, dict)
+            and row.get("selector_callsite") == selector.get("selector_callsite")
+            and row.get("selector_kind") == "immediate_movs_r0"
+            and row.get("hardcoded_sequence_id") == sequence_id
+            and row.get("association_status") == "static_handler_linked"
+        ]
+        links = [
+            link
+            for row in calls
+            for link in row.get("handler_links", [])
+            if isinstance(link, dict)
+            and link.get("action_id") == selector.get("id")
+            and link.get("pair_index") == selector.get("id")
+            and link.get("pair_slot") == selector.get("pair_slot")
+            and link.get("handler_start") == selector.get("handler_start")
+            and link.get("identity_kind") == "active_action"
+            and link.get("hardcoded_and_dynamic_sequences_are_distinct") is True
+        ]
+        if (
+            len(calls) != 1
+            or len(links) != 1
+            or links[0].get("dynamic_action_sequence_id")
+            != action_binding.get("sequence_id")
+        ):
+            raise ValueError("battle-effect pixel hardcoded producer mismatch")
+        binding = {"sequence_id": sequence_id}
+        binding_encoded_action_id = selector.get("id")
+        dynamic_action_sequence_id = links[0]["dynamic_action_sequence_id"]
     else:
         raise ValueError("battle-effect pixel selector kind mismatch")
     trigger_sequence_id = profile.get("trigger_sequence_id", sequence_id)
@@ -1093,6 +1259,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         "resource": resource,
         "palette": palette_path.read_bytes(),
         "component": component,
+        "dynamic_action_sequence_id": dynamic_action_sequence_id,
     }
 
 
@@ -1158,6 +1325,37 @@ def _rebuild_rom(base: bytes, profile: dict[str, Any], graphics: bytes) -> bytes
     return bytes(output)
 
 
+def _expected_build_binding(
+    profile: dict[str, Any], contract: dict[str, Any]
+) -> dict[str, Any]:
+    selector = profile["selector"]
+    kind = selector["kind"]
+    id_key = "ninja_tool_id" if kind == "ninja_tool" else "active_action_id"
+    binding = {
+        id_key: selector["id"],
+        "encoded_action_id": selector["encoded_action_id"],
+        "sequence_id": profile["sequence_id"],
+        "group_id": profile["group_id"],
+    }
+    if kind == "active_action_handler_immediate":
+        binding.update(
+            {
+                "selector_kind": kind,
+                "pair_slot": selector["pair_slot"],
+                "handler_start": selector["handler_start"],
+                "selector_callsite": selector["selector_callsite"],
+                "dynamic_action_sequence_id": contract[
+                    "dynamic_action_sequence_id"
+                ],
+            }
+        )
+    if profile.get("trigger_sequence_id", profile["sequence_id"]) != profile[
+        "sequence_id"
+    ]:
+        binding["trigger_sequence_id"] = profile["trigger_sequence_id"]
+    return binding
+
+
 def _verify_build(
     root: Path,
     raw: Path,
@@ -1179,21 +1377,7 @@ def _verify_build(
         variant: _rebuild_rom(contract["base"], profile, content)
         for variant, content in graphics.items()
     }
-    selector_id_key = (
-        "ninja_tool_id"
-        if profile["selector"]["kind"] == "ninja_tool"
-        else "active_action_id"
-    )
-    expected_binding = {
-        selector_id_key: profile["selector"]["id"],
-        "encoded_action_id": profile["selector"]["encoded_action_id"],
-        "sequence_id": profile["sequence_id"],
-        "group_id": group,
-    }
-    if profile.get("trigger_sequence_id", profile["sequence_id"]) != profile[
-        "sequence_id"
-    ]:
-        expected_binding["trigger_sequence_id"] = profile["trigger_sequence_id"]
+    expected_binding = _expected_build_binding(profile, contract)
     expected_edit = {
         key: profile[key]
         for key in (
@@ -1251,6 +1435,11 @@ def _verify_build(
             or edit[0].get("resource_sha256") != source_sha
             or edit[0].get("source_file")
             != f"raw/{variant}/group-{group:02d}-graphics-4bpp.bin"
+            or (
+                profile["selector"]["kind"] == "active_action_handler_immediate"
+                and edit[0].get("target_pointer_offsets")
+                != [profile["pair_pointer_offset"]]
+            )
         ):
             raise ValueError(f"battle-effect pixel {variant} spec mismatch")
     return build, graphics

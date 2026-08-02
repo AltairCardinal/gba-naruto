@@ -13,6 +13,7 @@ GROUP1_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-01-action5-
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
 GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
+GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -61,6 +62,34 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
                 self.assertEqual(ledger[0]["offset"], 0xB40000)
                 self.assertEqual(ledger[1]["kind"], "redirect")
                 self.assertEqual(ledger[1]["offset"], 0x599174)
+
+    def test_group2_profile_splits_shared_group3_graphics_pointer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "pair"
+            result = self.builder.build_pair(ROOT, GROUP2_PROFILE, output)
+
+            self.assertEqual(
+                result["binding"],
+                {
+                    "active_action_id": 7,
+                    "encoded_action_id": 7,
+                    "sequence_id": 2,
+                    "selector_kind": "active_action_handler_immediate",
+                    "pair_slot": "primary",
+                    "handler_start": "0x0807E1C8",
+                    "selector_callsite": "0x0807E1D0",
+                    "dynamic_action_sequence_id": 0,
+                    "group_id": 2,
+                },
+            )
+            for variant in ("baseline", "candidate"):
+                ledger = result["variants"][variant]["patch_ledger"]
+                self.assertEqual(len(ledger), 2)
+                self.assertEqual(ledger[1]["offset"], 0x59912C)
+                rom = (output / result["variants"][variant]["rom_path"]).read_bytes()
+                base = (ROOT / "rom/base.gba").read_bytes()
+                self.assertNotEqual(rom[0x59912C:0x599130], base[0x59912C:0x599130])
+                self.assertEqual(rom[0x599134:0x599138], base[0x599134:0x599138])
 
     def test_active_action_selector_resolves_action16_sequence16(self):
         catalog = json.loads(
@@ -121,6 +150,79 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
                 "trigger_sequence_id": 6,
             },
         )
+
+    def test_active_action_handler_can_bind_hardcoded_resource_sequence(self):
+        sequence_catalog = json.loads(
+            (
+                ROOT
+                / "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        producer_catalog = json.loads(
+            (
+                ROOT
+                / "notes/battle-effect-hardcoded-selector-producers-20260802.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        binding, build_binding = self.builder._resolve_selector_binding(
+            {
+                "kind": "active_action_handler_immediate",
+                "id": 7,
+                "encoded_action_id": 7,
+                "pair_slot": "primary",
+                "handler_start": "0x0807E1C8",
+                "selector_callsite": "0x0807E1D0",
+            },
+            sequence_catalog,
+            sequence_id=2,
+            hardcoded_selector_producers=producer_catalog,
+        )
+
+        self.assertEqual(binding["action_id"], 7)
+        self.assertEqual(binding["dynamic_action_sequence_id"], 0)
+        self.assertEqual(
+            build_binding,
+            {
+                "active_action_id": 7,
+                "encoded_action_id": 7,
+                "sequence_id": 2,
+                "selector_kind": "active_action_handler_immediate",
+                "pair_slot": "primary",
+                "handler_start": "0x0807E1C8",
+                "selector_callsite": "0x0807E1D0",
+                "dynamic_action_sequence_id": 0,
+            },
+        )
+
+    def test_active_action_handler_rejects_wrong_hardcoded_callsite(self):
+        sequence_catalog = json.loads(
+            (
+                ROOT
+                / "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        producer_catalog = json.loads(
+            (
+                ROOT
+                / "notes/battle-effect-hardcoded-selector-producers-20260802.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        with self.assertRaisesRegex(ValueError, "hardcoded handler binding mismatch"):
+            self.builder._resolve_selector_binding(
+                {
+                    "kind": "active_action_handler_immediate",
+                    "id": 7,
+                    "encoded_action_id": 7,
+                    "pair_slot": "primary",
+                    "handler_start": "0x0807E1C8",
+                    "selector_callsite": "0x0807E076",
+                },
+                sequence_catalog,
+                sequence_id=2,
+                hardcoded_selector_producers=producer_catalog,
+            )
 
     def test_profile_screen_pixels_supports_multiple_rendered_instances(self):
         profile = {

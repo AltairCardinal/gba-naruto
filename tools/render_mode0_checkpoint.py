@@ -437,7 +437,14 @@ def render_mode0(
                         )
                     )
             if control & (1 << 4):
-                pixels.extend(obj_pixels[position])
+                object_candidates = obj_pixels[position]
+                if object_candidates:
+                    pixels.append(
+                        min(
+                            object_candidates,
+                            key=lambda pixel: (pixel.priority, pixel.order),
+                        )
+                    )
             pixels.sort(key=lambda pixel: (pixel.priority, pixel.order))
             top = pixels[0]
             output_rgb = _rgb8(top.color)

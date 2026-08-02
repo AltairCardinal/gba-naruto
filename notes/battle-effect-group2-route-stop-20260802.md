@@ -1,5 +1,14 @@
 # Group 2 自然入口停止证据（2026-08-02）
 
+> 后续状态：本文记录的 supplemental/tool 49 路线仍被否决，但停止条件已由
+> action 7“影分身术”的硬编码 handler 自然入口解决。完整 production A/B 见
+> `notes/battle-effect-group2-pixel-ab-20260802.md`；当前 Group 2 不再是路线 blocker。
+>
+> 后续静态上游补充：`notes/battle-effect-hardcoded-selector-producers-20260802.md`
+> 已把 8 个硬编码 handler 与 13 个主动动作关联。本文否决 tool 49 和 supplemental
+> state 冒充自然入口的结论仍有效；“没有 action binding”只限动态
+> action→sequence 表，不再表示没有 handler-pair 上游。
+
 ## 结论
 
 `artifacts/battle-effect-affine-runtime-v1/raw/state-0154.ss9` 仍是有效的 Group 2
@@ -11,7 +20,7 @@ affine supplemental 运行时输入，但它不能升级为 production 自然入
 
 因此，后续 Group 2 production 像素 A/B 必须从这些硬编码 caller 的真实游戏上游重新
 建立自然输入链；不得把 tool 49、历史目录名、受控 WRAM 前提或 supplemental phase
-capture 冒充自然入口。
+capture 冒充自然入口。该要求现已由 action 7 handler `0x0807E1C8` 的自然确认页链满足。
 
 ## 受守卫零输入续跑
 

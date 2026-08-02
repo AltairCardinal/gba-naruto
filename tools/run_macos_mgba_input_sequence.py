@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import secrets
@@ -11,6 +12,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+import stat
 from typing import Mapping, Sequence
 
 try:
@@ -86,6 +88,31 @@ EXPECTED_INPUT_SEQUENCE_SCRIPT_SHA256 = (
     "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196"
 )
 VALID_KEYS = ("Down", "A", "B", "L", "R", "Up", "Right", "Left", "Start")
+
+
+def _replace_file(source: Path, target: Path) -> None:
+    os.replace(source, target)
+
+
+def _stage_bytes(target: Path, raw: bytes) -> Path:
+    temporary = target.with_name(f".{target.name}.{secrets.token_hex(8)}.tmp")
+    try:
+        with temporary.open("xb") as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise
+    return temporary
+
+
+def _atomic_replace_bytes(target: Path, raw: bytes) -> None:
+    temporary = _stage_bytes(target, raw)
+    try:
+        _replace_file(temporary, target)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def parse_input_events(
@@ -217,6 +244,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
             args.sentinel,
             args.guard_summary,
             Path(f"{args.guard_summary}.done.json"),
+            Path(f"{args.audit}.finalized.json"),
         ],
         derived=[staged_save],
     )
@@ -245,6 +273,7 @@ def validate_args(args: argparse.Namespace) -> argparse.Namespace:
         args.sentinel,
         args.guard_summary,
         args.done_marker,
+        args.finalization_marker,
     ) = outputs
     args.staged_save = canonical_staged_save
     args.source_save = source_save
@@ -360,6 +389,7 @@ def _validate_output_bundle(
         raise ReplayError("audit and sentinel payloads differ")
     return {
         "audit": audit,
+        "sentinel": sentinel,
         "state_sha256": sha256_file(args.output_state),
         "png_sha256": sha256_file(args.output_png),
     }
@@ -367,6 +397,7 @@ def _validate_output_bundle(
 
 def _revalidate_critical_inputs(args: argparse.Namespace) -> None:
     _require_absent(args.source_save, "source ROM save sidecar")
+    _require_absent(args.staged_save, "staged ROM save sidecar")
     for path, expected, label in (
         (
             args.toolchain_artifact,
@@ -386,12 +417,42 @@ def _revalidate_critical_inputs(args: argparse.Namespace) -> None:
         validate_expected_hash(path, expected, label)
 
 
+def _consume_staged_save(path: Path) -> dict[str, object]:
+    try:
+        mode = path.lstat().st_mode
+    except FileNotFoundError:
+        return {
+            "created": False,
+            "path": str(path),
+            "removed": False,
+            "sha256": None,
+            "size": 0,
+        }
+    if not stat.S_ISREG(mode):
+        raise ReplayError(f"staged ROM save sidecar is not a regular file: {path}")
+    result = {
+        "created": True,
+        "path": str(path),
+        "removed": True,
+        "sha256": sha256_file(path),
+        "size": path.stat().st_size,
+    }
+    path.unlink()
+    _require_absent(path, "staged ROM save sidecar")
+    return result
+
+
 def _finalize(
     args: argparse.Namespace,
     bundle: Mapping[str, object],
     summary: Mapping[str, object],
     residue: Mapping[str, object],
+    staged_save_sidecar: Mapping[str, object],
 ) -> dict[str, object]:
+    if bundle["audit"] != bundle["sentinel"]:
+        raise ReplayError("raw audit and sentinel payloads differ")
+    raw_audit = args.audit.read_bytes()
+    raw_sentinel = args.sentinel.read_bytes()
     finalized = dict(bundle["audit"])
     finalized.update(
         {
@@ -412,6 +473,8 @@ def _finalize(
             "child_pgid": summary["child_pid"],
             "pgid_clean": True,
             "runtime_residue": dict(residue),
+            "staged_save_sidecar": dict(staged_save_sidecar),
+            "finalization_marker": str(args.finalization_marker),
             "staged_rom": str(args.staged_rom),
             "staged_rom_sha256": sha256_file(args.staged_rom),
         }
@@ -424,9 +487,47 @@ def _finalize(
                 "build_manifest_sha256": args.expected_build_manifest_sha256,
             }
         )
-    encoded = json.dumps(finalized, indent=2, sort_keys=True) + "\n"
-    args.audit.write_text(encoded, encoding="utf-8")
-    args.sentinel.write_text(encoded, encoding="utf-8")
+    encoded = (json.dumps(finalized, indent=2, sort_keys=True) + "\n").encode(
+        "utf-8"
+    )
+    encoded_sha256 = hashlib.sha256(encoded).hexdigest()
+    marker = (
+        json.dumps(
+            {
+                "schema": "mgba-input-sequence-finalization-v1",
+                "status": "finalized",
+                "run_id": finalized["run_id"],
+                "audit": str(args.audit),
+                "audit_sha256": encoded_sha256,
+                "sentinel": str(args.sentinel),
+                "sentinel_sha256": encoded_sha256,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+    staged: list[Path] = []
+    try:
+        staged.append(_stage_bytes(args.audit, encoded))
+        staged.append(_stage_bytes(args.sentinel, encoded))
+        staged.append(_stage_bytes(args.finalization_marker, marker))
+        _replace_file(staged[0], args.audit)
+        _replace_file(staged[1], args.sentinel)
+        _replace_file(staged[2], args.finalization_marker)
+    except Exception as error:
+        args.finalization_marker.unlink(missing_ok=True)
+        try:
+            _atomic_replace_bytes(args.audit, raw_audit)
+            _atomic_replace_bytes(args.sentinel, raw_sentinel)
+        except Exception as rollback_error:
+            raise ReplayError(
+                f"input-sequence finalize failed and rollback failed: {rollback_error}"
+            ) from error
+        raise ReplayError(f"input-sequence finalize failed: {error}") from error
+    finally:
+        for temporary in staged:
+            temporary.unlink(missing_ok=True)
     return finalized
 
 
@@ -440,6 +541,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.sentinel,
         args.guard_summary,
         args.done_marker,
+        args.finalization_marker,
         args.staged_save,
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -455,28 +557,41 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.wall_timeout_s,
         args.idle_timeout_s,
     )
-    completed = subprocess.run(
-        wrapped,
-        cwd=ROOT,
-        env=_environment(args, run_id),
-        check=False,
-    )
-    summary = _load_json(args.guard_summary, "guard summary")
-    validate_guard_summary(summary, child, completed.returncode)
-    validate_completion_marker(
-        args.done_marker,
-        {
-            "run_id": run_id,
-            "capture_frame": args.capture_frame,
-            "status": "capture-complete",
-        },
-    )
-    child_pgid = summary["child_pid"]
-    validate_owned_pgid_clean(child_pgid, read_ps_snapshot())
-    residue = probe_runtime_residue(child_pgid)
-    bundle = _validate_output_bundle(args, _expected_payload(args, run_id))
-    _revalidate_critical_inputs(args)
-    finalized = _finalize(args, bundle, summary, residue)
+    try:
+        completed = subprocess.run(
+            wrapped,
+            cwd=ROOT,
+            env=_environment(args, run_id),
+            check=False,
+        )
+        summary = _load_json(args.guard_summary, "guard summary")
+        validate_guard_summary(summary, child, completed.returncode)
+        validate_completion_marker(
+            args.done_marker,
+            {
+                "run_id": run_id,
+                "capture_frame": args.capture_frame,
+                "status": "capture-complete",
+            },
+        )
+        child_pgid = summary["child_pid"]
+        validate_owned_pgid_clean(child_pgid, read_ps_snapshot())
+        residue = probe_runtime_residue(child_pgid)
+        bundle = _validate_output_bundle(args, _expected_payload(args, run_id))
+        staged_save_sidecar = _consume_staged_save(args.staged_save)
+        _revalidate_critical_inputs(args)
+        finalized = _finalize(
+            args, bundle, summary, residue, staged_save_sidecar
+        )
+    except Exception as error:
+        try:
+            _consume_staged_save(args.staged_save)
+        except Exception as cleanup_error:
+            error.add_note(
+                f"failed to remove staged ROM save sidecar after run failure: "
+                f"{cleanup_error}"
+            )
+        raise
     print(json.dumps(finalized, indent=2, sort_keys=True))
     return 0
 

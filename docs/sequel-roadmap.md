@@ -2190,3 +2190,18 @@ WebSocket
   `notes/battle-effect-group2-route-stop-20260802.md`。该结果不改变production自然像素
   **7/18**；Group 2后续只能从11个硬编码caller的真实游戏上游重新建立自然链，不能
   复用tool49或supplemental state冒充，Goal保持active。
+- 2026-08-02：Group 2 已从上述停止证据推进到 action 7“影分身术”的真实自然入口。
+  静态生产者批处理把 handler `0x0807E1C8` / callsite `0x0807E1D0` 直接绑定到
+  sequence 2 / Group 2，并明确区分通用动态表中的 action 7→sequence 0。两份
+  production ROM 只拆分 primary pair `0x59912C`，保留 Group 3 alias `0x599134`；
+  candidate 仅把 frame 2/component 0 图形 offset `688` 从 `0x32` 改为 `0x34`。
+  两边从同一确认页快照只输入 `A:5:13`，frame 510 的六内存域只有 OBJ VRAM
+  `0x060122B0` 一字节不同，最终截图也只有 `(64,82)` 从
+  `(255,255,247)` 变为 `(255,255,197)`。离线 Mode-0 renderer 同时修正重叠
+  semitransparent OBJ 应先选顶层 sprite、再与 BG/backdrop 混合的硬件语义；修正后
+  baseline/candidate 均与 mGBA PNG 0 像素误差。独立 verifier 返回 `errors=[]`，
+  guard 峰值为 `69.6171875/69.55078125 MiB` 且无残留。成果位于
+  `artifacts/battle-effect-group2-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group2-pixel-ab-20260802.md`。production 自然最终像素由
+  **7/18 提升到 8/18（44.44%）**；其余10组、完整动画/混合/音频及实体GBA仍未
+  全量签发，Goal保持active。

@@ -73,11 +73,18 @@ LEGACY_IMPLEMENTATION_PATHS = (
 INTERMEDIATE_IMPLEMENTATION_PATHS = LEGACY_IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_single_input_current.py",
 )
-IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
+PRE_HARDCODED_IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tools/run_macos_mgba_replay.py",
     "tools/macos_mgba_runtime_residue.py",
     "tools/verify_battle_effect_group15_natural_runtime.py",
+)
+PRE_HARDCODED_OBSERVER_IMPLEMENTATION_PATHS = PRE_HARDCODED_IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_ai_action_observer.py",
+    "tools/mgba_battle_ai_action_observer.lua",
+)
+IMPLEMENTATION_PATHS = PRE_HARDCODED_IMPLEMENTATION_PATHS + (
+    "tools/analyze_battle_effect_hardcoded_selector_producers.py",
 )
 OBSERVER_IMPLEMENTATION_PATHS = IMPLEMENTATION_PATHS + (
     "tools/run_macos_mgba_battle_ai_action_observer.py",
@@ -319,6 +326,8 @@ def _generation_implementation_hashes(
         for paths in (
             LEGACY_IMPLEMENTATION_PATHS,
             INTERMEDIATE_IMPLEMENTATION_PATHS,
+            PRE_HARDCODED_IMPLEMENTATION_PATHS,
+            PRE_HARDCODED_OBSERVER_IMPLEMENTATION_PATHS,
             IMPLEMENTATION_PATHS,
             OBSERVER_IMPLEMENTATION_PATHS,
         )
@@ -369,6 +378,7 @@ def _selector_scope(selector: object) -> dict[str, bool]:
     if not isinstance(selector, dict) or selector.get("kind") not in {
         "ninja_tool",
         "active_action",
+        "active_action_handler_immediate",
     }:
         raise ValueError("battle-effect pixel selector scope mismatch")
     return {

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib
 import io
 import json
@@ -8,7 +9,7 @@ import stat
 import subprocess
 import tempfile
 import unittest
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
@@ -286,6 +287,7 @@ class InputSequenceRunnerIntegrationTests(unittest.TestCase):
                 "sentinel": out / "sentinel.json",
                 "summary": out / "guard.json",
                 "marker": out / "guard.json.done.json",
+                "finalization_marker": out / "audit.json.finalized.json",
             }
             paths["staged_save"].parent.mkdir(parents=True)
             paths["staged_save"].write_text("stale", encoding="utf-8")
@@ -363,6 +365,7 @@ class InputSequenceRunnerIntegrationTests(unittest.TestCase):
                     paths[name].write_bytes(runner.PNG_SIGNATURE + b"new")
                 for name in ("audit", "sentinel"):
                     paths[name].write_text(json.dumps(payload), encoding="utf-8")
+                paths["staged_save"].write_bytes(b"runtime-staged-save")
                 paths["marker"].write_text(
                     json.dumps(
                         {
@@ -415,10 +418,255 @@ class InputSequenceRunnerIntegrationTests(unittest.TestCase):
             self.assertEqual(final["runtime_residue"], clean)
             self.assertEqual(final["replay_script_sha256"], runner.sha256_file(LUA))
             self.assertEqual(final["staged_rom_sha256"], runner.sha256_file(rom))
+            self.assertFalse(paths["staged_save"].exists())
+            self.assertEqual(
+                final["staged_save_sidecar"],
+                {
+                    "created": True,
+                    "path": str(paths["staged_save"].resolve()),
+                    "removed": True,
+                    "sha256": hashlib.sha256(b"runtime-staged-save").hexdigest(),
+                    "size": len(b"runtime-staged-save"),
+                },
+            )
             self.assertEqual(
                 paths["sentinel"].read_text(encoding="utf-8"),
                 paths["audit"].read_text(encoding="utf-8"),
             )
+            marker = json.loads(
+                paths["finalization_marker"].read_text(encoding="utf-8")
+            )
+            self.assertEqual(marker["status"], "finalized")
+            self.assertEqual(marker["run_id"], final["run_id"])
+            self.assertEqual(
+                marker["audit_sha256"], runner.sha256_file(paths["audit"])
+            )
+            self.assertEqual(
+                marker["sentinel_sha256"], runner.sha256_file(paths["sentinel"])
+            )
+
+
+class InputSequenceRunnerFailureTests(unittest.TestCase):
+    def setUp(self):
+        self.runner = importlib.import_module("tools.run_macos_mgba_input_sequence")
+
+    def _fixture(self, root: Path):
+        runner = self.runner
+        replay = importlib.import_module("tools.run_macos_mgba_replay")
+        binary = root / "mGBA"
+        binary.write_bytes(b"binary")
+        os.chmod(binary, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+        binary_sha = runner.sha256_file(binary)
+        manifest = root / "manifest.json"
+        manifest.write_text(
+            json.dumps(
+                {
+                    "label": replay.EXPECTED_LABEL,
+                    "version": "0.10.5",
+                    "source_commit": replay.SOURCE_COMMIT,
+                    "backport_commit": replay.BACKPORT_COMMIT,
+                    "patch_sha256": replay.EXPECTED_PATCH_SHA256,
+                    "binary_sha256": binary_sha,
+                    "architecture": "x86_64",
+                }
+            ),
+            encoding="utf-8",
+        )
+        source = root / "source"
+        source.mkdir()
+        rom = source / "base.gba"
+        state = source / "input.ss9"
+        rom.write_bytes(b"rom")
+        state.write_bytes(b"state")
+        out = root / "out"
+        paths = {
+            "binary": binary,
+            "rom": rom,
+            "input_state": state,
+            "staged": out / "staged.gba",
+            "staged_save": out / "staged.sav",
+            "state": out / "after.ss9",
+            "png": out / "after.png",
+            "audit": out / "audit.json",
+            "sentinel": out / "sentinel.json",
+            "summary": out / "guard.json",
+            "marker": out / "guard.json.done.json",
+            "finalization_marker": out / "audit.json.finalized.json",
+        }
+        argv = [
+            "--binary", str(binary),
+            "--build-manifest", str(manifest),
+            "--expected-build-manifest-sha256", runner.sha256_file(manifest),
+            "--expected-binary-sha256", binary_sha,
+            "--rom", str(rom),
+            "--state", str(state),
+            "--expected-rom-sha256", runner.sha256_file(rom),
+            "--expected-state-sha256", runner.sha256_file(state),
+            "--input-event", "A:5:13",
+            "--capture-frame", "20",
+            "--staged-rom", str(paths["staged"]),
+            "--output-state", str(paths["state"]),
+            "--output-png", str(paths["png"]),
+            "--audit", str(paths["audit"]),
+            "--sentinel", str(paths["sentinel"]),
+            "--guard-summary", str(paths["summary"]),
+        ]
+        return paths, argv
+
+    def _fake_wrapper(self, paths, *, mutate=None):
+        runner = self.runner
+
+        def run(command, **kwargs):
+            env = kwargs["env"]
+            child = command[command.index("--") + 1 :]
+            payload = {
+                "run_id": env["MGBA_REPLAY_RUN_ID"],
+                "frame": 20,
+                "capture_frame": 20,
+                "inputs": [
+                    {
+                        "key": "A",
+                        "down_frame": 5,
+                        "up_frame": 13,
+                        "hold_frames": 8,
+                    }
+                ],
+                "automatic_inputs": [],
+                "recovery_inputs": [],
+                "evidence_mode": "input-sequence",
+                "zero_input_verified": False,
+                "success": True,
+                "status": "capture-complete",
+                "input_state": str(paths["input_state"].resolve()),
+                "output_state": str(paths["state"].resolve()),
+                "output_png": str(paths["png"].resolve()),
+                "audit": str(paths["audit"].resolve()),
+                "sentinel": str(paths["sentinel"].resolve()),
+                "rom_sha256": runner.sha256_file(paths["rom"]),
+                "input_state_sha256": runner.sha256_file(paths["input_state"]),
+            }
+            paths["state"].write_bytes(runner.PNG_SIGNATURE + b"state")
+            paths["png"].write_bytes(runner.PNG_SIGNATURE + b"png")
+            for name in ("audit", "sentinel"):
+                paths[name].write_text(json.dumps(payload), encoding="utf-8")
+            paths["staged_save"].write_bytes(b"runtime-staged-save")
+            paths["marker"].write_text(
+                json.dumps(
+                    {
+                        "run_id": payload["run_id"],
+                        "capture_frame": 20,
+                        "status": "capture-complete",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            paths["summary"].write_text(
+                json.dumps(
+                    {
+                        "reason": "completed",
+                        "exit_code": 0,
+                        "child_pid": 987,
+                        "peak_tree_rss_mib": 12.5,
+                        "protection_backend": "posix-process-group",
+                        "degraded": False,
+                        "completion_trigger": "success-marker",
+                        "command": child,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            if mutate is not None:
+                mutate()
+            return subprocess.CompletedProcess(command, 0)
+
+        return run
+
+    def _run(self, paths, argv, *, mutate=None, replace=None, stage=None):
+        runner = self.runner
+        patches = [
+            mock.patch.object(
+                runner.subprocess,
+                "run",
+                side_effect=self._fake_wrapper(paths, mutate=mutate),
+            ),
+            mock.patch.object(runner, "read_ps_snapshot", return_value="1 1\n"),
+            mock.patch.object(
+                runner,
+                "probe_runtime_residue",
+                return_value={"pgid_clean": True, "mgba_listener_clean": True},
+            ),
+        ]
+        if replace is not None:
+            patches.append(
+                mock.patch.object(runner, "_replace_file", side_effect=replace)
+            )
+        if stage is not None:
+            patches.append(mock.patch.object(runner, "_stage_bytes", side_effect=stage))
+        with ExitStack() as stack:
+            for patcher in patches:
+                stack.enter_context(patcher)
+            stack.enter_context(redirect_stdout(io.StringIO()))
+            return runner.main(argv)
+
+    def test_finalize_failure_rolls_back_payloads_and_removes_marker(self):
+        runner = self.runner
+        with tempfile.TemporaryDirectory() as tmp:
+            paths, argv = self._fixture(Path(tmp))
+            original_replace = runner._replace_file
+            failed = False
+
+            def fail_sentinel_replace(source, target):
+                nonlocal failed
+                if Path(target) == paths["sentinel"].resolve() and not failed:
+                    failed = True
+                    raise OSError("synthetic sentinel replace failure")
+                return original_replace(source, target)
+
+            with self.assertRaisesRegex(runner.ReplayError, "finalize"):
+                self._run(paths, argv, replace=fail_sentinel_replace)
+            for payload_path in (paths["audit"], paths["sentinel"]):
+                payload = json.loads(payload_path.read_text(encoding="utf-8"))
+                self.assertNotIn("runtime_residue", payload)
+            self.assertFalse(paths["finalization_marker"].exists())
+
+    def test_second_staging_failure_leaves_no_temporary_files(self):
+        runner = self.runner
+        with tempfile.TemporaryDirectory() as tmp:
+            paths, argv = self._fixture(Path(tmp))
+            original_stage = runner._stage_bytes
+            call_count = 0
+
+            def fail_second_stage(target, raw):
+                nonlocal call_count
+                call_count += 1
+                if call_count == 2:
+                    raise OSError("synthetic second staging failure")
+                return original_stage(target, raw)
+
+            with self.assertRaisesRegex(runner.ReplayError, "finalize"):
+                self._run(paths, argv, stage=fail_second_stage)
+            leftovers = [
+                path.name
+                for path in paths["audit"].parent.iterdir()
+                if path.name.startswith(".") and path.name.endswith(".tmp")
+            ]
+            self.assertEqual(leftovers, [])
+            self.assertFalse(paths["finalization_marker"].exists())
+
+    def test_rejected_bundle_still_removes_runtime_staged_save(self):
+        runner = self.runner
+        with tempfile.TemporaryDirectory() as tmp:
+            paths, argv = self._fixture(Path(tmp))
+
+            def corrupt_sentinel():
+                payload = json.loads(paths["sentinel"].read_text(encoding="utf-8"))
+                payload["status"] = "corrupted"
+                paths["sentinel"].write_text(json.dumps(payload), encoding="utf-8")
+
+            with self.assertRaisesRegex(runner.ReplayError, "status mismatch"):
+                self._run(paths, argv, mutate=corrupt_sentinel)
+            self.assertFalse(paths["staged_save"].exists())
+            self.assertFalse(paths["finalization_marker"].exists())
 
 
 if __name__ == "__main__":

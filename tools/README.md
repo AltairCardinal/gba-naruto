@@ -193,6 +193,9 @@ python3 tools/verify_battle_effect_resource_relocation_audit.py \
 guarded mGBA进程内执行多组按键时序并保存最终PNG/状态，适合把已确认的长导航固化
 为复用checkpoint。当前桌面版必须传入已接受的`--toolchain-profile`；只有旧检查点兼容
 二进制才使用`--build-manifest`及其固定哈希，两种 provenance 互斥并写入最终审计。
+运行器会哈希并删除当前 mGBA 在 staged ROM 旁生成的`.sav`；即使 guard、输出或
+证据校验随后失败，也会清理该 sidecar。最终 audit/sentinel 先完整 staging，任一
+replace失败都会回滚为原始Lua载荷并拒绝生成`<audit>.finalized.json`提交标记。
 `build_battle_effect_pixel_ab.py`、
 `export_battle_effect_pixel_ab_evidence.py`和独立
 `verify_battle_effect_pixel_ab_evidence.py`读取一个fail-closed profile，以同一
@@ -203,7 +206,7 @@ python3 tools/run_macos_mgba_input_sequence.py --help
 python3 tools/build_battle_effect_pixel_ab.py \
   --profile sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json \
   --output build/experiments/active/battle-effect-group11/build
-for group in 1 11 13 14 15; do
+for group in 1 2 11 13 14 15; do
   python3 tools/verify_battle_effect_pixel_ab_evidence.py \
     --artifact "artifacts/battle-effect-group${group}-pixel-ab-v1"
 done
@@ -229,8 +232,9 @@ python3 tools/verify_natural_delayed_battle_effect_pixel_ab.py \
 ```
 
 runner 的两次 mGBA 启动都经 `run_guarded.py` 的同一 heavy lock、内存和进程树
-门禁，且必须保持零输入。当前该链使18组特效的 production 自然最终像素覆盖达到
-6/18；它不签发其余12组、完整动画、混合、音频或实体GBA。
+门禁；需要动作确认的 profile 则只执行 profile 固定且经证据绑定的输入。结合当前
+已接受成果，18组特效的 production 自然最终像素覆盖达到8/18；它不签发其余10组、
+完整动画、混合、音频或实体GBA。
 
 `build_chapter_battle_route_probe.py`保留 primary scenario 39 的完整脚本，只替换已验证
 `SetBattle(40,2)` 的 battle ID 字节；它用于复用原剧情、战前菜单和启动链进入指定的

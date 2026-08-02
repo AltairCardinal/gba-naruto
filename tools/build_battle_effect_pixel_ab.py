@@ -332,7 +332,8 @@ def _resolve_selector_binding(
     *,
     sequence_id: int,
     trigger_sequence_id: int | None = None,
-) -> tuple[dict[str, Any], dict[str, int]]:
+    hardcoded_selector_producers: Mapping[str, Any] | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
     """Resolve the natural selector and retain the distinct resource sequence."""
 
     if not isinstance(selector, dict):
@@ -342,6 +343,74 @@ def _resolve_selector_binding(
     encoded_action_id = _require_int(
         selector.get("encoded_action_id"), "encoded_action_id"
     )
+    if kind == "active_action_handler_immediate":
+        if (
+            trigger_sequence_id not in (None, sequence_id)
+            or not isinstance(hardcoded_selector_producers, Mapping)
+            or hardcoded_selector_producers.get("schema")
+            != "battle-effect-hardcoded-selector-producers-v1"
+            or encoded_action_id != selector_id
+        ):
+            raise ValueError(
+                "battle-effect pixel hardcoded handler binding mismatch"
+            )
+        sequence_row = hardcoded_selector_producers.get("by_sequence", {}).get(
+            str(sequence_id)
+        )
+        if not isinstance(sequence_row, dict):
+            raise ValueError(
+                "battle-effect pixel hardcoded handler binding mismatch"
+            )
+        callsite = selector.get("selector_callsite")
+        pair_slot = selector.get("pair_slot")
+        handler_start = selector.get("handler_start")
+        calls = [
+            row
+            for row in sequence_row.get("callsites", [])
+            if isinstance(row, dict)
+            and row.get("selector_callsite") == callsite
+            and row.get("selector_kind") == "immediate_movs_r0"
+            and row.get("hardcoded_sequence_id") == sequence_id
+            and row.get("association_status") == "static_handler_linked"
+        ]
+        links = [
+            link
+            for row in calls
+            for link in row.get("handler_links", [])
+            if isinstance(link, dict)
+            and link.get("action_id") == selector_id
+            and link.get("pair_index") == selector_id
+            and link.get("pair_slot") == pair_slot
+            and link.get("handler_start") == handler_start
+            and link.get("identity_kind") == "active_action"
+            and link.get("hardcoded_and_dynamic_sequences_are_distinct") is True
+        ]
+        action_binding = _find(
+            sequence_bindings.get("active_action_bindings"),
+            "active-action binding",
+            action_id=selector_id,
+        )
+        if (
+            len(calls) != 1
+            or len(links) != 1
+            or pair_slot not in {"primary", "secondary"}
+            or links[0].get("dynamic_action_sequence_id")
+            != action_binding.get("sequence_id")
+        ):
+            raise ValueError(
+                "battle-effect pixel hardcoded handler binding mismatch"
+            )
+        binding = links[0]
+        return binding, {
+            "active_action_id": selector_id,
+            "encoded_action_id": encoded_action_id,
+            "sequence_id": sequence_id,
+            "selector_kind": kind,
+            "pair_slot": pair_slot,
+            "handler_start": handler_start,
+            "selector_callsite": callsite,
+            "dynamic_action_sequence_id": binding["dynamic_action_sequence_id"],
+        }
     if kind == "ninja_tool":
         binding = _find(
             sequence_bindings.get("ninja_tool_bindings"),
@@ -428,7 +497,10 @@ def _validate_profile(
     if not isinstance(catalogs, dict):
         raise ValueError("battle-effect pixel catalogs must be an object")
     catalog_payloads: dict[str, dict[str, Any]] = {}
-    for key in ("resource_pairs", "animations", "sequence_bindings"):
+    catalog_keys = ["resource_pairs", "animations", "sequence_bindings"]
+    if profile.get("selector", {}).get("kind") == "active_action_handler_immediate":
+        catalog_keys.append("hardcoded_selector_producers")
+    for key in catalog_keys:
         path = _require_relative_file(root, catalogs.get(key), key)
         _require_sha(path, catalogs.get(f"{key}_sha256"), key)
         catalog_payloads[key] = _json(path)
@@ -509,6 +581,9 @@ def _validate_profile(
         catalog_payloads["sequence_bindings"],
         sequence_id=sequence_id,
         trigger_sequence_id=trigger_sequence_id,
+        hardcoded_selector_producers=catalog_payloads.get(
+            "hardcoded_selector_producers"
+        ),
     )
     sequence = _find(
         catalog_payloads["sequence_bindings"].get("sequences"),
@@ -616,6 +691,7 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         edit = json.loads(json.dumps(source_edit))
         edit["id"] = f"{profile['profile_id']}-{variant}"
         edit["source_file"] = str(graphics_path)
+        edit["target_pointer_offsets"] = [profile["pair_pointer_offset"]]
         spec["edits"] = [edit]
         spec_path = variant_dir / "spec.json"
         _write_json(spec_path, spec)

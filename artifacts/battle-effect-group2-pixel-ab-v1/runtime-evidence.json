@@ -1,0 +1,221 @@
+{
+  "binding": {
+    "active_action_id": 7,
+    "dynamic_action_sequence_id": 0,
+    "encoded_action_id": 7,
+    "group_id": 2,
+    "handler_start": "0x0807E1C8",
+    "pair_slot": "primary",
+    "selector_callsite": "0x0807E1D0",
+    "selector_kind": "active_action_handler_immediate",
+    "sequence_id": 2
+  },
+  "edit": {
+    "after_byte": 52,
+    "after_index": 4,
+    "after_rgb": [
+      255,
+      255,
+      197
+    ],
+    "before_byte": 50,
+    "before_index": 2,
+    "before_rgb": [
+      255,
+      255,
+      247
+    ],
+    "component_index": 0,
+    "component_pixel_xy": [
+      8,
+      12
+    ],
+    "frame_id": 2,
+    "graphics_byte_offset": 688,
+    "screen_pixels": [
+      [
+        64,
+        82
+      ]
+    ],
+    "screen_xy": [
+      64,
+      82
+    ]
+  },
+  "input": {
+    "capture_frame": 510,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71"
+  },
+  "profile": "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json",
+  "profile_sha256": "80a2db2650c567a51b4681d8e5e7aab374230d28e556da94899af3b7d0fc2fb8",
+  "runs": {
+    "baseline": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 94777,
+      "guard_sha256": "1b9b6dfe98cf2874bb289f287de461de0cf32413751995489b9828f6cfb69c2c",
+      "peak_tree_rss_mib": 69.6171875,
+      "pgid_clean": true,
+      "png_sha256": "177ed832b46253ddc54922036e3f6f65d4cd816361caa3888973066be0fae81d",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "a55c302a42878673762a1c7eb3d88d19ad06a89e2ebda72f56a9a40641debe3f",
+      "run_id": "8f5c418295f49c9d1b8718eb29ee7509",
+      "state_sha256": "313d12bb7d09ee5127f62536a6fb9569c8883d8f65402ca3dcb2b7d630f7a04f",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    },
+    "candidate": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 94816,
+      "guard_sha256": "c2be660b2335e7d4dfeef20e045decbc85a18d80022b44ee5e1f9e891b0f814f",
+      "peak_tree_rss_mib": 69.55078125,
+      "pgid_clean": true,
+      "png_sha256": "2570a7104d156a9b86c1cc84f70b62097589e1aba0d71e1ed258aed2e76af388",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "25a45542550679ecacb625c69e7463339edf335f686c4a38fa7f9a3e757b7776",
+      "run_id": "2c944ef8d59fc10cbee160309bc8b7b2",
+      "state_sha256": "eab52bdb1868e1d959bee56ee166db4805f586a7fd338373008cdaacd0f0dc12",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 50,
+    "candidate_vram_byte": 52,
+    "changed_vram_address": "0x060122B0",
+    "graphics_vram_address": "0x06012000",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        74416
+      ]
+    },
+    "oam_attributes": [
+      "0x0446",
+      "0x8038",
+      "0x4910"
+    ],
+    "oam_entry": 5,
+    "oam_instances": [
+      {
+        "attributes": [
+          "0x0446",
+          "0x8038",
+          "0x4910"
+        ],
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "frame_id": 2,
+        "oam_index": 5,
+        "source_pixel_screen_xy": [
+          64,
+          82
+        ],
+        "visible_in_final_difference": true
+      },
+      {
+        "attributes": [
+          "0x0438",
+          "0x8034",
+          "0x4910"
+        ],
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "frame_id": 2,
+        "oam_index": 7,
+        "source_pixel_screen_xy": [
+          60,
+          68
+        ],
+        "visible_in_final_difference": false
+      },
+      {
+        "attributes": [
+          "0x0440",
+          "0x8028",
+          "0x4910"
+        ],
+        "component_index": 0,
+        "component_pixel_xy": [
+          8,
+          12
+        ],
+        "frame_id": 2,
+        "oam_index": 8,
+        "source_pixel_screen_xy": [
+          48,
+          76
+        ],
+        "visible_in_final_difference": false
+      }
+    ],
+    "palette_bank": 4,
+    "pixels": {
+      "baseline_rgb_sha256": "bc15685075226e5d970b8d4d2386648e3f128688d6cfca9936a9b840873f2eb0",
+      "bbox": [
+        64,
+        82,
+        64,
+        82
+      ],
+      "candidate_rgb_sha256": "c93f1646413e67ea1fb681b0600e6e192a9c4ab6651c7f7bbdfd237d9551ad29",
+      "changes": [
+        {
+          "after_rgb": [
+            255,
+            255,
+            197
+          ],
+          "before_rgb": [
+            255,
+            255,
+            247
+          ],
+          "x": 64,
+          "y": 82
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "battle-effect-pixel-ab-runtime-v1",
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_active_action_handler_immediate_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "verified": true
+}

@@ -76,21 +76,26 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         from tools.render_mode0_checkpoint import audit_checkpoint_corpus
 
         report = audit_checkpoint_corpus(ROOT / "artifacts/runtime-checkpoints")
-        self.assertEqual(91, report["checkpoint_count"])
-        self.assertEqual(91, report["mode0_checkpoint_count"])
-        self.assertEqual(1211, report["active_oam_count"])
+        self.assertEqual(101, report["checkpoint_count"])
+        self.assertEqual(101, report["mode0_checkpoint_count"])
+        self.assertEqual(1368, report["active_oam_count"])
         self.assertEqual(0, report["affine_oam_count"])
         self.assertEqual(0, report["semitransparent_oam_count"])
         self.assertEqual(0, report["obj_window_oam_count"])
         self.assertEqual(5, report["win0_checkpoint_count"])
-        self.assertEqual({1: 53, 3: 38}, report["blend_effect_counts"])
-        self.assertEqual(89, report["exact_rgb_checkpoint_count"])
+        self.assertEqual({1: 62, 3: 39}, report["blend_effect_counts"])
+        self.assertEqual(98, report["exact_rgb_checkpoint_count"])
         self.assertEqual(
             [
                 {
                     "path": "alternate-character-submenu.ss9",
                     "differing_bytes": 157,
                     "differing_pixels": 53,
+                },
+                {
+                    "path": "scenario-47-fire-action16-confirmation.ss9",
+                    "differing_bytes": 36,
+                    "differing_pixels": 18,
                 },
                 {
                     "path": "skill-list-pre-controller.ss9",
@@ -101,15 +106,15 @@ class RenderMode0CheckpointTests(unittest.TestCase):
             report["mismatches"],
         )
 
-    def test_only_mismatches_are_asynchronous_cursor_tiles_in_embedded_pngs(self):
+    def test_only_mismatches_are_asynchronous_ui_state_in_embedded_pngs(self):
         from tools.inspect_mgba_savestate import load_gba_state
         from tools.render_mode0_checkpoint import render_mode0
 
         cases = (
-            ("alternate-character-submenu.ss9", 0x3F4, 0x3FA),
-            ("skill-list-pre-controller.ss9", 0x3FA, 0x3F8),
+            ("alternate-character-submenu.ss9", 0x3F4, 0x3FA, 0x3F4),
+            ("skill-list-pre-controller.ss9", 0x3FA, 0x3F8, 0x3FA),
         )
-        for filename, serialized_tile, screenshot_tile in cases:
+        for filename, serialized_tile, screenshot_tile, shadow_tile in cases:
             with self.subTest(filename=filename):
                 path = ROOT / "artifacts/runtime-checkpoints" / filename
                 state = load_gba_state(path)
@@ -117,11 +122,22 @@ class RenderMode0CheckpointTests(unittest.TestCase):
                     state.read_memory(0x07000000, 0x400)
                 )
                 shadow_oam = state.read_memory(0x0300027C, 0x400)
-                self.assertEqual(hardware_oam, shadow_oam)
                 serialized_attr2 = int.from_bytes(
                     hardware_oam[4:6], "little"
                 )
+                shadow_attr2 = int.from_bytes(shadow_oam[4:6], "little")
                 self.assertEqual(serialized_tile, serialized_attr2 & 0x3FF)
+                self.assertEqual(shadow_tile, shadow_attr2 & 0x3FF)
+                self.assertEqual(
+                    [4] if serialized_tile != shadow_tile else [],
+                    [
+                        index
+                        for index, (hardware, shadow) in enumerate(
+                            zip(hardware_oam, shadow_oam)
+                        )
+                        if hardware != shadow
+                    ],
+                )
 
                 hardware_oam[4:6] = (
                     (serialized_attr2 & 0xFC00) | screenshot_tile
@@ -137,6 +153,63 @@ class RenderMode0CheckpointTests(unittest.TestCase):
                         screenshot.convert("RGB").tobytes(),
                         rendered,
                     )
+
+        path = (
+            ROOT
+            / "artifacts/runtime-checkpoints"
+            / "scenario-47-fire-action16-confirmation.ss9"
+        )
+        state = load_gba_state(path)
+        pram = bytearray(state.read_memory(0x05000000, 0x400))
+        self.assertEqual(0x4620, int.from_bytes(pram[0x23E:0x240], "little"))
+        serialized, _ = render_mode0(
+            state.read_memory(0x04000000, 0x400),
+            bytes(pram),
+            state.read_memory(0x07000000, 0x400),
+            state.read_memory(0x06000000, 0x18000),
+        )
+        pram[0x23E:0x240] = (0x4E60).to_bytes(2, "little")
+        previous_palette, _ = render_mode0(
+            state.read_memory(0x04000000, 0x400),
+            bytes(pram),
+            state.read_memory(0x07000000, 0x400),
+            state.read_memory(0x06000000, 0x18000),
+        )
+        with Image.open(path) as screenshot:
+            actual = screenshot.convert("RGB").tobytes()
+        palette_pixels = [
+            offset
+            for offset in range(0, len(actual), 3)
+            if serialized[offset : offset + 3]
+            != previous_palette[offset : offset + 3]
+        ]
+        self.assertEqual(20, len(palette_pixels))
+        self.assertEqual(
+            18,
+            sum(
+                actual[offset : offset + 3]
+                == previous_palette[offset : offset + 3]
+                for offset in palette_pixels
+            ),
+        )
+        self.assertEqual(
+            2,
+            sum(
+                actual[offset : offset + 3]
+                == serialized[offset : offset + 3]
+                for offset in palette_pixels
+            ),
+        )
+        self.assertTrue(
+            all(
+                actual[offset : offset + 3]
+                in {
+                    serialized[offset : offset + 3],
+                    previous_palette[offset : offset + 3],
+                }
+                for offset in palette_pixels
+            )
+        )
 
     def test_five_bit_alpha_brighten_and_darken_formulas(self):
         from tools.render_mode0_checkpoint import (
@@ -547,6 +620,58 @@ class RenderMode0CheckpointTests(unittest.TestCase):
         rendered, _ = render_mode0(
             bytes(io), bytes(pram), bytes(oam), bytes(vram)
         )
+        self.assertEqual(bytes((127, 127, 0)), rendered[:3])
+
+    def test_overlapping_obj_keeps_only_top_sprite_before_alpha_blend(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x50, 0x3000)
+        struct.pack_into("<H", io, 0x52, 0x0808)
+        struct.pack_into("<H", pram, 0x000, 0x03E0)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        struct.pack_into("<H", pram, 0x204, 0x7C00)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x0400, 0x0000, 0x0000)
+        struct.pack_into("<HHH", oam, 8, 0x0400, 0x0000, 0x0001)
+        vram[0x10000] = 1
+        vram[0x10020] = 2
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
+        self.assertEqual(bytes((127, 127, 0)), rendered[:3])
+
+    def test_obj_priority_beats_oam_order_before_alpha_blend(self):
+        from tools.render_mode0_checkpoint import render_mode0
+
+        io = bytearray(0x400)
+        pram = bytearray(0x400)
+        oam = bytearray(0x400)
+        vram = bytearray(0x18000)
+        struct.pack_into("<H", io, 0x00, 0x1040)
+        struct.pack_into("<H", io, 0x50, 0x3000)
+        struct.pack_into("<H", io, 0x52, 0x0808)
+        struct.pack_into("<H", pram, 0x000, 0x03E0)
+        struct.pack_into("<H", pram, 0x202, 0x001F)
+        struct.pack_into("<H", pram, 0x204, 0x7C00)
+        for index in range(128):
+            struct.pack_into("<H", oam, index * 8, 0x0200)
+        struct.pack_into("<HHH", oam, 0, 0x0400, 0x0000, 0x0401)
+        struct.pack_into("<HHH", oam, 8, 0x0400, 0x0000, 0x0000)
+        vram[0x10000] = 1
+        vram[0x10020] = 2
+
+        rendered, _ = render_mode0(
+            bytes(io), bytes(pram), bytes(oam), bytes(vram)
+        )
+
         self.assertEqual(bytes((127, 127, 0)), rendered[:3])
 
     def test_obj_window_masks_color_without_drawing_its_own_pixels(self):

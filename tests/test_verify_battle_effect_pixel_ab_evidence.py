@@ -19,9 +19,64 @@ GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action6
 GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
 GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
 GROUP13_ARTIFACT = ROOT / "artifacts/battle-effect-group13-pixel-ab-v1"
+GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
+GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_accepts_hardcoded_action_confirmation_checkpoint_contract(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP2_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
+    def test_hardcoded_action_selector_has_distinct_natural_scope(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _selector_scope
+
+        scope = _selector_scope(
+            {
+                "kind": "active_action_handler_immediate",
+                "id": 7,
+                "encoded_action_id": 7,
+            }
+        )
+
+        self.assertTrue(scope["natural_active_action_handler_immediate_route"])
+        self.assertTrue(scope["production_relocation_route"])
+
+    def test_profile_independently_binds_hardcoded_action_producer(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_profile
+
+        profile, contract = _verify_profile(ROOT, GROUP2_PROFILE)
+
+        self.assertEqual(profile["group_id"], 2)
+        self.assertEqual(profile["sequence_id"], 2)
+        self.assertEqual(contract["component"]["tile_index"], 16)
+
+    def test_build_binding_preserves_hardcoded_handler_identity(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import (
+            _expected_build_binding,
+        )
+
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_profile
+
+        profile, contract = _verify_profile(ROOT, GROUP2_PROFILE)
+
+        self.assertEqual(
+            _expected_build_binding(profile, contract),
+            {
+                "active_action_id": 7,
+                "encoded_action_id": 7,
+                "sequence_id": 2,
+                "group_id": 2,
+                "selector_kind": "active_action_handler_immediate",
+                "pair_slot": "primary",
+                "handler_start": "0x0807E1C8",
+                "selector_callsite": "0x0807E1D0",
+                "dynamic_action_sequence_id": 0,
+            },
+        )
+
     def test_independently_classifies_known_vblank_wait_boundary_stack_phase(self):
         from tools import verify_battle_effect_pixel_ab_evidence as verifier
 
@@ -312,6 +367,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, GROUP13_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_group2_action7_pixel_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP2_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_rejects_resigned_semantic_tampering(self):
