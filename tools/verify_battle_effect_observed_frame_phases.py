@@ -31,11 +31,13 @@ EXPECTED = {
     5: Path("artifacts/battle-effect-frame-phase-group5-v1"),
     11: Path("artifacts/battle-effect-frame-phase-v1"),
     14: Path("artifacts/battle-effect-frame-phase-group14-v1"),
+    16: Path("artifacts/battle-effect-frame-phase-group16-natural-v1"),
     18: Path("artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"),
 }
 PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
 NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
 NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
+NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS = [16]
 PIXEL_AB = {
     1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "generic"),
     2: (Path("artifacts/battle-effect-group2-pixel-ab-v1"), "generic"),
@@ -46,6 +48,7 @@ PIXEL_AB = {
     13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "generic"),
     14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "generic"),
     15: (Path("artifacts/battle-effect-group15-pixel-ab-v1"), "generic"),
+    16: (Path("artifacts/battle-effect-group16-pixel-ab-v1"), "generic"),
     18: (Path("artifacts/battle-effect-group18-natural-pixel-ab-v1"), "natural"),
 }
 OBSERVED_ARTIFACT = Path("artifacts/battle-effect-runtime-oam-task-bindings-v1")
@@ -203,6 +206,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             "natural_delayed_group3_phase_transaction_included": True,
             "natural_delayed_group18_phase_transaction_included": True,
             "natural_confirmation_group4_phase_transaction_included": True,
+            "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -219,6 +223,8 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             != NATURAL_DELAYED_EXTENSION_GROUP_IDS
             or coverage.get("natural_confirmation_extension_group_ids")
             != NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS
+            or coverage.get("natural_ninja_tool_handler_extension_group_ids")
+            != NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS
             or coverage.get("phase_verified_group_count") != len(EXPECTED)
             or coverage.get("phase_verified_group_ids") != sorted(EXPECTED)
             or coverage.get("production_pixel_ab_group_count") != len(PIXEL_AB)

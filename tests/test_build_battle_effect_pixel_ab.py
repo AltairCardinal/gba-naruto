@@ -15,6 +15,7 @@ GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action6
 GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 GROUP4_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
+GROUP16_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -224,6 +225,49 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
                 sequence_id=2,
                 hardcoded_selector_producers=producer_catalog,
             )
+
+    def test_ninja_tool_handler_can_bind_hardcoded_resource_sequence(self):
+        sequence_catalog = json.loads(
+            (
+                ROOT
+                / "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+        producer_catalog = json.loads(
+            (
+                ROOT
+                / "notes/battle-effect-hardcoded-selector-producers-20260802.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        binding, build_binding = self.builder._resolve_selector_binding(
+            {
+                "kind": "ninja_tool_handler_immediate",
+                "id": 67,
+                "encoded_action_id": 195,
+                "pair_slot": "primary",
+                "handler_start": "0x0807EE50",
+                "selector_callsite": "0x0807EE6A",
+            },
+            sequence_catalog,
+            sequence_id=19,
+            hardcoded_selector_producers=producer_catalog,
+        )
+
+        self.assertEqual(binding["pair_index"], 195)
+        self.assertEqual(
+            build_binding,
+            {
+                "ninja_tool_id": 67,
+                "encoded_action_id": 195,
+                "sequence_id": 19,
+                "selector_kind": "ninja_tool_handler_immediate",
+                "pair_slot": "primary",
+                "handler_start": "0x0807EE50",
+                "selector_callsite": "0x0807EE6A",
+                "dynamic_ninja_tool_sequence_id": 0,
+            },
+        )
 
     def test_profile_screen_pixels_supports_multiple_rendered_instances(self):
         profile = {
@@ -447,6 +491,32 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
             "0x4900",
         ])
         self.assertTrue(result["same_patch_topology"])
+
+    def test_group16_profile_redirects_only_group16_graphics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP16_PROFILE, Path(tmp) / "pair"
+            )
+
+            self.assertEqual(result["binding"]["ninja_tool_id"], 67)
+            self.assertEqual(result["binding"]["encoded_action_id"], 195)
+            self.assertEqual(result["binding"]["sequence_id"], 19)
+            self.assertEqual(
+                result["binding"]["dynamic_ninja_tool_sequence_id"], 0
+            )
+            self.assertEqual(result["edit"]["graphics_byte_offset"], 2340)
+            self.assertEqual(result["edit"]["screen_xy"], [169, 89])
+            self.assertTrue(result["same_patch_topology"])
+            self.assertTrue(result["same_encoded_size"])
+            base = (ROOT / "rom/base.gba").read_bytes()
+            for variant in ("baseline", "candidate"):
+                row = result["variants"][variant]
+                self.assertEqual(row["encoded_graphics_size"], 781)
+                ledger = row["patch_ledger"]
+                self.assertEqual(ledger[1]["offset"], 0x59919C)
+                self.assertEqual(ledger[1]["target_pointer_offsets"], [0x59919C])
+                rom = (Path(tmp) / "pair" / row["rom_path"]).read_bytes()
+                self.assertEqual(rom[0x5991A0:0x5991AC], base[0x5991A0:0x5991AC])
 
     def test_profile_tampering_fails_closed(self):
         profile = json.loads(PROFILE.read_text(encoding="utf-8"))

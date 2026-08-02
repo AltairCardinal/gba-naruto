@@ -22,9 +22,62 @@ GROUP13_ARTIFACT = ROOT / "artifacts/battle-effect-group13-pixel-ab-v1"
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
 GROUP4_ARTIFACT = ROOT / "artifacts/battle-effect-group4-pixel-ab-v1"
+GROUP16_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_accepts_ninja_tool_hardcoded_confirmation_checkpoint_contract(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP16_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
+    def test_ninja_tool_hardcoded_selector_has_distinct_natural_scope(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _selector_scope
+
+        scope = _selector_scope(
+            {
+                "kind": "ninja_tool_handler_immediate",
+                "id": 67,
+                "encoded_action_id": 195,
+            }
+        )
+
+        self.assertTrue(scope["natural_ninja_tool_handler_immediate_route"])
+        self.assertTrue(scope["production_relocation_route"])
+
+    def test_profile_independently_binds_ninja_tool_hardcoded_producer(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_profile
+
+        profile, contract = _verify_profile(ROOT, GROUP16_PROFILE)
+
+        self.assertEqual(profile["group_id"], 16)
+        self.assertEqual(profile["sequence_id"], 19)
+        self.assertEqual(contract["dynamic_ninja_tool_sequence_id"], 0)
+
+    def test_build_binding_preserves_ninja_tool_hardcoded_handler_identity(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import (
+            _expected_build_binding,
+            _verify_profile,
+        )
+
+        profile, contract = _verify_profile(ROOT, GROUP16_PROFILE)
+
+        self.assertEqual(
+            _expected_build_binding(profile, contract),
+            {
+                "ninja_tool_id": 67,
+                "encoded_action_id": 195,
+                "sequence_id": 19,
+                "group_id": 16,
+                "selector_kind": "ninja_tool_handler_immediate",
+                "pair_slot": "primary",
+                "handler_start": "0x0807EE50",
+                "selector_callsite": "0x0807EE6A",
+                "dynamic_ninja_tool_sequence_id": 0,
+            },
+        )
+
     def test_accepts_hardcoded_action_confirmation_checkpoint_contract(self):
         from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
 

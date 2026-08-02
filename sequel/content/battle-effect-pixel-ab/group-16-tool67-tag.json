@@ -1,0 +1,64 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-16-tool67-tag",
+  "group_id": 16,
+  "sequence_id": 19,
+  "selector": {
+    "kind": "ninja_tool_handler_immediate",
+    "id": 67,
+    "encoded_action_id": 195,
+    "pair_slot": "primary",
+    "handler_start": "0x0807EE50",
+    "selector_callsite": "0x0807EE6A"
+  },
+  "frame_id": 4,
+  "component_index": 0,
+  "component_pixel_xy": [9, 17],
+  "graphics_byte_offset": 2340,
+  "before_byte": 16,
+  "after_byte": 32,
+  "before_index": 1,
+  "after_index": 2,
+  "screen_xy": [169, 89],
+  "before_rgb": [247, 255, 222],
+  "after_rgb": [181, 189, 165],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-16-graphics-4bpp.bin",
+  "source_graphics_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
+  "pair_pointer_offset": 5869980,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 781,
+  "input_state": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation.ss9",
+  "input_state_sha256": "95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012",
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation-evidence.json",
+  "input_evidence_sha256": "67d3237d834739c6957145284ae4f7c1633e5ffd4a7a098ef152ba0d61ed0ed3",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 160
+  },
+  "runtime_oam": {
+    "oam_index": 2,
+    "attributes": ["0x0048", "0x80A0", "0x6AB0"],
+    "obj_tile_base": 688,
+    "obj_vram_address": "0x06014E00",
+    "palette_bank": 6
+  },
+  "runtime_toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73",
+    "hardcoded_selector_producers": "notes/battle-effect-hardcoded-selector-producers-20260802.json",
+    "hardcoded_selector_producers_sha256": "6b1e94181f9f513c8bb46735b6b85ac1172cdcf84f9ffd868c57685b67994588"
+  }
+}

@@ -2234,3 +2234,18 @@ WebSocket
   production自然最终像素由**9/18提升到10/18（55.56%）**；剩余组为
   `{6,7,8,9,10,12,16,17}`，完整动画/混合/音频及实体GBA仍未全量签发，Goal保持
   active。
+- 2026-08-02：Group 16 / sequence 19 已从战斗14忍具67“引爆牌”的最终确认页完成
+  自然phase与production relocation最终像素A/B。忍具表动态sequence仍为0；编码动作
+  `0xC3`经handler `0x0807EE50`在`0x0807EE6A`硬编码选择sequence 19，二者由profile
+  与独立验证器明确区分。同一`A:5:13`令Group 16 slot 125在frame`135/135/136`
+  经过renderer→submit→ack，pending为`0→1→0`。两份ROM只重定向graphics指针
+  `0x59919C`，保留Group 16 palette及Group 17完整指针对；candidate仅把解压offset
+  `2340`从`0x10`改为`0x20`，LZ77仍为781 bytes。六域只有OBJ-VRAM
+  `0x06015724`一字节不同，最终画面也只有`(169,89)`从`[247,255,222]`变为
+  `[181,189,165]`。guard峰值RSS为`69.82421875/70.0234375 MiB`且无残留。成果位于
+  `artifacts/battle-effect-frame-phase-group16-natural-v1/`与
+  `artifacts/battle-effect-group16-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group16-natural-pixel-ab-20260802.md`。聚合phase由**8/18提升到
+  9/18（50%）**，production自然最终像素由**10/18提升到11/18（61.11%）**；剩余
+  production像素组为`{6,7,8,9,10,12,17}`。完整动画/混合/音频及实体GBA仍未全量
+  签发，Goal保持active。

@@ -379,6 +379,7 @@ def _selector_scope(selector: object) -> dict[str, bool]:
         "ninja_tool",
         "active_action",
         "active_action_handler_immediate",
+        "ninja_tool_handler_immediate",
     }:
         raise ValueError("battle-effect pixel selector scope mismatch")
     return {

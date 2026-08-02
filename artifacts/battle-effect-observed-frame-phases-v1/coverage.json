@@ -1,12 +1,15 @@
 {
   "all_group_denominator": 18,
-  "boundary": "Eight of 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension beyond the five-group persisted corpus. Ten groups have production modified-ROM pixel A/B evidence.",
+  "boundary": "Nine of 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; group 16 is a natural ninja-tool hardcoded-handler extension beyond the five-group persisted corpus. Eleven groups have production modified-ROM pixel A/B evidence.",
   "natural_confirmation_extension_group_ids": [
     4
   ],
   "natural_delayed_extension_group_ids": [
     3,
     18
+  ],
+  "natural_ninja_tool_handler_extension_group_ids": [
+    16
   ],
   "observed_group_denominator": 5,
   "observed_group_ids": [
@@ -20,61 +23,68 @@
     {
       "group_id": 1,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "c65b9ab3a384d7ab99c5c673534d9fb794d160e7b7d9c4d1243801719c88db24",
+      "manifest_sha256": "8cef22761d1f86bf1c0bdbc2fdae15c6fca5d0717d9d77f0b00b1ff82e98add2",
       "path": "artifacts/battle-effect-frame-phase-group1-v1",
       "run_id": "cd98182569083f0e0219a3385b693d36"
     },
     {
       "group_id": 2,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "b0491cee1897bc63a7a1eb448b399d85bd136307f07ffacd1a22b593279a2185",
+      "manifest_sha256": "c706e74d49e028abbf63010e6043df63e9e205fc2861488fba1e6df80a5450c9",
       "path": "artifacts/battle-effect-frame-phase-group2-v1",
       "run_id": "42f8ebe525c91c57ff9035ace105ef06"
     },
     {
       "group_id": 3,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "387489aad3eab887cb160d3834e487f6d8dc65f375869c421de3d60fdf6850b0",
+      "manifest_sha256": "14ed2a6784c3d829bd1c70fc67a2a3356bdab8c299d72e9be4e4b1396ed9f46b",
       "path": "artifacts/battle-effect-frame-phase-group3-natural-v1",
       "run_id": "2406162869bf5625a518b643bd7c92f5"
     },
     {
       "group_id": 4,
       "input_mode": "explicit-input-sequence",
-      "manifest_sha256": "3568e6d9b16e77305e14f1e2a330861c2a112616df32e4f4fceff27da80a55d6",
+      "manifest_sha256": "280c610bbdc2603827db7cfa56c3295debd904833b5d2bf0ef5cfa0f7a02afc7",
       "path": "artifacts/battle-effect-frame-phase-group4-natural-v1",
       "run_id": "0d4a8ab314828024ae49cde31467996d"
     },
     {
       "group_id": 5,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "40b79048cf588a00f5939691660c192911d2e1dc73ac330ead702cfc9e6be783",
+      "manifest_sha256": "4cf0255ce70fc6ed41b2680204d66a259a96043b6f0e80d3bec28a18e61082e0",
       "path": "artifacts/battle-effect-frame-phase-group5-v1",
       "run_id": "659862c9bf0d4d72561653657758e475"
     },
     {
       "group_id": 11,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "7b328fd26445e9fa872336b09cc1f5a02b5106f3e6e7dca10168d36d8d681a3b",
+      "manifest_sha256": "0a44f036fa7f7cd11ba91027d55b99bc3915a3ff6eff5c3a5a3dd333c3318974",
       "path": "artifacts/battle-effect-frame-phase-v1",
       "run_id": "54a34ea85a2e06bdc569f56873899b85"
     },
     {
       "group_id": 14,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "c2d15bcbe073d4945778bacbba1a9f651217491e547c80de1ad099f40a64d3d7",
+      "manifest_sha256": "f6434af8176b8453a6018c889877e6366f01ef12fb6278be88b25605f53027de",
       "path": "artifacts/battle-effect-frame-phase-group14-v1",
       "run_id": "77fc7f5dec207ab32ac75402ef857aae"
     },
     {
+      "group_id": 16,
+      "input_mode": "explicit-input-sequence",
+      "manifest_sha256": "60b66cbeeed7834dbd671ca77d1e79e5ad550742076cbded867fb0c12b5c2120",
+      "path": "artifacts/battle-effect-frame-phase-group16-natural-v1",
+      "run_id": "ced3babcd1afc905fe005390ede28b8e"
+    },
+    {
       "group_id": 18,
       "input_mode": "explicit-input-sequence",
-      "manifest_sha256": "5f94e5b787939034abffedf8edebf104934752035531dbf61974ab29ba1267cf",
+      "manifest_sha256": "c2436182860e6d25c12f0b29b005c9b0619a30bbdd38c4084000b1b6ae3da8cb",
       "path": "artifacts/battle-effect-frame-phase-group18-natural-sequence-v1",
       "run_id": "c7d440130f5cca87941b74f27284246d"
     }
   ],
-  "phase_verified_group_count": 8,
+  "phase_verified_group_count": 9,
   "phase_verified_group_ids": [
     1,
     2,
@@ -83,27 +93,28 @@
     5,
     11,
     14,
+    16,
     18
   ],
   "production_pixel_ab_artifacts": [
     {
       "group_id": 1,
-      "manifest_sha256": "64091912ee76d92afcad8d9769e8d421d71c658ad372493d344715dfc52d824c",
+      "manifest_sha256": "2af1096ad7c1225843e4871aa0402f25c31e36f27538c4ec600f23bf38884390",
       "path": "artifacts/battle-effect-group1-pixel-ab-v1"
     },
     {
       "group_id": 2,
-      "manifest_sha256": "472f57d66f28da092527ab1930456606ed1b68963074d2c3545b7025e0f4b85b",
+      "manifest_sha256": "dee21b5308711d8c41c116a877bc49eb0eaa1f5fdaf5e5dc507ed4bb54addaee",
       "path": "artifacts/battle-effect-group2-pixel-ab-v1"
     },
     {
       "group_id": 3,
-      "manifest_sha256": "660c925da58a5c56fc2385395e639b0b0c1e47b4122714d078caaa27e014f33b",
+      "manifest_sha256": "d27419d82c1dc7995fa7deb09a8f21adf428a700d39504b4fd0206a3f3dae976",
       "path": "artifacts/battle-effect-group03-natural-pixel-ab-v1"
     },
     {
       "group_id": 4,
-      "manifest_sha256": "b047c6e058164d97817cb3f84a9e69d8d23563932a615efb8d42778fae5df0b7",
+      "manifest_sha256": "cbedba5a295762b44b8ab21ebdfff7c0f6209db379e83350c7a4e2c23f21380e",
       "path": "artifacts/battle-effect-group4-pixel-ab-v1"
     },
     {
@@ -113,31 +124,36 @@
     },
     {
       "group_id": 11,
-      "manifest_sha256": "9bbb8e851aa35ff5d7cb201621211b5ef0330b206a8b1413cd72270b7722242a",
+      "manifest_sha256": "b41c21b13d9108b40fe1fb6a18bdea30f968f4156273d1b97dfb69bc09094a5f",
       "path": "artifacts/battle-effect-group11-pixel-ab-v1"
     },
     {
       "group_id": 13,
-      "manifest_sha256": "f9369f2baf7c8e93d5cfd3e12deded4f41f8feef27ea842d35a9ccae67fa5249",
+      "manifest_sha256": "ed69966648b3394bea3c368fe808e37f0c19671d318d3b8a66076214381a263e",
       "path": "artifacts/battle-effect-group13-pixel-ab-v1"
     },
     {
       "group_id": 14,
-      "manifest_sha256": "34d78d2074784a3f14a7a1a0200b414374ba67e6152ad360221c5a3ab834ae3e",
+      "manifest_sha256": "d7174f286c38c065db9f9c172bbc5c000d29af5bb3bf26bd5587d418ab8868ab",
       "path": "artifacts/battle-effect-group14-pixel-ab-v1"
     },
     {
       "group_id": 15,
-      "manifest_sha256": "5cbc3c62d6c1cf66e3488b7e341051b32ed3e782355c9c0669ac5a1abe592227",
+      "manifest_sha256": "740062a99eaf4d2f574a4c0e7f03702e2f902b216f6728a9416d502d3491c4d5",
       "path": "artifacts/battle-effect-group15-pixel-ab-v1"
     },
     {
+      "group_id": 16,
+      "manifest_sha256": "822fcffde888ab303cbe55b082f373a7b9429dd04caff516aaf5c85e6f342277",
+      "path": "artifacts/battle-effect-group16-pixel-ab-v1"
+    },
+    {
       "group_id": 18,
-      "manifest_sha256": "16283f5311877cdce412503c141da8cd8edc4361b9bfb6aa9e19f2d500781c19",
+      "manifest_sha256": "a2f18991c4beacb1bbcd194cb9ba1f514cc2736344b885a85f724c32f90fd4c9",
       "path": "artifacts/battle-effect-group18-natural-pixel-ab-v1"
     }
   ],
-  "production_pixel_ab_group_count": 10,
+  "production_pixel_ab_group_count": 11,
   "production_pixel_ab_group_ids": [
     1,
     2,
@@ -148,6 +164,7 @@
     13,
     14,
     15,
+    16,
     18
   ],
   "schema": "battle-effect-observed-frame-phases-v1",
@@ -158,6 +175,7 @@
     "natural_confirmation_group4_phase_transaction_included": true,
     "natural_delayed_group18_phase_transaction_included": true,
     "natural_delayed_group3_phase_transaction_included": true,
+    "natural_ninja_tool_handler_group16_phase_transaction_included": true,
     "physical_gba_verified": false,
     "production_pixel_ab_all_18_groups": false,
     "target_task_exclusive_oam_causality": false

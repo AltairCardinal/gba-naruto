@@ -32,9 +32,38 @@ GROUP4_NATURAL_PROFILE = (
     ROOT
     / "sequel/content/battle-effect-phase-capture/group-04-natural-tool1-confirmation.json"
 )
+GROUP16_NATURAL_PROFILE = (
+    ROOT
+    / "sequel/content/battle-effect-phase-capture/group-16-natural-tool67-confirmation.json"
+)
 
 
 class BattleEffectFramePhaseVerifierTests(unittest.TestCase):
+    def test_accepts_natural_tool_handler_confirmation_provenance(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = json.loads(GROUP16_NATURAL_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        contract = next(
+            row
+            for row in catalog["profiles"]
+            if row["profile_id"] == profile["profile_id"]
+        )
+
+        verifier.validate_source_runtime_provenance(
+            ROOT,
+            profile,
+            contract,
+            group_id=16,
+            input_state_path=profile["input_state"],
+            input_state_sha256=profile["input_state_sha256"],
+            rom_sha256=profile["source_rom_sha256"],
+        )
+
     def test_accepts_natural_action_confirmation_checkpoint_provenance(self):
         verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
         profile = json.loads(GROUP4_NATURAL_PROFILE.read_text(encoding="utf-8"))

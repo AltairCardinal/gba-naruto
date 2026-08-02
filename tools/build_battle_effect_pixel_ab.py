@@ -343,6 +343,72 @@ def _resolve_selector_binding(
     encoded_action_id = _require_int(
         selector.get("encoded_action_id"), "encoded_action_id"
     )
+    if kind == "ninja_tool_handler_immediate":
+        if (
+            trigger_sequence_id not in (None, sequence_id)
+            or not isinstance(hardcoded_selector_producers, Mapping)
+            or hardcoded_selector_producers.get("schema")
+            != "battle-effect-hardcoded-selector-producers-v1"
+        ):
+            raise ValueError(
+                "battle-effect pixel ninja-tool hardcoded handler binding mismatch"
+            )
+        ninja_tool_binding = _find(
+            sequence_bindings.get("ninja_tool_bindings"),
+            "ninja-tool binding",
+            ninja_tool_id=selector_id,
+        )
+        if ninja_tool_binding.get("encoded_action_id") != encoded_action_id:
+            raise ValueError(
+                "battle-effect pixel ninja-tool hardcoded handler binding mismatch"
+            )
+        sequence_row = hardcoded_selector_producers.get("by_sequence", {}).get(
+            str(sequence_id)
+        )
+        if not isinstance(sequence_row, dict):
+            raise ValueError(
+                "battle-effect pixel ninja-tool hardcoded handler binding mismatch"
+            )
+        callsite = selector.get("selector_callsite")
+        pair_slot = selector.get("pair_slot")
+        handler_start = selector.get("handler_start")
+        calls = [
+            row
+            for row in sequence_row.get("callsites", [])
+            if isinstance(row, dict)
+            and row.get("selector_callsite") == callsite
+            and row.get("selector_kind") == "immediate_movs_r0"
+            and row.get("hardcoded_sequence_id") == sequence_id
+            and row.get("association_status") == "static_handler_linked"
+        ]
+        links = [
+            link
+            for row in calls
+            for link in row.get("handler_links", [])
+            if isinstance(link, dict)
+            and link.get("pair_index") == encoded_action_id
+            and link.get("pair_slot") == pair_slot
+            and link.get("handler_start") == handler_start
+            and link.get("identity_kind") == "unidentified_runtime_action_byte"
+        ]
+        if len(calls) != 1 or len(links) != 1 or pair_slot not in {
+            "primary",
+            "secondary",
+        }:
+            raise ValueError(
+                "battle-effect pixel ninja-tool hardcoded handler binding mismatch"
+            )
+        binding = links[0]
+        return binding, {
+            "ninja_tool_id": selector_id,
+            "encoded_action_id": encoded_action_id,
+            "sequence_id": sequence_id,
+            "selector_kind": kind,
+            "pair_slot": pair_slot,
+            "handler_start": handler_start,
+            "selector_callsite": callsite,
+            "dynamic_ninja_tool_sequence_id": ninja_tool_binding["sequence_id"],
+        }
     if kind == "active_action_handler_immediate":
         if (
             trigger_sequence_id not in (None, sequence_id)
@@ -498,7 +564,10 @@ def _validate_profile(
         raise ValueError("battle-effect pixel catalogs must be an object")
     catalog_payloads: dict[str, dict[str, Any]] = {}
     catalog_keys = ["resource_pairs", "animations", "sequence_bindings"]
-    if profile.get("selector", {}).get("kind") == "active_action_handler_immediate":
+    if profile.get("selector", {}).get("kind") in {
+        "active_action_handler_immediate",
+        "ninja_tool_handler_immediate",
+    }:
         catalog_keys.append("hardcoded_selector_producers")
     for key in catalog_keys:
         path = _require_relative_file(root, catalogs.get(key), key)

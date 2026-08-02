@@ -12,6 +12,7 @@ from typing import Any
 
 try:
     from tools.inspect_mgba_savestate import PNG_SIGNATURE, load_gba_state
+    from tools.thumb_branch import decode_thumb_bl
     from tools.verify_battlefield_object_effect_chain import (
         verify_manifest as verify_battlefield_object_effect_chain,
     )
@@ -20,6 +21,7 @@ try:
     )
 except ModuleNotFoundError:
     from inspect_mgba_savestate import PNG_SIGNATURE, load_gba_state
+    from thumb_branch import decode_thumb_bl
     from verify_battlefield_object_effect_chain import (
         verify_manifest as verify_battlefield_object_effect_chain,
     )
@@ -57,6 +59,9 @@ SOURCE_PROVENANCE_SCHEMA = "battle-effect-phase-source-provenance-v1"
 DELAYED_OBJECT_TABLE = 0x02026604
 DELAYED_OBJECT_STRIDE = 0x10
 ANIMATION_CATALOG = ROOT / "artifacts/battle-effect-sprite-animations-v1/manifest.json"
+HARD_CODED_SELECTOR_TARGET = 0x0807FE2C
+HANDLER_TABLE_OFFSET = 0x53E698
+HANDLER_PAIR_SIZE = 8
 
 
 def _sha256(path: Path) -> str:
@@ -418,6 +423,177 @@ def validate_source_runtime_provenance(
                 raise ValueError(
                     "natural action confirmation already contains a target group task"
                 )
+        return
+
+    if (
+        provenance.get("source_kind")
+        == "natural_ninja_tool_handler_confirmation_checkpoint"
+    ):
+        evidence = _object(evidence_path)
+        output = evidence.get("output", {})
+        battle = evidence.get("battle", {})
+        scope = evidence.get("scope", {})
+        restore = evidence.get("restore_verification", {})
+        child_info = evidence.get("accepted_child", {})
+        trigger = provenance.get("natural_trigger", {})
+        expected_trigger = {
+            "ninja_tool_id": 67,
+            "encoded_action_id": 195,
+            "handler_start": "0x0807EE50",
+            "selector_callsite": "0x0807EE6A",
+            "hardcoded_sequence_id": 19,
+            "resource_group_id": 16,
+            "final_confirmation_input": "A:5:13",
+        }
+        if group_id != 16 or profile.get("sequence_id") != 19:
+            raise ValueError("natural ninja-tool handler target identity mismatch")
+        if trigger != expected_trigger:
+            raise ValueError("natural ninja-tool handler trigger contract mismatch")
+        if (
+            profile.get("input_mode") != "explicit-input-sequence"
+            or profile.get("inputs") != ["A:5:13"]
+        ):
+            raise ValueError("natural ninja-tool handler input schedule mismatch")
+        if (
+            evidence.get("schema")
+            != "runtime-checkpoint-input-chain-evidence-v1"
+            or evidence.get("artifact_status") != "accepted"
+            or evidence.get("next_input") != "A:5:13"
+        ):
+            raise ValueError("natural ninja-tool confirmation evidence is not accepted")
+        if (
+            not isinstance(output, dict)
+            or output.get("path") != input_state_path
+            or output.get("sha256") != input_state_sha256
+        ):
+            raise ValueError("natural ninja-tool confirmation state identity mismatch")
+        expected_tool = {
+            "unit_slot": 1,
+            "character_id": 1,
+            "tool_slot": 0,
+            "ninja_tool_id": 67,
+        }
+        if (
+            not isinstance(battle, dict)
+            or battle.get("battle_id") != 14
+            or battle.get("battle_local_tool") != expected_tool
+        ):
+            raise ValueError("natural ninja-tool confirmation battle identity mismatch")
+        if (
+            not isinstance(scope, dict)
+            or scope.get("checkpoint_bytes_anchored_by_accepted_child") is not True
+            or scope.get("battle_local_tool_verified") is not True
+            or scope.get("natural_action_submission_verified") is not False
+            or scope.get("natural_object_creation_verified") is not False
+        ):
+            raise ValueError("natural ninja-tool confirmation scope mismatch")
+        if (
+            not isinstance(restore, dict)
+            or restore.get("zero_input_verified") is not True
+            or restore.get("pgid_clean") is not True
+            or restore.get("mgba_listener_clean") is not True
+        ):
+            raise ValueError("natural ninja-tool confirmation restore mismatch")
+
+        if not isinstance(child_info, dict):
+            raise ValueError("natural ninja-tool accepted child is missing")
+        child_path = _repository_path(
+            root, child_info.get("path"), "natural ninja-tool accepted child"
+        )
+        if _sha256(child_path) != child_info.get("sha256"):
+            raise ValueError("natural ninja-tool accepted child hash mismatch")
+        child = _object(child_path)
+        if (
+            child_info.get("confirmation_parent_sha256") != input_state_sha256
+            or child.get("artifact_status") != "accepted"
+            or child.get("provenance", {}).get("confirmation_parent_sha256")
+            != input_state_sha256
+            or child.get("active_object", {}).get("encoded_action") != "0xC3"
+        ):
+            raise ValueError("natural ninja-tool accepted child boundary mismatch")
+
+        static_info = provenance.get("static_selector_evidence", {})
+        if not isinstance(static_info, dict):
+            raise ValueError("natural ninja-tool static selector evidence is missing")
+        static_path = _repository_path(
+            root, static_info.get("path"), "natural ninja-tool static selector evidence"
+        )
+        if _sha256(static_path) != static_info.get("sha256"):
+            raise ValueError("natural ninja-tool static selector evidence hash mismatch")
+        static = _object(static_path)
+        sequence = static.get("by_sequence", {}).get("19", {})
+        callsites = sequence.get("callsites", []) if isinstance(sequence, dict) else []
+        callsite_matches = [
+            row
+            for row in callsites
+            if isinstance(row, dict)
+            and row.get("selector_callsite") == "0x0807EE6A"
+            and row.get("hardcoded_sequence_id") == 19
+            and row.get("selector_kind") == "immediate_movs_r0"
+        ]
+        links = callsite_matches[0].get("handler_links", []) if len(callsite_matches) == 1 else []
+        link_matches = [
+            row
+            for row in links
+            if isinstance(row, dict)
+            and row.get("handler_start") == "0x0807EE50"
+            and row.get("pair_index") == 195
+            and row.get("pair_slot") == "primary"
+        ]
+        if (
+            static.get("schema") != "battle-effect-hardcoded-selector-producers-v1"
+            or static.get("sources", {}).get("rom", {}).get("sha256") != rom_sha256
+            or sequence.get("resource_group_ids") != [16, 0, 0, 0]
+            or len(callsite_matches) != 1
+            or len(link_matches) != 1
+        ):
+            raise ValueError("natural ninja-tool static selector semantics mismatch")
+
+        state_path = _repository_path(root, input_state_path, "profile input state")
+        if _sha256(state_path) != input_state_sha256:
+            raise ValueError("natural ninja-tool input state hash mismatch")
+        state = load_gba_state(state_path)
+        if state.read_memory(0x02026804, 8) != bytes.fromhex("000e000000000000"):
+            raise ValueError("natural ninja-tool input battle control mismatch")
+        unit = state.read_memory(0x020240C0 + 0x1D4, 0x1D4)
+        if unit[0] != 1 or unit[0xB0] < 1 or unit[0xB1] != 67:
+            raise ValueError("natural ninja-tool input equipment mismatch")
+        for slot in range(1, 32):
+            delayed = state.read_memory(
+                DELAYED_OBJECT_TABLE + slot * DELAYED_OBJECT_STRIDE,
+                DELAYED_OBJECT_STRIDE,
+            )
+            if delayed[0] in (1, 2) and delayed[4] == 0xC3:
+                raise ValueError("natural ninja-tool input already contains C3 object")
+        animation_catalog = _object(ANIMATION_CATALOG)
+        definition, animation = effect_group_identity(animation_catalog, group_id)
+        for slot in range(TASK_COUNT):
+            task = state.read_memory(TASK_BASE + slot * TASK_SIZE, TASK_SIZE)
+            if (
+                int.from_bytes(task[0:4], "little") & 1
+                and int.from_bytes(task[0x1C:0x20], "little") == definition
+                and int.from_bytes(task[0x20:0x24], "little") == animation
+            ):
+                raise ValueError(
+                    "natural ninja-tool input already contains target group task"
+                )
+
+        rom_path = root / "rom/base.gba"
+        if _sha256(rom_path) != rom_sha256:
+            raise ValueError("natural ninja-tool base ROM mismatch")
+        rom = rom_path.read_bytes()
+        handler_pointer_offset = HANDLER_TABLE_OFFSET + 195 * HANDLER_PAIR_SIZE
+        if int.from_bytes(
+            rom[handler_pointer_offset : handler_pointer_offset + 4], "little"
+        ) != 0x0807EE51:
+            raise ValueError("natural ninja-tool handler table pointer mismatch")
+        callsite = 0x0807EE6A
+        callsite_offset = callsite - 0x08000000
+        previous = int.from_bytes(rom[callsite_offset - 2 : callsite_offset], "little")
+        first = int.from_bytes(rom[callsite_offset : callsite_offset + 2], "little")
+        second = int.from_bytes(rom[callsite_offset + 2 : callsite_offset + 4], "little")
+        if previous != 0x2013 or decode_thumb_bl(callsite, first, second) != HARD_CODED_SELECTOR_TARGET:
+            raise ValueError("natural ninja-tool hardcoded selector bytes mismatch")
         return
 
     parent = provenance.get("accepted_parent", {})

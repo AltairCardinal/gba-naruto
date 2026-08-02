@@ -19,6 +19,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from tools.inspect_mgba_savestate import load_gba_state, png_screen_fingerprint
 from tools.render_mode0_checkpoint import render_checkpoint
+from tools.thumb_branch import decode_thumb_bl
 from tools.verify_menu_portrait_writeback_audit import (
     _decompress_lz77,
     _encode_lz77,
@@ -43,6 +44,11 @@ CURRENT_TOOLCHAIN_PROFILE_SHA256 = (
     "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
 )
 CURRENT_MGBA_SOURCE_COMMIT = "d8bad14b4540f9114246c0281d74985cf81adc68"
+HARD_CODED_SELECTOR_TARGET = 0x0807FE2C
+HANDLER_TABLE_OFFSET = 0x53E698
+HANDLER_PAIR_SIZE = 8
+DELAYED_OBJECT_TABLE = 0x02026604
+DELAYED_OBJECT_STRIDE = 0x10
 VARIANTS = ("baseline", "candidate")
 INPUT_KEYS = {"A", "B", "L", "R", "Up", "Down", "Left", "Right", "Start"}
 DOMAINS = {
@@ -511,6 +517,7 @@ def _selector_scope(selector: object) -> dict[str, bool]:
         "ninja_tool",
         "active_action",
         "active_action_handler_immediate",
+        "ninja_tool_handler_immediate",
     }:
         raise ValueError("battle-effect pixel selector scope mismatch")
     return {
@@ -552,13 +559,87 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     ):
         raise ValueError("battle-effect pixel checkpoint hash mismatch")
     checkpoint = _json(evidence_path)
+    selector = profile.get("selector", {})
+    if (
+        checkpoint.get("schema") == "runtime-checkpoint-input-chain-evidence-v1"
+        and selector.get("kind") == "ninja_tool_handler_immediate"
+    ):
+        output = checkpoint.get("output", {})
+        battle = checkpoint.get("battle", {})
+        scope = checkpoint.get("scope", {})
+        restore = checkpoint.get("restore_verification", {})
+        child_info = checkpoint.get("accepted_child", {})
+        expected_tool = {
+            "unit_slot": 1,
+            "character_id": 1,
+            "tool_slot": 0,
+            "ninja_tool_id": selector.get("id"),
+        }
+        if (
+            profile.get("group_id") != 16
+            or profile.get("sequence_id") != 19
+            or selector.get("id") != 67
+            or selector.get("encoded_action_id") != 195
+            or checkpoint.get("artifact_status") != "accepted"
+            or checkpoint.get("next_input") != "A:5:13"
+            or output.get("path") != profile.get("input_state")
+            or output.get("sha256") != profile.get("input_state_sha256")
+            or battle.get("battle_id") != 14
+            or battle.get("battle_local_tool") != expected_tool
+            or scope
+            != {
+                "battle_local_tool_verified": True,
+                "checkpoint_bytes_anchored_by_accepted_child": True,
+                "natural_action_submission_verified": False,
+                "natural_confirmation_screen_observed": True,
+                "natural_object_creation_verified": False,
+            }
+            or restore.get("zero_input_verified") is not True
+            or restore.get("capture_frame") != 60
+            or restore.get("pgid_clean") is not True
+            or restore.get("mgba_listener_clean") is not True
+            or any(value.startswith("/") for value in _strings(checkpoint))
+        ):
+            raise ValueError(
+                "battle-effect ninja-tool confirmation checkpoint contract mismatch"
+            )
+        child_path = _safe_file(
+            root, child_info.get("path"), "ninja-tool accepted child"
+        )
+        if _sha256_file(child_path) != child_info.get("sha256"):
+            raise ValueError("battle-effect ninja-tool accepted child hash mismatch")
+        child = _json(child_path)
+        if (
+            child_info.get("confirmation_parent_sha256")
+            != profile.get("input_state_sha256")
+            or child.get("artifact_status") != "accepted"
+            or child.get("provenance", {}).get("confirmation_parent_sha256")
+            != profile.get("input_state_sha256")
+            or child.get("active_object", {}).get("encoded_action") != "0xC3"
+        ):
+            raise ValueError("battle-effect ninja-tool accepted child boundary mismatch")
+        state = load_gba_state(state_path)
+        if state.read_memory(0x02026804, 8) != bytes.fromhex(
+            "000e000000000000"
+        ):
+            raise ValueError("battle-effect ninja-tool input battle control mismatch")
+        unit = state.read_memory(0x020240C0 + 0x1D4, 0x1D4)
+        if unit[0] != 1 or unit[0xB0] < 1 or unit[0xB1] != 67:
+            raise ValueError("battle-effect ninja-tool input equipment mismatch")
+        for slot in range(1, 32):
+            delayed = state.read_memory(
+                DELAYED_OBJECT_TABLE + slot * DELAYED_OBJECT_STRIDE,
+                DELAYED_OBJECT_STRIDE,
+            )
+            if delayed[0] in (1, 2) and delayed[4] == 0xC3:
+                raise ValueError("battle-effect ninja-tool input already contains C3")
+        return
     if checkpoint.get("schema") == "battle-effect-hardcoded-action-confirmation-v1":
         parent = checkpoint.get("parent", {})
         recorded = checkpoint.get("checkpoint", {})
         route = checkpoint.get("route", {})
         provenance = checkpoint.get("provenance", {})
         guard = checkpoint.get("guard", {})
-        selector = profile.get("selector", {})
         parent_path = _safe_file(root, parent.get("path"), "checkpoint parent")
         png_path = _safe_file(root, recorded.get("png"), "checkpoint PNG")
         toolchain_path = _safe_file(
@@ -1090,7 +1171,10 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         raise ValueError("battle-effect pixel catalogs are invalid")
     payloads = {}
     catalog_names = ["resource_pairs", "animations", "sequence_bindings"]
-    if profile.get("selector", {}).get("kind") == "active_action_handler_immediate":
+    if profile.get("selector", {}).get("kind") in {
+        "active_action_handler_immediate",
+        "ninja_tool_handler_immediate",
+    }:
         catalog_names.append("hardcoded_selector_producers")
     for name in catalog_names:
         path = _safe_file(root, catalogs.get(name), name)
@@ -1157,6 +1241,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
     selector = profile.get("selector", {})
     selector_kind = selector.get("kind")
     dynamic_action_sequence_id = None
+    dynamic_ninja_tool_sequence_id = None
     if selector_kind == "ninja_tool":
         binding = _one(
             payloads["sequence_bindings"].get("ninja_tool_bindings"),
@@ -1216,6 +1301,69 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         binding = {"sequence_id": sequence_id}
         binding_encoded_action_id = selector.get("id")
         dynamic_action_sequence_id = links[0]["dynamic_action_sequence_id"]
+    elif selector_kind == "ninja_tool_handler_immediate":
+        ninja_tool_binding = _one(
+            payloads["sequence_bindings"].get("ninja_tool_bindings"),
+            "ninja tool",
+            ninja_tool_id=selector.get("id"),
+        )
+        producer_catalog = payloads.get("hardcoded_selector_producers", {})
+        sequence_row = producer_catalog.get("by_sequence", {}).get(str(sequence_id))
+        if (
+            producer_catalog.get("schema")
+            != "battle-effect-hardcoded-selector-producers-v1"
+            or not isinstance(sequence_row, dict)
+        ):
+            raise ValueError("battle-effect pixel ninja-tool producer mismatch")
+        calls = [
+            row
+            for row in sequence_row.get("callsites", [])
+            if isinstance(row, dict)
+            and row.get("selector_callsite") == selector.get("selector_callsite")
+            and row.get("selector_kind") == "immediate_movs_r0"
+            and row.get("hardcoded_sequence_id") == sequence_id
+            and row.get("association_status") == "static_handler_linked"
+        ]
+        links = [
+            link
+            for row in calls
+            for link in row.get("handler_links", [])
+            if isinstance(link, dict)
+            and link.get("pair_index") == selector.get("encoded_action_id")
+            and link.get("pair_slot") == selector.get("pair_slot")
+            and link.get("handler_start") == selector.get("handler_start")
+            and link.get("identity_kind") == "unidentified_runtime_action_byte"
+        ]
+        dynamic_ninja_tool_sequence_id = ninja_tool_binding.get("sequence_id")
+        callsite = int(selector.get("selector_callsite"), 16)
+        callsite_offset = callsite - 0x08000000
+        handler_pointer_offset = (
+            HANDLER_TABLE_OFFSET
+            + selector.get("encoded_action_id") * HANDLER_PAIR_SIZE
+        )
+        previous = int.from_bytes(
+            base[callsite_offset - 2 : callsite_offset], "little"
+        )
+        first = int.from_bytes(base[callsite_offset : callsite_offset + 2], "little")
+        second = int.from_bytes(
+            base[callsite_offset + 2 : callsite_offset + 4], "little"
+        )
+        if (
+            len(calls) != 1
+            or len(links) != 1
+            or ninja_tool_binding.get("encoded_action_id")
+            != selector.get("encoded_action_id")
+            or int.from_bytes(
+                base[handler_pointer_offset : handler_pointer_offset + 4], "little"
+            )
+            != int(selector.get("handler_start"), 16) + 1
+            or previous != 0x2000 | sequence_id
+            or decode_thumb_bl(callsite, first, second)
+            != HARD_CODED_SELECTOR_TARGET
+        ):
+            raise ValueError("battle-effect pixel ninja-tool producer mismatch")
+        binding = {"sequence_id": sequence_id}
+        binding_encoded_action_id = selector.get("encoded_action_id")
     else:
         raise ValueError("battle-effect pixel selector kind mismatch")
     trigger_sequence_id = profile.get("trigger_sequence_id", sequence_id)
@@ -1260,6 +1408,7 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         "palette": palette_path.read_bytes(),
         "component": component,
         "dynamic_action_sequence_id": dynamic_action_sequence_id,
+        "dynamic_ninja_tool_sequence_id": dynamic_ninja_tool_sequence_id,
     }
 
 
@@ -1330,7 +1479,11 @@ def _expected_build_binding(
 ) -> dict[str, Any]:
     selector = profile["selector"]
     kind = selector["kind"]
-    id_key = "ninja_tool_id" if kind == "ninja_tool" else "active_action_id"
+    id_key = (
+        "ninja_tool_id"
+        if kind in {"ninja_tool", "ninja_tool_handler_immediate"}
+        else "active_action_id"
+    )
     binding = {
         id_key: selector["id"],
         "encoded_action_id": selector["encoded_action_id"],
@@ -1346,6 +1499,18 @@ def _expected_build_binding(
                 "selector_callsite": selector["selector_callsite"],
                 "dynamic_action_sequence_id": contract[
                     "dynamic_action_sequence_id"
+                ],
+            }
+        )
+    if kind == "ninja_tool_handler_immediate":
+        binding.update(
+            {
+                "selector_kind": kind,
+                "pair_slot": selector["pair_slot"],
+                "handler_start": selector["handler_start"],
+                "selector_callsite": selector["selector_callsite"],
+                "dynamic_ninja_tool_sequence_id": contract[
+                    "dynamic_ninja_tool_sequence_id"
                 ],
             }
         )
