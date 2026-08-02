@@ -28,7 +28,10 @@ from tools.build_natural_delayed_battle_effect_pixel_ab import (
 from tools.inspect_mgba_savestate import load_gba_state
 from tools.render_mode0_checkpoint import render_checkpoint
 from tools.verify_battle_effect_direct_spawn_runtime import _active_slots, _target_tasks
-from tools.verify_battle_effect_frame_phase import verify_artifact as verify_phase_artifact
+from tools.verify_battle_effect_frame_phase import (
+    expected_phase_inputs,
+    verify_artifact as verify_phase_artifact,
+)
 
 
 EVIDENCE_SCHEMA = "natural-delayed-battle-effect-pixel-ab-runtime-v1"
@@ -61,12 +64,15 @@ IMPLEMENTATION_PATHS = (
     "tools/export_natural_delayed_battle_effect_pixel_ab.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tools/verify_battle_effect_frame_phase.py",
+    "tools/verify_battle_effect_natural_checkpoint.py",
+    "tools/verify_battlefield_object_producers.py",
     "tools/verify_battle_effect_direct_spawn_runtime.py",
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tools/mgba_battle_effect_phase_capture.lua",
     "tools/run_guarded.py",
     "tools/mgba_runtime_safety.py",
     "tools/inspect_mgba_savestate.py",
+    "tools/thumb_branch.py",
     "tools/render_mode0_checkpoint.py",
     "tools/import_battle_effect_resource_relocations.py",
     "tools/import_battle_effect_resources.py",
@@ -77,6 +83,8 @@ IMPLEMENTATION_PATHS = (
     "tests/test_run_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_export_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
+    "tests/test_verify_battle_effect_natural_checkpoint.py",
+    "tests/test_verify_battlefield_object_producers.py",
 )
 
 
@@ -97,6 +105,113 @@ def _json(path: Path) -> dict[str, Any]:
 
 def _write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def runtime_contract(
+    profile: dict[str, Any], phase_manifest: dict[str, Any]
+) -> dict[str, Any]:
+    group_id = profile.get("group_id")
+    sequence_id = profile.get("sequence_id")
+    if (
+        not isinstance(group_id, int)
+        or isinstance(group_id, bool)
+        or not isinstance(sequence_id, int)
+        or isinstance(sequence_id, bool)
+        or phase_manifest.get("artifact_status") != "accepted"
+        or phase_manifest.get("group_id") != group_id
+    ):
+        raise ValueError("natural delayed pixel runtime identity mismatch")
+    phases = phase_manifest.get("phase_sequence")
+    task_slots = {
+        row.get("task_slot") for row in phases if isinstance(row, dict)
+    } if isinstance(phases, list) else set()
+    if len(phases or []) != 3 or len(task_slots) != 1:
+        raise ValueError("natural delayed pixel runtime task identity mismatch")
+    animations = _json(ROOT / "artifacts/battle-effect-sprite-animations-v1/manifest.json")
+    matches = [
+        row
+        for row in animations.get("groups", [])
+        if isinstance(row, dict) and row.get("group_id") == group_id
+    ]
+    if len(matches) != 1:
+        raise ValueError("natural delayed pixel animation identity mismatch")
+    runtime = profile.get("runtime_oam")
+    if not isinstance(runtime, dict):
+        raise ValueError("natural delayed pixel runtime OAM is missing")
+    try:
+        graphics_address = int(runtime["obj_vram_address"], 16)
+        palette_bank = int(runtime["palette_bank"])
+        oam_index = int(runtime["oam_index"])
+        tile_base = int(runtime["obj_tile_base"])
+        renderer_change = runtime.get("renderer_shadow_change", True)
+        graphics_offset = int(profile["graphics_byte_offset"])
+        definition = int(matches[0]["definition_pointer_table"], 16)
+        animation = int(matches[0]["animation_pointer_table"], 16)
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("natural delayed pixel runtime OAM is invalid") from error
+    if (
+        not isinstance(renderer_change, bool)
+        or not 0x06010000 <= graphics_address < 0x06018000
+        or not 0 <= palette_bank <= 15
+        or not 0 <= oam_index < 128
+    ):
+        raise ValueError("natural delayed pixel runtime OAM is invalid")
+    phase_artifact = ROOT / str(profile.get("source_natural_phase_artifact", ""))
+    submission_counts = []
+    for phase, expected_pending in zip(PHASES, PHASE_PENDING, strict=True):
+        raw = (
+            phase_artifact / f"raw/{phase}/capture-submission.bin"
+        ).read_bytes()
+        if len(raw) != 2 or raw[0] != expected_pending:
+            raise ValueError("natural delayed pixel parent submission state mismatch")
+        submission_counts.append(raw[1])
+    return {
+        "group_id": group_id,
+        "sequence_id": sequence_id,
+        "definition": definition,
+        "animation": animation,
+        "task_slot": next(iter(task_slots)),
+        "tile_base": tile_base,
+        "palette_bank": palette_bank,
+        "graphics_address": graphics_address,
+        "palette_address": 0x05000200 + palette_bank * 32,
+        "oam_index": oam_index,
+        "oam_attributes": runtime.get("attributes"),
+        "vram_difference_offset": graphics_address - 0x06000000 + graphics_offset,
+        "renderer_shadow_change": renderer_change,
+        "submission_counts": submission_counts,
+    }
+
+
+def input_contract(
+    profile: dict[str, Any], phase_manifest: dict[str, Any]
+) -> dict[str, Any]:
+    try:
+        mode, events = expected_phase_inputs(profile)
+    except ValueError as error:
+        raise ValueError(f"natural delayed pixel input contract mismatch: {error}") from error
+    if (
+        phase_manifest.get("input_mode") != mode
+        or phase_manifest.get("inputs") != events
+    ):
+        raise ValueError("natural delayed pixel parent input contract mismatch")
+    capture_frame = profile.get("capture_frame")
+    timeout_frames = profile.get("timeout_frames")
+    if mode == "explicit-input-sequence" and (
+        not isinstance(capture_frame, int)
+        or isinstance(capture_frame, bool)
+        or not isinstance(timeout_frames, int)
+        or isinstance(timeout_frames, bool)
+        or timeout_frames <= capture_frame
+    ):
+        raise ValueError("natural delayed pixel explicit input timing mismatch")
+    return {
+        "mode": mode,
+        "events": events,
+        "raw_inputs": profile.get("inputs", []),
+        "capture_frame": capture_frame,
+        "timeout_frames": timeout_frames,
+    }
 
 
 def _diff(left: bytes, right: bytes) -> list[int]:
@@ -125,11 +240,11 @@ def _save_rgb(path: Path, pixels: bytes) -> None:
     Image.frombytes("RGB", (240, 160), pixels).save(path, optimize=False)
 
 
-def _raw_paths(source: Path) -> list[Path]:
+def _raw_paths(source: Path, group_id: int) -> list[Path]:
     selected = [source / "batch-audit.json", source / "build/build-manifest.json"]
     for variant in VARIANTS:
         selected.extend([
-            source / f"build/{variant}/group-03-graphics-4bpp.bin",
+            source / f"build/{variant}/group-{group_id:02d}-graphics-4bpp.bin",
             source / f"build/{variant}/spec.json",
             source / f"runs/{variant}/profile.json",
             source / f"runs/{variant}/guard-summary.json",
@@ -166,6 +281,7 @@ def _phase_transaction(
     variant: str,
     graphics: bytes,
     palette: bytes,
+    runtime: dict[str, Any],
 ) -> tuple[dict[str, Any], Any]:
     run = source / f"runs/{variant}"
     audit = _json(run / "output/audit.json")
@@ -185,7 +301,9 @@ def _phase_transaction(
         meta = _json(phase_root / "capture-phase.json")
         address = state.registers[15] - 2
         cycle = int(meta.get("cycle", -1))
-        targets = _target_tasks(state, DEFINITION, ANIMATION)
+        targets = _target_tasks(
+            state, runtime["definition"], runtime["animation"]
+        )
         if (
             address != PHASE_ADDRESSES[index]
             or meta.get("name") != phase
@@ -194,13 +312,13 @@ def _phase_transaction(
             or state.read_memory(PENDING, 1)[0] != PHASE_PENDING[index]
             or cycle <= previous_cycle
             or len(targets) != 1
-            or targets[0]["slot"] != TASK_SLOT
+            or targets[0]["slot"] != runtime["task_slot"]
             or targets[0]["slot"] not in _active_slots(state)
-            or targets[0]["tile_base"] != TILE_BASE
-            or targets[0]["palette_bank"] != PALETTE_BANK
-            or meta.get("task_slot") != TASK_SLOT
-            or state.read_memory(GRAPHICS_ADDRESS, len(graphics)) != graphics
-            or state.read_memory(PALETTE_ADDRESS, len(palette)) != palette
+            or targets[0]["tile_base"] != runtime["tile_base"]
+            or targets[0]["palette_bank"] != runtime["palette_bank"]
+            or meta.get("task_slot") != runtime["task_slot"]
+            or state.read_memory(runtime["graphics_address"], len(graphics)) != graphics
+            or state.read_memory(runtime["palette_address"], len(palette)) != palette
         ):
             raise ValueError(f"natural delayed pixel {variant} phase mismatch: {phase}")
         dumps = {
@@ -216,7 +334,7 @@ def _phase_transaction(
             if (phase_root / name).read_bytes() != state.read_memory(start, size):
                 raise ValueError(f"natural delayed pixel {variant} dump mismatch: {phase}/{name}")
         if (phase_root / "capture-submission.bin").read_bytes() != bytes([
-            PHASE_PENDING[index], SUBMISSION_COUNTS[index]
+            PHASE_PENDING[index], runtime["submission_counts"][index]
         ]):
             raise ValueError(f"natural delayed pixel {variant} submission mismatch: {phase}")
         previous_cycle = cycle
@@ -229,8 +347,9 @@ def _phase_transaction(
         raise ValueError(f"natural delayed pixel {variant} phase audit mismatch")
     renderer_shadow = states[0].read_memory(SHADOW_OAM, 0x400)
     renderer_hardware = states[0].read_memory(HARDWARE_OAM, 0x400)
+    renderer_differs = renderer_shadow != renderer_hardware
     if (
-        renderer_shadow == renderer_hardware
+        renderer_differs != runtime["renderer_shadow_change"]
         or states[1].read_memory(HARDWARE_OAM, 0x400) != renderer_hardware
         or states[2].read_memory(HARDWARE_OAM, 0x400) != renderer_shadow
     ):
@@ -241,7 +360,7 @@ def _phase_transaction(
         "frames": frames,
         "cycles": cycles,
         "savestate_sha256": hashes,
-        "renderer_shadow_differs_from_old_hardware": True,
+        "renderer_shadow_differs_from_old_hardware": renderer_differs,
         "submit_hardware_unchanged": True,
         "ack_hardware_equals_renderer_shadow": True,
     }, states[2])
@@ -258,20 +377,38 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
     parent = verify_phase_artifact(root / profile["source_natural_phase_artifact"])
     if not parent.get("verified"):
         raise ValueError("natural delayed pixel source phase is not verified")
+    phase_manifest = _json(root / profile["source_natural_phase_manifest"])
+    runtime = runtime_contract(profile, phase_manifest)
+    inputs = input_contract(profile, phase_manifest)
+    expected_coverage = profile.get(
+        "expected_production_natural_pixel_coverage",
+        "6/18" if profile["group_id"] == 3 else None,
+    )
+    if not isinstance(expected_coverage, str):
+        raise ValueError("natural delayed pixel production coverage is missing")
     batch = _json(source / "batch-audit.json")
     build = _json(source / "build/build-manifest.json")
     if (
         batch.get("schema") != "natural-delayed-battle-effect-pixel-ab-batch-v1"
         or batch.get("natural_gameplay_route") is not True
-        or batch.get("input_mode") != "zero-input-active-state"
+        or batch.get("input_mode") != inputs["mode"]
+        or batch.get("inputs", []) != inputs["raw_inputs"]
+        or batch.get("capture_frame") != inputs["capture_frame"]
+        or batch.get("timeout_frames") != inputs["timeout_frames"]
         or build.get("schema") != BUILD_SCHEMA
         or build.get("profile_sha256") != _sha256_file(profile_path)
         or build.get("natural_gameplay_route") is not True
         or build.get("probe_free") is not True
         or build.get("same_patch_topology") is not True
         or build.get("same_encoded_size") is not True
-        or build.get("source_pointer_offsets") != [0x59912C, 0x599134]
-        or build.get("target_pointer_offsets") != [0x599134]
+        or build.get("group_id") != profile["group_id"]
+        or build.get("sequence_id") != profile["sequence_id"]
+        or build.get("input_mode") != inputs["mode"]
+        or build.get("inputs", []) != inputs["raw_inputs"]
+        or build.get("capture_frame") != inputs["capture_frame"]
+        or build.get("timeout_frames") != inputs["timeout_frames"]
+        or build.get("source_pointer_offsets") != profile["source_pointer_offsets"]
+        or build.get("target_pointer_offsets") != profile["target_pointer_offsets"]
         or batch.get("build_manifest_sha256") != _sha256_file(source / "build/build-manifest.json")
     ):
         raise ValueError("natural delayed pixel build/batch contract mismatch")
@@ -279,16 +416,19 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         rebuilt = build_pair(root, profile_path, Path(temporary) / "build")
         if {
             key: rebuilt[key]
-            for key in ("schema", "profile_sha256", "source_pointer_offsets", "target_pointer_offsets", "same_patch_topology", "same_encoded_size", "probe_free", "variants")
+            for key in ("schema", "profile_sha256", "input_mode", "inputs", "capture_frame", "timeout_frames", "source_pointer_offsets", "target_pointer_offsets", "same_patch_topology", "same_encoded_size", "probe_free", "variants")
         } != {
             key: build[key]
-            for key in ("schema", "profile_sha256", "source_pointer_offsets", "target_pointer_offsets", "same_patch_topology", "same_encoded_size", "probe_free", "variants")
+            for key in ("schema", "profile_sha256", "input_mode", "inputs", "capture_frame", "timeout_frames", "source_pointer_offsets", "target_pointer_offsets", "same_patch_topology", "same_encoded_size", "probe_free", "variants")
         }:
             raise ValueError("natural delayed pixel build is not reproducible")
 
     palette = contract["palette_path"].read_bytes()
     graphics = {
-        variant: (source / f"build/{variant}/group-03-graphics-4bpp.bin").read_bytes()
+        variant: (
+            source
+            / f"build/{variant}/group-{profile['group_id']:02d}-graphics-4bpp.bin"
+        ).read_bytes()
         for variant in VARIANTS
     }
     if _diff(graphics["baseline"], graphics["candidate"]) != [profile["graphics_byte_offset"]]:
@@ -303,15 +443,22 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         run_profile = _json(run / "profile.json")
         audit = _json(run / "output/audit.json")
         guard = _json(run / "guard-summary.json")
+        try:
+            run_input_mode, run_inputs = expected_phase_inputs(run_profile)
+        except ValueError as error:
+            raise ValueError(
+                f"natural delayed pixel {variant} input profile mismatch: {error}"
+            ) from error
         if (
             run_profile.get("execution_mode") != "natural-delayed-object-pixel-ab"
             or run_profile.get("natural_gameplay_route") is not True
-            or run_profile.get("input_mode") != "zero-input-active-state"
-            or run_profile.get("inputs") != []
+            or run_input_mode != inputs["mode"]
+            or run_inputs != inputs["events"]
             or run_profile.get("variant") != variant
             or run_profile.get("source_rom_sha256") != build["variants"][variant]["rom_sha256"]
             or audit.get("outcome") != "three-phase-captured"
-            or audit.get("inputs") != []
+            or audit.get("input_mode") != inputs["mode"]
+            or audit.get("inputs") != inputs["events"]
             or audit.get("automatic_inputs") != []
             or audit.get("recovery_inputs") != []
             or audit.get("rom_sha256") != build["variants"][variant]["rom_sha256"]
@@ -322,7 +469,9 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             or audit.get("runtime_residue", {}).get("mgba_listener_clean") is not True
         ):
             raise ValueError(f"natural delayed pixel {variant} runtime provenance mismatch")
-        transactions[variant], states[variant] = _phase_transaction(source, variant, graphics[variant], palette)
+        transactions[variant], states[variant] = _phase_transaction(
+            source, variant, graphics[variant], palette, runtime
+        )
         audits[variant] = audit
         guards[variant] = guard
 
@@ -333,10 +482,17 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         )
         for name, (address, size) in DOMAINS.items()
     }
-    if memory != {**{name: [] for name in DOMAINS}, "VRAM": [0x124CF]}:
+    if memory != {
+        **{name: [] for name in DOMAINS},
+        "VRAM": [runtime["vram_difference_offset"]],
+    }:
         raise ValueError("natural delayed pixel runtime memory isolation mismatch")
     expected_oam = b"".join(int(value, 16).to_bytes(2, "little") for value in profile["runtime_oam"]["attributes"])
-    if any(state.read_memory(HARDWARE_OAM, 6) != expected_oam for state in states.values()):
+    oam_address = HARDWARE_OAM + runtime["oam_index"] * 8
+    if any(
+        state.read_memory(oam_address, 6) != expected_oam
+        for state in states.values()
+    ):
         raise ValueError("natural delayed pixel runtime OAM mismatch")
     rendered = {
         variant: render_checkpoint(source / f"runs/{variant}/output/ack-post/capture.ss9")[0]
@@ -355,7 +511,9 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
     output.mkdir(parents=True, exist_ok=True)
     _save_rgb(output / "baseline.png", rendered["baseline"])
     _save_rgb(output / "candidate.png", rendered["candidate"])
-    raw_inventory = _write_tar(source, _raw_paths(source), output / "raw.tar")
+    raw_inventory = _write_tar(
+        source, _raw_paths(source, profile["group_id"]), output / "raw.tar"
+    )
     runs = []
     for variant in VARIANTS:
         rss = guards[variant].get("peak_tree_rss_mib")
@@ -370,26 +528,32 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             "pgid_clean": batch_rows[variant]["pgid_clean"],
             "phase_transaction": transactions[variant],
         })
+    input_evidence = {
+        "mode": inputs["mode"],
+        "inputs": inputs["events"],
+        "path": profile["input_state"],
+        "sha256": profile["input_state_sha256"],
+        "evidence": profile["input_evidence"],
+        "evidence_sha256": profile["input_evidence_sha256"],
+    }
+    if inputs["mode"] == "explicit-input-sequence":
+        input_evidence.update({
+            "capture_frame": inputs["capture_frame"],
+            "timeout_frames": inputs["timeout_frames"],
+        })
     evidence = {
         "schema": EVIDENCE_SCHEMA,
         "verified": True,
         "profile": profile_path.relative_to(root).as_posix(),
         "profile_sha256": _sha256_file(profile_path),
-        "group_id": 3,
-        "sequence_id": 3,
-        "input": {
-            "mode": "zero-input-active-state",
-            "inputs": [],
-            "path": profile["input_state"],
-            "sha256": profile["input_state_sha256"],
-            "evidence": profile["input_evidence"],
-            "evidence_sha256": profile["input_evidence_sha256"],
-        },
+        "group_id": profile["group_id"],
+        "sequence_id": profile["sequence_id"],
+        "input": input_evidence,
         "scope": {
             "execution_mode": "natural-delayed-object",
             "production_resource_relocation": True,
             "natural_gameplay_route": True,
-            "production_natural_pixel_ab": "6/18",
+            "production_natural_pixel_ab": expected_coverage,
             "single_group_single_frame_single_pixel": True,
             "all_18_effect_groups_runtime_verified": False,
             "physical_gba_verified": False,
@@ -400,19 +564,21 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             "same_patch_topology": True,
             "same_encoded_size": True,
             "probe_free": True,
-            "encoded_graphics_size": 5294,
-            "allocation_offset": 0xB40000,
-            "source_pointer_offsets": [0x59912C, 0x599134],
-            "pointer_offsets": [0x599134],
+            "encoded_graphics_size": profile["expected_encoded_size"],
+            "allocation_offset": profile["graphics_allocation_offset"],
+            "source_pointer_offsets": profile["source_pointer_offsets"],
+            "pointer_offsets": profile["target_pointer_offsets"],
         },
         "runs": runs,
         "runtime": {
             "graphics_difference_offsets": [profile["graphics_byte_offset"]],
             "memory_differences": memory,
-            "memory_absolute_difference": "0x060124CF",
+            "memory_absolute_difference": (
+                f"0x{0x06000000 + runtime['vram_difference_offset']:08X}"
+            ),
             "pixel_changes": pixels,
             "pixel_render_source": "offline-mode0-from-ack-savestate",
-            "oam_index": 0,
+            "oam_index": runtime["oam_index"],
             "oam_attributes": profile["runtime_oam"]["attributes"],
             "palette_equal": True,
             "full_source_palette_equal": True,
@@ -422,7 +588,9 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         "boundary": profile["boundary"],
     }
     _write_json(output / "evidence.json", evidence)
-    artifact_path = "artifacts/battle-effect-group03-natural-pixel-ab-v1"
+    artifact_path = (
+        f"artifacts/battle-effect-group{profile['group_id']:02d}-natural-pixel-ab-v1"
+    )
     manifest = {
         "schema": "git-artifact-promotion-v1",
         "artifact_schema": EVIDENCE_SCHEMA,

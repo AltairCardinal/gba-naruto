@@ -412,6 +412,39 @@ Pages wired down:                        3000.
             summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
             self.assertEqual(summary["completion_trigger"], "success-marker")
 
+    def test_success_marker_takes_a_final_rss_sample_before_stopping(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "done.marker"
+            process = FakeProcess(polls_before_exit=100)
+            clock = FakeClock()
+            samples = iter((1.0, 75.0))
+
+            def create_marker_after_first_sample(seconds):
+                clock.sleep(seconds)
+                marker.write_text("done", encoding="utf-8")
+
+            result = run_guarded(
+                ["fake-command"],
+                lock_path=root / "task.lock",
+                summary_path=root / "summary.json",
+                success_marker=marker,
+                config=GuardConfig(
+                    wall_timeout_s=100,
+                    idle_timeout_s=100,
+                    sample_interval_s=1,
+                ),
+                launcher=RecordingLauncher(process),
+                memory_reader=lambda: MemorySnapshot(4096, "fake-memory"),
+                tree_rss_reader=lambda pid: next(samples),
+                clock=clock,
+                sleeper=create_marker_after_first_sample,
+                protection_backend="fake-process-tree",
+            )
+
+            self.assertEqual((result.reason, result.exit_code), ("completed", 0))
+            self.assertEqual(result.peak_tree_rss_mib, 75.0)
+
     def test_success_marker_stop_failure_omits_completion_trigger(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

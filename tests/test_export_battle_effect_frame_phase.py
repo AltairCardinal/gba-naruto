@@ -9,8 +9,20 @@ from pathlib import Path
 class BattleEffectFramePhaseExporterTests(unittest.TestCase):
     def test_description_names_the_actual_effect_group(self):
         exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
-        self.assertIn("group 1", exporter.artifact_description(1))
-        self.assertNotIn("group 11", exporter.artifact_description(1))
+        self.assertIn(
+            "group 1",
+            exporter.artifact_description(1, "zero-input-active-state"),
+        )
+        self.assertNotIn(
+            "group 11",
+            exporter.artifact_description(1, "zero-input-active-state"),
+        )
+
+    def test_description_does_not_call_an_explicit_sequence_zero_input(self):
+        exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
+        description = exporter.artifact_description(18, "explicit-input-sequence")
+        self.assertIn("explicit-input-sequence", description)
+        self.assertNotIn("zero-input", description)
 
     def test_collects_only_complete_three_phase_capture_files(self):
         exporter = importlib.import_module("tools.export_battle_effect_frame_phase")

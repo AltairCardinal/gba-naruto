@@ -13,9 +13,44 @@ PROFILE = (
     / "sequel/content/battle-effect-natural-pixel-ab/"
     "group-03-tool67-expiry.json"
 )
+PROFILE_GROUP18 = (
+    ROOT
+    / "sequel/content/battle-effect-natural-pixel-ab/"
+    "group-18-tool67-zero-event-expiry.json"
+)
 
 
 class NaturalDelayedBattleEffectPixelAbRunnerTests(unittest.TestCase):
+    def test_prepares_group18_explicit_sequence_profiles(self):
+        builder = importlib.import_module(
+            "tools.build_natural_delayed_battle_effect_pixel_ab"
+        )
+        runner = importlib.import_module(
+            "tools.run_natural_delayed_battle_effect_pixel_ab"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            build_root = output / "build"
+            build = builder.build_pair(ROOT, PROFILE_GROUP18, build_root)
+            row = runner.prepare_variant(
+                output / "runs",
+                build_root=build_root,
+                build=build,
+                variant="baseline",
+            )
+            profile = json.loads(row["profile"].read_text(encoding="utf-8"))
+            self.assertEqual(profile["group_id"], 18)
+            self.assertEqual(profile["sequence_id"], 7)
+            self.assertEqual(profile["input_mode"], "explicit-input-sequence")
+            self.assertEqual(len(profile["inputs"]), 17)
+            self.assertEqual(profile["capture_frame"], 4520)
+            self.assertEqual(profile["timeout_frames"], 5000)
+            self.assertEqual(
+                profile["oam_transaction"], {"renderer_shadow_change": True}
+            )
+            self.assertEqual(row["group_id"], 18)
+            self.assertEqual(row["sequence_id"], 7)
+
     def test_prepares_two_zero_input_natural_profiles(self):
         builder = importlib.import_module(
             "tools.build_natural_delayed_battle_effect_pixel_ab"

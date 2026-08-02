@@ -1,0 +1,68 @@
+{
+  "audit": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+  "capture_frame": 600,
+  "child_pgid": 65753,
+  "evidence_mode": "single-input",
+  "frame": 600,
+  "guard_summary_sha256": "3430e434293bb99a8dbc793bea31e6a9489e3cee7e507331a8e8006f22bbdc36",
+  "input_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-target-a-20260802-01/after.ss9",
+  "input_state_sha256": "42b61e5fa849c900dfbb074f91adcd4a59b963938801b392b9f6076e1cb17bab",
+  "inputs": [
+    {
+      "down_frame": 18,
+      "hold_frames": 2,
+      "key": "A",
+      "up_frame": 20
+    }
+  ],
+  "output_png": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/after.png",
+  "output_png_sha256": "ba82a9c90962f29748f397e576954877631acc565bdb5e1b9b09d40c6a0e55d9",
+  "output_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/after.ss9",
+  "output_state_sha256": "6fb61cfd7fd4a1b0a7e1679aaae5064bf109af89051303e4d2dfe9a1430f9be4",
+  "peak_tree_rss_mib": 65.44140625,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "run_id": "9c74d0bbbbf041123fae575b1ac0be5d",
+  "runtime_residue": {
+    "checked_at": "2026-08-01T23:04:16.626324Z",
+    "checked_pgid": 65753,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/sentinel.json",
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/staged.gba",
+  "staged_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "status": "capture-complete",
+  "success": true,
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "zero_input_verified": false
+}

@@ -123,20 +123,25 @@
   "repository_files": {
     "artifacts/rom-expansion-profile-v1/profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "sequel/content/battle-effect-phase-capture/group-03-natural-tool67-expiry.json": "bed4e1c2301066ddb413dd869e019545562af9cc29ef17b57df3c46e271db72f",
-    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "7b64b7cae580b2639267eec2bdcce5c53b235bcbcf2498c378abbf48b937e00e",
-    "tests/test_export_battle_effect_frame_phase.py": "5c71b45c3c34b8a0b01546af93b226681bebb438330e4ff24097b51c34236720",
-    "tests/test_mgba_battle_effect_phase_capture_script.py": "3d243d23cd0ee88a3e197446ff210699ef562443d00b0fb2f93250ea7c08db50",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "42c97f2bfce3364a2c5b7cf7e520eaf4a0ce97fe71ce8a78d4221f638cf41cf1",
+    "tests/test_export_battle_effect_frame_phase.py": "92e0526d43326c10e1e1dc836221f4ff0c6862baf526aaf605bd9a396bdf4b7d",
+    "tests/test_mgba_battle_effect_phase_capture_script.py": "a77d9ee45842564aa2aeec80f70bda66f9787ed35e82679d2c24adf8f4d39410",
     "tests/test_rebuild_battle_effect_frame_phase_artifacts.py": "926d9cd304c5357486623993656b48d77a755593f70fd9eaf754384edff9ea2d",
-    "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "97b1b62b819d68fb1403381cea422378f217699413d44f099cc2b50db8a2b043",
-    "tests/test_verify_battle_effect_frame_phase.py": "53bedf38ec406b8eeb3afc59b60551a515a714b49d7bef2f66d7ba3eadbebf12",
+    "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "eb8377f1b74f2191e15a80a6f04666becd6ea52e69e8cb183f2fb3af46aa553d",
+    "tests/test_verify_battle_effect_frame_phase.py": "bb8f10e3f4cdb786c5216d83053e6d71d802e144e266c2a0efa05f219e5aadf5",
+    "tests/test_verify_battle_effect_natural_checkpoint.py": "f68650ef49c9858ab7d02c51e98fff2eeb9bdd3d92ed84b6d58f0e0dbbc98bf7",
     "tests/test_verify_battlefield_object_effect_chain.py": "fcf43068f850a3269fdd1c66ddb8d9088be9d052284d93be7f7139aacd308ee4",
-    "tools/export_battle_effect_frame_phase.py": "e8513308b9b79a4b442c975fa8661fd0bc1f7f3713f5a430bc7d648ad0b4170e",
-    "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+    "tests/test_verify_battlefield_object_producers.py": "b5a1c03b36d8dd487e942eaad415791028b1f48fba4ae8b7f9e9c343ad5673a7",
+    "tools/export_battle_effect_frame_phase.py": "b862c011c731a227fc320b67010e9058e9e938ce1393e9c337da7121783e0ad8",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
     "tools/rebuild_battle_effect_frame_phase_artifacts.py": "0b55086e94b4950523bed857893a8b95f3125c05e5e1dccaa9e0c6f7f1aa0b21",
-    "tools/run_macos_mgba_battle_effect_phase_capture.py": "a9b832594e514546fc298e6fe4958a9a1138fd0c8298007b5f45455685e19855",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
     "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
-    "tools/verify_battle_effect_frame_phase.py": "4dc2116c37c2b32becc00b4770fe3e6d2f186c83da0833142d06d4c3467058a5",
-    "tools/verify_battlefield_object_effect_chain.py": "1d6914dd5ab444d48b08ceaa5de43fe6c35cbd07c34f75b7f0178293843b5760"
+    "tools/verify_battle_effect_frame_phase.py": "4dd74c18fe6d8eb266398ced2fde926b667cbd2767b57f31cc639f6870597789",
+    "tools/verify_battle_effect_natural_checkpoint.py": "332f553b0e487506f0013ba1f56a1f79c243e7652e2ded1ede1286cc3cf97ce7",
+    "tools/verify_battlefield_object_effect_chain.py": "1d6914dd5ab444d48b08ceaa5de43fe6c35cbd07c34f75b7f0178293843b5760",
+    "tools/verify_battlefield_object_producers.py": "58db857ed958b94e4c4c64dc4dfd2256b15dbad7031ad32152381dc109ace360"
   },
   "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "run_id": "2406162869bf5625a518b643bd7c92f5",
@@ -144,7 +149,7 @@
   "source_runtime_provenance": {
     "catalog": {
       "path": "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
-      "sha256": "7b64b7cae580b2639267eec2bdcce5c53b235bcbcf2498c378abbf48b937e00e"
+      "sha256": "42c97f2bfce3364a2c5b7cf7e520eaf4a0ce97fe71ce8a78d4221f638cf41cf1"
     },
     "contract": {
       "delayed_object": {
@@ -180,7 +185,7 @@
       "python3",
       "tools/verify_battle_effect_frame_phase.py",
       "--artifact",
-      "artifacts/.battle-effect-frame-phase-group3-natural-v1-refresh-tm52x78h/rebuilt"
+      "artifacts/.battle-effect-frame-phase-group3-natural-v1-refresh-fkfyxyty/rebuilt"
     ],
     "exit_code": 0,
     "result": {

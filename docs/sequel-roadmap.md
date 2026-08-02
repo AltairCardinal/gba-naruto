@@ -2205,3 +2205,18 @@ WebSocket
   `notes/battle-effect-group2-pixel-ab-20260802.md`。production 自然最终像素由
   **7/18 提升到 8/18（44.44%）**；其余10组、完整动画/混合/音频及实体GBA仍未
   全量签发，Goal保持active。
+- 2026-08-02：Group 18 / sequence 7 已从自然创建的忍具67 C3对象推进到type-1
+  zero-event expiry与production relocation最终像素A/B。旧`expiry-ready`快照实际已
+  含Group 18 task和基准ROM VRAM，恢复它不会重新读取candidate资源指针，故旧A/B被
+  判为无因果资格。最终路线改从accepted `object-created`快照（slot 3、`(13,6)`、
+  C3、remaining 2、Group 18 task为0）开始，baseline/candidate重放相同17输入，在
+  frame `4519/4519/4520`捕获slot 114 renderer→submit→ack，pending为`0→1→0`。
+  两份ROM仅重定向Group 18 graphics指针`0x5991AC`，candidate仅改解压offset
+  `0xCA:44→41`；六个内存域仅OBJ-VRAM `0x060160CA`一字节不同，离线Mode-0仅
+  `(196,68)`从`[181,181,181]`变为`[231,231,231]`。最终签发的两次guard峰值RSS为
+  `79.5/80.11328125 MiB`且无残留。独立verifier返回`errors=[]`并拒绝重签输入
+  序列篡改。成果位于`artifacts/battle-effect-frame-phase-group18-natural-sequence-v1/`
+  与`artifacts/battle-effect-group18-natural-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group18-natural-pixel-ab-20260802.md`。production自然最终像素
+  由**8/18提升到9/18（50%）**；其余9组、完整动画/混合/音频及实体GBA仍未全量
+  签发，Goal保持active。

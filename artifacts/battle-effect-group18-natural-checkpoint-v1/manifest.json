@@ -1,0 +1,124 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_schema": "battle-effect-natural-checkpoint-v1",
+  "artifact_status": "accepted",
+  "description": "Original-ROM ninja-tool 67 route from submission through type-1 C3 object creation and countdown to the first Group 18 submit transaction selected by sequence 7.",
+  "group_id": 18,
+  "sequence_id": 7,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "input_state": {
+    "path": "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/expiry-ready.ss9",
+    "sha256": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4"
+  },
+  "source_states": {
+    "object-created": {
+      "path": "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/object-created.ss9",
+      "sha256": "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b",
+      "remaining_turns": 2,
+      "active_group_tasks": 0
+    },
+    "first-submit": {
+      "path": "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/expiry-ready.ss9",
+      "sha256": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4",
+      "remaining_turns": 0,
+      "active_group_tasks": 1
+    }
+  },
+  "delayed_object": {
+    "slot": 3,
+    "state": 1,
+    "x": 13,
+    "y": 6,
+    "ninja_tool_id": 67,
+    "encoded_action": "0xC3",
+    "remaining_turns": 0,
+    "resource_group_id": 18
+  },
+  "expiry_route": {
+    "kind": "type-1-zero-event",
+    "selector_callsite": "0x08081FB8",
+    "sequence_id": 7,
+    "spawn_callsite": "0x08081FD2"
+  },
+  "runtime_phase": {
+    "current_thumb_pc": "0x08061126",
+    "submission_pending": 1,
+    "task_slot": 114,
+    "definition_pointer": "0x0834819C",
+    "animation_pointer": "0x083481DC"
+  },
+  "runtime_chain": [
+    {
+      "stage": "tool-submitted",
+      "audit": "raw/tool-submission-audit.json",
+      "guard": "raw/tool-submission-guard.json",
+      "input_state": "raw/tool-target-confirm.ss9",
+      "output_state": "raw/tool-submit.ss9",
+      "state_check": "raw/tool-submitted-check.json"
+    },
+    {
+      "stage": "target-right2",
+      "audit": "raw/target-route-audit.json",
+      "guard": "raw/target-route-guard.json",
+      "input_state": "raw/tool-submit.ss9",
+      "output_state": "raw/target-right2.ss9"
+    },
+    {
+      "stage": "object-created",
+      "audit": "raw/object-creation-audit.json",
+      "guard": "raw/object-creation-guard.json",
+      "input_state": "raw/target-right2.ss9",
+      "output_state": "raw/object-created.ss9",
+      "state_check": "raw/object-created-check.json"
+    },
+    {
+      "stage": "expiry-ready",
+      "audit": "raw/expiry-route-audit.json",
+      "guard": "raw/expiry-route-guard.json",
+      "input_state": "raw/object-created.ss9",
+      "output_state": "raw/expiry-ready.ss9",
+      "state_check": "raw/expiry-ready-check.json"
+    }
+  ],
+  "static_producers": {
+    "path": "raw/static-producers.json",
+    "sha256": "14f6c450025deb2b74fffa31ac93191c7c71dbb859aa0bc1faf7a84b0d9ebb6c"
+  },
+  "scope": {
+    "natural_tool_submission_verified": true,
+    "natural_object_creation_verified": true,
+    "natural_countdown_zero_verified": true,
+    "static_zero_event_expiry_route_verified": true,
+    "natural_expiry_runtime_verified": true,
+    "modified_rom_pixel_ab_verified": false
+  },
+  "files": {
+    "raw/expiry-ready-check.json": "e4e5c818036e05adbbdeffe912bb5df5661a36d0f2f427a6acfa3e6ce5e00053",
+    "raw/expiry-ready.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+    "raw/expiry-ready.ss9": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4",
+    "raw/expiry-route-audit.json": "2148c79b3348cfd0436b5aa0124582fe1737373561c728b29f905ab6958304f8",
+    "raw/expiry-route-guard.json": "76e8aa348818e93ec576a892e8f740eaa83627a8f66cfcca86531b1ad1b8b111",
+    "raw/object-created-check.json": "dcf04794fb44ec7987af2be5620a1c055f3e84c4ff5357d60b07192a7db32745",
+    "raw/object-created.ss9": "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b",
+    "raw/object-creation-audit.json": "2a75c9301abb9735fec6b9fc05213777953fc68e1b88456081f5e5445b640625",
+    "raw/object-creation-guard.json": "1ec3f7dd5a93e5eba7d76409b4ed37ea6c68900a6094510a21426423b1a98535",
+    "raw/static-producers.json": "14f6c450025deb2b74fffa31ac93191c7c71dbb859aa0bc1faf7a84b0d9ebb6c",
+    "raw/target-right2.ss9": "a4d255809ff1ea19b8cee8a7d11521cffef972f8c76a0f37ddf9add43682c35b",
+    "raw/target-route-audit.json": "b2479117295fdd9a8dcaa01fa5dcd418d53bab927b6a92facf9bb0198eb1cbf9",
+    "raw/target-route-guard.json": "7c221e976dbb914e4d22e2752bc984d52157c0b31bea864dc682dd6d33b91155",
+    "raw/tool-submission-audit.json": "c5baf4e26f488c2f7b4a08996b1bfa868e1524be36ea96ec7ef47610636faad1",
+    "raw/tool-submission-guard.json": "3430e434293bb99a8dbc793bea31e6a9489e3cee7e507331a8e8006f22bbdc36",
+    "raw/tool-submit.ss9": "6fb61cfd7fd4a1b0a7e1679aaae5064bf109af89051303e4d2dfe9a1430f9be4",
+    "raw/tool-submitted-check.json": "56033ec23e364f2d644ee08da7d3f7e26ef6b598d5556f66d3d4a139363bdb5f",
+    "raw/tool-target-confirm.ss9": "42b61e5fa849c900dfbb074f91adcd4a59b963938801b392b9f6076e1cb17bab"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_natural_checkpoint.py",
+      "artifacts/battle-effect-group18-natural-checkpoint-v1"
+    ],
+    "exit_code": 0
+  },
+  "boundary": "The checkpoint proves a natural original-ROM tool-67 creation/countdown chain and arrives at the first native Group 18 submit-post breakpoint with one active matching task and pending=1. A later zero-input phase artifact proves a complete subsequent renderer/submit/ack transaction; this artifact alone does not claim modified-ROM pixels or physical-GBA behavior."
+}

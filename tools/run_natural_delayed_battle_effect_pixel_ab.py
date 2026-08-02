@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 
 from tools.build_natural_delayed_battle_effect_pixel_ab import build_pair
 from tools.run_battle_effect_direct_spawn_batch import build_case_command, sha256_file
+from tools.verify_battle_effect_frame_phase import expected_phase_inputs
 
 
 VARIANTS = ("baseline", "candidate")
@@ -61,16 +62,32 @@ def prepare_variant(
     case_root = Path(output_root) / variant
     case_root.mkdir(parents=True, exist_ok=False)
     profile_path = case_root / "profile.json"
+    group_id = build.get("group_id")
+    sequence_id = build.get("sequence_id")
+    runtime_oam = build.get("runtime_oam", {})
+    input_mode = build.get("input_mode")
+    inputs = build.get("inputs")
+    if (
+        not isinstance(group_id, int)
+        or isinstance(group_id, bool)
+        or not isinstance(sequence_id, int)
+        or isinstance(sequence_id, bool)
+        or not isinstance(runtime_oam, dict)
+        or not isinstance(runtime_oam.get("renderer_shadow_change", True), bool)
+        or input_mode not in {"zero-input-active-state", "explicit-input-sequence"}
+        or not isinstance(inputs, list)
+    ):
+        raise ValueError("natural delayed pixel build identity mismatch")
     profile = {
         "schema": "battle-effect-phase-capture-profile-v1",
-        "profile_id": f"group-03-tool67-expiry-pixel-{variant}",
+        "profile_id": f"group-{group_id:02d}-natural-pixel-{variant}",
         "variant": variant,
-        "group_id": 3,
-        "sequence_id": 3,
+        "group_id": group_id,
+        "sequence_id": sequence_id,
         "execution_mode": "natural-delayed-object-pixel-ab",
         "natural_gameplay_route": True,
-        "input_mode": "zero-input-active-state",
-        "inputs": [],
+        "input_mode": input_mode,
+        "inputs": inputs,
         "input_state": build["input_state"],
         "input_state_sha256": build["input_state_sha256"],
         "source_runtime_evidence": build["input_evidence"],
@@ -80,15 +97,23 @@ def prepare_variant(
         "source_build_manifest": "build/build-manifest.json",
         "source_build_manifest_sha256": sha256_file(Path(build_root) / "build-manifest.json"),
         "source_rom_sha256": rom_sha,
-        "timeout_frames": 600,
+        "oam_transaction": {
+            "renderer_shadow_change": runtime_oam.get(
+                "renderer_shadow_change", True
+            )
+        },
+        "timeout_frames": build.get("timeout_frames") or 600,
         "pixel_contract": build["edit"],
         "boundary": build["boundary"],
     }
+    if input_mode == "explicit-input-sequence":
+        profile["capture_frame"] = build.get("capture_frame")
+    expected_phase_inputs(profile)
     _write_json(profile_path, profile)
     return {
         "variant": variant,
-        "group_id": 3,
-        "sequence_id": 3,
+        "group_id": group_id,
+        "sequence_id": sequence_id,
         "case_root": case_root,
         "rom": rom,
         "rom_sha256": rom_sha,
@@ -150,10 +175,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         audit_path = case["case_root"] / "output/audit.json"
         audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        run_profile = json.loads(case["profile"].read_text(encoding="utf-8"))
+        expected_input_mode, expected_inputs = expected_phase_inputs(run_profile)
         if (
             audit.get("outcome") != "three-phase-captured"
-            or audit.get("input_mode") != "zero-input-active-state"
-            or audit.get("inputs") != []
+            or audit.get("input_mode") != expected_input_mode
+            or audit.get("inputs") != expected_inputs
             or audit.get("automatic_inputs") != []
             or audit.get("recovery_inputs") != []
             or audit.get("pgid_clean") is not True
@@ -178,7 +205,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         "toolchain_profile": toolchain_relative,
         "toolchain_profile_sha256": sha256_file(toolchain),
         "natural_gameplay_route": True,
-        "input_mode": "zero-input-active-state",
+        "input_mode": build["input_mode"],
+        "inputs": build["inputs"],
+        "capture_frame": build.get("capture_frame"),
+        "timeout_frames": build.get("timeout_frames"),
         "runs": results,
     }
     _write_json(output_root / "batch-audit.json", batch)

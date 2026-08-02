@@ -16,6 +16,52 @@ class _MemoryState:
 
 
 class BattlefieldObjectEffectSeedFinderTest(unittest.TestCase):
+    def test_reports_all_active_objects_and_type_2_sequence_7_candidates(self):
+        from tools.find_battlefield_object_effect_seeds import inspect_state
+
+        state = _MemoryState()
+        type_2 = bytearray(0x10)
+        type_2[0] = 2
+        type_2[1:3] = bytes([7, 9])
+        type_2[4:6] = (0x1234).to_bytes(2, "little")
+        type_2[6:8] = (1).to_bytes(2, "little")
+        type_2[0xC:0x10] = (0x02001234).to_bytes(4, "little")
+        state.write(0x02026604 + 3 * 0x10, type_2)
+
+        type_4 = bytearray(0x10)
+        type_4[0] = 4
+        type_4[1:3] = bytes([2, 5])
+        type_4[6:8] = (9).to_bytes(2, "little")
+        state.write(0x02026604 + 5 * 0x10, type_4)
+
+        result = inspect_state(state)
+        self.assertEqual(
+            result["active_objects"],
+            [
+                {
+                    "slot": 3,
+                    "type": 2,
+                    "x": 7,
+                    "y": 9,
+                    "union_u16_4": 0x1234,
+                    "union_u16_6": 1,
+                    "aux_pointer": "0x02001234",
+                    "raw_hex": type_2.hex(),
+                },
+                {
+                    "slot": 5,
+                    "type": 4,
+                    "x": 2,
+                    "y": 5,
+                    "union_u16_4": 0,
+                    "union_u16_6": 9,
+                    "aux_pointer": None,
+                    "raw_hex": type_4.hex(),
+                },
+            ],
+        )
+        self.assertEqual(result["type_2_sequence_7_candidates"], [result["active_objects"][0]])
+
     def test_reports_active_object_and_equipped_tool_seeds(self):
         from tools.find_battlefield_object_effect_seeds import inspect_state
 

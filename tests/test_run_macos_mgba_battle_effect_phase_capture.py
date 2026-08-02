@@ -105,6 +105,50 @@ class BattleEffectPhaseCaptureRunnerTests(unittest.TestCase):
             self.assertEqual(loaded["capture_frames"], 0)
             self.assertEqual(loaded["timeout_frames"], 30)
 
+    def test_loads_explicit_input_sequence_phase_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            state = root / "created.ss9"
+            state.write_bytes(b"created-state")
+            catalog = root / "animations.json"
+            catalog.write_text(
+                json.dumps(
+                    {
+                        "schema": "battle-effect-sprite-animations-v1",
+                        "group_count": 1,
+                        "groups": [{
+                            "group_id": 18,
+                            "definition_pointer_table": "0x0834819C",
+                            "animation_pointer_table": "0x083481DC",
+                        }],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            profile = root / "profile.json"
+            profile.write_text(
+                json.dumps(
+                    {
+                        "schema": "battle-effect-phase-capture-profile-v1",
+                        "profile_id": "group-18-sequence",
+                        "group_id": 18,
+                        "input_mode": "explicit-input-sequence",
+                        "inputs": ["A:18:20", "Up:378:380"],
+                        "capture_frame": 4520,
+                        "input_state": str(state),
+                        "input_state_sha256": self.runner.sha256_file(state),
+                        "timeout_frames": 5000,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            loaded = self.runner.load_capture_profile(profile, catalog)
+            self.assertEqual(loaded["input_mode"], "explicit-input-sequence")
+            self.assertEqual(loaded["input_schedule"], "A:18:20,Up:378:380")
+            self.assertEqual(len(loaded["events"]), 2)
+            self.assertEqual(loaded["capture_frames"], 4520)
+            self.assertEqual(loaded["timeout_frames"], 5000)
+
     def test_accepts_only_the_current_pinned_desktop_toolchain_profile(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

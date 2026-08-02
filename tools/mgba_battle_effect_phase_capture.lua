@@ -68,7 +68,9 @@ local keys = {
 
 local events = {}
 local previous_up = 0
-assert(input_mode == "explicit-single-input" or input_mode == "zero-input-active-state",
+assert(input_mode == "explicit-single-input"
+	or input_mode == "explicit-input-sequence"
+	or input_mode == "zero-input-active-state",
 	"invalid input mode")
 for encoded in input_schedule:gmatch("([^,]+)") do
 	local key_name, down_text, up_text = encoded:match("^([A-Za-z]+):(%d+):(%d+)$")
@@ -89,6 +91,8 @@ for encoded in input_schedule:gmatch("([^,]+)") do
 end
 if input_mode == "explicit-single-input" then
 	assert(#events == 1, "explicit input mode requires exactly one event")
+elseif input_mode == "explicit-input-sequence" then
+	assert(#events >= 1, "explicit input sequence requires at least one event")
 else
 	assert(#events == 0, "zero-input active state must not schedule inputs")
 end

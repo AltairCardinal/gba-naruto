@@ -38,7 +38,13 @@ from tools.import_battle_effect_resource_relocations import (
 from tools.import_battle_effect_resources import ROM_SHA256
 from tools.inspect_mgba_savestate import load_gba_state
 from tools.rom_layout import RomLayout
-from tools.verify_battle_effect_frame_phase import verify_artifact as verify_phase_artifact
+from tools.verify_battle_effect_frame_phase import (
+    expected_phase_inputs,
+    verify_artifact as verify_phase_artifact,
+)
+from tools.verify_battle_effect_natural_checkpoint import (
+    verify_artifact as verify_natural_checkpoint,
+)
 
 
 PROFILE_SCHEMA = "natural-delayed-battle-effect-pixel-ab-profile-v1"
@@ -74,16 +80,34 @@ def _rgb(raw: bytes, index: int) -> list[int]:
 
 def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     profile = _json(profile_path)
+    group_id = profile.get("group_id")
+    sequence_id = profile.get("sequence_id")
+    route = (group_id, sequence_id)
+    expected_input_modes = {
+        (3, 3): "zero-input-active-state",
+        (18, 7): "explicit-input-sequence",
+    }
     if (
         profile.get("schema") != PROFILE_SCHEMA
         or profile.get("execution_mode") != "natural-delayed-object"
         or profile.get("natural_gameplay_route") is not True
         or profile.get("production_resource_relocation") is not True
-        or profile.get("input_mode") != "zero-input-active-state"
-        or profile.get("group_id") != 3
-        or profile.get("sequence_id") != 3
+        or route not in expected_input_modes
+        or profile.get("input_mode") != expected_input_modes[route]
     ):
         raise ValueError("natural delayed pixel profile contract mismatch")
+    try:
+        input_mode, normalized_inputs = expected_phase_inputs(profile)
+    except ValueError as error:
+        raise ValueError(f"natural delayed pixel input sequence mismatch: {error}") from error
+    if input_mode == "explicit-input-sequence":
+        timeout_frames = profile.get("timeout_frames")
+        if (
+            not isinstance(timeout_frames, int)
+            or isinstance(timeout_frames, bool)
+            or timeout_frames <= profile["capture_frame"]
+        ):
+            raise ValueError("natural delayed pixel timeout frame mismatch")
 
     input_state = _require_relative_file(root, profile.get("input_state"), "input_state")
     _require_sha(input_state, profile.get("input_state_sha256"), "input_state")
@@ -106,29 +130,43 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
     except ValueError as error:
         raise ValueError(f"natural delayed pixel source phase mismatch: {error}") from error
     phase_result = verify_phase_artifact(phase_artifact)
-    if not phase_result.get("verified") or phase_result.get("group_id") != 3:
+    if not phase_result.get("verified") or phase_result.get("group_id") != group_id:
         raise ValueError("natural delayed pixel source phase is not verified")
     phase = _json(phase_manifest)
     if (
         phase.get("artifact_status") != "accepted"
-        or phase.get("group_id") != 3
-        or phase.get("input_mode") != "zero-input-active-state"
+        or phase.get("group_id") != group_id
+        or phase.get("input_mode") != input_mode
+        or phase.get("inputs") != normalized_inputs
         or phase.get("input_state")
         != {"path": profile["input_state"], "sha256": profile["input_state_sha256"]}
     ):
         raise ValueError("natural delayed pixel source phase contract mismatch")
 
     delayed = profile.get("delayed_object")
-    if delayed != {
+    common_delayed = {
         "slot": 3,
         "state": 1,
         "ninja_tool_id": 67,
         "encoded_action": "0xC3",
-        "remaining_turns": 0,
-        "expiry_action": "0xE4",
-        "resource_group_id": 3,
-    }:
+        "remaining_turns": 0 if group_id == 3 else 2,
+        "resource_group_id": group_id,
+    }
+    expected_delayed = (
+        {**common_delayed, "expiry_action": "0xE4"}
+        if group_id == 3
+        else {**common_delayed, "x": 13, "y": 6}
+    )
+    if delayed != expected_delayed:
         raise ValueError("natural delayed pixel object contract mismatch")
+    if group_id == 18:
+        checkpoint = verify_natural_checkpoint(input_evidence.parent)
+        if (
+            checkpoint.get("errors")
+            or checkpoint.get("group_id") != 18
+            or "object-created" not in checkpoint.get("verified_source_states", [])
+        ):
+            raise ValueError("natural delayed pixel checkpoint evidence is not verified")
 
     catalogs = profile.get("catalogs")
     if not isinstance(catalogs, dict):
@@ -150,14 +188,22 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
     palette_sha = _require_sha(
         palette_path, profile.get("source_palette_sha256"), "source_palette"
     )
-    resource = _find(payloads["resource_pairs"].get("entries"), "resource", group_id=3)
-    animation = _find(payloads["animations"].get("groups"), "animation", group_id=3)
-    sequence = _find(payloads["sequence_bindings"].get("sequences"), "sequence", sequence_id=3)
+    resource = _find(
+        payloads["resource_pairs"].get("entries"), "resource", group_id=group_id
+    )
+    animation = _find(
+        payloads["animations"].get("groups"), "animation", group_id=group_id
+    )
+    sequence = _find(
+        payloads["sequence_bindings"].get("sequences"),
+        "sequence",
+        sequence_id=sequence_id,
+    )
     if (
         resource.get("graphics", {}).get("decompressed_sha256") != graphics_sha
         or resource.get("palette", {}).get("decompressed_sha256") != palette_sha
-        or 3 not in sequence.get("nonzero_resource_group_ids", [])
-        or 3 not in animation.get("sequence_ids", [])
+        or group_id not in sequence.get("nonzero_resource_group_ids", [])
+        or sequence_id not in animation.get("sequence_ids", [])
     ):
         raise ValueError("natural delayed pixel catalog binding mismatch")
 
@@ -274,7 +320,7 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
     for variant, graphics in (("baseline", source), ("candidate", candidate)):
         variant_dir = output / variant
         variant_dir.mkdir()
-        graphics_path = variant_dir / "group-03-graphics-4bpp.bin"
+        graphics_path = variant_dir / f"group-{profile['group_id']:02d}-graphics-4bpp.bin"
         graphics_path.write_bytes(graphics)
         spec = {key: copy.deepcopy(value) for key, value in parent_spec.items() if key != "edits"}
         edit = copy.deepcopy(contract["source_edit"])
@@ -320,18 +366,22 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         "profile": profile_path.relative_to(root).as_posix(),
         "profile_sha256": _sha256_file(profile_path),
         "profile_id": profile["profile_id"],
-        "group_id": 3,
-        "sequence_id": 3,
+        "group_id": profile["group_id"],
+        "sequence_id": profile["sequence_id"],
         "execution_mode": profile["execution_mode"],
         "natural_gameplay_route": True,
         "production_resource_relocation": True,
         "input_mode": profile["input_mode"],
+        "inputs": profile.get("inputs", []),
+        "capture_frame": profile.get("capture_frame"),
+        "timeout_frames": profile.get("timeout_frames"),
         "input_state": profile["input_state"],
         "input_state_sha256": profile["input_state_sha256"],
         "input_evidence": profile["input_evidence"],
         "input_evidence_sha256": profile["input_evidence_sha256"],
         "source_natural_phase_artifact": profile["source_natural_phase_artifact"],
         "source_natural_phase_manifest_sha256": profile["source_natural_phase_manifest_sha256"],
+        "delayed_object": profile["delayed_object"],
         "source_pointer_offsets": source_offsets,
         "target_pointer_offsets": target_offsets,
         "edit": {

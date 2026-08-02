@@ -79,6 +79,12 @@ EXPECTED_REPOSITORY_FILES = (
     "tests/test_run_macos_mgba_group15_natural_branch_trace.py",
 )
 EVOLVED_REPOSITORY_FILES = {
+    "tools/mgba_battle_effect_phase_capture.lua": (
+        "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5"
+    ),
+    "tools/project_resource_guard.py": (
+        "3731a3394a271538e8660f6ada182b1a930f5c56e23bc6e17c80354809a2716a"
+    ),
     "tools/run_macos_mgba_battle_effect_phase_capture.py": (
         "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946"
     ),

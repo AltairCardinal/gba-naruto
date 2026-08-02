@@ -524,14 +524,19 @@ streams. Every graphics stream decompresses to 4bpp tile-aligned bytes and every
 palette stream decompresses to one 16-color BGR555 palette. The builder at
 `0x0807FDCC..0x0807FE2C` consumes the selected resource pair; the selector at
 `0x0807FE2C..0x080800A4` binds a sequence to a group. Group 18 is independently
-bound to battlefield-object expiry sequence 7.
+bound to sequence 7 on both the type-2 expiry callsite `0x08081BF4` and the
+type-1 zero-event expiry callsite `0x08081FD2`; sequence 18 also reaches the
+Group 18 spawn at `0x0806C5D8`.
 
 The complete ROM-derived binaries, indexed-color atlases and hashes are in
 `artifacts/battle-effect-resource-pairs-v1/`. The complete sequence-to-group
 join is separately proven in `artifacts/battle-effect-sequence-bindings-v1/`.
 The resource table alone proves static pixel and palette identity; neither
-artifact yet proves complete OAM composition, frame holds, blend behavior or
-audio binding.
+artifact alone does not prove complete OAM composition, frame holds, blend
+behavior or audio binding. The accepted type-1 C3 natural expiry phase and
+single-pixel production relocation are separately proven in
+`artifacts/battle-effect-frame-phase-group18-natural-sequence-v1/` and
+`artifacts/battle-effect-group18-natural-pixel-ab-v1/`.
 
 ---
 

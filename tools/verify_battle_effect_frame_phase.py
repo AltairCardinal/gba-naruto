@@ -15,10 +15,16 @@ try:
     from tools.verify_battlefield_object_effect_chain import (
         verify_manifest as verify_battlefield_object_effect_chain,
     )
+    from tools.verify_battle_effect_natural_checkpoint import (
+        verify_artifact as verify_natural_checkpoint,
+    )
 except ModuleNotFoundError:
     from inspect_mgba_savestate import PNG_SIGNATURE, load_gba_state
     from verify_battlefield_object_effect_chain import (
         verify_manifest as verify_battlefield_object_effect_chain,
+    )
+    from verify_battle_effect_natural_checkpoint import (
+        verify_artifact as verify_natural_checkpoint,
     )
 
 
@@ -106,6 +112,62 @@ def validate_natural_delayed_object_source(
     evidence_provenance = evidence.get("provenance", {})
     runtime_binding = evidence.get("runtime_binding", {})
     scope = evidence.get("scope", {})
+    if (
+        evidence.get("schema") == PROMOTION_SCHEMA
+        and evidence.get("artifact_schema") == "battle-effect-natural-checkpoint-v1"
+    ):
+        result = verify_natural_checkpoint(evidence_path.parent)
+        if result.get("errors"):
+            raise ValueError("natural delayed checkpoint artifact verifier rejected source")
+        expected_state = {
+            "path": input_state_path,
+            "sha256": input_state_sha256,
+        }
+        checkpoint_stage = provenance.get("checkpoint_state", "first-submit")
+        source_states = evidence.get("source_states", {})
+        source_state = (
+            source_states.get(checkpoint_stage)
+            if isinstance(source_states, dict)
+            else None
+        )
+        if evidence.get("artifact_status") != "accepted":
+            raise ValueError("natural delayed checkpoint artifact is not accepted")
+        if (
+            evidence.get("group_id") != group_id
+            or evidence.get("rom_sha256") != rom_sha256
+            or not isinstance(source_state, dict)
+            or {
+                "path": source_state.get("path"),
+                "sha256": source_state.get("sha256"),
+            }
+            != expected_state
+        ):
+            raise ValueError("natural delayed checkpoint artifact identity mismatch")
+        expected_delayed = {
+            "slot": 3,
+            "state": 1,
+            "x": 13,
+            "y": 6,
+            "ninja_tool_id": 67,
+            "encoded_action": "0xC3",
+            "remaining_turns": source_state.get("remaining_turns"),
+            "resource_group_id": 18,
+        }
+        if provenance.get("delayed_object") != expected_delayed:
+            raise ValueError("natural delayed object contract mismatch")
+        if evidence.get("expiry_route") != provenance.get("expiry_route"):
+            raise ValueError("natural delayed expiry route mismatch")
+        artifact_scope = evidence.get("scope", {})
+        for field in (
+            "natural_tool_submission_verified",
+            "natural_object_creation_verified",
+            "natural_countdown_zero_verified",
+            "static_zero_event_expiry_route_verified",
+            "natural_expiry_runtime_verified",
+        ):
+            if not isinstance(artifact_scope, dict) or artifact_scope.get(field) is not True:
+                raise ValueError(f"natural delayed checkpoint artifact scope mismatch: {field}")
+        return
     if (
         evidence.get("schema") != "runtime-checkpoint-input-chain-evidence-v1"
         or evidence.get("artifact_status") != "accepted"
@@ -419,6 +481,87 @@ def effect_group_identity(catalog: dict[str, Any], group_id: int) -> tuple[int, 
         raise ValueError("battle-effect group pointer identity is invalid") from error
 
 
+def renderer_shadow_change_required(
+    profile: dict[str, Any], contract: dict[str, Any], *, group_id: int
+) -> bool:
+    transaction = profile.get("oam_transaction")
+    if transaction is None:
+        return True
+    if not isinstance(transaction, dict) or not isinstance(
+        transaction.get("renderer_shadow_change"), bool
+    ):
+        raise ValueError("OAM transaction expectation is invalid")
+    required = transaction["renderer_shadow_change"]
+    if required:
+        return True
+    expected_route = {
+        "kind": "type-1-zero-event",
+        "selector_callsite": "0x08081FB8",
+        "sequence_id": 7,
+        "spawn_callsite": "0x08081FD2",
+    }
+    if (
+        group_id != 18
+        or profile.get("profile_id")
+        != "group-18-natural-tool67-zero-event-expiry"
+        or contract.get("source_kind") != "natural_delayed_object_checkpoint"
+        or contract.get("expiry_route") != expected_route
+    ):
+        raise ValueError("stable OAM transaction lacks verified Group 18 provenance")
+    return False
+
+
+def expected_phase_inputs(
+    profile: dict[str, Any],
+) -> tuple[str, list[dict[str, Any]]]:
+    mode = profile.get("input_mode")
+    if mode == "zero-input-active-state":
+        if profile.get("inputs", []) != []:
+            raise ValueError("zero-input phase profile contains inputs")
+        return mode, []
+    if mode != "explicit-input-sequence":
+        raise ValueError("phase profile input mode is unsupported")
+    capture = profile.get("capture_frame")
+    raw_events = profile.get("inputs")
+    if (
+        not isinstance(capture, int)
+        or isinstance(capture, bool)
+        or not isinstance(raw_events, list)
+        or not raw_events
+    ):
+        raise ValueError("explicit phase input sequence is invalid")
+    valid_keys = {"Down", "A", "B", "L", "R", "Up", "Right", "Left", "Start"}
+    events = []
+    previous_up = 0
+    for raw in raw_events:
+        if not isinstance(raw, str):
+            raise ValueError("explicit phase input event is invalid")
+        fields = raw.split(":")
+        if len(fields) != 3 or fields[0] not in valid_keys:
+            raise ValueError("explicit phase input event is invalid")
+        try:
+            down, up = int(fields[1], 10), int(fields[2], 10)
+        except ValueError as error:
+            raise ValueError("explicit phase input event is invalid") from error
+        if (
+            str(down) != fields[1]
+            or str(up) != fields[2]
+            or not 0 < down < up < capture
+            or down < previous_up
+        ):
+            raise ValueError("explicit phase input event is invalid")
+        events.append(
+            {
+                "key": fields[0],
+                "down_frame": down,
+                "up_frame": up,
+                "hold_frames": up - down,
+            }
+        )
+        previous_up = up
+    return mode, events
+
+
 def verify_artifact(artifact: Path) -> dict[str, Any]:
     artifact = Path(artifact).resolve()
     errors: list[str] = []
@@ -433,6 +576,8 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
     expected_animation: int | None = None
     ack_match = False
     renderer_differs = False
+    expected_input_mode: str | None = None
+    expected_inputs: list[dict[str, Any]] = []
 
     try:
         manifest = _object(artifact / "manifest.json")
@@ -470,8 +615,13 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         and 1 <= group_id <= 18,
         "group id is outside 1..18",
     )
-    _record_error(errors, manifest.get("input_mode") == "zero-input-active-state", "input mode mismatch")
-    _record_error(errors, manifest.get("inputs") == [], "manifest contains input events")
+    _record_error(
+        errors,
+        manifest.get("input_mode")
+        in {"zero-input-active-state", "explicit-input-sequence"},
+        "input mode mismatch",
+    )
+    _record_error(errors, isinstance(manifest.get("inputs"), list), "manifest inputs are invalid")
     dump_semantics = manifest.get("dump_semantics", {})
     _record_error(
         errors,
@@ -501,6 +651,8 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         if path.is_file():
             _record_error(errors, _sha256(path) == expected, f"repository evidence hash mismatch: {relative}")
 
+    profile: dict[str, Any] = {}
+    source_contract: dict[str, Any] = {}
     profile_info = manifest.get("profile", {})
     if isinstance(profile_info, dict):
         profile_path = ROOT / str(profile_info.get("path", ""))
@@ -516,6 +668,21 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
                 "runtime audit profile hash mismatch",
             )
             profile = _object(profile_path)
+            try:
+                expected_input_mode, expected_inputs = expected_phase_inputs(profile)
+            except ValueError as error:
+                errors.append(str(error))
+            else:
+                _record_error(
+                    errors,
+                    manifest.get("input_mode") == expected_input_mode,
+                    "manifest input mode differs from profile",
+                )
+                _record_error(
+                    errors,
+                    manifest.get("inputs") == expected_inputs,
+                    "manifest inputs differ from profile",
+                )
             input_info = manifest.get("input_state", {})
             input_path = ROOT / str(input_info.get("path", "")) if isinstance(input_info, dict) else ROOT
             _record_error(errors, profile.get("schema") == "battle-effect-phase-capture-profile-v1", "capture profile schema mismatch")
@@ -553,6 +720,7 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
                     contract = source_info.get("contract")
                     if not isinstance(contract, dict):
                         raise ValueError("source runtime provenance contract mismatch")
+                    source_contract = contract
                     validate_source_runtime_provenance(
                         ROOT,
                         profile,
@@ -684,7 +852,22 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
         ack = buffers["ack-post"]
         renderer_differs = renderer["shadow-oam.bin"] != renderer["hardware-oam.bin"]
         ack_match = ack["shadow-oam.bin"] == ack["hardware-oam.bin"]
-        _record_error(errors, renderer_differs, "renderer shadow OAM already equals hardware OAM")
+        try:
+            require_renderer_change = renderer_shadow_change_required(
+                profile, source_contract, group_id=int(group_id)
+            )
+        except (TypeError, ValueError) as error:
+            errors.append(str(error))
+            require_renderer_change = True
+        _record_error(
+            errors,
+            renderer_differs == require_renderer_change,
+            (
+                "renderer shadow OAM already equals hardware OAM"
+                if require_renderer_change
+                else "stable renderer unexpectedly changed shadow OAM"
+            ),
+        )
         _record_error(errors, submit["shadow-oam.bin"] == renderer["shadow-oam.bin"], "shadow OAM changed before submission")
         _record_error(errors, submit["hardware-oam.bin"] == renderer["hardware-oam.bin"], "hardware OAM changed before acknowledgement")
         _record_error(errors, ack_match, "acknowledged shadow and hardware OAM differ")
@@ -694,8 +877,9 @@ def verify_artifact(artifact: Path) -> dict[str, Any]:
     _record_error(errors, audit.get("schema") == "mgba-battle-effect-phase-capture-v1", "runtime audit schema mismatch")
     _record_error(errors, audit.get("outcome") == "three-phase-captured", "runtime audit outcome mismatch")
     _record_error(errors, audit.get("group_id") == group_id, "runtime audit group mismatch")
-    _record_error(errors, audit.get("input_mode") == "zero-input-active-state", "runtime audit input mode mismatch")
-    for field in ("inputs", "automatic_inputs", "recovery_inputs"):
+    _record_error(errors, audit.get("input_mode") == expected_input_mode, "runtime audit input mode mismatch")
+    _record_error(errors, audit.get("inputs") == expected_inputs, "runtime audit inputs mismatch")
+    for field in ("automatic_inputs", "recovery_inputs"):
         _record_error(errors, audit.get(field) == [], f"runtime audit {field} is not empty")
     _record_error(errors, audit.get("pgid_clean") is True, "runtime audit reports process residue")
     residue = audit.get("runtime_residue", {})

@@ -23,6 +23,57 @@
       }
     },
     {
+      "profile_id": "group-18-natural-tool67-zero-event-expiry",
+      "group_id": 18,
+      "source_kind": "natural_delayed_object_checkpoint",
+      "source_evidence": {
+        "path": "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+        "sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16"
+      },
+      "delayed_object": {
+        "slot": 3,
+        "state": 1,
+        "x": 13,
+        "y": 6,
+        "ninja_tool_id": 67,
+        "encoded_action": "0xC3",
+        "remaining_turns": 0,
+        "resource_group_id": 18
+      },
+      "expiry_route": {
+        "kind": "type-1-zero-event",
+        "selector_callsite": "0x08081FB8",
+        "sequence_id": 7,
+        "spawn_callsite": "0x08081FD2"
+      }
+    },
+    {
+      "profile_id": "group-18-natural-tool67-zero-event-sequence",
+      "group_id": 18,
+      "source_kind": "natural_delayed_object_checkpoint",
+      "checkpoint_state": "object-created",
+      "source_evidence": {
+        "path": "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+        "sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16"
+      },
+      "delayed_object": {
+        "slot": 3,
+        "state": 1,
+        "x": 13,
+        "y": 6,
+        "ninja_tool_id": 67,
+        "encoded_action": "0xC3",
+        "remaining_turns": 2,
+        "resource_group_id": 18
+      },
+      "expiry_route": {
+        "kind": "type-1-zero-event",
+        "selector_callsite": "0x08081FB8",
+        "sequence_id": 7,
+        "spawn_callsite": "0x08081FD2"
+      }
+    },
+    {
       "profile_id": "group-01-tracked-dust",
       "group_id": 1,
       "source_evidence": {
@@ -62,7 +113,7 @@
       "accepted_parent": {
         "artifact_schema": "battle-effect-group5-pixel-ab-runtime-v1",
         "manifest_path": "artifacts/battle-effect-group5-pixel-ab-v1/manifest.json",
-        "manifest_sha256": "6a01ad7d5bb926b759186a1edb3c123c2659b92aacd9652e2df0266077caa662",
+        "manifest_sha256": "74c4afb1cb0d5079236d61d09adc7778d9009b6d2eb25e1f59003c7bcce672d0",
         "payload_path": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
         "payload_sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
       }
@@ -77,7 +128,7 @@
       "accepted_parent": {
         "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
         "manifest_path": "artifacts/battle-effect-group11-pixel-ab-v1/manifest.json",
-        "manifest_sha256": "a1b8ab50a0730f662dae8c5a695174989f732bdafebcc5e2b25ccdc5d927ffed",
+        "manifest_sha256": "9bbb8e851aa35ff5d7cb201621211b5ef0330b206a8b1413cd72270b7722242a",
         "payload_path": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
         "payload_sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
       }
@@ -92,7 +143,7 @@
       "accepted_parent": {
         "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
         "manifest_path": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
-        "manifest_sha256": "874d8c450fbf6d04fd5ab35b9e29330b80cef82b4ec5dc7b3056f70fff44ba2f",
+        "manifest_sha256": "34d78d2074784a3f14a7a1a0200b414374ba67e6152ad360221c5a3ab834ae3e",
         "payload_path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
         "payload_sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
       }

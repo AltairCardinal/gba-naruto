@@ -65,7 +65,7 @@ except ModuleNotFoundError:
 
 ROOT = Path(__file__).resolve().parents[1]
 PHASE_SCRIPT = ROOT / "tools/mgba_battle_effect_phase_capture.lua"
-PHASE_SCRIPT_SHA256 = "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5"
+PHASE_SCRIPT_SHA256 = "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef"
 ANIMATIONS = ROOT / "artifacts/battle-effect-sprite-animations-v1/manifest.json"
 ANIMATIONS_SHA256 = "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
 PHASE_TAIL_FRAMES = 60
@@ -139,16 +139,29 @@ def load_capture_profile(profile_path: Path, animations_path: Path) -> dict[str,
     else:
         input_mode = profile.get("input_mode")
         timeout = profile.get("timeout_frames")
-        if input_mode != "zero-input-active-state":
+        if input_mode not in {
+            "zero-input-active-state",
+            "explicit-input-sequence",
+        }:
             raise ReplayError("battle-effect phase profile input mode mismatch")
+        timeout_limit = 600 if input_mode == "zero-input-active-state" else 10000
         if (
             not isinstance(timeout, int)
             or isinstance(timeout, bool)
-            or not 1 <= timeout <= 600
+            or not 1 <= timeout <= timeout_limit
         ):
             raise ReplayError("battle-effect phase profile timeout is invalid")
-        capture = 0
-        events = []
+        if input_mode == "zero-input-active-state":
+            capture = 0
+            events = []
+        else:
+            capture = profile.get("capture_frame")
+            raw_events = profile.get("inputs")
+            if not isinstance(raw_events, list):
+                raise ReplayError("battle-effect phase input sequence is missing")
+            events = parse_input_events(raw_events, capture)
+            if timeout <= capture:
+                raise ReplayError("battle-effect phase timeout must follow capture frame")
     raw_state = profile.get("input_state")
     if not isinstance(raw_state, str) or not raw_state:
         raise ReplayError("battle-effect profile input_state is missing")
@@ -203,9 +216,12 @@ def validate_phase_payload(payload: Mapping[str, object], expected: Mapping[str,
     if expected["input_mode"] == "zero-input-active-state":
         expected_events = []
     else:
-        expected_events = parse_input_events(
-            [expected["input_schedule"]], int(expected["capture_frames"])
-        )
+        expected_events = expected.get("events")
+        if not isinstance(expected_events, list):
+            expected_events = parse_input_events(
+                str(expected["input_schedule"]).split(","),
+                int(expected["capture_frames"]),
+            )
     if payload.get("inputs") != expected_events:
         raise ReplayError("battle-effect phase input schedule mismatch")
     phases = payload.get("phases")

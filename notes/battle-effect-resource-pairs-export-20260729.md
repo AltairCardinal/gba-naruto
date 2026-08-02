@@ -42,7 +42,8 @@
 | 17 | `0x0834754C` | 256 B / 8 tiles | `0x083475B4` | `842b8ef56a35…` / `3856b4b91a67…` |
 | 18 | `0x083478F4` | 3,584 B / 112 tiles | `0x083480C8` | `9162bda2e905…` / `d53a7a56bded…` |
 
-group 18 与既有 type-2 战场对象到期证据一致：解压 graphics SHA-256 为
+group 18 与 type-2 到期及 type-1 zero-event 到期两条 sequence 7 生产路径一致；
+后者已有自然修改 ROM 最终像素 A/B。解压 graphics SHA-256 为
 `9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55`，
 palette SHA-256 为
 `d53a7a56bded0b6727002a3fb4ad69454dccee15e8f849ad3a16c3b5639244c1`。

@@ -37,11 +37,28 @@ SPECIAL_TOOL_IDS = set(range(67, 73))
 
 
 def inspect_state(state: Any) -> dict[str, list[dict[str, Any]]]:
+    active_objects = []
+    type_2_sequence_7_candidates = []
     active_special_objects = []
     for slot in range(1, OBJECT_COUNT):
         raw = state.read_memory(OBJECT_TABLE + slot * OBJECT_STRIDE, OBJECT_STRIDE)
         object_state = raw[0]
         encoded_action = raw[4]
+        if object_state:
+            aux_pointer = int.from_bytes(raw[0xC:0x10], "little")
+            entry = {
+                "slot": slot,
+                "type": object_state,
+                "x": raw[1],
+                "y": raw[2],
+                "union_u16_4": int.from_bytes(raw[4:6], "little"),
+                "union_u16_6": int.from_bytes(raw[6:8], "little"),
+                "aux_pointer": f"0x{aux_pointer:08X}" if aux_pointer else None,
+                "raw_hex": raw.hex(),
+            }
+            active_objects.append(entry)
+            if object_state == 2 and entry["union_u16_6"] > 0:
+                type_2_sequence_7_candidates.append(entry)
         if object_state in (1, 2) and encoded_action in SPECIAL_ENCODED_ACTIONS:
             active_special_objects.append(
                 {
@@ -104,6 +121,8 @@ def inspect_state(state: Any) -> dict[str, list[dict[str, Any]]]:
         if inventory[tool_id + NINJA_TOOL_INVENTORY_ID_BIAS]
     ]
     return {
+        "active_objects": active_objects,
+        "type_2_sequence_7_candidates": type_2_sequence_7_candidates,
         "active_special_objects": active_special_objects,
         "equipped_special_tools": equipped_special_tools,
         "persistent_equipped_special_tools": persistent_equipped_special_tools,

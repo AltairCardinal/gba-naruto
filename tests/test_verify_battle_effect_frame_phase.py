@@ -25,9 +25,43 @@ NATURAL_DELAYED_PROFILE = (
 NATURAL_DELAYED_ARTIFACT = (
     ROOT / "artifacts/battle-effect-frame-phase-group3-natural-v1"
 )
+GROUP18_SEQUENCE_ARTIFACT = (
+    ROOT / "artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"
+)
 
 
 class BattleEffectFramePhaseVerifierTests(unittest.TestCase):
+    def test_group18_phase_locks_natural_checkpoint_verifier_dependencies(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        manifest = json.loads(
+            (GROUP18_SEQUENCE_ARTIFACT / "manifest.json").read_text(encoding="utf-8")
+        )
+        required = {
+            "tools/verify_battle_effect_natural_checkpoint.py",
+            "tools/verify_battlefield_object_producers.py",
+        }
+        self.assertTrue(required.issubset(manifest["repository_files"]))
+
+        with tempfile.TemporaryDirectory() as temporary:
+            altered = Path(temporary) / "artifact"
+            shutil.copytree(GROUP18_SEQUENCE_ARTIFACT, altered)
+            altered_manifest_path = altered / "manifest.json"
+            altered_manifest = json.loads(
+                altered_manifest_path.read_text(encoding="utf-8")
+            )
+            altered_manifest["repository_files"][
+                "tools/verify_battle_effect_natural_checkpoint.py"
+            ] = "0" * 64
+            altered_manifest_path.write_text(
+                json.dumps(altered_manifest, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            result = verifier.verify_artifact(altered)
+        self.assertFalse(result["verified"])
+        self.assertTrue(
+            any("repository evidence hash mismatch" in error for error in result["errors"])
+        )
+
     def _natural_source_fixture(self, temporary_root):
         profile = json.loads(NATURAL_DELAYED_PROFILE.read_text(encoding="utf-8"))
         catalog = json.loads(
@@ -77,6 +111,154 @@ class BattleEffectFramePhaseVerifierTests(unittest.TestCase):
             input_state_path=profile["input_state"],
             input_state_sha256=profile["input_state_sha256"],
             rom_sha256=profile["source_rom_sha256"],
+        )
+
+    def test_accepts_group18_natural_checkpoint_artifact_provenance(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        manifest_path = (
+            ROOT
+            / "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json"
+        )
+        manifest_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        profile = {
+            "profile_id": "group-18-natural-tool67-zero-event-expiry",
+            "source_runtime_evidence": manifest_path.relative_to(ROOT).as_posix(),
+            "source_runtime_evidence_sha256": manifest_hash,
+        }
+        contract = {
+            "profile_id": profile["profile_id"],
+            "group_id": 18,
+            "source_kind": "natural_delayed_object_checkpoint",
+            "source_evidence": {
+                "path": profile["source_runtime_evidence"],
+                "sha256": manifest_hash,
+            },
+            "delayed_object": {
+                "slot": 3,
+                "state": 1,
+                "x": 13,
+                "y": 6,
+                "ninja_tool_id": 67,
+                "encoded_action": "0xC3",
+                "remaining_turns": 0,
+                "resource_group_id": 18,
+            },
+            "expiry_route": {
+                "kind": "type-1-zero-event",
+                "selector_callsite": "0x08081FB8",
+                "sequence_id": 7,
+                "spawn_callsite": "0x08081FD2",
+            },
+        }
+        verifier.validate_source_runtime_provenance(
+            ROOT,
+            profile,
+            contract,
+            group_id=18,
+            input_state_path=(
+                "artifacts/battle-effect-group18-natural-checkpoint-v1/"
+                "raw/expiry-ready.ss9"
+            ),
+            input_state_sha256=(
+                "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4"
+            ),
+            rom_sha256=(
+                "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+            ),
+        )
+
+    def test_accepts_group18_object_created_sequence_source(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        manifest_path = (
+            ROOT
+            / "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json"
+        )
+        manifest_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        profile = {
+            "profile_id": "group-18-natural-tool67-zero-event-sequence",
+            "source_runtime_evidence": manifest_path.relative_to(ROOT).as_posix(),
+            "source_runtime_evidence_sha256": manifest_hash,
+        }
+        contract = {
+            "profile_id": profile["profile_id"],
+            "group_id": 18,
+            "source_kind": "natural_delayed_object_checkpoint",
+            "checkpoint_state": "object-created",
+            "source_evidence": {
+                "path": profile["source_runtime_evidence"],
+                "sha256": manifest_hash,
+            },
+            "delayed_object": {
+                "slot": 3,
+                "state": 1,
+                "x": 13,
+                "y": 6,
+                "ninja_tool_id": 67,
+                "encoded_action": "0xC3",
+                "remaining_turns": 2,
+                "resource_group_id": 18,
+            },
+            "expiry_route": {
+                "kind": "type-1-zero-event",
+                "selector_callsite": "0x08081FB8",
+                "sequence_id": 7,
+                "spawn_callsite": "0x08081FD2",
+            },
+        }
+        verifier.validate_source_runtime_provenance(
+            ROOT,
+            profile,
+            contract,
+            group_id=18,
+            input_state_path=(
+                "artifacts/battle-effect-group18-natural-checkpoint-v1/"
+                "raw/object-created.ss9"
+            ),
+            input_state_sha256=(
+                "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b"
+            ),
+            rom_sha256=(
+                "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+            ),
+        )
+
+    def test_allows_stable_oam_only_for_verified_group18_natural_checkpoint(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = {
+            "profile_id": "group-18-natural-tool67-zero-event-expiry",
+            "oam_transaction": {"renderer_shadow_change": False},
+        }
+        contract = {
+            "source_kind": "natural_delayed_object_checkpoint",
+            "expiry_route": {
+                "kind": "type-1-zero-event",
+                "selector_callsite": "0x08081FB8",
+                "sequence_id": 7,
+                "spawn_callsite": "0x08081FD2",
+            },
+        }
+        self.assertFalse(
+            verifier.renderer_shadow_change_required(profile, contract, group_id=18)
+        )
+        with self.assertRaisesRegex(ValueError, "stable OAM"):
+            verifier.renderer_shadow_change_required(profile, contract, group_id=3)
+
+    def test_reconstructs_explicit_phase_input_sequence(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        mode, events = verifier.expected_phase_inputs(
+            {
+                "input_mode": "explicit-input-sequence",
+                "capture_frame": 4520,
+                "inputs": ["A:18:20", "Up:378:380"],
+            }
+        )
+        self.assertEqual(mode, "explicit-input-sequence")
+        self.assertEqual(
+            events,
+            [
+                {"key": "A", "down_frame": 18, "up_frame": 20, "hold_frames": 2},
+                {"key": "Up", "down_frame": 378, "up_frame": 380, "hold_frames": 2},
+            ],
         )
 
     def test_accepts_natural_group3_expiry_phase_artifact(self):

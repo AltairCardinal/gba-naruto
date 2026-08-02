@@ -1,0 +1,18 @@
+{
+  "schema": "battle-effect-phase-capture-profile-v1",
+  "profile_id": "group-18-natural-tool67-zero-event-expiry",
+  "group_id": 18,
+  "sequence_id": 7,
+  "input_mode": "zero-input-active-state",
+  "input_state": "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/expiry-ready.ss9",
+  "input_state_sha256": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4",
+  "source_runtime_evidence": "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+  "source_runtime_evidence_sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16",
+  "source_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "oam_transaction": {
+    "renderer_shadow_change": false,
+    "reason": "The accepted checkpoint is already at the first submit-post transaction. The same active Group 18 frame is stable on the following renderer, while pending still completes 0->1->0 and acknowledged hardware OAM equals the rendered shadow buffer."
+  },
+  "timeout_frames": 600,
+  "boundary": "The accepted original-ROM checkpoint already sits at the first Group 18 submit-post transaction produced by the natural type-1 C3 zero-event expiry route. No key is injected; this capture records the next renderer, submit and acknowledgement transaction from the same native active task."
+}

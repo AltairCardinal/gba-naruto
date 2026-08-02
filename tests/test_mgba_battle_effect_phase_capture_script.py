@@ -54,6 +54,7 @@ class MgbaBattleEffectPhaseCaptureScriptTests(unittest.TestCase):
         self.assertIn('"automatic_inputs":[]', source)
         self.assertIn('"recovery_inputs":[]', source)
         self.assertIn('input_mode == "zero-input-active-state"', source)
+        self.assertIn('input_mode == "explicit-input-sequence"', source)
         self.assertLess(source.index("emu:loadStateFile"), source.index("emu:setBreakpoint"))
         self.assertIn("frame >= timeout_frames", source)
         self.assertNotIn("frame >= capture_frames then\n\t\tfinish", source)

@@ -38,6 +38,9 @@ REPOSITORY_FILES = (
     "tools/rebuild_battle_effect_frame_phase_artifacts.py",
     "tools/verify_battle_effect_frame_phase.py",
     "tools/verify_battlefield_object_effect_chain.py",
+    "tools/verify_battle_effect_natural_checkpoint.py",
+    "tools/verify_battlefield_object_producers.py",
+    "tools/inspect_mgba_savestate.py",
     "tools/thumb_branch.py",
     "tools/mgba_battle_effect_phase_capture.lua",
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
@@ -45,6 +48,8 @@ REPOSITORY_FILES = (
     "tests/test_rebuild_battle_effect_frame_phase_artifacts.py",
     "tests/test_verify_battle_effect_frame_phase.py",
     "tests/test_verify_battlefield_object_effect_chain.py",
+    "tests/test_verify_battle_effect_natural_checkpoint.py",
+    "tests/test_verify_battlefield_object_producers.py",
     "tests/test_mgba_battle_effect_phase_capture_script.py",
     "tests/test_run_macos_mgba_battle_effect_phase_capture.py",
     "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
@@ -54,9 +59,15 @@ SOURCE_PROVENANCE = Path(
 )
 
 
-def artifact_description(group_id: int) -> str:
+def artifact_description(group_id: int, input_mode: str) -> str:
+    if input_mode == "zero-input-active-state":
+        route = "zero-input"
+    elif input_mode == "explicit-input-sequence":
+        route = "explicit-input-sequence"
+    else:
+        raise ValueError("unsupported battle-effect phase input mode")
     return (
-        f"One zero-input renderer transaction containing an active group {group_id} "
+        f"One {route} renderer transaction containing an active group {group_id} "
         "task, captured after rendering, submission, and acknowledgement."
     )
 
@@ -218,7 +229,9 @@ def export_artifact(
             "schema": PROMOTION_SCHEMA,
             "artifact_schema": SCHEMA,
             "artifact_status": "accepted",
-            "description": artifact_description(audit["group_id"]),
+            "description": artifact_description(
+                audit["group_id"], audit["input_mode"]
+            ),
             "group_id": audit["group_id"],
             "run_id": audit["run_id"],
             "input_mode": audit["input_mode"],

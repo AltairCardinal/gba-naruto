@@ -233,7 +233,7 @@ python3 tools/verify_natural_delayed_battle_effect_pixel_ab.py \
 
 runner 的两次 mGBA 启动都经 `run_guarded.py` 的同一 heavy lock、内存和进程树
 门禁；需要动作确认的 profile 则只执行 profile 固定且经证据绑定的输入。结合当前
-已接受成果，18组特效的 production 自然最终像素覆盖达到8/18；它不签发其余10组、
+已接受成果，18组特效的 production 自然最终像素覆盖达到9/18；它不签发其余9组、
 完整动画、混合、音频或实体GBA。
 
 `build_chapter_battle_route_probe.py`保留 primary scenario 39 的完整脚本，只替换已验证

@@ -926,6 +926,44 @@ def _monitor_started_process(
             reason = "completed" if child_exit == 0 else "child-exit"
             return GuardResult(reason, child_exit, child_pid, peak_rss, protection_backend, degraded)
 
+        # Sample the live owned tree before honoring a success marker. Short mGBA
+        # captures commonly create their marker between the first and second
+        # monitor iterations; checking the marker first would preserve only the
+        # launcher's tiny startup RSS and miss the emulator's actual peak.
+        if rss_enabled:
+            try:
+                current_rss = float(tree_rss_reader(child_pid))
+            except Exception:
+                if config.allow_degraded:
+                    degraded = True
+                    rss_enabled = False
+                else:
+                    return _stop_with_result(
+                        process,
+                        drainers,
+                        "protection-failure",
+                        125,
+                        child_pid,
+                        peak_rss,
+                        protection_backend,
+                        degraded,
+                        config,
+                    )
+            else:
+                peak_rss = max(peak_rss, current_rss)
+                if current_rss > config.max_tree_rss_mib:
+                    return _stop_with_result(
+                        process,
+                        drainers,
+                        "memory-limit",
+                        125,
+                        child_pid,
+                        peak_rss,
+                        protection_backend,
+                        degraded,
+                        config,
+                    )
+
         if success_marker is not None:
             try:
                 marker_ready = stat.S_ISREG(success_marker.lstat().st_mode)
@@ -966,40 +1004,6 @@ def _monitor_started_process(
             return _stop_with_result(
                 process, drainers, "idle-timeout", 124, child_pid, peak_rss, protection_backend, degraded, config
             )
-
-        if rss_enabled:
-            try:
-                current_rss = float(tree_rss_reader(child_pid))
-            except Exception:
-                if config.allow_degraded:
-                    degraded = True
-                    rss_enabled = False
-                else:
-                    return _stop_with_result(
-                        process,
-                        drainers,
-                        "protection-failure",
-                        125,
-                        child_pid,
-                        peak_rss,
-                        protection_backend,
-                        degraded,
-                        config,
-                    )
-            else:
-                peak_rss = max(peak_rss, current_rss)
-                if current_rss > config.max_tree_rss_mib:
-                    return _stop_with_result(
-                        process,
-                        drainers,
-                        "memory-limit",
-                        125,
-                        child_pid,
-                        peak_rss,
-                        protection_backend,
-                        degraded,
-                        config,
-                    )
 
         sleeper(config.sample_interval_s)
 
