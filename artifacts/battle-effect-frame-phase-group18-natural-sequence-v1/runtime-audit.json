@@ -1,7 +1,7 @@
 {
   "ack_hit_count": 1,
   "animation_pointer": "0x083481DC",
-  "animations": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-sprite-animations-v1/manifest.json",
+  "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
   "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
   "automatic_inputs": [],
   "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
@@ -51,9 +51,9 @@
   },
   "frame": 4520,
   "group_id": 18,
-  "guard_summary_sha256": "8436718d6d1831a786f827565cab167cd9690c675d85afa5c6716cbb4d9a56fa",
+  "guard_summary_sha256": "bab0dbed5f3d887fd65c70eb9c24d0c4c9cf8d9e1b7eebad9e9e244d4fcc4694",
   "input_mode": "explicit-input-sequence",
-  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group18-natural-checkpoint-v1/raw/object-created.ss9",
+  "input_state": "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/object-created.ss9",
   "input_state_sha256": "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b",
   "inputs": [
     {
@@ -162,7 +162,7 @@
   "outcome": "three-phase-captured",
   "peak_tree_rss_mib": 75.2109375,
   "pgid_clean": true,
-  "phase_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_battle_effect_phase_capture.lua",
+  "phase_script": "tools/mgba_battle_effect_phase_capture.lua",
   "phase_script_sha256": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
   "phases": [
     {
@@ -199,7 +199,7 @@
       "task_slot": 114
     }
   ],
-  "profile": "/Users/altair/github/gba-naruto-reverse/sequel/content/battle-effect-phase-capture/group-18-natural-tool67-zero-event-sequence.json",
+  "profile": "sequel/content/battle-effect-phase-capture/group-18-natural-tool67-zero-event-sequence.json",
   "profile_sha256": "d7c69285713b21cc786c9e01fb3593d0893afa038d805040a4c512c45aa539e1",
   "recovery_inputs": [],
   "renderer_hit_count": 4472,
@@ -230,14 +230,14 @@
     ]
   },
   "schema": "mgba-battle-effect-phase-capture-v1",
-  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-phase/20260802-object-created-sequence-01/staged.gba",
+  "staged_rom": "build/experiments/active/group18-natural-phase/20260802-object-created-sequence-01/staged.gba",
   "staged_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "submission_watch_hit_count": 8297,
   "timeout_frames": 5000,
   "toolchain": {
     "kind": "current-desktop-runtime-profile",
     "patch_sha256": null,
-    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
     "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
   }

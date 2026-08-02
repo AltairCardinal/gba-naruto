@@ -31,7 +31,7 @@
     ]
   },
   "files": {
-    "guard-summary.json": "3bb065f16d9fa5a4afde55c8c41b067e9b135a821a1a0ef12c254a583f5a4031",
+    "guard-summary.json": "7393f64f167f0520a9acd8ec60249366b2a17c9ccff6fde147981c8ddac33ba8",
     "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
     "raw/ack-post/capture-active-pointers.bin": "b87c2c89fc9f9fa925c65813d659a095ec0b19f07642c23df14be673bf9301b7",
     "raw/ack-post/capture-hardware-oam.bin": "692b2b5a5dc85aab5bc2b34b1203d44f8805dbfc5b4d1bad4a6d882387cb89df",
@@ -71,7 +71,7 @@
     "raw/submit-post/capture-vram.bin": "a7924e8604d8687c7a4a9328950e0cc2fc9e9b332d82434f5ea864a3241070e9",
     "raw/submit-post/capture.png": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
     "raw/submit-post/capture.ss9": "46e0a758974f7710f56f0b1506c3d72a1fedf4b9a364043731a052cef8ce54d4",
-    "runtime-audit.json": "4a40c0fbcfc3a829333bbe5d56fe32b622c4cdaed86654f5f93fab47363f0d25"
+    "runtime-audit.json": "b9a83d75a3c90c67eddb4bf712c5c2e95aaab94fdb958dec98a5afb5d4736af9"
   },
   "group_id": 11,
   "input_mode": "zero-input-active-state",
@@ -123,22 +123,22 @@
   "repository_files": {
     "artifacts/rom-expansion-profile-v1/profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "sequel/content/battle-effect-phase-capture/group-11-cross-shuriken-frame106.json": "29f464d252e345e6225097fdbc9fb2fd5bb13d33770d2342c7ec1be385c6c562",
-    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "42c97f2bfce3364a2c5b7cf7e520eaf4a0ce97fe71ce8a78d4221f638cf41cf1",
-    "tests/test_export_battle_effect_frame_phase.py": "92e0526d43326c10e1e1dc836221f4ff0c6862baf526aaf605bd9a396bdf4b7d",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "c9c733ede27ce23abe0fe8fc1f2ca324703a726a8cad8459716188c03688819c",
+    "tests/test_export_battle_effect_frame_phase.py": "3256d5bd2b5015929f1d2b14a162626ade8e3aff2900bbd3af5da7667c153774",
     "tests/test_mgba_battle_effect_phase_capture_script.py": "a77d9ee45842564aa2aeec80f70bda66f9787ed35e82679d2c24adf8f4d39410",
-    "tests/test_rebuild_battle_effect_frame_phase_artifacts.py": "926d9cd304c5357486623993656b48d77a755593f70fd9eaf754384edff9ea2d",
+    "tests/test_rebuild_battle_effect_frame_phase_artifacts.py": "c515e871d9d3ab05f61961c2dd80bbd6a154430e9d3480574ffc1a605a98b440",
     "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "eb8377f1b74f2191e15a80a6f04666becd6ea52e69e8cb183f2fb3af46aa553d",
-    "tests/test_verify_battle_effect_frame_phase.py": "bb8f10e3f4cdb786c5216d83053e6d71d802e144e266c2a0efa05f219e5aadf5",
+    "tests/test_verify_battle_effect_frame_phase.py": "22a3a26c96abc102bd20647f16ac85fe0127b7d55ae88240e5124fb4ff97995b",
     "tests/test_verify_battle_effect_natural_checkpoint.py": "f68650ef49c9858ab7d02c51e98fff2eeb9bdd3d92ed84b6d58f0e0dbbc98bf7",
     "tests/test_verify_battlefield_object_effect_chain.py": "fcf43068f850a3269fdd1c66ddb8d9088be9d052284d93be7f7139aacd308ee4",
     "tests/test_verify_battlefield_object_producers.py": "b5a1c03b36d8dd487e942eaad415791028b1f48fba4ae8b7f9e9c343ad5673a7",
-    "tools/export_battle_effect_frame_phase.py": "b862c011c731a227fc320b67010e9058e9e938ce1393e9c337da7121783e0ad8",
+    "tools/export_battle_effect_frame_phase.py": "034140a5904c7f1628bf8080a22908004d514ab1302372b8a0b6972c1d5bf027",
     "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
     "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
-    "tools/rebuild_battle_effect_frame_phase_artifacts.py": "0b55086e94b4950523bed857893a8b95f3125c05e5e1dccaa9e0c6f7f1aa0b21",
+    "tools/rebuild_battle_effect_frame_phase_artifacts.py": "55cfc39cf89cc4709ec830a17432bedb964874b8fccdc929bce7b4a5036d5c9d",
     "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
     "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
-    "tools/verify_battle_effect_frame_phase.py": "4dd74c18fe6d8eb266398ced2fde926b667cbd2767b57f31cc639f6870597789",
+    "tools/verify_battle_effect_frame_phase.py": "eb35ce45f9eb01b4781c78147e6c8e6b38bde7eb8d3c25e1ee43d48386a490e9",
     "tools/verify_battle_effect_natural_checkpoint.py": "332f553b0e487506f0013ba1f56a1f79c243e7652e2ded1ede1286cc3cf97ce7",
     "tools/verify_battlefield_object_effect_chain.py": "1d6914dd5ab444d48b08ceaa5de43fe6c35cbd07c34f75b7f0178293843b5760",
     "tools/verify_battlefield_object_producers.py": "58db857ed958b94e4c4c64dc4dfd2256b15dbad7031ad32152381dc109ace360"
@@ -149,7 +149,7 @@
   "source_runtime_provenance": {
     "catalog": {
       "path": "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
-      "sha256": "42c97f2bfce3364a2c5b7cf7e520eaf4a0ce97fe71ce8a78d4221f638cf41cf1"
+      "sha256": "c9c733ede27ce23abe0fe8fc1f2ca324703a726a8cad8459716188c03688819c"
     },
     "contract": {
       "accepted_parent": {
@@ -179,7 +179,7 @@
       "python3",
       "tools/verify_battle_effect_frame_phase.py",
       "--artifact",
-      "artifacts/.battle-effect-frame-phase-v1-refresh-hwzd6gkr/rebuilt"
+      "artifacts/battle-effect-frame-phase-v1"
     ],
     "exit_code": 0,
     "result": {

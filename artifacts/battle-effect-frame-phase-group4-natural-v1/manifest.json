@@ -1,0 +1,220 @@
+{
+  "animations": {
+    "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+  },
+  "artifact_schema": "battle-effect-frame-phase-v1",
+  "artifact_status": "accepted",
+  "boundary": "From the accepted natural ninja-tool 1 final-confirmation checkpoint, inject only its recorded final A input and capture the naturally created Group 4 task at renderer, submission, and acknowledgement.",
+  "breakpoint_pc_semantics": {
+    "mgba_source": "src/arm/debugger/debugger.c:_checkBreakpoints",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "mode": "Thumb",
+    "saved_r15_to_breakpoint": "saved_r15 - 2"
+  },
+  "description": "One explicit-input-sequence renderer transaction containing an active group 4 task, captured after rendering, submission, and acknowledgement.",
+  "dump_semantics": {
+    "live_byte_read_boundary": "mGBA byte-wise MMIO reads are hash-locked live observations but are not required to equal the emulator's serialized I/O image.",
+    "live_byte_read_only": [
+      "io.bin"
+    ],
+    "savestate_exact": [
+      "task-pool.bin",
+      "active-count.bin",
+      "active-pointers.bin",
+      "runtime-offsets.bin",
+      "shadow-oam.bin",
+      "hardware-oam.bin",
+      "submission.bin",
+      "vram.bin",
+      "pram.bin"
+    ]
+  },
+  "files": {
+    "guard-summary.json": "c3d35cb28bd0c1b273b0ce68c85c549057799ec9a5432f34ab1873c3dbdb0fb1",
+    "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+    "raw/ack-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+    "raw/ack-post/capture-hardware-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+    "raw/ack-post/capture-io.bin": "ac5fffc8d58e2b3629421f4a275a9f3518ed3e859595eda3556aa007749a6e2e",
+    "raw/ack-post/capture-phase.json": "93d03939617b417662c8908f791459c866b5a558a2bbed22e9b613667e633d5f",
+    "raw/ack-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+    "raw/ack-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/ack-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+    "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+    "raw/ack-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+    "raw/ack-post/capture-vram.bin": "0c1068f3a37e935bd8682049f7465d1e899188f7d2fba0a55662646f4755296c",
+    "raw/ack-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+    "raw/ack-post/capture.ss9": "a685f8b6c35de2ba5476950416007e1b4f1694f582e576feaeeddc4e4391f548",
+    "raw/renderer-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+    "raw/renderer-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+    "raw/renderer-post/capture-hardware-oam.bin": "e0aa339b21c6b4f5c5baccd4adbddde9cadba8d7741e336a903c97b8ac8f32af",
+    "raw/renderer-post/capture-io.bin": "6aa2427f5e6d62da87bc84099c6b531261bc56a7bd209f80c698a946504828e6",
+    "raw/renderer-post/capture-phase.json": "c7ed19ae50a13010bd209fe599dbcd004aab98007d11ee1526325d04f22869aa",
+    "raw/renderer-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+    "raw/renderer-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/renderer-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+    "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+    "raw/renderer-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+    "raw/renderer-post/capture-vram.bin": "069b022dfd99c3903ebcb64997e4be080b161052bd4e219f357ae33e7cc4f865",
+    "raw/renderer-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+    "raw/renderer-post/capture.ss9": "99b683cecd767012e26a13e466cedb2ad32f8d192eae36a09524384a4d119b7c",
+    "raw/submit-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+    "raw/submit-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+    "raw/submit-post/capture-hardware-oam.bin": "e0aa339b21c6b4f5c5baccd4adbddde9cadba8d7741e336a903c97b8ac8f32af",
+    "raw/submit-post/capture-io.bin": "1d1bd58b000708dcc33904249c9dbf05789f58aef51b55ba7f84ae6f548f8d3f",
+    "raw/submit-post/capture-phase.json": "f45800dbcc4db1050e40c5300051387e46f0e84ff1ed7ee7aafbac1be181b728",
+    "raw/submit-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+    "raw/submit-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+    "raw/submit-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+    "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+    "raw/submit-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+    "raw/submit-post/capture-vram.bin": "069b022dfd99c3903ebcb64997e4be080b161052bd4e219f357ae33e7cc4f865",
+    "raw/submit-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+    "raw/submit-post/capture.ss9": "046bb910a055242eb2b72a9bb86f1ea4f0808b93f09958bc589b6e3cc2c73bb7",
+    "runtime-audit.json": "60808ca80d2f7408dd6c539837c2c2cf0c008210a828f79176a6f7f6bfb81eb9"
+  },
+  "group_id": 4,
+  "input_mode": "explicit-input-sequence",
+  "input_state": {
+    "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+    "sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139"
+  },
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "phase_script_sha256": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
+  "phase_sequence": [
+    {
+      "address": "0x08063328",
+      "copy_route": null,
+      "cycle": "291955800097",
+      "frame": 94,
+      "name": "renderer-post",
+      "pending": 0,
+      "task_address": "0x0300597C",
+      "task_flags": "0x41001081",
+      "task_slot": 127
+    },
+    {
+      "address": "0x08061126",
+      "copy_route": null,
+      "cycle": "291955800460",
+      "frame": 94,
+      "name": "submit-post",
+      "pending": 1,
+      "task_address": "0x0300597C",
+      "task_flags": "0x41001081",
+      "task_slot": 127
+    },
+    {
+      "address": "0x080612AA",
+      "copy_route": null,
+      "cycle": "291956020256",
+      "frame": 95,
+      "name": "ack-post",
+      "pending": 0,
+      "task_address": "0x0300597C",
+      "task_flags": "0x41001081",
+      "task_slot": 127
+    }
+  ],
+  "profile": {
+    "path": "sequel/content/battle-effect-phase-capture/group-04-natural-tool1-confirmation.json",
+    "sha256": "607ad2ec5c9b7a8df267f7f398f4ced29b85f27d86155dfa47847dc596d59fae"
+  },
+  "repository_files": {
+    "artifacts/rom-expansion-profile-v1/profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "sequel/content/battle-effect-phase-capture/group-04-natural-tool1-confirmation.json": "607ad2ec5c9b7a8df267f7f398f4ced29b85f27d86155dfa47847dc596d59fae",
+    "sequel/content/battle-effect-phase-capture/source-provenance-v1.json": "c9c733ede27ce23abe0fe8fc1f2ca324703a726a8cad8459716188c03688819c",
+    "tests/test_export_battle_effect_frame_phase.py": "3256d5bd2b5015929f1d2b14a162626ade8e3aff2900bbd3af5da7667c153774",
+    "tests/test_mgba_battle_effect_phase_capture_script.py": "a77d9ee45842564aa2aeec80f70bda66f9787ed35e82679d2c24adf8f4d39410",
+    "tests/test_rebuild_battle_effect_frame_phase_artifacts.py": "c515e871d9d3ab05f61961c2dd80bbd6a154430e9d3480574ffc1a605a98b440",
+    "tests/test_run_macos_mgba_battle_effect_phase_capture.py": "eb8377f1b74f2191e15a80a6f04666becd6ea52e69e8cb183f2fb3af46aa553d",
+    "tests/test_verify_battle_effect_frame_phase.py": "22a3a26c96abc102bd20647f16ac85fe0127b7d55ae88240e5124fb4ff97995b",
+    "tests/test_verify_battle_effect_natural_checkpoint.py": "f68650ef49c9858ab7d02c51e98fff2eeb9bdd3d92ed84b6d58f0e0dbbc98bf7",
+    "tests/test_verify_battlefield_object_effect_chain.py": "fcf43068f850a3269fdd1c66ddb8d9088be9d052284d93be7f7139aacd308ee4",
+    "tests/test_verify_battlefield_object_producers.py": "b5a1c03b36d8dd487e942eaad415791028b1f48fba4ae8b7f9e9c343ad5673a7",
+    "tools/export_battle_effect_frame_phase.py": "034140a5904c7f1628bf8080a22908004d514ab1302372b8a0b6972c1d5bf027",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
+    "tools/rebuild_battle_effect_frame_phase_artifacts.py": "55cfc39cf89cc4709ec830a17432bedb964874b8fccdc929bce7b4a5036d5c9d",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_frame_phase.py": "eb35ce45f9eb01b4781c78147e6c8e6b38bde7eb8d3c25e1ee43d48386a490e9",
+    "tools/verify_battle_effect_natural_checkpoint.py": "332f553b0e487506f0013ba1f56a1f79c243e7652e2ded1ede1286cc3cf97ce7",
+    "tools/verify_battlefield_object_effect_chain.py": "1d6914dd5ab444d48b08ceaa5de43fe6c35cbd07c34f75b7f0178293843b5760",
+    "tools/verify_battlefield_object_producers.py": "58db857ed958b94e4c4c64dc4dfd2256b15dbad7031ad32152381dc109ace360"
+  },
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "run_id": "0d4a8ab314828024ae49cde31467996d",
+  "schema": "git-artifact-promotion-v1",
+  "source_runtime_provenance": {
+    "catalog": {
+      "path": "sequel/content/battle-effect-phase-capture/source-provenance-v1.json",
+      "sha256": "c9c733ede27ce23abe0fe8fc1f2ca324703a726a8cad8459716188c03688819c"
+    },
+    "contract": {
+      "group_id": 4,
+      "natural_trigger": {
+        "additional_natural_sequence_id": 4,
+        "encoded_action_id": 129,
+        "final_confirmation_input": "A:5:13",
+        "ninja_tool_id": 1,
+        "resource_group_id": 4,
+        "trigger_sequence_id": 13
+      },
+      "profile_id": "group-04-natural-tool1-confirmation",
+      "source_evidence": {
+        "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation-evidence.json",
+        "sha256": "f3d6b84355fc5e6168d05898807108b7c61fb088e27adb50b736e64a0a61ba80"
+      },
+      "source_kind": "natural_action_confirmation_checkpoint"
+    }
+  },
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_frame_phase.py",
+      "--artifact",
+      "artifacts/battle-effect-frame-phase-group4-natural-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "ack_shadow_matches_hardware": true,
+      "breakpoint_addresses": [
+        "0x08063328",
+        "0x08061126",
+        "0x080612AA"
+      ],
+      "errors": [],
+      "group_id": 4,
+      "non_state_equivalent_dumps": [
+        "io.bin"
+      ],
+      "pending_sequence": [
+        0,
+        1,
+        0
+      ],
+      "renderer_shadow_differs_from_hardware": true,
+      "target_dispatch_ordinals": [
+        0,
+        0,
+        0
+      ],
+      "verified": true
+    }
+  }
+}

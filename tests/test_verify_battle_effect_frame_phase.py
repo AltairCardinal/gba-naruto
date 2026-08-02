@@ -28,9 +28,38 @@ NATURAL_DELAYED_ARTIFACT = (
 GROUP18_SEQUENCE_ARTIFACT = (
     ROOT / "artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"
 )
+GROUP4_NATURAL_PROFILE = (
+    ROOT
+    / "sequel/content/battle-effect-phase-capture/group-04-natural-tool1-confirmation.json"
+)
 
 
 class BattleEffectFramePhaseVerifierTests(unittest.TestCase):
+    def test_accepts_natural_action_confirmation_checkpoint_provenance(self):
+        verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
+        profile = json.loads(GROUP4_NATURAL_PROFILE.read_text(encoding="utf-8"))
+        catalog = json.loads(
+            (
+                ROOT
+                / "sequel/content/battle-effect-phase-capture/source-provenance-v1.json"
+            ).read_text(encoding="utf-8")
+        )
+        contract = next(
+            row
+            for row in catalog["profiles"]
+            if row["profile_id"] == profile["profile_id"]
+        )
+
+        verifier.validate_source_runtime_provenance(
+            ROOT,
+            profile,
+            contract,
+            group_id=4,
+            input_state_path=profile["input_state"],
+            input_state_sha256=profile["input_state_sha256"],
+            rom_sha256=profile["source_rom_sha256"],
+        )
+
     def test_group18_phase_locks_natural_checkpoint_verifier_dependencies(self):
         verifier = importlib.import_module("tools.verify_battle_effect_frame_phase")
         manifest = json.loads(

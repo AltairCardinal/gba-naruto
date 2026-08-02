@@ -76,6 +76,49 @@ class RebuildBattleEffectPixelAbArtifactsTests(unittest.TestCase):
                 )
             self.assertEqual((artifact / "manifest.json").read_bytes(), original)
 
+    def test_dispatches_natural_delayed_artifact_to_archive_refresher(self):
+        from tools.rebuild_battle_effect_pixel_ab_artifacts import (
+            refresh_supported_artifact,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            artifact = self._fixture(root)
+            manifest_path = artifact / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["artifact_schema"] = (
+                "natural-delayed-battle-effect-pixel-ab-runtime-v1"
+            )
+            manifest_path.write_text(json.dumps(manifest) + "\n", encoding="utf-8")
+            calls = []
+
+            result = refresh_supported_artifact(
+                root,
+                artifact,
+                generic_refresher=lambda repo, target: calls.append("generic"),
+                natural_refresher=lambda repo, target: calls.append("natural")
+                or {"verified": True},
+            )
+
+            self.assertEqual(calls, ["natural"])
+            self.assertTrue(result["verified"])
+
+    def test_rejects_unknown_pixel_artifact_schema(self):
+        from tools.rebuild_battle_effect_pixel_ab_artifacts import (
+            refresh_supported_artifact,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            artifact = self._fixture(root)
+            manifest_path = artifact / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["artifact_schema"] = "unknown"
+            manifest_path.write_text(json.dumps(manifest) + "\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "unsupported pixel artifact schema"):
+                refresh_supported_artifact(root, artifact)
+
 
 if __name__ == "__main__":
     unittest.main()

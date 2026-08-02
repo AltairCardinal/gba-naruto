@@ -233,8 +233,13 @@ python3 tools/verify_natural_delayed_battle_effect_pixel_ab.py \
 
 runner 的两次 mGBA 启动都经 `run_guarded.py` 的同一 heavy lock、内存和进程树
 门禁；需要动作确认的 profile 则只执行 profile 固定且经证据绑定的输入。结合当前
-已接受成果，18组特效的 production 自然最终像素覆盖达到9/18；它不签发其余9组、
+已接受成果，18组特效的 production 自然最终像素覆盖达到10/18；它不签发其余8组、
 完整动画、混合、音频或实体GBA。
+
+frame-phase promotion 会把运行审计中的仓库路径改为相对路径，并把外部模拟器命令
+记为稳定的 `mGBA` 标识。`rebuild_battle_effect_frame_phase_artifacts.py` 只允许这种
+audit/guard 规范化和 manifest 重签；所有 `raw/` 捕获必须逐字节不变，安装后验证失败
+时会同时回滚 audit、guard 与 manifest。
 
 `build_chapter_battle_route_probe.py`保留 primary scenario 39 的完整脚本，只替换已验证
 `SetBattle(40,2)` 的 battle ID 字节；它用于复用原剧情、战前菜单和启动链进入指定的

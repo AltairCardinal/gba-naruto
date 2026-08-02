@@ -14,6 +14,7 @@ GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-ac
 GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
 GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
+GROUP4_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -421,6 +422,31 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
         self.assertEqual(result["edit"]["screen_pixels"], [[44, 73], [37, 77]])
         self.assertTrue(result["same_patch_topology"])
         self.assertTrue(result["same_encoded_size"])
+
+    def test_group4_ninja_tool_profile_keeps_trigger_and_resource_sequences_distinct(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP4_PROFILE, Path(tmp) / "pair"
+            )
+
+        self.assertEqual(
+            result["binding"],
+            {
+                "ninja_tool_id": 1,
+                "encoded_action_id": 129,
+                "sequence_id": 4,
+                "trigger_sequence_id": 13,
+                "group_id": 4,
+            },
+        )
+        self.assertEqual(result["edit"]["graphics_byte_offset"], 153)
+        self.assertEqual(result["edit"]["screen_xy"], [83, 72])
+        self.assertEqual(result["runtime_oam"]["attributes"], [
+            "0x003A",
+            "0x8051",
+            "0x4900",
+        ])
+        self.assertTrue(result["same_patch_topology"])
 
     def test_profile_tampering_fails_closed(self):
         profile = json.loads(PROFILE.read_text(encoding="utf-8"))

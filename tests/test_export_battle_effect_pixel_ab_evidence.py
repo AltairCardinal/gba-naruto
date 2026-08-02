@@ -17,6 +17,8 @@ GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action6
 GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
+GROUP4_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
+GROUP4_ARTIFACT = ROOT / "artifacts/battle-effect-group4-pixel-ab-v1"
 
 
 class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
@@ -335,6 +337,41 @@ class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         self.assertTrue(
             evidence["scope"]["natural_active_action_handler_immediate_route"]
         )
+
+    def test_reexports_group4_natural_tool_confirmation_pixel_chain(self):
+        from tools.export_battle_effect_pixel_ab_evidence import export_evidence
+
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = export_evidence(
+                ROOT,
+                GROUP4_PROFILE,
+                GROUP4_ARTIFACT / "raw",
+                Path(tmp) / "artifact",
+            )
+
+        self.assertEqual(
+            evidence["binding"],
+            {
+                "encoded_action_id": 129,
+                "group_id": 4,
+                "ninja_tool_id": 1,
+                "sequence_id": 4,
+                "trigger_sequence_id": 13,
+            },
+        )
+        self.assertEqual(evidence["runtime"]["memory_differences"]["VRAM"], [0x12099])
+        self.assertEqual(
+            evidence["runtime"]["pixels"]["changes"],
+            [
+                {
+                    "x": 83,
+                    "y": 72,
+                    "before_rgb": [206, 148, 123],
+                    "after_rgb": [189, 123, 115],
+                }
+            ],
+        )
+        self.assertTrue(evidence["scope"]["production_relocation_route"])
 
     def test_rejects_resigned_runtime_tool_provenance(self):
         from tools.export_battle_effect_pixel_ab_evidence import export_evidence

@@ -2,6 +2,23 @@
   "schema": "battle-effect-phase-source-provenance-v1",
   "profiles": [
     {
+      "profile_id": "group-04-natural-tool1-confirmation",
+      "group_id": 4,
+      "source_kind": "natural_action_confirmation_checkpoint",
+      "source_evidence": {
+        "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation-evidence.json",
+        "sha256": "f3d6b84355fc5e6168d05898807108b7c61fb088e27adb50b736e64a0a61ba80"
+      },
+      "natural_trigger": {
+        "ninja_tool_id": 1,
+        "encoded_action_id": 129,
+        "trigger_sequence_id": 13,
+        "additional_natural_sequence_id": 4,
+        "resource_group_id": 4,
+        "final_confirmation_input": "A:5:13"
+      }
+    },
+    {
       "profile_id": "group-03-natural-tool67-expiry",
       "group_id": 3,
       "source_kind": "natural_delayed_object_checkpoint",

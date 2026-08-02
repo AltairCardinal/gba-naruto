@@ -2220,3 +2220,17 @@ WebSocket
   `notes/battle-effect-group18-natural-pixel-ab-20260802.md`。production自然最终像素
   由**8/18提升到9/18（50%）**；其余9组、完整动画/混合/音频及实体GBA仍未全量
   签发，Goal保持active。
+- 2026-08-02：Group 4 / sequence 4 已从忍具1最终确认页完成自然phase与production
+  relocation最终像素A/B。同一`A:5:13`既触发动态sequence 13 / Group 11，也经忍具
+  handler硬编码创建Group 4；profile明确分开trigger和resource sequence。Group 4
+  slot 127在frame`94/94/95`经过renderer→submit→ack，pending为`0→1→0`；最终截图
+  固定在回调晚一帧的frame 96。两份ROM只重定向graphics指针`0x59913C`，candidate
+  仅改解压offset`0x99:13→14`；六域只有OBJ-VRAM`0x06012099`一字节不同，最终画面
+  也只有`(83,72)`从`[206,148,123]`变为`[189,123,115]`。离线Mode-0与两份mGBA
+  PNG均逐像素一致，guard峰值RSS为`70.03515625/70.09375 MiB`且无残留。成果位于
+  `artifacts/battle-effect-frame-phase-group4-natural-v1/`与
+  `artifacts/battle-effect-group4-pixel-ab-v1/`，说明见
+  `notes/battle-effect-group4-natural-pixel-ab-20260802.md`。聚合phase现为**8/18**，
+  production自然最终像素由**9/18提升到10/18（55.56%）**；剩余组为
+  `{6,7,8,9,10,12,16,17}`，完整动画/混合/音频及实体GBA仍未全量签发，Goal保持
+  active。

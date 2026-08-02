@@ -1,7 +1,7 @@
 {
   "ack_hit_count": 1,
   "animation_pointer": "0x08346914",
-  "animations": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-sprite-animations-v1/manifest.json",
+  "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
   "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
   "automatic_inputs": [],
   "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
@@ -51,15 +51,15 @@
   },
   "frame": 1,
   "group_id": 14,
-  "guard_summary_sha256": "fe7c56c97eded960605b8efc4ca09cbab43a08a4961fbfb916bbe060fc356562",
+  "guard_summary_sha256": "fbb7347b232b26ee0f0b2f6a019162f9495603e07f0aba4d3145525eed15aa89",
   "input_mode": "zero-input-active-state",
-  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group14-pixel-ab-v1/raw/baseline/frame516.ss9",
+  "input_state": "artifacts/battle-effect-group14-pixel-ab-v1/raw/baseline/frame516.ss9",
   "input_state_sha256": "0ec02a2eda478e3afbd571962ef90c54ca8703242e67390a28eda619584ad9a0",
   "inputs": [],
   "outcome": "three-phase-captured",
   "peak_tree_rss_mib": 0.18359375,
   "pgid_clean": true,
-  "phase_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_battle_effect_phase_capture.lua",
+  "phase_script": "tools/mgba_battle_effect_phase_capture.lua",
   "phase_script_sha256": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
   "phases": [
     {
@@ -96,7 +96,7 @@
       "task_slot": 124
     }
   ],
-  "profile": "/Users/altair/github/gba-naruto-reverse/sequel/content/battle-effect-phase-capture/group-14-fire-frame516.json",
+  "profile": "sequel/content/battle-effect-phase-capture/group-14-fire-frame516.json",
   "profile_sha256": "f70a4611feadd795059e793c8a5926a09b6d6659e0936a9525b95787820b7a6c",
   "recovery_inputs": [],
   "renderer_hit_count": 1,
@@ -127,14 +127,14 @@
     ]
   },
   "schema": "mgba-battle-effect-phase-capture-v1",
-  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/battle-effect-phase-observed-groups-20260801-01/group-14-fire-frame516/staged.gba",
+  "staged_rom": "build/experiments/battle-effect-phase-observed-groups-20260801-01/group-14-fire-frame516/staged.gba",
   "staged_rom_sha256": "97d318c7e9279d96f8bf1fb07d2af8cf9040a67afc77120eee9994f439f1ffb0",
   "submission_watch_hit_count": 3,
   "timeout_frames": 30,
   "toolchain": {
     "kind": "current-desktop-runtime-profile",
     "patch_sha256": null,
-    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
     "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
   }

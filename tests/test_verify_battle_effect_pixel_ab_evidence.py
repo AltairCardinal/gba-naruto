@@ -21,6 +21,7 @@ GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action6
 GROUP13_ARTIFACT = ROOT / "artifacts/battle-effect-group13-pixel-ab-v1"
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
+GROUP4_ARTIFACT = ROOT / "artifacts/battle-effect-group4-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
@@ -312,6 +313,7 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
             GROUP14_ARTIFACT,
             GROUP15_ARTIFACT,
             GROUP13_ARTIFACT,
+            GROUP4_ARTIFACT,
         ):
             for path in artifact.rglob("*.json"):
                 payload = json.loads(path.read_text(encoding="utf-8"))
@@ -373,6 +375,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, GROUP2_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_group4_natural_tool_pixel_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP4_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_rejects_resigned_semantic_tampering(self):

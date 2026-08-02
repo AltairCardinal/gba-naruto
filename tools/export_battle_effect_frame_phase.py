@@ -90,6 +90,50 @@ def _object(path: Path, label: str) -> dict[str, Any]:
     return value
 
 
+def portable_runtime_record(value: Any, root: Path = ROOT) -> Any:
+    """Return a JSON-compatible runtime record without host-specific paths."""
+
+    root = Path(root).resolve()
+    if isinstance(value, dict):
+        return {
+            key: portable_runtime_record(nested, root)
+            for key, nested in value.items()
+        }
+    if isinstance(value, list):
+        return [portable_runtime_record(nested, root) for nested in value]
+    if not isinstance(value, str):
+        return value
+    path = Path(value)
+    if not path.is_absolute():
+        return value
+    try:
+        relative = path.resolve(strict=False).relative_to(root)
+    except ValueError as error:
+        if path.name == "mGBA":
+            return "mGBA"
+        raise ValueError(
+            f"runtime record contains an unknown external absolute path: {value}"
+        ) from error
+    return relative.as_posix() if relative.parts else "."
+
+
+def _write_json(path: Path, value: Any) -> None:
+    path.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _repository_source_path(raw: str, label: str) -> Path:
+    path = Path(raw)
+    resolved = (path if path.is_absolute() else ROOT / path).resolve(strict=True)
+    try:
+        resolved.relative_to(ROOT)
+    except ValueError as error:
+        raise ValueError(f"{label} must be inside the repository") from error
+    return resolved
+
+
 def collect_phase_files(source_dir: Path) -> dict[str, Path]:
     """Return the exact required files for all three capture phases."""
 
@@ -198,7 +242,9 @@ def export_artifact(
     raw_toolchain_path = raw_toolchain.get("path")
     if not isinstance(raw_toolchain_path, str):
         raise ValueError("runtime audit toolchain path is missing")
-    toolchain_profile_path = Path(raw_toolchain_path).resolve(strict=True)
+    toolchain_profile_path = _repository_source_path(
+        raw_toolchain_path, "runtime toolchain profile"
+    )
     try:
         toolchain_relative = toolchain_profile_path.relative_to(ROOT).as_posix()
     except ValueError as error:
@@ -217,8 +263,12 @@ def export_artifact(
             destination = staging / "raw" / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, destination)
-        shutil.copy2(audit_path, staging / "runtime-audit.json")
-        shutil.copy2(guard_summary_path, staging / "guard-summary.json")
+        portable_guard = portable_runtime_record(guard)
+        guard_output = staging / "guard-summary.json"
+        _write_json(guard_output, portable_guard)
+        portable_audit = portable_runtime_record(audit)
+        portable_audit["guard_summary_sha256"] = _sha256(guard_output)
+        _write_json(staging / "runtime-audit.json", portable_audit)
 
         copied_files = {
             path.relative_to(staging).as_posix(): _sha256(path)
@@ -248,7 +298,9 @@ def export_artifact(
             },
             "source_runtime_provenance": provenance,
             "animations": {
-                "path": Path(audit["animations"]).resolve().relative_to(ROOT).as_posix(),
+                "path": _repository_source_path(
+                    audit["animations"], "runtime animation catalog"
+                ).relative_to(ROOT).as_posix(),
                 "sha256": audit["animations_sha256"],
             },
             "toolchain": toolchain,
@@ -283,10 +335,7 @@ def export_artifact(
             ),
             "boundary": profile["boundary"],
         }
-        (staging / "manifest.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
+        _write_json(staging / "manifest.json", manifest)
         if artifact_path.exists():
             artifact_path.rmdir()
         staging.rename(artifact_path)
@@ -323,10 +372,7 @@ def export_artifact(
         "exit_code": completed.returncode,
         "result": verification,
     }
-    (artifact_path / "manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    _write_json(artifact_path / "manifest.json", manifest)
     return manifest
 
 

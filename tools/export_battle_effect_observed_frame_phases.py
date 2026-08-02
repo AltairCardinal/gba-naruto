@@ -18,19 +18,26 @@ PHASE_ARTIFACTS = {
     1: Path("artifacts/battle-effect-frame-phase-group1-v1"),
     2: Path("artifacts/battle-effect-frame-phase-group2-v1"),
     3: Path("artifacts/battle-effect-frame-phase-group3-natural-v1"),
+    4: Path("artifacts/battle-effect-frame-phase-group4-natural-v1"),
     5: Path("artifacts/battle-effect-frame-phase-group5-v1"),
     11: Path("artifacts/battle-effect-frame-phase-v1"),
     14: Path("artifacts/battle-effect-frame-phase-group14-v1"),
+    18: Path("artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"),
 }
 PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
-NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
+NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
+NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
 PIXEL_AB_ARTIFACTS = {
     1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    2: (Path("artifacts/battle-effect-group2-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     3: (Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"), "natural-delayed-battle-effect-pixel-ab-runtime-v1"),
+    4: (Path("artifacts/battle-effect-group4-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "battle-effect-group5-pixel-ab-runtime-v1"),
     11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     15: (Path("artifacts/battle-effect-group15-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    18: (Path("artifacts/battle-effect-group18-natural-pixel-ab-v1"), "natural-delayed-battle-effect-pixel-ab-runtime-v1"),
 }
 BATCH_SPEC = Path(
     "sequel/content/battle-effect-phase-capture/observed-groups-batch-v1.json"
@@ -49,6 +56,11 @@ REPOSITORY_FILES = (
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+    "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
+    "tools/verify_battle_effect_pixel_ab_evidence.py",
+    "tests/test_verify_battle_effect_pixel_ab_evidence.py",
+    "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
+    "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
@@ -131,6 +143,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
         "observed_group_denominator": len(observed_ids),
         "observed_group_ids": observed_ids,
         "natural_delayed_extension_group_ids": NATURAL_DELAYED_EXTENSION_GROUP_IDS,
+        "natural_confirmation_extension_group_ids": NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS,
         "phase_verified_group_count": len(phase_rows),
         "phase_verified_group_ids": [row["group_id"] for row in phase_rows],
         "phase_artifacts": phase_rows,
@@ -149,6 +162,8 @@ def build_coverage(root: Path) -> dict[str, Any]:
         "scope": {
             "all_observed_groups_have_one_verified_phase_transaction": True,
             "natural_delayed_group3_phase_transaction_included": True,
+            "natural_delayed_group18_phase_transaction_included": True,
+            "natural_confirmation_group4_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -156,10 +171,10 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "physical_gba_verified": False,
         },
         "boundary": (
-            "Six of 18 groups have one verified global renderer/submit/ack transaction; "
-            "group 3 is a natural delayed-object extension beyond the five-group persisted corpus. "
-            "Groups 1, 3, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence; "
-            "group 3 uses the same natural delayed-object entry as its phase artifact."
+            "Eight of 18 groups have one verified global renderer/submit/ack transaction. "
+            "Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural "
+            "action-confirmation extension beyond the five-group persisted corpus. Ten groups "
+            "have production modified-ROM pixel A/B evidence."
         ),
     }
 

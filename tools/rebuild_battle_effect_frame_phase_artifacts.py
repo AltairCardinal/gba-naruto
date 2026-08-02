@@ -15,7 +15,10 @@ from typing import Any, Callable
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from tools.export_battle_effect_frame_phase import export_artifact
+from tools.export_battle_effect_frame_phase import (
+    export_artifact,
+    portable_runtime_record,
+)
 from tools.verify_battle_effect_frame_phase import verify_artifact
 
 
@@ -55,6 +58,23 @@ def _payload_hashes(artifact: Path) -> dict[str, str]:
     }
 
 
+def _capture_hashes(artifact: Path) -> dict[str, str]:
+    return {
+        relative: digest
+        for relative, digest in _payload_hashes(artifact).items()
+        if relative not in {"runtime-audit.json", "guard-summary.json"}
+    }
+
+
+def _canonical_verifier_command(root: Path, artifact: Path) -> list[str]:
+    return [
+        "python3",
+        "tools/verify_battle_effect_frame_phase.py",
+        "--artifact",
+        artifact.relative_to(root).as_posix(),
+    ]
+
+
 def refresh_artifact(
     root: Path,
     artifact: Path,
@@ -80,7 +100,9 @@ def refresh_artifact(
     if not raw.is_dir():
         raise ValueError(f"artifact raw directory is missing: {raw}")
 
-    original_payloads = _payload_hashes(artifact)
+    original_captures = _capture_hashes(artifact)
+    expected_guard = portable_runtime_record(_object(guard), root)
+    expected_audit = portable_runtime_record(_object(audit), root)
     with tempfile.TemporaryDirectory(prefix=f".{artifact.name}-refresh-", dir=artifact.parent) as tmp:
         temporary = Path(tmp)
         source = temporary / "source"
@@ -88,21 +110,53 @@ def refresh_artifact(
         shutil.copy2(audit, source / "audit.json")
         rebuilt = temporary / "rebuilt"
         exporter(source, guard, profile, rebuilt)
-        if _payload_hashes(rebuilt) != original_payloads:
+        if _capture_hashes(rebuilt) != original_captures:
             raise ValueError("refreshed artifact changed captured payload bytes")
-
-        backup = temporary / "original-manifest.json"
-        candidate = temporary / "candidate-manifest.json"
-        shutil.copy2(manifest_path, backup)
-        shutil.copy2(rebuilt / "manifest.json", candidate)
-        candidate.replace(manifest_path)
-        result = verifier(artifact)
-        if result.get("errors"):
-            backup.replace(manifest_path)
-            raise ValueError(
-                "refreshed artifact verification failed: "
-                + "; ".join(str(error) for error in result["errors"])
+        rebuilt_guard = _object(rebuilt / "guard-summary.json")
+        rebuilt_audit = _object(rebuilt / "runtime-audit.json")
+        if "guard_summary_sha256" in expected_audit:
+            expected_audit["guard_summary_sha256"] = _sha256(
+                rebuilt / "guard-summary.json"
             )
+        if rebuilt_guard != expected_guard or rebuilt_audit != expected_audit:
+            raise ValueError("refreshed artifact changed runtime audit semantics")
+
+        backups = {
+            manifest_path: temporary / "original-manifest.json",
+            audit: temporary / "original-runtime-audit.json",
+            guard: temporary / "original-guard-summary.json",
+        }
+        for destination, backup in backups.items():
+            shutil.copy2(destination, backup)
+        candidate = temporary / "candidate-manifest.json"
+        candidate_manifest = _object(rebuilt / "manifest.json")
+        verifier_info = candidate_manifest.get("verifier")
+        if not isinstance(verifier_info, dict):
+            raise ValueError("refreshed artifact verifier record is missing")
+        verifier_info["command"] = _canonical_verifier_command(root, artifact)
+        candidate.write_text(
+            json.dumps(candidate_manifest, ensure_ascii=False, indent=2, sort_keys=True)
+            + "\n",
+            encoding="utf-8",
+        )
+        candidates = {
+            manifest_path: candidate,
+            audit: rebuilt / "runtime-audit.json",
+            guard: rebuilt / "guard-summary.json",
+        }
+        try:
+            for destination, source in candidates.items():
+                shutil.copy2(source, destination)
+            result = verifier(artifact)
+            if result.get("errors"):
+                raise ValueError(
+                    "refreshed artifact verification failed: "
+                    + "; ".join(str(error) for error in result["errors"])
+                )
+        except Exception:
+            for destination, backup in backups.items():
+                shutil.copy2(backup, destination)
+            raise
     return result
 
 

@@ -44,6 +44,47 @@ class BattleEffectFramePhaseExporterTests(unittest.TestCase):
                 root / "renderer-post/capture-submission.bin",
             )
 
+    def test_runtime_records_are_rewritten_without_absolute_paths(self):
+        exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
+        root = Path("/repo")
+        portable = exporter.portable_runtime_record(
+            {
+                "profile": "/repo/sequel/profile.json",
+                "cwd": "/repo",
+                "command": [
+                    "/Applications/mGBA.app/Contents/MacOS/mGBA",
+                    "/repo/tools/capture.lua",
+                ],
+                "nested": {"already_relative": "artifacts/input.ss9"},
+            },
+            root,
+        )
+        self.assertEqual(portable["profile"], "sequel/profile.json")
+        self.assertEqual(portable["cwd"], ".")
+        self.assertEqual(portable["command"], ["mGBA", "tools/capture.lua"])
+        self.assertEqual(
+            portable["nested"]["already_relative"], "artifacts/input.ss9"
+        )
+
+        def strings(value):
+            if isinstance(value, dict):
+                for nested in value.values():
+                    yield from strings(nested)
+            elif isinstance(value, list):
+                for nested in value:
+                    yield from strings(nested)
+            elif isinstance(value, str):
+                yield value
+
+        self.assertFalse(any(Path(value).is_absolute() for value in strings(portable)))
+
+    def test_runtime_record_rejects_unknown_external_absolute_path(self):
+        exporter = importlib.import_module("tools.export_battle_effect_frame_phase")
+        with self.assertRaisesRegex(ValueError, "external absolute path"):
+            exporter.portable_runtime_record(
+                {"unexpected": "/outside/private/other-tool"}, Path("/repo")
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

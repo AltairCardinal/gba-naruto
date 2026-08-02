@@ -33,8 +33,13 @@ class RebuildBattleEffectFramePhaseArtifactsTests(unittest.TestCase):
         artifact = root / "artifacts/phase"
         (artifact / "raw/renderer-post").mkdir(parents=True)
         (artifact / "raw/renderer-post/capture.bin").write_bytes(b"raw")
-        (artifact / "runtime-audit.json").write_text("{}\n", encoding="utf-8")
-        (artifact / "guard-summary.json").write_text("{}\n", encoding="utf-8")
+        (artifact / "runtime-audit.json").write_text(
+            json.dumps({"profile": str(root / "profiles/group.json")}) + "\n",
+            encoding="utf-8",
+        )
+        (artifact / "guard-summary.json").write_text(
+            json.dumps({"cwd": str(root)}) + "\n", encoding="utf-8"
+        )
         profile = root / "profiles/group.json"
         profile.parent.mkdir(parents=True)
         profile.write_text("{}\n", encoding="utf-8")
@@ -50,11 +55,34 @@ class RebuildBattleEffectFramePhaseArtifactsTests(unittest.TestCase):
             artifact = self._fixture(root)
 
             def exporter(source, guard, profile, target):
-                self.assertEqual((source / "audit.json").read_text(), "{}\n")
+                self.assertEqual(
+                    json.loads((source / "audit.json").read_text())["profile"],
+                    str(root / "profiles/group.json"),
+                )
                 self.assertEqual(profile, root / "profiles/group.json")
                 shutil.copytree(artifact, target)
+                (target / "runtime-audit.json").write_text(
+                    '{"profile": "profiles/group.json"}\n', encoding="utf-8"
+                )
+                (target / "guard-summary.json").write_text(
+                    '{"cwd": "."}\n', encoding="utf-8"
+                )
                 (target / "manifest.json").write_text(
-                    '{"refreshed": true}\n', encoding="utf-8"
+                    json.dumps(
+                        {
+                            "refreshed": True,
+                            "verifier": {
+                                "command": [
+                                    "python3",
+                                    "tools/verify_battle_effect_frame_phase.py",
+                                    "--artifact",
+                                    target.relative_to(root).as_posix(),
+                                ]
+                            },
+                        }
+                    )
+                    + "\n",
+                    encoding="utf-8",
                 )
 
             refresh_artifact(
@@ -63,12 +91,22 @@ class RebuildBattleEffectFramePhaseArtifactsTests(unittest.TestCase):
                 exporter=exporter,
                 verifier=lambda target: {"errors": []},
             )
+            refreshed = json.loads((artifact / "manifest.json").read_text())
+            self.assertTrue(refreshed["refreshed"])
             self.assertEqual(
-                json.loads((artifact / "manifest.json").read_text()),
-                {"refreshed": True},
+                refreshed["verifier"]["command"][-1],
+                "artifacts/phase",
             )
             self.assertEqual(
                 (artifact / "raw/renderer-post/capture.bin").read_bytes(), b"raw"
+            )
+            self.assertEqual(
+                json.loads((artifact / "runtime-audit.json").read_text()),
+                {"profile": "profiles/group.json"},
+            )
+            self.assertEqual(
+                json.loads((artifact / "guard-summary.json").read_text()),
+                {"cwd": "."},
             )
 
     def test_refresh_restores_manifest_when_verification_fails(self):
@@ -76,11 +114,33 @@ class RebuildBattleEffectFramePhaseArtifactsTests(unittest.TestCase):
             root = Path(tmp).resolve()
             artifact = self._fixture(root)
             original = (artifact / "manifest.json").read_bytes()
+            original_audit = (artifact / "runtime-audit.json").read_bytes()
+            original_guard = (artifact / "guard-summary.json").read_bytes()
 
             def exporter(source, guard, profile, target):
                 shutil.copytree(artifact, target)
+                (target / "runtime-audit.json").write_text(
+                    '{"profile": "profiles/group.json"}\n', encoding="utf-8"
+                )
+                (target / "guard-summary.json").write_text(
+                    '{"cwd": "."}\n', encoding="utf-8"
+                )
                 (target / "manifest.json").write_text(
-                    '{"refreshed": true}\n', encoding="utf-8"
+                    json.dumps(
+                        {
+                            "refreshed": True,
+                            "verifier": {
+                                "command": [
+                                    "python3",
+                                    "tools/verify_battle_effect_frame_phase.py",
+                                    "--artifact",
+                                    target.relative_to(root).as_posix(),
+                                ]
+                            },
+                        }
+                    )
+                    + "\n",
+                    encoding="utf-8",
                 )
 
             with self.assertRaisesRegex(ValueError, "verification failed"):
@@ -91,6 +151,12 @@ class RebuildBattleEffectFramePhaseArtifactsTests(unittest.TestCase):
                     verifier=lambda target: {"errors": ["rejected"]},
                 )
             self.assertEqual((artifact / "manifest.json").read_bytes(), original)
+            self.assertEqual(
+                (artifact / "runtime-audit.json").read_bytes(), original_audit
+            )
+            self.assertEqual(
+                (artifact / "guard-summary.json").read_bytes(), original_guard
+            )
 
 
 if __name__ == "__main__":

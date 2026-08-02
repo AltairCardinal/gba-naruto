@@ -330,6 +330,96 @@ def validate_source_runtime_provenance(
         )
         return
 
+    if provenance.get("source_kind") == "natural_action_confirmation_checkpoint":
+        evidence = _object(evidence_path)
+        boundary = evidence.get("boundary", {})
+        output = evidence.get("output", {})
+        evidence_provenance = evidence.get("provenance", {})
+        guard = evidence.get("guard", {})
+        scope = evidence.get("scope", {})
+        trigger = provenance.get("natural_trigger", {})
+        expected_trigger = {
+            "ninja_tool_id": 1,
+            "encoded_action_id": 129,
+            "trigger_sequence_id": 13,
+            "additional_natural_sequence_id": 4,
+            "resource_group_id": 4,
+            "final_confirmation_input": "A:5:13",
+        }
+        if group_id != 4 or profile.get("sequence_id") != 4:
+            raise ValueError("natural action confirmation target identity mismatch")
+        if trigger != expected_trigger:
+            raise ValueError("natural action confirmation trigger contract mismatch")
+        if (
+            profile.get("input_mode") != "explicit-input-sequence"
+            or profile.get("inputs") != ["A:5:13"]
+        ):
+            raise ValueError("natural action confirmation input schedule mismatch")
+        if (
+            evidence.get("schema")
+            != "runtime-checkpoint-input-sequence-evidence-v1"
+            or evidence.get("artifact_status") != "accepted"
+        ):
+            raise ValueError("natural action confirmation evidence is not accepted")
+        if (
+            not isinstance(evidence_provenance, dict)
+            or evidence_provenance.get("base_rom_sha256") != rom_sha256
+        ):
+            raise ValueError("natural action confirmation base ROM mismatch")
+        if (
+            not isinstance(boundary, dict)
+            or boundary.get("final_confirmation_pressed") is not False
+            or boundary.get("next_input")
+            != {"key": "A", "down_frame": 5, "up_frame": 13}
+            or boundary.get("next_runtime_binding")
+            != {
+                "encoded_action_id": 129,
+                "resource_group_id": 11,
+                "sequence_id": 13,
+            }
+        ):
+            raise ValueError("natural action confirmation boundary mismatch")
+        if (
+            not isinstance(output, dict)
+            or output.get("path") != input_state_path
+            or output.get("sha256") != input_state_sha256
+        ):
+            raise ValueError("natural action confirmation state identity mismatch")
+        if (
+            not isinstance(scope, dict)
+            or scope.get("natural_cross_shuriken_confirmation_route") is not True
+            or scope.get("post_confirmation_effect_runtime") is not False
+        ):
+            raise ValueError("natural action confirmation scope mismatch")
+        if (
+            not isinstance(guard, dict)
+            or guard.get("reason") != "completed"
+            or guard.get("exit_code") != 0
+            or guard.get("degraded") is not False
+            or guard.get("completion_trigger") != "success-marker"
+            or guard.get("pgid_clean") is not True
+            or guard.get("mgba_listener_clean") is not True
+        ):
+            raise ValueError("natural action confirmation guard mismatch")
+
+        state_path = _repository_path(root, input_state_path, "profile input state")
+        if _sha256(state_path) != input_state_sha256:
+            raise ValueError("natural action confirmation input state hash mismatch")
+        state = load_gba_state(state_path)
+        animation_catalog = _object(ANIMATION_CATALOG)
+        definition, animation = effect_group_identity(animation_catalog, group_id)
+        for slot in range(TASK_COUNT):
+            task = state.read_memory(TASK_BASE + slot * TASK_SIZE, TASK_SIZE)
+            if (
+                int.from_bytes(task[0:4], "little") & 1
+                and int.from_bytes(task[0x1C:0x20], "little") == definition
+                and int.from_bytes(task[0x20:0x24], "little") == animation
+            ):
+                raise ValueError(
+                    "natural action confirmation already contains a target group task"
+                )
+        return
+
     parent = provenance.get("accepted_parent", {})
     if not isinstance(parent, dict):
         raise ValueError("source runtime accepted parent is missing")

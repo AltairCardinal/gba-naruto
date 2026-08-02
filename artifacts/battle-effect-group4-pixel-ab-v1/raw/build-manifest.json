@@ -1,0 +1,181 @@
+{
+  "base_rom": "rom/base.gba",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "binding": {
+    "encoded_action_id": 129,
+    "group_id": 4,
+    "ninja_tool_id": 1,
+    "sequence_id": 4,
+    "trigger_sequence_id": 13
+  },
+  "catalogs": {
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73"
+  },
+  "edit": {
+    "after_byte": 20,
+    "after_index": 4,
+    "after_rgb": [
+      189,
+      123,
+      115
+    ],
+    "before_byte": 19,
+    "before_index": 3,
+    "before_rgb": [
+      206,
+      148,
+      123
+    ],
+    "component_index": 0,
+    "component_pixel_xy": [
+      2,
+      14
+    ],
+    "frame_id": 0,
+    "graphics_byte_offset": 153,
+    "screen_xy": [
+      83,
+      72
+    ]
+  },
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation-evidence.json",
+  "input_evidence_sha256": "f3d6b84355fc5e6168d05898807108b7c61fb088e27adb50b736e64a0a61ba80",
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+  "input_state_sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139",
+  "profile": "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json",
+  "profile_id": "group-04-tool1-projectile",
+  "profile_sha256": "59d75838f2c65ebf6bda829442ceb2df0aae42177747500c6cae1e98e1da903f",
+  "runtime_input": {
+    "capture_frame": 96,
+    "down_frame": 5,
+    "key": "A",
+    "up_frame": 13
+  },
+  "runtime_oam": {
+    "attributes": [
+      "0x003A",
+      "0x8051",
+      "0x4900"
+    ],
+    "oam_index": 0,
+    "obj_tile_base": 256,
+    "obj_vram_address": "0x06012000",
+    "palette_bank": 4
+  },
+  "same_encoded_size": true,
+  "same_patch_topology": true,
+  "schema": "battle-effect-pixel-ab-build-v1",
+  "variants": {
+    "baseline": {
+      "encoded_graphics_size": 447,
+      "graphics_allocation_offset": 11796480,
+      "graphics_path": "baseline/group-04-graphics-4bpp.bin",
+      "graphics_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "034f9601bb5df7698164696d20e34e29b9c578b2a80604c39721c05b2274b3d6",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "battle-effects",
+            "region_owner": "battle_effect_resources"
+          },
+          "asset_type": "battle_effect_resource_relocation",
+          "decompressed_size": 2048,
+          "id": "battle-effect-graphics-000",
+          "kind": "allocation",
+          "new_pointer": 146014208,
+          "offset": 11796480,
+          "replacement_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+          "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+          "resource_type": "graphics",
+          "size": 447,
+          "target_pointer_offsets": [
+            5869884
+          ]
+        },
+        {
+          "after_hex": "0000b408",
+          "after_sha256": "8b2a8aed390c0a8c3d45157880a95618891e469df2c870f4625447d5d29a1198",
+          "allocation": null,
+          "asset_type": "battle_effect_resource_pointer",
+          "decompressed_size": null,
+          "id": "battle-effect-graphics-000.pointer-59913c",
+          "kind": "redirect",
+          "new_pointer": 146014208,
+          "offset": 5869884,
+          "replacement_sha256": null,
+          "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5869884
+          ]
+        }
+      ],
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "2f97e49ba719655de266c0d512dc86522de497b5823e8f5b1e75fd19fc167eba",
+      "rom_size": 16777216,
+      "spec_path": "baseline/spec.json"
+    },
+    "candidate": {
+      "encoded_graphics_size": 447,
+      "graphics_allocation_offset": 11796480,
+      "graphics_path": "candidate/group-04-graphics-4bpp.bin",
+      "graphics_sha256": "0d1971e4a0ec19230cdb05eb6e20a24b89307964a15424a19672829e9ba88ef4",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "d76836968776b530c957ae8eda5abf2ab71d6cb7407e3c665f7b8c638a1d6e81",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "battle-effects",
+            "region_owner": "battle_effect_resources"
+          },
+          "asset_type": "battle_effect_resource_relocation",
+          "decompressed_size": 2048,
+          "id": "battle-effect-graphics-000",
+          "kind": "allocation",
+          "new_pointer": 146014208,
+          "offset": 11796480,
+          "replacement_sha256": "0d1971e4a0ec19230cdb05eb6e20a24b89307964a15424a19672829e9ba88ef4",
+          "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+          "resource_type": "graphics",
+          "size": 447,
+          "target_pointer_offsets": [
+            5869884
+          ]
+        },
+        {
+          "after_hex": "0000b408",
+          "after_sha256": "8b2a8aed390c0a8c3d45157880a95618891e469df2c870f4625447d5d29a1198",
+          "allocation": null,
+          "asset_type": "battle_effect_resource_pointer",
+          "decompressed_size": null,
+          "id": "battle-effect-graphics-000.pointer-59913c",
+          "kind": "redirect",
+          "new_pointer": 146014208,
+          "offset": 5869884,
+          "replacement_sha256": null,
+          "resource_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5869884
+          ]
+        }
+      ],
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "956aa50ac2b516a0280f1391aa567df66c8bd44adf0126d0eb1bccf5d4210909",
+      "rom_size": 16777216,
+      "spec_path": "candidate/spec.json"
+    }
+  }
+}

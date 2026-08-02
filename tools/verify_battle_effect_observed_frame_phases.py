@@ -11,10 +11,14 @@ from typing import Any
 
 try:
     from tools.verify_battle_effect_frame_phase import verify_artifact
+    from tools.verify_battle_effect_group5_pixel_ab_evidence import verify_evidence as verify_group5_pixel
+    from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from tools.verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from tools.verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 except ModuleNotFoundError:
     from verify_battle_effect_frame_phase import verify_artifact
+    from verify_battle_effect_group5_pixel_ab_evidence import verify_evidence as verify_group5_pixel
+    from verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 
@@ -23,19 +27,26 @@ EXPECTED = {
     1: Path("artifacts/battle-effect-frame-phase-group1-v1"),
     2: Path("artifacts/battle-effect-frame-phase-group2-v1"),
     3: Path("artifacts/battle-effect-frame-phase-group3-natural-v1"),
+    4: Path("artifacts/battle-effect-frame-phase-group4-natural-v1"),
     5: Path("artifacts/battle-effect-frame-phase-group5-v1"),
     11: Path("artifacts/battle-effect-frame-phase-v1"),
     14: Path("artifacts/battle-effect-frame-phase-group14-v1"),
+    18: Path("artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"),
 }
 PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
-NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
+NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
+NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
 PIXEL_AB = {
-    1: Path("artifacts/battle-effect-group1-pixel-ab-v1"),
-    3: Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"),
-    5: Path("artifacts/battle-effect-group5-pixel-ab-v1"),
-    11: Path("artifacts/battle-effect-group11-pixel-ab-v1"),
-    14: Path("artifacts/battle-effect-group14-pixel-ab-v1"),
-    15: Path("artifacts/battle-effect-group15-pixel-ab-v1"),
+    1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "generic"),
+    2: (Path("artifacts/battle-effect-group2-pixel-ab-v1"), "generic"),
+    3: (Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"), "natural"),
+    4: (Path("artifacts/battle-effect-group4-pixel-ab-v1"), "generic"),
+    5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "group5"),
+    11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "generic"),
+    13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "generic"),
+    14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "generic"),
+    15: (Path("artifacts/battle-effect-group15-pixel-ab-v1"), "generic"),
+    18: (Path("artifacts/battle-effect-group18-natural-pixel-ab-v1"), "natural"),
 }
 OBSERVED_ARTIFACT = Path("artifacts/battle-effect-runtime-oam-task-bindings-v1")
 OBSERVED_PAYLOAD = OBSERVED_ARTIFACT / "bindings.json"
@@ -48,6 +59,11 @@ REQUIRED_REPOSITORY_FILES = {
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+    "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
+    "tools/verify_battle_effect_pixel_ab_evidence.py",
+    "tests/test_verify_battle_effect_pixel_ab_evidence.py",
+    "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
+    "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
@@ -166,17 +182,27 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             pixel_rows = []
         for row in pixel_rows:
             group_id = row.get("group_id")
-            relative = PIXEL_AB.get(group_id)
+            entry = PIXEL_AB.get(group_id)
+            relative = entry[0] if entry is not None else None
             if relative is None or row.get("path") != relative.as_posix():
                 errors.append(f"unexpected pixel A/B artifact row: {group_id}")
                 continue
             if _sha256(root / relative / "manifest.json") != row.get("manifest_sha256"):
                 errors.append(f"pixel A/B manifest hash mismatch: {group_id}")
-            if group_id == 3 and not verify_natural_pixel(root, root / relative).get("verified"):
-                errors.append("natural group3 pixel A/B verification failed")
+            verification_kind = entry[1]
+            if verification_kind == "natural":
+                pixel_result = verify_natural_pixel(root, root / relative)
+            elif verification_kind == "group5":
+                pixel_result = verify_group5_pixel(root, root / relative)
+            else:
+                pixel_result = verify_generic_pixel(root, root / relative)
+            if not pixel_result.get("verified"):
+                errors.append(f"pixel A/B verification failed: {group_id}")
         expected_scope = {
             "all_observed_groups_have_one_verified_phase_transaction": True,
             "natural_delayed_group3_phase_transaction_included": True,
+            "natural_delayed_group18_phase_transaction_included": True,
+            "natural_confirmation_group4_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -191,9 +217,11 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             or coverage.get("observed_group_ids") != PERSISTED_OBSERVED_GROUP_IDS
             or coverage.get("natural_delayed_extension_group_ids")
             != NATURAL_DELAYED_EXTENSION_GROUP_IDS
-            or coverage.get("phase_verified_group_count") != 6
+            or coverage.get("natural_confirmation_extension_group_ids")
+            != NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS
+            or coverage.get("phase_verified_group_count") != len(EXPECTED)
             or coverage.get("phase_verified_group_ids") != sorted(EXPECTED)
-            or coverage.get("production_pixel_ab_group_count") != 6
+            or coverage.get("production_pixel_ab_group_count") != len(PIXEL_AB)
             or coverage.get("production_pixel_ab_group_ids") != sorted(PIXEL_AB)
         ):
             errors.append("coverage summary denominator mismatch")
@@ -202,9 +230,9 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
     return {
         "verified": not errors,
         "errors": errors,
-        "phase_verified_groups": 6 if not errors else 0,
+        "phase_verified_groups": len(EXPECTED) if not errors else 0,
         "all_groups": 18,
-        "production_pixel_ab_groups": 6 if not errors else 0,
+        "production_pixel_ab_groups": len(PIXEL_AB) if not errors else 0,
     }
 
 

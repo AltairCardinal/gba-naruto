@@ -1,0 +1,61 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-04-tool1-projectile",
+  "group_id": 4,
+  "sequence_id": 4,
+  "trigger_sequence_id": 13,
+  "trigger_group_id": 11,
+  "selector": {
+    "kind": "ninja_tool",
+    "id": 1,
+    "encoded_action_id": 129
+  },
+  "frame_id": 0,
+  "component_index": 0,
+  "component_pixel_xy": [2, 14],
+  "graphics_byte_offset": 153,
+  "before_byte": 19,
+  "after_byte": 20,
+  "before_index": 3,
+  "after_index": 4,
+  "screen_xy": [83, 72],
+  "before_rgb": [206, 148, 123],
+  "after_rgb": [189, 123, 115],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-04-graphics-4bpp.bin",
+  "source_graphics_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+  "pair_pointer_offset": 5869884,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 447,
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+  "input_state_sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139",
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation-evidence.json",
+  "input_evidence_sha256": "f3d6b84355fc5e6168d05898807108b7c61fb088e27adb50b736e64a0a61ba80",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 96
+  },
+  "runtime_oam": {
+    "oam_index": 0,
+    "attributes": ["0x003A", "0x8051", "0x4900"],
+    "obj_tile_base": 256,
+    "obj_vram_address": "0x06012000",
+    "palette_bank": 4
+  },
+  "runtime_toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73"
+  }
+}

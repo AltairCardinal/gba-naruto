@@ -1,7 +1,7 @@
 {
   "ack_hit_count": 1,
   "animation_pointer": "0x083426CC",
-  "animations": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-sprite-animations-v1/manifest.json",
+  "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
   "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
   "automatic_inputs": [],
   "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
@@ -51,15 +51,15 @@
   },
   "frame": 68,
   "group_id": 3,
-  "guard_summary_sha256": "b07a125aeb2ced9df9b4c2429033bdb1e8fbb4fc5e64c05ee897400c37965820",
+  "guard_summary_sha256": "08af1ffb1b8aa050d0867be375e296f40fd2cedf8f4aeb7ab79fe92dce607aa9",
   "input_mode": "zero-input-active-state",
-  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+  "input_state": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
   "input_state_sha256": "34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501",
   "inputs": [],
   "outcome": "three-phase-captured",
   "peak_tree_rss_mib": 71.33203125,
   "pgid_clean": true,
-  "phase_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_battle_effect_phase_capture.lua",
+  "phase_script": "tools/mgba_battle_effect_phase_capture.lua",
   "phase_script_sha256": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
   "phases": [
     {
@@ -96,7 +96,7 @@
       "task_slot": 126
     }
   ],
-  "profile": "/Users/altair/github/gba-naruto-reverse/sequel/content/battle-effect-phase-capture/group-03-natural-tool67-expiry.json",
+  "profile": "sequel/content/battle-effect-phase-capture/group-03-natural-tool67-expiry.json",
   "profile_sha256": "bed4e1c2301066ddb413dd869e019545562af9cc29ef17b57df3c46e271db72f",
   "recovery_inputs": [],
   "renderer_hit_count": 49,
@@ -127,14 +127,14 @@
     ]
   },
   "schema": "mgba-battle-effect-phase-capture-v1",
-  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/group-03-natural-expiry-production-20260802-01/staged.gba",
+  "staged_rom": "build/experiments/active/battlefield-object-effect-natural-route/group-03-natural-expiry-production-20260802-01/staged.gba",
   "staged_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "submission_watch_hit_count": 100,
   "timeout_frames": 600,
   "toolchain": {
     "kind": "current-desktop-runtime-profile",
     "patch_sha256": null,
-    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
     "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
     "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
   }

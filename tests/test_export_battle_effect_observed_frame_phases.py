@@ -16,11 +16,17 @@ class BattleEffectObservedFramePhaseExporterTests(unittest.TestCase):
         coverage = exporter.build_coverage(ROOT)
         self.assertEqual(coverage["all_group_denominator"], 18)
         self.assertEqual(coverage["observed_group_denominator"], 5)
-        self.assertEqual(coverage["phase_verified_group_count"], 6)
-        self.assertEqual(coverage["phase_verified_group_ids"], [1, 2, 3, 5, 11, 14])
-        self.assertEqual(coverage["natural_delayed_extension_group_ids"], [3])
-        self.assertEqual(coverage["production_pixel_ab_group_ids"], [1, 3, 5, 11, 14, 15])
-        self.assertEqual(coverage["production_pixel_ab_group_count"], 6)
+        self.assertEqual(coverage["phase_verified_group_count"], 8)
+        self.assertEqual(
+            coverage["phase_verified_group_ids"], [1, 2, 3, 4, 5, 11, 14, 18]
+        )
+        self.assertEqual(coverage["natural_delayed_extension_group_ids"], [3, 18])
+        self.assertEqual(coverage["natural_confirmation_extension_group_ids"], [4])
+        self.assertEqual(
+            coverage["production_pixel_ab_group_ids"],
+            [1, 2, 3, 4, 5, 11, 13, 14, 15, 18],
+        )
+        self.assertEqual(coverage["production_pixel_ab_group_count"], 10)
 
 
 if __name__ == "__main__":

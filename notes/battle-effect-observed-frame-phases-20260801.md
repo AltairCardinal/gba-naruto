@@ -115,3 +115,15 @@ Group 3 已通过忍具 67 的 C3 对象自然到期入口完成 production base
 最终像素 A/B。聚合分母现为 phase `6/18`、production natural pixel A/B `6/18`；
 新增像素成果为 `artifacts/battle-effect-group03-natural-pixel-ab-v1/`，详细证据见
 `notes/battle-effect-group3-natural-pixel-ab-20260802.md`。
+
+## 2026-08-02 Group 4/18 聚合更新
+
+Group 18 的自然延迟对象和 Group 4 的自然忍具确认路线现已进入同一可复算聚合。
+当前 phase groups 为 `[1,2,3,4,5,11,14,18]`，即 **8/18**；production
+modified-ROM pixel groups 为 `[1,2,3,4,5,11,13,14,15,18]`，即
+**10/18（55.56%）**。聚合 verifier 会按 artifact schema 分别调用 generic、
+Group 5 和 natural-delayed 独立 verifier，而不再只检查 manifest 自报与哈希。
+
+Group 4 详细证据见
+`notes/battle-effect-group4-natural-pixel-ab-20260802.md`；剩余 production pixel
+组为 `{6,7,8,9,10,12,16,17}`。
