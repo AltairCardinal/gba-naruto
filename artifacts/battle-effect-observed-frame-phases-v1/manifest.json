@@ -2,7 +2,7 @@
   "artifact_schema": "battle-effect-observed-frame-phases-v1",
   "artifact_status": "accepted",
   "files": {
-    "coverage.json": "60eb189fa7359241d2241504c387d97dfbceb19d3e95bbf3062ab2274fa4fc7f"
+    "coverage.json": "cd0592f962ee67b83625562d36b14992a5b5a691a8729eb36131662c90a39227"
   },
   "producer": {
     "command": [
@@ -11,19 +11,20 @@
       "--root",
       ".",
       "--output",
-      "build/experiments/active/battle-effect-observed-frame-phases-refresh-20260802-02"
+      "artifacts/battle-effect-observed-frame-phases-v1"
     ],
     "repository_files": {
-      "tests/test_export_battle_effect_observed_frame_phases.py": "cd53b03391f352beafbe488f601811f22a2ab063aa2f4bdd8d947a136ce52370",
+      "tests/test_export_battle_effect_observed_frame_phases.py": "89107c6edcefb001e6be46cb453d69ba10613a9e4a77877ad8e51423c478e3a1",
       "tests/test_inspect_mgba_savestate.py": "30aa7d4d7926a6a959ca4d9d165c849bcd41574468a56a61fb1dce01ce1894bc",
       "tests/test_verify_battle_effect_frame_phase.py": "53bedf38ec406b8eeb3afc59b60551a515a714b49d7bef2f66d7ba3eadbebf12",
-      "tests/test_verify_battle_effect_observed_frame_phases.py": "99fae2e57d991ed52b40011e4916303dc4d967c5f1b371f74b8add0e23556c1e",
+      "tests/test_verify_battle_effect_observed_frame_phases.py": "4b158246d15c0f7643e9dd226631f799bf08d19789dd84b45420188db5d36174",
       "tests/test_verify_battle_effect_runtime_oam_task_bindings.py": "48391366c272d5a0a9c62e469e92bb98b02acf4b7c3b1c4f63c305ae5a11525a",
-      "tools/export_battle_effect_observed_frame_phases.py": "3a6d9c9bd5aeadf90dcea3bf34ff0c5fa518b37723d7c1be8bcd687009da560f",
+      "tools/export_battle_effect_observed_frame_phases.py": "93701ead92124fe66c474172e4d98f3cfdd699b9702268c883c5bacd896fba67",
       "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
       "tools/verify_battle_effect_frame_phase.py": "4dc2116c37c2b32becc00b4770fe3e6d2f186c83da0833142d06d4c3467058a5",
-      "tools/verify_battle_effect_observed_frame_phases.py": "c41dcff7e8139ba95d2306eec33cc4d4853a29b9081f03ea945f06312136f9a0",
-      "tools/verify_battle_effect_runtime_oam_task_bindings.py": "092a5846b1af59cdf0d4a075787005b0d0a86c1d27c693cc11b78cf0659f8475"
+      "tools/verify_battle_effect_observed_frame_phases.py": "2ec8452d0e7d2ccbb4614ebd127ecbcc2d5edbbb36fda26c902e0eead2ace7f0",
+      "tools/verify_battle_effect_runtime_oam_task_bindings.py": "092a5846b1af59cdf0d4a075787005b0d0a86c1d27c693cc11b78cf0659f8475",
+      "tools/verify_natural_delayed_battle_effect_pixel_ab.py": "d1efafbcd381cf0cc66eb6be2de79f418115e5d973d14dc95de02fe2f8007aeb"
     }
   },
   "schema": "git-artifact-promotion-v1",
@@ -34,14 +35,14 @@
       "--root",
       ".",
       "--artifact",
-      "build/experiments/active/battle-effect-observed-frame-phases-refresh-20260802-02"
+      "artifacts/battle-effect-observed-frame-phases-v1"
     ],
     "exit_code": 0,
     "result": {
       "all_groups": 18,
       "errors": [],
       "phase_verified_groups": 6,
-      "production_pixel_ab_groups": 5,
+      "production_pixel_ab_groups": 6,
       "verified": true
     }
   }

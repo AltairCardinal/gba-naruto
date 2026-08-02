@@ -12,9 +12,11 @@ from typing import Any
 try:
     from tools.verify_battle_effect_frame_phase import verify_artifact
     from tools.verify_battle_effect_runtime_oam_task_bindings import verify_bindings
+    from tools.verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 except ModuleNotFoundError:
     from verify_battle_effect_frame_phase import verify_artifact
     from verify_battle_effect_runtime_oam_task_bindings import verify_bindings
+    from verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 
 
 EXPECTED = {
@@ -29,6 +31,7 @@ PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
 NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
 PIXEL_AB = {
     1: Path("artifacts/battle-effect-group1-pixel-ab-v1"),
+    3: Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"),
     5: Path("artifacts/battle-effect-group5-pixel-ab-v1"),
     11: Path("artifacts/battle-effect-group11-pixel-ab-v1"),
     14: Path("artifacts/battle-effect-group14-pixel-ab-v1"),
@@ -44,6 +47,7 @@ REQUIRED_REPOSITORY_FILES = {
     "tools/verify_battle_effect_frame_phase.py",
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+    "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
@@ -168,6 +172,8 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
                 continue
             if _sha256(root / relative / "manifest.json") != row.get("manifest_sha256"):
                 errors.append(f"pixel A/B manifest hash mismatch: {group_id}")
+            if group_id == 3 and not verify_natural_pixel(root, root / relative).get("verified"):
+                errors.append("natural group3 pixel A/B verification failed")
         expected_scope = {
             "all_observed_groups_have_one_verified_phase_transaction": True,
             "natural_delayed_group3_phase_transaction_included": True,
@@ -187,7 +193,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             != NATURAL_DELAYED_EXTENSION_GROUP_IDS
             or coverage.get("phase_verified_group_count") != 6
             or coverage.get("phase_verified_group_ids") != sorted(EXPECTED)
-            or coverage.get("production_pixel_ab_group_count") != 5
+            or coverage.get("production_pixel_ab_group_count") != 6
             or coverage.get("production_pixel_ab_group_ids") != sorted(PIXEL_AB)
         ):
             errors.append("coverage summary denominator mismatch")
@@ -198,7 +204,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
         "errors": errors,
         "phase_verified_groups": 6 if not errors else 0,
         "all_groups": 18,
-        "production_pixel_ab_groups": 5 if not errors else 0,
+        "production_pixel_ab_groups": 6 if not errors else 0,
     }
 
 

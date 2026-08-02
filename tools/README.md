@@ -211,6 +211,29 @@ python3 tools/verify_battle_effect_pixel_ab_evidence.py \
   --artifact artifacts/battle-effect-group1-pixel-ab-v1
 ```
 
+自然延迟对象使用独立的零输入生产链。它从已验证的“对象倒计时归零、目标特效
+task 尚未创建”快照开始，不注入 selector、hook 或控制桩；baseline/candidate 只在
+排他的迁移图形字节上不同，并在同一自然到期入口捕获最终像素：
+
+```bash
+python3 tools/run_natural_delayed_battle_effect_pixel_ab.py \
+  --binary /Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA \
+  --expected-binary-sha256 c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8 \
+  --toolchain-profile artifacts/rom-expansion-profile-v1/profile.json \
+  --profile sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json \
+  --output-root build/experiments/active/battle-effect-group03-natural/<run-id>
+python3 tools/export_natural_delayed_battle_effect_pixel_ab.py \
+  --profile sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json \
+  --source build/experiments/active/battle-effect-group03-natural/<run-id> \
+  --output artifacts/battle-effect-group03-natural-pixel-ab-v1
+python3 tools/verify_natural_delayed_battle_effect_pixel_ab.py \
+  --artifact artifacts/battle-effect-group03-natural-pixel-ab-v1
+```
+
+runner 的两次 mGBA 启动都经 `run_guarded.py` 的同一 heavy lock、内存和进程树
+门禁，且必须保持零输入。当前该链使18组特效的 production 自然最终像素覆盖达到
+6/18；它不签发其余12组、完整动画、混合、音频或实体GBA。
+
 `build_chapter_battle_route_probe.py`保留 primary scenario 39 的完整脚本，只替换已验证
 `SetBattle(40,2)` 的 battle ID 字节；它用于复用原剧情、战前菜单和启动链进入指定的
 0..46 battle formation，不等同于自然原版关卡选择，也不应作为生产 ROM 编辑器。

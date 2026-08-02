@@ -1,6 +1,6 @@
 {
   "all_group_denominator": 18,
-  "boundary": "Six of 18 groups have one verified global renderer/submit/ack transaction; group 3 is a natural delayed-object extension beyond the five-group persisted corpus. Only groups 1, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence.",
+  "boundary": "Six of 18 groups have one verified global renderer/submit/ack transaction; group 3 is a natural delayed-object extension beyond the five-group persisted corpus. Groups 1, 3, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence; group 3 uses the same natural delayed-object entry as its phase artifact.",
   "natural_delayed_extension_group_ids": [
     3
   ],
@@ -72,6 +72,11 @@
       "path": "artifacts/battle-effect-group1-pixel-ab-v1"
     },
     {
+      "group_id": 3,
+      "manifest_sha256": "3b9471a8946034b5fd66b4e046b743d182deb1a429dc1b72b05e7c51e65ec931",
+      "path": "artifacts/battle-effect-group03-natural-pixel-ab-v1"
+    },
+    {
       "group_id": 5,
       "manifest_sha256": "6a01ad7d5bb926b759186a1edb3c123c2659b92aacd9652e2df0266077caa662",
       "path": "artifacts/battle-effect-group5-pixel-ab-v1"
@@ -92,9 +97,10 @@
       "path": "artifacts/battle-effect-group15-pixel-ab-v1"
     }
   ],
-  "production_pixel_ab_group_count": 5,
+  "production_pixel_ab_group_count": 6,
   "production_pixel_ab_group_ids": [
     1,
+    3,
     5,
     11,
     14,

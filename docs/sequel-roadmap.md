@@ -2150,3 +2150,15 @@ WebSocket
   `notes/battle-effect-group3-natural-expiry-phase-20260802.md`。精确phase覆盖由5/18
   提升到**6/18**；聚合artifact同时纠正production自然像素为既有**5/18**。本轮仍是
   基准ROM，下一步把exclusive relocation与该自然入口组合，Goal保持active。
+- 2026-08-02：Group 3 已把上述自然到期相位与 production exclusive relocation
+  组合为同输入最终像素 A/B。baseline/candidate 均从 tool 67 C3/remaining 0 快照
+  零输入运行，在 frame `67/67/68` 命中同一 slot 126 renderer/submit/ack；两份
+  16 MiB ROM 不含 controlled probe，只重定向 group 3 指针 `0x599134`，保留 group 2
+  别名 `0x59912C`。六个运行时内存域仅 OBJ-VRAM `0x060124CF` 一字节不同，独立 Mode 0
+  合成仅 `(70,91)` 一个像素从 `[247,115,0]` 变为 `[115,107,99]`，完整 source palette
+  与 runtime PRAM 相等。独立 verifier 重新编码 LZ77、重建两份 ROM 哈希并验证三相
+  savestate/dump，返回 `errors=[]`；guard 峰值 RSS 75.8515625/68.203125 MiB 且无进程
+  残留。成果见 `artifacts/battle-effect-group03-natural-pixel-ab-v1/` 和
+  `notes/battle-effect-group3-natural-pixel-ab-20260802.md`。聚合 phase 保持 **6/18**，
+  production 自然最终像素由 **5/18 提升到 6/18**；其余 12 组及完整动画/混合/音频/
+  实体 GBA 仍未闭合，Goal 保持 active。

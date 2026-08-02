@@ -55,5 +55,6 @@ manifest；批处理要求 raw、runtime audit 和 guard 的全文件哈希完�
 - 本轮没有构建修改 ROM，因此不增加自然最终像素 A/B 分子；
 - 只覆盖 group 3 当前自然到期时的一次全局提交事务，不代表完整动画、非镜像分支、
   palette 尾字生命周期、blend/window、音频或实体 GBA；
-- 下一步应把既有 group 3 exclusive relocation 单像素修改与本自然到期入口组合，完成
-  baseline/candidate 同输入的最终像素 A/B。
+- 后续 production 单像素 A/B 已完成，见
+  `notes/battle-effect-group3-natural-pixel-ab-20260802.md`；该后续把自然最终像素分母
+  提升到 `6/18`，但仍不证明完整动画、blend/window、音频或实体 GBA。

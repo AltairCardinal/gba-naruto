@@ -108,3 +108,10 @@ group 5 baseline ROM 已用现有确定性 builder 经 heavy guard 重建；buil
 
 下一步应转向未观察 13 组的动作/sequence 入口发现和可恢复 checkpoint 批量生成，而非
 继续对这五个已观察组重复采样同类 phase。
+
+## 2026-08-02 Group 3 自然到期扩展
+
+Group 3 已通过忍具 67 的 C3 对象自然到期入口完成 production baseline/candidate
+最终像素 A/B。聚合分母现为 phase `6/18`、production natural pixel A/B `6/18`；
+新增像素成果为 `artifacts/battle-effect-group03-natural-pixel-ab-v1/`，详细证据见
+`notes/battle-effect-group3-natural-pixel-ab-20260802.md`。

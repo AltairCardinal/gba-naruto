@@ -25,11 +25,12 @@ PHASE_ARTIFACTS = {
 PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
 NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3]
 PIXEL_AB_ARTIFACTS = {
-    1: Path("artifacts/battle-effect-group1-pixel-ab-v1"),
-    5: Path("artifacts/battle-effect-group5-pixel-ab-v1"),
-    11: Path("artifacts/battle-effect-group11-pixel-ab-v1"),
-    14: Path("artifacts/battle-effect-group14-pixel-ab-v1"),
-    15: Path("artifacts/battle-effect-group15-pixel-ab-v1"),
+    1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    3: (Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"), "natural-delayed-battle-effect-pixel-ab-runtime-v1"),
+    5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "battle-effect-group5-pixel-ab-runtime-v1"),
+    11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    15: (Path("artifacts/battle-effect-group15-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
 }
 BATCH_SPEC = Path(
     "sequel/content/battle-effect-phase-capture/observed-groups-batch-v1.json"
@@ -47,6 +48,7 @@ REPOSITORY_FILES = (
     "tools/verify_battle_effect_frame_phase.py",
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+    "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
@@ -120,8 +122,8 @@ def build_coverage(root: Path) -> dict[str, Any]:
             }
         )
     pixel_rows = [
-        {"group_id": group_id, **_accepted_artifact(root, relative, "battle-effect-pixel-ab-runtime-v1" if group_id != 5 else "battle-effect-group5-pixel-ab-runtime-v1")}
-        for group_id, relative in PIXEL_AB_ARTIFACTS.items()
+        {"group_id": group_id, **_accepted_artifact(root, relative, schema)}
+        for group_id, (relative, schema) in PIXEL_AB_ARTIFACTS.items()
     ]
     return {
         "schema": SCHEMA,
@@ -156,7 +158,8 @@ def build_coverage(root: Path) -> dict[str, Any]:
         "boundary": (
             "Six of 18 groups have one verified global renderer/submit/ack transaction; "
             "group 3 is a natural delayed-object extension beyond the five-group persisted corpus. "
-            "Only groups 1, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence."
+            "Groups 1, 3, 5, 11, 14 and 15 have production modified-ROM pixel A/B evidence; "
+            "group 3 uses the same natural delayed-object entry as its phase artifact."
         ),
     }
 
