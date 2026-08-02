@@ -2162,3 +2162,18 @@ WebSocket
   `notes/battle-effect-group3-natural-pixel-ab-20260802.md`。聚合 phase 保持 **6/18**，
   production 自然最终像素由 **5/18 提升到 6/18**；其余 12 组及完整动画/混合/音频/
   实体 GBA 仍未闭合，Goal 保持 active。
+- 2026-08-02：Group 12/13 路线审计先排除了旧伪证据：battle 8 的 Lv25 卡卡西实际
+  动作数组没有 action 32“雷切”；`0x0807A222` 又位于动作 `strb` 之前，两次所谓
+  action 64 观察只是旧值，不能证明本轮选择。观察器改到写入后的 `0x0807A22C` 后，
+  diagnostic battle 3 从持久化确认页只输入一次 `A:60:68`，在 frame 179 同时捕获
+  source/runtime action 61，并闭合 action 61 → sequence 15 → group 13。生产 A/B
+  只改 group 13 解压图形 offset `0x5D:0x32→0x22`；两边从同一快照自然执行，除
+  VBlank wait 返回边界 `0x03007F9C` 外，EWRAM/IO/PRAM/OAM 均相同，VRAM 只差
+  `0x0601245D`，最终截图只在 `(96,63)` 发生
+  `(173,198,214)→(214,231,239)`。独立 verifier 返回 `errors=[]`，两次运行峰值
+  RSS 为 `69.58203125/69.5703125 MiB` 且无残留。成果位于
+  `artifacts/battle-effect-group13-natural-runtime-v1/` 与
+  `artifacts/battle-effect-group13-pixel-ab-v1/`；说明见
+  `notes/battle-effect-group13-pixel-ab-20260802.md`。production 自然最终像素由
+  **6/18 提升到 7/18（38.89%）**；Group 12、其余 10 组、完整动画/混合/音频及
+  实体 GBA 仍未闭合，Goal 保持 active。

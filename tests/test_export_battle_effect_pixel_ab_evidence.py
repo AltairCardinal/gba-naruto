@@ -18,6 +18,31 @@ GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
 
 
 class ExportBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_classifies_only_the_known_vblank_wait_boundary_stack_phase(self):
+        from tools import export_battle_effect_pixel_ab_evidence as exporter
+
+        baseline = bytearray(0x8000)
+        candidate = bytearray(0x8000)
+        baseline[0x7F9C:0x7FA0] = (0x08061130).to_bytes(4, "little")
+        candidate[0x7F9C:0x7FA0] = (0x0806112C).to_bytes(4, "little")
+        self.assertEqual(
+            exporter._vblank_wait_capture_phase(
+                bytes(baseline), bytes(candidate), [0x7F9C]
+            ),
+            {
+                "iwram_address": "0x03007F9C",
+                "baseline_return_address": "0x08061130",
+                "candidate_return_address": "0x0806112C",
+                "classification": "vblank-wait-boundary",
+            },
+        )
+        candidate[0x7F9C:0x7FA0] = (0x08070000).to_bytes(4, "little")
+        self.assertIsNone(
+            exporter._vblank_wait_capture_phase(
+                bytes(baseline), bytes(candidate), [0x7F9C]
+            )
+        )
+
     def test_current_runtime_toolchain_contract_is_bound_to_tracked_profile(self):
         from tools import export_battle_effect_pixel_ab_evidence as exporter
 

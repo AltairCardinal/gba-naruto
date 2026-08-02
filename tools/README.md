@@ -203,12 +203,10 @@ python3 tools/run_macos_mgba_input_sequence.py --help
 python3 tools/build_battle_effect_pixel_ab.py \
   --profile sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json \
   --output build/experiments/active/battle-effect-group11/build
-python3 tools/verify_battle_effect_pixel_ab_evidence.py \
-  --artifact artifacts/battle-effect-group11-pixel-ab-v1
-python3 tools/verify_battle_effect_pixel_ab_evidence.py \
-  --artifact artifacts/battle-effect-group14-pixel-ab-v1
-python3 tools/verify_battle_effect_pixel_ab_evidence.py \
-  --artifact artifacts/battle-effect-group1-pixel-ab-v1
+for group in 1 11 13 14 15; do
+  python3 tools/verify_battle_effect_pixel_ab_evidence.py \
+    --artifact "artifacts/battle-effect-group${group}-pixel-ab-v1"
+done
 ```
 
 自然延迟对象使用独立的零输入生产链。它从已验证的“对象倒计时归零、目标特效
@@ -241,6 +239,28 @@ runner 的两次 mGBA 启动都经 `run_guarded.py` 的同一 heavy lock、内�
 ```bash
 python3 tools/build_chapter_battle_route_probe.py \
   rom/base.gba build/experiments/active/<task>/battle8.gba --battle-id 8
+```
+
+`run_macos_mgba_battle_ai_action_observer.py`用于确认敌方 AI 本轮真正选择的动作。
+固定帧读取 `0x02027428` 不可靠，因为该字段会保留上一轮旧值；`0x0807A222` 也位于
+`strb r1,[r4+0x770]` 之前，不能证明本轮写入。观察器在写入后的 `0x0807A22C`
+读取源动作与 `r4+0x770`，命中即保存状态并退出。它不写 ROM 或内存，仍经相同
+heavy guard 限制进程、内存和超时。`--input-event` 可重复指定，输入状态及按键计划
+由具体路线决定。
+
+```bash
+python3 tools/run_macos_mgba_battle_ai_action_observer.py \
+  --binary /Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA \
+  --toolchain-profile artifacts/rom-expansion-profile-v1/profile.json \
+  --expected-binary-sha256 c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8 \
+  --rom build/experiments/active/<task>/battle3.gba \
+  --expected-rom-sha256 3569189c489ae1bc92c85d6afd7fc09a8ac97d102bad554323b897d28c911905 \
+  --state artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9 \
+  --expected-state-sha256 6524764b33c419077bfad8d13fff220a6d20e80b8b92c9da08c9b94d6cdcdf48 \
+  --staged-rom build/experiments/active/<task>/staged.gba \
+  --output-dir build/experiments/active/<task>/output \
+  --guard-summary build/experiments/active/<task>/guard.json \
+  --input-event A:60:68
 ```
 
 当前profile同时支持`ninja_tool`和`active_action` selector，并允许自然selector的

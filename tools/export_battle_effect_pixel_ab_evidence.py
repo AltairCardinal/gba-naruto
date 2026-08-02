@@ -79,6 +79,10 @@ IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
     "tools/macos_mgba_runtime_residue.py",
     "tools/verify_battle_effect_group15_natural_runtime.py",
 )
+OBSERVER_IMPLEMENTATION_PATHS = IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_ai_action_observer.py",
+    "tools/mgba_battle_ai_action_observer.lua",
+)
 
 
 def _sha256(data: bytes) -> str:
@@ -154,6 +158,32 @@ def _diff(left: bytes, right: bytes) -> list[int]:
         for index, (before, after) in enumerate(zip(left, right))
         if before != after
     ]
+
+
+def _vblank_wait_capture_phase(
+    baseline_iwram: bytes, candidate_iwram: bytes, differences: list[int]
+) -> dict[str, str] | None:
+    offset = 0x7F9C
+    if (
+        differences != [offset]
+        or len(baseline_iwram) < offset + 4
+        or len(candidate_iwram) < offset + 4
+    ):
+        return None
+    baseline_return = int.from_bytes(
+        baseline_iwram[offset : offset + 4], "little"
+    )
+    candidate_return = int.from_bytes(
+        candidate_iwram[offset : offset + 4], "little"
+    )
+    if {baseline_return, candidate_return} != {0x0806112C, 0x08061130}:
+        return None
+    return {
+        "iwram_address": "0x03007F9C",
+        "baseline_return_address": f"0x{baseline_return:08X}",
+        "candidate_return_address": f"0x{candidate_return:08X}",
+        "classification": "vblank-wait-boundary",
+    }
 
 
 def _rgb(path: Path) -> bytes:
@@ -290,6 +320,7 @@ def _generation_implementation_hashes(
             LEGACY_IMPLEMENTATION_PATHS,
             INTERMEDIATE_IMPLEMENTATION_PATHS,
             IMPLEMENTATION_PATHS,
+            OBSERVER_IMPLEMENTATION_PATHS,
         )
     ):
         raise ValueError("battle-effect pixel generation provenance is invalid")
@@ -646,17 +677,29 @@ def export_evidence(
         variant: load_gba_state(raw / variant / f"frame{frame}.ss9")
         for variant in VARIANTS
     }
+    domain_bytes = {
+        variant: {
+            name: states[variant].read_memory(address, size)
+            for name, (address, size) in DOMAINS.items()
+        }
+        for variant in VARIANTS
+    }
     memory_differences = {
-        name: _diff(
-            states["baseline"].read_memory(address, size),
-            states["candidate"].read_memory(address, size),
-        )
-        for name, (address, size) in DOMAINS.items()
+        name: _diff(domain_bytes["baseline"][name], domain_bytes["candidate"][name])
+        for name in DOMAINS
     }
     changed_vram_offset = int(profile["runtime_oam"]["obj_vram_address"], 16) - 0x06000000 + offset
     expected_differences = {name: [] for name in DOMAINS}
     expected_differences["VRAM"] = [changed_vram_offset]
-    if memory_differences != expected_differences:
+    capture_phase = _vblank_wait_capture_phase(
+        domain_bytes["baseline"]["IWRAM"],
+        domain_bytes["candidate"]["IWRAM"],
+        memory_differences["IWRAM"],
+    )
+    expected_with_phase = dict(expected_differences)
+    if capture_phase is not None:
+        expected_with_phase["IWRAM"] = [0x7F9C]
+    if memory_differences != expected_with_phase:
         raise ValueError("battle-effect pixel runtime memory isolation mismatch")
 
     resource = contract["resource"]
@@ -735,6 +778,7 @@ def export_evidence(
         "edit": build["edit"],
         "runtime": {
             "memory_differences": memory_differences,
+            **({"capture_phase": capture_phase} if capture_phase is not None else {}),
             "graphics_vram_address": profile["runtime_oam"]["obj_vram_address"],
             "changed_vram_address": f"0x{0x06000000 + changed_vram_offset:08X}",
             "baseline_vram_byte": profile["before_byte"],

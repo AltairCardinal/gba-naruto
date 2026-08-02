@@ -17,9 +17,25 @@ GROUP14_ARTIFACT = ROOT / "artifacts/battle-effect-group14-pixel-ab-v1"
 GROUP5_ARTIFACT = ROOT / "artifacts/battle-effect-group5-pixel-ab-v1"
 GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
 GROUP15_ARTIFACT = ROOT / "artifacts/battle-effect-group15-pixel-ab-v1"
+GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
+GROUP13_ARTIFACT = ROOT / "artifacts/battle-effect-group13-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_independently_classifies_known_vblank_wait_boundary_stack_phase(self):
+        from tools import verify_battle_effect_pixel_ab_evidence as verifier
+
+        baseline = bytearray(0x8000)
+        candidate = bytearray(0x8000)
+        baseline[0x7F9C:0x7FA0] = (0x08061130).to_bytes(4, "little")
+        candidate[0x7F9C:0x7FA0] = (0x0806112C).to_bytes(4, "little")
+        self.assertEqual(
+            verifier._vblank_wait_capture_phase(
+                bytes(baseline), bytes(candidate), [0x7F9C]
+            )["classification"],
+            "vblank-wait-boundary",
+        )
+
     def test_independently_maps_source_pixel_through_horizontal_flip(self):
         from tools import verify_battle_effect_pixel_ab_evidence as verifier
 
@@ -39,6 +55,62 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
 
         profile = json.loads(GROUP15_PROFILE.read_text(encoding="utf-8"))
         _verify_checkpoint(ROOT, profile)
+
+    def test_accepts_current_toolchain_action_observer_checkpoint_contract(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP13_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
+    def test_active_action_parent_promotion_manifest_is_hash_complete(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import (
+            _verify_promotion_manifest,
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "parent"
+            artifact.mkdir()
+            evidence = artifact / "evidence.json"
+            evidence.write_text('{"verified": true}\n', encoding="utf-8")
+            manifest = {
+                "schema": "git-artifact-promotion-v1",
+                "artifact_schema": "battle-effect-active-action-runtime-v1",
+                "artifact_status": "accepted",
+                "files": {
+                    "evidence.json": hashlib.sha256(evidence.read_bytes()).hexdigest()
+                },
+                "verifier": {
+                    "command": ["python3", "tools/example_verifier.py"],
+                    "exit_code": 0,
+                },
+            }
+            (artifact / "manifest.json").write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+
+            _verify_promotion_manifest(
+                artifact,
+                artifact_schema="battle-effect-active-action-runtime-v1",
+                verifier_command=["python3", "tools/example_verifier.py"],
+            )
+            evidence.write_text('{"verified": false}\n', encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "file hash inventory"):
+                _verify_promotion_manifest(
+                    artifact,
+                    artifact_schema="battle-effect-active-action-runtime-v1",
+                    verifier_command=["python3", "tools/example_verifier.py"],
+                )
+
+    def test_active_action_observer_records_reject_absolute_paths(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _has_absolute_path
+
+        self.assertTrue(_has_absolute_path({"command": ["/tmp/mGBA"]}))
+        self.assertFalse(
+            _has_absolute_path(
+                {"command": ["mGBA", "--script", "tools/observer.lua"], "cwd": "."}
+            )
+        )
 
     def test_independently_derives_runtime_tile_from_component_source(self):
         from tools import verify_battle_effect_pixel_ab_evidence as verifier
@@ -184,6 +256,7 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
             GROUP1_ARTIFACT,
             GROUP14_ARTIFACT,
             GROUP15_ARTIFACT,
+            GROUP13_ARTIFACT,
         ):
             for path in artifact.rglob("*.json"):
                 payload = json.loads(path.read_text(encoding="utf-8"))
@@ -233,6 +306,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, GROUP15_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_group13_action61_pixel_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP13_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_rejects_resigned_semantic_tampering(self):

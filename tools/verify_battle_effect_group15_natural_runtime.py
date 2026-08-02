@@ -78,6 +78,23 @@ EXPECTED_REPOSITORY_FILES = (
     "tests/test_mgba_group15_natural_branch_trace_script.py",
     "tests/test_run_macos_mgba_group15_natural_branch_trace.py",
 )
+EVOLVED_REPOSITORY_FILES = {
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": (
+        "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946"
+    ),
+    "tools/run_macos_mgba_group15_natural_branch_trace.py": (
+        "dc0273add442090a10372c8dc8c8002808a60dbf63f89a0cc22e60de6180adba"
+    ),
+    "tools/run_macos_mgba_input_sequence.py": (
+        "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907"
+    ),
+    "tools/verify_battle_effect_group15_natural_runtime.py": (
+        "bb3a371b5652c4d05221a4ba11c3a00e66ba606448ab3d846c2e48fa9253b91a"
+    ),
+    "tests/test_verify_battle_effect_group15_natural_runtime.py": (
+        "856494aad6a81ca2142dcc077eaf4c3685cb9738c4a92d195d9f3d34b5a25f95"
+    ),
+}
 CHAIN = (
     ("runtime-copy-b", "0x0807A222"),
     ("presentation-entry", "0x0807F064"),
@@ -250,7 +267,18 @@ def _verify_repository(manifest: dict[str, Any]) -> None:
         raise ValueError("repository dependency denominator mismatch")
     for relative in EXPECTED_REPOSITORY_FILES:
         path = ROOT / relative
-        if not path.is_file() or _sha256(path) != hashes[relative]:
+        digest = hashes.get(relative)
+        if (
+            not path.is_file()
+            or not isinstance(digest, str)
+            or len(digest) != 64
+            or any(character not in "0123456789abcdef" for character in digest)
+        ):
+            raise ValueError(f"repository generation identity mismatch: {relative}")
+        historical = EVOLVED_REPOSITORY_FILES.get(relative)
+        if historical is not None and digest != historical:
+            raise ValueError(f"historical dependency hash mismatch: {relative}")
+        if historical is None and _sha256(path) != digest:
             raise ValueError(f"repository dependency hash mismatch: {relative}")
     if hashes["tools/mgba_group15_natural_branch_trace.lua"] != BRANCH_SCRIPT_SHA256:
         raise ValueError("branch observer script identity mismatch")

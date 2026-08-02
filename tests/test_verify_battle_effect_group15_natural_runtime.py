@@ -110,6 +110,24 @@ class Group15NaturalRuntimeVerifierTests(unittest.TestCase):
         }
         self.assertTrue(required.issubset(set(self.verifier.EXPECTED_REPOSITORY_FILES)))
 
+    def test_rejects_resigned_stable_generation_dependency_hash(self):
+        manifest = json.loads((ARTIFACT / "manifest.json").read_text(encoding="utf-8"))
+        manifest["repository_files"][
+            "tools/build_chapter_battle_route_probe.py"
+        ] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "dependency hash mismatch"):
+            self.verifier._verify_repository(manifest)
+
+    def test_rejects_resigned_evolved_generation_dependency_hash(self):
+        manifest = json.loads((ARTIFACT / "manifest.json").read_text(encoding="utf-8"))
+        manifest["repository_files"][
+            "tools/run_macos_mgba_input_sequence.py"
+        ] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "historical dependency hash mismatch"):
+            self.verifier._verify_repository(manifest)
+
 
 if __name__ == "__main__":
     unittest.main()

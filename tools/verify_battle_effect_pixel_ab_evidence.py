@@ -79,6 +79,10 @@ IMPLEMENTATION_PATHS = INTERMEDIATE_IMPLEMENTATION_PATHS + (
     "tools/macos_mgba_runtime_residue.py",
     "tools/verify_battle_effect_group15_natural_runtime.py",
 )
+OBSERVER_IMPLEMENTATION_PATHS = IMPLEMENTATION_PATHS + (
+    "tools/run_macos_mgba_battle_ai_action_observer.py",
+    "tools/mgba_battle_ai_action_observer.lua",
+)
 
 
 def _sha256(data: bytes) -> str:
@@ -147,6 +151,37 @@ def _safe_file(root: Path, value: object, label: str) -> Path:
     return path
 
 
+def _verify_promotion_manifest(
+    artifact: Path,
+    *,
+    artifact_schema: str,
+    verifier_command: list[str],
+) -> None:
+    manifest_path = artifact / "manifest.json"
+    if not manifest_path.is_file():
+        raise ValueError("battle-effect parent promotion manifest is missing")
+    manifest = _json(manifest_path)
+    verifier = manifest.get("verifier", {})
+    expected_files = manifest.get("files")
+    actual_files = {
+        path.relative_to(artifact).as_posix(): _sha256_file(path)
+        for path in sorted(artifact.rglob("*"))
+        if path.is_file() and path != manifest_path
+    }
+    if (
+        manifest.get("schema") != "git-artifact-promotion-v1"
+        or manifest.get("artifact_schema") != artifact_schema
+        or manifest.get("artifact_status") != "accepted"
+        or verifier
+        != {
+            "command": verifier_command,
+            "exit_code": 0,
+        }
+        or expected_files != actual_files
+    ):
+        raise ValueError("battle-effect parent promotion file hash inventory mismatch")
+
+
 def _strings(value: object):
     if isinstance(value, str):
         yield value
@@ -158,6 +193,10 @@ def _strings(value: object):
             yield from _strings(item)
 
 
+def _has_absolute_path(value: object) -> bool:
+    return any(Path(item).is_absolute() for item in _strings(value))
+
+
 def _diff(left: bytes, right: bytes) -> list[int]:
     if len(left) != len(right):
         raise ValueError("battle-effect pixel byte lengths differ")
@@ -166,6 +205,32 @@ def _diff(left: bytes, right: bytes) -> list[int]:
         for index, (before, after) in enumerate(zip(left, right))
         if before != after
     ]
+
+
+def _vblank_wait_capture_phase(
+    baseline_iwram: bytes, candidate_iwram: bytes, differences: list[int]
+) -> dict[str, str] | None:
+    offset = 0x7F9C
+    if (
+        differences != [offset]
+        or len(baseline_iwram) < offset + 4
+        or len(candidate_iwram) < offset + 4
+    ):
+        return None
+    baseline_return = int.from_bytes(
+        baseline_iwram[offset : offset + 4], "little"
+    )
+    candidate_return = int.from_bytes(
+        candidate_iwram[offset : offset + 4], "little"
+    )
+    if {baseline_return, candidate_return} != {0x0806112C, 0x08061130}:
+        return None
+    return {
+        "iwram_address": "0x03007F9C",
+        "baseline_return_address": f"0x{baseline_return:08X}",
+        "candidate_return_address": f"0x{candidate_return:08X}",
+        "classification": "vblank-wait-boundary",
+    }
 
 
 def _rgb(path: Path) -> bytes:
@@ -349,6 +414,7 @@ def _validate_implementation_provenance(
             set(LEGACY_IMPLEMENTATION_PATHS),
             set(INTERMEDIATE_IMPLEMENTATION_PATHS),
             set(IMPLEMENTATION_PATHS),
+            set(OBSERVER_IMPLEMENTATION_PATHS),
         )
         and all(
             isinstance(digest, str)
@@ -476,6 +542,154 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
     ):
         raise ValueError("battle-effect pixel checkpoint hash mismatch")
     checkpoint = _json(evidence_path)
+    if checkpoint.get("schema") == "battle-effect-active-action-runtime-v1":
+        _verify_promotion_manifest(
+            evidence_path.parent,
+            artifact_schema="battle-effect-active-action-runtime-v1",
+            verifier_command=[
+                "python3",
+                "tools/verify_battle_effect_pixel_ab_evidence.py",
+                "--artifact",
+                f"artifacts/battle-effect-group{profile['group_id']}-pixel-ab-v1",
+            ],
+        )
+        route = checkpoint.get("route", {})
+        recorded_checkpoint = checkpoint.get("checkpoint", {})
+        execution = checkpoint.get("execution", {})
+        observer = checkpoint.get("observer", {})
+        toolchain = checkpoint.get("toolchain", {})
+        scope = checkpoint.get("scope", {})
+        audit_path = _safe_file(root, observer.get("audit"), "observer audit")
+        guard_path = _safe_file(root, observer.get("guard"), "observer guard")
+        done_path = _safe_file(root, observer.get("done"), "observer marker")
+        output_state_path = _safe_file(
+            root, observer.get("output_state"), "observer output state"
+        )
+        output_png_path = _safe_file(
+            root, observer.get("output_png"), "observer output PNG"
+        )
+        script_path = _safe_file(root, observer.get("script"), "observer script")
+        checkpoint_png_path = _safe_file(
+            root, recorded_checkpoint.get("png"), "checkpoint PNG"
+        )
+        profile_path = _safe_file(
+            root, toolchain.get("profile"), "observer runtime profile"
+        )
+        audit = _json(audit_path)
+        guard = _json(guard_path)
+        done = _json(done_path)
+        event = {
+            "key": profile["runtime_input"]["key"],
+            "down_frame": profile["runtime_input"]["down_frame"],
+            "up_frame": profile["runtime_input"]["up_frame"],
+            "hold_frames": (
+                profile["runtime_input"]["up_frame"]
+                - profile["runtime_input"]["down_frame"]
+            ),
+        }
+        selection = execution.get("selection", {})
+        expected_selection = {
+            "address": "0x0807A22C",
+            "candidate_pointer": "0x0202681C",
+            "source_action_address": "0x02026828",
+            "source_action_id": profile["selector"]["id"],
+            "runtime_pointer": "0x02026CB8",
+            "action_address": "0x02027428",
+            "action_id": profile["selector"]["id"],
+            "r5": "0x0202680C",
+        }
+        base = bytearray((root / "rom/base.gba").read_bytes())
+        route_offset = int(str(route.get("difference_file_offset", "-1")), 16)
+        if not 0 <= route_offset < len(base):
+            raise ValueError("battle-effect active-action route offset is invalid")
+        before = route.get("before")
+        after = route.get("after")
+        if base[route_offset] != before or not isinstance(after, int):
+            raise ValueError("battle-effect active-action route byte mismatch")
+        base[route_offset] = after
+        output_state = load_gba_state(output_state_path)
+        runtime_action = output_state.read_memory(0x02027428, 1)[0]
+        source_action = output_state.read_memory(0x02026828, 1)[0]
+        expected_toolchain = {
+            "kind": "current-desktop-runtime-profile",
+            "profile": "artifacts/rom-expansion-profile-v1/profile.json",
+            "profile_sha256": CURRENT_TOOLCHAIN_PROFILE_SHA256,
+            "binary_sha256": CURRENT_MGBA_BINARY_SHA256,
+            "source_commit": CURRENT_MGBA_SOURCE_COMMIT,
+        }
+        if (
+            checkpoint.get("verified") is not True
+            or route.get("kind") != "diagnostic-chapter-battle-id"
+            or route.get("base_rom_sha256") != ROM_SHA256
+            or route.get("route_rom_sha256") != _sha256(bytes(base))
+            or recorded_checkpoint.get("path") != profile["input_state"]
+            or recorded_checkpoint.get("sha256") != profile["input_state_sha256"]
+            or recorded_checkpoint.get("png_sha256")
+            != _sha256_file(checkpoint_png_path)
+            or _sha256(_rgb(checkpoint_png_path))
+            != png_screen_fingerprint(state_path)["rgb_pixels_sha256"]
+            or _sha256(_rgb(output_png_path))
+            != png_screen_fingerprint(output_state_path)["rgb_pixels_sha256"]
+            or execution.get("action_id") != profile["selector"]["id"]
+            or execution.get("sequence_id") != profile["sequence_id"]
+            or execution.get("group_id") != profile["group_id"]
+            or execution.get("input") != event
+            or execution.get("automatic_inputs") != []
+            or execution.get("recovery_inputs") != []
+            or execution.get("selection_frame") != audit.get("frame")
+            or selection != expected_selection
+            or audit.get("schema") != "battle-ai-action-observer-v4"
+            or audit.get("rom_sha256") != route.get("route_rom_sha256")
+            or audit.get("input_state_sha256") != profile["input_state_sha256"]
+            or audit.get("inputs") != [event]
+            or audit.get("automatic_inputs") != []
+            or audit.get("recovery_inputs") != []
+            or audit.get("skipped_action_ids") != []
+            or audit.get("events") != [audit.get("selection")]
+            or {key: audit.get("selection", {}).get(key) for key in expected_selection}
+            != expected_selection
+            or audit.get("binary_sha256") != CURRENT_MGBA_BINARY_SHA256
+            or audit.get("script_sha256") != observer.get("script_sha256")
+            or audit.get("staged_rom_sha256") != route.get("route_rom_sha256")
+            or audit.get("output_state_sha256")
+            != observer.get("output_state_sha256")
+            or audit.get("output_png_sha256") != observer.get("output_png_sha256")
+            or audit.get("completion_marker_sha256") != observer.get("done_sha256")
+            or audit.get("guard_summary_sha256") != observer.get("guard_sha256")
+            or audit.get("pgid_clean") is not True
+            or audit.get("runtime_residue", {}).get("pgid_clean") is not True
+            or audit.get("runtime_residue", {}).get("mgba_listener_clean") is not True
+            or guard.get("reason") != "completed"
+            or guard.get("exit_code") != 0
+            or guard.get("degraded") is not False
+            or guard.get("completion_trigger") != "success-marker"
+            or done != {"run_id": audit.get("run_id"), "status": "observer-complete"}
+            or _sha256_file(audit_path) != observer.get("audit_sha256")
+            or _sha256_file(guard_path) != observer.get("guard_sha256")
+            or _sha256_file(done_path) != observer.get("done_sha256")
+            or _sha256_file(output_state_path)
+            != observer.get("output_state_sha256")
+            or _sha256_file(output_png_path) != observer.get("output_png_sha256")
+            or _sha256_file(script_path) != observer.get("script_sha256")
+            or _sha256_file(profile_path) != CURRENT_TOOLCHAIN_PROFILE_SHA256
+            or toolchain != expected_toolchain
+            or _has_absolute_path(audit)
+            or _has_absolute_path(guard)
+            or runtime_action != profile["selector"]["id"]
+            or source_action != profile["selector"]["id"]
+            or scope
+            != {
+                "natural_ai_action_selection": True,
+                "diagnostic_battle_route": True,
+                "original_story_reachability": False,
+                "modified_resource_runtime": False,
+                "physical_gba_verified": False,
+            }
+        ):
+            raise ValueError(
+                "battle-effect active-action observer checkpoint contract mismatch"
+            )
+        return
     if checkpoint.get("schema") == "battle-effect-group15-natural-runtime-v1":
         from tools.verify_battle_effect_group15_natural_runtime import (
             read_safe_tar,
@@ -1054,6 +1268,7 @@ def _verify_runtime(
     dict[str, list[int]],
     list[dict[str, Any]],
     dict[str, dict[str, Any]],
+    dict[str, str] | None,
 ]:
     toolchain = _runtime_toolchain_contract(root, profile)
     current = toolchain["kind"] == "current-desktop-runtime-profile"
@@ -1149,17 +1364,29 @@ def _verify_runtime(
         else:
             run["build_manifest_sha256"] = audit["build_manifest_sha256"]
         runs[variant] = run
+    domain_bytes = {
+        variant: {
+            name: states[variant].read_memory(address, size)
+            for name, (address, size) in DOMAINS.items()
+        }
+        for variant in VARIANTS
+    }
     differences = {
-        name: _diff(
-            states["baseline"].read_memory(address, size),
-            states["candidate"].read_memory(address, size),
-        )
-        for name, (address, size) in DOMAINS.items()
+        name: _diff(domain_bytes["baseline"][name], domain_bytes["candidate"][name])
+        for name in DOMAINS
     }
     changed = int(profile["runtime_oam"]["obj_vram_address"], 16) - 0x06000000 + profile["graphics_byte_offset"]
     expected = {name: [] for name in DOMAINS}
     expected["VRAM"] = [changed]
-    if differences != expected:
+    capture_phase = _vblank_wait_capture_phase(
+        domain_bytes["baseline"]["IWRAM"],
+        domain_bytes["candidate"]["IWRAM"],
+        differences["IWRAM"],
+    )
+    expected_with_phase = dict(expected)
+    if capture_phase is not None:
+        expected_with_phase["IWRAM"] = [0x7F9C]
+    if differences != expected_with_phase:
         raise ValueError("battle-effect pixel runtime memory mismatch")
     vram = int(profile["runtime_oam"]["obj_vram_address"], 16)
     pram = 0x05000200 + profile["runtime_oam"]["palette_bank"] * 32
@@ -1194,7 +1421,7 @@ def _verify_runtime(
     expected_pixels = _expected_pixels(profile)
     if changes != expected_pixels:
         raise ValueError("battle-effect pixel final pixel mismatch")
-    return differences, changes, runs
+    return differences, changes, runs, capture_phase
 
 
 def _verify(root: Path, artifact: Path) -> None:
@@ -1248,7 +1475,7 @@ def _verify(root: Path, artifact: Path) -> None:
     ):
         raise ValueError("battle-effect pixel manifest mismatch")
     build, graphics = _verify_build(root, raw, profile_path, profile, contract)
-    differences, changes, runs = _verify_runtime(
+    differences, changes, runs, capture_phase = _verify_runtime(
         root,
         raw,
         profile,
@@ -1291,6 +1518,7 @@ def _verify(root: Path, artifact: Path) -> None:
             "event": event, "capture_frame": frame, **input_presence,
         }
         or runtime.get("memory_differences") != differences
+        or runtime.get("capture_phase") != capture_phase
         or runtime.get("graphics_vram_address") != profile["runtime_oam"]["obj_vram_address"]
         or runtime.get("changed_vram_address") != f"0x{0x06000000 + differences['VRAM'][0]:08X}"
         or runtime.get("baseline_vram_byte") != profile["before_byte"]

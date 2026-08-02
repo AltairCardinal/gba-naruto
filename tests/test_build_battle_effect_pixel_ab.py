@@ -12,6 +12,7 @@ PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.
 GROUP1_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-01-action5-dust.json"
 GROUP14_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
 GROUP15_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
+GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -272,6 +273,31 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
         for variant in ("baseline", "candidate"):
             self.assertEqual(
                 result["variants"][variant]["encoded_graphics_size"], 1560
+            )
+
+    def test_group13_natural_action_profile_builds_flipped_single_pixel_pair(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP13_PROFILE, Path(tmp) / "pair"
+            )
+
+        self.assertEqual(
+            result["binding"],
+            {
+                "active_action_id": 61,
+                "encoded_action_id": 61,
+                "sequence_id": 15,
+                "group_id": 13,
+            },
+        )
+        self.assertEqual(result["edit"]["graphics_byte_offset"], 93)
+        self.assertEqual(result["edit"]["screen_xy"], [96, 63])
+        self.assertEqual(result["runtime_oam"]["attributes"][1], "0x9044")
+        self.assertTrue(result["same_patch_topology"])
+        self.assertTrue(result["same_encoded_size"])
+        for variant in ("baseline", "candidate"):
+            self.assertEqual(
+                result["variants"][variant]["encoded_graphics_size"], 555
             )
 
     def test_group1_profile_keeps_trigger_and_resource_sequences_distinct(self):
