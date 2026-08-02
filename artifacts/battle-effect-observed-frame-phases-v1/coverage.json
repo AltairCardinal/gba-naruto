@@ -1,6 +1,6 @@
 {
   "all_group_denominator": 18,
-  "boundary": "Nine of 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; group 16 is a natural ninja-tool hardcoded-handler extension beyond the five-group persisted corpus. Eleven groups have production modified-ROM pixel A/B evidence.",
+  "boundary": "Ten of 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; groups 16 and 17 are natural ninja-tool hardcoded-handler extensions beyond the five-group persisted corpus. Twelve groups have production modified-ROM pixel A/B evidence.",
   "natural_confirmation_extension_group_ids": [
     4
   ],
@@ -9,7 +9,8 @@
     18
   ],
   "natural_ninja_tool_handler_extension_group_ids": [
-    16
+    16,
+    17
   ],
   "observed_group_denominator": 5,
   "observed_group_ids": [
@@ -23,68 +24,75 @@
     {
       "group_id": 1,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "8cef22761d1f86bf1c0bdbc2fdae15c6fca5d0717d9d77f0b00b1ff82e98add2",
+      "manifest_sha256": "fadf6b9d541589b8bd758839de91c1433f81e81cdcc3d4f5ac2387cf02e79526",
       "path": "artifacts/battle-effect-frame-phase-group1-v1",
       "run_id": "cd98182569083f0e0219a3385b693d36"
     },
     {
       "group_id": 2,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "c706e74d49e028abbf63010e6043df63e9e205fc2861488fba1e6df80a5450c9",
+      "manifest_sha256": "0babb563f167448ec924eb7647aa948110b1d7bf02e1e8a6752a7a79c4e5d68c",
       "path": "artifacts/battle-effect-frame-phase-group2-v1",
       "run_id": "42f8ebe525c91c57ff9035ace105ef06"
     },
     {
       "group_id": 3,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "14ed2a6784c3d829bd1c70fc67a2a3356bdab8c299d72e9be4e4b1396ed9f46b",
+      "manifest_sha256": "b4a0ace388f1af08e9699df4c6ff593c711ee923ead56197a85c09e313c17f5a",
       "path": "artifacts/battle-effect-frame-phase-group3-natural-v1",
       "run_id": "2406162869bf5625a518b643bd7c92f5"
     },
     {
       "group_id": 4,
       "input_mode": "explicit-input-sequence",
-      "manifest_sha256": "280c610bbdc2603827db7cfa56c3295debd904833b5d2bf0ef5cfa0f7a02afc7",
+      "manifest_sha256": "53485b25271cb565828c0461818f996fc5708b6348e5f3df4fca647da0e85493",
       "path": "artifacts/battle-effect-frame-phase-group4-natural-v1",
       "run_id": "0d4a8ab314828024ae49cde31467996d"
     },
     {
       "group_id": 5,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "4cf0255ce70fc6ed41b2680204d66a259a96043b6f0e80d3bec28a18e61082e0",
+      "manifest_sha256": "bac4d5c3cd7c4c31fb88fdf31856548e03206467e7bf33b1203ccf8a0477e086",
       "path": "artifacts/battle-effect-frame-phase-group5-v1",
       "run_id": "659862c9bf0d4d72561653657758e475"
     },
     {
       "group_id": 11,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "0a44f036fa7f7cd11ba91027d55b99bc3915a3ff6eff5c3a5a3dd333c3318974",
+      "manifest_sha256": "d42a325efb3498d43be7b22e0c070b43608d54265d3ba93db975bac2127362a5",
       "path": "artifacts/battle-effect-frame-phase-v1",
       "run_id": "54a34ea85a2e06bdc569f56873899b85"
     },
     {
       "group_id": 14,
       "input_mode": "zero-input-active-state",
-      "manifest_sha256": "f6434af8176b8453a6018c889877e6366f01ef12fb6278be88b25605f53027de",
+      "manifest_sha256": "a862bd09bb7c8bd417c8b0651036a99357a2cd5bc7ce852d50dcff4c98e3a46d",
       "path": "artifacts/battle-effect-frame-phase-group14-v1",
       "run_id": "77fc7f5dec207ab32ac75402ef857aae"
     },
     {
       "group_id": 16,
       "input_mode": "explicit-input-sequence",
-      "manifest_sha256": "60b66cbeeed7834dbd671ca77d1e79e5ad550742076cbded867fb0c12b5c2120",
+      "manifest_sha256": "f211669fe29bbc391b87083eca66226e4a49220489d7cbd56dc71b33a831bb8e",
       "path": "artifacts/battle-effect-frame-phase-group16-natural-v1",
       "run_id": "ced3babcd1afc905fe005390ede28b8e"
     },
     {
+      "group_id": 17,
+      "input_mode": "explicit-input-sequence",
+      "manifest_sha256": "03b075b52d2e6ebbcbfe66f64c47bbea7d93cc2bff59d876de138356a96f0e91",
+      "path": "artifacts/battle-effect-frame-phase-group17-natural-v1",
+      "run_id": "59ebb96c0a2da4f3b70d144c41cf5c2e"
+    },
+    {
       "group_id": 18,
       "input_mode": "explicit-input-sequence",
-      "manifest_sha256": "c2436182860e6d25c12f0b29b005c9b0619a30bbdd38c4084000b1b6ae3da8cb",
+      "manifest_sha256": "e87b9b6035334ec29bf420529d5f541d72f76b07f36328470845ef0718c3768e",
       "path": "artifacts/battle-effect-frame-phase-group18-natural-sequence-v1",
       "run_id": "c7d440130f5cca87941b74f27284246d"
     }
   ],
-  "phase_verified_group_count": 9,
+  "phase_verified_group_count": 10,
   "phase_verified_group_ids": [
     1,
     2,
@@ -94,27 +102,28 @@
     11,
     14,
     16,
+    17,
     18
   ],
   "production_pixel_ab_artifacts": [
     {
       "group_id": 1,
-      "manifest_sha256": "2af1096ad7c1225843e4871aa0402f25c31e36f27538c4ec600f23bf38884390",
+      "manifest_sha256": "9921f8060278ebe9227def7fa1917ce78bcc020e09d2e4e3b9ba59a23d272506",
       "path": "artifacts/battle-effect-group1-pixel-ab-v1"
     },
     {
       "group_id": 2,
-      "manifest_sha256": "dee21b5308711d8c41c116a877bc49eb0eaa1f5fdaf5e5dc507ed4bb54addaee",
+      "manifest_sha256": "a0be99cd55c092c96f355d9a9a2efc8e08b102ec5cb864463c826f30b19462b4",
       "path": "artifacts/battle-effect-group2-pixel-ab-v1"
     },
     {
       "group_id": 3,
-      "manifest_sha256": "d27419d82c1dc7995fa7deb09a8f21adf428a700d39504b4fd0206a3f3dae976",
+      "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
       "path": "artifacts/battle-effect-group03-natural-pixel-ab-v1"
     },
     {
       "group_id": 4,
-      "manifest_sha256": "cbedba5a295762b44b8ab21ebdfff7c0f6209db379e83350c7a4e2c23f21380e",
+      "manifest_sha256": "d88126122731f83b31ee06731afb33ea4b9641e3b3a33d2e639ff0358f288c34",
       "path": "artifacts/battle-effect-group4-pixel-ab-v1"
     },
     {
@@ -124,36 +133,41 @@
     },
     {
       "group_id": 11,
-      "manifest_sha256": "b41c21b13d9108b40fe1fb6a18bdea30f968f4156273d1b97dfb69bc09094a5f",
+      "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
       "path": "artifacts/battle-effect-group11-pixel-ab-v1"
     },
     {
       "group_id": 13,
-      "manifest_sha256": "ed69966648b3394bea3c368fe808e37f0c19671d318d3b8a66076214381a263e",
+      "manifest_sha256": "41e7c9af6cee5e8008085c8cbf73c36ecd4a1b37316b5ad92e83f4af7c2111b5",
       "path": "artifacts/battle-effect-group13-pixel-ab-v1"
     },
     {
       "group_id": 14,
-      "manifest_sha256": "d7174f286c38c065db9f9c172bbc5c000d29af5bb3bf26bd5587d418ab8868ab",
+      "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
       "path": "artifacts/battle-effect-group14-pixel-ab-v1"
     },
     {
       "group_id": 15,
-      "manifest_sha256": "740062a99eaf4d2f574a4c0e7f03702e2f902b216f6728a9416d502d3491c4d5",
+      "manifest_sha256": "4417d160289a72acb1d981c49063acaca9c51a498755ed95efbccdf5a36a1c6b",
       "path": "artifacts/battle-effect-group15-pixel-ab-v1"
     },
     {
       "group_id": 16,
-      "manifest_sha256": "822fcffde888ab303cbe55b082f373a7b9429dd04caff516aaf5c85e6f342277",
+      "manifest_sha256": "393eee18bcecc2b1ddf6afa75fa325878ee528942b28c5db1ab4d5beeddb294f",
       "path": "artifacts/battle-effect-group16-pixel-ab-v1"
     },
     {
+      "group_id": 17,
+      "manifest_sha256": "22763a552782012c368a31554ed6d90861f4a86d1035c97317838de63f22cb68",
+      "path": "artifacts/battle-effect-group17-pixel-ab-v1"
+    },
+    {
       "group_id": 18,
-      "manifest_sha256": "a2f18991c4beacb1bbcd194cb9ba1f514cc2736344b885a85f724c32f90fd4c9",
+      "manifest_sha256": "b74cc6e135bbb9cd3ac60e6cfe119cc3a43e75a9f28de36d676e49099f38a4b6",
       "path": "artifacts/battle-effect-group18-natural-pixel-ab-v1"
     }
   ],
-  "production_pixel_ab_group_count": 11,
+  "production_pixel_ab_group_count": 12,
   "production_pixel_ab_group_ids": [
     1,
     2,
@@ -165,6 +179,7 @@
     14,
     15,
     16,
+    17,
     18
   ],
   "schema": "battle-effect-observed-frame-phases-v1",
@@ -176,6 +191,7 @@
     "natural_delayed_group18_phase_transaction_included": true,
     "natural_delayed_group3_phase_transaction_included": true,
     "natural_ninja_tool_handler_group16_phase_transaction_included": true,
+    "natural_ninja_tool_handler_group17_phase_transaction_included": true,
     "physical_gba_verified": false,
     "production_pixel_ab_all_18_groups": false,
     "target_task_exclusive_oam_causality": false

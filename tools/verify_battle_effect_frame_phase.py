@@ -436,16 +436,32 @@ def validate_source_runtime_provenance(
         restore = evidence.get("restore_verification", {})
         child_info = evidence.get("accepted_child", {})
         trigger = provenance.get("natural_trigger", {})
-        expected_trigger = {
-            "ninja_tool_id": 67,
-            "encoded_action_id": 195,
-            "handler_start": "0x0807EE50",
-            "selector_callsite": "0x0807EE6A",
-            "hardcoded_sequence_id": 19,
-            "resource_group_id": 16,
-            "final_confirmation_input": "A:5:13",
+        supported_triggers = {
+            16: {
+                "ninja_tool_id": 67,
+                "encoded_action_id": 195,
+                "handler_start": "0x0807EE50",
+                "selector_callsite": "0x0807EE6A",
+                "hardcoded_sequence_id": 19,
+                "resource_group_id": 16,
+                "final_confirmation_input": "A:5:13",
+            },
+            17: {
+                "ninja_tool_id": 37,
+                "encoded_action_id": 165,
+                "handler_start": "0x0807ED20",
+                "selector_callsite": "0x0807ED3A",
+                "hardcoded_sequence_id": 20,
+                "resource_group_id": 17,
+                "final_confirmation_input": "A:5:13",
+            },
         }
-        if group_id != 16 or profile.get("sequence_id") != 19:
+        expected_trigger = supported_triggers.get(group_id)
+        if (
+            expected_trigger is None
+            or profile.get("sequence_id")
+            != expected_trigger["hardcoded_sequence_id"]
+        ):
             raise ValueError("natural ninja-tool handler target identity mismatch")
         if trigger != expected_trigger:
             raise ValueError("natural ninja-tool handler trigger contract mismatch")
@@ -471,7 +487,7 @@ def validate_source_runtime_provenance(
             "unit_slot": 1,
             "character_id": 1,
             "tool_slot": 0,
-            "ninja_tool_id": 67,
+            "ninja_tool_id": expected_trigger["ninja_tool_id"],
         }
         if (
             not isinstance(battle, dict)
@@ -484,9 +500,12 @@ def validate_source_runtime_provenance(
             or scope.get("checkpoint_bytes_anchored_by_accepted_child") is not True
             or scope.get("battle_local_tool_verified") is not True
             or scope.get("natural_action_submission_verified") is not False
-            or scope.get("natural_object_creation_verified") is not False
         ):
             raise ValueError("natural ninja-tool confirmation scope mismatch")
+        if group_id == 16 and scope.get("natural_object_creation_verified") is not False:
+            raise ValueError("natural ninja-tool confirmation object scope mismatch")
+        if group_id == 17 and scope.get("natural_group17_creation_verified") is not False:
+            raise ValueError("natural ninja-tool confirmation Group 17 scope mismatch")
         if (
             not isinstance(restore, dict)
             or restore.get("zero_input_verified") is not True
@@ -503,14 +522,29 @@ def validate_source_runtime_provenance(
         if _sha256(child_path) != child_info.get("sha256"):
             raise ValueError("natural ninja-tool accepted child hash mismatch")
         child = _object(child_path)
-        if (
+        child_boundary_matches = (
             child_info.get("confirmation_parent_sha256") != input_state_sha256
             or child.get("artifact_status") != "accepted"
             or child.get("provenance", {}).get("confirmation_parent_sha256")
             != input_state_sha256
-            or child.get("active_object", {}).get("encoded_action") != "0xC3"
-        ):
+        )
+        if child_boundary_matches:
             raise ValueError("natural ninja-tool accepted child boundary mismatch")
+        if group_id == 16 and child.get("active_object", {}).get("encoded_action") != "0xC3":
+            raise ValueError("natural ninja-tool accepted object child mismatch")
+        if group_id == 17:
+            active_task = child.get("active_task", {})
+            runtime_binding = child.get("runtime_binding", {})
+            animation_catalog = _object(ANIMATION_CATALOG)
+            definition, animation = effect_group_identity(animation_catalog, group_id)
+            if (
+                active_task.get("definition_pointer") != f"0x{definition:08X}"
+                or active_task.get("animation_pointer") != f"0x{animation:08X}"
+                or runtime_binding.get("ninja_tool_id") != expected_trigger["ninja_tool_id"]
+                or runtime_binding.get("encoded_action_id") != expected_trigger["encoded_action_id"]
+                or runtime_binding.get("resource_group_id") != group_id
+            ):
+                raise ValueError("natural ninja-tool accepted Group 17 child mismatch")
 
         static_info = provenance.get("static_selector_evidence", {})
         if not isinstance(static_info, dict):
@@ -521,14 +555,15 @@ def validate_source_runtime_provenance(
         if _sha256(static_path) != static_info.get("sha256"):
             raise ValueError("natural ninja-tool static selector evidence hash mismatch")
         static = _object(static_path)
-        sequence = static.get("by_sequence", {}).get("19", {})
+        sequence_id = expected_trigger["hardcoded_sequence_id"]
+        sequence = static.get("by_sequence", {}).get(str(sequence_id), {})
         callsites = sequence.get("callsites", []) if isinstance(sequence, dict) else []
         callsite_matches = [
             row
             for row in callsites
             if isinstance(row, dict)
-            and row.get("selector_callsite") == "0x0807EE6A"
-            and row.get("hardcoded_sequence_id") == 19
+            and row.get("selector_callsite") == expected_trigger["selector_callsite"]
+            and row.get("hardcoded_sequence_id") == sequence_id
             and row.get("selector_kind") == "immediate_movs_r0"
         ]
         links = callsite_matches[0].get("handler_links", []) if len(callsite_matches) == 1 else []
@@ -536,14 +571,14 @@ def validate_source_runtime_provenance(
             row
             for row in links
             if isinstance(row, dict)
-            and row.get("handler_start") == "0x0807EE50"
-            and row.get("pair_index") == 195
+            and row.get("handler_start") == expected_trigger["handler_start"]
+            and row.get("pair_index") == expected_trigger["encoded_action_id"]
             and row.get("pair_slot") == "primary"
         ]
         if (
             static.get("schema") != "battle-effect-hardcoded-selector-producers-v1"
             or static.get("sources", {}).get("rom", {}).get("sha256") != rom_sha256
-            or sequence.get("resource_group_ids") != [16, 0, 0, 0]
+            or sequence.get("resource_group_ids") != [group_id, 0, 0, 0]
             or len(callsite_matches) != 1
             or len(link_matches) != 1
         ):
@@ -556,7 +591,11 @@ def validate_source_runtime_provenance(
         if state.read_memory(0x02026804, 8) != bytes.fromhex("000e000000000000"):
             raise ValueError("natural ninja-tool input battle control mismatch")
         unit = state.read_memory(0x020240C0 + 0x1D4, 0x1D4)
-        if unit[0] != 1 or unit[0xB0] < 1 or unit[0xB1] != 67:
+        if (
+            unit[0] != 1
+            or unit[0xB0] < 1
+            or unit[0xB1] != expected_trigger["ninja_tool_id"]
+        ):
             raise ValueError("natural ninja-tool input equipment mismatch")
         for slot in range(1, 32):
             delayed = state.read_memory(
@@ -582,17 +621,23 @@ def validate_source_runtime_provenance(
         if _sha256(rom_path) != rom_sha256:
             raise ValueError("natural ninja-tool base ROM mismatch")
         rom = rom_path.read_bytes()
-        handler_pointer_offset = HANDLER_TABLE_OFFSET + 195 * HANDLER_PAIR_SIZE
+        handler_pointer_offset = (
+            HANDLER_TABLE_OFFSET
+            + expected_trigger["encoded_action_id"] * HANDLER_PAIR_SIZE
+        )
         if int.from_bytes(
             rom[handler_pointer_offset : handler_pointer_offset + 4], "little"
-        ) != 0x0807EE51:
+        ) != int(expected_trigger["handler_start"], 16) + 1:
             raise ValueError("natural ninja-tool handler table pointer mismatch")
-        callsite = 0x0807EE6A
+        callsite = int(expected_trigger["selector_callsite"], 16)
         callsite_offset = callsite - 0x08000000
         previous = int.from_bytes(rom[callsite_offset - 2 : callsite_offset], "little")
         first = int.from_bytes(rom[callsite_offset : callsite_offset + 2], "little")
         second = int.from_bytes(rom[callsite_offset + 2 : callsite_offset + 4], "little")
-        if previous != 0x2013 or decode_thumb_bl(callsite, first, second) != HARD_CODED_SELECTOR_TARGET:
+        if (
+            previous != 0x2000 | sequence_id
+            or decode_thumb_bl(callsite, first, second) != HARD_CODED_SELECTOR_TARGET
+        ):
             raise ValueError("natural ninja-tool hardcoded selector bytes mismatch")
         return
 

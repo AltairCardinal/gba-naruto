@@ -16,6 +16,7 @@ GROUP13_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-13-action6
 GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
 GROUP4_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
 GROUP16_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
+GROUP17_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-17-tool37-smoke.json"
 
 
 class BattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -517,6 +518,34 @@ class BattleEffectPixelAbBuilderTests(unittest.TestCase):
                 self.assertEqual(ledger[1]["target_pointer_offsets"], [0x59919C])
                 rom = (Path(tmp) / "pair" / row["rom_path"]).read_bytes()
                 self.assertEqual(rom[0x5991A0:0x5991AC], base[0x5991A0:0x5991AC])
+
+    def test_group17_profile_redirects_only_group17_graphics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self.builder.build_pair(
+                ROOT, GROUP17_PROFILE, Path(tmp) / "pair"
+            )
+
+            self.assertEqual(result["binding"]["ninja_tool_id"], 37)
+            self.assertEqual(result["binding"]["encoded_action_id"], 165)
+            self.assertEqual(result["binding"]["sequence_id"], 20)
+            self.assertEqual(result["binding"]["dynamic_ninja_tool_sequence_id"], 0)
+            self.assertEqual(result["edit"]["graphics_byte_offset"], 22)
+            self.assertEqual(result["edit"]["screen_xy"], [165, 92])
+            self.assertEqual(
+                result["edit"]["screen_pixels"],
+                [[165, 92], [194, 95], [173, 97]],
+            )
+            self.assertTrue(result["same_patch_topology"])
+            self.assertTrue(result["same_encoded_size"])
+            base = (ROOT / "rom/base.gba").read_bytes()
+            for variant in ("baseline", "candidate"):
+                row = result["variants"][variant]
+                self.assertEqual(row["encoded_graphics_size"], 103)
+                ledger = row["patch_ledger"]
+                self.assertEqual(ledger[1]["offset"], 0x5991A4)
+                self.assertEqual(ledger[1]["target_pointer_offsets"], [0x5991A4])
+                rom = (Path(tmp) / "pair" / row["rom_path"]).read_bytes()
+                self.assertEqual(rom[0x5991A8:0x5991AC], base[0x5991A8:0x5991AC])
 
     def test_profile_tampering_fails_closed(self):
         profile = json.loads(PROFILE.read_text(encoding="utf-8"))

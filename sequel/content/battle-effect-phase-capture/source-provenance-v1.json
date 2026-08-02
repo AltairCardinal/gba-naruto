@@ -41,6 +41,28 @@
       }
     },
     {
+      "profile_id": "group-17-natural-tool37-confirmation",
+      "group_id": 17,
+      "source_kind": "natural_ninja_tool_handler_confirmation_checkpoint",
+      "source_evidence": {
+        "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation-evidence.json",
+        "sha256": "dc8663ee50f2159e1eece70640e0ceb8f8cc6db7235c98ca4f306331dab0ab6d"
+      },
+      "natural_trigger": {
+        "ninja_tool_id": 37,
+        "encoded_action_id": 165,
+        "handler_start": "0x0807ED20",
+        "selector_callsite": "0x0807ED3A",
+        "hardcoded_sequence_id": 20,
+        "resource_group_id": 17,
+        "final_confirmation_input": "A:5:13"
+      },
+      "static_selector_evidence": {
+        "path": "notes/battle-effect-hardcoded-selector-producers-20260802.json",
+        "sha256": "6b1e94181f9f513c8bb46735b6b85ac1172cdcf84f9ffd868c57685b67994588"
+      }
+    },
+    {
       "profile_id": "group-03-natural-tool67-expiry",
       "group_id": 3,
       "source_kind": "natural_delayed_object_checkpoint",
@@ -167,7 +189,7 @@
       "accepted_parent": {
         "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
         "manifest_path": "artifacts/battle-effect-group11-pixel-ab-v1/manifest.json",
-        "manifest_sha256": "b41c21b13d9108b40fe1fb6a18bdea30f968f4156273d1b97dfb69bc09094a5f",
+        "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
         "payload_path": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
         "payload_sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
       }
@@ -182,7 +204,7 @@
       "accepted_parent": {
         "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
         "manifest_path": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
-        "manifest_sha256": "d7174f286c38c065db9f9c172bbc5c000d29af5bb3bf26bd5587d418ab8868ab",
+        "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
         "payload_path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
         "payload_sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
       }

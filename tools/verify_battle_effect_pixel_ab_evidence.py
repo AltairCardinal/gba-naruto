@@ -49,6 +49,9 @@ HANDLER_TABLE_OFFSET = 0x53E698
 HANDLER_PAIR_SIZE = 8
 DELAYED_OBJECT_TABLE = 0x02026604
 DELAYED_OBJECT_STRIDE = 0x10
+TASK_BASE = 0x03003BB8
+TASK_COUNT = 128
+TASK_SIZE = 0x3C
 VARIANTS = ("baseline", "candidate")
 INPUT_KEYS = {"A", "B", "L", "R", "Up", "Down", "Left", "Right", "Start"}
 DOMAINS = {
@@ -363,7 +366,8 @@ def _runtime_oam_instances(
             or not isinstance(source_xy, list)
             or len(source_xy) != 2
             or raw.get("frame_id") != profile.get("frame_id")
-            or raw.get("component_index") != profile.get("component_index")
+            or not isinstance(raw.get("component_index"), int)
+            or isinstance(raw.get("component_index"), bool)
             or raw.get("component_pixel_xy") != [pixel_x, pixel_y]
             or not isinstance(visible, bool)
         ):
@@ -397,6 +401,7 @@ def _runtime_oam_instances(
     if (
         instances[0].get("oam_index") != runtime_oam.get("oam_index")
         or instances[0].get("attributes") != primary_attributes
+        or instances[0].get("component_index") != profile.get("component_index")
         or instances[0].get("source_pixel_screen_xy") != profile.get("screen_xy")
         or instances[0].get("visible_in_final_difference") is not True
         or [
@@ -575,25 +580,35 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
             "tool_slot": 0,
             "ninja_tool_id": selector.get("id"),
         }
+        supported = {
+            (16, 19, 67, 195),
+            (17, 20, 37, 165),
+        }
+        identity = (
+            profile.get("group_id"),
+            profile.get("sequence_id"),
+            selector.get("id"),
+            selector.get("encoded_action_id"),
+        )
+        expected_scope = {
+            "battle_local_tool_verified": True,
+            "checkpoint_bytes_anchored_by_accepted_child": True,
+            "natural_action_submission_verified": False,
+            "natural_confirmation_screen_observed": True,
+        }
+        if profile.get("group_id") == 16:
+            expected_scope["natural_object_creation_verified"] = False
+        if profile.get("group_id") == 17:
+            expected_scope["natural_group17_creation_verified"] = False
         if (
-            profile.get("group_id") != 16
-            or profile.get("sequence_id") != 19
-            or selector.get("id") != 67
-            or selector.get("encoded_action_id") != 195
+            identity not in supported
             or checkpoint.get("artifact_status") != "accepted"
             or checkpoint.get("next_input") != "A:5:13"
             or output.get("path") != profile.get("input_state")
             or output.get("sha256") != profile.get("input_state_sha256")
             or battle.get("battle_id") != 14
             or battle.get("battle_local_tool") != expected_tool
-            or scope
-            != {
-                "battle_local_tool_verified": True,
-                "checkpoint_bytes_anchored_by_accepted_child": True,
-                "natural_action_submission_verified": False,
-                "natural_confirmation_screen_observed": True,
-                "natural_object_creation_verified": False,
-            }
+            or scope != expected_scope
             or restore.get("zero_input_verified") is not True
             or restore.get("capture_frame") != 60
             or restore.get("pgid_clean") is not True
@@ -615,16 +630,56 @@ def _verify_checkpoint(root: Path, profile: dict[str, Any]) -> None:
             or child.get("artifact_status") != "accepted"
             or child.get("provenance", {}).get("confirmation_parent_sha256")
             != profile.get("input_state_sha256")
-            or child.get("active_object", {}).get("encoded_action") != "0xC3"
         ):
             raise ValueError("battle-effect ninja-tool accepted child boundary mismatch")
+        if profile.get("group_id") == 16:
+            if child.get("active_object", {}).get("encoded_action") != "0xC3":
+                raise ValueError("battle-effect ninja-tool accepted object child mismatch")
+        else:
+            active_task = child.get("active_task", {})
+            runtime_binding = child.get("runtime_binding", {})
+            child_output = child.get("output", {})
+            child_state_path = _safe_file(
+                root, child_output.get("path"), "ninja-tool Group 17 child state"
+            )
+            if (
+                _sha256_file(child_state_path) != child_output.get("sha256")
+                or runtime_binding.get("ninja_tool_id") != selector.get("id")
+                or runtime_binding.get("encoded_action_id")
+                != selector.get("encoded_action_id")
+                or runtime_binding.get("resource_group_id") != profile.get("group_id")
+            ):
+                raise ValueError("battle-effect ninja-tool accepted Group 17 child mismatch")
+            try:
+                definition = int(active_task.get("definition_pointer"), 16)
+                animation = int(active_task.get("animation_pointer"), 16)
+            except (TypeError, ValueError) as error:
+                raise ValueError(
+                    "battle-effect ninja-tool Group 17 task identity mismatch"
+                ) from error
+            child_state = load_gba_state(child_state_path)
+            matching_slots = []
+            for slot in range(TASK_COUNT):
+                task = child_state.read_memory(TASK_BASE + slot * TASK_SIZE, TASK_SIZE)
+                if (
+                    int.from_bytes(task[0:4], "little") & 1
+                    and int.from_bytes(task[0x1C:0x20], "little") == definition
+                    and int.from_bytes(task[0x20:0x24], "little") == animation
+                ):
+                    matching_slots.append(slot)
+            if matching_slots != [active_task.get("slot")]:
+                raise ValueError("battle-effect ninja-tool Group 17 task state mismatch")
         state = load_gba_state(state_path)
         if state.read_memory(0x02026804, 8) != bytes.fromhex(
             "000e000000000000"
         ):
             raise ValueError("battle-effect ninja-tool input battle control mismatch")
         unit = state.read_memory(0x020240C0 + 0x1D4, 0x1D4)
-        if unit[0] != 1 or unit[0xB0] < 1 or unit[0xB1] != 67:
+        if (
+            unit[0] != 1
+            or unit[0xB0] < 1
+            or unit[0xB1] != selector.get("id")
+        ):
             raise ValueError("battle-effect ninja-tool input equipment mismatch")
         for slot in range(1, 32):
             delayed = state.read_memory(
@@ -1389,13 +1444,27 @@ def _verify_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dic
         raise ValueError("battle-effect pixel action binding mismatch")
 
     _runtime_component_obj_tile_base(profile, component.get("tile_index"))
-    _runtime_oam_instances(
+    instances = _runtime_oam_instances(
         profile,
         pixel_x,
         pixel_y,
         component_width=component.get("width"),
         component_height=component.get("height"),
     )
+    for instance in instances:
+        rendered_component = _one(
+            frame.get("components"),
+            "runtime OAM animation component",
+            component_index=instance["component_index"],
+        )
+        if (
+            rendered_component.get("tile_index") != component.get("tile_index")
+            or rendered_component.get("width") != component.get("width")
+            or rendered_component.get("height") != component.get("height")
+        ):
+            raise ValueError(
+                "battle-effect pixel runtime OAM shared-tile component mismatch"
+            )
     palette_path = _safe_file(
         root,
         str(Path(profile["catalogs"]["resource_pairs"]).parent / palette_row["output_bin"]),
@@ -1886,6 +1955,8 @@ def _verify(root: Path, artifact: Path) -> None:
                 profile,
                 profile["component_pixel_xy"][0],
                 profile["component_pixel_xy"][1],
+                component_width=contract["component"].get("width"),
+                component_height=contract["component"].get("height"),
             )
             if "instances" in profile["runtime_oam"]
             else None

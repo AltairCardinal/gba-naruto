@@ -192,7 +192,8 @@ def _runtime_oam_instances(
             or index in indices
             or component_xy != (pixel_x, pixel_y)
             or raw.get("frame_id") != profile.get("frame_id")
-            or raw.get("component_index") != profile.get("component_index")
+            or not isinstance(raw.get("component_index"), int)
+            or isinstance(raw.get("component_index"), bool)
             or attr2 & 0x3FF != runtime_oam.get("obj_tile_base")
             or attr2 >> 12 != runtime_oam.get("palette_bank")
             or not isinstance(visible, bool)
@@ -210,6 +211,7 @@ def _runtime_oam_instances(
     if (
         primary["oam_index"] != runtime_oam.get("oam_index")
         or primary["attributes"] != primary_attributes
+        or primary["component_index"] != profile.get("component_index")
         or tuple(primary["source_pixel_screen_xy"])
         != _require_int_pair(profile.get("screen_xy"), "screen_xy")
         or primary["visible_in_final_difference"] is not True
@@ -672,13 +674,27 @@ def _validate_profile(
         raise ValueError("battle-effect pixel trigger sequence group mismatch")
 
     _runtime_component_obj_tile_base(profile, component.get("tile_index"))
-    _runtime_oam_instances(
+    instances = _runtime_oam_instances(
         profile,
         pixel_x,
         pixel_y,
         component_width=width,
         component_height=height,
     )
+    for instance in instances:
+        rendered_component = _find(
+            frame.get("components"),
+            "runtime OAM animation component",
+            component_index=instance["component_index"],
+        )
+        if (
+            rendered_component.get("tile_index") != tile_index
+            or rendered_component.get("width") != width
+            or rendered_component.get("height") != height
+        ):
+            raise ValueError(
+                "battle-effect pixel runtime OAM shared-tile component mismatch"
+            )
 
     runtime_input = profile.get("runtime_input")
     if (

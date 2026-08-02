@@ -2249,3 +2249,17 @@ WebSocket
   9/18（50%）**，production自然最终像素由**10/18提升到11/18（61.11%）**；剩余
   production像素组为`{6,7,8,9,10,12,17}`。完整动画/混合/音频及实体GBA仍未全量
   签发，Goal保持active。
+- 2026-08-02：Group 17 / sequence 20 已从原版忍具37自然选择链完成phase与
+  production relocation最终像素A/B。忍具表动态sequence为0；编码动作`0xA5`经
+  handler `0x0807ED20`在`0x0807ED3A`硬编码选择sequence 20。同一最终确认页仅输入
+  `A:5:13`，Group 17 slot 125在frame`132/132/133`经过renderer→submit→ack，
+  pending为`0→1→0`。两份ROM只重定向graphics指针`0x5991A4`，保持相邻palette
+  指针`0x5991A8`不变；candidate仅把解压offset 22从`0x14`改为`0x34`，LZ77大小
+  均为103 bytes。六域仅OBJ-VRAM `0x06014E16`一字节不同；同一源tile由三个component
+  使用，最终画面恰有`(165,92)/(194,95)/(173,97)`三像素从`[247,255,222]`变为
+  `[115,123,107]`。guard峰值不超过74.23 MiB且无进程/listener残留。成果见
+  `artifacts/battle-effect-frame-phase-group17-natural-v1/`、
+  `artifacts/battle-effect-group17-pixel-ab-v1/`和
+  `notes/battle-effect-group17-natural-pixel-ab-20260802.md`。聚合phase由**9/18提升到
+  10/18（55.56%）**，production最终像素由**11/18提升到12/18（66.67%）**；剩余组
+  为`{6,7,8,9,10,12}`。按用户要求，至此暂停完全逆向Goal，不再启动新组。

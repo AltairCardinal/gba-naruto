@@ -2,7 +2,7 @@
   "artifact_schema": "battle-effect-observed-frame-phases-v1",
   "artifact_status": "accepted",
   "files": {
-    "coverage.json": "a5fe5aaca7f25aedbe87e0c67033f3e1f14037689b56a2557a42724b9ff7b2ef"
+    "coverage.json": "2acfb5b2e895d7d87a5e40aabd1b13f83d391684cda4bfc581799f64a2de3639"
   },
   "producer": {
     "command": [
@@ -14,20 +14,20 @@
       "artifacts/battle-effect-observed-frame-phases-v1"
     ],
     "repository_files": {
-      "tests/test_export_battle_effect_observed_frame_phases.py": "5fd52810baf3d62aebdc708c599e5898fefffd0c904d7df7dd96a36ff7422307",
+      "tests/test_export_battle_effect_observed_frame_phases.py": "caa55b8d15fe42e85a14baf7ab6601747c23b75a9a31fab8020a2014b67696fa",
       "tests/test_inspect_mgba_savestate.py": "30aa7d4d7926a6a959ca4d9d165c849bcd41574468a56a61fb1dce01ce1894bc",
-      "tests/test_verify_battle_effect_frame_phase.py": "5aec065140c842fdfaca66e5eb29b057957026d283d5282d06ab57c965de060d",
+      "tests/test_verify_battle_effect_frame_phase.py": "fde626827a382d826ed1b96a8ce26bb44e06d6b90fd44d7c7005d3c1e64c38aa",
       "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py": "f394d9a491b2cafc219d61bf369fd962d5c5a2fc99b8297d6e91077f6eaef8f6",
-      "tests/test_verify_battle_effect_observed_frame_phases.py": "10292c66b40f8a4fbcad40f9399f7fa99a01e3bbbca6b782fac3c7bc7ecf11b3",
-      "tests/test_verify_battle_effect_pixel_ab_evidence.py": "5126e5d1c8d0500e3ee5b4b1571aeaf34783f91016dc564138e31e8c77fc3211",
+      "tests/test_verify_battle_effect_observed_frame_phases.py": "825ba66d493162dc2c8011d64c5513cc91a700ebe932a87869b98df3cdcaf672",
+      "tests/test_verify_battle_effect_pixel_ab_evidence.py": "b9f830019a52c9639e05bca3dba88929126575a34e20df3d7f5517dc8b267579",
       "tests/test_verify_battle_effect_runtime_oam_task_bindings.py": "48391366c272d5a0a9c62e469e92bb98b02acf4b7c3b1c4f63c305ae5a11525a",
       "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py": "956d16672f6336870502f793c36da5cbfbbf7503b2d7e0906758f3d493096f1e",
-      "tools/export_battle_effect_observed_frame_phases.py": "25a9fe67d70f87470cac689b2a006625047677b2497719fb01e8f892eacb4d23",
+      "tools/export_battle_effect_observed_frame_phases.py": "5220a16c7470128dc05b1776747f32272259abd7cbd0c18cce32d5be5893822d",
       "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
-      "tools/verify_battle_effect_frame_phase.py": "f531b2376b975bc8faec4a02d27109cb30e7bdf8acb3a4cf5008712074b79f8f",
+      "tools/verify_battle_effect_frame_phase.py": "b57c3f3f5c946bc512b9ef06932316f15439e580f346b8d4b16cc8994be8a9f7",
       "tools/verify_battle_effect_group5_pixel_ab_evidence.py": "cc0323a20ea7d043a4ccebb0cf4a12061d697ab5e412bfecc382820617d0566c",
-      "tools/verify_battle_effect_observed_frame_phases.py": "37afb30109cbfe479a7e90bb29a103459bb039c53f38f78b3e1c0bc9be87ce32",
-      "tools/verify_battle_effect_pixel_ab_evidence.py": "71006c98aca97ef06de559d467707b3652fe0ed755e0acfa989bd75718d04e46",
+      "tools/verify_battle_effect_observed_frame_phases.py": "fa5b6928988cff31cb4d3d2a62b7b9a28087b6b19b159a072facff3cefeff069",
+      "tools/verify_battle_effect_pixel_ab_evidence.py": "5ccf3ff5e07220cfc0e2af3ffb28869c849eb8e95e4cc2424006af93dfd27288",
       "tools/verify_battle_effect_runtime_oam_task_bindings.py": "092a5846b1af59cdf0d4a075787005b0d0a86c1d27c693cc11b78cf0659f8475",
       "tools/verify_natural_delayed_battle_effect_pixel_ab.py": "90d6e1661a7a09830d324093314bdbac69b5b8f34f4321738a367088755e12f6"
     }
@@ -46,8 +46,8 @@
     "result": {
       "all_groups": 18,
       "errors": [],
-      "phase_verified_groups": 9,
-      "production_pixel_ab_groups": 11,
+      "phase_verified_groups": 10,
+      "production_pixel_ab_groups": 12,
       "verified": true
     }
   }

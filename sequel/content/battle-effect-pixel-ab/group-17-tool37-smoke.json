@@ -1,0 +1,94 @@
+{
+  "schema": "battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-17-tool37-smoke",
+  "group_id": 17,
+  "sequence_id": 20,
+  "selector": {
+    "kind": "ninja_tool_handler_immediate",
+    "id": 37,
+    "encoded_action_id": 165,
+    "pair_slot": "primary",
+    "handler_start": "0x0807ED20",
+    "selector_callsite": "0x0807ED3A"
+  },
+  "frame_id": 5,
+  "component_index": 2,
+  "component_pixel_xy": [5, 5],
+  "graphics_byte_offset": 22,
+  "before_byte": 20,
+  "after_byte": 52,
+  "before_index": 1,
+  "after_index": 3,
+  "screen_xy": [165, 92],
+  "screen_pixels": [[165, 92], [194, 95], [173, 97]],
+  "before_rgb": [247, 255, 222],
+  "after_rgb": [115, 123, 107],
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-17-graphics-4bpp.bin",
+  "source_graphics_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+  "pair_pointer_offset": 5869988,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 103,
+  "input_state": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
+  "input_state_sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46",
+  "input_evidence": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation-evidence.json",
+  "input_evidence_sha256": "dc8663ee50f2159e1eece70640e0ceb8f8cc6db7235c98ca4f306331dab0ab6d",
+  "runtime_input": {
+    "key": "A",
+    "down_frame": 5,
+    "up_frame": 13,
+    "capture_frame": 160
+  },
+  "runtime_oam": {
+    "oam_index": 4,
+    "attributes": ["0x0057", "0x40A0", "0x6A70"],
+    "obj_tile_base": 624,
+    "obj_vram_address": "0x06014E00",
+    "palette_bank": 6,
+    "instances": [
+      {
+        "oam_index": 4,
+        "attributes": ["0x0057", "0x40A0", "0x6A70"],
+        "frame_id": 5,
+        "component_index": 2,
+        "component_pixel_xy": [5, 5],
+        "source_pixel_screen_xy": [165, 92],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 5,
+        "attributes": ["0x005A", "0x50B8", "0x6A70"],
+        "frame_id": 5,
+        "component_index": 3,
+        "component_pixel_xy": [5, 5],
+        "source_pixel_screen_xy": [194, 95],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 2,
+        "attributes": ["0x005C", "0x40A8", "0x6A70"],
+        "frame_id": 5,
+        "component_index": 0,
+        "component_pixel_xy": [5, 5],
+        "source_pixel_screen_xy": [173, 97],
+        "visible_in_final_difference": true
+      }
+    ]
+  },
+  "runtime_toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73",
+    "hardcoded_selector_producers": "notes/battle-effect-hardcoded-selector-producers-20260802.json",
+    "hardcoded_selector_producers_sha256": "6b1e94181f9f513c8bb46735b6b85ac1172cdcf84f9ffd868c57685b67994588"
+  }
+}

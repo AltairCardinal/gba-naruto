@@ -23,9 +23,26 @@ GROUP2_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-02-action7-
 GROUP2_ARTIFACT = ROOT / "artifacts/battle-effect-group2-pixel-ab-v1"
 GROUP4_ARTIFACT = ROOT / "artifacts/battle-effect-group4-pixel-ab-v1"
 GROUP16_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
+GROUP17_PROFILE = ROOT / "sequel/content/battle-effect-pixel-ab/group-17-tool37-smoke.json"
+GROUP17_ARTIFACT = ROOT / "artifacts/battle-effect-group17-pixel-ab-v1"
 
 
 class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
+    def test_accepts_tool37_hardcoded_confirmation_checkpoint_contract(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
+
+        profile = json.loads(GROUP17_PROFILE.read_text(encoding="utf-8"))
+        _verify_checkpoint(ROOT, profile)
+
+    def test_profile_independently_binds_tool37_hardcoded_producer(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import _verify_profile
+
+        profile, contract = _verify_profile(ROOT, GROUP17_PROFILE)
+
+        self.assertEqual(profile["group_id"], 17)
+        self.assertEqual(profile["sequence_id"], 20)
+        self.assertEqual(contract["dynamic_ninja_tool_sequence_id"], 0)
+
     def test_accepts_ninja_tool_hardcoded_confirmation_checkpoint_contract(self):
         from tools.verify_battle_effect_pixel_ab_evidence import _verify_checkpoint
 
@@ -434,6 +451,12 @@ class VerifyBattleEffectPixelAbEvidenceTests(unittest.TestCase):
         from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
 
         result = verify_evidence(ROOT, GROUP4_ARTIFACT)
+        self.assertTrue(result["verified"], result["errors"])
+
+    def test_verifies_promoted_group17_flipped_multi_component_artifact(self):
+        from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP17_ARTIFACT)
         self.assertTrue(result["verified"], result["errors"])
 
     def test_rejects_resigned_semantic_tampering(self):

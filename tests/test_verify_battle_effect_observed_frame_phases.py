@@ -29,9 +29,9 @@ class BattleEffectObservedFramePhaseVerifierTests(unittest.TestCase):
         result = verifier.verify_coverage(ROOT, ARTIFACT)
         self.assertEqual(result["errors"], [])
         self.assertTrue(result["verified"])
-        self.assertEqual(result["phase_verified_groups"], 9)
+        self.assertEqual(result["phase_verified_groups"], 10)
         self.assertEqual(result["all_groups"], 18)
-        self.assertEqual(result["production_pixel_ab_groups"], 11)
+        self.assertEqual(result["production_pixel_ab_groups"], 12)
 
     def test_rejects_observed_group_source_without_matching_parent_manifest(self):
         verifier = importlib.import_module(

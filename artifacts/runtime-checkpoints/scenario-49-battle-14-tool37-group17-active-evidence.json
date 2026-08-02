@@ -1,0 +1,65 @@
+{
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "artifact_status": "accepted",
+  "active_task": {
+    "slot": 125,
+    "task_address": "0x03005904",
+    "flags": "0xC1003391",
+    "definition_pointer": "0x083478B4",
+    "animation_pointer": "0x083478F0"
+  },
+  "guard": {
+    "completion_trigger": "success-marker",
+    "degraded": false,
+    "exit_code": 0,
+    "guard_summary_sha256": "f4d8fe336fc2482dc83dbae2a35c19dc04d0eb4d9b976d7d5201d892a08b99e1",
+    "mgba_listener_clean": true,
+    "peak_tree_rss_mib": 66.19140625,
+    "pgid_clean": true
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
+    "sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46"
+  },
+  "output": {
+    "external_png_sha256": "a7eddd7158c349a5c96bf57049a4cef16118d83f72de7ac5650b0272615f2bb6",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-group17-active.ss9",
+    "sha256": "ac99cf9eba9582bad085226dd8683f33babafc3df83a0647e0deb05a9e76755f",
+    "visible_boundary": "battle 14 after natural use of ninja tool 37 with the Group 17 visual active"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "confirmation_audit_sha256": "8053c989a78b73b688961c789ba67367b2950de1c9e674e58215f0b01d60c88f",
+    "confirmation_parent_sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+  },
+  "route": {
+    "description": "The accepted final-confirmation checkpoint received exactly one A:5:13 input. At frame 160 the original ROM showed the tool-37 effect and the savestate contained the unique Group 17 task in slot 125.",
+    "final_input": {
+      "capture_frame": 160,
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  },
+  "runtime_binding": {
+    "dynamic_ninja_tool_sequence_id": 0,
+    "encoded_action_id": 165,
+    "handler_start": "0x0807ED20",
+    "ninja_tool_id": 37,
+    "resource_group_id": 17,
+    "selector_callsite": "0x0807ED3A",
+    "sequence_id": 20
+  },
+  "scope": {
+    "natural_action_submission_verified": true,
+    "natural_equipment_commit_verified": true,
+    "natural_group17_creation_verified": true,
+    "natural_group17_full_timeline_verified": false,
+    "production_pixel_ab_verified": false
+  }
+}
