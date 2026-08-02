@@ -2177,3 +2177,16 @@ WebSocket
   `notes/battle-effect-group13-pixel-ab-20260802.md`。production 自然最终像素由
   **6/18 提升到 7/18（38.89%）**；Group 12、其余 10 组、完整动画/混合/音频及
   实体 GBA 仍未闭合，Goal 保持 active。
+- 2026-08-02：Group 2 路线审计排除了另一条旧伪入口。历史
+  `tool49-component-trace` 目录名不能证明 tool 49 到 Group 2 的数据流；静态表明确
+  tool 49 / encoded `0xB1` 在 `0x0853E647` 选择 sequence 6，而 sequence 2 才绑定
+  Group 2，且没有 runtime/action/tool binding，只有11个硬编码 immediate selector
+  callsite。新增 current-desktop 严格零输入 runner 后，从 accepted supplemental
+  `state-0154.ss9` 受守卫续跑600帧，稳定到面对方向提示：unit slot 1的首忍具由49变0，
+  三个Group 2 task全部退出，无法原样重触发。运行峰值RSS `65.46484375 MiB`，guard
+  completed/non-degraded且无进程/listener残留；current mGBA正常生成的32 KiB staged
+  `.sav`已哈希记录并删除。runner还新增双payload回滚和最终commit marker，43项相关
+  回归通过。完整快照与机器审计已按实验生命周期归档，说明见
+  `notes/battle-effect-group2-route-stop-20260802.md`。该结果不改变production自然像素
+  **7/18**；Group 2后续只能从11个硬编码caller的真实游戏上游重新建立自然链，不能
+  复用tool49或supplemental state冒充，Goal保持active。

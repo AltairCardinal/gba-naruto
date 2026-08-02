@@ -693,6 +693,41 @@ hashes. It verifies those pins and the manifest's fixed label/version/source/bac
 patch/x86_64 fields before removing any old output. A forged self-consistent manifest
 paired with an arbitrary binary therefore cannot become replay provenance.
 
+`run_macos_mgba_replay_current.py` is the strict zero-input counterpart for the
+accepted current desktop runtime. It requires
+`artifacts/rom-expansion-profile-v1/profile.json`, rejects all legacy build-manifest,
+custom-script, pre-script and evidence-mode flags, and always runs the same pinned
+`mgba_checkpoint_replay.lua`. It additionally rejects a source-ROM `.sav` before and
+after the run and performs both exact owned-PGID and mGBA listener-residue checks before
+finalizing. A staged-ROM `.sav` is required absent before launch; because current mGBA
+normally creates one at shutdown, the runner hashes and sizes that ordinary file, removes
+it, rechecks absence, and records the disposition in `staged_save_sidecar`. Final audit
+and sentinel payloads are staged before replacement; a separate
+`<audit>.finalized.json` commit marker is written last and binds both final hashes. A
+partial replacement is rolled back to the raw Lua payloads and never gets a marker. The
+audit records the current profile SHA/source commit and deliberately has no legacy patch
+or build-manifest identity. Use this runner when a current-toolchain checkpoint only
+needs bounded zero-input settling or a reusable later snapshot; keep the historical
+runner for artifacts whose provenance explicitly names the 0.10.5 backport.
+
+```bash
+python3 tools/run_macos_mgba_replay_current.py \
+  --binary /absolute/mGBA.app/Contents/MacOS/mGBA \
+  --toolchain-profile artifacts/rom-expansion-profile-v1/profile.json \
+  --expected-binary-sha256 c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8 \
+  --rom rom/base.gba \
+  --state /absolute/input.ss9 \
+  --expected-rom-sha256 1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b \
+  --expected-state-sha256 STATE_SHA256 \
+  --capture-frame 600 \
+  --staged-rom /absolute/temporary/staged.gba \
+  --output-state /absolute/temporary/frame600.ss9 \
+  --output-png /absolute/temporary/frame600.png \
+  --audit /absolute/temporary/audit.json \
+  --sentinel /absolute/temporary/sentinel.json \
+  --guard-summary /absolute/temporary/guard.json
+```
+
 The default `zero-input` evidence mode accepts only the repository
 `mgba_checkpoint_replay.lua` at its pinned SHA-256, rejects every `--pre-script` and
 custom replay before output side effects, and finalizes evidence only with
