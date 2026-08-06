@@ -45,29 +45,27 @@ def main() -> int:
             "disproved_tombstones": audit["summary"]["disproved_tombstones"],
             "verification_distribution": audit["summary"]["verification_distribution"],
             "code_verified_banks": [
-                b["bank"] for b in audit["banks"]
+                b["structure"] for b in audit["banks"]
                 if b.get("verification") == "code_verified"
             ],
         }
 
-    ob = report.get("observed_frame_phases", {})
-    if isinstance(ob, dict) and "phase_verified_groups" in ob:
-        all_groups = ob.get("all_groups", 18)
-        phase_verified = ob.get("phase_verified_groups", 0)
-        production_pixel = ob.get("production_pixel_ab_groups", 0)
+    coverage_path = root / "artifacts" / "battle-effect-observed-frame-phases-v1" / "coverage.json"
+    if coverage_path.exists():
+        coverage = json.loads(coverage_path.read_text())
+        all_groups = coverage.get("all_group_denominator", 18)
+        phase_verified_ids = set(coverage.get("phase_verified_group_ids", []))
+        production_pixel_ids = set(coverage.get("production_pixel_ab_group_ids", []))
+        phase_remaining = sorted(set(range(1, all_groups + 1)) - phase_verified_ids)
+        pixel_remaining = sorted(set(range(1, all_groups + 1)) - production_pixel_ids)
+        report["coverage"] = coverage
         report["gap_summary"] = {
-            "battle_effect_phase": f"{phase_verified}/{all_groups}",
-            "battle_effect_phase_remaining_groups": sorted(
-                set(range(1, all_groups + 1)) - {
-                    1, 2, 3, 4, 5, 11, 14, 16, 17, 18  # from handoff 4 table
-                }
-            ),
-            "battle_effect_production_pixel": f"{production_pixel}/{all_groups}",
-            "battle_effect_production_pixel_remaining_groups": sorted(
-                set(range(1, all_groups + 1)) - {
-                    1, 2, 3, 4, 5, 11, 13, 14, 15, 16, 17, 18
-                }
-            ),
+            "battle_effect_phase": f"{len(phase_verified_ids)}/{all_groups}",
+            "battle_effect_phase_verified_group_ids": sorted(phase_verified_ids),
+            "battle_effect_phase_remaining_groups": phase_remaining,
+            "battle_effect_production_pixel": f"{len(production_pixel_ids)}/{all_groups}",
+            "battle_effect_production_pixel_verified_group_ids": sorted(production_pixel_ids),
+            "battle_effect_production_pixel_remaining_groups": pixel_remaining,
         }
 
     output = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
