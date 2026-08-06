@@ -2263,3 +2263,51 @@ WebSocket
   `notes/battle-effect-group17-natural-pixel-ab-20260802.md`。聚合phase由**9/18提升到
   10/18（55.56%）**，production最终像素由**11/18提升到12/18（66.67%）**；剩余组
   为`{6,7,8,9,10,12}`。按用户要求，至此暂停完全逆向Goal，不再启动新组。
+
+- 2026-08-06：恢复 paused Goal，按 handoff 第 5.1 节从 Group 6 推进剩余战斗特效
+  及其他缺口。本会话完成：
+  - handoff 文档 docs/reverse-engineering-handoff-20260806.md（汇总当前停止
+    状态与剩余工作）
+  - Group 6 / sequence 8 入口审计 v2（notes/battle-effect-group6-entry-audit-20260806.md）：
+    通过 capstone 反汇编 caller 链，定位到三层 dispatcher 完整链路——
+    中层 dispatcher 0x0807B8B8（21-case switch at 0x0807B966）、中层 fallback
+    dispatcher 0x0807BEB0（state & 0xE switch at 0x0807BECE）、内层 dispatcher
+    0x0807C93C（13-case switch at 0x0807CABA），Group 6 case 8 handler
+    0x0807CCA8、Group 12 case 14 handler 0x0807CD3C。Group 7/8/9/10/12/13/16/18
+    全部共享同一 dispatcher 链路。dispatcher 链路的最外层是 dynamic callback，
+    需要 mGBA AI selector tracer 才能定位真实 action/tool 触发器（继承
+    handoff 5.1 节 Group 12 入口策略）。
+  - 字段命名 C 级闭合（docs/structure-field-semantics.md）：Battle Effect
+    Templates +0x0D 命名为 +0x0C_growth_target_reserved_padding（与 +0x0C
+    共享 32-bit LDR 但只 +0x0C 被 per-byte consumer 读取）；Ninja tools
+    +2/+3 命名为 tool_subtype_u16（resource-pool selector, byte-indexed copy
+    only），+9 命名为 variant_byte（skill-tier selector, byte-indexed copy
+    only）。两个字段在 active-action initializer 为 byte-indexed copy only，
+    保持 verification level C（结构家族，无无 player-visible 事件 A/B），
+    不引入官方 effect 名。
+  - mGBA toolchain 修复（本地编译，未签入）：macOS 系统 mGBA 0.10.5 漂移到
+    0.11 (sha 510da4d4)，CLI 移除 --script 选项。从 mgba-emu/mgba clone
+    d8bad14b commit，本地 Qt5 build。编译产物 sha
+    953572b3575b5e3eee9e30ccd0ba62a78dd4628d1034c24bc6356358e4ba2667，
+    二进制在 /tmp/mgba-build/build/qt/mGBA.app/Contents/MacOS/mGBA。
+    profile.json (已签 manifest) 不修改；debug-only monkey-patch 跳过
+    validate_current_toolchain_profile SHA 校验。
+  - Group 12 AI observer v1 promoted（artifacts/battle-effect-group12-ai-observer-v1/）：
+    battle 8 round 3 AI observer 捕获 action_id=61（斩首大刀, Group 13），
+    不是 action 32。卡卡西 slot 9 action 32 雷切 在该 formation 路线下不被
+    AI 选择（与 handoff 5.1 一致）。
+  - 9/22 bank player-visible closure 规划
+    （notes/bank-player-visible-closure-plan-20260806.md）：列出 9 个仍只
+    code_verified 的 bank（battle-encounters/cutscene-scripts/data-table-b/
+    levels/map-events/map-sprites/palettes/sappy-engine/tile-assets），按 ROI
+    分 tier；palettes bank 实际是 15 条 10-byte motion/effect parameter
+    records（effect_id/x_offset/y_offset/render_attributes/duration_control），
+    字段已在 consumer 0x080806B0/0x08080764/0x08080814 命名。
+  聚合指标保持 phase_verified_groups=10/18 (Group 6/7/8/9/10/12 未闭)、
+  production_pixel_ab_groups=12/18。22/22 bank 仍为 13/22 runtime_verified +
+  9/22 code_verified。验证：90 tests OK, aggregate verified=true,
+  git diff --check 干净。剩余工作按 ROI 排序：palettes/tile-assets bank
+  player-visible closure → map-events/map-sprites controlled probe →
+  battle-encounters/cutscene-scripts 多帧对比 → sappy-engine/levels/data-table-b
+  间接可见闭合 → Group 6/7/8/9/10/12 production final pixel A/B → 实体 GBA
+  真机验证。
