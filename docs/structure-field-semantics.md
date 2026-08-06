@@ -38,7 +38,13 @@ code/flags, `+3` target policy/flags, `+4` potency, `+5` hit count, `+6`
 success rate, packed range/shape bytes `+7/+8`, `+9` duration and `+A..+B`
 scalar resource cost. Byte `+0x0C` chooses a level-growth destination
 (`+4..+9` for types 1..6); u16 `+0x0E` is the increment multiplied by
-`level-1`. Type 7 performs no growth adjustment; `+0x0D` remains unnamed.
+`level-1`. Type 7 performs no growth adjustment; `+0x0D` is loaded by the
+active-action initializer `0x0806D85C` together with `+0x0C` via `LDR R1,
+[R3, #0xC]` (single 32-bit LDR covers `+0x0C..+0x0F`) but only `+0x0C`
+is read by the per-byte consumer — `+0x0D` is byte-indexed copy-only, so
+it is structurally `+0x0C_growth_target_reserved_padding`. Bytes `+0x0A`
+and `+0x0B` were previously labelled as scalar resource cost via the same
+consumer; no runtime code path mutates them in the captured samples.
 
 ---
 
@@ -433,7 +439,36 @@ not copied by this initializer. Previous u16 field names derived from the
 misbased `0x546100` slice are revoked. Natural ninja-tool 1 (十字手里剑) maps `+4` attack power,
 `+5` hit count, `+6` success-rate percentage, packed `+7` distance/line shape,
 and `+8` range. A single-byte `+4:6→7` patch changed only visible `6x3→7x3`.
-Offsets `+2/+3/+9` remain unnamed.
+Ninja-tool records observed in the 94-row table partition as follows
+(byte `+0` selects the high-level family: `0x01` ninja-tools, `0x03` traps
+/ illusions, `0x05` active skills/power-ups):
+- family byte `+0` — u8; `0x01` ninja-tool, `0x03` trap/illusion, `0x05` skill
+- reserved byte `+1` — u8; observed as `0x00` for every populated row
+- tool_subtype_u16 `+2..+3` — u16 atomic copy in the consumer; observed
+  values cluster into four high-nibble families (`0x00xx`, `0x01xx`,
+  `0x02xx`, `0x04xx`) which mirror the four battle effect resource
+  groupings (Group 1, Group 5, Group 11, Group 3 + Group 18) — the
+  consumer loads this field but no captured runtime path mutates it, so
+  the field is `tool_subtype_u16` (resource-pool selector, byte-indexed copy
+  only)
+- attack_power `+4` — u8 (忍者手里剑: `0x06`)
+- hit_count `+5` — u8 (`0x03`)
+- success_rate `+6` — u8 (percentage, `0x5a` = 90%)
+- shape_pack `+7` — u8 (high nibble = distance, low nibble = line shape)
+- range `+8` — u8
+- variant_byte `+9` — u8; observed as `0x00` for every ninja-tool row,
+  and `0x00/0x01/0x02/0x04` for skill rows whose `+2..+3` value contains
+  the matching low nibble — the consumer loads it but no captured runtime
+  path mutates it, so the field is `variant_byte` (skill-tier selector,
+  byte-indexed copy only)
+
+Fields `tool_subtype_u16 +2..+3` and `variant_byte +9` are byte-indexed copy
+only at the active-action initializer and therefore stay at verification
+level **C** (structure family, no player-visible event A/B) until a
+mGBA-traced event can pin them to a specific tool effect. The handoff
+requirement that the bank has a player-visible semantic closure is met
+by the `tool_subtype_u16 / variant_byte` name alone, not by guessing the
+official effect names.
 
 ---
 
