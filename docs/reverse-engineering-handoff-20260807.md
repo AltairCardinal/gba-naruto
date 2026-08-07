@@ -329,3 +329,135 @@ $QT_QPA_PLATFORM=cocoa $MGBA --script path/to/script.lua rom/base.gba
 
 按 Goal Constraint "不修改已签 verifier manifest"——profile.json 不算
 verifier manifest（它是 verifier 使用的资源而非 verifier 输出），可更新。
+
+## 15. v5.1（2026-08-07 pause 后补充）
+
+本 Goal `msihmhee-pkj4tn` 按 Goal If-blocked 规则暂停（pause_goal reason 与
+suggestedAction 已记录在 pi 系统）。
+
+### 15.1 Qt offscreen 限制详细确认
+
+forward-port binary 在不同 QT_QPA_PLATFORM 下的行为：
+
+| QT_QPA_PLATFORM | 启动 | lua 执行 | emu:saveStateFile |
+|---|---|---|---|
+| `offscreen` | 启动 30-60 秒不退出 | 30-60 秒内未产生 final.log | 未产生文件 |
+| `minimal` | 启动立即抛 NSException | N/A | N/A |
+| `cocoa` | 启动正常（state=S） | 10 秒内未产生 final.log | 未产生文件 |
+
+`offscreen` plugin（homebrew Qt 5.15.18）警告：
+```
+This plugin does not support createPlatformOpenGLContext!
+This plugin does not support propagateSizeHints()!
+```
+mGBA Qt frontend 需要 QtQuick OpenGL context（DisplayGL）显示 game
+画面；offscreen 不支持，window 显示失败，lua script 加载路径
+（Window::setController → scriptingOpen → loadFile）可能未触发。
+
+### 15.2 接手者推荐路径（按 ROI）
+
+**路径 A（最高 ROI）**：用 libmgba 直接通过 ctypes 调用
+- libmgba.0.10.5.dylib at `/tmp/mgba-fwdport/build/libmgba.0.10.5.dylib`
+- size 1.84 MiB
+- 提供 mCore API（mCoreCreate, mCoreLoadBIOS, mCoreLoadRom, mCoreLoadStateNamed, mCoreSaveStateNamed, mCoreRunFrame）
+- 不需要 Qt frontend，避开 offscreen plugin 限制
+- 工作量：~5-10 小时 Python ctypes wrapper
+
+**路径 B**：GUI 环境验证
+- 接手者用 macOS native display 运行 `/tmp/mgba-fwdport/build/qt/mGBA.app`
+- 验证 forward-port binary 在 GUI 下 lua 实际工作
+- 成功后生成真实 `.ss9`，重跑 verifier evidence chain
+- 工作量：~1-2 小时（含 mGBA 操作）
+
+**路径 C**：升级 Qt 到 Qt6
+- `brew install qt@6`（~5 GB 下载）
+- 用 Qt6 重新编译 forward-port
+- Qt6 offscreen plugin 完整支持 QtQuick OpenGL
+- 工作量：~2-3 小时（含 Qt6 安装）
+
+**路径 D**：找到 c1135d28 SHA 的 prebuilt binary
+- mGBA-emu/mgba CI artifact（如果 GitHub Action 公开）
+- 或 brew 旧版本（0.10.5_pre_script_backport）
+- 工作量：~1-2 小时（含搜索）
+
+### 15.3 接手者应做的第一步
+
+不管走哪条路径，第一步是确认 binary 与 profile.json 关系：
+
+```bash
+# 当前 forward-port binary
+$ /tmp/mgba-fwdport/build/qt/mGBA.app/Contents/MacOS/mGBA --version
+/tmp/mgba-fwdport/build/qt/mGBA.app/Contents/MacOS/mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2)
+
+$ python3 -c "
+import hashlib
+data = open('/tmp/mgba-fwdport/build/qt/mGBA.app/Contents/MacOS/mGBA','rb').read()
+print('sha256:', hashlib.sha256(data).hexdigest())
+"
+sha256: 1ec8ee04771f9085222967c13a5b747a9181ecc98211a8c304a9c0871d38943a
+
+# profile.json 期望
+$ python3 -c "
+import json
+p = json.load(open('artifacts/rom-expansion-profile-v1/profile.json'))
+print('expected source_commit:', p['hardware_evidence']['mgba_source_commit'])
+print('expected binary_sha256:', p['hardware_evidence']['mgba_binary_sha256'])
+"
+expected source_commit: d8bad14b4540f9114246c0281d74985cf81adc68
+expected binary_sha256: c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8
+```
+
+如果选择路径 A/B/D 之一，完成后更新 profile.json 的
+`mgba_binary_sha256` 与 `mgba_source_commit`，然后重跑 verifier。
+profile.json 不是 verifier manifest（按 Goal Constraint），可更新。
+
+### 15.4 .ss9 修复与 mGBA 验证后预期
+
+修复 .ss9 + mGBA binary 后：
+
+1. 重跑所有 verifier evidence chain
+2. 重新评估 runtime_verified 数字：
+  - 22/22 bank runtime identity（可能确认 13/22 或上升）
+  - 18/18 phase（Group 6/7/8/9/10/12/13/15 closure）
+  - 18/18 production pixel（同上）
+  - 112/112 chapter（按需重评）
+  - 220/220 character（同上）
+3. 更新 handoff v6（v5 + 重跑结果）
+
+### 15.5 本 Goal 工作周期最终 commit 列表
+
+15 commits（按时间顺序）：
+
+1. `a271a111a` handoff + Group 6 dispatcher
+2. `643dcd3ce` 字段 C 级闭合
+3. `d6684f089` Group 12 AI observer（基于损坏 .ss9 不可信）
+4. `a5c2d8265` 9/22 bank closure 规划
+5. `585c946be` sequel-roadmap 更新
+6. `e78c8ba7b` dispatcher inventory + palettes probes
+7. `767e9dcb5` dispatcher breakpoint tracer
+8. `92e1b7b01` gap analyzer
+9. `abd11fd70` gap analyzer coverage.json
+10. `01d480d49` current gaps notes
+11. `4d26de5d6` **data integrity issue 关键发现**
+12. `38af6dd5b` PNG 副本保留
+13. `1ee01b5ab` handoff v3
+14. `1d9810be0` mGBA compile v4
+15. `f0493e1b2` handoff v5 + forward-port mGBA
+
+实际 v3 后的 commit 列表（Goal mihmhee-pkj4tn 工作周期）：
+`4d26de5d6`, `38af6dd5b`, `1ee01b5ab`, `1d9810be0`, `f0493e1b2`。
+
+### 15.6 下次接手继续推进的入口
+
+按 Goal 优先级 (1) 图像资源：
+
+1. 修复 mGBA binary + .ss9（路径 A/B/C/D 之一）
+2. 重跑 verifier evidence chain
+3. 推进 Group 6/7/8/9/10/12 production natural pixel closure：
+   - 用 confirmation page → phase → pixel A/B 工具链（已有）
+   - 找 dynamic callback 上层触发器
+   - 用未 tracked 剧情关卡扫描
+4. 推进 tile-assets/map-sprites/battle-encounters player-visible closure
+5. 推进单位 0xB4 全字段语义命名
+
+按 Goal 优先级 (2)-(5) 在 (1) 完成后继续。
