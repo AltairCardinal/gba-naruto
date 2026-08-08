@@ -2314,6 +2314,7 @@ WebSocket
 - 2026-08-09：撤销“104 个 `.ss9` 是损坏 PNG”的误判。严格容器验证确认
   104/104 都含唯一、可解压且长度/版本合法的 `gbAs` 状态；清理 101 个与同名
   `.ss9` 逐字节相同的冗余 `.png` 副本。重新验证 controlled-runtime 原始归档，
-  将 Group 6/7/8/9/10/12/13 的受控 renderer→submit→ack 事务纳入精确 phase，
-  phase 从 10/18 提升到 17/18；这些组不声称自然入口。production pixel A/B
-  保持 12/18，下一优先级仍是 Group 6/7/8/9/10/12。
+  将 Group 6/7/8/9/10/12/13 的受控 renderer→submit→ack 事务纳入精确 phase；
+  随后重验既有 Group 15 自然 battle 8 action 64 三阶段产物，phase 从 10/18
+  提升到 18/18。受控组不声称自然入口；Group 15 单列为自然 action 扩展。
+  production pixel A/B 保持 12/18，下一优先级仍是 Group 6/7/8/9/10/12。

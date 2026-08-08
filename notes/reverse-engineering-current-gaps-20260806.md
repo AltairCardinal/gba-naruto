@@ -9,7 +9,7 @@
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
 | 有效 bank 运行时身份 | 13/22 | 22/22 | 9 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
-| 战斗特效精确 phase | 17/18 | 18/18 | 仅 Group 15；Group 6/7/8/9/10/12/13 为受控 sequence phase，非自然入口 |
+| 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 12/18 | 18/18 | 6 groups: [6, 7, 8, 9, 10, 12] |
 | 音频结构提取与整曲渲染 | 100% | 100% | ✓ |
 | 音频 cue 人类语义 | 80/80 | 80/80 | ✓（72 D 级 unknown 是合法命名状态） |
@@ -19,7 +19,7 @@
 | 角色/成长/技能 bank + 字段命名 | 220/220 + C 级 | 220/220 + 全量 | ✓（+0x0D/+2/+3/+9 C 级闭合） |
 | 实体 GBA 发布验证 | 0/1 | 1/1 | 真机硬件未提供 |
 
-## 剩余 4 大缺口的执行路径
+## 剩余 3 大缺口的执行路径
 
 ### 1. 22/22 bank runtime identity（缺 9 个）
 
@@ -38,8 +38,9 @@ task spawn 才能消费 record 数据。battle 8 round 3 AI 选择 action 61
 ### 2. 战斗特效 production pixel（缺 6/7/8/9/10/12）
 
 2026-08-09 已复用并重新验证 controlled-runtime 原始归档，将
-Group 6/7/8/9/10/12/13 的精确三阶段计入 phase 指标，phase 达 17/18；仅
-Group 15 仍缺正向 phase。该口径明确是 controlled sequence，不冒充自然玩法。
+Group 6/7/8/9/10/12/13 的精确三阶段计入 phase 指标；既有 Group 15 自然
+battle 8 action 64 运行时产物经重验补齐最后一组，phase 达 18/18。受控组口径
+明确是 controlled sequence，不冒充自然玩法。
 
 Group 6/7/8/9/10/12 共享同一 dispatcher 链路（已 disasm 完整）：
 - 中层 dispatcher 0x0807B8B8（21-case switch）
@@ -69,18 +70,13 @@ handoff 第 5.2 节已声明此风险。
 production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
 有 mGBA runtime evidence，但实体 GBA 仍需真机）。
 
-### 4. 战斗特效 phase 仅缺 Group 15
-
-Group 13 已由受控 sequence 三阶段证据闭合。Group 15 的 controlled sequence
-结果为 target absent negative，虽已有 production pixel A/B，仍需正向 phase
-入口才能达到 18/18。
-
 ## 2026-08-09 增量
 
 - 104/104 `.ss9` 严格验证为合法 mGBA PNG+`gbAs` 状态容器；旧“普通 PNG”
   blocker 已撤销。
 - dispatcher 静态工具修复后找到 `0x0807C93C` 的 6 个直接调用点。
-- phase 聚合由 10/18 提升为 17/18；production pixel A/B 保持 12/18。
+- phase 聚合由 10/18 提升为 18/18；其中 Group 15 复用并重验自然 action 64
+  三阶段证据。production pixel A/B 保持 12/18。
 
 ## 2026-08-06 会话交付（历史）
 
@@ -121,7 +117,6 @@ bank + 字段 C 级命名 + 实体 GBA 0/1（无硬件）。
 - 9/22 bank closure: ~20-30 小时 mGBA + 5 小时 disasm
 - 6/7/8/9/10/12 production pixel A/B：优先批量组合 controlled sequence 与
   production relocation；无需先完成 10-20 小时剧情关卡扫描
-- Group 15 phase closure：~1-3 小时 mGBA/入口复用
 - 实体 GBA 验证: 无法在当前环境推进（需真机）
 
 原 38-60 小时估算已被 controlled phase 复用缩短；剩余时间需在首个 production

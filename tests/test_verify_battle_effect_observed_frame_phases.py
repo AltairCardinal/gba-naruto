@@ -29,7 +29,7 @@ class BattleEffectObservedFramePhaseVerifierTests(unittest.TestCase):
         result = verifier.verify_coverage(ROOT, ARTIFACT)
         self.assertEqual(result["errors"], [])
         self.assertTrue(result["verified"])
-        self.assertEqual(result["phase_verified_groups"], 17)
+        self.assertEqual(result["phase_verified_groups"], 18)
         self.assertEqual(result["all_groups"], 18)
         self.assertEqual(result["production_pixel_ab_groups"], 12)
 

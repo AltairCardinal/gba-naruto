@@ -15,6 +15,7 @@ try:
     from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from tools.verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from tools.verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
+    from tools.verify_battle_effect_group15_natural_runtime import verify_artifact as verify_group15_natural_runtime
     from tools.verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 except ModuleNotFoundError:
     from verify_battle_effect_frame_phase import verify_artifact
@@ -22,6 +23,7 @@ except ModuleNotFoundError:
     from verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
+    from verify_battle_effect_group15_natural_runtime import verify_artifact as verify_group15_natural_runtime
     from verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 
 
@@ -42,8 +44,11 @@ NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
 NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
 NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS = [16, 17]
 CONTROLLED_PHASE_EXTENSION_GROUP_IDS = [6, 7, 8, 9, 10, 12, 13]
+NATURAL_ACTION_EXTENSION_GROUP_IDS = [15]
 PHASE_VERIFIED_GROUP_IDS = sorted(
-    set(EXPECTED) | set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS)
+    set(EXPECTED)
+    | set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS)
+    | set(NATURAL_ACTION_EXTENSION_GROUP_IDS)
 )
 PIXEL_AB = {
     1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "generic"),
@@ -63,6 +68,8 @@ OBSERVED_ARTIFACT = Path("artifacts/battle-effect-runtime-oam-task-bindings-v1")
 OBSERVED_PAYLOAD = OBSERVED_ARTIFACT / "bindings.json"
 CONTROLLED_RUNTIME_ARTIFACT = Path("artifacts/battle-effect-controlled-runtime-v1")
 CONTROLLED_RUNTIME_PAYLOAD = CONTROLLED_RUNTIME_ARTIFACT / "evidence.json"
+GROUP15_NATURAL_ARTIFACT = Path("artifacts/battle-effect-group15-natural-runtime-v1")
+GROUP15_NATURAL_PAYLOAD = GROUP15_NATURAL_ARTIFACT / "evidence.json"
 REQUIRED_REPOSITORY_FILES = {
     "tools/export_battle_effect_observed_frame_phases.py",
     "tools/verify_battle_effect_observed_frame_phases.py",
@@ -72,6 +79,7 @@ REQUIRED_REPOSITORY_FILES = {
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
     "tools/verify_battle_effect_controlled_runtime.py",
+    "tools/verify_battle_effect_group15_natural_runtime.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
     "tools/verify_battle_effect_pixel_ab_evidence.py",
@@ -80,6 +88,7 @@ REQUIRED_REPOSITORY_FILES = {
     "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tests/test_verify_battle_effect_controlled_runtime.py",
+    "tests/test_verify_battle_effect_group15_natural_runtime.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
 }
@@ -197,6 +206,30 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
         ):
             errors.append("controlled phase verification failed")
 
+        group15_source = coverage.get("sources", {}).get(
+            "group15_natural_runtime", {}
+        )
+        expected_group15_source = {
+            "path": GROUP15_NATURAL_ARTIFACT.as_posix(),
+            "manifest_sha256": _sha256(
+                root / GROUP15_NATURAL_ARTIFACT / "manifest.json"
+            ),
+            "payload_path": GROUP15_NATURAL_PAYLOAD.as_posix(),
+            "payload_sha256": _sha256(root / GROUP15_NATURAL_PAYLOAD),
+        }
+        if group15_source != expected_group15_source:
+            errors.append("group 15 natural phase source mismatch")
+        group15_result = verify_group15_natural_runtime(
+            root / GROUP15_NATURAL_ARTIFACT
+        )
+        if (
+            not group15_result.get("verified")
+            or group15_result.get("group_id") != 15
+            or group15_result.get("sequence_id") != 17
+            or group15_result.get("phase_pending") != [0, 1, 0]
+        ):
+            errors.append("group 15 natural phase verification failed")
+
         phase_rows = coverage.get("phase_artifacts")
         if not isinstance(phase_rows, list) or len(phase_rows) != len(EXPECTED):
             errors.append("phase artifact rows are incomplete")
@@ -243,8 +276,9 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
             "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
+            "natural_action64_group15_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
-            "all_18_groups_phase_verified": False,
+            "all_18_groups_phase_verified": True,
             "production_pixel_ab_all_18_groups": False,
             "target_task_exclusive_oam_causality": False,
             "physical_gba_verified": False,
@@ -263,6 +297,8 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             != NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS
             or coverage.get("controlled_phase_extension_group_ids")
             != CONTROLLED_PHASE_EXTENSION_GROUP_IDS
+            or coverage.get("natural_action_extension_group_ids")
+            != NATURAL_ACTION_EXTENSION_GROUP_IDS
             or coverage.get("phase_verified_group_count")
             != len(PHASE_VERIFIED_GROUP_IDS)
             or coverage.get("phase_verified_group_ids") != PHASE_VERIFIED_GROUP_IDS

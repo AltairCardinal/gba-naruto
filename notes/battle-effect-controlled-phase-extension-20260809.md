@@ -5,11 +5,14 @@
 `artifacts/battle-effect-controlled-runtime-v1` 的原始归档已重新导出并由
 `tools/verify_battle_effect_controlled_runtime.py` 独立验证。Group
 6/7/8/9/10/12/13 均包含稳定目标 task 的 renderer、submit、ack 三阶段状态，
-因此可计入“精确 phase 已验证”；聚合覆盖由 10/18 提升为 17/18。
+因此可计入“精确 phase 已验证”。此外，既有 Group 15 自然运行时产物已经记录
+battle 8 的 AI action 64 → sequence 17，以及 renderer、submit、ack 三阶段，
+经独立 verifier 重验后可补齐最后一组；聚合覆盖由 10/18 提升为 18/18。
 
 这些组的入口是受控 sequence injection，不是自然玩法。聚合结果通过独立字段
 `controlled_phase_extension_group_ids` 保存该边界，不改变 production pixel A/B
-或 natural gameplay 的分子。当前唯一尚无正向三阶段事务的是 Group 15。
+或 natural gameplay 的分子。Group 15 单独记录在
+`natural_action_extension_group_ids`，因为它来自自然 AI 路径而非受控注入。
 
 ## 复核证据
 
@@ -17,7 +20,9 @@
   4/6/7/8/9/10/12/13/16/17；25 个 OAM binding。
 - Group 6 具体链：sequence 8，definition `0x08343700`，animation
   `0x0834375C`，目标 task 在 renderer/submit/ack 三阶段稳定为 slot 108。
-- 聚合 verifier：phase 17/18、production pixel A/B 12/18、errors 0。
+- Group 15 自然链：battle 8、action 64、sequence 17、group 15，三阶段 pending
+  为 `[0, 1, 0]`。
+- 聚合 verifier：phase 18/18、production pixel A/B 12/18、errors 0。
 
 ## 可复现命令
 
