@@ -40,8 +40,8 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "Functions 0x080806B0, 0x08080764 and 0x08080814 load literal 0x0853EE98, multiply a runtime index by 10, walk 10-byte records, and pass the signed parameters to 0x08080218. Record 14 begins with -1 and terminates the chain.",
+    "verification": "runtime_verified",
+    "verification_method": "Functions 0x080806B0, 0x08080764 and 0x08080814 load literal 0x0853EE98, multiply a runtime index by 10, walk 10-byte records, and pass the signed parameters to 0x08080218. artifacts/motion-effect-parameter-pixel-ab-v1 additionally proves the natural sequence-3 record-0 y_offset path: a probe-free 0->32 edit changes only task slot 126 y, OAM 0 y and the corresponding final Mode 0 pixels. Record 14 begins with -1 and terminates the chain; the runtime artifact does not claim every record or all three consumers were observed.",
     "former_claim": "88 RGB555 palette pointers beginning at 0x53F138",
     "notes": "The old palette view began inside unrelated callback data and crossed into the sprite pair table. Legacy palette rows are diagnostic-only; field names remain conservative pending player-visible correlation.",
     "entries": [

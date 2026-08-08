@@ -2336,3 +2336,13 @@ WebSocket
   18/18 指标证明 production 修改 ROM 的最终像素写回，不把 controlled 入口
   冒充自然玩法，也不代表实体 GBA 已验证。证据见
   `notes/battle-effect-groups7-12-controlled-pixel-ab-20260809.md`。
+
+- 2026-08-09：历史 `palettes` slug 已按真实身份 motion/effect 参数表完成
+  自然玩家可见闭环。复用 scenario-49 Group 3 零输入快照，probe-free
+  candidate 仅修改 record 0 `y_offset`（ROM `0x53EE9C`，`0→32`），严格导致
+  task slot 126 与 OAM 0 的 Y 同步 `+32`；其余 VRAM/PRAM/IO/任务目录保持
+  相同，ack savestate Mode-0 重放产生 286 个最终像素变化。两次 mGBA 峰值
+  RSS ≤75 MiB、`pgid_clean=true`。独立 verifier 与防重签测试通过，bank
+  指标由 13/22 提升到 **14/22 runtime_verified**；边界不覆盖其余 14 条记录、
+  另外两个 consumer 或实体 GBA。证据见
+  `artifacts/motion-effect-parameter-pixel-ab-v1/`。

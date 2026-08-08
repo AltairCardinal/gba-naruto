@@ -1,5 +1,10 @@
 # Palettes Bank Player-Visible Closure Attempt（2026-08-06）
 
+> 历史失败记录。2026-08-09 已改用自然 Group 3 零输入快照完成闭环，见
+> `notes/motion-effect-parameter-player-visible-20260809.md` 与
+> `artifacts/motion-effect-parameter-pixel-ab-v1/`。旧实验的 blocker 仅对所选
+> Group 13 路线成立，不是 bank 的真实阻塞。
+
 ## 结论：未达成 player-visible 差异
 
 尝试对 `sequel/content/palettes/bank.json`（实际是 motion/effect
@@ -29,8 +34,8 @@ palettes bank 的 player-visible closure 实际需要：
 2. mGBA 跑 task spawn（不只是 AI observer 选 action）
 3. spawn 后捕获 frame，比对 OBJ-VRAM 偏移
 
-按 handoff 第 5.2 节此 bank 仍在 9/22 code_verified 列表中，闭环需要
-专门的 controlled runtime probe 设计。这超出当前会话范围。
+该判断已被后续自然 Group 3 实验证伪：无需另造 controlled spawn，既有
+scenario-49 延迟对象快照会在零输入下自然消费 record 0。
 
 ## 推进状态
 

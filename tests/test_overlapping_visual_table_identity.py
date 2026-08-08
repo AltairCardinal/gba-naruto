@@ -27,7 +27,11 @@ class OverlappingVisualTableIdentityTest(unittest.TestCase):
         self.assertEqual(self.motion["table_offset"], 0x53EE98)
         self.assertEqual(self.motion["entry_count"], 15)
         self.assertEqual(self.motion["entry_size"], 10)
-        self.assertEqual(self.motion["verification"], "code_verified")
+        self.assertEqual(self.motion["verification"], "runtime_verified")
+        self.assertIn(
+            "artifacts/motion-effect-parameter-pixel-ab-v1",
+            self.motion["verification_method"],
+        )
         for index, entry in enumerate(self.motion["entries"]):
             self.assertEqual(
                 (entry["effect_id"], entry["x_offset"], entry["y_offset"],
