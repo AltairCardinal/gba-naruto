@@ -1,0 +1,22 @@
+{
+  "schema": "map-sprites-definition-pixel-ab-profile-v1",
+  "source_bank": "sequel/content/map-sprites/bank.json",
+  "source_bank_sha256": "52fae253049983323951b5c29b21e6960c6975c0348238947a8ec38efe474064",
+  "source_asset_manifest": "artifacts/sprite-definition-assets-v2/manifest.json",
+  "source_asset_manifest_sha256": "ee36523b6a02edb4b803f1835da3dd0d5e460102fc18507b121854d43b882e68",
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+  "input_state_sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c",
+  "table_offset": 5501248,
+  "entry_size": 8,
+  "entry_id": 1,
+  "field": "definition_ptr",
+  "field_offset": 0,
+  "before_pointer": "0x0812F5D8",
+  "after_pointer": "0x0812F7CC",
+  "donor_entry_id": 37,
+  "task_slot": 123,
+  "input_mode": "zero-input-controlled-task-materialization",
+  "inputs": [],
+  "capture_post_boundary_frames": 2,
+  "boundary": "The ROM variants differ only in entry 1 definition_ptr. The existing natural ID-1 task is explicitly reactivated and its definition field is materialized from the ROM table; this proves the downstream frame/OAM/pixel effect but is not a natural loader re-entry."
+}

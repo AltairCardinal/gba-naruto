@@ -1,11 +1,12 @@
 # 9/22 Bank Player-Visible Closure 执行规划（2026-08-06）
 
-> 历史规划。2026-08-09 `palettes` 与 `tile-assets` 已分别由
+> 历史规划。2026-08-09 `palettes`、`tile-assets` 与 `map-sprites` 已分别由
 > `artifacts/motion-effect-parameter-pixel-ab-v1/` 和
-> `artifacts/tile-asset-descriptor2-pixel-ab-v1/` 闭合，当前剩余 7 个
+> `artifacts/tile-asset-descriptor2-pixel-ab-v1/`、
+> `artifacts/map-sprites-definition-id1-pixel-ab-v1/` 闭合，当前剩余 6 个
 > `code_verified` bank；`tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
-> 为 `/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA`，
-> SHA-256 `c1135d28...`，不需要跳过工具链校验。
+> 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
+> SHA-256 `ef2386a5...`，不需要跳过工具链校验。
 
 ## 来源
 
@@ -19,7 +20,7 @@ code_verified，需要 player-visible runtime semantic closure：
 | data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
 | levels | 0x5459C8 | code_verified | 等级成长曲线 |
 | map-events | 0x53E698 | code_verified | 地图事件触发器 |
-| map-sprites | 0x53F140 | code_verified | 地图 sprite 绑定 |
+| map-sprites | 0x53F140 | runtime_verified | 通用 sprite definition/animation 绑定（受控物化闭合） |
 | palettes | 0x53EE98 | runtime_verified | motion/effect 参数（2026-08-09 已闭合） |
 | sappy-engine | 0x079668 | code_verified | 音频命令 dispatcher |
 | tile-assets | 0x5A320C | runtime_verified | tile 资产（2026-08-09 已闭合） |
@@ -63,8 +64,9 @@ validate_current_toolchain_profile SHA 校验。这是 debug-only 操作。
 **map-events (0x53E698)**：地图事件触发器修改 → 角色行为改变。
 需要 scenario 41 基础快照 + controlled probe。
 
-**map-sprites (0x53F140)**：地图 sprite 绑定修改 → 视觉表现。
-需要 scenario 41/50 快照 + 截图对比。
+**map-sprites (0x53F140)**：已闭合。entry 1 `definition_ptr` 的隔离 ROM A/B
+经 task 123 受控物化后命中 frame-select/OAM-compose，并产生 213 个最终像素差；
+不声称自然 loader 重入或 donor 原生 tile-base 兼容。
 
 ### Tier 3：复杂 ROI（需要多帧对比）
 

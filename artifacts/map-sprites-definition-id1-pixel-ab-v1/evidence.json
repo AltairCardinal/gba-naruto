@@ -1,0 +1,190 @@
+{
+  "build": {
+    "edit": {
+      "after_bytes": "ccf71208",
+      "after_pointer": "0x0812F7CC",
+      "before_bytes": "d8f51208",
+      "before_pointer": "0x0812F5D8",
+      "changed_rom_offsets": [
+        5501256,
+        5501257
+      ],
+      "field": "definition_ptr",
+      "rom_address": "0x0853F148",
+      "rom_offset": 5501256
+    },
+    "manifest_sha256": "4fc453c883edf97962d932547ca12e7d86f85a0a8fd25b4182018aa7a71580e4"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+    "sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c"
+  },
+  "donor_entry_id": 37,
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "entry_id": 1,
+  "events": {
+    "baseline": {
+      "controlled-bootstrap": {
+        "address": "0x00000000",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F5D8",
+        "frame": 0,
+        "r4": "0x00000002",
+        "r7": "0x02026C3A",
+        "r8": "0x0812F294",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      },
+      "frame-select": {
+        "address": "0x0806298C",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F5D8",
+        "frame": 0,
+        "r4": "0x00000000",
+        "r7": "0x0300588C",
+        "r8": "0xFFFFFFFF",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      },
+      "oam-compose": {
+        "address": "0x08063108",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F5D8",
+        "frame": 0,
+        "r4": "0x00B00040",
+        "r7": "0x0300588C",
+        "r8": "0x0812F5C0",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      }
+    },
+    "candidate": {
+      "controlled-bootstrap": {
+        "address": "0x00000000",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F7CC",
+        "frame": 0,
+        "r4": "0x00000002",
+        "r7": "0x02026C3A",
+        "r8": "0x0812F294",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      },
+      "frame-select": {
+        "address": "0x0806298C",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F7CC",
+        "frame": 0,
+        "r4": "0x00000000",
+        "r7": "0x0300588C",
+        "r8": "0xFFFFFFFF",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      },
+      "oam-compose": {
+        "address": "0x08063108",
+        "animation": "0x0812F5E4",
+        "definition": "0x0812F7CC",
+        "frame": 0,
+        "r4": "0x00D00040",
+        "r7": "0x0300588C",
+        "r8": "0x0812F7A0",
+        "task": "0x0300588C",
+        "task_flags": "0x01000049"
+      }
+    }
+  },
+  "memory": {
+    "differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [
+        646,
+        652,
+        653,
+        654,
+        655,
+        656,
+        657,
+        662,
+        663,
+        664,
+        665,
+        668,
+        669,
+        670,
+        671,
+        22696,
+        22697
+      ],
+      "OAM": [
+        10,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        26,
+        27,
+        28,
+        29,
+        32,
+        33,
+        34,
+        35
+      ],
+      "PRAM": [],
+      "VRAM": []
+    }
+  },
+  "not_proved": "No natural input route recreated the generic task during this run; pixel compatibility with donor entry 37's native tile base is outside this single-field experiment.",
+  "pixels": {
+    "baseline_rgb_sha256": "e97427bc6225d4a4691720c569bc5268f7d41d957ebfb543626e8415fcf40024",
+    "bbox_inclusive": [
+      178,
+      64,
+      215,
+      71
+    ],
+    "candidate_rgb_sha256": "79f98d2371b4a269ea4714e5c8256f1e29ce64285dd03e2786b540f64f17b399",
+    "changed_pixel_count": 213,
+    "height": 160,
+    "width": 240
+  },
+  "proved": "Entry 1 definition_ptr is materialized from ROM into task 123; the changed pointer reaches frame selection and OAM composition and changes 213 final pixels.",
+  "route": {
+    "boundary": "The ROM variants differ only in entry 1 definition_ptr. The existing natural ID-1 task is explicitly reactivated and its definition field is materialized from the ROM table; this proves the downstream frame/OAM/pixel effect but is not a natural loader re-entry.",
+    "controlled_task_materialization": true,
+    "inputs": [],
+    "natural_loader_reentry": false,
+    "post_boundary_frames": 2,
+    "task_address": "0x0300588C",
+    "task_slot": 123
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "c508c05824c84bc460ef366511122b141f2d1166c4ac5cd2868fb4776f5ae2a2",
+      "guard_sha256": "4c8f88ece4a7ca986edb0e52d422978862664b90317a0ac846af0d94fc4c0144",
+      "peak_tree_rss_mib": 108.6953125,
+      "pgid_clean": true,
+      "png_sha256": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "state_sha256": "0228c41cd24a9dc2f9e21fc08dba4906eb06c2c0b4198d49e274a9d813b2701a"
+    },
+    "candidate": {
+      "audit_sha256": "93c7c771f52f57264fcb263d8624389007a1e38bebc80b4e6ba276f1abd7895f",
+      "guard_sha256": "3dfd7f181bc960bdd66c95ff8e521571c42e4221067635cbe0d32c7667ced303",
+      "peak_tree_rss_mib": 108.6953125,
+      "pgid_clean": true,
+      "png_sha256": "70ecfe210eb78c64e927a0d5c3ece47a581bd67ffb466c7e35e4c6c773e05dca",
+      "rom_sha256": "dc13e2872ec34df3595955b9777672efb6c6a9ad442015680610d98661a93069",
+      "state_sha256": "304f5a2c7bb5586cdc24c1430e28c632015d5ccd8d52e9a88af318c098c4e14a"
+    }
+  },
+  "schema": "map-sprites-definition-pixel-ab-evidence-v1",
+  "verified": true
+}

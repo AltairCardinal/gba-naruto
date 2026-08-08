@@ -21,10 +21,24 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "0x08080B08 loads literal base 0x0853F140 and passes it to 0x08063494, which forwards the selected ID and base to 0x080625A4. The 0x08062668 path indexes ID*8 and installs both pointers at task offsets +0x1C/+0x20. Literal 0x0853F298 identifies the following object and closes 43 records.",
+    "verification": "runtime_verified",
+    "verification_method": "0x08080B08 loads literal base 0x0853F140 and passes it to 0x08063494, which forwards the selected ID and base to 0x080625A4. The 0x08062668 path indexes ID*8 and installs both pointers at task offsets +0x1C/+0x20. Literal 0x0853F298 identifies the following object and closes 43 records. artifacts/map-sprites-definition-id1-pixel-ab-v1 additionally materializes entry 1 definition_ptr from the baseline/candidate ROM into the existing natural task 123, then records the same task at 0x0806298C and 0x08063108; the isolated pointer edit changes OAM geometry and 213 final pixels.",
+    "runtime_evidence": {
+        "artifact": "artifacts/map-sprites-definition-id1-pixel-ab-v1",
+        "entry_id": 1,
+        "field": "definition_ptr",
+        "source_pointer": "0x0812F5D8",
+        "candidate_pointer": "0x0812F7CC",
+        "task_slot": 123,
+        "natural_loader_reentry": false,
+        "controlled_task_materialization": true,
+        "modified_rom_pixel_ab": true,
+        "changed_pixel_count": 213,
+        "all_entries_runtime_verified": false,
+        "physical_gba_verified": false
+    },
     "former_claim": "47 map-indexed u32 sprite pointers beginning at 0x53F1DC",
-    "notes": "0x53F1DC is record 19 +4, so the old map-sprites table was misaligned. Legacy rows are diagnostic-only until the editor adopts explicit pair fields.",
+    "notes": "0x53F1DC is record 19 +4, so the old map-sprites table was misaligned. Legacy rows are diagnostic-only until the editor adopts explicit pair fields. Runtime evidence is a controlled reactivation/materialization of a naturally present task, not a natural loader re-entry or donor tile-base compatibility claim.",
     "entries": [
         {
             "_index": 0,
