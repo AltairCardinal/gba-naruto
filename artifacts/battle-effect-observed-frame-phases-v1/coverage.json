@@ -1,6 +1,6 @@
 {
   "all_group_denominator": 18,
-  "boundary": "All 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; groups 16 and 17 are natural ninja-tool hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence transactions and are not claimed as natural gameplay; Group 15 uses the natural battle-8 action 64 route. Thirteen groups have production modified-ROM pixel A/B evidence.",
+  "boundary": "All 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; groups 16 and 17 are natural ninja-tool hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence transactions and are not claimed as natural gameplay; Group 15 uses the natural battle-8 action 64 route. All 18 groups have production modified-ROM pixel A/B evidence.",
   "controlled_phase_extension_group_ids": [
     6,
     7,
@@ -157,9 +157,34 @@
       "path": "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
     },
     {
+      "group_id": 7,
+      "manifest_sha256": "25c6823fec18cdd32681a8a9a004378362eb11018850206d8440724fd98815f8",
+      "path": "artifacts/battle-effect-group07-controlled-pixel-ab-v1"
+    },
+    {
+      "group_id": 8,
+      "manifest_sha256": "192b608f0e3d4fb92fbe2d3fcfc8dae755253790d7c579bc24a25469bc996738",
+      "path": "artifacts/battle-effect-group08-controlled-pixel-ab-v1"
+    },
+    {
+      "group_id": 9,
+      "manifest_sha256": "59d743e6ee65ed6efc0e86cf0716065ba04d1a1c512fbe1d1bdf39f7a98ebaac",
+      "path": "artifacts/battle-effect-group09-controlled-pixel-ab-v1"
+    },
+    {
+      "group_id": 10,
+      "manifest_sha256": "384ec82bd668d7ebe330c650ed0dc93ab42d7d0b65e119973fce5d8b133d9ed1",
+      "path": "artifacts/battle-effect-group10-controlled-pixel-ab-v1"
+    },
+    {
       "group_id": 11,
       "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
       "path": "artifacts/battle-effect-group11-pixel-ab-v1"
+    },
+    {
+      "group_id": 12,
+      "manifest_sha256": "440606b9f367e3bfff873e436fd7afa1f29a915204ec2be1de4845de676e571f",
+      "path": "artifacts/battle-effect-group12-controlled-pixel-ab-v1"
     },
     {
       "group_id": 13,
@@ -192,7 +217,7 @@
       "path": "artifacts/battle-effect-group18-natural-pixel-ab-v1"
     }
   ],
-  "production_pixel_ab_group_count": 13,
+  "production_pixel_ab_group_count": 18,
   "production_pixel_ab_group_ids": [
     1,
     2,
@@ -200,7 +225,12 @@
     4,
     5,
     6,
+    7,
+    8,
+    9,
+    10,
     11,
+    12,
     13,
     14,
     15,
@@ -212,8 +242,8 @@
   "scope": {
     "all_18_groups_phase_verified": true,
     "all_observed_groups_have_one_verified_phase_transaction": true,
-    "controlled_sequence_group6_production_pixel_ab_included": true,
     "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": true,
+    "controlled_sequence_groups_6_7_8_9_10_12_production_pixel_ab_included": true,
     "group2_affine_transaction_included": true,
     "natural_action64_group15_phase_transaction_included": true,
     "natural_confirmation_group4_phase_transaction_included": true,
@@ -222,7 +252,7 @@
     "natural_ninja_tool_handler_group16_phase_transaction_included": true,
     "natural_ninja_tool_handler_group17_phase_transaction_included": true,
     "physical_gba_verified": false,
-    "production_pixel_ab_all_18_groups": false,
+    "production_pixel_ab_all_18_groups": true,
     "target_task_exclusive_oam_causality": false
   },
   "sources": {

@@ -16,7 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from tools.build_controlled_battle_effect_direct_spawn_probe import CASES_BY_ID
-from tools.build_controlled_battle_effect_pixel_ab import build_pair
+from tools.build_controlled_battle_effect_pixel_ab import SEQUENCE_CASES, build_pair
 from tools.run_battle_effect_direct_spawn_batch import (
     build_case_command as build_direct_case_command,
     sha256_file,
@@ -72,7 +72,7 @@ def prepare_variant(
     elif execution_mode == "controlled-sequence-injection":
         group_id = build.get("group_id")
         sequence_id = build.get("sequence_id")
-        if case_id != "group-06-sequence-08" or (group_id, sequence_id) != (6, 8):
+        if SEQUENCE_CASES.get(case_id) != (group_id, sequence_id):
             raise ValueError("controlled pixel sequence case mismatch")
         runner_kind = "controlled-sequence"
         runtime_evidence = CONTROLLED_EVIDENCE

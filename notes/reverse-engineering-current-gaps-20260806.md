@@ -10,7 +10,7 @@
 | 有效 bank 运行时身份 | 13/22 | 22/22 | 9 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
-| 战斗特效 production 最终像素 | 13/18 | 18/18 | 5 groups: [7, 8, 9, 10, 12] |
+| 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
 | 音频结构提取与整曲渲染 | 100% | 100% | ✓ |
 | 音频 cue 人类语义 | 80/80 | 80/80 | ✓（72 D 级 unknown 是合法命名状态） |
 | 对白与字库静态提取 | 100% | 100% | ✓ |
@@ -19,7 +19,7 @@
 | 角色/成长/技能 bank + 字段命名 | 220/220 + C 级 | 220/220 + 全量 | ✓（+0x0D/+2/+3/+9 C 级闭合） |
 | 实体 GBA 发布验证 | 0/1 | 1/1 | 真机硬件未提供 |
 
-## 剩余 3 大缺口的执行路径
+## 剩余 2 大缺口的执行路径
 
 ### 1. 22/22 bank runtime identity（缺 9 个）
 
@@ -35,7 +35,7 @@ candidate PNG SHA 完全相同。原因：palettes bank consumer
 task spawn 才能消费 record 数据。battle 8 round 3 AI 选择 action 61
 （斩首大刀），不消费 palettes record 0。
 
-### 2. 战斗特效 production pixel（缺 7/8/9/10/12）
+### 已闭合：战斗特效 production pixel（18/18）
 
 2026-08-09 已复用并重新验证 controlled-runtime 原始归档，将
 Group 6/7/8/9/10/12/13 的精确三阶段计入 phase 指标；既有 Group 15 自然
@@ -57,11 +57,13 @@ Group 13 已知走 battle 3 路线（再不斩 action 61），但 Group 12 (acti
 32 雷切) 在 standard formation matrix 中 occurrence=0——必须找
 specific 剧情关卡触发器（handoff 5.1 已声明）。
 
-production pixel A/B 不要求冒充自然入口。Group 6 已在已验证的 controlled
-sequence 事务上组合 production relocation，以单字节图形 nibble 翻转闭合；
-同一批处理路径可推广到 Group 7/8/9/10/12，这是当前优先路径。
+production pixel A/B 不要求冒充自然入口。Group 6/7/8/9/10/12 已在已验证的
+controlled sequence 事务上组合 production relocation，以单字节图形 nibble
+翻转批量闭合；聚合 verifier 独立复核后为 18/18。Group 10 还精确记录了
+`0x03007F9C` 的单字节栈路径残留，不把它隐藏为纯 VRAM 差异。详见
+`notes/battle-effect-groups7-12-controlled-pixel-ab-20260809.md`。
 
-### 3. 实体 GBA 验证 1/1
+### 2. 实体 GBA 验证 1/1
 
 **Real blocker**: 当前环境无 GBA 硬件设备，无法执行真机测试。
 handoff 第 5.2 节已声明此风险。
@@ -78,6 +80,9 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
 - phase 聚合由 10/18 提升为 18/18；其中 Group 15 复用并重验自然 action 64
   三阶段证据。Group 6 controlled production pixel A/B 使像素覆盖由 12/18
   提升为 13/18。
+- 同一数据驱动链批量完成 Group 7/8/9/10/12，production modified-ROM pixel
+  覆盖由 13/18 提升到 18/18；10 次主批运行与 4 次候选重选运行均经 heavy
+  lock，峰值 owned-tree RSS 低于 80 MiB 且无 mGBA 残留。
 
 ## 2026-08-06 会话交付（历史）
 
@@ -116,9 +121,8 @@ bank + 字段 C 级命名 + 实体 GBA 0/1（无硬件）。
 
 按当前可推进路径计算：
 - 9/22 bank closure: ~20-30 小时 mGBA + 5 小时 disasm
-- 7/8/9/10/12 production pixel A/B：优先批量组合 controlled sequence 与
-  production relocation；无需先完成 10-20 小时剧情关卡扫描
 - 实体 GBA 验证: 无法在当前环境推进（需真机）
 
 原 38-60 小时估算已被 controlled phase 复用缩短；剩余时间需在首个 production
-controlled pixel 闭环后按实际脚本批处理成本重估。
+controlled pixel 已按实际脚本批处理闭合；当前可推进成本集中在 9 个 bank
+player-visible closure。

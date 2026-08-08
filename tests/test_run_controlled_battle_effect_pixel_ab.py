@@ -134,6 +134,43 @@ class ControlledBattleEffectPixelAbRunnerTests(unittest.TestCase):
             self.assertNotIn("allocator_reset", profile)
             self.assertEqual(row["runner_kind"], "controlled-sequence")
 
+    def test_runner_accepts_every_allowlisted_sequence_case(self):
+        for case_id, (group_id, sequence_id) in self.builder.SEQUENCE_CASES.items():
+            with self.subTest(case_id=case_id), tempfile.TemporaryDirectory() as temporary:
+                output = Path(temporary)
+                build_root = output / "build"
+                build_root.mkdir()
+                rom = build_root / "baseline.gba"
+                rom.write_bytes(b"rom")
+                import hashlib
+
+                build = {
+                    "schema": "controlled-battle-effect-pixel-ab-build-v1",
+                    "case_id": case_id,
+                    "group_id": group_id,
+                    "sequence_id": sequence_id,
+                    "execution_mode": "controlled-sequence-injection",
+                    "input_state": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+                    "input_state_sha256": "unused-by-prepare",
+                    "edit": {},
+                    "variants": {
+                        "baseline": {
+                            "rom_path": "baseline.gba",
+                            "rom_sha256": hashlib.sha256(b"rom").hexdigest(),
+                        }
+                    },
+                }
+                (build_root / "build-manifest.json").write_text("{}\n", encoding="utf-8")
+                row = self.runner.prepare_variant(
+                    output / "runs",
+                    build_root=build_root,
+                    build=build,
+                    variant="baseline",
+                )
+                self.assertEqual(row["group_id"], group_id)
+                self.assertEqual(row["sequence_id"], sequence_id)
+                self.assertEqual(row["runner_kind"], "controlled-sequence")
+
 
 if __name__ == "__main__":
     unittest.main()

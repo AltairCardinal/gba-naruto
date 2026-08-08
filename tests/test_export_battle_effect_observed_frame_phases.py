@@ -33,9 +33,10 @@ class BattleEffectObservedFramePhaseExporterTests(unittest.TestCase):
         )
         self.assertEqual(
             coverage["production_pixel_ab_group_ids"],
-            [1, 2, 3, 4, 5, 6, 11, 13, 14, 15, 16, 17, 18],
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
         )
-        self.assertEqual(coverage["production_pixel_ab_group_count"], 13)
+        self.assertEqual(coverage["production_pixel_ab_group_count"], 18)
+        self.assertTrue(coverage["scope"]["production_pixel_ab_all_18_groups"])
 
 
 if __name__ == "__main__":

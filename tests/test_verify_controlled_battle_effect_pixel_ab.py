@@ -17,6 +17,29 @@ GROUP6_ARTIFACT = ROOT / "artifacts/battle-effect-group06-controlled-pixel-ab-v1
 
 
 class VerifyControlledBattleEffectPixelAbTests(unittest.TestCase):
+    def test_all_remaining_sequence_groups_have_independent_contracts(self):
+        from tools import verify_controlled_battle_effect_pixel_ab as verifier
+
+        expected = {
+            "group-06-sequence-08",
+            "group-07-sequence-09",
+            "group-08-sequence-10",
+            "group-09-sequence-11",
+            "group-10-sequence-12",
+            "group-12-sequence-14",
+        }
+        self.assertTrue(expected.issubset(verifier.CASE_CONTRACTS))
+        self.assertEqual(
+            [verifier.CASE_CONTRACTS[case]["coverage_after"] for case in sorted(expected)],
+            [13, 14, 15, 16, 17, 18],
+        )
+        self.assertEqual(
+            verifier._expected_memory_differences(
+                verifier.CASE_CONTRACTS["group-10-sequence-12"]
+            )["IWRAM"],
+            [0x7F9C],
+        )
+
     def test_independently_verifies_group6_sequence_pixel_writeback(self):
         from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence
 

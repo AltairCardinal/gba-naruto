@@ -12,6 +12,50 @@ GROUP6_ARTIFACT = ROOT / "artifacts/battle-effect-group06-controlled-pixel-ab-v1
 
 
 class ExportControlledBattleEffectPixelAbTests(unittest.TestCase):
+    def test_all_remaining_sequence_groups_have_promotion_contracts(self):
+        from tools import export_controlled_battle_effect_pixel_ab as exporter
+
+        self.assertTrue(
+            {
+                "group-06-sequence-08",
+                "group-07-sequence-09",
+                "group-08-sequence-10",
+                "group-09-sequence-11",
+                "group-10-sequence-12",
+                "group-12-sequence-14",
+            }.issubset(exporter.CASE_CONTRACTS)
+        )
+        self.assertEqual(
+            [
+                (
+                    exporter.CASE_CONTRACTS[case]["coverage_before"],
+                    exporter.CASE_CONTRACTS[case]["coverage_after"],
+                )
+                for case in (
+                    "group-06-sequence-08",
+                    "group-07-sequence-09",
+                    "group-08-sequence-10",
+                    "group-09-sequence-11",
+                    "group-10-sequence-12",
+                    "group-12-sequence-14",
+                )
+            ],
+            [(12, 13), (13, 14), (14, 15), (15, 16), (16, 17), (17, 18)],
+        )
+        self.assertEqual(
+            exporter._expected_memory_differences(
+                exporter.CASE_CONTRACTS["group-10-sequence-12"]
+            ),
+            {
+                "EWRAM": [],
+                "IWRAM": [0x7F9C],
+                "IO": [],
+                "PRAM": [],
+                "VRAM": [0x1642D],
+                "OAM": [],
+            },
+        )
+
     def test_promoted_evidence_keeps_controlled_and_natural_scopes_distinct(self):
         from tools import export_controlled_battle_effect_pixel_ab as exporter
 

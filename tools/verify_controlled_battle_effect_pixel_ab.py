@@ -88,6 +88,10 @@ IMPLEMENTATION_PATHS = (
     "tests/test_verify_controlled_battle_effect_pixel_ab.py",
 )
 LEGACY_REPOSITORY_LOCKS = {
+    "group-06-sequence-08": "ba83142512df37d42e7195b81fc1bb50c3d88f2dbc778c21bcc577e3440bf3da",
+    "group-07-sequence-09": "cf7f4e67c4b1884ba960a190e4f13dd30332be251fdc2a62627dc001ce63d68b",
+    "group-08-sequence-10": "cf7f4e67c4b1884ba960a190e4f13dd30332be251fdc2a62627dc001ce63d68b",
+    "group-09-sequence-11": "4dd7e3b6cba400221c963368cb2486a539046662b8a034a471b82b43f86f2258",
     "group-03-sequence-03-side-0-direct-spawn": "9453982a5cb75a58884bbeb028155cf09cd1abb04ab07ad0cb5c019c40ed7d63",
     "group-18-sequence-07-direct-spawn": "9453982a5cb75a58884bbeb028155cf09cd1abb04ab07ad0cb5c019c40ed7d63",
 }
@@ -135,6 +139,112 @@ CASE_CONTRACTS = {
         ],
         "execution_mode": "controlled-sequence-injection",
         "raw_member_count": 118,
+        "coverage_before": 12,
+        "coverage_after": 13,
+    },
+    "group-07-sequence-09": {
+        "artifact": "artifacts/battle-effect-group07-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-07-sequence-09-controlled.json",
+        "group_id": 7, "sequence_id": 9,
+        "definition": 0x08343D28, "animation": 0x08343D84,
+        "graphics_filename": "group-07-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 764,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x599154], "target_pointer_offsets": [0x599154],
+        "source_graphics_pointer": 0x08343760, "build_pointer_lists_required": True,
+        "graphics_offset": 104, "before_byte": 84, "after_byte": 95,
+        "oam_index": 26, "oam_attributes": ["0x0010", "0x50AE", "0xDF20"],
+        "vram_difference": 0x16468, "absolute_difference": "0x06016468",
+        "pixels": [{"x": 181, "y": 26, "before_rgb": [82, 181, 206], "after_rgb": [0, 0, 0]}],
+        "execution_mode": "controlled-sequence-injection", "raw_member_count": 118,
+        "coverage_before": 13, "coverage_after": 14,
+    },
+    "group-08-sequence-10": {
+        "artifact": "artifacts/battle-effect-group08-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-08-sequence-10-controlled.json",
+        "group_id": 8, "sequence_id": 10,
+        "definition": 0x08344520, "animation": 0x0834457C,
+        "graphics_filename": "group-08-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "oam_tile": 804, "palette_bank": 13,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 1304,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59915C], "target_pointer_offsets": [0x59915C],
+        "source_graphics_pointer": 0x08343D88, "build_pointer_lists_required": True,
+        "graphics_offset": 567, "before_byte": 117, "after_byte": 133,
+        "oam_index": 28, "oam_attributes": ["0x0005", "0x90A8", "0xDF24"],
+        "vram_difference": 0x16637, "absolute_difference": "0x06016637",
+        "pixels": [{"x": 184, "y": 34, "before_rgb": [107, 66, 0], "after_rgb": [255, 255, 255]}],
+        "execution_mode": "controlled-sequence-injection", "raw_member_count": 118,
+        "coverage_before": 14, "coverage_after": 15,
+    },
+    "group-09-sequence-11": {
+        "artifact": "artifacts/battle-effect-group09-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-09-sequence-11-controlled.json",
+        "group_id": 9, "sequence_id": 11,
+        "definition": 0x08344DA8, "animation": 0x08344E14,
+        "graphics_filename": "group-09-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 554,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x599164], "target_pointer_offsets": [0x599164],
+        "source_graphics_pointer": 0x08344580, "build_pointer_lists_required": True,
+        "graphics_offset": 23, "before_byte": 189, "after_byte": 182,
+        "oam_index": 26, "oam_attributes": ["0x0001", "0x50BD", "0xDF20"],
+        "vram_difference": 0x16417, "absolute_difference": "0x06016417",
+        "pixels": [
+            {"x": 198, "y": 6, "before_rgb": [222, 222, 222], "after_rgb": [57, 57, 57]},
+            {"x": 170, "y": 7, "before_rgb": [222, 222, 222], "after_rgb": [57, 57, 57]},
+            {"x": 184, "y": 15, "before_rgb": [222, 222, 222], "after_rgb": [57, 57, 57]}
+        ],
+        "execution_mode": "controlled-sequence-injection", "raw_member_count": 118,
+        "coverage_before": 15, "coverage_after": 16,
+    },
+    "group-10-sequence-12": {
+        "artifact": "artifacts/battle-effect-group10-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-10-sequence-12-controlled.json",
+        "group_id": 10, "sequence_id": 12,
+        "definition": 0x0834525C, "animation": 0x08345298,
+        "graphics_filename": "group-10-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 235,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59916C], "target_pointer_offsets": [0x59916C],
+        "source_graphics_pointer": 0x08344E18, "build_pointer_lists_required": True,
+        "graphics_offset": 45, "before_byte": 3, "after_byte": 5,
+        "oam_index": 28, "oam_attributes": ["0x0004", "0x40B0", "0xDF20"],
+        "vram_difference": 0x1642D, "absolute_difference": "0x0601642D",
+        "extra_memory_differences": {"IWRAM": [0x7F9C]},
+        "pixels": [
+            {"x": 186, "y": 7, "before_rgb": [156, 255, 255], "after_rgb": [107, 214, 247]},
+            {"x": 173, "y": 19, "before_rgb": [156, 255, 255], "after_rgb": [107, 214, 247]},
+            {"x": 181, "y": 40, "before_rgb": [156, 255, 255], "after_rgb": [107, 214, 247]}
+        ],
+        "execution_mode": "controlled-sequence-injection", "raw_member_count": 118,
+        "coverage_before": 16, "coverage_after": 17,
+    },
+    "group-12-sequence-14": {
+        "artifact": "artifacts/battle-effect-group12-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-12-sequence-14-controlled.json",
+        "group_id": 12, "sequence_id": 14,
+        "definition": 0x08345A90, "animation": 0x08345AC4,
+        "graphics_filename": "group-12-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 1106,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59917C], "target_pointer_offsets": [0x59917C],
+        "source_graphics_pointer": 0x08345568, "build_pointer_lists_required": True,
+        "graphics_offset": 123, "before_byte": 1, "after_byte": 15,
+        "oam_index": 26, "oam_attributes": ["0x0020", "0x50B0", "0xDF20"],
+        "vram_difference": 0x1647B, "absolute_difference": "0x0601647B",
+        "pixels": [{"x": 177, "y": 46, "before_rgb": [255, 255, 255], "after_rgb": [0, 0, 0]}],
+        "execution_mode": "controlled-sequence-injection", "raw_member_count": 118,
+        "coverage_before": 17, "coverage_after": 18,
     },
     "group-03-sequence-03-side-0-direct-spawn": {
         "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
@@ -207,6 +317,16 @@ CASE_CONTRACTS = {
         },
     },
 }
+
+
+def _expected_memory_differences(contract: dict[str, Any]) -> dict[str, list[int]]:
+    expected = {name: [] for name in DOMAINS}
+    expected["VRAM"] = [contract["vram_difference"]]
+    for name, offsets in contract.get("extra_memory_differences", {}).items():
+        if name not in expected or not isinstance(offsets, list):
+            raise ValueError("controlled pixel extra memory contract mismatch")
+        expected[name] = offsets
+    return expected
 
 
 def _expected_verifier(contract: dict[str, Any]) -> dict[str, Any]:
@@ -449,15 +569,17 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         if manifest["files"][name] != _sha256_file(artifact / name):
             raise ValueError(f"controlled pixel artifact hash mismatch: {name}")
     repository_files = manifest.get("repository_files", {})
-    if set(repository_files) == set(IMPLEMENTATION_PATHS):
+    repository_digest = _repository_lock_digest(repository_files)
+    legacy_digest = LEGACY_REPOSITORY_LOCKS.get(evidence.get("case_id"))
+    if repository_digest == legacy_digest:
+        pass
+    elif set(repository_files) == set(IMPLEMENTATION_PATHS):
         for path in IMPLEMENTATION_PATHS:
             if repository_files[path] != _sha256_file(root / path):
                 raise ValueError(
                     f"controlled pixel implementation hash mismatch: {path}"
                 )
-    elif _repository_lock_digest(repository_files) != LEGACY_REPOSITORY_LOCKS.get(
-        evidence.get("case_id")
-    ):
+    else:
         raise ValueError("controlled pixel implementation denominator mismatch")
     if any(value.startswith("/") for value in _strings(evidence)):
         raise ValueError("controlled pixel promoted evidence contains absolute paths")
@@ -482,7 +604,8 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         or profile.get("after_byte") != contract["after_byte"]
         or profile.get("runtime_oam", {}).get("oam_index") != contract["oam_index"]
         or profile.get("runtime_oam", {}).get("attributes") != contract["oam_attributes"]
-        or profile.get("runtime_oam", {}).get("obj_tile_base") != contract["tile_base"]
+        or profile.get("runtime_oam", {}).get("obj_tile_base")
+        != contract.get("oam_tile", contract["tile_base"])
         or profile.get("runtime_oam", {}).get("palette_bank") != contract["palette_bank"]
         or profile.get("expected_encoded_size") != contract["encoded_size"]
         or profile.get("graphics_allocation_offset") != contract["allocation_offset"]
@@ -507,8 +630,8 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         "natural_gameplay_route": False,
         **(
             {
-                "production_modified_rom_pixel_ab_before": "12/18",
-                "production_modified_rom_pixel_ab_after": "13/18",
+                    "production_modified_rom_pixel_ab_before": f"{contract['coverage_before']}/18",
+                    "production_modified_rom_pixel_ab_after": f"{contract['coverage_after']}/18",
             }
             if sequence_mode
             else {"production_natural_pixel_ab": "5/18"}
@@ -865,10 +988,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         )
         for name, (address, size) in DOMAINS.items()
     }
-    expected_memory = {
-        **{name: [] for name in DOMAINS},
-        "VRAM": [contract["vram_difference"]],
-    }
+    expected_memory = _expected_memory_differences(contract)
     expected_pixel = contract.get("pixels", [contract.get("pixel")])
     pixels = _pixel_changes(rendered["baseline"], rendered["candidate"])
     capture_hashes = {
@@ -922,7 +1042,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         "mgba_capture_pixel_ab": False,
         "natural_gameplay_route": False,
         **(
-            {"production_modified_rom_pixel_ab": "13/18"}
+            {"production_modified_rom_pixel_ab": f"{contract['coverage_after']}/18"}
             if sequence_mode
             else {"production_natural_pixel_ab": "5/18"}
         ),

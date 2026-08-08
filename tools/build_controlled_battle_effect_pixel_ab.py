@@ -69,6 +69,11 @@ BUILD_SCHEMA = "controlled-battle-effect-pixel-ab-build-v1"
 VARIANTS = ("baseline", "candidate")
 SEQUENCE_CASES = {
     "group-06-sequence-08": (6, 8),
+    "group-07-sequence-09": (7, 9),
+    "group-08-sequence-10": (8, 10),
+    "group-09-sequence-11": (9, 11),
+    "group-10-sequence-12": (10, 12),
+    "group-12-sequence-14": (12, 14),
 }
 
 
@@ -112,7 +117,8 @@ def _install_probe(
         stub, stub_offset, stub_size = STUB, STUB_OFFSET, STUB_SIZE
         stub_bytes = build_stub(case)
     elif execution_mode == "controlled-sequence-injection":
-        if SEQUENCE_CASES.get(case_id) != (6, 8) or sequence_id != 8:
+        expected_case = SEQUENCE_CASES.get(case_id)
+        if expected_case is None or expected_case[1] != sequence_id:
             raise ValueError(f"unknown controlled sequence case: {case_id}")
         hook = SEQUENCE_HOOK
         hook_offset = SEQUENCE_HOOK_OFFSET

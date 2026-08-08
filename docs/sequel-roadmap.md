@@ -2326,3 +2326,13 @@ WebSocket
   12/18 提升到 13/18；该路径是 controlled sequence，不声称自然玩法或真机。
   产物见 `artifacts/battle-effect-group06-controlled-pixel-ab-v1/`，下一批为
   Group 7/8/9/10/12。
+- 2026-08-09：复用同一数据驱动 build/run/export/verify 链，批量完成 Group
+  7/8/9/10/12 的 controlled sequence + production relocation 最终像素 A/B，
+  聚合指标从 13/18 提升至 **18/18**。各组仅修改一个解压图形 nibble，LZ77
+  长度不变；Group 7/8/9/12 的六内存域差异仅为目标 VRAM 字节。Group 10
+  只有一个保持压缩长度且最终可见的候选，除 VRAM `0x1642D` 外还留下固定
+  IWRAM `0x7F9C` 单字节栈路径残留，已由合同和独立 verifier 精确约束，未被
+  隐藏。所有运行 `pgid_clean=true`，峰值 owned-tree RSS 低于 80 MiB。该
+  18/18 指标证明 production 修改 ROM 的最终像素写回，不把 controlled 入口
+  冒充自然玩法，也不代表实体 GBA 已验证。证据见
+  `notes/battle-effect-groups7-12-controlled-pixel-ab-20260809.md`。

@@ -98,6 +98,89 @@ CASE_CONTRACTS = {
         "vram_difference": 0x1641E,
         "absolute_difference": "0x0601641E",
         "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 12,
+        "coverage_after": 13,
+    },
+    "group-07-sequence-09": {
+        "artifact": "artifacts/battle-effect-group07-controlled-pixel-ab-v1",
+        "group_id": 7, "sequence_id": 9,
+        "definition": 0x08343D28, "animation": 0x08343D84,
+        "graphics_filename": "group-07-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "graphics_address": 0x06016400, "palette_address": 0x050003A0,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 764,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x599154], "target_pointer_offsets": [0x599154],
+        "source_graphics_pointer": 0x08343760, "build_pointer_lists_required": True,
+        "vram_difference": 0x16468, "absolute_difference": "0x06016468",
+        "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 13, "coverage_after": 14,
+    },
+    "group-08-sequence-10": {
+        "artifact": "artifacts/battle-effect-group08-controlled-pixel-ab-v1",
+        "group_id": 8, "sequence_id": 10,
+        "definition": 0x08344520, "animation": 0x0834457C,
+        "graphics_filename": "group-08-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "graphics_address": 0x06016400, "palette_address": 0x050003A0,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 1304,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59915C], "target_pointer_offsets": [0x59915C],
+        "source_graphics_pointer": 0x08343D88, "build_pointer_lists_required": True,
+        "vram_difference": 0x16637, "absolute_difference": "0x06016637",
+        "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 14, "coverage_after": 15,
+    },
+    "group-09-sequence-11": {
+        "artifact": "artifacts/battle-effect-group09-controlled-pixel-ab-v1",
+        "group_id": 9, "sequence_id": 11,
+        "definition": 0x08344DA8, "animation": 0x08344E14,
+        "graphics_filename": "group-09-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "graphics_address": 0x06016400, "palette_address": 0x050003A0,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 554,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x599164], "target_pointer_offsets": [0x599164],
+        "source_graphics_pointer": 0x08344580, "build_pointer_lists_required": True,
+        "vram_difference": 0x16417, "absolute_difference": "0x06016417",
+        "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 15, "coverage_after": 16,
+    },
+    "group-10-sequence-12": {
+        "artifact": "artifacts/battle-effect-group10-controlled-pixel-ab-v1",
+        "group_id": 10, "sequence_id": 12,
+        "definition": 0x0834525C, "animation": 0x08345298,
+        "graphics_filename": "group-10-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "graphics_address": 0x06016400, "palette_address": 0x050003A0,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 235,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59916C], "target_pointer_offsets": [0x59916C],
+        "source_graphics_pointer": 0x08344E18, "build_pointer_lists_required": True,
+        "vram_difference": 0x1642D, "absolute_difference": "0x0601642D",
+        "extra_memory_differences": {"IWRAM": [0x7F9C]},
+        "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 16, "coverage_after": 17,
+    },
+    "group-12-sequence-14": {
+        "artifact": "artifacts/battle-effect-group12-controlled-pixel-ab-v1",
+        "group_id": 12, "sequence_id": 14,
+        "definition": 0x08345A90, "animation": 0x08345AC4,
+        "graphics_filename": "group-12-graphics-4bpp.bin",
+        "task_slot": 108, "tile_base": 800, "palette_bank": 13,
+        "graphics_address": 0x06016400, "palette_address": 0x050003A0,
+        "palette_prefix": 32, "palette_mismatches": [],
+        "submission_counts": [0, 0, 1], "encoded_size": 1106,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59917C], "target_pointer_offsets": [0x59917C],
+        "source_graphics_pointer": 0x08345568, "build_pointer_lists_required": True,
+        "vram_difference": 0x1647B, "absolute_difference": "0x0601647B",
+        "execution_mode": "controlled-sequence-injection",
+        "coverage_before": 17, "coverage_after": 18,
     },
     "group-03-sequence-03-side-0-direct-spawn": {
         "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
@@ -148,6 +231,16 @@ CASE_CONTRACTS = {
         "absolute_difference": "0x060160CA",
     },
 }
+
+
+def _expected_memory_differences(contract: dict[str, Any]) -> dict[str, list[int]]:
+    expected = {name: [] for name in DOMAINS}
+    expected["VRAM"] = [contract["vram_difference"]]
+    for name, offsets in contract.get("extra_memory_differences", {}).items():
+        if name not in expected or not isinstance(offsets, list):
+            raise ValueError("controlled pixel extra memory contract mismatch")
+        expected[name] = offsets
+    return expected
 
 
 def _sha256(data: bytes) -> str:
@@ -541,10 +634,7 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         )
         for name, (address, size) in DOMAINS.items()
     }
-    if memory != {
-        **{name: [] for name in DOMAINS},
-        "VRAM": [contract["vram_difference"]],
-    }:
+    if memory != _expected_memory_differences(contract):
         raise ValueError("controlled pixel runtime memory isolation mismatch")
     rendered = {
         variant: render_checkpoint(source / f"runs/{variant}/output/ack-post/capture.ss9")[0]
@@ -613,8 +703,8 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             "natural_gameplay_route": False,
             **(
                 {
-                    "production_modified_rom_pixel_ab_before": "12/18",
-                    "production_modified_rom_pixel_ab_after": "13/18",
+                    "production_modified_rom_pixel_ab_before": f"{contract['coverage_before']}/18",
+                    "production_modified_rom_pixel_ab_after": f"{contract['coverage_after']}/18",
                 }
                 if sequence_mode
                 else {"production_natural_pixel_ab": "5/18"}

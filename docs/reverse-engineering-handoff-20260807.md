@@ -6,9 +6,11 @@
 > `/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA`。
 > 详见 `notes/runtime-checkpoints-data-integrity-issue-20260806.md`。
 
-> 本文是当前权威交接。v1-v4 假设的 runtime evidence 全部需要重新评估。
-> v5 整合本 Goal 工作周期（mihmhee-pkj4tn）的 mGBA forward-port 编译尝试
-> 与新 binary 状态。
+> 本文仅保留为 2026-08-07 历史交接，不再是当前权威状态。当前状态以
+> `notes/reverse-engineering-current-gaps-20260806.md`、
+> `docs/sequel-roadmap.md` 和各 artifact verifier 为准：战斗特效 phase 与
+> production modified-ROM pixel 均已达到 18/18；仍未完成的是 9 个 bank 的
+> player-visible runtime identity 和实体 GBA 验证。
 
 ## 1. 当前停止状态
 

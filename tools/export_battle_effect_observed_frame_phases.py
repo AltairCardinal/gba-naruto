@@ -43,7 +43,12 @@ PIXEL_AB_ARTIFACTS = {
     4: (Path("artifacts/battle-effect-group4-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "battle-effect-group5-pixel-ab-runtime-v1"),
     6: (Path("artifacts/battle-effect-group06-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
+    7: (Path("artifacts/battle-effect-group07-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
+    8: (Path("artifacts/battle-effect-group08-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
+    9: (Path("artifacts/battle-effect-group09-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
+    10: (Path("artifacts/battle-effect-group10-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
     11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
+    12: (Path("artifacts/battle-effect-group12-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
     13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     15: (Path("artifacts/battle-effect-group15-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
@@ -234,11 +239,11 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
             "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
-            "controlled_sequence_group6_production_pixel_ab_included": True,
+            "controlled_sequence_groups_6_7_8_9_10_12_production_pixel_ab_included": True,
             "natural_action64_group15_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": True,
-            "production_pixel_ab_all_18_groups": False,
+            "production_pixel_ab_all_18_groups": True,
             "target_task_exclusive_oam_causality": False,
             "physical_gba_verified": False,
         },
@@ -248,7 +253,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "action-confirmation extension; groups 16 and 17 are natural ninja-tool "
             "hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence "
             "transactions and are not claimed as natural gameplay; Group 15 uses the natural "
-            "battle-8 action 64 route. Thirteen groups "
+            "battle-8 action 64 route. All 18 groups "
             "have production modified-ROM pixel A/B evidence."
         ),
     }

@@ -198,6 +198,53 @@ class ControlledBattleEffectPixelAbBuilderTests(unittest.TestCase):
                 stubs.append(stub)
             self.assertEqual(stubs[0], stubs[1])
 
+    def test_all_missing_production_groups_are_allowlisted_for_sequence_injection(self):
+        self.assertEqual(
+            self.builder.SEQUENCE_CASES,
+            {
+                "group-06-sequence-08": (6, 8),
+                "group-07-sequence-09": (7, 9),
+                "group-08-sequence-10": (8, 10),
+                "group-09-sequence-11": (9, 11),
+                "group-10-sequence-12": (10, 12),
+                "group-12-sequence-14": (12, 14),
+            },
+        )
+        base = (ROOT / "rom/base.gba").read_bytes()
+        for case_id, (group_id, sequence_id) in self.builder.SEQUENCE_CASES.items():
+            with self.subTest(case_id=case_id):
+                probed, layout = self.builder._install_probe(
+                    base,
+                    case_id=case_id,
+                    sequence_id=sequence_id,
+                    execution_mode="controlled-sequence-injection",
+                )
+                self.assertEqual(
+                    probed[
+                        layout["stub_offset"]:
+                        layout["stub_offset"] + layout["stub_size"]
+                    ],
+                    importlib.import_module(
+                        "tools.build_controlled_battle_effect_sequence_probe"
+                    )._stub(sequence_id),
+                )
+
+    def test_remaining_sequence_profiles_build_with_isolated_size_preserving_edits(self):
+        expected_offsets = {7: 104, 8: 567, 9: 23, 10: 45, 12: 123}
+        profile_root = ROOT / "sequel/content/battle-effect-controlled-pixel-ab"
+        for case_id, (group_id, sequence_id) in self.builder.SEQUENCE_CASES.items():
+            if group_id == 6:
+                continue
+            profile = profile_root / f"{case_id}-controlled.json"
+            with self.subTest(case_id=case_id), tempfile.TemporaryDirectory() as temporary:
+                result = self.builder.build_pair(ROOT, profile, Path(temporary) / "pair")
+                self.assertEqual(result["group_id"], group_id)
+                self.assertEqual(result["sequence_id"], sequence_id)
+                self.assertEqual(result["edit"]["graphics_byte_offset"], expected_offsets[group_id])
+                self.assertTrue(result["same_encoded_size"])
+                self.assertTrue(result["same_patch_topology"])
+                self.assertTrue(result["same_probe_bytes"])
+
 
 if __name__ == "__main__":
     unittest.main()
