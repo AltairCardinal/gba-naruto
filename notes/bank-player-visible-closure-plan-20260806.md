@@ -4,8 +4,10 @@
 > `artifacts/motion-effect-parameter-pixel-ab-v1/` 和
 > `artifacts/tile-asset-descriptor2-pixel-ab-v1/`、
 > `artifacts/map-sprites-definition-id1-pixel-ab-v1/` 闭合；`map-events` 又由
-> `artifacts/map-events-e4-handler-pixel-ab-v1/` 闭合，当前剩余 5 个
-> `code_verified` bank；`tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
+> `artifacts/map-events-e4-handler-pixel-ab-v1/` 闭合，当时剩余 5 个
+> `code_verified` bank；`battle-encounters` 随后由
+> `artifacts/battle-encounters-story-visual-pixel-ab-v1/` 闭合，剩余 4 个；
+> `tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
 
@@ -16,7 +18,7 @@ code_verified，需要 player-visible runtime semantic closure：
 
 | bank slug | table_offset | 当前状态 | 玩家可见影响域 |
 |---|---|---|---|
-| battle-encounters | 0x53D910 | code_verified | 每场战斗的配置表 |
+| battle-encounters | 0x54229C | runtime_verified | 24 条 story visual descriptor（历史 slug） |
 | cutscene-scripts | 0x53DF70 | code_verified | 过场动画脚本 |
 | data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
 | levels | 0x5459C8 | code_verified | 等级成长曲线 |
@@ -72,8 +74,10 @@ validate_current_toolchain_profile SHA 校验。这是 debug-only 操作。
 
 ### Tier 3：复杂 ROI（需要多帧对比）
 
-**battle-encounters (0x53D910)**：战斗配置修改 → 战斗初始状态。
-需要 scenario 41-50 多种基础快照。
+**battle-encounters (0x54229C)**：已闭合。该历史 slug 实为 24 条 story visual
+descriptor；受控 scenario-53 opcode 快照中，record 0 `gfx_lz_ptr` 的最小 A/B
+命中原生 story loader 和三路 LZ77，并改变 1,603 个最终像素。不声称自然
+scenario-53 导航或其他 23 条 record。
 
 **cutscene-scripts (0x53DF70)**：过场脚本修改 → 演出差异。
 需要 scenario 47+ 基础快照 + 多帧对比。

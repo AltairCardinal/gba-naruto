@@ -132,7 +132,7 @@ def _load_banks(
         or bank.get("entry_count") != TABLE_ENTRY_COUNT
         or bank.get("entry_size") != TABLE_ENTRY_SIZE
         or len(bank.get("entries", [])) != TABLE_ENTRY_COUNT
-        or bank.get("verification") != "code_verified"
+        or bank.get("verification") not in {"code_verified", "runtime_verified"}
     ):
         raise ValueError("unexpected story visual descriptor bank")
 
@@ -333,7 +333,10 @@ def export_story_visual_layers(
             "entry_count": TABLE_ENTRY_COUNT,
             "entry_size": TABLE_ENTRY_SIZE,
             "sha256": sha256(table_bytes),
-            "verification": bank["verification"],
+            # This export consumes only the ROM-backed descriptor identity.
+            # Preserve that stable floor after the bank gains separate runtime
+            # evidence so existing image artifacts remain byte-identical.
+            "verification": "code_verified",
         },
         "linked_visual_descriptor_bank": {
             "path": "sequel/content/tile-assets/bank.json",

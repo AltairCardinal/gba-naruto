@@ -14,10 +14,27 @@
       {"offset": 12, "size": 4, "name": "config_id", "type": "u32"}
     ]
   },
-  "verification": "code_verified",
-  "verification_method": "Story opcode handler 0x0808FA2C calls 0x0808A69C then 0x08087C9C. Its loop indexes 0x0854229C by r7<<4 for r7=0..23, consumes +0xC as a config byte, and decompresses +0/+4/+8 to 0x0600E800, 0x050001E0 and 0x06001800.",
+  "verification": "runtime_verified",
+  "verification_method": "Static analysis proves 0x0808FA2C -> 0x0808A69C -> 0x08087C9C and all 24 descriptors. artifacts/battle-encounters-story-visual-pixel-ab-v1 additionally starts from a hash-bound controlled scenario-53 opcode 0x14 fixture, reaches state 0x8000 and descriptor 0, then isolates gfx_lz_ptr 0x0812FF50 -> 0x081303E8. Both ROMs hit the native three-stream LZ77 loader; only VRAM graphics diverge materially and the eighth overlay VBlank changes 1,603 final pixels.",
+  "runtime_evidence": {
+    "artifact": "artifacts/battle-encounters-story-visual-pixel-ab-v1",
+    "record_id": 0,
+    "field": "gfx_lz_ptr",
+    "source_pointer": "0x0812FF50",
+    "candidate_pointer": "0x081303E8",
+    "controlled_checkpoint": "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+    "controlled_script_cursor_only": true,
+    "native_story_opcode": "0x14",
+    "native_story_state": "0x8000",
+    "native_descriptor_loader": "0x08087C9C",
+    "modified_rom_pixel_ab": true,
+    "changed_pixel_count": 1603,
+    "all_24_records_runtime_verified": false,
+    "natural_scenario_53_navigation": false,
+    "physical_gba_verified": false
+  },
   "former_claim": "38 mixed battle encounter pointers and IDs beginning at 0x542384",
-  "notes": "The old offset equals descriptor 14 + 8, so the third pointer and config value were mistaken for a repeating encounter pattern. All 72 resource targets begin with LZ77 header 0x10. This bank does not prove enemy selection or random encounters.",
+  "notes": "The old offset equals descriptor 14 + 8, so the third pointer and config value were mistaken for a repeating encounter pattern. All 72 resource targets begin with LZ77 header 0x10. Runtime evidence proves descriptor 0 consumer and final-pixel causality from a controlled script cursor; it does not prove enemy selection, random encounters, natural scenario-53 navigation, the other 23 records at runtime, or physical GBA output.",
   "entries": [
     {"_index": 0, "_raw_offset": 5513884, "gfx_lz_ptr": 135462736, "gfx_lz_ptr_hex": "50ff1208", "palette_lz_ptr": 135463528, "palette_lz_ptr_hex": "68021308", "tilemap_lz_ptr": 135463568, "tilemap_lz_ptr_hex": "90021308", "config_id": 4, "config_id_hex": "04000000"},
     {"_index": 1, "_raw_offset": 5513900, "gfx_lz_ptr": 135463912, "gfx_lz_ptr_hex": "e8031308", "palette_lz_ptr": 135466288, "palette_lz_ptr_hex": "300d1308", "tilemap_lz_ptr": 135466328, "tilemap_lz_ptr_hex": "580d1308", "config_id": 10, "config_id_hex": "0a000000"},

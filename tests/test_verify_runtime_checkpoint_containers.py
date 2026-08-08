@@ -26,8 +26,8 @@ class RuntimeCheckpointContainerVerifierTests(unittest.TestCase):
         result = verify_checkpoints(ROOT / "artifacts/runtime-checkpoints")
 
         self.assertTrue(result["verified"], result["errors"])
-        self.assertEqual(result["checkpoint_count"], 104)
-        self.assertEqual(result["valid_mgba_state_count"], 104)
+        self.assertEqual(result["checkpoint_count"], 106)
+        self.assertEqual(result["valid_mgba_state_count"], 106)
         self.assertEqual(result["plain_png_count"], 0)
         self.assertEqual(result["invalid_count"], 0)
 

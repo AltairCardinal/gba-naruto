@@ -56,6 +56,7 @@ Expected SHA-256:
 | `scenario-49-battle-14-tool67-active-c3.ss9` | `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939` | accepted battle 14 boundary after natural use of `引爆牌`; active object slot 3 is state 1/action `0xC3` with two turns remaining |
 | `scenario-49-battle-14-tool67-expiry-ready.ss9` | `34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501` | accepted battle 14 boundary with the same natural `C3` object at zero remaining turns, immediately before zero-input group-3 expiry capture |
 | `scene-visual-controller-mode0-preselector.ss9` | `6df712f69dd9cc702a77ba8ee25964d348f39cc0440a6362c7407c5321cd88cd` | accepted natural Mode-0 scene visual controller boundary; zero input reaches selector `0x0808C18C`, presentation ID 3 and tile descriptor 2 initializer after 73 frames |
+| `scenario-53-story-slideshow-command-controlled.ss9` | `65cd8b010f9c21a6d5bc93fe8ed1b84fada025136936f6a42f0d540d0f7ab0a9` | controlled script-cursor-only fixture at scenario 53 opcode `0x14` / state `0x0168`; reusable for story visual descriptor runtime experiments, but does not prove natural scenario 53 navigation |
 
 ## Scenario 41 checkpoint ledger
 

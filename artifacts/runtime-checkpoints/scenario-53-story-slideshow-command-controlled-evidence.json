@@ -1,0 +1,40 @@
+{
+  "schema": "controlled-story-command-checkpoint-evidence-v1",
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+    "sha256": "65cd8b010f9c21a6d5bc93fe8ed1b84fada025136936f6a42f0d540d0f7ab0a9"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9",
+    "sha256": "62adcd52b577f73ca1ffd6d2d4ec3b9fafa2a2b130ac644a6834e2a56a50d4d8",
+    "cursor_address": "0x030011F0",
+    "cursor_value": "0x08031F31"
+  },
+  "controlled_edit": {
+    "kind": "script-cursor-only",
+    "address": "0x030011F0",
+    "before_bytes_le": "311f0308",
+    "after_bytes_le": "639e0408",
+    "after_value": "0x08049E63",
+    "changed_decompressed_state_offsets": [106992, 106993, 106994]
+  },
+  "target_command": {
+    "address": "0x08049E63",
+    "raw_hex": "146801",
+    "opcode": "0x14",
+    "state_value": "0x0168",
+    "reachable_from": [
+      {"table": "alternate", "scenario_id": 53},
+      {"table": "primary", "scenario_id": 53}
+    ]
+  },
+  "rebuild": {
+    "tool": "tools/patch_mgba_savestate_memory.py",
+    "write": "0x030011F0:639e0408"
+  },
+  "boundary": {
+    "controlled_checkpoint": true,
+    "natural_scenario_53_navigation": false,
+    "purpose": "重复验证原生 story opcode、状态机和 story visual descriptor consumer，避免重放长流程"
+  }
+}

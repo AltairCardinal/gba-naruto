@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 17/22 | 22/22 | 5 个 code_verified bank 待 player-visible 闭合 |
+| 有效 bank 运行时身份 | 18/22 | 22/22 | 4 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,10 @@
 
 ## 剩余 2 大缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 5 个）
+### 1. 22/22 bank runtime identity（缺 4 个）
 
 按 ROI 排序：
-- **Tier 3** (battle-encounters, cutscene-scripts): scenario 47+ 快照 + 多帧对比
+- **Tier 3** (cutscene-scripts): scenario 47+ 快照 + 多帧对比
 - **Tier 4** (sappy-engine, levels, data-table-b): 间接可见
 
 **已闭合**：`palettes` 历史 slug 实为 motion/effect 参数表。自然 Group 3
@@ -49,6 +49,13 @@ ack Mode 0 重放得到 286 个最终像素变化；运行内存差异仅限对�
 从 `0x0853EDB8` 经 trampoline 分派；只有基线进入 `0x0807F208` 并在 frame 67
 渲染 group 3，frame 69 最终相差 37,436 像素。恢复点已越过 C3→E4 构造，故本轮
 不声称重命中 expiry builder。详见 `notes/map-events-e4-player-visible-20260809.md`。
+
+**已闭合**：历史 `battle-encounters` slug 实为 24 条 story visual descriptor。
+受控 scenario-53 opcode `0x14` 快照中，record 0 `gfx_lz_ptr` 从
+`0x0812FF50` 替换为合法 donor `0x081303E8`；两案均命中原生 state dispatch、
+`0x08087C9C` loader 和三路 LZ77，第 8 次 overlay VBlank 最终相差 1,603 像素。
+该证据不声称自然 scenario-53 导航或其余 23 条 record。详见
+`notes/battle-encounters-story-visual-player-visible-20260809.md`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 
@@ -108,6 +115,8 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
   runtime identity 由 15/22 提升到 16/22。
 - `map-events` entry E4 primary natural-recovery A/B 闭合；bank runtime identity
   由 16/22 提升到 17/22。
+- `battle-encounters` record 0 story visual `gfx_lz_ptr` controlled opcode A/B 闭合；
+  bank runtime identity 由 17/22 提升到 18/22。
 
 ## 2026-08-06 会话交付（历史）
 

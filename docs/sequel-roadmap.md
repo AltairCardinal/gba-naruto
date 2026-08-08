@@ -2373,3 +2373,13 @@ WebSocket
   进程残留；独立 verifier 与防重签测试通过。bank 指标由 14/22 提升到
   **15/22 runtime_verified**；边界不覆盖其他 descriptor 字段或实体 GBA。
   证据见 `artifacts/tile-asset-descriptor2-pixel-ab-v1/`。
+- 2026-08-09：历史 `battle-encounters` slug 已按真实身份 24 条 story visual
+  descriptor 完成受控玩家可见闭环。固化的 scenario-53 opcode `0x14` 快照只改
+  脚本游标；candidate 仅把 record 0 `gfx_lz_ptr`
+  `0x0812FF50→0x081303E8`，ROM 实际只变三字节。两案都命中原生
+  `0x0808FA2C→0x0808A69C→0x08087C9C` 和三路 LZ77，第 8 次 overlay VBlank
+  的 VRAM 相差 2,348 字节、最终画面相差 1,603 像素，离线 Mode-0 重放与 mGBA
+  PNG 精确一致。正式两次运行峰值约 108.77/108.90 MiB；独立 verifier 与防重签
+  测试通过。有效 bank 运行时身份由 17/22 提升到 **18/22**，不声称自然
+  scenario-53 导航、其他 23 条 record 或实体 GBA；下一项为 `cutscene-scripts`。
+  证据见 `artifacts/battle-encounters-story-visual-pixel-ab-v1/`。

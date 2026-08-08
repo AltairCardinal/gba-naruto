@@ -24,7 +24,15 @@ class BattleEncounterIdentityTest(unittest.TestCase):
         self.assertEqual(self.bank["table_offset"], 0x54229C)
         self.assertEqual(self.bank["entry_count"], 24)
         self.assertEqual(self.bank["entry_size"], 0x10)
-        self.assertEqual(self.bank["verification"], "code_verified")
+        self.assertEqual(self.bank["verification"], "runtime_verified")
+        self.assertEqual(
+            self.bank["runtime_evidence"]["artifact"],
+            "artifacts/battle-encounters-story-visual-pixel-ab-v1",
+        )
+        self.assertEqual(self.bank["runtime_evidence"]["changed_pixel_count"], 1603)
+        self.assertFalse(
+            self.bank["runtime_evidence"]["natural_scenario_53_navigation"]
+        )
         for index, entry in enumerate(self.bank["entries"]):
             values = struct.unpack_from("<IIII", self.rom, 0x54229C + index * 0x10)
             self.assertEqual(

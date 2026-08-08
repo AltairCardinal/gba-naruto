@@ -42,6 +42,7 @@
 - 视觉 descriptor 闭环可让 `gpt-5.6-terra` 只读提出候选路线和 A/B 字段，本体负责断点验真并采用能完成归因的最小字段修改；候选建议范围大于必要范围时不得照单采用。已验证模板是“自然控制器快照 → 零输入 selector/initializer 命中 → 单指针两字节变化 → 固定两次 A/B → 六内存域与像素独立复核”。
 - 通用 task 表已在自然快照中物化、但 task 已 inactive 且没有短自然重建路线时，先让 `gpt-5.6-terra` 只读枚举直接/间接 caller；本体完成零输入对照和最多一个有静态依据的重入候选后仍不命中，就停止导航试错。允许在明确标注 controlled 的实验中只恢复 active bit，并从 baseline/candidate ROM 表物化目标字段；必须同时命中真实下游 consumer、等待完整提交帧、核对六内存域与最终像素，且不得声称自然 loader 重入。
 - 自然 savestate 已位于上游事件构造之后时，不得强求恢复后重命中已经过去的 producer；用 hash-bound checkpoint/静态链约束上游，再以 handler 入口和 `lr` 诊断真实 consumer，A/B 只签发本轮实际命中的下游边界。需要等待自然调度的 Lua 注册 callback/breakpoint 后应返回 mGBA 事件循环，不得用 `while ... frameAdvance()` 冒充自然运行；Terra 的候选字段仍须由本体先反汇编验证空值和调用约定。
+- mGBA 启动异常可先让 `gpt-5.6-terra` 只读对比成功/失败 run 的 ROM、快照、工具哈希、guard 摘要和配置；禁止其启动模拟器或据缺少 audit 猜测 ROM 行为。本体复核后只做一次有新可观测信息的重试；stdout/stderr 未持久化时不得把 `idle-timeout` 归因为脚本或 ROM。
 - 工具 schema 未列出的模型（包括当前不可用的 `luna`）不得调用或声称已使用；能力可用性变化后方可重新验收。
 
 ## ROM 与资源安全
@@ -50,6 +51,7 @@
 - 启动前检查可用内存，运行中监控 owned-tree RSS；资源守卫拒绝、超时或内存异常时先保存证据并停止扩张实验。
 - 冗长导航前及关键输入前后建立可复用快照，并先验证快照可恢复；后续实验优先从最近已验证快照继续。
 - 读取历史 `.ss9` 前先核对状态格式版本；版本 `0xB` 使用本地 mGBA commit `c16c3ff55585e71bee83c95539c2ecde15d728c8`（binary SHA-256 `ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b`），不得把新版 mGBA 的加载超时误判为路线失败。
+- 原生函数若在内部同步等待多个 VBlank，普通 Lua frame callback 可能直到函数返回才恢复；要捕获中间可见态，应在循环内稳定 CPU 地址计数目标 VBlank 后保存，不得用回调恢复时的晚帧冒充中间帧。
 - 单次实验只改变一个输入，并保留零输入重放作对照；CPU 暂时为零不能单独证明进程挂死。
 
 ## 证据与验收
