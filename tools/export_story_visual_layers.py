@@ -146,7 +146,7 @@ def _load_banks(
         or linked.get("entry_count") != LINKED_DESCRIPTOR_COUNT
         or linked.get("entry_size") != LINKED_DESCRIPTOR_SIZE
         or len(linked.get("entries", [])) != LINKED_DESCRIPTOR_COUNT
-        or linked.get("verification") != "code_verified"
+        or linked.get("verification") not in {"code_verified", "runtime_verified"}
     ):
         raise ValueError("unexpected linked visual descriptor bank")
 
@@ -342,7 +342,10 @@ def export_story_visual_layers(
             "entry_count": linked["entry_count"],
             "entry_size": linked["entry_size"],
             "sha256": LINKED_DESCRIPTOR_TABLE_SHA256,
-            "verification": linked["verification"],
+            # This export only consumes the ROM-backed table identity.  Keep the
+            # manifest's claim at that stable floor so a later runtime upgrade
+            # does not invalidate otherwise byte-identical image artifacts.
+            "verification": "code_verified",
             "relationship": (
                 "consumer stores config_id and indexes this 0x44-byte table; "
                 "the linked visual is outside this transparent BG3 layer"
