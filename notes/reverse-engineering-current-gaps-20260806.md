@@ -9,7 +9,7 @@
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
 | 有效 bank 运行时身份 | 13/22 | 22/22 | 9 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
-| 战斗特效精确 phase | 10/18 | 18/18 | 8 groups: [6, 7, 8, 9, 10, 12, 13, 15] |
+| 战斗特效精确 phase | 17/18 | 18/18 | 仅 Group 15；Group 6/7/8/9/10/12/13 为受控 sequence phase，非自然入口 |
 | 战斗特效 production 最终像素 | 12/18 | 18/18 | 6 groups: [6, 7, 8, 9, 10, 12] |
 | 音频结构提取与整曲渲染 | 100% | 100% | ✓ |
 | 音频 cue 人类语义 | 80/80 | 80/80 | ✓（72 D 级 unknown 是合法命名状态） |
@@ -35,7 +35,11 @@ candidate PNG SHA 完全相同。原因：palettes bank consumer
 task spawn 才能消费 record 数据。battle 8 round 3 AI 选择 action 61
 （斩首大刀），不消费 palettes record 0。
 
-### 2. 战斗特效 phase/pixel（缺 6/7/8/9/10/12）
+### 2. 战斗特效 production pixel（缺 6/7/8/9/10/12）
+
+2026-08-09 已复用并重新验证 controlled-runtime 原始归档，将
+Group 6/7/8/9/10/12/13 的精确三阶段计入 phase 指标，phase 达 17/18；仅
+Group 15 仍缺正向 phase。该口径明确是 controlled sequence，不冒充自然玩法。
 
 Group 6/7/8/9/10/12 共享同一 dispatcher 链路（已 disasm 完整）：
 - 中层 dispatcher 0x0807B8B8（21-case switch）
@@ -47,10 +51,14 @@ dispatcher 链路的最外层触发器是 **dynamic callback**，无法静态追
 scenario 50 + 600 帧输入推进 + 内层 dispatcher 断点实验显示 0 次命中
 ——确认普通 battle 路径不触发 Group 6/7/8/9/10/12 dispatcher。
 
-**唯一 closure 路径**: 未 tracked 剧情关卡 + mGBA AI selector tracer。
+**自然入口 closure 路径**: 未 tracked 剧情关卡 + mGBA AI selector tracer。
 Group 13 已知走 battle 3 路线（再不斩 action 61），但 Group 12 (action
 32 雷切) 在 standard formation matrix 中 occurrence=0——必须找
 specific 剧情关卡触发器（handoff 5.1 已声明）。
+
+production pixel A/B 不要求冒充自然入口，可在已验证的 controlled sequence
+事务上组合 production relocation，以单字节图形 nibble 翻转完成；这也是当前
+优先路径。
 
 ### 3. 实体 GBA 验证 1/1
 
@@ -61,13 +69,20 @@ handoff 第 5.2 节已声明此风险。
 production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
 有 mGBA runtime evidence，但实体 GBA 仍需真机）。
 
-### 4. 战斗特效 phase 还缺 Group 13/15（除 6/7/8/9/10/12 外）
+### 4. 战斗特效 phase 仅缺 Group 15
 
-Group 13/15 在 production_pixel_ab 已闭合（controlled runtime 路径），
-但 phase_verified 未达 ——因为 Group 13 phase closure 用 ninja-tool
-hardcoded-handler 路径，需要独立的 phase 实验。
+Group 13 已由受控 sequence 三阶段证据闭合。Group 15 的 controlled sequence
+结果为 target absent negative，虽已有 production pixel A/B，仍需正向 phase
+入口才能达到 18/18。
 
-## 当前会话净交付
+## 2026-08-09 增量
+
+- 104/104 `.ss9` 严格验证为合法 mGBA PNG+`gbAs` 状态容器；旧“普通 PNG”
+  blocker 已撤销。
+- dispatcher 静态工具修复后找到 `0x0807C93C` 的 6 个直接调用点。
+- phase 聚合由 10/18 提升为 17/18；production pixel A/B 保持 12/18。
+
+## 2026-08-06 会话交付（历史）
 
 按 `tools/analyze_reverse_engineering_gaps.py` 输出（commit 92e1b7b01
 + abd11fd70 改进）：
@@ -104,9 +119,10 @@ bank + 字段 C 级命名 + 实体 GBA 0/1（无硬件）。
 
 按当前可推进路径计算：
 - 9/22 bank closure: ~20-30 小时 mGBA + 5 小时 disasm
-- 6/7/8/9/10/12 dispatcher natural route: ~10-20 小时 mGBA 剧情关卡扫描
-- Group 13/15 phase closure: ~3-5 小时 mGBA
+- 6/7/8/9/10/12 production pixel A/B：优先批量组合 controlled sequence 与
+  production relocation；无需先完成 10-20 小时剧情关卡扫描
+- Group 15 phase closure：~1-3 小时 mGBA/入口复用
 - 实体 GBA 验证: 无法在当前环境推进（需真机）
 
-总计 ~38-60 小时 mGBA + disasm 工作。即使按完整工作日（8小时），
-也需要 5-8 个完整工作日。
+原 38-60 小时估算已被 controlled phase 复用缩短；剩余时间需在首个 production
+controlled pixel 闭环后按实际脚本批处理成本重估。

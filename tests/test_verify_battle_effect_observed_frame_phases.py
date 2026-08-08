@@ -29,7 +29,7 @@ class BattleEffectObservedFramePhaseVerifierTests(unittest.TestCase):
         result = verifier.verify_coverage(ROOT, ARTIFACT)
         self.assertEqual(result["errors"], [])
         self.assertTrue(result["verified"])
-        self.assertEqual(result["phase_verified_groups"], 10)
+        self.assertEqual(result["phase_verified_groups"], 17)
         self.assertEqual(result["all_groups"], 18)
         self.assertEqual(result["production_pixel_ab_groups"], 12)
 
@@ -85,6 +85,34 @@ class BattleEffectObservedFramePhaseVerifierTests(unittest.TestCase):
             self.assertIn(
                 "coverage repository hash lock is incomplete", result["errors"]
             )
+
+    def test_rejects_controlled_phase_source_without_matching_manifest(self):
+        verifier = importlib.import_module(
+            "tools.verify_battle_effect_observed_frame_phases"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "artifact"
+            shutil.copytree(ARTIFACT, artifact)
+            coverage_path = artifact / "coverage.json"
+            coverage = json.loads(coverage_path.read_text(encoding="utf-8"))
+            coverage["sources"]["controlled_runtime"]["manifest_sha256"] = "0" * 64
+            coverage_path.write_text(
+                json.dumps(coverage, ensure_ascii=False, indent=2, sort_keys=True)
+                + "\n",
+                encoding="utf-8",
+            )
+            manifest_path = artifact / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["files"]["coverage.json"] = hashlib.sha256(
+                coverage_path.read_bytes()
+            ).hexdigest()
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True)
+                + "\n",
+                encoding="utf-8",
+            )
+            result = verifier.verify_coverage(ROOT, artifact)
+            self.assertIn("controlled phase source mismatch", result["errors"])
 
 
 if __name__ == "__main__":

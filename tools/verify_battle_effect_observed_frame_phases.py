@@ -14,12 +14,14 @@ try:
     from tools.verify_battle_effect_group5_pixel_ab_evidence import verify_evidence as verify_group5_pixel
     from tools.verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from tools.verify_battle_effect_runtime_oam_task_bindings import verify_bindings
+    from tools.verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
     from tools.verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 except ModuleNotFoundError:
     from verify_battle_effect_frame_phase import verify_artifact
     from verify_battle_effect_group5_pixel_ab_evidence import verify_evidence as verify_group5_pixel
     from verify_battle_effect_pixel_ab_evidence import verify_evidence as verify_generic_pixel
     from verify_battle_effect_runtime_oam_task_bindings import verify_bindings
+    from verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
     from verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 
 
@@ -39,6 +41,10 @@ PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
 NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
 NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
 NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS = [16, 17]
+CONTROLLED_PHASE_EXTENSION_GROUP_IDS = [6, 7, 8, 9, 10, 12, 13]
+PHASE_VERIFIED_GROUP_IDS = sorted(
+    set(EXPECTED) | set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS)
+)
 PIXEL_AB = {
     1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "generic"),
     2: (Path("artifacts/battle-effect-group2-pixel-ab-v1"), "generic"),
@@ -55,6 +61,8 @@ PIXEL_AB = {
 }
 OBSERVED_ARTIFACT = Path("artifacts/battle-effect-runtime-oam-task-bindings-v1")
 OBSERVED_PAYLOAD = OBSERVED_ARTIFACT / "bindings.json"
+CONTROLLED_RUNTIME_ARTIFACT = Path("artifacts/battle-effect-controlled-runtime-v1")
+CONTROLLED_RUNTIME_PAYLOAD = CONTROLLED_RUNTIME_ARTIFACT / "evidence.json"
 REQUIRED_REPOSITORY_FILES = {
     "tools/export_battle_effect_observed_frame_phases.py",
     "tools/verify_battle_effect_observed_frame_phases.py",
@@ -63,6 +71,7 @@ REQUIRED_REPOSITORY_FILES = {
     "tools/verify_battle_effect_frame_phase.py",
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+    "tools/verify_battle_effect_controlled_runtime.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
     "tools/verify_battle_effect_pixel_ab_evidence.py",
@@ -70,6 +79,7 @@ REQUIRED_REPOSITORY_FILES = {
     "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
+    "tests/test_verify_battle_effect_controlled_runtime.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
 }
@@ -165,6 +175,28 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
         ):
             errors.append("phase batch denominator mismatch")
 
+        controlled_source = coverage.get("sources", {}).get("controlled_runtime", {})
+        expected_controlled_source = {
+            "path": CONTROLLED_RUNTIME_ARTIFACT.as_posix(),
+            "manifest_sha256": _sha256(
+                root / CONTROLLED_RUNTIME_ARTIFACT / "manifest.json"
+            ),
+            "payload_path": CONTROLLED_RUNTIME_PAYLOAD.as_posix(),
+            "payload_sha256": _sha256(root / CONTROLLED_RUNTIME_PAYLOAD),
+        }
+        if controlled_source != expected_controlled_source:
+            errors.append("controlled phase source mismatch")
+        controlled_result = verify_controlled_runtime(root / CONTROLLED_RUNTIME_ARTIFACT)
+        if (
+            not controlled_result.get("verified")
+            or controlled_result.get("positive_group_ids")
+            != [4, 6, 7, 8, 9, 10, 12, 13, 16, 17]
+            or not set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS).issubset(
+                controlled_result.get("task_oam_bound_group_ids", [])
+            )
+        ):
+            errors.append("controlled phase verification failed")
+
         phase_rows = coverage.get("phase_artifacts")
         if not isinstance(phase_rows, list) or len(phase_rows) != len(EXPECTED):
             errors.append("phase artifact rows are incomplete")
@@ -210,6 +242,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             "natural_confirmation_group4_phase_transaction_included": True,
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
+            "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -228,8 +261,11 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             != NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS
             or coverage.get("natural_ninja_tool_handler_extension_group_ids")
             != NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS
-            or coverage.get("phase_verified_group_count") != len(EXPECTED)
-            or coverage.get("phase_verified_group_ids") != sorted(EXPECTED)
+            or coverage.get("controlled_phase_extension_group_ids")
+            != CONTROLLED_PHASE_EXTENSION_GROUP_IDS
+            or coverage.get("phase_verified_group_count")
+            != len(PHASE_VERIFIED_GROUP_IDS)
+            or coverage.get("phase_verified_group_ids") != PHASE_VERIFIED_GROUP_IDS
             or coverage.get("production_pixel_ab_group_count") != len(PIXEL_AB)
             or coverage.get("production_pixel_ab_group_ids") != sorted(PIXEL_AB)
         ):
@@ -239,7 +275,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
     return {
         "verified": not errors,
         "errors": errors,
-        "phase_verified_groups": len(EXPECTED) if not errors else 0,
+        "phase_verified_groups": len(PHASE_VERIFIED_GROUP_IDS) if not errors else 0,
         "all_groups": 18,
         "production_pixel_ab_groups": len(PIXEL_AB) if not errors else 0,
     }

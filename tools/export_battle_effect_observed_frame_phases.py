@@ -30,6 +30,9 @@ PERSISTED_OBSERVED_GROUP_IDS = [1, 2, 5, 11, 14]
 NATURAL_DELAYED_EXTENSION_GROUP_IDS = [3, 18]
 NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS = [4]
 NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS = [16, 17]
+CONTROLLED_PHASE_EXTENSION_GROUP_IDS = [6, 7, 8, 9, 10, 12, 13]
+CONTROLLED_RUNTIME_ARTIFACT = Path("artifacts/battle-effect-controlled-runtime-v1")
+CONTROLLED_RUNTIME_PAYLOAD = CONTROLLED_RUNTIME_ARTIFACT / "evidence.json"
 PIXEL_AB_ARTIFACTS = {
     1: (Path("artifacts/battle-effect-group1-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     2: (Path("artifacts/battle-effect-group2-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
@@ -60,6 +63,7 @@ REPOSITORY_FILES = (
     "tools/verify_battle_effect_frame_phase.py",
     "tests/test_verify_battle_effect_frame_phase.py",
     "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+    "tools/verify_battle_effect_controlled_runtime.py",
     "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
     "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py",
     "tools/verify_battle_effect_pixel_ab_evidence.py",
@@ -67,6 +71,7 @@ REPOSITORY_FILES = (
     "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
+    "tests/test_verify_battle_effect_controlled_runtime.py",
     "tools/inspect_mgba_savestate.py",
     "tests/test_inspect_mgba_savestate.py",
 )
@@ -124,6 +129,18 @@ def build_coverage(root: Path) -> dict[str, Any]:
     if batch_ids != [1, 2, 5, 14] or batch.get("already_promoted_group_ids") != [11]:
         raise ValueError("phase batch spec does not cover the observed group set")
 
+    controlled_promotion = _accepted_artifact(
+        root, CONTROLLED_RUNTIME_ARTIFACT, "battle-effect-controlled-runtime-v1"
+    )
+    controlled_manifest = _object(root / CONTROLLED_RUNTIME_ARTIFACT / "manifest.json")
+    controlled_hash = _sha256(root / CONTROLLED_RUNTIME_PAYLOAD)
+    if controlled_manifest.get("files", {}).get("evidence.json") != controlled_hash:
+        raise ValueError("controlled runtime evidence is not hash-locked")
+    controlled = _object(root / CONTROLLED_RUNTIME_PAYLOAD)
+    controlled_positive_ids = controlled.get("coverage", {}).get("positive_group_ids")
+    if controlled_positive_ids != [4, 6, 7, 8, 9, 10, 12, 13, 16, 17]:
+        raise ValueError("controlled runtime positive-group denominator mismatch")
+
     phase_rows = []
     for group_id, relative in PHASE_ARTIFACTS.items():
         row = _accepted_artifact(root, relative, "battle-effect-frame-phase-v1")
@@ -150,8 +167,15 @@ def build_coverage(root: Path) -> dict[str, Any]:
         "natural_delayed_extension_group_ids": NATURAL_DELAYED_EXTENSION_GROUP_IDS,
         "natural_confirmation_extension_group_ids": NATURAL_CONFIRMATION_EXTENSION_GROUP_IDS,
         "natural_ninja_tool_handler_extension_group_ids": NATURAL_NINJA_TOOL_HANDLER_EXTENSION_GROUP_IDS,
-        "phase_verified_group_count": len(phase_rows),
-        "phase_verified_group_ids": [row["group_id"] for row in phase_rows],
+        "controlled_phase_extension_group_ids": CONTROLLED_PHASE_EXTENSION_GROUP_IDS,
+        "phase_verified_group_count": len(
+            set(row["group_id"] for row in phase_rows)
+            | set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS)
+        ),
+        "phase_verified_group_ids": sorted(
+            set(row["group_id"] for row in phase_rows)
+            | set(CONTROLLED_PHASE_EXTENSION_GROUP_IDS)
+        ),
         "phase_artifacts": phase_rows,
         "production_pixel_ab_group_count": len(pixel_rows),
         "production_pixel_ab_group_ids": [row["group_id"] for row in pixel_rows],
@@ -164,6 +188,11 @@ def build_coverage(root: Path) -> dict[str, Any]:
                 "payload_sha256": observed_hash,
             },
             "batch_spec": {"path": BATCH_SPEC.as_posix(), "sha256": _sha256(root / BATCH_SPEC)},
+            "controlled_runtime": {
+                **controlled_promotion,
+                "payload_path": CONTROLLED_RUNTIME_PAYLOAD.as_posix(),
+                "payload_sha256": controlled_hash,
+            },
         },
         "scope": {
             "all_observed_groups_have_one_verified_phase_transaction": True,
@@ -172,6 +201,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "natural_confirmation_group4_phase_transaction_included": True,
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
+            "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": False,
             "production_pixel_ab_all_18_groups": False,
@@ -179,10 +209,11 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "physical_gba_verified": False,
         },
         "boundary": (
-            "Ten of 18 groups have one verified global renderer/submit/ack transaction. "
+            "Seventeen of 18 groups have one verified global renderer/submit/ack transaction. "
             "Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural "
             "action-confirmation extension; groups 16 and 17 are natural ninja-tool "
-            "hardcoded-handler extensions beyond the five-group persisted corpus. Twelve groups "
+            "hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence "
+            "transactions and are not claimed as natural gameplay. Twelve groups "
             "have production modified-ROM pixel A/B evidence."
         ),
     }
