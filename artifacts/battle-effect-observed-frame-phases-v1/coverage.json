@@ -1,6 +1,6 @@
 {
   "all_group_denominator": 18,
-  "boundary": "All 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; groups 16 and 17 are natural ninja-tool hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence transactions and are not claimed as natural gameplay; Group 15 uses the natural battle-8 action 64 route. Twelve groups have production modified-ROM pixel A/B evidence.",
+  "boundary": "All 18 groups have one verified global renderer/submit/ack transaction. Groups 3 and 18 are natural delayed-object extensions and group 4 is a natural action-confirmation extension; groups 16 and 17 are natural ninja-tool hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence transactions and are not claimed as natural gameplay; Group 15 uses the natural battle-8 action 64 route. Thirteen groups have production modified-ROM pixel A/B evidence.",
   "controlled_phase_extension_group_ids": [
     6,
     7,
@@ -152,6 +152,11 @@
       "path": "artifacts/battle-effect-group5-pixel-ab-v1"
     },
     {
+      "group_id": 6,
+      "manifest_sha256": "45512206443c21500a670d7aea8ebd0c2f5678aeed096cddf0730786edbac30b",
+      "path": "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
+    },
+    {
       "group_id": 11,
       "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
       "path": "artifacts/battle-effect-group11-pixel-ab-v1"
@@ -187,13 +192,14 @@
       "path": "artifacts/battle-effect-group18-natural-pixel-ab-v1"
     }
   ],
-  "production_pixel_ab_group_count": 12,
+  "production_pixel_ab_group_count": 13,
   "production_pixel_ab_group_ids": [
     1,
     2,
     3,
     4,
     5,
+    6,
     11,
     13,
     14,
@@ -206,6 +212,7 @@
   "scope": {
     "all_18_groups_phase_verified": true,
     "all_observed_groups_have_one_verified_phase_transaction": true,
+    "controlled_sequence_group6_production_pixel_ab_included": true,
     "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": true,
     "group2_affine_transaction_included": true,
     "natural_action64_group15_phase_transaction_included": true,

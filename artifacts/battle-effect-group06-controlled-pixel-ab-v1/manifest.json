@@ -1,0 +1,48 @@
+{
+  "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "boundary": "Production relocation composed with the verified controlled sequence-8 binder path. It proves deterministic final-pixel writeback for Group 6, not natural gameplay reachability or physical-GBA execution.",
+  "files": {
+    "baseline.png": "fc8963ab04f22a73913c5a1d014a4334f724129496c18b7ab8458b72fe424581",
+    "candidate.png": "e968d14a4dd33392ee627b8020732d74feb5f319f3afb25de98fb6732f8670ed",
+    "evidence.json": "54d71b5cf7d9f083bde29006f135507766071d9a5b46a9c1c94454eac2c2636a",
+    "raw.tar": "683c4a6d289dc41a7af59aa00c8cda484cbd75ad74299bb49cf0be22cbe02469"
+  },
+  "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-06-sequence-08-controlled.json",
+  "profile_sha256": "de549c9742e75ab81c0a8f1a135db0454c3f7b676c9bd8c857691736dadac292",
+  "repository_files": {
+    "tests/test_build_controlled_battle_effect_pixel_ab.py": "85548ad0a581cda4c8c2496623b92219fb5c056f84a5b692c44b623f00e0068b",
+    "tests/test_export_controlled_battle_effect_pixel_ab.py": "a85c17599096bf466694b9df3d10c7f9439a34367c7e46639ed5c4fbb938fecb",
+    "tests/test_run_controlled_battle_effect_pixel_ab.py": "9cb675af6103a4026d6d8dad2594d205fc344e633dec2fa8b10c653f534124ea",
+    "tests/test_verify_controlled_battle_effect_pixel_ab.py": "aec24add4f3251e05604e624fd30130b6548ba0a21e561a1daefdc1eab3daa36",
+    "tools/build_controlled_battle_effect_direct_spawn_probe.py": "decc1a5bdfb02b39649003b46c2a8b39cabb1a906401d4a3b0874950c660673a",
+    "tools/build_controlled_battle_effect_pixel_ab.py": "f978c54d5dfb8389a59281b28c8591760090d3d7a29bdd8ae553e43d81536961",
+    "tools/build_controlled_battle_effect_sequence_probe.py": "fce0f354a827f3f0001060c8e9086d684aa0435a613b4a70aec5466e778a889b",
+    "tools/export_controlled_battle_effect_pixel_ab.py": "9d09000dea53adca2c02d15d3d034c51069bef2d84332b4678e6c3c7203d0bee",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/run_controlled_battle_effect_pixel_ab.py": "89af68c4d888c592b3d61e8af218287548dfcf36f13a4462dab42b76686c210b",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
+    "tools/verify_battle_effect_controlled_runtime.py": "63169e14e8e796ee7266e6c8429806d3186a65dbe53a136ac830be73aeff576b",
+    "tools/verify_battle_effect_direct_spawn_runtime.py": "2560388bffe826d2dec576f7895a9e9a958da32b7565fef7f9b903710aca5127",
+    "tools/verify_controlled_battle_effect_pixel_ab.py": "945e5c0c96092e45b7cd42901a4881cf47cff60725a94def28ee32650e602032",
+    "tools/verify_menu_portrait_writeback_audit.py": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_controlled_battle_effect_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

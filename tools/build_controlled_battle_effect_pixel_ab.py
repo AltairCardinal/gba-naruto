@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a production-relocated controlled direct-spawn battle-effect pixel pair."""
+"""Build a production-relocated controlled battle-effect pixel pair."""
 
 from __future__ import annotations
 
@@ -29,6 +29,8 @@ from tools.build_battle_effect_pixel_ab import (
     _sha256_file,
     _topology,
     _write_json,
+    _profile_screen_pixels,
+    _runtime_oam_instances,
 )
 from tools.build_controlled_battle_effect_direct_spawn_probe import (
     CASES_BY_ID,
@@ -40,6 +42,15 @@ from tools.build_controlled_battle_effect_direct_spawn_probe import (
     STUB_SIZE,
     build_stub,
     encode_thumb_bl,
+)
+from tools.build_controlled_battle_effect_sequence_probe import (
+    HOOK as SEQUENCE_HOOK,
+    HOOK_OFFSET as SEQUENCE_HOOK_OFFSET,
+    SOUND_MAIN as SEQUENCE_SOUND_MAIN,
+    STUB as SEQUENCE_STUB,
+    STUB_OFFSET as SEQUENCE_STUB_OFFSET,
+    STUB_SIZE as SEQUENCE_STUB_SIZE,
+    _stub as build_sequence_stub,
 )
 from tools.build_mod import apply_patch
 from tools.image_resource_regions import ImageResourceRegions
@@ -56,6 +67,9 @@ from tools.rom_layout import RomLayout
 PROFILE_SCHEMA = "controlled-battle-effect-pixel-ab-profile-v1"
 BUILD_SCHEMA = "controlled-battle-effect-pixel-ab-build-v1"
 VARIANTS = ("baseline", "candidate")
+SEQUENCE_CASES = {
+    "group-06-sequence-08": (6, 8),
+}
 
 
 def _require_int(value: object, label: str) -> int:
@@ -87,25 +101,51 @@ def _archive_member_sha256(archive: Path, member_name: str) -> str:
         return _sha256(stream.read())
 
 
-def _install_probe(rom: bytes, *, case_id: str) -> bytes:
-    case = CASES_BY_ID.get(case_id)
-    if case is None:
-        raise ValueError(f"unknown controlled direct-spawn case: {case_id}")
-    if rom[HOOK_OFFSET:HOOK_OFFSET + 4] != encode_thumb_bl(HOOK, SOUND_MAIN):
+def _install_probe(
+    rom: bytes, *, case_id: str, sequence_id: int, execution_mode: str
+) -> tuple[bytes, dict[str, int]]:
+    if execution_mode == "controlled-direct-spawn":
+        case = CASES_BY_ID.get(case_id)
+        if case is None:
+            raise ValueError(f"unknown controlled direct-spawn case: {case_id}")
+        hook, hook_offset, sound_main = HOOK, HOOK_OFFSET, SOUND_MAIN
+        stub, stub_offset, stub_size = STUB, STUB_OFFSET, STUB_SIZE
+        stub_bytes = build_stub(case)
+    elif execution_mode == "controlled-sequence-injection":
+        if SEQUENCE_CASES.get(case_id) != (6, 8) or sequence_id != 8:
+            raise ValueError(f"unknown controlled sequence case: {case_id}")
+        hook = SEQUENCE_HOOK
+        hook_offset = SEQUENCE_HOOK_OFFSET
+        sound_main = SEQUENCE_SOUND_MAIN
+        stub = SEQUENCE_STUB
+        stub_offset = SEQUENCE_STUB_OFFSET
+        stub_size = SEQUENCE_STUB_SIZE
+        stub_bytes = build_sequence_stub(sequence_id)
+    else:
+        raise ValueError("controlled battle-effect pixel execution mode mismatch")
+    if rom[hook_offset:hook_offset + 4] != encode_thumb_bl(hook, sound_main):
         raise ValueError("controlled battle-effect pixel SoundMain hook mismatch")
-    if any(rom[STUB_OFFSET:STUB_OFFSET + STUB_SIZE]):
+    if any(rom[stub_offset:stub_offset + stub_size]):
         raise ValueError("controlled battle-effect pixel stub region is not zero-filled")
     output = bytearray(rom)
-    output[HOOK_OFFSET:HOOK_OFFSET + 4] = encode_thumb_bl(HOOK, STUB)
-    output[STUB_OFFSET:STUB_OFFSET + STUB_SIZE] = build_stub(case)
-    return bytes(output)
+    output[hook_offset:hook_offset + 4] = encode_thumb_bl(hook, stub)
+    output[stub_offset:stub_offset + stub_size] = stub_bytes
+    return bytes(output), {
+        "hook_offset": hook_offset,
+        "stub_offset": stub_offset,
+        "stub_size": stub_size,
+    }
 
 
 def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     profile = _json(profile_path)
     if profile.get("schema") != PROFILE_SCHEMA:
         raise ValueError("controlled battle-effect pixel profile schema mismatch")
-    if profile.get("execution_mode") != "controlled-direct-spawn":
+    execution_mode = profile.get("execution_mode")
+    if execution_mode not in {
+        "controlled-direct-spawn",
+        "controlled-sequence-injection",
+    }:
         raise ValueError("controlled battle-effect pixel execution mode mismatch")
     if profile.get("natural_gameplay_route") is not False:
         raise ValueError("controlled battle-effect pixel cannot claim natural gameplay")
@@ -114,14 +154,20 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
 
     case_id = profile.get("case_id")
     case = CASES_BY_ID.get(case_id)
-    if case_id not in {
-        "group-03-sequence-03-side-0-direct-spawn",
-        "group-18-sequence-07-direct-spawn",
-    } or case is None:
-        raise ValueError("controlled battle-effect pixel case contract mismatch")
     group_id = _require_int(profile.get("group_id"), "group_id")
     sequence_id = _require_int(profile.get("sequence_id"), "sequence_id")
-    if (group_id, sequence_id) != (case.group_id, case.sequence_id):
+    if execution_mode == "controlled-direct-spawn":
+        if case_id not in {
+            "group-03-sequence-03-side-0-direct-spawn",
+            "group-18-sequence-07-direct-spawn",
+        } or case is None:
+            raise ValueError("controlled battle-effect pixel case contract mismatch")
+        expected_case = (case.group_id, case.sequence_id)
+    else:
+        expected_case = SEQUENCE_CASES.get(case_id)
+        if expected_case is None:
+            raise ValueError("controlled battle-effect pixel case contract mismatch")
+    if (group_id, sequence_id) != expected_case:
         raise ValueError("controlled battle-effect pixel group/sequence mismatch")
 
     catalogs = profile.get("catalogs")
@@ -144,40 +190,60 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
     input_state = _require_relative_file(root, profile.get("input_state"), "input_state")
     _require_sha(input_state, profile.get("input_state_sha256"), "input_state")
 
-    direct = profile.get("direct_runtime")
-    if not isinstance(direct, dict):
-        raise ValueError("controlled battle-effect pixel direct runtime mismatch")
-    direct_paths = {}
+    runtime_key = (
+        "direct_runtime"
+        if execution_mode == "controlled-direct-spawn"
+        else "controlled_runtime"
+    )
+    runtime = profile.get(runtime_key)
+    if not isinstance(runtime, dict):
+        raise ValueError(f"controlled battle-effect pixel {runtime_key} mismatch")
+    runtime_paths = {}
     for key in ("evidence", "manifest", "archive"):
-        path = _require_relative_file(root, direct.get(key), f"direct_runtime.{key}")
-        _require_sha(path, direct.get(f"{key}_sha256"), f"direct_runtime.{key}")
-        direct_paths[key] = path
-    ack_member = direct.get("ack_state_member")
+        path = _require_relative_file(root, runtime.get(key), f"{runtime_key}.{key}")
+        _require_sha(path, runtime.get(f"{key}_sha256"), f"{runtime_key}.{key}")
+        runtime_paths[key] = path
+    ack_member = runtime.get("ack_state_member")
     if not isinstance(ack_member, str) or not ack_member.startswith("source/"):
         raise ValueError("controlled battle-effect pixel ack state member mismatch")
-    if _archive_member_sha256(direct_paths["archive"], ack_member) != direct.get(
+    if _archive_member_sha256(runtime_paths["archive"], ack_member) != runtime.get(
         "ack_state_sha256"
     ):
         raise ValueError("controlled battle-effect pixel ack state hash mismatch")
 
-    direct_evidence = _json(direct_paths["evidence"])
-    direct_case = _find(direct_evidence.get("cases"), "direct runtime case", case_id=case_id)
-    ack_phase = _find(direct_case.get("phases"), "direct runtime ack phase", name="ack-post")
+    runtime_evidence = _json(runtime_paths["evidence"])
+    runtime_case = _find(runtime_evidence.get("cases"), "runtime case", case_id=case_id)
+    ack_phase = _find(runtime_case.get("phases"), "runtime ack phase", name="ack-post")
     target_task = ack_phase.get("target_task")
-    if (
-        direct_case.get("group_id") != group_id
-        or direct_case.get("sequence_id") != sequence_id
-        or direct_case.get("side") != case.side
-        or direct_case.get("resource", {}).get("graphics_sha256") != graphics_sha
-        or direct_case.get("resource", {}).get("palette_sha256") != palette_sha
-        or ack_phase.get("savestate_sha256") != direct.get("ack_state_sha256")
-        or not isinstance(target_task, dict)
-        or target_task.get("tile_base")
-        != profile.get("runtime_oam", {}).get("obj_tile_base")
-        or target_task.get("palette_bank")
-        != profile.get("runtime_oam", {}).get("palette_bank")
+    if execution_mode == "controlled-direct-spawn":
+        if (
+            runtime_case.get("group_id") != group_id
+            or runtime_case.get("sequence_id") != sequence_id
+            or runtime_case.get("side") != case.side
+            or runtime_case.get("resource", {}).get("graphics_sha256") != graphics_sha
+            or runtime_case.get("resource", {}).get("palette_sha256") != palette_sha
+            or ack_phase.get("savestate_sha256") != runtime.get("ack_state_sha256")
+            or not isinstance(target_task, dict)
+            or target_task.get("tile_base")
+            != profile.get("runtime_oam", {}).get("obj_tile_base")
+            or target_task.get("palette_bank")
+            != profile.get("runtime_oam", {}).get("palette_bank")
+        ):
+            raise ValueError("controlled battle-effect pixel direct runtime evidence mismatch")
+    elif (
+        runtime_case.get("verdict") != "verified_target_transaction"
+        or runtime_case.get("group_id") != group_id
+        or runtime_case.get("sequence_id") != sequence_id
+        or ack_phase.get("savestate_sha256") != runtime.get("ack_state_sha256")
+        or runtime_case.get("task_oam", {}).get("output_frame_id")
+        != profile.get("frame_id")
     ):
-        raise ValueError("controlled battle-effect pixel direct runtime evidence mismatch")
+        raise ValueError("controlled battle-effect pixel sequence runtime evidence mismatch")
+    if target_task is None:
+        target_task = {
+            "tile_base": profile.get("runtime_oam", {}).get("obj_tile_base"),
+            "palette_bank": profile.get("runtime_oam", {}).get("palette_bank"),
+        }
 
     resource = _find(payloads["resource_pairs"].get("entries"), "resource pair", group_id=group_id)
     animation_group = _find(payloads["animations"].get("groups"), "animation group", group_id=group_id)
@@ -245,6 +311,38 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
         or [((attr1 & 0x1FF) + mapped_x), ((attr0 & 0xFF) + mapped_y)] != screen
     ):
         raise ValueError("controlled battle-effect pixel runtime OAM mapping mismatch")
+    instances = _runtime_oam_instances(
+        profile,
+        pixel_x,
+        pixel_y,
+        component_width=width,
+        component_height=height,
+    )
+    bindings = runtime_case.get("task_oam", {}).get(
+        "bindings", runtime_case.get("oam_bindings", [])
+    )
+    binding_by_index = {
+        row.get("oam_index"): row for row in bindings if isinstance(row, dict)
+    }
+    for instance in instances:
+        rendered_component = _find(
+            frame.get("components"),
+            "runtime OAM animation component",
+            component_index=instance["component_index"],
+        )
+        binding = binding_by_index.get(instance["oam_index"], {})
+        if (
+            rendered_component.get("tile_index") != tile_index
+            or rendered_component.get("width") != width
+            or rendered_component.get("height") != height
+            or (
+                execution_mode == "controlled-sequence-injection"
+                and [binding.get(key) for key in ("attr0", "attr1", "attr2")]
+                != instance["attributes"]
+            )
+        ):
+            raise ValueError("controlled battle-effect pixel runtime OAM instance mismatch")
+    _profile_screen_pixels(profile)
 
     palette = palette_path.read_bytes()
     if (
@@ -254,6 +352,7 @@ def _validate_profile(root: Path, profile_path: Path) -> tuple[dict[str, Any], d
         raise ValueError("controlled battle-effect pixel palette color mismatch")
     return profile, {
         "case": case,
+        "runtime_key": runtime_key,
         "graphics_path": graphics_path,
         "resource": resource,
         "allocation_offset": _require_int(profile.get("graphics_allocation_offset"), "allocation offset"),
@@ -344,7 +443,12 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         ):
             raise ValueError("controlled battle-effect pixel patch topology mismatch")
         relocated = _apply(base, layout, regions, patches)
-        rom = _install_probe(relocated, case_id=profile["case_id"])
+        rom, probe_layout = _install_probe(
+            relocated,
+            case_id=profile["case_id"],
+            sequence_id=profile["sequence_id"],
+            execution_mode=profile["execution_mode"],
+        )
         rom_path = variant_dir / f"{variant}.gba"
         rom_path.write_bytes(rom)
         variants[variant] = {
@@ -359,11 +463,18 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
             "redirect_pointer_offsets": ledger[1]["target_pointer_offsets"],
             "patch_ledger": ledger,
             "probe": {
-                "hook_offset": HOOK_OFFSET,
-                "hook_sha256": _sha256(rom[HOOK_OFFSET:HOOK_OFFSET + 4]),
-                "stub_offset": STUB_OFFSET,
-                "stub_size": STUB_SIZE,
-                "stub_sha256": _sha256(rom[STUB_OFFSET:STUB_OFFSET + STUB_SIZE]),
+                "hook_offset": probe_layout["hook_offset"],
+                "hook_sha256": _sha256(
+                    rom[probe_layout["hook_offset"]:probe_layout["hook_offset"] + 4]
+                ),
+                "stub_offset": probe_layout["stub_offset"],
+                "stub_size": probe_layout["stub_size"],
+                "stub_sha256": _sha256(
+                    rom[
+                        probe_layout["stub_offset"]:
+                        probe_layout["stub_offset"] + probe_layout["stub_size"]
+                    ]
+                ),
             },
         }
 
@@ -383,7 +494,7 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         "input_state": profile["input_state"],
         "input_state_sha256": profile["input_state_sha256"],
         "runtime_oam": profile["runtime_oam"],
-        "direct_runtime": profile["direct_runtime"],
+        contract["runtime_key"]: profile[contract["runtime_key"]],
         "catalogs": profile["catalogs"],
         "source_pointer_offsets": source_pointer_offsets,
         "target_pointer_offsets": target_pointer_offsets,
@@ -411,6 +522,8 @@ def build_pair(root: Path, profile_path: Path, output: Path) -> dict[str, Any]:
         "variants": variants,
         "boundary": profile["boundary"],
     }
+    if "screen_pixels" in profile:
+        result["edit"]["screen_pixels"] = profile["screen_pixels"]
     if not all(
         result[key]
         for key in ("same_patch_topology", "same_encoded_size", "same_probe_bytes")

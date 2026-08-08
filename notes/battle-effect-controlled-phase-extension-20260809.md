@@ -22,7 +22,8 @@ battle 8 的 AI action 64 → sequence 17，以及 renderer、submit、ack 三�
   `0x0834375C`，目标 task 在 renderer/submit/ack 三阶段稳定为 slot 108。
 - Group 15 自然链：battle 8、action 64、sequence 17、group 15，三阶段 pending
   为 `[0, 1, 0]`。
-- 聚合 verifier：phase 18/18、production pixel A/B 12/18、errors 0。
+- 本次 phase 收口时聚合 verifier 为 production pixel A/B 12/18；后续 Group 6
+  controlled production pixel A/B 已将当前值提升到 13/18，phase 仍为 18/18。
 
 ## 可复现命令
 

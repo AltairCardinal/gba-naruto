@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and run both controlled direct-spawn battle-effect pixel variants."""
+"""Build and run both controlled battle-effect pixel variants."""
 
 from __future__ import annotations
 
@@ -18,13 +18,17 @@ if str(ROOT) not in sys.path:
 from tools.build_controlled_battle_effect_direct_spawn_probe import CASES_BY_ID
 from tools.build_controlled_battle_effect_pixel_ab import build_pair
 from tools.run_battle_effect_direct_spawn_batch import (
-    build_case_command,
+    build_case_command as build_direct_case_command,
     sha256_file,
+)
+from tools.run_battle_effect_controlled_sequence_batch import (
+    build_case_command as build_sequence_case_command,
 )
 
 
 VARIANTS = ("baseline", "candidate")
 DIRECT_EVIDENCE = ROOT / "artifacts/battle-effect-direct-spawn-runtime-v1/evidence.json"
+CONTROLLED_EVIDENCE = ROOT / "artifacts/battle-effect-controlled-runtime-v1/evidence.json"
 
 
 def _write_json(path: Path, payload: object) -> None:
@@ -58,8 +62,22 @@ def prepare_variant(
         raise ValueError("controlled pixel build manifest schema mismatch")
     case_id = build.get("case_id")
     case = CASES_BY_ID.get(case_id)
-    if case is None:
-        raise ValueError("controlled pixel direct-spawn case mismatch")
+    execution_mode = build.get("execution_mode")
+    if execution_mode == "controlled-direct-spawn":
+        if case is None:
+            raise ValueError("controlled pixel direct-spawn case mismatch")
+        group_id, sequence_id = case.group_id, case.sequence_id
+        runner_kind = "direct-spawn"
+        runtime_evidence = DIRECT_EVIDENCE
+    elif execution_mode == "controlled-sequence-injection":
+        group_id = build.get("group_id")
+        sequence_id = build.get("sequence_id")
+        if case_id != "group-06-sequence-08" or (group_id, sequence_id) != (6, 8):
+            raise ValueError("controlled pixel sequence case mismatch")
+        runner_kind = "controlled-sequence"
+        runtime_evidence = CONTROLLED_EVIDENCE
+    else:
+        raise ValueError("controlled pixel execution mode mismatch")
     variant_build = build.get("variants", {}).get(variant)
     if not isinstance(variant_build, dict):
         raise ValueError(f"controlled pixel build variant is missing: {variant}")
@@ -76,47 +94,52 @@ def prepare_variant(
         "profile_id": f"controlled-{case_id}-pixel-{variant}",
         "case_id": case_id,
         "variant": variant,
-        "group_id": case.group_id,
-        "sequence_id": case.sequence_id,
-        "side": case.side,
-        "execution_mode": "controlled-direct-spawn-pixel-ab",
+        "group_id": group_id,
+        "sequence_id": sequence_id,
+        "execution_mode": (
+            "controlled-direct-spawn-pixel-ab"
+            if runner_kind == "direct-spawn"
+            else "controlled-sequence-injection"
+        ),
         "natural_gameplay_route": False,
         "input_mode": "zero-input-active-state",
         "input_state": build["input_state"],
         "input_state_sha256": build["input_state_sha256"],
-        "source_runtime_evidence": DIRECT_EVIDENCE.relative_to(ROOT).as_posix(),
-        "source_runtime_evidence_sha256": sha256_file(DIRECT_EVIDENCE),
+        "source_runtime_evidence": runtime_evidence.relative_to(ROOT).as_posix(),
+        "source_runtime_evidence_sha256": sha256_file(runtime_evidence),
         "source_build_manifest": "build/build-manifest.json",
         "source_build_manifest_sha256": sha256_file(Path(build_root) / "build-manifest.json"),
         "source_rom_sha256": rom_sha256,
         "timeout_frames": 60,
-        "allocator_reset": {
+        "pixel_contract": build["edit"],
+        "boundary": (
+            "Production-relocated resource under a controlled entry. This is zero-input "
+            "controlled final-pixel evidence, not natural gameplay."
+        ),
+    }
+    if runner_kind == "direct-spawn":
+        profile["side"] = case.side
+        profile["allocator_reset"] = {
             "function": "0x0807FDCC",
             "tile_start": f"0x{case.allocator_tile_start:04X}",
             "tile_end": f"0x{case.allocator_tile_end:04X}",
             "palette_start": case.allocator_palette_start,
             "palette_end": case.allocator_palette_end,
-        },
-        "spawn": {
+        }
+        profile["spawn"] = {
             "selector": "0x0807FE2C",
             "function": f"0x{case.spawn_function:08X}",
             "side": case.side,
             "x": case.spawn_x,
             "y": case.spawn_y,
-        },
-        "pixel_contract": build["edit"],
-        "boundary": (
-            "Production-relocated resource under the controlled direct selector/spawn "
-            "entry. This is zero-input controlled final-pixel evidence, not natural gameplay."
-        ),
-    }
+        }
     _write_json(profile_path, profile)
     return {
         "variant": variant,
         "case_id": case_id,
-        "group_id": case.group_id,
-        "sequence_id": case.sequence_id,
-        "side": case.side,
+        "group_id": group_id,
+        "sequence_id": sequence_id,
+        "runner_kind": runner_kind,
         "case_root": case_root,
         "rom": rom,
         "rom_sha256": rom_sha256,
@@ -158,8 +181,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         case = prepare_variant(
             runs_root, build_root=build_root, build=build, variant=variant
         )
+        command_builder = (
+            build_direct_case_command
+            if case["runner_kind"] == "direct-spawn"
+            else build_sequence_case_command
+        )
         completed = subprocess.run(
-            build_case_command(
+            command_builder(
                 binary=binary,
                 binary_sha256=args.expected_binary_sha256,
                 toolchain_profile=toolchain,
@@ -180,7 +208,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         audit_path = case["case_root"] / "output/audit.json"
         audit = json.loads(audit_path.read_text(encoding="utf-8"))
-        if audit.get("outcome") != "three-phase-captured":
+        expected_outcome = (
+            "three-phase-captured"
+            if case["runner_kind"] == "direct-spawn"
+            else "binder-plus-three-phase-captured"
+        )
+        if audit.get("outcome") != expected_outcome:
             raise ValueError(f"controlled pixel {variant} phase capture mismatch")
         results.append(
             {

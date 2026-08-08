@@ -13,9 +13,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
 GROUP3_ARTIFACT = ROOT / "artifacts/battle-effect-group03-controlled-pixel-ab-v1"
+GROUP6_ARTIFACT = ROOT / "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
 
 
 class VerifyControlledBattleEffectPixelAbTests(unittest.TestCase):
+    def test_independently_verifies_group6_sequence_pixel_writeback(self):
+        from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence
+
+        result = verify_evidence(ROOT, GROUP6_ARTIFACT)
+        self.assertEqual(result["errors"], [])
+        self.assertTrue(result["verified"])
+        self.assertEqual(result["group_id"], 6)
+        self.assertEqual(result["sequence_id"], 8)
+        self.assertEqual(result["production_modified_rom_pixel_ab"], "13/18")
+
     def test_verifier_is_independent_of_builder_and_exporter(self):
         source = (
             ROOT / "tools/verify_controlled_battle_effect_pixel_ab.py"
@@ -105,7 +116,7 @@ class VerifyControlledBattleEffectPixelAbTests(unittest.TestCase):
                     info.size = 0
                     archive.addfile(info, io.BytesIO())
             with self.assertRaisesRegex(ValueError, "member count"):
-                _tar_payloads(archive_path)
+                _tar_payloads(archive_path, 102)
 
     def test_verifies_group3_shared_alias_split_pixel_artifact(self):
         from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence

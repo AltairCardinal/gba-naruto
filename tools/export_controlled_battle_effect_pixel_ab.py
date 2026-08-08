@@ -27,6 +27,9 @@ from tools.verify_battle_effect_direct_spawn_runtime import (
     _target_tasks,
     verify_artifact as verify_direct_artifact,
 )
+from tools.verify_battle_effect_controlled_runtime import (
+    verify_artifact as verify_controlled_runtime_artifact,
+)
 
 
 EVIDENCE_SCHEMA = "controlled-battle-effect-pixel-ab-runtime-v1"
@@ -52,7 +55,9 @@ IMPLEMENTATION_PATHS = (
     "tools/export_controlled_battle_effect_pixel_ab.py",
     "tools/verify_controlled_battle_effect_pixel_ab.py",
     "tools/build_controlled_battle_effect_direct_spawn_probe.py",
+    "tools/build_controlled_battle_effect_sequence_probe.py",
     "tools/verify_battle_effect_direct_spawn_runtime.py",
+    "tools/verify_battle_effect_controlled_runtime.py",
     "tools/verify_menu_portrait_writeback_audit.py",
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tools/mgba_battle_effect_phase_capture.lua",
@@ -69,6 +74,31 @@ IMPLEMENTATION_PATHS = (
 )
 
 CASE_CONTRACTS = {
+    "group-06-sequence-08": {
+        "artifact": "artifacts/battle-effect-group06-controlled-pixel-ab-v1",
+        "group_id": 6,
+        "sequence_id": 8,
+        "definition": 0x08343700,
+        "animation": 0x0834375C,
+        "graphics_filename": "group-06-graphics-4bpp.bin",
+        "task_slot": 108,
+        "tile_base": 800,
+        "palette_bank": 13,
+        "graphics_address": 0x06016400,
+        "palette_address": 0x050003A0,
+        "palette_prefix": 32,
+        "palette_mismatches": [],
+        "submission_counts": [0, 0, 1],
+        "encoded_size": 494,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59914C],
+        "target_pointer_offsets": [0x59914C],
+        "source_graphics_pointer": 0x0834311C,
+        "build_pointer_lists_required": True,
+        "vram_difference": 0x1641E,
+        "absolute_difference": "0x0601641E",
+        "execution_mode": "controlled-sequence-injection",
+    },
     "group-03-sequence-03-side-0-direct-spawn": {
         "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
         "group_id": 3,
@@ -305,7 +335,7 @@ def _phase_transaction(
         savestate_hashes.append(_sha256_file(state_path))
         metas.append(meta)
     if (
-        audit.get("phases") != metas
+        audit.get("phases", [])[-len(PHASES):] != metas
         or audit.get("renderer_hit_count") != 1
         or audit.get("submission_watch_hit_count") != 3
         or audit.get("ack_hit_count") != 1
@@ -341,11 +371,18 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
     contract = CASE_CONTRACTS.get(profile["case_id"])
     if contract is None:
         raise ValueError("controlled pixel case is not allowlisted")
-    parent_result = verify_direct_artifact(
-        root / "artifacts/battle-effect-direct-spawn-runtime-v1"
+    sequence_mode = profile["execution_mode"] == "controlled-sequence-injection"
+    parent_result = (
+        verify_controlled_runtime_artifact(
+            root / "artifacts/battle-effect-controlled-runtime-v1"
+        )
+        if sequence_mode
+        else verify_direct_artifact(
+            root / "artifacts/battle-effect-direct-spawn-runtime-v1"
+        )
     )
     if not parent_result.get("verified"):
-        raise ValueError("controlled pixel parent direct-spawn artifact is not verified")
+        raise ValueError("controlled pixel parent runtime artifact is not verified")
     batch = _json(source / "batch-audit.json")
     build = _json(source / "build/build-manifest.json")
     if (
@@ -407,13 +444,26 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         state_path = run / "output/ack-post/capture.ss9"
         state = load_gba_state(state_path)
         if (
-            run_profile.get("execution_mode") != "controlled-direct-spawn-pixel-ab"
+            run_profile.get("execution_mode")
+            != (
+                "controlled-sequence-injection"
+                if sequence_mode
+                else "controlled-direct-spawn-pixel-ab"
+            )
             or run_profile.get("variant") != variant
             or run_profile.get("natural_gameplay_route") is not False
             or run_profile.get("input_mode") != "zero-input-active-state"
             or run_profile.get("source_rom_sha256") != build["variants"][variant]["rom_sha256"]
-            or audit.get("outcome") != "three-phase-captured"
-            or audit.get("input_mode") != "zero-input-active-state"
+            or audit.get("outcome")
+            != (
+                "binder-plus-three-phase-captured"
+                if sequence_mode
+                else "three-phase-captured"
+            )
+            or (
+                not sequence_mode
+                and audit.get("input_mode") != "zero-input-active-state"
+            )
             or audit.get("inputs") != []
             or audit.get("automatic_inputs") != []
             or audit.get("recovery_inputs") != []
@@ -460,10 +510,14 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             != contract["palette_mismatches"]
         ):
             raise ValueError(f"controlled pixel {variant} runtime resource mismatch")
-        oam_offset = profile["runtime_oam"]["oam_index"] * 8
-        attrs = struct.unpack_from("<HHH", states[variant].read_memory(0x07000000, 0x400), oam_offset)
-        if [f"0x{value:04X}" for value in attrs] != profile["runtime_oam"]["attributes"]:
-            raise ValueError(f"controlled pixel {variant} runtime OAM mismatch")
+        instances = profile["runtime_oam"].get("instances") or [profile["runtime_oam"]]
+        for instance in instances:
+            oam_offset = instance["oam_index"] * 8
+            attrs = struct.unpack_from(
+                "<HHH", states[variant].read_memory(0x07000000, 0x400), oam_offset
+            )
+            if [f"0x{value:04X}" for value in attrs] != instance["attributes"]:
+                raise ValueError(f"controlled pixel {variant} runtime OAM mismatch")
         target_tasks[variant] = target
         phase_transactions[variant] = _phase_transaction(
             source,
@@ -497,13 +551,16 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         for variant in VARIANTS
     }
     pixels = _pixel_changes(rendered["baseline"], rendered["candidate"])
-    expected_pixel = {
-        "x": profile["screen_xy"][0],
-        "y": profile["screen_xy"][1],
-        "before_rgb": profile["before_rgb"],
-        "after_rgb": profile["after_rgb"],
-    }
-    if pixels != [expected_pixel]:
+    expected_pixels = [
+        {
+            "x": x,
+            "y": y,
+            "before_rgb": profile["before_rgb"],
+            "after_rgb": profile["after_rgb"],
+        }
+        for x, y in profile.get("screen_pixels", [profile["screen_xy"]])
+    ]
+    if pixels != expected_pixels:
         raise ValueError("controlled pixel final compositor mismatch")
     capture_hashes = {
         variant: _sha256_file(
@@ -550,11 +607,18 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
         "group_id": contract["group_id"],
         "sequence_id": contract["sequence_id"],
         "scope": {
-            "execution_mode": "controlled-direct-spawn",
+            "execution_mode": profile["execution_mode"],
             "production_resource_relocation": True,
             "controlled_final_pixel_writeback": True,
             "natural_gameplay_route": False,
-            "production_natural_pixel_ab": "5/18",
+            **(
+                {
+                    "production_modified_rom_pixel_ab_before": "12/18",
+                    "production_modified_rom_pixel_ab_after": "13/18",
+                }
+                if sequence_mode
+                else {"production_natural_pixel_ab": "5/18"}
+            ),
             "mgba_capture_pixel_ab": False,
             "physical_gba_verified": False,
         },
@@ -589,7 +653,11 @@ def export_evidence(root: Path, profile_path: Path, source: Path, output: Path) 
             "source_palette_mismatch_offsets": contract["palette_mismatches"],
             "full_source_palette_equal": not contract["palette_mismatches"],
         },
-        "parent_direct_spawn_verifier": parent_result,
+        (
+            "parent_controlled_runtime_verifier"
+            if sequence_mode
+            else "parent_direct_spawn_verifier"
+        ): parent_result,
         "raw_inventory": raw_inventory,
         "boundary": profile["boundary"],
     }

@@ -18,6 +18,11 @@ GROUP3_PROFILE = (
     / "sequel/content/battle-effect-controlled-pixel-ab/"
     "group-03-sequence-03-side-0-direct-spawn.json"
 )
+GROUP6_PROFILE = (
+    ROOT
+    / "sequel/content/battle-effect-controlled-pixel-ab/"
+    "group-06-sequence-08-controlled.json"
+)
 
 
 class ControlledBattleEffectPixelAbBuilderTests(unittest.TestCase):
@@ -163,6 +168,35 @@ class ControlledBattleEffectPixelAbBuilderTests(unittest.TestCase):
                 [207],
             )
             self.assertEqual((baseline[207], candidate[207]), (0x03, 0x0E))
+
+    def test_group6_composes_relocation_with_identical_sequence_probe(self):
+        sequence_probe = importlib.import_module(
+            "tools.build_controlled_battle_effect_sequence_probe"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "pair"
+            result = self.builder.build_pair(ROOT, GROUP6_PROFILE, output)
+
+            self.assertEqual(result["case_id"], "group-06-sequence-08")
+            self.assertEqual(result["group_id"], 6)
+            self.assertEqual(result["sequence_id"], 8)
+            self.assertEqual(result["execution_mode"], "controlled-sequence-injection")
+            self.assertEqual(result["edit"]["screen_pixels"], [[173, 9], [183, 33]])
+            self.assertTrue(result["same_probe_bytes"])
+            stubs = []
+            for variant in ("baseline", "candidate"):
+                row = result["variants"][variant]
+                self.assertEqual(row["encoded_graphics_size"], 494)
+                self.assertEqual(row["graphics_allocation_offset"], 0xB40000)
+                self.assertEqual(row["redirect_pointer_offsets"], [0x59914C])
+                rom = (output / row["rom_path"]).read_bytes()
+                stub = rom[
+                    sequence_probe.STUB_OFFSET:
+                    sequence_probe.STUB_OFFSET + sequence_probe.STUB_SIZE
+                ]
+                self.assertEqual(stub, sequence_probe._stub(8))
+                stubs.append(stub)
+            self.assertEqual(stubs[0], stubs[1])
 
 
 if __name__ == "__main__":

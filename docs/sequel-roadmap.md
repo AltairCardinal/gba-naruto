@@ -2318,3 +2318,11 @@ WebSocket
   随后重验既有 Group 15 自然 battle 8 action 64 三阶段产物，phase 从 10/18
   提升到 18/18。受控组不声称自然入口；Group 15 单列为自然 action 扩展。
   production pixel A/B 保持 12/18，下一优先级仍是 Group 6/7/8/9/10/12。
+- 2026-08-09：Group 6 / sequence 8 已完成受控 sequence binder 与 production
+  relocation 的最终像素 A/B。两份 ROM 仅有一个解压图形 nibble 不同，LZ77
+  长度同为 494 bytes；运行时除 `0x0601641E` 外六内存域相同，ack savestate
+  离线 Mode-0 仅在 `(173,9)`、`(183,33)` 产生预期颜色差。两次 mGBA 峰值
+  RSS 均低于 80 MiB 且进程组清理正常。production modified-ROM pixel 覆盖由
+  12/18 提升到 13/18；该路径是 controlled sequence，不声称自然玩法或真机。
+  产物见 `artifacts/battle-effect-group06-controlled-pixel-ab-v1/`，下一批为
+  Group 7/8/9/10/12。

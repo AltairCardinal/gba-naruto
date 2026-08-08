@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
 GROUP3_ARTIFACT = ROOT / "artifacts/battle-effect-group03-controlled-pixel-ab-v1"
+GROUP6_ARTIFACT = ROOT / "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
 
 
 class ExportControlledBattleEffectPixelAbTests(unittest.TestCase):
@@ -125,6 +126,28 @@ class ExportControlledBattleEffectPixelAbTests(unittest.TestCase):
         self.assertEqual(evidence["runtime"]["source_palette_matched_prefix_bytes"], 30)
         self.assertEqual(evidence["runtime"]["source_palette_mismatch_offsets"], [30, 31])
         self.assertFalse(evidence["runtime"]["full_source_palette_equal"])
+
+    def test_group6_keeps_controlled_scope_and_two_visible_pixel_instances(self):
+        evidence = json.loads(
+            (GROUP6_ARTIFACT / "evidence.json").read_text(encoding="utf-8")
+        )
+        self.assertTrue(evidence["verified"])
+        self.assertEqual(evidence["group_id"], 6)
+        self.assertEqual(evidence["sequence_id"], 8)
+        self.assertEqual(
+            evidence["scope"]["execution_mode"], "controlled-sequence-injection"
+        )
+        self.assertFalse(evidence["scope"]["natural_gameplay_route"])
+        self.assertEqual(
+            evidence["scope"]["production_modified_rom_pixel_ab_after"], "13/18"
+        )
+        self.assertEqual(
+            [(row["x"], row["y"]) for row in evidence["runtime"]["pixel_changes"]],
+            [(173, 9), (183, 33)],
+        )
+        self.assertEqual(
+            evidence["runtime"]["memory_differences"]["VRAM"], [0x1641E]
+        )
 
 
 if __name__ == "__main__":

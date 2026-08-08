@@ -42,6 +42,7 @@ PIXEL_AB_ARTIFACTS = {
     3: (Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"), "natural-delayed-battle-effect-pixel-ab-runtime-v1"),
     4: (Path("artifacts/battle-effect-group4-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "battle-effect-group5-pixel-ab-runtime-v1"),
+    6: (Path("artifacts/battle-effect-group06-controlled-pixel-ab-v1"), "controlled-battle-effect-pixel-ab-runtime-v1"),
     11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
     14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "battle-effect-pixel-ab-runtime-v1"),
@@ -74,6 +75,8 @@ REPOSITORY_FILES = (
     "tests/test_verify_battle_effect_pixel_ab_evidence.py",
     "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
+    "tools/verify_controlled_battle_effect_pixel_ab.py",
+    "tests/test_verify_controlled_battle_effect_pixel_ab.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tests/test_verify_battle_effect_controlled_runtime.py",
     "tests/test_verify_battle_effect_group15_natural_runtime.py",
@@ -231,6 +234,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
             "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
+            "controlled_sequence_group6_production_pixel_ab_included": True,
             "natural_action64_group15_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": True,
@@ -244,7 +248,7 @@ def build_coverage(root: Path) -> dict[str, Any]:
             "action-confirmation extension; groups 16 and 17 are natural ninja-tool "
             "hardcoded-handler extensions. Groups 6/7/8/9/10/12/13 are controlled sequence "
             "transactions and are not claimed as natural gameplay; Group 15 uses the natural "
-            "battle-8 action 64 route. Twelve groups "
+            "battle-8 action 64 route. Thirteen groups "
             "have production modified-ROM pixel A/B evidence."
         ),
     }

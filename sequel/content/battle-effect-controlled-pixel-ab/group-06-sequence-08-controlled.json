@@ -1,0 +1,90 @@
+{
+  "schema": "controlled-battle-effect-pixel-ab-profile-v1",
+  "profile_id": "group-06-sequence-08-controlled-pixel",
+  "case_id": "group-06-sequence-08",
+  "group_id": 6,
+  "sequence_id": 8,
+  "execution_mode": "controlled-sequence-injection",
+  "natural_gameplay_route": false,
+  "production_resource_relocation": true,
+  "source_graphics": "artifacts/battle-effect-resource-pairs-v1/group-06-graphics-4bpp.bin",
+  "source_graphics_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
+  "source_palette": "artifacts/battle-effect-resource-pairs-v1/group-06-palette-bgr555.bin",
+  "source_palette_sha256": "6393b73a92bf5e950fdf7640a26ba76ea995c53aa8b984bc376559f0004d1aa5",
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+  "input_state_sha256": "7d6796a767d574f5f7a91935c3c1e65ce44edbc51aa5a6b587784d4730bbe94f",
+  "catalogs": {
+    "resource_pairs": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+    "resource_pairs_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963",
+    "animations": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+    "animations_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "sequence_bindings": "artifacts/battle-effect-sequence-bindings-v1/manifest.json",
+    "sequence_bindings_sha256": "ec8f41571bb132577ecb7bc57f946a85f219b4c05f3697c89b75be73385b0c73"
+  },
+  "controlled_runtime": {
+    "evidence": "artifacts/battle-effect-controlled-runtime-v1/evidence.json",
+    "evidence_sha256": "b60c5894d024987d2b1b8870bb03585ba38ad2ce510f336bf83db7625c912ff1",
+    "manifest": "artifacts/battle-effect-controlled-runtime-v1/manifest.json",
+    "manifest_sha256": "394ce433d147846d71a7f3e79a13e60ec91df3e3e8a0b8048afb6cdc6089e3c4",
+    "archive": "artifacts/battle-effect-controlled-runtime-v1/raw-batch.tar",
+    "archive_sha256": "96c75b491ae78348173a89a18dc5e7bcfc456592cf059cb6df3395e345f0c6f8",
+    "ack_state_member": "source/group-06-sequence-08/output/ack-post/capture.ss9",
+    "ack_state_sha256": "6781191a782071a371c1341aa4452be05a0cb1bd93f1cf58776147e84381f8e9"
+  },
+  "frame_id": 0,
+  "component_index": 1,
+  "component_pixel_xy": [4, 7],
+  "graphics_byte_offset": 30,
+  "before_byte": 2,
+  "after_byte": 8,
+  "before_index": 2,
+  "after_index": 8,
+  "screen_xy": [173, 9],
+  "screen_pixels": [[173, 9], [183, 33]],
+  "before_rgb": [206, 255, 255],
+  "after_rgb": [255, 0, 0],
+  "runtime_oam": {
+    "phase": "ack-post",
+    "oam_index": 27,
+    "attributes": ["0x8002", "0x10AA", "0xDF20"],
+    "obj_tile_base": 800,
+    "palette_bank": 13,
+    "obj_vram_address": "0x06016400",
+    "instances": [
+      {
+        "oam_index": 27,
+        "attributes": ["0x8002", "0x10AA", "0xDF20"],
+        "frame_id": 0,
+        "component_index": 1,
+        "component_pixel_xy": [4, 7],
+        "source_pixel_screen_xy": [173, 9],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 28,
+        "attributes": ["0x801A", "0x10B4", "0xDF20"],
+        "frame_id": 0,
+        "component_index": 2,
+        "component_pixel_xy": [4, 7],
+        "source_pixel_screen_xy": [183, 33],
+        "visible_in_final_difference": true
+      },
+      {
+        "oam_index": 26,
+        "attributes": ["0x8011", "0x10C4", "0xDF20"],
+        "frame_id": 0,
+        "component_index": 0,
+        "component_pixel_xy": [4, 7],
+        "source_pixel_screen_xy": [199, 24],
+        "visible_in_final_difference": false
+      }
+    ]
+  },
+  "source_pointer_offsets": [5869900],
+  "target_pointer_offsets": [5869900],
+  "pair_pointer_offset": 5869900,
+  "graphics_allocation_offset": 11796480,
+  "expected_encoded_size": 494,
+  "runtime_palette_matched_prefix_bytes": 32,
+  "boundary": "Production relocation composed with the verified controlled sequence-8 binder path. It proves deterministic final-pixel writeback for Group 6, not natural gameplay reachability or physical-GBA execution."
+}

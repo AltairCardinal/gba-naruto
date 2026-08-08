@@ -16,6 +16,7 @@ try:
     from tools.verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from tools.verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
     from tools.verify_battle_effect_group15_natural_runtime import verify_artifact as verify_group15_natural_runtime
+    from tools.verify_controlled_battle_effect_pixel_ab import verify_evidence as verify_controlled_pixel
     from tools.verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 except ModuleNotFoundError:
     from verify_battle_effect_frame_phase import verify_artifact
@@ -24,6 +25,7 @@ except ModuleNotFoundError:
     from verify_battle_effect_runtime_oam_task_bindings import verify_bindings
     from verify_battle_effect_controlled_runtime import verify_artifact as verify_controlled_runtime
     from verify_battle_effect_group15_natural_runtime import verify_artifact as verify_group15_natural_runtime
+    from verify_controlled_battle_effect_pixel_ab import verify_evidence as verify_controlled_pixel
     from verify_natural_delayed_battle_effect_pixel_ab import verify_evidence as verify_natural_pixel
 
 
@@ -56,6 +58,7 @@ PIXEL_AB = {
     3: (Path("artifacts/battle-effect-group03-natural-pixel-ab-v1"), "natural"),
     4: (Path("artifacts/battle-effect-group4-pixel-ab-v1"), "generic"),
     5: (Path("artifacts/battle-effect-group5-pixel-ab-v1"), "group5"),
+    6: (Path("artifacts/battle-effect-group06-controlled-pixel-ab-v1"), "controlled"),
     11: (Path("artifacts/battle-effect-group11-pixel-ab-v1"), "generic"),
     13: (Path("artifacts/battle-effect-group13-pixel-ab-v1"), "generic"),
     14: (Path("artifacts/battle-effect-group14-pixel-ab-v1"), "generic"),
@@ -86,6 +89,8 @@ REQUIRED_REPOSITORY_FILES = {
     "tests/test_verify_battle_effect_pixel_ab_evidence.py",
     "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
     "tests/test_verify_battle_effect_group5_pixel_ab_evidence.py",
+    "tools/verify_controlled_battle_effect_pixel_ab.py",
+    "tests/test_verify_controlled_battle_effect_pixel_ab.py",
     "tests/test_verify_battle_effect_runtime_oam_task_bindings.py",
     "tests/test_verify_battle_effect_controlled_runtime.py",
     "tests/test_verify_battle_effect_group15_natural_runtime.py",
@@ -264,6 +269,8 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
                 pixel_result = verify_natural_pixel(root, root / relative)
             elif verification_kind == "group5":
                 pixel_result = verify_group5_pixel(root, root / relative)
+            elif verification_kind == "controlled":
+                pixel_result = verify_controlled_pixel(root, root / relative)
             else:
                 pixel_result = verify_generic_pixel(root, root / relative)
             if not pixel_result.get("verified"):
@@ -276,6 +283,7 @@ def verify_coverage(root: Path, artifact: Path) -> dict[str, Any]:
             "natural_ninja_tool_handler_group16_phase_transaction_included": True,
             "natural_ninja_tool_handler_group17_phase_transaction_included": True,
             "controlled_sequence_groups_6_7_8_9_10_12_13_phase_transactions_included": True,
+            "controlled_sequence_group6_production_pixel_ab_included": True,
             "natural_action64_group15_phase_transaction_included": True,
             "group2_affine_transaction_included": True,
             "all_18_groups_phase_verified": True,

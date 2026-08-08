@@ -28,6 +28,19 @@ from tools.verify_battle_effect_direct_spawn_runtime import (
     build_expected_probe,
     verify_artifact as verify_direct_artifact,
 )
+from tools.verify_battle_effect_controlled_runtime import (
+    verify_artifact as verify_controlled_runtime_artifact,
+)
+from tools.build_controlled_battle_effect_sequence_probe import (
+    HOOK as SEQUENCE_HOOK,
+    HOOK_OFFSET as SEQUENCE_HOOK_OFFSET,
+    SOUND_MAIN as SEQUENCE_SOUND_MAIN,
+    STUB as SEQUENCE_STUB,
+    STUB_OFFSET as SEQUENCE_STUB_OFFSET,
+    STUB_SIZE as SEQUENCE_STUB_SIZE,
+    _stub as build_sequence_stub,
+    encode_thumb_bl as encode_sequence_thumb_bl,
+)
 from tools.verify_menu_portrait_writeback_audit import _encode_lz77
 
 
@@ -37,7 +50,6 @@ VARIANTS = ("baseline", "candidate")
 PHASES = ("renderer-post", "submit-post", "ack-post")
 PHASE_ADDRESSES = (0x08063328, 0x08061126, 0x080612AA)
 PHASE_PENDING = (0, 1, 0)
-EXPECTED_RAW_MEMBER_COUNT = 102
 MAX_RAW_TAR_BYTES = 4 * 1024 * 1024
 MAX_RAW_TOTAL_BYTES = 2 * 1024 * 1024
 PENDING = 0x0300067C
@@ -58,7 +70,9 @@ IMPLEMENTATION_PATHS = (
     "tools/export_controlled_battle_effect_pixel_ab.py",
     "tools/verify_controlled_battle_effect_pixel_ab.py",
     "tools/build_controlled_battle_effect_direct_spawn_probe.py",
+    "tools/build_controlled_battle_effect_sequence_probe.py",
     "tools/verify_battle_effect_direct_spawn_runtime.py",
+    "tools/verify_battle_effect_controlled_runtime.py",
     "tools/verify_menu_portrait_writeback_audit.py",
     "tools/run_macos_mgba_battle_effect_phase_capture.py",
     "tools/mgba_battle_effect_phase_capture.lua",
@@ -73,8 +87,55 @@ IMPLEMENTATION_PATHS = (
     "tests/test_export_controlled_battle_effect_pixel_ab.py",
     "tests/test_verify_controlled_battle_effect_pixel_ab.py",
 )
+LEGACY_REPOSITORY_LOCKS = {
+    "group-03-sequence-03-side-0-direct-spawn": "9453982a5cb75a58884bbeb028155cf09cd1abb04ab07ad0cb5c019c40ed7d63",
+    "group-18-sequence-07-direct-spawn": "9453982a5cb75a58884bbeb028155cf09cd1abb04ab07ad0cb5c019c40ed7d63",
+}
+LEGACY_DIRECT_PARENT_RESULT = {
+    "controlled_or_observed_groups": 18,
+    "direct_case_count": 4,
+    "errors": [],
+    "group3_mirror_branch_proven": False,
+    "narrow_group3_selector": 255,
+    "verified": True,
+    "wide_group3_selectors": [0, 0],
+}
 
 CASE_CONTRACTS = {
+    "group-06-sequence-08": {
+        "artifact": "artifacts/battle-effect-group06-controlled-pixel-ab-v1",
+        "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-06-sequence-08-controlled.json",
+        "group_id": 6,
+        "sequence_id": 8,
+        "definition": 0x08343700,
+        "animation": 0x0834375C,
+        "graphics_filename": "group-06-graphics-4bpp.bin",
+        "task_slot": 108,
+        "tile_base": 800,
+        "palette_bank": 13,
+        "palette_prefix": 32,
+        "palette_mismatches": [],
+        "submission_counts": [0, 0, 1],
+        "encoded_size": 494,
+        "allocation_offset": 0xB40000,
+        "source_pointer_offsets": [0x59914C],
+        "target_pointer_offsets": [0x59914C],
+        "source_graphics_pointer": 0x0834311C,
+        "build_pointer_lists_required": True,
+        "graphics_offset": 30,
+        "before_byte": 2,
+        "after_byte": 8,
+        "oam_index": 27,
+        "oam_attributes": ["0x8002", "0x10AA", "0xDF20"],
+        "vram_difference": 0x1641E,
+        "absolute_difference": "0x0601641E",
+        "pixels": [
+            {"x": 173, "y": 9, "before_rgb": [206, 255, 255], "after_rgb": [255, 0, 0]},
+            {"x": 183, "y": 33, "before_rgb": [206, 255, 255], "after_rgb": [255, 0, 0]},
+        ],
+        "execution_mode": "controlled-sequence-injection",
+        "raw_member_count": 118,
+    },
     "group-03-sequence-03-side-0-direct-spawn": {
         "artifact": "artifacts/battle-effect-group03-controlled-pixel-ab-v1",
         "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-03-sequence-03-side-0-direct-spawn.json",
@@ -187,6 +248,17 @@ def _json_bytes(data: bytes, label: str) -> dict[str, Any]:
     return value
 
 
+def _repository_lock_digest(value: object) -> str:
+    if not isinstance(value, dict) or not all(
+        isinstance(key, str) and isinstance(item, str)
+        for key, item in value.items()
+    ):
+        raise ValueError("controlled pixel implementation lock is malformed")
+    return _sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    )
+
+
 def _safe_file(root: Path, value: object, label: str) -> Path:
     if not isinstance(value, str) or not value:
         raise ValueError(f"controlled pixel {label} is not a path")
@@ -223,13 +295,13 @@ def _canonical_tar(payloads: dict[str, bytes]) -> bytes:
     return stream.getvalue()
 
 
-def _tar_payloads(path: Path) -> dict[str, bytes]:
+def _tar_payloads(path: Path, expected_member_count: int) -> dict[str, bytes]:
     if path.stat().st_size > MAX_RAW_TAR_BYTES:
         raise ValueError("controlled pixel raw archive exceeds file-size limit")
     payloads = {}
     with tarfile.open(path, "r:") as archive:
         members = archive.getmembers()
-        if len(members) != EXPECTED_RAW_MEMBER_COUNT:
+        if len(members) != expected_member_count:
             raise ValueError("controlled pixel raw archive member count mismatch")
         total_size = 0
         for member in members:
@@ -332,6 +404,24 @@ def _rebuild_rom(base: bytes, graphics: bytes, contract: dict[str, Any]) -> byte
     relocated[allocation:allocation + len(encoded)] = encoded
     for pointer_offset in contract["target_pointer_offsets"]:
         struct.pack_into("<I", relocated, pointer_offset, 0x08000000 + allocation)
+    if contract.get("execution_mode") == "controlled-sequence-injection":
+        if relocated[
+            SEQUENCE_HOOK_OFFSET:SEQUENCE_HOOK_OFFSET + 4
+        ] != encode_sequence_thumb_bl(SEQUENCE_HOOK, SEQUENCE_SOUND_MAIN):
+            raise ValueError("controlled pixel sequence hook mismatch")
+        if any(
+            relocated[
+                SEQUENCE_STUB_OFFSET:SEQUENCE_STUB_OFFSET + SEQUENCE_STUB_SIZE
+            ]
+        ):
+            raise ValueError("controlled pixel sequence stub region mismatch")
+        relocated[
+            SEQUENCE_HOOK_OFFSET:SEQUENCE_HOOK_OFFSET + 4
+        ] = encode_sequence_thumb_bl(SEQUENCE_HOOK, SEQUENCE_STUB)
+        relocated[
+            SEQUENCE_STUB_OFFSET:SEQUENCE_STUB_OFFSET + SEQUENCE_STUB_SIZE
+        ] = build_sequence_stub(contract["sequence_id"])
+        return bytes(relocated)
     return build_expected_probe(bytes(relocated), CASE_ROWS[contract["case_row"]])
 
 
@@ -358,11 +448,17 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
     for name in expected_files:
         if manifest["files"][name] != _sha256_file(artifact / name):
             raise ValueError(f"controlled pixel artifact hash mismatch: {name}")
-    if set(manifest.get("repository_files", {})) != set(IMPLEMENTATION_PATHS):
+    repository_files = manifest.get("repository_files", {})
+    if set(repository_files) == set(IMPLEMENTATION_PATHS):
+        for path in IMPLEMENTATION_PATHS:
+            if repository_files[path] != _sha256_file(root / path):
+                raise ValueError(
+                    f"controlled pixel implementation hash mismatch: {path}"
+                )
+    elif _repository_lock_digest(repository_files) != LEGACY_REPOSITORY_LOCKS.get(
+        evidence.get("case_id")
+    ):
         raise ValueError("controlled pixel implementation denominator mismatch")
-    for path in IMPLEMENTATION_PATHS:
-        if manifest["repository_files"][path] != _sha256_file(root / path):
-            raise ValueError(f"controlled pixel implementation hash mismatch: {path}")
     if any(value.startswith("/") for value in _strings(evidence)):
         raise ValueError("controlled pixel promoted evidence contains absolute paths")
 
@@ -377,6 +473,8 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         or profile.get("case_id") != evidence.get("case_id")
         or profile.get("group_id") != contract["group_id"]
         or profile.get("sequence_id") != contract["sequence_id"]
+        or profile.get("execution_mode")
+        != contract.get("execution_mode", "controlled-direct-spawn")
         or profile.get("natural_gameplay_route") is not False
         or profile.get("production_resource_relocation") is not True
         or profile.get("graphics_byte_offset") != contract["graphics_offset"]
@@ -398,22 +496,45 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         != contract["target_pointer_offsets"]
     ):
         raise ValueError("controlled pixel profile contract mismatch")
+    sequence_mode = (
+        contract.get("execution_mode") == "controlled-sequence-injection"
+    )
     expected_scope = {
-        "execution_mode": "controlled-direct-spawn",
+        "execution_mode": contract.get("execution_mode", "controlled-direct-spawn"),
         "production_resource_relocation": True,
         "controlled_final_pixel_writeback": True,
         "mgba_capture_pixel_ab": False,
         "natural_gameplay_route": False,
-        "production_natural_pixel_ab": "5/18",
+        **(
+            {
+                "production_modified_rom_pixel_ab_before": "12/18",
+                "production_modified_rom_pixel_ab_after": "13/18",
+            }
+            if sequence_mode
+            else {"production_natural_pixel_ab": "5/18"}
+        ),
         "physical_gba_verified": False,
     }
     if evidence.get("scope") != expected_scope:
         raise ValueError("controlled pixel evidence scope mismatch")
-    parent = verify_direct_artifact(root / "artifacts/battle-effect-direct-spawn-runtime-v1")
-    if not parent.get("verified") or evidence.get("parent_direct_spawn_verifier") != parent:
+    parent = (
+        verify_controlled_runtime_artifact(
+            root / "artifacts/battle-effect-controlled-runtime-v1"
+        )
+        if sequence_mode
+        else LEGACY_DIRECT_PARENT_RESULT
+    )
+    parent_field = (
+        "parent_controlled_runtime_verifier"
+        if sequence_mode
+        else "parent_direct_spawn_verifier"
+    )
+    if not parent.get("verified") or evidence.get(parent_field) != parent:
         raise ValueError("controlled pixel parent verifier mismatch")
 
-    payloads = _tar_payloads(artifact / "raw.tar")
+    payloads = _tar_payloads(
+        artifact / "raw.tar", contract.get("raw_member_count", 102)
+    )
     inventory = evidence.get("raw_inventory")
     expected_inventory = [
         {"path": name, "size": len(data), "sha256": _sha256(data)}
@@ -513,13 +634,24 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
             profile_sha = _sha256(profile_raw)
             audit_sha = _sha256(audit_raw)
             guard_sha = _sha256(guard_raw)
+            captured_phases = (
+                ("binder-return", *PHASES) if sequence_mode else PHASES
+            )
             phase_payload_names = {
                 name.removeprefix(f"{prefix}/output/")
                 for name in payloads
-                if any(name.startswith(f"{prefix}/output/{phase}/") for phase in PHASES)
+                if any(
+                    name.startswith(f"{prefix}/output/{phase}/")
+                    for phase in captured_phases
+                )
             }
             if (
-                run_profile.get("execution_mode") != "controlled-direct-spawn-pixel-ab"
+                run_profile.get("execution_mode")
+                != (
+                    "controlled-sequence-injection"
+                    if sequence_mode
+                    else "controlled-direct-spawn-pixel-ab"
+                )
                 or run_profile.get("variant") != variant
                 or run_profile.get("natural_gameplay_route") is not False
                 or run_profile.get("input_mode") != "zero-input-active-state"
@@ -527,12 +659,25 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 or run_profile.get("source_build_manifest_sha256")
                 != _sha256(payloads["build/build-manifest.json"])
                 or run_profile.get("source_rom_sha256") != rom_sha
-                or audit.get("schema") != "mgba-battle-effect-phase-capture-v1"
-                or audit.get("outcome") != "three-phase-captured"
+                or audit.get("schema")
+                != (
+                    "mgba-controlled-battle-effect-capture-v1"
+                    if sequence_mode
+                    else "mgba-battle-effect-phase-capture-v1"
+                )
+                or audit.get("outcome")
+                != (
+                    "binder-plus-three-phase-captured"
+                    if sequence_mode
+                    else "three-phase-captured"
+                )
                 or audit.get("group_id") != contract["group_id"]
                 or audit.get("definition_pointer") != f"0x{contract['definition']:08X}"
                 or audit.get("animation_pointer") != f"0x{contract['animation']:08X}"
-                or audit.get("input_mode") != "zero-input-active-state"
+                or (
+                    not sequence_mode
+                    and audit.get("input_mode") != "zero-input-active-state"
+                )
                 or audit.get("inputs") != []
                 or audit.get("automatic_inputs") != []
                 or audit.get("recovery_inputs") != []
@@ -550,8 +695,13 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 or guard.get("exit_code") != 0
                 or guard.get("degraded") is not False
                 or guard.get("completion_trigger") != "success-marker"
-                or done.get("status") != "three-phase-captured"
-                or done.get("phase_count") != 3
+                or done.get("status")
+                != (
+                    "binder-plus-three-phase-captured"
+                    if sequence_mode
+                    else "three-phase-captured"
+                )
+                or done.get("phase_count") != (4 if sequence_mode else 3)
                 or done.get("run_id") != audit.get("run_id")
                 or audit.get("runtime_residue", {}).get("pgid_clean") is not True
                 or audit.get("runtime_residue", {}).get("mgba_listener_clean") is not True
@@ -641,7 +791,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
                 cycles.append(str(cycle))
                 savestate_hashes.append(_sha256(state_raw))
             if (
-                audit.get("phases") != phase_metas
+                audit.get("phases", [])[-len(PHASES):] != phase_metas
                 or audit.get("renderer_hit_count") != 1
                 or audit.get("submission_watch_hit_count") != 3
                 or audit.get("ack_hit_count") != 1
@@ -692,13 +842,19 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
             if run_rows.get(variant) != expected_row:
                 raise ValueError(f"controlled pixel run record mismatch: {variant}")
             ack_state = phase_states[-1]
-            attrs = struct.unpack_from(
-                "<HHH",
-                ack_state.read_memory(HARDWARE_OAM, 0x400),
-                contract["oam_index"] * 8,
-            )
-            if [f"0x{value:04X}" for value in attrs] != contract["oam_attributes"]:
-                raise ValueError(f"controlled pixel runtime OAM mismatch: {variant}")
+            instances = profile["runtime_oam"].get("instances") or [
+                profile["runtime_oam"]
+            ]
+            for instance in instances:
+                attrs = struct.unpack_from(
+                    "<HHH",
+                    ack_state.read_memory(HARDWARE_OAM, 0x400),
+                    instance["oam_index"] * 8,
+                )
+                if [f"0x{value:04X}" for value in attrs] != instance["attributes"]:
+                    raise ValueError(
+                        f"controlled pixel runtime OAM mismatch: {variant}"
+                    )
             states[variant] = ack_state
             rendered[variant] = render_checkpoint(temp / f"{variant}-ack-post.ss9")[0]
 
@@ -713,7 +869,7 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         **{name: [] for name in DOMAINS},
         "VRAM": [contract["vram_difference"]],
     }
-    expected_pixel = [contract["pixel"]]
+    expected_pixel = contract.get("pixels", [contract.get("pixel")])
     pixels = _pixel_changes(rendered["baseline"], rendered["candidate"])
     capture_hashes = {
         variant: _sha256(
@@ -765,7 +921,11 @@ def _verify_or_raise(root: Path, artifact: Path) -> dict[str, Any]:
         "controlled_final_pixel_writeback": True,
         "mgba_capture_pixel_ab": False,
         "natural_gameplay_route": False,
-        "production_natural_pixel_ab": "5/18",
+        **(
+            {"production_modified_rom_pixel_ab": "13/18"}
+            if sequence_mode
+            else {"production_natural_pixel_ab": "5/18"}
+        ),
     }
 
 
