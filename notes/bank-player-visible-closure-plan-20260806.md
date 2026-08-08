@@ -7,6 +7,7 @@
 > `artifacts/map-events-e4-handler-pixel-ab-v1/` 闭合，当时剩余 5 个
 > `code_verified` bank；`battle-encounters` 随后由
 > `artifacts/battle-encounters-story-visual-pixel-ab-v1/` 闭合，剩余 4 个；
+> `cutscene-scripts` 又复用既有自然 ID 1 最终像素 A/B 闭合，剩余 3 个；
 > `tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
@@ -19,7 +20,7 @@ code_verified，需要 player-visible runtime semantic closure：
 | bank slug | table_offset | 当前状态 | 玩家可见影响域 |
 |---|---|---|---|
 | battle-encounters | 0x54229C | runtime_verified | 24 条 story visual descriptor（历史 slug） |
-| cutscene-scripts | 0x53DF70 | code_verified | 过场动画脚本 |
+| cutscene-scripts | 0x53DF70 | runtime_verified | 两张相邻的四记录视觉资源表（历史 slug） |
 | data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
 | levels | 0x5459C8 | code_verified | 等级成长曲线 |
 | map-events | 0x53E698 | runtime_verified | E4 primary 自然分派（恢复态） |
@@ -79,8 +80,10 @@ descriptor；受控 scenario-53 opcode 快照中，record 0 `gfx_lz_ptr` 的最�
 命中原生 story loader 和三路 LZ77，并改变 1,603 个最终像素。不声称自然
 scenario-53 导航或其他 23 条 record。
 
-**cutscene-scripts (0x53DF70)**：过场脚本修改 → 演出差异。
-需要 scenario 47+ 基础快照 + 多帧对比。
+**cutscene-scripts (0x53DF70)**：已闭合。自然胜利 ID 1 A/B 只把 production-
+relocated ROM 的源表 `primary_ptr@0x53DF78` 从 ID 1 graphics 改为同尺寸 ID 2
+donor；除 VRAM 2,263 字节外五个完整内存域不变，最终改变 4,032 像素。该历史
+slug 不是剧情脚本；证据不覆盖其他三个 ID、第二表字段 A/B 或实体 GBA。
 
 ### Tier 4：低 ROI（player-visible 不易观察）
 

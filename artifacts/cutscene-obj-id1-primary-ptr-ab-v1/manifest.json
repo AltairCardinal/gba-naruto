@@ -1,0 +1,41 @@
+{
+  "artifact_id": "cutscene-obj-id1-primary-ptr-ab-v1",
+  "artifact_schema": "cutscene-obj-id1-primary-ptr-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+    "candidate.png": "e4955c26831d3f60eb1330dd6427b49e44d58c5ad9537a395069e3f2905aa651",
+    "evidence.json": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6",
+    "raw.tar": "3afedc6c2f84d051e241358e24577751d46a748b866777998fa7c1fd45002de3"
+  },
+  "implementation": {
+    "tests/test_build_cutscene_obj_primary_ptr_ab.py": "8e5186bfaa1907f541f767783ff8eff39f537c5af0d9f3f1afa197b817017dfe",
+    "tests/test_cutscene_obj_primary_ptr_ab_artifact.py": "a9abb5d4503d56df031d6504674aabc1a52b8a09ddc8846a44be998d67d33da1",
+    "tools/build_cutscene_obj_id1_pixel_ab.py": "63fda8dcde4f97f0593d657d5e3bb13b5f16d537fe21c2e321c1da5c47be9ee2",
+    "tools/build_cutscene_obj_primary_ptr_ab.py": "67917db45695bd29cb0bd1f16edd23b6b3104b2dc954d8c94e216ba4cfecce99",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_cutscene_obj_primary_ptr_ab.py": "475a7f432a54d57d0086a351af51e6a2a42f7bbc76e1560bc5ab5734849fc8bd",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_cutscene_obj_bundle_relocations.py": "81b5b11c79331146c967471624a778f277dcc07ba0d991e5cd12c26e77b140ac",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/verify_cutscene_obj_primary_ptr_ab.py": "4f202460e1232fac7b287467bbd1c54f70942539404255db078fa189267c26f2"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_cutscene_obj_primary_ptr_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/cutscene-obj-id1-primary-ptr-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

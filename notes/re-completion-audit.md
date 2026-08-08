@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-08-08T22:04:49.976298+00:00`
+生成时间：`2026-08-08T22:55:05.321514+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -15,7 +15,7 @@
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=4, `disproved`=10, `runtime_verified`=18。
+- verification 分布：`code_verified`=3, `disproved`=10, `runtime_verified`=19。
 
 ## 逐结构结果
 
@@ -27,7 +27,7 @@
 | `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (12) | ✅ (0) | ✅ | — |
 | `character-stats` | ✅ `0x545068` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (16) | ✅ (504) | ✅ | — |
 | `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
-| `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `code_verified` | ✅ (17) | ✅ (16) | ✅ | — |
+| `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `runtime_verified` | ✅ (18) | ✅ (16) | ✅ | — |
 | `data-table-a` | ✅ `0x5A143C` | ✅ | ✅ (46) | ✅ `runtime_verified` | ✅ (7) | ✅ (46) | ✅ | — |
 | `data-table-b` | ✅ `0x5A2034` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (10) | ✅ (79) | ✅ | — |
 | `encounter-zones` | ✅ `0x53D910` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (22) | ✅ (0) | ✅ | — |

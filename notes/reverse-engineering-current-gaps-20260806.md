@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 18/22 | 22/22 | 4 个 code_verified bank 待 player-visible 闭合 |
+| 有效 bank 运行时身份 | 19/22 | 22/22 | 3 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,9 @@
 
 ## 剩余 2 大缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 4 个）
+### 1. 22/22 bank runtime identity（缺 3 个）
 
-按 ROI 排序：
-- **Tier 3** (cutscene-scripts): scenario 47+ 快照 + 多帧对比
+剩余项：
 - **Tier 4** (sappy-engine, levels, data-table-b): 间接可见
 
 **已闭合**：`palettes` 历史 slug 实为 motion/effect 参数表。自然 Group 3
@@ -56,6 +55,13 @@ ack Mode 0 重放得到 286 个最终像素变化；运行内存差异仅限对�
 `0x08087C9C` loader 和三路 LZ77，第 8 次 overlay VBlank 最终相差 1,603 像素。
 该证据不声称自然 scenario-53 导航或其余 23 条 record。详见
 `notes/battle-encounters-story-visual-player-visible-20260809.md`。
+
+**已闭合**：历史 `cutscene-scripts` slug 实为两张相邻的四记录视觉资源表。
+自然胜利 ID 1 production-relocation A/B 直接把 `primary_ptr@0x53DF78` 从 ID 1
+graphics 改为同尺寸 ID 2 donor；其余 ROM 字节相同，运行时除 VRAM 2,263 字节
+外五个完整内存域不变，最终改变 4,032 像素。两边均经当前渲染器逐 RGB 重放与
+独立 verifier 复验；边界不覆盖其他 ID、第二表字段 A/B 或实体 GBA。详见
+`notes/cutscene-visual-resource-player-visible-20260809.md`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 

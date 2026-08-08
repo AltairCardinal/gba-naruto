@@ -12,10 +12,26 @@
       {"offset": 4, "size": 4, "name": "secondary_ptr", "type": "u32"}
     ]
   },
-  "verification": "code_verified",
-  "verification_method": "0x08072F0C computes id*8 from 0x0853DF70 and sends +0/+4 through decompressor 0x0809C0E8 to 0x06016000 and 0x05000380. The same routine passes 0x0853DF90 to 0x080625A4, whose 0x08062668 path indexes id*8 and installs both pointers in the sprite task. All direct callers pass IDs 0..3.",
+  "verification": "runtime_verified",
+  "verification_method": "Static analysis proves that 0x08072F0C computes id*8 from 0x0853DF70 and sends +0/+4 through decompressor 0x0809C0E8 to 0x06016000 and 0x05000380; the same routine passes 0x0853DF90 to 0x080625A4, whose 0x08062668 path indexes id*8 and installs both pointers in the sprite task. artifacts/cutscene-obj-id1-primary-ptr-ab-v1 additionally follows a hash-bound natural victory load and changes only the relocated ID 1 primary_ptr at ROM 0x53DF78 from ID 1 graphics to the same-sized ID 2 donor. Runtime VRAM follows the selected compressed stream, five other complete memory domains stay equal, and 4,032 final pixels change.",
+  "runtime_evidence": {
+    "artifact": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1",
+    "resource_id": 1,
+    "field": "primary_ptr",
+    "source_table_offset": "0x53DF78",
+    "source_pointer": "0x08BA04C0",
+    "candidate_pointer": "0x08BA09CC",
+    "donor_resource_id": 2,
+    "natural_victory_load": true,
+    "production_relocation_route": true,
+    "modified_rom_pixel_ab": true,
+    "changed_pixel_count": 4032,
+    "resources_0_2_3_runtime_verified": false,
+    "second_table_runtime_ab_verified": false,
+    "physical_gba_verified": false
+  },
   "former_claim": "16 independent cutscene script pointers",
-  "notes": "The first four primary and secondary targets have GBA LZ77 header 0x10. The second four pairs are a distinct, adjacent sprite descriptor table. The historical cutscene-scripts slug and legacy editor column names are retained only for migration compatibility.",
+  "notes": "The first four primary and secondary targets have GBA LZ77 header 0x10. The second four pairs are a distinct, adjacent sprite descriptor table. The historical cutscene-scripts slug and legacy editor column names are retained only for migration compatibility. Runtime evidence directly changes the relocated ID 1 primary pointer and proves natural final-pixel causality; it does not prove resources 0/2/3, the second table's definition/animation fields, or physical GBA output.",
   "entries": [
     {"_index": 0, "_raw_offset": 5496688, "pair_kind": "compressed_gfx_palette", "resource_id": 0, "primary_ptr": 135453156, "primary_ptr_hex": "e4d91208", "secondary_ptr": 135454436, "secondary_ptr_hex": "e4de1208"},
     {"_index": 1, "_raw_offset": 5496696, "pair_kind": "compressed_gfx_palette", "resource_id": 1, "primary_ptr": 135454540, "primary_ptr_hex": "4cdf1208", "secondary_ptr": 135455788, "secondary_ptr_hex": "2ce41208"},

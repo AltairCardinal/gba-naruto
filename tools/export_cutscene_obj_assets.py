@@ -128,7 +128,7 @@ def _load_bank(root: Path, rom: bytes) -> dict[str, Any]:
         bank.get("table_offset") != RESOURCE_TABLE_OFFSET
         or bank.get("entry_count") != 8
         or bank.get("entry_size") != ENTRY_SIZE
-        or bank.get("verification") != "code_verified"
+        or bank.get("verification") not in {"code_verified", "runtime_verified"}
     ):
         raise ValueError("unexpected cutscene visual-resource bank")
     entries = bank.get("entries")

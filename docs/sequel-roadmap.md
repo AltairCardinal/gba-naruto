@@ -2383,3 +2383,12 @@ WebSocket
   测试通过。有效 bank 运行时身份由 17/22 提升到 **18/22**，不声称自然
   scenario-53 导航、其他 23 条 record 或实体 GBA；下一项为 `cutscene-scripts`。
   证据见 `artifacts/battle-encounters-story-visual-pixel-ab-v1/`。
+- 2026-08-09：历史 `cutscene-scripts` slug 已按真实身份两张相邻的四记录视觉
+  资源表闭合。复用 `scenario-41-combat-popup.ss9` 的自然胜利单 A 路线，
+  baseline/candidate 均通过 production relocation；A/B 只把源表
+  `primary_ptr@0x53DF78` 从 ID 1 graphics `0x08BA04C0` 改为同尺寸 ID 2 donor
+  `0x08BA09CC`，其余 ROM 字节完全相同。运行时除 VRAM 2,263 字节外五个完整
+  内存域、OAM 与 palette 全部相同，最终改变 4,032 像素，两边 Mode 0 重放均与
+  mGBA PNG 逐 RGB 相等。两次峰值 RSS 约 59.66/59.76 MiB。有效 bank 运行时身份
+  由 18/22 提升到 **19/22**；边界不覆盖其他三个 ID、第二表字段 A/B 或实体 GBA。
+  证据见 `artifacts/cutscene-obj-id1-primary-ptr-ab-v1/`，下一项为 `sappy-engine`。

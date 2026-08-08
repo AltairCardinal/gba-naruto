@@ -19,7 +19,26 @@ class CutsceneVisualResourceTest(unittest.TestCase):
     def test_bank_is_eight_resource_pairs_not_sixteen_scripts(self):
         self.assertEqual(self.bank["entry_count"], 8)
         self.assertEqual(self.bank["entry_size"], 8)
-        self.assertEqual(self.bank["verification"], "code_verified")
+        self.assertEqual(self.bank["verification"], "runtime_verified")
+        self.assertEqual(
+            self.bank["runtime_evidence"],
+            {
+                "artifact": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1",
+                "resource_id": 1,
+                "field": "primary_ptr",
+                "source_table_offset": "0x53DF78",
+                "source_pointer": "0x08BA04C0",
+                "candidate_pointer": "0x08BA09CC",
+                "donor_resource_id": 2,
+                "natural_victory_load": True,
+                "production_relocation_route": True,
+                "modified_rom_pixel_ab": True,
+                "changed_pixel_count": 4032,
+                "resources_0_2_3_runtime_verified": False,
+                "second_table_runtime_ab_verified": False,
+                "physical_gba_verified": False,
+            },
+        )
         self.assertEqual(len(self.bank["entries"]), 8)
         for index, entry in enumerate(self.bank["entries"]):
             offset = 0x53DF70 + index * 8
