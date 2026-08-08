@@ -1308,7 +1308,7 @@ def generate_resource_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Keep legacy rows diagnostic-only; 0x079668 is message code, not Sappy."""
+    """Keep legacy DB rows diagnostic-only; never patch executable audio code."""
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))

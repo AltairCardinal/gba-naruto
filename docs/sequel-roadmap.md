@@ -2392,3 +2392,11 @@ WebSocket
   mGBA PNG 逐 RGB 相等。两次峰值 RSS 约 59.66/59.76 MiB。有效 bank 运行时身份
   由 18/22 提升到 **19/22**；边界不覆盖其他三个 ID、第二表字段 A/B 或实体 GBA。
   证据见 `artifacts/cutscene-obj-id1-primary-ptr-ab-v1/`，下一项为 `sappy-engine`。
+- 2026-08-09：`sappy-engine` 已按真实 184-byte FIFO/DMA 初始化函数闭合。旧
+  extractor 的 128-byte 范围在函数内截断，现扩展至 `0x0809AEF2` 返回。两案
+  从同一初始化前快照恢复并命中 entry/return、sound 101 dispatcher 与首次
+  SoundMain；candidate 只把 `movs r0,#0x8F` 改为 `#0x0F`，使函数返回时
+  `SOUNDCNT_X 0x0080→0x0000`，控制流与首次 SoundMain FIFO 块保持相同。
+  正式运行峰值 RSS 108.05/107.33 MiB，无降级或崩溃。有效 bank 运行时身份由 19/22 提升到
+  **20/22**；不声称持续静音、WAV 差异或实体 GBA。证据见
+  `artifacts/sappy-engine-master-enable-ab-v1/`，下一项为 `levels`。

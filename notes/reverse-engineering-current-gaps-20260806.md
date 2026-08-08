@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 19/22 | 22/22 | 3 个 code_verified bank 待 player-visible 闭合 |
+| 有效 bank 运行时身份 | 20/22 | 22/22 | 2 个 code_verified bank 待 runtime 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,10 @@
 
 ## 剩余 2 大缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 3 个）
+### 1. 22/22 bank runtime identity（缺 2 个）
 
 剩余项：
-- **Tier 4** (sappy-engine, levels, data-table-b): 间接可见
+- **Tier 4** (levels, data-table-b): 间接可见
 
 **已闭合**：`palettes` 历史 slug 实为 motion/effect 参数表。自然 Group 3
 零输入 A/B 把 record 0 `y_offset` 从 0 改为 32，严格传播为 task/OAM Y +32，
@@ -62,6 +62,13 @@ graphics 改为同尺寸 ID 2 donor；其余 ROM 字节相同，运行时除 VRA
 外五个完整内存域不变，最终改变 4,032 像素。两边均经当前渲染器逐 RGB 重放与
 独立 verifier 复验；边界不覆盖其他 ID、第二表字段 A/B 或实体 GBA。详见
 `notes/cutscene-visual-resource-player-visible-20260809.md`。
+
+**已闭合**：`sappy-engine` 是 `0x0809AE3C..0x0809AEF3` 的 184-byte
+FIFO/DMA 初始化函数。共同恢复初始化前快照后，两案均命中 initializer、sound
+101 dispatcher 与 SoundMain；仅修改 `0x0809AE76` immediate，使函数返回时
+`SOUNDCNT_X 0x0080→0x0000`，其余控制流与首次 SoundMain FIFO 块相同。
+后续 SoundMain 会重新打开 gate，故不声称持续静音或 WAV 差异。详见
+`notes/sappy-engine-master-enable-runtime-20260809.md`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 

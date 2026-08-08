@@ -9,20 +9,21 @@ reverse-engineered data structures.
 
 ---
 
-## 1. Message command table (legacy `audio` slug, 0x599634)
+## 1. Sound-ID descriptor table (`audio`, 0x465B70)
 
-**Format:** u32[100] — pointers selected by command bytes `0x80..0xE3`
-**Entry Size:** 4 bytes  
-**Evidence:** code verified at `0x08079668 → 0x08066758 → 0x0806626C`
+**Format:** 159×8-byte sound-ID rows; 80 rows select non-empty descriptors
+**Entry Size:** 8 bytes
+**Evidence:** `0x0809AAC0` indexes ID×8 and player×12 before calling
+`0x0809B1F4`; sound 101 has a 79/79 FIFO differential against the offline engine.
 
-Each entry points to zero-terminated encoded message data. The former audio
-identity was false: `0x53F138` belongs to palettes, while the actual music/SFX
-engine and tables remain unresolved. The directory slug is retained only for
-compatibility and must not be treated as an audio serializer.
+Each row contains a song descriptor pointer and player slot. The unrelated
+message table at `0x599634` and dispatcher `0x08079668` were the revoked legacy
+identity; `0x53F138` is inside the corrected motion/effect resource region.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| message_ptr | u32 | Pointer to encoded message data in ROM |
+| descriptor_ptr | u32 | Pointer to an MP2K song descriptor |
+| player_index | u16 | Sound player slot selected by the dispatcher |
 
 ---
 
@@ -393,20 +394,21 @@ canonical character visual matrix.
 
 ---
 
-## 22. Message dispatcher code (legacy `sappy-engine` slug, 0x079668)
+## 22. FIFO/DMA audio initializer code (`sappy-engine`, 0x09AE3C)
 
-**Format:** Code region (not a data table)  
-**Entry Size:** N/A  
-**Semantics:** Message-selection dispatcher at `0x08079668` (file offset
-`0x079668`). Values `0x80..0xE3` index the 100-entry table at `0x08599634`;
-the selected pointer is passed to message-object setup at `0x08066758` and
-text parsing at `0x0806626C`. Values `0x64..0x67` select four pointers from the
-caller's state. The former Sappy/audio interpretation is revoked.
+**Format:** 184-byte Thumb code region (not a data table)
+**Entry Size:** 184 bytes
+**Semantics:** `0x0809AA3C` calls `0x0809AE3C` with SoundInfo at `0x03006570`.
+The function initializes `SOUNDCNT`, FIFO A/B and DMA1/2, then returns at
+`0x0809AEF2`. A controlled one-byte `movs r0,#0x8F→#0x0F` A/B at
+`0x0809AE76` changed `SOUNDCNT_X` at the function return while preserving the
+same entry/return/dispatcher/SoundMain chain and first FIFO block. The unrelated
+`0x08079668` message dispatcher is not this bank.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | code | bytes | Thumb instruction bytes |
-| commands | dict | Command ranges and their meanings |
+| runtime_evidence | path | Hash-bound mGBA master-enable A/B artifact |
 
 ---
 

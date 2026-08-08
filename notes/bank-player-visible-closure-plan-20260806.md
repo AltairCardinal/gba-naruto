@@ -8,6 +8,7 @@
 > `code_verified` bank；`battle-encounters` 随后由
 > `artifacts/battle-encounters-story-visual-pixel-ab-v1/` 闭合，剩余 4 个；
 > `cutscene-scripts` 又复用既有自然 ID 1 最终像素 A/B 闭合，剩余 3 个；
+> `sappy-engine` 随后由初始化前快照上的单字节 master-enable A/B 闭合，剩余 2 个；
 > `tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
@@ -26,7 +27,7 @@ code_verified，需要 player-visible runtime semantic closure：
 | map-events | 0x53E698 | runtime_verified | E4 primary 自然分派（恢复态） |
 | map-sprites | 0x53F140 | runtime_verified | 通用 sprite definition/animation 绑定（受控物化闭合） |
 | palettes | 0x53EE98 | runtime_verified | motion/effect 参数（2026-08-09 已闭合） |
-| sappy-engine | 0x079668 | code_verified | 音频命令 dispatcher |
+| sappy-engine | 0x09AE3C | runtime_verified | 184-byte FIFO/DMA 初始化代码 |
 | tile-assets | 0x5A320C | runtime_verified | tile 资产（2026-08-09 已闭合） |
 
 按 handoff 第 5.2 节："9/22 bank 玩家可见语义闭合"是除战斗特效外的
@@ -87,10 +88,9 @@ slug 不是剧情脚本；证据不覆盖其他三个 ID、第二表字段 A/B �
 
 ### Tier 4：低 ROI（player-visible 不易观察）
 
-**sappy-engine (0x079668)**：音频引擎代码 dispatcher。
-player-visible = 音频行为；需要 audio cue 对比。
-但 audio cue 命名本身已是 80/100（含 unknown），此 bank 的 player-visible
-命名意义有限。
+**sappy-engine (0x09AE3C)**：已闭合。初始化前共同快照上的单字节
+`movs #0x8F→#0x0F` A/B 同时命中函数入口/返回、sound 101 dispatcher 和首次
+SoundMain，并把返回时 `SOUNDCNT_X 0x0080→0x0000`；不声称持续静音。
 
 **levels (0x5459C8)**：等级成长曲线。player-visible = 等级数值。
 需要 controlled probe 验证。

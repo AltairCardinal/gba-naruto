@@ -93,7 +93,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 19 | Motion/effect parameters | 0x53EE98 | s16[5] × 15 | 15 | code_verified | legacy writes disabled |
 | 20 | Positions | 0x53D914 | scenario-dependent | 8 | static_verified | ✅ |
 | 21 | Character battle visual alias | 0x596F0C | matrix rows 27..31 | 0 | disproved | disabled |
-| 22 | Sappy Engine | 0x079668 | code region | 1 | code_verified | ✅ |
+| 22 | Sappy Engine | 0x09AE3C | 184-byte Thumb initializer | 1 | runtime_verified | ✅ |
 | 23 | Save State | 0x53D848 | u32[2] × 10 | 10 | static_verified | ✅ |
 | 24 | Skills | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
 | 25 | Sprite Animations | 0x53F200 | alias of sprite pairs 24..42 | 0 | disproved | disabled |
@@ -145,7 +145,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | `generate_menu_ui_patches` | menu_ui | 0x5A5774 | 4 |
 | `generate_palette_patches` | legacy palettes | diagnostic only | — |
 | `generate_resource_pointer_patches` | legacy resource_pointers alias | diagnostic only | — |
-| `generate_sappy_engine_patches` | sappy_engine | 0x079668 | 64 |
+| `generate_sappy_engine_patches` | legacy sappy_engine rows | diagnostic-only reserved region | 64 |
 | `generate_save_state_patches` | save_state | 0x53D848 | 8 |
 | `generate_sprite_animation_patches` | legacy sprite_animations | diagnostic only | — |
 | `generate_story_b_patches` | story_b | 0x536BC8 | 4 |
@@ -158,12 +158,13 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 
 ## Key Technical Findings
 
-### Audio System (Custom Sappy)
-- **Dispatcher at 0x08079668** — not standard Sappy `m4aSongNumStart`
-- Commands 0x64-0x67: BGM channel control (load from engine state)
-- Commands 0x80-0xE3: Indexed lookup into 100-entry pointer table at 0x08599634
-- **15 BL call sites** from 6 unique functions
-- Per-scenario BGM assigned via `config_struct[0x770]`
+### Audio System (MP2K/Sappy-compatible)
+- `0x0809AAC0` indexes the sound-ID table at `0x08465B70` and calls track
+  initializer `0x0809B1F4`.
+- `0x0809AE3C..0x0809AEF3` is the 184-byte FIFO/DMA hardware initializer;
+  its master-enable instruction is runtime A/B verified.
+- The old `0x08079668` path is a message dispatcher and is not the audio bank.
+- Sound 101 has 79/79 byte-exact mGBA FIFO chunks against the offline engine.
 
 ### Map/Encounter System
 - **47 maps** with 32-byte headers at 0x53D910

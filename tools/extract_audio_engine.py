@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 ENGINE_OFFSET = 0x09AE3C
-CODE_SIZE = 0x80
+CODE_SIZE = 0xB8
 
 
 def extract(rom: bytes) -> dict:
@@ -15,7 +15,7 @@ def extract(rom: bytes) -> dict:
     if len(code) != CODE_SIZE:
         raise ValueError("ROM is too short for audio engine code")
     return {
-        "version": 3,
+        "version": 4,
         "description": "Real GBA FIFO/DMA audio-engine initialization code, replacing the disproved message-dispatcher identity.",
         "structure_kind": "gba-fifo-dma-audio-engine-code",
         "table_offset": ENGINE_OFFSET,
@@ -32,8 +32,15 @@ def extract(rom: bytes) -> dict:
             "stop_song": "0x0809B2D8",
             "public_sound_id_wrapper": "0x08061E6C",
         },
-        "verification": "code_verified",
-        "verification_method": "Literal and Thumb-flow audit proves writes to SOUNDCNT/FIFO/DMA registers and connects public sound-ID wrapper to the song descriptor loader.",
+        "verification": "runtime_verified",
+        "verification_method": "Complete 184-byte Thumb-flow audit plus a one-byte controlled mGBA A/B hit the initializer entry/return and changed SOUNDCNT_X master-enable state while preserving control flow and the first SoundMain FIFO block.",
+        "runtime_evidence": "artifacts/sappy-engine-master-enable-ab-v1/evidence.json",
+        "verification_scope": {
+            "initializer_runtime_identity_verified": True,
+            "master_enable_instruction_effect_verified": True,
+            "persistent_mute_claimed": False,
+            "physical_gba_verified": False,
+        },
         "entries": [{
             "_index": 0,
             "_raw_offset": ENGINE_OFFSET,

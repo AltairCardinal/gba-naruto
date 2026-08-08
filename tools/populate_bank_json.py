@@ -396,25 +396,10 @@ def populate_units(rom: bytes):
 
 
 def populate_sappy_engine(rom: bytes):
-    """Message dispatcher at 0x079668 under the legacy sappy-engine slug."""
-    off = 0x079668
-    code_bytes = rom[off:off + 256]
-    entries = [{
-        "id": "sappy_dispatcher",
-        "offset": off,
-        "offset_hex": fmt_hex(off),
-        "code_hex": code_bytes.hex()[:64],
-        "description": "Message-selection dispatcher; legacy sappy-engine slug",
-        "commands": {
-            "0x64-0x67": "Select pointer fields from caller state",
-            "0x80-0xE3": "Select message pointer from table at 0x08599634"
-        }
-    }]
-    update_bank_json("sappy-engine", entries, {
-        "verification": "code_verified",
-        "call_sites": 15,
-        "unique_functions": 6,
-    })
+    """Regenerate the canonical FIFO/DMA audio-engine code catalog."""
+    from tools.extract_audio_engine import extract
+
+    write_json_atomic(ROOT / "sequel/content/sappy-engine/bank.json", extract(rom))
 
 
 def main():

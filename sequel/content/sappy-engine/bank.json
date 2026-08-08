@@ -1,16 +1,16 @@
 {
-  "version": 3,
+  "version": 4,
   "description": "Real GBA FIFO/DMA audio-engine initialization code, replacing the disproved message-dispatcher identity.",
   "structure_kind": "gba-fifo-dma-audio-engine-code",
   "table_offset": 634428,
   "table_offset_hex": "0x09AE3C",
   "entry_count": 1,
-  "entry_size": 128,
+  "entry_size": 184,
   "entry_format": {
     "fields": [
       {
         "offset": 0,
-        "size": 128,
+        "size": 184,
         "name": "code",
         "type": "bytes"
       }
@@ -29,16 +29,23 @@
     "stop_song": "0x0809B2D8",
     "public_sound_id_wrapper": "0x08061E6C"
   },
-  "verification": "code_verified",
-  "verification_method": "Literal and Thumb-flow audit proves writes to SOUNDCNT/FIFO/DMA registers and connects public sound-ID wrapper to the song descriptor loader.",
+  "verification": "runtime_verified",
+  "verification_method": "Complete 184-byte Thumb-flow audit plus a one-byte controlled mGBA A/B hit the initializer entry/return and changed SOUNDCNT_X master-enable state while preserving control flow and the first SoundMain FIFO block.",
+  "runtime_evidence": "artifacts/sappy-engine-master-enable-ab-v1/evidence.json",
+  "verification_scope": {
+    "initializer_runtime_identity_verified": true,
+    "master_enable_instruction_effect_verified": true,
+    "persistent_mute_claimed": false,
+    "physical_gba_verified": false
+  },
   "entries": [
     {
       "_index": 0,
       "_raw_offset": 634428,
       "rom_offset": 634428,
       "rom_offset_hex": "0x09AE3C",
-      "code": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c",
-      "code_hex": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c"
+      "code": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c01f010f90820a8710f20e8711648a8631648a862e8622863e863154c201cfff79ff96c638020c00200f026f81148286001b030bc01bc0047",
+      "code_hex": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c01f010f90820a8710f20e8711648a8631648a862e8622863e863154c201cfff79ff96c638020c00200f026f81148286001b030bc01bc0047"
     }
   ]
 }
