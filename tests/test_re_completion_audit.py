@@ -8,10 +8,32 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.audit_re_completion import audit_bank
+from tools.audit_re_completion import audit_bank, build_report
 
 
 class ReCompletionAuditTests(unittest.TestCase):
+    def test_report_excludes_canonical_audit_markdown_from_documentation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bank = root / "sequel/content/example/bank.json"
+            bank.parent.mkdir(parents=True)
+            bank.write_text(json.dumps({
+                "table_offset": 4,
+                "table_offset_hex": "0x4",
+                "entry_size": 1,
+                "entry_count": 1,
+                "entry_format": {"fields": [{"name": "value", "offset": 0, "size": 1}]},
+                "entries": [{"value": 0}],
+                "verification": "static_verified",
+            }), encoding="utf-8")
+            notes = root / "notes"
+            notes.mkdir()
+            (notes / "real.md").write_text("example at 0x4", encoding="utf-8")
+            (notes / "re-completion-audit.md").write_text("example at 0x4", encoding="utf-8")
+            report = build_report(root, root / "tmp/audit.md", root / "missing.gba")
+
+        self.assertEqual(report["banks"][0]["documentation"], ["notes/real.md"])
+
     def test_documented_disproved_tombstone_is_complete_without_fake_entries(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

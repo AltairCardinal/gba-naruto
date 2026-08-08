@@ -72,7 +72,19 @@ class TextAndVisualTableIdentityTest(unittest.TestCase):
         bank = json.loads((ROOT / "sequel/content/tile-assets/bank.json").read_text())
         self.assertEqual((bank["table_offset"], bank["entry_count"], bank["entry_size"]),
                          (0x5A320C, 79, 0x44))
-        self.assertEqual(bank["verification"], "code_verified")
+        self.assertEqual(bank["verification"], "runtime_verified")
+        self.assertEqual(bank["runtime_evidence"], {
+            "artifact": "artifacts/tile-asset-descriptor2-pixel-ab-v1",
+            "consumer_id": 3,
+            "descriptor_id": 2,
+            "field": "word_05_layer_a_palette_pointer",
+            "source_pointer": "0x0834B228",
+            "candidate_pointer": "0x08349E74",
+            "natural_base_rom_route": True,
+            "modified_rom_pixel_ab": True,
+            "other_descriptor_fields_runtime_verified": False,
+            "physical_gba_verified": False,
+        })
         self.assertEqual(len(bank["entries"]), 79)
         self.assertEqual(sum(all(entry[f"word_{i:02d}"] == 0 for i in range(17))
                              for entry in bank["entries"]), 4)

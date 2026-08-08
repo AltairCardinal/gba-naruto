@@ -111,8 +111,20 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "Nine literals load 0x085A320C. 0x08098442 subtracts one from the input ID and 0x08098456 computes record*0x44; +0x0C/+0x10 are LZ streams and +0x14 is a 16-byte palette source consumed at 0x0809848E..0x080984BE.",
+    "verification": "runtime_verified",
+    "verification_method": "Nine literals load 0x085A320C. 0x08098442 subtracts one from the input ID and 0x08098456 computes record*0x44; +0x0C/+0x10 are LZ streams and +0x14 is a palette source consumed at 0x0809848E..0x080984BE. artifacts/tile-asset-descriptor2-pixel-ab-v1 additionally proves a natural base-ROM route selects consumer 3 / descriptor 2 and that changing only its +0x14 layer-A palette pointer from 0x0834B228 to 0x08349E74 changes PRAM 0x050001E2..0x050001FF and the final 240x160 frame while IO, VRAM, OAM, IWRAM and EWRAM remain equal.",
+    "runtime_evidence": {
+        "artifact": "artifacts/tile-asset-descriptor2-pixel-ab-v1",
+        "consumer_id": 3,
+        "descriptor_id": 2,
+        "field": "word_05_layer_a_palette_pointer",
+        "source_pointer": "0x0834B228",
+        "candidate_pointer": "0x08349E74",
+        "natural_base_rom_route": true,
+        "modified_rom_pixel_ab": true,
+        "other_descriptor_fields_runtime_verified": false,
+        "physical_gba_verified": false
+    },
     "former_claim": "six independent tile pointers at record 0 +0x0C..+0x20",
     "notes": "Records 13,31,32,46 are valid all-zero sentinels. The 79 IDs correlate with battle/effect message text IDs. Legacy six-pointer rows are diagnostic-only.",
     "entries": [

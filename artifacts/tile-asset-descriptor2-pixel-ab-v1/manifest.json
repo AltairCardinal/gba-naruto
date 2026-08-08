@@ -1,0 +1,48 @@
+{
+  "artifact_schema": "tile-asset-descriptor-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+    "candidate.png": "db4a9db58cc52e66cb8baf3486ac84562b6368143db77830fc1622971b0d7d36",
+    "evidence.json": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59",
+    "raw.tar": "9364daa1156b6838fda98b52830d42d5f3c856347aeefa2655714a35fc98ed76"
+  },
+  "implementation": {
+    "artifacts/tile-assets-bg-v2/manifest.json": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
+    "sequel/content/tile-assets/bank.json": "9ef92f5c358f114a660eeea42ab5358f37435047d7bb91708c3a80274d5df218",
+    "sequel/content/tile-assets/descriptor-02-palette-pointer-pixel-ab.json": "840b9769a5d43ce4e7aa7823c68cce3cdb2c9ad8a5a4354a3f14635349757608",
+    "tests/test_build_tile_asset_descriptor_pixel_ab.py": "61d6d1bc08544cb6940cb62dfef277ec12f0143b4b5ad82193948bdda2f6f45b",
+    "tests/test_mgba_tile_asset_initializer_trace_script.py": "23a8efa6c0ae652243860d58b709f3f3cda6ec777d035a9a4ccf5f585e0278db",
+    "tests/test_render_mode0_checkpoint.py": "e3a6e7fa73a9267525f7902f2a114b5f0dd32c566d99d0c57bc21fd47b95a809",
+    "tests/test_tile_asset_descriptor_pixel_ab_artifact.py": "6d7a201f6e945b6c3eb83e43d5a79b24a37b723dc031adf21c371679f7fc97ce",
+    "tools/build_tile_asset_descriptor_pixel_ab.py": "4e94d0b6ea3bfa9a1ccf2e64f94922f6eeb053b16e0acebcc80849733760d9e1",
+    "tools/export_tile_asset_descriptor_pixel_ab.py": "b0572e0954b4e32380211c510f376971c0ca6151a70d314c4aa55d8e40a9c505",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_checkpoint_replay.lua": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "tools/mgba_tile_asset_initializer_trace.lua": "f62c4b143fdbac7caaefb66fd9222599ed9174b4d8dc53befe7d96c70fb9ff5b",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/verify_tile_asset_descriptor_pixel_ab.py": "7d2648e8a003affa26e9ee21b64f9a3ea25c6b31e6e9a213eed865b6a9d25845"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "descriptor_2_layer_a_palette_pointer_runtime_verified": true,
+    "modified_rom_pixel_ab": true,
+    "natural_base_rom_route": true,
+    "other_descriptor_fields_runtime_verified": false,
+    "physical_gba_verified": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_tile_asset_descriptor_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "expected": {
+      "verified": true
+    }
+  }
+}

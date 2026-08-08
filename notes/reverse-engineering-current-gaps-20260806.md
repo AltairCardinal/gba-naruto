@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 14/22 | 22/22 | 8 个 code_verified bank 待 player-visible 闭合 |
+| 有效 bank 运行时身份 | 15/22 | 22/22 | 7 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,9 @@
 
 ## 剩余 2 大缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 8 个）
+### 1. 22/22 bank runtime identity（缺 7 个）
 
 按 ROI 排序：
-- **Tier 1** (tile-assets): initializer 命中探测 + 单字节资源 patch + mGBA render diff
 - **Tier 2** (map-events, map-sprites): scenario 41/50 快照 + controlled probe
 - **Tier 3** (battle-encounters, cutscene-scripts): scenario 47+ 快照 + 多帧对比
 - **Tier 4** (sappy-engine, levels, data-table-b): 间接可见
@@ -33,6 +32,12 @@
 零输入 A/B 把 record 0 `y_offset` 从 0 改为 32，严格传播为 task/OAM Y +32，
 ack Mode 0 重放得到 286 个最终像素变化；运行内存差异仅限对应 task/OAM
 字节。详见 `notes/motion-effect-parameter-player-visible-20260809.md`。
+
+**已闭合**：`tile-assets` 的自然 Mode-0 场景链选择 presentation 3 / descriptor 2。
+只把 descriptor 2 `+0x14` 的 layer-A palette pointer 从 `0x0834B228`
+改为 `0x08349E74`，两次固定零输入 A/B 仅在 PRAM `0x050001E2..1FF`
+留下差异，并改变最终 38,400 个像素；其余五个内存域完全一致。详见
+`notes/tile-assets-descriptor-player-visible-20260809.md`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 
@@ -85,6 +90,9 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
 - `palettes`（motion/effect 参数）自然 Group 3 record-0 `y_offset` A/B 闭合；
   bank runtime 指标由 13/22 提升为 14/22。两次 mGBA 峰值 RSS 不超过
   75 MiB，独立 verifier 从 raw archive 重建 ROM、三阶段内存与最终像素。
+- `tile-assets` descriptor 2 的自然 selector/initializer 路线及最小 palette
+  pointer A/B 闭合；bank runtime 指标由 14/22 提升为 15/22。两次 A/B
+  峰值 RSS 均低于 108 MiB，计划/实际运行数为 2/2，盲试为 0。
 
 ## 2026-08-06 会话交付（历史）
 
@@ -122,10 +130,10 @@ bank + 字段 C 级命名 + 实体 GBA 0/1（无硬件）。
 ## 未达成目标的真实成本评估
 
 按当前可推进路径计算：
-- 剩余 8/22 bank closure: 首个闭环已验证“先复用已验快照、再固定两次 A/B”
+- 剩余 7/22 bank closure: 已验证“先复用已验快照、再固定两次 A/B”
   可把单 bank 成本压到约 1–3 小时；尚无入口的 bank 仍需额外 route discovery
 - 实体 GBA 验证: 无法在当前环境推进（需真机）
 
 原 38-60 小时估算已被 controlled phase 复用缩短；剩余时间需在首个 production
-controlled pixel 已按实际脚本批处理闭合；当前可推进成本集中在 8 个 bank
+controlled pixel 已按实际脚本批处理闭合；当前可推进成本集中在 7 个 bank
 player-visible closure。

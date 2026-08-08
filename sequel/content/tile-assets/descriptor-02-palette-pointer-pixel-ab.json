@@ -1,0 +1,30 @@
+{
+  "schema": "tile-asset-descriptor-pixel-ab-profile-v1",
+  "profile_id": "descriptor-02-layer-a-palette-pointer",
+  "descriptor_id": 2,
+  "consumer_id": 3,
+  "table_offset": 5911052,
+  "record_size": 68,
+  "field": "layer_a_palette_pointer",
+  "field_offset": 20,
+  "before_pointer": "0x0834B228",
+  "after_pointer": "0x08349E74",
+  "source_bank": "sequel/content/tile-assets/bank.json",
+  "source_bank_sha256": "9ef92f5c358f114a660eeea42ab5358f37435047d7bb91708c3a80274d5df218",
+  "source_asset_manifest": "artifacts/tile-assets-bg-v2/manifest.json",
+  "source_asset_manifest_sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
+  "input_state": "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9",
+  "input_state_sha256": "6df712f69dd9cc702a77ba8ee25964d348f39cc0440a6362c7407c5321cd88cd",
+  "input_mode": "zero-input-active-state",
+  "inputs": [],
+  "initializer": "0x080983B8",
+  "selector": "0x0808C18C",
+  "capture_frame": 100,
+  "boundary": {
+    "natural_base_rom_route": true,
+    "modified_rom_descriptor_pointer": true,
+    "descriptor_2_layer_a_palette_pointer_only": true,
+    "other_descriptors_runtime_verified": false,
+    "physical_gba_verified": false
+  }
+}

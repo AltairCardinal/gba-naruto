@@ -55,6 +55,7 @@ Expected SHA-256:
 | `scenario-49-battle-14-tool67-confirmation.ss9` | `95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012` | accepted battle 14 `引爆牌` final confirmation with `是` selected; next input is one A and no C3 object exists yet |
 | `scenario-49-battle-14-tool67-active-c3.ss9` | `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939` | accepted battle 14 boundary after natural use of `引爆牌`; active object slot 3 is state 1/action `0xC3` with two turns remaining |
 | `scenario-49-battle-14-tool67-expiry-ready.ss9` | `34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501` | accepted battle 14 boundary with the same natural `C3` object at zero remaining turns, immediately before zero-input group-3 expiry capture |
+| `scene-visual-controller-mode0-preselector.ss9` | `6df712f69dd9cc702a77ba8ee25964d348f39cc0440a6362c7407c5321cd88cd` | accepted natural Mode-0 scene visual controller boundary; zero input reaches selector `0x0808C18C`, presentation ID 3 and tile descriptor 2 initializer after 73 frames |
 
 ## Scenario 41 checkpoint ledger
 

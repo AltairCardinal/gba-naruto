@@ -1,0 +1,135 @@
+{
+  "build": {
+    "edit": {
+      "after_bytes": "749e3408",
+      "after_pointer": "0x08349E74",
+      "before_bytes": "28b23408",
+      "before_pointer": "0x0834B228",
+      "changed_rom_offsets": [
+        5911208,
+        5911209
+      ],
+      "descriptor_id": 2,
+      "field": "layer_a_palette_pointer",
+      "rom_address": "0x085A32A8",
+      "rom_offset": 5911208
+    },
+    "manifest_sha256": "5fdfa9545e38b4d55e6a0da4bd87f7e5a43ed67f3878437f2035e1af71f7e9e8"
+  },
+  "consumer_id": 3,
+  "descriptor_id": 2,
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "memory": {
+    "baseline_palette_hex": "0000e234e71864316331ad390b52d435524e58263842f762fd523a5fde7b6210",
+    "candidate_palette_hex": "0000e53ce53ce53caa5198778c5e83412745e53ce003e003e003e003e0030000",
+    "differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [
+        482,
+        483,
+        484,
+        485,
+        486,
+        487,
+        488,
+        489,
+        490,
+        491,
+        492,
+        493,
+        494,
+        495,
+        496,
+        497,
+        498,
+        499,
+        500,
+        501,
+        502,
+        503,
+        504,
+        505,
+        506,
+        507,
+        508,
+        509,
+        510,
+        511
+      ],
+      "VRAM": []
+    },
+    "palette_destination": "0x050001E0",
+    "palette_size": 32
+  },
+  "natural_route": {
+    "checkpoint": "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9",
+    "checkpoint_sha256": "6df712f69dd9cc702a77ba8ee25964d348f39cc0440a6362c7407c5321cd88cd",
+    "controller_mode": 0,
+    "descriptor_address": "0x085A3294",
+    "initializer": "0x080983B8",
+    "input": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "parent_checkpoint": "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9",
+    "parent_checkpoint_sha256": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000",
+    "presentation_id": 3,
+    "selector": "0x0808C18C",
+    "zero_input_frames_to_initializer": 73
+  },
+  "pixels": {
+    "baseline_rgb_sha256": "44479ffd5aff26101927c079df4e658665a9e36552212bc0e08228938b8c566a",
+    "bbox_inclusive": [
+      0,
+      0,
+      239,
+      159
+    ],
+    "candidate_rgb_sha256": "dfe3df24453b540a1f6ceccffaeaabab3de32e2dc9ac990d9cfce7738b8f765b",
+    "changed_pixel_count": 38400,
+    "height": 160,
+    "width": 240
+  },
+  "run_budget": {
+    "actual": 2,
+    "blind_retries": 0,
+    "planned": 2
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "1fc188ed1533c3f68917902d57160016f8953e7f917927d50484a55f9871a38b",
+      "guard_sha256": "60d81d033679ed87eaaddc0ff9e86265e2dad90f22462b60017c7b191a62b718",
+      "peak_tree_rss_mib": 107.72265625,
+      "pgid_clean": true,
+      "png_sha256": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "state_sha256": "d2783298e63e4286d4ec061eab60bcfadbe398ad584de2300e74e9e24a0cb4ca"
+    },
+    "candidate": {
+      "audit_sha256": "31679468a799cfc26c9bb8ef8f72ba5f8798b7cf749c40ca271095244e8155e4",
+      "guard_sha256": "f48e23015cba2687d29445cb01a49ee1a2b017f1e0bbcc8bff217a69cb9afe12",
+      "peak_tree_rss_mib": 107.6796875,
+      "pgid_clean": true,
+      "png_sha256": "db4a9db58cc52e66cb8baf3486ac84562b6368143db77830fc1622971b0d7d36",
+      "rom_sha256": "94f0f92ee738e02b176d2ff3138d148539c5f5eb42fecc182bd4fa6cdb657896",
+      "state_sha256": "30f3c9d9616b1b4cc0a1e084b6ece95d33ce87a77a97dfab78e6f3f894b1ee99"
+    }
+  },
+  "schema": "tile-asset-descriptor-pixel-ab-evidence-v1",
+  "scope": {
+    "descriptor_2_layer_a_palette_pointer_runtime_verified": true,
+    "modified_rom_pixel_ab": true,
+    "natural_base_rom_route": true,
+    "other_descriptor_fields_runtime_verified": false,
+    "physical_gba_verified": false
+  },
+  "verified": true
+}

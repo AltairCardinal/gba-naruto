@@ -2346,3 +2346,13 @@ WebSocket
   指标由 13/22 提升到 **14/22 runtime_verified**；边界不覆盖其余 14 条记录、
   另外两个 consumer 或实体 GBA。证据见
   `artifacts/motion-effect-parameter-pixel-ab-v1/`。
+- 2026-08-09：`tile-assets` bank 已完成自然玩家可见闭环。由历史 scene-panel
+  状态生成并固化 `scene-visual-controller-mode0-preselector.ss9`，零输入 73 帧
+  依次命中 selector `0x0808C18C`、presentation ID 3、initializer `0x080983B8`
+  与 descriptor 2 `0x085A3294`。candidate 只把该记录 `+0x14` 的 layer-A
+  palette pointer `0x0834B228→0x08349E74`，ROM 实际只变更两字节；两次固定
+  A/B 的 IO/VRAM/OAM/IWRAM/EWRAM 完全相同，PRAM 仅 `0x1E2..0x1FF`
+  不同，最终画面 38,400 像素变化。两次运行峰值 RSS 均低于 108 MiB、无
+  进程残留；独立 verifier 与防重签测试通过。bank 指标由 14/22 提升到
+  **15/22 runtime_verified**；边界不覆盖其他 descriptor 字段或实体 GBA。
+  证据见 `artifacts/tile-asset-descriptor2-pixel-ab-v1/`。

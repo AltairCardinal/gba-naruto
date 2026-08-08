@@ -212,7 +212,13 @@ def audit_bank(
 
 def build_report(root: Path, output_md: Path, rom_path: Path | None = None) -> dict[str, Any]:
     banks = sorted((root / "sequel" / "content").glob("*/bank.json"))
-    documents = load_documents(root, {output_md.resolve()})
+    documents = load_documents(
+        root,
+        {
+            output_md.resolve(),
+            (root / "notes/re-completion-audit.md").resolve(),
+        },
+    )
     rom = rom_path.read_bytes() if rom_path is not None and rom_path.exists() else None
     results = [audit_bank(root, bank, documents, rom) for bank in banks]
     check_names = ("table_offset", "format", "entries", "verification", "documentation", "rom_fidelity")
