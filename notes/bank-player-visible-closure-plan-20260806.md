@@ -3,7 +3,8 @@
 > 历史规划。2026-08-09 `palettes`、`tile-assets` 与 `map-sprites` 已分别由
 > `artifacts/motion-effect-parameter-pixel-ab-v1/` 和
 > `artifacts/tile-asset-descriptor2-pixel-ab-v1/`、
-> `artifacts/map-sprites-definition-id1-pixel-ab-v1/` 闭合，当前剩余 6 个
+> `artifacts/map-sprites-definition-id1-pixel-ab-v1/` 闭合；`map-events` 又由
+> `artifacts/map-events-e4-handler-pixel-ab-v1/` 闭合，当前剩余 5 个
 > `code_verified` bank；`tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
@@ -19,7 +20,7 @@ code_verified，需要 player-visible runtime semantic closure：
 | cutscene-scripts | 0x53DF70 | code_verified | 过场动画脚本 |
 | data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
 | levels | 0x5459C8 | code_verified | 等级成长曲线 |
-| map-events | 0x53E698 | code_verified | 地图事件触发器 |
+| map-events | 0x53E698 | runtime_verified | E4 primary 自然分派（恢复态） |
 | map-sprites | 0x53F140 | runtime_verified | 通用 sprite definition/animation 绑定（受控物化闭合） |
 | palettes | 0x53EE98 | runtime_verified | motion/effect 参数（2026-08-09 已闭合） |
 | sappy-engine | 0x079668 | code_verified | 音频命令 dispatcher |
@@ -61,8 +62,9 @@ validate_current_toolchain_profile SHA 校验。这是 debug-only 操作。
 
 ### Tier 2：中等 ROI（需要 controlled probe）
 
-**map-events (0x53E698)**：地图事件触发器修改 → 角色行为改变。
-需要 scenario 41 基础快照 + controlled probe。
+**map-events (0x53E698)**：已闭合。自然 tool-67 E4 恢复态的 primary handler
+隔离 A/B 均命中表地址与 trampoline；只有基线进入原生 handler、创建 group 3，
+最终相差 37,436 像素。不声称本轮重命中已过去的 expiry builder。
 
 **map-sprites (0x53F140)**：已闭合。entry 1 `definition_ptr` 的隔离 ROM A/B
 经 task 123 受控物化后命中 frame-select/OAM-compose，并产生 213 个最终像素差；

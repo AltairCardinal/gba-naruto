@@ -22,10 +22,26 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "0x0807F934..0x0807F948 reads state byte sb+0x770, computes index<<3 from literal 0x0853E698 and dispatches nonzero primary through 0x0809C114; 0x0807F94E..0x0807F964 repeats from literal 0x0853E69C for secondary.",
+    "verification": "runtime_verified",
+    "verification_method": "0x0807F934..0x0807F948 reads state byte sb+0x770, computes index<<3 from literal 0x0853E698 and dispatches nonzero primary through 0x0809C114; 0x0807F94E..0x0807F964 repeats from literal 0x0853E69C for secondary. artifacts/map-events-e4-handler-pixel-ab-v1 additionally resumes the accepted natural tool-67 expiry state with zero input: both ROMs read E4 at 0x0853EDB8 and reach 0x0809C114; only the baseline enters 0x0807F208 and renders group 3, while the isolated in-ROM bx-lr candidate does neither and changes 37,436 final pixels.",
+    "runtime_evidence": {
+        "artifact": "artifacts/map-events-e4-handler-pixel-ab-v1",
+        "entry_id": 228,
+        "field": "primary_handler_ptr",
+        "source_pointer": "0x0807F209",
+        "candidate_pointer": "0x0809C149",
+        "candidate_instruction": "bx lr",
+        "natural_checkpoint": true,
+        "zero_input": true,
+        "current_run_rehit_expiry_builder": false,
+        "modified_rom_pixel_ab": true,
+        "changed_pixel_count": 37436,
+        "all_entries_runtime_verified": false,
+        "secondary_handler_runtime_verified": false,
+        "physical_gba_verified": false
+    },
     "former_claim": "47 map-indexed handler pointers beginning at 0x53EB08",
-    "notes": "0x53EB08 equals pair table index 142, so the old 47-u32 view cut 23.5 pairs and coincidentally matched the map count. The complete table spans 0x53E698..0x53EE97; the next object begins at 0x53EE98. Legacy map-event editor rows are diagnostic-only.",
+    "notes": "0x53EB08 equals pair table index 142, so the old 47-u32 view cut 23.5 pairs and coincidentally matched the map count. The complete table spans 0x53E698..0x53EE97; the next object begins at 0x53EE98. Legacy map-event editor rows are diagnostic-only. Runtime evidence proves one natural E4 primary dispatch; it does not claim a fresh 0x08081D74 hit in the resumed run, secondary handlers, all 256 entries, or physical-GBA output.",
     "entries": [
         {
             "_index": 0,

@@ -1,0 +1,212 @@
+{
+  "build": {
+    "edit": {
+      "after_bytes": "49c10908",
+      "after_pointer": "0x0809C149",
+      "after_target_instruction": "bx lr",
+      "before_bytes": "09f20708",
+      "before_pointer": "0x0807F209",
+      "changed_rom_offsets": [
+        5500344,
+        5500345,
+        5500346
+      ],
+      "field": "primary_handler_ptr",
+      "rom_address": "0x0853EDB8",
+      "rom_offset": 5500344
+    },
+    "manifest_sha256": "fe49b0302507fd77f3f6447f9eeeb6c651c65a08b31905bdd2e5d52180f8a085"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+    "sha256": "34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501"
+  },
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "entry_id": 228,
+  "events": {
+    "baseline": {
+      "e4-handler-loaded": {
+        "address": "0x0807FD38",
+        "frame": 66,
+        "lr": "0x0807FD19",
+        "r0": "0x0853EDB8",
+        "r1": "0x0807F209",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0807F209",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      },
+      "e4-table-address": {
+        "address": "0x0807FD36",
+        "frame": 66,
+        "lr": "0x0807FD19",
+        "r0": "0x0853EDB8",
+        "r1": "0x0853E698",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0807F209",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      },
+      "e4-trampoline": {
+        "address": "0x0809C114",
+        "frame": 66,
+        "lr": "0x0807FD3F",
+        "r0": "0x02026CB8",
+        "r1": "0x0807F209",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0807F209",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      },
+      "group3-renderer": {
+        "address": "0x08063328",
+        "frame": 67,
+        "lr": "0x0806316D",
+        "r0": "0x0300067C",
+        "r1": "0x00000200",
+        "table_entry_address": "0x00000000",
+        "table_handler": "0x00000000",
+        "task_address": "0x03005940",
+        "task_slot": 126
+      },
+      "native-group3-handler": {
+        "address": "0x0807F208",
+        "frame": 66,
+        "lr": "0x0807FD3F",
+        "r0": "0x02026CB8",
+        "r1": "0x0807F209",
+        "table_entry_address": "0x00000000",
+        "table_handler": "0x00000000",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      }
+    },
+    "candidate": {
+      "e4-handler-loaded": {
+        "address": "0x0807FD38",
+        "frame": 66,
+        "lr": "0x0807FD19",
+        "r0": "0x0853EDB8",
+        "r1": "0x0809C149",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0809C149",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      },
+      "e4-table-address": {
+        "address": "0x0807FD36",
+        "frame": 66,
+        "lr": "0x0807FD19",
+        "r0": "0x0853EDB8",
+        "r1": "0x0853E698",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0809C149",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      },
+      "e4-trampoline": {
+        "address": "0x0809C114",
+        "frame": 66,
+        "lr": "0x0807FD3F",
+        "r0": "0x02026CB8",
+        "r1": "0x0809C149",
+        "table_entry_address": "0x0853EDB8",
+        "table_handler": "0x0809C149",
+        "task_address": "0x00000000",
+        "task_slot": -1
+      }
+    }
+  },
+  "field": "primary_handler_ptr",
+  "memory": {
+    "EWRAM": {
+      "baseline_sha256": "1a7a80b673bc24d0d418e7ac892bc1eb2eb7031c5b88e9739913e136709c5236",
+      "candidate_sha256": "c34d3f60bbe573a0f38ac9d6d5a135fdd51da123faf8eda12b0321ccae020255",
+      "count": 13,
+      "indices_sha256": "b955fa2bee7dd17beb0af90861296f8fb0b4c4ed7019c32d4eb2c2436a323ca8"
+    },
+    "IO": {
+      "baseline_sha256": "60bfbb7456f14ca72548b72d1d3fe66dcaba1b106bc848bee4d61c93ddb01aff",
+      "candidate_sha256": "d0e359fabe3e2c85fd85df12c11e555768ca3bf832eaec6fd4726380ff458912",
+      "count": 1,
+      "indices_sha256": "f3c95d13a34c34b7e2a69c1947983a4fd88f2bc10b2e4d2d992a3fb66b55eca3"
+    },
+    "IWRAM": {
+      "baseline_sha256": "a0c2045589544fba95de4681b65538e1469081725e770cf15d9b85896d966642",
+      "candidate_sha256": "758b420e982da0f7f6984837d35f4c5d93147343be85f344787bc950f23106ee",
+      "count": 417,
+      "indices_sha256": "ae99e437a2b8b9a372b35adda9a8bb5352f01f7cdf129dea814de7c55f927e09"
+    },
+    "OAM": {
+      "baseline_sha256": "d0c2a41dc2b240bd31f8fc167e10a8a6b36f4937682f8210841ecb968b38424e",
+      "candidate_sha256": "73680856565cd58877337330c5d4e63dbd566852dcf9f2999a2f747a9ef09623",
+      "count": 11,
+      "indices_sha256": "fc6a44db36e54ee4caec5442e4fa86a396d814ea701564b65d1c1f96725c7c0d"
+    },
+    "PRAM": {
+      "baseline_sha256": "e392b651b31ed2fc2f25da270ca51d7657b7770a04dab1468087cbfcf91cbb4e",
+      "candidate_sha256": "8a5d91444000ba9da4559b1d9274bd7f31bbbfe90a624e263093256ea348b9f1",
+      "count": 62,
+      "indices_sha256": "d0374daf5af8f552ed1562bb4da0c315339e2aaaac67d022d9a18ab140793275"
+    },
+    "VRAM": {
+      "baseline_sha256": "9b301d47ae43ffbc17df2d8bcbd17d8be6b8886e20eede78cfe6a473e8f97e10",
+      "candidate_sha256": "83052913843f00ec5c12ec7446c13c4b12285275a91162df3d546f45aa811a34",
+      "count": 6841,
+      "indices_sha256": "530e2a560fff59104f05996c20556d6f43d7a2774e4160fb235449cb09c5c1e2"
+    }
+  },
+  "not_proved": "This run resumes after the C3-to-E4 event was queued and does not re-hit 0x08081D74; source checkpoint and static-chain artifacts bind that upstream route. It does not prove secondary handlers, all 256 entries, full animation semantics, or physical-GBA output.",
+  "pixels": {
+    "baseline_rgb_sha256": "12c28206d046864088b43898075275ce8aec11db414172f6b2f47fa0a69dff41",
+    "bbox_inclusive": [
+      0,
+      0,
+      239,
+      159
+    ],
+    "candidate_rgb_sha256": "3ac44a642a77c63c09f3048aff7069845f7c48772eaf07d46581637989f03c4a",
+    "changed_pixel_count": 37436,
+    "height": 160,
+    "width": 240
+  },
+  "proved": "Natural zero-input recovery reaches E4 primary_handler_ptr through 0x0807FD36 and 0x0809C114; the baseline enters 0x0807F208 and renders group 3, while the isolated bx-lr candidate does neither and changes 37,436 final pixels.",
+  "route": {
+    "baseline_handler": "0x0807F209",
+    "boundary": "The natural checkpoint contains one active C3 delayed object at zero turns and no group-3 task. The candidate replaces only E4 primary_handler_ptr with the in-ROM Thumb bx-lr no-op; this tests E4 dispatch causality without an unsafe null branch.",
+    "candidate_handler": "0x0809C149",
+    "candidate_handler_instruction": "bx lr",
+    "current_run_rehit_expiry_builder": false,
+    "dispatch_address": "0x0807FD36",
+    "natural_checkpoint": true,
+    "post_dispatch_frames": 3,
+    "table_entry_address": "0x0853EDB8",
+    "trampoline": "0x0809C114",
+    "zero_input": true
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "854b7c7b5e632256af4234d923f90c8a4e0b73addc55c30c11c3f17d2659096e",
+      "guard_sha256": "86d39fc2c48617df05db8ac92b993357a5cc9932104d180b2b208191c42320b1",
+      "peak_tree_rss_mib": 56.20703125,
+      "pgid_clean": true,
+      "png_sha256": "329a4291fd0754628ab40c020dbbeb45b69e9ee4373d49e11b534d388b223e82",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "state_sha256": "8612a6749da12f682c003a2f29f1ded65ae3ec142ecff56e0d5a2097946787b2"
+    },
+    "candidate": {
+      "audit_sha256": "45f367f1c0106b268c79875867acfc03a670727f022ccc1a82e2af6dd06ff3de",
+      "guard_sha256": "94bbe67ba0344b8b2cef1492fb1383dfc865741124d4513d503c275bd83da5e7",
+      "peak_tree_rss_mib": 56.1875,
+      "pgid_clean": true,
+      "png_sha256": "8049027b2a7c8cf3153839d5d3578ffc03cf88cea9a157e80be2af89f46749b7",
+      "rom_sha256": "e0b2c3e70cdbe057097245fd055fc5e0354c8f2dc72cba237dc3d67d93c7fb04",
+      "state_sha256": "c01e4505a1c71cd895c3ff743d937920d988afdc4055b7d125a2695e9354cad5"
+    }
+  },
+  "schema": "map-events-e4-handler-pixel-ab-evidence-v1",
+  "verified": true
+}

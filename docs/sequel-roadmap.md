@@ -2327,6 +2327,14 @@ WebSocket
   donor entry 37 的原生 tile-base 兼容。产物见
   `artifacts/map-sprites-definition-id1-pixel-ab-v1/`；有效 bank 运行时身份为
   16/22，下一项为 `map-events`。
+- 2026-08-09：`map-events` bank 从 `code_verified` 提升为
+  `runtime_verified`。从自然 tool-67 E4 恢复点零输入运行，entry E4 primary
+  `0x0807F209 → 0x0809C149` 只改变三个 ROM 字节；两案均在 frame 66 从
+  `0x0853EDB8` 经 `0x0809C114` 分派，只有基线进入原生 handler 并在 frame 67
+  渲染 group 3。frame 69 最终画面相差 37,436 像素，峰值约 56.2 MiB，均无残留。
+  恢复点已越过 expiry builder，本轮不冒充重新命中 `0x08081D74`。产物见
+  `artifacts/map-events-e4-handler-pixel-ab-v1/`；有效 bank 运行时身份为 17/22，
+  下一项为 `battle-encounters`。
 - 2026-08-09：Group 6 / sequence 8 已完成受控 sequence binder 与 production
   relocation 的最终像素 A/B。两份 ROM 仅有一个解压图形 nibble 不同，LZ77
   长度同为 494 bytes；运行时除 `0x0601641E` 外六内存域相同，ack savestate

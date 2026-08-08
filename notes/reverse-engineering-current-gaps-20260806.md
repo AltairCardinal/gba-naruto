@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 16/22 | 22/22 | 6 个 code_verified bank 待 player-visible 闭合 |
+| 有效 bank 运行时身份 | 17/22 | 22/22 | 5 个 code_verified bank 待 player-visible 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,9 @@
 
 ## 剩余 2 大缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 6 个）
+### 1. 22/22 bank runtime identity（缺 5 个）
 
 按 ROI 排序：
-- **Tier 2** (map-events): scenario 41/50 快照 + controlled probe
 - **Tier 3** (battle-encounters, cutscene-scripts): scenario 47+ 快照 + 多帧对比
 - **Tier 4** (sappy-engine, levels, data-table-b): 间接可见
 
@@ -45,6 +44,11 @@ ack Mode 0 重放得到 286 个最终像素变化；运行内存差异仅限对�
 `0x08063108`，最终 OAM 改变 15 字节、画面 `(178,64)..(215,71)` 改变
 213 像素。该证据不声称自然 loader 重入或 donor 原生 tile-base 兼容。详见
 `notes/map-sprites-definition-player-visible-20260809.md`。
+
+**已闭合**：`map-events` entry E4 primary 的自然恢复态 A/B。两案均在 frame 66
+从 `0x0853EDB8` 经 trampoline 分派；只有基线进入 `0x0807F208` 并在 frame 67
+渲染 group 3，frame 69 最终相差 37,436 像素。恢复点已越过 C3→E4 构造，故本轮
+不声称重命中 expiry builder。详见 `notes/map-events-e4-player-visible-20260809.md`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 
@@ -102,6 +106,8 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
   峰值 RSS 均低于 108 MiB，计划/实际运行数为 2/2，盲试为 0。
 - `map-sprites` entry 1 `definition_ptr` controlled materialization A/B 闭合；bank
   runtime identity 由 15/22 提升到 16/22。
+- `map-events` entry E4 primary natural-recovery A/B 闭合；bank runtime identity
+  由 16/22 提升到 17/22。
 
 ## 2026-08-06 会话交付（历史）
 

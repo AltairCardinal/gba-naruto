@@ -41,6 +41,7 @@
 - bank 玩家可见闭环先让 `gpt-5.6-terra` 只读盘点已有 consumer、快照和 runner，本体复核后优先复用自然快照；路线已证实时固定 baseline/candidate 两次运行，不先增加命中探针。阶段截图尚未显示刚提交的 OAM 时，应从 ack savestate 重放 Mode 0，不得据 PNG 同哈希误判无可见差异。
 - 视觉 descriptor 闭环可让 `gpt-5.6-terra` 只读提出候选路线和 A/B 字段，本体负责断点验真并采用能完成归因的最小字段修改；候选建议范围大于必要范围时不得照单采用。已验证模板是“自然控制器快照 → 零输入 selector/initializer 命中 → 单指针两字节变化 → 固定两次 A/B → 六内存域与像素独立复核”。
 - 通用 task 表已在自然快照中物化、但 task 已 inactive 且没有短自然重建路线时，先让 `gpt-5.6-terra` 只读枚举直接/间接 caller；本体完成零输入对照和最多一个有静态依据的重入候选后仍不命中，就停止导航试错。允许在明确标注 controlled 的实验中只恢复 active bit，并从 baseline/candidate ROM 表物化目标字段；必须同时命中真实下游 consumer、等待完整提交帧、核对六内存域与最终像素，且不得声称自然 loader 重入。
+- 自然 savestate 已位于上游事件构造之后时，不得强求恢复后重命中已经过去的 producer；用 hash-bound checkpoint/静态链约束上游，再以 handler 入口和 `lr` 诊断真实 consumer，A/B 只签发本轮实际命中的下游边界。需要等待自然调度的 Lua 注册 callback/breakpoint 后应返回 mGBA 事件循环，不得用 `while ... frameAdvance()` 冒充自然运行；Terra 的候选字段仍须由本体先反汇编验证空值和调用约定。
 - 工具 schema 未列出的模型（包括当前不可用的 `luna`）不得调用或声称已使用；能力可用性变化后方可重新验收。
 
 ## ROM 与资源安全
