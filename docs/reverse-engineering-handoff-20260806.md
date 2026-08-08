@@ -1,5 +1,10 @@
 # 木叶战记 GBA 逆向工程交接 v4（2026-08-06）
 
+> **已于 2026-08-09 被更正，不得作为当前状态依据。** 本文把 mGBA 的 PNG
+> savestate 容器误判为普通 PNG，并错误宣布全部运行时证据失效；详见
+> `notes/runtime-checkpoints-data-integrity-issue-20260806.md`。当前 Goal、Git
+> 状态及后续交接优先于本文。
+
 > 本文是当前权威交接。v1/v2/v3 假设的 runtime evidence 全部需要重新评估。
 > v4 整合了本会话的 14 个 commit 与 mGBA 工具链修复尝试的结果。
 

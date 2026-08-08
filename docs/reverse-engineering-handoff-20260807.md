@@ -1,5 +1,11 @@
 # 木叶战记 GBA 逆向工程交接 v5（2026-08-07）
 
+> **已于 2026-08-09 被更正，不得作为当前状态依据。** 本文的核心 blocker
+> 来自对 mGBA PNG savestate 容器的误判；104/104 个 `.ss9` 已经严格解析验证。
+> profile 指定的正确 mGBA 也一直存在于
+> `/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA`。
+> 详见 `notes/runtime-checkpoints-data-integrity-issue-20260806.md`。
+
 > 本文是当前权威交接。v1-v4 假设的 runtime evidence 全部需要重新评估。
 > v5 整合本 Goal 工作周期（mihmhee-pkj4tn）的 mGBA forward-port 编译尝试
 > 与新 binary 状态。

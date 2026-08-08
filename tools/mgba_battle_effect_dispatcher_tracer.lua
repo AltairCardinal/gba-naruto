@@ -3,7 +3,8 @@
 --
 -- Env vars:
 --   TRACER_OUTPUT_AUDIT, TRACER_OUTPUT_DONE, TRACER_OUTPUT_PNG
---   TRACER_HIT_LIMIT (default 8)
+--   TRACER_INPUT_STATE, TRACER_INPUT_STATE_SHA256
+--   TRACER_HIT_LIMIT, TRACER_FRAME_LIMIT
 
 local function required_env(name)
 	local value = os.getenv(name)
@@ -14,8 +15,13 @@ end
 local audit_path = required_env("TRACER_OUTPUT_AUDIT")
 local done_marker = required_env("TRACER_OUTPUT_DONE")
 local output_png = required_env("TRACER_OUTPUT_PNG")
-local hit_limit = tonumber(required_env("TRACER_HIT_LIMIT") or "8")
+local input_state = required_env("TRACER_INPUT_STATE")
+local input_state_sha256 = required_env("TRACER_INPUT_STATE_SHA256")
+local hit_limit = assert(tonumber(required_env("TRACER_HIT_LIMIT")))
+local frame_limit = assert(tonumber(required_env("TRACER_FRAME_LIMIT")))
 local tracer_sha = required_env("TRACER_SHA")
+assert(hit_limit >= 1 and hit_limit == math.floor(hit_limit), "invalid hit limit")
+assert(frame_limit >= 1 and frame_limit == math.floor(frame_limit), "invalid frame limit")
 
 local dispatcher_addr = 0x0807C93C
 local hits = {}
@@ -31,16 +37,14 @@ local function hex(value)
 	return string.format("0x%08X", value or 0)
 end
 
-callbacks:add("frame", function()
-	if complete then return end
-	frame = frame + 1
-end)
-
 local function write_audit()
 	local f = assert(io.open(audit_path, "w"))
 	local payload = '{' ..
 		'"schema":"battle-effect-dispatcher-tracer-v1",' ..
 		'"tracer_sha":' .. q(tracer_sha) .. ',' ..
+		'"input_state":' .. q(input_state) .. ',' ..
+		'"input_state_sha256":' .. q(input_state_sha256) .. ',' ..
+		'"frame_limit":' .. frame_limit .. ',' ..
 		'"dispatcher_addr":"0x0807C93C",' ..
 		'"hit_count":' .. #hits .. ',' ..
 		'"hits":['
@@ -87,10 +91,14 @@ local function on_break()
 	if #hits >= hit_limit then finish() end
 end
 
+assert(emu:loadStateFile(input_state), "failed to load tracer input state")
+emu:setKeys(0)
 breakpoint_id = emu:setBreakpoint(on_break, dispatcher_addr)
+assert(breakpoint_id and breakpoint_id > 0, "failed to install dispatcher breakpoint")
 
-callbacks:add("postLoop", function()
-	if not complete and frame > 1800 then finish() end
+callbacks:add("frame", function()
+	if complete then return end
+	frame = frame + 1
+	emu:setKeys(0)
+	if frame >= frame_limit then finish() end
 end)
-
-while not complete do emu:frameAdvance() end

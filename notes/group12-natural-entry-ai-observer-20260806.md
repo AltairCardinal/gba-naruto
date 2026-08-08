@@ -1,5 +1,11 @@
 # Group 12 / sequence 14 / action 32 "雷切" 入口定位 v2（2026-08-06）
 
+> **2026-08-09 审计更正：本次 observer 不得作为 accepted runtime evidence。**
+> 输入 `.ss9` 本身是有效 mGBA 状态容器；真正的问题是运行使用了与 profile
+> 不匹配的 binary，并通过 debug monkey-patch 绕过工具链校验，同时 manifest
+> 引用了当时尚不存在的 verifier。以下内容仅保留为历史实验记录；“battle 8
+> 捕获到 action 61 而非 32”是待用正确工具链重验的线索。
+
 ## 摘要
 
 battle 8 round 3 AI observer 运行时确认：卡卡西 slot 9 action 32

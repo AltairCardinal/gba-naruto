@@ -84,6 +84,11 @@ profile.json 的 mgba_binary_sha256 可能来自一次特定的 CI 构建，
 
 ## 数据完整性 + 工具链双重 blocker
 
+> **2026-08-09 更正：以下 blocker 判断均不再成立。** `.ss9` 是包含 `gbAs`
+> 状态 chunk 的合法 PNG 容器；profile 指定的 mGBA binary 也已在
+> `/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA` 找回并核对
+> SHA-256。forward-port 编译是一次可保留的历史调查，但不是继续逆向的前置条件。
+
 - **blocker 1**: artifacts/runtime-checkpoints/*.ss9 实际是 PNG（d8bad14b
   commit 中 emu:saveStateFile 行为变更，或某次具体 save bug）
 - **blocker 2**: profile.json 期望的 mGBA binary SHA 在当前 macOS Qt5

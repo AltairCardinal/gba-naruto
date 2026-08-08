@@ -1,81 +1,42 @@
-# Runtime Checkpoints Data Integrity Issue（2026-08-06）
+# Runtime checkpoint 容器误判更正（2026-08-09）
 
-## 严重问题
+> 本文更正 2026-08-06 的错误结论。原调查只检查了文件头和 `file(1)` 输出，
+> 没有解析 mGBA 的状态容器；因此把合法 savestate 错判成了普通 PNG。
 
-`artifacts/runtime-checkpoints/` 下所有 104 个 `.ss9` 文件**实际是 PNG 文件**，
-不是 mGBA savestate。
+## 正确格式
 
+mGBA 的 `.ss9` 是 PNG 容器：标准 PNG 图像保存预览帧，自定义 `gbAs` chunk
+保存 zlib 压缩的 GBA 状态，`gbAx` chunk 保存扩展数据。PNG 文件头本身不是
+损坏证据，也不存在原文假定的 `MGST` 文件头要求。
+
+仓库工具 `tools/inspect_mgba_savestate.py` 已按该格式解析状态。新增的批量守卫
+`tools/verify_runtime_checkpoint_containers.py` 会验证：
+
+- PNG 签名、chunk 长度和 CRC；
+- 恰好一个 `gbAs` chunk；
+- `gbAs` 能 zlib 解压并满足 GBA 状态版本及 `0x61000` 字节长度约束；
+- 保存 PC 能从状态中读取。
+
+2026-08-09 批量结果：104/104 个 `.ss9` 有效，普通 PNG 0 个，无效文件 0 个；
+版本分布为 `0x01000007` 93 个、`0x0100000A` 11 个。该检查证明容器和状态载荷
+有效，但不替代各实验自己的运行时语义 verifier。
+
+## 影响范围
+
+- 因“`.ss9` 是 PNG”而对 Group 13、Group 17 等证据做出的统一降级无效；这些
+  证据仍应由各自 manifest、哈希、运行时输出和 verifier 独立审计。
+- commit `38af6dd5b` 新增的 101 个 `.png` 与同名 `.ss9` 逐字节相同，只是重复
+  复制了带状态 chunk 的容器，并非独立视觉证据；后续更正提交删除这些副本。
+- Group 12 AI observer v1 仍不能作为已接受证据，但真实原因是它使用了与
+  profile 不匹配的 mGBA、debug monkey-patch 绕过校验，并引用了当时尚不存在的
+  verifier，而不是输入 checkpoint 损坏。
+
+## 可复现验证
+
+```bash
+python3 tools/verify_runtime_checkpoint_containers.py
+python3 -m unittest -q tests.test_verify_runtime_checkpoint_containers
 ```
-file artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9
-→ PNG image data, 240 x 160, 8-bit/color RGB, non-interlaced
-```
 
-批量检测脚本输出：
-
-```python
-{'png': 104, 'ss9': 0, 'other': 0}
-```
-
-## 影响
-
-handoff 笔记中引用的所有 `.ss9` SHA-256 实际对应 PNG 文件 SHA，不是
-mGBA savestate SHA。包括：
-
-- `battle3-action61-ai-preconfirm.ss9` SHA `6524764b...`
-- `scenario-49-battle-14-tool37-confirmation.ss9` SHA `af37457d...`
-- `scenario-50-battle-15-escort-12hp-player-turn.ss9` SHA `7d6796a7...`
-
-所有这些 handoff 第 3/4 节引用的 savestate 路径**不可信**：
-- Group 13 / Group 17 pixel A/B experiments based on these `.ss9`
-- Group 12 AI observer 实验 based on these `.ss9`
-- batch dispatcher tracer 实验 based on these `.ss9`
-
-## 进一步检查
-
-batch_test_dispatcher_triggers.py 在 104 个 `.ss9` 上跑 dispatcher
-tracer，报告 2 个"触发"（battle3-action61-ai-preconfirm.ss9 和
-scenario-49-battle-14-tool67-expiry-ready.ss9）。但因为 `.ss9` 实际
-是 PNG，mGBA `-t <PNG>` 会触发 fallback 或 cold-boot，导致 dispatcher
-意外触发。这两个"命中"不可信。
-
-## 真正可用的 savestate
-
-需要重新生成 .ss9 savestate。可能的途径：
-1. 找上游原始 .ss9 savestate 来源
-2. 跑 mGBA 在已有 checkpoint PNG 之外的真实关卡中生成 savestate
-3. 检查是否有未提交的 .ss9 在另一工作树
-
-按 AGENTS.md "工作树边界"：逆向工作树不包含 build/experiments 中未
-跟踪的中间产物，所以原始 .ss9 可能丢失。
-
-## 受影响 handoff 注释
-
-- `notes/battle-effect-group12-group13-route-audit-20260802.md`
-- `notes/battle-effect-group13-pixel-ab-20260802.md`
-- `notes/battle-effect-group17-natural-pixel-ab-20260802.md`
-- `notes/battle-effect-controlled-runtime-20260801.md`
-- `notes/battle-effect-frame-phase-20260801.md`
-- `notes/group12-natural-entry-ai-observer-20260806.md`（本会话）
-- `artifacts/battle-effect-group12-ai-observer-v1/`（基于损坏的 .ss9）
-
-## 真实修复
-
-未追踪的 savestate 文件不可恢复（除非在另一工作树或 build/experiments
-未提交副本）。当前逆向工作树**没有任何可用 savestate**。
-
-Group 13/17 等声称"runtime_verified" 的 evidence 是**误用 PNG 当 savestate**，
-需要重新生成才能恢复可信证据。
-
-按 handoff 第 10 节"不回滚用户改动、不使用破坏性 Git 命令"——但这
-条规则保护的是 .ss9 真实存在时的操作；当前 .ss9 实际是 PNG，已偏离
-事实基础。
-
-## 推荐处理
-
-1. 修复 .ss9 命名：把 PNG 文件重命名为 .png（保护图像证据）
-2. 在新会话里生成真正的 .ss9 savestate（用新 mGBA 工具链）
-3. 重新跑 Group 13/17 evidence chain（需要真实 savestate）
-
-按 AGENTS.md "不做虚假声称"——不应假装 runtime_verified 当 savestate
-不可用时仍然算数。Group 13/17 的 runtime_verified 声明应降级为
-"verifier evidence 存在但 .ss9 数据完整性不可信"。
+边界：容器验证器不声称 checkpoint 对应的游戏场景或运行时实验结论正确；那些
+结论继续由相应的场景/像素 A/B verifier 负责。

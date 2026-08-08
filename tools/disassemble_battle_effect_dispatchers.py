@@ -32,6 +32,7 @@ manifests, and never touches artifacts/.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -114,14 +115,10 @@ def _disasm(rom: bytes, addr: int, count: int = 24) -> list[dict[str, Any]]:
 
 
 def _caller_chain(rom: bytes, target: int) -> list[str]:
-    out: list[str] = []
-    for start in range(0, len(rom) - 3, 2):
-        first, second = rom[start] | (rom[start + 1] << 8), rom[start + 2] | (rom[start + 3] << 8)
-        try:
-            dest = find_thumb_branches(rom, target, rom_base=ROM_BASE) if False else None
-        except Exception:
-            dest = None
-    return out
+    return [
+        f"0x{branch.address:08X}"
+        for branch in find_thumb_branches(rom, target, rom_base=ROM_BASE)
+    ]
 
 
 def build_dispatcher_inventory(rom_path: Path) -> dict[str, Any]:
@@ -136,9 +133,13 @@ def build_dispatcher_inventory(rom_path: Path) -> dict[str, Any]:
 
     return {
         "schema": "battle-effect-dispatcher-inventory-v1",
-        "rom_sha256": rom_path.with_suffix(".gba").stat().st_size if False else None,
+        "rom_sha256": hashlib.sha256(rom).hexdigest(),
         "rom_path": str(rom_path),
         "rom_size": len(rom),
+        "direct_callers": {
+            "0x0807C93C": _caller_chain(rom, 0x0807C93C),
+            "0x0807B8B8": _caller_chain(rom, 0x0807B8B8),
+        },
         "dispatchers": DISPATCHERS,
         "inner_layer_switch_table": {
             "table_addr": "0x0807CABA",
@@ -151,11 +152,13 @@ def build_dispatcher_inventory(rom_path: Path) -> dict[str, Any]:
         "group_6_case_8_handler_disasm": group_6_handler,
         "group_12_case_14_handler_disasm": group_12_handler,
         "generic_binder_disasm": generic_binder,
-        "notes": (
-            "Caller chain for 0x0807C93C and 0x0807B8B8 is empty via "
-            "tools/find_thumb_calls.py; the upper layer is reached through a "
-            "dynamic callback that cannot be statically traced."
-        ),
+        "scope": {
+            "outer_entry_boundary": (
+                "No direct Thumb branch to 0x0807B8B8 was found; a dynamic "
+                "callback remains the working boundary and requires runtime tracing."
+            ),
+            "direct_callers_are_static_only": True,
+        },
     }
 
 
