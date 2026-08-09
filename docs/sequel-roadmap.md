@@ -2400,3 +2400,12 @@ WebSocket
   正式运行峰值 RSS 108.05/107.33 MiB，无降级或崩溃。有效 bank 运行时身份由 19/22 提升到
   **20/22**；不声称持续静音、WAV 差异或实体 GBA。证据见
   `artifacts/sappy-engine-master-enable-ab-v1/`，下一项为 `levels`。
+- 2026-08-09：`levels` 已在实际命中的自然 type-`0x1A` 状态调用点完成受控
+  record 物化闭环。`scenario-41-action-menu-0.ss9` 单 A 自然执行
+  `0x08069DD0→0x0806DDA4`；两案都只在调用期间把 live slot 0 替换为同类型
+  record 21 / level 17，随后恢复 `01 FF 00 00`。candidate 仅把
+  `per_level_a@0x545ACA` 从 `1→0`，查询输出 A 严格从 `18→2`，符合
+  `base_a + per_level_a×(level-1)`；frame-120 屏幕相同。两次峰值 RSS
+  107.52/107.47 MiB，无降级或崩溃。有效 bank 运行时身份由 20/22 提升到
+  **21/22**；不声称自然解锁/训练 UI、可见像素差异或实体 GBA。证据见
+  `artifacts/levels-status-per-level-ab-v1/`，下一项为 `data-table-b`。

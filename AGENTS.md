@@ -44,6 +44,7 @@
 - 自然 savestate 已位于上游事件构造之后时，不得强求恢复后重命中已经过去的 producer；用 hash-bound checkpoint/静态链约束上游，再以 handler 入口和 `lr` 诊断真实 consumer，A/B 只签发本轮实际命中的下游边界。需要等待自然调度的 Lua 注册 callback/breakpoint 后应返回 mGBA 事件循环，不得用 `while ... frameAdvance()` 冒充自然运行；Terra 的候选字段仍须由本体先反汇编验证空值和调用约定。
 - mGBA 启动异常可先让 `gpt-5.6-terra` 只读对比成功/失败 run 的 ROM、快照、工具哈希、guard 摘要和配置；禁止其启动模拟器或据缺少 audit 猜测 ROM 行为。本体复核后只做一次有新可观测信息的重试；stdout/stderr 未持久化时不得把 `idle-timeout` 归因为脚本或 ROM。
 - 可执行代码 bank 闭环先让 `gpt-5.6-terra` 只读盘点已有调用链、受控 runner 和下游证据；本体必须重新反汇编确认完整函数边界，再用 TDD 修正 extractor。运行时优先从初始化前 hash-bound 快照恢复，以单条安全 immediate 的最小 A/B 同时约束入口/返回 PC、直接硬件状态和下游输出；瞬时寄存器差异不得扩张为持续静音、可听 WAV 或真机结论。
+- 被动数据 bank 的自然 producer 难以到达时，先让 `gpt-5.6-terra` 只读盘点同类型真实 caller、上游快照和历史实验，本体必须检查输入快照中的目标状态与 observer 命中计数，拒绝“producer 已在快照前执行”的过期路线。可接受的 call-local 物化必须使用 caller 原本请求的类型、非零等级、单字段 ROM A/B，并在返回后证明 live slot 恢复；若最终画面相同，只能升级实际查询公式，不得声称自然解锁、玩家可见差异或真机行为。
 - 工具 schema 未列出的模型（包括当前不可用的 `luna`）不得调用或声称已使用；能力可用性变化后方可重新验收。
 
 ## ROM 与资源安全

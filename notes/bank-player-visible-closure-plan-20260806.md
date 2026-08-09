@@ -9,6 +9,8 @@
 > `artifacts/battle-encounters-story-visual-pixel-ab-v1/` 闭合，剩余 4 个；
 > `cutscene-scripts` 又复用既有自然 ID 1 最终像素 A/B 闭合，剩余 3 个；
 > `sappy-engine` 随后由初始化前快照上的单字节 master-enable A/B 闭合，剩余 2 个；
+> `levels` 又由自然 type-`0x1A` 调用点的 controlled materialization 闭合，
+> 剩余 1 个 `data-table-b`；
 > `tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
@@ -23,7 +25,7 @@ code_verified，需要 player-visible runtime semantic closure：
 | battle-encounters | 0x54229C | runtime_verified | 24 条 story visual descriptor（历史 slug） |
 | cutscene-scripts | 0x53DF70 | runtime_verified | 两张相邻的四记录视觉资源表（历史 slug） |
 | data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
-| levels | 0x5459C8 | code_verified | 等级成长曲线 |
+| levels | 0x5459C8 | runtime_verified | 受控 record 21 / level 17 成长公式闭环 |
 | map-events | 0x53E698 | runtime_verified | E4 primary 自然分派（恢复态） |
 | map-sprites | 0x53F140 | runtime_verified | 通用 sprite definition/animation 绑定（受控物化闭合） |
 | palettes | 0x53EE98 | runtime_verified | motion/effect 参数（2026-08-09 已闭合） |
@@ -92,8 +94,9 @@ slug 不是剧情脚本；证据不覆盖其他三个 ID、第二表字段 A/B �
 `movs #0x8F→#0x0F` A/B 同时命中函数入口/返回、sound 101 dispatcher 和首次
 SoundMain，并把返回时 `SOUNDCNT_X 0x0080→0x0000`；不声称持续静音。
 
-**levels (0x5459C8)**：等级成长曲线。player-visible = 等级数值。
-需要 controlled probe 验证。
+**levels (0x5459C8)**：已闭合。自然 type-`0x1A` 调用点临时物化同类型
+record 21 / level 17，`per_level_a 1→0` 使输出 A `18→2`，随后恢复 live slot。
+frame-120 屏幕相同，因此不声称自然训练 UI 或可见像素差。
 
 **data-table-b (0x5A2120)**：辅助数据表。player-visible = 间接影响。
 需要先确认此 bank 的具体可见影响。

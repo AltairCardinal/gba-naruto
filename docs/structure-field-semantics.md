@@ -269,6 +269,12 @@ per-level values, and a reserved u16. Consumers calculate
 `base + per_level*(slot_level-1)`. The old base was record 1 and crossed into
 the skills table.
 
+**Verification:** runtime verified. At the reached natural type-`0x1A` call
+`0x08069DD0`, a call-local record 21 / level 17 materialization restored its live
+slot after the query; changing only `per_level_a` from 1 to 0 changed output A
+from 18 to 2. This validates the field formula but does not claim a natural
+unlock/training route or a visible pixel difference.
+
 ---
 
 ## 15. Runtime handler pairs (historical map-events slug, 0x53E698)

@@ -11,7 +11,9 @@ from tools.build_levels_runtime_probe import (
     ROM_BASE,
     STUB_OFFSET,
     STUB_SIZE,
+    TARGET_LEVEL,
     TARGET_RECORD_ID,
+    TARGET_TYPE,
     build_probe,
 )
 
@@ -40,10 +42,16 @@ class LevelsRuntimeProbeTests(unittest.TestCase):
             self.base[ACTIVATION_OFFSET:ACTIVATION_OFFSET + 4],
         )
 
-    def test_variant_changes_only_target_record_base_a(self):
+    def test_reached_caller_uses_matching_controlled_record_and_nonzero_level(self):
+        self.assertEqual(HOOK, 0x08069DD0)
+        self.assertEqual(TARGET_RECORD_ID, 21)
+        self.assertEqual(TARGET_TYPE, 0x1A)
+        self.assertEqual(TARGET_LEVEL, 17)
+
+    def test_variant_changes_only_target_record_per_level_a(self):
         control = build_probe(self.base)
-        variant = build_probe(self.base, base_a=6)
-        target = LEVELS_TABLE + TARGET_RECORD_ID * 12 + 2
+        variant = build_probe(self.base, per_level_a=0)
+        target = LEVELS_TABLE + TARGET_RECORD_ID * 12 + 6
         differences = {
             index
             for index, pair in enumerate(zip(control, variant))
@@ -51,9 +59,9 @@ class LevelsRuntimeProbeTests(unittest.TestCase):
         }
         self.assertEqual(differences, {target})
 
-    def test_rejects_out_of_range_base_a(self):
+    def test_rejects_out_of_range_per_level_a(self):
         with self.assertRaisesRegex(ValueError, "u16"):
-            build_probe(self.base, base_a=0x10000)
+            build_probe(self.base, per_level_a=0x10000)
 
 
 if __name__ == "__main__":

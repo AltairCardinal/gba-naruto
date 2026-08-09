@@ -1,5 +1,5 @@
 {
-    "version": 2,
+    "version": 3,
     "description": "Forty-five effect/stat progression records consumed by battle template initialization; historical levels slug retained for compatibility.",
     "table_offset": 5528008,
     "table_offset_hex": "0x5459C8",
@@ -51,10 +51,11 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "Six literals reference 0x085459C8. Consumers including 0x0806D6E0 and 0x0806DDDA index ID*12 and compute base + per_level*(slot_level-1). The table ends exactly at the proven skills base 0x545BE4.",
+    "verification": "runtime_verified",
+    "verification_method": "Static consumers index ID*12 and compute base + per_level*(slot_level-1). A guarded controlled materialization at the reached natural type-0x1A call 0x08069DD0 temporarily queried record 21 at level 17 and restored the live slot; changing only record 21 per_level_a from 1 to 0 changed output A from 18 to 2, exactly matching the formula.",
+    "runtime_evidence": "artifacts/levels-status-per-level-ab-v1/evidence.json",
     "former_claim": "47 character level-up records beginning at 0x5459D4",
-    "notes": "The old base was physical record 1 and its 47 rows crossed three records into skills. Legacy high-level level rows remain diagnostic-only.",
+    "notes": "The old base was physical record 1 and its 47 rows crossed three records into skills. Runtime evidence is a controlled record materialization at a real natural-type caller; it does not claim a natural unlock/training route, a visible pixel difference, or physical-GBA verification. Legacy high-level level rows remain diagnostic-only.",
     "entries": [
         {
             "_index": 0,

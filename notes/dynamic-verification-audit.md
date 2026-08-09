@@ -19,9 +19,9 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under the current bank-level grading the repository has **13 runtime/dynamic,
-10 code, 0 static, and 9 disproved aliases** after the 2026-07-13 identity and
-runtime corrections. This is deliberately stricter than treating extraction
+Under the current bank-level grading the repository has **21 runtime/dynamic,
+1 code, 0 static, and 10 disproved aliases** after the 2026-08-09 closures.
+This is deliberately stricter than treating extraction
 success as runtime proof. The `maps` bank has same-boundary runtime buffer matches
 for its dimensions and six resource streams. The former `fonts` candidate at
 `0x53E5B4` is disproved rather than awaiting a visual test.
@@ -43,7 +43,7 @@ for its dimensions and six resource streams. The former `fonts` candidate at
 | 11 | fonts (`0x53E5B4`) | disproved | No xref; the claimed range crosses handler pairs and contains Thumb pointer bytes. Dialogue font evidence belongs to the separate `0x53D644` chain. |
 | 12 | function-pointers (`0x53D5F4`) | runtime | Natural title-menu character-encyclopedia navigation hit callback ID 2 twice at entry `0x0853D5F8`, selected pointer `0x08061C99`. A single four-byte replacement with adjacent wrapper 3 caused early profile-task divergence and an incomplete visible panel; the variant diverged before another ID-2 dispatch. The supplied save was not loaded by this route. |
 | 13 | items (`0x546100`) | disproved | The former bank was byte-for-byte identical to `skills` and had no independent consumer. It is now a tombstone; legacy item writes remain diagnostic-only. |
-| 14 | levels (historical slug; real base `0x5459C8`) | code | 45 effect/stat progression records. Six literals and consumers index ID×12, applying `base + per_level*(slot_level-1)`; old base was record 1 and crossed into skills. |
+| 14 | levels (historical slug; real base `0x5459C8`) | runtime | 45 effect/stat progression records. A reached natural type-`0x1A` call at `0x08069DD0` temporarily materialized record 21 / level 17 and restored the live slot; changing only `per_level_a 1→0` changed output A `18→2`, exactly matching `base + per_level*(slot_level-1)`. This does not claim natural unlock/training UI or a visible pixel difference. |
 | 15 | map-events (historical slug; real base `0x53E698`) | code | Corrected to 256 primary/secondary handler pairs. `0x0807F934..0x0807F964` indexes both halves from runtime byte `sb+0x770` and dispatches nonzero callbacks through `0x0809C114`. |
 | 16 | maps (`0x53D910`) | runtime | Width has a controlled row-40 36→32 A/B. A strict row-41 battle capture then matched tile gfx in VRAM, BG palette after transparent-color normalization, primary layout and metatile definitions exactly, null alternate-layout skip, and collision low-byte passability under two runtime occupancy overlays. |
 | 17 | map-sprites (historical slug; real base `0x53F140`) | code | 43 definition/animation pairs; `0x08080B08→0x08063494→0x080625A4` indexes ID×8 and installs both pointers. Old base was pair 19 `+4`. |

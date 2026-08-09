@@ -85,7 +85,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 11 | Fonts | 0x53E5B4 | disproved crossing range | 0 | disproved | disabled |
 | 12 | Function Pointers | 0x53D5F4 | u32 × 11 | 11 | static_verified | ✅ |
 | 13 | Items | 0x546100 | u16[8] × 12 | 12 | static_verified | ✅ |
-| 14 | Effect/stat progression | 0x5459C8 | 12 bytes × 45 | 45 | code_verified | legacy writes disabled |
+| 14 | Effect/stat progression | 0x5459C8 | 12 bytes × 45 | 45 | runtime_verified | controlled type-0x1A query evidence; legacy writes disabled |
 | 15 | Runtime handler pairs | 0x53E698 | 2 callbacks × 256 | 256 | code_verified | legacy writes disabled |
 | 16 | Maps | 0x53D910 | 32 bytes × 47 | 47 | static_verified | ✅ |
 | 17 | Sprite definition/animation pairs | 0x53F140 | pointer pair × 43 | 43 | code_verified | legacy writes disabled |

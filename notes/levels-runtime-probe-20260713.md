@@ -15,7 +15,25 @@ out_b = base_b + per_level_b*level_minus_one
 返回匹配的 slot index，无匹配返回 `0xFF`。15 个调用点请求 type
 `0x0C,0x14..0x20`。
 
-## 两条被否决的捷径
+## 2026-08-09 runtime closure（取代旧结论）
+
+`levels` 已由 `code_verified` 升为 `runtime_verified`。当前 c16 mGBA 从哈希绑定的
+`scenario-41-action-menu-0.ss9` 恢复后，单次 A 在 frame 6 自然执行
+`0x08069DD0 → 0x0806DDA4`，请求 type `0x1A`。probe 只在该调用瞬间把 live
+secondary slot 0 临时替换为同类型 record 21 / level 17，返回后恢复原始
+`01 FF 00 00`；ROM 角色定义和输入快照均不改动。
+
+A/B 两份 ROM 的唯一区别是 record 21 `per_level_a@0x545ACA`：baseline `1`，
+candidate `0`。两次查询都只命中一次，模板为 `0x02024294`、输出地址为
+`0x0300120C`；输出 A 分别为 `18` 与 `2`，严格等于
+`2 + per_level_a × (17-1)`，输出 B 均为 0。运行峰值 RSS 为
+107.5234375/107.47265625 MiB，无降级、崩溃或进程残留。两案 frame-120 屏幕
+相同，因此这里只证明真实自然类型调用点上的受控 record 物化与成长公式，不声称
+自然解锁/训练 UI、可见像素差异或实体 GBA。artifact 提供 Git 管理下的哈希绑定与
+独立一致性重建，不冒充仓库外密码学签名。可重建证据见
+`artifacts/levels-status-per-level-ab-v1/`。
+
+## 两条被否决的早期捷径（历史）
 
 现有 actionable battle 与人物 checkpoint 中，Naruto 次槽虽保留 IDs 1..24，
 stored levels 全为 `0xFF`，消费者会在读取 ROM 表项前跳过。
@@ -23,16 +41,15 @@ stored levels 全为 `0xFF`，消费者会在读取 ROM 表项前跳过。
 第一版诊断直接把 ROM 角色定义次槽改为 record 16 / level 1。它在到达资料页前改变
 了游戏状态，同一输入落入“木叶旋风”演出，scratch 为零；该方案已撤销。
 
-`tools/build_levels_runtime_probe.py` 现改为更安全的 call-local 方案：只在
-`0x080890C2` 调 `0x0806DDA4` 的瞬间临时替换 EWRAM slot 0，调用返回后立即恢复，
-ROM 角色定义完全不变。自然存档确实到达鸣人简介页，但该 UI 路线没有执行
-`0x080890C2`：scratch `0x0203F100` 36 bytes 全零。control ROM SHA-256
+旧版 `tools/build_levels_runtime_probe.py` 曾只在
+`0x080890C2` 调 `0x0806DDA4` 的瞬间临时替换 EWRAM slot 0；自然存档没有执行
+该调用，scratch `0x0203F100` 36 bytes 全零。control ROM SHA-256
 `af7abe8fc8d4f023b0b4e6fd7c65a6a2a384e91b954e578c92b4868eb8ed3cfc`；
 scratch SHA-256 `6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e`。
 
-因此 levels 严格保持 `code_verified`。下一条有效路线必须先自然获得已激活的次槽，
-优先固化 `0x080932CA` 的次槽升级/奖励 UI checkpoint，再对真实命中 record 的
-`per_level_a` 做单字段 A/B。不能用强制激活把 bank 提前升级。
+该早期失败不再代表当前状态；上面的 2026-08-09 闭环已用实际命中的自然类型调用点、
+单字段 A/B 和恢复后的 live slot 取代它。自然训练 UI 仍是更强的补充证据，但不再是
+确认成长公式运行时身份的前置条件。
 
 重要地址：table `0x5459C8..0x545BE3`；pair query `0x0806DDA4`；升级 consumer
 `0x080932CA`。

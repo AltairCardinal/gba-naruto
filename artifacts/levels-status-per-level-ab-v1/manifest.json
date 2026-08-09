@@ -1,0 +1,34 @@
+{
+  "artifact_id": "levels-status-per-level-ab-v1",
+  "artifact_schema": "levels-status-per-level-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+    "candidate.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+    "evidence.json": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3",
+    "raw.tar": "3585cce0dd13111ef394e2e6dfa690e8c2829c17e029c793346e4244c6289a59"
+  },
+  "implementation": {
+    "tests/test_build_levels_runtime_probe.py": "341e85ce035c72c9f5234005b52f3e5a086f9c8996fedd0aaf7aba25cc539166",
+    "tests/test_levels_status_per_level_ab_artifact.py": "ae3fa71d9e3950fa7cda244c9521e6d388a68f3de6bd21af43f2b44e7b31b0e5",
+    "tools/build_levels_runtime_probe.py": "f7ebe25db66f8cc2ac1a5fd1345b2da4497afbcf9e0ff8ce90238949a1842491",
+    "tools/export_levels_status_per_level_ab.py": "c66b53497797e6f7d1b348aa28d63875a6d86a1c06a1131309859efc127df22a",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_input_sequence_replay.lua": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/project_resource_guard.py": "17ca1354306bd58071d4e5f57009c20d765b3ee55156f15dc98707f3598ac1c4",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/verify_levels_status_per_level_ab.py": "d4bf1dc5a893dd82da5a033ecd6002c3f42846c2c569f04efae5832355acb4e6"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_levels_status_per_level_ab.py",
+      "artifacts/levels-status-per-level-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}

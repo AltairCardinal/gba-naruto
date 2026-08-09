@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 20/22 | 22/22 | 2 个 code_verified bank 待 runtime 闭合 |
+| 有效 bank 运行时身份 | 21/22 | 22/22 | 1 个 code_verified bank 待 runtime 闭合 |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -19,12 +19,12 @@
 | 角色/成长/技能 bank + 字段命名 | 220/220 + C 级 | 220/220 + 全量 | ✓（+0x0D/+2/+3/+9 C 级闭合） |
 | 实体 GBA 发布验证 | 0/1 | 1/1 | 真机硬件未提供 |
 
-## 剩余 2 大缺口的执行路径
+## 剩余缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 2 个）
+### 1. 22/22 bank runtime identity（缺 1 个）
 
 剩余项：
-- **Tier 4** (levels, data-table-b): 间接可见
+- **Tier 4** (`data-table-b`)：间接可见
 
 **已闭合**：`palettes` 历史 slug 实为 motion/effect 参数表。自然 Group 3
 零输入 A/B 把 record 0 `y_offset` 从 0 改为 32，严格传播为 task/OAM Y +32，
@@ -69,6 +69,12 @@ FIFO/DMA 初始化函数。共同恢复初始化前快照后，两案均命中 i
 `SOUNDCNT_X 0x0080→0x0000`，其余控制流与首次 SoundMain FIFO 块相同。
 后续 SoundMain 会重新打开 gate，故不声称持续静音或 WAV 差异。详见
 `notes/sappy-engine-master-enable-runtime-20260809.md`。
+
+**已闭合**：`levels` 在自然命中的 type-`0x1A` 状态调用点受控物化
+record 21 / level 17，调用后恢复 live slot；单独把 `per_level_a` 从 1 改为 0
+令查询输出 A 从 18 降为 2，严格符合成长公式。frame-120 屏幕相同，因此不声称
+自然训练 UI 或玩家可见像素差。证据见
+`artifacts/levels-status-per-level-ab-v1/`。
 
 ### 已闭合：战斗特效 production pixel（18/18）
 
@@ -130,6 +136,8 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
   由 16/22 提升到 17/22。
 - `battle-encounters` record 0 story visual `gfx_lz_ptr` controlled opcode A/B 闭合；
   bank runtime identity 由 17/22 提升到 18/22。
+- `levels` record 21 `per_level_a` controlled materialization A/B 闭合；bank runtime
+  identity 由 20/22 提升到 21/22，剩余 `data-table-b`。
 
 ## 2026-08-06 会话交付（历史）
 
