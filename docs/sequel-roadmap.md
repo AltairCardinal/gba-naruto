@@ -2409,3 +2409,11 @@ WebSocket
   107.52/107.47 MiB，无降级或崩溃。有效 bank 运行时身份由 20/22 提升到
   **21/22**；不声称自然解锁/训练 UI、可见像素差异或实体 GBA。证据见
   `artifacts/levels-status-per-level-ab-v1/`，下一项为 `data-table-b`。
+- 2026-08-09：`data-table-b` 已按真实 79 条 battle/effect message 文本指针闭合。
+  从 hash-bound 的自然 action-7（影分身）确认快照输入一次 A，两案均在
+  `0x080985E2` 命中 ID 0 / entry `0x085A2034` 一次并进入 renderer
+  `0x08098290`；candidate 仅把 entry 0 `text_ptr` 从 `0x085A1580` 换为
+  同表 ID 1 的 `0x085A1598`，最终画面改变 928 像素。mGBA 峰值
+  108.97/109.12 MiB，无降级或崩溃。有效 bank 运行时身份由 21/22 提升到
+  **22/22**；不声称 79 条全部自然执行、原始编码的自然语言解码、外部签名或
+  实体 GBA。证据见 `artifacts/data-table-b-message0-pointer-pixel-ab-v1/`。

@@ -24,6 +24,16 @@ and `0x08099D58` select the base; consumers at `0x080985D8` and `0x08099D26`
 index ID×4 and pass the selected NUL text to `0x08098290`. Its 79 IDs match
 the visual descriptor count.
 
+A later natural action-7 confirmation A/B closed the runtime identity. Both
+runs hit the `0x080985E2` observer exactly once for ID 0 and entry
+`0x085A2034`. Replacing only entry 0 `text_ptr` with valid same-table entry 1
+changed the selected pointer `0x085A1580→0x085A1598`; the final battle message
+changed by 928 pixels through renderer `0x08098290`. Evidence is promoted at
+`artifacts/data-table-b-message0-pointer-pixel-ab-v1/`. This proves only the
+natural action-7 consumer and message-0 pointer causality, not natural coverage
+of all 79 IDs, a natural-language decoding of the raw game encoding, or
+physical-GBA behavior.
+
 ## Battle/effect visual descriptors
 
 `tile-assets@0x5A3218` was only descriptor 0 fields `+0x0C..+0x20`. The

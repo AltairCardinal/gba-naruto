@@ -168,16 +168,25 @@ level data, or other game assets).
 
 ---
 
-## 9. Data Table B (0x5A2120)
+## 9. Data Table B (real base 0x5A2034)
 
-**Format:** u32 × 20 — 20 pointers to encoded data  
-**Entry Size:** 4 bytes  
-**Semantics:** Second pointer table to encoded data in the 0x5AXXXX region.
-May contain alternate versions or related data to Table A.
+**Format:** u32 × 79 — battle/effect message text pointers
+
+**Entry Size:** 4 bytes
+
+**Semantics:** The consumers at `0x080985D8` and `0x08099D26` index the table
+by message ID and pass the selected NUL-terminated game-encoded text to
+`0x08098290`. The old `0x5A2120` base was physical entry 59.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| data_ptr | u32 | Pointer to encoded data block |
+| text_ptr | u32 | Pointer to NUL-terminated game-encoded battle/effect text |
+
+A natural action-7 confirmation selected ID 0 at `0x085A2034`. A single-entry
+pointer A/B (`0x085A1580→0x085A1598`, donor ID 1) kept the same selector route
+and changed 928 final pixels. See
+`artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json`. The proof
+does not decode the text encoding or claim that all 79 IDs were naturally run.
 
 ---
 

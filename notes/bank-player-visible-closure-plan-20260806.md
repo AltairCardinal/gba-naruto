@@ -10,7 +10,8 @@
 > `cutscene-scripts` 又复用既有自然 ID 1 最终像素 A/B 闭合，剩余 3 个；
 > `sappy-engine` 随后由初始化前快照上的单字节 master-enable A/B 闭合，剩余 2 个；
 > `levels` 又由自然 type-`0x1A` 调用点的 controlled materialization 闭合，
-> 剩余 1 个 `data-table-b`；
+> 剩余 1 个 `data-table-b`；`data-table-b` 最后由自然 action-7 确认路线的
+> ID 0 单指针像素 A/B 闭合，22/22 active bank 已全部达到 runtime_verified；
 > `tile-assets` 正确基址是 `0x5A320C`。当前受信 mGBA
 > 为 `/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA`，
 > SHA-256 `ef2386a5...`，不需要跳过工具链校验。
@@ -24,7 +25,7 @@ code_verified，需要 player-visible runtime semantic closure：
 |---|---|---|---|
 | battle-encounters | 0x54229C | runtime_verified | 24 条 story visual descriptor（历史 slug） |
 | cutscene-scripts | 0x53DF70 | runtime_verified | 两张相邻的四记录视觉资源表（历史 slug） |
-| data-table-b | 0x5A2120 | code_verified | 辅助数据表 B |
+| data-table-b | 0x5A2034 | runtime_verified | 79 条战斗/特效消息文本指针；自然 action-7 ID 0 A/B 闭合 |
 | levels | 0x5459C8 | runtime_verified | 受控 record 21 / level 17 成长公式闭环 |
 | map-events | 0x53E698 | runtime_verified | E4 primary 自然分派（恢复态） |
 | map-sprites | 0x53F140 | runtime_verified | 通用 sprite definition/animation 绑定（受控物化闭合） |
@@ -98,8 +99,10 @@ SoundMain，并把返回时 `SOUNDCNT_X 0x0080→0x0000`；不声称持续静音
 record 21 / level 17，`per_level_a 1→0` 使输出 A `18→2`，随后恢复 live slot。
 frame-120 屏幕相同，因此不声称自然训练 UI 或可见像素差。
 
-**data-table-b (0x5A2120)**：辅助数据表。player-visible = 间接影响。
-需要先确认此 bank 的具体可见影响。
+**data-table-b (0x5A2034)**：已闭合。自然 action-7 确认后两案均命中
+ID 0 / entry `0x085A2034` 一次；candidate 仅把 `text_ptr` 从
+`0x085A1580` 换为同表 ID 1 的 `0x085A1598`，最终文字区域改变 928 像素。
+不声称 79 条全部自然运行、原始编码的自然语言解码或实体 GBA。
 
 ## 单 bank Player-Visible Closure 工作模板
 

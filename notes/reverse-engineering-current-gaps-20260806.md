@@ -7,7 +7,7 @@
 | 指标 | 当前 | 目标 | 缺口 |
 |---|---:|---:|---|
 | 已知 bank 目录与 ROM 字节 | 32/32 | 32/32 | ✓ |
-| 有效 bank 运行时身份 | 21/22 | 22/22 | 1 个 code_verified bank 待 runtime 闭合 |
+| 有效 bank 运行时身份 | 22/22 | 22/22 | ✓ |
 | 已枚举图像主目录静态导出 | 100% | 100% | ✓ |
 | 战斗特效精确 phase | 18/18 | 18/18 | ✓；Group 6/7/8/9/10/12/13 为受控 sequence，Group 15 为自然 action 64 |
 | 战斗特效 production 最终像素 | 18/18 | 18/18 | ✓；6 个 controlled sequence 组不声称自然入口 |
@@ -21,10 +21,12 @@
 
 ## 剩余缺口的执行路径
 
-### 1. 22/22 bank runtime identity（缺 1 个）
+### 1. 22/22 bank runtime identity（已闭合）
 
-剩余项：
-- **Tier 4** (`data-table-b`)：间接可见
+最后一项 `data-table-b` 已通过自然 action-7 ID 0 单指针像素 A/B 闭合。
+两案均命中真实 selector/entry 一次，`0x085A1580→0x085A1598` 使最终画面
+改变 928 像素；证据见
+`artifacts/data-table-b-message0-pointer-pixel-ab-v1/`。
 
 **已闭合**：`palettes` 历史 slug 实为 motion/effect 参数表。自然 Group 3
 零输入 A/B 把 record 0 `y_offset` 从 0 改为 32，严格传播为 task/OAM Y +32，
@@ -137,7 +139,9 @@ production_ninja_tool_handler_extension_group_ids 已确认 Group 16/17
 - `battle-encounters` record 0 story visual `gfx_lz_ptr` controlled opcode A/B 闭合；
   bank runtime identity 由 17/22 提升到 18/22。
 - `levels` record 21 `per_level_a` controlled materialization A/B 闭合；bank runtime
-  identity 由 20/22 提升到 21/22，剩余 `data-table-b`。
+  identity 由 20/22 提升到 21/22。
+- `data-table-b` natural action-7 message 0 `text_ptr` A/B 闭合；bank runtime
+  identity 由 21/22 提升到 22/22。
 
 ## 2026-08-06 会话交付（历史）
 

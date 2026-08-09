@@ -1,0 +1,34 @@
+{
+  "artifact_id": "data-table-b-message0-pointer-pixel-ab-v1",
+  "artifact_schema": "data-table-b-message0-pointer-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+    "candidate.png": "53cb548afd752fdcf332e97c1f4cdb0ead68789e15c9b7eb15e460d32e3042d9",
+    "evidence.json": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff",
+    "raw.tar": "c942542186353266a9c0961b0bed3af58d2b22dbe2a7cbcab5eacfab4bf3119e"
+  },
+  "implementation": {
+    "tests/test_build_battle_message_runtime_probe.py": "6398dda322400d01d81380b7a327fb725f249d3d084dc2482748add9fc514aef",
+    "tests/test_data_table_b_message0_pointer_ab_artifact.py": "0bebac3389f85fffc8f607ef8fbf36a6e7a3d114dd8c2fe7a6f97aaafe45588c",
+    "tools/build_battle_message_runtime_probe.py": "9391346b346c29b99baf9e4a640f1b4714f91c8b527144d3f633d652b1044557",
+    "tools/export_data_table_b_message0_pointer_ab.py": "02e8b305742b381c22d49a06163023871775b816bbb3f7a5abeb95e06500c18b",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_input_sequence_replay.lua": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/project_resource_guard.py": "17ca1354306bd58071d4e5f57009c20d765b3ee55156f15dc98707f3598ac1c4",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/verify_data_table_b_message0_pointer_ab.py": "a834781ed94415d46eaeae28d967845e0b08ac80ec9ac3ccd0a877d2c5099ec7"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_data_table_b_message0_pointer_ab.py",
+      "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}

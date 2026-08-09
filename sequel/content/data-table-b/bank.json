@@ -1,5 +1,5 @@
 {
-    "version": 2,
+    "version": 3,
     "description": "Seventy-nine battle/effect message text pointers.",
     "table_offset": 5906484,
     "table_offset_hex": "0x5A2034",
@@ -15,10 +15,11 @@
             }
         ]
     },
-    "verification": "code_verified",
-    "verification_method": "Literals 0x08098624 and 0x08099D58 load 0x085A2034. Consumers at 0x080985D8 and 0x08099D26 index ID*4 and pass the selected NUL text to 0x08098290.",
+    "verification": "runtime_verified",
+    "verification_method": "Literals 0x08098624 and 0x08099D58 load 0x085A2034. A natural action-7 confirmation hit the 0x080985E2 observer once for ID 0 and entry 0x085A2034; replacing only that pointer with valid same-table entry 1 changed the selected target from 0x085A1580 to 0x085A1598 and changed 928 final pixels through renderer 0x08098290.",
+    "runtime_evidence": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json",
     "former_claim": "20 generic encoded-data pointers beginning at physical entry 59 (0x5A2120)",
-    "notes": "The 79 IDs correlate one-to-one with the battle/effect visual descriptor bank. Legacy tail rows are diagnostic-only.",
+    "notes": "The 79 IDs correlate one-to-one with the battle/effect visual descriptor bank. Runtime evidence covers the natural action-7 consumer and the causal visible effect of message 0 text_ptr only; it does not claim natural execution of all 79 messages, natural-language decoding, external cryptographic attestation, or physical-GBA verification. Legacy tail rows are diagnostic-only.",
     "entries": [
         {
             "_index": 0,

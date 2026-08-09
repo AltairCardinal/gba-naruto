@@ -47,7 +47,7 @@ proof that the full reverse engineering is complete.
 **32 structures** documented with `bank.json` files containing real ROM
 offsets, formats, and extracted entries. All **32 structures** have
 corresponding `generate_*_patches()` functions in `tools/build_db_patches.py`
-for editor integration. `automated_test.py` passes **17/17** throughout.
+for editor integration. `automated_test.py` passes **26/26** throughout.
 
 ---
 
@@ -58,11 +58,11 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 1 | All 32 bank.json have real offset (not "—") | ✅ 32/32 |
 | 2 | All 32 bank.json have real format | ✅ 32/32 |
 | 3 | All 32 bank.json have real entries | ✅ 32/32 |
-| 4 | All 32 have verification ≥ static_verified | ✅ 32/32 (1 code_verified) |
+| 4 | All 32 have an audited terminal classification | ✅ 32/32 (22 runtime_verified, 10 disproved) |
 | 5 | All 32 have generate_*_patches() | ✅ 32/32 |
 | 6 | All 32 integrated in build_mod.py | ✅ 32/32 |
 | 7 | build_mod.py runs without error | ✅ |
-| 8 | automated_test.py 17/17 PASS | ✅ |
+| 8 | automated_test.py 26/26 PASS | ✅ |
 | 9 | Field semantics documented | ✅ (docs/structure-field-semantics.md) |
 | 10 | All changes committed to git | ✅ |
 
@@ -80,7 +80,7 @@ for editor integration. `automated_test.py` passes **17/17** throughout.
 | 6 | Character Stats B | 0x545200 | u16[8] × 18 | 18 | static_verified | ✅ |
 | 7 | Cutscene visual resources | 0x53DF70 | pointer pair × 8 | 8 | code_verified | ✅ |
 | 8 | Data Table A | 0x5A14A4 | u32 × 20 | 20 | static_verified | ✅ |
-| 9 | Data Table B | 0x5A2120 | u32 × 20 | 20 | static_verified | ✅ |
+| 9 | Battle/effect message text (historical Data Table B) | 0x5A2034 | u32 × 79 | 79 | runtime_verified | legacy writes disabled |
 | 10 | Encounter Zones | 0x53D910 | disproved alias of maps.flags | 0 | disproved | disabled |
 | 11 | Fonts | 0x53E5B4 | disproved crossing range | 0 | disproved | disabled |
 | 12 | Function Pointers | 0x53D5F4 | u32 × 11 | 11 | static_verified | ✅ |

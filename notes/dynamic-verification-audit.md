@@ -19,8 +19,8 @@ The table reports the **highest evidence level actually present**:
   correlation only.
 - `none`: no structure-specific evidence beyond an assertion/inventory entry.
 
-Under the current bank-level grading the repository has **21 runtime/dynamic,
-1 code, 0 static, and 10 disproved aliases** after the 2026-08-09 closures.
+Under the current bank-level grading the repository has **22 runtime/dynamic,
+0 code, 0 static, and 10 disproved aliases** after the 2026-08-09 closures.
 This is deliberately stricter than treating extraction
 success as runtime proof. The `maps` bank has same-boundary runtime buffer matches
 for its dimensions and six resource streams. The former `fonts` candidate at
@@ -38,7 +38,7 @@ for its dimensions and six resource streams. The former `fonts` candidate at
 | 6 | character-stats-b (`0x545200`) | disproved | Not an independent structure: `0x545200 = 0x545068 + 25*0x10 + 8`, halfway through physical growth record 25. Bank retained only as a tombstone; legacy bytes write-back is disabled. |
 | 7 | cutscene-scripts (`0x53DF70`) | code | Corrected to two adjacent four-record visual-resource tables. `0x08072EDC` indexes compressed gfx/palette pairs and passes the second pair table to the sprite allocator; direct callers use IDs 0..3. Historical slug only. |
 | 8 | data-table-a (historical slug; real base `0x5A143C`) | runtime | Natural title-menu character-encyclopedia navigation hit `0x0808B1A4` once for character 0. A four-byte entry-0→entry-7 pointer A/B changed the selected target `0x0859F988→0x0859FDE8` and the visible multi-line profile description. The supplied save was not loaded by this route. |
-| 9 | data-table-b (historical slug; real base `0x5A2034`) | code | 79 battle/effect message text pointers. Two paths index ID×4 and pass NUL text to `0x08098290`; old base was physical entry 59. |
+| 9 | data-table-b (historical slug; real base `0x5A2034`) | runtime | Natural action 7 hit ID 0 / entry `0x085A2034` once. A single pointer A/B selected `0x085A1580→0x085A1598` through `0x08098290` and changed 928 final pixels; no all-ID or text-decoding claim. |
 | 10 | encounter-zones (`0x53D910`) | disproved | The former 47 rows duplicate the complete maps table. Runtime resource tracing identifies `+0x1C` as map flags, with byte `+0x1D` consumed at `0x0806922A`; no independent encounter-zone identity remains. |
 | 11 | fonts (`0x53E5B4`) | disproved | No xref; the claimed range crosses handler pairs and contains Thumb pointer bytes. Dialogue font evidence belongs to the separate `0x53D644` chain. |
 | 12 | function-pointers (`0x53D5F4`) | runtime | Natural title-menu character-encyclopedia navigation hit callback ID 2 twice at entry `0x0853D5F8`, selected pointer `0x08061C99`. A single four-byte replacement with adjacent wrapper 3 caused early profile-task divergence and an incomplete visible panel; the variant diverged before another ID-2 dispatch. The supplied save was not loaded by this route. |
@@ -90,11 +90,11 @@ for its dimensions and six resource streams. The former `fonts` candidate at
 
 The save, maps, growth, story and fonts targets below are retained only as an
 investigation history. They have since been closed or disproved and must not be
-used as the current execution queue. Current priority is the 9 code-verified
-banks (`battle-encounters`, `cutscene-scripts`, `data-table-b`, `levels`,
-`map-events`, `map-sprites`, `palettes`, `sappy-engine`,
-`tile-assets`), remaining unit/skill field semantics, audio cue semantics and
-long-route player-visible regression evidence.
+used as the current execution queue. The former nine-bank runtime queue
+(`battle-encounters`, `cutscene-scripts`, `data-table-b`, `levels`,
+`map-events`, `map-sprites`, `palettes`, `sappy-engine`, `tile-assets`) is now
+fully closed; remaining limitations are tracked separately and must not be
+silently promoted into bank-identity claims.
 
 The following are ordered by expected effort and reuse of current assets. Each
 test must preserve the raw JSON/log and a short result note. `<ROM>` should be a
