@@ -1,0 +1,39 @@
+test_changed_consumer_and_extra_input_fail_before_any_write (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_changed_consumer_and_extra_input_fail_before_any_write) ... ok
+test_default_check_does_not_create_missing_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_default_check_does_not_create_missing_inputs) ... FAIL
+test_every_source_mutation_or_missing_source_fails_before_any_write (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_every_source_mutation_or_missing_source_fails_before_any_write) ... ok
+test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent) ... FAIL
+test_later_existing_conflict_prevents_earlier_missing_writes (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_later_existing_conflict_prevents_earlier_missing_writes) ... FAIL
+test_symlink_source_or_source_ancestor_is_rejected (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_symlink_source_or_source_ancestor_is_rejected) ... ok
+test_symlink_target_or_target_ancestor_and_directory_are_rejected (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_symlink_target_or_target_ancestor_and_directory_are_rejected) ... ok
+
+======================================================================
+FAIL: test_default_check_does_not_create_missing_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_default_check_does_not_create_missing_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 53, in test_default_check_does_not_create_missing_inputs
+    self.assertIn('missing restored contract', result.stdout.decode())
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'missing restored contract' not found in '{"error": "symlink input or destination: /var", "verified": false}\n'
+
+======================================================================
+FAIL: test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 37, in test_fresh_restore_and_repeat_are_exact_and_idempotent
+    self.assertEqual(0, result.returncode, result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : b''
+
+======================================================================
+FAIL: test_later_existing_conflict_prevents_earlier_missing_writes (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_later_existing_conflict_prevents_earlier_missing_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 84, in test_later_existing_conflict_prevents_earlier_missing_writes
+    self.assertIn('existing contract differs', result.stdout.decode())
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'existing contract differs' not found in '{"error": "symlink input or destination: /var", "verified": false}\n'
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.327s
+
+FAILED (failures=3)

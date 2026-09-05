@@ -1,0 +1,212 @@
+{
+  "artifact": {
+    "binary_name": "rom-cgb-helper-bounded-cfg.bin",
+    "payload_name": "rom-cgb-helper-bounded-cfg.json",
+    "schema": "rom-cgb-helper-bounded-cfg-v1",
+    "status_for_candidate": "candidate"
+  },
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "coverage_baseline": {
+    "immutable_artifact": {
+      "archive_sha256": "e345bf5a605d796c1e38a4243b4aefbcb7b8229f70bea13ce40ca044d4edf04b",
+      "manifest_sha256": "73be947de76ede7948780faba669d74320d2f37d91c95a6bdd99a3c5b02b94c1",
+      "path": "artifacts/rom-cgb-audio-precoverage-v1"
+    },
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839",
+    "size": 23152713,
+    "summary": {
+      "claim_count": 14507,
+      "classified_bytes": 6124601,
+      "segment_count": 16617,
+      "unknown_bytes": 166855
+    }
+  },
+  "coverage_projection": {
+    "claim_delta": 9,
+    "classified_delta": 180,
+    "post_if_applied_alone": {
+      "claim_count": 14516,
+      "classified_bytes": 6124781,
+      "segment_count": 16628,
+      "unknown_bytes": 166675
+    },
+    "segment_delta": 11,
+    "unknown_delta": -180
+  },
+  "envelope": {
+    "bytes": 184,
+    "range": [636220, 636404],
+    "sha256": "a0f923319eee38584598d41b83ff9dbc06a870c257d6a2411d10d5f1113c25da"
+  },
+  "cfg": {
+    "block_count": 23,
+    "block_range_vector_sha256": "421415d1f0c255dc581a1076ec73441ef031ed7fd623ce6d8e224b2e51ab55ce",
+    "budget_exhausted": false,
+    "code_bytes": 164,
+    "code_range_vector_sha256": "529483c607db7e528099e91ba6cfa9a16239c49f3c9fe98a79f5c7ade0e3454b",
+    "code_ranges": [
+      [636220, 636256],
+      [636260, 636264],
+      [636268, 636274],
+      [636280, 636294],
+      [636300, 636404]
+    ],
+    "edge_vector_sha256": "7c080763f41c5afb6556bc4dcdf44ccd884a96ac8b14d8270aa68f77c36a2978",
+    "external_edge_count": 0,
+    "frontier_count": 0,
+    "instruction_count": 82,
+    "internal_edge_count": 29,
+    "packed_code_sha256": "922d278647548e38b5f0c63439c3c536495a7173cf196a7a7ec2f35e23fe2866",
+    "return_offsets": [636292, 636402],
+    "roots": [
+      {
+        "block_count": 13,
+        "code_bytes": 60,
+        "code_ranges": [[636220, 636256], [636260, 636264], [636268, 636274], [636280, 636294]],
+        "id": "cgb_helper_09b53c",
+        "instruction_count": 30,
+        "internal_edge_count": 16,
+        "root_offset": 636220,
+        "structured_return_offset": 636292
+      },
+      {
+        "block_count": 10,
+        "code_bytes": 104,
+        "code_ranges": [[636300, 636404]],
+        "id": "cgb_helper_09b58c",
+        "instruction_count": 52,
+        "internal_edge_count": 13,
+        "root_offset": 636300,
+        "structured_return_offset": 636402
+      }
+    ],
+    "semantic_instruction_vector_sha256": "66df11b0f24f38a6aa9aa3b202c5b07b949ff98631ddb3f8c97f46d602d8f5db",
+    "structured_return_count": 2,
+    "vector_encoding": {
+      "block_ranges": "compact JSON [[start,end],...] sorted by start",
+      "edges": "compact JSON [[source_instruction_offset,target_offset,branch_or_fallthrough],...] sorted by source then branch before fallthrough",
+      "semantic_instructions": "compact JSON [[file_offset,size,capstone_mnemonic,capstone_gba_op_str],...] sorted by file_offset"
+    }
+  },
+  "excluded_ranges": [
+    {
+      "range": [636274, 636276],
+      "raw_hex": "0000",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    },
+    {
+      "range": [636294, 636296],
+      "raw_hex": "0000",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    }
+  ],
+  "initializer_binding": {
+    "destination_address": 50361676,
+    "entry_pointer": 134853949,
+    "entry_pointer_occurrences": [634368],
+    "entry_pointer_root_offset": 636220,
+    "field_offset": 44,
+    "load_instruction": {
+      "offset": 634224,
+      "raw_hex": "2348"
+    },
+    "pointer_literal": {
+      "range": [634368, 634372],
+      "raw_hex": "3db50908",
+      "sha256": "1a648773d0593fdc9669da7e1ca0bb40589edbdddcfdb0dda47230d8a3db5581"
+    },
+    "store_instruction": {
+      "offset": 634226,
+      "raw_hex": "e062"
+    },
+    "structure_base": 50361632
+  },
+  "literal_projection": {
+    "binding_count": 4,
+    "bindings": [
+      {"consumer_offset": 636246, "load_raw_hex": "0249", "range": [636256, 636260], "value": 67108963},
+      {"consumer_offset": 636260, "load_raw_hex": "0049", "range": [636264, 636268], "value": 67108969},
+      {"consumer_offset": 636268, "load_raw_hex": "0149", "range": [636276, 636280], "value": 67108976},
+      {"consumer_offset": 636280, "load_raw_hex": "0349", "range": [636296, 636300], "value": 67108985}
+    ],
+    "bytes": 16,
+    "packed_sha256": "01d705cc2e13fbb303c3f9b4b889ead90b5082f621806104e9997b35f186b038",
+    "range_vector_sha256": "ef5c2b2dbc43d612c4d0c96272f74cf4d2c0322306b359b04780c374ccbf563e",
+    "ranges": [[636256, 636260], [636264, 636268], [636276, 636280], [636296, 636300]],
+    "word_count": 4
+  },
+  "producer_denominator": {
+    "forms": ["thumb_bl", "thumb_b", "thumb_b_conditional", "arm_b", "arm_bl", "bytewise_u32_entry", "bytewise_u32_thumb_pointer"],
+    "scan_range": [0, 6291456],
+    "targets": [
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [634368],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [636882]
+        },
+        "target_file_offset": 636220
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [636654, 636976]
+        },
+        "target_file_offset": 636300
+      }
+    ],
+    "vector_sha256": "536020c92992d0ea9387b79d4ef15f9aa9e09b3f82c100b8c396fe1af98c4ab1"
+  },
+  "promotion": {
+    "claim_count": 9,
+    "code_bytes": 164,
+    "literal_bytes": 16,
+    "packed_bytes_sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+    "range_vector_sha256": "ea942377babe2613c9affe8711b6480f6e9e27e60da7aeb483112790de3b85b3",
+    "ranges": [
+      {"bytes": 36, "kind": "cgb_helper_bounded_thumb_code", "range": [636220, 636256], "sha256": "ac01b052dd7ab7f97e74b52e671f1e8bdc2c423caeebeee4c5618c905f29bca1"},
+      {"bytes": 4, "kind": "cgb_helper_consumed_literal_bytes", "range": [636256, 636260], "sha256": "22f7252bc2b8f2444cb6c59642ab9d902a8cac23e4c27e48623e8513b28ddeee"},
+      {"bytes": 4, "kind": "cgb_helper_bounded_thumb_code", "range": [636260, 636264], "sha256": "df358c07b036a56dcc30711ce42e97371d6e3f08f6a1e8027e0beb713f85c56d"},
+      {"bytes": 4, "kind": "cgb_helper_consumed_literal_bytes", "range": [636264, 636268], "sha256": "60e226a6318302bbe245079f99e6724c5cd2431c689d5ae9992b08bdcc592a04"},
+      {"bytes": 6, "kind": "cgb_helper_bounded_thumb_code", "range": [636268, 636274], "sha256": "30c6c9fcb611330459336092dfdf9059b742dabc6d5f773ae67f501c1caadc3f"},
+      {"bytes": 4, "kind": "cgb_helper_consumed_literal_bytes", "range": [636276, 636280], "sha256": "d0455d972504810561aaa6b9cc70d69a9ad49abc84a3df38789afdd8eb9236eb"},
+      {"bytes": 14, "kind": "cgb_helper_bounded_thumb_code", "range": [636280, 636294], "sha256": "6531a1df4bcdc95692713b4c346c135e75339afb73d35dd2934ff15e9f606d99"},
+      {"bytes": 4, "kind": "cgb_helper_consumed_literal_bytes", "range": [636296, 636300], "sha256": "bd56e77404afec2e1cb1d293f4b56e5188b6e7c5d7aaf39d58dbd1de177f28fd"},
+      {"bytes": 104, "kind": "cgb_helper_bounded_thumb_code", "range": [636300, 636404], "sha256": "584762a3caa5fe9d71f2afd7fe58f2e5a8d2ef8efb2c4d68df84a621b84c9b88"}
+    ],
+    "total_bytes": 180
+  },
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "audio_behavior_proven": false,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_or_code_denominator_complete": false,
+    "global_ram_writer_denominator_complete": false,
+    "input_value_domain_complete": false,
+    "literal_target_semantics_claimed": false,
+    "natural_runtime_reachability": false,
+    "target_limited_raw_producer_denominator_complete": true
+  },
+  "schema": "rom-cgb-helper-bounded-cfg-frozen-contract-v1",
+  "upstream": {
+    "m4a_initializer_chain": {
+      "manifest_sha256": "9b9b9f2f49a1ee8224703ca47b73dc608d75ba83d2be44564e24873c44237c9c",
+      "payload_sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd"
+    }
+  }
+}

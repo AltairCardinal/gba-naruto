@@ -1,0 +1,231 @@
+{
+  "artifact": {
+    "binary_name": "rom-cgbsound-bounded-cfg.bin",
+    "payload_name": "rom-cgbsound-bounded-cfg.json",
+    "schema": "rom-cgbsound-bounded-cfg-v1",
+    "status_for_candidate": "candidate"
+  },
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "coverage_baseline": {
+    "immutable_artifact": {
+      "archive_sha256": "e345bf5a605d796c1e38a4243b4aefbcb7b8229f70bea13ce40ca044d4edf04b",
+      "manifest_sha256": "73be947de76ede7948780faba669d74320d2f37d91c95a6bdd99a3c5b02b94c1",
+      "path": "artifacts/rom-cgb-audio-precoverage-v1"
+    },
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839",
+    "size": 23152713,
+    "summary": {
+      "claim_count": 14507,
+      "classified_bytes": 6124601,
+      "segment_count": 16617,
+      "unknown_bytes": 166855
+    }
+  },
+  "coverage_projection": {
+    "claim_delta": 19,
+    "classified_delta": 1084,
+    "post_if_applied_alone": {
+      "claim_count": 14526,
+      "classified_bytes": 6125685,
+      "segment_count": 16644,
+      "unknown_bytes": 165771
+    },
+    "segment_delta": 27,
+    "unknown_delta": -1084
+  },
+  "envelope": {
+    "bytes": 1098,
+    "range": [636404, 637502],
+    "sha256": "ede2dc92848144864c5ee85e0296dd1a166b27beec2d49095a71484e1825ec3e"
+  },
+  "cfg": {
+    "block_count": 100,
+    "block_range_vector_sha256": "d7ec26b89231c6129cd49ecae68c80b9ffef223e8665c71aa39bfc6a2f843837",
+    "budget_exhausted": false,
+    "code_bytes": 1008,
+    "code_range_vector_sha256": "2fc9a8f44a1ad2b7179f5f04bce8955c8aa9630cd9ace12489282a22b3d2ac4a",
+    "code_ranges": [
+      [636404, 636436],
+      [636440, 636512],
+      [636524, 636534],
+      [636548, 636566],
+      [636580, 636674],
+      [636688, 636770],
+      [636776, 637258],
+      [637268, 637294],
+      [637300, 637410],
+      [637420, 637502]
+    ],
+    "edge_vector_sha256": "0380614c5c113eb322a59cff00d41aea0f03e696529d6be18f47d9c6d1bacab6",
+    "external_edges": [
+      {"kind": "opaque_call", "raw_hex": "fff74dff", "source_offset": 636654, "target_offset": 636300},
+      {"kind": "opaque_call", "raw_hex": "fff7b3fe", "source_offset": 636882, "target_offset": 636220},
+      {"kind": "opaque_call", "raw_hex": "fff7acfe", "source_offset": 636976, "target_offset": 636300}
+    ],
+    "external_edge_count": 3,
+    "frontier_count": 0,
+    "instruction_count": 501,
+    "internal_edge_count": 148,
+    "packed_code_sha256": "92133ea841055045045896df1220f932b7dbb8087969c4da2e2f88ebcf9bd759",
+    "root_offset": 636404,
+    "semantic_instruction_vector_sha256": "07671aee1abdfc89e88571dc3589b56d61fa2763e5b403f2b415ac270f148204",
+    "structured_return": {
+      "epilogue_range": [637486, 637502],
+      "epilogue_raw_hex": "07b038bc9846a146aa46f0bc01bc0047",
+      "epilogue_sha256": "66f606337a0e260c58446c68e93cfeb5ad6a707183c57ee277c0839376c4499e",
+      "offset": 637500,
+      "raw_hex": "0047",
+      "register": "r0"
+    },
+    "structured_return_count": 1,
+    "total_graph_edge_count": 151,
+    "vector_encoding": {
+      "block_ranges": "compact JSON [[start,end],...] sorted by start",
+      "edges": "compact JSON [[source_instruction_offset,target_offset,branch|fallthrough|opaque_call],...] sorted by source and deterministic edge kind",
+      "semantic_instructions": "compact JSON [[file_offset,size,capstone_mnemonic,capstone_gba_op_str],...] sorted by file_offset"
+    }
+  },
+  "excluded_ranges": {
+    "bytes": 14,
+    "packed_sha256": "e7ecebbc590bc88b3761fa6cd03d749f87463dabb67021a5c6768c25ec68b3f2",
+    "range_vector_sha256": "6a775e2f3f2c9b3411c2f62ecba31b7c93c05d6b63351e1585433664460f641d",
+    "ranges": [
+      [636534, 636536],
+      [636566, 636568],
+      [636674, 636676],
+      [636770, 636772],
+      [637258, 637260],
+      [637294, 637296],
+      [637410, 637412]
+    ],
+    "single_range_raw_hex": "0000",
+    "single_range_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+  },
+  "initializer_binding": {
+    "destination_address": 50361672,
+    "entry_pointer": 134854133,
+    "entry_pointer_occurrences": [634364],
+    "field_offset": 40,
+    "load_instruction": {"offset": 634220, "raw_hex": "2348"},
+    "pointer_literal": {
+      "range": [634364, 634368],
+      "raw_hex": "f5b50908",
+      "sha256": "805d3ab2c0c74a5e4321b0a0d715d335ce0e9c39e56220d46efa667cb60182a9"
+    },
+    "root_offset": 636404,
+    "store_instruction": {"offset": 634222, "raw_hex": "a062"},
+    "structure_base": 50361632
+  },
+  "literal_projection": {
+    "binding_count": 19,
+    "binding_vector_sha256": "6140171c9465f3a5133e1d306785b51fb8087bd13e6b51a1361645e9f803b860",
+    "bindings": [
+      [636416, 636436, 50364400, "0448", "f07f0003"],
+      [636494, 636512, 67108960, "0448", "60000004"],
+      [636498, 636516, 67108962, "044f", "62000004"],
+      [636500, 636520, 67108963, "044a", "63000004"],
+      [636524, 636536, 67108961, "0248", "61000004"],
+      [636528, 636540, 67108968, "024f", "68000004"],
+      [636530, 636544, 67108969, "034a", "69000004"],
+      [636548, 636568, 67108976, "0448", "70000004"],
+      [636552, 636572, 67108978, "044f", "72000004"],
+      [636554, 636576, 67108979, "054a", "73000004"],
+      [636580, 636676, 67108977, "1748", "71000004"],
+      [636584, 636680, 67108984, "174f", "78000004"],
+      [636586, 636684, 67108985, "184a", "79000004"],
+      [636724, 636772, 67109008, "0b49", "90000004"],
+      [637242, 637260, 67109001, "0448", "89000004"],
+      [637254, 637264, 2044, "0249", "fc070000"],
+      [637276, 637296, 2046, "0449", "fe070000"],
+      [637348, 637412, 67108993, "0f49", "81000004"],
+      [637366, 637416, 138823576, "0c48", "98474608"]
+    ],
+    "binding_vector_encoding": "compact JSON [[consumer_offset,literal_offset,u32_value,load_raw_hex,literal_raw_hex],...] sorted by consumer",
+    "bytes": 76,
+    "packed_sha256": "b846e32ff2c1871e4f7042efc7a1d8cad1515b23c1ab26349abc8208bd3c3da5",
+    "range_vector_sha256": "826e54ab02a6a66cf9d7a2e4726c4efce7a89017e39c4ada47badfbad52c47b1",
+    "ranges": [
+      [636436, 636440],
+      [636512, 636524],
+      [636536, 636548],
+      [636568, 636580],
+      [636676, 636688],
+      [636772, 636776],
+      [637260, 637268],
+      [637296, 637300],
+      [637412, 637420]
+    ],
+    "word_count": 19
+  },
+  "producer_denominator": {
+    "forms": ["thumb_bl", "thumb_b", "thumb_b_conditional", "arm_b", "arm_bl", "bytewise_u32_entry", "bytewise_u32_thumb_pointer"],
+    "scan_range": [0, 6291456],
+    "target": {
+      "forms": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [634364],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "target_file_offset": 636404
+    },
+    "vector_encoding": "compact JSON [target-object] where target-object has target_file_offset and forms",
+    "vector_sha256": "8482c0fcd5cc2cfae53554ad4b1a06f5c6e92d69892179885e0b2a49a3a7fe55"
+  },
+  "promotion": {
+    "claim_count": 19,
+    "code_bytes": 1008,
+    "literal_bytes": 76,
+    "packed_bytes_sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+    "range_vector_sha256": "3386a673407d2191f9b9427725f95e3864b92009ea32de433d28c9665c618f57",
+    "ranges": [
+      {"bytes": 32, "kind": "cgbsound_bounded_thumb_code", "range": [636404, 636436], "sha256": "fd17960f5cf76e3c505f82a1e14e467b486b3b24564c9f7f79e6c6fe4845c1f3"},
+      {"bytes": 4, "kind": "cgbsound_consumed_literal_bytes", "range": [636436, 636440], "sha256": "e47b04ebe71cb95aa7efebf2666040c297bdd758e5325d66acf08fd4cb9dc233"},
+      {"bytes": 72, "kind": "cgbsound_bounded_thumb_code", "range": [636440, 636512], "sha256": "68c567148290640ca72fd9899e82e6ad53a6392bbff6943e28f5f5c7442520bd"},
+      {"bytes": 12, "kind": "cgbsound_consumed_literal_bytes", "range": [636512, 636524], "sha256": "9d59ea5cddbd1a0d6f4ecc839f5369d57d4b9420ff653253e34871df46464d68"},
+      {"bytes": 10, "kind": "cgbsound_bounded_thumb_code", "range": [636524, 636534], "sha256": "82c41b731bb51eda5c4f1e518bcbe5bd24383285b310eb3529dbd332baa97721"},
+      {"bytes": 12, "kind": "cgbsound_consumed_literal_bytes", "range": [636536, 636548], "sha256": "164b6ec13f1c38fcd5d802c242991b31133912d7c9b7646a67b055dd9c37288f"},
+      {"bytes": 18, "kind": "cgbsound_bounded_thumb_code", "range": [636548, 636566], "sha256": "310b0efa036d4193e5031df362d88f684111106908b74a13bc8d8d6051de3f55"},
+      {"bytes": 12, "kind": "cgbsound_consumed_literal_bytes", "range": [636568, 636580], "sha256": "a0c75541973e91098dbe01f8d2a1a3c4e1e26a66d40f37239ef12477848d71f5"},
+      {"bytes": 94, "kind": "cgbsound_bounded_thumb_code", "range": [636580, 636674], "sha256": "322c40d1faf3a126ba4d2cb7647fbb8d0d7fe271576b32b6d7eea2815dca20b5"},
+      {"bytes": 12, "kind": "cgbsound_consumed_literal_bytes", "range": [636676, 636688], "sha256": "5ad3ec1a7bdfa9663a8d12dd5b15cd1013a51d0eb50fd7032783061eed5003ca"},
+      {"bytes": 82, "kind": "cgbsound_bounded_thumb_code", "range": [636688, 636770], "sha256": "1dd6c73c8e2889f9ec54a4298431541e92669bc1042021901f6548b03d7c6606"},
+      {"bytes": 4, "kind": "cgbsound_consumed_literal_bytes", "range": [636772, 636776], "sha256": "bfa1417d1dfb9abae35a079e4362dd0a8a3183f7d858197e967d25136e9b9717"},
+      {"bytes": 482, "kind": "cgbsound_bounded_thumb_code", "range": [636776, 637258], "sha256": "be11fa9cbce478459eaa53790d54b50be8af6b1f8ea979200e5d359a822a1dfb"},
+      {"bytes": 8, "kind": "cgbsound_consumed_literal_bytes", "range": [637260, 637268], "sha256": "4950d6ff3af2748c3139c4696c3e67ec47406f10330e83fce3f32a5f27a5f34a"},
+      {"bytes": 26, "kind": "cgbsound_bounded_thumb_code", "range": [637268, 637294], "sha256": "3103fe9dbc2aef74901cc58e862444d4d05c8a894eea55b459af150e0c107e3c"},
+      {"bytes": 4, "kind": "cgbsound_consumed_literal_bytes", "range": [637296, 637300], "sha256": "718d44854b4098ea99f25e6518f1dc48ee6f60a046ad5163ce18bb59f49b67dd"},
+      {"bytes": 110, "kind": "cgbsound_bounded_thumb_code", "range": [637300, 637410], "sha256": "3dc08cf18753e9d393ec6063adf2391007679a59d5c76b1b8e4a292323c3de3d"},
+      {"bytes": 8, "kind": "cgbsound_consumed_literal_bytes", "range": [637412, 637420], "sha256": "1e2dbdfa88824243df8f52b267a7196eea98a7ca890c3877d74891272b0cbf1a"},
+      {"bytes": 82, "kind": "cgbsound_bounded_thumb_code", "range": [637420, 637502], "sha256": "8629ba7d1a6f3952c309b67bc0c7456ba674745e25deab2128d15adebe3c1f6c"}
+    ],
+    "total_bytes": 1084
+  },
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "audio_behavior_proven": false,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "dynamic_callback_or_ram_state_proven": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_or_code_denominator_complete": false,
+    "helper_business_semantics_claimed": false,
+    "literal_target_business_semantics_claimed": false,
+    "natural_runtime_reachability": false,
+    "target_limited_raw_producer_denominator_complete": true
+  },
+  "schema": "rom-cgbsound-bounded-cfg-frozen-contract-v1",
+  "upstream": {
+    "m4a_initializer_chain": {
+      "manifest_sha256": "9b9b9f2f49a1ee8224703ca47b73dc608d75ba83d2be44564e24873c44237c9c",
+      "payload_sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd"
+    }
+  }
+}

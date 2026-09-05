@@ -1,0 +1,94 @@
+{
+  "evidence_commit": "80faaebd2d441e94afbe7f0c7921609659f4d0fe",
+  "files": {
+    "clean-b-replay-guard.json": {
+      "sha256": "c2a52793a54f01da35dffea23c8a047197560c5adfa6e5a19e23082fe8a112cd",
+      "size_bytes": 592
+    },
+    "clean-b-replay.log": {
+      "sha256": "2227e0c363e90210d910ef7945ee8f87d4242358f820e27a9dee3cf46486d7b6",
+      "size_bytes": 3928
+    },
+    "clean-b-tests.stderr": {
+      "sha256": "a14f7523f1ecba53411d205123a80d16ab42cba3b9855aedc3133518e0f24eda",
+      "size_bytes": 3351
+    },
+    "clean-b-tests.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "commit-b-guard.json": {
+      "sha256": "435a5d57fcdd8dd7217f8aed65bf449681b043c0c0dea3d7cafc3e90bc489d2b",
+      "size_bytes": 593
+    },
+    "commit-b-policy-guard.json": {
+      "sha256": "592982393aba30a360f9243b85ca86aa2b98b063a2d13c14c36d2971b7c1fd22",
+      "size_bytes": 537
+    },
+    "commit-b-policy.log": {
+      "sha256": "5c95e52cc7860025e6546f806684e7ed9df0cdb07625d7ad38cbffdaee9e0b87",
+      "size_bytes": 46
+    },
+    "commit-b-staged-v2.json": {
+      "sha256": "3db2490a342b16cf9c6d46431199dba4c2542f2f379967d18f7a278be90c3cd3",
+      "size_bytes": 147966
+    },
+    "commit-b.log": {
+      "sha256": "5c83f34a23103ccb3da337a25c0d0a6f2a06b34cd11c40808ccaf53df9e68b40",
+      "size_bytes": 62973
+    },
+    "green-v1.log": {
+      "sha256": "fbb8b4438688e2feb3f28499a1703ba690ca4b532bba1ea715f8a754dbc13675",
+      "size_bytes": 3778
+    },
+    "green-v2.log": {
+      "sha256": "fac245a9d1510bf61158007754b20c90fd925f0cbbaaa09111c29ff1ad818483",
+      "size_bytes": 1480
+    },
+    "green-v3-integration.log": {
+      "sha256": "2f9bd27df4852c8ad373f6afb85260b926814287e0e06df26e77e528ee202e14",
+      "size_bytes": 1696
+    },
+    "green-v4-final.log": {
+      "sha256": "6a45dbcacace139b276357d6110d8c1e8db34fbc4ddc74c0cd043b2ed277d7b1",
+      "size_bytes": 1906
+    },
+    "green-v5-ownership.log": {
+      "sha256": "7c2577af5b854ea4fc698da954c27a17a043400166feddf060daeadbba980150",
+      "size_bytes": 2101
+    },
+    "green-v6-final.log": {
+      "sha256": "1a86b028f720e9b9235bfdf3c789f01f633cafe299cd3b3816645c6facdcb66d",
+      "size_bytes": 2303
+    },
+    "input-copy-identities.json": {
+      "sha256": "8f038a3af95263296ff25055210c358dba2018d12e8ec4c3d5a93027d2cb0605",
+      "size_bytes": 811
+    },
+    "red-fifo.log": {
+      "sha256": "574346d42b0bc92cd03d2181aeede1bb8dd6ccc72b15ca19f95a8c69e6400ba3",
+      "size_bytes": 2834
+    },
+    "red-source-ancestor-race.log": {
+      "sha256": "7538eacc2b1f097f7e5de529ee0eed4218565077c61a0a278c18ccf71c8b7d9f",
+      "size_bytes": 1036
+    },
+    "red-temporary-ownership.log": {
+      "sha256": "d68b1a1a9524e935410c86f0054c7bff280234e1b75ffb0230a15e770eb03c1a",
+      "size_bytes": 2038
+    },
+    "red.log": {
+      "sha256": "75ac7fa3670a0206bd895fdb303c72c9faf6e5c360e22a8427ea1410af908e93",
+      "size_bytes": 1241
+    },
+    "replay_clean_b.py": {
+      "sha256": "c74581fef75fced69cf4500ac998e6c0159313fa71e03f033ec5c466d4830d5e",
+      "size_bytes": 5625
+    }
+  },
+  "schema": "rom-verifier-runtime-input-repair-receipts-v1",
+  "scope": "Exact historical input availability; no semantic bytes promoted and old verifiers unchanged.",
+  "status": "tdd_verified_clean_committed_replay_pending",
+  "unit_and_consumer_integration_tests": 11,
+  "unknown_bytes": 87749
+}

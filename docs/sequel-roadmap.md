@@ -28,8 +28,8 @@
 > 后续123个selector及两个project摘要修复不改变分类字节；新非降级formal已通过
 > 106/106 contracts与ROM gate96/96，coverage errors=0。formal report SHA为
 > `aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc`。
-> 队列归零，global complete=false/175 blockers；committed-artifact仍待64个历史root的
-> 验收格式迁移。详见 `docs/reverse-engineering-handoff-current-20260905.md`。
+> 队列归零，global complete=false/175 blockers；64个历史root的
+> A/B验收迁移已提交；干净B发现三份旧运行合同缺失，恢复入口与复验正在闭合。详见 `docs/reverse-engineering-handoff-current-20260905.md`。
 
 ---
 

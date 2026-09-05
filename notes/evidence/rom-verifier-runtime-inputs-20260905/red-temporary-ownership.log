@@ -1,0 +1,25 @@
+test_temporary_name_collision_preserves_preexisting_file (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_temporary_name_collision_preserves_preexisting_file) ... FAIL
+test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent) ... ERROR
+
+======================================================================
+ERROR: test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 47, in test_fresh_restore_and_repeat_are_exact_and_idempotent
+    self.assertEqual('input_bytes_only', first['verification_scope'])
+                                         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'verification_scope'
+
+======================================================================
+FAIL: test_temporary_name_collision_preserves_preexisting_file (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_temporary_name_collision_preserves_preexisting_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 165, in test_temporary_name_collision_preserves_preexisting_file
+    self.assertTrue(occupied.exists(), 'a failed exclusive open must not delete an unowned file')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : a failed exclusive open must not delete an unowned file
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.093s
+
+FAILED (failures=1, errors=1)

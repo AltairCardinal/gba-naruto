@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+    ~~~~^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/main.py", line 103, in __init__
+    self.parseArgs(argv)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/main.py", line 142, in parseArgs
+    self.createTests()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/main.py", line 153, in createTests
+    self.test = self.testLoader.loadTestsFromNames(self.testNames,
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+                                                   self.module)
+                                                   ^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 207, in loadTestsFromNames
+    suites = [self.loadTestsFromName(name, module) for name in names]
+              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/clean-checkout/tests/test_coverage_evidence_selector_repairs.py", line 8, in <module>
+    from tools import audit_rom_byte_coverage as auditor
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/clean-checkout/tools/audit_rom_byte_coverage.py", line 223, in <module>
+    from tools.verify_rom_cgbsound_bounded_cfg import (
+        verify_artifact as verify_rom_cgbsound_bounded_cfg,
+    )
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/clean-checkout/tools/verify_rom_cgbsound_bounded_cfg.py", line 42, in <module>
+    _FROZEN = json.loads((PROJECT_ROOT / CONTRACT_PATH).read_bytes())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/clean-checkout/build/experiments/active/cgbsound-contract/codex-r1-20260829/CONTRACT.json'

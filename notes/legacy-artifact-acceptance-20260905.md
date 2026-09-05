@@ -1,6 +1,9 @@
 # 历史 artifact 提交验收迁移（2026-09-05，进行中）
 
-最新状态：**包已独立验真、重建、promote并完成授权提交A，历史目录待B提交**。
+最新状态：**A与历史证据B已提交，干净检出补全运行合同中**。
+B为`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，835文件，通过真实hook。
+干净B导入auditor失败，原因是CgbSound仍读取ignored CONTRACT.json；另两份同类
+合同也需恢复。见`docs/rom-verifier-checkout-setup.md`，失败收据保持原样。
 A为`47d9a60e668a5c3fe6e1123524864d21a2c93545`，91个精确文件，通过显式启用的
 `.githooks`门禁。完整三成员包身份和64根分母已填入contract；干净A检出48项测试和
 bundle verifier也通过。主index为空；下面“pins为空”等描述均保留为此前失败关闭状态。

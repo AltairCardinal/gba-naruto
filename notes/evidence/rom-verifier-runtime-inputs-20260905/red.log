@@ -1,0 +1,15 @@
+test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent) ... FAIL
+
+======================================================================
+FAIL: test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 37, in test_fresh_restore_and_repeat_are_exact_and_idempotent
+    self.assertEqual(0, result.returncode, result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2 : b"/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/altair/github/gba-naruto-reverse/tools/prepare_rom_verifier_contracts.py': [Errno 2] No such file or directory\n"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.038s
+
+FAILED (failures=1)

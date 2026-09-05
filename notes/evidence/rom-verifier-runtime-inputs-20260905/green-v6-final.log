@@ -1,0 +1,16 @@
+test_changed_consumer_and_extra_input_fail_before_any_write (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_changed_consumer_and_extra_input_fail_before_any_write) ... ok
+test_default_check_does_not_create_missing_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_default_check_does_not_create_missing_inputs) ... ok
+test_every_source_mutation_or_missing_source_fails_before_any_write (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_every_source_mutation_or_missing_source_fails_before_any_write) ... ok
+test_fifo_target_fails_without_blocking_or_creating_other_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fifo_target_fails_without_blocking_or_creating_other_inputs) ... ok
+test_fresh_restore_and_repeat_are_exact_and_idempotent (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fresh_restore_and_repeat_are_exact_and_idempotent) ... ok
+test_later_existing_conflict_prevents_earlier_missing_writes (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_later_existing_conflict_prevents_earlier_missing_writes) ... ok
+test_source_ancestor_replaced_after_precheck_is_not_followed (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_source_ancestor_replaced_after_precheck_is_not_followed) ... ok
+test_symlink_source_or_source_ancestor_is_rejected (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_symlink_source_or_source_ancestor_is_rejected) ... ok
+test_symlink_target_or_target_ancestor_and_directory_are_rejected (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_symlink_target_or_target_ancestor_and_directory_are_rejected) ... ok
+test_temporary_name_collision_preserves_preexisting_file (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_temporary_name_collision_preserves_preexisting_file) ... ok
+test_unchanged_legacy_consumers_import_and_validate_restored_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_unchanged_legacy_consumers_import_and_validate_restored_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.846s
+
+OK

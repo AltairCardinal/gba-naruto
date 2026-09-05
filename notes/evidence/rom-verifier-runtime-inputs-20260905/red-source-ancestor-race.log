@@ -1,0 +1,15 @@
+test_source_ancestor_replaced_after_precheck_is_not_followed (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_source_ancestor_replaced_after_precheck_is_not_followed) ... FAIL
+
+======================================================================
+FAIL: test_source_ancestor_replaced_after_precheck_is_not_followed (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_source_ancestor_replaced_after_precheck_is_not_followed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 181, in test_source_ancestor_replaced_after_precheck_is_not_followed
+    with self.assertRaises((OSError, ValueError)):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'OSError'>, <class 'ValueError'>) not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)

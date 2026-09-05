@@ -1,32 +1,33 @@
 # ROM 字节级语义逆向当前交接（2026-09-05）
 
-## 最新恢复点：验收包A已提交且clean checkout通过，历史闭包B待提交
+## 最新恢复点：A/B已提交，修复干净检出的历史合同依赖
 
-`notes/rom-evidence-selector-repair-20260905.md` 是本轮最新状态。canonical已修复123个
-JSON evidence selector；coverage为1c6af01a…df584b6、proof为c2862ea5…4857cbb，数值仍为
-6,203,707 classified /87,749 unknown。3项投影测试和6项采用后集成测试通过；所有JSON
-artifact selector可解析。两处project.json摘要拼写也已修正。旧before和失败收据均保留。
+A=`47d9a60e668a5c3fe6e1123524864d21a2c93545`，91个精确文件，干净A的48项测试和
+独立bundle verifier通过。B=`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，835文件，
+85项既有工具回归通过，430个Python文件可编译，实际hook通过。两处历史exporter行尾
+空格因artifact固定源码哈希保留，格式例外及原始诊断已存入永久收据。
 
-完整formal已在 `build/experiments/active/evidence-selector-repair/fast-audit-20260905/`
-成功结束，session84261已关闭。08:40:40Z–09:21:38Z，106/106 contracts、ROM96/96、
-coverage errors=0，非降级，峰值525.7109375MiB。global complete=false，175 blockers。
-新永久报告/guard位于 `notes/evidence/rom-evidence-selector-repair-20260905/`，SHA分别为
+B的干净检出未通过：audit_rom_byte_coverage导入时，CgbSound verifier仍从ignored
+build路径读取CONTRACT.json。MP2K dispatcher和CGB helper也有同类实际读取依赖。
+三份原始合同合计27,865B已逐字节复制到tools/data/rom-verifier-contracts-v1；恢复入口
+及失败关闭测试见`docs/rom-verifier-checkout-setup.md`。旧工具、manifest、canonical、
+proof和A授权包均保持原字节；下一步提交初始化修复，再在干净检出恢复并重跑失败检查。
+
+提交run为`build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/`，
+clean-checkout当前位于B，失败日志为clean-b-replay.log/clean-b-tests.stderr及对应guard。
+修复run为`build/experiments/active/verifier-runtime-inputs/clean-checkout-repair-20260905/`。
+恢复前实时核对Goal/额度/代理/Git；最新余量73%，没有running heavy，主index仍为空。
+本仓库无持久hook，A/B使用`git -c core.hooksPath=.githooks commit`显式启用已有入口。
+
+canonical/proof仍为1c6af01a…df584b6 / c2862ea5…4857cbb，6,203,707 classified /
+87,749 unknown。123项selector修复后的完整formal在08:40:40Z–09:21:38Z成功结束：
+106/106 contracts、ROM96/96、coverage errors=0，非降级，global complete=false/175 blockers。
+永久报告/guard位于notes/evidence/rom-evidence-selector-repair-20260905，SHA分别为
 `aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc` /
 `3e1722f8979fa68723acf3e5940cf7eacd5beaabde6d19c2c14bf277a6736c54`。
-当前余量74%，主index为空，HEAD为`47d9a60e668a5c3fe6e1123524864d21a2c93545`。
-正式新结果无需再重复执行。
+当前只补原始运行输入，不改变上述正式输入；不要重复执行已结束的full formal。
 
-新的candidate-v4固定282输入、64根/160成员，32/21/11证据桥梁；独立验真和源文件
-逐字节重建均成功。完整包身份与64根分母已填入contract，现代验收包已promote并作为A
-提交（91文件）；AGENTS只提交本轮新增模式，原有改动仍未暂存。53项最终集成通过；A的
-干净detached checkout另有48项测试和独立bundle verifier通过，报告SHA均为
-`42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c`。
-`notes/legacy-artifact-acceptance-20260905.md`与合同文档记录全部身份和失败candidate-v3。
-新提交run为`build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/`，
-其`clean-checkout`当前位于A；B仍有约807项相关变化待最终范围/门禁验收。恢复时先核对
-`commit-b-existing-changes-tests-guard.json`实际状态，不启动重复heavy任务。
-本仓库无持久hook，本次A/B用`git -c core.hooksPath=.githooks commit`显式启用现有入口。
-下文旧106/96结果仅是修复前历史收据。
+下文提交闭包预检和旧106/96结果为历史过程，由本段状态取代。
 
 ## 当前恢复状态
 

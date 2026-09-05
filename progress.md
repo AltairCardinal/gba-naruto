@@ -1,7 +1,7 @@
 # ROM 字节级逆向进度（2026-09-05）
 
 - Goal active：当前任务 `01a06ff8-6905-78c1-9c36-ad357340ec4d`；用户已确认继续至
-  `unknown_bytes == 0`。2026-09-05修复后formal验收时账户可验证余量75%，不高于 5% 时
+  `unknown_bytes == 0`。2026-09-05运行输入修复前账户可验证余量73%，不高于 5% 时
   停止新逆向写入。原 Goal 的累计用量只作历史记录。
 - canonical 已真实重建：6,203,707 classified / **87,749 unknown** / 16,891 claims /
   18,664 segments，即 **98.60526720682780%**。本批净增 978 bytes / 21 claims。
@@ -11,19 +11,19 @@
   task callback `0x078E38` closure 778 bytes、CFG proven-roots v21 116 bytes。
   四包已接入 canonical，Tier-2唯一formal已完成：106/106 contracts、ROM gate96/96，
   coverage errors=0；队列归零。后续123个selector与两处project摘要修复后重新formal，
-  106/96仍全通过，global blocker从177变为175。committed-artifact门仍待历史格式迁移。
+  106/96仍全通过，global blocker从177变为175。A/B历史格式迁移已提交；干净B运行输入缺口正在修复。
 - V21 按 TDD 修复 candidate 误验收、成员替换竞态两个 P1，packet 15/15；独立 official
   verifier 连续两次 report 相同。真实 canonical/proof/永久收据集成 **9/9** 非降级通过。
 - coverage guard：2026-09-05 06:01:04Z–06:32:46Z，完成、exit 0、非降级，峰值
   owned-tree RSS 452.63671875 MiB。修复后formal耗时40分58秒、非降级、峰值525.7109375MiB。
 - 原始 RED/GREEN、coverage guard 和输出已复制到
   `notes/evidence/rom-post-story-four-packet-tier2-20260905/`，manifest 逐文件固定哈希。
-  新测试不再依赖 Git 忽略的 `build/` 收据。已有大量未提交历史依赖正在核对精确提交闭包，
-  门禁修复已本地提交`e4b626462`；ROM证据尚未提交，未push。
-  独立index预检在64个历史artifact根发现149条格式错误，尚未绕过或放宽门禁。
+  收据测试不再依赖 Git 忽略的 `build/`。A=`47d9a60e668a5c3fe6e1123524864d21a2c93545`，
+  B=`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，64历史根完整通过冻结Git对象门禁。
+  干净B的auditor导入暴露三份历史运行合同遗漏；当前以已提交原字节恢复入口修复，未push。
 - 最新修复formal永久收据在`notes/evidence/rom-evidence-selector-repair-20260905/`，报告
   SHA为`aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc`；
-  原前态和失败证据保持不变。迁移包必须重新生成，旧candidate-v3已拒绝。
+  原前态和失败证据保持不变。candidate-v4已通过验真/重建并在A提交，旧candidate-v3保持拒绝。
 - 边界：五个 task callback 2-byte holes 保持 unknown；V21 跨 owner BL 完整解码，
   只新增 unknown 后半字节；两包的 BX frontier 与 structured_return_count=0 保留。
 - 下一候选仅有只读证据：三短入口合计54 bytes、dispatcher约40 bytes、另一 callback

@@ -64,6 +64,13 @@
   由此修正123个selector并保持87,749 unknown，106/96 formal合同通过；执行报告域的
   selector须单独建模，不能按解析Python源文件的失败判定JSON artifact错误。
 
+- 固定历史verifier读取ignored实验合同而导致干净检出失败时，先保持原始合同及consumer
+  字节身份，将最小输入集提交到tools/data并提供显式初始化；恢复必须早于任何依赖导入，
+  全量预检后仅创建缺失目标，相同内容幂等、冲突失败、不清理未拥有文件。原consumer
+  仍独立核对旧合同摘要；准备成功不能冒充ROM语义验真。2026-09-05三份CGB/MP2K合同
+  共27,865B按此模式恢复，11项测试含consumer集成、FIFO、临时名碰撞及祖先symlink竞态；
+  流程见docs/rom-verifier-checkout-setup.md。
+
 ## ROM 与资源安全
 
 - mGBA、Chromium 和高开销静态任务必须经 `tools/run_guarded.py` 使用同一 heavy lock；只清理本次拥有的进程树。

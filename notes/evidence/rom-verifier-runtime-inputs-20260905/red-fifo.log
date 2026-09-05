@@ -1,0 +1,33 @@
+test_fifo_target_fails_without_blocking_or_creating_other_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fifo_target_fails_without_blocking_or_creating_other_inputs) ... ERROR
+
+======================================================================
+ERROR: test_fifo_target_fails_without_blocking_or_creating_other_inputs (tests.test_prepare_rom_verifier_contracts.VerifierContractRestoreTests.test_fifo_target_fails_without_blocking_or_creating_other_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 144, in test_fifo_target_fails_without_blocking_or_creating_other_inputs
+    self.assert_rejected(self.run_cli(restore=True))
+                         ~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_prepare_rom_verifier_contracts.py", line 32, in run_cli
+    return subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root),
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           *(['--restore'] if restore else [])], capture_output=True, timeout=5)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 556, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1220, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2153, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1267, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/local/opt/python@3.14/bin/python3.14', '/Users/altair/github/gba-naruto-reverse/tools/prepare_rom_verifier_contracts.py', '--root', '/private/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmpm85wx85h/checkout', '--restore']' timed out after 5 seconds
+
+----------------------------------------------------------------------
+Ran 1 test in 5.019s
+
+FAILED (errors=1)
