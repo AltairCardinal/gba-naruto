@@ -48,6 +48,22 @@
 - 多张等长指针表并存时，先让 `gpt-5.6-terra` 只读枚举各表 literal、consumer 和可复用确认前快照；本体必须用 observer 的实际表项地址和命中 ID 排除同数量邻表。命中后复用同一 hash-bound 快照，以同表合法 donor 做单指针 A/B；只签发实际命中的 ID 与可见差异，不把原始游戏编码流冒充自然语言解码或全表自然覆盖。
 - 工具 schema 未列出的模型（包括当前不可用的 `luna`）不得调用或声称已使用；能力可用性变化后方可重新验收。
 
+- 固定历史 artifact 的提交格式迁移优先复用不可变 Git tree、可复现归档重建与独立
+  identity verifier：必须保留旧 manifest 原字节，冻结全部根和成员的 path/mode/size/SHA，
+  区分直接 proof verifier、aggregate claim verifier 和仅 gzip/raw baseline 三种证据。
+  结构自洽的 candidate 不是提交授权；只有代码固定的完整现代包才可在独立的 A 提交后，
+  授权 B 提交中的完整旧根批次。消费时 baseline/staged 包与授权模块、实际执行模块必须
+  一致；无关现代目录仍走原门禁。重建CLI须在创建输出前核对完整非null snapshot pin及
+  最终压缩字节身份。2026-09-05 的64根/160成员/282输入按32/21/11桥梁完成独立归档
+  验真和逐字节重建；该模式新增语义字节为0，不冒充旧verifier重放或外部信任锚。
+  合同与边界见 `docs/legacy-artifact-acceptance-contract-v1.md`。
+- canonical claim 的证据selector校正优先复用原生成器、实际JSON payload与独立range
+  比较；不能以虚拟selector兼容例外绕过缺失证据。冻结before/after后逐项证明仅selector
+  变化，其他claim字段、范围、排序、summary与segments不变，再重新绑定proof工具/输入
+  身份。永久测试应核对对应历史快照，不能用未来live canonical冒充旧收据。2026-09-05
+  由此修正123个selector并保持87,749 unknown，106/96 formal合同通过；执行报告域的
+  selector须单独建模，不能按解析Python源文件的失败判定JSON artifact错误。
+
 ## ROM 与资源安全
 
 - mGBA、Chromium 和高开销静态任务必须经 `tools/run_guarded.py` 使用同一 heavy lock；只清理本次拥有的进程树。

@@ -1,0 +1,956 @@
+{
+  "artifact_status": "candidate",
+  "authorizations": {
+    "artifacts/rom-alternate-dialogue-table-v1": {
+      "alternate-dialogue-table.json": {
+        "mode": "100644",
+        "sha256": "62576a9d495fb143575f1a9be43816d78806910ea3840db8305e05f4050f696e",
+        "size": 98536
+      },
+      "alternate-dialogue-text.bin": {
+        "mode": "100644",
+        "sha256": "256d059e355d1a4a5af65416f40680bcb2eacdb397e1c71b6d5353522bf954a5",
+        "size": 1214
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "f7ded383f1c7334d714337768867496d083a85db051a69688fea121023f121b0",
+        "size": 1493
+      }
+    },
+    "artifacts/rom-battle-condition-result-text-v1": {
+      "battle-condition-result-text.bin": {
+        "mode": "100644",
+        "sha256": "9826a706b7c4e840117c5ff1a3a6c9d06057cac9188c66f2bd523592cf533d91",
+        "size": 3961
+      },
+      "battle-condition-result-text.json": {
+        "mode": "100644",
+        "sha256": "16457b1e3152451073489cdd6287b6a7429f9b298ba6f4cf8a3216fadcd4b0f2",
+        "size": 211102
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "93e3a9f88c95fee8025446616c1fed54b9645a94db5c3d09b4d9fa0f40e769aa",
+        "size": 1386
+      }
+    },
+    "artifacts/rom-battle-controller-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "size": 1378
+      },
+      "rom-battle-controller-cfg.json": {
+        "mode": "100644",
+        "sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "size": 401034
+      }
+    },
+    "artifacts/rom-battle-distance-dispatcher-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "ce7844f61ca580f27780413f2d7231f9ddb0ad43ba71f846110a8747019a5fa2",
+        "size": 1151
+      },
+      "rom-battle-distance-dispatcher-cfg.json": {
+        "mode": "100644",
+        "sha256": "2b8efd1f06ed8107c59716ea11d5c701d991d31d495498482e9001574916c718",
+        "size": 10498
+      }
+    },
+    "artifacts/rom-battle-message-text-inventory-v1": {
+      "battle-message-text-bytes.bin": {
+        "mode": "100644",
+        "sha256": "e0be9ff986140ae489c88769e483d98eab06febcf9f26ebf5fc6395fb428e0b9",
+        "size": 2740
+      },
+      "battle-message-text-inventory.json": {
+        "mode": "100644",
+        "sha256": "c5e270c79c5cf5f18e13c9d0c77162afef8c28b459f6e86eecabd5f232a4db7b",
+        "size": 117091
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "fff6410091d6165f338821b6400ecb5e0912a7221bad0c664bbce85d9daf5d54",
+        "size": 1767
+      }
+    },
+    "artifacts/rom-battle-status-bar-caller-slice-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "088c165400327abf3c2fa79054a237917b99fdf8ec5c8d80671b07f909abf39c",
+        "size": 4271
+      },
+      "rom-battle-status-bar-caller-slice.json": {
+        "mode": "100644",
+        "sha256": "7cc1af7fad6573a0901bda847e3c3a2665229e60623fae2426a679ace83e1217",
+        "size": 14507
+      }
+    },
+    "artifacts/rom-boot-copy-sources-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "040e009cccf97088b89f47161898797f2cc72790116d1c18cd2861edee85a464",
+        "size": 1087
+      },
+      "rom-boot-copy-sources.json": {
+        "mode": "100644",
+        "sha256": "aeecd2f04c41701ffc73e9bf5853edaccdf074727684bfbf0d3b1ee6728bf59b",
+        "size": 5587
+      }
+    },
+    "artifacts/rom-boot-framebuffers-v1": {
+      "boot-frame-a.bin": {
+        "mode": "100644",
+        "sha256": "68403b4d80800603aee5340b21fce0e95b59bece8d52edc82e3c97206ea320d1",
+        "size": 76800
+      },
+      "boot-frame-a.png": {
+        "mode": "100644",
+        "sha256": "0c7e67611fc3de1641e344a2737ca0e7d30ba704c60d34acc86d78a1deda3dc2",
+        "size": 5862
+      },
+      "boot-frame-b.bin": {
+        "mode": "100644",
+        "sha256": "f76aa2f65fa186390ec0625f9a0b8a0668455c8454c4ac1e0b522f4bbde38412",
+        "size": 76800
+      },
+      "boot-frame-b.png": {
+        "mode": "100644",
+        "sha256": "964cbaaa0762b368295ce13642206954f939a3633e6d4dd8b3c5fecb95d4b0c8",
+        "size": 3678
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "ede3fa29106e8b67cc40e37746b5a44b85beddeb2750e660d5955e26d946238d",
+        "size": 10512
+      }
+    },
+    "artifacts/rom-boot-interwork-continuation-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "1274d157a6a61c61d1e9b8709f31d97355174118574310d667a5c8f906118bb5",
+        "size": 379
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "7be5ee2d603ac73d77d39bd1911acd5fda4ab1c0ff07d8583e411fcf882645eb",
+        "size": 1765648
+      }
+    },
+    "artifacts/rom-boot-interwork-continuation-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "beb4220307bbc0b99b58d6652bfd3f7339928d9e30b104f0fde06c7ed62d82ff",
+        "size": 10337
+      },
+      "rom-boot-interwork-continuation.json": {
+        "mode": "100644",
+        "sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+        "size": 105718
+      }
+    },
+    "artifacts/rom-boot-interwork-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "f2673837955194f35daab4f9fb7c0b2fe2dd5967231fcd6d982d0cacb9f749be",
+        "size": 2201
+      },
+      "rom-boot-interwork.json": {
+        "mode": "100644",
+        "sha256": "2f78132647235ca1c9fd155b950ff4128e4b01ca10d0fa0ae0fcfa4fdd37e30d",
+        "size": 55454
+      }
+    },
+    "artifacts/rom-boot-state-dispatcher-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "c3296d25364f76c25c5e925adaac66d8e9c83ce967cdfc3563bf7dd8a4be6004",
+        "size": 1121
+      },
+      "rom-boot-state-dispatcher-cfg.json": {
+        "mode": "100644",
+        "sha256": "ac14c13a765ee75ca0b2236bc528504d632d46ac284869f0415e2a160ebe0465",
+        "size": 21757
+      }
+    },
+    "artifacts/rom-bounded-index-u16-pair-table-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "d909fed886e1779ae8db16a04dbcce7471d74a9a808ad17f6afd7372a0cb8d04",
+        "size": 1113
+      },
+      "rom-bounded-index-u16-pair-table.json": {
+        "mode": "100644",
+        "sha256": "d95ab9f397511a88550301bed432315e66e75899e15073b74c19a643fff85af2",
+        "size": 4762
+      }
+    },
+    "artifacts/rom-cfg-inventory-v2": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "size": 4350
+      },
+      "rom-cfg-inventory.json": {
+        "mode": "100644",
+        "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "size": 5936694
+      }
+    },
+    "artifacts/rom-cfg-inventory-v3": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+        "size": 4617
+      },
+      "rom-cfg-inventory-v3.json": {
+        "mode": "100644",
+        "sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+        "size": 1322391
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+        "size": 5186
+      },
+      "rom-cfg-proven-roots.json": {
+        "mode": "100644",
+        "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+        "size": 1024474
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v17-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "c143d90e2e2396fe002fbfa623c213ef7f9313b02f564502aeed2e1e9ce6e449",
+        "size": 777
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "ff5917864c0c2b3f039e18c531b392bcc117cd3470bb343a5c1cadde0c1ae2da",
+        "size": 1669135
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v18-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "8f9e5941703dc1146ad88f62f06c2642556511123be609dc962d202d48e2f146",
+        "size": 379
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "9668600b980dfc067b340ce6cb499fb181cbff6509b1bf94ee36d042b7f2e8de",
+        "size": 1763932
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v2": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "size": 6124
+      },
+      "rom-cfg-proven-roots-v2.json": {
+        "mode": "100644",
+        "sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "size": 696273
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v3": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "4aa979aa65408163e577f7d728ba32a99a13bd6c9615c40f28a570036e5ba275",
+        "size": 621
+      },
+      "rom-cfg-proven-roots-v3.json": {
+        "mode": "100644",
+        "sha256": "f2de5ca57685e3542d5e483e5a171a30eb32bb6dc6ce9794cc683371579af9a2",
+        "size": 10214
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v4": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "e306ac59b4b9a815702fda8aef54058908fb9113a5afad4be938c69d42d67404",
+        "size": 661
+      },
+      "rom-cfg-proven-roots-v4.json": {
+        "mode": "100644",
+        "sha256": "d14c9f4198d9209d03d8511351b5dc997ade409a3218e9f05993c8c7f11456eb",
+        "size": 104198
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v5": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "f6deb37d40ae4ea83e220adc8303c64646a9280d34d6c325d8ea0492963dcd8d",
+        "size": 661
+      },
+      "rom-cfg-proven-roots-v5.json": {
+        "mode": "100644",
+        "sha256": "680b03dffb5c3dbbca41d9a5d0872db560a1a05850d7928ce75243397a54f040",
+        "size": 112972
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v6": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "size": 668
+      },
+      "rom-cfg-proven-roots-v6.json": {
+        "mode": "100644",
+        "sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "size": 2048404
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v7": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "da9a1b5fe7ce8e7889fbba9fe8251c907ed18f6b273cbcc3be145101ece99114",
+        "size": 714
+      },
+      "rom-cfg-proven-roots-v7.json": {
+        "mode": "100644",
+        "sha256": "184e9b84df829fb1ad41f272aabe931c1a1f86111eebd60629ad2d2a23d89a06",
+        "size": 42393
+      }
+    },
+    "artifacts/rom-cfg-proven-roots-v8": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "0c9194507c50b7f2c00c6ee09b517211f64b7b344475952fe3c908b1e54e0002",
+        "size": 20259
+      },
+      "rom-cfg-proven-roots-v8.json": {
+        "mode": "100644",
+        "sha256": "5fa1150d2ed9f785d50132a9eae316af192d70838fbee3061d7d3010c35fb1d6",
+        "size": 39368
+      }
+    },
+    "artifacts/rom-cfg-seeds-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "dafb79db7439ec73360eb069d2e8c32c9bf610116d5adf458617dd5bfac08810",
+        "size": 1279
+      },
+      "rom-cfg-seeds.json": {
+        "mode": "100644",
+        "sha256": "53960ae8e460b862bbc52d447290d988ed8a496417ccf08a810041384df1b05c",
+        "size": 277537
+      }
+    },
+    "artifacts/rom-cgb-audio-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "73be947de76ede7948780faba669d74320d2f37d91c95a6bdd99a3c5b02b94c1",
+        "size": 1727
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "e345bf5a605d796c1e38a4243b4aefbcb7b8229f70bea13ce40ca044d4edf04b",
+        "size": 1302906
+      }
+    },
+    "artifacts/rom-cgb-helper-bounded-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "8a53b3ee982799583e08ef852fb2cac9771f856e77ed104cc2814cfd1e7ef6d1",
+        "size": 1609
+      },
+      "rom-cgb-helper-bounded-cfg.bin": {
+        "mode": "100644",
+        "sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+        "size": 180
+      },
+      "rom-cgb-helper-bounded-cfg.json": {
+        "mode": "100644",
+        "sha256": "dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960",
+        "size": 42154
+      }
+    },
+    "artifacts/rom-cgbsound-bounded-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "4248c0fed46682d06918ac124d3c861a60c12117023a773190ff831840963b6e",
+        "size": 1594
+      },
+      "rom-cgbsound-bounded-cfg.bin": {
+        "mode": "100644",
+        "sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+        "size": 1084
+      },
+      "rom-cgbsound-bounded-cfg.json": {
+        "mode": "100644",
+        "sha256": "362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d",
+        "size": 178551
+      }
+    },
+    "artifacts/rom-chapter-script-consumer-roots-v1": {
+      "chapter-script-consumer-roots.bin": {
+        "mode": "100644",
+        "sha256": "7e506f02abfe85c21a01066ce010b40d0a43b8d528fb53b77cc3be7cb1b22907",
+        "size": 16175
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "c8d4b29142bed3d8031bb141bbdf409582a01ffa838cd860c23d80a32b695575",
+        "size": 878
+      },
+      "rom-chapter-script-consumer-roots.json": {
+        "mode": "100644",
+        "sha256": "c0118f0ad71dcabd4e10a057950437528d85aa1abee4b829d92aa6e340d6cb9c",
+        "size": 351386
+      }
+    },
+    "artifacts/rom-chapter-script-unbound-tail-v1": {
+      "chapter-script-unbound-tail.bin": {
+        "mode": "100644",
+        "sha256": "7f6400492903560a93ba7d226a75986dbb298e78040156b0dc4bcf4cda5655e4",
+        "size": 3178
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "7b0de3397997fd851e64b3bc718228d2e99fb271104195d96c580cc4ba489a85",
+        "size": 865
+      },
+      "rom-chapter-script-unbound-tail.json": {
+        "mode": "100644",
+        "sha256": "c60c0e68184fe04d0ef15116458faf0672bc97451e555968ae4c76f8efe14260",
+        "size": 39843
+      }
+    },
+    "artifacts/rom-chapter-selector-code-slice-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "e32e734834e39ef9600f6dbe44d3b5f0402f50027e85cec9a5497026d7e0b9e8",
+        "size": 2996
+      },
+      "rom-chapter-selector-code-slice.json": {
+        "mode": "100644",
+        "sha256": "77d3f9715dc0ff556bb268171b945b8550a8057a8ee45f592d1fa113dbf37bd5",
+        "size": 5785
+      }
+    },
+    "artifacts/rom-fast-audit-four-packet-baseline-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "a4d57f767cff2931efe6b6e09c5d0a27280bb0fea654b8718abcb44f6c572a63",
+        "size": 825
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "c9572df49eca8f3ae65cb8fdc88f816dc7289f53055c730aaf746b28d840d42a",
+        "size": 1649084
+      }
+    },
+    "artifacts/rom-fixed-animation-descriptor-groups-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "83e526c51214bc0e42f31f8906b7633e4b94a0762a630c643f0134fad974ff05",
+        "size": 1172
+      },
+      "rom-fixed-animation-descriptor-groups.json": {
+        "mode": "100644",
+        "sha256": "8afa72be44e60892c85a16c037052ea6a02dd078b0864227ebef436ba3ae5e3b",
+        "size": 9341
+      }
+    },
+    "artifacts/rom-fixed-consumer-text-inventory-v1": {
+      "fixed-consumer-text-bytes.bin": {
+        "mode": "100644",
+        "sha256": "e71eefd9ee1d98333fdd0cd72c6b67ce6335a6874bf5f92c072177807ca1168a",
+        "size": 14177
+      },
+      "fixed-consumer-text-inventory.json": {
+        "mode": "100644",
+        "sha256": "fd73b9dedf34aee5a4537c451f30d8479dd43f849dfb3ab81c18360a0883e461",
+        "size": 676107
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "560464a6fed43de1a77c6339362dc2ef28534a7374ff976df572d05a9bad6b94",
+        "size": 1797
+      }
+    },
+    "artifacts/rom-fixed-index-u8-tail-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88",
+        "size": 1212
+      },
+      "rom-fixed-index-u8-tail.json": {
+        "mode": "100644",
+        "sha256": "25c49e182f4e08366afcc4326c21488ae6d5657ff64fcfc37e946ed7d1d42666",
+        "size": 4312
+      }
+    },
+    "artifacts/rom-fixed-renderer-script-records-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "5616962b7f9255899797530b381dd537141afad1bff775747bcbbde24cadadd0",
+        "size": 1185
+      },
+      "rom-fixed-renderer-script-records.json": {
+        "mode": "100644",
+        "sha256": "7b56a9a05d8ea7d78bddd68dba874f0c7cae2ae3fa5d1aa6c2ab3a3949ec7698",
+        "size": 32401
+      }
+    },
+    "artifacts/rom-m4a-byte-inventory-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "1c0205bc8dde65c887f18f9f55fccce5770d2ebf283bb1a4589fd6d392c40194",
+        "size": 358884
+      }
+    },
+    "artifacts/rom-m4a-initializer-chain-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "6d345594ab9278f5a098189328621af635ec17839f6ee7c5250b08bd7ed81baa",
+        "size": 2242
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "9249601f241fd767ca9aa6ce583061c88686f9040ef93d6f9dab335e3cddbbac",
+        "size": 1297017
+      }
+    },
+    "artifacts/rom-m4a-initializer-chain-v1": {
+      "candidate/manifest.json": {
+        "mode": "100644",
+        "sha256": "c6597cec41ff8f73d2e11a21c12f6c54d304a7fe88227361791674258fbc4180",
+        "size": 14226
+      },
+      "candidate/rom-m4a-initializer-chain.bin": {
+        "mode": "100644",
+        "sha256": "f5c0a94ac06bf6750edc038e0db95fc5d4e96c321129e57a11abd461aa678ea7",
+        "size": 518
+      },
+      "candidate/rom-m4a-initializer-chain.json": {
+        "mode": "100644",
+        "sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd",
+        "size": 214040
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "9b9b9f2f49a1ee8224703ca47b73dc608d75ba83d2be44564e24873c44237c9c",
+        "size": 16875
+      },
+      "rom-m4a-initializer-chain.bin": {
+        "mode": "100644",
+        "sha256": "f5c0a94ac06bf6750edc038e0db95fc5d4e96c321129e57a11abd461aa678ea7",
+        "size": 518
+      },
+      "rom-m4a-initializer-chain.json": {
+        "mode": "100644",
+        "sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd",
+        "size": 214040
+      }
+    },
+    "artifacts/rom-mp2k-dispatcher-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "8c913eeb6ccf1761f7eeb0f126b5b6dbbfe14f8cbec36941c1e15eba3b9a2602",
+        "size": 1666
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "06d70fc86be7ec6fe38e80409f7a33fbfcbdf05d84e537a7a2364cc111d49517",
+        "size": 1301149
+      }
+    },
+    "artifacts/rom-mp2k-dispatcher-v1": {
+      "candidate/manifest.json": {
+        "mode": "100644",
+        "sha256": "af469f61a2e7f701fd34d1291c6c18962572f8bc62a3a3f130d6d757409f0c2e",
+        "size": 33056
+      },
+      "candidate/rom-mp2k-dispatcher.bin": {
+        "mode": "100644",
+        "sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+        "size": 102
+      },
+      "candidate/rom-mp2k-dispatcher.json": {
+        "mode": "100644",
+        "sha256": "3ddac8d6c690af4850d74f7aeeee2a424f32c4108a7ebebd26c51f280672b23c",
+        "size": 205414
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "212c3849eb8ead7fd01c74f8ed8a1ae85b4f2324d966fa2234320a6b78882b48",
+        "size": 34642
+      },
+      "rom-mp2k-dispatcher.bin": {
+        "mode": "100644",
+        "sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+        "size": 102
+      },
+      "rom-mp2k-dispatcher.json": {
+        "mode": "100644",
+        "sha256": "3ddac8d6c690af4850d74f7aeeee2a424f32c4108a7ebebd26c51f280672b23c",
+        "size": 205414
+      }
+    },
+    "artifacts/rom-mp2k-note-allocator-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "21c3448891c0afaffa9ebe326f59e58d418b99bacbbea8542a63b45c47503861",
+        "size": 1659
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "6134b9c0e52242e47d5cb8c1c291924f41287ccfc67b97fea696b9b513793921",
+        "size": 1298798
+      }
+    },
+    "artifacts/rom-mp2k-note-allocator-v1": {
+      "candidate/manifest.json": {
+        "mode": "100644",
+        "sha256": "c580f8e71c1fea1728e1c7984f2ea2485c447b5f802b1619cd96f2e3f85e9e2d",
+        "size": 16406
+      },
+      "candidate/rom-mp2k-note-allocator.bin": {
+        "mode": "100644",
+        "sha256": "3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c",
+        "size": 562
+      },
+      "candidate/rom-mp2k-note-allocator.json": {
+        "mode": "100644",
+        "sha256": "a4ccf706d2c8db658b6fa402d13155c73d15e84c197f9da4e8975759a14b0fa6",
+        "size": 381177
+      },
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "a2f61cb3596c8e48294ba07c710a2681bbe8ca8173c6d9288beccd5dd3e1cf8a",
+        "size": 18914
+      },
+      "rom-mp2k-note-allocator.bin": {
+        "mode": "100644",
+        "sha256": "3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c",
+        "size": 562
+      },
+      "rom-mp2k-note-allocator.json": {
+        "mode": "100644",
+        "sha256": "a4ccf706d2c8db658b6fa402d13155c73d15e84c197f9da4e8975759a14b0fa6",
+        "size": 381177
+      }
+    },
+    "artifacts/rom-mplaymain-scheduler-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "43399803451c393722522c9d2a363736541c34c37dd03d3cb2c1e292ed0b8f5d",
+        "size": 9853
+      },
+      "rom-mplaymain-scheduler.bin": {
+        "mode": "100644",
+        "sha256": "8ca6a2f02cd27d46b9d0e9dbae2491672f23702ee2230eb73fc460759ef14955",
+        "size": 612
+      },
+      "rom-mplaymain-scheduler.json": {
+        "mode": "100644",
+        "sha256": "31bc026a8c83b3bf4af06746de2990a658bb86954a5aae31c45d63d68cf44f78",
+        "size": 336129
+      }
+    },
+    "artifacts/rom-positions-aux-dispatch-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "d7e7a19c0d2d0e3d77f6db558bce53ef0333667fec9f36fa3687059dd83e8d5a",
+        "size": 2069
+      },
+      "rom-positions-aux-dispatch.json": {
+        "mode": "100644",
+        "sha256": "80a4d90217a811403ea0adddb468ffeed5d400fc19e524a5c7b7b8b2e3011ee5",
+        "size": 1071283
+      }
+    },
+    "artifacts/rom-post-story-dependency-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "95cb2fef985e13eea7dda71b144e082e35fd3a7b004578df646dbfa18c0ee65a",
+        "size": 1017
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6",
+        "size": 1754320
+      }
+    },
+    "artifacts/rom-profile-selector-code-slices-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "4c109e5c8d6e8bbf121a1d0208df752a841c3634be7e07ab866024470f2d61b2",
+        "size": 2753
+      },
+      "rom-profile-selector-code-slices.json": {
+        "mode": "100644",
+        "sha256": "29f2138de43ff74321833e65bff34e6e28bf30342808d53582dac6d1585eb236",
+        "size": 7706
+      }
+    },
+    "artifacts/rom-profile-text-inventory-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "57979c4355a182f219702d48055ff21b3b81d132ffb5240c64e152ecb54503f8",
+        "size": 618
+      },
+      "profile-text-inventory.json": {
+        "mode": "100644",
+        "sha256": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9",
+        "size": 38798
+      },
+      "profile-text-region.bin": {
+        "mode": "100644",
+        "sha256": "b3b663177a39e60f691fde0ff9272df69e875a116abc5a08647c4ec5d17c142d",
+        "size": 6836
+      }
+    },
+    "artifacts/rom-scene-source-four-packet-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "b3aaeca20cb2fb6c9c3345d2bb79cb1c2be2672788993661339e45ad5010220a",
+        "size": 1859
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "9b1d55e79921dcac25718368cf80419be39f84b8db4c615f429091e7b6e625ff",
+        "size": 1722453
+      }
+    },
+    "artifacts/rom-selector-code-windows-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "bb3f2588ad22567190c1084a12eca42a1615091bc335fe45788d2556299ba6c0",
+        "size": 7204
+      },
+      "rom-selector-code-windows-promotion.bin": {
+        "mode": "100644",
+        "sha256": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+        "size": 1252
+      },
+      "rom-selector-code-windows.bin": {
+        "mode": "100644",
+        "sha256": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+        "size": 2754
+      },
+      "rom-selector-code-windows.json": {
+        "mode": "100644",
+        "sha256": "23b830dc19248b3192198757da6e41624f804e78a5ee4e10764c8702947ca39b",
+        "size": 45647
+      }
+    },
+    "artifacts/rom-selector-direct-source-records-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789",
+        "size": 4598
+      },
+      "rom-selector-direct-source-records.bin": {
+        "mode": "100644",
+        "sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+        "size": 920
+      },
+      "rom-selector-direct-source-records.json": {
+        "mode": "100644",
+        "sha256": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430",
+        "size": 37079
+      }
+    },
+    "artifacts/rom-selector-text-bindings-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "05cd987a60990ca6b2d3ee187eae963fd6ac8728ef9b42b92d6b37b5dc4bc031",
+        "size": 1843
+      },
+      "selector-text-bindings.json": {
+        "mode": "100644",
+        "sha256": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb",
+        "size": 134975
+      },
+      "selector-text-bytes.bin": {
+        "mode": "100644",
+        "sha256": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869",
+        "size": 816
+      }
+    },
+    "artifacts/rom-soundmain-relocated-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "e6b9a2cbdb439c520b5c98a422279e44e03866dbf1541810626d28eb57ce0a37",
+        "size": 15878
+      },
+      "rom-soundmain-relocated-cfg.bin": {
+        "mode": "100644",
+        "sha256": "2e94dbb5f876de3420d1317db7ad646991b9778e15a3699659d7786d65de8331",
+        "size": 924
+      },
+      "rom-soundmain-relocated-cfg.json": {
+        "mode": "100644",
+        "sha256": "63543ece1982ced20eb0818faf3b6f1848e72ba6dcdb68105fa8b2e3e07e477a",
+        "size": 352934
+      }
+    },
+    "artifacts/rom-sprite-component-source-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "30c9629581ae62329c147bdb31914f41dd2972e1326c18bde7a03823fc5ad719",
+        "size": 4281
+      },
+      "rom-sprite-component-source.bin": {
+        "mode": "100644",
+        "sha256": "896a1b46f36cd8ad7f5e1c95a048b9aca099eb03ba55c21d4a43730979edcafb",
+        "size": 2096
+      },
+      "rom-sprite-component-source.json": {
+        "mode": "100644",
+        "sha256": "8fe0742e60878d2f71ce87115ee48223f02f8d8eafce3f6e08df2e57f860fdb7",
+        "size": 43832
+      }
+    },
+    "artifacts/rom-sprite-loader-tail-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "4fd97b56d91631e393e1962c2c4556f5b9b8001617afeb142941b5436762b1c2",
+        "size": 2705
+      },
+      "rom-sprite-loader-tail.json": {
+        "mode": "100644",
+        "sha256": "6c4b35b130164e215b6e57f01c42708ea91b38c8e989c39003b0f1300b5b3a6f",
+        "size": 5675
+      }
+    },
+    "artifacts/rom-story-callback-dependency-closures-precoverage-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "fbdc769feb0c7d23752f73cf1caf7578a06a8c7df866cfaf0c64c738e1b0f423",
+        "size": 1025
+      },
+      "rom-byte-coverage.json.gz": {
+        "mode": "100644",
+        "sha256": "af9fd00d9e5bc5bf10b1d7f63b5e44325498982efe2c9b8b46aada34faa21c00",
+        "size": 1739024
+      }
+    },
+    "artifacts/rom-story-callback-dependency-closures-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "0c0209dcf0bb5081f83ec7d0c01816e9b40d318bf69b7a2bf9892716e10385ea",
+        "size": 886
+      },
+      "rom-story-callback-dependency-closures.json": {
+        "mode": "100644",
+        "sha256": "62d3ad4455afac0c66d629097d2e50603e6c4dcff17b3c4fea5a72f28de0a18b",
+        "size": 31998
+      }
+    },
+    "artifacts/rom-story-state-callback-cfg-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+        "size": 5858
+      },
+      "rom-story-state-callback-cfg.json": {
+        "mode": "100644",
+        "sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+        "size": 16837
+      }
+    },
+    "artifacts/rom-story-state-entry-c4cc-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "9393a1347ad2d54078c348b479b418f2d3d3cd03db0a2f0bb4e8288f8067bd6e",
+        "size": 1747
+      },
+      "rom-story-state-entry-c4cc.json": {
+        "mode": "100644",
+        "sha256": "65af0d22baf876b6df52bc0ca301879ec0e120c47ecf1816595842ba0d62976f",
+        "size": 5351
+      }
+    },
+    "artifacts/rom-text-bg-loop-continuation-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "b1e29845d1d1b9597009c68cd532ca4436b043da1130abb8b8438515e8e3bea2",
+        "size": 1202
+      },
+      "rom-text-bg-loop-continuation.json": {
+        "mode": "100644",
+        "sha256": "b5d16813fab51b14d8752b7e9479997d488c557c9f1baba9e37bfaaca672b67e",
+        "size": 6593
+      }
+    },
+    "artifacts/rom-text-bg-task-closure-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+        "size": 1148
+      },
+      "rom-text-bg-task-closure.json": {
+        "mode": "100644",
+        "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+        "size": 20175
+      }
+    },
+    "artifacts/rom-training-text-script-inventory-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "af609bc3b303e2617d79cc254d3b39d67e05f3606654441613309566d23e3c0b",
+        "size": 1750
+      },
+      "training-text-script-bytes.bin": {
+        "mode": "100644",
+        "sha256": "fa9991353e99ecd63d8e0617fb078198b62527d548c8c5eb5fbac173d0302da0",
+        "size": 2505
+      },
+      "training-text-script-inventory.json": {
+        "mode": "100644",
+        "sha256": "bc5d636d2dd6076892fbac7ba88879c964df9e819407c72d644cd10c5d9dadcb",
+        "size": 78100
+      }
+    },
+    "artifacts/rom-value-range-text-inventory-v1": {
+      "manifest.json": {
+        "mode": "100644",
+        "sha256": "7bea3bcecd28d86a6bdbcd5bba58cbb4413dced0008691e219262de8f1a0faca",
+        "size": 1666
+      },
+      "value-range-text-bytes.bin": {
+        "mode": "100644",
+        "sha256": "88f201f21194087ff7643f1822d0b89c309feff497fbef6155ff5ae6ce6bc3d0",
+        "size": 1014
+      },
+      "value-range-text-inventory.json": {
+        "mode": "100644",
+        "sha256": "2095c3e719f203de4e819a5c1e2a1af95320849860fb463f65b1c8ff4fda4b42",
+        "size": 39188
+      }
+    }
+  },
+  "catalog_sha256": "e687009c79e4ee3b6e584f61e710bbfaea1fd2bb75a5f52758ee79df237b342c",
+  "contract_ok": true,
+  "schema": "legacy-artifact-acceptance-verification-v1",
+  "snapshot_sha256": "184f34a1871e7d451b429ecab0c6e1b9502080665e96db5290ac108d25fa0b93",
+  "summary": {
+    "bridge_counts": {
+      "aggregate_coverage_verifier": 21,
+      "direct_proof_verifier": 32,
+      "immutable_precoverage_binding": 11
+    },
+    "classified_bytes": 6203707,
+    "external_trust_anchor_verified": false,
+    "formal_contracts": 106,
+    "global_blockers": 175,
+    "global_complete": false,
+    "member_count": 160,
+    "newly_classified_bytes": 0,
+    "rom_contracts": 96,
+    "root_count": 64,
+    "semantic_verifiers_reexecuted": false,
+    "unknown_bytes": 87749
+  },
+  "verified": true
+}

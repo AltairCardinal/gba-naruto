@@ -1,0 +1,16 @@
+{
+  "reason": "idle-timeout",
+  "exit_code": 124,
+  "child_pid": 38022,
+  "peak_tree_rss_mib": 260.390625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -c 'import json; from pathlib import Path; from tools.verify_legacy_artifact_acceptance import verify_archive; p=Path(\"build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/candidate-v3\"); print(json.dumps(verify_archive((p/\"catalog.json\").read_bytes(),(p/\"snapshot.json.gz\").read_bytes()),indent=2,sort_keys=True))' > build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/candidate-verify-v1.json 2> build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/candidate-verify-v1.stderr"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:06:53.679990Z",
+  "finished_at": "2026-09-05T08:08:54.224112Z"
+}

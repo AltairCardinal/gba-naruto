@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "tests.test_check_staged_artifact_policy",
+    "tests.test_staged_legacy_artifact_acceptance",
+    "tests.test_verify_legacy_artifact_acceptance",
+    "tests.test_rebuild_legacy_artifact_acceptance",
+    "-v"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 22.697495259344578,
+  "max_child_rss_bytes": 23650304,
+  "scope": "small synthetic Git fixtures; no ROM replay and no heavy static work; formal inputs frozen"
+}

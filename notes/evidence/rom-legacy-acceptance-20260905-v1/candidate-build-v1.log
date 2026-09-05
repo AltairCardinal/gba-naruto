@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/build_candidate_v1.py", line 18, in <module>
+    info=git('ls-tree',tree,'--',name).split(b'\t')[0].split();assert len(info)==3 and info[0] in (b'100644',b'100755') and info[1]==b'blob',name
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: -I

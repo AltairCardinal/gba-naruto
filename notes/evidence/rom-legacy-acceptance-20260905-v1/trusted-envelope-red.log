@@ -1,0 +1,25 @@
+test_direct_bridge_requires_an_explicit_success_contract (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_direct_bridge_requires_an_explicit_success_contract) ... FAIL
+test_pinned_bundle_rejects_coherently_rewritten_or_incomplete_inputs (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_pinned_bundle_rejects_coherently_rewritten_or_incomplete_inputs) ... ERROR
+
+======================================================================
+ERROR: test_pinned_bundle_rejects_coherently_rewritten_or_incomplete_inputs (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_pinned_bundle_rejects_coherently_rewritten_or_incomplete_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_verify_legacy_artifact_acceptance.py", line 188, in test_pinned_bundle_rejects_coherently_rewritten_or_incomplete_inputs
+    self.assertEqual('accepted',self.verifier.verify_bundle_members(original)['artifact_status'])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.verify_legacy_artifact_acceptance' has no attribute 'verify_bundle_members'
+
+======================================================================
+FAIL: test_direct_bridge_requires_an_explicit_success_contract (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_direct_bridge_requires_an_explicit_success_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_verify_legacy_artifact_acceptance.py", line 174, in test_direct_bridge_requires_an_explicit_success_contract
+    with self.assertRaises(ValueError):self.verifier.inspect_snapshot(files,ROOTS)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.016s
+
+FAILED (failures=1, errors=1)

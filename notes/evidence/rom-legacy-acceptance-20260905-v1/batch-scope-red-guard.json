@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 58977,
+  "peak_tree_rss_mib": 23.0078125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_partial_legacy_batch_is_rejected tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_unrelated_modern_artifact_does_not_consume_historical_authority -v > build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/batch-scope-red.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:16:45.013286Z",
+  "finished_at": "2026-09-05T08:16:47.102856Z"
+}

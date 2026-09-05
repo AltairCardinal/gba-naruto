@@ -1,0 +1,16 @@
+{
+  "reason": "lock-busy",
+  "exit_code": 75,
+  "child_pid": null,
+  "peak_tree_rss_mib": 0.0,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_rebuild_legacy_artifact_acceptance -v > build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/rebuilder-red.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:07:40.791515Z",
+  "finished_at": "2026-09-05T08:07:40.791874Z"
+}

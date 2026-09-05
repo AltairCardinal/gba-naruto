@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 80263,
+  "peak_tree_rss_mib": 251.1328125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_staged_legacy_artifact_acceptance tests.test_verify_legacy_artifact_acceptance tests.test_rebuild_legacy_artifact_acceptance tests.test_coverage_evidence_selector_repairs.SelectorRepairReceiptTests tests.test_coverage_evidence_selector_repairs.SelectorRepairCanonicalBindingTests -v > build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/final-integration.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T09:37:23.629644Z",
+  "finished_at": "2026-09-05T09:37:44.453678Z"
+}

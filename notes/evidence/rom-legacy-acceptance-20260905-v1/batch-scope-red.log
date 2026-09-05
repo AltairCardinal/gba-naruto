@@ -1,0 +1,32 @@
+test_partial_legacy_batch_is_rejected (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_partial_legacy_batch_is_rejected) ... FAIL
+test_unrelated_modern_artifact_does_not_consume_historical_authority (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_unrelated_modern_artifact_does_not_consume_historical_authority) ... FAIL
+
+======================================================================
+FAIL: test_partial_legacy_batch_is_rejected (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_partial_legacy_batch_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 94, in test_partial_legacy_batch_is_rejected
+    self.assertTrue(any('incomplete legacy batch' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_unrelated_modern_artifact_does_not_consume_historical_authority (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_unrelated_modern_artifact_does_not_consume_historical_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 100, in test_unrelated_modern_artifact_does_not_consume_historical_authority
+    self.assertEqual([],policy.check(self.repo))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['frozen acceptance bundle identity mismatch']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'frozen acceptance bundle identity mismatch'
+
+- []
++ ['frozen acceptance bundle identity mismatch']
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.544s
+
+FAILED (failures=2)

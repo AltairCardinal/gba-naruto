@@ -10,6 +10,13 @@ from pathlib import Path
 import subprocess
 from typing import Any
 
+try:
+    from tools import verify_legacy_artifact_acceptance as legacy_verifier
+    from tools.legacy_artifact_acceptance_contract import BUNDLE_DIRECTORY, LEGACY_ROOTS
+except ModuleNotFoundError:  # Direct script execution.
+    import verify_legacy_artifact_acceptance as legacy_verifier
+    from legacy_artifact_acceptance_contract import BUNDLE_DIRECTORY, LEGACY_ROOTS
+
 
 PROMOTION_SCHEMA = "git-artifact-promotion-v1"
 DEFAULT_MAX_FILES = 500
@@ -64,7 +71,7 @@ def _read_manifest(raw: bytes) -> dict[str, Any]:
     return value
 
 
-def _staged_members(root: Path, tree: str, directory: str) -> dict[str, bytes]:
+def _staged_records(root: Path, tree: str, directory: str) -> dict[str, tuple[str, bytes]]:
     completed = _git(root, "ls-tree", "-r", "-z", tree, "--", directory)
     if completed.returncode:
         raise ValueError(completed.stderr.decode("utf-8", "replace"))
@@ -80,8 +87,42 @@ def _staged_members(root: Path, tree: str, directory: str) -> dict[str, bytes]:
         blob = _git(root, "cat-file", "blob", oid.decode("ascii"))
         if blob.returncode:
             raise ValueError(blob.stderr.decode("utf-8", "replace"))
-        members[relative] = blob.stdout
+        members[relative] = (mode.decode("ascii"), blob.stdout)
     return members
+
+
+def _staged_members(root: Path, tree: str, directory: str) -> dict[str, bytes]:
+    return {name: raw for name, (_, raw) in _staged_records(root, tree, directory).items()}
+
+
+def _legacy_authorizations(root: Path, tree: str, baseline: str | None) -> dict[str, Any]:
+    if baseline is None:
+        return {}
+    old_kind = _git(root, "cat-file", "-t", f"{baseline}:{BUNDLE_DIRECTORY}")
+    if old_kind.returncode or old_kind.stdout.strip() != b"tree":
+        return {}  # A newly staged bundle cannot authorize its own commit.
+    old_bundle = _staged_records(root, baseline, BUNDLE_DIRECTORY)
+    if _staged_records(root, tree, BUNDLE_DIRECTORY) != old_bundle:
+        raise ValueError("acceptance authority changed: bundle")
+    # The hook executes working-tree Python. Compare the executing modules as well
+    # as the staged versions with the previously committed authority.
+    source = Path(__file__).resolve().parent
+    for name in ("check_staged_artifact_policy.py", "verify_legacy_artifact_acceptance.py",
+                 "legacy_artifact_acceptance_contract.py"):
+        path = "tools/"+name
+        before = _staged_records(root, baseline, path)
+        after = _staged_records(root, tree, path)
+        expected = before.get(path)
+        if (not expected or before != after or (source/name).is_symlink() or
+                (source/name).read_bytes() != expected[1]):
+            raise ValueError("acceptance authority changed: "+path)
+    report = legacy_verifier.verify_bundle_members(old_bundle)
+    authorizations = report["authorizations"]
+    if set(authorizations) != set(LEGACY_ROOTS):
+        raise ValueError("legacy authorization root denominator mismatch")
+    if BUNDLE_DIRECTORY in authorizations:
+        raise ValueError("acceptance bundle cannot authorize itself")
+    return authorizations
 
 
 def check(
@@ -99,7 +140,23 @@ def check(
     if snapshot.returncode:
         raise ValueError(snapshot.stderr.decode("utf-8", "replace"))
     tree = snapshot.stdout.decode("ascii").strip()
-    for relative_root in _new_artifact_roots(root, tree, baseline):
+    new_roots = _new_artifact_roots(root, tree, baseline)
+    legacy_roots = set(new_roots) & set(LEGACY_ROOTS)
+    if legacy_roots and legacy_roots != set(LEGACY_ROOTS):
+        return ["incomplete legacy batch"]
+    try:
+        authorizations = _legacy_authorizations(root, tree, baseline) if legacy_roots else {}
+    except (ValueError, OSError) as error:
+        return [str(error)]
+    for relative_root in new_roots:
+        if relative_root in authorizations:
+            try:
+                receipts = legacy_verifier.identities(_staged_records(root, tree, relative_root))
+                if receipts != authorizations[relative_root]:
+                    errors.append(f"{relative_root}: legacy member identity mismatch")
+            except (ValueError, UnicodeError) as error:
+                errors.append(f"{relative_root}: {error}")
+            continue
         try:
             actual = _staged_members(root, tree, relative_root)
         except (ValueError, UnicodeError) as error:

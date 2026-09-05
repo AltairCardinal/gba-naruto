@@ -1,0 +1,26 @@
+test_preserves_isolated_python_flags_while_binding_the_actual_script (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_preserves_isolated_python_flags_while_binding_the_actual_script) ... ERROR
+
+======================================================================
+ERROR: test_preserves_isolated_python_flags_while_binding_the_actual_script (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_preserves_isolated_python_flags_while_binding_the_actual_script)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_verify_legacy_artifact_acceptance.py", line 123, in test_preserves_isolated_python_flags_while_binding_the_actual_script
+    self.assertEqual([1],self.verifier.inspect_snapshot(files,ROOTS)['roots'][ROOTS[0]]['proof_verifier_indices'])
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 176, in inspect_snapshot
+    identity(key[0], spec['script_sha256'])
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 137, in identity
+    require(isinstance(expected, str) and len(expected) == 64 and sha(raw(path)) == expected,
+                                                                      ~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 133, in raw
+    require(path in files, 'missing snapshot member: '+path)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 28, in require
+    raise ValueError(message)
+ValueError: missing snapshot member: -I
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+FAILED (errors=1)

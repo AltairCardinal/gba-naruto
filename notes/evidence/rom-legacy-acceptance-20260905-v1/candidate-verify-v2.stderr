@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 112, in _pointer
+    value = value[token]
+            ~~~~~^^^^^^^
+KeyError: 'packet_records'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json; from pathlib import Path; from tools.verify_legacy_artifact_acceptance import verify_archive; p=Path("build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/candidate-v3"); print(json.dumps(verify_archive((p/"catalog.json").read_bytes(),(p/"snapshot.json.gz").read_bytes()),indent=2,sort_keys=True))
+                                                                                                                                                                                                                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 306, in verify_archive
+    inspected = inspect_snapshot(files, list(catalog['roots']))
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 269, in inspect_snapshot
+    _pointer(document(claim['evidence_path']), claim['evidence_selector'])
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 115, in _pointer
+    raise ValueError('unresolved evidence selector: '+pointer) from error
+ValueError: unresolved evidence selector: /packet_records/0

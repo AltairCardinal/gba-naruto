@@ -1,0 +1,26 @@
+test_requires_the_selector_repair_formal_receipt_domain (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_requires_the_selector_repair_formal_receipt_domain) ... ERROR
+
+======================================================================
+ERROR: test_requires_the_selector_repair_formal_receipt_domain (tests.test_verify_legacy_artifact_acceptance.HistoricalAcceptanceTests.test_requires_the_selector_repair_formal_receipt_domain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_verify_legacy_artifact_acceptance.py", line 103, in test_requires_the_selector_repair_formal_receipt_domain
+    self.assertEqual(3, len(self.verifier.inspect_snapshot(files, ROOTS)['roots']))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 164, in inspect_snapshot
+    coverage, proof, formal, guard = [document(p) for p in (COVERAGE, PROOF, FORMAL, GUARD)]
+                                      ~~~~~~~~^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 156, in document
+    parsed[path] = parse(raw(path))
+                         ~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 148, in raw
+    require(path in files, 'missing snapshot member: '+path)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_legacy_artifact_acceptance.py", line 35, in require
+    raise ValueError(message)
+ValueError: missing snapshot member: notes/evidence/rom-post-story-four-packet-tier2-20260905/formal-report.json
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+FAILED (errors=1)

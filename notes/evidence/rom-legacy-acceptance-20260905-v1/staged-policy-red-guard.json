@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 31918,
+  "peak_tree_rss_mib": 25.23828125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_precommitted_exact_legacy_members_are_accepted tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization -v > build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/staged-policy-red.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:02:44.889315Z",
+  "finished_at": "2026-09-05T08:02:46.982697Z"
+}

@@ -1,0 +1,76 @@
+test_precommitted_exact_legacy_members_are_accepted (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_precommitted_exact_legacy_members_are_accepted) ... FAIL
+test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored) ... FAIL
+test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) ... 
+  test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='artifacts/rom-legacy-acceptance-20260905-v1/manifest.json') ... FAIL
+  test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/check_staged_artifact_policy.py') ... FAIL
+  test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/verify_legacy_artifact_acceptance.py') ... FAIL
+  test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/legacy_artifact_acceptance_contract.py') ... FAIL
+
+======================================================================
+FAIL: test_precommitted_exact_legacy_members_are_accepted (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_precommitted_exact_legacy_members_are_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 53, in test_precommitted_exact_legacy_members_are_accepted
+    self.assertEqual([],policy.check(self.repo))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['artifacts/direct: promotion manifest sch[164 chars]ing']
+
+Second list contains 4 additional elements.
+First extra element 0:
+'artifacts/direct: promotion manifest schema mismatch'
+
+- []
++ ['artifacts/direct: promotion manifest schema mismatch',
++  'artifacts/direct: artifact_status is not accepted',
++  'artifacts/direct: verifier evidence is missing',
++  'artifacts/direct: file hash inventory is missing']
+
+======================================================================
+FAIL: test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 63, in test_staged_legacy_bytes_and_modes_must_match_even_if_worktree_restored
+    self.assertTrue(any('legacy member identity mismatch' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ['artifacts/direct: invalid manifest.json: Expecting value: line 1 column 1 (char 0)']
+
+======================================================================
+FAIL: test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='artifacts/rom-legacy-acceptance-20260905-v1/manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 81, in test_changing_bundle_or_policy_cannot_consume_baseline_authorization
+    self.assertTrue(any('acceptance authority changed' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ['artifacts/direct: promotion manifest schema mismatch', 'artifacts/direct: artifact_status is not accepted', 'artifacts/direct: verifier evidence is missing', 'artifacts/direct: file hash inventory is missing']
+
+======================================================================
+FAIL: test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/check_staged_artifact_policy.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 81, in test_changing_bundle_or_policy_cannot_consume_baseline_authorization
+    self.assertTrue(any('acceptance authority changed' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ['artifacts/direct: promotion manifest schema mismatch', 'artifacts/direct: artifact_status is not accepted', 'artifacts/direct: verifier evidence is missing', 'artifacts/direct: file hash inventory is missing']
+
+======================================================================
+FAIL: test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/verify_legacy_artifact_acceptance.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 81, in test_changing_bundle_or_policy_cannot_consume_baseline_authorization
+    self.assertTrue(any('acceptance authority changed' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ['artifacts/direct: promotion manifest schema mismatch', 'artifacts/direct: artifact_status is not accepted', 'artifacts/direct: verifier evidence is missing', 'artifacts/direct: file hash inventory is missing']
+
+======================================================================
+FAIL: test_changing_bundle_or_policy_cannot_consume_baseline_authorization (tests.test_staged_legacy_artifact_acceptance.StagedLegacyAcceptanceTests.test_changing_bundle_or_policy_cannot_consume_baseline_authorization) (name='tools/legacy_artifact_acceptance_contract.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_staged_legacy_artifact_acceptance.py", line 81, in test_changing_bundle_or_policy_cannot_consume_baseline_authorization
+    self.assertTrue(any('acceptance authority changed' in e for e in errors),errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : ['artifacts/direct: promotion manifest schema mismatch', 'artifacts/direct: artifact_status is not accepted', 'artifacts/direct: verifier evidence is missing', 'artifacts/direct: file hash inventory is missing']
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.562s
+
+FAILED (failures=6)

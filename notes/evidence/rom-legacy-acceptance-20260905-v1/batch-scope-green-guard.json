@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 60991,
+  "peak_tree_rss_mib": 43.1015625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_staged_legacy_artifact_acceptance tests.test_verify_legacy_artifact_acceptance tests.test_rebuild_legacy_artifact_acceptance -v > build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/batch-scope-green.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:18:36.657018Z",
+  "finished_at": "2026-09-05T08:18:56.444935Z"
+}

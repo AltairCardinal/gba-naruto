@@ -1,0 +1,16 @@
+test_cli_requires_exact_frozen_snapshot_before_creating_output (tests.test_rebuild_legacy_artifact_acceptance.RebuildLegacyAcceptanceTests.test_cli_requires_exact_frozen_snapshot_before_creating_output) ... 
+  test_cli_requires_exact_frozen_snapshot_before_creating_output (tests.test_rebuild_legacy_artifact_acceptance.RebuildLegacyAcceptanceTests.test_cli_requires_exact_frozen_snapshot_before_creating_output) (snapshot_pin=None) ... FAIL
+
+======================================================================
+FAIL: test_cli_requires_exact_frozen_snapshot_before_creating_output (tests.test_rebuild_legacy_artifact_acceptance.RebuildLegacyAcceptanceTests.test_cli_requires_exact_frozen_snapshot_before_creating_output) (snapshot_pin=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rebuild_legacy_artifact_acceptance.py", line 74, in test_cli_requires_exact_frozen_snapshot_before_creating_output
+    self.assertEqual(1,result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=1)
