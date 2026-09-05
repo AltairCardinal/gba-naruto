@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 98319,
+  "peak_tree_rss_mib": 80.16015625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "from pathlib import Path\nimport json,hashlib\nfrom tools.verify_rom_cfg_proven_roots_v21 import verify_artifact\nroot=Path.cwd()\nrun=root/'build/experiments/active/direct-root-overlap-cfg/root-063400-tier1-20260905/resume-20260905T052627Z'\nhashes=[]\nfor index in (1,2):\n report=verify_artifact(root,root/'artifacts/rom-cfg-proven-roots-v21')\n raw=(json.dumps(report,sort_keys=True,indent=2)+'\\n').encode()\n with (run/f'official-verifier-{index}.json').open('xb') as output:output.write(raw)\n assert report['verified'] and report['contract_ok'] and report['artifact_status']=='accepted',report\n hashes.append(hashlib.sha256(raw).hexdigest())\nassert hashes[0]==hashes[1],hashes\nwith (run/'official-replay-stability.json').open('x') as output:json.dump({'verified':True,'report_sha256':hashes[0],'replays':2},output,indent=2)\n"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T05:44:06.823789Z",
+  "finished_at": "2026-09-05T05:44:12.028921Z"
+}

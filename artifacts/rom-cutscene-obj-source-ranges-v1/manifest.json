@@ -1,0 +1,266 @@
+{
+  "artifact_schema": "rom-cutscene-obj-source-ranges-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-cutscene-obj-source-ranges.bin": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+    "rom-cutscene-obj-source-ranges.json": "6d25034640799621d9adcfb8b8f2a553757f6d9fb2988216b426d0777559a2dc"
+  },
+  "limitations": [
+    "Only the four fixed resource IDs and their fixed definition/animation source records and pointer tables are classified.",
+    "This does not claim natural reachability of every ID or frame, all scene/cutscene sources, or final screen-composited pixels.",
+    "Definition fields unknown_10_byte and unknown_12 remain unknown; graphics, palette expansion, and other resource envelopes are outside scope.",
+    "No editing, write-back, relocation, free-space, allocatability, or post-modification runtime equivalence is claimed."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_cutscene_obj_source_ranges.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "build/experiments/active/cutscene-obj-source-ranges/r5/final"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_cutscene_obj_source_ranges.py",
+      "sha256": "356bb6190d770e2ee620a482487cf0e3b7254a89205e05bcf833196c28182ed7"
+    },
+    "test": {
+      "path": "tests/test_export_rom_cutscene_obj_source_ranges.py",
+      "sha256": "76a3dbb2ccee92c57a4a9cd3f10d24dc79e3a65347844c450c8f493e5a648924"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_cutscene_obj_source_ranges.py",
+      "sha256": "a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_scene_or_cutscene_sources": false,
+    "definition_unknown_field_semantics": false,
+    "editing_writeback_or_relocation_safety": false,
+    "final_pixels": false,
+    "fixed_frame_counts": [
+      2,
+      2,
+      2,
+      4
+    ],
+    "fixed_resource_ids": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "free_space": false,
+    "graphics_or_palette_expansion": false,
+    "natural_all_id_or_frame_reachability": false,
+    "source_records_and_pointer_tables_only": true
+  },
+  "source_identity": {
+    "bundle_relocation": {
+      "artifact_path": "artifacts/cutscene-obj-bundle-relocation-v1",
+      "files": {
+        "full-relocation-spec.json": "75ee745e721e7d2fee5092332ac0a61a80fb0f89b172c68cb33e08a5c22d3949",
+        "relocation-audit.json": "265b4b8a242e9b6e6df71afbb892e794cd76be7c2982aaaec1ef382661674dc6",
+        "resource_0.4bpp.bin": "ff3e1b090a18378eb51b2c25ad7e9115ea33d6c9afe11ceeb09cbd392a5496c5",
+        "resource_0.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+        "resource_1.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_2.4bpp.bin": "ff180630c246cf7c9e161576b33c0e734157a2a927c07be6bc90a80619654079",
+        "resource_2.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_3.4bpp.bin": "d2b44e9c68dc23771249bedfb7397de35f19e6769f99a91f86512b7604b43ec1",
+        "resource_3.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "manifest_path": "artifacts/cutscene-obj-bundle-relocation-v1/manifest.json",
+      "manifest_sha256": "5438878f03972989ca20c302cce4a526b594208b8458399a2b0d2d2455b1868b",
+      "summary": {
+        "allocation_count": 12,
+        "allocation_end": 12194544,
+        "allocation_span": 4848,
+        "allocation_start": 12189696,
+        "animation_count": 10,
+        "applied_patch_count": 28,
+        "component_count": 10,
+        "frame_count": 10,
+        "frame_counts": [
+          2,
+          2,
+          2,
+          4
+        ],
+        "keyframe_count": 10,
+        "maximum_safe_graphics_tiles": 256,
+        "pointer_patch_count": 16,
+        "region_end": 12255232,
+        "remaining_bytes": 60688,
+        "resource_count": 4,
+        "runtime_loader_call_count": 4,
+        "runtime_tile_base": 768,
+        "source_pointer_reference_count": 36,
+        "stored_payload_bytes": 4835,
+        "unexpected_source_pointer_count": 0
+      }
+    },
+    "consumer_evidence": {
+      "addresses": [
+        "0x080625A4",
+        "0x08062668",
+        "0x0806298C",
+        "0x080631F6",
+        "0x08063256"
+      ],
+      "component_parser": {
+        "gba_range": [
+          "0x080631F6",
+          "0x08063210"
+        ],
+        "name": "component_stride_and_terminator",
+        "range": [
+          406006,
+          406032
+        ],
+        "raw_hex": "1425a84440460022815e0120404281420bd00348019b834201d2",
+        "record_stride_bytes": 20,
+        "semantic_halfwords": [
+          "0x2514",
+          "0x44A8",
+          "0x4640",
+          "0x2200",
+          "0x5E81",
+          "0x2001",
+          "0x4240",
+          "0x4281",
+          "0xD00B"
+        ],
+        "sha256": "71906dd2a83fd26e1065d14aecb07a05190a96d46ff95ca1cd12a05fa8c93fe4",
+        "size": 26,
+        "terminator_field_offset": 0,
+        "terminator_s16": -1
+      },
+      "key_windows": {
+        "0x080625A4": {
+          "raw_hex": "f0b557464e464546e0b482b0",
+          "sha256": "130b6ef4a5d8939de268b45fc9fea587dde2910e1d4ed60a1e63052bd46d6c8e",
+          "size": 12
+        },
+        "0x08062668": {
+          "raw_hex": "f800009940180168e16140682062",
+          "sha256": "54a0fe654311b7623d3fc60edffa256e20f661506e30d15d375ae92c3f9546e3",
+          "size": 14
+        },
+        "0x0806298C": {
+          "raw_hex": "b98a386a89000918f88a80000968091800910025",
+          "sha256": "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb3890d16e134b331e1ab",
+          "size": 20
+        },
+        "0x08063256": {
+          "raw_hex": "388b01303883009a0223d05e3a8b904237d1009b0422985e404508d0f88a0130f8821fe0",
+          "sha256": "7b345c6e3bea9594393aa55bebee00bf1750040c02224169f9d44723f0282a64",
+          "size": 36
+        }
+      },
+      "pair_install": {
+        "gba_address": "0x08062668",
+        "raw_hex": "f800009940180168e16140682062",
+        "semantic": "id_times_8_installs_definition_and_animation_pointers"
+      },
+      "slices": [
+        {
+          "gba_range": [
+            "0x080625A4",
+            "0x080626B0"
+          ],
+          "name": "sprite_task_allocator",
+          "range": [
+            402852,
+            403120
+          ],
+          "sha256": "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54",
+          "size": 268
+        },
+        {
+          "gba_range": [
+            "0x0806298C",
+            "0x080629A0"
+          ],
+          "name": "animation_frame_selector",
+          "range": [
+            403852,
+            403872
+          ],
+          "sha256": "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb3890d16e134b331e1ab",
+          "size": 20
+        },
+        {
+          "gba_range": [
+            "0x08063256",
+            "0x080632D8"
+          ],
+          "name": "animation_timing_consumer",
+          "range": [
+            406102,
+            406232
+          ],
+          "sha256": "1ec4801f36351e56d511caaa6cc5fdf31d52142292e64d3c9cf6567eed468be0",
+          "size": 130
+        }
+      ]
+    },
+    "consumers": [
+      "0x080625A4",
+      "0x08062668",
+      "0x0806298C",
+      "0x080631F6",
+      "0x08063256"
+    ],
+    "cutscene_obj_export_manifest": {
+      "frame_counts": [
+        2,
+        2,
+        2,
+        4
+      ],
+      "path": "artifacts/cutscene-obj-v1/manifest.json",
+      "resource_count": 4,
+      "schema": "cutscene-obj-export-v1",
+      "sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7"
+    },
+    "cutscene_obj_export_verifier": {
+      "path": "tools/verify_cutscene_obj_export.py",
+      "sha256": "8f8dee83cdbf8da910cd7165fce167a9840394b1a079dd7526531218f99d32d3",
+      "size": 26876
+    },
+    "roots": [
+      "0x0853DF70",
+      "0x0853DF90"
+    ]
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_cutscene_obj_source_ranges.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/cutscene-obj-source-ranges/r5/final"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-cutscene-obj-source-ranges-v1",
+      "bundle_sha256": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+      "byte_count": 400,
+      "errors": [],
+      "range_count": 28,
+      "range_vector_sha256": "5ffcd048916c21a3cd46a7baf5421c2db7812a4c5cf0d73edd83efb9eb03ab43",
+      "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+      "verified": true
+    },
+    "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+    "verifier_sha256": "a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446"
+  }
+}

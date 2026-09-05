@@ -33,7 +33,11 @@ ROM、mGBA 和批量导出实验统一使用 `experiment_workspace.py` 在被忽
 `docs/experiment-artifact-lifecycle.md`。
 
 `check_staged_artifact_policy.py` 由仓库 pre-commit hook 调用，只检查新加入的
-顶层成果目录。`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
+顶层成果目录。检查固定HEAD tree与Git index tree，验证实际暂存成员的mode/hash/size，
+兼容历史哈希字符串和严格`{sha256,size}`收据。11项临时Git仓库集成测试及边界见
+`notes/staged-artifact-policy-20260905.md`。可显式运行
+`python3 tools/check_staged_artifact_policy.py --root .`预检；成功不替代ROM独立verifier。
+`quarantine_legacy_artifacts.py` 可将完全未跟踪的遗留成果目录
 可逆地加入本地 Git 忽略清单，不移动或删除数据。
 
 ## Tile-assets 全量可变长迁移
@@ -1587,6 +1591,20 @@ hash-bound caller maps condition results 1/2/5 to presentation
 IDs 1/2/3 respectively and ends the battle for result 5; the visible label of presentation
 ID 3 is intentionally not inferred from code alone.
 
+`export_rom_battle_condition_records.py` and
+`verify_rom_battle_condition_records.py` promote that frozen table into the canonical
+`artifacts/rom-battle-condition-records-v1/` evidence package. The exporter records all
+47 battles × 3 variants and 1,128 predicate slots; the verifier independently rebuilds
+the ROM bytes, raw interpreter layout, implementation identities, scope, and explicit
+non-claims. Coverage intentionally projects only the 2,772 bytes that were unknown in
+the frozen baseline, preserves existing fixed-table and positions-aux owners, and leaves
+the 144-byte right-side zero gap unknown.
+
+```bash
+python3 tools/export_rom_battle_condition_records.py --root . --out-dir build/condition-candidate
+python3 tools/verify_rom_battle_condition_records.py --root . --artifact-dir artifacts/rom-battle-condition-records-v1
+```
+
 # mGBA savestate context inspection
 
 `inspect_mgba_savestate.py` reads the zlib-compressed `gbAs` chunk embedded in an mGBA
@@ -2055,3 +2073,572 @@ pixels as the screenshot embedded in its `.ss9`; the two final screenshots must 
 differ at exactly 204 pixels inside `[8,0,39,7]`. This proves a natural representative
 map-layout edit, not every map, camera/overlay timing, collision gameplay, exact
 loader-PC tracing, or physical GBA output.
+
+# Strict reverse-engineering proof audit
+
+`audit_rom_byte_coverage.py` deterministically rebuilds the full 6 MiB byte-state
+inventory. It scans the fixed-ROM-pointer LZ77 denominator, derives exact record
+ranges from every nonempty `bank.json`, validates the 1,299 character-battle-visual
+source ranges, the independently parsed 842-range MP2K/m4a inventory, and all 30
+table/source ranges of the two-branch dialogue font inventory. It also imports the
+fourteen independently verified startup/header/framebuffer/code/literal/padding ranges, three
+direct CpuSet→PRAM palette sources, and the consumer-bound 305-row dialogue table
+with its 1,220 exact NUL targets. Battle-presentation ranges, the fixed 114-candidate
+adjudication overlay, tile/BG palettes, the BG canvas descriptor table and 71 promoted
+consumer-code slices are hash-bound as separate primary classes. Nine more existing
+artifacts are accepted only after fixed manifest/payload/verifier hashes, exact JSON
+selectors, and independent verifier reports agree; their baseline-unknown intersection
+adds 37 claims and 3,919 bytes without accepting failed character-OAM evidence or staged
+RAM outputs as raw ROM resources. It also revalidates
+the complete four-table chapter-script CFG and imports only its 92 exact merged ranges
+(334,060 bytes), 49 referenced speaker labels through their renderer-valid NUL
+(251 bytes), the 11 consumer-bound renderer text tables' 625 unique targets
+(22,588 bytes), the fixed 46-slot profile table's 6,798 renderer bytes plus 38 bytes
+of independently proven alignment padding, five additional consumer-bound text tables'
+2,300 table bytes and 6,780 parser-consumed bytes, the fixed 45-slot training table's
+44 interpreter-consumed command scripts (2,505 bytes), the fixed 38-slot value-range
+selector's 152-byte u16 range map and 862 renderer-consumed text bytes, the selector-text
+families' 640 parser-consumed bytes plus 176 configuration bytes, the fixed 79-slot
+battle-message table's 1,411 renderer bytes plus 1,329 verified zero-padding bytes, and the sprite-definition
+tile-base offset table (86 bytes). Internal
+script gaps and post-NUL label padding remain unknown. Dialogue inter-record gaps are
+separately classified only as verified zero padding. Promoted code slices
+bind both the payload and promotion manifest; broad slices may include literal pools,
+and the embedded `0x096340..0x096480` jump table keeps its narrower class. The audit
+measures the trailing `0xFF` run, rejects conflicting primary claims, and emits explicit
+`unknown` segments for every remaining byte.
+
+```bash
+python3 tools/audit_rom_byte_coverage.py --root .
+```
+
+`export_rom_fixed_consumer_text_inventory.py` freezes nine exact pointer-table
+denominators and follows 575 slots (one explicit null) to 570 unique
+renderer/parser-bounded records. Its
+independent verifier decodes the actual Thumb table-load and parser path, rebuilds all
+2,300 table bytes plus 6,780 consumed bytes, and rejects parent symlinks or foreign
+artifacts. The mixed 24-slot UI resource table at `0x5A7FCC` is excluded because its
+text-only prefix lacks a complete runtime index proof. Inter-record gaps, runtime index
+bounds, natural execution of every slot, Unicode decoding, and writeback safety remain
+outside this claim.
+
+```bash
+python3 tools/export_rom_fixed_consumer_text_inventory.py --root .
+python3 tools/verify_rom_fixed_consumer_text_inventory.py \
+  --root . \
+  --artifact-dir artifacts/rom-fixed-consumer-text-inventory-v1
+```
+
+`export_rom_training_text_script_inventory.py` freezes the 45-slot training table at
+`0x59A104..0x59A1B8`. Slot 0 is null; slots 1..44 are decoded through the real indexed
+consumer, the 14-entry command dispatch and the nested renderer grammar into 44
+contiguous records, 264 commands and 2,505 bytes. The independent verifier reconstructs
+the consumer/interpreter/parser chain and the final record terminator without importing
+the exporter. The already classified 180-byte pointer table is evidence only and is not
+promoted a second time; natural execution of every ID, Unicode decoding and safe
+writeback remain outside this claim.
+
+```bash
+python3 tools/export_rom_training_text_script_inventory.py --root .
+python3 tools/verify_rom_training_text_script_inventory.py \
+  --root . \
+  --artifact-dir artifacts/rom-training-text-script-inventory-v1
+```
+
+`export_rom_value_range_text_inventory.py` binds the real 38-way selector at
+`0x08087484..0x080874E0`, its 38 contiguous inclusive u16 ranges at
+`0x542204..0x54229C`, the complete pointer table at `0x599F5C..0x599FF4`, and the
+renderer/parser bridge. It independently terminates all 38 selected records by the
+actual renderer grammar, yielding 862 text bytes. Coverage claims the 152-byte range
+map plus those records; the 152-byte pointer table remains uniquely owned by the
+candidate-adjudication layer. Runtime input bounds, natural execution of every range,
+Unicode decoding, and safe writeback remain outside this claim.
+
+```bash
+python3 tools/export_rom_value_range_text_inventory.py --root .
+python3 tools/verify_rom_value_range_text_inventory.py \
+  --root . \
+  --artifact-dir artifacts/rom-value-range-text-inventory-v1
+```
+
+`export_rom_selector_text_bindings.py` keeps two independently proven selector domains
+separate. The first binds the fixed 46-row source enumerator and promotes only the 324
+bytes consumed through the renderer from its 46 mapped slots. The second binds the
+three-way selector, three `0xFF`-terminated configuration lists and their 38 referenced
+18-byte slots, promoting 316 bytes through the copy parser plus 164 list bytes and 12
+pointer bytes. The verifier reconstructs both producer/consumer chains without importing
+the exporter. That artifact deliberately leaves post-NUL zero suffixes unclassified;
+the separate additive artifact below handles only suffixes of actually referenced slots.
+The 17 unreferenced slots and the observed but unproven 63-slot physical region remain
+unknown; natural reachability, Unicode decoding and safe writeback are outside the claim.
+
+```bash
+python3 tools/export_rom_selector_text_bindings.py --root .
+python3 tools/verify_rom_selector_text_bindings.py \
+  --root . \
+  --artifact-dir artifacts/rom-selector-text-bindings-v1
+```
+
+`export_rom_referenced_text_slot_padding.py` binds the accepted selector and chapter
+inventories without changing either source artifact. It independently rebuilds the first
+consumer-valid NUL and fixed slot end for 46 direct-selector records, 38 configured-selector
+records and 49 actually referenced chapter speaker labels. Exactly 133 complete suffixes /
+1,255 bytes are byte-for-byte zero. The exporter first builds a same-parent candidate,
+executes the hash-bound independent verifier and compares the exact report, and installs an
+accepted artifact only after success. The verifier does not import the exporter. Coverage
+requires every complete suffix to be current `unknown`; it does not slice ranges or claim
+unreferenced slots, the NUL/prefix, text semantics, runtime reachability, editing safety,
+writeback safety or safely allocatable space.
+
+```bash
+python3 tools/export_rom_referenced_text_slot_padding.py --root .
+python3 tools/verify_rom_referenced_text_slot_padding.py \
+  --root . \
+  --artifact-dir artifacts/rom-referenced-text-slot-padding-v1
+```
+
+`export_rom_battle_message_text_inventory.py` binds the 79×4 `data-table-b` pointer
+denominator at `0x5A2034..0x5A2170`, both unique table literals and their common
+wrapper→bridge→renderer/parser chain. It reconstructs 79 parser-bounded records totaling
+1,411 bytes and verifies every one of the 79 following gaps byte-for-byte as zero,
+adding 1,329 structural-padding bytes. The resulting 158 ranges continuously close
+`0x5A1580..0x5A2034` (2,740 bytes); the already classified pointer table is evidence
+only. Runtime bounds, natural execution beyond ID 0, Unicode decoding, safe writeback,
+allocatable-space status and `0x5A14F4..0x5A1580` remain outside the claim.
+
+```bash
+python3 tools/export_rom_battle_message_text_inventory.py --root .
+python3 tools/verify_rom_battle_message_text_inventory.py \
+  --root . \
+  --artifact-dir artifacts/rom-battle-message-text-inventory-v1
+```
+
+`audit_reverse_engineering_proof.py` then checks the ROM identity, the fixed 32-bank
+inventory, exact bank/evidence/script hashes, schema-derived record/field denominators,
+typed coverage for all seven global gates, and structured JSON verifier contracts.
+It directly parses the ROM coverage audit, so a reproducible manifest that still has
+unknown bytes cannot be promoted by changing a status label.
+
+`verify_disproved_bank_candidates.py` replays the ten fixed negative bank proofs from
+the ROM and their canonical sources. Each invocation is bank-scoped and returns a
+structured contract binding the candidate range/hash, empty tombstone bank hash, the
+exact evidence hash map, and the fixed `independent_physical_bank_candidate` scope. It
+proves only that the historical candidate is an alias, misaligned slice, mixed extent,
+visual-matrix subview, or m4a subfield rather than a separate physical ROM bank. The
+verifier explicitly reports that it has not exhaustively excluded alternative logical
+consumers, and it does not promote any active bank or global gate.
+
+```bash
+python3 tools/verify_disproved_bank_candidates.py \
+  --root . --bank battle-handlers
+```
+
+```bash
+python3 tools/audit_reverse_engineering_proof.py --allow-incomplete
+python3 tools/audit_reverse_engineering_proof.py \
+  --execute-verifiers --allow-incomplete
+```
+
+`--allow-incomplete` is for an honest progress audit only. Final acceptance must
+omit it, execute verifiers, and pass the proof-spec digest published through a signed
+tag or independent attestation:
+
+```bash
+python3 tools/audit_reverse_engineering_proof.py \
+  --execute-verifiers \
+  --trusted-spec-sha256 <externally-published-sha256>
+```
+
+`state_inventory_complete` means all bytes, including unknown ranges, are accounted
+for; it must not be confused with semantic completion. Use
+`audit_rom_byte_coverage.py --require-semantic-complete` for the fail-closed semantic
+gate. The policy and current limitations are documented in
+`docs/reverse-engineering-proof-policy.md`.
+
+`export_rom_m4a_byte_inventory.py` walks the fixed sound-ID → song header → track /
+voicegroup → tone → DirectSound wave graph and emits exact ROM ranges. Its independent
+verifier deliberately leaves the 318 bytes between proven audio ranges unknown.
+
+```bash
+python3 tools/export_rom_m4a_byte_inventory.py --root .
+python3 tools/verify_rom_m4a_byte_inventory.py --root .
+```
+
+`verify_dialogue_font_atlases.py` independently reconstructs the 26-entry SJIS and
+2-entry byte lookup branches, all 4,602 logical glyphs, their 9,012 physical half
+tiles, the exported atlases and three instruction-level vertical-layout consumers.
+The coverage audit imports only the exact ROM table/source ranges; page gaps remain
+unknown.
+
+```bash
+python3 tools/verify_dialogue_font_atlases.py \
+  --root . --artifact-dir artifacts/dialogue-font-v2
+```
+
+`export_rom_boot_framebuffers.py` exports the two 240×160 little-endian BGR555
+startup framebuffers as lossless source binaries and PNG previews. Its independent
+verifier decodes ARM PC-relative literals and branches to prove the reset handoff,
+two exact DMA3 routes, `DISPCNT=0x0403` (Mode 3 + BG2), blend-register identity,
+VCOUNT polling, code/literal boundaries and return to the original entry.
+
+```bash
+python3 tools/export_rom_boot_framebuffers.py --root .
+python3 tools/verify_rom_boot_framebuffers.py --root .
+```
+
+## Direct CpuSet palette coverage
+
+`export_rom_direct_cpuset_gpu_inventory.py` audits the fixed 146 direct Thumb BL
+encodings to CpuSet/CpuFastSet. The independent verifier reconstructs the fail-closed
+32-byte constant-flow rule. Coverage imports only the three previously unbound
+32-byte ROM sources copied directly to PRAM; unresolved calls and broader raw graphics
+remain unknown.
+
+```bash
+python3 tools/export_rom_direct_cpuset_gpu_inventory.py --root .
+python3 tools/verify_rom_direct_cpuset_gpu_inventory.py --root .
+```
+
+## Consumer-bound dialogue text inventory
+
+`export_rom_dialogue_text_inventory.py` binds `literal@0x080918E8` to table base
+`0x08461CE4`, verifies the `group_index * 20` consumer and text parser/glyph call
+chain, then exports the exact 305×20 table plus all 1,220 direct NUL-terminated
+targets into two aggregate binaries. The independent verifier rebuilds every row,
+pointer, target range, hash, NUL/control count and bundle without importing the
+exporter. That text artifact deliberately does not classify inter-record padding and
+does not claim natural-language decoding or natural runtime reachability of every row.
+
+```bash
+python3 tools/export_rom_dialogue_text_inventory.py --root .
+python3 tools/verify_rom_dialogue_text_inventory.py --root .
+```
+
+The text inventory itself still limits text semantics to parser-bounded targets.
+`export_rom_dialogue_padding_inventory.py` separately enumerates all 1,219 adjacent
+target gaps, packs their 16,814 bytes in order, and proves every byte is zero. Its
+independent verifier reconstructs the 1,220 source targets directly from the fixed
+ROM table and rejects source or output symlinks. Coverage may therefore classify the
+gaps as `dialogue_inter_record_zero_padding`, but not as text, runtime-reachable data,
+or safe allocatable space.
+
+```bash
+python3 tools/export_rom_dialogue_padding_inventory.py --root .
+python3 tools/verify_rom_dialogue_padding_inventory.py --root .
+```
+
+## Chapter script byte inventory
+
+`export_rom_chapter_script_inventory.py` follows all 200 non-null slots in four fixed
+tables: primary, alternate, runtime-state and positions/formation. It applies the
+interpreter's fixed, text-bearing and pointer-control record boundaries, walks every
+branch/call edge, and reduces 18,994 unique nodes to 92 exact non-overlapping ROM
+ranges. Output remains three aggregate files with no per-node files. The independent
+verifier reimplements the traversal, checks both auxiliary table consumers, the
+interpreter/dispatch block, text-boundary consumers and every range against the fixed
+ROM, then rejects rehashed JSON or bundle tampering.
+
+```bash
+python3 tools/export_rom_chapter_script_inventory.py --root .
+python3 tools/verify_rom_chapter_script_inventory.py --root .
+```
+
+Coverage imports exactly 334,060 interpreter-consumed bytes as
+`chapter_script_record`. Opcode `0x08/0x0E` additionally binds 49 speaker-label IDs;
+only their 251 renderer-consumed bytes through the first valid NUL are classified.
+The 3,769 bytes between script ranges, 337 bytes of post-NUL slot padding, bytes
+outside the reachable union, natural-language decoding and natural-gameplay execution
+of every root remain explicitly out of scope.
+
+## Consumer-bound renderer text inventory
+
+`export_rom_renderer_text_inventory.py` binds candidate tables
+94/95/96/105/107/108/109/111/112/113/114 to real table-base+index consumers and the
+`0x08066758 -> 0x0806626C` renderer path. Its control-aware parser handles the fixed
+single-, double- and triple-byte control widths plus the validated SJIS range table,
+then emits one compact JSON inventory and one packed byte bundle.
+
+Across 11 tables there are 704 pointer slots and 625 unique targets. Coverage imports
+only the 22,588 bytes consumed through each renderer-valid NUL. Repeated pointers do
+not duplicate coverage; inter-record gaps, natural gameplay index coverage and
+Unicode decoding remain out of scope. The independent verifier rebuilds table
+consumers, parser boundaries, range hashes and the aggregate bundle without importing
+the exporter.
+
+```bash
+python3 tools/export_rom_renderer_text_inventory.py --root .
+python3 tools/verify_rom_renderer_text_inventory.py --root .
+```
+
+## Profile text inventory
+
+`export_rom_profile_text_inventory.py` freezes the 46-slot profile pointer table at
+`0x5A143C..0x5A14F4` and rebuilds every parser-consumed record in
+`0x59F988..0x5A143C`. It also binds the list builder, table literals, profile selector,
+profile wrapper and renderer/parser bridge. The compact artifact contains one JSON
+inventory and one contiguous byte bundle; it does not emit per-record files.
+
+The independent verifier reconstructs all 46 records, 6,798 consumed bytes and the
+19 two-zero alignment gaps (38 bytes) without importing the exporter. Coverage treats
+the records as profile text and the gaps only as structural padding. Natural runtime
+evidence currently covers profile ID 0 only; other IDs, field meanings, Unicode
+decoding and edit safety remain out of scope.
+
+```bash
+python3 tools/export_rom_profile_text_inventory.py --root .
+python3 tools/verify_rom_profile_text_inventory.py --root .
+```
+
+## Unbound strict LZ77 syntax inventory
+
+`export_rom_unbound_lz77_inventory.py` scans every ROM byte with the strict GBA
+type-0x10 grammar, removes starts having a 4-byte-aligned direct ROM pointer, requires
+the complete range to remain unknown, and applies a deterministic ascending greedy
+overlap rule. The fixed result is 43 raw candidates and 41 non-overlapping records
+(14,725 compressed / 30,772 decompressed bytes). The independent verifier reimplements
+the decoder, pointer scan, selection and both bundles without importing the exporter.
+
+```bash
+python3 tools/export_rom_unbound_lz77_inventory.py --root .
+python3 tools/verify_rom_unbound_lz77_inventory.py --root .
+```
+
+This artifact proves syntax only. With no consumer or indirect-address proof, its
+records remain semantic `unknown`; they are not graphics, resources, or runtime
+reachable merely because they decode.
+
+## One-generation indexed-dispatch CFG extension
+
+`export_rom_cfg_inventory_v3.py` consumes the immutable v2 CFG artifact instead of
+rewriting it. It validates 29 frozen `indirect_pc_target` frontiers from raw Thumb
+opcodes, unsigned bounds, PC-relative literals and 677 allowed table cells, then
+deduplicates them to 290 Thumb targets. Of those targets, 189 already reference v2
+instruction entries; only the remaining 101 seed one direct branch/call/fallthrough
+closure. Newly discovered indirect frontiers are retained and are never fed back to
+the resolver in the same generation.
+
+The independent verifier does not import the v3 exporter. It rebuilds the raw tables,
+the 4,698-instruction/891-block/9,902-byte delta, 315 references back into v2, and all
+16 new frontiers. Coverage runs after prior artifact reuse and promotes only 9,060
+still-unknown code bytes plus 112 complete allowed table cells (448 bytes). The two
+sparse tables accept indices `{0,2,4,6,8}`; their eight odd-index cells (32 bytes) are
+not claimed.
+
+```bash
+python3 tools/export_rom_cfg_inventory_v3.py --root .
+python3 tools/verify_rom_cfg_inventory_v3.py --root .
+```
+
+## Direct-call-proven CFG roots
+
+`export_rom_cfg_proven_roots.py` freezes the complete aligned Thumb-BL producer
+denominator for targets `0x080722A8` and `0x08081B70`: exactly three producers at
+`0x073688`, `0x07443C`, and `0x074918`. It traverses both roots as one delta while
+treating every verified v2/v3 instruction entry as an opaque stop. A successor that
+lands in the middle of a baseline instruction fails closed.
+
+The independent verifier rebuilds the raw producer scan and the merged
+6,166-instruction/1,203-block/12,966-byte graph without importing the exporter. It
+also reconstructs 259 baseline cross-edges and keeps 27 indirect targets plus one
+decode failure as explicit frontiers. Coverage promotes only 12,946 bytes still
+unknown after prior claims and classifies the three producer instructions separately
+for another 12 bytes; natural execution and a global code/BL denominator remain out
+of scope.
+
+Run these high-cost static commands through the shared resource guard:
+
+```bash
+python3 tools/run_guarded.py \
+  --summary build/experiments/active/cfg-proven-roots/export.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 360 \
+  -- python3 tools/export_rom_cfg_proven_roots.py --root .
+
+python3 tools/run_guarded.py \
+  --summary build/experiments/active/cfg-proven-roots/verify.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 360 \
+  -- python3 tools/verify_rom_cfg_proven_roots.py --root .
+```
+
+## Direct-call-proven CFG roots v2
+
+`export_rom_cfg_proven_roots_v2.py` applies the same fixed-producer pattern to
+three additional Thumb roots at `0x080689A4`, `0x0806B49C`, and `0x080851F8`.
+The target-limited, aligned full-ROM scan has exactly five producers. The exporter
+freezes v2, v3, and `rom-cfg-proven-roots-v1` as opaque baselines, so an exact
+baseline entry becomes a cross-edge while a middle-byte or overlapping decode fails
+closed.
+
+The independent verifier rebuilds 4,809 instructions, 835 blocks, 9,876 instruction
+bytes, 28 frontiers, and 82 v2 cross-edges without importing the v2 exporter.
+Coverage promotes only bytes still unknown after the first proven-root batch and
+classifies the five 4-byte BL producers separately. The artifact does not claim
+natural execution, indirect-target closure, or a global function/BL denominator.
+
+```bash
+python3 tools/run_guarded.py \
+  --summary build/experiments/active/cfg-proven-roots-v2/export.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 600 \
+  -- python3 tools/export_rom_cfg_proven_roots_v2.py --root .
+
+python3 tools/run_guarded.py \
+  --summary build/experiments/active/cfg-proven-roots-v2/verify.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 600 \
+  -- python3 tools/verify_rom_cfg_proven_roots_v2.py --root .
+```
+
+## Direct-call-proven CFG roots v3–v9
+
+Versions v3–v7 continue the frozen-baseline pattern with fixed direct producers or
+complete indexed-dispatch denominators. Version v8 starts from the independently
+verified `scene-visual-packs-v1` source closure and proves the unique Thumb BL
+`0x0808BE5C -> 0x0808B99C`. The independent verifier rereads and hashes the source
+manifest, source verifier, selector, every frozen CFG dependency, and the worktree
+implementation; baseline loading deliberately has no cross-call cache.
+
+The v8 delta contains 113 instructions, 20 blocks, 246 reachable bytes, 10 baseline
+cross-edges, and one retained `indirect_pc_target`. Coverage claims only the 20 complete
+blocks that were unknown at promotion time. The already classified producer and source
+consumer slice, two internal gaps, the rest of the root window, natural execution, and
+global function-entry completeness remain out of scope.
+
+Run the exporter and verifier serially through the shared heavy lock:
+
+```bash
+python3 tools/run_guarded.py \
+  --lock-file build/experiments/heavy.lock \
+  --summary build/experiments/active/cfg-proven-roots-v8/export.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 900 \
+  -- python3 tools/export_rom_cfg_proven_roots_v8.py \
+     --root . --output-dir artifacts/rom-cfg-proven-roots-v8
+
+python3 tools/run_guarded.py \
+  --lock-file build/experiments/heavy.lock \
+  --summary build/experiments/active/cfg-proven-roots-v8/verify.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 900 \
+  -- python3 tools/verify_rom_cfg_proven_roots_v8.py \
+     --root . --artifact-dir artifacts/rom-cfg-proven-roots-v8
+```
+
+Version v9 freezes the verified battle-controller CFG provenance denominator. The
+full target-limited denominator contains 11 aligned Thumb BL producers: nine are
+exact source instructions in the frozen controller artifact and prove eight roots,
+while `0x080736A4` and `0x0807445C` are retained only as excluded provenance and
+remain unknown. The independent verifier rebuilds 299 instructions, 62 blocks,
+628 reachable bytes, 16 baseline cross-edges, seven recognized `pop rN; bx rN`
+opaque returns, and zero true frontiers. Coverage promotes only the 62 complete
+blocks that were unknown at promotion time; natural execution and global
+function-entry, BL, and indirect-target completeness remain out of scope.
+
+The artifact freezes the pre-v9 coverage observation in its payload, but the formal
+verifier reconstructs that frozen receipt without reading the live post-promotion
+coverage file. The exporter alone requires the exact pre-v9 coverage input. This
+breaks the coverage-to-artifact verification cycle while preserving the original
+current-unknown promotion proof.
+
+Run v9 export only in its unique experiment workspace with the exact frozen pre-v9
+coverage input. Verify the promoted artifact with the isolated formal command:
+
+```bash
+python3 tools/run_guarded.py \
+  --lock-file build/experiments/heavy.lock \
+  --summary build/experiments/active/cfg-proven-roots-v9/verify.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 1800 \
+  -- python3 -I -S tools/verify_rom_cfg_proven_roots_v9.py \
+     --root . --artifact-dir artifacts/rom-cfg-proven-roots-v9
+```
+
+## Fixed boot interwork ARM root
+
+`export_rom_boot_interwork.py` proves the exact static producer spine
+`0x08061086 Thumb BL -> 0x0809C56C BX pc -> 0x0809C570 ARM B -> 0x0800024C`.
+It runs a bounded ARMv4T worklist from the final root and emits 92 instructions,
+8 basic blocks, 10 edges, no frontier, and nine PC-relative literal bindings. The
+independent verifier reuses the separately hash-bound raw-control-flow CFG engine,
+rebuilds all four canonical vectors, and refuses a root different from the worktree
+whose engine was loaded.
+
+Coverage imports only five ranges totaling 414 bytes: 368 bytes of closed ARM code,
+36 bytes of actually consumed literals, and 10 bytes of producer instructions. The
+skipped two-byte veneer alignment, sibling veneer, RAM targets, full reset-to-call
+runtime path, and the rest of `0x24C..0x9F2E` remain outside the claim.
+
+```bash
+python3 tools/export_rom_boot_interwork.py --root .
+python3 tools/verify_rom_boot_interwork.py --root .
+```
+
+`verify_similar_table_candidates.py` rebuilds the strict full-ROM 0x10-byte
+pointer-table scan and keeps its 114-item denominator immutable. It also rebuilds
+`sequel/similar-table-adjudications-v1.json` from the ROM and canonical artifacts.
+The current overlay closes all 114 candidates (60 accepted, 26 strict-subrange aliases,
+28 evidence-backed rejections) and leaves 0 open. Consumer-bound literal,
+index and table-boundary checks prevent a leading table-address literal from being
+misclassified as handler entry zero. Candidate 92 is specifically retained as a
+strict-subrange alias of the complete 38-slot renderer-text pointer table, not accepted
+as the former 36-slot code-handler interpretation.
+
+```bash
+python3 tools/verify_similar_table_candidates.py --root .
+```
+
+Only when canonical evidence intentionally changes, regenerate the overlay and
+immediately rerun the verifier:
+
+```bash
+python3 tools/verify_similar_table_candidates.py \
+  --root . \
+  --regenerate-adjudications
+```
+
+## Scheduler callback lifecycle negative gate
+
+`verify_rom_scheduler_callback_lifecycle_gate.py` is a zero-promotion,
+fail-closed gate for the `[0x59EAE0,0x59F560)` candidate. It rebuilds the
+target-limited raw Thumb branch denominators, exact callback-pointer occurrence
+denominators, eight direct task registrations, eleven fixed wrappers, indirect
+`BX r1` dispatch, return cleanup, both consumer-entry paths, and the frozen
+scenario-50 index counterexample. A successful verifier exit means the
+negative evidence contract was reproduced; it does **not** mean the candidate
+lifecycle closed or that any bytes may enter coverage.
+
+```bash
+python3 tools/verify_rom_scheduler_callback_lifecycle_gate.py \
+  --root . \
+  --output build/experiments/active/scheduler-callback-lifecycle-gate/report.json
+
+python3 -m unittest \
+  tests.test_verify_rom_scheduler_callback_lifecycle_gate -v
+```
+
+## Frozen task scheduler core packet
+
+`export_rom_task_scheduler_core.py` 将 lifecycle gate 已冻结的两个 scheduler core
+窗口缩成失败关闭的静态工作包。它只输出四段 current-unknown Thumb code 与三段实际
+消费 literal；已有 owner 仅作 provenance，三个两字节 gap、动态 callback/lifecycle、
+自然可达和全局 caller/code/indirect 分母都不分类。canonical R4 artifact 的独立
+verifier 可在 post-promotion coverage 上重建排序后的 receipt，不需要恢复旧 R3。
+
+不要直接覆盖 canonical artifact。需要重建候选时使用唯一实验目录，并与 verifier
+串行共享 heavy lock：
+
+```bash
+python3 tools/run_guarded.py \
+  --lock-file build/experiments/heavy.lock \
+  --summary build/experiments/active/<run-id>/export.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 900 \
+  -- python3 -I -S tools/export_rom_task_scheduler_core.py \
+     --root . \
+     --output-dir build/experiments/active/<run-id>/candidate
+
+python3 tools/run_guarded.py \
+  --lock-file build/experiments/heavy.lock \
+  --summary build/experiments/active/<run-id>/verify.guard.json \
+  --cwd . --max-tree-rss-mib 1024 --wall-timeout-s 900 \
+  -- python3 -I -S tools/verify_rom_task_scheduler_core.py \
+     --root . \
+     --artifact-dir build/experiments/active/<run-id>/candidate
+```
+
+复核 canonical copy 时只需把最后一个 `--artifact-dir` 改为
+`artifacts/rom-task-scheduler-core-v1`。任何 coverage identity、producer denominator、
+raw CFG/literal 投影、implementation identity 或 promotion receipt 不一致都会非零退出。

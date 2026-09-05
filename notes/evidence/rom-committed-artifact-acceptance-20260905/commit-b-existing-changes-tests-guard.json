@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 95781,
+  "peak_tree_rss_mib": 127.09765625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_experiment_workspace tests.test_export_battle_effect_sequence_bindings tests.test_export_battle_effect_sprite_animations tests.test_export_battle_status_bars tests.test_export_bg_resource_canvases tests.test_export_character_battle_visuals tests.test_export_rom_direct_cpuset_gpu_inventory tests.test_find_similar_tables tests.test_verify_similar_table_candidates tests.test_verify_disproved_bank_candidates -v > build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/commit-b-existing-changes-tests.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T09:53:38.182644Z",
+  "finished_at": "2026-09-05T09:55:30.334021Z"
+}

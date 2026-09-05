@@ -1,0 +1,1455 @@
+{
+  "coverage_baseline": {
+    "identity": {
+      "archive_sha256": "af9fd00d9e5bc5bf10b1d7f63b5e44325498982efe2c9b8b46aada34faa21c00",
+      "artifact": "artifacts/rom-story-callback-dependency-closures-precoverage-v1",
+      "coverage_sha256": "b14d1778bc9961356cca7f319c9d2ae85a07a6811276f9ee0cd1bc2070e96b82",
+      "manifest_sha256": "fbdc769feb0c7d23752f73cf1caf7578a06a8c7df866cfaf0c64c738e1b0f423"
+    },
+    "mutation_performed": false,
+    "preserved_unknown_hole_bytes": 12,
+    "projected_classified_bytes": 6200279,
+    "projected_unknown_bytes": 91177,
+    "role": "historical_read_only_projection_baseline",
+    "validated_current_unknown_bytes": 1932
+  },
+  "producer_denominator": {
+    "decoder_kinds": [
+      "thumb_bl",
+      "thumb_b",
+      "thumb_bcond"
+    ],
+    "match_count_per_root": 1,
+    "recursive_dependency_call_count": 3,
+    "root_match_count": 9,
+    "root_match_vector_sha256": "1698cc759c5d806c1bc39e77ef881f774da31106171fd40fc0b1a872645a97d8",
+    "root_producers": [
+      [
+        429598,
+        587404,
+        "bl",
+        4,
+        "26f035fc"
+      ],
+      [
+        479962,
+        428784,
+        "bl",
+        4,
+        "f3f709fc"
+      ],
+      [
+        551690,
+        549320,
+        "bl",
+        4,
+        "fff75dfb"
+      ],
+      [
+        587790,
+        570972,
+        "bl",
+        4,
+        "fbf725ff"
+      ],
+      [
+        587850,
+        429564,
+        "bl",
+        4,
+        "d9f7d7fa"
+      ],
+      [
+        587860,
+        479952,
+        "bl",
+        4,
+        "e5f73cfd"
+      ],
+      [
+        588230,
+        587536,
+        "bl",
+        4,
+        "fff7a3fe"
+      ],
+      [
+        588298,
+        551508,
+        "bl",
+        4,
+        "f7f723f8"
+      ],
+      [
+        588332,
+        566940,
+        "bl",
+        4,
+        "faf736fe"
+      ]
+    ],
+    "scan_range": [
+      0,
+      6291456
+    ],
+    "stride": 2,
+    "upstream_story_call_count": 6
+  },
+  "promotion": {
+    "claim_count": 32,
+    "claims": [
+      {
+        "bytes_sha256": "1f30ee1dc61ff4107022346a1ad9c59b90718e40bb5385df82fef88986d437d7",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-01-068af0",
+        "kind": "reachable_thumb_code",
+        "range": [
+          428784,
+          429074
+        ]
+      },
+      {
+        "bytes_sha256": "6cbff75ce01c7602c57aef32a521bf2a5225782f792a5d5bd494fa50c7bc9334",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-02-068dfc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          429564,
+          429634
+        ]
+      },
+      {
+        "bytes_sha256": "6221a921ee43e7ac454a2b253451bbc0621d82daad7983cf24ed973b2697a4f4",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-03-0752d0",
+        "kind": "reachable_thumb_code",
+        "range": [
+          479952,
+          480066
+        ]
+      },
+      {
+        "bytes_sha256": "c14dc8f7566312fae63edd5879fd637368f2f7b3065a9ba5d16aa94746f306fa",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-04-0861c8",
+        "kind": "reachable_thumb_code",
+        "range": [
+          549320,
+          549460
+        ]
+      },
+      {
+        "bytes_sha256": "a43dbd3d352a6b104e87a099b8749fc1a5e8786b3ccef04062475a5c3c7cea34",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-05-086280",
+        "kind": "reachable_thumb_code",
+        "range": [
+          549504,
+          549670
+        ]
+      },
+      {
+        "bytes_sha256": "9382aa921955ad6db8f178988b8bb9045b8f922e662b14bdcb4bb096259df4bc",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-06-086348",
+        "kind": "reachable_thumb_code",
+        "range": [
+          549704,
+          549886
+        ]
+      },
+      {
+        "bytes_sha256": "d282da444de3b02fe8b8b485097e10e9de750993f68b719347f91e9d5d6e7cc1",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-07-086a54",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551508,
+          551644
+        ]
+      },
+      {
+        "bytes_sha256": "00eba96c1366bd3b4b4f9108188240ab0de69742f66edadb595a9efcdb318529",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-08-086af4",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551668,
+          551712
+        ]
+      },
+      {
+        "bytes_sha256": "2100c164c59781d84bc507962f232f7bca219ced73a083bf416e3ef1dab5e9c3",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-09-086b24",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551716,
+          551790
+        ]
+      },
+      {
+        "bytes_sha256": "3e5dc3c799ed73c81e4d03d53977b04d4c612dd18b097fd1e92a3cd4b0c014ee",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-10-086b78",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551800,
+          551934
+        ]
+      },
+      {
+        "bytes_sha256": "939c2e35bbee6f118827ef020d5120b8eb829023f0b3d69e899da3696a3b8958",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-11-086c08",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551944,
+          551954
+        ]
+      },
+      {
+        "bytes_sha256": "74147656647cd06bd47f7bbf043b991d77aa9463599b47ea555b5bae2a42b01e",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-12-086c18",
+        "kind": "reachable_thumb_code",
+        "range": [
+          551960,
+          551978
+        ]
+      },
+      {
+        "bytes_sha256": "4a663ad2aeb81b264423f7dad92818a57f5ad537bfd8aded13c3e31246965a65",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-13-08a69c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          566940,
+          566956
+        ]
+      },
+      {
+        "bytes_sha256": "1b7fb043fda138b6dcbdd28398f40a5a4b00f42d3f79e3f930717bd262d97dd0",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-14-08b65c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          570972,
+          571036
+        ]
+      },
+      {
+        "bytes_sha256": "4cb829dcbeb44315eeddc37537da21ca488e8e90e63278823f6f7ea0bc7284e8",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-15-08b6b8",
+        "kind": "reachable_thumb_code",
+        "range": [
+          571064,
+          571118
+        ]
+      },
+      {
+        "bytes_sha256": "39d654a079af3c136cb6195546258b1e022d1e13eb76ff5c9f5fb02bbf26ce9a",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-16-08f68c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587404,
+          587510
+        ]
+      },
+      {
+        "bytes_sha256": "7d3b1611958c864a3bdecfac70629f0de7cdcdb57faf583ec3d5838dc286be85",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-17-08f710",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587536,
+          587568
+        ]
+      },
+      {
+        "bytes_sha256": "835daae6111b0b09128b388822893a38d4c0ad5d283cf682b9b28b5b54f1baeb",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-reachable_thumb_code-18-08f734",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587572,
+          587578
+        ]
+      },
+      {
+        "bytes_sha256": "cd681eb8106d6914fb877c1d38c9701b830367ac6e54f5cec111b0152741384b",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-01-068c14",
+        "kind": "consumed_literal_words",
+        "range": [
+          429076,
+          429112
+        ]
+      },
+      {
+        "bytes_sha256": "e17bf3ccb1efe5c712fbe4edd67ba4cd93e5da759cf7930373d0906854df8de4",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-02-068e44",
+        "kind": "consumed_literal_words",
+        "range": [
+          429636,
+          429660
+        ]
+      },
+      {
+        "bytes_sha256": "b89a9dd678c40e25031e1b69c5fd98bf09a3f4c7c7a785d76badd7f900dd8261",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-03-075344",
+        "kind": "consumed_literal_words",
+        "range": [
+          480068,
+          480080
+        ]
+      },
+      {
+        "bytes_sha256": "a0057f4fed646985c04e9a3a5b252e769cc6d4993615862510311442b941bb59",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-04-086254",
+        "kind": "consumed_literal_words",
+        "range": [
+          549460,
+          549504
+        ]
+      },
+      {
+        "bytes_sha256": "a02c8c7c9c7eb8aeed505ffa7ee77c2e787ecb87e2a55e0a77c6c498b7fca2cb",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-05-086328",
+        "kind": "consumed_literal_words",
+        "range": [
+          549672,
+          549704
+        ]
+      },
+      {
+        "bytes_sha256": "a2c4031425132e343a345529586162607cb92c95d45de0707828d0340e4b8574",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-06-086418",
+        "kind": "consumed_literal_words",
+        "range": [
+          549912,
+          549936
+        ]
+      },
+      {
+        "bytes_sha256": "244db2112e129391d3c8428ffdb72e94309365fa736a4bd7818c8c644a858782",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-07-086adc",
+        "kind": "consumed_literal_words",
+        "range": [
+          551644,
+          551668
+        ]
+      },
+      {
+        "bytes_sha256": "b7d1b3a1104cc86b1cea310793cf777002db0517281d135a02de079b0ea87c23",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-08-086b20",
+        "kind": "consumed_literal_words",
+        "range": [
+          551712,
+          551716
+        ]
+      },
+      {
+        "bytes_sha256": "4e15d7fb012e34015e1d4f7abd31612a508f75e4b935aad7c8318062e8a3a427",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-09-086b70",
+        "kind": "consumed_literal_words",
+        "range": [
+          551792,
+          551800
+        ]
+      },
+      {
+        "bytes_sha256": "8f8f9801166aa6df1dfdf0a07b917bc2898200095b1f505687841c296890856a",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-10-086c00",
+        "kind": "consumed_literal_words",
+        "range": [
+          551936,
+          551944
+        ]
+      },
+      {
+        "bytes_sha256": "ac6dc850275292bbc40dc3bc7b8dfbbef0f6a21b4fe49882d6b306efbe897e3c",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-11-086c14",
+        "kind": "consumed_literal_words",
+        "range": [
+          551956,
+          551960
+        ]
+      },
+      {
+        "bytes_sha256": "57c0179898545afa2f2a96939c6f4d79a2fcb42cfb0b23bb3c76f6734b1a5efa",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-12-08b69c",
+        "kind": "consumed_literal_words",
+        "range": [
+          571036,
+          571064
+        ]
+      },
+      {
+        "bytes_sha256": "f1a7a90ea97ca15623c91c410d4566809bc1366257ac0d40c726a5dda996709f",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-13-08f6f8",
+        "kind": "consumed_literal_words",
+        "range": [
+          587512,
+          587536
+        ]
+      },
+      {
+        "bytes_sha256": "d0a9e3d2a81b3cd991e3ed8536d80cda468cb41141cfde80efbb2b1c53deedc0",
+        "historical_baseline_projection": true,
+        "id": "story-dependency-consumed_literal_words-14-08f730",
+        "kind": "consumed_literal_words",
+        "range": [
+          587568,
+          587572
+        ]
+      }
+    ],
+    "projection_only": true,
+    "promotion_batch": "rom-story-callback-dependency-closures-v1",
+    "promotion_bytes": 1932,
+    "target_code_bytes": 1656,
+    "target_literal_bytes": 276
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-story-callback-dependency-closures-v1",
+  "scope": {
+    "alignment_holes_or_free_space": false,
+    "all_callback_dependencies_exhausted": false,
+    "business_semantics_or_abi": false,
+    "editing_or_relocation_safety": false,
+    "indirect_or_computed_producer_exhaustiveness": false,
+    "natural_runtime_reachability": false
+  },
+  "target_closure": {
+    "accepted_boundary_continuation_count": 1,
+    "accepted_boundary_continuations": [
+      [
+        549884,
+        549886
+      ]
+    ],
+    "basic_block_count": 156,
+    "boundary_continuation_root": 549320,
+    "code_bytes": 1656,
+    "code_ranges": [
+      [
+        428784,
+        429074
+      ],
+      [
+        429564,
+        429634
+      ],
+      [
+        479952,
+        480066
+      ],
+      [
+        549320,
+        549460
+      ],
+      [
+        549504,
+        549670
+      ],
+      [
+        549704,
+        549886
+      ],
+      [
+        551508,
+        551644
+      ],
+      [
+        551668,
+        551712
+      ],
+      [
+        551716,
+        551790
+      ],
+      [
+        551800,
+        551934
+      ],
+      [
+        551944,
+        551954
+      ],
+      [
+        551960,
+        551978
+      ],
+      [
+        566940,
+        566956
+      ],
+      [
+        570972,
+        571036
+      ],
+      [
+        571064,
+        571118
+      ],
+      [
+        587404,
+        587510
+      ],
+      [
+        587536,
+        587568
+      ],
+      [
+        587572,
+        587578
+      ]
+    ],
+    "code_sha256": "59bb2392ce163ce1fa87bc5fce884eb1d72b3f41550b38052ea0d56b78ece332",
+    "frontier_count": 0,
+    "instruction_count": 762,
+    "literal_bytes": 276,
+    "literal_ranges": [
+      [
+        429076,
+        429112
+      ],
+      [
+        429636,
+        429660
+      ],
+      [
+        480068,
+        480080
+      ],
+      [
+        549460,
+        549504
+      ],
+      [
+        549672,
+        549704
+      ],
+      [
+        549912,
+        549936
+      ],
+      [
+        551644,
+        551668
+      ],
+      [
+        551712,
+        551716
+      ],
+      [
+        551792,
+        551800
+      ],
+      [
+        551936,
+        551944
+      ],
+      [
+        551956,
+        551960
+      ],
+      [
+        571036,
+        571064
+      ],
+      [
+        587512,
+        587536
+      ],
+      [
+        587568,
+        587572
+      ]
+    ],
+    "literal_reference_count": 71,
+    "literal_sha256": "7a4f6c5aae09f4754e8ae9bd063c42b42265a43f2d7faa3d650f25bc31d2912b",
+    "opaque_accepted_exit_count": 63,
+    "opaque_accepted_exits": [
+      [
+        428790,
+        427652
+      ],
+      [
+        428808,
+        427652
+      ],
+      [
+        428824,
+        427652
+      ],
+      [
+        428840,
+        427652
+      ],
+      [
+        428856,
+        427652
+      ],
+      [
+        428872,
+        427652
+      ],
+      [
+        428888,
+        427652
+      ],
+      [
+        428960,
+        639200
+      ],
+      [
+        429580,
+        639200
+      ],
+      [
+        429588,
+        447648
+      ],
+      [
+        479954,
+        436636
+      ],
+      [
+        479958,
+        528080
+      ],
+      [
+        479970,
+        430004
+      ],
+      [
+        479976,
+        430692
+      ],
+      [
+        480012,
+        436716
+      ],
+      [
+        480046,
+        528328
+      ],
+      [
+        549332,
+        402784
+      ],
+      [
+        549380,
+        414724
+      ],
+      [
+        549392,
+        639200
+      ],
+      [
+        549398,
+        580240
+      ],
+      [
+        549406,
+        639208
+      ],
+      [
+        549416,
+        639200
+      ],
+      [
+        549422,
+        422232
+      ],
+      [
+        549432,
+        415156
+      ],
+      [
+        549630,
+        402852
+      ],
+      [
+        549664,
+        578096
+      ],
+      [
+        549748,
+        403124
+      ],
+      [
+        549778,
+        578944
+      ],
+      [
+        549804,
+        403124
+      ],
+      [
+        549814,
+        578512
+      ],
+      [
+        549824,
+        549096
+      ],
+      [
+        549832,
+        576500
+      ],
+      [
+        549858,
+        407356
+      ],
+      [
+        549878,
+        578512
+      ],
+      [
+        551522,
+        400988
+      ],
+      [
+        551526,
+        402784
+      ],
+      [
+        551572,
+        414724
+      ],
+      [
+        551586,
+        548240
+      ],
+      [
+        551598,
+        548240
+      ],
+      [
+        551610,
+        548240
+      ],
+      [
+        551676,
+        548336
+      ],
+      [
+        551756,
+        414724
+      ],
+      [
+        551824,
+        490640
+      ],
+      [
+        551844,
+        494084
+      ],
+      [
+        551864,
+        496832
+      ],
+      [
+        551888,
+        551084
+      ],
+      [
+        566942,
+        556188
+      ],
+      [
+        566948,
+        554636
+      ],
+      [
+        570978,
+        639208
+      ],
+      [
+        570988,
+        639208
+      ],
+      [
+        570998,
+        639208
+      ],
+      [
+        571030,
+        411392
+      ],
+      [
+        571066,
+        640372
+      ],
+      [
+        571070,
+        412232
+      ],
+      [
+        571084,
+        582036
+      ],
+      [
+        571092,
+        411392
+      ],
+      [
+        571100,
+        640372
+      ],
+      [
+        571104,
+        412232
+      ],
+      [
+        587444,
+        639200
+      ],
+      [
+        587456,
+        639200
+      ],
+      [
+        587470,
+        639200
+      ],
+      [
+        587478,
+        618688
+      ],
+      [
+        587486,
+        618688
+      ]
+    ],
+    "preserved_unknown_bytes": 12,
+    "preserved_unknown_holes": [
+      [
+        429074,
+        429076
+      ],
+      [
+        549670,
+        549672
+      ],
+      [
+        551790,
+        551792
+      ],
+      [
+        551934,
+        551936
+      ],
+      [
+        551954,
+        551956
+      ],
+      [
+        587510,
+        587512
+      ]
+    ],
+    "recursive_root_count": 3,
+    "root_count": 9,
+    "roots": [
+      570972,
+      429564,
+      479952,
+      587536,
+      551508,
+      566940,
+      587404,
+      428784,
+      549320
+    ],
+    "structured_return_contracts": [
+      {
+        "epilogue_range": [
+          429068,
+          429074
+        ],
+        "prologue_range": [
+          428784,
+          428786
+        ],
+        "root": 428784,
+        "terminal": 429072
+      },
+      {
+        "epilogue_range": [
+          429626,
+          429634
+        ],
+        "prologue_range": [
+          429564,
+          429568
+        ],
+        "root": 429564,
+        "terminal": 429632
+      },
+      {
+        "epilogue_range": [
+          480060,
+          480066
+        ],
+        "prologue_range": [
+          479952,
+          479954
+        ],
+        "root": 479952,
+        "terminal": 480064
+      },
+      {
+        "epilogue_range": [
+          551962,
+          551978
+        ],
+        "prologue_range": [
+          551508,
+          551520
+        ],
+        "root": 551508,
+        "terminal": 551976
+      },
+      {
+        "epilogue_range": [
+          566952,
+          566956
+        ],
+        "prologue_range": [
+          566940,
+          566942
+        ],
+        "root": 566940,
+        "terminal": 566954
+      },
+      {
+        "epilogue_range": [
+          571114,
+          571118
+        ],
+        "prologue_range": [
+          570972,
+          570974
+        ],
+        "root": 570972,
+        "terminal": 571116
+      },
+      {
+        "epilogue_range": [
+          587502,
+          587510
+        ],
+        "prologue_range": [
+          587404,
+          587408
+        ],
+        "root": 587404,
+        "terminal": 587508
+      },
+      {
+        "epilogue_range": [
+          587574,
+          587578
+        ],
+        "prologue_range": [
+          587536,
+          587538
+        ],
+        "root": 587536,
+        "terminal": 587576
+      }
+    ],
+    "structured_return_count": 8,
+    "structured_return_sites": [
+      429072,
+      429632,
+      480064,
+      551976,
+      566954,
+      571116,
+      587508,
+      587576
+    ],
+    "unique_literal_word_count": 69,
+    "upstream_root_count": 6
+  },
+  "upstream_evidence": {
+    "accepted_story_callback_calls": [
+      [
+        0,
+        587790,
+        570972
+      ],
+      [
+        3,
+        587850,
+        429564
+      ],
+      [
+        4,
+        587860,
+        479952
+      ],
+      [
+        19,
+        588230,
+        587536
+      ],
+      [
+        24,
+        588298,
+        551508
+      ],
+      [
+        27,
+        588332,
+        566940
+      ]
+    ],
+    "boundary_owner": {
+      "bytes_sha256": "904e2d49cbcfe3f52edcbf6926ed56938064f981bf54d9e66b1d0a98fc2bb757",
+      "claim_id": "cfg-thumb-0551-0863fe",
+      "range": [
+        549886,
+        549910
+      ]
+    },
+    "files": {
+      "artifacts/rom-story-state-callback-cfg-v1/manifest.json": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+      "artifacts/rom-story-state-callback-cfg-v1/rom-story-state-callback-cfg.json": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+      "tools/verify_rom_story_state_callback_cfg.py": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98"
+    },
+    "opaque_target_owners": [
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0002-061e5c"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          400988,
+          401002
+        ],
+        "target_file_offset": 400988
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0007-062560"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          402784,
+          402844
+        ],
+        "target_file_offset": 402784
+      },
+      {
+        "primary_claim_ids": [
+          "consumer-code-battle_effect_sprite_animations-0625a4"
+        ],
+        "primary_class": "consumer_code_slice",
+        "range": [
+          402852,
+          403120
+        ],
+        "target_file_offset": 402852
+      },
+      {
+        "primary_claim_ids": [
+          "consumer-code-scene_visual_composites-0626b4"
+        ],
+        "primary_class": "consumer_code_slice",
+        "range": [
+          403124,
+          403304
+        ],
+        "target_file_offset": 403124
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0015-06373c"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          407356,
+          407450
+        ],
+        "target_file_offset": 407356
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0025-064700"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          411392,
+          411468
+        ],
+        "target_file_offset": 411392
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0040-064a48"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          412232,
+          412252
+        ],
+        "target_file_offset": 412232
+      },
+      {
+        "primary_claim_ids": [
+          "consumer-code-battle_effect_sprite_animations-065404"
+        ],
+        "primary_class": "consumer_code_slice",
+        "range": [
+          414724,
+          415060
+        ],
+        "target_file_offset": 414724
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0053-0655b4"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          415156,
+          415216
+        ],
+        "target_file_offset": 415156
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0097-067158"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          422232,
+          422268
+        ],
+        "target_file_offset": 422232
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v2-thumb-0000-068684"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "range": [
+          427652,
+          427720
+        ],
+        "target_file_offset": 427652
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0108-068fb4"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          430004,
+          430042
+        ],
+        "target_file_offset": 430004
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0067-00-069264"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          430692,
+          430712
+        ],
+        "target_file_offset": 430692
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0069-00-06a99c"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          436636,
+          436648
+        ],
+        "target_file_offset": 436636
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0162-06a9ec"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          436716,
+          436778
+        ],
+        "target_file_offset": 436716
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0225-06d4a0"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          447648,
+          447760
+        ],
+        "target_file_offset": 447648
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0401-077c90"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          490640,
+          490816
+        ],
+        "target_file_offset": 490640
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0413-078a04"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          494084,
+          494588
+        ],
+        "target_file_offset": 494084
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0420-0794c0"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          496832,
+          496878
+        ],
+        "target_file_offset": 496832
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0339-00-080ed0"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          528080,
+          528088
+        ],
+        "target_file_offset": 528080
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0503-080fc8"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          528328,
+          528368
+        ],
+        "target_file_offset": 528328
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0542-085d90"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          548240,
+          548282
+        ],
+        "target_file_offset": 548240
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0357-00-085df0"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          548336,
+          548346
+        ],
+        "target_file_offset": 548336
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0547-0860e8"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          549096,
+          549206
+        ],
+        "target_file_offset": 549096
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0423-00-0868ac"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          551084,
+          551118
+        ],
+        "target_file_offset": 551084
+      },
+      {
+        "primary_claim_ids": [
+          "prebattle-menu-controller-code-02-08768c"
+        ],
+        "primary_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+        "range": [
+          554636,
+          554760
+        ],
+        "target_file_offset": 554636
+      },
+      {
+        "primary_claim_ids": [
+          "consumer-code-story_scene_timelines-087c9c"
+        ],
+        "primary_class": "consumer_code_slice",
+        "range": [
+          556188,
+          556836
+        ],
+        "target_file_offset": 556188
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0589-08cbb4"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          576436,
+          576572
+        ],
+        "target_file_offset": 576500
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0594-08d230"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          578096,
+          578350
+        ],
+        "target_file_offset": 578096
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0596-08d3c0"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          578496,
+          578580
+        ],
+        "target_file_offset": 578512
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0602-08d580"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          578944,
+          579010
+        ],
+        "target_file_offset": 578944
+      },
+      {
+        "primary_claim_ids": [
+          "consumer-code-overview_gradient_overlay-08da90"
+        ],
+        "primary_class": "consumer_code_slice",
+        "range": [
+          580240,
+          580528
+        ],
+        "target_file_offset": 580240
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-1342-00-08e194"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          582036,
+          582050
+        ],
+        "target_file_offset": 582036
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0688-0970c0"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          618688,
+          618728
+        ],
+        "target_file_offset": 618688
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0773-09c0d8"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          639192,
+          639220
+        ],
+        "target_file_offset": 639200
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0773-09c0d8"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          639192,
+          639220
+        ],
+        "target_file_offset": 639208
+      },
+      {
+        "primary_claim_ids": [
+          "cfg-thumb-0786-09c574"
+        ],
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "range": [
+          640372,
+          640374
+        ],
+        "target_file_offset": 640372
+      }
+    ],
+    "status": "identity_bound_upstream_story_callback"
+  }
+}

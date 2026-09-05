@@ -1,0 +1,1480 @@
+{
+  "bundles": {
+    "full_source_windows": {
+      "file": "rom-selector-code-windows.bin",
+      "sha256": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+      "size": 2754
+    },
+    "promotion_ranges": {
+      "file": "rom-selector-code-windows-promotion.bin",
+      "sha256": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+      "size": 1252
+    }
+  },
+  "coverage": {
+    "accepted_live_primary_states": [
+      "unknown",
+      "rom-selector-code-windows-v1"
+    ],
+    "baseline_observation": {
+      "classified_bytes": 6091909,
+      "sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+      "size": 21057965,
+      "unknown_bytes": 199547
+    },
+    "live_hash_pin_omission_reason": "coverage incorporates this artifact's claims; the verifier accepts only unknown or this exact batch while rebuilding the same projection",
+    "live_hash_pinned": false,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 1502
+  },
+  "files": {
+    "rom-selector-code-windows-promotion.bin": {
+      "sha256": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+      "size": 1252
+    },
+    "rom-selector-code-windows.bin": {
+      "sha256": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+      "size": 2754
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_selector_code_windows.py",
+      "sha256": "06c2e9ffe2a6ffb70a7d87b0cc64eeaf0f20065993ef2fcdcd14b15feb5cbd8a"
+    },
+    "test": {
+      "path": "tests/test_export_rom_selector_code_windows.py",
+      "sha256": "25b736eb3519b9118b7316dbd000963ce9fc903e3ced327c772e57d7a257a562"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_code_windows.py",
+      "sha256": "e9d8ea4cbe5aec14359b5c8ba74ac3e8182f0441a3014d3f760196242601665b"
+    }
+  },
+  "limitations": [
+    "The artifact freezes ten complete selector source windows and promotes only their current-unknown intersections.",
+    "The 1,502 bytes already carrying a primary coverage claim remain outside promotion; no byte is re-claimed.",
+    "The result is not a claim that all bytes are instructions, that natural gameplay reaches every path, or that global callers are exhaustive.",
+    "Safe editing, relocation, allocatable/free-space status, and new field semantics are not claimed."
+  ],
+  "promotion_range_denominator_sha256": "1a1e50479424dbd441bc81adeca3c7d9075dc1a8ca13869e94693a71e702563e",
+  "promotion_ranges": [
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x080663A6",
+        "0x080663B4"
+      ],
+      "id": "promotion-00",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        0,
+        14
+      ],
+      "packed_sha256": "c99471325e229030acf0ae6de6f253527e8ecaa05c9be0b801ad2707905e6dff",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        418726,
+        418740
+      ],
+      "raw_sha256": "c99471325e229030acf0ae6de6f253527e8ecaa05c9be0b801ad2707905e6dff",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 14,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x080663EE",
+        "0x080663F4"
+      ],
+      "id": "promotion-01",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        14,
+        20
+      ],
+      "packed_sha256": "8710d6cd7fc3b02571bb009e1040418fb4dce6674dbf538dbcd3207f815d5a6a",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        418798,
+        418804
+      ],
+      "raw_sha256": "8710d6cd7fc3b02571bb009e1040418fb4dce6674dbf538dbcd3207f815d5a6a",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 6,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x08066408",
+        "0x0806640C"
+      ],
+      "id": "promotion-02",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        20,
+        24
+      ],
+      "packed_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        418824,
+        418828
+      ],
+      "raw_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 4,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x08066420",
+        "0x08066424"
+      ],
+      "id": "promotion-03",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        24,
+        28
+      ],
+      "packed_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        418848,
+        418852
+      ],
+      "raw_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 4,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x08066438",
+        "0x0806643C"
+      ],
+      "id": "promotion-04",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        28,
+        32
+      ],
+      "packed_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        418872,
+        418876
+      ],
+      "raw_sha256": "dc4b555e87d974733f10681d898aa74f8a19a3aaa414113e2728daa784abcd79",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 4,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x080664EC",
+        "0x080664F8"
+      ],
+      "id": "promotion-05",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        32,
+        44
+      ],
+      "packed_sha256": "af4cbde0db56d2b533dda73ce9078a5498a3e9b7960f6601cc4d88f2bb18577e",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        419052,
+        419064
+      ],
+      "raw_sha256": "af4cbde0db56d2b533dda73ce9078a5498a3e9b7960f6601cc4d88f2bb18577e",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 12,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x08066526",
+        "0x08066530"
+      ],
+      "id": "promotion-06",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        44,
+        54
+      ],
+      "packed_sha256": "c35ce4544d508480a7cbc788cee114d4c2b89c01e4c4f81a60b499fb02bd0fdc",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        419110,
+        419120
+      ],
+      "raw_sha256": "c35ce4544d508480a7cbc788cee114d4c2b89c01e4c4f81a60b499fb02bd0fdc",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 10,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x080666CC",
+        "0x080666F8"
+      ],
+      "id": "promotion-07",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        54,
+        98
+      ],
+      "packed_sha256": "c7556541b57da48f043476b0868255a3afa2835a5c22eaea20c46e1661cdaf25",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        419532,
+        419576
+      ],
+      "raw_sha256": "c7556541b57da48f043476b0868255a3afa2835a5c22eaea20c46e1661cdaf25",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 44,
+      "source_window_id": "renderer-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808A6AC",
+        "0x0808A700"
+      ],
+      "id": "promotion-08",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        98,
+        182
+      ],
+      "packed_sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        566956,
+        567040
+      ],
+      "raw_sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 84,
+      "source_window_id": "enumerator"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808AFE0",
+        "0x0808B07C"
+      ],
+      "id": "promotion-09",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        182,
+        338
+      ],
+      "packed_sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        569312,
+        569468
+      ],
+      "raw_sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 156,
+      "source_window_id": "direct-text-consumer"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808B2C8",
+        "0x0808B2EA"
+      ],
+      "id": "promotion-10",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        338,
+        372
+      ],
+      "packed_sha256": "0648c34c9bc992d6c8c0d9250debfdfae88c796f27dd3875899ad93e8eaa95de",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        570056,
+        570090
+      ],
+      "raw_sha256": "0648c34c9bc992d6c8c0d9250debfdfae88c796f27dd3875899ad93e8eaa95de",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 34,
+      "source_window_id": "menu-selector"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808B356",
+        "0x0808B580"
+      ],
+      "id": "promotion-11",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        372,
+        926
+      ],
+      "packed_sha256": "36a6efafcdc1b5dd9ca1d33ad56d7fcaca9a8e0761b5f0dfa5f0a6c3248c7125",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        570198,
+        570752
+      ],
+      "raw_sha256": "36a6efafcdc1b5dd9ca1d33ad56d7fcaca9a8e0761b5f0dfa5f0a6c3248c7125",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 554,
+      "source_window_id": "menu-selector"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808B58C",
+        "0x0808B5C2"
+      ],
+      "id": "promotion-12",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        926,
+        980
+      ],
+      "packed_sha256": "b093b6a649644dad4ef0d375ad433e68dc9981f82fa277924b000c8075dedda5",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        570764,
+        570818
+      ],
+      "raw_sha256": "b093b6a649644dad4ef0d375ad433e68dc9981f82fa277924b000c8075dedda5",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 54,
+      "source_window_id": "lifecycle"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808B5E6",
+        "0x0808B640"
+      ],
+      "id": "promotion-13",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        980,
+        1070
+      ],
+      "packed_sha256": "b4c556b97a4b4e72c2dea55a2efdad765b35e29bf4ffec6baf61b80372045a41",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        570854,
+        570944
+      ],
+      "raw_sha256": "b4c556b97a4b4e72c2dea55a2efdad765b35e29bf4ffec6baf61b80372045a41",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 90,
+      "source_window_id": "lifecycle"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808B64E",
+        "0x0808B65A"
+      ],
+      "id": "promotion-14",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        1070,
+        1082
+      ],
+      "packed_sha256": "f563be9b645ab0cb2293978f41891498d9998a98c8ed4b9ef6934131402fc221",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        570958,
+        570970
+      ],
+      "raw_sha256": "f563be9b645ab0cb2293978f41891498d9998a98c8ed4b9ef6934131402fc221",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 12,
+      "source_window_id": "lifecycle"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0808CD5A",
+        "0x0808CDF8"
+      ],
+      "id": "promotion-15",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        1082,
+        1240
+      ],
+      "packed_sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        576858,
+        577016
+      ],
+      "raw_sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 158,
+      "source_window_id": "configured-text-consumer"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x08097C96",
+        "0x08097C98"
+      ],
+      "id": "promotion-16",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        1240,
+        1242
+      ],
+      "packed_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        621718,
+        621720
+      ],
+      "raw_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 2,
+      "source_window_id": "three-way-producer"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0809C4FC",
+        "0x0809C504"
+      ],
+      "id": "promotion-17",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        1242,
+        1250
+      ],
+      "packed_sha256": "fccc6201df4d81a3c0508a9068e996b293f0ebabd8c97a266fcbcc0879b299d6",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        640252,
+        640260
+      ],
+      "raw_sha256": "fccc6201df4d81a3c0508a9068e996b293f0ebabd8c97a266fcbcc0879b299d6",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 8,
+      "source_window_id": "copy-parser"
+    },
+    {
+      "allocatable": false,
+      "baseline_unknown_only": true,
+      "claim_kind": "consumer_code_slice",
+      "coverage_source": {
+        "accepted_live_primary_states": [
+          "unknown",
+          "rom-selector-code-windows-v1"
+        ],
+        "baseline_observation_sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+        "path": "sequel/rom-byte-coverage.json"
+      },
+      "gba_range": [
+        "0x0809C526",
+        "0x0809C528"
+      ],
+      "id": "promotion-18",
+      "instruction_only_claimed": false,
+      "packed_range": [
+        1250,
+        1252
+      ],
+      "packed_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "primary_class": "consumer_code_slice",
+      "promotion_batch": "rom-selector-code-windows-v1",
+      "range": [
+        640294,
+        640296
+      ],
+      "raw_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "runtime_reachability_claimed": false,
+      "safe_editing": false,
+      "size": 2,
+      "source_window_id": "copy-parser"
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-selector-code-windows-v1",
+  "scope": {
+    "allocatable": false,
+    "baseline_unknown_only": true,
+    "bridge_window_promotion_count": 0,
+    "claim_kind": "consumer_code_slice",
+    "existing_primary_bytes_preserved": 1502,
+    "instruction_only_claimed": false,
+    "mapper_window_promotion_count": 0,
+    "primary_class": "consumer_code_slice",
+    "promotion_batch": "rom-selector-code-windows-v1",
+    "runtime_reachability_claimed": false,
+    "safe_editing": false
+  },
+  "selector_domain": {
+    "name_slot_domain": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      56,
+      61,
+      62
+    ],
+    "output_domain": [
+      0,
+      1,
+      2
+    ],
+    "source_record_count": 46,
+    "source_record_size": 20
+  },
+  "source_window_range_denominator_sha256": "c45e828631f019ea506b0b24a0efeb16ed8508377277bc27936e8a8932fa8d43",
+  "source_windows": [
+    {
+      "gba_range": [
+        "0x0806626C",
+        "0x08066736"
+      ],
+      "id": "renderer-parser",
+      "packed_range": [
+        0,
+        1226
+      ],
+      "packed_sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            418412,
+            419638
+          ],
+          "sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.renderer_parser",
+          "rom-selector-direct-source-records-v1:consumer_evidence.parser"
+        ]
+      },
+      "range": [
+        418412,
+        419638
+      ],
+      "raw_sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+      "role": "renderer_parser",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0806626C",
+            "0x08066736"
+          ],
+          "path": "consumer_evidence.decoded_semantics.renderer_parser",
+          "range": [
+            418412,
+            419638
+          ],
+          "sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+          "size": 1226
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x0806626C",
+            "0x08066736"
+          ],
+          "path": "consumer_evidence.parser",
+          "range": [
+            418412,
+            419638
+          ],
+          "sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+          "size": 1226
+        }
+      ],
+      "size": 1226,
+      "source_kind": "decoded_semantics"
+    },
+    {
+      "gba_range": [
+        "0x08066758",
+        "0x08066790"
+      ],
+      "id": "renderer-bridge",
+      "packed_range": [
+        1226,
+        1282
+      ],
+      "packed_sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            419672,
+            419728
+          ],
+          "sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.renderer_bridge",
+          "rom-selector-direct-source-records-v1:consumer_evidence.bridge"
+        ]
+      },
+      "range": [
+        419672,
+        419728
+      ],
+      "raw_sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c",
+      "role": "renderer_bridge",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x08066758",
+            "0x08066790"
+          ],
+          "path": "consumer_evidence.decoded_semantics.renderer_bridge",
+          "range": [
+            419672,
+            419728
+          ],
+          "sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c",
+          "size": 56
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x08066758",
+            "0x08066790"
+          ],
+          "path": "consumer_evidence.bridge",
+          "range": [
+            419672,
+            419728
+          ],
+          "sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c",
+          "size": 56
+        }
+      ],
+      "size": 56,
+      "source_kind": "decoded_semantics"
+    },
+    {
+      "gba_range": [
+        "0x0808A6AC",
+        "0x0808A700"
+      ],
+      "id": "enumerator",
+      "packed_range": [
+        1282,
+        1366
+      ],
+      "packed_sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            566956,
+            567040
+          ],
+          "sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.direct_producer.enumerator",
+          "rom-selector-direct-source-records-v1:producer_evidence.enumerator"
+        ]
+      },
+      "range": [
+        566956,
+        567040
+      ],
+      "raw_sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+      "role": "enumerator",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808A6AC",
+            "0x0808A700"
+          ],
+          "path": "consumer_evidence.direct_producer.enumerator",
+          "range": [
+            566956,
+            567040
+          ],
+          "sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+          "size": 84
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x0808A6AC",
+            "0x0808A700"
+          ],
+          "path": "producer_evidence.enumerator",
+          "range": [
+            566956,
+            567040
+          ],
+          "sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+          "size": 84
+        }
+      ],
+      "size": 84,
+      "source_kind": "direct_producer"
+    },
+    {
+      "gba_range": [
+        "0x0808AFE0",
+        "0x0808B07C"
+      ],
+      "id": "direct-text-consumer",
+      "packed_range": [
+        1366,
+        1522
+      ],
+      "packed_sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            569312,
+            569468
+          ],
+          "sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.direct_text_consumer",
+          "rom-selector-direct-source-records-v1:consumer_evidence.direct_consumer"
+        ]
+      },
+      "range": [
+        569312,
+        569468
+      ],
+      "raw_sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+      "role": "direct_text_consumer",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808AFE0",
+            "0x0808B07C"
+          ],
+          "path": "consumer_evidence.decoded_semantics.direct_text_consumer",
+          "range": [
+            569312,
+            569468
+          ],
+          "sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+          "size": 156
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x0808AFE0",
+            "0x0808B07C"
+          ],
+          "path": "consumer_evidence.direct_consumer",
+          "range": [
+            569312,
+            569468
+          ],
+          "sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+          "size": 156
+        }
+      ],
+      "size": 156,
+      "source_kind": "decoded_semantics"
+    },
+    {
+      "gba_range": [
+        "0x0808B2C8",
+        "0x0808B580"
+      ],
+      "id": "menu-selector",
+      "packed_range": [
+        1522,
+        2218
+      ],
+      "packed_sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            570056,
+            570752
+          ],
+          "sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.direct_producer.menu_selector",
+          "rom-selector-direct-source-records-v1:producer_evidence.menu"
+        ]
+      },
+      "range": [
+        570056,
+        570752
+      ],
+      "raw_sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e",
+      "role": "menu_selector",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808B2C8",
+            "0x0808B580"
+          ],
+          "path": "consumer_evidence.direct_producer.menu_selector",
+          "range": [
+            570056,
+            570752
+          ],
+          "sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e",
+          "size": 696
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x0808B2C8",
+            "0x0808B580"
+          ],
+          "path": "producer_evidence.menu",
+          "range": [
+            570056,
+            570752
+          ],
+          "sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e",
+          "size": 696
+        }
+      ],
+      "size": 696,
+      "source_kind": "direct_producer"
+    },
+    {
+      "gba_range": [
+        "0x0808B58C",
+        "0x0808B65A"
+      ],
+      "id": "lifecycle",
+      "packed_range": [
+        2218,
+        2424
+      ],
+      "packed_sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            570764,
+            570970
+          ],
+          "sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.direct_producer.lifecycle",
+          "rom-selector-direct-source-records-v1:producer_evidence.lifecycle"
+        ]
+      },
+      "range": [
+        570764,
+        570970
+      ],
+      "raw_sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637",
+      "role": "lifecycle",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808B58C",
+            "0x0808B65A"
+          ],
+          "path": "consumer_evidence.direct_producer.lifecycle",
+          "range": [
+            570764,
+            570970
+          ],
+          "sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637",
+          "size": 206
+        },
+        {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "gba_range": [
+            "0x0808B58C",
+            "0x0808B65A"
+          ],
+          "path": "producer_evidence.lifecycle",
+          "range": [
+            570764,
+            570970
+          ],
+          "sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637",
+          "size": 206
+        }
+      ],
+      "size": 206,
+      "source_kind": "direct_producer"
+    },
+    {
+      "gba_range": [
+        "0x0808CC80",
+        "0x0808CCB4"
+      ],
+      "id": "three-way-mapper",
+      "packed_range": [
+        2424,
+        2476
+      ],
+      "packed_sha256": "b496c1d67e0c22493935c1e458ca8da74e6f692543b9a879add659b9be967f3f",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            576640,
+            576692
+          ],
+          "sha256": "b496c1d67e0c22493935c1e458ca8da74e6f692543b9a879add659b9be967f3f"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.three_way_selector.mapper"
+        ]
+      },
+      "range": [
+        576640,
+        576692
+      ],
+      "raw_sha256": "b496c1d67e0c22493935c1e458ca8da74e6f692543b9a879add659b9be967f3f",
+      "role": "mapper",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808CC80",
+            "0x0808CCB4"
+          ],
+          "path": "consumer_evidence.decoded_semantics.three_way_selector.mapper",
+          "range": [
+            576640,
+            576692
+          ],
+          "sha256": "b496c1d67e0c22493935c1e458ca8da74e6f692543b9a879add659b9be967f3f",
+          "size": 52
+        }
+      ],
+      "size": 52,
+      "source_kind": "three_way_selector"
+    },
+    {
+      "gba_range": [
+        "0x0808CD5A",
+        "0x0808CDF8"
+      ],
+      "id": "configured-text-consumer",
+      "packed_range": [
+        2476,
+        2634
+      ],
+      "packed_sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            576858,
+            577016
+          ],
+          "sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.configured_text_consumer"
+        ]
+      },
+      "range": [
+        576858,
+        577016
+      ],
+      "raw_sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a",
+      "role": "configured_text_consumer",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0808CD5A",
+            "0x0808CDF8"
+          ],
+          "path": "consumer_evidence.decoded_semantics.configured_text_consumer",
+          "range": [
+            576858,
+            577016
+          ],
+          "sha256": "f36813ab1237d74d65213b8ee0f696f9506f5cd85c4ab4691cddd6fd5d9da73a",
+          "size": 158
+        }
+      ],
+      "size": 158,
+      "source_kind": "decoded_semantics"
+    },
+    {
+      "gba_range": [
+        "0x08097C6C",
+        "0x08097C98"
+      ],
+      "id": "three-way-producer",
+      "packed_range": [
+        2634,
+        2678
+      ],
+      "packed_sha256": "7ee4104e63d0210a67f6fba866585df11a5f8018e3660d5f378d7958ac6ec57d",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            621676,
+            621720
+          ],
+          "sha256": "7ee4104e63d0210a67f6fba866585df11a5f8018e3660d5f378d7958ac6ec57d"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.three_way_selector.producer"
+        ]
+      },
+      "range": [
+        621676,
+        621720
+      ],
+      "raw_sha256": "7ee4104e63d0210a67f6fba866585df11a5f8018e3660d5f378d7958ac6ec57d",
+      "role": "producer",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x08097C6C",
+            "0x08097C98"
+          ],
+          "path": "consumer_evidence.decoded_semantics.three_way_selector.producer",
+          "range": [
+            621676,
+            621720
+          ],
+          "sha256": "7ee4104e63d0210a67f6fba866585df11a5f8018e3660d5f378d7958ac6ec57d",
+          "size": 44
+        }
+      ],
+      "size": 44,
+      "source_kind": "three_way_selector"
+    },
+    {
+      "gba_range": [
+        "0x0809C4DC",
+        "0x0809C528"
+      ],
+      "id": "copy-parser",
+      "packed_range": [
+        2678,
+        2754
+      ],
+      "packed_sha256": "e6fec731464677978f23752f6d0e920ba2ad91f2ff09baf18d0f65383d6508c5",
+      "provenance": {
+        "rom": {
+          "path": "rom/base.gba",
+          "range": [
+            640220,
+            640296
+          ],
+          "sha256": "e6fec731464677978f23752f6d0e920ba2ad91f2ff09baf18d0f65383d6508c5"
+        },
+        "upstream_selector_paths": [
+          "rom-selector-text-bindings-v1:consumer_evidence.decoded_semantics.copy_parser"
+        ]
+      },
+      "range": [
+        640220,
+        640296
+      ],
+      "raw_sha256": "e6fec731464677978f23752f6d0e920ba2ad91f2ff09baf18d0f65383d6508c5",
+      "role": "copy_parser",
+      "selector_evidence": [
+        {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "gba_range": [
+            "0x0809C4DC",
+            "0x0809C528"
+          ],
+          "path": "consumer_evidence.decoded_semantics.copy_parser",
+          "range": [
+            640220,
+            640296
+          ],
+          "sha256": "e6fec731464677978f23752f6d0e920ba2ad91f2ff09baf18d0f65383d6508c5",
+          "size": 76
+        }
+      ],
+      "size": 76,
+      "source_kind": "decoded_semantics"
+    }
+  ],
+  "summary": {
+    "bridge_promotion_count": 0,
+    "full_bundle_sha256": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+    "mapper_promotion_count": 0,
+    "primary_overlap_bytes": 1502,
+    "promotion_bundle_sha256": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+    "promotion_bytes": 1252,
+    "promotion_range_count": 19,
+    "promotion_range_denominator_sha256": "1a1e50479424dbd441bc81adeca3c7d9075dc1a8ca13869e94693a71e702563e",
+    "source_window_bytes": 2754,
+    "source_window_count": 10,
+    "source_window_range_denominator_sha256": "c45e828631f019ea506b0b24a0efeb16ed8508377277bc27936e8a8932fa8d43"
+  },
+  "upstream": {
+    "artifacts": {
+      "rom-selector-direct-source-records-v1": {
+        "bundle": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/rom-selector-direct-source-records.bin",
+          "sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56"
+        },
+        "manifest": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/manifest.json",
+          "sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789"
+        },
+        "payload": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/rom-selector-direct-source-records.json",
+          "sha256": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_selector_direct_source_records.py",
+          "sha256": "510835b5d104f0009df09e3c8200beaefcb4f01836c40db7d3b1c11b475052d1"
+        },
+        "verifier_report": {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "bundle_sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+          "errors": [],
+          "record_bytes": 920,
+          "record_count": 46,
+          "record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+          "schema": "rom-selector-direct-source-records-verification-v1",
+          "verified": true
+        }
+      },
+      "rom-selector-text-bindings-v1": {
+        "bundle": {
+          "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bytes.bin",
+          "sha256": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869"
+        },
+        "manifest": {
+          "path": "artifacts/rom-selector-text-bindings-v1/manifest.json",
+          "sha256": "05cd987a60990ca6b2d3ee187eae963fd6ac8728ef9b42b92d6b37b5dc4bc031"
+        },
+        "payload": {
+          "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bindings.json",
+          "sha256": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_selector_text_bindings.py",
+          "sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+        },
+        "verifier_report": {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "errors": [],
+          "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "schema": "rom-selector-text-bindings-verification-v1",
+          "summary": {
+            "classified_bytes": 816,
+            "classified_range_count": 86,
+            "config_bytes": 164,
+            "config_list_count": 3,
+            "config_pointer_bytes": 12,
+            "config_pointer_slot_count": 3,
+            "config_record_count": 38,
+            "config_terminator_count": 3,
+            "configured_physical_slot_count": 55,
+            "configured_referenced_slot_count": 38,
+            "configured_text_consumed_bytes": 316,
+            "configured_text_unclassified_suffix_bytes": 368,
+            "configured_unreferenced_slot_bytes": 306,
+            "direct_source_record_bytes": 920,
+            "direct_source_record_count": 46,
+            "direct_text_candidate_slot_count": 46,
+            "direct_text_consumed_bytes": 324,
+            "direct_text_unclassified_suffix_bytes": 550,
+            "packed_bytes": 816,
+            "parse_failure_count": 0,
+            "range_overlap_bytes": 0
+          },
+          "verified": true
+        }
+      }
+    }
+  }
+}

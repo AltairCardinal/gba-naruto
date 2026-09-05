@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 84712,
+  "peak_tree_rss_mib": 130.48828125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_coverage_evidence_selector_repairs.SelectorRepairCanonicalBindingTests tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketCanonicalTests tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketProofSpecTests -v > build/experiments/active/evidence-selector-repair/fast-audit-20260905/adopted-binding-tests.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T08:38:09.194385Z",
+  "finished_at": "2026-09-05T08:38:11.286062Z"
+}

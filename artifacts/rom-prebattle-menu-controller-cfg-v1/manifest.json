@@ -1,0 +1,59 @@
+{
+  "artifact_portability": "content_verified_independent_of_copy_path",
+  "artifact_schema": "rom-prebattle-menu-controller-cfg-v1",
+  "artifact_status": "accepted",
+  "canonical_destination": "artifacts/rom-prebattle-menu-controller-cfg-v1",
+  "files": {
+    "rom-prebattle-menu-controller-cfg.json": {
+      "sha256": "ed05a078db7d94e0ca27f53593ec504b2152bc63c53c73bbf01e045eda03ae13",
+      "size": 18044
+    }
+  },
+  "implementation": {
+    "contract": {
+      "path": "tools/rom_prebattle_menu_controller_cfg_contract.py",
+      "sha256": "bc6849d7b2efde6179e94e740d449a45c55eb15aa4697dbd2b859e81ceb93338"
+    },
+    "exporter": {
+      "path": "tools/export_rom_prebattle_menu_controller_cfg.py",
+      "sha256": "72eb00da55da23e0cc23e2dac789a80d01605e74ae3517c9428500ba3b6b3d5c"
+    },
+    "test_exporter": {
+      "path": "tests/test_export_rom_prebattle_menu_controller_cfg.py",
+      "sha256": "3ea9dab306967e2726126e8f67443096f3c43923dca3a00e762ce07aebb1305f"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_prebattle_menu_controller_cfg.py",
+      "sha256": "387c1b00a1c38b424e6f30d567374329493c1d3309c32a29fd905b77a65b3d2f"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_prebattle_menu_controller_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-prebattle-menu-controller-cfg-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "frontier_count": 7,
+    "instruction_count": 786,
+    "promotion_bytes": 1920
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_prebattle_menu_controller_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-prebattle-menu-controller-cfg-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe",
+    "exit_code": 0
+  }
+}

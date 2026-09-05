@@ -1,0 +1,29 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v7",
+  "dispatcher_summary": {
+    "count": 2,
+    "entry_count": 45,
+    "unique_target_count": 21
+  },
+  "extension_summary": {
+    "decoded_basic_block_count": 38,
+    "decoded_instruction_count": 155,
+    "frontier_count": 1,
+    "frontier_reasons": {
+      "indirect_pc_target": 1
+    },
+    "reachable_instruction_bytes": 332
+  },
+  "files": {
+    "rom-cfg-proven-roots-v7.json": {
+      "sha256": "184e9b84df829fb1ad41f272aabe931c1a1f86111eebd60629ad2d2a23d89a06",
+      "size": 42393
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root_count": 8
+}

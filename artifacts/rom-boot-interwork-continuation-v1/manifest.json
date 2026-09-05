@@ -1,0 +1,295 @@
+{
+  "artifact_schema": "rom-boot-interwork-continuation-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "archive_sha256": "7be5ee2d603ac73d77d39bd1911acd5fda4ab1c0ff07d8583e411fcf882645eb",
+    "artifact": "artifacts/rom-boot-interwork-continuation-precoverage-v1",
+    "classified_bytes": 6155318,
+    "manifest_sha256": "1274d157a6a61c61d1e9b8709f31d97355174118574310d667a5c8f906118bb5",
+    "raw_sha256": "984eb8ed8ef72691e1b580b00465d24e1762bb5c0604c35fe76db40153fc42e0",
+    "unknown_bytes": 136138
+  },
+  "coverage_denominator": {
+    "archive_sha256": "7be5ee2d603ac73d77d39bd1911acd5fda4ab1c0ff07d8583e411fcf882645eb",
+    "archive_size": 1765648,
+    "artifact": "artifacts/rom-boot-interwork-continuation-precoverage-v1",
+    "claim_count": 16104,
+    "classified_bytes": 6155318,
+    "manifest_sha256": "1274d157a6a61c61d1e9b8709f31d97355174118574310d667a5c8f906118bb5",
+    "raw_sha256": "984eb8ed8ef72691e1b580b00465d24e1762bb5c0604c35fe76db40153fc42e0",
+    "raw_size": 29741790,
+    "schema": "rom-byte-coverage-v1",
+    "segment_count": 17533,
+    "unknown_bytes": 136138
+  },
+  "current_unknown_owner": {
+    "primary_claim_ids": [],
+    "primary_class": "unknown",
+    "range": [
+      397450,
+      397544
+    ],
+    "secondary_claim_ids": []
+  },
+  "decoder": {
+    "architecture": "ARM7TDMI / ARMv4T",
+    "backend": "vendored-capstone",
+    "files": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f"
+    },
+    "version": "5.0.7"
+  },
+  "files": {
+    "rom-boot-interwork-continuation.json": {
+      "sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+      "size": 105718
+    }
+  },
+  "implementation": {
+    "binding": "contract-exporter-verifier-tests-hash-bound",
+    "paths": {
+      "contract": "tools/rom_boot_interwork_continuation_contract.py",
+      "exporter": "tools/export_rom_boot_interwork_continuation.py",
+      "test_exporter": "tests/test_export_rom_boot_interwork_continuation.py",
+      "test_verifier": "tests/test_verify_rom_boot_interwork_continuation.py",
+      "verifier": "tools/verify_rom_boot_interwork_continuation.py"
+    },
+    "sha256": {
+      "contract": "7fe7fbf3fbb3ea65a68b172b684d91434acea9eafb007047d05c147efbfe1295",
+      "exporter": "4ff7f4d0451ac65bd5ef78cc8940beca7e59989c178629463cffb8dd3628d631",
+      "test_exporter": "001e77a7a8ba3cc88f464e78e19692b7761794d49e102990b2655d256b1f4205",
+      "test_verifier": "300ae96f558b9d00c7c6e7dd4978bc958c8a54be61af5be2f2fa6343b5cba50f",
+      "verifier": "8da8303e47e8666a9883fc411fd274ab1d8bf3651da95a4530dabd152bdcec58"
+    }
+  },
+  "limitations": [
+    "This packet proves a static LR continuation after the fixed Thumb BL; it does not prove natural runtime reachability.",
+    "The existing ARM interwork artifact is independently re-bound and raw-rebuilt only as the callee closure; no reset-to-root path is claimed.",
+    "Only the exact current-unknown continuation code and its five consumed PC-relative literal words are classified.",
+    "Outbound calls and the loop back to the known caller prefix remain opaque edges; their target semantics are not claimed.",
+    "No business semantics, holes, padding, free space, edit safety, relocation safety, or physical-GBA behavior is claimed."
+  ],
+  "official_boot_interwork_artifact": {
+    "artifact_dir": "artifacts/rom-boot-interwork-v1",
+    "bound_root": {
+      "entry_sha256": "8a04c2e346e7375c2cf164f2b0e91ba8c325ffdd38c50e62ec922b266aa6c4dd",
+      "file_offset": 588,
+      "frontier_count": 0,
+      "gba_address": "0x0800024C",
+      "instruction_bytes": 368,
+      "instruction_count": 92,
+      "return_offsets": [
+        932,
+        952
+      ]
+    },
+    "exporter_path": "tools/export_rom_boot_interwork.py",
+    "exporter_sha256": "e9b87cba69eba1307403300d501d660c48ebb99356dd26cccdd1b2f962eadf41",
+    "manifest_path": "artifacts/rom-boot-interwork-v1/manifest.json",
+    "manifest_sha256": "f2673837955194f35daab4f9fb7c0b2fe2dd5967231fcd6d982d0cacb9f749be",
+    "payload_path": "artifacts/rom-boot-interwork-v1/rom-boot-interwork.json",
+    "payload_sha256": "2f78132647235ca1c9fd155b950ff4128e4b01ca10d0fa0ae0fcfa4fdd37e30d",
+    "test_path": "tests/test_export_rom_boot_interwork.py",
+    "test_sha256": "7d98ef28788ef6d5a44ba0af2b36a7e1834db0be213c6c1138a4d06d5b829d50",
+    "verifier_path": "tools/verify_rom_boot_interwork.py",
+    "verifier_sha256": "66d34dc56f837e09c22fcebdd58e2e67b132c133ea7402e8d50f7e187d54984b"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_boot_interwork_continuation.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-boot-interwork-continuation-v1"
+    ]
+  },
+  "promotion": {
+    "baseline_unknown_only": true,
+    "claim_kind": "boot_interwork_continuation_current_unknown_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-code-06108a-0610d4",
+        "range": [
+          397450,
+          397524
+        ],
+        "semantic_class": "armv4t_boot_interwork_continuation_code",
+        "sha256": "dfda6e9d1919d3a5b14515a8c3e0abe5415b105a13651aba7652cfe003fc215a",
+        "size": 74
+      },
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-literal-01-0610d4",
+        "range": [
+          397524,
+          397528
+        ],
+        "semantic_class": "thumb_pc_relative_literal_word",
+        "sha256": "0251b6e9b20c7bc62dd232bff726da0a5cb579efed896f4fec989a5dd36052b4",
+        "size": 4
+      },
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-literal-02-0610d8",
+        "range": [
+          397528,
+          397532
+        ],
+        "semantic_class": "thumb_pc_relative_literal_word",
+        "sha256": "40873ace9cb569be2fbeaad5ec11494f5dada1d44cb4f444e5a2396f7cda3459",
+        "size": 4
+      },
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-literal-03-0610dc",
+        "range": [
+          397532,
+          397536
+        ],
+        "semantic_class": "thumb_pc_relative_literal_word",
+        "sha256": "bddc2e22f5a03066dedb6af55f4d7695528d719cea2a8605fccbaf5e07c725a9",
+        "size": 4
+      },
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-literal-04-0610e0",
+        "range": [
+          397536,
+          397540
+        ],
+        "semantic_class": "thumb_pc_relative_literal_word",
+        "sha256": "fd187a5dabda08fce9e479f82f9a6a8f7e85cb56928cc497337c14a1790209a5",
+        "size": 4
+      },
+      {
+        "baseline_unknown_only": true,
+        "id": "continuation-literal-05-0610e4",
+        "range": [
+          397540,
+          397544
+        ],
+        "semantic_class": "thumb_pc_relative_literal_word",
+        "sha256": "79d35cfea7f92d77565cb173e60b8998540d75b1cd84637619e362dee96678b6",
+        "size": 4
+      }
+    ],
+    "code_bytes": 74,
+    "code_ranges": [
+      [
+        397450,
+        397524
+      ]
+    ],
+    "code_sha256": "dfda6e9d1919d3a5b14515a8c3e0abe5415b105a13651aba7652cfe003fc215a",
+    "literal_bytes": 20,
+    "literal_packed_sha256": "92b2d4d677e8dab743857d1a0142212b216d0fc502ee2641c3f126c3636cb290",
+    "literal_ranges": [
+      [
+        397524,
+        397528
+      ],
+      [
+        397528,
+        397532
+      ],
+      [
+        397532,
+        397536
+      ],
+      [
+        397536,
+        397540
+      ],
+      [
+        397540,
+        397544
+      ]
+    ],
+    "primary_class": "armv4t_boot_interwork_continuation",
+    "promotion_batch": "rom-boot-interwork-continuation-v1",
+    "promotion_bytes": 94,
+    "target_range": [
+      397450,
+      397544
+    ],
+    "union_packed_sha256": "837d10f9c983e6f0530ef9c9eb1afda32dc5fb1b2ec35e5da3fd6dee38a666e0",
+    "union_range_sha256": "29b72618b1e2c07b84a67d8e00c6e239e75562f4daa06b6c0e1fca21eeb16811",
+    "union_ranges": [
+      [
+        397450,
+        397544
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-boot-interwork-continuation-v1-artifact-manifest-v1",
+  "scope": {
+    "business_semantics_proven": false,
+    "callee_arm_closure_rebuilt_from_raw": true,
+    "callee_targets_semantics_proven": false,
+    "current_unknown_owner_verified": true,
+    "global_code_denominator_complete": false,
+    "holes_padding_free_or_edit_safe": false,
+    "natural_runtime_reachability_complete": false,
+    "physical_gba_verified": false,
+    "reset_to_root_path_complete": false,
+    "static_call_continuation_root_proven": true,
+    "thumb_continuation_exact_decoder": true,
+    "unique_direct_bl_producer_rebuilt": true
+  },
+  "summary": {
+    "callee_arm_block_count": 8,
+    "callee_arm_edge_count": 10,
+    "callee_arm_frontier_count": 0,
+    "callee_arm_instruction_bytes": 368,
+    "callee_arm_instruction_count": 92,
+    "callee_arm_return_count": 2,
+    "continuation_block_count": 11,
+    "continuation_code_bytes": 74,
+    "continuation_frontier_count": 0,
+    "continuation_instruction_count": 29,
+    "coverage_baseline_unknown_bytes": 136138,
+    "literal_binding_count": 5,
+    "literal_bytes": 20,
+    "outbound_edge_count": 9,
+    "promotion_bytes": 94
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_boot_interwork_continuation.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-boot-interwork-continuation-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "callee_frontier_count": 0,
+      "callee_return_offsets": [
+        932,
+        952
+      ],
+      "errors": [],
+      "literal_binding_count": 5,
+      "promotion_bytes": 94,
+      "schema": "rom-boot-interwork-continuation-verification-v1",
+      "verified": true
+    },
+    "schema": "rom-boot-interwork-continuation-verification-v1",
+    "verifier_path": "tools/verify_rom_boot_interwork_continuation.py"
+  }
+}

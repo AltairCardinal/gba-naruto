@@ -1,0 +1,1251 @@
+{
+  "status": "candidate_only_requires_full_formal_audit",
+  "before_coverage_sha256": "f55cebff32db536bf9847dc7dc9b147a0c8868ee37ddf4cd66187b687eba8b96",
+  "after_coverage_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "before_proof_sha256": "fad9c2b1c6cc9af8385826e1a41a2e72209ae151e8a4e4ffa6de934a7dd38a5a",
+  "after_proof_sha256": "c2862ea520a39432c94fa2634f2ae5650077738c9474aa96ca15d387a4857cbb",
+  "auditor_sha256": "e4c1f07efd2673d9229da8a7532d7874e615cbf1d7705ccd32171558df028509",
+  "selector_delta": [
+    {
+      "id": "cfg-proven-roots-v16-code-000-061150",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        397648,
+        397718
+      ],
+      "old_selector": "/packet_records/0",
+      "new_selector": "/promotion/ranges/0"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-01-061198",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397720,
+        397724
+      ],
+      "old_selector": "/packet_records/0",
+      "new_selector": "/promotion/claims/0"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-02-06119c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397724,
+        397728
+      ],
+      "old_selector": "/packet_records/1",
+      "new_selector": "/promotion/claims/1"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-03-0611a0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397728,
+        397732
+      ],
+      "old_selector": "/packet_records/2",
+      "new_selector": "/promotion/claims/2"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-04-0611a4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397732,
+        397736
+      ],
+      "old_selector": "/packet_records/3",
+      "new_selector": "/promotion/claims/3"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-05-0611a8",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397736,
+        397740
+      ],
+      "old_selector": "/packet_records/4",
+      "new_selector": "/promotion/claims/4"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-06-0611ac",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397740,
+        397744
+      ],
+      "old_selector": "/packet_records/5",
+      "new_selector": "/promotion/claims/5"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-001-0611b0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        397744,
+        397792
+      ],
+      "old_selector": "/packet_records/1",
+      "new_selector": "/promotion/ranges/1"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-07-0611e0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397792,
+        397796
+      ],
+      "old_selector": "/packet_records/6",
+      "new_selector": "/promotion/claims/6"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-08-0611e4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397796,
+        397800
+      ],
+      "old_selector": "/packet_records/7",
+      "new_selector": "/promotion/claims/7"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-09-0611e8",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397800,
+        397804
+      ],
+      "old_selector": "/packet_records/8",
+      "new_selector": "/promotion/claims/8"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-10-0611ec",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397804,
+        397808
+      ],
+      "old_selector": "/packet_records/9",
+      "new_selector": "/promotion/claims/9"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-11-0611f0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397808,
+        397812
+      ],
+      "old_selector": "/packet_records/10",
+      "new_selector": "/promotion/claims/10"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-002-06128c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        397964,
+        397966
+      ],
+      "old_selector": "/packet_records/2",
+      "new_selector": "/promotion/ranges/2"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-003-061290",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        397968,
+        397996
+      ],
+      "old_selector": "/packet_records/3",
+      "new_selector": "/promotion/ranges/3"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-12-0612ac",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        397996,
+        398000
+      ],
+      "old_selector": "/packet_records/11",
+      "new_selector": "/promotion/claims/11"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-13-0612b0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398000,
+        398004
+      ],
+      "old_selector": "/packet_records/12",
+      "new_selector": "/promotion/claims/12"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-14-0612b4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398004,
+        398008
+      ],
+      "old_selector": "/packet_records/13",
+      "new_selector": "/promotion/claims/13"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-15-0612b8",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398008,
+        398012
+      ],
+      "old_selector": "/packet_records/14",
+      "new_selector": "/promotion/claims/14"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-004-061538",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        398648,
+        398660
+      ],
+      "old_selector": "/packet_records/4",
+      "new_selector": "/promotion/ranges/4"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-16-061544",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398660,
+        398664
+      ],
+      "old_selector": "/packet_records/15",
+      "new_selector": "/promotion/claims/15"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-17-061548",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398664,
+        398668
+      ],
+      "old_selector": "/packet_records/16",
+      "new_selector": "/promotion/claims/16"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-005-06154c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        398668,
+        398688
+      ],
+      "old_selector": "/packet_records/5",
+      "new_selector": "/promotion/ranges/5"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-18-061560",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398688,
+        398692
+      ],
+      "old_selector": "/packet_records/17",
+      "new_selector": "/promotion/claims/17"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-19-061564",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398692,
+        398696
+      ],
+      "old_selector": "/packet_records/18",
+      "new_selector": "/promotion/claims/18"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-20-061568",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        398696,
+        398700
+      ],
+      "old_selector": "/packet_records/19",
+      "new_selector": "/promotion/claims/19"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-006-06188c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        399500,
+        399546
+      ],
+      "old_selector": "/packet_records/6",
+      "new_selector": "/promotion/ranges/6"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-21-0618bc",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        399548,
+        399552
+      ],
+      "old_selector": "/packet_records/20",
+      "new_selector": "/promotion/claims/20"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-007-061f24",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        401188,
+        401224
+      ],
+      "old_selector": "/packet_records/7",
+      "new_selector": "/promotion/ranges/7"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-22-061f48",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        401224,
+        401228
+      ],
+      "old_selector": "/packet_records/21",
+      "new_selector": "/promotion/claims/21"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-23-061f4c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        401228,
+        401232
+      ],
+      "old_selector": "/packet_records/22",
+      "new_selector": "/promotion/claims/22"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-008-062330",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        402224,
+        402310
+      ],
+      "old_selector": "/packet_records/8",
+      "new_selector": "/promotion/ranges/8"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-24-062388",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402312,
+        402316
+      ],
+      "old_selector": "/packet_records/23",
+      "new_selector": "/promotion/claims/23"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-25-06238c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402316,
+        402320
+      ],
+      "old_selector": "/packet_records/24",
+      "new_selector": "/promotion/claims/24"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-26-062390",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402320,
+        402324
+      ],
+      "old_selector": "/packet_records/25",
+      "new_selector": "/promotion/claims/25"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-27-062394",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402324,
+        402328
+      ],
+      "old_selector": "/packet_records/26",
+      "new_selector": "/promotion/claims/26"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-009-062398",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        402328,
+        402362
+      ],
+      "old_selector": "/packet_records/9",
+      "new_selector": "/promotion/ranges/9"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-28-0623bc",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402364,
+        402368
+      ],
+      "old_selector": "/packet_records/27",
+      "new_selector": "/promotion/claims/27"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-29-0623c0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        402368,
+        402372
+      ],
+      "old_selector": "/packet_records/28",
+      "new_selector": "/promotion/claims/28"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-010-068d20",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        429344,
+        429428
+      ],
+      "old_selector": "/packet_records/10",
+      "new_selector": "/promotion/ranges/10"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-30-068d74",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        429428,
+        429432
+      ],
+      "old_selector": "/packet_records/29",
+      "new_selector": "/promotion/claims/29"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-31-068d78",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        429432,
+        429436
+      ],
+      "old_selector": "/packet_records/30",
+      "new_selector": "/promotion/claims/30"
+    },
+    {
+      "id": "event-handler-cfg-000-07e070",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        516208,
+        516542
+      ],
+      "old_selector": "/packet_records/0",
+      "new_selector": "/promotion/semantic_ranges/0"
+    },
+    {
+      "id": "event-handler-cfg-001-07e1c0",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        516544,
+        516552
+      ],
+      "old_selector": "/packet_records/1",
+      "new_selector": "/promotion/semantic_ranges/1"
+    },
+    {
+      "id": "event-handler-cfg-002-07e1c8",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        516552,
+        516920
+      ],
+      "old_selector": "/packet_records/2",
+      "new_selector": "/promotion/semantic_ranges/2"
+    },
+    {
+      "id": "event-handler-cfg-003-07e338",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        516920,
+        516928
+      ],
+      "old_selector": "/packet_records/3",
+      "new_selector": "/promotion/semantic_ranges/3"
+    },
+    {
+      "id": "event-handler-cfg-004-07e340",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        516928,
+        517306
+      ],
+      "old_selector": "/packet_records/4",
+      "new_selector": "/promotion/semantic_ranges/4"
+    },
+    {
+      "id": "event-handler-cfg-005-07e4bc",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        517308,
+        517316
+      ],
+      "old_selector": "/packet_records/5",
+      "new_selector": "/promotion/semantic_ranges/5"
+    },
+    {
+      "id": "event-handler-cfg-006-07e4c4",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        517316,
+        517694
+      ],
+      "old_selector": "/packet_records/6",
+      "new_selector": "/promotion/semantic_ranges/6"
+    },
+    {
+      "id": "event-handler-cfg-007-07e640",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        517696,
+        517704
+      ],
+      "old_selector": "/packet_records/7",
+      "new_selector": "/promotion/semantic_ranges/7"
+    },
+    {
+      "id": "event-handler-cfg-008-07e648",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        517704,
+        517994
+      ],
+      "old_selector": "/packet_records/8",
+      "new_selector": "/promotion/semantic_ranges/8"
+    },
+    {
+      "id": "event-handler-cfg-009-07e76c",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        517996,
+        518004
+      ],
+      "old_selector": "/packet_records/9",
+      "new_selector": "/promotion/semantic_ranges/9"
+    },
+    {
+      "id": "event-handler-cfg-010-07e774",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518004,
+        518198
+      ],
+      "old_selector": "/packet_records/10",
+      "new_selector": "/promotion/semantic_ranges/10"
+    },
+    {
+      "id": "event-handler-cfg-011-07e838",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518200,
+        518216
+      ],
+      "old_selector": "/packet_records/11",
+      "new_selector": "/promotion/semantic_ranges/11"
+    },
+    {
+      "id": "event-handler-cfg-012-07e848",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518216,
+        518250
+      ],
+      "old_selector": "/packet_records/12",
+      "new_selector": "/promotion/semantic_ranges/12"
+    },
+    {
+      "id": "event-handler-cfg-013-07e86c",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518252,
+        518304
+      ],
+      "old_selector": "/packet_records/13",
+      "new_selector": "/promotion/semantic_ranges/13"
+    },
+    {
+      "id": "event-handler-cfg-014-07e8a0",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518304,
+        518312
+      ],
+      "old_selector": "/packet_records/14",
+      "new_selector": "/promotion/semantic_ranges/14"
+    },
+    {
+      "id": "event-handler-cfg-015-07e8a8",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518312,
+        518486
+      ],
+      "old_selector": "/packet_records/15",
+      "new_selector": "/promotion/semantic_ranges/15"
+    },
+    {
+      "id": "event-handler-cfg-016-07e958",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518488,
+        518504
+      ],
+      "old_selector": "/packet_records/16",
+      "new_selector": "/promotion/semantic_ranges/16"
+    },
+    {
+      "id": "event-handler-cfg-017-07e968",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518504,
+        518612
+      ],
+      "old_selector": "/packet_records/17",
+      "new_selector": "/promotion/semantic_ranges/17"
+    },
+    {
+      "id": "event-handler-cfg-018-07e9d4",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518612,
+        518620
+      ],
+      "old_selector": "/packet_records/18",
+      "new_selector": "/promotion/semantic_ranges/18"
+    },
+    {
+      "id": "event-handler-cfg-019-07e9dc",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518620,
+        518654
+      ],
+      "old_selector": "/packet_records/19",
+      "new_selector": "/promotion/semantic_ranges/19"
+    },
+    {
+      "id": "event-handler-cfg-020-07ea00",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518656,
+        518776
+      ],
+      "old_selector": "/packet_records/20",
+      "new_selector": "/promotion/semantic_ranges/20"
+    },
+    {
+      "id": "event-handler-cfg-021-07ea78",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518776,
+        518780
+      ],
+      "old_selector": "/packet_records/21",
+      "new_selector": "/promotion/semantic_ranges/21"
+    },
+    {
+      "id": "event-handler-cfg-022-07ea7c",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518780,
+        518896
+      ],
+      "old_selector": "/packet_records/22",
+      "new_selector": "/promotion/semantic_ranges/22"
+    },
+    {
+      "id": "event-handler-cfg-023-07eaf0",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518896,
+        518904
+      ],
+      "old_selector": "/packet_records/23",
+      "new_selector": "/promotion/semantic_ranges/23"
+    },
+    {
+      "id": "event-handler-cfg-024-07eaf8",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        518904,
+        519064
+      ],
+      "old_selector": "/packet_records/24",
+      "new_selector": "/promotion/semantic_ranges/24"
+    },
+    {
+      "id": "event-handler-cfg-025-07eb98",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519064,
+        519072
+      ],
+      "old_selector": "/packet_records/25",
+      "new_selector": "/promotion/semantic_ranges/25"
+    },
+    {
+      "id": "event-handler-cfg-026-07eba0",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519072,
+        519232
+      ],
+      "old_selector": "/packet_records/26",
+      "new_selector": "/promotion/semantic_ranges/26"
+    },
+    {
+      "id": "event-handler-cfg-027-07ec40",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519232,
+        519240
+      ],
+      "old_selector": "/packet_records/27",
+      "new_selector": "/promotion/semantic_ranges/27"
+    },
+    {
+      "id": "event-handler-cfg-028-07ec48",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519240,
+        519262
+      ],
+      "old_selector": "/packet_records/28",
+      "new_selector": "/promotion/semantic_ranges/28"
+    },
+    {
+      "id": "event-handler-cfg-029-07ec60",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519264,
+        519268
+      ],
+      "old_selector": "/packet_records/29",
+      "new_selector": "/promotion/semantic_ranges/29"
+    },
+    {
+      "id": "event-handler-cfg-030-07ec64",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519268,
+        519448
+      ],
+      "old_selector": "/packet_records/30",
+      "new_selector": "/promotion/semantic_ranges/30"
+    },
+    {
+      "id": "event-handler-cfg-031-07ed18",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519448,
+        519456
+      ],
+      "old_selector": "/packet_records/31",
+      "new_selector": "/promotion/semantic_ranges/31"
+    },
+    {
+      "id": "event-handler-cfg-032-07ed20",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519456,
+        519752
+      ],
+      "old_selector": "/packet_records/32",
+      "new_selector": "/promotion/semantic_ranges/32"
+    },
+    {
+      "id": "event-handler-cfg-033-07ee48",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519752,
+        519760
+      ],
+      "old_selector": "/packet_records/33",
+      "new_selector": "/promotion/semantic_ranges/33"
+    },
+    {
+      "id": "event-handler-cfg-034-07ee50",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        519760,
+        520056
+      ],
+      "old_selector": "/packet_records/34",
+      "new_selector": "/promotion/semantic_ranges/34"
+    },
+    {
+      "id": "event-handler-cfg-035-07ef78",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        520056,
+        520064
+      ],
+      "old_selector": "/packet_records/35",
+      "new_selector": "/promotion/semantic_ranges/35"
+    },
+    {
+      "id": "event-handler-cfg-036-07ef80",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        520064,
+        520180
+      ],
+      "old_selector": "/packet_records/36",
+      "new_selector": "/promotion/semantic_ranges/36"
+    },
+    {
+      "id": "event-handler-cfg-037-07eff4",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        520180,
+        520188
+      ],
+      "old_selector": "/packet_records/37",
+      "new_selector": "/promotion/semantic_ranges/37"
+    },
+    {
+      "id": "event-handler-cfg-038-07effc",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        520188,
+        520246
+      ],
+      "old_selector": "/packet_records/38",
+      "new_selector": "/promotion/semantic_ranges/38"
+    },
+    {
+      "id": "event-handler-cfg-039-07f038",
+      "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "range": [
+        520248,
+        520290
+      ],
+      "old_selector": "/packet_records/39",
+      "new_selector": "/promotion/semantic_ranges/39"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0000-08b278",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        569976,
+        569988
+      ],
+      "old_selector": "/target/worklist/code_ranges/0",
+      "new_selector": "/target/worklist/blocks/0"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0001-08b284",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        569988,
+        570000
+      ],
+      "old_selector": "/target/worklist/code_ranges/1",
+      "new_selector": "/target/worklist/blocks/1"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0002-08b290",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        570000,
+        570008
+      ],
+      "old_selector": "/target/worklist/code_ranges/2",
+      "new_selector": "/target/worklist/blocks/2"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0003-08b298",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        570008,
+        570020
+      ],
+      "old_selector": "/target/worklist/code_ranges/3",
+      "new_selector": "/target/worklist/blocks/3"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0004-08b2a4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        570020,
+        570032
+      ],
+      "old_selector": "/target/worklist/code_ranges/4",
+      "new_selector": "/target/worklist/blocks/4"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0005-08b2b4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        570036,
+        570044
+      ],
+      "old_selector": "/target/worklist/code_ranges/5",
+      "new_selector": "/target/worklist/blocks/5"
+    },
+    {
+      "id": "cfg-proven-roots-v10-thumb-0006-08b2bc",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v10/rom-cfg-proven-roots-v10.json",
+      "range": [
+        570044,
+        570052
+      ],
+      "old_selector": "/target/worklist/code_ranges/6",
+      "new_selector": "/target/worklist/blocks/6"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-011-08bf78",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        573304,
+        573344
+      ],
+      "old_selector": "/packet_records/11",
+      "new_selector": "/promotion/ranges/11"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-32-08bfa0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573344,
+        573348
+      ],
+      "old_selector": "/packet_records/31",
+      "new_selector": "/promotion/claims/31"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-012-08bfa4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        573348,
+        573440
+      ],
+      "old_selector": "/packet_records/12",
+      "new_selector": "/promotion/ranges/12"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-33-08c000",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573440,
+        573444
+      ],
+      "old_selector": "/packet_records/32",
+      "new_selector": "/promotion/claims/32"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-34-08c004",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573444,
+        573448
+      ],
+      "old_selector": "/packet_records/33",
+      "new_selector": "/promotion/claims/33"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-35-08c008",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573448,
+        573452
+      ],
+      "old_selector": "/packet_records/34",
+      "new_selector": "/promotion/claims/34"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-36-08c00c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573452,
+        573456
+      ],
+      "old_selector": "/packet_records/35",
+      "new_selector": "/promotion/claims/35"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-37-08c010",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573456,
+        573460
+      ],
+      "old_selector": "/packet_records/36",
+      "new_selector": "/promotion/claims/36"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-38-08c014",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573460,
+        573464
+      ],
+      "old_selector": "/packet_records/37",
+      "new_selector": "/promotion/claims/37"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-39-08c018",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573464,
+        573468
+      ],
+      "old_selector": "/packet_records/38",
+      "new_selector": "/promotion/claims/38"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-40-08c01c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573468,
+        573472
+      ],
+      "old_selector": "/packet_records/39",
+      "new_selector": "/promotion/claims/39"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-41-08c020",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573472,
+        573476
+      ],
+      "old_selector": "/packet_records/40",
+      "new_selector": "/promotion/claims/40"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-42-08c024",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573476,
+        573480
+      ],
+      "old_selector": "/packet_records/41",
+      "new_selector": "/promotion/claims/41"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-43-08c028",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573480,
+        573484
+      ],
+      "old_selector": "/packet_records/42",
+      "new_selector": "/promotion/claims/42"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-44-08c02c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        573484,
+        573488
+      ],
+      "old_selector": "/packet_records/43",
+      "new_selector": "/promotion/claims/43"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-013-097110",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        618768,
+        618796
+      ],
+      "old_selector": "/packet_records/13",
+      "new_selector": "/promotion/ranges/13"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-45-09712c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        618796,
+        618800
+      ],
+      "old_selector": "/packet_records/44",
+      "new_selector": "/promotion/claims/44"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-014-0986b0",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        624304,
+        624360
+      ],
+      "old_selector": "/packet_records/14",
+      "new_selector": "/promotion/ranges/14"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-015-09aa1c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        633372,
+        633398
+      ],
+      "old_selector": "/packet_records/15",
+      "new_selector": "/promotion/ranges/15"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-46-09aa38",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        633400,
+        633404
+      ],
+      "old_selector": "/packet_records/45",
+      "new_selector": "/promotion/claims/45"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-016-09ac58",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        633944,
+        633958
+      ],
+      "old_selector": "/packet_records/16",
+      "new_selector": "/promotion/ranges/16"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-017-09ae14",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        634388,
+        634402
+      ],
+      "old_selector": "/packet_records/17",
+      "new_selector": "/promotion/ranges/17"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-47-09ae24",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        634404,
+        634408
+      ],
+      "old_selector": "/packet_records/46",
+      "new_selector": "/promotion/claims/46"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-018-09ae28",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        634408,
+        634422
+      ],
+      "old_selector": "/packet_records/18",
+      "new_selector": "/promotion/ranges/18"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-48-09ae38",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        634424,
+        634428
+      ],
+      "old_selector": "/packet_records/47",
+      "new_selector": "/promotion/claims/47"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-019-09c0f4",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        639220,
+        639240
+      ],
+      "old_selector": "/packet_records/19",
+      "new_selector": "/promotion/ranges/19"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-49-09c108",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        639240,
+        639244
+      ],
+      "old_selector": "/packet_records/48",
+      "new_selector": "/promotion/claims/48"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-50-09c10c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        639244,
+        639248
+      ],
+      "old_selector": "/packet_records/49",
+      "new_selector": "/promotion/claims/49"
+    },
+    {
+      "id": "cfg-proven-roots-v16-code-020-09c44c",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16/rom-cfg-proven-roots-v16.json",
+      "range": [
+        640076,
+        640084
+      ],
+      "old_selector": "/packet_records/20",
+      "new_selector": "/promotion/ranges/20"
+    },
+    {
+      "id": "cfg-v16-consumed-literal-51-09c454",
+      "evidence_path": "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1/rom-cfg-proven-roots-v16-consumed-literals.json",
+      "range": [
+        640084,
+        640088
+      ],
+      "old_selector": "/packet_records/50",
+      "new_selector": "/promotion/claims/50"
+    },
+    {
+      "id": "rom-sprite-component-source-v1-sprite_component_records",
+      "evidence_path": "artifacts/rom-sprite-component-source-v1/rom-sprite-component-source.json",
+      "range": [
+        1231108,
+        1233076
+      ],
+      "old_selector": "/packet_records/0",
+      "new_selector": "/classified_ranges/0"
+    },
+    {
+      "id": "rom-sprite-component-source-v1-sprite_definition_pointer_table",
+      "evidence_path": "artifacts/rom-sprite-component-source-v1/rom-sprite-component-source.json",
+      "range": [
+        1233076,
+        1233124
+      ],
+      "old_selector": "/packet_records/1",
+      "new_selector": "/classified_ranges/1"
+    },
+    {
+      "id": "rom-sprite-component-source-v1-sprite_animation_timelines",
+      "evidence_path": "artifacts/rom-sprite-component-source-v1/rom-sprite-component-source.json",
+      "range": [
+        1233124,
+        1233188
+      ],
+      "old_selector": "/packet_records/2",
+      "new_selector": "/classified_ranges/2"
+    },
+    {
+      "id": "rom-sprite-component-source-v1-sprite_animation_pointer_table",
+      "evidence_path": "artifacts/rom-sprite-component-source-v1/rom-sprite-component-source.json",
+      "range": [
+        1233188,
+        1233204
+      ],
+      "old_selector": "/packet_records/3",
+      "new_selector": "/classified_ranges/3"
+    }
+  ],
+  "selector_changes": 123,
+  "proof_identity_updates": [
+    "rom_byte_coverage:coverage",
+    "rom_byte_coverage:auditor",
+    "editor_roundtrip:project-input",
+    "clean_rebuild:project-input"
+  ],
+  "classified_bytes": 6203707,
+  "unknown_bytes": 87749,
+  "claim_count": 16891,
+  "segment_count": 18664
+}

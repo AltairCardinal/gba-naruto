@@ -1,0 +1,44 @@
+{
+  "artifact_schema": "rom-value-range-text-inventory-v1",
+  "files": {
+    "value-range-text-bytes.bin": "88f201f21194087ff7643f1822d0b89c309feff497fbef6155ff5ae6ce6bc3d0",
+    "value-range-text-inventory.json": "2095c3e719f203de4e819a5c1e2a1af95320849860fb463f65b1c8ff4fda4b42"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_value_range_text_inventory.py",
+      "sha256": "3b3f835014eb616ca6684b2672d016aabcec74c392d3ab538a9aa18136f06382"
+    },
+    "test": {
+      "path": "tests/test_export_rom_value_range_text_inventory.py",
+      "sha256": "2a1ad32d81104b14579c6dcd9410b25d5e0c605c5514e7422b96286cc315d010"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_value_range_text_inventory.py",
+      "sha256": "2ea19627a36ccd9ff8034071e7294d7f6a7594193015efb504c17f5e72b1baae"
+    }
+  },
+  "schema": "rom-value-range-text-inventory-v1-artifact-manifest-v1",
+  "scope": {
+    "all_pointer_slots_parser_bounded": true,
+    "editing_safety_proven": false,
+    "fixed_38_slot_denominator_complete": true,
+    "natural_gameplay_all_ranges_proven": false,
+    "pointer_table_already_classified_by_candidate_overlay": true,
+    "runtime_input_bounds_proven": false,
+    "unicode_decoding_complete": false,
+    "value_range_map_structure_complete": true
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_value_range_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-value-range-text-inventory-v1"
+    ],
+    "schema": "rom-value-range-text-inventory-verification-v1",
+    "verifier_sha256": "2ea19627a36ccd9ff8034071e7294d7f6a7594193015efb504c17f5e72b1baae"
+  }
+}

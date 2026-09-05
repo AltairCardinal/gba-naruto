@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "description": "Disproved legacy bank retained as a migration tombstone. The former encounter-zone rows duplicate the complete map descriptor table and do not identify an independent encounter structure.",
+  "description": "Disproved legacy physical bank retained as a migration tombstone. The former encounter-zone rows duplicate the complete map descriptor table and do not identify a separate writable ROM extent.",
   "table_offset": 5495056,
   "table_offset_hex": "0x53D910",
   "entry_count": 0,
   "entry_size": 32,
   "verification": "disproved",
-  "verification_method": "All 47 former rows are byte-for-byte the map descriptors at 0x53D910. Runtime map-resource evidence identifies +0x1C as map flags, and code at 0x0806922A consumes byte +0x1D as a flag byte; no independent encounter-zone consumer was found.",
+  "verification_method": "All 47 former rows are byte-for-byte the canonical 32-byte map descriptors at 0x53D910. Code at 0x0806921C..0x0806922A indexes that base with a 32-byte stride and consumes byte +0x1D; runtime evidence independently binds map row 41 to 0x53DE30. This disproves a separate physical encounter bank, not every possible logical interpretation of map fields.",
   "superseded_by": "sequel/content/maps/bank.json#flags",
   "do_not_write": true,
   "entry_format": {

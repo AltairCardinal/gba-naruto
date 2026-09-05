@@ -1,0 +1,593 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v16-consumed-literals-artifact-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "claim_count": 15945,
+    "classified_bytes": 6144296,
+    "path": "sequel/rom-byte-coverage.json",
+    "segment_count": 17349,
+    "sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+    "unknown_bytes": 147160
+  },
+  "coverage_projection": {
+    "baseline_unknown_bytes": 147160,
+    "conservation_ok": true,
+    "promoted_bytes": 204,
+    "remaining_unknown_bytes": 146956
+  },
+  "files": {
+    "rom-cfg-proven-roots-v16-consumed-literals.json": {
+      "sha256": "5049833533e7183c6be51db189fe6f9c72a2bd74990ca6559f11f3d5ff3acee0",
+      "size": 65851
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "93837491f428c62af1367a14ecf80b0ea1926abc644ce76b8acdcacf722102c6",
+    "paths": {
+      "exporter": "tools/export_rom_cfg_proven_roots_v16_consumed_literals.py",
+      "test_exporter": "tests/test_export_rom_cfg_proven_roots_v16_consumed_literals.py",
+      "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v16_consumed_literals.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v16_consumed_literals.py"
+    },
+    "test_exporter_sha256": "0eef3d83070ef8fe1f8455f1af4b48484c02bc694e0ca9b245a8a1038bddf762",
+    "test_verifier_sha256": "544aa1a37b008fb159b59d0d299024ed8f5ddbb34475c1bf41fb4d83f7c1b8f4",
+    "verifier_sha256": "f4f957c828b337191005a5a6c70a9fe578701ee67e468a5eed06b60096556478"
+  },
+  "literal_denominator": {
+    "binding_vector_sha256": "eed4ff6674725594a0f18c6079bc028cb342e055a8d23396447d91e933867898",
+    "bindings": 51,
+    "claim_vector_sha256": "2db26651ed32d76c6aa6a983214f50702d855093e1099c20731fee160577f931",
+    "instruction_bytes": 778,
+    "instruction_count": 369,
+    "packed_word_bytes_sha256": "66a36adcf0f96344b23811f4631e323d436233c96d8977bf318bcfc081e6d7bd",
+    "promotion_bytes": 204,
+    "range_count": 21,
+    "range_vector_sha256": "e04e17e2adc7ea800432eafa9b399e39eb0255f6aaab64fa72dbc4116fa8a0cf",
+    "target_vector_sha256": "ddd771b7e00ead9ced205124060f53d89ddde6ee9642af9dbc2523fd36676e7d",
+    "unique_target_words": 51
+  },
+  "non_claims": [
+    "No CFG traversal, root, edge, or frontier is expanded beyond frozen v16 membership.",
+    "Only the 51 exact aligned words consumed by v16 Thumb LDR-literal instructions are promoted.",
+    "Loaded values receive no pointer, table, resource, business, editing, relocation, padding, or free-space meaning.",
+    "This packet is not connected to canonical coverage or proof artifacts."
+  ],
+  "payload_schema": "rom-cfg-proven-roots-v16-consumed-literals-v1",
+  "promotion": {
+    "claim_kind": "armv4t_cfg_proven_roots_v16_consumed_literal_word_bytes",
+    "claims": [
+      {
+        "bytes_sha256": "cb9f5aa4efce70707e2b6ef3af0c7b51a38a86be25e14ec2c66f55128989acd7",
+        "id": "cfg-v16-consumed-literal-01-061198",
+        "range": [
+          397720,
+          397724
+        ]
+      },
+      {
+        "bytes_sha256": "ec059cd453eba29035fbeaf03c9b35e27ed128819bae55106b6600f04e3ee075",
+        "id": "cfg-v16-consumed-literal-02-06119c",
+        "range": [
+          397724,
+          397728
+        ]
+      },
+      {
+        "bytes_sha256": "fdbfa4c2e5f8be8e8a07d17a7ff0a0529c52e31ee7805c572ae6a719c3fb9b37",
+        "id": "cfg-v16-consumed-literal-03-0611a0",
+        "range": [
+          397728,
+          397732
+        ]
+      },
+      {
+        "bytes_sha256": "cb8a71dc0af46fe8acd79c3998e0878090e80516a09b6e04d647d9c59e21f7e1",
+        "id": "cfg-v16-consumed-literal-04-0611a4",
+        "range": [
+          397732,
+          397736
+        ]
+      },
+      {
+        "bytes_sha256": "61e2accf11cfefa8ccd4be4751fcfdad06d6a21f63269b3ec7238c569e6eb86c",
+        "id": "cfg-v16-consumed-literal-05-0611a8",
+        "range": [
+          397736,
+          397740
+        ]
+      },
+      {
+        "bytes_sha256": "c55f1a87fa9c162eb30eb04e9cfd51fe7e19575dbeb5af9c280dc3dc9d041da0",
+        "id": "cfg-v16-consumed-literal-06-0611ac",
+        "range": [
+          397740,
+          397744
+        ]
+      },
+      {
+        "bytes_sha256": "fdbfa4c2e5f8be8e8a07d17a7ff0a0529c52e31ee7805c572ae6a719c3fb9b37",
+        "id": "cfg-v16-consumed-literal-07-0611e0",
+        "range": [
+          397792,
+          397796
+        ]
+      },
+      {
+        "bytes_sha256": "cb8a71dc0af46fe8acd79c3998e0878090e80516a09b6e04d647d9c59e21f7e1",
+        "id": "cfg-v16-consumed-literal-08-0611e4",
+        "range": [
+          397796,
+          397800
+        ]
+      },
+      {
+        "bytes_sha256": "aefbfe7b0fe428754188e41f1d51120d9e7fe66881caf3cf134348ca0dd65df8",
+        "id": "cfg-v16-consumed-literal-09-0611e8",
+        "range": [
+          397800,
+          397804
+        ]
+      },
+      {
+        "bytes_sha256": "61e2accf11cfefa8ccd4be4751fcfdad06d6a21f63269b3ec7238c569e6eb86c",
+        "id": "cfg-v16-consumed-literal-10-0611ec",
+        "range": [
+          397804,
+          397808
+        ]
+      },
+      {
+        "bytes_sha256": "8e9520409d6ea1cb08f3cef0135bce486d270ea2f12e97ffe2480e1cfe6644f6",
+        "id": "cfg-v16-consumed-literal-11-0611f0",
+        "range": [
+          397808,
+          397812
+        ]
+      },
+      {
+        "bytes_sha256": "8d9614e02e5a58f00d3d25e5d9526b13cccd2ae21ebb8eff72b9d040b77bd54d",
+        "id": "cfg-v16-consumed-literal-12-0612ac",
+        "range": [
+          397996,
+          398000
+        ]
+      },
+      {
+        "bytes_sha256": "1e2b3a4b81c28decf962a414aa3fb75bfdb8ea6876adae861ee91efefd6ecc01",
+        "id": "cfg-v16-consumed-literal-13-0612b0",
+        "range": [
+          398000,
+          398004
+        ]
+      },
+      {
+        "bytes_sha256": "018a1571b50d580ecc76cc8992dbe556285fbb74c5497fccb029dccfc2e7fb60",
+        "id": "cfg-v16-consumed-literal-14-0612b4",
+        "range": [
+          398004,
+          398008
+        ]
+      },
+      {
+        "bytes_sha256": "fdbfa4c2e5f8be8e8a07d17a7ff0a0529c52e31ee7805c572ae6a719c3fb9b37",
+        "id": "cfg-v16-consumed-literal-15-0612b8",
+        "range": [
+          398008,
+          398012
+        ]
+      },
+      {
+        "bytes_sha256": "88185d128d9922e0e6bcd32b07b6c7f20f27968eab447a1d8d1cdf250f79f7d3",
+        "id": "cfg-v16-consumed-literal-16-061544",
+        "range": [
+          398660,
+          398664
+        ]
+      },
+      {
+        "bytes_sha256": "8c3a173e1c500227ffe56a85c31197465db9873c370b63cb7b603ba0a67dbe05",
+        "id": "cfg-v16-consumed-literal-17-061548",
+        "range": [
+          398664,
+          398668
+        ]
+      },
+      {
+        "bytes_sha256": "6b1cf703805186045c58c0503958a26d3281a231d51038e751a13c38aa6124af",
+        "id": "cfg-v16-consumed-literal-18-061560",
+        "range": [
+          398688,
+          398692
+        ]
+      },
+      {
+        "bytes_sha256": "5b3ac3458f02a0bf112c23fc42d5b45ad478681cd5cf5c72939bfd4e3fc40268",
+        "id": "cfg-v16-consumed-literal-19-061564",
+        "range": [
+          398692,
+          398696
+        ]
+      },
+      {
+        "bytes_sha256": "27dc06d4f6cf2b4f3ebe5e6bc4e6d380fc2fd0302a0379c0f6e56af4bc67af3c",
+        "id": "cfg-v16-consumed-literal-20-061568",
+        "range": [
+          398696,
+          398700
+        ]
+      },
+      {
+        "bytes_sha256": "ab75ee2e74b92ed8c18bc0982efd954972ef47c20e8274c1445c71fba7cc9c9a",
+        "id": "cfg-v16-consumed-literal-21-0618bc",
+        "range": [
+          399548,
+          399552
+        ]
+      },
+      {
+        "bytes_sha256": "659d1843fd0f545047f14f52177c677ec757eb9d5c645caf46acd2a5a7c8bc22",
+        "id": "cfg-v16-consumed-literal-22-061f48",
+        "range": [
+          401224,
+          401228
+        ]
+      },
+      {
+        "bytes_sha256": "175787aa232666b21aad0f6d3c9036c95ef6f7e26b5d8fd875fee3a56e96eff6",
+        "id": "cfg-v16-consumed-literal-23-061f4c",
+        "range": [
+          401228,
+          401232
+        ]
+      },
+      {
+        "bytes_sha256": "51267982194b6921a661111ff5ab3d77aec6e1a44b46832a481bb8331d17d1dd",
+        "id": "cfg-v16-consumed-literal-24-062388",
+        "range": [
+          402312,
+          402316
+        ]
+      },
+      {
+        "bytes_sha256": "0e3303f2b614f18a1064bc2e5eb1f1da3ab44bcc062d4234993b01e203bbaf65",
+        "id": "cfg-v16-consumed-literal-25-06238c",
+        "range": [
+          402316,
+          402320
+        ]
+      },
+      {
+        "bytes_sha256": "8e7244f37c8aadd922a824232c80cb6e3c04010752dc37508594d19cd447eb76",
+        "id": "cfg-v16-consumed-literal-26-062390",
+        "range": [
+          402320,
+          402324
+        ]
+      },
+      {
+        "bytes_sha256": "e919003a7ab611c63cc42227a56d7eea19219b58b985c22f856418117bdde802",
+        "id": "cfg-v16-consumed-literal-27-062394",
+        "range": [
+          402324,
+          402328
+        ]
+      },
+      {
+        "bytes_sha256": "8d9614e02e5a58f00d3d25e5d9526b13cccd2ae21ebb8eff72b9d040b77bd54d",
+        "id": "cfg-v16-consumed-literal-28-0623bc",
+        "range": [
+          402364,
+          402368
+        ]
+      },
+      {
+        "bytes_sha256": "1e2b3a4b81c28decf962a414aa3fb75bfdb8ea6876adae861ee91efefd6ecc01",
+        "id": "cfg-v16-consumed-literal-29-0623c0",
+        "range": [
+          402368,
+          402372
+        ]
+      },
+      {
+        "bytes_sha256": "9c12922426a02e7cdb7f002da1c11cba31cbce53ee8b5c1e7c3f8026cc5315b1",
+        "id": "cfg-v16-consumed-literal-30-068d74",
+        "range": [
+          429428,
+          429432
+        ]
+      },
+      {
+        "bytes_sha256": "5f23b3178470929233613da6570b8e740929f766bfe6c854a67d68799a3d70c1",
+        "id": "cfg-v16-consumed-literal-31-068d78",
+        "range": [
+          429432,
+          429436
+        ]
+      },
+      {
+        "bytes_sha256": "6cbf95515e30284d772fb636794557ec4a441dcd15610ea80af294934e9ed94e",
+        "id": "cfg-v16-consumed-literal-32-08bfa0",
+        "range": [
+          573344,
+          573348
+        ]
+      },
+      {
+        "bytes_sha256": "004be5580012efcdec118fce2444cf2dab6a4709d71924066ed03b59a19969de",
+        "id": "cfg-v16-consumed-literal-33-08c000",
+        "range": [
+          573440,
+          573444
+        ]
+      },
+      {
+        "bytes_sha256": "ac8c607149481b038ca57ec6f24861872ae63093da6ca20114f1d3428946c237",
+        "id": "cfg-v16-consumed-literal-34-08c004",
+        "range": [
+          573444,
+          573448
+        ]
+      },
+      {
+        "bytes_sha256": "a7f43dccf5cfae6d24b85d923a764ba7bc007d715c50353311fe9a8db0823adc",
+        "id": "cfg-v16-consumed-literal-35-08c008",
+        "range": [
+          573448,
+          573452
+        ]
+      },
+      {
+        "bytes_sha256": "15edd08c1e1be6e34d2fb89c9b2e8461e655f03c359bce80fcdf20a12c0cc907",
+        "id": "cfg-v16-consumed-literal-36-08c00c",
+        "range": [
+          573452,
+          573456
+        ]
+      },
+      {
+        "bytes_sha256": "b1b0f0b4c5cd50af0181e94cee9f0ee09b324015c0a06338bc7320cc2ceae85b",
+        "id": "cfg-v16-consumed-literal-37-08c010",
+        "range": [
+          573456,
+          573460
+        ]
+      },
+      {
+        "bytes_sha256": "cb8a71dc0af46fe8acd79c3998e0878090e80516a09b6e04d647d9c59e21f7e1",
+        "id": "cfg-v16-consumed-literal-38-08c014",
+        "range": [
+          573460,
+          573464
+        ]
+      },
+      {
+        "bytes_sha256": "d890865b39704a8d7cb7f771d028c1738e4ed8263a92955d87921a98e0b0f195",
+        "id": "cfg-v16-consumed-literal-39-08c018",
+        "range": [
+          573464,
+          573468
+        ]
+      },
+      {
+        "bytes_sha256": "d6a5b1f68e662adfcf77241789a243152b2c08935f6f39ec2bf8b7b95f0a9f17",
+        "id": "cfg-v16-consumed-literal-40-08c01c",
+        "range": [
+          573468,
+          573472
+        ]
+      },
+      {
+        "bytes_sha256": "52c2b94e273cd23309ee87ae58c31a2634833cb01a888c5d95f9bfb436cf849d",
+        "id": "cfg-v16-consumed-literal-41-08c020",
+        "range": [
+          573472,
+          573476
+        ]
+      },
+      {
+        "bytes_sha256": "426dfcabe27d3a75de03d1e3cc7b622ed4ab314910019bbae6d002b5ddf9ba55",
+        "id": "cfg-v16-consumed-literal-42-08c024",
+        "range": [
+          573476,
+          573480
+        ]
+      },
+      {
+        "bytes_sha256": "f59dc7c610ddf2ee70d7535b5bb3b6d54997e046092a58745e2626d37116c088",
+        "id": "cfg-v16-consumed-literal-43-08c028",
+        "range": [
+          573480,
+          573484
+        ]
+      },
+      {
+        "bytes_sha256": "bdd3fac6a4b2b880e7b4f63e8d7cef38f785746c553888e77ff4ea5500213bc5",
+        "id": "cfg-v16-consumed-literal-44-08c02c",
+        "range": [
+          573484,
+          573488
+        ]
+      },
+      {
+        "bytes_sha256": "a0ffd2ab427b130a28a04cd66ab08343016324f0ef964a40e139f357c0104ad9",
+        "id": "cfg-v16-consumed-literal-45-09712c",
+        "range": [
+          618796,
+          618800
+        ]
+      },
+      {
+        "bytes_sha256": "ee88b5a804fd87fa74b205951cfcc811ef5cdb452c4ad7f7cd1456fc90d71b90",
+        "id": "cfg-v16-consumed-literal-46-09aa38",
+        "range": [
+          633400,
+          633404
+        ]
+      },
+      {
+        "bytes_sha256": "73001934864ed5cdc84c7aff83da54d752ff6475ed9b080fe425d389ada42432",
+        "id": "cfg-v16-consumed-literal-47-09ae24",
+        "range": [
+          634404,
+          634408
+        ]
+      },
+      {
+        "bytes_sha256": "a9ccf55a142852aa4ed4350b2267a3ed06d6e9eaa05699f8e1452916cc5818c0",
+        "id": "cfg-v16-consumed-literal-48-09ae38",
+        "range": [
+          634424,
+          634428
+        ]
+      },
+      {
+        "bytes_sha256": "8d9614e02e5a58f00d3d25e5d9526b13cccd2ae21ebb8eff72b9d040b77bd54d",
+        "id": "cfg-v16-consumed-literal-49-09c108",
+        "range": [
+          639240,
+          639244
+        ]
+      },
+      {
+        "bytes_sha256": "a33c1b17e9de9ff79a2a3b6e099e463294ec33d51d023dfa76b55d799194e73b",
+        "id": "cfg-v16-consumed-literal-50-09c10c",
+        "range": [
+          639244,
+          639248
+        ]
+      },
+      {
+        "bytes_sha256": "531dbf228006db025ba536e6df8a34d3b1d819559dd96457d82e8fd47176a0d2",
+        "id": "cfg-v16-consumed-literal-51-09c454",
+        "range": [
+          640084,
+          640088
+        ]
+      }
+    ],
+    "primary_class": "armv4t_cfg_proven_roots_v16_consumed_literal_word",
+    "promotion_batch": "rom-cfg-proven-roots-v16-consumed-literals-v1",
+    "union_bytes": 204,
+    "union_ranges": [
+      [
+        397720,
+        397744
+      ],
+      [
+        397792,
+        397812
+      ],
+      [
+        397996,
+        398012
+      ],
+      [
+        398660,
+        398668
+      ],
+      [
+        398688,
+        398700
+      ],
+      [
+        399548,
+        399552
+      ],
+      [
+        401224,
+        401232
+      ],
+      [
+        402312,
+        402328
+      ],
+      [
+        402364,
+        402372
+      ],
+      [
+        429428,
+        429436
+      ],
+      [
+        573344,
+        573348
+      ],
+      [
+        573440,
+        573488
+      ],
+      [
+        618796,
+        618800
+      ],
+      [
+        633400,
+        633404
+      ],
+      [
+        634404,
+        634408
+      ],
+      [
+        634424,
+        634428
+      ],
+      [
+        639240,
+        639248
+      ],
+      [
+        640084,
+        640088
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_targets_baseline_unknown": true,
+    "canonical_coverage_connected": false,
+    "canonical_proof_connected": false,
+    "frozen_v16_ranges_reused": true,
+    "raw_rom_redecoded": true,
+    "targets_disjoint_from_v16_code": true
+  },
+  "source_artifact": {
+    "implementation": {
+      "binding": "artifact-contract-exporter-verifier-tests-hash-bound",
+      "contract_sha256": "778e4ae0adddcbda32098350b57ca7bf8873ebe78156a4c5102acc71cf4ba107",
+      "exporter_sha256": "2dd31b0ffc359f93754625bd46250aa1aa8578adead0de3c9d640471afaffbf4",
+      "paths": {
+        "contract": "tools/rom_cfg_proven_roots_v16_contract.py",
+        "exporter": "tools/export_rom_cfg_proven_roots_v16.py",
+        "test_exporter": "tests/test_export_rom_cfg_proven_roots_v16.py",
+        "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v16.py",
+        "verifier": "tools/verify_rom_cfg_proven_roots_v16.py"
+      },
+      "test_exporter_sha256": "60d6de65eafcb837fe2d52af7a9a2d931f8b5d9a6c4df7e4af9018538c5ddba6",
+      "test_verifier_sha256": "ea390f632e80f94dc584d0bdba8075ac7e9fcb533f4d0dc049da76bb13fe8213",
+      "verifier_sha256": "6dc8535453445edc07c975e003cb8cf2bf58b1f7e8ccfbae1e782aed7a7bc24a"
+    },
+    "manifest_sha256": "1a8bec0c59290851b388a1bedbbf58957b18b6e1eddf483558d6e30cd6dc650a",
+    "path": "artifacts/rom-cfg-proven-roots-v16",
+    "payload_sha256": "2d8f65b5345a89e02778bcdba2de01f420f3b378149c9eeb6e549c7d2c0ad99a"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_cfg_proven_roots_v16_consumed_literals.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-cfg-proven-roots-v16-consumed-literals-v1"
+    ],
+    "exit_code": 0
+  }
+}

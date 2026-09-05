@@ -1,0 +1,223 @@
+{
+  "copy_operation_union": {
+    "bytes": 620,
+    "range": [
+      1224,
+      1844
+    ],
+    "range_vector_sha256": "2f181c055623f48a0eb22a66571ae04c357fc760d92588694edf52056494386f"
+  },
+  "copy_operations": [
+    {
+      "callsite": 398922,
+      "consumer": "DMA3",
+      "control": "0x84000080",
+      "copy_bytes": 512,
+      "destination": "0x03000680",
+      "id": "dma-2",
+      "source_range": [
+        1224,
+        1736
+      ]
+    },
+    {
+      "callsite": 398934,
+      "consumer": "DMA3",
+      "control": "0x84000029",
+      "copy_bytes": 164,
+      "destination": "0x0300088C",
+      "id": "dma-3",
+      "source_range": [
+        1312,
+        1476
+      ]
+    },
+    {
+      "callsite": 398948,
+      "consumer": "DMA3",
+      "control": "0x84000018",
+      "copy_bytes": 96,
+      "destination": "0x03000930",
+      "id": "dma-4",
+      "source_range": [
+        1452,
+        1548
+      ]
+    },
+    {
+      "callsite": 411038,
+      "consumer": "CpuSet",
+      "control": "0x04000017",
+      "copy_bytes": 92,
+      "destination": "0x03005CE8",
+      "id": "cpuset-v12",
+      "source_range": [
+        1592,
+        1684
+      ]
+    },
+    {
+      "callsite": 411358,
+      "consumer": "CpuSet",
+      "control": "0x04000029",
+      "copy_bytes": 164,
+      "destination": "0x03005D50",
+      "id": "cpuset-boot",
+      "source_range": [
+        1680,
+        1844
+      ]
+    }
+  ],
+  "local_dma_consumer": {
+    "code_range": [
+      398884,
+      399120
+    ],
+    "code_sha256": "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff",
+    "dma_descriptor_denominator": [
+      {
+        "candidate_hit": false,
+        "control": "0x84000080",
+        "copy_bytes": 512,
+        "destination": "0x0300007C",
+        "index": 0,
+        "source": "0x08000104"
+      },
+      {
+        "candidate_hit": false,
+        "control": "0x8400000E",
+        "copy_bytes": 56,
+        "destination": "0x03000014",
+        "index": 1,
+        "source": "0x0853D5B4"
+      },
+      {
+        "candidate_hit": true,
+        "control": "0x84000080",
+        "copy_bytes": 512,
+        "destination": "0x03000680",
+        "index": 2,
+        "source": "0x080004C8"
+      },
+      {
+        "candidate_hit": true,
+        "control": "0x84000029",
+        "copy_bytes": 164,
+        "destination": "0x0300088C",
+        "index": 3,
+        "source": "0x08000520"
+      },
+      {
+        "candidate_hit": true,
+        "control": "0x84000018",
+        "copy_bytes": 96,
+        "destination": "0x03000930",
+        "index": 4,
+        "source": "0x080005AC"
+      },
+      {
+        "candidate_hit": false,
+        "control": "0x8100C000",
+        "copy_bytes": 98304,
+        "destination": "0x06000000",
+        "index": 5,
+        "source": "sp_zero_halfword"
+      },
+      {
+        "candidate_hit": false,
+        "control": "0x81000002",
+        "copy_bytes": 4,
+        "destination": "0x05000000",
+        "index": 6,
+        "source": "sp_0x7fff_halfword"
+      },
+      {
+        "candidate_hit": false,
+        "control": "0x85000100",
+        "copy_bytes": 1024,
+        "destination": "0x0300027C",
+        "index": 7,
+        "source": "sp_zero_word"
+      },
+      {
+        "candidate_hit": false,
+        "control": "0x84000100",
+        "copy_bytes": 1024,
+        "destination": "0x07000000",
+        "index": 8,
+        "source": "0x0300027C"
+      }
+    ],
+    "literal_range": [
+      399120,
+      399244
+    ],
+    "literal_sha256": "e1bdf99fdcdfa92e4bc900e57730c3ee8d1cea55f1eaeed7ec1a56768b561031",
+    "producer_denominator": {
+      "rom_pointers": [],
+      "thumb_b": [],
+      "thumb_bcond": [],
+      "thumb_bl": [
+        397280
+      ]
+    },
+    "strict_return": "bx r0"
+  },
+  "promotion": {
+    "bytes": 620,
+    "bytes_sha256": "0be5228ec171480a4097db134e32c030972f43fbf637a425f3f4826450944e80",
+    "claim_kind": "fixed_rom_copy_source_bytes",
+    "primary_class": "boot_fixed_rom_copy_source_bytes",
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-boot-copy-sources-v1",
+    "range": [
+      1224,
+      1844
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-boot-copy-sources-v1",
+  "scope": {
+    "adjacent_boot_bytes": false,
+    "allocatable_space": false,
+    "arm_code_semantics": false,
+    "business_semantics": false,
+    "editing_or_relocation_safety": false,
+    "fixed_rom_copy_source_bytes": true,
+    "natural_runtime_reachability": false
+  },
+  "upstream_evidence": {
+    "boot_thumb_handoff": {
+      "manifest_sha256": "d5af12930ed8e7539396f81deda19ae938eee3f029b95c959f6fa5d57c676d74",
+      "payload_sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295",
+      "source_code_ranges": [
+        [
+          397228,
+          397346
+        ],
+        [
+          411344,
+          411372
+        ]
+      ],
+      "verified": true,
+      "verifier_sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39"
+    },
+    "cfg_v12": {
+      "legacy_verifier_sha256": "1043291dfb16b90ef025242b976a4bf89a6a0173a0ac4904fc3534d625acbede",
+      "manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+      "source_code_range": [
+        410996,
+        411180
+      ],
+      "verified": true,
+      "verifier_sha256": "ee1d50f3018b5d78d652eb5ed6d1f7108670669b60e5518b9956df987b60275a"
+    }
+  }
+}

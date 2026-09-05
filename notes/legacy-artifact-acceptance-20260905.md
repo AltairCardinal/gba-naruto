@@ -1,8 +1,9 @@
 # 历史 artifact 提交验收迁移（2026-09-05，进行中）
 
-最新状态：**包已独立验真、重建、promote，尚未提交历史目录**。完整三成员包身份和64根
-分母现已填入contract；baseline还没有该包，仍不能消费本次未提交授权。主index为空，
-HEAD仍为门禁修复`e4b626462`。下面“pins为空”等描述均保留为此前失败关闭状态。
+最新状态：**包已独立验真、重建、promote并完成授权提交A，历史目录待B提交**。
+A为`47d9a60e668a5c3fe6e1123524864d21a2c93545`，91个精确文件，通过显式启用的
+`.githooks`门禁。完整三成员包身份和64根分母已填入contract；干净A检出48项测试和
+bundle verifier也通过。主index为空；下面“pins为空”等描述均保留为此前失败关闭状态。
 
 修复后的formal106/106、ROM96/96通过，globalfalse/175；candidate-v4独立验真成功，
 282inputs/72,618,549raw bytes、64roots/160members、32/21/11桥梁。新private tree为

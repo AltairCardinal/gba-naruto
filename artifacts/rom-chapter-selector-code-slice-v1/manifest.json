@@ -1,0 +1,80 @@
+{
+  "artifact_schema": "rom-chapter-selector-code-slice-v1",
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "files": {
+    "rom-chapter-selector-code-slice.json": "77d3f9715dc0ff556bb268171b945b8550a8057a8ee45f592d1fa113dbf37bd5"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_chapter_selector_code_slice.py",
+      "sha256": "5fa47f9504aa6b8efc38f9262f01d06be24c7625093c03eb2b482b0f68621421"
+    },
+    "test": {
+      "path": "tests/test_export_rom_chapter_selector_code_slice.py",
+      "sha256": "17d32775947b33dc7a4706e0c1d2d1551974abdb897185b6eaa9ec7d49e96a77"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_chapter_selector_code_slice.py",
+        "sha256": "c76e40b765ff5e466639a08dad74abb216b1f0941a8177e9848055cb660bf7a5"
+    }
+  },
+  "schema": "rom-chapter-selector-code-slice-v1-artifact-manifest-v1",
+  "source": {
+    "artifact_schema": "rom-chapter-script-inventory-v1",
+    "bundle": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/chapter-script-bytes.bin",
+      "sha256": "eba1393714485ab78d0dbde6cb1b9cf407e031ce8c2a86068038a3920d5f0699"
+    },
+    "consumer_evidence": {
+      "json_pointer": "/consumer_evidence/table_selector",
+      "range": [
+        587156,
+        587220
+      ],
+      "sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd"
+    },
+    "coverage": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+    },
+    "exporter": {
+      "path": "tools/export_rom_chapter_script_inventory.py",
+      "sha256": "707a00b57c6dbbfb3da22f5ef385a0243c600ef1b30f8b70527446c290ddba42"
+    },
+    "manifest": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/manifest.json",
+      "sha256": "ad77f775f927b89e4a499ddff82e077c38b2767cd86348b65053cb8ca4136f0e"
+    },
+    "payload": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/chapter-script-inventory.json",
+      "sha256": "813cd10394e5fac239aefd6043437796b1a63f95d8d068d714871b8dd3edcabc"
+    },
+    "test": {
+      "path": "tests/test_export_rom_chapter_script_inventory.py",
+      "sha256": "95f7d1eb1aa22efc6f6cb4e183af3564ef644831b6468dde0d00e0cad368e941"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_chapter_script_inventory.py",
+      "sha256": "b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c"
+    },
+    "verifier_report": {
+      "schema": "rom-chapter-script-inventory-verification-v1",
+      "sha256": "c3decb8c05249571c458faee06713f21258b8445304b5dd3eeab370853a2717e"
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_chapter_selector_code_slice.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-chapter-selector-code-slice-v1"
+    ],
+    "schema": "rom-chapter-selector-code-slice-verification-v1"
+  }
+}

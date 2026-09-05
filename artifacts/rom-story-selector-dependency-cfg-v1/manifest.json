@@ -1,0 +1,137 @@
+{
+  "artifact_schema": "rom-story-selector-dependency-cfg-v1",
+  "artifact_status": "accepted",
+  "coverage_projection": {
+    "baseline_classified_bytes": 6202729,
+    "baseline_unknown_bytes": 88727,
+    "classified_bytes": 6202809,
+    "frontier_count": 0,
+    "hole_bytes": 0,
+    "remaining_unknown_bytes": 88647,
+    "target_promoted_bytes": 80
+  },
+  "files": {
+    "rom-story-selector-dependency-cfg-v1.json": {
+      "sha256": "9909ace4b7033d90ba1e1633cfca1902c0566708ed2d3807021e6f201e5ec676",
+      "size": 10027
+    }
+  },
+  "implementation": {
+    "binding": "contract-exporter-independent-verifier-tests-hash-bound",
+    "contract_sha256": "749af66e5e5afe2d3dbd011b7e0c706f79bf3793bad543c3cf0dab64d8625f5c",
+    "exporter_sha256": "fdec4de304d45b5e29c801d492fd599c6e85a84c9b9902e4d88e3747bef05f03",
+    "paths": {
+      "contract": "tools/rom_story_selector_dependency_cfg_contract.py",
+      "exporter": "tools/export_rom_story_selector_dependency_cfg.py",
+      "test_exporter": "tests/test_export_rom_story_selector_dependency_cfg.py",
+      "verifier": "tools/verify_rom_story_selector_dependency_cfg.py"
+    },
+    "test_exporter_sha256": "1133f26dc6349642264a9e4497183f8ce95d990e50bb57389f86c0c771b2fc27",
+    "verifier_sha256": "5bafd0fea8bfd03b1a6255c49b8097504b00babf8aadc1862c90f889ee969d10"
+  },
+  "precoverage": {
+    "archive_sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6",
+    "artifact": "artifacts/rom-post-story-dependency-precoverage-v1",
+    "claim_count": 16870,
+    "classified_bytes": 6202729,
+    "manifest_sha256": "95cb2fef985e13eea7dda71b144e082e35fd3a7b004578df646dbfa18c0ee65a",
+    "raw_sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+    "segment_count": 18641,
+    "unknown_bytes": 88727
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_story_selector_dependency_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-story-selector-dependency-cfg-v1"
+    ]
+  },
+  "promotion": {
+    "claim_count": 1,
+    "claim_kind": "armv4t_story_selector_dependency_cfg_exact_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "ec6b47d0f464048c6403a5ce1d2dc8772c7b67bc82890081ec575bf8cb18cf6b",
+        "id": "story-selector-reachable-thumb-code-01-08f544",
+        "kind": "reachable_thumb_code",
+        "mode": "thumb",
+        "range": [
+          587076,
+          587156
+        ]
+      }
+    ],
+    "primary_class": "armv4t_story_selector_dependency_cfg",
+    "promotion_batch": "rom-story-selector-dependency-cfg-v1",
+    "promotion_bytes": 80,
+    "ranges": [
+      [
+        587076,
+        587156
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "adjacent_bytes_or_holes": false,
+    "business_or_literal_semantics": false,
+    "callee_bodies_or_abi": false,
+    "consumer_code_slice_instruction_membership": false,
+    "current_unknown_bytes": 80,
+    "direct_internal_entry_denominator_complete_for_bl_b_bcond": true,
+    "editing_writeback_relocation_or_free_space": false,
+    "natural_runtime_reachability": false,
+    "raw_rom_redecoded": true,
+    "root_pointer_denominator_count": 0,
+    "tier": 1
+  },
+  "story_dependency": {
+    "accepted_owner_claim_id": "story-callback-reachable_thumb_code-04-08f872",
+    "artifact": "artifacts/rom-story-state-callback-cfg-v1",
+    "manifest_sha256": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+    "payload_sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+    "verifier_sha256": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_story_selector_dependency_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-story-selector-dependency-cfg-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_producer_count": 1,
+      "errors": [],
+      "frontier_count": 0,
+      "hole_count": 0,
+      "instruction_bytes": 80,
+      "instruction_count": 37,
+      "opaque_call_count": 3,
+      "preowned_literal_count": 1,
+      "producer_match_count": 2,
+      "promotion_bytes": 80,
+      "rejected_producer_count": 1,
+      "remaining_unknown_bytes": 88647,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "root_count": 1,
+      "schema": "rom-story-selector-dependency-cfg-v1-verification-v1",
+      "verified": true
+    }
+  }
+}

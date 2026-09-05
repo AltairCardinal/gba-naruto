@@ -1,0 +1,119 @@
+{
+  "artifact_schema": "rom-selector-direct-source-records-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-selector-direct-source-records.bin": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+    "rom-selector-direct-source-records.json": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_selector_direct_source_records.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-selector-direct-source-records-v1"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_selector_direct_source_records.py",
+      "sha256": "46371919013ccc47eaf975e4bfa26e5716f980b162b7b996daf536d68b5215d6"
+    },
+    "test": {
+      "path": "tests/test_export_rom_selector_direct_source_records.py",
+      "sha256": "359ff028aafe3147df564b4caa5c7e66e476c348f09b737aa1b0fdb485ebafed"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_direct_source_records.py",
+      "sha256": "510835b5d104f0009df09e3c8200beaefcb4f01836c40db7d3b1c11b475052d1"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_space_claimed": false,
+    "byte_2_to_19_semantics_proven": false,
+    "complete_63_slot_text_table": false,
+    "editing_or_writeback_safety_proven": false,
+    "fixed_46_source_record_denominator_complete": true,
+    "natural_gameplay_all_rows_reached": false,
+    "unicode_decoding_complete": false
+  },
+  "upstream": {
+    "artifact_schema": "rom-selector-text-bindings-v1",
+    "bundle": {
+      "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bytes.bin",
+      "sha256": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869"
+    },
+    "legacy_record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+    "legacy_rows_crosschecked_from_rom": true,
+    "manifest": {
+      "path": "artifacts/rom-selector-text-bindings-v1/manifest.json",
+      "sha256": "05cd987a60990ca6b2d3ee187eae963fd6ac8728ef9b42b92d6b37b5dc4bc031"
+    },
+    "payload": {
+      "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bindings.json",
+      "sha256": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_text_bindings.py",
+      "sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+    },
+    "verifier_report": {
+      "artifact_schema": "rom-selector-text-bindings-v1",
+      "errors": [],
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-selector-text-bindings-verification-v1",
+      "summary": {
+        "classified_bytes": 816,
+        "classified_range_count": 86,
+        "config_bytes": 164,
+        "config_list_count": 3,
+        "config_pointer_bytes": 12,
+        "config_pointer_slot_count": 3,
+        "config_record_count": 38,
+        "config_terminator_count": 3,
+        "configured_physical_slot_count": 55,
+        "configured_referenced_slot_count": 38,
+        "configured_text_consumed_bytes": 316,
+        "configured_text_unclassified_suffix_bytes": 368,
+        "configured_unreferenced_slot_bytes": 306,
+        "direct_source_record_bytes": 920,
+        "direct_source_record_count": 46,
+        "direct_text_candidate_slot_count": 46,
+        "direct_text_consumed_bytes": 324,
+        "direct_text_unclassified_suffix_bytes": 550,
+        "packed_bytes": 816,
+        "parse_failure_count": 0,
+        "range_overlap_bytes": 0
+      },
+      "verified": true
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_selector_direct_source_records.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-selector-direct-source-records-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-selector-direct-source-records-v1",
+      "bundle_sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+      "errors": [],
+      "record_bytes": 920,
+      "record_count": 46,
+      "record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+      "schema": "rom-selector-direct-source-records-verification-v1",
+      "verified": true
+    },
+    "schema": "rom-selector-direct-source-records-verification-v1",
+    "verifier_sha256": "510835b5d104f0009df09e3c8200beaefcb4f01836c40db7d3b1c11b475052d1"
+  }
+}

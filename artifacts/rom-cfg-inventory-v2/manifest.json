@@ -1,0 +1,109 @@
+{
+  "artifact_schema": "rom-cfg-inventory-v2",
+  "decoder": {
+    "architecture": "ARM7TDMI / ARMv4T",
+    "backend": "vendored-capstone",
+    "decode_granularity": "one instruction, at most four input bytes",
+    "detail": true,
+    "files": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f"
+    },
+    "skipdata": false,
+    "version": "5.0.7"
+  },
+  "files": {
+    "rom-cfg-inventory.json": {
+      "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "size": 5936694
+    }
+  },
+  "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+  "implementation": {
+    "exporter_sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+    "test_sha256": "68543c6d27d745ae1a8880393c5481a3b329e2772b2e708232b68edc8310b7a2",
+    "verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+  },
+  "limits": {
+    "decode_window_bytes": 4,
+    "max_basic_block_instruction_count": 256,
+    "max_instruction_count": 1000000
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "scope": {
+    "all_fixed_seed_roots_traversed": true,
+    "armv4t_instruction_set_enforced": true,
+    "bounded_single_instruction_decode": true,
+    "cfg_traversal_performed": true,
+    "global_dispatch_source_denominator_complete": false,
+    "global_function_entry_denominator_complete": false,
+    "independent_source_discovery_performed": false,
+    "indirect_target_resolution_complete": false,
+    "reachable_instruction_bytes_only": true,
+    "runtime_reachability_complete": false,
+    "unbound_pointer_pools_excluded": true
+  },
+  "seed_artifact": {
+    "dispatch_slot_denominator_sha256": "68d94098ca8babc6706b4206e4b549b863ddfd1bd90d0a605a3be791df76a71b",
+    "excluded_seed_classes": [
+      "unbound_thumb_code_pointer_pool",
+      "map_sprite_callback_pointer_pair",
+      "unclassified_code_handler_pointer_table",
+      "untyped_resource_or_data_pointer_tables"
+    ],
+    "manifest_sha256": "dafb79db7439ec73360eb069d2e8c32c9bf610116d5adf458617dd5bfac08810",
+    "path": "artifacts/rom-cfg-seeds-v1",
+    "payload_file": "rom-cfg-seeds.json",
+    "payload_sha256": "53960ae8e460b862bbc52d447290d988ed8a496417ccf08a810041384df1b05c",
+    "payload_size": 277537,
+    "scope": {
+      "cfg_traversal_performed": false,
+      "enumerated_proven_dispatch_root_denominator_complete": true,
+      "global_dispatch_source_denominator_complete": false,
+      "global_function_entry_denominator_complete": false,
+      "independent_source_discovery_performed": false,
+      "unbound_pointer_pools_excluded": true
+    },
+    "seed_denominator_sha256": "f461fda5659657f3dd3dc0690966edb854e26dcc09e868cd8f62e8cbdae62672",
+    "summary": {
+      "arm_root_seed_count": 2,
+      "canonical_dispatch_source_count": 5,
+      "dispatch_source_count": 23,
+      "inline_dispatch_source_count": 18,
+      "raw_dispatch_slot_count": 829,
+      "root_seed_count": 263,
+      "thumb_root_seed_count": 261,
+      "unique_dispatch_handler_count": 261
+    },
+    "verifier_path": "tools/verify_rom_cfg_seeds.py",
+    "verifier_sha256": "9d566d020087e07821ca08867572ac9137997fdba6b903e8f2c7a9eba162c52b"
+  },
+  "summary": {
+    "arm_instruction_bytes": 948,
+    "arm_instruction_count": 237,
+    "arm_root_count": 2,
+    "budget_exhausted": false,
+    "closed_root_count": 4,
+    "cross_mode_overlap_bytes": 0,
+    "decoded_basic_block_count": 7725,
+    "decoded_instruction_count": 40872,
+    "frontier_count": 366,
+    "frontier_open_root_count": 259,
+    "frontier_reasons": {
+      "bios_swi_external": 7,
+      "indirect_pc_target": 357,
+      "unsupported_armv4t_instruction": 2
+    },
+    "reachable_instruction_bytes": 86184,
+    "root_count": 263,
+    "thumb_instruction_bytes": 85236,
+    "thumb_instruction_count": 40635,
+    "thumb_root_count": 261
+  }
+}

@@ -1,0 +1,1191 @@
+{
+  "callback_registration": {
+    "allocator_arg8_load": "0x0806275E",
+    "allocator_callback_store": "0x08062760",
+    "allocator_callsite": "0x0808ADD6",
+    "allocator_variant": "0x080626B4",
+    "callback_pointer": "0x0808AA51",
+    "callback_pointer_denominator": [
+      "0x0808AF0C"
+    ],
+    "callback_pointer_literal": "0x0808AF0C",
+    "caller_load": "0x0808ADCE",
+    "caller_stack_offset": "0x10",
+    "caller_stack_store": "0x0808ADD0",
+    "dispatch_bx_r1_wrapper": "0x0809C114",
+    "dispatch_field_load": "0x0806294C",
+    "dispatch_wrapper_callsite": "0x08062954",
+    "task_callback_field": "0x28",
+    "upstream_task_binding_verified": true
+  },
+  "closure": {
+    "code_bytes": 2782,
+    "code_bytes_sha256": "e838c91e123f085650bd0618c8404be31651a2596c9f461cb912b093a88c5d59",
+    "code_ranges": [
+      [
+        567048,
+        567210
+      ],
+      [
+        567220,
+        567260
+      ],
+      [
+        567268,
+        567370
+      ],
+      [
+        567372,
+        567614
+      ],
+      [
+        567640,
+        567828
+      ],
+      [
+        567844,
+        567882
+      ],
+      [
+        567888,
+        568000
+      ],
+      [
+        568016,
+        568070
+      ],
+      [
+        568080,
+        568280
+      ],
+      [
+        568304,
+        568410
+      ],
+      [
+        568424,
+        568480
+      ],
+      [
+        568484,
+        568518
+      ],
+      [
+        568520,
+        569010
+      ],
+      [
+        569140,
+        569158
+      ],
+      [
+        574888,
+        575048
+      ],
+      [
+        575244,
+        575416
+      ],
+      [
+        575420,
+        575616
+      ],
+      [
+        575668,
+        575798
+      ],
+      [
+        576076,
+        576174
+      ],
+      [
+        576180,
+        576364
+      ]
+    ],
+    "dependency_call_edges": [
+      [
+        567694,
+        575244
+      ],
+      [
+        567720,
+        575244
+      ],
+      [
+        567746,
+        575244
+      ],
+      [
+        567750,
+        567220
+      ],
+      [
+        567770,
+        576076
+      ],
+      [
+        568064,
+        567372
+      ],
+      [
+        568678,
+        567048
+      ],
+      [
+        568724,
+        574888
+      ],
+      [
+        568736,
+        574936
+      ],
+      [
+        576196,
+        575668
+      ],
+      [
+        576212,
+        575668
+      ],
+      [
+        576246,
+        575668
+      ],
+      [
+        576264,
+        575668
+      ],
+      [
+        576280,
+        575668
+      ],
+      [
+        576298,
+        575668
+      ]
+    ],
+    "frontier_count": 0,
+    "instruction_count": 1330,
+    "literal_bindings": [
+      [
+        567142,
+        567212,
+        140113392
+      ],
+      [
+        567146,
+        567216,
+        140087936
+      ],
+      [
+        567222,
+        567260,
+        33554432
+      ],
+      [
+        567224,
+        567264,
+        33556992
+      ],
+      [
+        567482,
+        567616,
+        383
+      ],
+      [
+        567518,
+        567616,
+        383
+      ],
+      [
+        567560,
+        567620,
+        33554432
+      ],
+      [
+        567562,
+        567624,
+        16777296
+      ],
+      [
+        567582,
+        567628,
+        4278255360
+      ],
+      [
+        567588,
+        567632,
+        33556992
+      ],
+      [
+        567590,
+        567636,
+        16777256
+      ],
+      [
+        567688,
+        567828,
+        134792925
+      ],
+      [
+        567710,
+        567828,
+        134792925
+      ],
+      [
+        567736,
+        567828,
+        134792925
+      ],
+      [
+        567780,
+        567832,
+        33564800
+      ],
+      [
+        567794,
+        567836,
+        137664348
+      ],
+      [
+        567796,
+        567840,
+        137664360
+      ],
+      [
+        567844,
+        567884,
+        33564800
+      ],
+      [
+        567902,
+        568000,
+        33564800
+      ],
+      [
+        567950,
+        568004,
+        33668440
+      ],
+      [
+        567956,
+        568008,
+        33668444
+      ],
+      [
+        567968,
+        568012,
+        16777333
+      ],
+      [
+        568036,
+        568072,
+        65533
+      ],
+      [
+        568056,
+        568076,
+        140113392
+      ],
+      [
+        568092,
+        568280,
+        65534
+      ],
+      [
+        568116,
+        568284,
+        140113392
+      ],
+      [
+        568168,
+        568288,
+        140087936
+      ],
+      [
+        568200,
+        568292,
+        140121332
+      ],
+      [
+        568222,
+        568296,
+        140121392
+      ],
+      [
+        568250,
+        568300,
+        100667488
+      ],
+      [
+        568320,
+        568412,
+        140078284
+      ],
+      [
+        568334,
+        568416,
+        4325408
+      ],
+      [
+        568366,
+        568420,
+        4294836223
+      ],
+      [
+        568388,
+        568420,
+        4294836223
+      ],
+      [
+        568458,
+        568480,
+        4294836223
+      ],
+      [
+        568532,
+        569012,
+        33564800
+      ],
+      [
+        568534,
+        569016,
+        50331724
+      ],
+      [
+        568548,
+        569016,
+        50331724
+      ],
+      [
+        568552,
+        569020,
+        50331732
+      ],
+      [
+        568562,
+        569024,
+        67108872
+      ],
+      [
+        568570,
+        569028,
+        261
+      ],
+      [
+        568578,
+        569032,
+        525
+      ],
+      [
+        568594,
+        569036,
+        16779264
+      ],
+      [
+        568604,
+        569040,
+        33668440
+      ],
+      [
+        568608,
+        569044,
+        33668444
+      ],
+      [
+        568616,
+        569048,
+        100667392
+      ],
+      [
+        568618,
+        569052,
+        16778240
+      ],
+      [
+        568624,
+        569056,
+        137663116
+      ],
+      [
+        568638,
+        569060,
+        100663326
+      ],
+      [
+        568650,
+        569016,
+        50331724
+      ],
+      [
+        568666,
+        569064,
+        134257652
+      ],
+      [
+        568716,
+        569068,
+        100683776
+      ],
+      [
+        568718,
+        569072,
+        33565504
+      ],
+      [
+        568728,
+        569072,
+        33565504
+      ],
+      [
+        568740,
+        569076,
+        100666084
+      ],
+      [
+        568752,
+        569080,
+        138773776
+      ],
+      [
+        568754,
+        569084,
+        138773788
+      ],
+      [
+        568760,
+        569088,
+        33668446
+      ],
+      [
+        568772,
+        569092,
+        33668448
+      ],
+      [
+        568778,
+        569096,
+        131104
+      ],
+      [
+        568782,
+        569100,
+        134785617
+      ],
+      [
+        568798,
+        569104,
+        137664232
+      ],
+      [
+        568800,
+        569108,
+        137664244
+      ],
+      [
+        568818,
+        569096,
+        131104
+      ],
+      [
+        568858,
+        569096,
+        131104
+      ],
+      [
+        568902,
+        569016,
+        50331724
+      ],
+      [
+        568914,
+        569016,
+        50331724
+      ],
+      [
+        568918,
+        569112,
+        50331726
+      ],
+      [
+        568926,
+        569116,
+        50331728
+      ],
+      [
+        568938,
+        569120,
+        134257692
+      ],
+      [
+        568944,
+        569016,
+        50331724
+      ],
+      [
+        568948,
+        569124,
+        65023
+      ],
+      [
+        568952,
+        569016,
+        50331724
+      ],
+      [
+        568962,
+        569128,
+        134257696
+      ],
+      [
+        568988,
+        569016,
+        50331724
+      ],
+      [
+        568992,
+        569132,
+        63743
+      ],
+      [
+        568998,
+        569136,
+        33597570
+      ],
+      [
+        575314,
+        575416,
+        65535
+      ],
+      [
+        575340,
+        575416,
+        65535
+      ],
+      [
+        576112,
+        576176,
+        33554432
+      ]
+    ],
+    "literal_bytes": 260,
+    "literal_bytes_sha256": "f94d37c6c3e101caf1b284db2f7bdcc43ab87c67f210b7aa9e1e5974dfa8a2bc",
+    "literal_ranges": [
+      [
+        567212,
+        567220
+      ],
+      [
+        567260,
+        567268
+      ],
+      [
+        567616,
+        567640
+      ],
+      [
+        567828,
+        567844
+      ],
+      [
+        567884,
+        567888
+      ],
+      [
+        568000,
+        568016
+      ],
+      [
+        568072,
+        568080
+      ],
+      [
+        568280,
+        568304
+      ],
+      [
+        568412,
+        568424
+      ],
+      [
+        568480,
+        568484
+      ],
+      [
+        569012,
+        569140
+      ],
+      [
+        575416,
+        575420
+      ],
+      [
+        576176,
+        576180
+      ]
+    ],
+    "literal_reference_count": 80,
+    "opaque_external_calls": [
+      {
+        "root_name": "setup",
+        "source": 567070,
+        "target": 421508
+      },
+      {
+        "root_name": "setup",
+        "source": 567076,
+        "target": 415156
+      },
+      {
+        "root_name": "setup",
+        "source": 567178,
+        "target": 421628
+      },
+      {
+        "root_name": "setup",
+        "source": 567196,
+        "target": 415516
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567428,
+        "target": 639308
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567440,
+        "target": 639308
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567450,
+        "target": 400000
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567494,
+        "target": 400076
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567566,
+        "target": 639196
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567592,
+        "target": 639196
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567822,
+        "target": 403124
+      },
+      {
+        "root_name": "callback_worker",
+        "source": 567858,
+        "target": 403336
+      },
+      {
+        "root_name": "callback",
+        "source": 567918,
+        "target": 415156
+      },
+      {
+        "root_name": "callback",
+        "source": 567942,
+        "target": 415156
+      },
+      {
+        "root_name": "callback",
+        "source": 567972,
+        "target": 639200
+      },
+      {
+        "root_name": "callback",
+        "source": 568138,
+        "target": 420424
+      },
+      {
+        "root_name": "callback",
+        "source": 568144,
+        "target": 415156
+      },
+      {
+        "root_name": "callback",
+        "source": 568158,
+        "target": 415516
+      },
+      {
+        "root_name": "callback",
+        "source": 568164,
+        "target": 421140
+      },
+      {
+        "root_name": "callback",
+        "source": 568188,
+        "target": 419672
+      },
+      {
+        "root_name": "callback",
+        "source": 568214,
+        "target": 419672
+      },
+      {
+        "root_name": "callback",
+        "source": 568236,
+        "target": 419672
+      },
+      {
+        "root_name": "callback",
+        "source": 568242,
+        "target": 415156
+      },
+      {
+        "root_name": "callback",
+        "source": 568256,
+        "target": 407044
+      },
+      {
+        "root_name": "callback",
+        "source": 568274,
+        "target": 403336
+      },
+      {
+        "root_name": "callback",
+        "source": 568344,
+        "target": 402852
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568596,
+        "target": 639200
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568620,
+        "target": 639200
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568634,
+        "target": 639212
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568646,
+        "target": 407044
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568662,
+        "target": 640372
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568668,
+        "target": 422232
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568682,
+        "target": 415516
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568706,
+        "target": 420424
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568712,
+        "target": 640372
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568748,
+        "target": 407044
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568790,
+        "target": 403124
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568834,
+        "target": 403124
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568874,
+        "target": 403124
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568898,
+        "target": 576500
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568940,
+        "target": 422232
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568958,
+        "target": 576536
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568964,
+        "target": 422232
+      },
+      {
+        "root_name": "text_bg_task",
+        "source": 568968,
+        "target": 402784
+      },
+      {
+        "root_name": "helper_c5a8",
+        "source": 574924,
+        "target": 639200
+      },
+      {
+        "root_name": "helper_c70c",
+        "source": 575488,
+        "target": 639276
+      }
+    ],
+    "roots": [
+      {
+        "basic_block_count": 25,
+        "bound": [
+          568520,
+          569160
+        ],
+        "code_bytes": 508,
+        "instruction_count": 233,
+        "name": "text_bg_task",
+        "return_bx": 569156,
+        "root": 568520
+      },
+      {
+        "basic_block_count": 15,
+        "bound": [
+          567048,
+          567220
+        ],
+        "code_bytes": 162,
+        "instruction_count": 77,
+        "name": "setup",
+        "return_bx": 567208,
+        "root": 567048
+      },
+      {
+        "basic_block_count": 2,
+        "bound": [
+          574888,
+          574936
+        ],
+        "code_bytes": 48,
+        "instruction_count": 23,
+        "name": "helper_c5a8",
+        "return_bx": 574934,
+        "root": 574888
+      },
+      {
+        "basic_block_count": 7,
+        "bound": [
+          574936,
+          575048
+        ],
+        "code_bytes": 112,
+        "instruction_count": 56,
+        "name": "helper_c5d8",
+        "return_bx": 575046,
+        "root": 574936
+      },
+      {
+        "basic_block_count": 34,
+        "bound": [
+          567888,
+          568520
+        ],
+        "code_bytes": 562,
+        "instruction_count": 266,
+        "name": "callback",
+        "return_bx": 568516,
+        "root": 567888
+      },
+      {
+        "basic_block_count": 33,
+        "bound": [
+          567372,
+          567888
+        ],
+        "code_bytes": 468,
+        "instruction_count": 221,
+        "name": "callback_worker",
+        "return_bx": 567880,
+        "root": 567372
+      },
+      {
+        "basic_block_count": 21,
+        "bound": [
+          567220,
+          567372
+        ],
+        "code_bytes": 142,
+        "instruction_count": 71,
+        "name": "helper_a7b4",
+        "return_bx": 567368,
+        "root": 567220
+      },
+      {
+        "basic_block_count": 35,
+        "bound": [
+          575244,
+          575616
+        ],
+        "code_bytes": 368,
+        "instruction_count": 183,
+        "name": "helper_c70c",
+        "return_bx": 575614,
+        "root": 575244
+      },
+      {
+        "basic_block_count": 22,
+        "bound": [
+          576076,
+          576364
+        ],
+        "code_bytes": 282,
+        "instruction_count": 135,
+        "name": "helper_ca4c",
+        "return_bx": 576362,
+        "root": 576076
+      },
+      {
+        "basic_block_count": 9,
+        "bound": [
+          575668,
+          575800
+        ],
+        "code_bytes": 130,
+        "instruction_count": 65,
+        "name": "helper_c8b4",
+        "return_bx": 575796,
+        "root": 575668
+      }
+    ],
+    "unique_literal_word_count": 65
+  },
+  "promotion": {
+    "code_bytes": 2692,
+    "code_bytes_sha256": "08bfc04a19934023b26625f1334733a8a22ac539c7f3e8624677b90cdbdcb9bf",
+    "code_primary_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+    "code_ranges": [
+      [
+        567048,
+        567210
+      ],
+      [
+        567220,
+        567260
+      ],
+      [
+        567268,
+        567370
+      ],
+      [
+        567372,
+        567614
+      ],
+      [
+        567640,
+        567828
+      ],
+      [
+        567844,
+        567882
+      ],
+      [
+        567888,
+        568000
+      ],
+      [
+        568016,
+        568070
+      ],
+      [
+        568080,
+        568280
+      ],
+      [
+        568304,
+        568410
+      ],
+      [
+        568424,
+        568480
+      ],
+      [
+        568484,
+        568518
+      ],
+      [
+        568584,
+        568624
+      ],
+      [
+        568650,
+        569010
+      ],
+      [
+        569140,
+        569158
+      ],
+      [
+        574888,
+        575048
+      ],
+      [
+        575244,
+        575416
+      ],
+      [
+        575420,
+        575616
+      ],
+      [
+        575668,
+        575798
+      ],
+      [
+        576076,
+        576174
+      ],
+      [
+        576180,
+        576364
+      ]
+    ],
+    "excluded_dependencies": {
+      "canonical_owner_ranges": [
+        [
+          568562,
+          568584
+        ],
+        [
+          568624,
+          568650
+        ]
+      ],
+      "queued_code_ranges": [
+        [
+          568520,
+          568562
+        ]
+      ],
+      "queued_literal_ranges": [
+        [
+          569012,
+          569024
+        ]
+      ]
+    },
+    "literal_bytes": 248,
+    "literal_bytes_sha256": "3f24f548c7eea5ee66c6014eddb53a925ad675c25c30114375b699b3e22a15a9",
+    "literal_primary_class": "armv4t_text_bg_task_dependency_closure_consumed_literal_word",
+    "literal_ranges": [
+      [
+        567212,
+        567220
+      ],
+      [
+        567260,
+        567268
+      ],
+      [
+        567616,
+        567640
+      ],
+      [
+        567828,
+        567844
+      ],
+      [
+        567884,
+        567888
+      ],
+      [
+        568000,
+        568016
+      ],
+      [
+        568072,
+        568080
+      ],
+      [
+        568280,
+        568304
+      ],
+      [
+        568412,
+        568424
+      ],
+      [
+        568480,
+        568484
+      ],
+      [
+        569024,
+        569140
+      ],
+      [
+        575416,
+        575420
+      ],
+      [
+        576176,
+        576180
+      ]
+    ],
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-text-bg-task-closure-v1",
+    "promotion_bytes": 2940
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-text-bg-task-closure-v1",
+  "scope": {
+    "adjacent_bytes": false,
+    "business_semantics": false,
+    "consumed_literal_words": true,
+    "dependency_gated_local_thumb_closure": true,
+    "editing_or_relocation_safety": false,
+    "padding_or_free_space": false,
+    "whole_program_natural_runtime": false
+  },
+  "upstream_evidence": {
+    "character_runtime_oam_task_bindings": {
+      "manifest_sha256": "df2fc83e3322c0584c9410f6b23c798e6dfd400f6a21377552395756152cddfc",
+      "payload_sha256": "8930a32d0b72c5ea61b2cf66f1493fcac25fd98a8d75f4ddb488013bcc53771a",
+      "relevant_task_field_contract_replayed": true,
+      "verifier_sha256": "7d63146f71d7870ebcc6e052bea924d99966f917f46d2351606a8e71edb29512",
+      "whole_artifact_verifier_blocker": "parent OAM bindings are not independently verified",
+      "whole_artifact_verifier_currently_verified": false
+    },
+    "text_bg_loop_continuation": {
+      "manifest_sha256": "b1e29845d1d1b9597009c68cd532ca4436b043da1130abb8b8438515e8e3bea2",
+      "payload_sha256": "b5d16813fab51b14d8752b7e9479997d488c557c9f1baba9e37bfaaca672b67e",
+      "verified": true,
+      "verifier_sha256": "abad4787f14ec2f793f5aeb7d38ed24967c066f26f00937ee7494a79d3edd114"
+    }
+  }
+}

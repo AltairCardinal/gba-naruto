@@ -1,0 +1,661 @@
+{
+  "acceptance": {
+    "candidate_artifact": "build/experiments/active/soundmain-relocated-cfg-v1-20260828/candidate",
+    "candidate_identity": {
+      "artifact_status": "candidate",
+      "bundle_sha256": "2e94dbb5f876de3420d1317db7ad646991b9778e15a3699659d7786d65de8331",
+      "manifest_sha256": "16aedff95afaf1e24f49cd74c01ded1f46433a79b5b708145dfa9a582fd2fa28",
+      "payload_sha256": "63543ece1982ced20eb0818faf3b6f1848e72ba6dcdb68105fa8b2e3e07e477a"
+    },
+    "command": [
+      "python3",
+      "tools/verify_rom_soundmain_relocated_cfg.py",
+      "--artifact",
+      "build/experiments/active/soundmain-relocated-cfg-v1-20260828/candidate",
+      "--accept-to",
+      "artifacts/rom-soundmain-relocated-cfg-v1"
+    ],
+    "kind": "independent-candidate-acceptance",
+    "output_artifact": "artifacts/rom-soundmain-relocated-cfg-v1"
+  },
+  "artifact_schema": "rom-soundmain-relocated-cfg-v1",
+  "artifact_status": "accepted",
+  "copy_operation": {
+    "bios_swi": "0x0B",
+    "bios_wrapper_range": [
+      639200,
+      639204
+    ],
+    "bios_wrapper_sha256": "07967ebdc3979cd4fd4de37fd22b3e6de8965b00dae4ac5585577c9709839652",
+    "callsite_gba_address": "0x0809AA4A",
+    "callsite_offset": 633418,
+    "control": "0x04000100",
+    "control_literal_offset": 633496,
+    "copy_bytes": 1024,
+    "copy_window_sha256": "7b4fef2cb8e0e87ce8e8aaf244970f121851095a6d6260a423eda20791d5b238",
+    "destination_literal_offset": 633492,
+    "destination_range": [
+      50362312,
+      50363336
+    ],
+    "fixed_source": false,
+    "initializer_code_range": [
+      633404,
+      633488
+    ],
+    "initializer_code_sha256": "c782ff96fc49708def45c12c5ba3c4170449390bf0ea4aa389561e09f359013b",
+    "initializer_literal_range": [
+      633488,
+      633524
+    ],
+    "initializer_literal_sha256": "7f208987daf90cface78da36557a0773839b56b2bf1fe174358f1a56cfebbc6f",
+    "source_pointer": "0x08099E11",
+    "source_pointer_literal_offset": 633488,
+    "source_range": [
+      630288,
+      631312
+    ],
+    "unit_bytes": 4,
+    "unit_count": 256
+  },
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "2b93df18a7815cb966dad707dfa2ad606049911ae1772a341b57cf2347b58e3b",
+    "summary": {
+      "claim_count": 14484,
+      "classified_bytes": 6122489,
+      "segment_count": 16593,
+      "unknown_bytes": 168967
+    },
+    "target_segments": [
+      {
+        "primary_class": "unknown",
+        "range": [
+          630288,
+          631214
+        ]
+      },
+      {
+        "claim_id": "boot-thumb-handoff-code-22-09a1ae",
+        "range": [
+          631214,
+          631216
+        ]
+      },
+      {
+        "primary_class": "unknown",
+        "range": [
+          631216,
+          631220
+        ]
+      }
+    ]
+  },
+  "files": {
+    "rom-soundmain-relocated-cfg.bin": {
+      "sha256": "2e94dbb5f876de3420d1317db7ad646991b9778e15a3699659d7786d65de8331",
+      "size": 924
+    },
+    "rom-soundmain-relocated-cfg.json": {
+      "sha256": "63543ece1982ced20eb0818faf3b6f1848e72ba6dcdb68105fa8b2e3e07e477a",
+      "size": 352934
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_soundmain_relocated_cfg.py",
+      "sha256": "2ba451c122cd4726ee93c9d0fbc24ba5db20364303b357a5b95b2ec9a75d6e19"
+    },
+    "exporter_test": {
+      "path": "tests/test_export_rom_soundmain_relocated_cfg.py",
+      "sha256": "b6374946fe46d5950b798f2fef880d32ba78996d4db9e6472d6f3f8c70c6a6e4"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_soundmain_relocated_cfg.py",
+      "sha256": "321d5ca5b7d6f887a21ec93c1bb06640f6e1397248273068bb5a13d3d7167d82"
+    },
+    "verifier_test": {
+      "path": "tests/test_verify_rom_soundmain_relocated_cfg.py",
+      "sha256": "31df5a7708c23c61da794fdfc435f06f59b1870343f3264ef2b6884d9db1609f"
+    }
+  },
+  "limitations": [
+    "This artifact classifies exactly 916 bounded relocated ARMv4T instruction bytes and 8 directly consumed literal bytes; the three two-byte alignment gaps remain unknown until this artifact has an accepted immutable verification receipt.",
+    "The frozen CpuSet consumer and target-limited raw direct-producer scans bind the copied source, but computed or indirect producers and dynamic IWRAM state are not exhaustively resolved.",
+    "The mixed Thumb/ARM CFG proves only the bounded relocated source closure and its opaque fallthrough into the already-owned return veneer; natural runtime reachability and broader audio semantics remain unproven.",
+    "Editing, relocation, writeback, and allocatable free-space safety are outside scope."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_soundmain_relocated_cfg.py",
+      "--output",
+      "build/experiments/active/soundmain-relocated-cfg-v1-20260828/candidate"
+    ],
+    "kind": "artifact-candidate-construction",
+    "output_artifact": "build/experiments/active/soundmain-relocated-cfg-v1-20260828/candidate"
+  },
+  "producer_denominator": {
+    "computed_or_indirect_producer_denominator_complete": false,
+    "cpufastset_call_count": 20,
+    "cpufastset_callsites": [
+      403094,
+      408708,
+      414532,
+      415000,
+      415012,
+      426936,
+      427464,
+      436288,
+      460514,
+      504478,
+      537544,
+      556350,
+      556364,
+      557190,
+      557884,
+      558010,
+      558040,
+      567566,
+      567592,
+      614914
+    ],
+    "cpufastset_target": "0x0809C0DC",
+    "cpuset_call_count": 126,
+    "cpuset_callsites": [
+      397712,
+      398150,
+      399690,
+      399730,
+      400220,
+      400344,
+      401452,
+      401462,
+      401472,
+      402000,
+      402144,
+      402168,
+      407186,
+      407216,
+      411038,
+      411358,
+      414986,
+      428170,
+      428298,
+      428514,
+      428960,
+      429378,
+      429580,
+      492270,
+      494134,
+      494444,
+      495986,
+      496270,
+      496982,
+      545350,
+      545364,
+      546266,
+      546282,
+      549392,
+      549416,
+      553030,
+      559412,
+      559436,
+      561962,
+      561976,
+      562144,
+      567972,
+      568596,
+      568620,
+      570832,
+      570850,
+      570872,
+      572256,
+      572288,
+      572360,
+      572386,
+      572422,
+      572454,
+      572528,
+      572612,
+      572630,
+      573190,
+      573240,
+      573366,
+      573428,
+      574048,
+      574070,
+      574758,
+      574924,
+      578976,
+      578990,
+      579938,
+      580000,
+      580130,
+      580164,
+      580192,
+      580448,
+      580854,
+      580878,
+      582146,
+      583446,
+      584050,
+      584956,
+      585194,
+      586168,
+      586986,
+      587444,
+      587456,
+      587470,
+      592346,
+      592724,
+      593230,
+      595372,
+      595542,
+      595560,
+      595570,
+      595718,
+      595792,
+      595818,
+      595838,
+      598184,
+      598266,
+      598290,
+      598306,
+      598320,
+      605590,
+      607386,
+      607396,
+      607406,
+      609976,
+      610308,
+      611830,
+      612126,
+      613028,
+      614930,
+      617440,
+      623792,
+      623870,
+      624048,
+      625952,
+      626722,
+      626832,
+      627156,
+      627168,
+      627338,
+      628062,
+      628824,
+      633418,
+      634246,
+      634556,
+      635160
+    ],
+    "cpuset_forms": {
+      "arm_b": [],
+      "arm_bl": [],
+      "bytewise_u32_entry": [],
+      "bytewise_u32_thumb_pointer": [],
+      "thumb_b": [],
+      "thumb_b_conditional": [],
+      "thumb_bl": [
+        397712,
+        398150,
+        399690,
+        399730,
+        400220,
+        400344,
+        401452,
+        401462,
+        401472,
+        402000,
+        402144,
+        402168,
+        407186,
+        407216,
+        411038,
+        411358,
+        414986,
+        428170,
+        428298,
+        428514,
+        428960,
+        429378,
+        429580,
+        492270,
+        494134,
+        494444,
+        495986,
+        496270,
+        496982,
+        545350,
+        545364,
+        546266,
+        546282,
+        549392,
+        549416,
+        553030,
+        559412,
+        559436,
+        561962,
+        561976,
+        562144,
+        567972,
+        568596,
+        568620,
+        570832,
+        570850,
+        570872,
+        572256,
+        572288,
+        572360,
+        572386,
+        572422,
+        572454,
+        572528,
+        572612,
+        572630,
+        573190,
+        573240,
+        573366,
+        573428,
+        574048,
+        574070,
+        574758,
+        574924,
+        578976,
+        578990,
+        579938,
+        580000,
+        580130,
+        580164,
+        580192,
+        580448,
+        580854,
+        580878,
+        582146,
+        583446,
+        584050,
+        584956,
+        585194,
+        586168,
+        586986,
+        587444,
+        587456,
+        587470,
+        592346,
+        592724,
+        593230,
+        595372,
+        595542,
+        595560,
+        595570,
+        595718,
+        595792,
+        595818,
+        595838,
+        598184,
+        598266,
+        598290,
+        598306,
+        598320,
+        605590,
+        607386,
+        607396,
+        607406,
+        609976,
+        610308,
+        611830,
+        612126,
+        613028,
+        614930,
+        617440,
+        623792,
+        623870,
+        624048,
+        625952,
+        626722,
+        626832,
+        627156,
+        627168,
+        627338,
+        628062,
+        628824,
+        633418,
+        634246,
+        634556,
+        635160
+      ]
+    },
+    "cpuset_target": "0x0809C0E0",
+    "direct_call_count": 146,
+    "direct_call_vector_sha256": "2938b49244070c5986e6e4d193f51e609737d8f56d314a16e120d9355172ea3c",
+    "initializer_direct_bl_producers": [
+      400936
+    ],
+    "initializer_forms": {
+      "arm_b": [],
+      "arm_bl": [],
+      "bytewise_u32_entry": [],
+      "bytewise_u32_thumb_pointer": [],
+      "thumb_b": [],
+      "thumb_b_conditional": [],
+      "thumb_bl": [
+        400936
+      ]
+    },
+    "initializer_target": "0x0809AA3C",
+    "matches_direct_cpuset_artifact": true,
+    "soundmain_copy_callsites": [
+      633418
+    ],
+    "target_limited_direct_bl_denominator_complete": true,
+    "target_limited_raw_producer_denominator_complete": true,
+    "upstream": {
+      "manifest_path": "artifacts/rom-direct-cpuset-gpu-inventory-v1/manifest.json",
+      "manifest_sha256": "ed886e717b54b0ec78af5eb4941d677095286290a5ad2ed2a01b033f4520d246",
+      "payload_path": "artifacts/rom-direct-cpuset-gpu-inventory-v1/rom-direct-cpuset-gpu-inventory.json",
+      "payload_sha256": "724f47ddced0ff9271d74c81395df6d0939b86642e1c40ffe1d9951fd49891e3",
+      "verifier_path": "tools/verify_rom_direct_cpuset_gpu_inventory.py",
+      "verifier_sha256": "4e8f394803873a96db2dfb2d7b5b7ec6750a2ead33cdc1bb8e08676c203f678b"
+    }
+  },
+  "promotion": {
+    "alignment_gap_requires_accepted_immutable_artifact": true,
+    "code_ranges": [
+      [
+        630288,
+        630298
+      ],
+      [
+        630300,
+        630466
+      ],
+      [
+        630472,
+        630694
+      ],
+      [
+        630696,
+        631214
+      ]
+    ],
+    "deferred_alignment_gap_bytes": 6,
+    "deferred_alignment_gap_ranges": [
+      [
+        630298,
+        630300
+      ],
+      [
+        630466,
+        630468
+      ],
+      [
+        630694,
+        630696
+      ]
+    ],
+    "literal_ranges": [
+      [
+        630468,
+        630472
+      ],
+      [
+        631216,
+        631220
+      ]
+    ],
+    "post_gap_projected_totals": {
+      "claim_count": 14493,
+      "classified_bytes": 6123419,
+      "segment_count": 16600,
+      "unknown_bytes": 168037
+    },
+    "projected_totals": {
+      "claim_count": 14490,
+      "classified_bytes": 6123413,
+      "segment_count": 16600,
+      "unknown_bytes": 168043
+    },
+    "semantic_bytes": 924,
+    "semantic_claim_count": 6,
+    "semantic_packed_sha256": "2e94dbb5f876de3420d1317db7ad646991b9778e15a3699659d7786d65de8331",
+    "semantic_union_range_vector_sha256": "edd9da8aad815cf4aea5ca9c02360c3903d523588f0a7a6d7a1fa214e57d8a94",
+    "semantic_union_ranges": [
+      [
+        630288,
+        630298
+      ],
+      [
+        630300,
+        630466
+      ],
+      [
+        630468,
+        630694
+      ],
+      [
+        630696,
+        631214
+      ],
+      [
+        631216,
+        631220
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "alignment_gaps_classified_by_semantic_packet": false,
+    "alignment_gaps_require_post_acceptance_receipt": true,
+    "allocatable_free_space_proven": false,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "copied_window_is_all_code": false,
+    "cpuset_copy_operation_complete": true,
+    "editing_relocation_writeback_safe": false,
+    "natural_runtime_reachability_complete": false,
+    "relocated_cfg_complete": true,
+    "relocated_runtime_mapping_bound": true,
+    "target_limited_direct_bl_denominator_complete": true
+  },
+  "source": {
+    "copied_but_outside_envelope_bytes": 98,
+    "copied_but_outside_envelope_range": [
+      631214,
+      631312
+    ],
+    "envelope_bytes": 926,
+    "envelope_sha256": "1099dd6414c3f8a052a9e0e19c7ef9497661c4c15b4e8d1dd056f791bb115df8",
+    "gba_envelope": [
+      "0x08099E10",
+      "0x0809A1AE"
+    ],
+    "gba_to_runtime_delta": -84485704,
+    "rom_envelope": [
+      630288,
+      631214
+    ],
+    "runtime_envelope": [
+      50362312,
+      50363238
+    ]
+  },
+  "summary": {
+    "alignment_gap_bytes": 6,
+    "alignment_gap_count": 3,
+    "arm_instruction_bytes": 572,
+    "arm_instruction_count": 143,
+    "block_count": 73,
+    "code_bytes": 916,
+    "deferred_alignment_gap_bytes": 6,
+    "external_block_edge_count": 1,
+    "instruction_bytes": 916,
+    "instruction_count": 315,
+    "internal_block_edge_count": 112,
+    "internal_return_count": 0,
+    "literal_bytes": 8,
+    "literal_ref_count": 2,
+    "literal_word_count": 2,
+    "mode_switch_count": 4,
+    "opaque_return_count": 1,
+    "owned_provenance_bytes": 2,
+    "owned_return_veneer_count": 1,
+    "promoted_bytes": 924,
+    "promotion_claim_count": 6,
+    "promotion_range_count": 6,
+    "promotion_union_range_count": 5,
+    "thumb_instruction_bytes": 344,
+    "thumb_instruction_count": 172,
+    "unresolved_frontier_count": 0
+  },
+  "verification": {
+    "contract_ok": true,
+    "schema": "rom-soundmain-relocated-cfg-verification-v1",
+    "status": "verified",
+    "summary": {
+      "alignment_gap_bytes": 6,
+      "alignment_gap_count": 3,
+      "arm_instruction_bytes": 572,
+      "arm_instruction_count": 143,
+      "block_count": 73,
+      "code_bytes": 916,
+      "deferred_alignment_gap_bytes": 6,
+      "external_block_edge_count": 1,
+      "instruction_bytes": 916,
+      "instruction_count": 315,
+      "internal_block_edge_count": 112,
+      "internal_return_count": 0,
+      "literal_bytes": 8,
+      "literal_ref_count": 2,
+      "literal_word_count": 2,
+      "mode_switch_count": 4,
+      "opaque_return_count": 1,
+      "owned_provenance_bytes": 2,
+      "owned_return_veneer_count": 1,
+      "promoted_bytes": 924,
+      "promotion_claim_count": 6,
+      "promotion_range_count": 6,
+      "promotion_union_range_count": 5,
+      "thumb_instruction_bytes": 344,
+      "thumb_instruction_count": 172,
+      "unresolved_frontier_count": 0
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_soundmain_relocated_cfg.py",
+      "--artifact",
+      "build/experiments/active/soundmain-relocated-cfg-v1-20260828/candidate",
+      "--accept-to",
+      "artifacts/rom-soundmain-relocated-cfg-v1"
+    ],
+    "path": "tools/verify_rom_soundmain_relocated_cfg.py",
+    "sha256": "321d5ca5b7d6f887a21ec93c1bb06640f6e1397248273068bb5a13d3d7167d82"
+  }
+}

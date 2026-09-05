@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 74173,
+  "peak_tree_rss_mib": 197.8984375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 -m unittest tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_member_reader_rejects_name_replacement_during_read tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_verifier_rejects_member_changes_after_initial_reads tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_export_rejects_member_replacement_after_final_verification > build/experiments/active/direct-root-overlap-cfg/root-063400-tier1-20260905/resume-20260905T052627Z/member-race-red-tests.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T05:34:34.278898Z",
+  "finished_at": "2026-09-05T05:35:05.430614Z"
+}

@@ -1,0 +1,19 @@
+{
+  "artifact_schema": "rom-profile-text-inventory-v1",
+  "files": {
+    "profile-text-inventory.json": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9",
+    "profile-text-region.bin": "b3b663177a39e60f691fde0ff9272df69e875a116abc5a08647c4ec5d17c142d"
+  },
+  "schema": "rom-profile-text-inventory-v1-artifact-manifest-v1",
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_profile_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-profile-text-inventory-v1"
+    ],
+    "schema": "rom-profile-text-inventory-verification-v1"
+  }
+}

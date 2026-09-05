@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "rom-battle-distance-dispatcher-cfg-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-battle-distance-dispatcher-cfg.json": {
+      "sha256": "2b8efd1f06ed8107c59716ea11d5c701d991d31d495498482e9001574916c718",
+      "size": 10498
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "d456ef9fdc07ac76af5c86a91fe1091529427edb3f7a49dbc4e1c86696c9935d",
+    "test_sha256": "cc0ed8aaa103976cfb92456882789d05f8f08254a96a659563313f9a9e3c05b5",
+    "verifier_sha256": "8f6f3ce4700ca59c23a52defee55711fea58af09fb6abf2eb6346128900f5716"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_battle_distance_dispatcher_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-battle-distance-dispatcher-cfg-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "frontier_count": 0,
+    "promotion_bytes": 1162,
+    "root_count": 7
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_battle_distance_dispatcher_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-battle-distance-dispatcher-cfg-v1"
+    ]
+  }
+}

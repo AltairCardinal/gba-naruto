@@ -1,0 +1,21 @@
+{
+  "status": "passed_with_explicit_immutable_byte_exceptions",
+  "maintained_whitespace_exit": 0,
+  "python_sources_compiled": 430,
+  "syntax_errors": [],
+  "historical_exporter_whitespace_exceptions": [
+    {
+      "path": "tools/export_rom_battle_sound_selector.py",
+      "manifest": "artifacts/rom-battle-sound-selector-v1/manifest.json",
+      "selector": "/implementation/exporter/sha256",
+      "sha256": "cea1d2d57da46a910803b32ac50b063ad4e8842e3373af3aa6a2f1230d239d03"
+    },
+    {
+      "path": "tools/export_rom_cfg_proven_roots_v20.py",
+      "manifest": "artifacts/rom-cfg-proven-roots-v20/manifest.json",
+      "selector": "/implementation/exporter_sha256",
+      "sha256": "4d701fa18c114d7544cc04f2225b2584c83b9154586e0be4c3349b017c7500fa"
+    }
+  ],
+  "reason": "Do not change recorded production source hashes to format historical bytes; original trailing whitespace diagnostics retained."
+}

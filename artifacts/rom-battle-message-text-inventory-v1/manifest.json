@@ -1,0 +1,46 @@
+{
+  "artifact_schema": "rom-battle-message-text-inventory-v1",
+  "files": {
+    "battle-message-text-bytes.bin": "e0be9ff986140ae489c88769e483d98eab06febcf9f26ebf5fc6395fb428e0b9",
+    "battle-message-text-inventory.json": "c5e270c79c5cf5f18e13c9d0c77162afef8c28b459f6e86eecabd5f232a4db7b"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_battle_message_text_inventory.py",
+      "sha256": "7f16594b008aa4820e550826ca8ced76c8844b6e1e8084a72f95cb0fca1b4d61"
+    },
+    "test": {
+      "path": "tests/test_export_rom_battle_message_text_inventory.py",
+      "sha256": "9a2d283cd16a26acf5008cc2912b269bcb90c32136de303c0887c35cd57107bd"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_battle_message_text_inventory.py",
+      "sha256": "edc6f0f634d8137500f9adcb1f536ea2141dc48c470a17d6374717d7b42acfd2"
+    }
+  },
+  "schema": "rom-battle-message-text-inventory-v1-artifact-manifest-v1",
+  "scope": {
+    "all_inter_record_bytes_accounted": true,
+    "all_pointer_slots_parser_bounded": true,
+    "editing_safety_proven": false,
+    "fixed_79_slot_denominator_complete": true,
+    "natural_gameplay_all_ids_proven": false,
+    "natural_gameplay_id_zero_proven": true,
+    "pointer_table_already_classified_by_bank": true,
+    "runtime_index_bounds_proven": false,
+    "unicode_decoding_complete": false,
+    "zero_padding_safe_allocatable": false
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_battle_message_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-battle-message-text-inventory-v1"
+    ],
+    "schema": "rom-battle-message-text-inventory-verification-v1",
+    "verifier_sha256": "edc6f0f634d8137500f9adcb1f536ea2141dc48c470a17d6374717d7b42acfd2"
+  }
+}

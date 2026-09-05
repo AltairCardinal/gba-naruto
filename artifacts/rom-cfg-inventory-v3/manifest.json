@@ -1,0 +1,122 @@
+{
+  "artifact_schema": "rom-cfg-inventory-v3",
+  "base_cfg": {
+    "frontier_count": 366,
+    "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+    "indirect_frontier_count": 357,
+    "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+    "path": "artifacts/rom-cfg-inventory-v2",
+    "payload_file": "rom-cfg-inventory.json",
+    "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+    "payload_size": 5936694,
+    "root_count": 263,
+    "schema": "rom-cfg-inventory-v2",
+    "summary": {
+      "arm_instruction_bytes": 948,
+      "arm_instruction_count": 237,
+      "arm_root_count": 2,
+      "budget_exhausted": false,
+      "closed_root_count": 4,
+      "cross_mode_overlap_bytes": 0,
+      "decoded_basic_block_count": 7725,
+      "decoded_instruction_count": 40872,
+      "frontier_count": 366,
+      "frontier_open_root_count": 259,
+      "frontier_reasons": {
+        "bios_swi_external": 7,
+        "indirect_pc_target": 357,
+        "unsupported_armv4t_instruction": 2
+      },
+      "reachable_instruction_bytes": 86184,
+      "root_count": 263,
+      "thumb_instruction_bytes": 85236,
+      "thumb_instruction_count": 40635,
+      "thumb_root_count": 261
+    },
+    "verifier_path": "tools/verify_rom_cfg_inventory.py",
+    "verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+  },
+  "combined_summary": {
+    "decoded_basic_block_count": 8616,
+    "decoded_instruction_count": 45570,
+    "frontier_count": 353,
+    "frontier_reasons": {
+      "bios_swi_external": 7,
+      "indirect_pc_target": 343,
+      "unsupported_armv4t_instruction": 3
+    },
+    "reachable_instruction_bytes": 96086
+  },
+  "decoder": {
+    "architecture": "ARM7TDMI / ARMv4T",
+    "backend": "vendored-capstone",
+    "decode_granularity": "one instruction, at most four input bytes",
+    "detail": true,
+    "files": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f"
+    },
+    "skipdata": false,
+    "version": "5.0.7"
+  },
+  "extension_policy": {
+    "base_bytes_duplicated": false,
+    "base_entry_reference_count": 189,
+    "dispatch_target_count": 290,
+    "new_entry_seed_count": 101,
+    "recursive_resolution_performed": false
+  },
+  "extension_summary": {
+    "decoded_basic_block_count": 891,
+    "decoded_instruction_count": 4698,
+    "frontier_count": 16,
+    "frontier_reasons": {
+      "indirect_pc_target": 15,
+      "unsupported_armv4t_instruction": 1
+    },
+    "reachable_instruction_bytes": 9902
+  },
+  "files": {
+    "rom-cfg-inventory-v3.json": {
+      "sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "size": 1322391
+    }
+  },
+  "graph_denominator_sha256": "456545dddd3c43a5e9c19be6483871dbd333e3af3ecd1da8a9a83f762bced482",
+  "implementation": {
+    "exporter_sha256": "d7eb2d6767dfd96ccce5c888d6dd8b77624841f774a173436ea45b5d035a5a5a",
+    "test_sha256": "0748bbc8be6e7e8c173193c2ecccb4479b449104973ffd7ea6c1a957b8f2ffdc",
+    "verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+  },
+  "limits": {
+    "decode_window_bytes": 4,
+    "max_basic_block_instruction_count": 256,
+    "max_instruction_count": 1000000,
+    "resolver_generation_count": 1
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "scope": {
+    "base_cfg_denominator_frozen": true,
+    "fixed_dispatch_frontier_allowlist_complete": true,
+    "global_dispatch_source_denominator_complete": false,
+    "global_function_entry_denominator_complete": false,
+    "indexed_dispatch_targets_derived_from_raw_rom": true,
+    "one_generation_direct_cfg_extension_performed": true,
+    "recursive_indirect_resolution_performed": false,
+    "runtime_reachability_complete": false
+  },
+  "static_dispatch_summary": {
+    "baseline_indirect_frontier_count": 357,
+    "ordered_edge_count": 677,
+    "ordered_target_vector_sha256": "ab4572dcb948a49e6172e18f2fd9c482e61ee018c42cf0be77bd0e67f0c86615",
+    "resolved_frontier_count": 29,
+    "unique_target_count": 290,
+    "unresolved_baseline_indirect_frontier_count": 328
+  }
+}

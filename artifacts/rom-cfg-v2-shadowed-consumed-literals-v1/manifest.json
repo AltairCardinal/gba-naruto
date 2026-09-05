@@ -1,0 +1,375 @@
+{
+  "artifact_schema": "rom-cfg-v2-shadowed-consumed-literals-artifact-v1",
+  "artifact_status": "accepted",
+  "battle_controller_packet_target_overlap_word_count": 0,
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "66a5e95bd2927f9db13435f6862a052ad60634cfbd3a8b5dfad07459a4a12329",
+    "source_primary_class": "consumer_code_slice",
+    "summary": {
+      "claim_count": 15666,
+      "classified_bytes": 6138856,
+      "segment_count": 17182,
+      "unknown_bytes": 152600
+    }
+  },
+  "coverage_projection": {
+    "claim_count": 15683,
+    "classified_bytes": 6139164,
+    "delta": {
+      "claim_count": 17,
+      "classified_bytes": 308,
+      "segment_count": 13,
+      "unknown_bytes": -308
+    },
+    "segment_count": 17195,
+    "unknown_bytes": 152292
+  },
+  "files": {
+    "rom-cfg-v2-shadowed-consumed-literals.json": {
+      "sha256": "103562ae79ee7b86a27b6395eb4726c17df52105dd88a1759e41628255bf7775",
+      "size": 35476
+    }
+  },
+  "literal_denominator": {
+    "encoding": "Thumb-1 LDR Rd,[PC,#imm8*4] where raw_halfword & 0xF800 == 0x4800",
+    "merged_target_range_count": 17,
+    "packed_target_bytes_sha256": "cadb00194052a92dbf0e856b7e760054ac73cbe40f180de2aaa4fd1e3935520a",
+    "range_vector_sha256": "d30352fa9cd2bd45352e6360c69291528282eb9016f6bb2c99b33a63b540bb30",
+    "source_instruction_count": 82,
+    "source_offset_vector_sha256": "bc120614f1b6b1a7d992bd91fa6ec84d05c985533c9e36e5b7a8558624d15339",
+    "source_vector_sha256": "0619f0271d2feb9f4d76b31293af63c5d6d8b611246fe379e19c951af3f3572d",
+    "target_bytes": 308,
+    "target_formula": "align4(source_file_offset + 4) + imm8 * 4",
+    "target_offset_vector_sha256": "591aa408c77ee85d4580e09a084d01ac5c45511f123229775214b2b09f51a154",
+    "target_vector_sha256": "1ab5bce5d2a23b175b35e049dee2525485397c4e452b9ab172c141e846d79eaa",
+    "unique_target_word_count": 77
+  },
+  "non_claims": [
+    "Consumer_code_slice is provenance only; it does not independently prove code semantics, CFG reachability, or runtime execution.",
+    "No v3 shadow row is promoted; the final shadow-row count is zero because all 17 frozen v3 consumer-slice loads target already-classified consumer_code_slice bytes.",
+    "No CFG traversal is expanded and no frontier is resolved beyond the frozen v2 block membership.",
+    "No adjacent unknown byte or whole unknown segment is promoted; only the 77 exact consumed words are promoted.",
+    "Loaded values receive no pointer, constant, table, resource, business, editing, relocation, padding, or free-space meaning.",
+    "Natural runtime reachability and global code/BL/literal denominators remain unproven; zero overlap is limited to the three explicitly bound prior packets."
+  ],
+  "payload_schema": "rom-cfg-v2-shadowed-consumed-literals-v1",
+  "prior_packets": {
+    "battle_controller_packet": {
+      "manifest_path": "artifacts/rom-battle-controller-consumed-literals-v1/manifest.json",
+      "manifest_sha256": "8bcc92047e97ecda93a5a3e1de4cb3fd3a76083b4da8bf12909d66f39324eff7",
+      "payload_path": "artifacts/rom-battle-controller-consumed-literals-v1/rom-battle-controller-consumed-literals.json",
+      "payload_schema": "rom-battle-controller-consumed-literals-v1",
+      "payload_sha256": "5a3d70f15ec7281496cc865baedbd09c25dfb2b791fcf9c790085372e4273c13",
+      "target_offset_vector_sha256": "64f2eb5b754055daa98cfb22fd6154ac1b5866a32e34a960ffa3e9b429d96414",
+      "target_vector_sha256": "5cac97ba0a1a0f85cea03055b101f30b65515f39f67739f81ae899680dca7c9a",
+      "target_word_count": 134
+    },
+    "expected_target_overlap_word_count": 0,
+    "proven_roots_batch": {
+      "manifest_path": "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/manifest.json",
+      "manifest_sha256": "8688e87bdec227322a7b27f2d2feb84428f3ff82e4c782348db2c33b125e2d5f",
+      "payload_path": "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/rom-cfg-proven-roots-batch-consumed-literals.json",
+      "payload_schema": "rom-cfg-proven-roots-batch-consumed-literals-v1",
+      "payload_sha256": "35efe834638717ce963af95343bcccfc70311b0a124718c2e732263880fbc4d0",
+      "target_offset_vector_sha256": "7e87f1da67026609cb5dd06ff7e45039578da62f738ec945ee3b56db64ccb26e",
+      "target_vector_sha256": "33f69b5ca6d465b8c3a92d8937108df59388ab85a5aac3059b7fa8dc0ff7357f",
+      "target_word_count": 314
+    },
+    "v3_packet": {
+      "manifest_path": "artifacts/rom-cfg-v3-consumed-literals-v1/manifest.json",
+      "manifest_sha256": "2ab82e1747256f0b0f8c7cd22b96d1cd802aeffb40cebea56b6a417de8f72940",
+      "payload_path": "artifacts/rom-cfg-v3-consumed-literals-v1/rom-cfg-v3-consumed-literals.json",
+      "payload_schema": "rom-cfg-v3-consumed-literals-v1",
+      "payload_sha256": "1407aa1204218c4861e620192226a5b4cd718172e5983f03f2f953263f186b4d",
+      "target_offset_vector_sha256": "8e2e15cf823c1a2bbc8c4d3128d536b6c9b447706686e638e4e61d37f8e30d43",
+      "target_vector_sha256": "54dbac6a3f0b57c8d2d783e7781b3736b6d15f217e223a7df861af625815ce62",
+      "target_word_count": 305
+    }
+  },
+  "promotion": {
+    "claim_kind": "armv4t_cfg_v2_shadowed_consumed_literal_word_bytes",
+    "primary_class": "armv4t_cfg_v2_shadowed_consumed_literal_word",
+    "promotion_batch": "rom-cfg-v2-shadowed-consumed-literals-v1",
+    "range_records": [
+      {
+        "bytes_sha256": "a4cb7963cf4e9952468f0674617cda4cca2020baffda3bc90f47d5469ea1acdb",
+        "range": [
+          403120,
+          403124
+        ]
+      },
+      {
+        "bytes_sha256": "f5408bf7eb2af7bfd6c2afbffd482b6addfcf6f4a8c308a1e8b17ebf805672d2",
+        "range": [
+          403304,
+          403316
+        ]
+      },
+      {
+        "bytes_sha256": "afa814bf1d9e30195b940aaaa502b22d87ecd4462c105bf1b61d9761bfff1651",
+        "range": [
+          415060,
+          415156
+        ]
+      },
+      {
+        "bytes_sha256": "1dc0b59168ee864ef5091e4d5c9a4749902ee7413e3f3c92778003d3a37b2087",
+        "range": [
+          417844,
+          417852
+        ]
+      },
+      {
+        "bytes_sha256": "b00d3925fa439bc843b402dc7b74b0ff34a08e1c5d77b6218979bc9aca2b9ba2",
+        "range": [
+          448652,
+          448656
+        ]
+      },
+      {
+        "bytes_sha256": "4508cdf9c91926d3c933d0fdfd6ba934f49a9713a67d0307fbc869d24fa8c740",
+        "range": [
+          448864,
+          448868
+        ]
+      },
+      {
+        "bytes_sha256": "f740fec3e43ad121e77a36cc7c453e8c979635ad1bb8d3f11f630c7e706e932f",
+        "range": [
+          509480,
+          509496
+        ]
+      },
+      {
+        "bytes_sha256": "1d2e82b254d7c6662c9ff4e41213a7c2844ebe4ce9d7f4df838905f5bad33586",
+        "range": [
+          558124,
+          558148
+        ]
+      },
+      {
+        "bytes_sha256": "7a132729f8587e95ccbe14b9001b39cb03a7f5090b02a39aad949af3d61e3548",
+        "range": [
+          573284,
+          573304
+        ]
+      },
+      {
+        "bytes_sha256": "2069645d76fe03fa7694f64635132935275c6bcad37e7318bd9f09ec4155a49e",
+        "range": [
+          573796,
+          573812
+        ]
+      },
+      {
+        "bytes_sha256": "4e4a4421ea1a7a09797eb651497f0b00c59282932f4477cb7a5b8117861f76da",
+        "range": [
+          580228,
+          580240
+        ]
+      },
+      {
+        "bytes_sha256": "5e61d23afcbe7340cb666ab0fefb54e2dc871c595f8b54bc893abccc1c6c0c7e",
+        "range": [
+          614756,
+          614760
+        ]
+      },
+      {
+        "bytes_sha256": "ecc9ccf6d535bc35133a9d70cb2781dc194c134ae1ccbb7c12f5a0f10a9b481d",
+        "range": [
+          615188,
+          615204
+        ]
+      },
+      {
+        "bytes_sha256": "97329473d8b4f867e60d1e175fd3211168a51d696e656e3c5ee1cb2b5d5e7530",
+        "range": [
+          623004,
+          623020
+        ]
+      },
+      {
+        "bytes_sha256": "45f166b23ffd9cce06b5d649720f4aaafbfffba11a85c403b34fe4fe9896ef5f",
+        "range": [
+          624164,
+          624172
+        ]
+      },
+      {
+        "bytes_sha256": "c73bede2d392f432d60cb3147bbac5b50392ab6248b1ecfc7d408ff629e36829",
+        "range": [
+          628160,
+          628200
+        ]
+      },
+      {
+        "bytes_sha256": "e852a7c5dc982f0b0bd7605b1e244bd8fb99b3fad50694b53fbc8a7bd00ebf53",
+        "range": [
+          629472,
+          629480
+        ]
+      }
+    ],
+    "ranges": [
+      [
+        403120,
+        403124
+      ],
+      [
+        403304,
+        403316
+      ],
+      [
+        415060,
+        415156
+      ],
+      [
+        417844,
+        417852
+      ],
+      [
+        448652,
+        448656
+      ],
+      [
+        448864,
+        448868
+      ],
+      [
+        509480,
+        509496
+      ],
+      [
+        558124,
+        558148
+      ],
+      [
+        573284,
+        573304
+      ],
+      [
+        573796,
+        573812
+      ],
+      [
+        580228,
+        580240
+      ],
+      [
+        614756,
+        614760
+      ],
+      [
+        615188,
+        615204
+      ],
+      [
+        623004,
+        623020
+      ],
+      [
+        624164,
+        624172
+      ],
+      [
+        628160,
+        628200
+      ],
+      [
+        629472,
+        629480
+      ]
+    ]
+  },
+  "proven_roots_batch_target_overlap_word_count": 0,
+  "public_contract_sha256": "0a46da0164050cd5d5866e3be6c314ae50dc113765006063f23f17fc48ab7e25",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "cfg_traversal_expanded": false,
+    "frontiers_resolved": false,
+    "frozen_v2_cfg_membership_reused": true,
+    "loaded_value_semantics_proven": false,
+    "prior_packet_target_overlap_excluded_and_frozen": true,
+    "source_owner_consumer_code_slice_provenance_only": true,
+    "target_words_complete_current_unknown": true,
+    "v3_shadow_rows_not_promoted": true
+  },
+  "source_artifact": {
+    "directory": "artifacts/rom-cfg-inventory-v2",
+    "frontier_count": 366,
+    "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+    "payload": "rom-cfg-inventory.json",
+    "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+    "root_count": 263,
+    "schema": "rom-cfg-inventory-v2",
+    "source_exporter": "tools/export_rom_cfg_inventory.py",
+    "source_exporter_sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+    "source_test": "tests/test_export_rom_cfg_inventory.py",
+    "source_test_sha256": "68543c6d27d745ae1a8880393c5481a3b329e2772b2e708232b68edc8310b7a2",
+    "source_verifier": "tools/verify_rom_cfg_inventory.py",
+    "source_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+    "thumb_block_count": 7648,
+    "thumb_block_denominator_sha256": "03cbf5a60b3f317b978891dfcad72c50bd9cb8bc54de271b96b0c303245f9c80",
+    "thumb_instruction_bytes": 85236,
+    "thumb_instruction_count": 40635
+  },
+  "source_denominator": {
+    "selection_funnel": {
+      "excluded_non_consumer_code_slice_source_count": 1990,
+      "excluded_non_unknown_target_source_count": 182,
+      "raw_source_instruction_count": 2254,
+      "raw_unique_target_word_count": 2070,
+      "source_owner_eligible_instruction_count": 264
+    },
+    "summary": {
+      "block_count": 7648,
+      "instruction_bytes": 85236,
+      "instruction_count": 40635
+    },
+    "thumb_block_denominator_sha256": "03cbf5a60b3f317b978891dfcad72c50bd9cb8bc54de271b96b0c303245f9c80"
+  },
+  "summary": {
+    "merged_target_range_count": 17,
+    "source_instruction_count": 82,
+    "target_bytes": 308,
+    "unique_target_word_count": 77
+  },
+  "v3_packet_target_overlap_word_count": 0,
+  "v3_shadow_evidence": {
+    "current_unknown_target_source_count": 0,
+    "final_shadow_row_count": 0,
+    "promoted": false,
+    "raw_consumer_code_slice_source_count": 17,
+    "shadow_rows": [],
+    "source_directory": "artifacts/rom-cfg-inventory-v3",
+    "source_exporter_sha256": "d7eb2d6767dfd96ccce5c888d6dd8b77624841f774a173436ea45b5d035a5a5a",
+    "source_manifest_sha256": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+    "source_payload": "rom-cfg-inventory-v3.json",
+    "source_payload_sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+    "source_test_sha256": "0748bbc8be6e7e8c173193c2ecccb4479b449104973ffd7ea6c1a957b8f2ffdc",
+    "source_verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a",
+    "target_primary_class_counts": {
+      "consumer_code_slice": 17
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_cfg_v2_shadowed_consumed_literals.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-cfg-v2-shadowed-consumed-literals-v1"
+    ],
+    "exit_code": 0
+  }
+}

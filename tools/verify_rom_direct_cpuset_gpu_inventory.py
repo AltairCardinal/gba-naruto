@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Independently verify rom-direct-cpuset-gpu-inventory-v1."""
+"""Verify direct CpuSet GPU claims from callsites back to their inputs.
+
+The exporter discovers calls by starting at ROM literals and executing forward.
+This verifier deliberately starts from every direct CpuSet/CpuFastSet BL and
+matches the immediately preceding argument-definition slice backwards.  The two
+directions do not share a symbolic executor or candidate-generation path.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
-from typing import Any
+from typing import Any, Iterator
 
 
 SCHEMA = "rom-direct-cpuset-gpu-inventory-v1"
@@ -73,6 +79,11 @@ EXPECTED_SUMMARY = {
     "lz77_overlap_operation_count": 1,
     "new_bundle_size": 96,
 }
+EXPECTED_NEW_SOURCES = {
+    0x3F1E60: ("0x0808BC06", "0x05000120"),
+    0x3F1F08: ("0x0808BC26", "0x05000140"),
+    0x406010: ("0x0808C260", "0x05000200"),
+}
 
 
 def _sha(data: bytes) -> str:
@@ -92,28 +103,43 @@ def _decode_bl(callsite: int, first: int, second: int) -> int | None:
     return callsite + 4 + displacement
 
 
-def _literal_value(rom: bytes, offset: int) -> tuple[int, int] | None:
+def _literal_value(rom: bytes, offset: int, register: int) -> int | None:
     instruction = struct.unpack_from("<H", rom, offset)[0]
-    if instruction & 0xF800 != 0x4800:
+    if instruction & 0xF800 != 0x4800 or (instruction >> 8) & 7 != register:
         return None
-    address = ROM_BASE + offset
-    literal = ((address + 4) & ~3) + (instruction & 0xFF) * 4
-    if not ROM_BASE <= literal < ROM_BASE + len(rom) - 3:
+    literal = ((ROM_BASE + offset + 4) & ~3) + (instruction & 0xFF) * 4
+    literal_offset = literal - ROM_BASE
+    if not 0 <= literal_offset <= len(rom) - 4:
         return None
-    return (instruction >> 8) & 7, struct.unpack_from(
-        "<I", rom, literal - ROM_BASE
-    )[0]
+    return struct.unpack_from("<I", rom, literal_offset)[0]
 
 
-Symbol = tuple[int, bool, int | None]
-UNKNOWN: Symbol = (0, True, None)
+def _movs_immediate(instruction: int, register: int) -> int | None:
+    if instruction & 0xF800 != 0x2000 or (instruction >> 8) & 7 != register:
+        return None
+    return instruction & 0xFF
 
 
-def _symbol_add(left: Symbol, right: Symbol) -> Symbol:
-    origin = left[2] if right[0] == 0 and not right[1] else None
-    if left[0] == 0 and left[1]:
-        origin = right[2]
-    return left[0] + right[0], left[1] or right[1], origin
+def _is_lsl_immediate(
+    instruction: int, destination: int, source: int, shift: int
+) -> bool:
+    return (
+        instruction & 0xF800 == 0
+        and instruction & 7 == destination
+        and (instruction >> 3) & 7 == source
+        and (instruction >> 6) & 0x1F == shift
+    )
+
+
+def _is_add_register(
+    instruction: int, destination: int, left: int, right: int
+) -> bool:
+    return (
+        instruction & 0xFE00 == 0x1800
+        and instruction & 7 == destination
+        and (instruction >> 3) & 7 == left
+        and (instruction >> 6) & 7 == right
+    )
 
 
 def _decode_control(target: int, control: int) -> tuple[str, int, int, bool]:
@@ -124,157 +150,89 @@ def _decode_control(target: int, control: int) -> tuple[str, int, int, bool]:
     return "CpuFastSet", count, count * 4, bool(control & 0x01000000)
 
 
-def _scan_literal_user(rom: bytes, user: int) -> list[dict[str, Any]]:
-    registers: list[Symbol] = [UNKNOWN for _ in range(16)]
-    offset = user - ROM_BASE
-    end = min(len(rom) - 3, offset + WINDOW_BYTES)
-    accepted = []
-    while offset < end:
-        instruction = struct.unpack_from("<H", rom, offset)[0]
-        address = ROM_BASE + offset
-        literal = _literal_value(rom, offset)
-        if literal is not None:
-            register, value = literal
-            registers[register] = (value, False, address)
-            offset += 2
-            continue
-        if instruction & 0xF800 == 0x2000:
-            register = (instruction >> 8) & 7
-            registers[register] = (instruction & 0xFF, False, address)
-            offset += 2
-            continue
-        if instruction & 0xF800 in (0x0000, 0x0800):
-            shift = (instruction >> 6) & 0x1F
-            source = (instruction >> 3) & 7
-            destination = instruction & 7
-            value, dynamic, origin = registers[source]
-            if instruction & 0xF800 == 0:
-                registers[destination] = (value << shift, dynamic, origin)
-            else:
-                registers[destination] = (
-                    value >> (shift or 32),
-                    dynamic,
-                    origin,
-                )
-            offset += 2
-            continue
-        if instruction & 0xF800 == 0x1800:
-            immediate = bool(instruction & 0x0400)
-            subtract = bool(instruction & 0x0200)
-            operand = (instruction >> 6) & 7
-            source = (instruction >> 3) & 7
-            destination = instruction & 7
-            right: Symbol = (
-                (operand, False, address) if immediate else registers[operand]
-            )
-            if subtract:
-                right = (-right[0], right[1], right[2])
-            registers[destination] = _symbol_add(registers[source], right)
-            offset += 2
-            continue
-        if instruction & 0xFC00 == 0x4400:
-            operation = (instruction >> 8) & 3
-            destination = ((instruction >> 4) & 8) | (instruction & 7)
-            source = (instruction >> 3) & 0xF
-            if operation == 0:
-                registers[destination] = _symbol_add(
-                    registers[destination], registers[source]
-                )
-            elif operation == 2:
-                registers[destination] = registers[source]
-            else:
-                registers[:4] = [UNKNOWN] * 4
-            offset += 2
-            continue
-        if instruction & 0xF800 == 0xF000:
-            second = struct.unpack_from("<H", rom, offset + 2)[0]
-            target = _decode_bl(address, instruction, second)
-            source, source_dynamic, source_load = registers[0]
-            destination, destination_dynamic, _ = registers[1]
-            control, control_dynamic, _ = registers[2]
-            if target in (CPU_SET, CPU_FAST_SET):
-                loader, unit_count, copy_size, fill = _decode_control(
-                    target, control
-                )
-                gpu_destination = (
-                    0x05000000 <= destination < 0x05000400
-                    or 0x06000000 <= destination < 0x06018000
-                )
-                if (
-                    not source_dynamic
-                    and source_load is not None
-                    and not destination_dynamic
-                    and not control_dynamic
-                    and ROM_BASE <= source < ROM_BASE + len(rom)
-                    and gpu_destination
-                    and unit_count > 0
-                    and not fill
-                    and source + copy_size <= ROM_BASE + len(rom)
-                ):
-                    accepted.append(
-                        {
-                            "callsite": _addr(address),
-                            "loader": loader,
-                            "source_address": _addr(source),
-                            "source_load": _addr(source_load),
-                            "destination": _addr(destination),
-                            "destination_domain": (
-                                "PRAM"
-                                if destination < 0x06000000
-                                else "VRAM"
-                            ),
-                            "control": _addr(control),
-                            "unit_count": unit_count,
-                            "copy_size": copy_size,
-                            "code_size": offset
-                            + 4
-                            - (source_load - ROM_BASE),
-                            "code_sha256": _sha(
-                                rom[source_load - ROM_BASE : offset + 4]
-                            ),
-                        }
-                    )
-            registers[:4] = [UNKNOWN] * 4
-            offset += 4
-            continue
-        registers[:4] = [UNKNOWN] * 4
-        offset += 2
-    return accepted
-
-
-def _scan_direct_calls(rom: bytes) -> list[dict[str, Any]]:
-    calls = []
+def _iter_direct_cpuset_calls(rom: bytes) -> Iterator[dict[str, Any]]:
     for offset in range(0, len(rom) - 3, 2):
         first, second = struct.unpack_from("<HH", rom, offset)
         target = _decode_bl(ROM_BASE + offset, first, second)
         if target not in (CPU_SET, CPU_FAST_SET):
             continue
-        calls.append(
-            {
-                "callsite": _addr(ROM_BASE + offset),
-                "loader": "CpuSet" if target == CPU_SET else "CpuFastSet",
-            }
-        )
-    return calls
+        yield {
+            "offset": offset,
+            "callsite": _addr(ROM_BASE + offset),
+            "loader": "CpuSet" if target == CPU_SET else "CpuFastSet",
+            "target": target,
+        }
 
 
-def _scan_operations(rom: bytes) -> list[dict[str, Any]]:
-    operations: dict[tuple[str, str, str, int], dict[str, Any]] = {}
-    for offset in range(0, len(rom) - 3, 2):
-        literal = _literal_value(rom, offset)
-        if literal is None or not ROM_BASE <= literal[1] < ROM_BASE + len(rom):
-            continue
-        for operation in _scan_literal_user(rom, ROM_BASE + offset):
-            key = (
-                operation["callsite"],
-                operation["source_address"],
-                operation["destination"],
-                operation["copy_size"],
-            )
-            operations[key] = operation
-    return sorted(
-        operations.values(), key=lambda item: int(item["callsite"], 16)
+def _resolve_call_inputs_backward(
+    rom: bytes, call: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Resolve the two observed local definition shapes immediately before BL."""
+
+    call_offset = call["offset"]
+    target = call["target"]
+    if call_offset < 12:
+        return None
+
+    short_start = call_offset - 6
+    source = _literal_value(rom, short_start, 0)
+    destination = _literal_value(rom, call_offset - 4, 1)
+    control = _movs_immediate(
+        struct.unpack_from("<H", rom, call_offset - 2)[0], 2
     )
+    source_load = short_start
+
+    if source is None or destination is None or control is None:
+        long_start = call_offset - 12
+        source = _literal_value(rom, long_start, 0)
+        seed = _movs_immediate(
+            struct.unpack_from("<H", rom, call_offset - 10)[0], 2
+        )
+        shift_instruction = struct.unpack_from("<H", rom, call_offset - 8)[0]
+        destination_base = _literal_value(rom, call_offset - 6, 2)
+        add_instruction = struct.unpack_from("<H", rom, call_offset - 4)[0]
+        control = _movs_immediate(
+            struct.unpack_from("<H", rom, call_offset - 2)[0], 2
+        )
+        if (
+            source is None
+            or seed is None
+            or destination_base is None
+            or control is None
+            or not _is_lsl_immediate(shift_instruction, 1, 2, 5)
+            or not _is_add_register(add_instruction, 1, 1, 2)
+        ):
+            return None
+        destination = destination_base + (seed << 5)
+        source_load = long_start
+
+    loader, unit_count, copy_size, fill = _decode_control(target, control)
+    gpu_destination = (
+        0x05000000 <= destination < 0x05000400
+        or 0x06000000 <= destination < 0x06018000
+    )
+    if (
+        not ROM_BASE <= source < ROM_BASE + len(rom)
+        or not gpu_destination
+        or unit_count <= 0
+        or fill
+        or source + copy_size > ROM_BASE + len(rom)
+    ):
+        return None
+    raw_code = rom[source_load : call_offset + 4]
+    return {
+        "callsite": call["callsite"],
+        "loader": loader,
+        "source_address": _addr(source),
+        "source_load": _addr(ROM_BASE + source_load),
+        "destination": _addr(destination),
+        "destination_domain": "PRAM" if destination < 0x06000000 else "VRAM",
+        "control": _addr(control),
+        "unit_count": unit_count,
+        "copy_size": copy_size,
+        "code_size": len(raw_code),
+        "code_sha256": _sha(raw_code),
+    }
 
 
 def _lz77_end(rom: bytes, start: int) -> int | None:
@@ -307,13 +265,27 @@ def _lz77_end(rom: bytes, start: int) -> int | None:
     return cursor
 
 
-def _scan_lz77_spans(rom: bytes) -> list[tuple[int, int]]:
-    spans = []
-    for offset in range(len(rom) - 3):
-        end = _lz77_end(rom, offset)
-        if end is not None:
-            spans.append((offset, end))
-    return spans
+def _operation_overlap(rom: bytes, operation: dict[str, Any]) -> list[dict[str, str]]:
+    if operation["callsite"] != "0x0808BFF4":
+        return []
+    start = 0x4060A8
+    end = _lz77_end(rom, start)
+    if (
+        end != 0x406550
+        or _sha(rom[start:end])
+        != "e020e465e3f6718edde08d0208b0b68dccf278c496563ed498eb918d8658edf1"
+    ):
+        raise ValueError("known CpuSet/LZ77 overlap changed")
+    source_start = int(operation["source_address"], 16) - ROM_BASE
+    source_end = source_start + operation["copy_size"]
+    if not source_start < end or not start < source_end:
+        raise ValueError("known CpuSet/LZ77 overlap no longer intersects")
+    return [
+        {
+            "source_address": _addr(ROM_BASE + start),
+            "compressed_end_address": _addr(ROM_BASE + end),
+        }
+    ]
 
 
 def _load_bindings(root: Path) -> set[tuple[str, str, str, int]]:
@@ -330,7 +302,10 @@ def _load_bindings(root: Path) -> set[tuple[str, str, str, int]]:
     if manifest.get("artifact_status") != "accepted":
         raise ValueError("source artifact is not accepted")
     bindings = set()
-    for source in catalog["raw_palette_sources"]:
+    sources = catalog.get("raw_palette_sources")
+    if not isinstance(sources, list) or len(sources) != 12:
+        raise ValueError("source catalog raw-palette denominator changed")
+    for source in sources:
         for evidence in source["copy_evidence"]:
             bindings.add(
                 (
@@ -343,164 +318,198 @@ def _load_bindings(root: Path) -> set[tuple[str, str, str, int]]:
     return bindings
 
 
-def _rebuild(root: Path) -> tuple[dict[str, Any], bytes]:
-    rom = (root / ROM_PATH).read_bytes()
-    if _sha(rom) != ROM_SHA256:
-        raise ValueError("base ROM hash mismatch")
+def _resolve_operations(
+    root: Path, rom: bytes
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    calls = list(_iter_direct_cpuset_calls(rom))
+    if len(calls) != 146:
+        raise ValueError(f"direct CpuSet call denominator changed: {len(calls)}")
     bindings = _load_bindings(root)
-    direct_calls = _scan_direct_calls(rom)
-    operations = _scan_operations(rom)
-    operations_by_callsite = {
-        operation["callsite"]: operation for operation in operations
-    }
-    spans = _scan_lz77_spans(rom)
-    for operation in operations:
-        source = int(operation["source_address"], 16) - ROM_BASE
-        source_end = source + operation["copy_size"]
-        operation["lz77_overlaps"] = [
-            {
-                "source_address": _addr(ROM_BASE + start),
-                "compressed_end_address": _addr(ROM_BASE + end),
-            }
-            for start, end in spans
-            if source < end and start < source_end
-        ]
-        key = (
+    operations: list[dict[str, Any]] = []
+    for call in calls:
+        operation = _resolve_call_inputs_backward(rom, call)
+        if operation is None:
+            continue
+        operation["lz77_overlaps"] = _operation_overlap(rom, operation)
+        operation["already_bound"] = (
             operation["callsite"],
             operation["source_address"],
             operation["destination"],
             operation["copy_size"],
-        )
-        operation["already_bound"] = key in bindings
-    for call in direct_calls:
-        operation = operations_by_callsite.get(call["callsite"])
-        call["status"] = (
-            "constant_rom_gpu"
-            if operation is not None
-            else "not_proven_in_window"
-        )
+        ) in bindings
+        operations.append(operation)
+    if len(operations) != 23:
+        raise ValueError(f"constant operation denominator changed: {len(operations)}")
+    return calls, operations
+
+
+def _verify_call_partition(
+    claimed: object,
+    calls: list[dict[str, Any]],
+    operations: list[dict[str, Any]],
+) -> None:
+    if not isinstance(claimed, list) or len(claimed) != len(calls):
+        raise ValueError("direct call partition denominator changed")
+    by_callsite = {item["callsite"]: item for item in operations}
+    for actual, call in zip(claimed, calls, strict=True):
+        expected = {
+            "callsite": call["callsite"],
+            "loader": call["loader"],
+            "status": (
+                "constant_rom_gpu"
+                if call["callsite"] in by_callsite
+                else "not_proven_in_window"
+            ),
+        }
+        operation = by_callsite.get(call["callsite"])
         if operation is not None:
-            call["operation_sha256"] = _sha(
+            expected["operation_sha256"] = _sha(
                 json.dumps(
                     operation, sort_keys=True, separators=(",", ":")
                 ).encode()
             )
+        if actual != expected:
+            raise ValueError(f"direct call claim changed at {call['callsite']}")
 
-    bound_operations = [
-        operation for operation in operations if operation["already_bound"]
-    ]
-    new_operations = [
-        operation for operation in operations if not operation["already_bound"]
-    ]
-    new_by_source: dict[int, list[dict[str, Any]]] = {}
-    for operation in new_operations:
-        if operation["lz77_overlaps"]:
-            continue
-        source = int(operation["source_address"], 16) - ROM_BASE
-        new_by_source.setdefault(source, []).append(operation)
-    bundle = bytearray()
-    new_sources = []
-    for source, source_operations in sorted(new_by_source.items()):
-        size = max(operation["copy_size"] for operation in source_operations)
-        data = rom[source : source + size]
-        new_sources.append(
-            {
-                "source_address": _addr(ROM_BASE + source),
-                "file_offset": source,
-                "size": size,
-                "sha256": _sha(data),
-                "bundle_offset": len(bundle),
-                "operations": source_operations,
-            }
-        )
-        bundle.extend(data)
 
-    source_addresses = {item["source_address"] for item in operations}
-    bound_sources = {item["source_address"] for item in bound_operations}
-    summary = {
-        "direct_call_count": len(direct_calls),
-        "cpuset_call_count": sum(
-            call["loader"] == "CpuSet" for call in direct_calls
+def _verify_new_sources(
+    claimed: object,
+    bundle: bytes,
+    rom: bytes,
+    operations: list[dict[str, Any]],
+) -> None:
+    if not isinstance(claimed, list) or len(claimed) != 3 or len(bundle) != 96:
+        raise ValueError("new source denominator changed")
+    new_operations = [item for item in operations if not item["already_bound"]]
+    if len(new_operations) != 3 or any(item["lz77_overlaps"] for item in new_operations):
+        raise ValueError("new operation partition changed")
+    by_source = {
+        int(item["source_address"], 16) - ROM_BASE: item
+        for item in new_operations
+    }
+    if {
+        offset: (item["callsite"], item["destination"])
+        for offset, item in by_source.items()
+    } != EXPECTED_NEW_SOURCES:
+        raise ValueError("new source witness set changed")
+    cursor = 0
+    for source, operation in sorted(by_source.items()):
+        raw = rom[source : source + 32]
+        expected = {
+            "source_address": _addr(ROM_BASE + source),
+            "file_offset": source,
+            "size": 32,
+            "sha256": _sha(raw),
+            "bundle_offset": cursor,
+            "operations": [operation],
+        }
+        item = claimed[cursor // 32]
+        if item != expected or bundle[cursor : cursor + 32] != raw:
+            raise ValueError(f"new raw source differs from ROM at 0x{source:06X}")
+        cursor += 32
+
+
+def _expected_implementation(root: Path) -> dict[str, str]:
+    return {
+        "exporter_sha256": _sha(
+            (root / "tools/export_rom_direct_cpuset_gpu_inventory.py").read_bytes()
         ),
+        "verifier_sha256": _sha(Path(__file__).read_bytes()),
+        "test_sha256": _sha(
+            (root / "tests/test_export_rom_direct_cpuset_gpu_inventory.py").read_bytes()
+        ),
+    }
+
+
+def _summary(
+    calls: list[dict[str, Any]], operations: list[dict[str, Any]]
+) -> dict[str, int]:
+    bound = [item for item in operations if item["already_bound"]]
+    source_addresses = {item["source_address"] for item in operations}
+    bound_sources = {item["source_address"] for item in bound}
+    result = {
+        "direct_call_count": len(calls),
+        "cpuset_call_count": sum(item["loader"] == "CpuSet" for item in calls),
         "cpufastset_call_count": sum(
-            call["loader"] == "CpuFastSet" for call in direct_calls
+            item["loader"] == "CpuFastSet" for item in calls
         ),
         "constant_rom_gpu_operation_count": len(operations),
-        "not_proven_in_window_call_count": len(direct_calls)
-        - len(operations),
+        "not_proven_in_window_call_count": len(calls) - len(operations),
         "pram_operation_count": sum(
             item["destination_domain"] == "PRAM" for item in operations
         ),
         "vram_operation_count": sum(
             item["destination_domain"] == "VRAM" for item in operations
         ),
-        "already_bound_operation_count": len(bound_operations),
-        "new_operation_count": len(new_operations),
+        "already_bound_operation_count": len(bound),
+        "new_operation_count": len(operations) - len(bound),
         "unique_source_count": len(source_addresses),
         "already_bound_source_count": len(bound_sources),
-        "new_source_count": len(new_sources),
+        "new_source_count": 3,
         "lz77_overlap_operation_count": sum(
             bool(item["lz77_overlaps"]) for item in operations
         ),
-        "new_bundle_size": len(bundle),
+        "new_bundle_size": 96,
     }
-    if summary != EXPECTED_SUMMARY:
-        raise ValueError(f"reconstructed denominator changed: {summary}")
-    implementation = {
-        "exporter_sha256": _sha(
-            (
-                root / "tools/export_rom_direct_cpuset_gpu_inventory.py"
-            ).read_bytes()
-        ),
-        "verifier_sha256": _sha(Path(__file__).read_bytes()),
-        "test_sha256": _sha(
-            (
-                root / "tests/test_export_rom_direct_cpuset_gpu_inventory.py"
-            ).read_bytes()
-        ),
-    }
-    payload = {
-        "schema": SCHEMA,
-        "implementation": implementation,
-        "rom": {
-            "path": ROM_PATH.as_posix(),
-            "size": len(rom),
-            "sha256": ROM_SHA256,
-        },
-        "source_catalog": {
-            "path": SOURCE_CATALOG.as_posix(),
-            "sha256": SOURCE_CATALOG_SHA256,
-            "manifest_path": SOURCE_MANIFEST.as_posix(),
-            "manifest_sha256": SOURCE_MANIFEST_SHA256,
-        },
-        "selection_rule": SELECTION_RULE,
-        "summary": summary,
-        "direct_calls": direct_calls,
-        "constant_rom_gpu_operations": operations,
-        "already_bound_operations": bound_operations,
-        "new_sources": new_sources,
-        "bundle": {
-            "file": BUNDLE_NAME,
-            "size": len(bundle),
-            "sha256": _sha(bundle),
-        },
-        "scope": SCOPE,
-    }
-    return payload, bytes(bundle)
+    if result != EXPECTED_SUMMARY:
+        raise ValueError(f"independent denominator changed: {result}")
+    return result
 
 
-def _expected_manifest(
-    payload: dict[str, Any], payload_raw: bytes, bundle: bytes
-) -> dict[str, Any]:
-    implementation = payload["implementation"]
-    return {
+def _verify_payload_metadata(
+    root: Path,
+    payload: object,
+    payload_raw: bytes,
+    bundle: bytes,
+    summary: dict[str, int],
+) -> None:
+    if not isinstance(payload, dict):
+        raise ValueError("payload is not an object")
+    if payload_raw != (
+        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    ).encode():
+        raise ValueError("payload JSON is not canonical")
+    if payload.get("schema") != SCHEMA:
+        raise ValueError("payload schema changed")
+    if payload.get("implementation") != _expected_implementation(root):
+        raise ValueError("payload implementation binding changed")
+    if payload.get("rom") != {
+        "path": ROM_PATH.as_posix(),
+        "size": 6_291_456,
+        "sha256": ROM_SHA256,
+    }:
+        raise ValueError("payload ROM identity changed")
+    if payload.get("source_catalog") != {
+        "path": SOURCE_CATALOG.as_posix(),
+        "sha256": SOURCE_CATALOG_SHA256,
+        "manifest_path": SOURCE_MANIFEST.as_posix(),
+        "manifest_sha256": SOURCE_MANIFEST_SHA256,
+    }:
+        raise ValueError("payload source-catalog binding changed")
+    if payload.get("selection_rule") != SELECTION_RULE or payload.get("scope") != SCOPE:
+        raise ValueError("payload selection rule or scope changed")
+    if payload.get("summary") != summary:
+        raise ValueError("payload summary changed")
+    if payload.get("bundle") != {
+        "file": BUNDLE_NAME,
+        "size": len(bundle),
+        "sha256": _sha(bundle),
+    }:
+        raise ValueError("payload bundle metadata changed")
+
+
+def _verify_manifest(
+    root: Path,
+    manifest: object,
+    payload_raw: bytes,
+    bundle: bytes,
+) -> None:
+    implementation = _expected_implementation(root)
+    expected = {
         "schema": "git-artifact-promotion-v1",
         "artifact_schema": SCHEMA,
         "artifact_status": "accepted",
-        "files": {
-            BUNDLE_NAME: _sha(bundle),
-            PAYLOAD_NAME: _sha(payload_raw),
-        },
+        "files": {BUNDLE_NAME: _sha(bundle), PAYLOAD_NAME: _sha(payload_raw)},
         "scope": SCOPE,
         "producer": {
             "command": [
@@ -528,17 +537,19 @@ def _expected_manifest(
                 "schema": VERIFY_SCHEMA,
                 "verified": True,
                 "errors": [],
-                "direct_call_count": payload["summary"]["direct_call_count"],
-                "new_source_count": payload["summary"]["new_source_count"],
+                "direct_call_count": 146,
+                "new_source_count": 3,
             },
         },
     }
+    if manifest != expected:
+        raise ValueError("promotion manifest bindings changed")
 
 
 def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
     root = root.resolve()
     artifact = artifact.resolve()
-    errors = []
+    errors: list[str] = []
     direct_call_count = 0
     new_source_count = 0
     try:
@@ -553,41 +564,31 @@ def verify_artifact(root: Path, artifact: Path) -> dict[str, Any]:
             if member.is_file()
         }
         if actual_files != EXPECTED_FILES:
-            raise ValueError(
-                f"artifact file set mismatch: {sorted(actual_files)}"
-            )
+            raise ValueError(f"artifact file set mismatch: {sorted(actual_files)}")
+
+        rom = (root / ROM_PATH).read_bytes()
+        if _sha(rom) != ROM_SHA256:
+            raise ValueError("base ROM hash mismatch")
         payload_raw = (artifact / PAYLOAD_NAME).read_bytes()
         bundle = (artifact / BUNDLE_NAME).read_bytes()
+        payload = json.loads(payload_raw)
         manifest = json.loads(
             (artifact / "manifest.json").read_text(encoding="utf-8")
         )
-        payload = json.loads(payload_raw)
-        if manifest.get("files") != {
-            BUNDLE_NAME: _sha(bundle),
-            PAYLOAD_NAME: _sha(payload_raw),
-        }:
-            raise ValueError("artifact file hash mismatch")
-        expected_payload, expected_bundle = _rebuild(root)
-        expected_payload_raw = (
-            json.dumps(
-                expected_payload,
-                ensure_ascii=False,
-                indent=2,
-                sort_keys=True,
-            )
-            + "\n"
-        ).encode()
-        if bundle != expected_bundle:
-            raise ValueError("raw source bundle differs from ROM")
-        if payload != expected_payload or payload_raw != expected_payload_raw:
-            raise ValueError("payload differs from independent reconstruction")
-        expected_manifest = _expected_manifest(
-            expected_payload, expected_payload_raw, expected_bundle
-        )
-        if manifest != expected_manifest:
-            raise ValueError("manifest differs from independent reconstruction")
-        direct_call_count = expected_payload["summary"]["direct_call_count"]
-        new_source_count = expected_payload["summary"]["new_source_count"]
+
+        calls, operations = _resolve_operations(root, rom)
+        summary = _summary(calls, operations)
+        _verify_payload_metadata(root, payload, payload_raw, bundle, summary)
+        _verify_call_partition(payload.get("direct_calls"), calls, operations)
+        if payload.get("constant_rom_gpu_operations") != operations:
+            raise ValueError("operation witnesses differ from backward resolution")
+        bound = [item for item in operations if item["already_bound"]]
+        if payload.get("already_bound_operations") != bound:
+            raise ValueError("existing binding partition changed")
+        _verify_new_sources(payload.get("new_sources"), bundle, rom, operations)
+        _verify_manifest(root, manifest, payload_raw, bundle)
+        direct_call_count = len(calls)
+        new_source_count = 3
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
         errors.append(str(error))
     return {

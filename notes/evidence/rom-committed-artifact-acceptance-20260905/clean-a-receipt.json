@@ -1,0 +1,49 @@
+{
+  "bundle_summary": {
+    "bridge_counts": {
+      "aggregate_coverage_verifier": 21,
+      "direct_proof_verifier": 32,
+      "immutable_precoverage_binding": 11
+    },
+    "classified_bytes": 6203707,
+    "external_trust_anchor_verified": false,
+    "formal_contracts": 106,
+    "global_blockers": 175,
+    "global_complete": false,
+    "member_count": 160,
+    "newly_classified_bytes": 0,
+    "rom_contracts": 96,
+    "root_count": 64,
+    "semantic_verifiers_reexecuted": false,
+    "unknown_bytes": 87749
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "tests.test_staged_legacy_artifact_acceptance",
+        "tests.test_verify_legacy_artifact_acceptance",
+        "tests.test_rebuild_legacy_artifact_acceptance",
+        "-v"
+      ],
+      "exit_code": 0,
+      "label": "clean-a-tests",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_legacy_artifact_acceptance.py",
+        "--artifact",
+        "artifacts/rom-legacy-acceptance-20260905-v1"
+      ],
+      "exit_code": 0,
+      "label": "clean-a-bundle",
+      "stdout_sha256": "42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c"
+    }
+  ],
+  "commit": "47d9a60e668a5c3fe6e1123524864d21a2c93545",
+  "status": "clean_committed_authority_verified"
+}

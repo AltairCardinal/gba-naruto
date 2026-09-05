@@ -15,6 +15,7 @@ from PIL import Image
 
 ROM_BASE = 0x08000000
 ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+VERIFICATION_SCHEMA = "character-battle-visuals-verification-v1"
 TABLE_OFFSET = 0x596D5C
 CHARACTER_COUNT = 62
 SLOTS_PER_CHARACTER = 9
@@ -802,6 +803,7 @@ def verify_artifact(root: Path, artifact_dir: Path) -> dict[str, Any]:
     ) as error:
         errors.append(str(error))
     return {
+        "schema": VERIFICATION_SCHEMA,
         "verified": not errors,
         **{
             key: totals[key]

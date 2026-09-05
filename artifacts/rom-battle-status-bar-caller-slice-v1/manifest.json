@@ -1,0 +1,135 @@
+{
+  "artifact_schema": "rom-battle-status-bar-caller-slice-v1",
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "files": {
+    "rom-battle-status-bar-caller-slice.json": "7cc1af7fad6573a0901bda847e3c3a2665229e60623fae2426a679ace83e1217"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_battle_status_bar_caller_slice.py",
+      "sha256": "4ee737901c86a7cb9cc1481359111f9f8d5b4f360675954c38bf78022e08a331"
+    },
+    "test": {
+      "path": "tests/test_export_rom_battle_status_bar_caller_slice.py",
+      "sha256": "681e1adb476eb57080ba6c1cb45b84392a8fbc3517e80e92ae2f1822a8e488cf"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_battle_status_bar_caller_slice.py",
+        "sha256": "5b27ae1a234383cef2b2feb49b2afb8155d2344b512e6bf27df072bb4ad74c25"
+    }
+  },
+  "schema": "rom-battle-status-bar-caller-slice-v1-artifact-manifest-v1",
+  "source": {
+    "artifact_schema": "battle-status-bars-v1",
+    "bl_denominator": {
+      "algorithm": "full_rom_2byte_aligned_thumb_bl_to_target",
+      "alignment": 2,
+      "match_count": 4,
+      "matches": [
+        {
+          "file_offset": 454870,
+          "gba_address": "0x0806F0D6",
+          "raw_hex": "f9f74bf9"
+        },
+        {
+          "file_offset": 454892,
+          "gba_address": "0x0806F0EC",
+          "raw_hex": "f9f740f9"
+        },
+        {
+          "file_offset": 501820,
+          "gba_address": "0x0807A83C",
+          "raw_hex": "edf798fd"
+        },
+        {
+          "file_offset": 501926,
+          "gba_address": "0x0807A8A6",
+          "raw_hex": "edf763fd"
+        }
+      ],
+      "matches_sha256": "46237f1e81a3e4e3846aabe4445fb25544e55c1ce6ed776055ae3ac9e49f7dd2",
+      "outside_target_matches": [
+        {
+          "file_offset": 454870,
+          "gba_address": "0x0806F0D6",
+          "raw_hex": "f9f74bf9"
+        },
+        {
+          "file_offset": 454892,
+          "gba_address": "0x0806F0EC",
+          "raw_hex": "f9f740f9"
+        }
+      ],
+      "target_gba_address": "0x08068370",
+      "target_slice_matches": [
+        {
+          "file_offset": 501820,
+          "gba_address": "0x0807A83C",
+          "raw_hex": "edf798fd"
+        },
+        {
+          "file_offset": 501926,
+          "gba_address": "0x0807A8A6",
+          "raw_hex": "edf763fd"
+        }
+      ]
+    },
+    "coverage": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+    },
+    "exporter": {
+      "path": "tools/export_battle_status_bars.py",
+      "sha256": "1118ff63553ee1e31606a96b0d6564609beada3a42a37e8118a4e16103b55102"
+    },
+    "generator_gba_address": "0x08068370",
+    "manifest": {
+      "path": "artifacts/battle-status-bars-v1/manifest.json",
+      "sha256": "d88242fa88213b96d8fe48430a0758a3bb79adf7dd6bb6d22e7d00da9711c0d0"
+    },
+    "payload": {
+      "path": "artifacts/battle-status-bars-v1/battle-status-bars.json",
+      "sha256": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb"
+    },
+    "target_caller": {
+      "file_range": [
+        500556,
+        502412
+      ],
+      "gba_range": [
+        "0x0807A34C",
+        "0x0807AA8C"
+      ],
+      "sha256": "f400ef9501381b6e005e7d9c51add8ac5fe3dc4217a3fa6397e1ccdf3dc64c51"
+    },
+    "test": {
+      "path": "tests/test_export_battle_status_bars.py",
+      "sha256": "4a84c9eb211874b0d216bf061f18f213b2bfa3893e10307d76c3e9bc6fb7007e"
+    },
+    "verifier": {
+      "path": "tools/verify_battle_status_bars.py",
+      "sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+    },
+    "verifier_report": {
+      "exact_generated_unknown_cell_count": 181,
+      "schema": "battle-status-bars-verification-v1",
+      "sha256": "5e767d4d73caa72fa61ec11cd186f5f5aa4976424c33debd2e23bad689addfcd",
+      "verified": true
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_battle_status_bar_caller_slice.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-battle-status-bar-caller-slice-v1"
+    ],
+    "schema": "rom-battle-status-bar-caller-slice-verification-v1"
+  }
+}

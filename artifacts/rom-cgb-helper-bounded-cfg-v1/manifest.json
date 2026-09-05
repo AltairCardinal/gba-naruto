@@ -1,0 +1,38 @@
+{
+  "acceptance": {
+    "kind": "independent-candidate-acceptance",
+    "output_artifact": "artifacts/rom-cgb-helper-bounded-cfg-v1",
+    "source_candidate_artifact": "build/experiments/active/cgb-helper-bounded-cfg-20260829/candidate-r2",
+    "source_candidate_identity": {
+      "artifact_status": "candidate",
+      "bundle_sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+      "manifest_sha256": "cad4873e706f5425e75ee080af43096420be41a85d0f0cdf863496f0f792b3ad",
+      "payload_sha256": "dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960"
+    }
+  },
+  "artifact_schema": "rom-cgb-helper-bounded-cfg-v1",
+  "artifact_status": "accepted",
+  "contract_sha256": "e1f4d0b840d52b19ee996ee7c0ba18c41511f0c96b37f498f77954a24c9105b7",
+  "files": {
+    "rom-cgb-helper-bounded-cfg.bin": {
+      "sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+      "size": 180
+    },
+    "rom-cgb-helper-bounded-cfg.json": {
+      "sha256": "dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960",
+      "size": 42154
+    }
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verification": {
+    "bundle_sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+    "contract_ok": true,
+    "payload_sha256": "dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960",
+    "schema": "rom-cgb-helper-bounded-cfg-verification-v1",
+    "status": "verified"
+  },
+  "verifier": {
+    "path": "tools/verify_rom_cgb_helper_bounded_cfg.py",
+    "sha256": "d09f828511215b59fe8b60ba4bcf7e63fca48fc36d4c105e75175fa3b11179f3"
+  }
+}

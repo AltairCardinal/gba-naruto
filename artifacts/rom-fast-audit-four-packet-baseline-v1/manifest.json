@@ -1,0 +1,21 @@
+{
+  "artifact_schema": "rom-fast-audit-four-packet-baseline-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-byte-coverage.json.gz": {
+      "compression": "gzip",
+      "sha256": "c9572df49eca8f3ae65cb8fdc88f816dc7289f53055c730aaf746b28d840d42a",
+      "size": 1649084,
+      "uncompressed_sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+      "uncompressed_size": 29429521
+    }
+  },
+  "purpose": "Immutable replay input for four artifacts produced from the 2026-09-01 canonical coverage baseline; this prevents later canonical coverage promotion from invalidating their independent verifiers.",
+  "scope": {
+    "canonical_coverage_replacement": false,
+    "historical_baseline_only": true,
+    "packet_count": 4,
+    "promotion_bytes": 7140,
+    "promotion_claim_count": 116
+  }
+}

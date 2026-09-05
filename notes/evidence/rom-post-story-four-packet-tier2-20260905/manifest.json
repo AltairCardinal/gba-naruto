@@ -1,0 +1,188 @@
+{
+  "schema": "rom-post-story-four-packet-tier2-receipts-v1",
+  "status": "tier2_contracts_passed_committed_artifact_pending",
+  "source_run": "build/experiments/active/direct-root-overlap-cfg/root-063400-tier1-20260905/resume-20260905T052627Z",
+  "canonical_coverage_sha256": "f55cebff32db536bf9847dc7dc9b147a0c8868ee37ddf4cd66187b687eba8b96",
+  "proof_spec_sha256": "fad9c2b1c6cc9af8385826e1a41a2e72209ae151e8a4e4ffa6de934a7dd38a5a",
+  "baseline_coverage_sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+  "summary": {
+    "rom_bytes": 6291456,
+    "classified_bytes": 6203707,
+    "unknown_bytes": 87749,
+    "claim_count": 16891,
+    "segment_count": 18664
+  },
+  "batch_promoted_bytes": 978,
+  "batch_claim_count": 21,
+  "files": {
+    "coverage-guard.json": {
+      "sha256": "cfe2275f8d54c3801ba58cd7a63e12f67c1631a71c93a39e5c8e8b171537ad1c",
+      "size_bytes": 599
+    },
+    "coverage-build.log": {
+      "sha256": "3648bd29493afbb5ffce723cf173e1aa2827cd21fcda751e0498f8281f927296",
+      "size_bytes": 41303
+    },
+    "tier1-acceptance.json": {
+      "sha256": "24d9090232a566f4f8b5416880182f2337b5eaf31bb6a1df598dff399b3ae7e7",
+      "size_bytes": 4977
+    },
+    "official-verifier-1.json": {
+      "sha256": "4611b27fc0bc643f1de3062f75adf7c52de2e1d51b1fcee1f2078058d88003c8",
+      "size_bytes": 227
+    },
+    "official-verifier-2.json": {
+      "sha256": "4611b27fc0bc643f1de3062f75adf7c52de2e1d51b1fcee1f2078058d88003c8",
+      "size_bytes": 227
+    },
+    "official-replay-stability.json": {
+      "sha256": "be09b871aa6ee9ac7356887c3285318dc0600a996a437e2f1a32d2fea7e10048",
+      "size_bytes": 125
+    },
+    "candidate-export-guard.json": {
+      "sha256": "7f03e0caded2a41871abdd4bb178719a9c1c946ed5e2761d08f62a1fb479fab8",
+      "size_bytes": 672
+    },
+    "candidate-verifier-guard.json": {
+      "sha256": "ef4fbd31afe20750d35e262473e6e9225a6ba5b1887fd24a162354aeee023ffb",
+      "size_bytes": 685
+    },
+    "four-packet-corrected-green-guard.json": {
+      "sha256": "f792162fda8356ed7f89fd641b00f306661f26c50ba881b686b498bcadf0e79e",
+      "size_bytes": 619
+    },
+    "four-packet-corrected-green-tests.log": {
+      "sha256": "52d4a0a238b52a5a9ba5c71377fe2bcddec4d0e0b1212dd79a913ae9fe2a88c3",
+      "size_bytes": 101
+    },
+    "four-packet-red-guard.json": {
+      "sha256": "ff7b4812a98f260ecfd65ed0aee6c1d6c6c7738aebdbc2c270408345a759a5fc",
+      "size_bytes": 610
+    },
+    "four-packet-red-tests.log": {
+      "sha256": "afeab1689056f7d8869aedb94fa0ebcd3f50fbbf1b51fb67541b63942dd84029",
+      "size_bytes": 719
+    },
+    "lifecycle-green-guard.json": {
+      "sha256": "daf8cb5dc3f7e5678cdfca7b0a38472b67dc5cb237b6ac4f98a3dfe1762c7bce",
+      "size_bytes": 567
+    },
+    "lifecycle-green-tests.log": {
+      "sha256": "43449ced93957215a22f24b52078c72c7317ac25206f431618f17fc9d58096c2",
+      "size_bytes": 112
+    },
+    "lifecycle-red-guard.json": {
+      "sha256": "c0f55dcaafddf616458b34a1f73cc5c640464101cfc17f6ee805dcf887ec1ebf",
+      "size_bytes": 518
+    },
+    "lifecycle-red2-guard.json": {
+      "sha256": "a2d4e607231ba033d4e09a0f49fbff097be61f547e582254a83af6807babbdb1",
+      "size_bytes": 653
+    },
+    "lifecycle-red2-tests.log": {
+      "sha256": "9d66306ce832a3be6614ab440db148b659e96f9c015ddb8fb3ccc6e3344e1cac",
+      "size_bytes": 1012
+    },
+    "lifecycle-refactor-guard.json": {
+      "sha256": "737a07465b844f1a2e2e0f602a8789dc4cdfdfe595d36d5375b7858443ae2203",
+      "size_bytes": 568
+    },
+    "lifecycle-refactor-tests.log": {
+      "sha256": "f7d6c6eb27da0878940dbdce14b3c2c0523154b16f174f0bde9ea8bb2cc3dbe7",
+      "size_bytes": 112
+    },
+    "member-race-green-guard.json": {
+      "sha256": "d4010ae5dbf69636cd277feaeee8de6a9e1ca5456a109b9e9ea710f07fb1a063",
+      "size_bytes": 567
+    },
+    "member-race-green-tests.log": {
+      "sha256": "7f2be5a5591406f5277514d96ab21e8cf5beae960073c0eb9a6727f8c1972b0e",
+      "size_bytes": 116
+    },
+    "member-race-red-guard.json": {
+      "sha256": "72a0bafc4c294225593d02b9b6553bff4496c0f4f2b07434070c768a47747c04",
+      "size_bytes": 899
+    },
+    "member-race-red-tests.log": {
+      "sha256": "a142ec29efacd33b058a58943d3adb8fd4c963300dcc131397ddef48f71bfbdc",
+      "size_bytes": 4221
+    },
+    "official-export-guard.json": {
+      "sha256": "c0a5b339e98fd898709d8103589aa86c9e6abb6853fa0819ecc2f67b03a3a8eb",
+      "size_bytes": 600
+    },
+    "official-verifiers-guard.json": {
+      "sha256": "38a30c780311245d37cc0aaeb888c4f91673eccc47293522c281559c1d424dcf",
+      "size_bytes": 1207
+    },
+    "persistent-receipt-red-guard.json": {
+      "sha256": "c0c33c0d7e95159751d17191bb8292d4ad9bba3805ce0c032aecbcc1d7c424fb",
+      "size_bytes": 667
+    },
+    "persistent-receipt-red-tests.log": {
+      "sha256": "a636338239baec1923b27a281f7105674bfe32d01c0b1f275f996877f8dfc0ba",
+      "size_bytes": 1571
+    },
+    "projection-batch-green-guard.json": {
+      "sha256": "26d632bc7416c1aa265083f1d0b37b258264584df52852ad83563c981be63872",
+      "size_bytes": 911
+    },
+    "projection-batch-green-tests.log": {
+      "sha256": "5cdd25984979462a06655fdffa68a5258fbb5604728676ebc6e1c9adc3b05f8a",
+      "size_bytes": 1465
+    },
+    "projection-red-guard.json": {
+      "sha256": "9d04c43c00239672827cabed6d2c4be8170a7d4b9cca9046bf1999aa927b14ec",
+      "size_bytes": 591
+    },
+    "projection-red-tests.log": {
+      "sha256": "dfd7d3cb06ef0e33f4183576bcd4d964c864c1a07419ed459552c5d3e82cfd4b",
+      "size_bytes": 739
+    },
+    "tier2-canonical-proof-red-guard.json": {
+      "sha256": "91f5bf3007201b1405c0a312d3c643b8a000cfa6e577dfec87b73842f848373d",
+      "size_bytes": 691
+    },
+    "tier2-canonical-proof-red-tests.log": {
+      "sha256": "783c3bb9822abeb8aef36ce498f7ddc935191e0139feaeedac6e8be5c8859873",
+      "size_bytes": 3577
+    },
+    "tier2-canonical-proof-green-guard.json": {
+      "sha256": "e6b9380c1f8bda6cc2d92d470c8a411036b599469bbd6bee3a1d60a2d021a2cf",
+      "size_bytes": 580
+    },
+    "tier2-canonical-proof-green-tests.log": {
+      "sha256": "94f862ade444226d03c1df1d738af31ebfb499861eab6f775a9cb584592e907b",
+      "size_bytes": 108
+    },
+    "formal-guard.json": {
+      "sha256": "735b9505208758cd009c77d9a59d84f076d47181c9f2fb920d3bd4519f80d891",
+      "size_bytes": 762
+    },
+    "formal-report.json": {
+      "sha256": "099580ad012729bbce697779cae732ef8678a0966c2669dad51cce0f58f79f00",
+      "size_bytes": 133209
+    },
+    "formal.log": {
+      "sha256": "099580ad012729bbce697779cae732ef8678a0966c2669dad51cce0f58f79f00",
+      "size_bytes": 133209
+    }
+  },
+  "formal_complete_claimed": false,
+  "canonical_integration_tests": {
+    "test_count": 9,
+    "passed": true,
+    "guard": "tier2-canonical-proof-green-guard.json"
+  },
+  "formal_summary": {
+    "contracts_total": 106,
+    "contracts_passed": 106,
+    "rom_gate_contracts_total": 96,
+    "rom_gate_contracts_passed": 96,
+    "coverage_errors": 0,
+    "complete": false,
+    "blocker_count": 177,
+    "non_degraded": true
+  },
+  "next_gate": "64 historical artifact roots need an evidence-backed promotion-format migration; no hook bypass"
+}

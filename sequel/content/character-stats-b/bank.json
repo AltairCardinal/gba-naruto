@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "description": "Disproved legacy bank retained as a migration tombstone. 0x545200 is not an independent table.",
+  "description": "Disproved legacy bank retained as a migration tombstone. 0x545200 is not a separate physical table.",
   "table_offset": 5526016,
   "table_offset_hex": "0x545200",
   "entry_count": 0,
   "entry_size": 16,
   "verification": "disproved",
-  "verification_method": "Thumb consumer 0x0806D964 proves one 63-record table at 0x545068; 0x545200 is physical record 25 + 8 bytes.",
+  "verification_method": "Thumb consumer 0x0806D964 proves the canonical 63-record table at 0x545068; 0x545200 is physical record 25 + 8 bytes and therefore cannot start a separately writable physical bank. Alternative logical views of the canonical bytes are outside this negative claim.",
   "superseded_by": "sequel/content/character-stats/bank.json",
   "do_not_write": true,
   "entry_format": {

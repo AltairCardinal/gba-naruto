@@ -1,0 +1,50 @@
+FFFFF
+======================================================================
+FAIL: test_member_reader_rejects_name_replacement_during_read (tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_member_reader_rejects_name_replacement_during_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_export_rom_cfg_proven_roots_v21.py", line 243, in test_member_reader_rejects_name_replacement_during_read
+    with self.assertRaisesRegex(ValueError, "member changed"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_verifier_rejects_member_changes_after_initial_reads (tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_verifier_rejects_member_changes_after_initial_reads) (member='rom-cfg-proven-roots-v21.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_export_rom_cfg_proven_roots_v21.py", line 271, in test_verifier_rejects_member_changes_after_initial_reads
+    self.assertFalse(report["verified"], report)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : {'schema': 'rom-cfg-proven-roots-v21-verification-v1', 'verified': True, 'errors': [], 'contract_ok': True, 'artifact_status': 'accepted', 'promotion_bytes': 116, 'instruction_count': 70, 'frontier_count': 1}
+
+======================================================================
+FAIL: test_verifier_rejects_member_changes_after_initial_reads (tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_verifier_rejects_member_changes_after_initial_reads) (member='manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_export_rom_cfg_proven_roots_v21.py", line 271, in test_verifier_rejects_member_changes_after_initial_reads
+    self.assertFalse(report["verified"], report)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : {'schema': 'rom-cfg-proven-roots-v21-verification-v1', 'verified': True, 'errors': [], 'contract_ok': True, 'artifact_status': 'accepted', 'promotion_bytes': 116, 'instruction_count': 70, 'frontier_count': 1}
+
+======================================================================
+FAIL: test_verifier_rejects_member_changes_after_initial_reads (tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_verifier_rejects_member_changes_after_initial_reads) (member='extra')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_export_rom_cfg_proven_roots_v21.py", line 271, in test_verifier_rejects_member_changes_after_initial_reads
+    self.assertFalse(report["verified"], report)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : {'schema': 'rom-cfg-proven-roots-v21-verification-v1', 'verified': True, 'errors': [], 'contract_ok': True, 'artifact_status': 'accepted', 'promotion_bytes': 116, 'instruction_count': 70, 'frontier_count': 1}
+
+======================================================================
+FAIL: test_export_rejects_member_replacement_after_final_verification (tests.test_export_rom_cfg_proven_roots_v21.CfgProvenRootsV21Tests.test_export_rejects_member_replacement_after_final_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_export_rom_cfg_proven_roots_v21.py", line 289, in test_export_rejects_member_replacement_after_final_verification
+    with self.assertRaisesRegex(ValueError, "member"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 30.333s
+
+FAILED (failures=5)

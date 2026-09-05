@@ -1,0 +1,310 @@
+{
+  "accepted_producers": [
+    {
+      "accepted_as_root_proof": true,
+      "coverage_owner_claim_ids": [
+        "story-callback-reachable_thumb_code-04-08f872"
+      ],
+      "coverage_owner_class": "armv4t_story_state_callback_reachable_thumb_code",
+      "coverage_owner_range": [
+        587890,
+        588014
+      ],
+      "file_offset": 587998,
+      "kind": "bl",
+      "raw_hex": "fff731fe",
+      "raw_sha256": "60b405249b08c8a9510ffc20c50e00c9dea4cfa8596d941b57979c53b42bdaff",
+      "rejection_reason": null,
+      "size": 4,
+      "target_file_offset": 587076,
+      "window_range": [
+        587994,
+        588002
+      ],
+      "window_raw_hex": "3ae7a07dfff731fe",
+      "window_sha256": "49622b097f64f1fac7ce6e77dddcecc23bdec5365cbceb70e95a51c6163ddaf8"
+    }
+  ],
+  "coverage_projection": {
+    "baseline_classified_bytes": 6202729,
+    "baseline_unknown_bytes": 88727,
+    "classified_bytes": 6202809,
+    "frontier_count": 0,
+    "hole_bytes": 0,
+    "remaining_unknown_bytes": 88647,
+    "target_promoted_bytes": 80
+  },
+  "implementation": {
+    "binding": "contract-exporter-independent-verifier-tests-hash-bound",
+    "contract_sha256": "749af66e5e5afe2d3dbd011b7e0c706f79bf3793bad543c3cf0dab64d8625f5c",
+    "exporter_sha256": "fdec4de304d45b5e29c801d492fd599c6e85a84c9b9902e4d88e3747bef05f03",
+    "paths": {
+      "contract": "tools/rom_story_selector_dependency_cfg_contract.py",
+      "exporter": "tools/export_rom_story_selector_dependency_cfg.py",
+      "test_exporter": "tests/test_export_rom_story_selector_dependency_cfg.py",
+      "verifier": "tools/verify_rom_story_selector_dependency_cfg.py"
+    },
+    "test_exporter_sha256": "1133f26dc6349642264a9e4497183f8ce95d990e50bb57389f86c0c771b2fc27",
+    "verifier_sha256": "5bafd0fea8bfd03b1a6255c49b8097504b00babf8aadc1862c90f889ee969d10"
+  },
+  "precoverage": {
+    "archive_sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6",
+    "artifact": "artifacts/rom-post-story-dependency-precoverage-v1",
+    "claim_count": 16870,
+    "classified_bytes": 6202729,
+    "manifest_sha256": "95cb2fef985e13eea7dda71b144e082e35fd3a7b004578df646dbfa18c0ee65a",
+    "raw_sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+    "segment_count": 18641,
+    "unknown_bytes": 88727
+  },
+  "producer_denominator": {
+    "decoder_kinds": [
+      "thumb_bl",
+      "thumb_b",
+      "thumb_bcond"
+    ],
+    "internal_entry_range": [
+      587076,
+      587156
+    ],
+    "match_count": 2,
+    "matches": [
+      {
+        "accepted_as_root_proof": false,
+        "coverage_owner_claim_ids": [],
+        "coverage_owner_class": "unknown",
+        "coverage_owner_range": [
+          587220,
+          587404
+        ],
+        "file_offset": 587382,
+        "kind": "bl",
+        "raw_hex": "fff765ff",
+        "raw_sha256": "e8cc38d7b0ddd8450c1c6463287ef3229ada1767989ed9e5783ce0fac23a870c",
+        "rejection_reason": "source_owner_not_instruction_only",
+        "size": 4,
+        "target_file_offset": 587076,
+        "window_range": [
+          587378,
+          587386
+        ],
+        "window_raw_hex": "20040014fff765ff",
+        "window_sha256": "20d5038fe78abf3eaf6291199079fa27afd169d54ff1d369676971595e1e9fab"
+      },
+      {
+        "accepted_as_root_proof": true,
+        "coverage_owner_claim_ids": [
+          "story-callback-reachable_thumb_code-04-08f872"
+        ],
+        "coverage_owner_class": "armv4t_story_state_callback_reachable_thumb_code",
+        "coverage_owner_range": [
+          587890,
+          588014
+        ],
+        "file_offset": 587998,
+        "kind": "bl",
+        "raw_hex": "fff731fe",
+        "raw_sha256": "60b405249b08c8a9510ffc20c50e00c9dea4cfa8596d941b57979c53b42bdaff",
+        "rejection_reason": null,
+        "size": 4,
+        "target_file_offset": 587076,
+        "window_range": [
+          587994,
+          588002
+        ],
+        "window_raw_hex": "3ae7a07dfff731fe",
+        "window_sha256": "49622b097f64f1fac7ce6e77dddcecc23bdec5365cbceb70e95a51c6163ddaf8"
+      }
+    ],
+    "pointer_match_count": 0,
+    "scan_range": [
+      0,
+      6291456
+    ],
+    "stride": 2
+  },
+  "promotion": {
+    "claim_count": 1,
+    "claim_kind": "armv4t_story_selector_dependency_cfg_exact_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "ec6b47d0f464048c6403a5ce1d2dc8772c7b67bc82890081ec575bf8cb18cf6b",
+        "id": "story-selector-reachable-thumb-code-01-08f544",
+        "kind": "reachable_thumb_code",
+        "mode": "thumb",
+        "range": [
+          587076,
+          587156
+        ]
+      }
+    ],
+    "primary_class": "armv4t_story_selector_dependency_cfg",
+    "promotion_batch": "rom-story-selector-dependency-cfg-v1",
+    "promotion_bytes": 80,
+    "ranges": [
+      [
+        587076,
+        587156
+      ]
+    ]
+  },
+  "rejected_producers": [
+    {
+      "accepted_as_root_proof": false,
+      "coverage_owner_claim_ids": [],
+      "coverage_owner_class": "unknown",
+      "coverage_owner_range": [
+        587220,
+        587404
+      ],
+      "file_offset": 587382,
+      "kind": "bl",
+      "raw_hex": "fff765ff",
+      "raw_sha256": "e8cc38d7b0ddd8450c1c6463287ef3229ada1767989ed9e5783ce0fac23a870c",
+      "rejection_reason": "source_owner_not_instruction_only",
+      "size": 4,
+      "target_file_offset": 587076,
+      "window_range": [
+        587378,
+        587386
+      ],
+      "window_raw_hex": "20040014fff765ff",
+      "window_sha256": "20d5038fe78abf3eaf6291199079fa27afd169d54ff1d369676971595e1e9fab"
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root": {
+    "bytes_sha256": "ec6b47d0f464048c6403a5ce1d2dc8772c7b67bc82890081ec575bf8cb18cf6b",
+    "range": [
+      587076,
+      587156
+    ],
+    "raw_hex": "f0b54f464646c0b486b00004040c1749c2225201101c088080225200e02040000090032001900e20029000200390f420800004900f20059003200021c023d5f73fff201cfff7a4ff01201021d5f7b6f8"
+  },
+  "schema": "rom-story-selector-dependency-cfg-v1",
+  "scope": {
+    "adjacent_bytes_or_holes": false,
+    "business_or_literal_semantics": false,
+    "callee_bodies_or_abi": false,
+    "consumer_code_slice_instruction_membership": false,
+    "current_unknown_bytes": 80,
+    "direct_internal_entry_denominator_complete_for_bl_b_bcond": true,
+    "editing_writeback_relocation_or_free_space": false,
+    "natural_runtime_reachability": false,
+    "raw_rom_redecoded": true,
+    "root_pointer_denominator_count": 0,
+    "tier": 1
+  },
+  "story_dependency": {
+    "accepted_owner_claim_id": "story-callback-reachable_thumb_code-04-08f872",
+    "artifact": "artifacts/rom-story-state-callback-cfg-v1",
+    "manifest_sha256": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+    "payload_sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+    "verifier_sha256": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98"
+  },
+  "target_local_denominator": {
+    "capstone_end_file_offset": 587156,
+    "fallthrough": {
+      "bytes_sha256": "566565361ec05ac7d42c40b8732d8b560ebbf08b512067e674a872fff1ffc3df",
+      "coverage_owner_claim_ids": [
+        "chapter-root-table-selector"
+      ],
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        587156,
+        587220
+      ],
+      "file_offset": 587156,
+      "owner_granularity": "coarse",
+      "promotion": false,
+      "raw_hex": "074f"
+    },
+    "frontier_count": 0,
+    "frontiers": [],
+    "hole_count": 0,
+    "holes": [],
+    "instruction_bytes": 80,
+    "instruction_count": 37,
+    "instruction_vector_sha256": "45a21a888ddd96cbbaa13236e1b47a2c32d4e0ee08b98f8b5d406d2e771df9e8",
+    "local_edge_count": 0,
+    "local_edges": [],
+    "opaque_call_count": 3,
+    "opaque_calls": [
+      {
+        "coverage_owner_claim_ids": [
+          "consumer-code-battle_effect_sprite_animations-065404"
+        ],
+        "coverage_owner_class": "consumer_code_slice",
+        "coverage_owner_range": [
+          414724,
+          415060
+        ],
+        "owner_granularity": "coarse",
+        "raw_hex": "d5f73fff",
+        "raw_sha256": "36c44bbbb82d3fd96a5f59d1c15a011b6b3c1636f4f19278e5da302e432ecf44",
+        "source": 587138,
+        "target": 414724
+      },
+      {
+        "coverage_owner_claim_ids": [
+          "cfg-thumb-0608-08f4d4"
+        ],
+        "coverage_owner_class": "armv4t_cfg_reachable_thumb_code",
+        "coverage_owner_range": [
+          586964,
+          587008
+        ],
+        "owner_granularity": "exact",
+        "raw_hex": "fff7a4ff",
+        "raw_sha256": "40eea546e3f9b746f976e7a051e0648554f62bf10a8304aa23876b685b36eb61",
+        "source": 587144,
+        "target": 586964
+      },
+      {
+        "coverage_owner_claim_ids": [
+          "cfg-thumb-0025-064700"
+        ],
+        "coverage_owner_class": "armv4t_cfg_reachable_thumb_code",
+        "coverage_owner_range": [
+          411392,
+          411468
+        ],
+        "owner_granularity": "exact",
+        "raw_hex": "d5f7b6f8",
+        "raw_sha256": "829c7e9347c269d726046d4106a64b3fff74f0be7ef50da75b9149c53e65ebc1",
+        "source": 587152,
+        "target": 411392
+      }
+    ],
+    "preowned_literal_count": 1,
+    "preowned_literals": [
+      {
+        "bytes_sha256": "cb8a71dc0af46fe8acd79c3998e0878090e80516a09b6e04d647d9c59e21f7e1",
+        "coverage_owner_claim_ids": [
+          "chapter-root-table-selector"
+        ],
+        "coverage_owner_class": "consumer_code_slice",
+        "coverage_owner_range": [
+          587156,
+          587220
+        ],
+        "owner_granularity": "coarse",
+        "promotion": false,
+        "range": [
+          587184,
+          587188
+        ],
+        "raw_hex": "4c000003",
+        "source": 587090,
+        "source_raw_hex": "1749",
+        "source_sha256": "c29226ca4227e3cc237a46511b82bd43ae23a9be213429106f57327b54c1042a",
+        "value_u32": 50331724
+      }
+    ]
+  }
+}

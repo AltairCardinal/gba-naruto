@@ -221,6 +221,9 @@ class ExportCharacterBattleVisualsTest(unittest.TestCase):
         self.assertNotIn("import tools", verifier_source)
 
         report = verify_artifact(ROOT, self.output)
+        self.assertEqual(
+            "character-battle-visuals-verification-v1", report["schema"]
+        )
         self.assertTrue(report["verified"])
         self.assertEqual([], report["errors"])
         self.assertEqual(558, report["slots"])

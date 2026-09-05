@@ -1,6 +1,8 @@
 # 历史 ROM artifact 的固定身份验收合同 v1
 
-**包已独立验真、逐字节重建并晋升；两阶段本地提交待执行。**
+**包已独立验真、逐字节重建并晋升；A已提交，B待提交。**
+授权提交为`47d9a60e668a5c3fe6e1123524864d21a2c93545`，其干净检出48项测试和
+独立包verifier通过。只有随后保持此授权身份不变的完整历史根批次才能进入B。
 此前candidate-v3因真实selector错误被拒绝，修复后的candidate-v4已通过新formal关联检查。
 正式目录为`artifacts/rom-legacy-acceptance-20260905-v1/`；完整三成员身份和64根分母
 固定在`tools/legacy_artifact_acceptance_contract.py`，不能由未提交包授权自身。

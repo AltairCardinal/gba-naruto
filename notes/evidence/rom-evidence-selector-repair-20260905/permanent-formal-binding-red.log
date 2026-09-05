@@ -1,0 +1,21 @@
+setUpClass (tests.test_coverage_evidence_selector_repairs.SelectorRepairReceiptTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (tests.test_coverage_evidence_selector_repairs.SelectorRepairReceiptTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_coverage_evidence_selector_repairs.py", line 99, in setUpClass
+    cls.after_raw=gzip.decompress((cls.directory/'coverage-after.json.gz').read_bytes())
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz'
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.241s
+
+FAILED (errors=1)

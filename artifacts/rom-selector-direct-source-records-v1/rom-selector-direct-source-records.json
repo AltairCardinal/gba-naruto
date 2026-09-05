@@ -1,0 +1,1339 @@
+{
+  "consumer_evidence": {
+    "bridge": {
+      "gba_range": [
+        "0x08066758",
+        "0x08066790"
+      ],
+      "range": [
+        419672,
+        419728
+      ],
+      "raw_hex": "70b54e46454660b481460e1c90461c1c069d3606360e40460006000e80462404240c2d042d0cfef719ff8481c58186744946fff76ffd4046",
+      "sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c",
+      "size": 56
+    },
+    "bridge_callsite_raw_hex": {
+      "0x0808B010": "dbf7a2fb",
+      "0x0808B028": "dbf796fb",
+      "0x0808B044": "dbf788fb",
+      "0x0808B054": "dbf780fb",
+      "0x0808B062": "dbf779fb",
+      "0x0808B076": "dbf76ffb"
+    },
+    "bridge_callsites": [
+      134787088,
+      134787112,
+      134787140,
+      134787156,
+      134787170,
+      134787190
+    ],
+    "bridge_parser_callsite": 134637450,
+    "bridge_parser_callsite_raw_hex": "fff76ffd",
+    "bridge_parser_target": 134636140,
+    "bridge_target": 134637400,
+    "direct_consumer": {
+      "gba_range": [
+        "0x0808AFE0",
+        "0x0808B07C"
+      ],
+      "range": [
+        569312,
+        569468
+      ],
+      "raw_hex": "f0b5474680b483b080460e1c1206150e281cdbf78ffedaf791fb012011f0bafaf078c0001d494018002100912a1c0823dbf7a2fb1a4970788000401800680324009400212a1c0223dbf796fb7178880040188000401a134940181021009100212a1c0223dbf788fb0f480127009700212a1c0e23dbf780fb0c48009400212a1c1123dbf779fbb07a002813d10848009700212a1c0d23dbf76ffb15e0",
+      "sha256": "9ec877cbef2c9aa100a825509cd41be605e3d20ff0304279572d7986c1865ac4",
+      "size": 156
+    },
+    "direct_consumer_callsite_raw_hex": {
+      "0x0808B420": "fff7defd",
+      "0x0808B51A": "fff761fd"
+    },
+    "direct_consumer_callsites": [
+      134788128,
+      134788378
+    ],
+    "literal_word_0x080B084": {
+      "gba_range": [
+        "0x0808B084",
+        "0x0808B088"
+      ],
+      "range": [
+        569476,
+        569480
+      ],
+      "raw_hex": "b85a5a08",
+      "sha256": "e526fbbb5f3a15837864b62374eb54c0ebd0d0bb99cafbebcf1785b4d40fff06",
+      "size": 4,
+      "value": 140139192
+    },
+    "parser": {
+      "gba_range": [
+        "0x0806626C",
+        "0x08066736"
+      ],
+      "range": [
+        418412,
+        419638
+      ],
+      "raw_hex": "f0b54f464646c0b489b0061c07910a1c4fe210780006010e1f2929d8107802280ed0022802dc012805d00ae103280fd00a2812d005e15078b0740798023036e25078b08107998878f081033107912fe2501c079002208146f3e00020b081f0890230f081308a02303082079801301ee2002869da9f2909d91178090250780843fff7c8fd0006000eff285dd007980178090240780843b17c05aafff73dfe0c21735e0e22b05e01303189021c4a4331688020c0000140341c1e34002901d1501c00e0d01c18184000241820881b4b191c01401b480068814202d34030814206d318480068081a0004000cfff73dfd3089400000190188114a101c014010480068814202d34030814206d30e480068081a0004000cfff728fd05a80088208031894900091905a840880880b0890130b081079802300790022382e00000ff03000058bd010264bd010206ac07a8211cfff71dff0006000e012816d0012802dc002805d035e002281bd0032825d030e0054800682178b27cf37c0093142300f05efb5fe000008ca80002044800682178b27cf37c0093042300f051fb52e08ca80002044800682178b27cf37c0093102300f045fb46e08ca80002044800682178b27cf37c0093002300f039fb3ae08ca8000207980078b17c05aafff77efe0c20335e0e21705e01303189021c4a4331688020c0000140341c1e34002901d1501c00e0d01c18184000241820881d4a111c01401c480068814202d34030814206d31a480068081a0004000cfff79efc05a800882080b0890130b08107980130079001239946316810200840002824d1079800780a2800d121e1002800d12ee140200840002800d124e132890c20335e8020c000014000290ad1901e834200d10de117e1ff03000058bd010264bd0102901f834200d00de101e1022421433160fff708f9064800880440002c0fd105480078012808d1022036f028f807e000000c00000375000003012036f01ff8079800780a2818d0002800d1f0e0316840200840002800d1e5e032890c20335e8020c0000140002903d1901e834204d0d9e0901f834200d0d5e0308a4844002430820e22b15e728948460230101a814200d0bde0318a901e814231d1b38830891b18033bdb041b14f08880180338c004001400904848008820300004000c0190464800880290202003900494444844490022fcf774f843494860434c0325012035f0cdff2188281c08400028f7d03d484068fcf7cef8002030826620fbf73bfc0021494500d383e001277089023801318846874236da01253189481e7a1c85422bda341c1e34012f16d168184000201801882e4b181c01402e480068814202d34030814208d32b480068081a0004000c0892fff7c4fb089a3089391c414369184900611850432818400020180088088001353189481e8542d3db171c708902388742c8db01253189481e854212da331c1e3317480068421c184800880243381c4843281840001818028001353189481e8542f4dbf0890138f0813068022108433060fff730f80d480078012819d1022035f055ff18e05ebd010260bd010204cc090810cc090894a800020e000003ff03000058bd010264bd01025cbd010275000003012035f03bff4146494500d27be70020b081f0894844f081079908780a2801d1481c0790079a1078002800d0abe5079809b018bc9846a146f0bc02bc0847",
+      "sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+      "size": 1226
+    },
+    "parser_range": [
+      418412,
+      419638
+    ],
+    "record_stride_bytes": 19,
+    "record_stride_derivation": {
+      "coefficients": [
+        1,
+        4,
+        5,
+        20,
+        19
+      ],
+      "instruction_halfwords": [
+        "0x7871",
+        "0x0088",
+        "0x1840",
+        "0x0080",
+        "0x1A40",
+        "0x4913",
+        "0x1840"
+      ],
+      "literal_address": 134787204,
+      "literal_value": 140139192
+    },
+    "stride_formula": {
+      "gba_range": [
+        "0x0808B02C",
+        "0x0808B03A"
+      ],
+      "range": [
+        569388,
+        569402
+      ],
+      "raw_hex": "7178880040188000401a13494018",
+      "sha256": "bf1139185eb281b29c5b4adce7b182e6f7af8213d0c40f34ff680663e0d958be",
+      "size": 14
+    }
+  },
+  "files": {
+    "rom-selector-direct-source-records.bin": {
+      "sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+      "size": 920
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_selector_direct_source_records.py",
+      "sha256": "46371919013ccc47eaf975e4bfa26e5716f980b162b7b996daf536d68b5215d6"
+    },
+    "test": {
+      "path": "tests/test_export_rom_selector_direct_source_records.py",
+      "sha256": "359ff028aafe3147df564b4caa5c7e66e476c348f09b737aa1b0fdb485ebafed"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_direct_source_records.py",
+      "sha256": "510835b5d104f0009df09e3c8200beaefcb4f01836c40db7d3b1c11b475052d1"
+    }
+  },
+  "limitations": [
+    "Only the fixed 46×20-byte direct source records at 0x59F5F0..0x59F988 are classified.",
+    "The source row bytes at offsets 2..19 have no semantic field claim in this artifact.",
+    "This does not expand to the 63-slot direct text table or include 0x59F988 and adjacent profile data.",
+    "Natural gameplay reachability, Unicode decoding, editing/writeback safety, and allocatable space are not claimed."
+  ],
+  "producer_evidence": {
+    "callsite_targets": {
+      "0x0808B5FE": 134784684,
+      "0x0808B640": 134787784
+    },
+    "callsites": [
+      134788606,
+      134788672
+    ],
+    "enumerator": {
+      "gba_range": [
+        "0x0808A6AC",
+        "0x0808A700"
+      ],
+      "range": [
+        566956,
+        567040
+      ],
+      "raw_hex": "f0b5041c134e0020607020700025124f7078def7f1fb00062a0400280fd0e01c21784018057020788000211c343109189013c019006808602078013020708021490250181436050c00142d28e0ddf0bc01bc0047",
+      "sha256": "68e8b80905466def5f6c4cae6fb6977336c129e7560577a77f6acac7222ca665",
+      "size": 84
+    },
+    "enumerator_loop": {
+      "bhi_offset": 134784760,
+      "bhi_raw_hex": "e0dd",
+      "bhi_target": 134784684,
+      "cmp_immediate": 45,
+      "cmp_offset": 134784758,
+      "cmp_raw_hex": "2d28",
+      "upper_inclusive": 45
+    },
+    "formula_windows": {
+      "0x0808B2D8": {
+        "gba_range": [
+          "0x0808B2D8",
+          "0x0808B2E8"
+        ],
+        "range": [
+          570072,
+          570088
+        ],
+        "raw_hex": "79784018017888004018800059494018",
+        "sha256": "8d2d98f0da6fc90d2a878f2b837278984e84488da64a42b9df0a5e223d6ea68f",
+        "size": 16
+      },
+      "0x0808B500": {
+        "gba_range": [
+          "0x0808B500",
+          "0x0808B512"
+        ],
+        "range": [
+          570624,
+          570642
+        ],
+        "raw_hex": "f81c7978401801788800401880001b494018",
+        "sha256": "ddf9b3c5235cb884b51b7c6cc772c81de8ceef3b8f5fcc5a49eef19b6be818ab",
+        "size": 18
+      }
+    },
+    "lifecycle": {
+      "gba_range": [
+        "0x0808B58C",
+        "0x0808B65A"
+      ],
+      "range": [
+        570764,
+        570970
+      ],
+      "raw_hex": "30b587b0e0235b000093032001900e20029002200390f420800004900f200590032003210022d9f727ff154800258560c560056145611348134910f08ffd13481349102210f086fd1248134910f086fd12481349102210f07dfd1248124910f07dfd124c0695124a06a8211c10f072fd201cfff755f80220d6f72afc1ce00000540000033c94340800710106b0963408c0030005008f3408004000061c94340820000005f89634088075010680280002b0000005fff742fefff740fb00040028f8d10220d6f71afc07b030bc01bc",
+      "sha256": "3b6050a3df82957c8804b86a06eb6c5b5efb8a7eca3da082dc999f74b78c7637",
+      "size": 206
+    },
+    "literal_word_0x0808A700": {
+      "gba_range": [
+        "0x0808A700",
+        "0x0808A704"
+      ],
+      "range": [
+        567040,
+        567044
+      ],
+      "raw_hex": "f0f55908",
+      "sha256": "5991c052285e4a88e707e9c7df44522f0fb191402f7963525d526177b04f94f1",
+      "size": 4,
+      "value": 140113392
+    },
+    "literal_word_0x0808B44C": {
+      "gba_range": [
+        "0x0808B44C",
+        "0x0808B450"
+      ],
+      "range": [
+        570444,
+        570448
+      ],
+      "raw_hex": "f0f55908",
+      "sha256": "5991c052285e4a88e707e9c7df44522f0fb191402f7963525d526177b04f94f1",
+      "size": 4,
+      "value": 140113392
+    },
+    "literal_word_0x0808B57C": {
+      "gba_range": [
+        "0x0808B57C",
+        "0x0808B580"
+      ],
+      "range": [
+        570748,
+        570752
+      ],
+      "raw_hex": "f0f55908",
+      "sha256": "5991c052285e4a88e707e9c7df44522f0fb191402f7963525d526177b04f94f1",
+      "size": 4,
+      "value": 140113392
+    },
+    "menu": {
+      "gba_range": [
+        "0x0808B2C8",
+        "0x0808B580"
+      ],
+      "range": [
+        570056,
+        570752
+      ],
+      "raw_hex": "f0b557464e464546e0b488b05c4ff81c797840180178880040188000594940180790594900240c6058484860584903200880043181229200101c0880554a1088a023db00191c08431080b0218900781880235b000d2100910021002202f006fb832149014c4a00940194372002903f20039001200023d8f7fdf9012011f016f94648474910f0ccfe4648dbf701ff464846493822009201940294e0220392049400221023d7f7a2f9ae229200b91808603f4b9a46082081460090e2218900884601910e2602963b4d0395049450463a4900221023d7f78af9ac229200b91808604b460093404601900296039504945046314900223023d7f779f9ad229200b91808602e482e49202200922e4e32882c321204120c01922c4d2a88029230220392049400225823d7f761f90590274828492822009232882d321204120c01922a880292244a0392049400225823d7f74ef90690381c07990122fff7defd05a8391cfff726ff082001f0e1fbd9f7a7ff1a491a4b181c08801a491a4808806ee0000080280002f0f559085400000300e8ffff080000044c000003883800006893340800100006289c00083c44460854444608e896340820000200f4963408b4cc0908c0cc09085ebd010260bd0102dccc0908e8cc0908300002004e000003441800005000000306090000074a11884020084000280bd07878002808d00124013878706820d6f7cffc11e01c5e000311888020084000280ad0797838780138814205da0124481c78706820d6f7bcfc05a8391cfff7befe002c0ed0f81c7978401801788800401880001b4940180790381c07990122fff761fd012011f028f8002416480188032008400028bed06620d6f79afc12480480082001f06bfb1148dbf708fedaf7e8f8d7f708f8ac229200b8180460ad239b00f8180460d8f7ccf8012011f005f808b038bc9846a146aa46f0bc01bc00470000f0f55908",
+      "sha256": "fe12c74a937dae0e60f0ba1e566788cd4dc842596d168632c9c45809f88dd07e",
+      "size": 696
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-selector-direct-source-records-v1",
+  "scope": {
+    "allocatable_space_claimed": false,
+    "byte_2_to_19_semantics_proven": false,
+    "complete_63_slot_text_table": false,
+    "editing_or_writeback_safety_proven": false,
+    "fixed_46_source_record_denominator_complete": true,
+    "natural_gameplay_all_rows_reached": false,
+    "unicode_decoding_complete": false
+  },
+  "source_table": {
+    "gba_range": [
+      "0x0859F5F0",
+      "0x0859F988"
+    ],
+    "name_slot_domain": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      56,
+      61,
+      62
+    ],
+    "name_slot_ids": [
+      1,
+      2,
+      3,
+      7,
+      44,
+      43,
+      4,
+      5,
+      6,
+      45,
+      8,
+      9,
+      10,
+      46,
+      11,
+      12,
+      13,
+      47,
+      48,
+      30,
+      51,
+      52,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      22,
+      23,
+      24,
+      29,
+      61,
+      20,
+      21,
+      31,
+      49,
+      56,
+      50,
+      25,
+      26,
+      27,
+      28,
+      53,
+      54,
+      62
+    ],
+    "name_slot_vector_sha256": "d429cca720c928593b80289794395d0c6d266268af5da567bbe76a22c5b65ba2",
+    "range": [
+      5895664,
+      5896584
+    ],
+    "record_count": 46,
+    "record_size": 20,
+    "record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+    "records": [
+      {
+        "gba_range": [
+          "0x0859F5F0",
+          "0x0859F604"
+        ],
+        "name_slot_id": 1,
+        "packed_range": [
+          0,
+          20
+        ],
+        "range": [
+          5895664,
+          5895684
+        ],
+        "raw_hex": "000101010108060205040a0a0c01ad0591010100",
+        "raw_sha256": "5c9e4be6a94dccb5e106a764aaa53f90d8dba8af9701637dfb1cdcd97f448b54",
+        "size": 20,
+        "source_id": 0
+      },
+      {
+        "gba_range": [
+          "0x0859F604",
+          "0x0859F618"
+        ],
+        "name_slot_id": 2,
+        "packed_range": [
+          20,
+          40
+        ],
+        "range": [
+          5895684,
+          5895704
+        ],
+        "raw_hex": "0102010101060404050607170c03e405a6010100",
+        "raw_sha256": "04e168b3337ab4d5e7aa85d07fd69231215deb01e97904958d1cef872f2aa413",
+        "size": 20,
+        "source_id": 1
+      },
+      {
+        "gba_range": [
+          "0x0859F618",
+          "0x0859F62C"
+        ],
+        "name_slot_id": 3,
+        "packed_range": [
+          40,
+          60
+        ],
+        "range": [
+          5895704,
+          5895724
+        ],
+        "raw_hex": "02030101010303080505031c0c02cd0562010100",
+        "raw_sha256": "397a38eceb69b012fb970704cbd154ae1f77fabbee2e1da55f949cdcf34996ef",
+        "size": 20,
+        "source_id": 2
+      },
+      {
+        "gba_range": [
+          "0x0859F62C",
+          "0x0859F640"
+        ],
+        "name_slot_id": 7,
+        "packed_range": [
+          60,
+          80
+        ],
+        "range": [
+          5895724,
+          5895744
+        ],
+        "raw_hex": "03070101040804080506090f1a021207a3020100",
+        "raw_sha256": "133d738d9036b033932d6540048aa27c4b5934b21e01e8c6d67a4d811e31ec85",
+        "size": 20,
+        "source_id": 3
+      },
+      {
+        "gba_range": [
+          "0x0859F640",
+          "0x0859F654"
+        ],
+        "name_slot_id": 44,
+        "packed_range": [
+          80,
+          100
+        ],
+        "range": [
+          5895744,
+          5895764
+        ],
+        "raw_hex": "042c0101020000000000051a1902f40696020000",
+        "raw_sha256": "1c77ba96fa15b0bbc51fcccb900a955b3b91e93eff3f14411b98871c63bfe09c",
+        "size": 20,
+        "source_id": 4
+      },
+      {
+        "gba_range": [
+          "0x0859F654",
+          "0x0859F668"
+        ],
+        "name_slot_id": 43,
+        "packed_range": [
+          100,
+          120
+        ],
+        "range": [
+          5895764,
+          5895784
+        ],
+        "raw_hex": "052b0101050000000000020844005f06fa010000",
+        "raw_sha256": "f0a3a00c470d167eaaf95c9c2c4c24caa491eb69dd4c5d9e9be6669d2a632ba4",
+        "size": 20,
+        "source_id": 5
+      },
+      {
+        "gba_range": [
+          "0x0859F668",
+          "0x0859F67C"
+        ],
+        "name_slot_id": 4,
+        "packed_range": [
+          120,
+          140
+        ],
+        "range": [
+          5895784,
+          5895804
+        ],
+        "raw_hex": "0604010101040306050609170c01d5057e010100",
+        "raw_sha256": "0999cea1bb043719c5ef0a67dc4aa03199076ce1c2c9f2fd16286090b9cc3960",
+        "size": 20,
+        "source_id": 6
+      },
+      {
+        "gba_range": [
+          "0x0859F67C",
+          "0x0859F690"
+        ],
+        "name_slot_id": 5,
+        "packed_range": [
+          140,
+          160
+        ],
+        "range": [
+          5895804,
+          5895824
+        ],
+        "raw_hex": "0705010101050505050409160c03e405a4010100",
+        "raw_sha256": "4f62115f5cbcd5d56e9102b6d18985e3d1d093752a372fba5834047f380ed300",
+        "size": 20,
+        "source_id": 7
+      },
+      {
+        "gba_range": [
+          "0x0859F690",
+          "0x0859F6A4"
+        ],
+        "name_slot_id": 6,
+        "packed_range": [
+          160,
+          180
+        ],
+        "range": [
+          5895824,
+          5895844
+        ],
+        "raw_hex": "0806010101060703030505010c01e2056c020100",
+        "raw_sha256": "80928a1359cf7815eed2f7298852f6b024534354caf8a82e4db2d40aab160d76",
+        "size": 20,
+        "source_id": 8
+      },
+      {
+        "gba_range": [
+          "0x0859F6A4",
+          "0x0859F6B8"
+        ],
+        "name_slot_id": 45,
+        "packed_range": [
+          180,
+          200
+        ],
+        "range": [
+          5895844,
+          5895864
+        ],
+        "raw_hex": "092d01010400000000000a121b02740730030000",
+        "raw_sha256": "5a810cd47d2cb10b3b158d50956ce60f12e7cf59fa3c6fe6d3c34f6c0d189976",
+        "size": 20,
+        "source_id": 9
+      },
+      {
+        "gba_range": [
+          "0x0859F6B8",
+          "0x0859F6CC"
+        ],
+        "name_slot_id": 8,
+        "packed_range": [
+          200,
+          220
+        ],
+        "range": [
+          5895864,
+          5895884
+        ],
+        "raw_hex": "0a08010101050503050707070c01e805b1010100",
+        "raw_sha256": "73b747ba7478b6ffa92e121f45a468b53fbe52f72da37f85300b8afdc1404639",
+        "size": 20,
+        "source_id": 10
+      },
+      {
+        "gba_range": [
+          "0x0859F6CC",
+          "0x0859F6E0"
+        ],
+        "name_slot_id": 9,
+        "packed_range": [
+          220,
+          240
+        ],
+        "range": [
+          5895884,
+          5895904
+        ],
+        "raw_hex": "0b09010101050704050401170c031a06ca010100",
+        "raw_sha256": "fd091c5a4ac9b1719a0698bdd0f532ce642b28d11120e97ca4255148876fac2b",
+        "size": 20,
+        "source_id": 11
+      },
+      {
+        "gba_range": [
+          "0x0859F6E0",
+          "0x0859F6F4"
+        ],
+        "name_slot_id": 10,
+        "packed_range": [
+          240,
+          260
+        ],
+        "range": [
+          5895904,
+          5895924
+        ],
+        "raw_hex": "0c0a01010106040405060c1b0c00c1057b010100",
+        "raw_sha256": "207bbe5138559b48c7cf7c77135545ac7adba2d0d8af714981dc7ea4c9494e2e",
+        "size": 20,
+        "source_id": 12
+      },
+      {
+        "gba_range": [
+          "0x0859F6F4",
+          "0x0859F708"
+        ],
+        "name_slot_id": 46,
+        "packed_range": [
+          260,
+          280
+        ],
+        "range": [
+          5895924,
+          5895944
+        ],
+        "raw_hex": "0d2e0101040000000000060b1b039b0620020000",
+        "raw_sha256": "fc251310504d55c78b20b470bb0393a7c5416638d02f275bc43a13c9341fe897",
+        "size": 20,
+        "source_id": 13
+      },
+      {
+        "gba_range": [
+          "0x0859F708",
+          "0x0859F71C"
+        ],
+        "name_slot_id": 11,
+        "packed_range": [
+          280,
+          300
+        ],
+        "range": [
+          5895944,
+          5895964
+        ],
+        "raw_hex": "0e0b010101070405040607030d023806ca010100",
+        "raw_sha256": "98ccf7936e062909fdb8b052c4a838d5142ea6d60dbe540a073a47898ec6f4ee",
+        "size": 20,
+        "source_id": 14
+      },
+      {
+        "gba_range": [
+          "0x0859F71C",
+          "0x0859F730"
+        ],
+        "name_slot_id": 12,
+        "packed_range": [
+          300,
+          320
+        ],
+        "range": [
+          5895964,
+          5895984
+        ],
+        "raw_hex": "0f0c01010107060005070b1b0d003106d2010100",
+        "raw_sha256": "c74f28810d2e4aeeb6bfc32e44c3482598e2d8b40c32083cbe25249f54f6baeb",
+        "size": 20,
+        "source_id": 15
+      },
+      {
+        "gba_range": [
+          "0x0859F730",
+          "0x0859F744"
+        ],
+        "name_slot_id": 13,
+        "packed_range": [
+          320,
+          340
+        ],
+        "range": [
+          5895984,
+          5896004
+        ],
+        "raw_hex": "100d010101050503050703090d010706a6010100",
+        "raw_sha256": "56be9c7f048739d22ff6d541d3734b9e1eaa8153d7c144e27601da39605a7b20",
+        "size": 20,
+        "source_id": 16
+      },
+      {
+        "gba_range": [
+          "0x0859F744",
+          "0x0859F758"
+        ],
+        "name_slot_id": 47,
+        "packed_range": [
+          340,
+          360
+        ],
+        "range": [
+          5896004,
+          5896024
+        ],
+        "raw_hex": "112f010104000000000001011a013007f8020000",
+        "raw_sha256": "a57a195ddb83837b3c561a2df997a475fb85c4357cf0347a8d7885269fc03b00",
+        "size": 20,
+        "source_id": 17
+      },
+      {
+        "gba_range": [
+          "0x0859F758",
+          "0x0859F76C"
+        ],
+        "name_slot_id": 48,
+        "packed_range": [
+          360,
+          380
+        ],
+        "range": [
+          5896024,
+          5896044
+        ],
+        "raw_hex": "1230010103000000000003081c001607a3020000",
+        "raw_sha256": "9abb6943abcd341f6652fd606242bfbed1c04491415a407e1ea733f869400b51",
+        "size": 20,
+        "source_id": 18
+      },
+      {
+        "gba_range": [
+          "0x0859F76C",
+          "0x0859F780"
+        ],
+        "name_slot_id": 30,
+        "packed_range": [
+          380,
+          400
+        ],
+        "range": [
+          5896044,
+          5896064
+        ],
+        "raw_hex": "131e01010002020204030c1e0801080516010100",
+        "raw_sha256": "26a9c4970f8dcffbcb728ae230664738956dd906566d29796753ce3edcaa492d",
+        "size": 20,
+        "source_id": 19
+      },
+      {
+        "gba_range": [
+          "0x0859F780",
+          "0x0859F794"
+        ],
+        "name_slot_id": 51,
+        "packed_range": [
+          400,
+          420
+        ],
+        "range": [
+          5896064,
+          5896084
+        ],
+        "raw_hex": "143301010300000000000a1818008606ca010000",
+        "raw_sha256": "2fb1774d9e1dd2f98fbfeb00394fbb722acc3256f77f8e90c68ddf179342087e",
+        "size": 20,
+        "source_id": 20
+      },
+      {
+        "gba_range": [
+          "0x0859F794",
+          "0x0859F7A8"
+        ],
+        "name_slot_id": 52,
+        "packed_range": [
+          420,
+          440
+        ],
+        "range": [
+          5896084,
+          5896104
+        ],
+        "raw_hex": "1534010103000000000003141b008f0770030000",
+        "raw_sha256": "d3c5b11dacaaeb2d38f37531303d8f1d048cdbe601d6070a36b59fa667a75b7a",
+        "size": 20,
+        "source_id": 21
+      },
+      {
+        "gba_range": [
+          "0x0859F7A8",
+          "0x0859F7BC"
+        ],
+        "name_slot_id": 14,
+        "packed_range": [
+          440,
+          460
+        ],
+        "range": [
+          5896104,
+          5896124
+        ],
+        "raw_hex": "160e020301080306040501130c03b50586010100",
+        "raw_sha256": "767dace7011e094d2f6adbc0d0b38c5c1967a23977e792123905028075f92495",
+        "size": 20,
+        "source_id": 22
+      },
+      {
+        "gba_range": [
+          "0x0859F7BC",
+          "0x0859F7D0"
+        ],
+        "name_slot_id": 15,
+        "packed_range": [
+          460,
+          480
+        ],
+        "range": [
+          5896124,
+          5896144
+        ],
+        "raw_hex": "170f0203010505070503050f0e01720658020100",
+        "raw_sha256": "1a4beaba43038413e5245837ac13d42598481d35c662bc950a37cdafb51bc9ad",
+        "size": 20,
+        "source_id": 23
+      },
+      {
+        "gba_range": [
+          "0x0859F7D0",
+          "0x0859F7E4"
+        ],
+        "name_slot_id": 16,
+        "packed_range": [
+          480,
+          500
+        ],
+        "range": [
+          5896144,
+          5896164
+        ],
+        "raw_hex": "1810020301070504050408170f022506bd010100",
+        "raw_sha256": "80e124fdb33db94a414e240de3f16fcbd61b90e38536b5cfce205b4434bc5d3f",
+        "size": 20,
+        "source_id": 24
+      },
+      {
+        "gba_range": [
+          "0x0859F7E4",
+          "0x0859F7F8"
+        ],
+        "name_slot_id": 17,
+        "packed_range": [
+          500,
+          520
+        ],
+        "range": [
+          5896164,
+          5896184
+        ],
+        "raw_hex": "19110005000704030506090e0e032506ea010100",
+        "raw_sha256": "ffc17021b4c1dd0dbc19e97747173b5873b4e58a37eb742a61d3545395a07bb4",
+        "size": 20,
+        "source_id": 25
+      },
+      {
+        "gba_range": [
+          "0x0859F7F8",
+          "0x0859F80C"
+        ],
+        "name_slot_id": 18,
+        "packed_range": [
+          520,
+          540
+        ],
+        "range": [
+          5896184,
+          5896204
+        ],
+        "raw_hex": "1a120005000605030506060c0e001806ea010100",
+        "raw_sha256": "684f21a43b2dda56cc635c79601fb9926dc3fe5ba5a91e0f72ac63bfad87604a",
+        "size": 20,
+        "source_id": 26
+      },
+      {
+        "gba_range": [
+          "0x0859F80C",
+          "0x0859F820"
+        ],
+        "name_slot_id": 19,
+        "packed_range": [
+          540,
+          560
+        ],
+        "range": [
+          5896204,
+          5896224
+        ],
+        "raw_hex": "1b13000500050503050607060e02dc0586010100",
+        "raw_sha256": "ac29f8f614b8eff2dc2aec0c4c4489d5e3cae5ef5423e5632ccfddb81d91d352",
+        "size": 20,
+        "source_id": 27
+      },
+      {
+        "gba_range": [
+          "0x0859F820",
+          "0x0859F834"
+        ],
+        "name_slot_id": 22,
+        "packed_range": [
+          560,
+          580
+        ],
+        "range": [
+          5896224,
+          5896244
+        ],
+        "raw_hex": "1c1600040104030705060b10110298061c020100",
+        "raw_sha256": "29c3b0198039759c567c03e5506ea8f6857764bed7369268aec906626491bd52",
+        "size": 20,
+        "source_id": 28
+      },
+      {
+        "gba_range": [
+          "0x0859F834",
+          "0x0859F848"
+        ],
+        "name_slot_id": 23,
+        "packed_range": [
+          580,
+          600
+        ],
+        "range": [
+          5896244,
+          5896264
+        ],
+        "raw_hex": "1d1700040104030705060c1411006206fe010100",
+        "raw_sha256": "a276884fa6778a20b8fc2245c5ace4ba370615b15c92dd3c1b9a93f474111a46",
+        "size": 20,
+        "source_id": 29
+      },
+      {
+        "gba_range": [
+          "0x0859F848",
+          "0x0859F85C"
+        ],
+        "name_slot_id": 24,
+        "packed_range": [
+          600,
+          620
+        ],
+        "range": [
+          5896264,
+          5896284
+        ],
+        "raw_hex": "1e1800040104030705060b0f11039f06fe010100",
+        "raw_sha256": "6e4e25c15b1d1f7e5e8ca4abb7535f066ffba0ce3dca44d5015535e301dead3c",
+        "size": 20,
+        "source_id": 30
+      },
+      {
+        "gba_range": [
+          "0x0859F85C",
+          "0x0859F870"
+        ],
+        "name_slot_id": 29,
+        "packed_range": [
+          620,
+          640
+        ],
+        "range": [
+          5896284,
+          5896304
+        ],
+        "raw_hex": "1f1d00050008080808080a1b320102077f020100",
+        "raw_sha256": "4e5b5b8e461e7a7e3087f8c0207c0be400dfa76fcc163dbf8cdd5ebd8fc92d2c",
+        "size": 20,
+        "source_id": 31
+      },
+      {
+        "gba_range": [
+          "0x0859F870",
+          "0x0859F884"
+        ],
+        "name_slot_id": 61,
+        "packed_range": [
+          640,
+          660
+        ],
+        "range": [
+          5896304,
+          5896324
+        ],
+        "raw_hex": "203d0005000000000000021d1303e2068a020000",
+        "raw_sha256": "810708f1cb60cf253df1944641f96a38301e77a78ede20617e6a5ec63353883e",
+        "size": 20,
+        "source_id": 32
+      },
+      {
+        "gba_range": [
+          "0x0859F884",
+          "0x0859F898"
+        ],
+        "name_slot_id": 20,
+        "packed_range": [
+          660,
+          680
+        ],
+        "range": [
+          5896324,
+          5896344
+        ],
+        "raw_hex": "21140302000905060506080f1a002607d0020100",
+        "raw_sha256": "8aa4625f088b5b1adff9be646c65c0dc8f6fae5a070bb15b0f230d68efba12c0",
+        "size": 20,
+        "source_id": 33
+      },
+      {
+        "gba_range": [
+          "0x0859F898",
+          "0x0859F8AC"
+        ],
+        "name_slot_id": 21,
+        "packed_range": [
+          680,
+          700
+        ],
+        "range": [
+          5896344,
+          5896364
+        ],
+        "raw_hex": "2215030200040308070701090f021706b0010100",
+        "raw_sha256": "6c7b8d53db6beb24d1fbd52d47c28e8e75c07482ef753e426e4dbfc0dddbdb51",
+        "size": 20,
+        "source_id": 34
+      },
+      {
+        "gba_range": [
+          "0x0859F8AC",
+          "0x0859F8C0"
+        ],
+        "name_slot_id": 31,
+        "packed_range": [
+          700,
+          720
+        ],
+        "range": [
+          5896364,
+          5896384
+        ],
+        "raw_hex": "231f040000020200030204053b00fe0616030100",
+        "raw_sha256": "f362f090f9a8368ca9d4e77b0d3959477be54b255017c3b852245aa116ade058",
+        "size": 20,
+        "source_id": 35
+      },
+      {
+        "gba_range": [
+          "0x0859F8C0",
+          "0x0859F8D4"
+        ],
+        "name_slot_id": 49,
+        "packed_range": [
+          720,
+          740
+        ],
+        "range": [
+          5896384,
+          5896404
+        ],
+        "raw_hex": "243104000000000000000c190800050514010000",
+        "raw_sha256": "ed85d19262555e94a77fd31f467e4e8c2c78b765ca075f09838d0c9528b270a8",
+        "size": 20,
+        "source_id": 36
+      },
+      {
+        "gba_range": [
+          "0x0859F8D4",
+          "0x0859F8E8"
+        ],
+        "name_slot_id": 56,
+        "packed_range": [
+          740,
+          760
+        ],
+        "range": [
+          5896404,
+          5896424
+        ],
+        "raw_hex": "2538040000000000000005041d002c06c5010000",
+        "raw_sha256": "219e00f92bf6c12f1af5e8bd8bc3622c98b0aad71cba1827f2335fef38bd4359",
+        "size": 20,
+        "source_id": 37
+      },
+      {
+        "gba_range": [
+          "0x0859F8E8",
+          "0x0859F8FC"
+        ],
+        "name_slot_id": 50,
+        "packed_range": [
+          760,
+          780
+        ],
+        "range": [
+          5896424,
+          5896444
+        ],
+        "raw_hex": "26320000000000000000041e30005906b2020000",
+        "raw_sha256": "6e044a1446088233cf619a7329c2eb20dd6f51fbdc1c3c6f7b6535b905204fe6",
+        "size": 20,
+        "source_id": 38
+      },
+      {
+        "gba_range": [
+          "0x0859F8FC",
+          "0x0859F910"
+        ],
+        "name_slot_id": 25,
+        "packed_range": [
+          780,
+          800
+        ],
+        "range": [
+          5896444,
+          5896464
+        ],
+        "raw_hex": "2719030200060504050506061901f406dd020100",
+        "raw_sha256": "484640f30c2b9ab165e8f4834da26647d44ec0bd95f2b12a0d924f825f6c79cb",
+        "size": 20,
+        "source_id": 39
+      },
+      {
+        "gba_range": [
+          "0x0859F910",
+          "0x0859F924"
+        ],
+        "name_slot_id": 26,
+        "packed_range": [
+          800,
+          820
+        ],
+        "range": [
+          5896464,
+          5896484
+        ],
+        "raw_hex": "281a030200060504050506061901f406e0020100",
+        "raw_sha256": "59958f81c0784141f38640615d2a208108a3ebcace0a384f517f48c40b031f60",
+        "size": 20,
+        "source_id": 40
+      },
+      {
+        "gba_range": [
+          "0x0859F924",
+          "0x0859F938"
+        ],
+        "name_slot_id": 27,
+        "packed_range": [
+          820,
+          840
+        ],
+        "range": [
+          5896484,
+          5896504
+        ],
+        "raw_hex": "291b0400000705000506040621021607c7020100",
+        "raw_sha256": "b42927ffaa5209545a15cb41ee32dd48620ee5ee2f1dce3e5ab5e4930ca725aa",
+        "size": 20,
+        "source_id": 41
+      },
+      {
+        "gba_range": [
+          "0x0859F938",
+          "0x0859F94C"
+        ],
+        "name_slot_id": 28,
+        "packed_range": [
+          840,
+          860
+        ],
+        "range": [
+          5896504,
+          5896524
+        ],
+        "raw_hex": "2a1c04000006050005070c011c00b80676020100",
+        "raw_sha256": "a32cc695835916a20f41996b262efbadb40e33d6ce208b2d731f1668d7560a54",
+        "size": 20,
+        "source_id": 42
+      },
+      {
+        "gba_range": [
+          "0x0859F94C",
+          "0x0859F960"
+        ],
+        "name_slot_id": 53,
+        "packed_range": [
+          860,
+          880
+        ],
+        "range": [
+          5896524,
+          5896544
+        ],
+        "raw_hex": "2b35010000000000000000002b04000000000000",
+        "raw_sha256": "32f41d6812b5510ae682d0f822f800e9354dcbc866850352a540fb41022a9155",
+        "size": 20,
+        "source_id": 43
+      },
+      {
+        "gba_range": [
+          "0x0859F960",
+          "0x0859F974"
+        ],
+        "name_slot_id": 54,
+        "packed_range": [
+          880,
+          900
+        ],
+        "range": [
+          5896544,
+          5896564
+        ],
+        "raw_hex": "2c3601000000000000000c182902b4054e020000",
+        "raw_sha256": "37a081b2942216874d96c9f8877ec6f811104e666c2b29c5e1bd6d38f91232ab",
+        "size": 20,
+        "source_id": 44
+      },
+      {
+        "gba_range": [
+          "0x0859F974",
+          "0x0859F988"
+        ],
+        "name_slot_id": 62,
+        "packed_range": [
+          900,
+          920
+        ],
+        "range": [
+          5896564,
+          5896584
+        ],
+        "raw_hex": "2d3e00000005050505050b080002a4063a020100",
+        "raw_sha256": "52304e06f23f4f4ca962f6e39f6cc0fddc014b32180fb61e78d9dc3bebd016b2",
+        "size": 20,
+        "source_id": 45
+      }
+    ],
+    "row_range_vector_sha256": "a4fb31202d48f65f839217585495c2dc40d29cc63b25ff7a3d5594673056e608",
+    "sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+    "size": 920,
+    "sorted_slot_vector_sha256": "42aaddfc56e36df6be859279c4a64aff4ae006e416895817c200d733eeae64a2"
+  },
+  "summary": {
+    "bundle_sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+    "range_overlap_bytes": 0,
+    "record_bytes": 920,
+    "record_count": 46
+  },
+  "upstream": {
+    "artifact_schema": "rom-selector-text-bindings-v1",
+    "bundle": {
+      "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bytes.bin",
+      "sha256": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869"
+    },
+    "legacy_record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+    "legacy_rows_crosschecked_from_rom": true,
+    "manifest": {
+      "path": "artifacts/rom-selector-text-bindings-v1/manifest.json",
+      "sha256": "05cd987a60990ca6b2d3ee187eae963fd6ac8728ef9b42b92d6b37b5dc4bc031"
+    },
+    "payload": {
+      "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bindings.json",
+      "sha256": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_text_bindings.py",
+      "sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+    },
+    "verifier_report": {
+      "artifact_schema": "rom-selector-text-bindings-v1",
+      "errors": [],
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-selector-text-bindings-verification-v1",
+      "summary": {
+        "classified_bytes": 816,
+        "classified_range_count": 86,
+        "config_bytes": 164,
+        "config_list_count": 3,
+        "config_pointer_bytes": 12,
+        "config_pointer_slot_count": 3,
+        "config_record_count": 38,
+        "config_terminator_count": 3,
+        "configured_physical_slot_count": 55,
+        "configured_referenced_slot_count": 38,
+        "configured_text_consumed_bytes": 316,
+        "configured_text_unclassified_suffix_bytes": 368,
+        "configured_unreferenced_slot_bytes": 306,
+        "direct_source_record_bytes": 920,
+        "direct_source_record_count": 46,
+        "direct_text_candidate_slot_count": 46,
+        "direct_text_consumed_bytes": 324,
+        "direct_text_unclassified_suffix_bytes": 550,
+        "packed_bytes": 816,
+        "parse_failure_count": 0,
+        "range_overlap_bytes": 0
+      },
+      "verified": true
+    }
+  }
+}

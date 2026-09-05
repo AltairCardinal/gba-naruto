@@ -1046,6 +1046,11 @@ class BattleEffectSpriteAnimationExportTests(unittest.TestCase):
         )
 
         result = verify_battle_effect_sprite_animations(ROOT, self.output_dir)
+        self.assertEqual(
+            "battle-effect-sprite-animations-verification-v1",
+            result["schema"],
+        )
+        self.assertTrue(result["verified"])
         self.assertEqual([], result["errors"])
         self.assertEqual(18, result["verified_groups"])
         self.assertEqual(178, result["verified_frames"])

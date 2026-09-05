@@ -1,0 +1,796 @@
+{
+  "artifact_schema": "rom-menu-portrait-palette-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-menu-portrait-palette-inventory.json": "ac263fc071b6c6ad4b94b649df38560c180f2b2fd350212cc3875055146d908d",
+    "rom-menu-portrait-palettes.bin": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_menu_portrait_palette_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-menu-portrait-palette-inventory-v1"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_menu_portrait_palette_inventory.py",
+      "sha256": "cfd974ed8337df3dc744797db53ce247412a083b9053aed294bc50f491d49971"
+    },
+    "implementation_binding": {
+      "kind": "passed-root-files-equal-loaded-script-root",
+      "loaded_root_derived_from": "__file__",
+      "paths": [
+        "tests/test_export_rom_menu_portrait_palette_inventory.py",
+        "tools/export_rom_menu_portrait_palette_inventory.py",
+        "tools/verify_rom_menu_portrait_palette_inventory.py"
+      ]
+    },
+    "test": {
+      "path": "tests/test_export_rom_menu_portrait_palette_inventory.py",
+      "sha256": "6b960ca33d3b7c9f50b1ed98d66e19a54307b6d5c4398fdb5f7a1644cdc91d15"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_menu_portrait_palette_inventory.py",
+      "sha256": "63d60ffe786841d910b0655de31cbb4a3d52178b433fc1a40b24729f683cda46"
+    }
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "adjacent_gaps_classified": false,
+    "arbitrary_image_writeback": false,
+    "dynamic_caller_input_domain_complete": false,
+    "fixed_length_palette_writeback_verified": true,
+    "fixed_palette_byte_inventory_complete": true,
+    "graphics_bytes_classified_here": false,
+    "natural_gameplay_all_logical_outputs_proven": false,
+    "pointer_rewrite_complete": false,
+    "relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "safe_free_space_claimed": false,
+    "source_resource_aliases_complete": true
+  },
+  "source": {
+    "catalog": {
+      "path": "artifacts/menu-portraits-v1/manifest.json",
+      "resource_vector_sha256": "aacf1dd777711ffddd46d268b419da0887002557004064c38d51e5b299521c3b",
+      "schema": "menu-portrait-export-v1",
+      "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+    },
+    "queue": {
+      "manifest": {
+        "path": "artifacts/rom-gpu-copy-queue-inventory-v1/manifest.json",
+        "sha256": "3a3f4d06f27560dfcf2674c13802e2fbcc551246e5de121b1f62747a09f32a95"
+      },
+      "payload": {
+        "path": "artifacts/rom-gpu-copy-queue-inventory-v1/rom-gpu-copy-queue-inventory.json",
+        "sha256": "798b72cbeb69cae522f77f586794cd0bf9d1775d57d590479daf89e808ca23bf"
+      },
+      "verifier": {
+        "path": "tools/verify_rom_gpu_copy_queue_inventory.py",
+        "sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+      }
+    },
+    "range_vector": [
+      [
+        4233412,
+        4233540
+      ],
+      [
+        4236964,
+        4237092
+      ],
+      [
+        4240632,
+        4240760
+      ],
+      [
+        4244064,
+        4244192
+      ],
+      [
+        4247848,
+        4247976
+      ],
+      [
+        4251264,
+        4251392
+      ],
+      [
+        4254168,
+        4254296
+      ],
+      [
+        4257180,
+        4257308
+      ],
+      [
+        4260508,
+        4260636
+      ],
+      [
+        4263776,
+        4263904
+      ],
+      [
+        4267092,
+        4267220
+      ],
+      [
+        4270468,
+        4270596
+      ],
+      [
+        4273976,
+        4274104
+      ],
+      [
+        4277936,
+        4278064
+      ],
+      [
+        4281748,
+        4281876
+      ],
+      [
+        4285368,
+        4285496
+      ],
+      [
+        4288888,
+        4289016
+      ],
+      [
+        4291508,
+        4291636
+      ],
+      [
+        4295176,
+        4295304
+      ],
+      [
+        4298440,
+        4298568
+      ],
+      [
+        4301660,
+        4301788
+      ],
+      [
+        4305368,
+        4305496
+      ],
+      [
+        4308876,
+        4309004
+      ],
+      [
+        4312296,
+        4312424
+      ],
+      [
+        4315396,
+        4315524
+      ],
+      [
+        4318284,
+        4318412
+      ],
+      [
+        4321204,
+        4321332
+      ],
+      [
+        4323712,
+        4323840
+      ],
+      [
+        4326916,
+        4327044
+      ],
+      [
+        4330092,
+        4330220
+      ],
+      [
+        4333032,
+        4333160
+      ],
+      [
+        4336972,
+        4337100
+      ],
+      [
+        4340136,
+        4340264
+      ],
+      [
+        4344092,
+        4344220
+      ],
+      [
+        4347000,
+        4347128
+      ],
+      [
+        4350416,
+        4350544
+      ],
+      [
+        4353716,
+        4353844
+      ],
+      [
+        4357012,
+        4357140
+      ],
+      [
+        4360100,
+        4360228
+      ],
+      [
+        4362724,
+        4362852
+      ],
+      [
+        4365804,
+        4365932
+      ],
+      [
+        4368868,
+        4368996
+      ],
+      [
+        4371700,
+        4371828
+      ],
+      [
+        4375012,
+        4375140
+      ],
+      [
+        4378292,
+        4378420
+      ],
+      [
+        4382120,
+        4382248
+      ],
+      [
+        4384768,
+        4384896
+      ],
+      [
+        4387464,
+        4387592
+      ],
+      [
+        4390468,
+        4390596
+      ],
+      [
+        4394244,
+        4394372
+      ],
+      [
+        4398276,
+        4398404
+      ],
+      [
+        4402272,
+        4402400
+      ],
+      [
+        4406408,
+        4406536
+      ],
+      [
+        4408856,
+        4408984
+      ],
+      [
+        4412024,
+        4412152
+      ],
+      [
+        4415992,
+        4416120
+      ],
+      [
+        4419660,
+        4419788
+      ],
+      [
+        4423212,
+        4423340
+      ],
+      [
+        4426596,
+        4426724
+      ],
+      [
+        4429880,
+        4430008
+      ],
+      [
+        4433124,
+        4433252
+      ],
+      [
+        4436216,
+        4436344
+      ],
+      [
+        4439984,
+        4440112
+      ],
+      [
+        4443364,
+        4443492
+      ],
+      [
+        4446520,
+        4446648
+      ],
+      [
+        4449488,
+        4449616
+      ],
+      [
+        4452172,
+        4452300
+      ],
+      [
+        4455416,
+        4455544
+      ],
+      [
+        4458296,
+        4458424
+      ],
+      [
+        4461348,
+        4461476
+      ]
+    ],
+    "resource_vector": [
+      [
+        0,
+        4233412,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        1,
+        4236964,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        2,
+        4240632,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        3,
+        4244064,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        4,
+        4247848,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        5,
+        4254168,
+        "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870"
+      ],
+      [
+        6,
+        4257180,
+        "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870"
+      ],
+      [
+        7,
+        4260508,
+        "ffe76189fb10ed6aad1fa877d7c6e768f78ce36412378ed322950d0f2354e6e8"
+      ],
+      [
+        8,
+        4263776,
+        "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870"
+      ],
+      [
+        9,
+        4267092,
+        "c4a0426b625ac125a761bce9a6dfbf83d0bc4e51bf400ca2113b7c3ae6a50870"
+      ],
+      [
+        10,
+        4270468,
+        "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad"
+      ],
+      [
+        11,
+        4273976,
+        "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad"
+      ],
+      [
+        12,
+        4277936,
+        "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad"
+      ],
+      [
+        13,
+        4281748,
+        "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad"
+      ],
+      [
+        14,
+        4285368,
+        "9bf425d299080351c6f19655f61dc4601a0fcb02a244d4a3c80cf330c9656aad"
+      ],
+      [
+        15,
+        4288888,
+        "0db513ffa1c3930bfa173b24cc891947cdafbbde25f0490ef39ff56ee32c5762"
+      ],
+      [
+        16,
+        4291508,
+        "0d778fb7ebe5b69e0dcc20eb7a66c0eb1a82d30839968b688611dbc1755dc7b0"
+      ],
+      [
+        17,
+        4295176,
+        "0a645f2f52411176213538b6d8bffa1f9d92ea9a7e26930582edb6d212d076fd"
+      ],
+      [
+        18,
+        4298440,
+        "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2"
+      ],
+      [
+        19,
+        4301660,
+        "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2"
+      ],
+      [
+        20,
+        4305368,
+        "5479bc1ff56c24dd10274c1b3b2cfd3df17176b5786446b17c679bbb73c06bc2"
+      ],
+      [
+        21,
+        4308876,
+        "a632fc51a618b9a8a7ab456a74fedaa396fd0fc0192886d4df6cebef19fbbcda"
+      ],
+      [
+        22,
+        4312296,
+        "1d06aa620d48f520e6094d97be3c0d866c633a60ecffc977fb818348d549aa7f"
+      ],
+      [
+        23,
+        4315396,
+        "32d4ed914e03115c01783369a38f9c143c16368a30a04cdfa12e89a717acc343"
+      ],
+      [
+        24,
+        4318284,
+        "0ae9b301cfa6c494d9372d9bc90ca27e639629ae352ab30b9f83891f4244e02c"
+      ],
+      [
+        25,
+        4321204,
+        "d6c311241f0a349ee7b7db73fa1ef4fd1ebea5501a0a932bbea9a26f881f4f42"
+      ],
+      [
+        26,
+        4323712,
+        "1198da7f51c341ca412a9ccdb802543852cf0425ba0194d5b3dba54e9587d5cf"
+      ],
+      [
+        27,
+        4326916,
+        "5a3a8d6fcc7e80f79b8e7a490907000f0215082768dc9db3d5a446bb21177efd"
+      ],
+      [
+        28,
+        4330092,
+        "a50f9d02a51c60165fb744b21896ee9e8a0f70a361c08b0d787acdda0b246849"
+      ],
+      [
+        29,
+        4333032,
+        "eeee5d966f0b3d7c1bfe6de836693e62119991834fba040fe77800301f0d9e24"
+      ],
+      [
+        30,
+        4336972,
+        "f25071e8f71abf7065c09187575f806f737725ada58af8980cb1eaa0775c6a54"
+      ],
+      [
+        31,
+        4340136,
+        "bc28c708720454a7cd8d36e2f69cabaead89fb7312fbf8b886625d2f2d85a7bc"
+      ],
+      [
+        32,
+        4344092,
+        "2b09c0f0c3981b372afc340423eb9fbba84ff6963dec912dd42a5e9761853180"
+      ],
+      [
+        33,
+        4347000,
+        "d98ad0f3b344b8d2ef8ed3d62925ca51069fba4b7e2aaf1ee07ad0d3bdf6a8bb"
+      ],
+      [
+        34,
+        4350416,
+        "4379852a09d430f3df2179bd0432a0f04290375e2d30493a00093d515f7c4ff5"
+      ],
+      [
+        35,
+        4353716,
+        "44ffcd19f7c4de593444748b43f0ab06ac3382437f4a318e938d784048d68e76"
+      ],
+      [
+        36,
+        4357012,
+        "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115"
+      ],
+      [
+        37,
+        4360100,
+        "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115"
+      ],
+      [
+        38,
+        4362724,
+        "3c08a9da27cc381a029639c285dd564bee784e77eb1427289b2148ff5aed3115"
+      ],
+      [
+        39,
+        4365804,
+        "b8b09b223ddcb8c95fd457975ae6f1e2adae86e9e9bf55966d4c5da09213951d"
+      ],
+      [
+        40,
+        4368868,
+        "aa312981e98c39805bd2e2a76f080b6bfcfde2fd8d46291163070cdbcb655815"
+      ],
+      [
+        41,
+        4371700,
+        "9b0aae289831e190761366bcc32c8b94ddccc2249d83f12f68d435378039d7b2"
+      ],
+      [
+        42,
+        4375012,
+        "5f93c544abb844d25e987e17b8d99a90a7687f0a1e565a3191f707cb156f9070"
+      ],
+      [
+        43,
+        4378292,
+        "d81ede110f21c89154e39021f9315b33b517853b46f454f2ac310bb2171a8a60"
+      ],
+      [
+        44,
+        4382120,
+        "00aad1ac0aacae5488c4890e2f855dda0fb1fbd6fc7b00fc24e87ee44be1559b"
+      ],
+      [
+        45,
+        4384768,
+        "08e004ce13d94ab887359674e11d4180abaff65fcaec21b4610821572c8f09c6"
+      ],
+      [
+        46,
+        4387464,
+        "97649a43d5103b468fd59326dec71917a9c44c55e3958d78a6d8aaea7363010f"
+      ],
+      [
+        47,
+        4390468,
+        "eabc4999b3e9f04164a3fe3f3e2903ce348dc04f8b39a4eb1bc9be0ca9263f74"
+      ],
+      [
+        48,
+        4394244,
+        "693c288904e57e45488417a379bbe7edb61b6937f613f80f082acf571fae5cbb"
+      ],
+      [
+        49,
+        4398276,
+        "78a877dee07cd62321844195d736ae623c453582d0e4d4bb0f98119a54437d21"
+      ],
+      [
+        50,
+        4402272,
+        "3b648b3de4aea981bbde2ab8970f0d6bb8992fab0df5b7d5a0d6a319a7ea531d"
+      ],
+      [
+        51,
+        4406408,
+        "f5834fbda65bcba3f93218855643dfbc666ffdcc0c42da1d1c0dd97c86d42608"
+      ],
+      [
+        52,
+        4408856,
+        "2bed99153218cc8414b39e4d2eb426459daf1b4edb6f3e377c40cf5548cf3928"
+      ],
+      [
+        53,
+        4412024,
+        "b5cef28ee1e65e74b24113aff5889efe4cc1745dc22827bc44b0fe258e8257f0"
+      ],
+      [
+        54,
+        4415992,
+        "fb9f0a52d11e40e1e7e1d09edd14713898365a98df0b489e2468ca17300ef3ca"
+      ],
+      [
+        55,
+        4419660,
+        "2377f398782ede005f5a205ef2e3ef1863b410f7c18838f0ccf1c6b2328dbec1"
+      ],
+      [
+        56,
+        4423212,
+        "8fbc6a75b41d71164f286578efd577d6658f673ba4464264e892668d7c400f2c"
+      ],
+      [
+        57,
+        4426596,
+        "872928d16bc4c0bee087c6bb37a95dcd05a466a3d6582e9161320da245836e6d"
+      ],
+      [
+        58,
+        4429880,
+        "b985723799278194eaf5f42d08fe1bfe088c66939a95cdb129f90acf466a6809"
+      ],
+      [
+        59,
+        4433124,
+        "fcff9759e7a6288c4011b05d8010c569b603e8be856ce448b2d4ef327b404179"
+      ],
+      [
+        60,
+        4436216,
+        "d5fa9bf555e5df0bb42345efb4b206743e440b608647ade324b3f9f5434d8df8"
+      ],
+      [
+        61,
+        4439984,
+        "4b9c849410b4e5a5fbec764b2360aeec71c787b31f69b0328757d107c7d9191d"
+      ],
+      [
+        62,
+        4443364,
+        "355acde1d21e2093a92b46687c17f5768b5f99bbaa4d36be81a365f88cff1ddf"
+      ],
+      [
+        63,
+        4446520,
+        "68cb0012f50be5a8573decc618b9720d5ba77a86eee77d567fe469f8727bf02d"
+      ],
+      [
+        64,
+        4449488,
+        "ea06f925dcaa8571c462ec9fa48936eecdf20eab1d96b4bae7d71816d8a7fc02"
+      ],
+      [
+        65,
+        4452172,
+        "e1066357fe4daf0fbebd67253733484ca62337edc6b687d3bd788c0a1c116268"
+      ],
+      [
+        66,
+        4455416,
+        "a1a175a75820755d8f88a45b0f95ec2211e2c24f5925c2bc0b74ed84c7cb1b84"
+      ],
+      [
+        67,
+        4233412,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        68,
+        4233412,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        69,
+        4233412,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        70,
+        4233412,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ],
+      [
+        71,
+        4458296,
+        "6fbd394ee15a7443c041f0be9b55318932f2fcf8e5f7f54e2b9e181af281aca9"
+      ],
+      [
+        72,
+        4461348,
+        "09b23009daaf4b7b35f00384f23abbcd7bfad62e0c5086b1698409f6a207a344"
+      ],
+      [
+        73,
+        4251264,
+        "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c"
+      ]
+    ],
+    "resource_vector_sha256": "aacf1dd777711ffddd46d268b419da0887002557004064c38d51e5b299521c3b",
+    "special_pair_raw_hex": "a8d1400880de4008",
+    "table": {
+      "entry_count": 63,
+      "entry_size": 40,
+      "file_offset": 5918188,
+      "gba_address": "0x085A4DEC",
+      "matrix_nonzero_outputs": 310,
+      "record0_range": [
+        5918188,
+        5918228
+      ],
+      "record0_raw_sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb",
+      "sha256": "bfc995240519eca9035e140a45e506a5c1f6f561e05827a589b5ac03543bba7e",
+      "special_pair_gba_address": "0x085A4DE4",
+      "special_pair_range": [
+        5918180,
+        5918188
+      ],
+      "special_pair_raw_sha256": "878734508bacadb5190d10484f55a6958ffecc6119841dbe08dad145a4ad9049",
+      "table_size": 2520,
+      "total_table_slots": 315,
+      "variants_per_entry": 5,
+      "zero_sentinel_slots": 5
+    },
+    "writeback": {
+      "manifest": {
+        "path": "artifacts/menu-portrait-writeback-v1/manifest.json",
+        "sha256": "dbae133169f8ced45eb0893535084c5488345cfe2d3be6c6fef1611e3352278a"
+      },
+      "payload": {
+        "path": "artifacts/menu-portrait-writeback-v1/menu-portrait-writeback.json",
+        "sha256": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
+      },
+      "verifier": {
+        "path": "tools/verify_menu_portrait_writeback_audit.py",
+        "sha256": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734"
+      }
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_menu_portrait_palette_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-menu-portrait-palette-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "alias_group_count": 1,
+      "aliased_resource_count": 5,
+      "bundle_sha256": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc",
+      "errors": [],
+      "logical_output_count": 311,
+      "packed_bytes": 8960,
+      "palette_bytes": 8960,
+      "range_overlap_bytes": 0,
+      "range_vector_sha256": "84e8b9f99a51f94e1b9e0b972d6458c883428443aa173a9f739beaf601b4e338",
+      "schema": "rom-menu-portrait-palette-inventory-verification-v1",
+      "source_resource_count": 74,
+      "unique_palette_count": 70,
+      "verified": true
+    },
+    "verifier_sha256": "63d60ffe786841d910b0655de31cbb4a3d52178b433fc1a40b24729f683cda46"
+  }
+}

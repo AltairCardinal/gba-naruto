@@ -1,0 +1,51 @@
+FEF
+======================================================================
+ERROR: test_real_rebuild_receipt_is_non_degraded (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketCanonicalTests.test_real_rebuild_receipt_is_non_degraded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 187, in test_real_rebuild_receipt_is_non_degraded
+    receipt = json.loads((RUN / "coverage-guard.json").read_text())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/direct-root-overlap-cfg/root-063400-tier1-20260905/resume-20260905T052627Z/coverage-guard.json'
+
+======================================================================
+FAIL: test_real_canonical_claims_segments_and_unknown_holes (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketCanonicalTests.test_real_canonical_claims_segments_and_unknown_holes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 154, in test_real_canonical_claims_segments_and_unknown_holes
+    self.assertEqual((6_203_707, 87_749, 16_891), tuple(
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        coverage["summary"][key] for key in
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ("classified_bytes", "unknown_bytes", "claim_count")))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (6203707, 87749, 16891) != (6202729, 88727, 16870)
+
+First differing element 0:
+6203707
+6202729
+
+- (6203707, 87749, 16891)
++ (6202729, 88727, 16870)
+
+======================================================================
+FAIL: test_proof_binds_real_canonical_and_ten_batch_evidence_files (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketProofSpecTests.test_proof_binds_real_canonical_and_ten_batch_evidence_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 211, in test_proof_binds_real_canonical_and_ten_batch_evidence_files
+    self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     evidence.get(path), path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88' != None : artifacts/rom-fixed-index-u8-tail-v1/manifest.json
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.281s
+
+FAILED (failures=2, errors=1)

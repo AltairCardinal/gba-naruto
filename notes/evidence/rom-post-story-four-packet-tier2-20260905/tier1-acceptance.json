@@ -1,0 +1,131 @@
+{
+  "stage": "tier1_accepted_tier2_pending",
+  "quota_remaining_percent": 79,
+  "packet": "rom-cfg-proven-roots-v21",
+  "packet_tests": 15,
+  "packet_promotion_bytes": 116,
+  "packet_claims": 3,
+  "batch_promotion_bytes": 978,
+  "batch_claims": 21,
+  "canonical_unchanged_sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+  "projected_classified_bytes": 6203707,
+  "projected_unknown_bytes": 87749,
+  "official_replay": {
+    "verified": true,
+    "report_sha256": "4611b27fc0bc643f1de3062f75adf7c52de2e1d51b1fcee1f2078058d88003c8",
+    "replays": 2
+  },
+  "source_identities": {
+    "artifacts/rom-cfg-proven-roots-v21/manifest.json": {
+      "size": 2110,
+      "sha256": "b9625a5e45c66bc510deb2a83ceb01882c6ef4fd381ef28fc499d83ec2680f62"
+    },
+    "artifacts/rom-cfg-proven-roots-v21/rom-cfg-proven-roots-v21.json": {
+      "size": 12782,
+      "sha256": "4dba6f7d880a790d92045d838eb78dd253f512d8d3a42b2c3858acf1187c1f9c"
+    },
+    "tools/rom_cfg_proven_roots_v21_contract.py": {
+      "size": 5759,
+      "sha256": "c0b9eb18003c6a580a1bf595109d22f4db1aca0176b0dc3c7839dd81441c16ce"
+    },
+    "tools/export_rom_cfg_proven_roots_v21.py": {
+      "size": 32860,
+      "sha256": "a082b50dd61a3eff5588803adedc81796b34394c94b17ec58d9cd0f32376419a"
+    },
+    "tools/verify_rom_cfg_proven_roots_v21.py": {
+      "size": 29698,
+      "sha256": "6d20f681fdd033f2ce25a10ef4d512bc898c9a4b7f97d40adf75f0f3d9a59c7d"
+    },
+    "tests/test_export_rom_cfg_proven_roots_v21.py": {
+      "size": 15499,
+      "sha256": "5b3aa2a32ca9814b88deebd58be38a67a7a50bdd248ad36afdc706379fa3b6ab"
+    },
+    "tools/audit_rom_byte_coverage.py": {
+      "size": 1654424,
+      "sha256": "751097e634cab06306b08332ed581f22dadae5869ba337330a089aea0487ee92"
+    },
+    "tests/test_rom_cfg_proven_roots_v21_coverage.py": {
+      "size": 11687,
+      "sha256": "dca7fdf4f7af7f510d42a5460577bfb54fa40eec76a5c075a0bc830baae458a5"
+    },
+    "tests/test_audit_rom_byte_coverage.py": {
+      "size": 702726,
+      "sha256": "40d29851c89740bd3401cd87a982419a775afd4d3e614c9573be2e355286e070"
+    }
+  },
+  "guard_receipts": {
+    "lifecycle-red2-guard.json": {
+      "sha256": "a2d4e607231ba033d4e09a0f49fbff097be61f547e582254a83af6807babbdb1",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 175.3671875
+    },
+    "lifecycle-refactor-guard.json": {
+      "sha256": "737a07465b844f1a2e2e0f602a8789dc4cdfdfe595d36d5375b7858443ae2203",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 219.609375
+    },
+    "member-race-red-guard.json": {
+      "sha256": "72a0bafc4c294225593d02b9b6553bff4496c0f4f2b07434070c768a47747c04",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 197.8984375
+    },
+    "member-race-green-guard.json": {
+      "sha256": "d4010ae5dbf69636cd277feaeee8de6a9e1ca5456a109b9e9ea710f07fb1a063",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 215.046875
+    },
+    "candidate-verifier-guard.json": {
+      "sha256": "ef4fbd31afe20750d35e262473e6e9225a6ba5b1887fd24a162354aeee023ffb",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 73.578125
+    },
+    "official-export-guard.json": {
+      "sha256": "c0a5b339e98fd898709d8103589aa86c9e6abb6853fa0819ecc2f67b03a3a8eb",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 120.62109375
+    },
+    "official-verifiers-guard.json": {
+      "sha256": "38a30c780311245d37cc0aaeb888c4f91673eccc47293522c281559c1d424dcf",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 80.16015625
+    },
+    "projection-red-guard.json": {
+      "sha256": "9d04c43c00239672827cabed6d2c4be8170a7d4b9cca9046bf1999aa927b14ec",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 0.78515625
+    },
+    "four-packet-red-guard.json": {
+      "sha256": "ff7b4812a98f260ecfd65ed0aee6c1d6c6c7738aebdbc2c270408345a759a5fc",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 236.76953125
+    },
+    "projection-batch-green-guard.json": {
+      "sha256": "26d632bc7416c1aa265083f1d0b37b258264584df52852ad83563c981be63872",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 556.203125
+    },
+    "four-packet-corrected-green-guard.json": {
+      "sha256": "f792162fda8356ed7f89fd641b00f306661f26c50ba881b686b498bcadf0e79e",
+      "exit_code": 0,
+      "reason": "completed",
+      "peak_tree_rss_mib": 235.640625
+    },
+    "tier2-canonical-proof-red-guard.json": {
+      "sha256": "91f5bf3007201b1405c0a312d3c643b8a000cfa6e577dfec87b73842f848373d",
+      "exit_code": 1,
+      "reason": "child-exit",
+      "peak_tree_rss_mib": 0.79296875
+    }
+  },
+  "projection_test_correction": "13 of 14 first-run tests passed; sole mismatch was expected registry SHA; corrected four-packet class rerun passed 2 of 2. Canonical/proof still expected RED until real rebuild."
+}

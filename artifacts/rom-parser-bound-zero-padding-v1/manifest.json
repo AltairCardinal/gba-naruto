@@ -1,0 +1,59 @@
+{
+  "artifact_schema": "rom-parser-bound-zero-padding-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "parser-bound-zero-padding.bin": "a6eab4025a7c9c0877549f6e5d790f66af88ee7f2320e814954e638d8051f812",
+    "rom-parser-bound-zero-padding.json": "68f690b552a532ae3a50fad4c1257f89e870f3d74de2ef594e774f23c580ba74"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_parser_bound_zero_padding.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "build/experiments/active/parser-bound-zero-padding/codex-r4-20260821/final"
+    ],
+    "exporter_sha256": "2052615c359765ebfba2b0c3056b77c6e106af43ca2c3c5eae6881f1e18a4760",
+    "test_sha256": "5c64cff82fd02e4c056ebaa02824a0ae0e84bf50728604304b8d8d5305f53b10",
+    "verifier_sha256": "18a67696b11da789d2871402dd829e98a85800633c2f3d4da9b4ccefeafff07d"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_chapter_gaps_classified": false,
+    "all_m4a_unclaimed_classified": false,
+    "arbitrary_zero_holes_complete": false,
+    "edit_safety_complete": false,
+    "free_space_complete": false,
+    "natural_execution_reachability_complete": false,
+    "parser_bound_source_contracts_complete": true,
+    "rejected_gaps_classified": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_parser_bound_zero_padding.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/parser-bound-zero-padding/codex-r4-20260821/final"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_bundle_sha256": "a6eab4025a7c9c0877549f6e5d790f66af88ee7f2320e814954e638d8051f812",
+      "accepted_byte_count": 198,
+      "accepted_range_count": 142,
+      "accepted_range_sha256": "936959996300e6971bf0afa70ebe8fa116bb57c92a824b710daa91cd5b08a4c1",
+      "chapter_structure_count": 89,
+      "contract_excluded_byte_count": 5,
+      "contract_excluded_range_count": 2,
+      "errors": [],
+      "m4a_structure_count": 62,
+      "rejected_byte_count": 3688,
+      "rejected_range_count": 9,
+      "schema": "rom-parser-bound-zero-padding-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "18a67696b11da789d2871402dd829e98a85800633c2f3d4da9b4ccefeafff07d"
+  }
+}

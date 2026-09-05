@@ -1,0 +1,44 @@
+{
+  "artifact_status": "accepted",
+  "coverage": {
+    "archive": {
+      "compression": "gzip",
+      "file": "rom-byte-coverage.json.gz",
+      "sha256": "e345bf5a605d796c1e38a4243b4aefbcb7b8229f70bea13ce40ca044d4edf04b",
+      "size": 1302906
+    },
+    "raw": {
+      "canonical_json": true,
+      "schema": "rom-byte-coverage-v1",
+      "sha256": "22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839",
+      "size": 23152713,
+      "summary": {
+        "claim_count": 14507,
+        "classified_bytes": 6124601,
+        "segment_count": 16617,
+        "unknown_bytes": 166855
+      }
+    }
+  },
+  "limitations": [
+    "This is a byte-identical immutable archive of the live canonical coverage immediately before the combined CGB helper and CgbSound promotion batch.",
+    "The snapshot proves only the frozen pre-promotion coverage identity; it does not classify any additional ROM bytes by itself.",
+    "Both independent artifacts in this batch must replay this same archive; after either promotion is accepted, this archive remains the baseline and does not replace the live post-promotion coverage file."
+  ],
+  "recovery": {
+    "captured_from": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839",
+      "size": 23152713,
+      "summary": {
+        "claim_count": 14507,
+        "classified_bytes": 6124601,
+        "segment_count": 16617,
+        "unknown_bytes": 166855
+      }
+    },
+    "kind": "direct-frozen-prepromotion-snapshot",
+    "serialization": "Canonical source bytes compressed with gzip -n -9; decompression is byte-identical to the source."
+  },
+  "schema": "rom-byte-coverage-prepromotion-baseline-v1"
+}

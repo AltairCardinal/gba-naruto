@@ -32,6 +32,7 @@ SCREENBLOCK_HEIGHT_TILES = 32
 TILEMAP_SIZE = WIDTH_TILES * SOURCE_HEIGHT_TILES * 2
 PALETTE_SIZE = 0x180
 SCHEMA = "bg-resource-canvases-v1"
+VERIFICATION_SCHEMA = "bg-resource-canvases-verification-v1"
 
 
 def _sha256(data: bytes) -> str:
@@ -597,6 +598,7 @@ def verify_artifact(root: Path, artifact_dir: Path) -> dict[str, Any]:
 
     verified = not errors and verified_canvases == 12
     return {
+        "schema": VERIFICATION_SCHEMA,
         "verified": verified,
         "errors": errors,
         "canvases": 12 if verified else 0,

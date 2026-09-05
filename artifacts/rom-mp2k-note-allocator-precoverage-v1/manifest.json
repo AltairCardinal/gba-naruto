@@ -1,0 +1,44 @@
+{
+  "artifact_status": "accepted",
+  "coverage": {
+    "archive": {
+      "compression": "gzip",
+      "file": "rom-byte-coverage.json.gz",
+      "sha256": "6134b9c0e52242e47d5cb8c1c291924f41287ccfc67b97fea696b9b513793921",
+      "size": 1298798
+    },
+    "raw": {
+      "canonical_json": true,
+      "schema": "rom-byte-coverage-v1",
+      "sha256": "ab315087593f23bfbcc96c66ac99b8bfd002e5c29cd462088dda343139f9ac27",
+      "size": 23120179,
+      "summary": {
+        "claim_count": 14499,
+        "classified_bytes": 6123937,
+        "segment_count": 16608,
+        "unknown_bytes": 167519
+      }
+    }
+  },
+  "limitations": [
+    "This is a byte-identical immutable archive of the live canonical coverage immediately before the MP2K note-allocator promotion.",
+    "The snapshot proves only the frozen pre-promotion coverage identity; it does not classify any additional ROM bytes by itself.",
+    "After the promotion is accepted, this archive remains the replay input for the MP2K artifact and does not replace the live post-promotion coverage file."
+  ],
+  "recovery": {
+    "captured_from": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "ab315087593f23bfbcc96c66ac99b8bfd002e5c29cd462088dda343139f9ac27",
+      "size": 23120179,
+      "summary": {
+        "claim_count": 14499,
+        "classified_bytes": 6123937,
+        "segment_count": 16608,
+        "unknown_bytes": 167519
+      }
+    },
+    "kind": "direct-frozen-prepromotion-snapshot",
+    "serialization": "Canonical source bytes compressed with gzip -n -9; decompression is byte-identical to the source."
+  },
+  "schema": "rom-byte-coverage-prepromotion-baseline-v1"
+}

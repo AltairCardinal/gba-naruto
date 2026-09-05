@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 84339,
+  "peak_tree_rss_mib": 295.44921875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "python3 tools/verify_legacy_artifact_acceptance.py --artifact artifacts/rom-legacy-acceptance-20260905-v1 > build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/promoted-bundle-report.json 2> build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/promoted-bundle.stderr"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T09:41:13.536109Z",
+  "finished_at": "2026-09-05T09:41:17.706142Z"
+}

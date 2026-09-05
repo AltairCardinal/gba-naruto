@@ -1,0 +1,61 @@
+{
+  "artifact_schema": "rom-chapter-script-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "chapter-script-bytes.bin": "eba1393714485ab78d0dbde6cb1b9cf407e031ce8c2a86068038a3920d5f0699",
+    "chapter-script-inventory.json": "813cd10394e5fac239aefd6043437796b1a63f95d8d068d714871b8dd3edcabc"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_chapter_script_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-chapter-script-inventory-v1"
+    ],
+    "exporter_sha256": "707a00b57c6dbbfb3da22f5ef385a0243c600ef1b30f8b70527446c290ddba42",
+    "test_sha256": "95f7d1eb1aa22efc6f6cb4e183af3564ef644831b6468dde0d00e0cad368e941",
+    "verifier_sha256": "b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "fixed_pointer_table_denominator_complete": true,
+    "interpreter_consumed_byte_union_complete": true,
+    "natural_gameplay_root_reachability_complete": false,
+    "natural_language_decoding_complete": false,
+    "static_control_flow_closure_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_chapter_script_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-chapter-script-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "dynamic_opcode_06_nodes": 42,
+      "errors": [],
+      "internal_gap_bytes": 3769,
+      "internal_gap_count": 91,
+      "merged_range_bytes": 334060,
+      "merged_range_count": 92,
+      "node_overlap_bytes": 0,
+      "non_null_script_slots": 200,
+      "observed_opcode_count": 43,
+      "packed_script_bytes": 334060,
+      "parse_failure_count": 0,
+      "pointer_table_slot_count": 204,
+      "raw_node_bytes": 334060,
+      "schema": "rom-chapter-script-inventory-verification-v1",
+      "terminal_node_count": 590,
+      "unique_instruction_nodes": 18994,
+      "unique_script_roots": 188,
+      "verified": true
+    },
+    "verifier_sha256": "b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c"
+  }
+}

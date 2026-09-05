@@ -1,0 +1,47 @@
+{
+  "artifact_schema": "rom-selector-text-bindings-v1",
+  "files": {
+    "selector-text-bindings.json": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb",
+    "selector-text-bytes.bin": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_selector_text_bindings.py",
+      "sha256": "c0cc4691522e0875d26dd70691bc49392b90e58292b21bd8c7d099dcb19b5f74"
+    },
+    "test": {
+      "path": "tests/test_export_rom_selector_text_bindings.py",
+      "sha256": "657193251fa0932928e309f3e46e7c87fa455e53ce5d6a6779b1f1c1bba641e5"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_text_bindings.py",
+      "sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+    }
+  },
+  "schema": "rom-selector-text-bindings-v1-artifact-manifest-v1",
+  "scope": {
+    "direct_63_slot_physical_denominator_complete": false,
+    "direct_name_slot_domain_complete_for_proven_menu_chain": true,
+    "editing_safety_proven": false,
+    "fixed_46_source_record_denominator_complete": true,
+    "fixed_55_slot_configured_physical_table_observed": true,
+    "natural_gameplay_all_records_proven": false,
+    "nul_suffixes_classified": false,
+    "only_configuration_referenced_prefixes_classified": true,
+    "only_parser_consumed_direct_prefixes_classified": true,
+    "three_way_configuration_denominator_complete": true,
+    "unicode_decoding_complete": false
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_selector_text_bindings.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-selector-text-bindings-v1"
+    ],
+    "schema": "rom-selector-text-bindings-verification-v1",
+    "verifier_sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+  }
+}

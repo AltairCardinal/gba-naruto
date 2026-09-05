@@ -1,0 +1,47 @@
+{
+  "artifact_portability": "content_verified_independent_of_copy_path",
+  "artifact_schema": "rom-fixed-pair-tables-v1",
+  "artifact_status": "accepted",
+  "canonical_destination": "artifacts/rom-fixed-pair-tables-v1",
+  "files": {
+    "rom-fixed-pair-tables.json": {
+      "sha256": "dae6a76120eed784f528469ef6d565ad8a4f70bd78e3521c90ebdd33cf9e98dc",
+      "size": 10639
+    }
+  },
+  "implementation": {
+    "contract_sha256": "2af6f9bd77a08825e2b84f69540f1b0edc6515b7d799d342bfdda782c57becd2",
+    "exporter_sha256": "79a68bd02e1b17cc290ed14f57e6c8d571f78cb907b470c9a137f491c5f71319",
+    "test_sha256": "fa2c80e74db788bd2b414f0e84327e9ecbda87fbb4e6093139e5812c2f4b0502",
+    "verifier_sha256": "7f2b03ae46478ffaacc049902a3223e0a070aeb582ca79306d410d96f0d29225"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_fixed_pair_tables.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-fixed-pair-tables-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "claim_count": 2,
+    "promotion_bytes": 42,
+    "table_count": 2
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_fixed_pair_tables.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-fixed-pair-tables-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe",
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "artifact_schema": "rom-sprite-loader-tail-v1",
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "files": {
+    "rom-sprite-loader-tail.json": "6c4b35b130164e215b6e57f01c42708ea91b38c8e989c39003b0f1300b5b3a6f"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_sprite_loader_tail.py",
+      "sha256": "bf8aca9bab60db7ffdd0110842bc2c73054dd4ddc4274d2b17c86d60642d5384"
+    },
+    "test": {
+      "path": "tests/test_export_rom_sprite_loader_tail.py",
+      "sha256": "27836018091dc1450121cc5139354eba68149cd09906b8a972b0e1cd04e3d410"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_sprite_loader_tail.py",
+        "sha256": "4bbb8db3fc86d8f8789151b6661988196862e238a015f9f0162115cd55a64691"
+    }
+  },
+  "schema": "rom-sprite-loader-tail-v1-artifact-manifest-v1",
+  "source": {
+    "artifact_schema": "sprite-definition-animations-v1",
+    "consumer_evidence": {
+      "entry_count": 43,
+      "file_range": [
+        527112,
+        527228
+      ],
+      "gba_range": [
+        "0x08080B08",
+        "0x08080B7C"
+      ],
+      "json_pointer": "/code_slices/0",
+      "name": "generic_sprite_loader",
+      "sha256": "ff28fa10e4606f706a4fd4986126d8a14fe2baf66f1cc2621c5fe6b15d2ff8c2"
+    },
+    "coverage": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+    },
+    "entry_count": 43,
+    "exporter": {
+      "path": "tools/export_sprite_definition_animations.py",
+      "sha256": "23677a3ea2b4d6753218358c6e53eee2745b46e3c691480a1385d5a2f036846a"
+    },
+    "manifest": {
+      "path": "artifacts/sprite-definition-animations-v1/manifest.json",
+      "sha256": "e432003728c8ea28b95723eeb4f68f9a8cf95b74185eb39fdd6075c71c16b583"
+    },
+    "test": {
+      "path": "tests/test_export_sprite_definition_animations.py",
+      "sha256": "06a999de6556a4d49bd1afd7d181785290d306c3b1e4dd9b9b08d0be608b2f0e"
+    },
+    "verifier": {
+      "path": "tools/verify_sprite_definition_animations.py",
+      "sha256": "bffa6e52426b1ad716f81a77770826ce33dc3deb6496a912040457f048aae90e"
+    },
+    "verifier_report": {
+      "schema": "sprite-definition-animations-verification-v1",
+      "sha256": "ca8e829cb3ba3d927d8b427af5bd4a5be0d758daca979ac2ce6958e4d3066a27",
+      "verified_entries": 43
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_sprite_loader_tail.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-sprite-loader-tail-v1"
+    ],
+    "schema": "rom-sprite-loader-tail-verification-v1"
+  }
+}

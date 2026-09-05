@@ -1,0 +1,75 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v21",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-cfg-proven-roots-v21.json": {
+      "sha256": "4dba6f7d880a790d92045d838eb78dd253f512d8d3a42b2c3858acf1187c1f9c",
+      "size": 12782
+    }
+  },
+  "implementation": {
+    "contract": {
+      "path": "tools/rom_cfg_proven_roots_v21_contract.py",
+      "sha256": "c0b9eb18003c6a580a1bf595109d22f4db1aca0176b0dc3c7839dd81441c16ce"
+    },
+    "exporter": {
+      "path": "tools/export_rom_cfg_proven_roots_v21.py",
+      "sha256": "a082b50dd61a3eff5588803adedc81796b34394c94b17ec58d9cd0f32376419a"
+    },
+    "test_exporter": {
+      "path": "tests/test_export_rom_cfg_proven_roots_v21.py",
+      "sha256": "5b3aa2a32ca9814b88deebd58be38a67a7a50bdd248ad36afdc706379fa3b6ab"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_cfg_proven_roots_v21.py",
+      "sha256": "6d20f681fdd033f2ce25a10ef4d512bc898c9a4b7f97d40adf75f0f3d9a59c7d"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_cfg_proven_roots_v21.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-cfg-proven-roots-v21"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "basic_block_count": 17,
+    "claim_count": 3,
+    "code_bytes": 144,
+    "existing_owner_code_provenance_bytes": 32,
+    "frontier_count": 1,
+    "instruction_count": 70,
+    "literal_bytes": 4,
+    "literal_reference_count": 2,
+    "opaque_call_count": 2,
+    "opaque_unique_target_count": 1,
+    "promotion_bytes": 116,
+    "structured_return_count": 0,
+    "unique_literal_word_count": 1
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_cfg_proven_roots_v21.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-cfg-proven-roots-v21"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_status": "candidate",
+      "contract_ok": true,
+      "errors": [],
+      "frontier_count": 1,
+      "instruction_count": 70,
+      "promotion_bytes": 116,
+      "schema": "rom-cfg-proven-roots-v21-verification-v1",
+      "verified": true
+    }
+  }
+}

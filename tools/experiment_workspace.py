@@ -76,14 +76,44 @@ def _read_json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _canonical_json_bytes(value: dict[str, Any]) -> bytes:
+    return (
+        json.dumps(value, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+    ).encode("utf-8")
+
+
 def _write_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
-    temporary.write_text(
-        json.dumps(value, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    os.replace(temporary, path)
+    try:
+        temporary.write_bytes(_canonical_json_bytes(value))
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _restore_file(path: Path, existed: bool, raw: bytes | None) -> None:
+    if not existed:
+        path.unlink(missing_ok=True)
+        return
+    if raw is None:
+        raise ValueError(f"missing rollback bytes for {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.{uuid.uuid4().hex}.rollback")
+    try:
+        temporary.write_bytes(raw)
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _reject_symlink_components(path: Path) -> None:
+    absolute = path.absolute()
+    current = Path(absolute.anchor)
+    for part in absolute.parts[1:]:
+        current /= part
+        if current.is_symlink():
+            raise ValueError(f"promotion path uses a symlink: {current}")
 
 
 def _payload_files(run: Path) -> list[Path]:
@@ -204,8 +234,22 @@ def archive_run(root: Path, task: str, run_id: str) -> dict[str, Path]:
 
 
 def _validate_promotion_manifest(final: Path) -> dict[str, Any]:
+    _reject_symlink_components(final)
+    if not final.is_dir():
+        raise ValueError("promotion final directory is missing")
+    members = sorted(final.rglob("*"))
+    for path in members:
+        if path.is_symlink():
+            raise ValueError(f"promotion member uses a symlink: {path}")
     manifest_path = final / "manifest.json"
-    manifest = _read_json(manifest_path)
+    if not manifest_path.is_file():
+        raise ValueError("promotion manifest is missing")
+    manifest_raw = manifest_path.read_bytes()
+    manifest = json.loads(manifest_raw)
+    if not isinstance(manifest, dict):
+        raise ValueError("promotion manifest must contain a JSON object")
+    if manifest_raw != _canonical_json_bytes(manifest):
+        raise ValueError("promotion manifest is not canonical JSON")
     if manifest.get("schema") != PROMOTION_SCHEMA:
         raise ValueError("promotion manifest schema mismatch")
     if manifest.get("artifact_status") != "accepted":
@@ -223,12 +267,38 @@ def _validate_promotion_manifest(final: Path) -> dict[str, Any]:
         raise ValueError("promotion file hashes are missing")
     actual_paths = {
         path.relative_to(final).as_posix()
-        for path in final.rglob("*")
+        for path in members
         if path.is_file() and path != manifest_path
     }
     if actual_paths != set(expected):
         raise ValueError("promotion file inventory mismatch")
-    for relative, expected_hash in expected.items():
+    for relative, receipt in expected.items():
+        expected_hash = receipt
+        expected_size = None
+        if isinstance(receipt, dict):
+            if set(receipt) != {"sha256", "size"}:
+                raise ValueError(
+                    f"promotion file receipt is malformed: {relative}"
+                )
+            expected_hash = receipt["sha256"]
+            expected_size = receipt["size"]
+            if (
+                not isinstance(expected_size, int)
+                or isinstance(expected_size, bool)
+                or expected_size < 0
+            ):
+                raise ValueError(
+                    f"promotion file size receipt is invalid: {relative}"
+                )
+            if (final / relative).stat().st_size != expected_size:
+                raise ValueError(f"promotion file size mismatch: {relative}")
+        elif not isinstance(receipt, str):
+            raise ValueError(f"promotion file receipt is malformed: {relative}")
+        if (
+            not isinstance(expected_hash, str)
+            or not re.fullmatch(r"[0-9a-f]{64}", expected_hash)
+        ):
+            raise ValueError(f"promotion file hash receipt is invalid: {relative}")
         if _sha256(final / relative) != expected_hash:
             raise ValueError(f"promotion file hash mismatch: {relative}")
     return manifest
@@ -256,22 +326,42 @@ def promote_run(
                 "promotion exceeds file/byte budget without a justification"
             )
     artifacts = root.resolve() / "artifacts"
+    _reject_symlink_components(artifacts)
+    if artifacts.exists() and not artifacts.is_dir():
+        raise ValueError("artifacts target root is not a directory")
+    artifacts.mkdir(parents=True, exist_ok=True)
+    _reject_symlink_components(artifacts)
     target = artifacts / artifact_name
+    _reject_symlink_components(target)
     if target.exists():
         raise FileExistsError(target)
-    artifacts.mkdir(parents=True, exist_ok=True)
     temporary = artifacts / f".{artifact_name}.promoting-{uuid.uuid4().hex}"
+    metadata_path = _metadata_path(run)
+    inventory_path = _inventory_path(run)
+    metadata_existed = metadata_path.exists()
+    inventory_existed = inventory_path.exists()
+    metadata_raw = metadata_path.read_bytes() if metadata_existed else None
+    inventory_raw = inventory_path.read_bytes() if inventory_existed else None
+    target_installed = False
     try:
         shutil.copytree(final, temporary)
         _validate_promotion_manifest(temporary)
         os.replace(temporary, target)
+        target_installed = True
+        metadata = complete_run(root, task, run_id)
+        metadata["promoted_to"] = target.relative_to(root.resolve()).as_posix()
+        metadata["promoted_at"] = _timestamp()
+        _write_json(metadata_path, metadata)
+    except Exception:
+        if target_installed and target.exists():
+            shutil.rmtree(target)
+        if target_installed:
+            _restore_file(metadata_path, metadata_existed, metadata_raw)
+            _restore_file(inventory_path, inventory_existed, inventory_raw)
+        raise
     finally:
         if temporary.exists():
             shutil.rmtree(temporary)
-    metadata = complete_run(root, task, run_id)
-    metadata["promoted_to"] = target.relative_to(root.resolve()).as_posix()
-    metadata["promoted_at"] = _timestamp()
-    _write_json(_metadata_path(run), metadata)
     return target
 
 

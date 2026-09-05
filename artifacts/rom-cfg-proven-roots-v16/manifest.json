@@ -1,0 +1,106 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v16",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "classified_bytes": 6144296,
+    "path": "sequel/rom-byte-coverage.json",
+    "segment_count": 17349,
+    "sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+    "unknown_bytes": 147160
+  },
+  "files": {
+    "rom-cfg-proven-roots-v16.json": {
+      "sha256": "2d8f65b5345a89e02778bcdba2de01f420f3b378149c9eeb6e549c7d2c0ad99a",
+      "size": 19750
+    }
+  },
+  "implementation": {
+    "binding": "artifact-contract-exporter-verifier-tests-hash-bound",
+    "contract_sha256": "778e4ae0adddcbda32098350b57ca7bf8873ebe78156a4c5102acc71cf4ba107",
+    "exporter_sha256": "2dd31b0ffc359f93754625bd46250aa1aa8578adead0de3c9d640471afaffbf4",
+    "paths": {
+      "contract": "tools/rom_cfg_proven_roots_v16_contract.py",
+      "exporter": "tools/export_rom_cfg_proven_roots_v16.py",
+      "test_exporter": "tests/test_export_rom_cfg_proven_roots_v16.py",
+      "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v16.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v16.py"
+    },
+    "test_exporter_sha256": "60d6de65eafcb837fe2d52af7a9a2d931f8b5d9a6c4df7e4af9018538c5ddba6",
+    "test_verifier_sha256": "ea390f632e80f94dc584d0bdba8075ac7e9fcb533f4d0dc049da76bb13fe8213",
+    "verifier_sha256": "6dc8535453445edc07c975e003cb8cf2bf58b1f7e8ccfbae1e782aed7a7bc24a"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_cfg_proven_roots_v16.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-cfg-proven-roots-v16"
+    ],
+    "implementation": {
+      "binding": "artifact-contract-exporter-verifier-tests-hash-bound",
+      "contract_sha256": "778e4ae0adddcbda32098350b57ca7bf8873ebe78156a4c5102acc71cf4ba107",
+      "exporter_sha256": "2dd31b0ffc359f93754625bd46250aa1aa8578adead0de3c9d640471afaffbf4",
+      "paths": {
+        "contract": "tools/rom_cfg_proven_roots_v16_contract.py",
+        "exporter": "tools/export_rom_cfg_proven_roots_v16.py",
+        "test_exporter": "tests/test_export_rom_cfg_proven_roots_v16.py",
+        "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v16.py",
+        "verifier": "tools/verify_rom_cfg_proven_roots_v16.py"
+      },
+      "test_exporter_sha256": "60d6de65eafcb837fe2d52af7a9a2d931f8b5d9a6c4df7e4af9018538c5ddba6",
+      "test_verifier_sha256": "ea390f632e80f94dc584d0bdba8075ac7e9fcb533f4d0dc049da76bb13fe8213",
+      "verifier_sha256": "6dc8535453445edc07c975e003cb8cf2bf58b1f7e8ccfbae1e782aed7a7bc24a"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "nonclaims": {
+      "callee_abi_business_semantics_or_compiler_authorship": false,
+      "editing_writeback_relocation_or_allocatable_space": false,
+      "global_code_or_indirect_computed_target_denominator": false,
+      "literal_pool_or_adjacent_byte_classification": false,
+      "natural_execution_or_runtime_reachability": false,
+      "rejected_unknown_owner_matches_are_producers": false
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_cfg_proven_roots_v16.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-cfg-proven-roots-v16"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_producer_count": 19,
+      "baseline_cross_edge_count": 18,
+      "control_flow_oracle": "armv4t-raw-encoding",
+      "coverage_sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+      "decode_reject_count": 0,
+      "decoded_basic_block_count": 70,
+      "decoded_instruction_count": 369,
+      "errors": [],
+      "promoted_from_unknown_bytes": 778,
+      "reachable_instruction_bytes": 778,
+      "rejected_nonproof_match_count": 2,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "root_count": 15,
+      "schema": "rom-cfg-proven-roots-v16-verification-v1",
+      "verified": true
+    },
+    "schema": "rom-cfg-proven-roots-v16-verification-v1"
+  }
+}

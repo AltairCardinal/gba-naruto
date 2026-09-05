@@ -1,0 +1,969 @@
+{
+  "dispatcher": {
+    "bytes_sha256": "b825f224bf8677ace2b5936e48afcc7e3a1950ac72ed397bbdbbf1cb0af1ba51",
+    "mask": 7,
+    "range": [
+      411248,
+      411344
+    ],
+    "slot_count": 6,
+    "slots": [
+      134629068,
+      134629040,
+      134629046,
+      134629052,
+      134629058,
+      134629064
+    ],
+    "state_address": "0x03005CBC",
+    "structured_return": 411342,
+    "subtract": 1,
+    "table_range": [
+      411288,
+      411312
+    ],
+    "unsigned_max": 5
+  },
+  "producer_denominator": {
+    "decoder_kinds": [
+      "thumb_bl",
+      "thumb_b",
+      "thumb_bcond"
+    ],
+    "match_count": 6,
+    "matches": [
+      [
+        397466,
+        411248,
+        "bl",
+        4,
+        "03f0e9fa"
+      ],
+      [
+        411312,
+        408284,
+        "bl",
+        4,
+        "fff714fa"
+      ],
+      [
+        411318,
+        408628,
+        "bl",
+        4,
+        "fff7bdfa"
+      ],
+      [
+        411324,
+        409468,
+        "bl",
+        4,
+        "fff75efc"
+      ],
+      [
+        411330,
+        410332,
+        "bl",
+        4,
+        "fff70bfe"
+      ],
+      [
+        411336,
+        410516,
+        "bl",
+        4,
+        "fff764fe"
+      ]
+    ],
+    "range": [
+      0,
+      6291456
+    ],
+    "stride": 2,
+    "targets": [
+      408284,
+      408628,
+      409468,
+      410332,
+      410516,
+      411248
+    ],
+    "vector_sha256": "38054acf6d67c8b32d31f1ccc3a4348fda42f2b12e8fa06344ee6dae58383d78"
+  },
+  "promotion": {
+    "claim_count": 45,
+    "claims": [
+      {
+        "bytes_sha256": "8ca88d300827aa7c346ecd91e4aa7a29be8ebc3970a3d3e8a103513ca770c227",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-01-063adc",
+        "range": [
+          408284,
+          408382
+        ]
+      },
+      {
+        "bytes_sha256": "b456ede4efcba3a7c85c2694c408c653b497dbeeb7f564c49959c8a8c9ac5724",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-02-063b54",
+        "range": [
+          408404,
+          408452
+        ]
+      },
+      {
+        "bytes_sha256": "4cfd3cd51dcf3e43882be0e63f9d02b9e83a806b50e68ff023d9478799ef6a9d",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-03-063b88",
+        "range": [
+          408456,
+          408624
+        ]
+      },
+      {
+        "bytes_sha256": "51a45bd8d7a40cce8366b1c5e8fb4f10c6a6d5c455608f0f262249f6edd58687",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-04-063c34",
+        "range": [
+          408628,
+          408790
+        ]
+      },
+      {
+        "bytes_sha256": "36184ae5601f60acbed501a9056b38b9111d6388e7ce859e6107f87365db164c",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-05-063cf0",
+        "range": [
+          408816,
+          409320
+        ]
+      },
+      {
+        "bytes_sha256": "5e8f87ea4c4eb7f0a06e6dce675dd5361fa821f40fe8d96ec13c5a5147e4f0ed",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-06-063ef8",
+        "range": [
+          409336,
+          409466
+        ]
+      },
+      {
+        "bytes_sha256": "62184d2670db0a71c7caf7aee4fa98793746e72666f8f8f64c779aac307e0d9e",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-07-063f7c",
+        "range": [
+          409468,
+          409518
+        ]
+      },
+      {
+        "bytes_sha256": "92002bc2acf396df718932f82224d82984b3dfa9a892c78e6630cdbb46d5a826",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-08-063fc0",
+        "range": [
+          409536,
+          409770
+        ]
+      },
+      {
+        "bytes_sha256": "2fab41fec2c9797702c5d238159ade7e1e4a0b18c5e7e69888ef5f43cf36907e",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-09-0640b4",
+        "range": [
+          409780,
+          409836
+        ]
+      },
+      {
+        "bytes_sha256": "20e3df2d796f2ea4ebde6746c83995e3396205cdfb3ce1add279af92ac71bf4c",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-10-0640f0",
+        "range": [
+          409840,
+          409896
+        ]
+      },
+      {
+        "bytes_sha256": "ad78673a459f8d9d6d2e539412c693f612562eaf6e606ca5c47ac501ecda788c",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-11-064130",
+        "range": [
+          409904,
+          409948
+        ]
+      },
+      {
+        "bytes_sha256": "aecbee7d9c3e7212052aaa718036c1b3edf637a968fc86669b9f0a03c4552fd3",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-12-064160",
+        "range": [
+          409952,
+          410086
+        ]
+      },
+      {
+        "bytes_sha256": "d2d3ca7fe213caece3f44259d0f70e0f36d57ba9b9b568a716e879cf64d20e9c",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-13-0641f0",
+        "range": [
+          410096,
+          410152
+        ]
+      },
+      {
+        "bytes_sha256": "cc0624eb7be853a496d3d00946d02e25eed4d5ce5edadb1cf29a8e184778ec6c",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-14-06422c",
+        "range": [
+          410156,
+          410214
+        ]
+      },
+      {
+        "bytes_sha256": "efad73f5c755ce95c31a7773733e104ded983f12d85b1568772d05449e4a4153",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-15-064270",
+        "range": [
+          410224,
+          410268
+        ]
+      },
+      {
+        "bytes_sha256": "f75414a050ec819db09566d96fc324426a6ca8f2302148c98cbc796b3b9d4c6d",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-16-0642a0",
+        "range": [
+          410272,
+          410330
+        ]
+      },
+      {
+        "bytes_sha256": "5a10aeba5b9eead3ba7643119dd96c3e3f95b501e2ea50616c2f8485f4080e78",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-17-0642dc",
+        "range": [
+          410332,
+          410382
+        ]
+      },
+      {
+        "bytes_sha256": "06dbf94495be7850027a7e424657d7cc01235341ee8024b3a3a25ff41102d598",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-18-064324",
+        "range": [
+          410404,
+          410586
+        ]
+      },
+      {
+        "bytes_sha256": "af9d17361705aca66fcef304a6ee7f30608d741f867922ea2e88f2f393c776d6",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-19-0643ec",
+        "range": [
+          410604,
+          410608
+        ]
+      },
+      {
+        "bytes_sha256": "e426149a7b9bfcb598f29bfd9a94aa2902c1c190b1847532a0ac0ba5c2cb1fe0",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-20-0643f4",
+        "range": [
+          410612,
+          410662
+        ]
+      },
+      {
+        "bytes_sha256": "bd0bf5d2564fbd486ecb914baae9dee4ea357a401f87720bda1f2426a2818acb",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-21-06442c",
+        "range": [
+          410668,
+          410688
+        ]
+      },
+      {
+        "bytes_sha256": "098a2d4ef2bf7dfac36c832d15363b57a827dddd867e37ca883816e22785b5a2",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-22-064444",
+        "range": [
+          410692,
+          410710
+        ]
+      },
+      {
+        "bytes_sha256": "7735b2abdd01ce3cb6eef0e6e401f25039879581f1294eb456beeff9d5d906da",
+        "claim_kind": "reachable_thumb_code",
+        "id": "boot-state-reachable_thumb_code-23-06445c",
+        "range": [
+          410716,
+          410740
+        ]
+      },
+      {
+        "bytes_sha256": "737a0b74c6fc68a70f6e29b410bc384b27b5415c270e5a434d7637e789303f01",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-01-063b40",
+        "range": [
+          408384,
+          408404
+        ]
+      },
+      {
+        "bytes_sha256": "e15d83231c36831742a164e787a9c9a148a3424fa4fbbc209faae70fadd6d7d0",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-02-063b84",
+        "range": [
+          408452,
+          408456
+        ]
+      },
+      {
+        "bytes_sha256": "fa91a57d19e62de33caf265a34d89166fd940e45b97da8f984a65cf78f5357d4",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-03-063c30",
+        "range": [
+          408624,
+          408628
+        ]
+      },
+      {
+        "bytes_sha256": "57e1c90518a0a4af5b1756f89fa3e0d4a67e387d0d8b15c1da12b3efc10d72a5",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-04-063cd8",
+        "range": [
+          408792,
+          408816
+        ]
+      },
+      {
+        "bytes_sha256": "0f5fe1abdbb2041701f67c16604f249c700cd0ca0a6b3e20625357ed687e3f4a",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-05-063ee8",
+        "range": [
+          409320,
+          409336
+        ]
+      },
+      {
+        "bytes_sha256": "deb1ee1ff4b3bc2386f9139249eed69a72386c0cce60a703a844ed3d0dc245a8",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-06-063fb0",
+        "range": [
+          409520,
+          409536
+        ]
+      },
+      {
+        "bytes_sha256": "8f238825f48f20fbaec96ae86a5be3e039774d5d594193440b61d39cdb2003e5",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-07-0640ac",
+        "range": [
+          409772,
+          409780
+        ]
+      },
+      {
+        "bytes_sha256": "4b38a0804ac269c5facb6e17259b4482af17cb6fa102cd8bfb74ba0a512a568c",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-08-0640ec",
+        "range": [
+          409836,
+          409840
+        ]
+      },
+      {
+        "bytes_sha256": "7ead8598eee225853d55ff205eeec5fadcf9a48decb2c164e7c93e5150378ab6",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-09-064128",
+        "range": [
+          409896,
+          409904
+        ]
+      },
+      {
+        "bytes_sha256": "4b38a0804ac269c5facb6e17259b4482af17cb6fa102cd8bfb74ba0a512a568c",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-10-06415c",
+        "range": [
+          409948,
+          409952
+        ]
+      },
+      {
+        "bytes_sha256": "8f238825f48f20fbaec96ae86a5be3e039774d5d594193440b61d39cdb2003e5",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-11-0641e8",
+        "range": [
+          410088,
+          410096
+        ]
+      },
+      {
+        "bytes_sha256": "4b38a0804ac269c5facb6e17259b4482af17cb6fa102cd8bfb74ba0a512a568c",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-12-064228",
+        "range": [
+          410152,
+          410156
+        ]
+      },
+      {
+        "bytes_sha256": "7ead8598eee225853d55ff205eeec5fadcf9a48decb2c164e7c93e5150378ab6",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-13-064268",
+        "range": [
+          410216,
+          410224
+        ]
+      },
+      {
+        "bytes_sha256": "4b38a0804ac269c5facb6e17259b4482af17cb6fa102cd8bfb74ba0a512a568c",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-14-06429c",
+        "range": [
+          410268,
+          410272
+        ]
+      },
+      {
+        "bytes_sha256": "fc7717cff54df230be2a849a14d387639c9bccc2aa45e2a80a872014f1736949",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-15-064310",
+        "range": [
+          410384,
+          410404
+        ]
+      },
+      {
+        "bytes_sha256": "34694ee68b26b2292f01d9e717d379ec82b00f3fadfddbbdffcdba82a0499a07",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-16-0643dc",
+        "range": [
+          410588,
+          410604
+        ]
+      },
+      {
+        "bytes_sha256": "bae4454af9713ceb16102ba4cddd0c84431865301cb170d219a230bd1a7d5b28",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-17-0643f0",
+        "range": [
+          410608,
+          410612
+        ]
+      },
+      {
+        "bytes_sha256": "9f874b40475804a22efd280a01c71b4c6348ba80dd958b46637b4596802fe757",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-18-064428",
+        "range": [
+          410664,
+          410668
+        ]
+      },
+      {
+        "bytes_sha256": "15551d194870e3e509bac1fabc9326ec37519dc3f3321ed57bda6638c75767c0",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-19-064440",
+        "range": [
+          410688,
+          410692
+        ]
+      },
+      {
+        "bytes_sha256": "bae4454af9713ceb16102ba4cddd0c84431865301cb170d219a230bd1a7d5b28",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-20-064458",
+        "range": [
+          410712,
+          410716
+        ]
+      },
+      {
+        "bytes_sha256": "9f874b40475804a22efd280a01c71b4c6348ba80dd958b46637b4596802fe757",
+        "claim_kind": "consumed_literal_words",
+        "id": "boot-state-consumed_literal_words-21-064474",
+        "range": [
+          410740,
+          410744
+        ]
+      },
+      {
+        "bytes_sha256": "b825f224bf8677ace2b5936e48afcc7e3a1950ac72ed397bbdbbf1cb0af1ba51",
+        "claim_kind": "bounded_state_dispatcher_bytes",
+        "id": "boot-state-dispatcher-064670",
+        "range": [
+          411248,
+          411344
+        ]
+      }
+    ],
+    "dispatcher_bytes": 96,
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-boot-state-dispatcher-cfg-v1",
+    "promotion_bytes": 2532,
+    "target_code_bytes": 2248,
+    "target_literal_bytes": 188
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-boot-state-dispatcher-cfg-v1",
+  "scope": {
+    "editing_or_relocation_safety": false,
+    "natural_runtime_reachability": false,
+    "opaque_callee_semantics": false,
+    "padding_or_free_space": false,
+    "ram_state_writer_denominator": false
+  },
+  "target_closure": {
+    "code_bytes": 2248,
+    "code_ranges": [
+      [
+        408284,
+        408382
+      ],
+      [
+        408404,
+        408452
+      ],
+      [
+        408456,
+        408624
+      ],
+      [
+        408628,
+        408790
+      ],
+      [
+        408816,
+        409320
+      ],
+      [
+        409336,
+        409466
+      ],
+      [
+        409468,
+        409518
+      ],
+      [
+        409536,
+        409770
+      ],
+      [
+        409780,
+        409836
+      ],
+      [
+        409840,
+        409896
+      ],
+      [
+        409904,
+        409948
+      ],
+      [
+        409952,
+        410086
+      ],
+      [
+        410096,
+        410152
+      ],
+      [
+        410156,
+        410214
+      ],
+      [
+        410224,
+        410268
+      ],
+      [
+        410272,
+        410330
+      ],
+      [
+        410332,
+        410382
+      ],
+      [
+        410404,
+        410586
+      ],
+      [
+        410604,
+        410608
+      ],
+      [
+        410612,
+        410662
+      ],
+      [
+        410668,
+        410688
+      ],
+      [
+        410692,
+        410710
+      ],
+      [
+        410716,
+        410740
+      ]
+    ],
+    "frontier_count": 0,
+    "instruction_count": 1116,
+    "literal_bytes": 188,
+    "literal_ranges": [
+      [
+        408384,
+        408404
+      ],
+      [
+        408452,
+        408456
+      ],
+      [
+        408624,
+        408628
+      ],
+      [
+        408792,
+        408816
+      ],
+      [
+        409320,
+        409336
+      ],
+      [
+        409520,
+        409536
+      ],
+      [
+        409772,
+        409780
+      ],
+      [
+        409836,
+        409840
+      ],
+      [
+        409896,
+        409904
+      ],
+      [
+        409948,
+        409952
+      ],
+      [
+        410088,
+        410096
+      ],
+      [
+        410152,
+        410156
+      ],
+      [
+        410216,
+        410224
+      ],
+      [
+        410268,
+        410272
+      ],
+      [
+        410384,
+        410404
+      ],
+      [
+        410588,
+        410604
+      ],
+      [
+        410608,
+        410612
+      ],
+      [
+        410664,
+        410668
+      ],
+      [
+        410688,
+        410692
+      ],
+      [
+        410712,
+        410716
+      ],
+      [
+        410740,
+        410744
+      ]
+    ],
+    "literal_reference_count": 49,
+    "opaque_call_count": 8,
+    "opaque_calls": [
+      [
+        408410,
+        639204
+      ],
+      [
+        408708,
+        639196
+      ],
+      [
+        409578,
+        400076
+      ],
+      [
+        409608,
+        400000
+      ],
+      [
+        410552,
+        639788
+      ],
+      [
+        410570,
+        639668
+      ],
+      [
+        410640,
+        639788
+      ],
+      [
+        410672,
+        639668
+      ]
+    ],
+    "preserved_unknown_bytes": 24,
+    "preserved_unknown_holes": [
+      [
+        408382,
+        408384
+      ],
+      [
+        408790,
+        408792
+      ],
+      [
+        409466,
+        409468
+      ],
+      [
+        409518,
+        409520
+      ],
+      [
+        409770,
+        409772
+      ],
+      [
+        410086,
+        410088
+      ],
+      [
+        410214,
+        410216
+      ],
+      [
+        410330,
+        410332
+      ],
+      [
+        410382,
+        410384
+      ],
+      [
+        410586,
+        410588
+      ],
+      [
+        410662,
+        410664
+      ],
+      [
+        410710,
+        410712
+      ]
+    ],
+    "root_count": 5,
+    "roots": [
+      {
+        "basic_block_count": 34,
+        "bound": [
+          408284,
+          408628
+        ],
+        "code_bytes": 314,
+        "instruction_count": 156,
+        "name": "root_63adc",
+        "return_bx": 408622,
+        "root": 408284
+      },
+      {
+        "basic_block_count": 120,
+        "bound": [
+          408628,
+          409468
+        ],
+        "code_bytes": 796,
+        "instruction_count": 397,
+        "name": "root_63c34",
+        "return_bx": 409464,
+        "root": 408628
+      },
+      {
+        "basic_block_count": 87,
+        "bound": [
+          409468,
+          410332
+        ],
+        "code_bytes": 790,
+        "instruction_count": 393,
+        "name": "root_63f7c",
+        "return_bx": 410328,
+        "root": 409468
+      },
+      {
+        "basic_block_count": 23,
+        "bound": [
+          410332,
+          410516
+        ],
+        "code_bytes": 162,
+        "instruction_count": 81,
+        "name": "root_642dc",
+        "return_bx": 410514,
+        "root": 410332
+      },
+      {
+        "basic_block_count": 25,
+        "bound": [
+          410516,
+          410744
+        ],
+        "code_bytes": 186,
+        "instruction_count": 89,
+        "name": "root_64394",
+        "return_bx": 410738,
+        "root": 410516
+      }
+    ],
+    "structured_return_contract": {
+      "control": "0x01000050",
+      "cpufastset_callsite": 408708,
+      "cpufastset_source_only": true,
+      "cpufastset_swi": 12,
+      "cpufastset_wrapper": 639196,
+      "destination": "0x02000A00",
+      "fill_mode": true,
+      "max_direct_sp_store_offset": 16,
+      "saved_lr_offset_at_cpufastset": 48,
+      "saved_lr_slot_written": false,
+      "source": "sp",
+      "source_read_bytes": 4,
+      "sp_alias_sites": [
+        408702
+      ],
+      "sp_relative_store_sites_and_offsets": [
+        [
+          408700,
+          0
+        ],
+        [
+          408738,
+          12
+        ],
+        [
+          408782,
+          8
+        ],
+        [
+          408786,
+          4
+        ],
+        [
+          408822,
+          8
+        ],
+        [
+          408826,
+          4
+        ],
+        [
+          408830,
+          8
+        ],
+        [
+          408832,
+          4
+        ],
+        [
+          408880,
+          8
+        ],
+        [
+          408886,
+          8
+        ],
+        [
+          408910,
+          4
+        ],
+        [
+          408916,
+          4
+        ],
+        [
+          409034,
+          16
+        ],
+        [
+          409126,
+          16
+        ],
+        [
+          409182,
+          16
+        ],
+        [
+          409302,
+          12
+        ],
+        [
+          409642,
+          0
+        ],
+        [
+          409654,
+          0
+        ],
+        [
+          409664,
+          4
+        ],
+        [
+          409676,
+          4
+        ]
+      ]
+    },
+    "structured_return_count": 5,
+    "unique_literal_word_count": 47
+  },
+  "upstream_continuation": {
+    "files": {
+      "artifacts/rom-boot-interwork-continuation-v1/manifest.json": "beb4220307bbc0b99b58d6652bfd3f7339928d9e30b104f0fde06c7ed62d82ff",
+      "artifacts/rom-boot-interwork-continuation-v1/rom-boot-interwork-continuation.json": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+      "tools/verify_rom_boot_interwork_continuation.py": "8da8303e47e8666a9883fc411fd274ab1d8bf3651da95a4530dabd152bdcec58"
+    },
+    "producer_owner_claim_id": "continuation-code-06108a-0610d4",
+    "producer_source": 397466,
+    "verified": true
+  }
+}

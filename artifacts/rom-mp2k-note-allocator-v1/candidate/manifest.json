@@ -1,0 +1,555 @@
+{
+  "artifact_schema": "rom-mp2k-note-allocator-v1",
+  "artifact_status": "candidate",
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 562,
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "ab315087593f23bfbcc96c66ac99b8bfd002e5c29cd462088dda343139f9ac27",
+    "summary": {
+      "claim_count": 14499,
+      "classified_bytes": 6123937,
+      "segment_count": 16608,
+      "unknown_bytes": 167519
+    },
+    "target_segments": [
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          632536,
+          632584
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          632584,
+          633086
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          633088,
+          633096
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          634660,
+          634664
+        ]
+      }
+    ],
+    "unknown_promotion_bytes": 562
+  },
+  "coverage_baseline_source": {
+    "archive_file": "rom-byte-coverage.json.gz",
+    "archive_sha256": "6134b9c0e52242e47d5cb8c1c291924f41287ccfc67b97fea696b9b513793921",
+    "archive_size": 1298798,
+    "artifact": "artifacts/rom-mp2k-note-allocator-precoverage-v1",
+    "kind": "immutable-gzip-artifact",
+    "manifest_sha256": "21c3448891c0afaffa9ebe326f59e58d418b99bacbbea8542a63b45c47503861",
+    "raw_sha256": "ab315087593f23bfbcc96c66ac99b8bfd002e5c29cd462088dda343139f9ac27",
+    "raw_size": 23120179,
+    "recovery_kind": "direct-frozen-prepromotion-snapshot"
+  },
+  "coverage_projection": {
+    "claim_delta": 4,
+    "classified_delta": 562,
+    "post": {
+      "claim_count": 14503,
+      "classified_bytes": 6124499,
+      "segment_count": 16614,
+      "unknown_bytes": 166957
+    },
+    "pre": {
+      "claim_count": 14499,
+      "classified_bytes": 6123937,
+      "segment_count": 16608,
+      "unknown_bytes": 167519
+    },
+    "segment_delta": 6,
+    "unknown_delta": -562
+  },
+  "entry_pointer": {
+    "consumer": {
+      "accepted_argument_domain": [
+        0,
+        48
+      ],
+      "accepted_value_count": 49,
+      "call_offset": 632078,
+      "call_target": 632452,
+      "cmp": {
+        "immediate": 207,
+        "offset": 632062
+      },
+      "command_source": "u8",
+      "load_offset": 632066,
+      "load_offset_end": 632068,
+      "sound_info_dereference": {
+        "kind": "ldr_word_from_fixed_cell",
+        "offset": 631906,
+        "raw": 26624
+      },
+      "sound_info_fixed_cell": {
+        "offset": 632460,
+        "raw_hex": "f07f0003",
+        "value": 50364400
+      },
+      "sound_info_load": 631904,
+      "subtract": {
+        "immediate": 207,
+        "offset": 632072
+      },
+      "unsigned_branch": {
+        "kind": "blo",
+        "offset": 632064,
+        "raw": 54024
+      },
+      "veneer": {
+        "kind": "bx_r3",
+        "offset": 632452,
+        "raw": 18200
+      }
+    },
+    "global_ram_writer_denominator_complete": false,
+    "occurrence_count": 1,
+    "occurrences": [
+      634660
+    ],
+    "range": [
+      634660,
+      634664
+    ],
+    "raw_hex": "09a70908",
+    "value": "0x0809A709",
+    "writer": {
+      "chain": [
+        [
+          633424,
+          634428
+        ],
+        [
+          634432,
+          "r0->r5"
+        ],
+        [
+          634568,
+          634660
+        ],
+        [
+          634570,
+          "[r5,#0x38]"
+        ],
+        [
+          634428,
+          634612
+        ]
+      ],
+      "initializer_root": 634428,
+      "owner_bytes_sha256": "9586c815954c4b8a0c0d9872e7d500d128a540a2964a262b68da1e2df3cd9ef4",
+      "owner_claim_id": "bank-sappy-engine-000",
+      "owner_range": [
+        634428,
+        634612
+      ],
+      "runtime_manifest_sha256": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8",
+      "sappy_bank_sha256": "d71d8aff52746a61d59139d6ca4ccf3a9dd354b84ef90159276ca541cf82eb40"
+    }
+  },
+  "excluded_ranges": [
+    {
+      "bytes": 6,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        632530,
+        632536
+      ],
+      "semantic_class": "unknown",
+      "sha256": "83391c178e79facc3d1c0dd948f1d4e3fc46d08591ae8929948a5e028b724daa"
+    },
+    {
+      "bytes": 2,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        633086,
+        633088
+      ],
+      "semantic_class": "unknown",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    },
+    {
+      "bytes": 48,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        634612,
+        634660
+      ],
+      "semantic_class": "unknown",
+      "sha256": "e3f15479ef984fff85b6ec764159375c16eeecf938f7671851aaf38d2a2211ae"
+    },
+    {
+      "bytes": 12,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        634664,
+        634676
+      ],
+      "semantic_class": "unknown",
+      "sha256": "56573725cd7c0ffc2159a0d40123cef9750f00c2f444a04492a4b32117cf4bc7"
+    }
+  ],
+  "files": {
+    "rom-mp2k-note-allocator.bin": {
+      "sha256": "3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c",
+      "size": 562
+    },
+    "rom-mp2k-note-allocator.json": {
+      "sha256": "a4ccf706d2c8db658b6fa402d13155c73d15e84c197f9da4e8975759a14b0fa6",
+      "size": 381177
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_mp2k_note_allocator.py",
+      "sha256": "a54f665a7f713f5754cc25a1bc2e2c5761179460a64f44e2cd276a731a9c235a"
+    },
+    "exporter_test": {
+      "path": "tests/test_export_rom_mp2k_note_allocator.py",
+      "sha256": "0af69ec928c352f41c5e2daf0db1870f2980333d9767f2e207acb22126af64ac"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_mp2k_note_allocator.py",
+      "sha256": "177d1fb694b01f5938d6169438cd454db0ff7a1e826cf101b32630ffc51d9716"
+    },
+    "verifier_test": {
+      "path": "tests/test_verify_rom_mp2k_note_allocator.py",
+      "sha256": "2e30e8af036a1157a9e0edaf541ee1724aebf5c23b784fa5a675daf5d47e76c6"
+    }
+  },
+  "limitations": [
+    "This candidate classifies exactly 550 bounded Thumb instruction bytes, 8 consumed literal bytes, and one 4-byte initializer-consumed Thumb pointer.",
+    "The target-limited raw producer denominator proves the listed source forms and mixed provenance roles only; it is not a global caller/code/indirect/computed producer proof.",
+    "natural runtime reachability, global RAM writer completeness, and global producer completeness remain unproven.",
+    "literal target semantics, audio behavior, editing, writeback, relocation, and allocatable/free-space safety remain outside scope.",
+    "The explicitly excluded neighboring ranges remain unknown and are not padding, reserved, free, or allocatable space."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_mp2k_note_allocator.py",
+      "--coverage-baseline-artifact",
+      "artifacts/rom-mp2k-note-allocator-precoverage-v1",
+      "--output",
+      "artifacts/rom-mp2k-note-allocator-v1/candidate"
+    ],
+    "kind": "artifact-candidate-construction",
+    "output_artifact": "artifacts/rom-mp2k-note-allocator-v1/candidate"
+  },
+  "producer_denominator": {
+    "all_producer_bytes_promoted": false,
+    "all_producer_source_membership_proven": true,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "global_producer_denominator_complete": false,
+    "producer_form_vector": [
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [
+            632332,
+            632984
+          ]
+        },
+        "target_file_offset": 632536
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [
+            634660
+          ],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 632584
+      }
+    ],
+    "producer_form_vector_sha256": "774913acb3a04c775c722e4c24f4c05278b1d6b9cd6f9df832724f82365446a1",
+    "producer_roles": [
+      {
+        "form": "thumb_bl",
+        "owner_claim_id": "mplaymain-code-00-09a42c",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 632332,
+        "target_offset": 632536
+      },
+      {
+        "form": "thumb_bl",
+        "owner_claim_id": null,
+        "promoted": true,
+        "role": "included_root_call_edge",
+        "source_offset": 632984,
+        "target_offset": 632536
+      },
+      {
+        "form": "bytewise_u32_thumb_pointer",
+        "owner_claim_id": null,
+        "promoted": true,
+        "role": "promoted_entry_pointer",
+        "source_offset": 634660,
+        "target_offset": 632584
+      }
+    ],
+    "producer_source_membership_by_role": {
+      "included_root_call_edge": true,
+      "preowned_provenance": true,
+      "promoted_entry_pointer": true
+    },
+    "root_forms": {
+      "0x09A6D8": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": [
+          632332,
+          632984
+        ]
+      },
+      "0x09A708": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [
+          634660
+        ],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      }
+    },
+    "scan": {
+      "alignment_bytes": 2,
+      "forms": [
+        "thumb_bl",
+        "thumb_b",
+        "thumb_b_conditional",
+        "arm_b",
+        "arm_bl",
+        "bytewise_u32_entry",
+        "bytewise_u32_thumb_pointer"
+      ],
+      "mode": "raw-rom",
+      "range": [
+        0,
+        6291456
+      ]
+    },
+    "target_limited_raw_producer_denominator_complete": true,
+    "thumb_bl": [
+      632332,
+      632984
+    ]
+  },
+  "promotion": {
+    "byte_count": 562,
+    "code_bytes": 550,
+    "literal_bytes": 8,
+    "packed_bytes_sha256": "3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c",
+    "pointer_bytes": 4,
+    "range_count": 4,
+    "range_sha256": [
+      "04988bf8e911a12b477d9aafa24342b68e83960a06796e555869cc67b24bd4d2",
+      "4c78dfb62e2d92b0b0ed96c8d05e86d3d2867a1bb2a76c82818a672f380eee2e",
+      "aea41d042f130b46329f8b5a5fdb976816ec280b367dc424f28bc624072867c1",
+      "ee8951cbf1e4a1f69fce481a4537a84678e2615bc7e3f175ff69a97044ab7016"
+    ],
+    "range_vector_sha256": "bd9139f26305fea7813e7daf944d6a6e131861b31c3c98065b5e7d13bf65c88b",
+    "ranges": [
+      [
+        632536,
+        632584
+      ],
+      [
+        632584,
+        633086
+      ],
+      [
+        633088,
+        633096
+      ],
+      [
+        634660,
+        634664
+      ]
+    ],
+    "union_bytes": 562,
+    "union_range_count": 3,
+    "union_ranges": [
+      [
+        632536,
+        633086
+      ],
+      [
+        633088,
+        633096
+      ],
+      [
+        634660,
+        634664
+      ]
+    ]
+  },
+  "promotion_ranges": [
+    {
+      "claim_kind": "mp2k_channel_gain_bounded_thumb_code",
+      "id": "mp2k-channel-gain-code-09a6d8",
+      "kind": "bounded_thumb_code",
+      "mode": "thumb",
+      "range": [
+        632536,
+        632584
+      ],
+      "semantic_class": "armv4t_mp2k_channel_gain_thumb_code",
+      "sha256": "04988bf8e911a12b477d9aafa24342b68e83960a06796e555869cc67b24bd4d2",
+      "size": 48
+    },
+    {
+      "claim_kind": "mp2k_note_allocator_bounded_thumb_code",
+      "id": "mp2k-note-allocator-code-09a708",
+      "kind": "bounded_thumb_code",
+      "mode": "thumb",
+      "range": [
+        632584,
+        633086
+      ],
+      "semantic_class": "armv4t_mp2k_note_allocator_thumb_code",
+      "sha256": "4c78dfb62e2d92b0b0ed96c8d05e86d3d2867a1bb2a76c82818a672f380eee2e",
+      "size": 502
+    },
+    {
+      "claim_kind": "mp2k_note_allocator_consumed_literals",
+      "id": "mp2k-note-allocator-literals-09a900",
+      "kind": "consumed_literals",
+      "mode": null,
+      "range": [
+        633088,
+        633096
+      ],
+      "semantic_class": "mp2k_note_allocator_consumed_literals",
+      "sha256": "aea41d042f130b46329f8b5a5fdb976816ec280b367dc424f28bc624072867c1",
+      "size": 8
+    },
+    {
+      "claim_kind": "mp2k_note_entry_initializer_consumed_thumb_pointer",
+      "id": "mp2k-note-entry-pointer-09af24",
+      "kind": "initializer_consumed_thumb_pointer",
+      "mode": null,
+      "range": [
+        634660,
+        634664
+      ],
+      "semantic_class": "mp2k_initializer_consumed_thumb_pointer",
+      "sha256": "ee8951cbf1e4a1f69fce481a4537a84678e2615bc7e3f175ff69a97044ab7016",
+      "size": 4
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "audio_behavior_proven": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_code_producer_denominator_complete": false,
+    "global_computed_producer_denominator_complete": false,
+    "global_indirect_producer_denominator_complete": false,
+    "global_ram_writer_denominator_complete": false,
+    "literal_target_semantics_claimed": false,
+    "natural_runtime_reachability": false,
+    "source_instruction_membership_complete": false
+  },
+  "semantic_contract": {
+    "edge_vector_sha256": "8d1bb893ec469cbf4f848eda96f1dd7a73fb5d46e43f1a8cf49232470511e083",
+    "literal_binding_vector_sha256": "20731b9a3d0c6f9db676b88800be2d02041e5c84a63823e22a2a695b8bb8f0ae",
+    "packed_bytes_sha256": "3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c",
+    "producer_form_vector_sha256": "774913acb3a04c775c722e4c24f4c05278b1d6b9cd6f9df832724f82365446a1",
+    "range_vector_sha256": "bd9139f26305fea7813e7daf944d6a6e131861b31c3c98065b5e7d13bf65c88b",
+    "semantic_instruction_vector_sha256": "9cd28d7657530454158f460e99d1d29125db92abf6135c8307c0c94c49f3e4a1"
+  },
+  "summary": {
+    "block_count": 66,
+    "budget_exhausted": false,
+    "code_bytes": 550,
+    "direct_call_count": 6,
+    "external_edge_count": 5,
+    "frontier_count": 0,
+    "gap_exclusion_bytes": 68,
+    "included_root_call_edge_count": 1,
+    "instruction_bytes": 550,
+    "instruction_count": 269,
+    "internal_edge_count": 99,
+    "literal_bytes": 8,
+    "literal_ref_count": 2,
+    "literal_word_count": 2,
+    "opaque_external_call_count": 5,
+    "ordinary_internal_edge_count": 98,
+    "pointer_bytes": 4,
+    "producer_count": 3,
+    "promoted_bytes": 562,
+    "promotion_claim_count": 4,
+    "promotion_range_count": 4,
+    "structured_return_count": 2,
+    "unresolved_frontier_count": 0
+  },
+  "upstream_receipts": {
+    "initializer": {
+      "exporter_sha256": "4e0b8743247d9098a9d72667f4b2499abee1c71c45cd5a704feaa54f17a4ced9",
+      "manifest_sha256": "9b9b9f2f49a1ee8224703ca47b73dc608d75ba83d2be44564e24873c44237c9c",
+      "payload_sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd",
+      "test_sha256": "b6ed2f247641c74bb1631e4bfb0e449d48ec1be03a7af08c4eecabcc8c297326",
+      "verifier_sha256": "5cd9ccf232ebb10c69e89962e9861add7675dfb935c6e6a293b16049fd6cec31"
+    },
+    "mplaymain": {
+      "exporter_sha256": "366c4e41db80c797bd01f36477a67243ac08f4d20d71e596c1332f273deed18d",
+      "manifest_sha256": "43399803451c393722522c9d2a363736541c34c37dd03d3cb2c1e292ed0b8f5d",
+      "payload_sha256": "31bc026a8c83b3bf4af06746de2990a658bb86954a5aae31c45d63d68cf44f78",
+      "test_sha256": "e3804e5833b0d4249b286da8e1428397c02e8b04bd205e20c96e8ab1920b540c",
+      "verifier_sha256": "c064fc6a576a518cbd825630babc40d1c2dab2d369846078c3950b68748a2c2a"
+    },
+    "sappy_bank_sha256": "d71d8aff52746a61d59139d6ca4ccf3a9dd354b84ef90159276ca541cf82eb40",
+    "sappy_runtime_manifest_sha256": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8"
+  },
+  "verification": {
+    "report": null,
+    "status": "pending"
+  }
+}

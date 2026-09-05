@@ -1,0 +1,118 @@
+{
+  "artifact_schema": "rom-sprite-component-source-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "classified_plus_unknown": 6291456,
+    "excluded_adjacent_range": {
+      "bytes": 3,
+      "gba_range": [
+        "0x0812C901",
+        "0x0812C904"
+      ],
+      "range": [
+        1231105,
+        1231108
+      ],
+      "reason": "outside frozen source range"
+    },
+    "path": "sequel/rom-byte-coverage.json",
+    "promoted_from_unknown_bytes": 2096,
+    "promotion_applied_to_live_coverage": false,
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+    "source_owner": {
+      "primary_claim_ids": [],
+      "primary_class": "unknown",
+      "range": [
+        1231105,
+        1233204
+      ],
+      "secondary_claim_ids": []
+    },
+    "summary": {
+      "claim_count": 15945,
+      "classified_bytes": 6144296,
+      "segment_count": 17349,
+      "unknown_bytes": 147160
+    },
+    "unknown_provenance_owner": {
+      "primary_claim_ids": [],
+      "primary_class": "unknown",
+      "range": [
+        406006,
+        406102
+      ],
+      "secondary_claim_ids": []
+    }
+  },
+  "files": {
+    "rom-sprite-component-source.bin": "896a1b46f36cd8ad7f5e1c95a048b9aca099eb03ba55c21d4a43730979edcafb",
+    "rom-sprite-component-source.json": "8fe0742e60878d2f71ce87115ee48223f02f8d8eafce3f6e08df2e57f860fdb7"
+  },
+  "producer": {
+    "contract": {
+      "path": "tools/rom_sprite_component_source_contract.py",
+      "sha256": "4fe44811116e78e7492c3cdb42f6a07e218f45a4f709776c1f0515df58d0df8f"
+    },
+    "exporter": {
+      "path": "tools/export_rom_sprite_component_source.py",
+      "sha256": "19055db3722f02921cd17914536042aef54f7e494dc265e5f406d989a6124b7a"
+    },
+    "runtime_dependency_sha256": {
+      "tests/test_export_rom_sprite_component_source.py": "4a7bda8dac0d430308f0672f456f50c529064bc57852202ed8d0f816d84dbd37",
+      "tests/test_verify_rom_sprite_component_source.py": "4a4b970abb16428178dcdf88673410aa7d9fead29f1edda06e0101a650ee7d25",
+      "tools/export_rom_sprite_component_source.py": "19055db3722f02921cd17914536042aef54f7e494dc265e5f406d989a6124b7a",
+      "tools/rom_sprite_component_source_contract.py": "4fe44811116e78e7492c3cdb42f6a07e218f45a4f709776c1f0515df58d0df8f",
+      "tools/verify_rom_sprite_component_source.py": "70bad678100f3f525f8f83dd67a79ed7492078be08c620bcca6e2e61862f7912"
+    },
+    "tests": {
+      "exporter": {
+        "path": "tests/test_export_rom_sprite_component_source.py",
+        "sha256": "4a7bda8dac0d430308f0672f456f50c529064bc57852202ed8d0f816d84dbd37"
+      },
+      "verifier": {
+        "path": "tests/test_verify_rom_sprite_component_source.py",
+        "sha256": "4a4b970abb16428178dcdf88673410aa7d9fead29f1edda06e0101a650ee7d25"
+      }
+    },
+    "verifier": {
+      "path": "tools/verify_rom_sprite_component_source.py",
+      "sha256": "70bad678100f3f525f8f83dd67a79ed7492078be08c620bcca6e2e61862f7912"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-sprite-component-source-v1-artifact-manifest-v1",
+  "scope": {
+    "baseline_current_unknown_only": true,
+    "claim_kind": "sprite_component_source_range",
+    "consumer_code_promoted": false,
+    "dynamic_state_proven": false,
+    "editing_writeback_or_relocation_safe": false,
+    "fixed_consumer_binding_proven": true,
+    "global_sprite_animation_denominator_complete": false,
+    "natural_runtime_reachability_proven": false,
+    "padding_or_free_space_claimed": false,
+    "primary_class": "sprite_component_source",
+    "record_and_table_denominators_frozen": true,
+    "safe_editing": false,
+    "source_four_semantic_ranges_only": true,
+    "stride_terminator_current_unknown_preserved": true,
+    "tile_palette_pixel_business_identity_proven": false
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_sprite_component_source.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-sprite-component-source-v1"
+    ],
+    "schema": "rom-sprite-component-source-verification-v1",
+    "verifier_sha256": "70bad678100f3f525f8f83dd67a79ed7492078be08c620bcca6e2e61862f7912"
+  }
+}

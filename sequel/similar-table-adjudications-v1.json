@@ -1,0 +1,3735 @@
+{
+  "adjudication_count": 114,
+  "adjudications": [
+    {
+      "candidate_id": 1,
+      "candidate_range": [
+        396408,
+        396616
+      ],
+      "candidate_sha256": "3a05a10287d0cf699c6ced91e7f742e9b312929c2ced815d9ba2f4cfbe56a94c",
+      "canonical_range": [
+        396404,
+        396628
+      ],
+      "canonical_sha256": "f6c872afd0b653ae2e0e04407bdbc059719eb823801d165e22a1d7e5c98aa099",
+      "evidence": {
+        "path": "sequel/content/story/bank.json",
+        "selector": "/",
+        "sha256": "3b1467d057b8196e376b0cba6a7abb195940afe7956fa7f482c2470ef5079b17"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 13,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "chapter_flow_primary_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 2,
+      "candidate_range": [
+        396632,
+        396840
+      ],
+      "candidate_sha256": "c1e756c9a5a5fced29217e27396fba788243be7fdfa8993f954e18b10da9d571",
+      "canonical_range": [
+        396628,
+        396852
+      ],
+      "canonical_sha256": "767308a8e78947f7795c61965155d27925265327466c9df9d5d547b2f0368b5c",
+      "evidence": {
+        "path": "sequel/content/story-b/bank.json",
+        "selector": "/",
+        "sha256": "654db6c57ae8dac8c87462ee2e9c9350cee90a572a7755406359f68e3c9afa8e"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 13,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "chapter_flow_alternate_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 3,
+      "candidate_range": [
+        396856,
+        397032
+      ],
+      "candidate_sha256": "8b19a2f6d00c95d73978bd97a80e4ef52a66c5899fa345c3e1237300e362e3d1",
+      "canonical_range": [
+        396852,
+        397040
+      ],
+      "canonical_sha256": "d0abb00332b73cd36637dbfcf5a7811622438f9c6382dc8c8ff45b00455d00ae",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0808A578; instruction window 0x0808A55C..0x0808A564; index evidence: 47-entry structural domain 0..46; runtime maximum is not statically bounded",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_runtime_state_pointer_table_47",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 4,
+      "candidate_range": [
+        397044,
+        397220
+      ],
+      "candidate_sha256": "6abab49402ce3d24a3c66cae05006c95758020670a025c61026397dfa9fbbdd3",
+      "canonical_range": [
+        397040,
+        397220
+      ],
+      "canonical_sha256": "d5f04183747f3a68bc9c6e087c89b18a4b71e7a12cf85f6eec589050338594ed",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0808A5E4; instruction window 0x0808A5CE..0x0808A5D6; index evidence: positions headers enumerate indices {0,6,8,10,11,12,14}",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "positions_formation_pointer_table_45",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 5,
+      "candidate_range": [
+        412832,
+        412896
+      ],
+      "candidate_sha256": "37a935d495c5215d9710d148d5561eef06ad6796f3f00ddfed0916b631b9b637",
+      "partitions": [
+        {
+          "canonical_range": [
+            412832,
+            412836
+          ],
+          "canonical_sha256": "68377623da41fc9aa102c72fa0c877481c0f0471700702336d241688072b2677",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08064CA0; instruction window 0x08064C92..0x08064C9A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            412832,
+            412836
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "68377623da41fc9aa102c72fa0c877481c0f0471700702336d241688072b2677"
+        },
+        {
+          "canonical_range": [
+            412836,
+            412896
+          ],
+          "canonical_sha256": "95e80bfdd6dbb99169cfa839cd07d6e9b50074d181bb2d3b3a5adefd76bed328",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08064CA0; instruction window 0x08064C92..0x08064C9A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            412836,
+            412896
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "95e80bfdd6dbb99169cfa839cd07d6e9b50074d181bb2d3b3a5adefd76bed328"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 6,
+      "candidate_range": [
+        441128,
+        441208
+      ],
+      "candidate_sha256": "6e9d08801281a998ebe38bb9a9e9785d23afb82bd5d14eda041b0cd9e6c79d6f",
+      "partitions": [
+        {
+          "canonical_range": [
+            441128,
+            441132
+          ],
+          "canonical_sha256": "d5babdb91e01bd35c860dcec33d8c8cd2565a4d2ccd8e3e46b0fe1febeeee28c",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806BB28; instruction window 0x0806BB1E..0x0806BB26",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            441128,
+            441132
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "d5babdb91e01bd35c860dcec33d8c8cd2565a4d2ccd8e3e46b0fe1febeeee28c"
+        },
+        {
+          "canonical_range": [
+            441132,
+            441208
+          ],
+          "canonical_sha256": "ac31daa0e7d1921c4e614e431bc9dc8c5bd2bee4e5e7aab8c378fe1588100a8b",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806BB28; instruction window 0x0806BB1E..0x0806BB26",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            441132,
+            441208
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "ac31daa0e7d1921c4e614e431bc9dc8c5bd2bee4e5e7aab8c378fe1588100a8b"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 7,
+      "candidate_range": [
+        441280,
+        441376
+      ],
+      "candidate_sha256": "6bedaecc20910121c554b0cc16c43ab346e51778fa03cfb1e438f9c4e12d4658",
+      "partitions": [
+        {
+          "canonical_range": [
+            441280,
+            441288
+          ],
+          "canonical_sha256": "cf33d063274d581a4e8254c1e033b4381289c827548309f35930a892ab4cc35a",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806BBC4; instruction window 0x0806BBB6..0x0806BBBE",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            441280,
+            441288
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "cf33d063274d581a4e8254c1e033b4381289c827548309f35930a892ab4cc35a"
+        },
+        {
+          "canonical_range": [
+            441288,
+            441376
+          ],
+          "canonical_sha256": "f2c9a79de874a42ded43bb09b49294ff847f451da7a76d847b83a6e96b89fc3e",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806BBC4; instruction window 0x0806BBB6..0x0806BBBE",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            441288,
+            441376
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "f2c9a79de874a42ded43bb09b49294ff847f451da7a76d847b83a6e96b89fc3e"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 8,
+      "candidate_range": [
+        443508,
+        443748
+      ],
+      "candidate_sha256": "621df72977ba30e5ae674fae845d03b80da7a6b7898f35fb46325850dc11a7d8",
+      "partitions": [
+        {
+          "canonical_range": [
+            443508,
+            443512
+          ],
+          "canonical_sha256": "41cb264d9021184bad0bf697e0c7fe63b8013493bb65ddab09e3774e1c94b8cd",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806C474; instruction window 0x0806C468..0x0806C470",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            443508,
+            443512
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "41cb264d9021184bad0bf697e0c7fe63b8013493bb65ddab09e3774e1c94b8cd"
+        },
+        {
+          "canonical_range": [
+            443512,
+            443748
+          ],
+          "canonical_sha256": "a6378714306823e16a833250a54dd4493799e4fa3adf595c8c70600f14f1c55a",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806C474; instruction window 0x0806C468..0x0806C470",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            443512,
+            443748
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "a6378714306823e16a833250a54dd4493799e4fa3adf595c8c70600f14f1c55a"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 15,
+        "reused_first_col_pairs": 7,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 9,
+      "candidate_range": [
+        447032,
+        447112
+      ],
+      "candidate_sha256": "1c856f5ba7b7cf05c160a35eda11c62eaf7c775ac60b6860ccf02cd5a0f81b75",
+      "partitions": [
+        {
+          "canonical_range": [
+            447032,
+            447036
+          ],
+          "canonical_sha256": "1f22195cf1ba4c69a3cb7a6d3d9c05a3190e12ddfeee9c30670293771a811bcd",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806D238; instruction window 0x0806D22E..0x0806D236",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            447032,
+            447036
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "1f22195cf1ba4c69a3cb7a6d3d9c05a3190e12ddfeee9c30670293771a811bcd"
+        },
+        {
+          "canonical_range": [
+            447036,
+            447112
+          ],
+          "canonical_sha256": "ccfcfe37ffa8ea4aa7f81baa077eb6424706c43235cc4e493346a9a7e4e1cf4b",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806D238; instruction window 0x0806D22E..0x0806D236",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            447036,
+            447112
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "ccfcfe37ffa8ea4aa7f81baa077eb6424706c43235cc4e493346a9a7e4e1cf4b"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 10,
+      "candidate_range": [
+        454372,
+        454596
+      ],
+      "candidate_sha256": "37cf354d4dd8ddc66a16d33fbc7408aa8065c9f8645913e3da96d0c178754c38",
+      "partitions": [
+        {
+          "canonical_range": [
+            454372,
+            454376
+          ],
+          "canonical_sha256": "82b47bb2fde3baa3ff4e2d04a9dc5391bcf79d0fece99ce76913b66044fd7742",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806EEE4; instruction window 0x0806EEDA..0x0806EEE2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            454372,
+            454376
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "82b47bb2fde3baa3ff4e2d04a9dc5391bcf79d0fece99ce76913b66044fd7742"
+        },
+        {
+          "canonical_range": [
+            454376,
+            454596
+          ],
+          "canonical_sha256": "71a6532c1dee9bcc514d6ae7820c1ba18585d9dd5c6e058cf26ddcf30a1a2825",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0806EEE4; instruction window 0x0806EEDA..0x0806EEE2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            454376,
+            454596
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "71a6532c1dee9bcc514d6ae7820c1ba18585d9dd5c6e058cf26ddcf30a1a2825"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 14,
+        "reused_first_col_pairs": 8,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 11,
+      "candidate_range": [
+        458540,
+        458716
+      ],
+      "candidate_sha256": "f784705eb8b8c3f20ad74adce2c7a154359ccb549ec9ad7496f488b6300c4914",
+      "partitions": [
+        {
+          "canonical_range": [
+            458540,
+            458544
+          ],
+          "canonical_sha256": "8c62f5318d6f9ae81ba7c51e081367b9f69130751683b9f0fdc9f368f4b2c949",
+          "evidence": {
+            "path": "notes/battle-status-stage-policy-bindings-20260723.json",
+            "selector": "/action_jump_table",
+            "sha256": "cc7b85b43c55a9a3af074240052ac2c00b1c18c59dc92b898427a4783e3b1b68"
+          },
+          "range": [
+            458540,
+            458544
+          ],
+          "semantic_type": "battle_status_action_jump_table_literal",
+          "sha256": "8c62f5318d6f9ae81ba7c51e081367b9f69130751683b9f0fdc9f368f4b2c949"
+        },
+        {
+          "canonical_range": [
+            458544,
+            458728
+          ],
+          "canonical_sha256": "70e8f03efa99fa88b91aa2bbb6963555c617688855d6414d597aa1cf10e7db1d",
+          "evidence": {
+            "path": "notes/battle-status-stage-policy-bindings-20260723.json",
+            "selector": "/action_jump_table_sha256",
+            "sha256": "cc7b85b43c55a9a3af074240052ac2c00b1c18c59dc92b898427a4783e3b1b68"
+          },
+          "range": [
+            458544,
+            458716
+          ],
+          "semantic_type": "battle_status_action_jump_table",
+          "sha256": "dbdbffc40592be92e2022daccba8748efe1b4b78fc87a3c3d581379d71ab9a16"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 4,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 12,
+      "candidate_range": [
+        461216,
+        461360
+      ],
+      "candidate_sha256": "56946d0208d178a7519761980a6058a16b2ac2106b2039f5e3944cb9a2615b04",
+      "partitions": [
+        {
+          "canonical_range": [
+            461216,
+            461220
+          ],
+          "canonical_sha256": "97caea1ad41050561752ce17d02b675fa12bac36706a38c47985a147c9225e19",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x080709A0; instruction window 0x08070986..0x0807098E",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            461216,
+            461220
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "97caea1ad41050561752ce17d02b675fa12bac36706a38c47985a147c9225e19"
+        },
+        {
+          "canonical_range": [
+            461220,
+            461360
+          ],
+          "canonical_sha256": "e1caafa44b90aba4972dcdd14db24169b2529b1a61548616e74a91e864105d7f",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x080709A0; instruction window 0x08070986..0x0807098E",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            461220,
+            461360
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "e1caafa44b90aba4972dcdd14db24169b2529b1a61548616e74a91e864105d7f"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 13,
+      "candidate_range": [
+        466272,
+        466416
+      ],
+      "candidate_sha256": "08529d5a96fbe093e7798f2563b5dda19ed456486484ddb83d92392ae5538450",
+      "partitions": [
+        {
+          "canonical_range": [
+            466272,
+            466276
+          ],
+          "canonical_sha256": "876b0a9a9b704d58cbce33242cca8261cc639dfb50062cb05e9128cdbd723bb3",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08071D60; instruction window 0x08071D42..0x08071D4A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            466272,
+            466276
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "876b0a9a9b704d58cbce33242cca8261cc639dfb50062cb05e9128cdbd723bb3"
+        },
+        {
+          "canonical_range": [
+            466276,
+            466416
+          ],
+          "canonical_sha256": "0583e747630c14e2de72582fdad75dbd082e93a7124aaedfa52ea184754d10ba",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08071D60; instruction window 0x08071D42..0x08071D4A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            466276,
+            466416
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "0583e747630c14e2de72582fdad75dbd082e93a7124aaedfa52ea184754d10ba"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 3,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 14,
+      "candidate_range": [
+        487232,
+        487488
+      ],
+      "candidate_sha256": "1b3f2e76f734671db1e4583473a9b23d2f8dfba9673f8565ed6a67772f9beef2",
+      "partitions": [
+        {
+          "canonical_range": [
+            487232,
+            487236
+          ],
+          "canonical_sha256": "0db02c97efd777b66063914741e4fd35eb8491787168c3c329b8e4f6883a76a8",
+          "evidence": {
+            "path": "notes/battle-action-template-semantics-bindings-20260723.json",
+            "selector": "/evidence/resolver_dispatch",
+            "sha256": "43b550b3fce94b3f9a335e69b1f9399f041b3d3d45afdc88770ac86de9170209"
+          },
+          "range": [
+            487232,
+            487236
+          ],
+          "semantic_type": "battle_effect_subtype_dispatch_table_literal",
+          "sha256": "0db02c97efd777b66063914741e4fd35eb8491787168c3c329b8e4f6883a76a8"
+        },
+        {
+          "canonical_range": [
+            487236,
+            487488
+          ],
+          "canonical_sha256": "bb2f646887a005da8a0430da93bf5ea2268aa42ebc0200f92183f26957623958",
+          "evidence": {
+            "path": "notes/battle-action-template-semantics-bindings-20260723.json",
+            "selector": "/evidence/resolver_dispatch",
+            "sha256": "43b550b3fce94b3f9a335e69b1f9399f041b3d3d45afdc88770ac86de9170209"
+          },
+          "range": [
+            487236,
+            487488
+          ],
+          "semantic_type": "battle_effect_subtype_dispatch_table",
+          "sha256": "bb2f646887a005da8a0430da93bf5ea2268aa42ebc0200f92183f26957623958"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 16,
+        "reused_first_col_pairs": 6,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 15,
+      "candidate_range": [
+        506212,
+        506292
+      ],
+      "candidate_sha256": "d2619ca38986b77881264329b7efe41d2a6aa5ab7afe0d84e6637b8569639681",
+      "partitions": [
+        {
+          "canonical_range": [
+            506212,
+            506216
+          ],
+          "canonical_sha256": "1f48f7e44ae8ecff54a8d8dc959a5925e995c9e25703d6e252afd3499eef2a23",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807B964; instruction window 0x0807B94E..0x0807B956",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            506212,
+            506216
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "1f48f7e44ae8ecff54a8d8dc959a5925e995c9e25703d6e252afd3499eef2a23"
+        },
+        {
+          "canonical_range": [
+            506216,
+            506292
+          ],
+          "canonical_sha256": "6c168e8dbd51ffa8f46f498a4bf93744e7de107b699ccc14be96a8df6125c415",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807B964; instruction window 0x0807B94E..0x0807B956",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            506216,
+            506292
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "6c168e8dbd51ffa8f46f498a4bf93744e7de107b699ccc14be96a8df6125c415"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 3,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 16,
+      "candidate_range": [
+        510648,
+        510904
+      ],
+      "candidate_sha256": "40c3677e6939c6fc5516e81539f5ef4595e8fc5c2ef1877e9b9e2af8b4de6ac2",
+      "partitions": [
+        {
+          "canonical_range": [
+            510648,
+            510652
+          ],
+          "canonical_sha256": "080b2e942d0ce4542318bcec37fe1f7d0df9277e6f55758c2654be185c8bf844",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807CAB8; instruction window 0x0807CA9A..0x0807CAA2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            510648,
+            510652
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "080b2e942d0ce4542318bcec37fe1f7d0df9277e6f55758c2654be185c8bf844"
+        },
+        {
+          "canonical_range": [
+            510652,
+            510904
+          ],
+          "canonical_sha256": "50f7453fdd7b2458b169706cc50b0ae3602eb4ae7271e36a840f9e14a61c788a",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807CAB8; instruction window 0x0807CA9A..0x0807CAA2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            510652,
+            510904
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "50f7453fdd7b2458b169706cc50b0ae3602eb4ae7271e36a840f9e14a61c788a"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 16,
+        "reused_first_col_pairs": 5,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 17,
+      "candidate_range": [
+        515288,
+        515368
+      ],
+      "candidate_sha256": "50974486d11ec732af116efb44ba31337f161b202ddcd8af8449cc674b33686c",
+      "partitions": [
+        {
+          "canonical_range": [
+            515288,
+            515292
+          ],
+          "canonical_sha256": "67b4994111ffae0c9a12576fdb7ae9f97cab53645be895077c655636c852bce0",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807DCD8; instruction window 0x0807DCCA..0x0807DCD2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            515288,
+            515292
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "67b4994111ffae0c9a12576fdb7ae9f97cab53645be895077c655636c852bce0"
+        },
+        {
+          "canonical_range": [
+            515292,
+            515368
+          ],
+          "canonical_sha256": "f4719e40bb86451f12ed89f905d6735ec9cae7579abb8ad426778c9d76280cdb",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807DCD8; instruction window 0x0807DCCA..0x0807DCD2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            515292,
+            515368
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "f4719e40bb86451f12ed89f905d6735ec9cae7579abb8ad426778c9d76280cdb"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 18,
+      "candidate_range": [
+        515424,
+        515520
+      ],
+      "candidate_sha256": "3a9d313e0593e058aa1849bf1e7909d766750c7b4587722fffb3b2bcee817d40",
+      "partitions": [
+        {
+          "canonical_range": [
+            515424,
+            515428
+          ],
+          "canonical_sha256": "253fa0080366b109106d7e27ff3a5096a0b7a27ea3c8dacc0559a182df0d7794",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807DD60; instruction window 0x0807DD54..0x0807DD5C",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            515424,
+            515428
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "253fa0080366b109106d7e27ff3a5096a0b7a27ea3c8dacc0559a182df0d7794"
+        },
+        {
+          "canonical_range": [
+            515428,
+            515520
+          ],
+          "canonical_sha256": "a28413c80887bf7ab097713dde07763e2df352dca32306dfeff3b8cc97c9b187",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0807DD60; instruction window 0x0807DD54..0x0807DD5C",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            515428,
+            515520
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "a28413c80887bf7ab097713dde07763e2df352dca32306dfeff3b8cc97c9b187"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 19,
+      "candidate_range": [
+        549936,
+        550064
+      ],
+      "candidate_sha256": "2cbb95b42d46903c1be7fe77dcc2ee0e036cf80cc4f36f8bfe2c5f46e37c37fa",
+      "partitions": [
+        {
+          "canonical_range": [
+            549936,
+            549940
+          ],
+          "canonical_sha256": "b1740e6c09e412acead065be049159981800d852484d774eebc66d0b26f36693",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08086430; instruction window 0x0808640E..0x08086416",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            549936,
+            549940
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "b1740e6c09e412acead065be049159981800d852484d774eebc66d0b26f36693"
+        },
+        {
+          "canonical_range": [
+            549940,
+            550064
+          ],
+          "canonical_sha256": "033d26c46530fa8ccd58ea300e7304454b9dbafad3fb35510097f204c8b8ca69",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08086430; instruction window 0x0808640E..0x08086416",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            549940,
+            550064
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "033d26c46530fa8ccd58ea300e7304454b9dbafad3fb35510097f204c8b8ca69"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 8,
+        "reused_first_col_pairs": 6,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 20,
+      "candidate_range": [
+        559932,
+        560060
+      ],
+      "candidate_sha256": "f5ffaefaf6512c754d049366b2b1a2a97c9ff2b4eeb187b31c46ffc3bd13f436",
+      "partitions": [
+        {
+          "canonical_range": [
+            559932,
+            559936
+          ],
+          "canonical_sha256": "abc181de9ff4d0c009034c3f913598061fe156ca21e662864bdeb13f3b1d0937",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08088B3C; instruction window 0x08088B1C..0x08088B24",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            559932,
+            559936
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "abc181de9ff4d0c009034c3f913598061fe156ca21e662864bdeb13f3b1d0937"
+        },
+        {
+          "canonical_range": [
+            559936,
+            560060
+          ],
+          "canonical_sha256": "ad8d8be21e468532cc5ccb1a6298dadf87e6e3d3f3e5251394ea7e0893e3c242",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08088B3C; instruction window 0x08088B1C..0x08088B24",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            559936,
+            560060
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "ad8d8be21e468532cc5ccb1a6298dadf87e6e3d3f3e5251394ea7e0893e3c242"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 8,
+        "reused_first_col_pairs": 4,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 21,
+      "candidate_range": [
+        574200,
+        574280
+      ],
+      "candidate_sha256": "b247676e2d7125ac0fbdb7f09c4464f2f95d0c40a9a855d55dae278fdb4cf1b5",
+      "partitions": [
+        {
+          "canonical_range": [
+            574200,
+            574204
+          ],
+          "canonical_sha256": "1b08dbf5b0b2e3b152407581dd18afb30321073362cd54c13d46a7de04c20723",
+          "evidence": {
+            "path": "artifacts/scene-visual-transition-timelines-v1/scene-visual-transition-timelines.json",
+            "selector": "/controller_model/jump_table_base",
+            "sha256": "24ab82165144c34b3e751c7dccb211c9bfb40b4eee5f20b9b3691119043f9e8c"
+          },
+          "range": [
+            574200,
+            574204
+          ],
+          "semantic_type": "scene_controller_jump_table_literal",
+          "sha256": "1b08dbf5b0b2e3b152407581dd18afb30321073362cd54c13d46a7de04c20723"
+        },
+        {
+          "canonical_range": [
+            574204,
+            574288
+          ],
+          "canonical_sha256": "5c208504bc18c720d7cbae57394572582a05298ee8485875be52c39d3abb2c39",
+          "evidence": {
+            "path": "artifacts/scene-visual-transition-timelines-v1/scene-visual-transition-timelines.json",
+            "selector": "/controller_model/jump_table_handlers",
+            "sha256": "24ab82165144c34b3e751c7dccb211c9bfb40b4eee5f20b9b3691119043f9e8c"
+          },
+          "range": [
+            574204,
+            574280
+          ],
+          "semantic_type": "scene_controller_jump_table",
+          "sha256": "af3e96f816d8983b9b83de80ad5943e33ec6fd6e4501fbb14ff5787dcda2cbd8"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 22,
+      "candidate_range": [
+        600148,
+        600308
+      ],
+      "candidate_sha256": "9eec84bf683bf90093270c825af1c248795150f5d27c94327d47e71919689fe7",
+      "partitions": [
+        {
+          "canonical_range": [
+            600148,
+            600164
+          ],
+          "canonical_sha256": "be2ee29092bdabb638e89c71188895b4a3f3384f373e602cd517ee02f9fc48f6",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08092860; instruction window 0x0809284A..0x08092852",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            600148,
+            600164
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "be2ee29092bdabb638e89c71188895b4a3f3384f373e602cd517ee02f9fc48f6"
+        },
+        {
+          "canonical_range": [
+            600164,
+            600308
+          ],
+          "canonical_sha256": "39c306f9b712169cf51cce8225c6d94ed121c0db3353f78f05e6d8717e203d0b",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08092860; instruction window 0x0809284A..0x08092852",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            600164,
+            600308
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "39c306f9b712169cf51cce8225c6d94ed121c0db3353f78f05e6d8717e203d0b"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 10,
+        "reused_first_col_pairs": 1,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 23,
+      "candidate_range": [
+        605240,
+        605304
+      ],
+      "candidate_sha256": "50fd28fd7de3943216662df93b22c645abd3379e16f3b17e3adb232e6b4ee96e",
+      "distinct_literal_word_count": 16,
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "17 independent Thumb LDR literals target all 16 words",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "literal_pool_range": [
+        605240,
+        605304
+      ],
+      "literal_pool_sha256": "50fd28fd7de3943216662df93b22c645abd3379e16f3b17e3adb232e6b4ee96e",
+      "pc_relative_ldr_reference_count": 17,
+      "relation": "thumb_literal_pool_not_indexed_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 24,
+      "candidate_range": [
+        615232,
+        615552
+      ],
+      "candidate_sha256": "7824c9ee7054380981879337ed7c30625896d727671a2567043e1f5c940172f4",
+      "partitions": [
+        {
+          "canonical_range": [
+            615232,
+            615236
+          ],
+          "canonical_sha256": "199fb3e8a976e9a405c18da20331fc91ec99a5792c92b5b336853d5e9a26bf7c",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08096340; instruction window 0x08096336..0x0809633E",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            615232,
+            615236
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "199fb3e8a976e9a405c18da20331fc91ec99a5792c92b5b336853d5e9a26bf7c"
+        },
+        {
+          "canonical_range": [
+            615236,
+            615552
+          ],
+          "canonical_sha256": "d1d0e546e0efa1c403720241192ce5d0eadeba10ee18d8e99274e9e7ac31f117",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08096340; instruction window 0x08096336..0x0809633E",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            615236,
+            615552
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "d1d0e546e0efa1c403720241192ce5d0eadeba10ee18d8e99274e9e7ac31f117"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 20,
+        "reused_first_col_pairs": 18,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 25,
+      "candidate_range": [
+        620528,
+        620752
+      ],
+      "candidate_sha256": "cc18ff4a209d38bf6e2bc69540658ab9af5aca3b9914cf41da571f81f8e1a3e4",
+      "partitions": [
+        {
+          "canonical_range": [
+            620528,
+            620532
+          ],
+          "canonical_sha256": "6d5757d0fa049a1ba5578864ee9e89f8f01c9c179909f414764418d4fbde98fa",
+          "evidence": {
+            "path": "sequel/content/story/bank.json",
+            "selector": "/consumer/opcode_dispatch",
+            "sha256": "3b1467d057b8196e376b0cba6a7abb195940afe7956fa7f482c2470ef5079b17"
+          },
+          "range": [
+            620528,
+            620532
+          ],
+          "semantic_type": "story_opcode_dispatch_table_literal",
+          "sha256": "6d5757d0fa049a1ba5578864ee9e89f8f01c9c179909f414764418d4fbde98fa"
+        },
+        {
+          "canonical_range": [
+            620532,
+            620764
+          ],
+          "canonical_sha256": "a3d2eb7489c851b040b87afeb6c2a020e15e5b6d9086c57f036be4893b12792d",
+          "evidence": {
+            "path": "sequel/content/story/bank.json",
+            "selector": "/consumer",
+            "sha256": "3b1467d057b8196e376b0cba6a7abb195940afe7956fa7f482c2470ef5079b17"
+          },
+          "range": [
+            620532,
+            620752
+          ],
+          "semantic_type": "story_opcode_dispatch_table",
+          "sha256": "3474d8f4d890c40bd1336b10ee7cbb8387e549bab63710454505a27ffd0fd8a7"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 14,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 26,
+      "candidate_range": [
+        624704,
+        624832
+      ],
+      "candidate_sha256": "adf1f3bd549cb9e0c4284a64e3a8ce9115060dc258d9143d00e97652d60d3f28",
+      "partitions": [
+        {
+          "canonical_range": [
+            624704,
+            624712
+          ],
+          "canonical_sha256": "d473e8212be65f54f056e5d31dfe5451faf9d11f495d13a697d3c482eeb8628c",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08098844; instruction window 0x08098832..0x0809883A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            624704,
+            624712
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "d473e8212be65f54f056e5d31dfe5451faf9d11f495d13a697d3c482eeb8628c"
+        },
+        {
+          "canonical_range": [
+            624712,
+            624832
+          ],
+          "canonical_sha256": "406f019152b639c3f7c7e64267845509eaecabe497d6e2e97ee60fc4498a207d",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x08098844; instruction window 0x08098832..0x0809883A",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            624712,
+            624832
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "406f019152b639c3f7c7e64267845509eaecabe497d6e2e97ee60fc4498a207d"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 8,
+        "reused_first_col_pairs": 4,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 27,
+      "candidate_range": [
+        638180,
+        638244
+      ],
+      "candidate_sha256": "301141935394362bbbd0b6d3fb240812b18b25438aed178589eeaa5aa6f1673e",
+      "partitions": [
+        {
+          "canonical_range": [
+            638180,
+            638184
+          ],
+          "canonical_sha256": "8c44065055357bd89ab6ee75a2a65d71b8d1846fb0786e25314c7eefad47be68",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0809BCE4; instruction window 0x0809BCDA..0x0809BCE2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            638180,
+            638184
+          ],
+          "semantic_type": "thumb_dispatch_literal_pool",
+          "sha256": "8c44065055357bd89ab6ee75a2a65d71b8d1846fb0786e25314c7eefad47be68"
+        },
+        {
+          "canonical_range": [
+            638184,
+            638244
+          ],
+          "canonical_sha256": "2ca84a8244941c3ae1a67347f26fc0d4711ba13565fff4d9e5b391ebf1f08027",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "PC-relative base literal 0x0809BCE4; instruction window 0x0809BCDA..0x0809BCE2",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            638184,
+            638244
+          ],
+          "semantic_type": "thumb_pc_relative_jump_table",
+          "sha256": "2ca84a8244941c3ae1a67347f26fc0d4711ba13565fff4d9e5b391ebf1f08027"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 28,
+      "candidate_range": [
+        1321584,
+        1321664
+      ],
+      "candidate_sha256": "2a8304737f6567866da3f1c0a45b304e70b959b19496704e9b057e61eb7dce9e",
+      "canonical_range": [
+        1321584,
+        1321664
+      ],
+      "canonical_sha256": "2a8304737f6567866da3f1c0a45b304e70b959b19496704e9b057e61eb7dce9e",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/0/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 29,
+      "candidate_range": [
+        1394552,
+        1394632
+      ],
+      "candidate_sha256": "5b5af235db00c48daa2722601b6451b4c1ce0bddcb48c07839c9b8647b757d70",
+      "canonical_range": [
+        1394552,
+        1394632
+      ],
+      "canonical_sha256": "5b5af235db00c48daa2722601b6451b4c1ce0bddcb48c07839c9b8647b757d70",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/9/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 30,
+      "candidate_range": [
+        1462400,
+        1462480
+      ],
+      "candidate_sha256": "0f30432e6fba2b9db2d6d153b44f1a1d892dca788bc682ecd4320be402fec85d",
+      "canonical_range": [
+        1462400,
+        1462480
+      ],
+      "canonical_sha256": "0f30432e6fba2b9db2d6d153b44f1a1d892dca788bc682ecd4320be402fec85d",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/18/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 31,
+      "candidate_range": [
+        1525136,
+        1525216
+      ],
+      "candidate_sha256": "03c7b28a5b537af179e74eeafac63f79d658c0bf6855f01bbda15095c3acb76b",
+      "canonical_range": [
+        1525136,
+        1525216
+      ],
+      "canonical_sha256": "03c7b28a5b537af179e74eeafac63f79d658c0bf6855f01bbda15095c3acb76b",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/27/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 32,
+      "candidate_range": [
+        1562532,
+        1562612
+      ],
+      "candidate_sha256": "65913ee2cadf4d6424b0ac2a5c52bf167677bf4ac1c085758aac2d3fbdd2cbe0",
+      "canonical_range": [
+        1562532,
+        1562612
+      ],
+      "canonical_sha256": "65913ee2cadf4d6424b0ac2a5c52bf167677bf4ac1c085758aac2d3fbdd2cbe0",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/32/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 33,
+      "candidate_range": [
+        1603000,
+        1603080
+      ],
+      "candidate_sha256": "f63b25ec607f8ed3cfd3d187491ff651ba73ad7ba7401561a7200fa507df05c3",
+      "canonical_range": [
+        1603000,
+        1603080
+      ],
+      "canonical_sha256": "f63b25ec607f8ed3cfd3d187491ff651ba73ad7ba7401561a7200fa507df05c3",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/37/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 34,
+      "candidate_range": [
+        1645516,
+        1645596
+      ],
+      "candidate_sha256": "6a1d9cbb8a5d52c427797dcff780aca262de4e38b63f65fa6a4d76c0c97fe9c9",
+      "canonical_range": [
+        1645516,
+        1645596
+      ],
+      "canonical_sha256": "6a1d9cbb8a5d52c427797dcff780aca262de4e38b63f65fa6a4d76c0c97fe9c9",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/42/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 35,
+      "candidate_range": [
+        1715412,
+        1715492
+      ],
+      "candidate_sha256": "cb324175b16270b0a22fd8b43abc6d0a5663a619e24e37ddb0d49aa16e7bdeca",
+      "canonical_range": [
+        1715412,
+        1715492
+      ],
+      "canonical_sha256": "cb324175b16270b0a22fd8b43abc6d0a5663a619e24e37ddb0d49aa16e7bdeca",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/51/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 36,
+      "candidate_range": [
+        1752808,
+        1752888
+      ],
+      "candidate_sha256": "0df71d04fe9ad5f10f47143334b1986cc94beef34ce489fad8a3500be7f6b028",
+      "canonical_range": [
+        1752808,
+        1752888
+      ],
+      "canonical_sha256": "0df71d04fe9ad5f10f47143334b1986cc94beef34ce489fad8a3500be7f6b028",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/56/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 37,
+      "candidate_range": [
+        1791228,
+        1791308
+      ],
+      "candidate_sha256": "e397a93439a68c6f057cbfec745d5362e01e44a519779dd0fa1d50ff98e666d9",
+      "canonical_range": [
+        1791228,
+        1791308
+      ],
+      "canonical_sha256": "e397a93439a68c6f057cbfec745d5362e01e44a519779dd0fa1d50ff98e666d9",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/61/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 38,
+      "candidate_range": [
+        1828624,
+        1828704
+      ],
+      "candidate_sha256": "399f770b5fab818d0354d869f9e660f0fb1739f1b8c7ab29fb574223adccb9cc",
+      "canonical_range": [
+        1828624,
+        1828704
+      ],
+      "canonical_sha256": "399f770b5fab818d0354d869f9e660f0fb1739f1b8c7ab29fb574223adccb9cc",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/66/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 39,
+      "candidate_range": [
+        1867044,
+        1867124
+      ],
+      "candidate_sha256": "8d367213065f4a05aff9572fb6fa1cde359b9f33a4cc3f98f0f8ab1baa164bde",
+      "canonical_range": [
+        1867044,
+        1867124
+      ],
+      "canonical_sha256": "8d367213065f4a05aff9572fb6fa1cde359b9f33a4cc3f98f0f8ab1baa164bde",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/71/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 40,
+      "candidate_range": [
+        1906520,
+        1906600
+      ],
+      "candidate_sha256": "54067e5b1458e7b85de74e0daacd73d0cebbd08428e3f069179b676bbc28dffa",
+      "canonical_range": [
+        1906520,
+        1906600
+      ],
+      "canonical_sha256": "54067e5b1458e7b85de74e0daacd73d0cebbd08428e3f069179b676bbc28dffa",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/76/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 41,
+      "candidate_range": [
+        1942896,
+        1942976
+      ],
+      "candidate_sha256": "835f9ac33c389f47e3c174c5003f1d5d82b7e77b5268793602d91e210ce8fa93",
+      "canonical_range": [
+        1942896,
+        1942976
+      ],
+      "canonical_sha256": "835f9ac33c389f47e3c174c5003f1d5d82b7e77b5268793602d91e210ce8fa93",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/81/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 42,
+      "candidate_range": [
+        1983012,
+        1983092
+      ],
+      "candidate_sha256": "b09669ebf1149103fed9879164c727f82bf70dd087975b568836ab5b88caa7e9",
+      "canonical_range": [
+        1983012,
+        1983092
+      ],
+      "canonical_sha256": "b09669ebf1149103fed9879164c727f82bf70dd087975b568836ab5b88caa7e9",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/86/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 43,
+      "candidate_range": [
+        2023480,
+        2023560
+      ],
+      "candidate_sha256": "c520de506e3ffde48566275cb6bf02193bb19e3841d6936cd89aaf0ba8883414",
+      "canonical_range": [
+        2023480,
+        2023560
+      ],
+      "canonical_sha256": "c520de506e3ffde48566275cb6bf02193bb19e3841d6936cd89aaf0ba8883414",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/91/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 44,
+      "candidate_range": [
+        2061900,
+        2061980
+      ],
+      "candidate_sha256": "8b23a5478b80ffcad53b0b6157651615d13ce677b23d17ab8fca02191cea565a",
+      "canonical_range": [
+        2061900,
+        2061980
+      ],
+      "canonical_sha256": "8b23a5478b80ffcad53b0b6157651615d13ce677b23d17ab8fca02191cea565a",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/96/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 45,
+      "candidate_range": [
+        2100320,
+        2100400
+      ],
+      "candidate_sha256": "2bde721e2b1b6675f857e1a8ed439cbaac09b5c1bce3b18ac3cccc0e64adb30c",
+      "canonical_range": [
+        2100320,
+        2100400
+      ],
+      "canonical_sha256": "2bde721e2b1b6675f857e1a8ed439cbaac09b5c1bce3b18ac3cccc0e64adb30c",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/101/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 46,
+      "candidate_range": [
+        2147548,
+        2147628
+      ],
+      "candidate_sha256": "cabb84954fac9bb8a9b4c89c58a94dff8129fa37a70cbb65137e9f5d086dbf54",
+      "canonical_range": [
+        2147548,
+        2147628
+      ],
+      "canonical_sha256": "cabb84954fac9bb8a9b4c89c58a94dff8129fa37a70cbb65137e9f5d086dbf54",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/106/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 47,
+      "candidate_range": [
+        2188016,
+        2188096
+      ],
+      "candidate_sha256": "11ddcb43c05e821b85d0691e32473f2642d54588e65e752192ab499f5529b5e0",
+      "canonical_range": [
+        2188016,
+        2188096
+      ],
+      "canonical_sha256": "11ddcb43c05e821b85d0691e32473f2642d54588e65e752192ab499f5529b5e0",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/111/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 48,
+      "candidate_range": [
+        2231584,
+        2231664
+      ],
+      "candidate_sha256": "89c737fc3963cb01702cd47f1a434e2a35279c551e44a7d809ad3ffa125d9241",
+      "canonical_range": [
+        2231584,
+        2231664
+      ],
+      "canonical_sha256": "89c737fc3963cb01702cd47f1a434e2a35279c551e44a7d809ad3ffa125d9241",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/116/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 49,
+      "candidate_range": [
+        2268980,
+        2269060
+      ],
+      "candidate_sha256": "2f1d283e6a63185e064e6bc30543d64bff2231d6f76158b506b69dfe22205716",
+      "canonical_range": [
+        2268980,
+        2269060
+      ],
+      "canonical_sha256": "2f1d283e6a63185e064e6bc30543d64bff2231d6f76158b506b69dfe22205716",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/121/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 50,
+      "candidate_range": [
+        2307432,
+        2307512
+      ],
+      "candidate_sha256": "9348b7303d1a625edf80a02bd75c39c3699c70b2ebbb367248b7e8574c91c3b3",
+      "canonical_range": [
+        2307432,
+        2307512
+      ],
+      "canonical_sha256": "9348b7303d1a625edf80a02bd75c39c3699c70b2ebbb367248b7e8574c91c3b3",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/126/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 51,
+      "candidate_range": [
+        2345884,
+        2345964
+      ],
+      "candidate_sha256": "cc1dedab012898a35466596b8bdbec86603c38fc34a3f7a15a3eef1160590057",
+      "canonical_range": [
+        2345884,
+        2345964
+      ],
+      "canonical_sha256": "cc1dedab012898a35466596b8bdbec86603c38fc34a3f7a15a3eef1160590057",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/131/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 52,
+      "candidate_range": [
+        2389456,
+        2389536
+      ],
+      "candidate_sha256": "7589f36333dfea31c6969ad4dc44c667612de4465db71474a83a60d1b6d897aa",
+      "canonical_range": [
+        2389456,
+        2389536
+      ],
+      "canonical_sha256": "7589f36333dfea31c6969ad4dc44c667612de4465db71474a83a60d1b6d897aa",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/136/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 53,
+      "candidate_range": [
+        2455192,
+        2455272
+      ],
+      "candidate_sha256": "327b32770443169d9499e5d5834344575d245416faa7b8c21f52ab27bb219e0e",
+      "canonical_range": [
+        2455192,
+        2455272
+      ],
+      "canonical_sha256": "327b32770443169d9499e5d5834344575d245416faa7b8c21f52ab27bb219e0e",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/145/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 54,
+      "candidate_range": [
+        2525024,
+        2525104
+      ],
+      "candidate_sha256": "fb249a33432e2b86da0da12631cf6dc09e4ef65ba22e05e83935d0b64b29abd1",
+      "canonical_range": [
+        2525024,
+        2525104
+      ],
+      "canonical_sha256": "fb249a33432e2b86da0da12631cf6dc09e4ef65ba22e05e83935d0b64b29abd1",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/154/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 55,
+      "candidate_range": [
+        2590760,
+        2590840
+      ],
+      "candidate_sha256": "01c7cdfd318a9c1498c4579ef9c7f87d81c863522549af6c7c7e2ce347024f03",
+      "canonical_range": [
+        2590760,
+        2590840
+      ],
+      "canonical_sha256": "01c7cdfd318a9c1498c4579ef9c7f87d81c863522549af6c7c7e2ce347024f03",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/163/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 56,
+      "candidate_range": [
+        2651376,
+        2651456
+      ],
+      "candidate_sha256": "16c334505cea6dc93b0327825526114d87f2046e7642b73ce3873755ac6ed75f",
+      "canonical_range": [
+        2651376,
+        2651456
+      ],
+      "canonical_sha256": "16c334505cea6dc93b0327825526114d87f2046e7642b73ce3873755ac6ed75f",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/172/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 57,
+      "candidate_range": [
+        2691844,
+        2691924
+      ],
+      "candidate_sha256": "3766806bc46ae93aa35a9c9ffa9a18514334cb36891941417d9039d0c65ef211",
+      "canonical_range": [
+        2691844,
+        2691924
+      ],
+      "canonical_sha256": "3766806bc46ae93aa35a9c9ffa9a18514334cb36891941417d9039d0c65ef211",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/177/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 58,
+      "candidate_range": [
+        2732408,
+        2732504
+      ],
+      "candidate_sha256": "a45028c0647f9f2e35602bfa65188e8ce690b8f96a45779ef30b24f57b4f27c6",
+      "canonical_range": [
+        2732408,
+        2732504
+      ],
+      "canonical_sha256": "a45028c0647f9f2e35602bfa65188e8ce690b8f96a45779ef30b24f57b4f27c6",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/182/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 59,
+      "candidate_range": [
+        2753872,
+        2753952
+      ],
+      "candidate_sha256": "32a60d4409c47d474c38466c048b7d2b965545ae470d14884c6f7695f8c271d6",
+      "canonical_range": [
+        2753872,
+        2753952
+      ],
+      "canonical_sha256": "32a60d4409c47d474c38466c048b7d2b965545ae470d14884c6f7695f8c271d6",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/184/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 60,
+      "candidate_range": [
+        2791268,
+        2791348
+      ],
+      "candidate_sha256": "30a28ed1685bf71db496da1f9f0c29fef64afc603d58615bd219d54a5154c03a",
+      "canonical_range": [
+        2791268,
+        2791348
+      ],
+      "canonical_sha256": "30a28ed1685bf71db496da1f9f0c29fef64afc603d58615bd219d54a5154c03a",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/189/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 61,
+      "candidate_range": [
+        2828664,
+        2828744
+      ],
+      "candidate_sha256": "49880eb971604fadb8ab2f503eb37cdb46d038b2ca81f8494c4caf81ff3df0cc",
+      "canonical_range": [
+        2828664,
+        2828744
+      ],
+      "canonical_sha256": "49880eb971604fadb8ab2f503eb37cdb46d038b2ca81f8494c4caf81ff3df0cc",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/194/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 62,
+      "candidate_range": [
+        2866060,
+        2866140
+      ],
+      "candidate_sha256": "e046b13d53fad9bdcca0f0f4301a7f2fb2ea3cc45904bcd7cc167c3727a65e12",
+      "canonical_range": [
+        2866060,
+        2866140
+      ],
+      "canonical_sha256": "e046b13d53fad9bdcca0f0f4301a7f2fb2ea3cc45904bcd7cc167c3727a65e12",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/199/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 63,
+      "candidate_range": [
+        2909592,
+        2909672
+      ],
+      "candidate_sha256": "727484bad0fa8b380f1ddcec5c76285992063ebaa305da9807d4a6aa5183ef95",
+      "canonical_range": [
+        2909592,
+        2909672
+      ],
+      "canonical_sha256": "727484bad0fa8b380f1ddcec5c76285992063ebaa305da9807d4a6aa5183ef95",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/204/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 64,
+      "candidate_range": [
+        2951692,
+        2951772
+      ],
+      "candidate_sha256": "cf7d745ba04c8f79847e585b0a83961ee77b11b44d80feb4fdaaeffdc2c3e5a3",
+      "canonical_range": [
+        2951692,
+        2951772
+      ],
+      "canonical_sha256": "cf7d745ba04c8f79847e585b0a83961ee77b11b44d80feb4fdaaeffdc2c3e5a3",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/207/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 65,
+      "candidate_range": [
+        3004476,
+        3004604
+      ],
+      "candidate_sha256": "c1ce83bc309cc234f55ff27c2ada0fd10e2f5a543777f286c34ef41b36e91d10",
+      "canonical_range": [
+        3004476,
+        3004604
+      ],
+      "canonical_sha256": "c1ce83bc309cc234f55ff27c2ada0fd10e2f5a543777f286c34ef41b36e91d10",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/210/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 8,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 66,
+      "candidate_range": [
+        3039516,
+        3039612
+      ],
+      "candidate_sha256": "1bf26e2d186e0fe58c3eaa1bbef0327172e06931c09a31ab62654ffec3540d3c",
+      "canonical_range": [
+        3039516,
+        3039612
+      ],
+      "canonical_sha256": "1bf26e2d186e0fe58c3eaa1bbef0327172e06931c09a31ab62654ffec3540d3c",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/213/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 67,
+      "candidate_range": [
+        3063284,
+        3063380
+      ],
+      "candidate_sha256": "d9d9361f63040bd152dfd983fb2d419b951eeb48411c86355c7337f575d865e1",
+      "canonical_range": [
+        3063284,
+        3063380
+      ],
+      "canonical_sha256": "d9d9361f63040bd152dfd983fb2d419b951eeb48411c86355c7337f575d865e1",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/216/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 68,
+      "candidate_range": [
+        3095232,
+        3095328
+      ],
+      "candidate_sha256": "de16bc04841642ecbd84032b537957360ac7750baf6f295c04939ef5a6f1d75d",
+      "canonical_range": [
+        3095232,
+        3095328
+      ],
+      "canonical_sha256": "de16bc04841642ecbd84032b537957360ac7750baf6f295c04939ef5a6f1d75d",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/219/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 69,
+      "candidate_range": [
+        3113376,
+        3113568
+      ],
+      "candidate_sha256": "b15cea8fad88694ec8a479a6b2e60424583c6261efc4ca28d11796c0a4b44d41",
+      "canonical_range": [
+        3113376,
+        3113568
+      ],
+      "canonical_sha256": "b15cea8fad88694ec8a479a6b2e60424583c6261efc4ca28d11796c0a4b44d41",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/222/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 12,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 70,
+      "candidate_range": [
+        3132056,
+        3132136
+      ],
+      "candidate_sha256": "edb2dd525204c09c40c5c0e7bd950ae65dab9508bf89f6ab109f8416ae05f957",
+      "canonical_range": [
+        3132056,
+        3132136
+      ],
+      "canonical_sha256": "edb2dd525204c09c40c5c0e7bd950ae65dab9508bf89f6ab109f8416ae05f957",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/225/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 71,
+      "candidate_range": [
+        3169452,
+        3169532
+      ],
+      "candidate_sha256": "d899916523eaa3eb85aa5e5d308696748d9ecf271533c42f5c1c8951b0bbf783",
+      "canonical_range": [
+        3169452,
+        3169532
+      ],
+      "canonical_sha256": "d899916523eaa3eb85aa5e5d308696748d9ecf271533c42f5c1c8951b0bbf783",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/230/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 72,
+      "candidate_range": [
+        3249612,
+        3249692
+      ],
+      "candidate_sha256": "1eae022757b74588a6755ded667d4eaf3efa206160f75008d1db40de5c949b19",
+      "canonical_range": [
+        3249612,
+        3249692
+      ],
+      "canonical_sha256": "1eae022757b74588a6755ded667d4eaf3efa206160f75008d1db40de5c949b19",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/240/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 73,
+      "candidate_range": [
+        3289088,
+        3289168
+      ],
+      "candidate_sha256": "412209d31ace2ffeace813a91392bc753eaeed2ab1d2630bbd14cee06fde783b",
+      "canonical_range": [
+        3289088,
+        3289168
+      ],
+      "canonical_sha256": "412209d31ace2ffeace813a91392bc753eaeed2ab1d2630bbd14cee06fde783b",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/resources/245/frame_pointer_table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 5,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "character_battle_frame_pointer_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 74,
+      "candidate_range": [
+        3416640,
+        3416736
+      ],
+      "candidate_sha256": "35deab458977ed12e928c2ad0108124f68c921f3d698df4a6dde32e2b3fab49f",
+      "canonical_range": [
+        3416640,
+        3416744
+      ],
+      "canonical_sha256": "ab2b47682746751d89764aab92d7e7ca937899ab734c371e36c0b4cbb9436801",
+      "evidence": {
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "selector": "/groups/1/definition_pointer_table",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "battle_effect_frame_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 75,
+      "candidate_range": [
+        3417560,
+        3417656
+      ],
+      "candidate_sha256": "9a9d67a129e4deaaf6059cf38070922c625234594e89cbf7c13a34d6c60a673f",
+      "canonical_range": [
+        3417560,
+        3417664
+      ],
+      "canonical_sha256": "4cc7eca4c0a31ef7402a3ab6131d2181e2e7a43705565436b0791def8fccf2ec",
+      "evidence": {
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "selector": "/groups/2/definition_pointer_table",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "battle_effect_frame_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 76,
+      "candidate_range": [
+        4605236,
+        4605380
+      ],
+      "candidate_sha256": "f18662620047b0851ca5ae6d181ac3810a115870add27bb5119d0612b5f6c6a6",
+      "canonical_range": [
+        4605236,
+        4605380
+      ],
+      "canonical_sha256": "f18662620047b0851ca5ae6d181ac3810a115870add27bb5119d0612b5f6c6a6",
+      "evidence": {
+        "path": "artifacts/audio/pitch-step-evidence.json",
+        "selector": "/command_handlers",
+        "sha256": "caf9fc9d4149c07e991c859cf19d75d8086550147284c34452495607347a31b7"
+      },
+      "relation": "exact_canonical_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 1,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "m4a_track_command_dispatch_table",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 77,
+      "candidate_range": [
+        5496580,
+        5496740
+      ],
+      "candidate_sha256": "28f9364d843ed2ca6076a173d057350745466b7e8e1e4c431f7a1b346efc5b6d",
+      "partitions": [
+        {
+          "canonical_range": [
+            5496580,
+            5496688
+          ],
+          "canonical_sha256": "bcdf9c72e447e025af41a942be262878fd1abd25a2138e5bf06700a136c4504d",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "structural pointer domain and adjacent canonical boundary",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            5496580,
+            5496688
+          ],
+          "semantic_type": "unbound_thumb_code_pointer_pool",
+          "sha256": "bcdf9c72e447e025af41a942be262878fd1abd25a2138e5bf06700a136c4504d"
+        },
+        {
+          "canonical_range": [
+            5496688,
+            5496752
+          ],
+          "canonical_sha256": "1e6d5016b58d0e565c5a40791a7f2684d6129e0a1c4e85e79317af4d2b1a7f62",
+          "evidence": {
+            "path": "sequel/content/cutscene-scripts/bank.json",
+            "selector": "/",
+            "sha256": "791f8173103259290c57b29908e010362c29de9caaa3c983e1e7b0336cb406a4"
+          },
+          "range": [
+            5496688,
+            5496740
+          ],
+          "semantic_type": "cutscene_visual_resource_pointer_pair_table",
+          "sha256": "26855d1913cea36b74497ba36ba0d30ecd709b0a5101ea3ec7a8ba674b1e2eba"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 10,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 78,
+      "candidate_range": [
+        5498648,
+        5498728
+      ],
+      "candidate_sha256": "e733c7a8ba676cf4c8794f80ac6cdb8c2a6e74a5388bfbf6f3ce0bc05fd10976",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 3,
+        "zero_gap_rows": 1
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 79,
+      "candidate_range": [
+        5498848,
+        5498912
+      ],
+      "candidate_sha256": "46964c158e092ad7ff98fb667ba12009f00b71cecdeaea561c358171b3327ee4",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 3,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 80,
+      "candidate_range": [
+        5499112,
+        5499208
+      ],
+      "candidate_sha256": "5cb309c794c2c55181beab8a76bd3e4ec1eff98263e7ca4d07a2b817ebc94891",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 2,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 81,
+      "candidate_range": [
+        5499552,
+        5499840
+      ],
+      "candidate_sha256": "10ca7f361599ef6d29948fe23a3cd4cdf84dde90390f231ea606a5fa2d1579e5",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 18,
+        "reused_first_col_pairs": 13,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 82,
+      "candidate_range": [
+        5499936,
+        5500080
+      ],
+      "candidate_sha256": "75e8eb636c68a58a446005b00cdf3adaa5e90906451dd566e215a31c9e514862",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 7,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 83,
+      "candidate_range": [
+        5500128,
+        5500288
+      ],
+      "candidate_sha256": "d5555aa1faf44a313ce29ed2ab38db21a5cc0d4bc0fee661b490b5bc484dac71",
+      "canonical_range": [
+        5498520,
+        5500568
+      ],
+      "canonical_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+      "evidence": {
+        "path": "sequel/content/map-events/bank.json",
+        "selector": "/",
+        "sha256": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 10,
+        "reused_first_col_pairs": 9,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "map_event_handler_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 84,
+      "candidate_range": [
+        5501240,
+        5501592
+      ],
+      "candidate_sha256": "87f14f8ec94a0f761ab3aad8722029d21df109b7269a67ab37b9e9f76d9920ef",
+      "partitions": [
+        {
+          "canonical_range": [
+            5501240,
+            5501248
+          ],
+          "canonical_sha256": "e6db594ec553b63dab55e665c16a5370b156c1ecda9aa712ad63256368789eeb",
+          "evidence": {
+            "path": "rom/base.gba",
+            "selector": "structural pointer domain and adjacent canonical boundary",
+            "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+          },
+          "range": [
+            5501240,
+            5501248
+          ],
+          "semantic_type": "map_sprite_callback_pointer_pair",
+          "sha256": "e6db594ec553b63dab55e665c16a5370b156c1ecda9aa712ad63256368789eeb"
+        },
+        {
+          "canonical_range": [
+            5501248,
+            5501592
+          ],
+          "canonical_sha256": "5873ae022e9b6290f876aab367b6dbe95b7a97b9b7a2f15d0861dc747196f3f8",
+          "evidence": {
+            "path": "sequel/content/map-sprites/bank.json",
+            "selector": "/",
+            "sha256": "52fae253049983323951b5c29b21e6960c6975c0348238947a8ec38efe474064"
+          },
+          "range": [
+            5501248,
+            5501592
+          ],
+          "semantic_type": "map_sprite_definition_animation_pointer_pair_table",
+          "sha256": "5873ae022e9b6290f876aab367b6dbe95b7a97b9b7a2f15d0861dc747196f3f8"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 22,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 85,
+      "candidate_range": [
+        5860700,
+        5869644
+      ],
+      "candidate_sha256": "1583f3b98b87ced6de4d12033d2b6f36b6de6b60b82b5a0b141311f701458c5b",
+      "canonical_range": [
+        5860700,
+        5869628
+      ],
+      "canonical_sha256": "baa3f86793e15d0d4abd44fcf10518da15ba0d76588b918838c3660e042e01dc",
+      "evidence": {
+        "path": "artifacts/character-battle-visuals-v1/manifest.json",
+        "selector": "/table",
+        "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "relation": "canonical_table_plus_zero_terminator",
+      "scan_fingerprint": {
+        "nonzero_rows": 342,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 217
+      },
+      "semantic_type": "character_battle_descriptor_table",
+      "status": "accepted",
+      "terminal_zero_hex": "00000000000000000000000000000000",
+      "terminal_zero_range": [
+        5869628,
+        5869644
+      ],
+      "terminal_zero_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb"
+    },
+    {
+      "candidate_id": 86,
+      "candidate_range": [
+        5869860,
+        5870004
+      ],
+      "candidate_sha256": "59edebecd7a381860eb1c12d0a50d7e9560f71e128e4f8f8396c657d273c9aab",
+      "canonical_range": [
+        5869852,
+        5870004
+      ],
+      "canonical_sha256": "7d9f94e05b975940bd2e17f55681120782cb7b6f07d0ab6245adef7260d24130",
+      "evidence": {
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "selector": "/resource_pointer_table",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "battle_effect_resource_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 87,
+      "candidate_range": [
+        5870012,
+        5870156
+      ],
+      "candidate_sha256": "357329211253cb0565b11edacf0e93645bc45e5c1b2c3ba5512ae580261b8031",
+      "canonical_range": [
+        5870004,
+        5870156
+      ],
+      "canonical_sha256": "c7025f5ca83b63b21ff3bf3e3183602447d157cf6cd1e63395b918a318e74392",
+      "evidence": {
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "selector": "/sprite_pair_table",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "battle_effect_sprite_pair_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 88,
+      "candidate_range": [
+        5870208,
+        5870800
+      ],
+      "candidate_sha256": "d080fa8985d801cdbd765ef1505257956fcfb81056eb3cf670254ac36ae832a1",
+      "partitions": [
+        {
+          "canonical_range": [
+            5870208,
+            5870460
+          ],
+          "canonical_sha256": "68e8c6fc03c6a321ef701611aea372dd88e22aa16bd795706ec6e8ddb6946a1d",
+          "evidence": {
+            "path": "notes/battle-content-catalog-20260723.json",
+            "selector": "/units",
+            "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+          },
+          "range": [
+            5870208,
+            5870460
+          ],
+          "semantic_type": "unit_name_pointer_table",
+          "sha256": "68e8c6fc03c6a321ef701611aea372dd88e22aa16bd795706ec6e8ddb6946a1d"
+        },
+        {
+          "canonical_range": [
+            5870460,
+            5870808
+          ],
+          "canonical_sha256": "72c9247c5660a892890fb85da8606d9d47a3d15e01d06aee53dff7f5189145ac",
+          "evidence": {
+            "path": "notes/battle-content-catalog-20260723.json",
+            "selector": "/active_actions",
+            "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+          },
+          "range": [
+            5870460,
+            5870800
+          ],
+          "semantic_type": "active_action_name_pointer_table",
+          "sha256": "b391232c60f4697ab31a49a2f27ccfd27325787f838f5327c388c864b52e7a54"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 37,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 89,
+      "candidate_range": [
+        5870892,
+        5870956
+      ],
+      "candidate_sha256": "cd01e7b160d335ae5d27eaf64afa95cd3fcb05249d1daeeeda633312a7b02f4e",
+      "canonical_range": [
+        5870808,
+        5871156
+      ],
+      "canonical_sha256": "55eb1e146e7f3f77672fe9508571e3393280821e001f80493b61b4cb8c2207d0",
+      "evidence": {
+        "path": "notes/battle-content-catalog-20260723.json",
+        "selector": "/active_actions",
+        "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "active_action_description_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 90,
+      "candidate_range": [
+        5871020,
+        5871532
+      ],
+      "candidate_sha256": "acf08fbca1159dbcfca46a9caec9c0b6bd7c69623cccc99a191e3c7a29be42f3",
+      "partitions": [
+        {
+          "canonical_range": [
+            5870808,
+            5871156
+          ],
+          "canonical_sha256": "55eb1e146e7f3f77672fe9508571e3393280821e001f80493b61b4cb8c2207d0",
+          "evidence": {
+            "path": "notes/battle-content-catalog-20260723.json",
+            "selector": "/active_actions",
+            "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+          },
+          "range": [
+            5871020,
+            5871156
+          ],
+          "semantic_type": "active_action_description_pointer_table",
+          "sha256": "b26ab9069f83839b1ae47d006c8e12d936132b66c045c3a824ef89899f94ed81"
+        },
+        {
+          "canonical_range": [
+            5871156,
+            5871556
+          ],
+          "canonical_sha256": "cedf35c21b949aeacd8accf29a96856ed1595d3434f2b46bd2c893049fc6410f",
+          "evidence": {
+            "path": "tools/extract_audio_command_table.py",
+            "selector": "TABLE_OFFSET/ENTRY_COUNT/build_bank",
+            "sha256": "8c0123e86d209ff81be83a6dfd8b94a579e544de2cae6a544651c88f5eb5c5bb"
+          },
+          "range": [
+            5871156,
+            5871532
+          ],
+          "semantic_type": "message_command_pointer_table",
+          "sha256": "661964df24c8462200940b952f10bb10b3f2565fc3bfe67cff6bcbd24a480396"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 32,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 91,
+      "candidate_range": [
+        5871536,
+        5871904
+      ],
+      "candidate_sha256": "e04a2ed48de1153055ffcba93209319526f9def5a060d1775367f31a76252480",
+      "canonical_range": [
+        5871532,
+        5871908
+      ],
+      "canonical_sha256": "cd4502c107929eaee3135335974e353983483abd47b33d6e50fa1ed55029c581",
+      "evidence": {
+        "path": "notes/battle-content-catalog-20260723.json",
+        "selector": "/ninja_tools",
+        "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 23,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "ninja_tool_description_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 92,
+      "candidate_range": [
+        5873500,
+        5873644
+      ],
+      "candidate_sha256": "739423ea9ea5b4b3c1a3a55d04956b79841978bb5a0c882eb326491fe6eecfb1",
+      "canonical_range": [
+        5873500,
+        5873652
+      ],
+      "canonical_sha256": "70e722a0521ed49bf2ac43cbbee960295332d4b857115b595163da29f7731110",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x080874B4; instruction window 0x08087484..0x0808748C; index evidence: 38 contiguous value ranges cover 0x0000..0x017B; runtime input upper bound is not proven",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 9,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "value_range_renderer_text_pointer_table_38",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 93,
+      "candidate_range": [
+        5873928,
+        5874104
+      ],
+      "candidate_sha256": "e553a09bc858e70a64ba4aa0abadcbc6bf65c4f0fa0138b6976b084b6261e277",
+      "canonical_range": [
+        5873924,
+        5874104
+      ],
+      "canonical_sha256": "98b063cc49b8ab7b036b612bd81fb3f564187b54fd963e36c9cdc78909d9876b",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08093308; instruction window 0x080932DA..0x080932E4; index evidence: training slot IDs enumerate the complete index domain 0..44",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "training_slot_pointer_table_45",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 94,
+      "candidate_range": [
+        5876316,
+        5876764
+      ],
+      "candidate_sha256": "0e0fe52119ace3e01fd38aa4414c0e0005297c1a004e2d3ac981c5aa38a08fcf",
+      "canonical_range": [
+        5876316,
+        5876764
+      ],
+      "canonical_sha256": "0e0fe52119ace3e01fd38aa4414c0e0005297c1a004e2d3ac981c5aa38a08fcf",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0807327C; instruction window 0x080731E6..0x080731EE",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 28,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_resource_pointer_table_a",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 95,
+      "candidate_range": [
+        5886484,
+        5886932
+      ],
+      "candidate_sha256": "25ba8f2f457021a1386f312e694a576473a04cb3611ce154c8893a1dcd820156",
+      "canonical_range": [
+        5886484,
+        5886932
+      ],
+      "canonical_sha256": "25ba8f2f457021a1386f312e694a576473a04cb3611ce154c8893a1dcd820156",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08073280; instruction window 0x080731FA..0x08073202",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 28,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_resource_pointer_table_b",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 96,
+      "candidate_range": [
+        5892384,
+        5892832
+      ],
+      "candidate_sha256": "dc5e3c9e336ec7c5fdc1ebc5f6e74ba1a9b422359b4d444ba4cf9a2eedbd0cca",
+      "canonical_range": [
+        5892384,
+        5892832
+      ],
+      "canonical_sha256": "dc5e3c9e336ec7c5fdc1ebc5f6e74ba1a9b422359b4d444ba4cf9a2eedbd0cca",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08073284; instruction window 0x0807320E..0x08073216",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 28,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_resource_pointer_table_c",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 97,
+      "candidate_range": [
+        5903420,
+        5903596
+      ],
+      "candidate_sha256": "cb90cd3a395f39ab5a1edc1e73019784670016827b8754176dd16bdde6c020b8",
+      "canonical_range": [
+        5903420,
+        5903604
+      ],
+      "canonical_sha256": "e372c37fc5d41e2118ebee5feeb81967dd2f8413cc70d01ff7dc493197771410",
+      "evidence": {
+        "path": "sequel/content/data-table-a/bank.json",
+        "selector": "/",
+        "sha256": "319cfe202e5e630ec69fb2ec0f207a1cd80076efb8ad1a813a20ef0a90e6537d"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "profile_text_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 98,
+      "candidate_range": [
+        5906484,
+        5906788
+      ],
+      "candidate_sha256": "f82fbdb68e5ef9509068da8c00b1dc43411ed0ce869ce36a4c89f999c39f11f3",
+      "canonical_range": [
+        5906484,
+        5906800
+      ],
+      "canonical_sha256": "c6dc43fda3044405fec144561fb76b3e684aa974a0c5633ec990ba5532b47ce3",
+      "evidence": {
+        "path": "sequel/content/data-table-b/bank.json",
+        "selector": "/",
+        "sha256": "5b8bf5e464c52dac97cd5522c079dea6e31527beb51ed4c0f8b07f934e2a7059"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 19,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "battle_message_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 99,
+      "candidate_range": [
+        5909256,
+        5910248
+      ],
+      "candidate_sha256": "f78bc2700b9beef3726c7206d02bee2c0b8ea6ebc49fdf7f95fcb8ab0d5c6a96",
+      "partitions": [
+        {
+          "canonical_range": [
+            5909256,
+            5909572
+          ],
+          "canonical_sha256": "a58fee3bd11fd9db198f4c93faace06c268a1243870ce755aaf060f6b7acc877",
+          "evidence": {
+            "path": "artifacts/battle-presentation-glyphs-v1/manifest.json",
+            "selector": "/tables/messages",
+            "sha256": "ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7"
+          },
+          "range": [
+            5909256,
+            5909572
+          ],
+          "semantic_type": "battle_presentation_messages_table",
+          "sha256": "a58fee3bd11fd9db198f4c93faace06c268a1243870ce755aaf060f6b7acc877"
+        },
+        {
+          "canonical_range": [
+            5909572,
+            5910260
+          ],
+          "canonical_sha256": "1061b97ae8ec9006c2a4c7f235ec795df3d7e8a40cc6f2117e5e89d7e79e3770",
+          "evidence": {
+            "path": "artifacts/battle-presentation-glyphs-v1/manifest.json",
+            "selector": "/tables/glyphs",
+            "sha256": "ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7"
+          },
+          "range": [
+            5909572,
+            5910248
+          ],
+          "semantic_type": "battle_presentation_glyphs_table",
+          "sha256": "f183c2b1ae761ea75b3584e1e9c2e702d1b1bce1a5265bc2cfb89c56df9314a9"
+        }
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "scan_fingerprint": {
+        "nonzero_rows": 62,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "candidate_id": 100,
+      "candidate_range": [
+        5918228,
+        5920708
+      ],
+      "candidate_sha256": "9ae39053492fca4dc1703d343ea7ca324b487756b786cc580b33607e893c44c7",
+      "canonical_range": [
+        5918188,
+        5920708
+      ],
+      "canonical_sha256": "bfc995240519eca9035e140a45e506a5c1f6f561e05827a589b5ac03543bba7e",
+      "evidence": {
+        "path": "artifacts/menu-portraits-v1/manifest.json",
+        "selector": "/source_table",
+        "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 155,
+        "reused_first_col_pairs": 87,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "menu_portrait_source_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 101,
+      "candidate_range": [
+        5926148,
+        5926484
+      ],
+      "candidate_sha256": "08f7f9dc8ba93dcbaee3a438c97e65d88a783e6e268f73c51e3b671f0d72c014",
+      "canonical_range": [
+        5926148,
+        5926496
+      ],
+      "canonical_sha256": "a9bd263418cf363d7ff4280490576c650a236b6ffe01497a01a79b2edc24e091",
+      "evidence": {
+        "path": "tools/build_skill_detail_runtime_probe.py",
+        "selector": "LOW_DETAIL_NAME_TABLE/ACTION_COUNT/build_probe",
+        "sha256": "c0d4b33302d2cdeeb144156d1a3532d43f30c67f571adf07915ce3b6a7551c92"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 21,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "low_detail_action_name_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 102,
+      "candidate_range": [
+        5927008,
+        5927184
+      ],
+      "candidate_sha256": "6a55bbd92f850abf34ac99954666007eb12bb26539c9891b605d986ae833eb1f",
+      "canonical_range": [
+        5927008,
+        5927188
+      ],
+      "canonical_sha256": "1231c8f3ac946f9138d1becab3a330aed1421bedc698c746471e7b4157206b71",
+      "evidence": {
+        "path": "tools/build_battle_catalog_runtime_probe.py",
+        "selector": "PASSIVE_TEXT_TABLES/PASSIVE_TEXT_COUNT/build_probe",
+        "sha256": "de35975073c8df4672de0ddd5d7034f9ed401c9768c8f1a672598f4ebc2413f3"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "passive_auxiliary_text_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 103,
+      "candidate_range": [
+        5927904,
+        5928080
+      ],
+      "candidate_sha256": "3c8f89960bd7b08308b2c04db4d69e3109b7b9757812f038c0b2dd9a5e829783",
+      "canonical_range": [
+        5927904,
+        5928084
+      ],
+      "canonical_sha256": "3bb9d9c1e7d4d2d58c12a1167d3598c48fa693384d9746639e70a06a75d1e829",
+      "evidence": {
+        "path": "notes/battle-content-catalog-20260723.json",
+        "selector": "/passives",
+        "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "passive_name_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 104,
+      "candidate_range": [
+        5930064,
+        5930432
+      ],
+      "candidate_sha256": "20f4a38f823642231628c54bd6cd0c0a3a44f8d59f059b7439c02e0d9e7493fe",
+      "canonical_range": [
+        5930064,
+        5930440
+      ],
+      "canonical_sha256": "403cb842a3018e1da6fcbd8cbca9bb55f554cc17065499c76c7214088f932d65",
+      "evidence": {
+        "path": "notes/battle-content-catalog-20260723.json",
+        "selector": "/ninja_tools",
+        "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 23,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "ninja_tool_name_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 105,
+      "candidate_range": [
+        5930636,
+        5930700
+      ],
+      "candidate_sha256": "7b47bd9fe53a6f90e776ee02163215d1ffb2dc4743b325b75c188fd0b96587f6",
+      "canonical_range": [
+        5930636,
+        5930700
+      ],
+      "canonical_sha256": "7b47bd9fe53a6f90e776ee02163215d1ffb2dc4743b325b75c188fd0b96587f6",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08081800; instruction window 0x08081784..0x0808178C",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_ui_text_pointer_table_16",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 106,
+      "candidate_range": [
+        5930956,
+        5931052
+      ],
+      "candidate_sha256": "c71cd2217162483632be4b5b8a104f9c6378be0b3d1d24437e196277347862cc",
+      "canonical_range": [
+        5930956,
+        5931052
+      ],
+      "canonical_sha256": "c71cd2217162483632be4b5b8a104f9c6378be0b3d1d24437e196277347862cc",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0808E6EC; instruction window 0x0808E6A4..0x0808E6AC",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_ui_resource_pointer_table_24",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 107,
+      "candidate_range": [
+        5931992,
+        5932088
+      ],
+      "candidate_sha256": "f719e6489250e971a68862beb04a664e9cbd042a62386e5db98a1466edd27979",
+      "canonical_range": [
+        5931992,
+        5932088
+      ],
+      "canonical_sha256": "f719e6489250e971a68862beb04a664e9cbd042a62386e5db98a1466edd27979",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08091C34; instruction window 0x08091C06..0x08091C0E",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_24_a",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 108,
+      "candidate_range": [
+        5932956,
+        5933052
+      ],
+      "candidate_sha256": "556bbff5fe4c080fca22042b7d572dad007bf7f1979d0dc05963964016a566c5",
+      "canonical_range": [
+        5932956,
+        5933052
+      ],
+      "canonical_sha256": "556bbff5fe4c080fca22042b7d572dad007bf7f1979d0dc05963964016a566c5",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08091D18; instruction window 0x08091C64..0x08091C6C",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 6,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_24_b",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 109,
+      "candidate_range": [
+        5939584,
+        5939920
+      ],
+      "candidate_sha256": "7af2200eea46254d6fd9a149a734c43dbc68428e7e211e67ab42e25b114b01fe",
+      "canonical_range": [
+        5939584,
+        5939920
+      ],
+      "canonical_sha256": "7af2200eea46254d6fd9a149a734c43dbc68428e7e211e67ab42e25b114b01fe",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0807890C; instruction window 0x080788C8..0x080788D0",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 21,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_84",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 110,
+      "candidate_range": [
+        5943004,
+        5943180
+      ],
+      "candidate_sha256": "7d52c0a9bd3183ebfd847738373fa31a9825327936dd0d2ec4d1e859108e321d",
+      "canonical_range": [
+        5943004,
+        5943184
+      ],
+      "canonical_sha256": "1c1d5f7bad33686bc3c0f51c2f057bb7778d8dccedfc65104720376dc5eb200f",
+      "evidence": {
+        "path": "notes/battle-content-catalog-20260723.json",
+        "selector": "/passives",
+        "sha256": "a32e332890fd134cff701f28378e1b7940dd8c6978d877b633fe5015e6baa50c"
+      },
+      "relation": "strict_subrange",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "passive_description_pointer_table",
+      "status": "alias_of"
+    },
+    {
+      "candidate_id": 111,
+      "candidate_range": [
+        5949584,
+        5949952
+      ],
+      "candidate_sha256": "02190031b7fa8cdddbff425fc879dda53c28256dfc3dfc7a7a6c13c53b07597d",
+      "canonical_range": [
+        5949584,
+        5949952
+      ],
+      "canonical_sha256": "02190031b7fa8cdddbff425fc879dda53c28256dfc3dfc7a7a6c13c53b07597d",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0807903C; instruction window 0x0807900C..0x08079014",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 23,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_92",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 112,
+      "candidate_range": [
+        5951400,
+        5951464
+      ],
+      "candidate_sha256": "98e71f1fdcbae83a3ab1baa9ddfa2e41e3f0099e7a33644fb7518c1be4155bfa",
+      "canonical_range": [
+        5951400,
+        5951464
+      ],
+      "canonical_sha256": "98e71f1fdcbae83a3ab1baa9ddfa2e41e3f0099e7a33644fb7518c1be4155bfa",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0808E6F0; instruction window 0x0808E6BE..0x0808E6C6",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 4,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_16",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 113,
+      "candidate_range": [
+        5954104,
+        5954376
+      ],
+      "candidate_sha256": "5af51bef3b5e118822522191331613e3d73c97ad44bb4d37074953e8812e4ce3",
+      "canonical_range": [
+        5954104,
+        5954376
+      ],
+      "canonical_sha256": "5af51bef3b5e118822522191331613e3d73c97ad44bb4d37074953e8812e4ce3",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x0809275C; instruction window 0x08092754..0x0809275C",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 17,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_68",
+      "status": "accepted"
+    },
+    {
+      "candidate_id": 114,
+      "candidate_range": [
+        5956276,
+        5956452
+      ],
+      "candidate_sha256": "59d992ed6987c9b3bb87bb7f2892207d23623c2c771994f64b035c5da066e3b2",
+      "canonical_range": [
+        5956276,
+        5956452
+      ],
+      "canonical_sha256": "59d992ed6987c9b3bb87bb7f2892207d23623c2c771994f64b035c5da066e3b2",
+      "evidence": {
+        "path": "rom/base.gba",
+        "selector": "consumer literal 0x08092714; instruction window 0x08092706..0x0809270E",
+        "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+      },
+      "relation": "exact_consumer_bound_table",
+      "scan_fingerprint": {
+        "nonzero_rows": 11,
+        "reused_first_col_pairs": 0,
+        "zero_gap_rows": 0
+      },
+      "semantic_type": "unclassified_text_pointer_table_44",
+      "status": "accepted"
+    }
+  ],
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "base_scan": {
+    "candidate_count": 114,
+    "path": "sequel/similar-table-candidates-v1.json",
+    "schema": "similar-table-candidates-v1",
+    "sha256": "bcf1333943197bb0f3a753d4c8b32901636a5cf16831b544b844c92bd8eb6ba5"
+  },
+  "decision_counts": {
+    "accepted": 60,
+    "alias_of": 26,
+    "rejected": 28
+  },
+  "limitations": [
+    "Only candidates derivable from current hash-bound canonical tables are adjudicated.",
+    "Missing candidate IDs remain open; absence is never interpreted as rejection.",
+    "An alias_of decision classifies a strict scanner subrange and does not create a second table.",
+    "A rejected decision rejects the scanner's aggregate extent, not the canonical tables partitioning its bytes.",
+    "Candidate 3's 47-entry structural domain is consumer-bound, but its runtime index maximum has not been observed dynamically.",
+    "Candidate 92 is a strict scanner subrange of a 38-entry value-range renderer-text table; the runtime source at 0x02003AD0 is not statically bounded to 0x0000..0x017B."
+  ],
+  "open_candidate_count": 0,
+  "producer": {
+    "path": "tools/verify_similar_table_candidates.py",
+    "sha256": "04b9bc0b0a2d0ce22e817f590c04851fa70f712136e9c362a12dcd3aea75d86b"
+  },
+  "schema": "similar-table-adjudications-v1"
+}

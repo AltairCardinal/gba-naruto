@@ -1,0 +1,373 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v18",
+  "artifact_status": "accepted",
+  "coverage_projection": {
+    "baseline_unknown_bytes": 137620,
+    "promoted_bytes": 1482,
+    "remaining_unknown_bytes": 136138
+  },
+  "files": {
+    "rom-cfg-proven-roots-v18.json": {
+      "sha256": "fa92bc6fc3234bbc053e902567125cf2e1653aca39b3928e80ffb66043c76859",
+      "size": 10940
+    }
+  },
+  "implementation": {
+    "binding": "contract-exporter-verifier-tests-hash-bound",
+    "contract_sha256": "d82adf91392fd63d9a21ae16c8380c9d5aaaeed62bc7fa3fc46e0852a4792497",
+    "exporter_sha256": "61ab589468a9c2b67e8acbee9603beabc16844d75ca5d76e5ea6fc77cdd2461c",
+    "paths": {
+      "contract": "tools/rom_cfg_proven_roots_v18_contract.py",
+      "exporter": "tools/export_rom_cfg_proven_roots_v18.py",
+      "test_exporter": "tests/test_export_rom_cfg_proven_roots_v18.py",
+      "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v18.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v18.py"
+    },
+    "test_exporter_sha256": "08b7229a01f2fc73d509f90e8dc794cda8eb5b1055a14fb12ec03b0423b8354c",
+    "test_verifier_sha256": "6834576c35b0e98f22dad08a32e0ab7e8a919393a4f4a55d674d6d6be2ebf856",
+    "verifier_sha256": "002ed4e782a65ef7766993e8ac9ed6fe74b52ded3d22cc7369a1fe75c87ee683"
+  },
+  "precoverage": {
+    "archive_sha256": "9668600b980dfc067b340ce6cb499fb181cbff6509b1bf94ee36d042b7f2e8de",
+    "artifact": "artifacts/rom-cfg-proven-roots-v18-precoverage-v1",
+    "claim_count": 16087,
+    "classified_bytes": 6153836,
+    "manifest_sha256": "8f9e5941703dc1146ad88f62f06c2642556511123be609dc962d202d48e2f146",
+    "raw_sha256": "23eb0ceaf4d38b8cadb74e05ddf8686de454d5e73c433da26073075d1fa71e78",
+    "segment_count": 17513,
+    "unknown_bytes": 137620
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_cfg_proven_roots_v18.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-cfg-proven-roots-v18"
+    ]
+  },
+  "promotion": {
+    "claim_kind": "armv4t_cfg_proven_roots_v18_exact_bytes",
+    "claims": [
+      {
+        "bytes_sha256": "8a5e31e09ae709525795f2d556730d177f7373f86f19f7cac237ddd8d00546e5",
+        "id": "cfg-v18-reachable_thumb_code-01-091070",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594032,
+          594100
+        ]
+      },
+      {
+        "bytes_sha256": "421b667e0ffc083c5b1c86246ca78fcc15b6e57ba25f7bd1f2314dc3bbcde31d",
+        "id": "cfg-v18-reachable_thumb_code-02-0910bc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594108,
+          594126
+        ]
+      },
+      {
+        "bytes_sha256": "06ba0a1895e51a42b0d4b57a1f9896e6413b77f47bfe99dfddc14984f6e6400f",
+        "id": "cfg-v18-reachable_thumb_code-03-0910d0",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594128,
+          594192
+        ]
+      },
+      {
+        "bytes_sha256": "1a5445e308a1b01f464cb786bbb3d5cf0a84748c63033dcd8f72b63ade547036",
+        "id": "cfg-v18-reachable_thumb_code-04-091114",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594196,
+          594486
+        ]
+      },
+      {
+        "bytes_sha256": "7dca1d1a0780f78e8154a5c5725fbe54132829918cc5d58581ba21f337bdf5b5",
+        "id": "cfg-v18-reachable_thumb_code-05-091254",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594516,
+          594746
+        ]
+      },
+      {
+        "bytes_sha256": "e4c49b3b61e99ee9b3f2f3def251e02e93631b8489fb01d76dc76481ddd2db76",
+        "id": "cfg-v18-reachable_thumb_code-06-091350",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594768,
+          594864
+        ]
+      },
+      {
+        "bytes_sha256": "2c466448b9fc131d1130ce551332d271871d3ad3c0b017dde235b15db84bb959",
+        "id": "cfg-v18-reachable_thumb_code-07-0913bc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          594876,
+          595000
+        ]
+      },
+      {
+        "bytes_sha256": "b740626545f1e7d391584644a59f6e16fd8c4568c9d30acbfe8df9ae1fc06416",
+        "id": "cfg-v18-reachable_thumb_code-08-091440",
+        "kind": "reachable_thumb_code",
+        "range": [
+          595008,
+          595146
+        ]
+      },
+      {
+        "bytes_sha256": "1a97e249cb047cd03366ff6c95cb093d1c10bfe78f8da74e483def537ab01dba",
+        "id": "cfg-v18-reachable_thumb_code-09-0914d8",
+        "kind": "reachable_thumb_code",
+        "range": [
+          595160,
+          595518
+        ]
+      },
+      {
+        "bytes_sha256": "b305b57e09b15cf0bb2f0fbaa5561059ba599c7bf3adc52d1a868742bb72a170",
+        "id": "cfg-v18-consumed_literal_words-01-09106c",
+        "kind": "consumed_literal_words",
+        "range": [
+          594028,
+          594032
+        ]
+      },
+      {
+        "bytes_sha256": "8261118a0f237da862cf47c50d6197de7cf8b47141c18a9df70218a01e9a3df3",
+        "id": "cfg-v18-consumed_literal_words-02-0910b4",
+        "kind": "consumed_literal_words",
+        "range": [
+          594100,
+          594108
+        ]
+      },
+      {
+        "bytes_sha256": "b55258803295ae9444ade3926da576dce0aea3134495262bf2b68241ed0ab2a6",
+        "id": "cfg-v18-consumed_literal_words-03-091110",
+        "kind": "consumed_literal_words",
+        "range": [
+          594192,
+          594196
+        ]
+      },
+      {
+        "bytes_sha256": "c22f6670d2d35df40cc2701b9cde9046eb40678b6f3819836f1c9d8f5d81cfa0",
+        "id": "cfg-v18-consumed_literal_words-04-091238",
+        "kind": "consumed_literal_words",
+        "range": [
+          594488,
+          594516
+        ]
+      },
+      {
+        "bytes_sha256": "51ba8145a2068f5c5884ef77ff867df9c1245e4384445abd98c5cf4d12644401",
+        "id": "cfg-v18-consumed_literal_words-05-09133c",
+        "kind": "consumed_literal_words",
+        "range": [
+          594748,
+          594768
+        ]
+      },
+      {
+        "bytes_sha256": "9c29d57eaff668fba9be99af43c4d929049e0a0c23d11f0baa1762b515df83fe",
+        "id": "cfg-v18-consumed_literal_words-06-0913b0",
+        "kind": "consumed_literal_words",
+        "range": [
+          594864,
+          594876
+        ]
+      },
+      {
+        "bytes_sha256": "0210b53512529f799055cce35ac4c2418dcef743dfbce40965fe2edb0aff6016",
+        "id": "cfg-v18-consumed_literal_words-07-091438",
+        "kind": "consumed_literal_words",
+        "range": [
+          595000,
+          595008
+        ]
+      },
+      {
+        "bytes_sha256": "a07d2d4c2931b1b3728319d5f82b2072376598b4e5f57c51ac9985c9e7cc9f49",
+        "id": "cfg-v18-consumed_literal_words-08-0914cc",
+        "kind": "consumed_literal_words",
+        "range": [
+          595148,
+          595160
+        ]
+      }
+    ],
+    "code_bytes": 1386,
+    "code_ranges": [
+      [
+        594032,
+        594100
+      ],
+      [
+        594108,
+        594126
+      ],
+      [
+        594128,
+        594192
+      ],
+      [
+        594196,
+        594486
+      ],
+      [
+        594516,
+        594746
+      ],
+      [
+        594768,
+        594864
+      ],
+      [
+        594876,
+        595000
+      ],
+      [
+        595008,
+        595146
+      ],
+      [
+        595160,
+        595518
+      ]
+    ],
+    "literal_bytes": 96,
+    "literal_ranges": [
+      [
+        594028,
+        594032
+      ],
+      [
+        594100,
+        594108
+      ],
+      [
+        594192,
+        594196
+      ],
+      [
+        594488,
+        594516
+      ],
+      [
+        594748,
+        594768
+      ],
+      [
+        594864,
+        594876
+      ],
+      [
+        595000,
+        595008
+      ],
+      [
+        595148,
+        595160
+      ]
+    ],
+    "preserved_unknown_bytes": 8,
+    "preserved_unknown_gaps": [
+      [
+        594126,
+        594128
+      ],
+      [
+        594486,
+        594488
+      ],
+      [
+        594746,
+        594748
+      ],
+      [
+        595146,
+        595148
+      ]
+    ],
+    "primary_class": "armv4t_cfg_proven_roots_v18",
+    "promotion_batch": "rom-cfg-proven-roots-v18",
+    "promotion_bytes": 1482,
+    "target_range": [
+      594028,
+      595518
+    ],
+    "union_ranges": [
+      [
+        594028,
+        594126
+      ],
+      [
+        594128,
+        594486
+      ],
+      [
+        594488,
+        594746
+      ],
+      [
+        594748,
+        595146
+      ],
+      [
+        595148,
+        595518
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "alignment_gap_classification": false,
+    "natural_runtime_reachability": false,
+    "raw_rom_redecoded": true,
+    "target_limited_direct_producer_denominator": true,
+    "target_outside_subtree_classification": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_cfg_proven_roots_v18.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-cfg-proven-roots-v18"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_producer_count": 4,
+      "code_bytes": 1386,
+      "errors": [],
+      "instruction_count": 617,
+      "literal_bytes": 96,
+      "literal_word_count": 24,
+      "precoverage_sha256": "23eb0ceaf4d38b8cadb74e05ddf8686de454d5e73c433da26073075d1fa71e78",
+      "preserved_unknown_gap_count": 4,
+      "promotion_bytes": 1482,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "root_count": 2,
+      "schema": "rom-cfg-proven-roots-v18-verification-v1",
+      "verified": true
+    }
+  }
+}

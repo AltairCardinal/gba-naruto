@@ -6,17 +6,222 @@
 
 **执行策略：先完成逆向工程，再建网页编辑器。**
 
+> **严格证明门禁（当前更新至 2026-09-05）：** 过去的 32/32 bank 调查闭合和
+> 22/22 runtime identity 不再视为“逆向 100%”。当前全 ROM 清单中
+> 6,203,707 / 6,291,456 字节（98.60526720682780%）可保守精确定位，87,749 字节
+> （1.39473279317220%）仍显式未知；当前为 16,891 条 claim、18,664 个 segment；综合
+> bounded-CFG registry 计入 956 ARM、173,058 Thumb code bytes，共
+> 174,046 promoted bytes / 4,059 primary claims / 54 code kinds；固定 114 条
+> 指针表候选均已由独立证据裁决
+> （60 accepted、26 alias_of、28 rejected，open 0）；22 个有效 bank 的直接证据声明覆盖 23/2,954 条
+> 记录；10 个 `disproved` 独立物理 bank 候选已由结构化负证据 verifier 关闭，严格 bank 门为
+> 10/32，22 个有效 bank 仍为 0/22 穷尽完成；实体 GBA 为 0/1。后续路线必须以
+> `docs/reverse-engineering-proof-policy.md`、`sequel/bank-proofs.json` 和
+> `sequel/reverse-engineering-proof.json` 的机器门禁为准，全部 gate 通过前不得
+> 宣称 100%。
+
+> 当前 Tier-2：fixed-index u8 tail、story-selector dependency、task callback `0x078E38`
+> 与 CFG proven-roots v21 已真实接入，净增 978 bytes / 21 claims；9/9 真实 canonical、
+> proof 与永久收据集成测试通过。coverage / proof SHA-256 为
+> `1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6` /
+> `c2862ea520a39432c94fa2634f2ae5650077738c9474aa96ca15d387a4857cbb`。
+> 后续123个selector及两个project摘要修复不改变分类字节；新非降级formal已通过
+> 106/106 contracts与ROM gate96/96，coverage errors=0。formal report SHA为
+> `aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc`。
+> 队列归零，global complete=false/175 blockers；committed-artifact仍待64个历史root的
+> 验收格式迁移。详见 `docs/reverse-engineering-handoff-current-20260905.md`。
+
 ---
 
-## 现状总览
+## 历史调查与执行日志（非当前完成度）
 
-> 2026-07-30 当前调查闭合审计为 32/32：22 个有效数据 bank 均通过元数据和
+> 2026-07-30 历史快照：当时调查闭合审计为 32/32；22 个有效数据 bank 均通过元数据和
 > 基准 ROM fidelity，另 10 个是带负证据、空 entries、禁写回的 `disproved`
 > tombstone。分布为 runtime 13 / code 9 / static 0 / disproved 10。32/32 只表示
 > bank 身份调查闭合，不等于所有字段语义、运行时路径与端到端写回均已完成；
 > save-state 已由真实 UI save 与冷启动恢复升级为 runtime_verified。
 
-### 2026-07-13 最新执行边界
+当前完成度只以页首严格证明门禁及 proof policy 为准。以下条目只描述专项证据和
+当时状态，不可汇总为整体完成率。
+
+### 历史执行日志（起始于 2026-07-13；后续条目按日期追加）
+
+- 2026-08-11 否证 bank 合同化：新增一个只读共享 verifier，逐项从基准 ROM 与规范
+  bank/artifact 重建 10 个历史误判候选；覆盖规范表别名、错位切片、混合 font 与
+  handler 范围、角色视觉矩阵子视图及 m4a SongHeader 子字段。每项绑定候选范围、
+  candidate/bank/evidence SHA 与结构化 JSON 合同，严格 bank 完成度由 0/32 提升为
+  10/32；否证范围仅为独立物理 ROM bank，不声称穷尽排除同一字节的其他逻辑消费者；
+  22 个有效 bank 和 7 个全局 gate 均未被扩大声明。
+
+- 2026-08-09 事故恢复与目录安全：CFG seed 导出器的旧实现允许把仓库根目录当成
+  artifact 递归替换，一条在真实工作树调用 `export(ROOT, ROOT)` 的错误测试触发
+  工作树删除。Git 对象与分支未损坏；287 条成功补丁由会话日志恢复，全部生成型
+  artifact 依赖重建，coverage 的 5,846,562 classified / 444,894 unknown 与事故前
+  完全一致，formal proof 仍为 25/26 verifier 合同通过、`complete=false`。正式
+  工作树已无损附着回 `codex/reverse-engineering`；原因、哈希与恢复边界见
+  `notes/exporter-root-deletion-incident-20260809.md`。boot/CFG seed 已改为先验证
+  所有权再原子替换；全仓另发现的 14 个 P0 与 9 个 P1 输出入口在统一迁移前禁用。
+
+- 2026-08-09 CFG root seed 基线建立：从 18 张 inline dispatch 表、5 张规范
+  dispatch 表及启动链导出 23 个来源、829 个原始槽、261 个唯一 Thumb handler，
+  加 reset/IRQ 两个 ARM root 后共 263 个哈希绑定 seed；独立 verifier 重建全部
+  分母。该 artifact 只声明“已枚举且已有消费者证明的 dispatch roots”，明确不
+  声称全局函数入口、全局 dispatch 来源或已执行 CFG traversal，后续须以受界静态
+  CFG 扫描扩展代码证据。
+
+- 2026-08-09 未绑定 LZ77 覆盖接入：全 ROM 严格 type-`0x10` 扫描得到固定
+  1,099 条语法候选；其中 41 条互不重叠、没有 4 字节对齐直接 ROM 指针且原覆盖
+  全为 unknown 的流，以独立 verifier 和双 bundle 逐字节重建后，仅按
+  `lz77_syntax_unbound` 接入 14,725 个 ROM 字节。该分类不声称消费者身份、运行时
+  可达、资源用途或图形语义。语义分类更新为 5,861,287 / 6,291,456（93.1626%），
+  unknown 降至 430,169（6.8374%）；coverage 15 项测试和 proof 28 项测试均通过。
+
+- 2026-08-09 固定 root CFG 覆盖接入：从 263 个哈希绑定 root 受界遍历 40,872 条
+  ARMv4T 指令、7,725 个 basic block 和 86,184 个指令字节；独立 verifier 以原始
+  ARMv4T 位编码重走完整入口闭包，并显式记录 7 条 SVC→BIOS、357 条间接 PC 与 2 条
+  不支持指令 frontier。仅将基线仍为 unknown 的 74,962 个 Thumb 指令字节提升为
+  `armv4t_cfg_reachable_thumb_code`，不覆盖既有分类，也不声称全局代码图或运行时可达。
+  当前分类为 5,936,249 / 6,291,456（94.3541%），unknown 为 355,207（5.6459%）；
+  coverage 16 项、CFG 15 项、proof 28 项测试均通过。
+
+- 2026-08-09 对话记录间零填充覆盖接入：从已验证的 305×20 对话表独立重建
+  1,220 个严格递增、互不重叠的 NUL 目标，并穷尽其 1,219 个相邻间隙；全部间隙
+  共 16,814 字节且逐字节为零。coverage 仅将原 baseline unknown 提升为
+  `dialogue_inter_record_zero_padding`，明确不声明文本、运行时可达或安全可分配空间。
+  当前分类为 5,953,063 / 6,291,456（94.6214%），unknown 为 338,393（5.3786%）；
+  coverage 18 项与 padding 10 项测试均通过。
+
+- 2026-08-09 已验证成果复用批次：对九份既有 artifact 逐一固定 manifest/payload/
+  verifier 哈希并实际执行独立 verifier，再通过真实 JSON selector 校验每个来源记录的
+  ROM range、size 与 SHA。只提升此前仍为 unknown 的交集，共 37 个 claim、3,919
+  字节；失败的 character OAM 证据与 staged GPU 的 RAM/raw resource 明确排除。
+  当前分类为 5,956,982 / 6,291,456（94.6837%），unknown 为 334,474（5.3163%）。
+
+- 2026-08-11 Thumb 索引跳转一次性 CFG 扩展：保持 v2 的 263-root 图哈希与 357 条
+  间接 frontier 分母不变，从固定 29 个 frontier 的原始 Thumb 模板、边界分支、literal
+  和 677 个允许表 cell 独立重建 290 个目标。189 个目标引用既有 v2 指令入口，仅对
+  101 个新入口执行一代 direct branch/call/fallthrough 闭包；新增 4,698 条指令、891 个
+  block、9,902 个字节及 16 个 frontier，不递归处理新间接跳转。coverage 在九份成果
+  复用之后只提升仍为 unknown 的 9,060 个代码字节与 112 个允许表 cell 的 448 字节，
+  不认领两个稀疏表的 32 字节奇数洞。当前分类为 5,966,490 / 6,291,456（94.8348%），
+  unknown 为 324,966（5.1652%）；v3 产物、独立 verifier、仓库 canonical artifact
+  回归和完整 coverage 测试均在资源守卫下通过。
+
+- 2026-08-11 角色资料文本闭包：从固定 `0x5A143C..0x5A14F4` 的 46 个严格递增
+  指针重建 `0x59F988..0x5A143C` 的 46 条 renderer 可消费记录。独立 verifier
+  同时绑定真实列表消费者、ID 选择器、资料 wrapper 与 renderer/parser 桥接；覆盖
+  只提升 6,798 个文本字节及 19 段、38 字节双零对齐填充。自然运行时只证明 ID 0，
+  不声明其他 ID 的自然可达、字段语义、Unicode 解码或安全编辑。语义分类更新为
+  5,973,326 / 6,291,456（94.9435%），unknown 降至 318,130（5.0565%）。
+
+- 2026-08-11 固定消费者文本闭包：从 5 张已由真实消费者索引并送入 renderer/parser
+  的固定表独立重建 280 个槽和 276 个唯一 target；只提升 1,120 个指针表字节与
+  2,756 个 parser 实际消费字节，不认领记录间隙、运行时索引上界或 Unicode 解码。
+  覆盖率更新为 5,977,202 / 6,291,456（95.0051%），unknown 降至 314,254
+  （4.9949%）；artifact、独立 verifier、覆盖率测试与形式 proof 均纳入门禁。
+
+- 2026-08-11 训练文本命令脚本闭包：固定 `0x59A104..0x59A1B8` 的 45 槽表中
+  ID 0 为空，ID 1..44 经真实索引消费者进入 `0x067158` 命令解释器；独立 verifier
+  绑定 14 项 dispatch、实际使用的 `1,5,4,12,3,0` opcode 序列及嵌套 renderer
+  grammar，精确界定 `0x007554..0x007F1D` 的 44 条连续记录、264 条命令和 2,505
+  个字节。表的 180 字节已由候选覆盖层分类，故本批不重复认领。覆盖率更新为
+  5,979,707 / 6,291,456（95.0449%），unknown 降至 311,749（4.9551%）；不声明
+  每个 ID 的自然执行、Unicode 解码或安全写回。
+
+- 2026-08-11 38 槽值域选择文本闭包与候选 92 纠错：真实消费者以
+  `0x542204..0x54229C` 的 38 对连续 u16 包含范围选择
+  `0x599F5C..0x599FF4` 的 38 槽指针，随后经 renderer/parser 消费
+  `0x00542E..0x00578C` 的 38 条连续 NUL 记录。旧 36 槽候选只是完整表的严格
+  子区间，现改为 `alias_of`；coverage 新增最后 2 槽的 8 字节、152 字节范围表和
+  862 字节文本，共净减少 unknown 1,022 字节。CFG seed/v2/v3 因 verifier 哈希绑定
+  完成级联重建，263 roots、40,872 条 v2 指令与 4,698 条 v3 扩展指令分母不变。
+  当前分类为 5,980,729 / 6,291,456（95.0611%），unknown 为 310,727
+  （4.9389%）；33 个结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-11 selector 文本保守闭包：固定枚举器只证明
+  `0x59F5F0..0x59F988` 的 46 行来源域映射到 46 个唯一物理文本槽，因此只按
+  renderer 首个 NUL 接入 324 字节，不把观察到的 63×19 区域当成完整分母。另从
+  三路 selector、3 个 `0xFF` 终止配置列表及其 38 个唯一引用槽，按 copy parser
+  首个 NUL 接入 316 字节文本，并接入 164 字节配置列表与 12 字节指针表。本批
+  合计 86 个不重叠范围、816 字节；NUL 后 918 字节零后缀、17 个未引用槽和未证实
+  的 63 槽分母保持 unknown。当前分类为 5,981,545 / 6,291,456（95.0741%），
+  unknown 为 309,911（4.9259%）；34 个结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-11 79 槽战斗消息文本与零填充闭包：固定表
+  `0x5A2034..0x5A2170` 的两个唯一 table literal 消费者均经 `0x08098290`
+  wrapper、`0x08066758` bridge 进入 `0x0806626C` renderer/parser。独立 verifier
+  从 79 个唯一递增 target 重建 79 条记录、1,411 个消费字节，并逐字节证明每条
+  记录后到下一 target（末条到表首）的 79 段、1,329 字节均为零，连续闭合
+  `0x5A1580..0x5A2034` 共 2,740 字节。指针表不重复认领；运行时自然证据只覆盖
+  ID 0，前置 `0x5A14F4..0x5A1580` 的 140 字节继续 unknown。当前分类为
+  5,984,285 / 6,291,456（95.1176%），unknown 为 307,171（4.8824%）；35 个
+  结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-11 启动 interwork ARM 根闭包：全 ROM 原始分支分母确认
+  `0x08061086` 是唯一直接 Thumb BL→`0x0809C56C`，后者以 `BX pc` 切换 ARM，
+  `0x0809C570` 又是唯一直接 ARM B→`0x0800024C`。独立 verifier 在固定 ARMv4T
+  decoder 下闭合 92 条指令、8 个 block、10 条 edge、0 个 frontier，并从 9 条
+  PC-relative LDR 重建 36 字节 literal pool。coverage 仅接入 368 字节根代码、
+  36 字节 literal 与 10 字节 producer，共 414 字节；跳过的 2 字节对齐、相邻
+  sibling veneer、RAM 目标、完整 reset-to-root 运行时路径及周边约 40 KiB 均不声明。
+  当前分类为 5,984,699 / 6,291,456（95.1242%），unknown 为 306,757
+  （4.8758%）；36 个结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-11 固定消费者文本批量扩展：在既有 5 表 artifact 内新增完整的 unit-name
+  63 槽、active-action-name 87 槽、message-command 100 槽与 passive-description
+  45 槽表。message-command 的 `0x80..0xE3` producer 静态证明完整 100 槽，并保留
+  command `0xDE` 的 null；独立 verifier 重新闭合累计 9 表、575 槽、570 条记录。
+  本批新增 1,180 个表字节和 4,024 个 renderer/parser 消费字节；24 槽混合 UI
+  资源表 `0x5A7FCC..0x5A802C` 因没有文本前缀索引上界而排除。当前分类为
+  5,989,903 / 6,291,456（95.2069%），unknown 为 301,553（4.7931%）；结构化 ROM
+  verifier 数仍为 36，既有 fixed-consumer 合同已扩展而未增加重复 verifier。
+
+- 2026-08-11 direct-call-proven 两根 CFG 增量：全 ROM 的目标限定 Thumb BL 扫描
+  精确固定 `0x073688→0x081B70` 与 `0x07443C/0x074918→0x0722A8` 三条 producer。
+  新 artifact 将 v2/v3 指令入口作为 opaque stop，独立重建 6,166 条 Thumb 指令、
+  1,203 个 block、12,966 个字节、28 个 frontier 与 259 条基线 cross-edge；任何
+  跳入基线指令中部均失败关闭。coverage 只提升仍 unknown 的 12,946 个可达代码
+  字节，并把三条 producer 的 12 字节单列为结构上已解码的 Thumb BL，不声称自然
+  执行或全局代码图。当前分类为 6,002,861 / 6,291,456（95.4129%），unknown 为
+  288,595（4.5871%）；37 个结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-12 direct-call-proven 三根 CFG 增量：全 ROM 的目标限定 Thumb BL 扫描
+  精确固定五条 producer，分别指向 `0x0689A4`、`0x06B49C` 与 `0x0851F8`。新
+  artifact 冻结 v2/v3/首批 proven-roots 三层 baseline，并将其入口作为 opaque
+  stop；独立 verifier 重建 4,809 条 Thumb 指令、835 个 block、9,876 个字节、
+  28 个 frontier 与 82 条 v2 cross-edge。coverage 提升全部 9,876 个仍 unknown
+  的闭包字节并单列五条 producer 的 20 字节；27 个间接目标与一个 unsupported
+  instruction 保持开放。该批接入后分类为 6,012,757 / 6,291,456（95.5702%），unknown
+  为 278,699（4.4298%）；38 个结构化 ROM verifier 已纳入 proof 合同。
+
+- 2026-08-09 严格覆盖审计更新：最后 3 条候选由唯一 table-base literal 和实际索引
+  消费者闭合为规范表的严格子区间，累计 61 accepted、25 alias_of、28 rejected、
+  open 0；同时接入 battle presentation、tile BG palettes 与六份 artifact 的
+  consumer slices，并对候选 26 的 128 字节交叠去重。随后接入角色战斗视觉
+  selector、BG canvas descriptor 表与 loader；本轮又从
+  overview、scene visual、residual WRAM metadata、GPU copy queue 与 portrait
+  palette 的既有验收产物接入 27 个有消费者代码 claim，共新增 5,958 字节。随后从
+  四张解释器根表独立遍历 18,994 个节点，接入 92 个精确合并区间、334,060 字节；
+  随后接入 49 个 speaker-label 的 251 个 renderer-consumed 字节、11 张文本表的
+  625 个 target / 22,588 字节及 86 字节 sprite tile-base 表；随后严格接入启动区
+  reset/header/bootstrap/IRQ 的 584 字节，并保留无入边的 `0xC4..0xC8` 为 unknown。
+  接入未绑定 LZ77、固定 root CFG 与对话记录间零填充后，当时语义分类为
+  5,953,063 / 6,291,456（94.6214%），unknown 为 338,393（5.3786%）。28 个结构化
+  ROM verifier 中严格语义完整门仍按设计失败，其余 27 个合同已执行通过。
+
+- 2026-08-09 严格候选裁决覆盖层建立：保留 114 条全 ROM 扫描清单作为不可缩减
+  分母，验证器从 ROM 和规范产物独立重建 47 条 accepted、20 条 alias_of 与
+  2 条 rejected。角色战斗帧指针表闭合候选 28–73；角色描述表及零终止行闭合
+  85；章节、地图事件、战斗特效、文本和菜单表闭合 20 条严格子区间别名；88 与
+  99 因跨越两个规范表边界而拒绝其聚合范围。开放项从 114 降至 45，未缩减原始
+  分母。证据为 `sequel/similar-table-adjudications-v1.json` 与
+  `tools/verify_similar_table_candidates.py`。
+
+- 2026-08-09 第二批候选裁决以实际索引指令、literal、完整表边界与 ROM SHA 为
+  证据，新增裁决 11、14、21、25、76、90、101、102；其中 #14 经机器码确认是
+  指向 63 项表的 literal 加完整表，不误报为 64 项 dispatch。累计为 48 accepted、
+  22 alias_of、7 rejected，开放项降至 37。另建立 41 条、14,725 压缩字节的严格
+  type-0x10 无直接指针库存；因没有 consumer，不计入语义覆盖率。
 
 - 2026-07-29 通用 Sprite 定义链已从“需运行时抓取像素”升级为完整静态资产：
   `0x08080A48` 把 ROM `0x0812F298/0x0812F584` 解压为 49 个 4bpp tile 和
@@ -326,6 +531,9 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 命令见 `docs/reverse-engineering-handoff-20260711.md` 第 0.5 节。
 
 ### ✅ 已打通
+以下勾选只表示对应子链路或历史子任务完成，不表示 P0、全 ROM 逆向或发布验收完成；
+全局状态保持 `incomplete`，以 proof policy 为准。
+
 - 对白 → ROM 写入闭环（dialogue patch pipeline）
 - 5 段对话已验证写入 ROM
 - 变长对白现已使用独占 `0x5F0000..0x5F7FFF` allocator，校验基准指针、FF
@@ -2417,3 +2625,1146 @@ WebSocket
   108.97/109.12 MiB，无降级或崩溃。有效 bank 运行时身份由 21/22 提升到
   **22/22**；不声称 79 条全部自然执行、原始编码的自然语言解码、外部签名或
   实体 GBA。证据见 `artifacts/data-table-b-message0-pointer-pixel-ab-v1/`。
+- 2026-08-09：严格 ROM coverage 首批复用既有角色战斗视觉成果。审计器逐项核对
+  `character-battle-visuals-v1` 的固定 manifest、250 个资源及全部导出源文件，
+  将精确别名合并为 1,299 个互不重叠 ROM 区间；descriptor、组件、帧指针、
+  时间线、动画指针、4bpp 图形和 BGR555 调色板合计 2,023,076 字节。语义分类由
+  2,213,564 / 6,291,456（35.1837%）提升至 4,236,640 / 6,291,456
+  （67.3396%），显式 unknown 降至 2,054,816 字节（32.6604%）。这一步只把
+  已有、可复验的逆向成果接入全 ROM 证明，不扩大 manifest 原声明的屏幕坐标、
+  相机、混合或运行时选择边界；Goal 保持 active。
+- 2026-08-09：新增 MP2K/m4a 全 ROM 字节 inventory。exporter 从固定 159 个
+  sound-ID（80 active / 79 empty）重建 80 个 song header、217 个 track stream、
+  23 个 voicegroup 的 387 条 tone 与 79 个 DirectSound wave；独立 verifier
+  不导入 exporter，重新解析全部指针、边界与 wave header。842 个互不重叠 claim
+  合计 887,018 字节，`0x466068..0x53D5F4` 密集窗口中的 81 段、318 字节间隙
+  明确保留为 unknown。语义分类提升至 5,123,658 / 6,291,456（81.4384%），
+  unknown 降至 1,167,798（18.5616%）；不把音频邻接字节、cue 名称或听感质量
+  自动签发为已知，Goal 保持 active。
+- 2026-08-09：把既有 `dialogue-font-v2` 成果接入全 ROM 证明。独立 verifier 从
+  基准 ROM 重建 26 项 SJIS 表、2 项 byte 表、4,410 个 8×16 SJIS 字形、192 个
+  8×8 byte 字形、9,012 个物理半字块、4 份 atlas 和 3 个布局消费者。30 个互不
+  重叠表/源 claim 合计 144,416 字节，页间空洞仍为 unknown；语义分类提升至
+  5,268,074 / 6,291,456（83.7338%），unknown 降至 1,023,382（16.2662%）。
+- 2026-08-09：导出 ROM 尾部两张启动 framebuffer。父级复核纠正了子代理把
+  `0x04000050` 混合寄存器误读为 `DISPCNT` 的结论；独立 ARM 解析证明实际写入
+  `DISPCNT=0x0403`（Mode 3 + BG2），两次 DMA3 各从 ROM 复制 76,800 字节到
+  VRAM。产物包含两张 240×160 BGR555 PNG/原始二进制，并将 640 字节 ARM 指令、
+  344 字节 literal pool 与 20 字节对齐填充分开分类。新增 154,604 字节后语义分类
+  为 5,422,678 / 6,291,456（86.1911%），unknown 为 868,778（13.8089%）。
+- 2026-08-09：把既有 direct CpuSet 审计中的 3 个直接 PRAM 调色板源接入覆盖，
+  新增 96 字节；同时纠正旧对话表边界：真正消费者加载 `0x08461CE4`，按
+  `group_index * 20` 访问 305 行 `zero + primary + label[3]`。独立 exporter/
+  verifier 无损重建 6,100 字节表和 1,220 个唯一 NUL 目标（18,207 字节），
+  记录间 16,814 字节填充仍保持 unknown。语义分类提升至 5,447,081 /
+  6,291,456（86.5790%），unknown 降至 844,375（13.4210%）；不宣称全部行自然
+  可达，也不把原始游戏字形码冒充自然语言解码。
+- 2026-08-13：direct-call-proven CFG v3/v4 分别固定 `0x070DF8` 的 2 条 Thumb BL
+  producer 与 `0x07305C` 的 4 条 producer；独立 raw-control-flow verifier 重建
+  52/486 条指令、8/118 个 block、110/1,044 字节。v3 无 frontier；v4 的 6 个
+  `indirect_pc_target` 保持 opaque。两批共把 1,154 个 current-unknown 字节晋升为
+  Thumb code，语义分类达到 6,020,083 / 6,291,456（95.6866%），unknown 降至
+  271,373；不声称自然运行时可达、全局代码图或语义分类完成，Goal 保持 active。
+  证据见 `notes/rom-cfg-proven-roots-v3-v4-20260813.md`。
+- 2026-08-13：proven-roots v5 合并处理 `0x06DF88`、`0x08A534`、`0x08A588`
+  三个单 producer root，独立复验 576 条指令、124 个 block、1,252 字节、8 个间接
+  PC frontier。当前语义分类 6,021,335 / 6,291,456（95.7065%），unknown
+  270,121；Goal 保持 active。
+- 2026-08-13：从 625 条已证明 renderer-bounded 文本记录的固定同表分母中，逐字节
+  验证 548 段记录间零 padding，共 12,431 字节；跨表、非零和无法绑定同一消费者的
+  间隙均排除。当前语义分类 6,033,766 / 6,291,456（95.9041%），unknown
+  257,690；零 padding 不声明为可安全分配空间。
+- 2026-08-13 继续复用固定消费者记录闭包：fixed-consumer 同表零间隙 429 段/
+  4,141 字节、dialogue font 相邻固定 SJIS source 零间隙 19 段/2,848 字节，以及
+  896 条固定 pointer-reachable LZ77 分母中的紧邻 4 字节对齐零间隙 341 段/648
+  字节均以独立 verifier、逐段篡改负测和 guarded coverage 自审闭合。当前语义分类
+  随后 battle-presentation 固定消息表闭合 78 段/1,293 字节零间隙；proven-roots
+  v6 以 6 条固定 Thumb BL producer 证明 5 个 root，独立复验 12,564 条指令、
+  2,305 blocks、27,224 字节、85 个间接 PC frontier，只晋升 current-unknown 交集
+  25,926 字节。当前语义分类 6,068,622 / 6,291,456（96.4579%），unknown
+  222,834；固定表间 1,840 字节因 positions variant header/尾部消费者语义未闭合
+  而保持 unknown。
+- 2026-08-13：复用 fixed-consumer exporter/verifier 扩展 active-action 与 ninja-tool
+  description 两表；ninja-tool 逻辑 slots 0–5 与既有表重叠，只把 slots 6–93 的
+  352 字节后缀作为 primary。11 表合计 750 slots、735 records，同表零间隙增至
+  590 段/6,738 字节；本批净增 7,694 字节。当前分类 6,076,316 / 6,291,456
+  （96.5804%），unknown 215,140，Goal 保持 active。
+- 2026-08-13：复用 `sprite-definition-assets-v2` 的 43 个 `0x28` resolved window，
+  只晋升其与 current unknown 的 3 段/1,720 字节交集；animation payload 与窗口外
+  间隙不在边界内。当前分类 6,078,036 / 6,291,456（96.6077%），unknown
+  213,420。
+- 2026-08-13：固定间接 dispatcher CFG v7 闭环。对 v6 的两个 `mov pc,r0` frontier
+  固定 proof window、index 上界、literal 与 7/38 项完整表分母；21 个唯一目标中 13
+  个命中 v6 opaque baseline，剩余 8 roots 独立重建 155 指令、38 block、332 字节、
+  17 cross-edge，并保留 1 个新的间接 frontier。38 block 全部从 current unknown
+  晋升，该批接入后分类 6,078,368 / 6,291,456（96.6130%），unknown 213,088。
+- 2026-08-20：proven-roots v8 从已验真的 scene visual source closure 固定唯一
+  Thumb BL `0x0808BE5C→0x0808B99C`；以 v7 及此前 CFG 为冻结 baseline，独立重建
+  113 条指令、20 个 block、246 字节、10 条 baseline cross-edge，并保留 1 个
+  `indirect_pc_target`。producer 与 source consumer slice 已分类，不重复认领；20 个
+  block 全部从 current unknown 晋升。v8 里程碑时 classified 6,078,614 / 6,291,456
+  （96.6170%），unknown 212,842、claim 13,367。正式 proof 审计 60/60 verifier
+  合同通过，但 `semantic_classification_complete=false`，Goal 保持 active。证据见
+  `artifacts/rom-cfg-proven-roots-v8/` 与
+  `notes/rom-cfg-proven-roots-v3-v4-20260813.md`。
+- 2026-08-20：复用 `battle-effect-sprite-animations-v1` 的既有 manifest 与独立
+  verifier，将 178 段 component list（9,452 字节）、18 张 definition pointer table
+  （712 字节）、23 段 animation timeline（864 字节）和 18 张 animation pointer table
+  （92 字节）冻结为 237 个完整 source claim；11,120 字节接入前全部为 unknown，
+  不切片、不重复认领。分母 SHA-256 为
+  `c30b25fbed4a80914e8bc9e8d33ec7545e47a01a005866460323ac8c9b84ba30`；该批接入后
+  classified 6,089,734 / 6,291,456（96.7937%），unknown 201,722、claim 13,604。
+  正式 proof 审计 60/60 verifier 合同通过，coverage SHA-256 为
+  `6a05996ee76bbd9bee6acc7232c2ac969dd2f2b762282e2ba3698f6c5ef01b99`；不声明自然
+  运行时可达、图形/调色板范围扩张、可编辑空间或写回安全，Goal 保持 active。
+- 2026-08-20：新增 additive `rom-referenced-text-slot-padding-v1`，从固定消费者首个
+  NUL 后一字节到物理槽末尾独立重建 133 段、1,255 字节全零结构填充：direct
+  selector 46/550、configured selector 38/368、chapter speaker-label 49/337。
+  每段接入前均完整属于 current unknown；未引用槽、NUL/前缀、文本语义、自然可达、
+  编辑/写回安全与可安全分配空间均不声明。接入后 classified 6,090,989 / 6,291,456
+  （96.8137%），unknown 200,467、claim 13,737、segment 16,009；coverage SHA-256 为
+  `aebd73ea9bcf2e7eaf87f25301da25293015224ae0c77045c9822eb3c7b1f894`。受守卫
+  formal audit 的 61/61 verifier 均 `exit_code=0`、`contract_ok=true`，ROM byte gate
+  为 51/51；报告 SHA-256 为
+  `cac3e4634052391ae91cbc7eb20a41e01af7ebf42d92e89bac9a3673300c134c`。
+- 2026-08-20：新增 `rom-selector-direct-source-records-v1`，从固定 46-row
+  producer 分母、source/vector、19 字节目标槽 stride 指令链、6 个 renderer bridge
+  调用和 bridge→parser 调用，独立重建 `0x0059F5F0..0x0059F988` 的 46×20 字节
+  来源记录。920 字节接入前均为 current unknown；不为 bytes 2..19 扩张字段语义，
+  也不声明自然全行可达、Unicode、编辑/写回安全或可分配空间。接入后 classified
+  6,091,909 / 6,291,456（96.8283%），unknown 199,547、claim 13,783、segment
+  16,055；coverage SHA-256 为
+  `d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049`。
+  受守卫 formal audit 的 62/62 verifier 均 `exit_code=0`、`contract_ok=true`，ROM
+  byte gate 为 52/52；报告 SHA-256 为
+  `dc15268b5cbff9113d241737529f591bac2836c51104696f49295b266d6e10d5`。
+- 2026-08-20：新增 `rom-selector-code-windows-v1`，固定 10 个 selector consumer
+  source window 共 2,754 字节；只把其中 19 段、1,252 字节 current-unknown 交集
+  晋升为 `consumer_code_slice`，1,502 字节已有 primary ownership 保持不变，
+  bridge/mapper promotion 均为 0。接入后 classified 6,093,161 / 6,291,456
+  （96.8482%），unknown 198,295、claim 13,802、segment 16,066；coverage SHA-256
+  为 `5cee1d349689bf735e3517662f9142fbac5dd421dbf8c107ea6219ee6801a8b8`。
+  不声明 instruction-only、自然运行时可达、global caller 穷尽、安全编辑/重定位、
+  可分配空间或新字段语义。受守卫 formal audit 的 63/63 verifier 均
+  `exit_code=0`、`contract_ok=true`，ROM byte gate 为 53/53；报告 SHA-256 为
+  `6b8b7632f3957184ee539fa02c1951fc9fb7d88a19c15fb07411b513991b6473`。
+- 2026-08-20：新增 `rom-menu-portrait-palette-inventory-v1`，从固定 63×5 目录表
+  （record 0 五个零 sentinel）、special pair、u8 selector 和五条 GPU queue caller
+  独立重建 311 个逻辑输出；74 个资源按物理 palette 指针/range 收敛为 70 段
+  128 字节 BGR555 数据，共 8,960 字节。70 段只有 54 种内容哈希，等内容的不同
+  地址仍保持独立物理 claim；唯一跨资源别名 `0x084098C4` 由资源
+  `[0,67,68,69,70]` 共用。全部 70 段接入前均完整为 current unknown。接入后
+  classified 6,102,121 / 6,291,456（96.9906%），unknown 189,335、claim 13,872、
+  segment 16,119；coverage SHA-256 为
+  `b95e1239420e416fe03244d8e3584adc5dd93470dfa8bfe8e501addb78c3f2cd`。
+  受守卫 formal audit 的 64/64 verifier 均 `exit_code=0`、`contract_ok=true`，ROM
+  byte gate 为 54/54；报告 SHA-256 为
+  `431829ea84d9f58b42164bd272852793b5e590dd87655328058a2a917e755809`。
+  本批不声明动态 caller 输入域、全部自然可达、运行时像素等价、graphics、独立别名
+  原位编辑、指针改写、relocation 或 free space；Goal 保持 active。
+- 2026-08-20：新增 `rom-scene-visual-source-ranges-v1`，复用已验收的
+  `scene-visual-packs-v1` 固定 9-record source table 与消费者/parser，独立重建
+  57 段、88,756 字节完整分母并冻结 29 段、3,288 字节候选。pack 5 definition 已由
+  `lz77_syntax_unbound` 拥有的 31 字节保持原 owner，本批仅晋升 29 段、3,257 个
+  current-unknown 字节：shared OBJ palette 2/64、BG palette 9/2,304、definition
+  record 9/697、animation record 9/192。接入后 classified 6,105,378 / 6,291,456
+  （97.0424%），unknown 186,078、claim 13,901、segment 16,142；coverage SHA-256 为
+  `02ca4394bd727c9b27c7ac168e12d141af0be4354b185d8242b8c1f66a353bea`。
+  受守卫 formal audit 的 65/65 verifier 均 `exit_code=0`、`contract_ok=true`，ROM
+  byte gate 为 55/55；报告 SHA-256 为
+  `43a7106eeea71c47fa2af02d51b65b5d526ae7f580c142c566c9ace6a4611e58`。
+  不声明全部 scene source、自然运行时可达、最终像素等价、编辑/重定位安全、相邻
+  gap/padding、free space 或实体 GBA 等价；Goal 保持 active。
+- 2026-08-21：新增 `rom-cutscene-obj-source-ranges-v1`，从两个固定四记录根表独立
+  重建 4 个 Cutscene OBJ 资源 ID、10 个 frame 与 10 个 animation 的来源分母，晋升
+  28 段、400 个 current-unknown 字节：component definition record 10/240、definition
+  pointer table 4/40、animation timeline 10/80、animation pointer table 4/40。接入后
+  classified 6,105,778 / 6,291,456（97.0487%），unknown 185,678、claim 13,929、
+  segment 16,171；manifest SHA-256 为
+  `a0e97ec43858a145a7c26dc71c5b89dfe8c4d9a5d6074ccad88c4ae56e03afd5`，verifier
+  SHA-256 为 `a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446`，coverage
+  SHA-256 为 `2ff9bc857e182c4bfeeaa572929569801549765ef1d3566cf10c17334125b9d1`，proof SHA-256
+  为 `1e695563b49712dd82aeab33677e06b39cbbf120712e8e3baa93ee73bac2c038`。受守卫正式审计
+  66/66 verifier、ROM byte gate 56/56 全部通过；报告 SHA-256 为
+  `65605bc56f29e641bc0f19821c32512ca69a6da6025a6b2f2d726f1055e00beb`，guard SHA-256
+  为 `ff643d70bc31774ef40ee9e274cf701406a7c513e55479f7166c72fa88fd7fd1`，峰值 RSS
+  523.1171875 MiB。报告仍为 `complete=false`、175 blockers；本批不声明未知字段语义、
+  自然可达、最终场景合成、graphics/palette、编辑/重定位、相邻间隙或 free space。
+- 2026-08-21：新增 `rom-cfg-proven-roots-v9`。全 ROM target-limited 分母冻结
+  11 条对齐 Thumb BL；其中 9 条是 `rom-battle-controller-cfg-v1` 的已解码 source
+  instruction，证明 8 个新 root，`0x0736A4` 与 `0x07445C` 两条合法 BL 因不属于
+  冻结 controller CFG source instruction 而只保留为 excluded provenance。独立
+  ARMv4T verifier 重建 299 条指令、62 个 block、628 个可达字节、16 条 baseline
+  cross-edge、7 个 opaque return 与 0 个真正 frontier；coverage 只晋升接入前完整
+  current-unknown 的 62 个 block，两条 excluded producer 继续 unknown。接入后
+  classified 6,106,406 / 6,291,456（97.0587%），unknown 185,050（2.9413%）、
+  claim 13,991、segment 16,239；coverage SHA-256 为
+  `778a4a856cadfe222dd415950a6c356e94bf3ee64b58ab5a4ad3a00231e38458`，proof spec
+  SHA-256 为 `752186af8d045b4b28e5526a5924239abc8c2eabcee27853dd2268fcb1c7483a`。
+  artifact manifest/payload/verifier SHA-256 分别为
+  `1914d6244ceaa7791cb4c77d97143151b4f28183ea857c052c9c51d3c8a09e6b`、
+  `fb961c6d0ba5cdb56c016a5d10b149d87e5ce9158bcb1e6e9deae8664c46555b`、
+  `b75ed5bad517fb08ebf2ae08d336c1dcee6ab334c4927559f41a2fcfad399935`。
+  exporter 继续用冻结 pre-v9 coverage 证明 current-unknown，formal verifier 则从独立
+  CFG 重建结果复原冻结 receipt、不读取 live coverage，消除了 coverage 写回后的验证
+  自引用。受守卫正式审计 retry2 执行 67 个唯一 verifier，67/67 均
+  `exit_code=0`、`contract_ok=true`，ROM byte gate 57/57、bad=0；报告 SHA-256 为
+  `edf91b6fa655b885aa89ffb9c703b80564f7ba50d05d7f094e665ff232eb349b`，guard SHA-256
+  为 `bf804fb9f3c02ed2e4a1112de500e88c15cfcfbc54039849b6d200edb915ef34`，formal auditor
+  SHA-256 为 `39c811d770203d36ad9c0137fdd28ed3065e02c1cd405eefdf3fc22a15f2e6f2`，
+  峰值 RSS 586.5546875 MiB。报告仍为 `complete=false`、175 blockers。本批不声明
+  自然执行、全局函数/BL/间接目标穷尽、编辑或重定位安全；Goal 保持 active。
+- 2026-08-21：接入三个冻结分母的 additive coverage 批次。第一项复用
+  `rom-parser-bound-zero-padding-v1`，以独立 parser verifier 固定 142 段、198 字节
+  零填充（m4a wave alignment 57/113 字节，chapter terminal-to-root 85/85 字节）；
+  第二项从 proven-roots v3 的 sparse dispatcher 完整分母晋升 8 个 masked residual
+  cell、32 字节；第三项从 proven-roots v7 的 45-cell indexed dispatcher 完整分母
+  晋升 9 个仍全为 current-unknown 的 table cell、36 字节。三项均要求 whole-range
+  unknown，部分重叠失败关闭；不声明运行时选择、target 可达、可编辑/重定位、自然
+  执行或 free space。接入后 classified 6,106,672 / 6,291,456（97.0629%），unknown
+  184,784（2.9371%）、claim 14,150、segment 16,247；coverage/proof SHA-256 分别为
+  `bb8ed0aeaae25c7581f740a2473506c9fe9fe10a5cd1bdb389b8675e3ede21a1`、
+  `7c9b560f52127cc38ebc7f0dd7a8e490938030947e955f7ab22a488af10d6989`。
+  受守卫正式审计执行 68 个唯一 verifier，68/68 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 58/58、bad=0；报告/guard SHA-256 分别为
+  `eb26328d6cc861d91cb625de6ffc229947514c6c1c158a4332b280acbabde7f0`、
+  `98ccb53a0fab5ecb9efc9a82c6755f2c3687224aab8425940af0cb3ffb18c433`，峰值 RSS
+  619.390625 MiB。Goal 继续保持 active。
+- 2026-08-21：复用 `rom-direct-cpuset-gpu-inventory-v1` 的独立 verifier 与完整
+  12-source 分母，新增 `rom-direct-cpuset-bound-palette-coverage-v1` additive 批次。
+  12 个 source 中 6 个已有 primary owner；只晋升另外 6 个完整 current-unknown 的
+  32-byte BGR555 palette，共 192 字节，并固定 candidate/promoted/preowned 三套分母
+  哈希、逐范围 bytes 哈希和真实 `already_bound_operations` selector。`0x00405FF0`
+  虽有一条 256-byte copy witness，仍只按另两条精确 32-byte witness 晋升首 32 字节；
+  不声明父记录、自然可达、最终像素、编辑/重定位或 free space。接入后 classified
+  6,106,864 / 6,291,456（97.0660%），unknown 184,592（2.9340%）、claim 14,156、
+  segment 16,257；coverage/proof SHA-256 分别为
+  `deac60656258e8529e5aecc2ac01927d7d67ecd82145f100a5d6976a973e83e7`、
+  `05a79263d06a2a5823597fe9b859d1d7757693989d7dbc5ae10b7051ff1d225e`。
+  受守卫正式审计执行 68 个唯一 verifier，68/68 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 58/58、bad=0；报告/guard SHA-256 分别为
+  `1d3af10340e35917d0033c4f0db26b33dfbb2c754339743329f40fc0e56ff7e1`、
+  `1645b263f7cb1dbcbd4372e0280794fc77351bbde327c1ab7d7d06c4608f92a0`，峰值 RSS
+  599.94921875 MiB。Goal 继续保持 active；当时的下一冻结小包为 boot interwork
+  veneer 跳过的 `0x0009C56E..0x0009C570` 两字节 `C0 46` / Thumb `MOV r8,r8`
+  NOP 对齐填充，现已由下条闭合。
+- 2026-08-21：复用 `rom-boot-interwork-v1` 的固定 BL→BX pc→ARM B producer chain、
+  payload/manifest 身份与独立 verifier，新增
+  `rom-boot-interwork-padding-coverage-v1` additive claim。只将 artifact 明确跳过的
+  `[0x0009C56E,0x0009C570)` 两字节 `C0 46`（LE `0x46C0`，Thumb `MOV r8,r8`）
+  从完整 current-unknown 晋升为 veneer alignment NOP；artifact 的
+  `skipped_interwork_padding_classified=false` scope 保持不变。合同拒绝 partial/显式
+  primary overlap、重复 batch/kind、ROM/artifact/verifier 身份漂移和 selector 漂移；
+  不声明自然可达、全局不可达、sibling veneer、RAM 目标、编辑/重定位或 free space。
+  接入后 classified 6,106,866 / 6,291,456（97.0660%），unknown 184,590（2.9340%）、
+  claim 14,157、segment 16,257；coverage/proof SHA-256 分别为
+  `5dc289d3b088b6f565e121ae9de2f288fa32a1c62cac4ad98027dbc9ffe3abca`、
+  `5da730524544645d25657e56d84e605c47a73deede6436e8a96c6628ffca7812`。
+  coverage/formal auditor SHA-256 分别为
+  `9a2796a7b99f44ca5f8994486c56cfcf6bcf54579d93cafb0b0284a3c2f991f1`、
+  `39c811d770203d36ad9c0137fdd28ed3065e02c1cd405eefdf3fc22a15f2e6f2`。
+  受守卫正式审计执行 68 个唯一 verifier，68/68 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 58/58、bad=0；报告/guard SHA-256 分别为
+  `ccbf80ad4c74923135d00b86538fc48dc58d206e9cc31357086d2c07f1f0f0d0`、
+  `9af466c626ec5cac1d29ca4adcfd6dd1b75c1a9652781bfbbda7583efa4488ec`，峰值 RSS
+  611.171875 MiB。Goal 继续保持 active；下一冻结小包为文件
+  `[0x0053D714,0x0053D73C)` / GBA `[0x0853D714,0x0853D73C)` 的 40 字节，即完整
+  `[0x0053D644,0x0053D73C)` 31-row SJIS lookup 的五个全零 empty lookup rows；
+  不得称为 reserved、free space、自然不可达或可安全编辑区域。
+- 2026-08-22：上条 SJIS 候选现已闭合。新增
+  `rom-dialogue-font-sjis-empty-lookup-rows-coverage-v1` additive claim，只覆盖文件
+  `[0x0053D714,0x0053D73C)` / GBA `[0x0853D714,0x0853D73C)` 的 40 字节，即
+  31-row lookup 的 rows 26..30。五行 `<HBBI>=(0,0,0,0)` 同时绑定真实 lookup/
+  renderer parser、完整表与行分母、左右 owner、两套既有独立 verifier 和
+  current-unknown。它不是 padding、reserved/free space、global-unreachable、
+  natural-runtime、全消费者、完整 Unicode、可编辑或可重定位声明。
+  接入后 classified 6,106,906 / 6,291,456（97.0667%），unknown 184,550
+  （2.9333%）、claim 14,158、segment 16,257；coverage/auditor/proof SHA-256 分别为
+  `3b562213df931df21e1bf237226c73279b883d427d02dccbf54e063bd18e3dd7`、
+  `a0109d2443858b09f9193f80a45dafa046e9661c863440b6ddcb42e651936f29`、
+  `ba3f4a3ecc51931478bdacc4f7124d68c3faeac4c2262f2f36be926088dc1f29`。
+  正式审计 68/68、ROM byte gate 58/58、bad=0、175 blockers；report/guard
+  SHA-256 分别为
+  `ff6087c3313dec3b71f16d96af9aa503844a44aa4ea1a2f286e21b98dc5c93bc`、
+  `0260f58160f8f6f1ac108bf5254179fa6f443c4d6cfca43173fc9776211919ca`，峰值 RSS
+  614.55078125 MiB。Goal 继续 active；下一候选尚未完成，为文件
+  `[0x0053EF2E,0x0053EF30)` 的 motion spawn→sequence descriptor 两字节 4-byte
+  alignment gap，必须先冻结两张表、terminator、对齐公式、独立 verifier 与
+  current-unknown，不能仅凭 `00 00` 或邻接关系晋升。
+- 2026-08-22：上条 motion-spawn/sequence-descriptor 候选现已闭合。新增
+  `rom-motion-spawn-sequence-descriptor-alignment-gap-coverage-v1` additive claim，
+  只覆盖文件 `[0x0053EF2E,0x0053EF30)` / GBA `[0x0853EF2E,0x0853EF30)` 的
+  两个 current-unknown `00` 字节。合同固定左侧 `[0x53EE98,0x53EF2E)` 的
+  15×10-byte motion table、索引 14 的 `<hhhhh>=(-1,0,0,0,0)` 显式 terminator、
+  `align_up(0x53EF2E,4)=0x53EF30`、右侧 `[0x53EF30,0x53F140)` 的 22×24-byte
+  sequence table、左右 owner 和两套既有 artifact/verifier/test。右侧 primary owner
+  仅到 `0x53F138`，不得冒充完整 528-byte source。该 claim 不声明 padding、
+  reserved/free space、自然运行时可达、全局不可达、编辑/重定位安全、可安全分配、
+  邻接字节或消费者完备性。
+  接入后 classified 6,106,908 / 6,291,456（97.0667%），unknown 184,548
+  （2.9333%）、claim 14,159、segment 16,257；coverage/auditor/proof SHA-256 分别为
+  `7b108bf257cc99e9d4af7a47824b51e79f23e823fc0e1fe6d59fbd47500a8eab`、
+  `6fbf0059d76116a9d9bb5d1313223dcc942cadf29c5fcbd3682292fa632f53a6`、
+  `57644273a2cf7e5f7f9bdfdad350cef0f21a99bb5137fcfa0900fc9d62b5b903`。
+  正式审计 68/68、ROM byte gate 58/58、bad=0、175 blockers；report/guard
+  SHA-256 分别为
+  `3844c1ff49a4a2da5142f517ee3066a15eccadf2b87e864407a7bc0e369bdd89`、
+  `66ae9eead07daaed3ac9485d8b75a6ba29eae1e901e7c2d9c65c47c1aafd52a7`，峰值 RSS
+  584.328125 MiB。Goal 继续 active；全局语义覆盖仍未完成。
+- 2026-08-22：battle-presentation binding→tile-assets 两字节候选已接入 coverage 与
+  proof 静态合同。新增
+  `rom-battle-presentation-tile-assets-alignment-gap-coverage-v1` additive claim，只覆盖
+  文件 `[0x005A320A,0x005A320C)` / GBA `[0x085A320A,0x085A320C)` 的两个
+  current-unknown `00` 字节。左侧冻结 `[0x5A2EF4,0x5A320A)` 的 79×10-byte
+  binding table，终点是 fixed-count boundary 而非 terminator；右侧冻结
+  `[0x5A320C,0x5A4708)` 的 79×68-byte tile-assets table。合同绑定左右 owner、末条/
+  首条 record、两套 canonical artifact/verifier/test、精确 current-unknown 与对齐公式，
+  不声明 padding、reserved/free space、自然运行时可达、全局不可达、编辑/重定位安全、
+  可安全分配、邻接字节、额外字段语义或消费者完备性。
+  接入后 classified 6,106,910 / 6,291,456（97.0667%），unknown 184,546
+  （2.9333%）、claim 14,160、segment 16,257；coverage/auditor/proof SHA-256 分别为
+  `66f129450f31eb1ff9f4e931c219a463710b5caee21c0b1aa7f9c4ad3ffe70a6`、
+  `2c604c710fc058c7ad9e07653a38385726671ae5940eb54f9b204df1c4567fe4`、
+  `dc88f57780fde125b53b1ccffe29cdf1c3d0aecb880f0de30bb4f12f513c0782`。
+  正式审计 68/68、ROM byte gate 58/58、bad=0、175 blockers；report/guard
+  SHA-256 分别为
+  `6839a623b83967b523f6aca76f5f420fcee326ef2fbbc11f19ca91a0a78a03c1`、
+  `77a31c1b757eb5ab702fcbf62e466a3c91393ecdc027b72a2508ff98e45f34ea`，
+  峰值 RSS 593.7890625 MiB。Goal 继续 active；全局语义覆盖仍未完成。
+- 2026-08-22：runtime-state selector→handler-pair 两字节候选已完成 coverage、proof
+  与 formal 合同。新增
+  `rom-runtime-state-handler-table-alignment-gap-coverage-v1` additive claim，只覆盖
+  文件 `[0x0053E696,0x0053E698)` / GBA `[0x0853E696,0x0853E698)` 的两个
+  current-unknown `00` 字节。左侧冻结 `[0x53E596,0x53E696)` 的 256×1-byte selector
+  table 与连续三段 ownership，其中 `[0x53E5A8,0x53E5B3)` 的 LZ77 record 38 保持
+  primary；右侧冻结 `[0x53E698,0x53EE98)` 的 256×8-byte handler-pair table，并由
+  map-events bank 行向量与精确独立 verifier report 逐项重建。该 claim 不声明 padding、
+  reserved/free space、自然运行时可达、全局不可达、跨表 dataflow、编辑/重定位安全、
+  可安全分配、邻接字节、额外字段语义或消费者完备性。
+  接入后 classified 6,106,912 / 6,291,456（97.0668%），unknown 184,544
+  （2.9332%）、claim 14,161、segment 16,257；coverage/auditor/proof SHA-256 分别为
+  `a061b3f9fa9551d34f4a3add7b2b062152cc2c2f50f439dd75c210c004e3e1de`、
+  `8dccae1f87c4137228551096c1de14878b1d96b7a733be9748598542a410f7c4`、
+  `b8527d82fb35db5ad53e58fed96c873a95cf9b594c2ffdfba81c2d96434d81e4`。
+  正式审计 68/68、ROM byte gate 58/58、bad=0、175 blockers；report/guard
+  SHA-256 分别为
+  `63520dee7225e55e24dbcb71f5c724dea2cdadeba1a2f5e591edf353dd08a529`、
+  `ce11dfd822638d1617a148e7856262c7e566efd20000514404930c1442d6eab9`，峰值 RSS
+  616.96484375 MiB；完整 proof 测试 49/49 通过。Goal 继续 active；全局语义覆盖仍
+  未完成。
+- 2026-08-22：Cutscene OBJ palette→definition 四处 alignment-gap 已完成独立
+  verifier、coverage、proof 与 formal 合同。新增
+  `rom-cutscene-obj-palette-definition-alignment-gap-coverage-v1` additive claim，只覆盖
+  文件 `[0x0012DEFA,0x0012DEFC)`、`[0x0012E442,0x0012E444)`、
+  `[0x0012E95E,0x0012E960)`、`[0x0012ED6E,0x0012ED70)` 的 8 个 `00` 字节。
+  四段各由独立解析的固定 palette LZ stream endpoint、4-byte alignment equation、
+  rooted first definition record、左右 owner、两张根表及原始 ROM 哈希共同绑定；既有
+  Cutscene OBJ source artifact 的 28 ranges / 400 bytes 保持不变。该 claim 不声明
+  padding、reserved/free/allocatable space、自然运行时可达、完整 Cutscene gap
+  分母、未知 definition 字段语义、最终像素、编辑或重定位安全。
+  接入后 classified 6,106,920 / 6,291,456（97.0669%），unknown 184,536
+  （2.9331%）、claim 14,165、segment 16,257；coverage/auditor/proof SHA-256 分别为
+  `f77fbbf6271d04989c0e16ac36287cf6bcd4d2454d9549eb5fbed693a757c33f`、
+  `4908778b32fa5b2fc8473f88a8f3fa44f0541b5c9110d57260c3530ff38d65b4`、
+  `8b1093446d04cd68f83ef5cf2d978cb618540ca9bf0203ba57ee3487a9fd1ba7`。
+  正式审计执行 69 个唯一结构化 contract，69/69 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 59/59、bad=0、175 blockers；proof spec 另配置
+  11 个只有哈希绑定的旧 gate verifier，故 gate 配置总数为 70。report/guard
+  SHA-256 分别为
+  `6238a8f64de72cea9e0536d4a72f7b6825d0ea4dc1ac63b888d9516b9544f555`、
+  `ef9da54d81f0f1fe12e30fabefc6615de1476b274a964b961e9b641458f95ced`，峰值 RSS
+  616.93359375 MiB。报告保持 `complete=false`、`claim_status=incomplete`；Goal
+  继续 active，全局语义覆盖仍未完成。
+- 2026-08-22：固定 positions auxiliary dispatch cell table 已完成 artifact、coverage、
+  proof 与 formal 合同。`rom-positions-aux-dispatch-v1` 从 48 groups × 3 variants
+  独立重建 144 张 16×4-byte 表，共 2,304 cells / 9,216 bytes；byte 0 仅声明为
+  bounded dispatch selector，bytes 1..3 仅声明为 handler-dependent raw operands，
+  不赋予统一业务语义。coverage 只提升 144 个完整 current-unknown 范围，不认领
+  next-variant header 或末尾 `[0x00596204,0x00596D5C)` 的 2,904-byte gap，也不声明
+  自然可达、运行时 group/variant 上界、ABI、编辑/写回/重定位或 free space。
+  接入后 classified 6,116,136 / 6,291,456（97.2134%），unknown 175,320
+  （2.7866%）、claim 14,309、segment 16,401；coverage/auditor/proof SHA-256 分别为
+  `8bf64bbe0e9ca124f867cb7e97af9ee439a89e636450ae54af479985268be6ca`、
+  `08f92ffbd7fe5cacb51a15ba5d30436f1467f56cfe35a088596e96788bb98718`、
+  `384c13515ea65a93e1dea73add93503ea1c159f2126c82ab41ae7dc89395169b`。
+  正式审计执行 70 个唯一结构化 contract，70/70 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 60/60、bad=0、175 blockers；proof spec 另配置
+  11 个仅哈希绑定的旧 gate verifier，故 gate 配置总数为 71。report/guard SHA-256
+  分别为 `e459ab6ae67b944141bbd18e148d1b135daaf557f706efda2f1c159933e76482` /
+  `20eb2e4e731ba2b193c27b8aa391bc671c2a8d56c77bdcaac69a199af7e9d969`，峰值 RSS
+  639.55859375 MiB。报告保持 `complete=false`、`claim_status=incomplete`；Goal
+  继续 active，全局语义覆盖仍未完成。
+- 2026-08-22：固定 battle gameplay sound selector 已完成 artifact、coverage、proof
+  与 formal 合同。`rom-battle-sound-selector-v1` 独立重建
+  `[0x0053E496,0x0053E596)` 的 256×u8 物理表，并固定五条直接 little-endian
+  pointer-literal 消费路径；coverage 只将这 256 个完整 current-unknown 字节新增为
+  `battle_gameplay_sound_selector_table`。合同不声明自然全索引/全路径可达、computed/
+  RAM/indirect 消费者穷尽、所有 selector consumers 穷尽、零/非零或 gameplay 值语义、
+  左邻结构关系、右邻业务关系、完整播放例程、播放成功、音频资源穷尽、编辑/写回/
+  重定位或 free/allocatable space。
+  接入后 classified 6,116,392 / 6,291,456（97.2174%），unknown 175,064
+  （2.7826%）、claim 14,310、segment 16,402；coverage/auditor/proof SHA-256 分别为
+  `6af3216caf853045b0590389a11abf161e4e489a183f308d940db9e64a67e9b7`、
+  `6a2da86067afbb413a355df4d70e4b13b039dd0c213fff47fce5bed4b66107b4`、
+  `d235fb19024e62b7f6c7bf6e7c62935e6422e93f3940574c8730034fac8c7ca3`。
+  正式审计执行 71 个唯一结构化 contract，71/71 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 61/61、bad=0、175 blockers；proof spec 另配置
+  11 个仅哈希绑定的旧 gate verifier，故 gate 配置总数为 72。report/guard SHA-256
+  分别为 `6fc14885e20e4e63600d2f04130678cbe16f011d85ae2cb58f8968f36b3706c3` /
+  `fad0d92819377e6b16cccd6cbbbe8967c7d4eb0ef15b482fdb6bf170be0b3140`，峰值 RSS
+  648.578125 MiB。报告保持 `complete=false`、`claim_status=incomplete`；Goal
+  继续 active，全局语义覆盖仍未完成。
+- 2026-08-23：固定 battle-condition records 已完成 artifact、coverage、proof 与
+  formal 合同。`rom-battle-condition-records-v1` 独立重建完整 47 battles × 3
+  variants × `0x44`-byte 物理表、1,128 predicate slots 及 raw interpreter layout；
+  coverage 只提升接入前 current-unknown 的 84 个 fragment，共 2,772 bytes：41 个
+  variant-prefix fragment / 164 bytes 与 43 个 predicate fragment / 2,608 bytes。
+  既有 fixed-table 和 positions-aux primary owner 保持不变，右侧
+  `[0x00596CCC,0x00596D5C)` 的 144-byte zero gap 继续 unknown；不声明自然 battle/
+  variant 可达、全消费者穷尽、prefix/predicate 业务语义、handler 4/5 自然使用、
+  编辑/写回/重定位或 free/allocatable space。
+  接入后 classified 6,119,164 / 6,291,456（97.2615%），unknown 172,292
+  （2.7385%）、claim 14,394、segment 16,483；coverage/auditor/proof SHA-256 分别为
+  `dd2a64883da6a5b561336a70d90ceb97a6ca7eb282b3bd09b0f3ec2d9ed0d156`、
+  `b81ea9a433d19fe9d64068f79f4ca692ab70764715f22ded46c64e2a6f508039`、
+  `a6032881de87c4faa045fbc5fb15b05043a1971da24a748114da70603f6074b3`。
+  正式审计执行 72 个唯一结构化 contract，72/72 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 62/62、bad=0、175 blockers；proof spec 另配置
+  11 个仅哈希绑定的旧 gate verifier，故 gate 配置总数为 73。report/guard SHA-256
+  分别为 `15191084bcf75fa7908708f25d69cb436cd36f99b4815eeecc2926c64c4c8b41` /
+  `3aeef7dc59c22f965b567641419b27d773cc61fbb30a0abba8f95c6d5caf135f`，耗时
+  2,828.498 秒、峰值 RSS 623.84375 MiB。报告保持 `complete=false`、
+  `claim_status=incomplete`；用户已要求在此里程碑暂停，Goal API 状态仍为 `active`，
+  收到明确恢复指令前不得继续新逆向写入。
+- 2026-08-23：CFG proven-roots v10 已完成标准受管 promotion、coverage、proof 与
+  formal 合同。固定全 ROM 三条 target-limited Thumb BL producer 分母，独立重建
+  source bounded worklist 264 instructions / 35 blocks / 580 bytes / 26 external call
+  edges / 0 frontier，以及 `0x08B278` target worklist 36 instructions / 7 blocks /
+  72 code bytes / 0 frontier；两条实际 PC-relative LDR 另消费 8 literal bytes。
+  coverage 只晋升 7 个完整代码 block 和 2 个完整 literal claim，共 80 个接入前
+  current-unknown bytes；不声明自然运行时可达、全局代码图、间接目标穷尽、函数 ABI、
+  业务语义、编辑/重定位或 free space。canonical manifest/payload SHA-256 分别为
+  `7bc6a70cb8409b44075df6e1031b9d80bdb19898605735dedd2a2acf9d495991` /
+  `5edad0689b630e68c6ee304aac2f56e3d5c83e65ee7c2c7a7308e0fd980fd50e`。
+  接入后 classified 6,119,244 / 6,291,456（97.2628%），unknown 172,212
+  （2.7372%）、claim 14,403、segment 16,492；coverage/auditor/proof SHA-256 分别为
+  `c65ec320a432681600bda916254f3265489829ee2f0b8b885b885b5436d35396`、
+  `e440b797a04d8186a854de5d174a46dbcb459e0a0abf515a0249ea4121a23c8f`、
+  `75d5e48249a3ee200dd8b741faf2c304e390d74614a25c8a161746300d8017e1`。
+  正式审计执行 73 个唯一结构化 contract，73/73 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 63/63、bad=0、175 blockers；proof spec 另配置
+  11 个仅哈希绑定的旧 gate verifier，故 gate 配置总数为 74。report/guard SHA-256
+  分别为 `0d761f8cdc7d21de305af6295d518981a0b6bafb242e5b4e433c83e5a4aeacda` /
+  `915828bb3b01d54c7c7802ca482d6416df07ce2702e7531e0ee17186a7f94822`，耗时
+  2,592.267 秒、峰值 RSS 615.17578125 MiB、非降级。报告保持 `complete=false`、
+  `claim_status=incomplete`；本手头里程碑已经收尾，现按用户要求停止开启新候选。
+- 2026-08-27：CFG proven-roots v11 已完成标准受管 promotion、coverage、proof 与
+  formal 合同。对 `0x080633C0` 的全 ROM target-limited raw Thumb BL 分母固定为
+  9 条：8 条来自冻结的 tick callback source 闭包，第九条 `0x08080D7C` 明确保持
+  `excluded_unproven_source`。独立 verifier 重建 8 个 source root、537 条 source
+  instruction、92 个 source block、1,130 个 source 字节、28 条 opaque external
+  edge 与 0 frontier；目标闭包为 30 条指令、6 个 block、62 字节、1 条进入既有
+  baseline 的 opaque call 与 0 frontier。coverage 只晋升 `[0x0633C0,0x0633FE)`
+  的 6 个完整 current-unknown block；第九个 raw match、source/producer、callee 与
+  相邻 `[0x0633FE,0x06345E)` 均不重认领，也不声明自然可达、全局 caller/代码/
+  间接目标分母、函数 ABI、业务语义、编辑或重定位安全。canonical manifest/payload/
+  verifier SHA-256 分别为
+  `3c0a4ae64b82a417e0577d28ea82b5f774ea3150d210ed4c117414938bc2b0d4` /
+  `4d62230f3477abd29ac24790eb9fc98870c95f79e1da8df4e49783fbf6d18480` /
+  `4dbcd849eba9b674ed9e3739e0ce8be278a4347b7c113a98d834ac2e4a82c563`。
+  接入后 classified 6,119,306 / 6,291,456（97.2637%），unknown 172,150
+  （2.7363%）、claim 14,409、segment 16,498；coverage/auditor/proof SHA-256 分别为
+  `4ea0496a0754d0391ae4f48e16f941d9a2241c9cc730bdf38799abde85181cbd`、
+  `e6d072de539ecabfec73857d8352435617dd38bf0a0359924e8db71dda8afac4`、
+  `acb8bcbd3faf282c40ae2ef807c8f815c95c9aa29ca30a9adcbd892d3c56d1ba`。
+  正式审计执行 74 个唯一结构化 contract，74/74 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 64/64、bad=0、175 blockers；proof spec 另配置
+  11 个仅哈希绑定的旧 gate verifier，故 gate 配置总数为 75。report/guard SHA-256
+  分别为 `9d243886ffed63f211066798f093e796c098d282a83862f11b93da0266478277` /
+  `0c3f2995be3220231b53de9642ffbcf5d7eb7dc6eb8ce3e8debffc7a9ced60a2`，耗时
+  2,739.024 秒、峰值 RSS 616.70703125 MiB、非降级。报告保持 `complete=false`、
+  `claim_status=incomplete`；Goal 继续 active，全局语义覆盖仍未完成。
+- 2026-08-27：下一候选 `[0x0059EAE0,0x0059F5F0)` 的旧 `118×24` 假设已被
+  负证据拒绝；`0x0859F560` 的三个独立 base consumer 把前段物理上限收紧为
+  `[0x0059EAE0,0x0059F560)` / `112×24`，但固定 primary scenario 50 可产生
+  `(state+0x16,state+0x19)=(31,30)`，ROM lookup 31 为 90，组合 index 120，否证
+  “本地 consumer/caller 自动保证 `0..111`”的命题。scheduler callback 首入/续入
+  生命周期仍未闭合，所以既不接入 2,688 字节，也不宣称自然玩法 OOB；unknown 保持
+  172,150。可复核边界、raw 分母、固定脚本反例与恢复条件见
+  `notes/rom-unknown-candidate-59eae0-negative-evidence-20260827.md`。
+- 2026-08-27：固定 u8-indexed u16-pair lookup 与 boot Thumb handoff CFG 已完成
+  canonical artifact、coverage、proof 和 formal 合同。lookup artifact 只把逻辑
+  256 cells / 1,024 bytes 中仍属 current unknown 的前缀
+  `[0x0059F560,0x0059F5F0)` / 144 bytes 晋升为 1 个 primary claim；后续
+  `[0x0059F5F0,0x0059F960)` / 880 bytes 继续由 44 个既有 selector-direct-source
+  owner 持有，不重复分类。boot artifact 从固定 Thumb handoff roots 独立重建
+  125 blocks、583 instructions、1,226 code bytes、296 literal bytes、14 returns 和
+  2 indirect frontiers；coverage 只接入 27 个 code claim 与 22 个 literal claim，
+  精确 union 为 25 ranges / 1,522 bytes，wide envelope 与 frontier 保持 unknown。
+  两项合计净消除 1,666 unknown bytes；接入后 classified 6,120,972 / 6,291,456
+  （97.29022979736328%），unknown 170,484（2.70977020263672%）、claim 14,459、
+  segment 16,568。coverage/auditor/proof SHA-256 分别为
+  `9ed94f7cab667383c136b6fdb11132d077329f8f6a67b74871ce32f4038b3529`、
+  `b9bb12d1aeed440b2dae3fc2eed0a699d9e35f95519fb028001f9f426c9cae4e`、
+  `ca2afde1b83177f1bf3e503a72c22729070915d7c262bd3b0b96e1c424c7334d`。
+  正式审计执行 76 个唯一结构化 contract，76/76 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 66/66；report/guard SHA-256 分别为
+  `bc598b5a1f13547e80c35b0b765c9cea0cf89bb4a344a1bd69e04c049cf01eb8` /
+  `3330400830e5234b076e49f7a11b70c69c93b0b7457e3ea5acdbd8e550370c24`，耗时
+  2,754.867994 秒、峰值 RSS 627.62109375 MiB、非降级。报告保持
+  `complete=false`、`claim_status=incomplete`；Goal 继续 active。
+  后续 Luna max compatibility gate 已拒绝把 `[0x00596CCC,0x00596D5C)` 的
+  144 个全零字节称为 character-id 0 预偏行：现有证据没有 producer/caller 证明
+  ID 0 属于合法域，因此该范围仍保持 unknown，不能仅凭全零晋升。
+  同一门禁也拒绝 `[0x000000C4,0x000000C8)` 的 4-byte boot gap：固定 handoff chain
+  只证明局部绕过，没有该地址的完整 target-limited inbound producer 分母；原始 word
+  不能外推为 global-unreachable、NOP、padding 或 free space，故同样保持 unknown。
+- 2026-08-27：`0x59EAE0` scheduler callback lifecycle gate 已完成并正式
+  `REJECT / 0 bytes`。raw ROM 独立重建确认 `0x08061D7C` 恰有 8 个直接注册点，
+  11 个 wrapper 经 `0x08061C58 → 0x0809C114/BX r1` dispatch，返回后由
+  `0x08061E00` 清理；`0x0808F73C` 与 `0x0808EF2C` 仅在该结构意义上闭合。
+  `0x0808F654` 仍无 raw direct branch 或精确 Thumb pointer，computed/RAM/indirect
+  producer frontier 未闭合，所以 Task 2/3 停止、2,688 bytes 继续 unknown，coverage
+  仍为 classified 6,120,972 / unknown 170,484。report SHA-256 为
+  `1638ab9dab45800256fd921e950ef53600f6f592a05f39842b26bfbd7a983ec2`；
+  定向测试 4/4 通过，Sol medium P0/P1 复核 ACCEPT。下一候选优先复用本 gate 已冻结的
+  通用 task scheduler code/literal 精确窗口，先经 Luna max compatibility gate，不能
+  把 hash-only window 直接晋升为 code。
+- 2026-08-27：上述通用 task scheduler 精确窗口已作为独立 R4 工作包完成标准
+  promotion、coverage、proof 与 formal 合同，不再是候选。canonical artifact 位于
+  `artifacts/rom-task-scheduler-core-v1/`，manifest/payload/binary/verifier SHA-256
+  分别为 `88ef48526ed1bd096a8ece9a58aa4f5770f207084634a125f04dc99561c7d58c`、
+  `298dc0cf30765e0afe33487f92cce231bd76d4056719f825c1c9cef98d12a59d`、
+  `2cdbf5ee8ee1f24e9d5590363f05cf177c21821209d8b735666b4844c829842f`、
+  `90133f94b749dbd3d2d08404ac3be5a7a275f261076c82c8c01312271760d9f4`。
+  独立 raw-control-flow verifier 重建 116 条 Thumb 指令、33 个 block、33 条内部
+  edge、5 条外部 edge、4 个外部 target、1 个显式 frontier、12 个 return，并只晋升
+  4 段 code / 264 bytes 与 3 段实际消费 literal / 44 bytes。138 个已有 owner 字节只作
+  provenance，三个两字节间隙继续 unknown；动态 callback 目标/生命周期、自然可达、
+  全局 caller/code/indirect 分母、业务语义、编辑、重定位及 allocatable space 不声明。
+  接入后 classified 6,121,280 / 6,291,456（97.2951%），unknown 170,176
+  （2.7049%）、claim 14,466、segment 16,577。coverage/auditor/proof SHA-256 分别为
+  `5c3c9bcaa90a4d55a2de5ef37effbd9947502aff75f01b73738b90aa704b0d9f`、
+  `491de8204291f0e41cc4aadb23fbacc54e76cd2435cf52b4274f0fd9b3c32973`、
+  `6fd1fc01e7e52d44510ba66f7d83c5ef64f2d07b27a30554047e87929db955e5`。
+  正式审计执行 77 个唯一结构化 contract，77/77 均 `exit_code=0`、
+  `contract_ok=true`，ROM byte gate 67/67、bad=0；report/guard SHA-256 分别为
+  `d975366d63c35c6a62f4e41d9199014828e689273d2d882f43188df519477c9e` /
+  `e2ae0a75f524e70634b1a318d719e26c6591b4d789d995fb2bb839dd6d34ddc3`，耗时
+  2,891.251353 秒、峰值 RSS 646.03125 MiB、非降级。报告正确保持
+  `complete=false`、`claim_status=incomplete`、175 blockers。
+- 2026-08-27：R4 后续候选按只读筛选的风险/收益顺序冻结为：DirectSound pitch
+  lookup（最多 318 bytes：`[0x09A998,0x09A9F2)` 90-byte Thumb consumer、
+  `[0x4645C4,0x464678)` 180-byte u8 scale、`[0x464678,0x4646A8)` 48-byte
+  12×u32 frequency table）；PSG noise lookup（最多 220 bytes：
+  `[0x09B494,0x09B534)` 160-byte consumer 与 `[0x46475C,0x464798)` 60-byte
+  table）；MPlayMain scheduler（最多 414 bytes，`[0x09A42C,0x09A5CA)`）；
+  SoundMain mixed-ISA relocated code source（最多 926 bytes，
+  `[0x099E10,0x09A1AE)`）；最后才是 `[0x53DFB0,0x53E000)` 的 80-byte object。
+  前两项复用“固定直接分支 producer + 确定性索引表”脚本模式：先闭合 target-limited
+  producer、raw Thumb CFG/load bounds 与完整 key/fine/index 域，合同冻结后才允许 Luna
+  max 小包；MPlayMain/SoundMain 必须先由 Sol/Codex 处理 callback/搬运边界。不得重开
+  已 REJECT 的 `0x596CCC..0x596D5C`、`0xC4..0xC8` 或 scheduler lifecycle
+  `[0x59EAE0,0x59F560)` 假设。
+- 2026-08-27：上述 DirectSound pitch lookup 候选已由实际 344-byte 合同取代旧
+  318-byte/90-byte 估计，并完成 canonical artifact、coverage、proof 与 formal
+  验收。`artifacts/rom-directsound-pitch-lookup-v1/manifest.json` SHA-256 为
+  `61f58bd4309d3b63389bdd09ddd62281dee6fe6ce91bcce0c351ce703012805d`；
+  payload/binary SHA-256 分别为
+  `ea54c37199704e58f4fcfb0c7dccf3227a23c6363692a4f238ebd807a8003d85` /
+  `cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850`。
+  五个 primary claim 精确覆盖 16-byte high32 interwork helper、92-byte closed Thumb
+  consumer、8-byte consumed literals、180-byte scale descriptors 与 48-byte
+  twelve-entry frequency table。两个 target-limited raw BL producer 仅作 provenance，
+  producer bytes/source membership 不晋升；自然运行时、全局 caller/code/indirect
+  或 computed/RAM consumer 分母、播放行为、编辑、写回、relocation 与 allocatable
+  space 均未声明。接入后 classified 6,121,624 / 6,291,456（97.3006%），unknown
+  169,832（2.6994%）、claim 14,471、segment 16,582；coverage SHA-256 为
+  `922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6`。
+  proof spec/report/guard SHA-256 分别为
+  `cf242a73211f4cda07a70c6c3bc0f59d8f5a9c995334d9fecd6bf6b808df2c0a`、
+  `9ff9072dc1e501bd6bef9f792f6a318640ea9b8594719effa514288595d4714e`、
+  `eadf80d080f795495304028e9ee8f4074a1ff34e768571e7152b917b278fe133`；
+  78/78 个唯一结构化 contract 全部通过，ROM byte gate 68/68、bad=0，正式报告
+  正确保持 `complete=false`、`claim_status=incomplete`、175 blockers。
+- 2026-08-27：下一优先包改为 PSG noise lookup 的最多 220 个 current-unknown
+  字节：consumer `[0x09B494,0x09B534)` 160 bytes 与 table
+  `[0x46475C,0x464798)` 60 bytes。已有 m4a PSG 消费者与运行时证据只能作为输入；
+  仍须先由脚本闭合 target-limited producer 分母、raw Thumb CFG/literal 及完整
+  key→index 0..59 域。合同冻结后才适合 Luna max 实现；任一 indirect/computed
+  producer、frontier 或索引域缺口都必须保留 unknown。
+- 2026-08-28：上述 PSG 候选已由实际 226-byte 合同取代，并完成 canonical
+  artifact、coverage、proof 与 formal。`rom-psg-frequency-lookup-v1` 的五个
+  promotion range 精确覆盖 154-byte bounded Thumb code、12-byte consumed
+  literals 与 60-byte noise descriptor table；两字节对齐间隙保持 unknown。
+  接入后 classified/unknown/claim/segment 为
+  6,121,850 / 169,606 / 14,476 / 16,589（97.3042% / 2.6958%），coverage SHA-256
+  为 `5432e12ff0aa9bd2722f7e18e169ac0d82d67f6a1afd4601a8d0011e502eba89`。
+  正式 report/guard SHA-256 为
+  `41f25e7c10aa32136f676145b2191a18245d2205ac888a300c8139890b06e670` /
+  `dcb342bcfaa4b6ad5ddd523fda985e7cef5389427efaadc55f8cf3df0f94edaa`；
+  79/79 唯一结构化 contract 通过，ROM byte gate 69/69、bad=0，报告正确保持
+  `complete=false`、175 blockers。
+- 2026-08-28：19-byte fixed-consumer u8 triplet lookup 已完成：只晋升
+  `[0x075C0C,0x075C10)` 的唯一 pointer literal 与 `[0x53DFB0,0x53DFBF)` 的
+  5×3-byte raw record；272-byte consumer code 保留 generic CFG owner，四段 literal
+  pool 与右侧 65 bytes 保持 unknown。随后又以独立 artifact-bound verifier 闭合
+  `[0x061D62,0x061D64)`、`[0x061D7A,0x061D7C)`、
+  `[0x061DEA,0x061DEC)`、`[0x09B4C6,0x09B4C8)` 四段 align4 gap，共 8 bytes、
+  4 claims；verifier/report SHA-256 为
+  `befdf8545a0d2763514996935676a1a6384967174dcca119e0da62b71bd4da66` /
+  `344e3fe2660a48342b5f82bb9d7aeefc28c1f4fe0b99fc3f23bdb2a894f3f662`。
+  canonical coverage 保持 SHA-256
+  `17aa05ec2919606ac4728106daf08b3d06a033ccd3c723dc17fd7ad1bdec9ad0`，统计为
+  6,121,877 / 169,579 / 14,482 / 16,591。受守卫正式审计 81/81 contract 全部
+  通过，ROM byte gate 71/71、bad=0；report/guard SHA-256 为
+  `7afcf333d39951dbe887fcea7f539bc4c70470d20ed986fd93439fefe9410d63` /
+  `bff0680e5dbf6fefbaa7aad71b1b44105203d98f92e9d011138b3b713f64d10c`。
+  报告仍为 `complete=false`、175 blockers，不能据此宣称 100%。
+- 2026-08-28：修正版 MPlayMain 已完成。旧 414-byte 包络因可达分支逃逸而作废；
+  canonical artifact 只晋升 `[0x09A42C,0x09A684)` 的 600-byte bounded Thumb code
+  与 `[0x09A688,0x09A694)` 的 12-byte consumed literals。两字节
+  `[0x09A684,0x09A686)` 保留既有 `BX r3` owner，
+  `[0x09A686,0x09A688)` 继续 unknown。独立 worklist 固定 289 instructions、
+  81 blocks、117 internal edges、12 external edges、4 literal refs/3 words、1 frontier
+  与 1 return；packed/range-vector SHA-256 分别为
+  `8ca6a2f02cd27d46b9d0e9dbae2491672f23702ee2230eb73fc460759ef14955` /
+  `a8e11002ba5439c3d758e03faa1850a686e749cbe3230496f871329283300b4d`。
+  可复现 core 脚本由本体 TDD 实现，Sol medium 只读审查错误包络与 owner 边界，合同
+  冻结后 Luna max 仅实现 immutable bundle wrapper；最终由本体接入 coverage/proof。
+  canonical classified/unknown/claim/segment 为
+  6,122,489 / 168,967 / 14,484 / 16,593（97.3143% / 2.6857%），coverage SHA-256
+  `2b93df18a7815cb966dad707dfa2ad606049911ae1772a341b57cf2347b58e3b`。
+  正式 report/guard SHA-256 为
+  `34c390e98f367a2e885700fe95db32db9a2736ae8669cfe139524c576d2d9e1d` /
+  `8ed618bc7b648046cb3c01f3ca3b009f31143b6b74a1bb99a6bf43711de2d906`；
+  82/82 唯一结构化 contract 通过，ROM byte gate 72/72、bad=0，报告正确保持
+  `complete=false`、175 blockers。证据见 `notes/rom-mplaymain-scheduler-20260828.md`。
+- 2026-08-28：SoundMain relocated mixed-ISA source 已完成。`rom-soundmain-relocated-cfg-v1`
+  只晋升 916-byte mixed ARM/Thumb code 与 8-byte consumed literals；既有 2-byte
+  return veneer 保留原 owner。三个 2-byte align4 gap 由独立 boundary verifier 后续
+  分类，累计净晋升 930 bytes。canonical classified/unknown/claim/segment 为
+  6,123,419 / 168,037 / 14,493 / 16,600（97.3291% / 2.6709%）；coverage SHA-256
+  `31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563`。
+  正式 report/guard SHA-256 为
+  `d2e265e4c7ddc3148eeaa877772246a4944b53f1bfc75c8c97fc99ca5826f8b1` /
+  `edf30aa3feb13ba7500973c2ecad10a2f7f2c3bfb9c1f47d6f3d4d6d5c48c084`；
+  84/84 唯一结构化 contract 通过，ROM byte gate 74/74、bad=0，报告正确保持
+  `complete=false`、175 blockers。完整边界见
+  `notes/rom-soundmain-relocated-cfg-20260828.md`。
+- 2026-08-29：`rom-m4a-initializer-chain-v1` 已完成 canonical artifact、coverage、
+  proof 与 formal。六个 promotion range 只包含 `m4aSoundInit`、PSG initializer、
+  MPlayOpen 的 390-byte bounded Thumb code 与 128-byte consumed literals；三 root
+  的 raw producer 分母分别为 `[0x061E28]`、`[0x09AA56]`、`[0x09AA76]`。第一个
+  producer 4B 仍 unknown，只作 unpromoted provenance；`[0x09B1E6,0x09B1E8)` gap
+  也保持 unknown。接入后 classified/unknown/claim/segment 为
+  6,123,937 / 167,519 / 14,499 / 16,608（97.3374% / 2.6626%），coverage SHA-256
+  `ab315087593f23bfbcc96c66ac99b8bfd002e5c29cd462088dda343139f9ac27`。
+  正式 report/guard SHA-256 为
+  `8f6761d5f19cb9142caf5338971c4b1712aebf32f6f9cb08d98196b3d4d84c3e` /
+  `172d4a028aba3bfef2ca9ce9eeef9da8c07bbcf191e3fbe9424774a3a3e03628`；
+  85/85 唯一结构化 contract 通过，ROM byte gate 75/75、bad=0，报告正确保持
+  `complete=false`、175 blockers。下一首选是四段合计 562-byte 的 MP2K note
+  allocator/channel-gain closure；必须先由本体冻结 producer、CFG、literal 与单一
+  entry-pointer writer/consumer/domain 分母，冻结后才适合 Luna max 短包。再后才是需本体
+  拆分的 `[0x09B53C,0x09BCE4)` 1,960-byte CGB/PSG callback 包络。
+- 2026-08-29：`rom-mp2k-note-allocator-v1` 已完成 canonical artifact、coverage、proof
+  与 formal。只晋升 `[0x09A6D8,0x09A708)`、`[0x09A708,0x09A8FE)`、
+  `[0x09A900,0x09A908)`、`[0x09AF24,0x09AF28)` 四段，共 550-byte bounded Thumb
+  code、8-byte consumed literals 与 4-byte initializer-consumed entry pointer；
+  `[0x09A6D2,0x09A6D8)`、`[0x09A8FE,0x09A900)`、
+  `[0x09AEF4,0x09AF24)`、`[0x09AF28,0x09AF34)` 合计 68 bytes 保持 unknown。
+  独立 worklist 为 269 instructions、66 blocks、99 internal edges、5 external edges、
+  2 returns、0 frontier，consumer command 域固定为 0..48。接入后
+  classified/unknown/claim/segment 为 6,124,499 / 166,957 / 14,503 / 16,614
+  （97.3463% / 2.6537%），coverage SHA-256 为
+  `3926d1cd6e09c8b45b85cb33d0b2f77d83578ec71c17d61fa1282d863f220735`。
+  canonical manifest / payload / binary SHA-256 分别为
+  `a2f61cb3596c8e48294ba07c710a2681bbe8ca8173c6d9288beccd5dd3e1cf8a`、
+  `a4ccf706d2c8db658b6fa402d13155c73d15e84c197f9da4e8975759a14b0fa6`、
+  `3c3a1dab618964db40570b65c28ae08500a30392c65c25d870291ee5abb1587c`。
+  formal report/guard SHA-256 为
+  `46b4b0c9b80b7ef2d8eaff9fb0572370c315d47baa05290d4fb2da327a95e7ce` /
+  `7a69b38343c8a1b68392368cd0b130d6817b888fa3b3c90cf445a7d05e54adaa`；
+  86/86 实际结构化 contract 全通过，ROM byte gate 76/76、bad=0，报告正确保持
+  `complete=false`、175 blockers。下一包改为 102-byte MP2K 18-entry dispatcher
+  additive delta；不得修改历史 candidate-027 的 rejected 状态，也不得把两个 2-byte
+  gap 或整个 1,960-byte CGB/PSG 包络一并晋升。证据见
+  `notes/rom-mp2k-note-allocator-20260829.md`。
+- 2026-08-29：`rom-mp2k-dispatcher-v1` 已完成 canonical artifact、coverage、proof
+  与 formal。四个 primary claim 只净晋升 `[0x09BCB4,0x09BCE2)` 的 46-byte root
+  code、`[0x09BD24,0x09BD30)` 的 12-byte table tail、
+  `[0x09BDC4,0x09BDEC)` 的 40-byte handler code 与
+  `[0x09BDFC,0x09BE00)` 的 4-byte consumed literal，共 102 bytes。五段既有 owner
+  共 238 bytes 只作 provenance；两个 2-byte gap 保持 unknown，历史
+  `candidate_027` 的 rejected 状态未改写。完整 bounded CFG 固定为 129 instructions、
+  260 code bytes、36 blocks、65 internal edges、1 external edge、1 return、0 frontier
+  与 18 条 dispatch edge。接入后 classified/unknown/claim/segment 为
+  6,124,601 / 166,855 / 14,507 / 16,617（97.3479% / 2.6521%），coverage
+  SHA-256 为
+  `22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839`。
+  正式 report/guard SHA-256 为
+  `3321709fa8440c8857d895b1cb467a3959989be0cc639abfe439bdb91e43ddc0` /
+  `b6e177ccff24a0cb19ad6e500968c4905bae3a0758abd466a2174cfd4bf8d036`；
+  87/87 唯一结构化 contract 全通过，ROM byte gate 77/77、bad=0，报告正确保持
+  `complete=false`、175 blockers。下一批合并冻结 `[0x09B53C,0x09B5F4)` 的两个
+  CGB helper 与 `[0x09B5F4,0x09BA3E)` 的 `CgbSound` bounded closure；共享同一
+  immutable precoverage，再统一接入 coverage/proof，禁止扩张到整个 1,960-byte
+  包络。证据见 `notes/rom-mp2k-dispatcher-20260829.md`。
+- 2026-08-29：CGB helper、CgbSound 与统一 artifact-bound gap 接入已完成。
+  `rom-cgb-helper-bounded-cfg-v1` 只晋升 164-byte bounded Thumb code 与 16-byte
+  consumed literals；`rom-cgbsound-bounded-cfg-v1` 只晋升 1,008-byte bounded
+  Thumb code 与 76-byte consumed literals；13 段独立边界 gap 共 26 bytes。
+  本批净增 1,282 bytes、37 claims、37 segments，canonical
+  classified/unknown/claim/segment 为
+  6,125,883 / 165,573 / 14,544 / 16,654（97.3683% / 2.6317%），coverage
+  SHA-256 为
+  `05215215595f0614f0461fa7502703ca62ccaa07159ddb27810f9903a31ef6d6`。
+  双 artifact 的 manifest/payload SHA-256 分别为
+  `8a53b3ee982799583e08ef852fb2cac9771f856e77ed104cc2814cfd1e7ef6d1` /
+  `dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960`
+  与 `4248c0fed46682d06918ac124d3c861a60c12117023a773190ff831840963b6e` /
+  `362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d`。
+  formal report/guard SHA-256 为
+  `613cee1f8c72882aebe6ffaf617fc2fa1ea556ca9235f9f78607132dd189a567` /
+  `7515d1e4c9a47f6508209a17747992e4219619075ada9f6a8766bb9045315e7a`；
+  88/88 个唯一结构化 contract 全通过，ROM byte gate 78/78、bad=0，报告正确保持
+  `complete=false`、175 blockers。余下 630-byte 连续包络不得整体分类。虽只读扫描
+  在 `0x061F14` 找到唯一可解码为指向 `0x09BA68` 的 raw Thumb `BL`，其 source
+  自身仍位于 unknown，尚无已证明 CFG/table/callback membership，因而不能据此把
+  100-byte target 与 4-byte literal 晋升为 code/root。该草案已在 GREEN 前停止；
+  104 bytes 与其余 526 bytes 均继续 unknown，只有先闭合 source membership 才可重开。
+- 2026-08-29：CFG proven-roots v12 immutable bundle、coverage、proof 与 formal 已完成。
+  唯一已证明 producer 为 `0x08061416 -> 0x08064478`；目标只晋升四段闭合 Thumb
+  code 共 372 bytes 与四段指令实际消费 literal 共 128 bytes，合计 8 claims / 500
+  bytes。`[0x0644C2,0x0644C4)` 与 `[0x06450A,0x06450C)` 两个 2-byte hole 继续
+  unknown，source/producer 保留既有 owner。canonical classified/unknown/claim/
+  segment 为 6,126,383 / 165,073 / 14,552 / 16,665（97.3762% / 2.6238%），
+  coverage SHA-256 为
+  `96fba5e10bbef80eb0326e7dd85d07babdcffb63674a0fecd046c8b9edc427eb`。
+  formal report/guard SHA-256 为
+  `961ace784373243954097418880fdbf52419385b2e34f62a136f7920b032306a` /
+  `53546d31216f134a9e22cddfb79fb2e01cd9642e494e4429eb0b2ebe4e6ab0eb`；
+  89/89 个唯一结构化 contract 全通过，ROM byte gate 79/79、bad=0，报告正确保持
+  `complete=false`、175 blockers。该包不声明自然运行时可达、全局 caller/code/
+  indirect/computed target 分母、literal 业务语义、编辑、写回、重定位或可分配空间。
+- 2026-08-30：CFG proven-roots v13 immutable bundle、coverage、proof 与 formal 已完成。
+  固定目标 `0x080651F8` 的全 ROM target-limited 直接 producer 分母只有
+  `0x080614D0` 一条已证 source Thumb BL；目标只晋升三段闭合 Thumb code 共
+  312 bytes 与三段指令实际消费 literal 共 80 bytes，合计 6 claims / 392 bytes。
+  `[0x0652DE,0x0652E0)` 与 `[0x06536A,0x06536C)` 两个 2-byte hole 继续
+  unknown；`0x065368 bx r0` 保持唯一 unresolved indirect-PC frontier，不能称为
+  structured return。immutable wrapper 在动态加载 legacy verifier 前后都独立锚定
+  运行时依赖。canonical classified/unknown/claim/segment 为
+  6,126,775 / 164,681 / 14,558 / 16,673（97.3825% / 2.6175%），coverage
+  SHA-256 为
+  `e8787f8e200e84b2966c6f6b8c70ea164a0f90d81348d88e5daa614ea3cb8004`。
+  formal report/guard SHA-256 为
+  `6bced154df1d4ca3940f597f64ef36bb5ebd8c3f9d995f62fce34ad92b8793c2` /
+  `23893d0b4996fac334cc4b93596e1e3a28ee5cc7302636c5abd5b8b34037d369`；
+  90/90 个唯一结构化 contract 全通过，ROM byte gate 80/80、bad=0，报告正确保持
+  `complete=false`、175 blockers。该条是冻结的 V13 历史快照；其旧 CFG 汇总字段已
+  被后续综合 registry 取代，不得当作当前全局 aggregate。
+- 2026-08-30：CFG proven-roots v14 immutable bundle、canonical coverage、综合 CFG
+  registry 修正、proof 与 formal-r2 已完成。五条 V12/V13 accepted producer 证明
+  `0x0624C0` 与 `0x062510` 两个根；只晋升 120-byte Thumb code 与 40-byte consumed
+  literals，共 4 ranges / 160 bytes、60 instructions、10 blocks、0 hole。
+  `0x0624FE bx r0` 与 `0x062546 bx r0` 保持两个 unresolved indirect-PC frontier。
+  manifest / payload / coverage SHA-256 分别为
+  `666772f43529a5578414c5b749e16ea8733a755a0a818e86cea81bd86d57091d`、
+  `d99c0cdc367637b62754b941926e22d09bef08f9a3e89817fbf42dafc0a7edff`、
+  `2592ce481515af301ef5ce4078d3e9101793bf790f1bc90a6d33d5a06c207317`。
+  canonical classified/unknown/claim/segment 为
+  6,126,935 / 164,521 / 14,562 / 16,677（97.385009% / 2.614991%）。综合 registry
+  将 V14 当时的 bounded-CFG 汇总修正为 ARM 956、Thumb 148,380、producer 32、promoted
+  149,368 bytes、3,829 claims、32 code kinds，registry SHA-256 为
+  `d57f6b22f597eb6cfcad6a746122870917fbc24b0e70a885a432a57c729a227f`。
+  formal-r2 report / guard SHA-256 为
+  `f9c2a1014b62dc7449db7f35965a1d42db01eb4972e43c81d961688e0befa786` /
+  `3786c8d4e51c8070a021064433535429dc22efe5dcfb84ae4e156fe1039d7fa4`；
+  91/91 contract、ROM byte gate 81/81、bank contract 10/10 全部通过，报告仍正确为
+  `complete=false`、175 blockers。formal-r1 的旧 aggregate 已被 r2 取代。
+  后续 V15 只对五个 source-bound roots 做 root-isolated preflight；864-byte
+  root-forward unknown ceiling 不是 promotion 估计，`0x08B644→0x08ACC8` 因缺少
+  accepted source membership 已排除。该后续工作已由下一条完成记录取代。
+- 2026-08-30：CFG proven-roots v15 已完成独立 preflight、TDD、canonical artifact、
+  dependency-first immutable bundle、coverage、proof 与 formal-r2。接受
+  `0x0611F4`、`0x0618FC`、`0x08B6F0`、`0x09A3E0` 四根，拒绝 `0x09C0F4`；
+  只晋升 398-byte Thumb code 与 52-byte consumed literals，共 10 semantic ranges /
+  7 union ranges / 450 bytes、197 instructions、31 blocks。三个 indirect-PC frontier、
+  六段合计 386-byte holes 与 rejected range 继续 unknown。manifest / payload /
+  coverage SHA-256 分别为
+  `7fb00210d8347df1935d6997afa66183d6cbaa4d7d26208f744256e09f11755f`、
+  `5786c04ae36d78957705175dfce38da190bb29682c640c6821bb44ec4c321cd2`、
+  `c76ac479b6798b856ff839b9f9388f537f912247481ee06ff53ad52c504624c9`。
+  canonical classified/unknown/claim/segment 为
+  6,127,385 / 164,071 / 14,572 / 16,693（97.392162% / 2.607838%）；综合 CFG
+  registry 为 ARM 956、Thumb 148,778、producer 32、promoted 149,766 bytes、
+  3,835 claims、33 code kinds，registry SHA-256 为
+  `10ae3cc720e787630957b7c7bbbbae379ec5f3e542dbabeb871df861915a676b`。
+  formal-r2 report / guard SHA-256 为
+  `3002d624f4a5354c4bf0f410aa7923c8377c33e96c263d6df6299ef67deefb63` /
+  `b10f03289ab3b941a3bb3d0dd30edc806816dc5a262224ec5137a28e94ada220`；
+  92/92 contract、ROM byte gate 82/82、bank contract 10/10、bad=0，报告仍正确为
+  `complete=false`、177 blockers。formal-r1 的两项环境合同失败已由隔离 env TDD
+  修复和 r2 取代。该条保持为 V15 历史收据；后续 menu-gap 结果见下一条。
+- 2026-08-30：menu portrait LZ77 endpoint→palette 起点的短零对齐间隙已完成
+  preflight、Luna max 小包 TDD、父代理变异验收、canonical coverage、proof 与 formal。
+  独立 verifier 从 896 条 pointer-reachable LZ77、74 个菜单资源和 70 段物理 palette
+  分母重建 52 段 / 110 bytes，长度分布 16×1、14×2、22×3；每段逐字节为零、紧邻
+  两侧 owner 且右端 align4。range / boundary / packed SHA-256 分别为
+  `e88d3a42d6e3144919668ade6db9f9caa21e8aab1502d8b3d9c84a148875bbf7` /
+  `13ab975a67b42528abeef6075ff1f71b9440a7e53806f4f07f345d2e30900ddb` /
+  `f23391587f1c9fc48eabd1e95f4caf16f585ef09941b7bc24f023d228e81ccd5`。
+  canonical classified/unknown/claim/segment 为
+  6,127,495 / 163,961 / 14,624 / 16,693（97.393910% / 2.606090%）；coverage /
+  proof SHA-256 为
+  `c2798b35f4ac21f170c9a7575cbf10118aad98d58efbebf3d59ca9f599216133` /
+  `eaa8b7f2b37feaa9686d83c84f6fd16672e6b6ae3038e0ccf16ece96c4698eb2`。
+  formal report / guard SHA-256 为
+  `92b4b471b972bcc789848f78192f8c5162deeeb0ab0c1bce77e818694e88ba3a` /
+  `e0985d49922e2473229c8c28c4182013e9497718977e07807a52885e76b2b66e`；
+  93/93 个去重后的实际命令、ROM byte gate 83/83、bank contract 10/10 全部通过，
+  bad=0，耗时 3,385.228261 秒，峰值 RSS 680.0625 MiB、非降级。报告保持
+  `complete=false`、177 blockers。
+- 2026-08-30：tile-BG LZ77 endpoint→palette source 的短零对齐间隙已完成
+  script-first preflight、Luna max 小包 TDD、父代理两项语义补强、165-byte mutation、
+  canonical coverage、proof 与 formal。独立 verifier 从 896 条 pointer-reachable
+  LZ77、79×68 descriptor、236 个 palette entry、108 个 raw range / 107 个 merged
+  claim 重建 84 段 / 165 bytes，长度分布 31×1、25×2、28×3。range / boundary /
+  packed SHA-256 分别为
+  `684c4ad2fa1256261de50ed01f8a781bde09b7514f4cab0c5ec5dec9a0b472e2` /
+  `b96f496cb68ed87905d62c39a148f67b2fef4e10bfa9e2b6b004f2d1644fe448` /
+  `2aa1fd6b1e4d7e4352751c0a8b7acb6fd9aa3a3a4c994f52b0a214c6f346277d`。
+  canonical classified/unknown/claim/segment 为
+  6,127,660 / 163,796 / 14,708 / 16,693（97.396533% / 2.603467%）；coverage /
+  proof SHA-256 为
+  `1ddc10027b7642399bce8c1a07871ce3a141ca6f2b323c19a650469274cb2df4` /
+  `b7423201e3f84280c5556d8d42b95de6c03c07fefcfc85f3d05bf71d5c614c57`。
+  formal report / guard SHA-256 为
+  `37ef4055b419cb520e3bbaf953ca81f3ae72fdc2613032235498ec298dc87832` /
+  `7d7fd44829fa1359c619182f2103b3856d359a63dc6f143113a10eb850592779`；
+  94/94 个实际唯一命令、ROM byte gate 84/84、bank contract 10/10 全部通过，
+  bad=0，耗时 3,263.08749 秒，峰值 RSS 692.83984375 MiB、非降级。报告保持
+  `complete=false`、177 blockers；两个非零 long gap 与七个 heterogeneous short gap
+  均正确留在合同外。
+- 2026-08-31：boot Thumb code→consumed-literal 的 12 段 / 24-byte 冻结对齐边界包
+  已完成。独立 verifier 从 `rom-boot-thumb-handoff-cfg-v1` 的完整 27 code range / 22
+  literal range / 77 binding 分母投影全部正长度邻接，并从 raw ROM 重解 6 个直接跳转、
+  5 个严格返回和 1 个间接 terminal；12 段均为 2-byte `0000` align4 boundary。
+  canonical classified/unknown/claim/segment 为
+  6,127,684 / 163,772 / 14,720 / 16,693（97.396914% / 2.603086%）；coverage /
+  proof SHA-256 为
+  `7726d4713ba298da44337da7c7178d2cc9bd29af6f7ea882cfa715cbade6714a` /
+  `6ff897133f1d89d62d214ed23434baad1d04c9df0468db639a6eaebc9e33afe2`。
+  formal report / guard SHA-256 为
+  `b98828aa94f6704cca82bca876b9154f5e950fc1afcd2df535f7e833f98d00d8` /
+  `75afa7d5f183e08f4efb064d7fb0aadcfd4869694643871d7e096b2f8e3fcab0`；
+  95/95 实际唯一命令、ROM byte gate 85/85、bank 10/10 全部通过，非降级。
+  不改写源 artifact 历史 scope，也不声明全 ROM boot gap、padding、free/allocatable、
+  自然可达、编辑或重定位安全。由于最近三个 gap 包合计仅净增 299 bytes，后续改为
+  批量聚类 unknown，优先冻结预期净增至少 1,000 bytes 的语义族；几十字节 gap 只并入
+  里程碑批次，不再单独触发完整 formal。
+- 2026-09-01：首个同信任边界批次里程碑闭合 v2 / proven-roots v6 / proven-roots v1
+  的 consumed literal words，分别净增 6,796 / 2,980 / 1,396 bytes，合计 11,172 bytes、
+  946 claims 且目标零重叠。canonical classified/unknown/claim/segment 为
+  6,138,856 / 152,600 / 15,666 / 17,182（97.574488% / 2.425512%）；coverage / proof
+  SHA-256 为
+  `66a5e95bd2927f9db13435f6862a052ad60634cfbd3a8b5dfad07459a4a12329` /
+  `85962384fda90272f4d89f6ca523b1055b3963725669f4c13c8772faa8a56f5d`。
+  formal-r2 的 report / guard SHA-256 为
+  `16c49cbb5cc95168b2e20b35b1a2f2fc6155638c5e27db59af1b88eb704143f7` /
+  `abf5dcffb1cc326364c860badb15f5a7c29cc16eedff6ec94d5e22147ef2ba9f`；
+  98/98 实际 verifier、ROM gate 88/88、bank 10/10 全部通过，非降级。loaded value
+  业务含义、自然可达扩张、相邻字节、编辑、重定位和 free/allocatable space 均未声明。
+- 2026-09-01：第二个 consumed-literal 批次接入 CFG v3、proven-roots
+  v2/v3/v4/v5/v7/v8/v9 合并包、battle-controller CFG 与 v2 shadowed consumer
+  slice，净增 3,320 bytes / 274 ranges，四包零重叠。canonical
+  classified/unknown/claim/segment 为 6,142,176 / 149,280 / 15,940 / 17,344
+  （97.627258% / 2.372742%）；coverage SHA-256 为
+  `24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987`。
+  非降级 formal report / guard SHA-256 为
+  `8ec5119f4f21132721a0727bc4d6caf18a570076bce45093425334b573fe001d` /
+  `7458b23dd71a825364bf27f5914bca326615ebb59ff4c94df82837b4b4c19ec3`；
+  102/102 实际结构化 verifier、ROM gate 92/92、bank 10/10 全部通过。
+- 2026-09-01：四个 accepted consumer-code-slice packet 作为同一批次接入：profile
+  selector 164 bytes / 2 ranges、chapter selector 64 bytes / 1 range、generic sprite
+  loader tail 36 bytes / 1 range、battle status-bar caller 1,856 bytes / 1 range，合计
+  净增 2,120 bytes / 5 claims。canonical classified/unknown/claim/segment 更新为
+  6,144,296 / 147,160 / 15,945 / 17,349（97.660955% / 2.339045%）；coverage /
+  proof SHA-256 为
+  `064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa` /
+  `bd634d12c3e3c94c69236648d8d3961898256176cc45f17525862c756b138dd9`。
+  本批同时修复后续合法 packet 会触发旧 consumed-literal verifier 历史全局汇总误报，
+  并让 formal 复用已经执行的同进程 coverage report，消除同一 coverage 的第二次完整
+  重建。去重后 formal report / guard SHA-256 为
+  `369c84311c2a753c93b4d7b9868f7752f8d8a9780021264737002b4a7269c80c` /
+  `af1a7354baf64a6942a6f37a32015b553e91cdc7675714e3dfcbd5ee47fa4ef9`；
+  106/106 实际结构化合同通过，ROM gate 96/96，coverage 合同有且仅有一次
+  `reused-in-process`，非降级，耗时 1,965.474851 秒、峰值 RSS 496.792969 MiB。
+- 2026-09-01：`rom-event-handler-cfg-v1` 已通过一级快速审计并进入下一批队列，尚未改写
+  canonical coverage。固定 512-slot producer 表得到 247 个匹配槽 / 19 个唯一 roots；
+  接受 18 roots，拒绝越过冻结边界的 `0x07F064`。独立 raw verifier 复验 1,742
+  instructions、3,910 code bytes、152 literal bytes，promotion union 为 4,062 bytes，
+  174 bytes holes 保持 unknown。当前正式进度仍为 97.660955%；仅 projection 为
+  6,148,358 classified / 143,098 unknown。达到批量门槛前不单独 rebuild/formal。
+- 2026-09-01：同批第二个 `rom-sprite-component-source-v1` 已通过一级快速审计，固定
+  consumer chain 精确闭合 `[0x12C904,0x12D134)` 的 2,096 bytes：96 个 component
+  records、12 个 definition slots、12 个 timeline keyframes、4 个 animation slots；
+  consumer code 与相邻 3 bytes 均未晋升。两包累计 projection 为 +6,158 bytes，预计
+  6,150,454 classified / 141,002 unknown / 97.758834%；canonical 仍保持 97.660955%。
+- 2026-09-01：撤回 positions group47 renderer text `1,022 / 1,710 bytes` 候选。
+  独立反汇编确认 `0x06E810` dispatcher 只把 3×16 个 4-byte cells 当作 selector 与
+  参数，handlers 只读当前 cell 并调用 `0x081024` battlefield object allocator；8 个
+  pointer-shaped cells 的 selector byte 均大于 7，全部 default skip，没有解引用或
+  renderer consumer edge。机械 parser 仅得到 8 段 / 146 bytes，旧 1,022 估算是
+  `146×7` 的错误乘法；66-byte 零间隙也没有消费顺序证明。该候选不计 coverage，相关
+  字节继续 unknown，只有找到真实解引用至 renderer 的冻结链后才允许重开。
+- 2026-09-01：同批第三、第四包完成一级快速审计。`rom-cfg-proven-roots-v16` 由 19 个
+  已分类 direct Thumb BL producers 证明 15 roots；2 个 unknown-owner 形态命中失败关闭
+  排除。父代理 TDD 修复 `0x09C106` SoftReset `svc #0` 的终止语义，避免把随后
+  `[0x09C108,0x09C110)` 两个 literal words 错算成代码；最终 369 instructions / 70
+  blocks / 778 code bytes。其 consumed-literals 包再独立重解 51 个唯一 word / 204 bytes。
+  四包现已统一接入 canonical，净增 +7,140 bytes / 116 claims；authoritative
+  classified/unknown/claim/segment 为 6,151,436 / 140,020 / 16,061 / 17,483，
+  即 97.77444203694662%。coverage / proof SHA-256 为
+  `4e8ab6b090825901ab7b055326e64a6a16343ec95ac33cfe5e0dbe7721eb2440` /
+  `9b78c91a30b1150c82b9e213b08087afcaeb8237a3d3365ec5b57c409ae481d7`。
+  mutable 历史 coverage 基线已压缩固化并由一个统一 verifier 重放四个原 verifier；
+  formal 不再重复单列该 verifier。非降级 formal report / guard SHA-256 为
+  `8e6dbd0bb776672ac7927f865fc43b97638091f034b583eb94bd28d5e167104f` /
+  `8e09c74bf4212cf735673d9196dfb16530eafcb11eca244c1aeea27da241b81f`，
+  106/106 实际结构化合同、ROM gate 96/96 全部 contract-ok；140,020 unknown 与其他
+  发布 gate 仍使 proof 正确保持 incomplete。
+- 2026-09-01：从 140,020 unknown 重聚类后，合并 `rom-cfg-proven-roots-v17` 包由两个
+  已分类 direct Thumb BL 证明 `0x0914D8` root，并在 `[0x091676,0x091FE0)` 精确分类
+  2,092 reachable code + 308 closure-wide consumed literal = 2,400 bytes / 26 claims；
+  五个 2-byte gap 保持 unknown。canonical classified/unknown/claim/segment 更新为
+  6,153,836 / 137,620 / 16,087 / 17,513，即 97.81258900960286%；coverage SHA-256 为
+  `23eb0ceaf4d38b8cadb74e05ddf8686de454d5e73c433da26073075d1fa71e78`。
+  2,688-byte 112×24 表外观因 index=120 反例与 lifecycle 开放拒绝；736-byte 全零 gap
+  因不满足 alignment/parser-bound 合同拒绝。后续继续优先选择能冻结 producer/consumer
+  分母且净增至少 1 KiB 的集群，不用全零或表外观填充进度。proof SHA-256 为
+  `2110942b50ea9e33592b0f1ce339092fbc1e041c647e343c4e298f69231f80c4`；非降级 formal
+  report / guard SHA-256 为
+  `9a66f8b2fc5e7840b4226ad306dbd10c68dc4243c5e40cab7927ed84c15eaf3f` /
+  `7be0f457a6da35600c868972df77dac384a1bae4d7500e0e2e36f5a691e5ed8d`，
+  106/106 contracts、ROM gate 96/96 全部 contract-ok，coverage 仅一次进程内复用；
+  137,620 unknown 与其他发布 gate 使 proof 正确保持 incomplete。
+- 2026-09-01：`rom-cfg-proven-roots-v18` 以两个 roots 和四条已分类 direct Thumb
+  producers，在 `[0x09106C,0x09163E)` 精确新增 1,386 code + 96 consumed literal =
+  1,482 bytes / 17 claims；四个 2-byte gaps 与目标外子树继续 unknown。canonical
+  classified/unknown/claim/segment 更新为 6,155,318 / 136,138 / 16,104 / 17,533，
+  即 97.836144765218%；coverage / proof SHA-256 为
+  `984eb8ed8ef72691e1b580b00465d24e1762bb5c0604c35fe76db40153fc42e0` /
+  `af16a0e8df448032e2f16a2e984e4df94b1b914bb0444ae9e225a2e0491c9f80`。
+  2,460-byte `[0x063ADC,0x064478)` 候选因唯一上游 producer 仍为 unknown 而零晋升。
+  非降级 formal report / guard SHA-256 为
+  `fc3d2ce85af12f5d26e2703811edd8bf56070c35b7ffac7efa24a4fde1105290` /
+  `9f31c62b289e9d127256db543ff264f37f1082be3452d13f0dc410ed55853f69`；
+  106/106 contracts、ROM gate 96/96 全部通过，proof 因 136,138 unknown 与其他发布
+  gate 正确保持 incomplete。
+- 2026-09-01：完成 boot interwork continuation 与 `rom-cfg-proven-roots-v19` 的显式
+  依赖 DAG。先证明 `0x06108A` 静态 continuation 的 94 bytes，再以其中唯一
+  `0x061092 BL -> 0x065728` 为 producer，分类目标本地 1,600 code + 60 literal；
+  总净增 1,754 bytes，六个 2-byte 洞保持 unknown。coverage 审计改为一个通用
+  dependency-packet 投影 helper 并一次性原子写入，未减少独立 verifier。
+- canonical classified/unknown/claim/segment 更新为 6,157,072 / 134,384 / 16,124 /
+  17,557，即 97.86402384440103%；coverage / proof SHA-256 为
+  `b51f322d...74008` / `57b62f81...0b45`。formal report/guard
+  `f31c5546...fc95` / `73b3d913...89c2` 非降级通过，106/106 contracts、ROM gate
+  96/96；proof 仅因 134,384 unknown 与既有发布 gate 保持 incomplete。
+- 2026-09-02：接入 `rom-chapter-script-unbound-tail-v1`。固定 slots 45/46 的 8-byte
+  pointer vector 与两个无 frontier parser closure 合计净增 3,186 bytes / 3 claims；
+  两个 1-byte 边界洞继续 unknown。canonical classified/unknown/claim/segment 更新为
+  6,160,258 / 131,198 / 16,127 / 17,559，即 97.9146639506022%；coverage / proof
+  SHA-256 为 `3b13c811...9daf` / `fdaef96c...68df`。审计依赖改为 historical reference
+  与 auditor current-unknown projection gate 分责，消除 mutable coverage 自失效环；
+  formal report/guard `1f3a392b...ef75` / `52e34d3e...a2b6` 非降级通过，106/106
+  contracts 全部 contract-ok，proof 因 131,198 unknown 与既有发布 gate保持 incomplete。
+- 2026-09-02：接入 `rom-chapter-script-consumer-roots-v1`。两个固定 consumer 通过
+  PC-relative LDR、寄存器搬运和同一 parser BL 分别绑定 `0x05CD41` / `0x05D593`，
+  两个无 frontier closure 精确净增 16,175 bytes / 2 claims；consumer slices 仅作证据，
+  两侧 1-byte / 4-byte 边界继续 unknown。canonical classified/unknown/claim/segment
+  更新为 6,176,433 / 115,023 / 16,129 / 17,562，即 98.171758651733%；coverage /
+  proof SHA-256 为 `b71a91d...ed52` / `8d6ec4cf...0c96`。coverage 复用声明式
+  dependency-packet 投影，formal 不新增重复 verifier；formal report/guard
+  `b7ff8d64...a289` / `12b01904...fe9` 非降级通过，106/106 contracts、ROM gate
+  96/96 全部 contract-ok。下一步以新 canonical 重聚类 115,023 unknown，继续优先
+  冻结预期净增至少 1 KiB 或可解除上游 owner blocker 的 producer/consumer 家族。
+- 2026-09-02：`rom-battle-condition-result-text-v1` 通过一级快速审计并进入下一批队列。
+  完整 1,128 行物理条件表中的 230 个 active slots，经公共仲裁读取 payload `+4` 并送入
+  result renderer/parser；219 个唯一记录精确闭合 3,961 bytes / 219 claims。canonical
+  仍为 6,176,433 classified / 115,023 unknown / 98.171758651733%；待合并投影为
+  6,180,394 / 111,062 / 98.23471705118814%。由于本批仅 3,961 bytes / 1 packet / +0.063
+  个百分点，未达到二级审计门槛，暂不重复运行全量 coverage/formal。2,782-byte 记录间隙、
+  `[0x9974,0x9F2E)` 尾部及 positions group47 物理别名均不晋升。
+- 2026-09-02：第二个快速 packet `rom-alternate-dialogue-table-v1` 闭合 3,200 bytes /
+  161 claims。固定 direct invocation 以 CpuSet 清零 index，逐轮自增，并由
+  `0x091E52 CMP #19`、唯一 state-zero write 与 dispatcher backedge 精确消费 rows
+  `0..19`，index 20 直接退出；20×20-byte table、80 条 NUL text 与 80 段固定零间隙
+  分别为 400 / 1,214 / 1,586 bytes。两包累计投影达到 6,183,594 classified /
+  107,862 unknown / 98.28557968139648%，但 +7,161 bytes / +0.113821pp / 2 packets
+  仍未达到二级审计门槛，canonical 暂不改写。`[0x45832C,0x458794)` 与 computed/
+  indirect root producers 保持开放。
+- 2026-09-02：四包快速审计队列达到 `4 packets` 门槛并统一合并。新增
+  battle-condition result text 3,961 bytes、alternate dialogue 3,200 bytes、story-state
+  callback CFG 702 bytes、callback downstream entry C4CC 220 bytes，共 8,083 bytes /
+  395 claims。canonical 更新为 6,184,516 classified / 106,940 unknown / 16,524
+  claims / 18,175 segments，即 98.30023447672525%；coverage/proof SHA-256 为
+  `e48c8f6d...9c36` / `7efbccde...83e0`。非降级 formal report/guard SHA-256 为
+  `6960c095...9cc5` / `b056eddf...8b69`，106/106 contracts、ROM gate 96/96 全部
+  contract-ok。`[0x08C5A8,0x08CBB4)` 1,548 bytes 及 callback 四个 2-byte holes 保持
+  unknown；下一轮必须基于新 coverage 重聚类，不得复用 `b71a91d1...ed52`。
+- 2026-09-02：按新的分层审计规则完成下一批第一包
+  `rom-text-bg-loop-continuation-v1`。当前已分类 source owner 证明唯一
+  `0x08B644 BL -> 0x08ACC8`，精确闭合 42-byte Thumb code + 12-byte consumed
+  literals = 54 bytes / 2 claims；投影为 6,184,570 classified / 106,886 unknown /
+  98.30109278361002%。由于仅 1 包、54 bytes、0.000858pp，canonical coverage/proof/
+  formal 暂不重建，继续等待批量门槛。`0x08ACF2` 后续与所有自然运行时、业务语义、
+  padding/free/edit/relocation 均不外推。
+- 2026-09-02：第二个一级快速 packet `rom-boot-copy-sources-v1` 闭合启动复制源
+  `[0x0004C8,0x000734)` 620 bytes / 1 claim。唯一 direct producer、完整 9 条 DMA3
+  descriptor、两次 CpuSet source/destination/control 均由 raw ROM 独立重建；V12
+  destination 已由错误的 `0x03000200` 更正为 `0x03005CE8`。14/14 packet tests、3/3
+  quick projection 与独立 verifier 通过。两包累计投影为 +674 bytes：6,185,190
+  classified / 106,266 unknown / 98.31094741821289%；尚未达到二级门槛，canonical
+  coverage/proof/formal 保持不变。
+- 2026-09-02：第三个一级快速 packet `rom-text-bg-task-closure-v1` 通过 callback
+  registration→task `+0x28` store→dispatcher `BX r1` 与 direct-call DAG，闭合十个
+  Thumb roots。完整重解 1,330 instructions / 2,782 code bytes / 260 consumed-literal
+  bytes；扣除 queued 与 canonical owner 后净增 2,940 bytes / 34 claims。9/9 packet
+  tests、3/3 quick projection 与独立 raw verifier 通过。三包累计为 +3,614 bytes，
+  projected classified/unknown = 6,188,130 / 103,326，即 98.3576774597168%；等待第四包
+  后统一里程碑审计，canonical 暂不变化。
+- 2026-09-02：第四包 `rom-fixed-renderer-script-records-v1` 从 canonical v2/v3 CFG
+  完整重建 41 个 PC-relative literal consumers，并以 bounded register-taint 证明其中
+  36 sites 把值送入固定 renderer/parser；五个 opcode 7/8 targets 失败关闭排除，30 条
+  unique records 精确晋升 1,124 bytes / 30 claims。Sol medium P1 复核提出的上游身份、
+  site denominator 与 r0 数据流缺口均已修复，最终无 P0/P1。
+- 2026-09-02：本批四包统一接入后 authoritative canonical 为 6,189,254 classified /
+  102,202 unknown / 16,591 claims / 18,261 segments，即 98.37554295857748%；相对上一
+  canonical 净增 4,738 bytes / 67 claims / 0.07530848185223pp。coverage / proof
+  SHA-256 为 `ff1b9a98...3622b8` / `d615ac45...bc2df`；最终非降级 formal-r2
+  `3dcfb9d2...dc86` 达到 106/106 contracts，coverage verified、零 errors。首次 formal
+  暴露 verifier report 瞬时 `coverage_state` 自失效，已通过稳定重放与一次合并重建修复；
+  后续把连续报告哈希检查前移到一级审计，避免重复全量工作。
+- 2026-09-02：新批次第一包 `rom-boot-state-dispatcher-cfg-v1` 通过一级快速审计。
+  continuation owner 内唯一 producer 解锁 96-byte 6-slot dispatcher 与五个 bounded roots；
+  精确净投影 2,532 bytes / 45 claims，12 个 2-byte holes 保持 unknown。Luna max 发现
+  CpuFastSet 的 SP alias 风险后补齐 source-only/fill-mode 内存副作用合同；Sol medium
+  发现 B/Bcond denominator 测试缺口后补 synthetic mutation 与独立 verifier decoder，
+  最终无 P0/P1。预计为 6,191,786 classified / 99,670 unknown /
+  98.41578801472983%，但未达到批量门槛，authoritative canonical 仍保持上一条数值。
+- 2026-09-02：第二包 `rom-fixed-animation-descriptor-groups-v1` 通过一级快速审计。
+  固定 caller group 域、allocator slot=0、4-group sequence、12-record pointer table、
+  renderer `0x14` stride 与两级 `0xFFFF` stop 共同闭合 `[0x12D574,0x12D9E4)`
+  1,136 bytes。11/11 packet tests、3/3 quick projection及最终 Sol 无 P0/P1。两包累计
+  投影为 6,192,922 classified / 98,534 unknown / 98.43384424845377%，仍未达到批量
+  门槛，因此 canonical coverage/proof/formal 未改写。
+- 2026-09-02：第三包 `rom-battle-distance-dispatcher-cfg-v1` 通过一级快速审计。
+  accepted owner 中的 unsigned `LDRB/CMP #6/BLS` 固定 7-slot table；七个 roots 独立
+  重建为 555 instructions / 126 blocks / 1,110 code + 24 literal bytes，25 条边只进入
+  accepted baseline、0 frontier。两个 2-byte 零洞保持 unknown，净增 1,162 bytes /
+  14 claims。三包累计投影 6,194,084 classified / 97,372 unknown；继续等待第四包后
+  统一执行二级 coverage/proof/formal，authoritative 哈希暂不改变。
+- 2026-09-04：第四包 `rom-bounded-index-u16-pair-table-v1` 以 unsigned
+  `CMP #7/BHI`、`index*4` 与两个 `LDRH` 闭合 `[0x53F2EE,0x53F30E)` 的 8×4-byte
+  表，净增 32 bytes / 1 claim；右侧 2-byte gap 保持 unknown。四包达到门槛后通过真实
+  canonical 集成测试统一接入，最终为 6,194,116 classified / 97,340 unknown /
+  16,652 claims / 18,332 segments，即 98.45282236735026%。coverage / proof SHA-256
+  为 `ae7c6933...90024` / `75408993...034f`；非降级 formal 106/106 contracts、ROM gate
+  96/96、bad=0。首次 coverage 因 30 分钟静默被 idle guard 误杀，后续规则改为静默重任务
+  idle 至少 120 分钟，并禁止用旧 canonical 加常数的算术外推冒充 Tier-2 集成验收。
+- 2026-09-05：新批第三包 `rom-prebattle-menu-controller-cfg-v1` 冻结唯一 direct
+  producer、`0..5` selector、六项 jump table、递归 current-unknown callee closure 与
+  accepted opaque-call owner。净投影 1,920 bytes / 52 claims；本批三包累计 3,216 bytes /
+  68 claims，overlay 为 6,197,332 classified / 94,124 unknown / 98.50393931070963%。
+  这是入队时的历史投影；随后第四包完成，下面的新条目取代本条的“authoritative 未变”
+  状态。
+- 2026-09-05：第四包 `rom-scene-source-closures-v1` 在
+  `[0x46401C,0x464534)` 内只晋升 71 段 parser-bounded text/fixed source 655 bytes 与
+  2 个 OBJ closures 360 bytes，共 1,015 bytes / 73 claims。46 段 / 90 bytes alignment
+  gaps 独立排队，23 段 / 199 bytes residual 和两个无 owner roots 保持 unknown；早期
+  1,029-byte 草案因包含 12 bytes unknown-only roots 与 2 bytes parser overrun 被拒绝。
+- 2026-09-05：v17/v18 helper、fixed pair、prebattle controller、scene source 四包合计
+  4,231 bytes / 141 claims，已通过真实 Tier-2 接入。authoritative canonical 为
+  6,198,347 classified / 93,109 unknown / 16,793 claims / 18,552 segments，即
+  98.52007230122885%；CFG aggregate 为 956 ARM / 168,334 Thumb /
+  169,322 promoted / 4,005 primary claims / 47 code kinds。coverage / proof SHA-256 为
+  `b14d1778...96b82` / `e50417ea...a8e9`。
+- 2026-09-05：三个 coverage-dependent packet 改为绑定 immutable precoverage
+  `rom-scene-source-four-packet-precoverage-v1`，避免 canonical 接入后 verifier
+  自失效。最终 formal 位于
+  `build/experiments/active/scene-source-four-packet-formal-r2-20260905/`，report / guard
+  SHA-256 为 `b2afd536...88da` / `f09deffd...30d`；106/106 contracts、ROM gate 96/96、
+  coverage errors=0。`complete=false` / 177 blockers 来自 93,109 unknown 与既有全局门，
+  不是本批回归。后续只在 4 packets、10 KiB 或 0.15pp 任一门槛触发 Tier-2；最终全量
+  审计只在 `unknown_bytes==0` 或 release 运行。
+- 2026-09-05：下一批的 story callback dependency 与 CFG proven-roots v20 已完成
+  两个 Tier-1 packet。前者 1,932 bytes / 32 claims；后者由唯一 accepted direct
+  producer 证明 root `0x062924`，净增 1,150 bytes / 18 claims。两包累计投影
+  6,201,429 classified / 90,027 unknown / 98.56905937194824%；未达 4 packets、
+  10 KiB 或 0.15pp，故 canonical/proof/formal 不重建。三个 BX 间接目标与
+  `0x061320` 的 shape-only producer 保持未证明边界。
+- 2026-09-05：第三个 Tier-1 packet `rom-story-next-dependency-cfg-v1` 已发布。唯一
+  accepted producer `0x08F928 BL -> 0x088F10` 位于已排队 story code owner；同目标的
+  `0x08F61A` 因仍在 unknown owner 只保留为 rejected shape match。raw closure 为
+  338 instructions / 96 blocks / 770 code + 84 consumed-literal bytes，三个 BX 保持
+  unresolved，五个 2-byte holes 保持 unknown；净增 854 bytes / 19 claims。
+- packet 10/10、Tier-1 projection 3/3、candidate/official 独立 verifier 均通过；正式
+  manifest / payload / verifier SHA 为 `a5429f89...669` / `d12f4b28...e6b` /
+  `ed5b3581...fa8`。三包累计 +3,936 bytes / 69 claims，投影 6,202,283 classified /
+  89,173 unknown / 98.5826333363851%。仍只有 3 packets，按简化审计策略不改
+  canonical/proof/formal；下一包完成即达到 4-packet Tier-2 门槛。
+- 2026-09-05：第四包 `rom-boot-register-init-dependency-cfg-v1` 由 boot continuation
+  exact producer block `0x06109E` 解锁 root `0x06178C`，闭合 154 instructions /
+  318 code + 128 consumed-literal bytes，共 446 bytes / 8 claims。三个 `BX r0` 保持
+  unresolved；2-byte hole 保持 unknown；相邻 24 bytes 继续归属三个既有
+  boot-handoff owners。packet 15/15、Tier-1 3/3、四包合并 13/13 与独立 verifier
+  全部通过。
+- 2026-09-05：本批四包累计 4,382 bytes / 77 claims，达到简化审计的 4-packet
+  Tier-2 门槛后一次性接入。authoritative canonical 为 6,202,729 classified /
+  88,727 unknown / 16,870 claims / 18,641 segments，即 98.58972231547037%；CFG
+  aggregate 为 956 ARM / 172,148 Thumb / 173,136 promoted / 4,048 primary claims /
+  51 kinds。coverage / proof SHA 为 `2cc07bc7...c01` / `3655c4a2...05ce`。
+- 唯一 coverage rebuild / formal 分别耗时 30 分 20 秒 / 40 分 46 秒，峰值
+  439.7265625 / 534.92578125 MiB，均非降级且无重跑；formal report / guard SHA 为
+  `3971d9ea...ac3b` / `88d11d5f...26a`，106/106 contracts、coverage gate 96/96、
+  errors=0。`complete=false` / 177 blockers 仍来自 unknown 与既有全局门；下一批从
+  新 canonical 重新聚类，继续优先选择至少 1 KiB 或可解除上游 blocker 的冻结包。
+- 2026-09-05：新批第一包 `rom-fixed-index-u8-tail-v1` 以四个 fixed immediate caller、
+  唯一 `0x0853E424` literal/consumer 和 13-call denominator 闭合
+  `[0x53E492,0x53E496)` 4 bytes；其余九条 caller 仅记 `excluded_non_fixed`。Sol review
+  的三项 P1 已经 TDD 修复；另冻结 `rom-post-story-dependency-precoverage-v1`，确保
+  post-promotion 稳定重放。precoverage + packet 16/16、Tier-1 3/3、独立 verifier 通过。canonical
+  仍为 6,202,729 / 88,727；队列投影为 6,202,733 / 88,723（98.58978589375815%），
+  只有 1 packet / 4 bytes，按简化策略不运行 full coverage/proof/formal。
+- 2026-09-05：第二包 `rom-story-selector-dependency-cfg-v1` 由 accepted story callback
+  producer `0x08F8DE` 解锁 `[0x08F544,0x08F594)`；另一个 shape match `0x08F676`
+  因 source unknown 失败关闭拒绝。独立 raw worklist 重建 37 instructions / 80 bytes /
+  3 opaque calls / 0 holes / 0 frontier，preowned literal 与 fallthrough 不重复认领。
+- 父级 P0/P1 review 找到向量/CFG 分母回填常量与普通 rename TOCTOU 两项 P1，均经
+  RED/GREEN 修复；packet 10/10、Tier-1 3/3、official verifier 通过。两包累计 84 bytes /
+  2 claims，投影为 6,202,813 classified / 88,643 unknown / 98.59105745951334%。未达
+  Tier-2 门槛，canonical/proof/formal 保持不变。
+- 2026-09-05：第三包 `rom-task-callback-078e38-closure-v1` 由唯一静态 callback
+  pointer `0x08078E39`、allocator `task+0x28` 写入和 scheduler dispatcher 读取链绑定。
+  raw closure 为 342 instructions / 61 blocks / 718 code + 60 literal bytes；五个
+  2-byte holes 继续 unknown。17 个 opaque callees 的栈/内存副作用未闭合，因此末端
+  `0x079144: bx r0` 明确保留 1 个 indirect frontier，不宣称 structured return。
+- 父级 review 的 payload/manifest 宽松校验、structured-return 超证据、路径 TOCTOU 与
+  最终验证后 staging 名称可替换四个 P1 已通过 RED/GREEN 修复；发布流程现在对
+  candidate/accepted 各做一次独立验真，并以 dirfd/O_NOFOLLOW/held-inode/原子
+  no-replace 固定最终身份。packet 13/13、Tier-1 3/3、三包合并 22/22 均非降级通过，
+  最终只读 P0/P1 reviewer 无发现。
+- 三包累计净投影 862 bytes / 18 claims：6,203,591 classified / 87,865 unknown /
+  98.60342343648275%。仍只有 3 packets 且低于 10 KiB/0.15pp，因此按简化审计规则不改
+  canonical/proof/formal；下一份有效 packet 将触发 4-packet Tier-2。
+
+- 2026-09-05：post-story四包实际接入978 bytes/21claims；canonical为6,203,707
+  classified/87,749 unknown/16,891claims/18,664segments，98.60526720682780%。
+  V21两个发布P1按TDD关闭，packet15/15；真实canonical/proof/持久收据集成9/9。
+  非降级formal106/106、ROM gate96/96、errors0；global incomplete/177blockers保留。
+  原始RED/GREEN和formal收据固化到notes/evidence；门禁修复本地提交e4b626462。
+  精确提交预检发现64个历史artifact根使用旧schema/收据/库存，迁移未完成，不绕过hook。

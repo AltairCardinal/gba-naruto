@@ -1,0 +1,138 @@
+{
+  "artifact_schema": "rom-scene-visual-source-ranges-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "b95e1239420e416fe03244d8e3584adc5dd93470dfa8bfe8e501addb78c3f2cd",
+    "summary": {
+      "claim_count": 13872,
+      "classified_bytes": 6102121,
+      "segment_count": 16119,
+      "unknown_bytes": 189335
+    }
+  },
+  "files": {
+    "rom-scene-visual-source-ranges.bin": "2eec5a820e1f79cc817e5976dc710e889adbee1038a4247652812a695832bc95",
+    "rom-scene-visual-source-ranges.json": "a4f7c40ea8730ad620faa5fe43abf77a59d3375c31e524d77af30f6828e58df9"
+  },
+  "limitations": [
+    "This is a fixed consumer/parser source extent inventory, not a claim over all scene sources.",
+    "The existing LZ77 primary ranges are provenance only; this promotion does not assign new LZ77 semantics.",
+    "The pack-05 definition overlap records the old primary claim and does not correct or replace that claim.",
+    "No gap, padding, free-space, natural reachability, final-pixel, editing, relocation, or real-GBA claim is made.",
+    "Consumer code is evidence only; pure consumer-code ownership is outside this source-range promotion."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_scene_visual_source_ranges.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "build/experiments/active/luna-scene-visual-source-ranges-20260820/r2/final"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_scene_visual_source_ranges.py",
+      "sha256": "e348457c3a06c4030faed4e9acdabe2203cec4820539558ac8c47635bacd03d1"
+    },
+    "test": {
+      "path": "tests/test_export_rom_scene_visual_source_ranges.py",
+      "sha256": "c2c4957bd71c16a6e5796df870e7f606e06b6d5fa739e6bd392351f716238737"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_scene_visual_source_ranges.py",
+      "sha256": "91f55da0370db3ae291f0845812b610bf3e2bd71efd8acf8501af62201f9af87"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_scene_sources": false,
+    "candidate_logic_denominator_complete": true,
+    "editing_or_relocation_safety": false,
+    "final_pixels": false,
+    "fixed_animation_parser_extent_complete": true,
+    "fixed_definition_parser_extent_complete": true,
+    "fixed_lz77_extent_complete": true,
+    "fixed_palette_extent_complete": true,
+    "fixed_source_table_extent_complete": true,
+    "full_source_denominator_complete": true,
+    "natural_reachability": false,
+    "promotion_current_unknown_only": true,
+    "real_gba_equivalence": false
+  },
+  "source_identity": {
+    "artifact_path": "artifacts/scene-visual-packs-v1",
+    "artifact_schema": "scene-visual-packs-v1",
+    "manifest_path": "artifacts/scene-visual-packs-v1/manifest.json",
+    "manifest_sha256": "4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4",
+    "verifier_path": "tools/verify_scene_visual_packs.py",
+    "verifier_report": {
+      "errors": [],
+      "obj_animation_count": 16,
+      "obj_frame_count": 16,
+      "pack_count": 9,
+      "verified": true
+    },
+    "verifier_sha256": "477d27ac7d8b1c11ecfaf3fe23d70bab9087349df5b36c041bb94911bca2293d"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_scene_visual_source_ranges.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/luna-scene-visual-source-ranges-20260820/r2/final"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-scene-visual-source-ranges-v1",
+      "bundle_sha256": "2eec5a820e1f79cc817e5976dc710e889adbee1038a4247652812a695832bc95",
+      "errors": [],
+      "schema": "rom-scene-visual-source-ranges-verification-v1",
+      "summary": {
+        "candidate_bytes": 3288,
+        "candidate_class_counts": {
+          "animation": {
+            "byte_count": 192,
+            "range_count": 9
+          },
+          "background_palette": {
+            "byte_count": 2304,
+            "range_count": 9
+          },
+          "definition": {
+            "byte_count": 728,
+            "range_count": 9
+          },
+          "shared_obj_palette": {
+            "byte_count": 64,
+            "range_count": 2
+          }
+        },
+        "candidate_range_count": 29,
+        "overlap_bytes": 31,
+        "overlap_range_count": 1,
+        "promotion_bundle_sha256": "2eec5a820e1f79cc817e5976dc710e889adbee1038a4247652812a695832bc95",
+        "promotion_bytes": 3257,
+        "promotion_range_count": 29,
+        "source_bytes": 88756,
+        "source_record_count": 57
+      },
+      "verified": true
+    },
+    "schema": "rom-scene-visual-source-ranges-verification-v1",
+    "verifier_sha256": "91f55da0370db3ae291f0845812b610bf3e2bd71efd8acf8501af62201f9af87"
+  }
+}

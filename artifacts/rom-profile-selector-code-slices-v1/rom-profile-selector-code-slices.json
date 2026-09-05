@@ -1,0 +1,186 @@
+{
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_profile_selector_code_slices.py",
+      "sha256": "7b09cb621e7ca2fc856f969cf6e690c836578d968e69a56b0cb5ec53e7eead3e"
+    },
+    "test": {
+      "path": "tests/test_export_rom_profile_selector_code_slices.py",
+      "sha256": "aae84c3adce8c242a69f11fe5738aace1af27b5ef5619ed7cc2d43ab19afa705"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_profile_selector_code_slices.py",
+      "sha256": "94312dd1ef481306c4f37772becd96fc07f4e7a82dbc5da90fab6f34511bbf76"
+    }
+  },
+  "limitations": [
+    "Only the two complete source ranges frozen by the profile-text selector and line-wrapper consumer provenance are classified.",
+    "The ranges are hash-bound consumer code slices; this packet does not claim a complete CFG or that every byte is an instruction.",
+    "Natural runtime reachability, all profile IDs, Unicode decoding, business fields, and exhaustive callers are not claimed.",
+    "Adjacent bytes outside the two ranges, padding/free/allocatable status, editing, write-back, and relocation safety are not claimed."
+  ],
+  "packed_bytes": "1d4930788000401800680621009100212a1c0c2301f0f7fff0b54f464646c0b491b0041c18980906090e89461206120e90461b041f0c0004010c00e00134002220783b040d048e1c0fe069468918043120780870501c69460918043160780870901c0004020c023420780a2801d00028ebd1694689180431002008701b142814009001a849464246d9f7a0fa3004010c20780028d2d111b018bc9846a146f0bc01bc0047",
+  "packed_bytes_sha256": "2d0175a6ea9e98f379c4f6e92f2baa0b1272592648c944f12827a51b154615ca",
+  "range_denominator_sha256": "a1d01b1de74c3b1628de1ffea5d6dc20e616912d031aeb0be309cf405b5e8a08",
+  "ranges": [
+    {
+      "bytes_hex": "1d4930788000401800680621009100212a1c0c2301f0f7ff",
+      "bytes_sha256": "a85145a1f4f5342a07dda4175aa93de57ea55d5b1bb514c55ea65a1a47acf625",
+      "claim": {
+        "baseline_unknown_only": true,
+        "claim_kind": "consumer_code_slice",
+        "primary_class": "consumer_code_slice",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "rom-profile-selector-code-slices-v1",
+        "role": "primary"
+      },
+      "coverage_state": {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          569758,
+          569782
+        ],
+        "secondary_claim_ids": []
+      },
+      "gba_range": [
+        "0x0808B19E",
+        "0x0808B1B6"
+      ],
+      "id": "profile-pointer-selector",
+      "packed_range": [
+        0,
+        24
+      ],
+      "packed_sha256": "a85145a1f4f5342a07dda4175aa93de57ea55d5b1bb514c55ea65a1a47acf625",
+      "range": [
+        569758,
+        569782
+      ],
+      "role": "profile_table_selector",
+      "size": 24,
+      "source_evidence": {
+        "artifact_schema": "rom-profile-text-inventory-v1",
+        "evidence_sha256": "a85145a1f4f5342a07dda4175aa93de57ea55d5b1bb514c55ea65a1a47acf625",
+        "json_pointer": "/consumer_evidence/profile_pointer_selector",
+        "payload_path": "artifacts/rom-profile-text-inventory-v1/profile-text-inventory.json",
+        "payload_sha256": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9",
+        "provenance": "fixed consumer provenance independently verified by tools/verify_rom_profile_text_inventory.py"
+      }
+    },
+    {
+      "bytes_hex": "f0b54f464646c0b491b0041c18980906090e89461206120e90461b041f0c0004010c00e00134002220783b040d048e1c0fe069468918043120780870501c69460918043160780870901c0004020c023420780a2801d00028ebd1694689180431002008701b142814009001a849464246d9f7a0fa3004010c20780028d2d111b018bc9846a146f0bc01bc0047",
+      "bytes_sha256": "7646f12d2cdcbeb8b86bb39d491906bb112ac92afd0730ae5b56ac96a7f5c552",
+      "claim": {
+        "baseline_unknown_only": true,
+        "claim_kind": "consumer_code_slice",
+        "primary_class": "consumer_code_slice",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "rom-profile-selector-code-slices-v1",
+        "role": "primary"
+      },
+      "coverage_state": {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          577956,
+          578096
+        ],
+        "secondary_claim_ids": []
+      },
+      "gba_range": [
+        "0x0808D1A4",
+        "0x0808D230"
+      ],
+      "id": "profile-line-wrapper",
+      "packed_range": [
+        24,
+        164
+      ],
+      "packed_sha256": "7646f12d2cdcbeb8b86bb39d491906bb112ac92afd0730ae5b56ac96a7f5c552",
+      "range": [
+        577956,
+        578096
+      ],
+      "role": "renderer_line_wrapper",
+      "size": 140,
+      "source_evidence": {
+        "artifact_schema": "rom-profile-text-inventory-v1",
+        "evidence_sha256": "7646f12d2cdcbeb8b86bb39d491906bb112ac92afd0730ae5b56ac96a7f5c552",
+        "json_pointer": "/consumer_evidence/profile_line_wrapper",
+        "payload_path": "artifacts/rom-profile-text-inventory-v1/profile-text-inventory.json",
+        "payload_sha256": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9",
+        "provenance": "fixed consumer provenance independently verified by tools/verify_rom_profile_text_inventory.py"
+      }
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-profile-selector-code-slices-v1",
+  "scope": {
+    "adjacent_bytes_claimed": false,
+    "all_profile_ids_complete": false,
+    "allocatable_claimed": false,
+    "baseline_unknown_only": true,
+    "business_fields_claimed": false,
+    "claim_kind": "consumer_code_slice",
+    "complete_cfg_claimed": false,
+    "editing_writeback_relocation_claimed": false,
+    "natural_runtime_reachability_claimed": false,
+    "padding_or_free_space_claimed": false,
+    "primary_class": "consumer_code_slice",
+    "profile_table_selector_bound": true,
+    "raw_rom_exact_slices": true,
+    "renderer_line_wrapper_bound": true,
+    "safe_editing": false,
+    "source_consumer_provenance_bound": true,
+    "unicode_decoding_complete": false
+  },
+  "source": {
+    "artifact_schema": "rom-profile-text-inventory-v1",
+    "exporter": {
+      "path": "tools/export_rom_profile_text_inventory.py",
+      "sha256": "bb6c5c259ab8caa822c266e7674a4642b2850e0b45764d299b66bf2d23f2e223"
+    },
+    "manifest": {
+      "path": "artifacts/rom-profile-text-inventory-v1/manifest.json",
+      "sha256": "57979c4355a182f219702d48055ff21b3b81d132ffb5240c64e152ecb54503f8"
+    },
+    "payload": {
+      "path": "artifacts/rom-profile-text-inventory-v1/profile-text-inventory.json",
+      "sha256": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9"
+    },
+    "region": {
+      "path": "artifacts/rom-profile-text-inventory-v1/profile-text-region.bin",
+      "sha256": "b3b663177a39e60f691fde0ff9272df69e875a116abc5a08647c4ec5d17c142d"
+    },
+    "test": {
+      "path": "tests/test_export_rom_profile_text_inventory.py",
+      "sha256": "e95918f1ee0e085c513e0e4fe34056ff4fc1a7f758c6cd1c7302dac5fe30ce6e"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_profile_text_inventory.py",
+      "sha256": "87830893bf507866e6966c8f9bda558bee094be890d442f3375970f2d3084009"
+    },
+    "verifier_report": {
+      "schema": "rom-profile-text-inventory-verification-v1",
+      "sha256": "a5d8e815d80976f193d446ccb7fa20dc325fb31edf8e8326666f963b2168e355"
+    }
+  },
+  "summary": {
+    "bytes": 164,
+    "current_unknown_bytes": 164,
+    "packed_bytes": 164,
+    "primary_overlap_bytes": 0,
+    "range_count": 2,
+    "secondary_overlap_bytes": 0
+  }
+}

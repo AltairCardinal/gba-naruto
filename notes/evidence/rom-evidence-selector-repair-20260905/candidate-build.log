@@ -1,0 +1,21 @@
+Replaying four frozen fast-audit verifiers...
+Replaying bounded V10 verifier...
+{
+  "status": "candidate_only_requires_full_formal_audit",
+  "before_coverage_sha256": "f55cebff32db536bf9847dc7dc9b147a0c8868ee37ddf4cd66187b687eba8b96",
+  "after_coverage_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "before_proof_sha256": "fad9c2b1c6cc9af8385826e1a41a2e72209ae151e8a4e4ffa6de934a7dd38a5a",
+  "after_proof_sha256": "c2862ea520a39432c94fa2634f2ae5650077738c9474aa96ca15d387a4857cbb",
+  "auditor_sha256": "e4c1f07efd2673d9229da8a7532d7874e615cbf1d7705ccd32171558df028509",
+  "selector_changes": 123,
+  "proof_identity_updates": [
+    "rom_byte_coverage:coverage",
+    "rom_byte_coverage:auditor",
+    "editor_roundtrip:project-input",
+    "clean_rebuild:project-input"
+  ],
+  "classified_bytes": 6203707,
+  "unknown_bytes": 87749,
+  "claim_count": 16891,
+  "segment_count": 18664
+}

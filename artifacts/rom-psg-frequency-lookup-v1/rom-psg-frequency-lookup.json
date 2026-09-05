@@ -1,0 +1,567 @@
+{
+  "consumer": {
+    "block_ranges": [
+      [
+        636052,
+        636072
+      ],
+      [
+        636072,
+        636076
+      ],
+      [
+        636076,
+        636080
+      ],
+      [
+        636080,
+        636092
+      ],
+      [
+        636092,
+        636094
+      ],
+      [
+        636094,
+        636102
+      ],
+      [
+        636108,
+        636112
+      ],
+      [
+        636112,
+        636120
+      ],
+      [
+        636120,
+        636132
+      ],
+      [
+        636132,
+        636138
+      ],
+      [
+        636138,
+        636206
+      ],
+      [
+        636206,
+        636212
+      ]
+    ],
+    "code_bytes": 154,
+    "code_ranges": [
+      [
+        636052,
+        636102
+      ],
+      [
+        636108,
+        636212
+      ]
+    ],
+    "code_sha256": "91ac0a7fed3e5840bf3e76dfa8484aa70ad3ec71957b35283e878444163ed9ca",
+    "decoded_basic_block_count": 12,
+    "decoded_instruction_count": 77,
+    "external_call_edges": [],
+    "frontier_count": 0,
+    "internal_edge_count": 16,
+    "return_proof": {
+      "epilogue_range": [
+        636206,
+        636212
+      ],
+      "epilogue_raw_hex": "f0bc02bc0847",
+      "restored_lr_register": "r1",
+      "return_instruction": "bx r1",
+      "saved_lr_at_entry": true,
+      "stack_adjustment_between_entry_and_epilogue": 0
+    },
+    "root_file_offset": 636052,
+    "structured_return_count": 1,
+    "unclassified_unknown_ranges": [
+      [
+        636102,
+        636104
+      ]
+    ]
+  },
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "claim_count": 14471,
+    "classified_bytes": 6121624,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 226,
+    "schema": "rom-byte-coverage-v1",
+    "segment_count": 16582,
+    "sha256": "922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6",
+    "unknown_bytes": 169832,
+    "unknown_promotion_bytes": 226
+  },
+  "limitations": [
+    "The PSG frequency lookup artifact classifies exactly 226 frozen bytes: 154 bytes in two bounded Thumb code ranges, twelve bytes in three consumed pointer literals, and a 60-byte channel-4 noise register descriptor table. The two-byte 0x09B4C6..0x09B4C8 alignment gap remains unknown. Entry proof is limited to one fixed initializer-to-logical-SoundInfo+0x30-to-BX-r3 chain; global RAM/computed producers, writers, indirect callers, natural runtime reachability, the two non-noise target-table semantics, playback, editing, writeback, relocation, and allocatable space remain unclaimed."
+  ],
+  "literal_bindings": [
+    {
+      "literal_range": [
+        636104,
+        636108
+      ],
+      "load_file_offset": 636094,
+      "load_raw_hex": "0248",
+      "pointer": 138823516,
+      "pointer_occurrences": [
+        636104
+      ],
+      "target_file_offset": 4605788,
+      "target_promoted": true,
+      "target_semantics_claimed": true
+    },
+    {
+      "literal_range": [
+        636212,
+        636216
+      ],
+      "load_file_offset": 636138,
+      "load_raw_hex": "124b",
+      "pointer": 138823360,
+      "pointer_occurrences": [
+        636212
+      ],
+      "target_file_offset": 4605632,
+      "target_promoted": false,
+      "target_semantics_claimed": false
+    },
+    {
+      "literal_range": [
+        636216,
+        636220
+      ],
+      "load_file_offset": 636144,
+      "load_raw_hex": "114c",
+      "pointer": 138823492,
+      "pointer_occurrences": [
+        636216
+      ],
+      "target_file_offset": 4605764,
+      "target_promoted": false,
+      "target_semantics_claimed": false
+    }
+  ],
+  "lookup": {
+    "edge_indices": {
+      "20": 0,
+      "21": 0,
+      "22": 1,
+      "255": 59,
+      "79": 58,
+      "80": 59
+    },
+    "enumerated_key_domain": [
+      0,
+      255
+    ],
+    "enumerated_type_domain": [
+      0,
+      255
+    ],
+    "every_table_entry_reachable": true,
+    "index_formula": "0 if key<=20 else min(u8(key-21),59)",
+    "key_input_truncated_before_index": true,
+    "key_input_width": "u8",
+    "reachable_index_count": 60,
+    "reachable_index_domain": [
+      0,
+      59
+    ],
+    "type_input_truncated_before_dispatch": true,
+    "type_input_width": "u8",
+    "type_selector": 4
+  },
+  "producer_denominator": {
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_proven": false,
+    "producers": [],
+    "scan": {
+      "alignment_bytes": 2,
+      "matching_producer_count": 0,
+      "mode": "thumb",
+      "range": [
+        0,
+        6291456
+      ],
+      "target_file_offset": 636052
+    },
+    "thumb_pointer_occurrences": [
+      634372
+    ],
+    "thumb_pointer_target": 134853781
+  },
+  "promotion": {
+    "byte_count": 226,
+    "packed_bytes_sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+    "range_count": 5,
+    "range_vector_sha256": "5247ee79350c15d6292e52a5e1ef58bd7b7555f50a70bc157e3e936b8ffa0080",
+    "ranges": [
+      [
+        636052,
+        636102
+      ],
+      [
+        636104,
+        636108
+      ],
+      [
+        636108,
+        636212
+      ],
+      [
+        636212,
+        636220
+      ],
+      [
+        4605788,
+        4605848
+      ]
+    ],
+    "semantic_range_vector_sha256": "6683ef2206af27246bc97abb750a02023ea18909611b7dbda9e1987419e515eb",
+    "semantic_ranges": [
+      {
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-a-09b494",
+        "kind": "psg_frequency_consumer_thumb_code",
+        "mode": "thumb",
+        "range": [
+          636052,
+          636102
+        ],
+        "semantic_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "sha256": "969892b0f481afc4872493396ed034c0a696cd3c56ca07d4c0b5d68369e7365d"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-noise-literal-09b4c8",
+        "kind": "psg_frequency_consumed_pointer_literal",
+        "mode": null,
+        "range": [
+          636104,
+          636108
+        ],
+        "semantic_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "sha256": "73cbc760a9346eacd3a16553ac98763cb1a6ee27dbf7d5fa1bfafdb4ce74d9b5"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-b-09b4cc",
+        "kind": "psg_frequency_consumer_thumb_code",
+        "mode": "thumb",
+        "range": [
+          636108,
+          636212
+        ],
+        "semantic_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "sha256": "3c3471021d4b57c4d7708443ae8bd180d3b9919dbc049c7e10a41fecd3038e60"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-nonnoise-literals-09b534",
+        "kind": "psg_frequency_consumed_pointer_literal",
+        "mode": null,
+        "range": [
+          636212,
+          636220
+        ],
+        "semantic_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "sha256": "89bce1ab76458db38f3a7d995c13f06abad02b6ab3ab8ba9ed7ecc53f913a6c0"
+      },
+      {
+        "claim_kind": "psg_noise_register_descriptor_bytes",
+        "id": "psg-noise-register-table-46475c",
+        "kind": "psg_noise_register_descriptor_table",
+        "mode": null,
+        "range": [
+          4605788,
+          4605848
+        ],
+        "semantic_class": "psg_noise_register_descriptor_table",
+        "sha256": "197f0679262884d48dd459dcfe690c0a41e8a73cf76cb62838119fc9cb0e7ab6"
+      }
+    ]
+  },
+  "provenance": {
+    "initializer": {
+      "binding": {
+        "ldr_file_offset": 634228,
+        "ldr_raw_hex": "2348",
+        "literal_file_offset": 634372,
+        "pair_range": [
+          634228,
+          634232
+        ],
+        "pair_sha256": "45aee5a509e95eb1b4a273000f5f4d922f220ea3d36ff6131dbd021a351444fd",
+        "pointer": 134853781,
+        "store": "str r0,[r4,#0x30]",
+        "str_file_offset": 634230,
+        "str_raw_hex": "2063"
+      },
+      "block_ranges": [
+        [
+          634104,
+          634170
+        ],
+        [
+          634170,
+          634250
+        ],
+        [
+          634250,
+          634296
+        ],
+        [
+          634296,
+          634304
+        ]
+      ],
+      "cfg_closed": true,
+      "code_range": [
+        634104,
+        634304
+      ],
+      "code_sha256": "b2c254e31eb7da12ddfd1a22a1fecb176659d1cc344e70cb8cad311230c84c9a",
+      "decoded_basic_block_count": 4,
+      "decoded_instruction_count": 99,
+      "external_call_edges": [
+        {
+          "source_file_offset": 634246,
+          "target_file_offset": 639200
+        }
+      ],
+      "frontier_count": 0,
+      "literal_pool_range": [
+        634304,
+        634384
+      ],
+      "literal_pool_sha256": "5b0dd3fbbfc9f8c964f9c0f806548ccd9b72059ee6b67188c9432ac2342652b0",
+      "pc_relative_literal_count": 20,
+      "producer": {
+        "bytes_sha256": "3cb3a41522f6b753006d687eb512c8d607f7d4f09ea4864b2250713f1a94f71a",
+        "file_offset": 633430,
+        "raw_hex": "00f04ff9",
+        "target_file_offset": 634104
+      },
+      "return_closed": true
+    },
+    "soundinfo_slot": {
+      "accepted_slot_path_callsites": [
+        633040
+      ],
+      "chain_range": [
+        633030,
+        633044
+      ],
+      "chain_sha256": "f683daef4ff9b013ba8ca92dd7de9727094514bcc126ceadcf7e0a8e0df59734",
+      "context_range": [
+        632584,
+        633086
+      ],
+      "context_sha256": "4c78dfb62e2d92b0b0ed96c8d05e86d3d2867a1bb2a76c82818a672f380eee2e",
+      "dereference": {
+        "file_offset": 632604,
+        "operation": "ldr r1,[r1]",
+        "raw_hex": "0968"
+      },
+      "direct_trampoline_branch_denominator": [
+        {
+          "file_offset": 631876,
+          "mnemonic": "bl",
+          "raw_hex": "00f01ef9",
+          "target_file_offset": 632452
+        },
+        {
+          "file_offset": 632078,
+          "mnemonic": "bl",
+          "raw_hex": "00f0b9f8",
+          "target_file_offset": 632452
+        },
+        {
+          "file_offset": 632106,
+          "mnemonic": "bl",
+          "raw_hex": "00f0abf8",
+          "target_file_offset": 632452
+        },
+        {
+          "file_offset": 632382,
+          "mnemonic": "bl",
+          "raw_hex": "00f021f8",
+          "target_file_offset": 632452
+        },
+        {
+          "file_offset": 632508,
+          "mnemonic": "bl",
+          "raw_hex": "fff7e2ff",
+          "target_file_offset": 632452
+        },
+        {
+          "file_offset": 633040,
+          "mnemonic": "bl",
+          "raw_hex": "fff7d8fe",
+          "target_file_offset": 632452
+        }
+      ],
+      "literal_load": {
+        "file_offset": 632602,
+        "literal_file_offset": 633088,
+        "literal_value": 50364400,
+        "raw_hex": "7949"
+      },
+      "load_and_call": {
+        "call_file_offset": 633040,
+        "call_raw_hex": "fff7d8fe",
+        "field_offset": 48,
+        "load_file_offset": 633038,
+        "load_raw_hex": "1b6b",
+        "trampoline_file_offset": 632452
+      },
+      "stack_cell_liveness": {
+        "cell": "[sp,#4]",
+        "overwritten_before_reload": false,
+        "reload_file_offset": 633036,
+        "reload_raw_hex": "019b",
+        "sp_adjustment_until_reload": 0
+      },
+      "stack_store": {
+        "file_offset": 632606,
+        "operation": "str r1,[sp,#4]",
+        "raw_hex": "0191"
+      },
+      "trampoline": {
+        "existing_owner": {
+          "id": "cfg-thumb-0752-09a684",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            632452,
+            632454
+          ]
+        },
+        "operation": "bx r3",
+        "promoted": false,
+        "range": [
+          632452,
+          632454
+        ],
+        "raw_hex": "1847",
+        "sha256": "477db9ac7ca5efc12e37f882656b8fe5a363ffeb99b2e565a953d10c3c91ab21"
+      }
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-psg-frequency-lookup-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_indirect_caller_denominator_complete": false,
+    "global_ram_or_computed_producer_denominator_complete": false,
+    "global_writer_denominator_complete": false,
+    "initializer_entry_proof_complete": true,
+    "lookup_domain_complete_for_all_u8_inputs": true,
+    "natural_runtime_reachability_complete": false,
+    "non_noise_target_table_semantics_complete": false,
+    "playback_behavior_proven": false,
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_complete": false,
+    "target_consumer_cfg_closed": true,
+    "target_limited_raw_branch_denominator_complete": true
+  },
+  "table": {
+    "edge_indices": {
+      "20": 0,
+      "21": 0,
+      "22": 1,
+      "255": 59,
+      "79": 58,
+      "80": 59
+    },
+    "entry_count": 60,
+    "entry_size": 1,
+    "every_table_entry_reachable": true,
+    "range": [
+      4605788,
+      4605848
+    ],
+    "reachable_index_domain": [
+      0,
+      59
+    ],
+    "sha256": "197f0679262884d48dd459dcfe690c0a41e8a73cf76cb62838119fc9cb0e7ab6",
+    "unique_entry_count": 60,
+    "values_u8": [
+      215,
+      214,
+      213,
+      212,
+      199,
+      198,
+      197,
+      196,
+      183,
+      182,
+      181,
+      180,
+      167,
+      166,
+      165,
+      164,
+      151,
+      150,
+      149,
+      148,
+      135,
+      134,
+      133,
+      132,
+      119,
+      118,
+      117,
+      116,
+      103,
+      102,
+      101,
+      100,
+      87,
+      86,
+      85,
+      84,
+      71,
+      70,
+      69,
+      68,
+      55,
+      54,
+      53,
+      52,
+      39,
+      38,
+      37,
+      36,
+      23,
+      22,
+      21,
+      20,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1,
+      0
+    ]
+  }
+}

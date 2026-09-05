@@ -1,0 +1,98 @@
+{
+  "artifact_schema": "rom-battle-condition-records-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "battle-condition-records.bin": "0d6e137011aa4e97c5b5d165f1939b7fb0b33235b9b20fceb1566b485dc35bf4",
+    "battle-condition-records.json": "5228c96a98e22e3e28ea39deaa8e13894528d6b302634944b81e1cc0493c5abf"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_battle_condition_records.py",
+      "sha256": "707213deb2026f36b5badcf73c394fc9e1788c7141eb838f865ef241ae55d0ba"
+    },
+    "tests": {
+      "path": "tests/test_export_rom_battle_condition_records.py",
+      "sha256": "8a1a7ca42869ac31d2311837fc73eeb7ac792ca874a3678904a3e11d4c900464"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_battle_condition_records.py",
+      "sha256": "05402eea4f0ffd7871da74e8dc70613b4370c5c87ba6fe99bddcc4257914628e"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-u",
+      "tools/export_rom_battle_condition_records.py",
+      "--root",
+      ".",
+      "--out-dir",
+      "build/experiments/active/battle-condition-records/codex-r3-20260822/candidate"
+    ],
+    "receipt": {
+      "content_base64": "ewogICJyZWFzb24iOiAiY29tcGxldGVkIiwKICAiZXhpdF9jb2RlIjogMCwKICAiY2hpbGRfcGlkIjogMjc5NjcsCiAgInBlYWtfdHJlZV9yc3NfbWliIjogMS4xNzk2ODc1LAogICJwcm90ZWN0aW9uX2JhY2tlbmQiOiAicG9zaXgtcHJvY2Vzcy1ncm91cCIsCiAgImRlZ3JhZGVkIjogZmFsc2UsCiAgImNvbW1hbmQiOiBbCiAgICAicHl0aG9uMyIsCiAgICAiLXUiLAogICAgInRvb2xzL2V4cG9ydF9yb21fYmF0dGxlX2NvbmRpdGlvbl9yZWNvcmRzLnB5IiwKICAgICItLXJvb3QiLAogICAgIi4iLAogICAgIi0tb3V0LWRpciIsCiAgICAiYnVpbGQvZXhwZXJpbWVudHMvYWN0aXZlL2JhdHRsZS1jb25kaXRpb24tcmVjb3Jkcy9jb2RleC1yMy0yMDI2MDgyMi9jYW5kaWRhdGUiCiAgXSwKICAiY3dkIjogIi9Vc2Vycy9hbHRhaXIvZ2l0aHViL2diYS1uYXJ1dG8tcmV2ZXJzZSIsCiAgInN0YXJ0ZWRfYXQiOiAiMjAyNi0wOC0yMlQxNDoyNTo0My45NDE3MjNaIiwKICAiZmluaXNoZWRfYXQiOiAiMjAyNi0wOC0yMlQxNDoyNTo0NC45OTQxODFaIgp9Cg==",
+      "path": "build/experiments/active/battle-condition-records/codex-r3-20260822/guard-candidate-export.json",
+      "sha256": "c3a79edeb2417a5d18ef53e78d394045ee13651523c4c56c115173d9779067e0"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "complete_physical_table": true,
+    "coverage_classification_performed": false,
+    "non_claims": {
+      "all_battle_conditions_semantically_named_claimed": false,
+      "all_battle_ids_naturally_reached_claimed": false,
+      "all_condition_consumers_exhausted_claimed": false,
+      "all_predicate_slots_naturally_evaluated_claimed": false,
+      "all_variant_indices_naturally_reached_claimed": false,
+      "allocatable_space_claimed": false,
+      "battlefield_object_visible_behavior_names_claimed": false,
+      "byte3_field_semantics_claimed": false,
+      "complete_objective_engine_claimed": false,
+      "computed_or_ram_consumers_exhausted_claimed": false,
+      "editing_safety_claimed": false,
+      "existing_primary_owner_reclassification_claimed": false,
+      "free_space_claimed": false,
+      "handlers_4_5_naturally_used_claimed": false,
+      "payload_word_business_semantics_claimed": false,
+      "positions_condition_business_relation_claimed": false,
+      "prefix_field_semantics_claimed": false,
+      "prefix_padding_or_reserved_claimed": false,
+      "relocation_safety_claimed": false,
+      "right_gap_padding_claimed": false,
+      "right_gap_structure_claimed": false,
+      "runtime_trigger_coverage_claimed": false,
+      "writeback_safety_claimed": false
+    },
+    "raw_interpreter_bound_layout": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-u",
+      "tools/verify_rom_battle_condition_records.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/battle-condition-records/codex-r3-20260822/candidate",
+      "--output",
+      "build/experiments/active/battle-condition-records/codex-r3-20260822/candidate-verify.report.json"
+    ],
+    "exit_code": 0,
+    "receipt": {
+      "content_base64": "ewogICJyZWFzb24iOiAiY29tcGxldGVkIiwKICAiZXhpdF9jb2RlIjogMCwKICAiY2hpbGRfcGlkIjogMjg2MTYsCiAgInBlYWtfdHJlZV9yc3NfbWliIjogMC45NTcwMzEyNSwKICAicHJvdGVjdGlvbl9iYWNrZW5kIjogInBvc2l4LXByb2Nlc3MtZ3JvdXAiLAogICJkZWdyYWRlZCI6IGZhbHNlLAogICJjb21tYW5kIjogWwogICAgInB5dGhvbjMiLAogICAgIi11IiwKICAgICJ0b29scy92ZXJpZnlfcm9tX2JhdHRsZV9jb25kaXRpb25fcmVjb3Jkcy5weSIsCiAgICAiLS1yb290IiwKICAgICIuIiwKICAgICItLWFydGlmYWN0LWRpciIsCiAgICAiYnVpbGQvZXhwZXJpbWVudHMvYWN0aXZlL2JhdHRsZS1jb25kaXRpb24tcmVjb3Jkcy9jb2RleC1yMy0yMDI2MDgyMi9jYW5kaWRhdGUiLAogICAgIi0tb3V0cHV0IiwKICAgICJidWlsZC9leHBlcmltZW50cy9hY3RpdmUvYmF0dGxlLWNvbmRpdGlvbi1yZWNvcmRzL2NvZGV4LXIzLTIwMjYwODIyL2NhbmRpZGF0ZS12ZXJpZnkucmVwb3J0Lmpzb24iCiAgXSwKICAiY3dkIjogIi9Vc2Vycy9hbHRhaXIvZ2l0aHViL2diYS1uYXJ1dG8tcmV2ZXJzZSIsCiAgInN0YXJ0ZWRfYXQiOiAiMjAyNi0wOC0yMlQxNDoyNTo1Ni4zODA5ODdaIiwKICAiZmluaXNoZWRfYXQiOiAiMjAyNi0wOC0yMlQxNDoyNTo1Ny40MjgwNzdaIgp9Cg==",
+      "path": "build/experiments/active/battle-condition-records/codex-r3-20260822/guard-candidate-verify.json",
+      "sha256": "6fd819a1d1fb01d889eb959127da21489a2b0e8262b3dfdbb23bc92d8cb95e98"
+    },
+    "report": {
+      "content_base64": "ewogICJhcnRpZmFjdF9zY2hlbWEiOiAicm9tLWJhdHRsZS1jb25kaXRpb24tcmVjb3Jkcy12MSIsCiAgImNvbnN1bWVyX2ludGVycHJldGVyX3ZlcmlmaWVkIjogdHJ1ZSwKICAiZXJyb3JzIjogW10sCiAgImltcGxlbWVudGF0aW9uIjogewogICAgImV4cG9ydGVyIjogewogICAgICAicGF0aCI6ICJ0b29scy9leHBvcnRfcm9tX2JhdHRsZV9jb25kaXRpb25fcmVjb3Jkcy5weSIsCiAgICAgICJzaGEyNTYiOiAiNzA3MjEzZGViMjAyNmYzNmI1YmFkY2Y3M2MzOTRmYzllMTc4OGM3MTQxZWI4MzhmODY1ZWYyNDFhZTU1ZDBiYSIKICAgIH0sCiAgICAidGVzdHMiOiB7CiAgICAgICJwYXRoIjogInRlc3RzL3Rlc3RfZXhwb3J0X3JvbV9iYXR0bGVfY29uZGl0aW9uX3JlY29yZHMucHkiLAogICAgICAic2hhMjU2IjogIjhhMWE3Y2E0Mjg2OWFjMzFkMjMxMTgzN2ZjNzNlZWI3YWM3OTJjYTg3NGEzNjc4OTA0YTNlMTFkNGM5MDA0NjQiCiAgICB9LAogICAgInZlcmlmaWVyIjogewogICAgICAicGF0aCI6ICJ0b29scy92ZXJpZnlfcm9tX2JhdHRsZV9jb25kaXRpb25fcmVjb3Jkcy5weSIsCiAgICAgICJzaGEyNTYiOiAiMDU0MDJlZWE0ZjBmZmQ3ODcxZGE3NGU4ZGM3MDYxM2I0MzcwYzVjODdiYTZmZTk5YmRkY2M0MjU3OTE0NjI4ZSIKICAgIH0KICB9LAogICJub25fY2xhaW1zIjogewogICAgImFsbF9iYXR0bGVfY29uZGl0aW9uc19zZW1hbnRpY2FsbHlfbmFtZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgImFsbF9iYXR0bGVfaWRzX25hdHVyYWxseV9yZWFjaGVkX2NsYWltZWQiOiBmYWxzZSwKICAgICJhbGxfY29uZGl0aW9uX2NvbnN1bWVyc19leGhhdXN0ZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgImFsbF9wcmVkaWNhdGVfc2xvdHNfbmF0dXJhbGx5X2V2YWx1YXRlZF9jbGFpbWVkIjogZmFsc2UsCiAgICAiYWxsX3ZhcmlhbnRfaW5kaWNlc19uYXR1cmFsbHlfcmVhY2hlZF9jbGFpbWVkIjogZmFsc2UsCiAgICAiYWxsb2NhdGFibGVfc3BhY2VfY2xhaW1lZCI6IGZhbHNlLAogICAgImJhdHRsZWZpZWxkX29iamVjdF92aXNpYmxlX2JlaGF2aW9yX25hbWVzX2NsYWltZWQiOiBmYWxzZSwKICAgICJieXRlM19maWVsZF9zZW1hbnRpY3NfY2xhaW1lZCI6IGZhbHNlLAogICAgImNvbXBsZXRlX29iamVjdGl2ZV9lbmdpbmVfY2xhaW1lZCI6IGZhbHNlLAogICAgImNvbXB1dGVkX29yX3JhbV9jb25zdW1lcnNfZXhoYXVzdGVkX2NsYWltZWQiOiBmYWxzZSwKICAgICJlZGl0aW5nX3NhZmV0eV9jbGFpbWVkIjogZmFsc2UsCiAgICAiZXhpc3RpbmdfcHJpbWFyeV9vd25lcl9yZWNsYXNzaWZpY2F0aW9uX2NsYWltZWQiOiBmYWxzZSwKICAgICJmcmVlX3NwYWNlX2NsYWltZWQiOiBmYWxzZSwKICAgICJoYW5kbGVyc180XzVfbmF0dXJhbGx5X3VzZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgInBheWxvYWRfd29yZF9idXNpbmVzc19zZW1hbnRpY3NfY2xhaW1lZCI6IGZhbHNlLAogICAgInBvc2l0aW9uc19jb25kaXRpb25fYnVzaW5lc3NfcmVsYXRpb25fY2xhaW1lZCI6IGZhbHNlLAogICAgInByZWZpeF9maWVsZF9zZW1hbnRpY3NfY2xhaW1lZCI6IGZhbHNlLAogICAgInByZWZpeF9wYWRkaW5nX29yX3Jlc2VydmVkX2NsYWltZWQiOiBmYWxzZSwKICAgICJyZWxvY2F0aW9uX3NhZmV0eV9jbGFpbWVkIjogZmFsc2UsCiAgICAicmlnaHRfZ2FwX3BhZGRpbmdfY2xhaW1lZCI6IGZhbHNlLAogICAgInJpZ2h0X2dhcF9zdHJ1Y3R1cmVfY2xhaW1lZCI6IGZhbHNlLAogICAgInJ1bnRpbWVfdHJpZ2dlcl9jb3ZlcmFnZV9jbGFpbWVkIjogZmFsc2UsCiAgICAid3JpdGViYWNrX3NhZmV0eV9jbGFpbWVkIjogZmFsc2UKICB9LAogICJwcmVkaWNhdGVfc2xvdF9jb3VudCI6IDExMjgsCiAgInJvbSI6IHsKICAgICJwYXRoIjogInJvbS9iYXNlLmdiYSIsCiAgICAic2hhMjU2IjogIjExOThlY2U3ODFhYWY2MjlkYjFmMGM2NjI4YjRmOWYxODQ5ZWNjNGEyZWFjNmE1NWQzMjc0OGMyYTQ1OWQwNWIiLAogICAgInNpemUiOiA2MjkxNDU2CiAgfSwKICAic2NoZW1hIjogInJvbS1iYXR0bGUtY29uZGl0aW9uLXJlY29yZHMtdmVyaWZpY2F0aW9uLXYxIiwKICAic2NvcGUiOiB7CiAgICAiY29tcGxldGVfcGh5c2ljYWxfdGFibGUiOiB0cnVlLAogICAgImNvdmVyYWdlX2NsYXNzaWZpY2F0aW9uX3BlcmZvcm1lZCI6IGZhbHNlLAogICAgIm5vbl9jbGFpbXMiOiB7CiAgICAgICJhbGxfYmF0dGxlX2NvbmRpdGlvbnNfc2VtYW50aWNhbGx5X25hbWVkX2NsYWltZWQiOiBmYWxzZSwKICAgICAgImFsbF9iYXR0bGVfaWRzX25hdHVyYWxseV9yZWFjaGVkX2NsYWltZWQiOiBmYWxzZSwKICAgICAgImFsbF9jb25kaXRpb25fY29uc3VtZXJzX2V4aGF1c3RlZF9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJhbGxfcHJlZGljYXRlX3Nsb3RzX25hdHVyYWxseV9ldmFsdWF0ZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgICAiYWxsX3ZhcmlhbnRfaW5kaWNlc19uYXR1cmFsbHlfcmVhY2hlZF9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJhbGxvY2F0YWJsZV9zcGFjZV9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJiYXR0bGVmaWVsZF9vYmplY3RfdmlzaWJsZV9iZWhhdmlvcl9uYW1lc19jbGFpbWVkIjogZmFsc2UsCiAgICAgICJieXRlM19maWVsZF9zZW1hbnRpY3NfY2xhaW1lZCI6IGZhbHNlLAogICAgICAiY29tcGxldGVfb2JqZWN0aXZlX2VuZ2luZV9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJjb21wdXRlZF9vcl9yYW1fY29uc3VtZXJzX2V4aGF1c3RlZF9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJlZGl0aW5nX3NhZmV0eV9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJleGlzdGluZ19wcmltYXJ5X293bmVyX3JlY2xhc3NpZmljYXRpb25fY2xhaW1lZCI6IGZhbHNlLAogICAgICAiZnJlZV9zcGFjZV9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJoYW5kbGVyc180XzVfbmF0dXJhbGx5X3VzZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgICAicGF5bG9hZF93b3JkX2J1c2luZXNzX3NlbWFudGljc19jbGFpbWVkIjogZmFsc2UsCiAgICAgICJwb3NpdGlvbnNfY29uZGl0aW9uX2J1c2luZXNzX3JlbGF0aW9uX2NsYWltZWQiOiBmYWxzZSwKICAgICAgInByZWZpeF9maWVsZF9zZW1hbnRpY3NfY2xhaW1lZCI6IGZhbHNlLAogICAgICAicHJlZml4X3BhZGRpbmdfb3JfcmVzZXJ2ZWRfY2xhaW1lZCI6IGZhbHNlLAogICAgICAicmVsb2NhdGlvbl9zYWZldHlfY2xhaW1lZCI6IGZhbHNlLAogICAgICAicmlnaHRfZ2FwX3BhZGRpbmdfY2xhaW1lZCI6IGZhbHNlLAogICAgICAicmlnaHRfZ2FwX3N0cnVjdHVyZV9jbGFpbWVkIjogZmFsc2UsCiAgICAgICJydW50aW1lX3RyaWdnZXJfY292ZXJhZ2VfY2xhaW1lZCI6IGZhbHNlLAogICAgICAid3JpdGViYWNrX3NhZmV0eV9jbGFpbWVkIjogZmFsc2UKICAgIH0sCiAgICAicmF3X2ludGVycHJldGVyX2JvdW5kX2xheW91dCI6IHRydWUKICB9LAogICJ0YWJsZV9maWxlX3JhbmdlIjogWwogICAgNTg1MDk2OCwKICAgIDU4NjA1NTYKICBdLAogICJ2YXJpYW50X2NvdW50IjogMTQxLAogICJ2ZXJpZmllZCI6IHRydWUKfQo=",
+      "path": "build/experiments/active/battle-condition-records/codex-r3-20260822/candidate-verify.report.json",
+      "sha256": "13df6304dcf00238703bcd805630430fcb8c071a1c083a0e7140c975109ae404"
+    }
+  }
+}

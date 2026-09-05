@@ -1,0 +1,85 @@
+{
+  "artifact_schema": "rom-battle-sound-selector-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "battle-sound-selector.bin": "2f77582ae5eea1711b079fc8ce67d36e95ec68bf0e2bd0a3d5780eb3d9819b5d",
+    "battle-sound-selector.json": "266f76afe82de66308661d28d15da001e84a68dacef4cb59965c23d53ba76ba2"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_battle_sound_selector.py",
+      "sha256": "cea1d2d57da46a910803b32ac50b063ad4e8842e3373af3aa6a2f1230d239d03"
+    },
+    "tests": {
+      "path": "tests/test_export_rom_battle_sound_selector.py",
+      "sha256": "a63bbd2b82c42710f9aaf8e44d994e6e7698323b1db5630f5bdc17de2d3bd2f6"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_battle_sound_selector.py",
+      "sha256": "71cda2a30e111efce8cd4b6399e0c18d7c5891556eecd16dcfde0116a142204a"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_battle_sound_selector.py",
+      "--root",
+      ".",
+      "--out-dir",
+      "build/experiments/active/battle-sound-selector/luna-r1-20260822/candidate"
+    ],
+    "receipt": {
+      "path": "guard-candidate-export.json",
+      "sha256": "cec40dc6b42b30a08d4c89646ef5cd0e75aebd8a53153fdd86b9a7d1834b464e"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "coverage_classification_performed": false,
+    "direct_literal_consumer_denominator_complete": true,
+    "non_claims": {
+      "all_battle_audio_exhausted_claimed": false,
+      "all_direct_paths_naturally_reached_claimed": false,
+      "all_indices_naturally_reached_claimed": false,
+      "all_selector_consumers_exhausted_claimed": false,
+      "allocatable_space_claimed": false,
+      "computed_or_ram_consumers_exhausted_claimed": false,
+      "editing_safety_claimed": false,
+      "free_space_claimed": false,
+      "index_to_gameplay_semantics_claimed": false,
+      "left_neighbor_structure_claimed": false,
+      "nonzero_value_business_semantics_claimed": false,
+      "play_routine_full_behavior_claimed": false,
+      "relocation_safety_claimed": false,
+      "right_neighbor_business_relation_claimed": false,
+      "sound_playback_success_claimed": false,
+      "writeback_safety_claimed": false,
+      "zero_value_business_semantics_claimed": false
+    },
+    "physical_selector_table_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_battle_sound_selector.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/battle-sound-selector/luna-r1-20260822/candidate"
+    ],
+    "exit_code": 0,
+    "receipt": {
+      "path": "guard-candidate-verify.json",
+      "sha256": "40b5c03cd51f6d0507613f4b59c70a55854094d1f1b8d304d4dbe89c3dad667c"
+    },
+    "report": {
+      "path": "candidate-verify.report.json",
+      "sha256": "5adbedfd3c22a6fb2fd22c8c0962a8c91607a33ed6d8dcbd1bcf1306c3c448e2"
+    }
+  }
+}

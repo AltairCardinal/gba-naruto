@@ -1,0 +1,3374 @@
+{
+  "bank_count": 32,
+  "bank_results": [
+    {
+      "bank": "audio",
+      "blockers": [
+        "audio: missing hash-bound verifier commands",
+        "audio: unresolved limitations remain (2)",
+        "audio: coverage status='mixed_runtime_and_structural', expected 'exhaustive'",
+        "audio: record coverage is not exhaustively ID-bound",
+        "audio: field denominator does not match entry_format",
+        "audio: field coverage is not exhaustive",
+        "audio: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "mixed_runtime_and_structural",
+      "declared_records_covered": 1,
+      "declared_records_total": 80,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "battle-config",
+      "blockers": [
+        "battle-config: missing hash-bound verifier commands",
+        "battle-config: unresolved limitations remain (2)",
+        "battle-config: coverage status='direct_ab_single_record_field', expected 'exhaustive'",
+        "battle-config: record coverage is not exhaustively ID-bound",
+        "battle-config: field denominator does not match entry_format",
+        "battle-config: field coverage is not exhaustive",
+        "battle-config: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "direct_ab_single_record_field",
+      "declared_records_covered": 1,
+      "declared_records_total": 87,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "battle-encounters",
+      "blockers": [
+        "battle-encounters: verifier lacks a structured JSON result contract: tools/verify_battle_encounters_story_visual_pixel_ab.py",
+        "battle-encounters: unresolved limitations remain (2)",
+        "battle-encounters: coverage status='artifact_verified_controlled_route', expected 'exhaustive'",
+        "battle-encounters: record coverage is not exhaustively ID-bound",
+        "battle-encounters: field coverage is not exhaustive",
+        "battle-encounters: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_controlled_route",
+      "declared_records_covered": 1,
+      "declared_records_total": 24,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "battle-handlers",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "character-stats",
+      "blockers": [
+        "character-stats: missing hash-bound verifier commands",
+        "character-stats: unresolved limitations remain (2)",
+        "character-stats: coverage status='direct_ab_single_record_field', expected 'exhaustive'",
+        "character-stats: record coverage is not exhaustively ID-bound",
+        "character-stats: field coverage is not exhaustive",
+        "character-stats: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "direct_ab_single_record_field",
+      "declared_records_covered": 1,
+      "declared_records_total": 63,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "character-stats-b",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "cutscene-scripts",
+      "blockers": [
+        "cutscene-scripts: verifier lacks a structured JSON result contract: tools/verify_cutscene_obj_primary_ptr_ab.py",
+        "cutscene-scripts: unresolved limitations remain (2)",
+        "cutscene-scripts: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+        "cutscene-scripts: record coverage is not exhaustively ID-bound",
+        "cutscene-scripts: field coverage is not exhaustive",
+        "cutscene-scripts: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_natural_route",
+      "declared_records_covered": 1,
+      "declared_records_total": 8,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "data-table-a",
+      "blockers": [
+        "data-table-a: missing hash-bound verifier commands",
+        "data-table-a: unresolved limitations remain (2)",
+        "data-table-a: coverage status='checkpoint_ab_no_independent_verifier', expected 'exhaustive'",
+        "data-table-a: record coverage is not exhaustively ID-bound",
+        "data-table-a: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "checkpoint_ab_no_independent_verifier",
+      "declared_records_covered": 1,
+      "declared_records_total": 46,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "data-table-b",
+      "blockers": [
+        "data-table-b: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+        "data-table-b: unresolved limitations remain (2)",
+        "data-table-b: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+        "data-table-b: record coverage is not exhaustively ID-bound",
+        "data-table-b: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_natural_route",
+      "declared_records_covered": 1,
+      "declared_records_total": 79,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "encounter-zones",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "fonts",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "function-pointers",
+      "blockers": [
+        "function-pointers: missing hash-bound verifier commands",
+        "function-pointers: unresolved limitations remain (2)",
+        "function-pointers: coverage status='checkpoint_ab_causal_boundary', expected 'exhaustive'",
+        "function-pointers: record coverage is not exhaustively ID-bound",
+        "function-pointers: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "checkpoint_ab_causal_boundary",
+      "declared_records_covered": 1,
+      "declared_records_total": 11,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "items",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "levels",
+      "blockers": [
+        "levels: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+        "levels: unresolved limitations remain (2)",
+        "levels: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+        "levels: record coverage is not exhaustively ID-bound",
+        "levels: field denominator does not match entry_format",
+        "levels: field coverage is not exhaustive",
+        "levels: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_controlled_materialization",
+      "declared_records_covered": 1,
+      "declared_records_total": 45,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 2,
+      "proof_bound": true
+    },
+    {
+      "bank": "map-events",
+      "blockers": [
+        "map-events: verifier lacks a structured JSON result contract: tools/verify_map_events_e4_handler_pixel_ab.py",
+        "map-events: unresolved limitations remain (1)",
+        "map-events: coverage status='artifact_verified_natural_recovery', expected 'exhaustive'",
+        "map-events: record coverage is not exhaustively ID-bound",
+        "map-events: field coverage is not exhaustive",
+        "map-events: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_natural_recovery",
+      "declared_records_covered": 1,
+      "declared_records_total": 256,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "map-sprites",
+      "blockers": [
+        "map-sprites: verifier lacks a structured JSON result contract: tools/verify_map_sprites_definition_pixel_ab.py",
+        "map-sprites: unresolved limitations remain (1)",
+        "map-sprites: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+        "map-sprites: record coverage is not exhaustively ID-bound",
+        "map-sprites: field coverage is not exhaustive",
+        "map-sprites: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_controlled_materialization",
+      "declared_records_covered": 1,
+      "declared_records_total": 43,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "maps",
+      "blockers": [
+        "maps: verifier lacks a structured JSON result contract: tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+        "maps: unresolved limitations remain (1)",
+        "maps: coverage status='artifact_and_checkpoint_single_map', expected 'exhaustive'",
+        "maps: record coverage is not exhaustively ID-bound",
+        "maps: field coverage is not exhaustive",
+        "maps: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_and_checkpoint_single_map",
+      "declared_records_covered": 1,
+      "declared_records_total": 47,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "menu-ui",
+      "blockers": [
+        "menu-ui: verifier lacks a structured JSON result contract: tools/verify_menu_portrait_pixel_ab_evidence.py",
+        "menu-ui: unresolved limitations remain (1)",
+        "menu-ui: coverage status='artifact_verified_single_variant', expected 'exhaustive'",
+        "menu-ui: record coverage is not exhaustively ID-bound",
+        "menu-ui: field coverage is not exhaustive",
+        "menu-ui: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_single_variant",
+      "declared_records_covered": 1,
+      "declared_records_total": 63,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "palettes",
+      "blockers": [
+        "palettes: verifier lacks a structured JSON result contract: tools/verify_motion_effect_parameter_pixel_ab.py",
+        "palettes: unresolved limitations remain (1)",
+        "palettes: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+        "palettes: record coverage is not exhaustively ID-bound",
+        "palettes: field coverage is not exhaustive",
+        "palettes: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_natural_route",
+      "declared_records_covered": 1,
+      "declared_records_total": 15,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "positions",
+      "blockers": [
+        "positions: missing hash-bound verifier commands",
+        "positions: unresolved limitations remain (1)",
+        "positions: coverage status='runtime_observation_not_causal_ab', expected 'exhaustive'",
+        "positions: record coverage is not exhaustively ID-bound",
+        "positions: field denominator does not match entry_format",
+        "positions: field coverage is not exhaustive",
+        "positions: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "runtime_observation_not_causal_ab",
+      "declared_records_covered": 1,
+      "declared_records_total": 1728,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "resource-pointers",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "sappy-engine",
+      "blockers": [
+        "sappy-engine: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+        "sappy-engine: unresolved limitations remain (1)",
+        "sappy-engine: coverage status='artifact_verified_single_instruction_effect', expected 'exhaustive'",
+        "sappy-engine: record coverage is not exhaustively ID-bound",
+        "sappy-engine: field denominator does not match entry_format",
+        "sappy-engine: field coverage is not exhaustive",
+        "sappy-engine: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_single_instruction_effect",
+      "declared_records_covered": 1,
+      "declared_records_total": 1,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "save-state",
+      "blockers": [
+        "save-state: missing hash-bound verifier commands",
+        "save-state: unresolved limitations remain (1)",
+        "save-state: coverage status='save_load_observation_no_independent_runtime_verifier', expected 'exhaustive'",
+        "save-state: record coverage is not exhaustively ID-bound",
+        "save-state: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "save_load_observation_no_independent_runtime_verifier",
+      "declared_records_covered": 2,
+      "declared_records_total": 10,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "skills",
+      "blockers": [
+        "skills: missing hash-bound verifier commands",
+        "skills: unresolved limitations remain (1)",
+        "skills: coverage status='checkpoint_ab_single_record_field', expected 'exhaustive'",
+        "skills: record coverage is not exhaustively ID-bound",
+        "skills: field coverage is not exhaustive",
+        "skills: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "checkpoint_ab_single_record_field",
+      "declared_records_covered": 1,
+      "declared_records_total": 94,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "sprite-animations",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "story",
+      "blockers": [
+        "story: missing hash-bound verifier commands",
+        "story: unresolved limitations remain (1)",
+        "story: coverage status='runtime_selector_single_scenario', expected 'exhaustive'",
+        "story: record coverage is not exhaustively ID-bound",
+        "story: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "runtime_selector_single_scenario",
+      "declared_records_covered": 1,
+      "declared_records_total": 56,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "story-b",
+      "blockers": [
+        "story-b: missing hash-bound verifier commands",
+        "story-b: unresolved limitations remain (1)",
+        "story-b: coverage status='runtime_selector_single_scenario', expected 'exhaustive'",
+        "story-b: record coverage is not exhaustively ID-bound",
+        "story-b: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "runtime_selector_single_scenario",
+      "declared_records_covered": 1,
+      "declared_records_total": 56,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "story-c",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "story-d",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "story-e",
+      "blockers": [],
+      "classification": "disproved",
+      "complete": true,
+      "contracted_verifier_count": 1,
+      "coverage_status": "disproved",
+      "declared_records_covered": 0,
+      "declared_records_total": 0,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 0,
+      "proof_bound": true
+    },
+    {
+      "bank": "tile-assets",
+      "blockers": [
+        "tile-assets: verifier lacks a structured JSON result contract: tools/verify_tile_asset_descriptor_pixel_ab.py",
+        "tile-assets: unresolved limitations remain (1)",
+        "tile-assets: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+        "tile-assets: record coverage is not exhaustively ID-bound",
+        "tile-assets: field coverage is not exhaustive",
+        "tile-assets: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "artifact_verified_natural_route",
+      "declared_records_covered": 1,
+      "declared_records_total": 79,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1,
+      "proof_bound": true
+    },
+    {
+      "bank": "units",
+      "blockers": [
+        "units: missing hash-bound verifier commands",
+        "units: unresolved limitations remain (1)",
+        "units: coverage status='single_byte_ab_plus_field_correlation', expected 'exhaustive'",
+        "units: record coverage is not exhaustively ID-bound",
+        "units: field denominator does not match entry_format",
+        "units: field coverage is not exhaustive",
+        "units: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+      ],
+      "classification": "runtime_verified",
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage_status": "single_byte_ab_plus_field_correlation",
+      "declared_records_covered": 1,
+      "declared_records_total": 63,
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1,
+      "proof_bound": true
+    }
+  ],
+  "banks_complete": 10,
+  "banks_proof_bound": 32,
+  "banks_with_contracted_verifier": 10,
+  "banks_with_hash_bound_offline_verifier": 21,
+  "banks_with_valid_evidence": 32,
+  "blockers": [
+    "audio: missing hash-bound verifier commands",
+    "audio: unresolved limitations remain (2)",
+    "audio: coverage status='mixed_runtime_and_structural', expected 'exhaustive'",
+    "audio: record coverage is not exhaustively ID-bound",
+    "audio: field denominator does not match entry_format",
+    "audio: field coverage is not exhaustive",
+    "audio: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "battle-config: missing hash-bound verifier commands",
+    "battle-config: unresolved limitations remain (2)",
+    "battle-config: coverage status='direct_ab_single_record_field', expected 'exhaustive'",
+    "battle-config: record coverage is not exhaustively ID-bound",
+    "battle-config: field denominator does not match entry_format",
+    "battle-config: field coverage is not exhaustive",
+    "battle-config: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "battle-encounters: verifier lacks a structured JSON result contract: tools/verify_battle_encounters_story_visual_pixel_ab.py",
+    "battle-encounters: unresolved limitations remain (2)",
+    "battle-encounters: coverage status='artifact_verified_controlled_route', expected 'exhaustive'",
+    "battle-encounters: record coverage is not exhaustively ID-bound",
+    "battle-encounters: field coverage is not exhaustive",
+    "battle-encounters: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "character-stats: missing hash-bound verifier commands",
+    "character-stats: unresolved limitations remain (2)",
+    "character-stats: coverage status='direct_ab_single_record_field', expected 'exhaustive'",
+    "character-stats: record coverage is not exhaustively ID-bound",
+    "character-stats: field coverage is not exhaustive",
+    "character-stats: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "cutscene-scripts: verifier lacks a structured JSON result contract: tools/verify_cutscene_obj_primary_ptr_ab.py",
+    "cutscene-scripts: unresolved limitations remain (2)",
+    "cutscene-scripts: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+    "cutscene-scripts: record coverage is not exhaustively ID-bound",
+    "cutscene-scripts: field coverage is not exhaustive",
+    "cutscene-scripts: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "data-table-a: missing hash-bound verifier commands",
+    "data-table-a: unresolved limitations remain (2)",
+    "data-table-a: coverage status='checkpoint_ab_no_independent_verifier', expected 'exhaustive'",
+    "data-table-a: record coverage is not exhaustively ID-bound",
+    "data-table-a: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "data-table-b: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "data-table-b: unresolved limitations remain (2)",
+    "data-table-b: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+    "data-table-b: record coverage is not exhaustively ID-bound",
+    "data-table-b: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "function-pointers: missing hash-bound verifier commands",
+    "function-pointers: unresolved limitations remain (2)",
+    "function-pointers: coverage status='checkpoint_ab_causal_boundary', expected 'exhaustive'",
+    "function-pointers: record coverage is not exhaustively ID-bound",
+    "function-pointers: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "levels: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "levels: unresolved limitations remain (2)",
+    "levels: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+    "levels: record coverage is not exhaustively ID-bound",
+    "levels: field denominator does not match entry_format",
+    "levels: field coverage is not exhaustive",
+    "levels: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "map-events: verifier lacks a structured JSON result contract: tools/verify_map_events_e4_handler_pixel_ab.py",
+    "map-events: unresolved limitations remain (1)",
+    "map-events: coverage status='artifact_verified_natural_recovery', expected 'exhaustive'",
+    "map-events: record coverage is not exhaustively ID-bound",
+    "map-events: field coverage is not exhaustive",
+    "map-events: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "map-sprites: verifier lacks a structured JSON result contract: tools/verify_map_sprites_definition_pixel_ab.py",
+    "map-sprites: unresolved limitations remain (1)",
+    "map-sprites: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+    "map-sprites: record coverage is not exhaustively ID-bound",
+    "map-sprites: field coverage is not exhaustive",
+    "map-sprites: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "maps: verifier lacks a structured JSON result contract: tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+    "maps: unresolved limitations remain (1)",
+    "maps: coverage status='artifact_and_checkpoint_single_map', expected 'exhaustive'",
+    "maps: record coverage is not exhaustively ID-bound",
+    "maps: field coverage is not exhaustive",
+    "maps: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "menu-ui: verifier lacks a structured JSON result contract: tools/verify_menu_portrait_pixel_ab_evidence.py",
+    "menu-ui: unresolved limitations remain (1)",
+    "menu-ui: coverage status='artifact_verified_single_variant', expected 'exhaustive'",
+    "menu-ui: record coverage is not exhaustively ID-bound",
+    "menu-ui: field coverage is not exhaustive",
+    "menu-ui: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "palettes: verifier lacks a structured JSON result contract: tools/verify_motion_effect_parameter_pixel_ab.py",
+    "palettes: unresolved limitations remain (1)",
+    "palettes: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+    "palettes: record coverage is not exhaustively ID-bound",
+    "palettes: field coverage is not exhaustive",
+    "palettes: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "positions: missing hash-bound verifier commands",
+    "positions: unresolved limitations remain (1)",
+    "positions: coverage status='runtime_observation_not_causal_ab', expected 'exhaustive'",
+    "positions: record coverage is not exhaustively ID-bound",
+    "positions: field denominator does not match entry_format",
+    "positions: field coverage is not exhaustive",
+    "positions: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "sappy-engine: verifier path argument escapes repository: /Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "sappy-engine: unresolved limitations remain (1)",
+    "sappy-engine: coverage status='artifact_verified_single_instruction_effect', expected 'exhaustive'",
+    "sappy-engine: record coverage is not exhaustively ID-bound",
+    "sappy-engine: field denominator does not match entry_format",
+    "sappy-engine: field coverage is not exhaustive",
+    "sappy-engine: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "save-state: missing hash-bound verifier commands",
+    "save-state: unresolved limitations remain (1)",
+    "save-state: coverage status='save_load_observation_no_independent_runtime_verifier', expected 'exhaustive'",
+    "save-state: record coverage is not exhaustively ID-bound",
+    "save-state: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "skills: missing hash-bound verifier commands",
+    "skills: unresolved limitations remain (1)",
+    "skills: coverage status='checkpoint_ab_single_record_field', expected 'exhaustive'",
+    "skills: record coverage is not exhaustively ID-bound",
+    "skills: field coverage is not exhaustive",
+    "skills: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "story: missing hash-bound verifier commands",
+    "story: unresolved limitations remain (1)",
+    "story: coverage status='runtime_selector_single_scenario', expected 'exhaustive'",
+    "story: record coverage is not exhaustively ID-bound",
+    "story: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "story-b: missing hash-bound verifier commands",
+    "story-b: unresolved limitations remain (1)",
+    "story-b: coverage status='runtime_selector_single_scenario', expected 'exhaustive'",
+    "story-b: record coverage is not exhaustively ID-bound",
+    "story-b: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "tile-assets: verifier lacks a structured JSON result contract: tools/verify_tile_asset_descriptor_pixel_ab.py",
+    "tile-assets: unresolved limitations remain (1)",
+    "tile-assets: coverage status='artifact_verified_natural_route', expected 'exhaustive'",
+    "tile-assets: record coverage is not exhaustively ID-bound",
+    "tile-assets: field coverage is not exhaustive",
+    "tile-assets: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "units: missing hash-bound verifier commands",
+    "units: unresolved limitations remain (1)",
+    "units: coverage status='single_byte_ab_plus_field_correlation', expected 'exhaustive'",
+    "units: record coverage is not exhaustively ID-bound",
+    "units: field denominator does not match entry_format",
+    "units: field coverage is not exhaustive",
+    "units: no verifier contract binds the exhaustive record, field, bank and evidence IDs",
+    "gate rom_byte_coverage: status is partial, expected verified",
+    "gate rom_byte_coverage: case coverage is not exhaustive",
+    "gate rom_byte_coverage: no verifier contract binds the fixed case and evidence IDs",
+    "gate rom_byte_coverage: unresolved limitations remain (63)",
+    "gate rom_byte_coverage: semantic classification is incomplete",
+    "gate resource_roundtrip: status is partial, expected verified",
+    "gate resource_roundtrip: case coverage is not exhaustive",
+    "gate resource_roundtrip: no verifier contract binds the fixed case and evidence IDs",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_menu_portrait_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_map_resource_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_battle_effect_resource_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_bg_resource_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_palette_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_graphics_writeback_audit.py",
+    "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_structure_writeback_audit.py",
+    "gate resource_roundtrip: unresolved limitations remain (2)",
+    "gate editor_roundtrip: status is partial, expected verified",
+    "gate editor_roundtrip: case coverage is not exhaustive",
+    "gate editor_roundtrip: no verifier contract binds the fixed case and evidence IDs",
+    "gate editor_roundtrip: verifier lacks a structured JSON result contract: tools/automated_test.py",
+    "gate editor_roundtrip: unresolved limitations remain (1)",
+    "gate logic_modification: status is partial, expected verified",
+    "gate logic_modification: case coverage is not exhaustive",
+    "gate logic_modification: no verifier contract binds the fixed case and evidence IDs",
+    "gate logic_modification: verifier lacks a structured JSON result contract: tools/automated_test.py",
+    "gate logic_modification: unresolved limitations remain (1)",
+    "gate clean_rebuild: status is partial, expected verified",
+    "gate clean_rebuild: case coverage is not exhaustive",
+    "gate clean_rebuild: no verifier contract binds the fixed case and evidence IDs",
+    "gate clean_rebuild: verifier lacks a structured JSON result contract: tools/automated_test.py",
+    "gate clean_rebuild: unresolved limitations remain (1)",
+    "gate emulator_regression: status is partial, expected verified",
+    "gate emulator_regression: case coverage is not exhaustive",
+    "gate emulator_regression: no verifier contract binds the fixed case and evidence IDs",
+    "gate emulator_regression: verifier lacks a structured JSON result contract: tools/verify_battle_encounters_story_visual_pixel_ab.py",
+    "gate emulator_regression: unresolved limitations remain (1)",
+    "gate physical_hardware: status is blocked_external, expected verified",
+    "gate physical_hardware: case coverage is not exhaustive",
+    "gate physical_hardware: no verifier contract binds the fixed case and evidence IDs",
+    "gate physical_hardware: missing hash-bound evidence",
+    "gate physical_hardware: missing hash-bound verifier commands",
+    "gate physical_hardware: unresolved limitations remain (1)",
+    "claim_status is incomplete, expected complete"
+  ],
+  "claim_status": "incomplete",
+  "complete": false,
+  "declared_runtime_record_coverage": {
+    "records_covered": 23,
+    "records_total": 2954
+  },
+  "gate_results": {
+    "clean_rebuild": {
+      "blockers": [
+        "gate clean_rebuild: status is partial, expected verified",
+        "gate clean_rebuild: case coverage is not exhaustive",
+        "gate clean_rebuild: no verifier contract binds the fixed case and evidence IDs",
+        "gate clean_rebuild: verifier lacks a structured JSON result contract: tools/automated_test.py",
+        "gate clean_rebuild: unresolved limitations remain (1)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "clean-checkout",
+          "pinned-toolchain",
+          "deterministic-rom"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1
+    },
+    "editor_roundtrip": {
+      "blockers": [
+        "gate editor_roundtrip: status is partial, expected verified",
+        "gate editor_roundtrip: case coverage is not exhaustive",
+        "gate editor_roundtrip: no verifier contract binds the fixed case and evidence IDs",
+        "gate editor_roundtrip: verifier lacks a structured JSON result contract: tools/automated_test.py",
+        "gate editor_roundtrip: unresolved limitations remain (1)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "map-editor",
+          "level-editor",
+          "story-editor",
+          "character-editor"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1
+    },
+    "emulator_regression": {
+      "blockers": [
+        "gate emulator_regression: status is partial, expected verified",
+        "gate emulator_regression: case coverage is not exhaustive",
+        "gate emulator_regression: no verifier contract binds the fixed case and evidence IDs",
+        "gate emulator_regression: verifier lacks a structured JSON result contract: tools/verify_battle_encounters_story_visual_pixel_ab.py",
+        "gate emulator_regression: unresolved limitations remain (1)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "base-rom-regression-matrix",
+          "rebuilt-rom-regression-matrix"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1
+    },
+    "logic_modification": {
+      "blockers": [
+        "gate logic_modification: status is partial, expected verified",
+        "gate logic_modification: case coverage is not exhaustive",
+        "gate logic_modification: no verifier contract binds the fixed case and evidence IDs",
+        "gate logic_modification: verifier lacks a structured JSON result contract: tools/automated_test.py",
+        "gate logic_modification: unresolved limitations remain (1)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "menu-logic",
+          "battle-logic"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 1,
+      "limitations_count": 1
+    },
+    "physical_hardware": {
+      "blockers": [
+        "gate physical_hardware: status is blocked_external, expected verified",
+        "gate physical_hardware: case coverage is not exhaustive",
+        "gate physical_hardware: no verifier contract binds the fixed case and evidence IDs",
+        "gate physical_hardware: missing hash-bound evidence",
+        "gate physical_hardware: missing hash-bound verifier commands",
+        "gate physical_hardware: unresolved limitations remain (1)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "original-gba-release-smoke"
+        ]
+      },
+      "evidence_valid": false,
+      "hash_bound_verifier_count": 0,
+      "limitations_count": 1
+    },
+    "resource_roundtrip": {
+      "blockers": [
+        "gate resource_roundtrip: status is partial, expected verified",
+        "gate resource_roundtrip: case coverage is not exhaustive",
+        "gate resource_roundtrip: no verifier contract binds the fixed case and evidence IDs",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_menu_portrait_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_map_resource_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_battle_effect_resource_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_bg_resource_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_palette_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_graphics_writeback_audit.py",
+        "gate resource_roundtrip: verifier lacks a structured JSON result contract: tools/verify_character_battle_structure_writeback_audit.py",
+        "gate resource_roundtrip: unresolved limitations remain (2)"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 0,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "graphics",
+          "audio",
+          "text",
+          "maps",
+          "levels",
+          "story",
+          "characters"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 7,
+      "limitations_count": 2
+    },
+    "rom_byte_coverage": {
+      "blockers": [
+        "gate rom_byte_coverage: status is partial, expected verified",
+        "gate rom_byte_coverage: case coverage is not exhaustive",
+        "gate rom_byte_coverage: no verifier contract binds the fixed case and evidence IDs",
+        "gate rom_byte_coverage: unresolved limitations remain (63)",
+        "gate rom_byte_coverage: semantic classification is incomplete"
+      ],
+      "complete": false,
+      "contracted_verifier_count": 96,
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "all-rom-bytes-semantically-classified"
+        ]
+      },
+      "evidence_valid": true,
+      "hash_bound_verifier_count": 96,
+      "limitations_count": 63,
+      "rom_coverage_audit": {
+        "errors": [],
+        "schema": "rom-byte-coverage-audit-v1",
+        "semantic_classification_complete": false,
+        "state_inventory_complete": true,
+        "summary": {
+          "accounted_bytes": 6291456,
+          "aligned_pointer_reachable_lz77_records": 896,
+          "alternate_dialogue_table_bytes": 3200,
+          "alternate_dialogue_table_claim_count": 161,
+          "artifact_bound_alignment_gap_bytes": 26,
+          "artifact_bound_alignment_gap_claim_count": 13,
+          "artifact_bound_alignment_gap_claim_denominator_sha256": "1962c626da011e7ac32287662593e55cea72d5d21b003a419e78085a087b8d46",
+          "artifact_bound_alignment_gap_independent_verifier_report_sha256": "58c8b2f9badfa2bb40edb570ddef879ab56412bdf4e477e9e16f074ebc121d28",
+          "artifact_bound_alignment_gap_packed_bytes_sha256": "659d36ca563ba4622daabb36a71dafaf6060cdcbf89bb12e75426198496d272c",
+          "artifact_bound_alignment_gap_promotion_batch": "rom-artifact-bound-alignment-gaps-v1",
+          "artifact_bound_alignment_gap_range_vector_sha256": "d6582d3ca46f1bacb82537740370874320c79592f3c9512747affd4db5285741",
+          "battle_condition_combined_fragment_range_denominator_sha256": "72fff4ac415bd154e643b2205064c53822209fb9eb0fe90a8243284e8f32f77f",
+          "battle_condition_predicate_fragment_bytes": 2608,
+          "battle_condition_predicate_fragment_claim_count": 43,
+          "battle_condition_predicate_fragment_packed_bytes_sha256": "e31d7da27eca37808d6a5937025991c2cf59785d7633c81c7695c1dc8800d64b",
+          "battle_condition_predicate_fragment_range_denominator_sha256": "f61a404bc830e0f78916268876bb62238d3a2d55267df5af3beda39af0861dcc",
+          "battle_condition_prefix_fragment_bytes": 164,
+          "battle_condition_prefix_fragment_claim_count": 41,
+          "battle_condition_prefix_fragment_packed_bytes_sha256": "eae9d28d7679ffbf2ab2dc851a67b2e3e1c4c6f0dceb8ab805cd0f7218ce8d8b",
+          "battle_condition_prefix_fragment_range_denominator_sha256": "11275ecaa34b3e4d187efcb04aa59ae8911bfb0ba9d6a147df313cae376b941d",
+          "battle_condition_projected_packed_bytes_sha256": "f63949e16d48a198983a61099bcf6f18d3b01980dea2a94bd9440ed8d9f49810",
+          "battle_condition_projected_range_denominator_sha256": "1b639baa06f56a6273327a2df2dc0ad2595535af6a08b47c9d8038378836544a",
+          "battle_condition_projected_unknown_bytes": 2772,
+          "battle_condition_projected_unknown_claim_count": 84,
+          "battle_condition_records_claim_kind": "battle_condition_record_current_unknown_fragment",
+          "battle_condition_records_promotion_batch": "rom-battle-condition-records-v1",
+          "battle_condition_records_table_sha256": "0d6e137011aa4e97c5b5d165f1939b7fb0b33235b9b20fceb1566b485dc35bf4",
+          "battle_condition_result_text_bytes": 3961,
+          "battle_condition_result_text_claim_count": 219,
+          "battle_controller_consumed_literal_bytes": 536,
+          "battle_effect_sprite_source_bytes": 11120,
+          "battle_effect_sprite_source_claim_count": 237,
+          "battle_effect_sprite_source_claim_denominator_sha256": "c30b25fbed4a80914e8bc9e8d33ec7545e47a01a005866460323ac8c9b84ba30",
+          "battle_effect_sprite_source_claim_kind": "battle_effect_sprite_animation_source_range",
+          "battle_effect_sprite_source_class_bytes": {
+            "battle_effect_sprite_animation_pointer_table": 92,
+            "battle_effect_sprite_animation_timeline": 864,
+            "battle_effect_sprite_component_records": 9452,
+            "battle_effect_sprite_definition_pointer_table": 712
+          },
+          "battle_effect_sprite_source_class_claim_counts": {
+            "battle_effect_sprite_animation_pointer_table": 18,
+            "battle_effect_sprite_animation_timeline": 23,
+            "battle_effect_sprite_component_records": 178,
+            "battle_effect_sprite_definition_pointer_table": 18
+          },
+          "battle_effect_sprite_source_promotion_batch": "battle-effect-sprite-animation-source-v1",
+          "battle_message_renderer_text_bytes": 1411,
+          "battle_message_renderer_text_claim_count": 79,
+          "battle_message_zero_padding_bytes": 1329,
+          "battle_message_zero_padding_claim_count": 79,
+          "battle_presentation_message_bytes": 1148,
+          "battle_presentation_message_claim_count": 79,
+          "battle_presentation_palette_bytes": 32,
+          "battle_presentation_palette_claim_count": 1,
+          "battle_presentation_table_bytes": 1794,
+          "battle_presentation_table_claim_count": 3,
+          "battle_presentation_text_padding_bytes": 1293,
+          "battle_presentation_text_padding_claim_count": 78,
+          "battle_presentation_tile_assets_alignment_gap_binding_table_sha256": "8b5557e99d159b2b3ea1701bc0a15d0f2acc95f766003ec706263fc62a3719e8",
+          "battle_presentation_tile_assets_alignment_gap_bytes": 2,
+          "battle_presentation_tile_assets_alignment_gap_claim_count": 1,
+          "battle_presentation_tile_assets_alignment_gap_claim_kind": "battle_presentation_tile_assets_alignment_gap_bytes",
+          "battle_presentation_tile_assets_alignment_gap_packed_bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+          "battle_presentation_tile_assets_alignment_gap_promotion_batch": "rom-battle-presentation-tile-assets-alignment-gap-coverage-v1",
+          "battle_presentation_tile_assets_alignment_gap_range_denominator_sha256": "7649610dfb23720aa7a052893bf3fec739e423ddc826720e9cfa8529bea1882c",
+          "battle_presentation_tile_assets_alignment_gap_tile_assets_table_sha256": "0db18948a6619ac723bebc60f9c2b79f1fea1786c6e80db389064c5f07655f73",
+          "battle_sound_selector_bytes": 256,
+          "battle_sound_selector_claim_count": 1,
+          "battle_sound_selector_claim_kind": "battle_gameplay_sound_selector_table_bytes",
+          "battle_sound_selector_entry_denominator_sha256": "fc3c1c03d918f173b304633d84fcbd8ead4448f5185d30d687c2ef352a3fcd62",
+          "battle_sound_selector_promotion_batch": "rom-battle-sound-selector-v1",
+          "battle_sound_selector_table_sha256": "2f77582ae5eea1711b079fc8ce67d36e95ec68bf0e2bd0a3d5780eb3d9819b5d",
+          "battle_status_bar_caller_slice_bytes": 1856,
+          "battle_status_bar_caller_slice_claim_count": 1,
+          "bg_canvas_descriptor_bytes": 224,
+          "bg_canvas_descriptor_claim_count": 1,
+          "boot_copy_source_bytes": 620,
+          "boot_copy_source_claim_count": 1,
+          "boot_framebuffer_bytes": 155188,
+          "boot_framebuffer_claim_count": 14,
+          "boot_interwork_arm_code_bytes": 372,
+          "boot_interwork_arm_code_claim_count": 2,
+          "boot_interwork_continuation_bytes": 94,
+          "boot_interwork_continuation_claim_count": 6,
+          "boot_interwork_literal_pool_bytes": 36,
+          "boot_interwork_literal_pool_claim_count": 1,
+          "boot_interwork_padding_bytes": 2,
+          "boot_interwork_padding_claim_count": 1,
+          "boot_interwork_padding_claim_kind": "boot_interwork_veneer_alignment_nop_bytes",
+          "boot_interwork_padding_packed_bytes_sha256": "3e39ed78e50103716c788d4147df413950e5eba73c6e33acd923f15865795676",
+          "boot_interwork_padding_promotion_batch": "rom-boot-interwork-padding-coverage-v1",
+          "boot_interwork_padding_range_denominator_sha256": "639f595e03eb779de859b21c42fb77388cd5a93c26be5514b7c1f700fe1d09b9",
+          "boot_interwork_thumb_code_bytes": 6,
+          "boot_interwork_thumb_code_claim_count": 2,
+          "boot_thumb_code_literal_alignment_gap_boundary_vector_sha256": "2c1e60388f8fd7ef11118e7a61ac93fa7816aa6012e7f6e3478a45d4d080b54f",
+          "boot_thumb_code_literal_alignment_gap_bytes": 24,
+          "boot_thumb_code_literal_alignment_gap_claim_count": 12,
+          "boot_thumb_code_literal_alignment_gap_claim_denominator_sha256": "1fadc38e6e829c3603f3d9213e98ed2dd33272aa729accdfd8db48b898c5a574",
+          "boot_thumb_code_literal_alignment_gap_claim_kind": "boot_thumb_code_literal_alignment_gap_bytes",
+          "boot_thumb_code_literal_alignment_gap_independent_verifier_report_sha256": "e486e518c7df41659b002c5d4ed7aedf58e41c68aa1883122b88caeba8347e62",
+          "boot_thumb_code_literal_alignment_gap_packed_bytes_sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0",
+          "boot_thumb_code_literal_alignment_gap_promotion_batch": "rom-boot-thumb-code-literal-alignment-gaps-v1",
+          "boot_thumb_code_literal_alignment_gap_range_vector_sha256": "dec4177a9818ff7b3349a7c678f8e4a223f4a6e8ac254e2cd81bb4cf1362ce58",
+          "boot_thumb_handoff_code_bytes": 1226,
+          "boot_thumb_handoff_code_claim_count": 27,
+          "boot_thumb_handoff_frontier_count": 2,
+          "boot_thumb_handoff_literal_bytes": 296,
+          "boot_thumb_handoff_literal_claim_count": 22,
+          "boot_thumb_handoff_promotion_batch": "rom-boot-thumb-handoff-cfg-v1",
+          "boot_thumb_handoff_promotion_claim_count": 49,
+          "boot_thumb_handoff_return_count": 14,
+          "boot_thumb_handoff_union_bytes": 1522,
+          "boot_thumb_handoff_union_range_count": 25,
+          "boot_thumb_handoff_union_range_vector_sha256": "f8df15ea8c3feb1a9c460bd0a2aabd79572806100ed726ada64b360aabb92aa5",
+          "candidate_adjudication_bytes": 6304,
+          "candidate_adjudication_claim_count": 55,
+          "cfg_code_claim_kind_count": 54,
+          "cfg_code_claim_kind_denominator_sha256": "c8ffed470f28393f8a829d3312ac74083d60ae4e719d82614993d6b973fa3f11",
+          "cfg_consumed_literal_batch_bytes": 14492,
+          "cfg_consumed_literal_batch_claim_count": 1220,
+          "cfg_primary_claim_count": 4059,
+          "cfg_promoted_unknown_bytes": 174046,
+          "cfg_proven_roots_batch_consumed_literal_bytes": 1256,
+          "cfg_proven_roots_extension_code_bytes": 12946,
+          "cfg_proven_roots_extension_code_claim_count": 116,
+          "cfg_proven_roots_producer_claim_count": 3,
+          "cfg_proven_roots_producer_code_bytes": 12,
+          "cfg_proven_roots_v10_consumed_literal_bytes": 8,
+          "cfg_proven_roots_v10_consumed_literal_claim_count": 2,
+          "cfg_proven_roots_v10_extension_code_bytes": 72,
+          "cfg_proven_roots_v10_extension_code_claim_count": 7,
+          "cfg_proven_roots_v10_promotion_bytes": 80,
+          "cfg_proven_roots_v10_promotion_claim_count": 9,
+          "cfg_proven_roots_v11_extension_code_bytes": 62,
+          "cfg_proven_roots_v11_extension_code_claim_count": 6,
+          "cfg_proven_roots_v11_promotion_bytes": 62,
+          "cfg_proven_roots_v11_promotion_claim_count": 6,
+          "cfg_proven_roots_v12_consumed_literal_bytes": 128,
+          "cfg_proven_roots_v12_consumed_literal_claim_count": 4,
+          "cfg_proven_roots_v12_extension_code_bytes": 372,
+          "cfg_proven_roots_v12_extension_code_claim_count": 4,
+          "cfg_proven_roots_v12_promotion_bytes": 500,
+          "cfg_proven_roots_v12_promotion_claim_count": 8,
+          "cfg_proven_roots_v12_unclassified_hole_bytes": 4,
+          "cfg_proven_roots_v13_consumed_literal_bytes": 80,
+          "cfg_proven_roots_v13_consumed_literal_claim_count": 3,
+          "cfg_proven_roots_v13_extension_code_bytes": 312,
+          "cfg_proven_roots_v13_extension_code_claim_count": 3,
+          "cfg_proven_roots_v13_promotion_bytes": 392,
+          "cfg_proven_roots_v13_promotion_claim_count": 6,
+          "cfg_proven_roots_v13_unclassified_hole_bytes": 4,
+          "cfg_proven_roots_v14_consumed_literal_bytes": 40,
+          "cfg_proven_roots_v14_consumed_literal_claim_count": 2,
+          "cfg_proven_roots_v14_extension_code_bytes": 120,
+          "cfg_proven_roots_v14_extension_code_claim_count": 2,
+          "cfg_proven_roots_v14_promotion_bytes": 160,
+          "cfg_proven_roots_v14_promotion_claim_count": 4,
+          "cfg_proven_roots_v15_consumed_literal_bytes": 52,
+          "cfg_proven_roots_v15_consumed_literal_claim_count": 4,
+          "cfg_proven_roots_v15_extension_code_bytes": 398,
+          "cfg_proven_roots_v15_extension_code_claim_count": 6,
+          "cfg_proven_roots_v15_preserved_unknown_hole_bytes": 386,
+          "cfg_proven_roots_v15_promotion_bytes": 450,
+          "cfg_proven_roots_v15_promotion_claim_count": 10,
+          "cfg_proven_roots_v15_rejected_root_count": 1,
+          "cfg_proven_roots_v17_bytes": 2400,
+          "cfg_proven_roots_v17_claim_count": 26,
+          "cfg_proven_roots_v18_bytes": 1482,
+          "cfg_proven_roots_v18_claim_count": 17,
+          "cfg_proven_roots_v19_bytes": 1660,
+          "cfg_proven_roots_v19_claim_count": 14,
+          "cfg_proven_roots_v2_extension_code_bytes": 9876,
+          "cfg_proven_roots_v2_extension_code_claim_count": 86,
+          "cfg_proven_roots_v2_producer_claim_count": 5,
+          "cfg_proven_roots_v2_producer_code_bytes": 20,
+          "cfg_proven_roots_v3_extension_code_bytes": 110,
+          "cfg_proven_roots_v3_extension_code_claim_count": 8,
+          "cfg_proven_roots_v4_extension_code_bytes": 1044,
+          "cfg_proven_roots_v4_extension_code_claim_count": 118,
+          "cfg_proven_roots_v5_extension_code_bytes": 1252,
+          "cfg_proven_roots_v5_extension_code_claim_count": 124,
+          "cfg_proven_roots_v6_extension_code_bytes": 25926,
+          "cfg_proven_roots_v6_extension_code_claim_count": 2212,
+          "cfg_proven_roots_v7_dispatch_table_bytes": 36,
+          "cfg_proven_roots_v7_dispatch_table_claim_count": 9,
+          "cfg_proven_roots_v7_dispatch_table_range_denominator_sha256": "f01bf5984428f386feeed6b009913a5775ee6f23d41101a3ea423fb4047c6e9d",
+          "cfg_proven_roots_v7_extension_code_bytes": 332,
+          "cfg_proven_roots_v7_extension_code_claim_count": 38,
+          "cfg_proven_roots_v8_extension_code_bytes": 246,
+          "cfg_proven_roots_v8_extension_code_claim_count": 20,
+          "cfg_proven_roots_v9_extension_code_bytes": 628,
+          "cfg_proven_roots_v9_extension_code_claim_count": 62,
+          "cfg_reachable_arm_code_bytes": 956,
+          "cfg_reachable_thumb_code_bytes": 173058,
+          "cfg_v1_consumed_literal_bytes": 1396,
+          "cfg_v2_consumed_literal_bytes": 6796,
+          "cfg_v2_shadowed_consumed_literal_bytes": 308,
+          "cfg_v3_consumed_literal_bytes": 1220,
+          "cfg_v3_dispatch_table_bytes": 448,
+          "cfg_v3_dispatch_table_claim_count": 112,
+          "cfg_v3_extension_code_bytes": 9060,
+          "cfg_v3_extension_code_claim_count": 113,
+          "cfg_v3_sparse_dispatch_masked_residual_bytes": 32,
+          "cfg_v3_sparse_dispatch_masked_residual_claim_count": 8,
+          "cfg_v3_sparse_dispatch_masked_residual_range_denominator_sha256": "f12097bd30174bd08f177f083fd886995edbdfc05de91c178b2d5ee96a65f9a5",
+          "cfg_v6_consumed_literal_bytes": 2980,
+          "cgb_helper_bounded_cfg_code_bytes": 164,
+          "cgb_helper_bounded_cfg_independent_verifier_sha256": "d09f828511215b59fe8b60ba4bcf7e63fca48fc36d4c105e75175fa3b11179f3",
+          "cgb_helper_bounded_cfg_literal_bytes": 16,
+          "cgb_helper_bounded_cfg_manifest_sha256": "8a53b3ee982799583e08ef852fb2cac9771f856e77ed104cc2814cfd1e7ef6d1",
+          "cgb_helper_bounded_cfg_packed_bytes_sha256": "87c62bbe5f0e9d25ee5b11398ecdd3ed5b41782d4873871205f71c1122a4c1dc",
+          "cgb_helper_bounded_cfg_payload_sha256": "dccdca087744e57136b180dba1c3e4151c123efecec10d5d53f90894dc760960",
+          "cgb_helper_bounded_cfg_promoted_bytes": 180,
+          "cgb_helper_bounded_cfg_promotion_batch": "rom-cgb-helper-bounded-cfg-v1",
+          "cgb_helper_bounded_cfg_promotion_claim_count": 9,
+          "cgb_helper_bounded_cfg_range_vector_sha256": "ea942377babe2613c9affe8711b6480f6e9e27e60da7aeb483112790de3b85b3",
+          "cgbsound_bounded_cfg_code_bytes": 1008,
+          "cgbsound_bounded_cfg_independent_verifier_sha256": "6af3510f319c58cdb9cf70c115f6a1b2b3ffc0b4fb331f247604dbdb8e637961",
+          "cgbsound_bounded_cfg_literal_bytes": 76,
+          "cgbsound_bounded_cfg_manifest_sha256": "4248c0fed46682d06918ac124d3c861a60c12117023a773190ff831840963b6e",
+          "cgbsound_bounded_cfg_packed_bytes_sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+          "cgbsound_bounded_cfg_payload_sha256": "362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d",
+          "cgbsound_bounded_cfg_promoted_bytes": 1084,
+          "cgbsound_bounded_cfg_promotion_batch": "rom-cgbsound-bounded-cfg-v1",
+          "cgbsound_bounded_cfg_promotion_claim_count": 19,
+          "cgbsound_bounded_cfg_range_vector_sha256": "3386a673407d2191f9b9427725f95e3864b92009ea32de433d28c9665c618f57",
+          "chapter_script_bytes": 334060,
+          "chapter_script_claim_count": 92,
+          "chapter_script_consumer_roots_bytes": 16175,
+          "chapter_script_consumer_roots_claim_count": 2,
+          "chapter_selector_code_slice_bytes": 64,
+          "chapter_selector_code_slice_claim_count": 1,
+          "chapter_speaker_label_bytes": 251,
+          "chapter_speaker_label_claim_count": 49,
+          "chapter_speaker_label_slot_padding_bytes": 337,
+          "chapter_speaker_label_slot_padding_claim_count": 49,
+          "character_battle_visual_bytes": 2023076,
+          "character_battle_visual_claim_count": 1299,
+          "claim_count": 16891,
+          "classified_bytes": 6203707,
+          "consumer_code_slice_bytes": 27404,
+          "consumer_code_slice_claim_count": 116,
+          "cutscene_obj_alignment_gap_bytes": 8,
+          "cutscene_obj_alignment_gap_claim_count": 4,
+          "cutscene_obj_alignment_gap_claim_denominator_sha256": "dae7c87fa52a1e1e9f1a72279fc7839d8f26f07b126e80aca07450286abcc137",
+          "cutscene_obj_alignment_gap_claim_kind": "cutscene_obj_palette_definition_alignment_gap_bytes",
+          "cutscene_obj_alignment_gap_independent_verifier_report_sha256": "c89ed50357f1497139aa81bc29e4b67c5947608c640fc572f0ff66ed01dd8f41",
+          "cutscene_obj_alignment_gap_packed_bytes_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+          "cutscene_obj_alignment_gap_promotion_batch": "rom-cutscene-obj-palette-definition-alignment-gap-coverage-v1",
+          "cutscene_obj_alignment_gap_range_vector_sha256": "374c247199713cc2e172ebff551ae7a5e40df4289437f45cf76c814e84bed5e6",
+          "cutscene_obj_source_bytes": 400,
+          "cutscene_obj_source_claim_count": 28,
+          "cutscene_obj_source_claim_kind": "cutscene_obj_source_range",
+          "cutscene_obj_source_class_bytes": {
+            "cutscene_obj_animation_pointer_table": 40,
+            "cutscene_obj_animation_timeline": 80,
+            "cutscene_obj_definition_pointer_table": 40,
+            "cutscene_obj_definition_records": 240
+          },
+          "cutscene_obj_source_class_claim_counts": {
+            "cutscene_obj_animation_pointer_table": 4,
+            "cutscene_obj_animation_timeline": 10,
+            "cutscene_obj_definition_pointer_table": 4,
+            "cutscene_obj_definition_records": 10
+          },
+          "cutscene_obj_source_promotion_batch": "rom-cutscene-obj-source-ranges-v1",
+          "cutscene_obj_source_range_denominator_sha256": "c332e0ded3ae305162f774ffe1dfbbc5bbda14b534f5dd87b4f368337b8fb5a8",
+          "dialogue_encoded_text_bytes": 18207,
+          "dialogue_encoded_text_claim_count": 1220,
+          "dialogue_font_bytes": 144416,
+          "dialogue_font_claim_count": 30,
+          "dialogue_font_sjis_empty_lookup_rows_bytes": 40,
+          "dialogue_font_sjis_empty_lookup_rows_claim_count": 1,
+          "dialogue_font_sjis_empty_lookup_rows_claim_kind": "dialogue_font_sjis_empty_lookup_row_bytes",
+          "dialogue_font_sjis_empty_lookup_rows_full_table_sha256": "10bff7abebc963193e5490fd876a3f11f294ca89f2918856746ce76f5990e1b1",
+          "dialogue_font_sjis_empty_lookup_rows_packed_bytes_sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb",
+          "dialogue_font_sjis_empty_lookup_rows_promotion_batch": "rom-dialogue-font-sjis-empty-lookup-rows-coverage-v1",
+          "dialogue_font_sjis_empty_lookup_rows_range_denominator_sha256": "000c60331b7d3e7da1c3597ac8ef3578b5f99a4cc24c811b5be5b38a079a676f",
+          "dialogue_font_source_padding_bytes": 2848,
+          "dialogue_font_source_padding_claim_count": 19,
+          "dialogue_inter_record_zero_padding_bytes": 16814,
+          "dialogue_inter_record_zero_padding_claim_count": 1219,
+          "dialogue_pointer_table_bytes": 6100,
+          "dialogue_pointer_table_claim_count": 1,
+          "direct_cpuset_bound_palette_bytes": 192,
+          "direct_cpuset_bound_palette_candidate_count": 12,
+          "direct_cpuset_bound_palette_candidate_denominator_sha256": "2381d20aeadf065b45306538b729c5b5ceecf41edcb4bbd6f3c40070a495607e",
+          "direct_cpuset_bound_palette_claim_count": 6,
+          "direct_cpuset_bound_palette_claim_kind": "direct_cpuset_bound_palette_source_range",
+          "direct_cpuset_bound_palette_packed_bytes_sha256": "056a3625cc3a6735e56921aaec6ee37e646380bf31040cb6ad63fa8dbe757b70",
+          "direct_cpuset_bound_palette_preowned_count": 6,
+          "direct_cpuset_bound_palette_preowned_denominator_sha256": "4a03b75179c008e012ed89e2b571f052bd326a22cc2f1c5ae8fd82b073348225",
+          "direct_cpuset_bound_palette_promotion_batch": "rom-direct-cpuset-bound-palette-coverage-v1",
+          "direct_cpuset_bound_palette_range_denominator_sha256": "37ea9a17c34454a25866f790eb26b72d4b40b7a7a663b7f15366a6e3ad7fcf1f",
+          "direct_cpuset_palette_bytes": 96,
+          "direct_cpuset_palette_claim_count": 3,
+          "directsound_pitch_lookup_bytes": 344,
+          "directsound_pitch_lookup_claim_count": 5,
+          "directsound_pitch_lookup_class_bytes": {
+            "armv4t_directsound_pitch_consumer_thumb_code": 92,
+            "armv4t_directsound_pitch_high32_interwork_code": 16,
+            "directsound_pitch_frequency_u32_table": 48,
+            "directsound_pitch_scale_descriptor_table": 180,
+            "directsound_pitch_table_pointer_literals": 8
+          },
+          "directsound_pitch_lookup_class_claim_counts": {
+            "armv4t_directsound_pitch_consumer_thumb_code": 1,
+            "armv4t_directsound_pitch_high32_interwork_code": 1,
+            "directsound_pitch_frequency_u32_table": 1,
+            "directsound_pitch_scale_descriptor_table": 1,
+            "directsound_pitch_table_pointer_literals": 1
+          },
+          "directsound_pitch_lookup_consumer_block_count": 5,
+          "directsound_pitch_lookup_consumer_frontier_count": 0,
+          "directsound_pitch_lookup_consumer_instruction_count": 44,
+          "directsound_pitch_lookup_frequency_entry_count": 12,
+          "directsound_pitch_lookup_frequency_index_domain": [
+            0,
+            11
+          ],
+          "directsound_pitch_lookup_helper_block_count": 2,
+          "directsound_pitch_lookup_helper_frontier_count": 0,
+          "directsound_pitch_lookup_helper_instruction_count": 5,
+          "directsound_pitch_lookup_packed_bytes_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+          "directsound_pitch_lookup_producer_count": 2,
+          "directsound_pitch_lookup_promotion_batch": "rom-directsound-pitch-lookup-v1",
+          "directsound_pitch_lookup_range_vector_sha256": "ac877e8eec80edbdab3d1b6f3991fc8a93dfc497a66c298dc9ee0c29034431bd",
+          "directsound_pitch_lookup_scale_descriptor_count": 180,
+          "directsound_pitch_lookup_shift_domain": [
+            0,
+            14
+          ],
+          "fast_audit_four_packet_bytes": 7140,
+          "fast_audit_four_packet_claim_count": 116,
+          "fast_audit_immutable_baseline_sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
+          "fast_audit_replay_verifier_sha256": "eb73243101b92d6ec5a65639615c4da3c44de0bd09bc2b26e33b4517ad5673bf",
+          "fixed_consumer_pointer_table_bytes": 3000,
+          "fixed_consumer_pointer_table_claim_count": 11,
+          "fixed_consumer_renderer_text_bytes": 11177,
+          "fixed_consumer_renderer_text_claim_count": 735,
+          "fixed_consumer_text_zero_padding_bytes": 6738,
+          "fixed_consumer_text_zero_padding_claim_count": 590,
+          "fixed_table_bytes": 348018,
+          "lz77_alignment_padding_bytes": 648,
+          "lz77_alignment_padding_claim_count": 341,
+          "m4a_audio_bytes": 887018,
+          "m4a_audio_claim_count": 842,
+          "m4a_initializer_chain_code_bytes": 390,
+          "m4a_initializer_chain_code_claim_count": 3,
+          "m4a_initializer_chain_code_claim_kind": "m4a_initializer_chain_bounded_thumb_code",
+          "m4a_initializer_chain_frontier_count": 0,
+          "m4a_initializer_chain_gap_bytes": 2,
+          "m4a_initializer_chain_gap_range_count": 1,
+          "m4a_initializer_chain_literal_bytes": 128,
+          "m4a_initializer_chain_literal_claim_count": 3,
+          "m4a_initializer_chain_literal_claim_kind": "m4a_initializer_chain_consumed_literal_bytes",
+          "m4a_initializer_chain_producer_count": 3,
+          "m4a_initializer_chain_promoted_bytes": 518,
+          "m4a_initializer_chain_promotion_batch": "rom-m4a-initializer-chain-v1",
+          "m4a_initializer_chain_promotion_claim_count": 6,
+          "m4a_initializer_chain_union_range_count": 4,
+          "m4a_initializer_chain_union_range_vector_sha256": "8bcba07694e7375d59dddeb3cb12eeb4903e61147c91723482d61d06a47dbd72",
+          "menu_portrait_lz77_palette_alignment_gap_boundary_vector_sha256": "13ab975a67b42528abeef6075ff1f71b9440a7e53806f4f07f345d2e30900ddb",
+          "menu_portrait_lz77_palette_alignment_gap_bytes": 110,
+          "menu_portrait_lz77_palette_alignment_gap_claim_count": 52,
+          "menu_portrait_lz77_palette_alignment_gap_claim_denominator_sha256": "c49c9c26422412414154b96397c621761cdcf611e8d6ecb6fe52fd6302a70d18",
+          "menu_portrait_lz77_palette_alignment_gap_claim_kind": "menu_portrait_lz77_palette_alignment_gap_bytes",
+          "menu_portrait_lz77_palette_alignment_gap_independent_verifier_report_sha256": "e2d9a895e98c4359add5af092f26e74b0c2e6f03e8e758abefc81324302da7aa",
+          "menu_portrait_lz77_palette_alignment_gap_packed_bytes_sha256": "f23391587f1c9fc48eabd1e95f4caf16f585ef09941b7bc24f023d228e81ccd5",
+          "menu_portrait_lz77_palette_alignment_gap_promotion_batch": "rom-menu-portrait-lz77-palette-alignment-gaps-v1",
+          "menu_portrait_lz77_palette_alignment_gap_range_vector_sha256": "e88d3a42d6e3144919668ade6db9f9caa21e8aab1502d8b3d9c84a148875bbf7",
+          "menu_portrait_palette_bytes": 8960,
+          "menu_portrait_palette_claim_count": 70,
+          "menu_portrait_palette_claim_kind": "menu_portrait_palette_source_range",
+          "menu_portrait_palette_promotion_batch": "rom-menu-portrait-palette-inventory-v1",
+          "menu_portrait_palette_range_denominator_sha256": "84e8b9f99a51f94e1b9e0b972d6458c883428443aa173a9f739beaf601b4e338",
+          "motion_spawn_sequence_alignment_gap_bytes": 2,
+          "motion_spawn_sequence_alignment_gap_claim_count": 1,
+          "motion_spawn_sequence_alignment_gap_claim_kind": "motion_spawn_sequence_descriptor_alignment_gap_bytes",
+          "motion_spawn_sequence_alignment_gap_motion_table_sha256": "d1793f9c19b046ff1f431f28da31518c2093b77914b5c1f8b13f7e01d0ff1c6d",
+          "motion_spawn_sequence_alignment_gap_packed_bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+          "motion_spawn_sequence_alignment_gap_promotion_batch": "rom-motion-spawn-sequence-descriptor-alignment-gap-coverage-v1",
+          "motion_spawn_sequence_alignment_gap_range_denominator_sha256": "6646067a0bc46bcc6c2fde5aa94299022ac51d7454b946048e51d929b0a58d03",
+          "motion_spawn_sequence_alignment_gap_sequence_table_sha256": "04d83157859089ee13c559a35bb6ab2f8814c71db59ee3f6616b917011428b9f",
+          "mp2k_dispatcher_accepted_value_count": 18,
+          "mp2k_dispatcher_code_bytes": 86,
+          "mp2k_dispatcher_excluded_bytes": 4,
+          "mp2k_dispatcher_existing_owner_provenance_bytes": 238,
+          "mp2k_dispatcher_literal_bytes": 4,
+          "mp2k_dispatcher_promoted_bytes": 102,
+          "mp2k_dispatcher_promotion_batch": "rom-mp2k-dispatcher-v1",
+          "mp2k_dispatcher_promotion_claim_count": 4,
+          "mp2k_dispatcher_table_tail_bytes": 12,
+          "mp2k_dispatcher_union_range_vector_sha256": "f7621079a8d84ce92aeebf1855856f30c0d8e551aed692531139bd6dccb39171",
+          "mp2k_note_allocator_accepted_value_count": 49,
+          "mp2k_note_allocator_code_bytes": 550,
+          "mp2k_note_allocator_excluded_bytes": 68,
+          "mp2k_note_allocator_literal_bytes": 8,
+          "mp2k_note_allocator_pointer_bytes": 4,
+          "mp2k_note_allocator_promoted_bytes": 562,
+          "mp2k_note_allocator_promotion_batch": "rom-mp2k-note-allocator-v1",
+          "mp2k_note_allocator_promotion_claim_count": 4,
+          "mp2k_note_allocator_union_range_vector_sha256": "bd9139f26305fea7813e7daf944d6a6e131861b31c3c98065b5e7d13bf65c88b",
+          "mplaymain_scheduler_block_count": 81,
+          "mplaymain_scheduler_code_bytes": 600,
+          "mplaymain_scheduler_code_claim_count": 1,
+          "mplaymain_scheduler_code_claim_kind": "mplaymain_scheduler_reachable_instruction_bytes",
+          "mplaymain_scheduler_external_edge_count": 12,
+          "mplaymain_scheduler_frontier_count": 1,
+          "mplaymain_scheduler_gap_bytes": 2,
+          "mplaymain_scheduler_gap_range_count": 1,
+          "mplaymain_scheduler_literal_bytes": 12,
+          "mplaymain_scheduler_literal_claim_count": 1,
+          "mplaymain_scheduler_literal_claim_kind": "mplaymain_scheduler_consumed_literal_bytes",
+          "mplaymain_scheduler_owned_provenance_bytes": 2,
+          "mplaymain_scheduler_owned_provenance_range_count": 1,
+          "mplaymain_scheduler_promoted_bytes": 612,
+          "mplaymain_scheduler_promotion_batch": "rom-mplaymain-scheduler-v1",
+          "mplaymain_scheduler_promotion_claim_count": 2,
+          "mplaymain_scheduler_return_count": 1,
+          "mplaymain_scheduler_union_range_count": 2,
+          "mplaymain_scheduler_union_range_vector_sha256": "a8e11002ba5439c3d758e03faa1850a686e749cbe3230496f871329283300b4d",
+          "nonempty_bank_count": 22,
+          "padding_ff_bytes": 132116,
+          "parser_bound_zero_padding_bytes": 198,
+          "parser_bound_zero_padding_claim_count": 142,
+          "parser_bound_zero_padding_class_bytes": {
+            "chapter_terminal_to_fixed_root_zero_padding": 85,
+            "m4a_wave_alignment_zero_padding": 113
+          },
+          "parser_bound_zero_padding_class_claim_counts": {
+            "chapter_terminal_to_fixed_root_zero_padding": 85,
+            "m4a_wave_alignment_zero_padding": 57
+          },
+          "parser_bound_zero_padding_promotion_batch": "rom-parser-bound-zero-padding-v1",
+          "parser_bound_zero_padding_range_denominator_sha256": "936959996300e6971bf0afa70ebe8fa116bb57c92a824b710daa91cd5b08a4c1",
+          "pointer_reachable_lz77_bytes": 1733430,
+          "positions_aux_dispatch_bytes": 9216,
+          "positions_aux_dispatch_claim_count": 144,
+          "positions_aux_dispatch_claim_kind": "positions_aux_dispatch_cell_table_bytes",
+          "positions_aux_dispatch_promotion_batch": "rom-positions-aux-dispatch-v1",
+          "positions_aux_dispatch_range_denominator_sha256": "47d995f09d6aaafcc4f4b4f88e3fbe81c2c4e0ea48ff10048674f1dbf6847d68",
+          "profile_selector_code_slice_bytes": 164,
+          "profile_selector_code_slice_claim_count": 2,
+          "profile_text_alignment_padding_bytes": 38,
+          "profile_text_alignment_padding_claim_count": 19,
+          "profile_text_bytes": 6798,
+          "profile_text_claim_count": 46,
+          "psg_frequency_lookup_bytes": 226,
+          "psg_frequency_lookup_claim_count": 5,
+          "psg_frequency_lookup_class_bytes": {
+            "armv4t_psg_frequency_lookup_thumb_code": 154,
+            "psg_frequency_lookup_consumed_pointer_literals": 12,
+            "psg_noise_register_descriptor_table": 60
+          },
+          "psg_frequency_lookup_class_claim_counts": {
+            "armv4t_psg_frequency_lookup_thumb_code": 2,
+            "psg_frequency_lookup_consumed_pointer_literals": 2,
+            "psg_noise_register_descriptor_table": 1
+          },
+          "psg_frequency_lookup_consumer_block_count": 12,
+          "psg_frequency_lookup_consumer_frontier_count": 0,
+          "psg_frequency_lookup_consumer_instruction_count": 77,
+          "psg_frequency_lookup_direct_branch_producer_count": 0,
+          "psg_frequency_lookup_noise_index_domain": [
+            0,
+            59
+          ],
+          "psg_frequency_lookup_noise_table_entry_count": 60,
+          "psg_frequency_lookup_packed_bytes_sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+          "psg_frequency_lookup_promotion_batch": "rom-psg-frequency-lookup-v1",
+          "psg_frequency_lookup_range_vector_sha256": "5247ee79350c15d6292e52a5e1ef58bd7b7555f50a70bc157e3e936b8ffa0080",
+          "psg_frequency_lookup_semantic_range_vector_sha256": "6683ef2206af27246bc97abb750a02023ea18909611b7dbda9e1987419e515eb",
+          "psg_frequency_lookup_thumb_pointer_occurrence_count": 1,
+          "psg_frequency_lookup_unclassified_gap_bytes": 2,
+          "referenced_text_slot_padding_bytes": 1255,
+          "referenced_text_slot_padding_claim_count": 133,
+          "referenced_text_slot_padding_class_bytes": {
+            "chapter_speaker_label_slot_zero_padding": 337,
+            "selector_configured_text_slot_zero_padding": 368,
+            "selector_direct_text_slot_zero_padding": 550
+          },
+          "referenced_text_slot_padding_class_claim_counts": {
+            "chapter_speaker_label_slot_zero_padding": 49,
+            "selector_configured_text_slot_zero_padding": 38,
+            "selector_direct_text_slot_zero_padding": 46
+          },
+          "referenced_text_slot_padding_promotion_batch": "referenced-text-slot-padding-v1",
+          "referenced_text_slot_padding_range_denominator_sha256": "0d565762f2bdfd18a6aa1f8c8cd25da5347da5184fe1c78e37de9c6334259b5a",
+          "renderer_text_bytes": 22588,
+          "renderer_text_claim_count": 625,
+          "renderer_text_zero_padding_bytes": 12431,
+          "renderer_text_zero_padding_claim_count": 548,
+          "rom_bytes": 6291456,
+          "runtime_state_handler_table_alignment_gap_bytes": 2,
+          "runtime_state_handler_table_alignment_gap_claim_count": 1,
+          "runtime_state_handler_table_alignment_gap_claim_kind": "runtime_state_handler_table_alignment_gap_bytes",
+          "runtime_state_handler_table_alignment_gap_handler_table_sha256": "20e4727cf65dca82626ffc9637cb36561d5851971500b22a282c5a8c65c7c945",
+          "runtime_state_handler_table_alignment_gap_packed_bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+          "runtime_state_handler_table_alignment_gap_promotion_batch": "rom-runtime-state-handler-table-alignment-gap-coverage-v1",
+          "runtime_state_handler_table_alignment_gap_range_denominator_sha256": "11a9249d8cf1654cfbfa44bf13fa9fafc94677f7f1b075b892319e5e524f275c",
+          "runtime_state_handler_table_alignment_gap_selector_table_sha256": "4c1ad8b8ac883eb301132c83258ba1e1216b2e131c9ce9866d0de62956d5a01b",
+          "scene_visual_source_bytes": 3257,
+          "scene_visual_source_claim_count": 29,
+          "scene_visual_source_claim_kind": "scene_visual_source_range",
+          "scene_visual_source_class_bytes": {
+            "scene_visual_animation_records": 192,
+            "scene_visual_background_palette_bgr555": 2304,
+            "scene_visual_definition_records": 697,
+            "scene_visual_shared_obj_palette_bgr555": 64
+          },
+          "scene_visual_source_class_claim_counts": {
+            "scene_visual_animation_records": 9,
+            "scene_visual_background_palette_bgr555": 9,
+            "scene_visual_definition_records": 9,
+            "scene_visual_shared_obj_palette_bgr555": 2
+          },
+          "scene_visual_source_promotion_batch": "rom-scene-visual-source-ranges-v1",
+          "scene_visual_source_range_denominator_sha256": "13dc504bebbff131700bb77869afb29e98a2f032d60bab4165eba90bcb2be7df",
+          "segment_count": 18664,
+          "selector_code_window_bytes": 1252,
+          "selector_code_window_claim_count": 19,
+          "selector_code_window_claim_kind": "consumer_code_slice",
+          "selector_code_window_promotion_batch": "rom-selector-code-windows-v1",
+          "selector_code_window_range_denominator_sha256": "1a1e50479424dbd441bc81adeca3c7d9075dc1a8ca13869e94693a71e702563e",
+          "selector_configuration_list_bytes": 164,
+          "selector_configuration_list_claim_count": 1,
+          "selector_configuration_pointer_bytes": 12,
+          "selector_configuration_pointer_claim_count": 1,
+          "selector_configured_text_bytes": 316,
+          "selector_configured_text_claim_count": 38,
+          "selector_configured_text_slot_padding_bytes": 368,
+          "selector_configured_text_slot_padding_claim_count": 38,
+          "selector_direct_source_record_bytes": 920,
+          "selector_direct_source_record_claim_count": 46,
+          "selector_direct_source_record_promotion_batch": "selector-direct-source-records-v1",
+          "selector_direct_source_record_range_denominator_sha256": "a4fb31202d48f65f839217585495c2dc40d29cc63b25ff7a3d5594673056e608",
+          "selector_direct_text_bytes": 324,
+          "selector_direct_text_claim_count": 46,
+          "selector_direct_text_slot_padding_bytes": 550,
+          "selector_direct_text_slot_padding_claim_count": 46,
+          "soundmain_relocated_alignment_gap_boundary_vector_sha256": "2f21e70062013bff5f99a9191920f3a6b4ee8996fd1adb0d8cfe577f7d450dd4",
+          "soundmain_relocated_alignment_gap_bytes": 6,
+          "soundmain_relocated_alignment_gap_claim_count": 3,
+          "soundmain_relocated_alignment_gap_claim_denominator_sha256": "ed6703a2245ca526dc40809dafbaa65328faec20f5aa493ab735ab70128cbd6c",
+          "soundmain_relocated_alignment_gap_claim_kind": "soundmain_relocated_alignment_gap_bytes",
+          "soundmain_relocated_alignment_gap_independent_verifier_report_sha256": "95b54d511b064b652c50b5b34519ae6bc887a41e60c0321aa56fc9cc4a059b5f",
+          "soundmain_relocated_alignment_gap_packed_bytes_sha256": "b0f66adc83641586656866813fd9dd0b8ebb63796075661ba45d1aa8089e1d44",
+          "soundmain_relocated_alignment_gap_promotion_batch": "rom-soundmain-relocated-alignment-gaps-v1",
+          "soundmain_relocated_alignment_gap_range_vector_sha256": "80e7409ef3fd737361faa6a08ae8e2efbedd9891c31e4f4b98392a3ad91da3af",
+          "soundmain_relocated_block_count": 73,
+          "soundmain_relocated_code_bytes": 916,
+          "soundmain_relocated_code_claim_count": 4,
+          "soundmain_relocated_code_claim_kind": "soundmain_relocated_reachable_instruction_bytes",
+          "soundmain_relocated_external_edge_count": 1,
+          "soundmain_relocated_gap_bytes": 6,
+          "soundmain_relocated_gap_range_count": 3,
+          "soundmain_relocated_literal_bytes": 8,
+          "soundmain_relocated_literal_claim_count": 2,
+          "soundmain_relocated_literal_claim_kind": "soundmain_relocated_consumed_literal_bytes",
+          "soundmain_relocated_mode_switch_count": 4,
+          "soundmain_relocated_opaque_return_count": 1,
+          "soundmain_relocated_owned_provenance_bytes": 2,
+          "soundmain_relocated_owned_provenance_range_count": 1,
+          "soundmain_relocated_promoted_bytes": 924,
+          "soundmain_relocated_promotion_batch": "rom-soundmain-relocated-cfg-v1",
+          "soundmain_relocated_promotion_claim_count": 6,
+          "soundmain_relocated_union_range_count": 5,
+          "soundmain_relocated_union_range_vector_sha256": "edd9da8aad815cf4aea5ca9c02360c3903d523588f0a7a6d7a1fa214e57d8a94",
+          "sprite_definition_resolved_window_bytes": 1720,
+          "sprite_definition_resolved_window_claim_count": 3,
+          "sprite_loader_tail_bytes": 36,
+          "sprite_loader_tail_claim_count": 1,
+          "sprite_tile_offset_table_bytes": 86,
+          "sprite_tile_offset_table_claim_count": 1,
+          "story_state_callback_cfg_bytes": 702,
+          "story_state_callback_cfg_claim_count": 13,
+          "story_state_entry_c4cc_bytes": 220,
+          "story_state_entry_c4cc_claim_count": 2,
+          "task_scheduler_core_code_bytes": 264,
+          "task_scheduler_core_code_claim_count": 4,
+          "task_scheduler_core_code_claim_kind": "task_scheduler_core_reachable_instruction_bytes",
+          "task_scheduler_core_frontier_count": 1,
+          "task_scheduler_core_gap_bytes": 6,
+          "task_scheduler_core_gap_range_count": 3,
+          "task_scheduler_core_literal_bytes": 44,
+          "task_scheduler_core_literal_claim_count": 3,
+          "task_scheduler_core_literal_claim_kind": "task_scheduler_core_consumed_literal_bytes",
+          "task_scheduler_core_owned_provenance_bytes": 138,
+          "task_scheduler_core_owned_provenance_range_count": 2,
+          "task_scheduler_core_promoted_bytes": 308,
+          "task_scheduler_core_promotion_batch": "rom-task-scheduler-core-v1",
+          "task_scheduler_core_promotion_claim_count": 7,
+          "task_scheduler_core_return_count": 12,
+          "task_scheduler_core_union_range_count": 3,
+          "task_scheduler_core_union_range_vector_sha256": "094ce63366d095869c1826cb58de52d19849049bcb6312ca3f3009fdea31852f",
+          "text_bg_loop_continuation_bytes": 54,
+          "text_bg_loop_continuation_claim_count": 2,
+          "tile_bg_lz77_palette_alignment_gap_boundary_vector_sha256": "b96f496cb68ed87905d62c39a148f67b2fef4e10bfa9e2b6b004f2d1644fe448",
+          "tile_bg_lz77_palette_alignment_gap_bytes": 165,
+          "tile_bg_lz77_palette_alignment_gap_claim_count": 84,
+          "tile_bg_lz77_palette_alignment_gap_claim_denominator_sha256": "1a956208ab86931840693d8967455bea8612cf13ea03be7ee41d20feed80c244",
+          "tile_bg_lz77_palette_alignment_gap_claim_kind": "tile_bg_lz77_palette_alignment_gap_bytes",
+          "tile_bg_lz77_palette_alignment_gap_independent_verifier_report_sha256": "4122e5404dc32e9f1f0429b06e8446d4025b01fb566eeaf1110d92cab0b9a4dc",
+          "tile_bg_lz77_palette_alignment_gap_packed_bytes_sha256": "2aa1fd6b1e4d7e4352751c0a8b7acb6fd9aa3a3a4c994f52b0a214c6f346277d",
+          "tile_bg_lz77_palette_alignment_gap_promotion_batch": "rom-tile-bg-lz77-palette-alignment-gaps-v1",
+          "tile_bg_lz77_palette_alignment_gap_range_vector_sha256": "684c4ad2fa1256261de50ed01f8a781bde09b7514f4cab0c5ec5dec9a0b472e2",
+          "tile_bg_palette_bytes": 9984,
+          "tile_bg_palette_claim_count": 107,
+          "training_text_script_bytes": 2505,
+          "training_text_script_claim_count": 44,
+          "u8_indexed_u16_pair_lookup_bytes": 144,
+          "u8_indexed_u16_pair_lookup_claim_count": 1,
+          "u8_indexed_u16_pair_lookup_claim_kind": "u8_indexed_u16_pair_lookup_bytes",
+          "u8_indexed_u16_pair_lookup_existing_owner_overlap_bytes": 880,
+          "u8_indexed_u16_pair_lookup_logical_bytes": 1024,
+          "u8_indexed_u16_pair_lookup_logical_cell_count": 256,
+          "u8_indexed_u16_pair_lookup_promotion_batch": "rom-u8-indexed-u16-pair-lookup-v1",
+          "u8_indexed_u8_triplet_lookup_bytes": 19,
+          "u8_indexed_u8_triplet_lookup_claim_count": 2,
+          "u8_indexed_u8_triplet_lookup_class_bytes": {
+            "fixed_consumer_triplet_pointer_literal": 4,
+            "fixed_consumer_triplet_table": 15
+          },
+          "u8_indexed_u8_triplet_lookup_class_claim_counts": {
+            "fixed_consumer_triplet_pointer_literal": 1,
+            "fixed_consumer_triplet_table": 1
+          },
+          "u8_indexed_u8_triplet_lookup_consumer_block_provenance_count": 28,
+          "u8_indexed_u8_triplet_lookup_consumer_instruction_provenance_count": 134,
+          "u8_indexed_u8_triplet_lookup_index_domain": [
+            0,
+            4
+          ],
+          "u8_indexed_u8_triplet_lookup_packed_bytes_sha256": "4439669abd06a2c350f23e705c750821694c15e2f92a083bc00c89ab7506dcc6",
+          "u8_indexed_u8_triplet_lookup_pointer_occurrence_count": 1,
+          "u8_indexed_u8_triplet_lookup_promotion_batch": "rom-u8-indexed-u8-triplet-lookup-v1",
+          "u8_indexed_u8_triplet_lookup_range_vector_sha256": "99af22b0af2f42931bb29c3cbe187ff8836b1f651504eea40a45eb5be108d87f",
+          "u8_indexed_u8_triplet_lookup_table_record_count": 5,
+          "unbound_chapter_script_tail_bytes": 3186,
+          "unbound_chapter_script_tail_claim_count": 3,
+          "unbound_lz77_syntax_bytes": 14725,
+          "unbound_lz77_syntax_claim_count": 41,
+          "unknown_bytes": 87749,
+          "value_range_renderer_text_bytes": 862,
+          "value_range_renderer_text_claim_count": 38,
+          "value_range_text_map_bytes": 152,
+          "value_range_text_map_claim_count": 1,
+          "verified_artifact_reuse_bytes": 3919,
+          "verified_artifact_reuse_claim_count": 37
+        },
+        "verified": true
+      },
+      "similar_table_candidate_audit": {
+        "adjudicated_candidate_count": 114,
+        "candidate_count": 114,
+        "decision_counts": {
+          "accepted": 60,
+          "alias_of": 26,
+          "rejected": 28
+        },
+        "errors": [],
+        "open_candidate_count": 0,
+        "schema": "similar-table-candidates-verification-v1",
+        "verified": true
+      }
+    }
+  },
+  "schema": "reverse-engineering-proof-audit-v2",
+  "trust_anchor": {
+    "externally_supplied": false,
+    "spec_sha256": "c2862ea520a39432c94fa2634f2ae5650077738c9474aa96ca15d387a4857cbb",
+    "verified": false
+  },
+  "verifiers_executed": [
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "battle-handlers"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "battle-handlers",
+      "labels": [
+        "battle-handlers"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "character-stats-b"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "character-stats-b",
+      "labels": [
+        "character-stats-b"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "encounter-zones"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "encounter-zones",
+      "labels": [
+        "encounter-zones"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "fonts"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "fonts",
+      "labels": [
+        "fonts"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "items"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "items",
+      "labels": [
+        "items"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "resource-pointers"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "resource-pointers",
+      "labels": [
+        "resource-pointers"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "sprite-animations"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "sprite-animations",
+      "labels": [
+        "sprite-animations"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "story-c"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "story-c",
+      "labels": [
+        "story-c"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "story-d"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "story-d",
+      "labels": [
+        "story-d"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_disproved_bank_candidates.py",
+        "--root",
+        ".",
+        "--bank",
+        "story-e"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "story-e",
+      "labels": [
+        "story-e"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/audit_rom_byte_coverage.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "execution": "reused-in-process",
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_boot_thumb_code_literal_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_renderer_text_padding.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_fixed_consumer_text_padding.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_dialogue_font_source_padding.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_lz77_alignment_padding.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_presentation_text_padding.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_battle_controller_cfg.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-controller-cfg-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_direct_cpuset_gpu_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-direct-cpuset-gpu-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_dialogue_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-dialogue-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_dialogue_padding_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-dialogue-padding-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_presentation_rom_ranges.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/battle-presentation-glyphs-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_tile_asset_bg_export.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/tile-assets-bg-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_m4a_byte_inventory.py",
+        "--root",
+        ".",
+        "--manifest",
+        "artifacts/rom-m4a-byte-inventory-v1/manifest.json"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_pointer_lz77_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-pointer-lz77-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_dialogue_font_atlases.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/dialogue-font-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_boot_framebuffers.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-boot-framebuffers-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_unbound_lz77_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-unbound-lz77-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory_v3.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v3"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v2.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v3.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v3"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v4.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v4"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v5.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v5"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v6.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v6"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v7.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v7"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v8.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v8"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v9.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v9"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v10.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v10"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v11.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v11"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v12_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v12"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v13_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v13"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v14_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v14"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v15_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v15"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_u8_indexed_u16_pair_lookup.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-u8-indexed-u16-pair-lookup-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_boot_thumb_handoff_cfg.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-boot-thumb-handoff-cfg-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_task_scheduler_core_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-task-scheduler-core-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_mplaymain_scheduler_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-mplaymain-scheduler-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_soundmain_relocated_cfg_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-soundmain-relocated-cfg-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_soundmain_relocated_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_directsound_pitch_lookup_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-directsound-pitch-lookup-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_psg_frequency_lookup_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-psg-frequency-lookup-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_u8_indexed_u8_triplet_lookup_bundle.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-u8-indexed-u8-triplet-lookup-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cgb_bounded_cfg_bundle.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_artifact_bound_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_m4a_initializer_chain.py",
+        "artifacts/rom-m4a-initializer-chain-v1",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_mp2k_note_allocator.py",
+        "artifacts/rom-mp2k-note-allocator-v1",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_mp2k_dispatcher.py",
+        "artifacts/rom-mp2k-dispatcher-v1",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_parser_bound_zero_padding.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-parser-bound-zero-padding-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_story_scene_timelines.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/story-scene-timelines-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_effect_sprite_animations.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/battle-effect-sprite-animations-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_effect_sequence_bindings.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/battle-effect-sequence-bindings-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_presentation_glyphs.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/battle-presentation-glyphs-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_battle_visual_runtime_timelines.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/battle-visual-runtime-timelines-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_character_battle_visuals.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/character-battle-visuals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_bg_resource_canvases.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/bg-resource-canvases-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_overview_gradient_overlay.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/overview-gradient-overlay-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_scene_visual_composites.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/scene-visual-composites-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_residual_wram_visual_metadata_abi.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/residual-wram-visual-metadata-abi-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_gpu_copy_queue_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-gpu-copy-queue-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_portrait_palette_producers.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/portrait-palette-producers-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_chapter_script_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-chapter-script-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_sprite_definition_runtime_chain.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/sprite-definition-assets-v2"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_renderer_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-renderer-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_profile_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-profile-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_fixed_consumer_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-fixed-consumer-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_training_text_script_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-training-text-script-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_value_range_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-value-range-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_selector_text_bindings.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-selector-text-bindings-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_selector_direct_source_records.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-selector-direct-source-records-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_selector_code_windows.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-selector-code-windows-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_menu_portrait_palette_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-menu-portrait-palette-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_scene_visual_source_ranges.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-scene-visual-source-ranges-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cutscene_obj_source_ranges.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cutscene-obj-source-ranges-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_positions_aux_dispatch.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-positions-aux-dispatch-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_battle_sound_selector.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-sound-selector-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_battle_condition_records.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-condition-records-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cutscene_obj_palette_definition_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_battle_message_text_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-message-text-inventory-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_boot_interwork.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-boot-interwork-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_similar_table_candidates.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_menu_portrait_lz77_palette_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_tile_bg_lz77_palette_alignment_gaps.py",
+        "--root",
+        "."
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_referenced_text_slot_padding.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-referenced-text-slot-padding-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_v1_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-v1-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_v2_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-v2-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_v6_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-v6-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_v3_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-v3-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_batch_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_battle_controller_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-battle-controller-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_v2_shadowed_consumed_literals.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-v2-shadowed-consumed-literals-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_battle_status_bar_caller_slice.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-status-bar-caller-slice-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_chapter_selector_code_slice.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-chapter-selector-code-slice-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_profile_selector_code_slices.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-profile-selector-code-slices-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "-I",
+        "-S",
+        "tools/verify_rom_sprite_loader_tail.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-sprite-loader-tail-v1"
+      ],
+      "contract_ok": true,
+      "exit_code": 0,
+      "label": "gate rom_byte_coverage",
+      "labels": [
+        "gate rom_byte_coverage"
+      ]
+    }
+  ]
+}

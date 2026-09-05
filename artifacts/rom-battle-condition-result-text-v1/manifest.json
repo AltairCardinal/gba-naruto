@@ -1,0 +1,27 @@
+{
+  "files": {
+    "battle-condition-result-text.bin": "9826a706b7c4e840117c5ff1a3a6c9d06057cac9188c66f2bd523592cf533d91",
+    "battle-condition-result-text.json": "16457b1e3152451073489cdd6287b6a7429f9b298ba6f4cf8a3216fadcd4b0f2"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_battle_condition_result_text.py",
+      "sha256": "40ce862433b3674a7253ad22fa723d533009c5ce80a71391743b79684d9a5065"
+    },
+    "tests": {
+      "path": "tests/test_export_rom_battle_condition_result_text.py",
+      "sha256": "864d5d02cc690e51c6fa2e2e2100bf43275ca063f524c006221422582f10f7c4"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_battle_condition_result_text.py",
+      "sha256": "ec8de0fe812cf59df0e4e73c9ee1d2e0aa0364442f10921416aa00da05f7c361"
+    }
+  },
+  "limitations": [
+    "Only the 219 renderer-consumed NUL records selected by the complete physical condition-row denominator are promoted.",
+    "The 2,782 inter-record gap bytes and the ranges [0x9974,0x9980), [0x9980,0x9986), and [0x9986,0x9F2E) are not promoted.",
+    "Positions group 47 begins at 0x594758 and is a physical alias of the condition table; its pointer-looking aux words are not independent provenance.",
+    "Natural reachability, Unicode decoding, editing, writeback, relocation, and free-space safety remain unclaimed."
+  ],
+  "schema": "rom-battle-condition-result-text-v1"
+}

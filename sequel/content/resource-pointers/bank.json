@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "description": "Disproved independent bank retained as a migration tombstone. 0x596F0C is character-battle visual matrix rows 27..31.",
+  "description": "Disproved independent physical bank retained as a migration tombstone. 0x596F0C is character-battle visual matrix rows 27..31.",
   "table_offset": 5861132,
   "table_offset_hex": "0x596F0C",
   "entry_count": 0,
   "entry_size": 16,
   "verification": "disproved",
-  "verification_method": "The canonical 62x9 matrix starts at 0x596D5C with 16-byte rows; 0x596F0C = 0x596D5C + 27*16. Its five pointer tuples exactly equal character 4 visual slots 0..4 in character-battle-visuals-v1. Consumer 0x0807B220 selects this same five-row subview through the generic 16-byte allocator.",
+  "verification_method": "The canonical 62x9 matrix starts at 0x596D5C with 16-byte rows; 0x596F0C = 0x596D5C + 27*16. Its five pointer tuples exactly equal character 4 visual slots 0..4 in character-battle-visuals-v1. Consumer 0x0807B220 selects this same five-row subview through the generic 16-byte allocator, proving a logical view of the canonical matrix rather than a separate physical bank.",
   "superseded_by": "artifacts/character-battle-visuals-v1/manifest.json",
   "do_not_write": true,
   "entry_format": {

@@ -245,6 +245,11 @@ class BattleEffectSequenceBindingExportTests(unittest.TestCase):
         )
 
         result = verify_battle_effect_sequence_bindings(ROOT, self.output_dir)
+        self.assertEqual(
+            "battle-effect-sequence-bindings-verification-v1",
+            result["schema"],
+        )
+        self.assertTrue(result["verified"])
         self.assertEqual([], result["errors"])
         self.assertEqual(256, result["verified_runtime_state_bindings"])
         self.assertEqual(87, result["verified_active_action_bindings"])

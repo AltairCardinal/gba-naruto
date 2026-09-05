@@ -1,0 +1,28 @@
+{
+  "artifact_status": "candidate",
+  "files": {
+    "chapter-script-unbound-tail.bin": {
+      "sha256": "7f6400492903560a93ba7d226a75986dbb298e78040156b0dc4bcf4cda5655e4",
+      "size": 3178
+    },
+    "rom-chapter-script-unbound-tail.json": {
+      "sha256": "c60c0e68184fe04d0ef15116458faf0672bc97451e555968ae4c76f8efe14260",
+      "size": 39843
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_unbound_chapter_script_tail.py",
+      "sha256": "5b7278b474aca7ec2dd2a9d47d42145c135b077b68c8882c01ac4778cd901ef5"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_unbound_chapter_script_tail.py",
+      "sha256": "d5c29dc379f7ea82134188c489132d3f4186b353f9cb2c829ee9a9e501321497"
+    }
+  },
+  "promotion": {
+    "claim_count": 3,
+    "promotion_bytes": 3186
+  },
+  "schema": "rom-chapter-script-unbound-tail-manifest-v1"
+}

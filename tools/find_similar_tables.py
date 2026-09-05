@@ -10,6 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from tools.lib import parse_int, read_u32_le
 
 
+ROM_BASE = 0x08000000
+
+
 def is_rom_ptr(value: int, rom_size: int) -> bool:
     return ROM_BASE <= value < ROM_BASE + rom_size
 

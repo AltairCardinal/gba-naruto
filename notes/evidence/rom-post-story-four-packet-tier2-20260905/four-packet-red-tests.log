@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: setUpClass (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketQuickProjectionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 126, in setUpClass
+    cls.CLAIMS.extend(getattr(auditor, builder)(
+                      ~~~~~~~^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.audit_rom_byte_coverage' has no attribute '_cfg_proven_roots_v21_claims'
+
+----------------------------------------------------------------------
+Ran 0 tests in 8.038s
+
+FAILED (errors=1)

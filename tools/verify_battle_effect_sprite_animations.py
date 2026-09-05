@@ -1642,6 +1642,8 @@ def verify_battle_effect_sprite_animations(
     artifact_dir = Path(artifact_dir)
     rom = (root / "rom/base.gba").read_bytes()
     empty = {
+        "schema": "battle-effect-sprite-animations-verification-v1",
+        "verified": False,
         "verified_groups": 0,
         "verified_frames": 0,
         "verified_components": 0,
@@ -1677,6 +1679,8 @@ def verify_battle_effect_sprite_animations(
                 f"!= {_sha256(expected_bytes)}"
             )
     return {
+        "schema": "battle-effect-sprite-animations-verification-v1",
+        "verified": not errors,
         "verified_groups": 0 if errors else expected["group_count"],
         "verified_frames": (
             0 if errors else expected["frame_definition_count"]

@@ -1,0 +1,2019 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v15",
+  "artifact_status": "accepted",
+  "excluded_source_candidate": {
+    "accepted": false,
+    "bytes_sha256": "f7e047cc350bda582135e51f36c556fb0e6445de6ee9c286ae9383c6bbefdc7a",
+    "decoded_target": 568520,
+    "file_offset": 570948,
+    "raw_hex": "fff740fb",
+    "reason": "absent_from_v8_accepted_source_worklist"
+  },
+  "files": {
+    "rom-cfg-proven-roots-v15.json": {
+      "sha256": "5786c04ae36d78957705175dfce38da190bb29682c640c6821bb44ec4c321cd2",
+      "size": 57245
+    }
+  },
+  "implementation": {
+    "binding": "passed-root-runtime-dependency-and-test-hash-bound",
+    "bundle_verifier_sha256": "7eeb291c75e89caf1873dfd49fb433c462cd421c22a11d996cd98e79e954ca79",
+    "exporter_sha256": "a9c4b3723c0480decd97240f5d6f7d04505f2a9b25aec1853da579f8fd739042",
+    "oracle_identities": {
+      "export": {
+        "path": "tools/export_rom_cfg_proven_roots_v13.py",
+        "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c"
+      },
+      "verify": {
+        "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+        "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7"
+      }
+    },
+    "paths": {
+      "bundle_verifier": "tools/verify_rom_cfg_proven_roots_v15_bundle.py",
+      "exporter": "tools/export_rom_cfg_proven_roots_v15.py",
+      "test_bundle_verifier": "tests/test_verify_rom_cfg_proven_roots_v15_bundle.py",
+      "test_exporter": "tests/test_export_rom_cfg_proven_roots_v15.py",
+      "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v15.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v15.py"
+    },
+    "runtime_dependency_sha256": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm64.py": "5078573d8c76dcb05b738bf4d4a004413e66e54eea68dd2e61708006e43d27fe",
+      "tools/_vendor/capstone/arm64_const.py": "d12dcb9f315570670f8d5881d021e1455b71eddd8fbafa59bf8178246f120824",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/bpf.py": "a5fea739d724bd3321d53372e3d248786a37e03e5b5f20bcaf126c84f5a48d1d",
+      "tools/_vendor/capstone/bpf_const.py": "2cd16a302ecdc7055a13b83e9775f0b75ae7fd0ab0f264960a4407c68b599d95",
+      "tools/_vendor/capstone/evm.py": "dd23482c185b6b61c2d131439962172e50ed1ef1280fa9b99b30d29eeab6cae9",
+      "tools/_vendor/capstone/evm_const.py": "d998e60703a2590bdfbf5f16f181bdec79ab3d14b7446d5f71138694fbdc2fe5",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+      "tools/_vendor/capstone/m680x.py": "77aca05b1000466c061d07eb03dce5521e18e573668fb7dd83632ee6f7132de3",
+      "tools/_vendor/capstone/m680x_const.py": "8cb28e7303d7e2f875c1212e2931f4372033a4da954750605d160a0612181427",
+      "tools/_vendor/capstone/m68k.py": "92ea89537b96bdecbdbd15ede2a2e08e85be40abfe6f1b722b8ae0c5d80e056c",
+      "tools/_vendor/capstone/m68k_const.py": "71f82746c167a083eea4e149adfd3bb5c2eeedf0ac2d20c3a11e5a11ce2d4164",
+      "tools/_vendor/capstone/mips.py": "eddc0b5ec3655cf8531254493fe97b8d1e49f0614df52a36c62e1cf6a39c4b27",
+      "tools/_vendor/capstone/mips_const.py": "296e731a2509ef32a90e00d38cdec2c8749d1e760a65c9d5488e640024be6275",
+      "tools/_vendor/capstone/mos65xx.py": "281ea3b82c93d65897add3246e6c0740813aa6c8d292d007e4d73c61555e2d1c",
+      "tools/_vendor/capstone/mos65xx_const.py": "b1aa7c27bdcf0365635e26f5260a138a7edb64fd0f64bb7fb62d097474c38699",
+      "tools/_vendor/capstone/ppc.py": "ac17126dd565129194743cd7c635746c0443dfd8b7cfeb4ed7ff3094e4036039",
+      "tools/_vendor/capstone/ppc_const.py": "d42812aa9ec495588b5498203ec2f85216a06819b091759be340021b6e74357b",
+      "tools/_vendor/capstone/riscv.py": "3e7a76a038479eba99fab0f57b1460efc3cdcd21b97889cc8ba84cb619dc1bc6",
+      "tools/_vendor/capstone/riscv_const.py": "1d30a1ff64f10d42485aff13b89ba560d70005a8ea791ca1e10aca8ccfd1259b",
+      "tools/_vendor/capstone/sh.py": "a6b0cb7d965a32f0691810570b6bdda9ee16ed8adcfe33c526aec494f98e80aa",
+      "tools/_vendor/capstone/sh_const.py": "f892d3aa615a8efa69c0bc9b95cfd1238f68a4d547013530a9005cd4cd0a4a76",
+      "tools/_vendor/capstone/sparc.py": "41bc1b0aab480f3c8ceef66a94857c217d096a0a43bed7d5f5de4e135974a6ab",
+      "tools/_vendor/capstone/sparc_const.py": "1bea49a96791e7273288a7c316e58fba91ef13672032ae350e1086be1712fcfb",
+      "tools/_vendor/capstone/systemz.py": "1d8cd94be958fb2d45e27893a5157ed5f5db99efddd1abc3371f3c6fef3df0f5",
+      "tools/_vendor/capstone/sysz_const.py": "b824830eeb309ff227c3fd16638ebf4a5d4f797a2b84489b8d975c69e830f0f2",
+      "tools/_vendor/capstone/tms320c64x.py": "ab6ff75b5d8d5a135b913b0598580834e058a2e1399974c6a56aff8dd06b81c3",
+      "tools/_vendor/capstone/tms320c64x_const.py": "47a6d21bd795bbdb0d7d8dd97cca8cd2c1f486b30ed908f4967cb3be69a35f6f",
+      "tools/_vendor/capstone/tricore.py": "d51c354aed52f9fa551660902dc26e83b4f99aa1022c7aa721f78b983fba477e",
+      "tools/_vendor/capstone/tricore_const.py": "2dec869a7c24e4573601b0457d03d8d599ec9ef8d298afeb1510e8f697709260",
+      "tools/_vendor/capstone/wasm.py": "b3fb5fd0fbcda3625c5a30b2d51f3edb0123283d420415d57b93c40794bdb090",
+      "tools/_vendor/capstone/wasm_const.py": "4816da07ed540812e481d8b845e97af9bc40f6c28dd18cdf3a0adbdecf39e51c",
+      "tools/_vendor/capstone/x86.py": "7c3a2f434e20df6f69ced3bed07217c996379d647aeb62de9bf5d6e8b195f525",
+      "tools/_vendor/capstone/x86_const.py": "00dcf65aad410f95a61dacd1dadacfe11b0f19b2afbeb07d19a484d35c692c38",
+      "tools/_vendor/capstone/xcore.py": "27f28ca2c2bae2753a6ebb97d01a17d38405209dae0fe00f2450fc4a87d58719",
+      "tools/_vendor/capstone/xcore_const.py": "c84283e286db265f87a8c8d133815e5990a250a8e0e310a4f6afa899fa9c6e2f",
+      "tools/export_rom_cfg_inventory.py": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+      "tools/export_rom_cfg_proven_roots_v13.py": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+      "tools/rom_cfg_proven_roots_v15_contract.py": "00567e244d8473b36dd3fd54fa0d5644c54901eb5fae181c6454b5c3c0482010",
+      "tools/verify_battle_effect_sprite_animations.py": "ba22259f41e53398a0f271f806c831b5eaf0052f17784c831d2591c0220f0c6b",
+      "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "tools/verify_rom_cfg_proven_roots_v13.py": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7"
+    },
+    "test_bundle_verifier_sha256": "6193dd8a75699d49cf1466b0942b915102afc0b9604e0dcc7d8e50666639e8c4",
+    "test_exporter_sha256": "0b9693ac5103a58edf7dbf0205fee2d9ab72d4e6c5e13b34eef54ff53798162a",
+    "test_verifier_sha256": "76f9f8fed961309a2cdc749474f1b9a9bd02348df5bc291f6376f8dc6174b3c9",
+    "verifier_sha256": "163f04429f5bdd117f540cdf2421c483ff110e6eab1042403fe29ab7736dc167"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_cfg_proven_roots_v15.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-cfg-proven-roots-v15"
+    ],
+    "implementation": {
+      "binding": "passed-root-runtime-dependency-and-test-hash-bound",
+      "bundle_verifier_sha256": "7eeb291c75e89caf1873dfd49fb433c462cd421c22a11d996cd98e79e954ca79",
+      "exporter_sha256": "a9c4b3723c0480decd97240f5d6f7d04505f2a9b25aec1853da579f8fd739042",
+      "oracle_identities": {
+        "export": {
+          "path": "tools/export_rom_cfg_proven_roots_v13.py",
+          "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c"
+        },
+        "verify": {
+          "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+          "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7"
+        }
+      },
+      "paths": {
+        "bundle_verifier": "tools/verify_rom_cfg_proven_roots_v15_bundle.py",
+        "exporter": "tools/export_rom_cfg_proven_roots_v15.py",
+        "test_bundle_verifier": "tests/test_verify_rom_cfg_proven_roots_v15_bundle.py",
+        "test_exporter": "tests/test_export_rom_cfg_proven_roots_v15.py",
+        "test_verifier": "tests/test_verify_rom_cfg_proven_roots_v15.py",
+        "verifier": "tools/verify_rom_cfg_proven_roots_v15.py"
+      },
+      "runtime_dependency_sha256": {
+        "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+        "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+        "tools/_vendor/capstone/arm64.py": "5078573d8c76dcb05b738bf4d4a004413e66e54eea68dd2e61708006e43d27fe",
+        "tools/_vendor/capstone/arm64_const.py": "d12dcb9f315570670f8d5881d021e1455b71eddd8fbafa59bf8178246f120824",
+        "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+        "tools/_vendor/capstone/bpf.py": "a5fea739d724bd3321d53372e3d248786a37e03e5b5f20bcaf126c84f5a48d1d",
+        "tools/_vendor/capstone/bpf_const.py": "2cd16a302ecdc7055a13b83e9775f0b75ae7fd0ab0f264960a4407c68b599d95",
+        "tools/_vendor/capstone/evm.py": "dd23482c185b6b61c2d131439962172e50ed1ef1280fa9b99b30d29eeab6cae9",
+        "tools/_vendor/capstone/evm_const.py": "d998e60703a2590bdfbf5f16f181bdec79ab3d14b7446d5f71138694fbdc2fe5",
+        "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+        "tools/_vendor/capstone/m680x.py": "77aca05b1000466c061d07eb03dce5521e18e573668fb7dd83632ee6f7132de3",
+        "tools/_vendor/capstone/m680x_const.py": "8cb28e7303d7e2f875c1212e2931f4372033a4da954750605d160a0612181427",
+        "tools/_vendor/capstone/m68k.py": "92ea89537b96bdecbdbd15ede2a2e08e85be40abfe6f1b722b8ae0c5d80e056c",
+        "tools/_vendor/capstone/m68k_const.py": "71f82746c167a083eea4e149adfd3bb5c2eeedf0ac2d20c3a11e5a11ce2d4164",
+        "tools/_vendor/capstone/mips.py": "eddc0b5ec3655cf8531254493fe97b8d1e49f0614df52a36c62e1cf6a39c4b27",
+        "tools/_vendor/capstone/mips_const.py": "296e731a2509ef32a90e00d38cdec2c8749d1e760a65c9d5488e640024be6275",
+        "tools/_vendor/capstone/mos65xx.py": "281ea3b82c93d65897add3246e6c0740813aa6c8d292d007e4d73c61555e2d1c",
+        "tools/_vendor/capstone/mos65xx_const.py": "b1aa7c27bdcf0365635e26f5260a138a7edb64fd0f64bb7fb62d097474c38699",
+        "tools/_vendor/capstone/ppc.py": "ac17126dd565129194743cd7c635746c0443dfd8b7cfeb4ed7ff3094e4036039",
+        "tools/_vendor/capstone/ppc_const.py": "d42812aa9ec495588b5498203ec2f85216a06819b091759be340021b6e74357b",
+        "tools/_vendor/capstone/riscv.py": "3e7a76a038479eba99fab0f57b1460efc3cdcd21b97889cc8ba84cb619dc1bc6",
+        "tools/_vendor/capstone/riscv_const.py": "1d30a1ff64f10d42485aff13b89ba560d70005a8ea791ca1e10aca8ccfd1259b",
+        "tools/_vendor/capstone/sh.py": "a6b0cb7d965a32f0691810570b6bdda9ee16ed8adcfe33c526aec494f98e80aa",
+        "tools/_vendor/capstone/sh_const.py": "f892d3aa615a8efa69c0bc9b95cfd1238f68a4d547013530a9005cd4cd0a4a76",
+        "tools/_vendor/capstone/sparc.py": "41bc1b0aab480f3c8ceef66a94857c217d096a0a43bed7d5f5de4e135974a6ab",
+        "tools/_vendor/capstone/sparc_const.py": "1bea49a96791e7273288a7c316e58fba91ef13672032ae350e1086be1712fcfb",
+        "tools/_vendor/capstone/systemz.py": "1d8cd94be958fb2d45e27893a5157ed5f5db99efddd1abc3371f3c6fef3df0f5",
+        "tools/_vendor/capstone/sysz_const.py": "b824830eeb309ff227c3fd16638ebf4a5d4f797a2b84489b8d975c69e830f0f2",
+        "tools/_vendor/capstone/tms320c64x.py": "ab6ff75b5d8d5a135b913b0598580834e058a2e1399974c6a56aff8dd06b81c3",
+        "tools/_vendor/capstone/tms320c64x_const.py": "47a6d21bd795bbdb0d7d8dd97cca8cd2c1f486b30ed908f4967cb3be69a35f6f",
+        "tools/_vendor/capstone/tricore.py": "d51c354aed52f9fa551660902dc26e83b4f99aa1022c7aa721f78b983fba477e",
+        "tools/_vendor/capstone/tricore_const.py": "2dec869a7c24e4573601b0457d03d8d599ec9ef8d298afeb1510e8f697709260",
+        "tools/_vendor/capstone/wasm.py": "b3fb5fd0fbcda3625c5a30b2d51f3edb0123283d420415d57b93c40794bdb090",
+        "tools/_vendor/capstone/wasm_const.py": "4816da07ed540812e481d8b845e97af9bc40f6c28dd18cdf3a0adbdecf39e51c",
+        "tools/_vendor/capstone/x86.py": "7c3a2f434e20df6f69ced3bed07217c996379d647aeb62de9bf5d6e8b195f525",
+        "tools/_vendor/capstone/x86_const.py": "00dcf65aad410f95a61dacd1dadacfe11b0f19b2afbeb07d19a484d35c692c38",
+        "tools/_vendor/capstone/xcore.py": "27f28ca2c2bae2753a6ebb97d01a17d38405209dae0fe00f2450fc4a87d58719",
+        "tools/_vendor/capstone/xcore_const.py": "c84283e286db265f87a8c8d133815e5990a250a8e0e310a4f6afa899fa9c6e2f",
+        "tools/export_rom_cfg_inventory.py": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+        "tools/export_rom_cfg_proven_roots_v13.py": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+        "tools/rom_cfg_proven_roots_v15_contract.py": "00567e244d8473b36dd3fd54fa0d5644c54901eb5fae181c6454b5c3c0482010",
+        "tools/verify_battle_effect_sprite_animations.py": "ba22259f41e53398a0f271f806c831b5eaf0052f17784c831d2591c0220f0c6b",
+        "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "tools/verify_rom_cfg_proven_roots_v13.py": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7"
+      },
+      "test_bundle_verifier_sha256": "6193dd8a75699d49cf1466b0942b915102afc0b9604e0dcc7d8e50666639e8c4",
+      "test_exporter_sha256": "0b9693ac5103a58edf7dbf0205fee2d9ab72d4e6c5e13b34eef54ff53798162a",
+      "test_verifier_sha256": "76f9f8fed961309a2cdc749474f1b9a9bd02348df5bc291f6376f8dc6174b3c9",
+      "verifier_sha256": "163f04429f5bdd117f540cdf2421c483ff110e6eab1042403fe29ab7736dc167"
+    }
+  },
+  "promotion": {
+    "accepted_root_count": 4,
+    "accepted_roots": [
+      631776,
+      397812,
+      399612,
+      571120
+    ],
+    "batch": "cfg-proven-roots-v15",
+    "code_bytes": 398,
+    "coverage_projection": {
+      "known_bytes": 0,
+      "overlaps": [
+        [
+          397812,
+          397882,
+          "unknown"
+        ],
+        [
+          397884,
+          397942,
+          "unknown"
+        ],
+        [
+          397944,
+          397964,
+          "unknown"
+        ],
+        [
+          399612,
+          399670,
+          "unknown"
+        ],
+        [
+          571120,
+          571290,
+          "unknown"
+        ],
+        [
+          631776,
+          631842,
+          "unknown"
+        ],
+        [
+          631844,
+          631852,
+          "unknown"
+        ]
+      ],
+      "unknown_bytes": 450
+    },
+    "hole_bytes": 386,
+    "literal_only_bytes": 52,
+    "packed_code_sha256": "3a6a2a8af4439bad3e307febe821e577af334d111e551974c8cc2efb977d184e",
+    "packed_literal_sha256": "c0c380051fe84e2e4b2ce1a295015623f9642c6dbe6527c21d713e2bf83779eb",
+    "packed_sha256": "764b272bc4d19be46d334c10e47d00419c05fa60d6878ef336f455d25e7b08e7",
+    "preserved_unknown_hole_bytes": 386,
+    "promotion_bytes": 450,
+    "promotion_code_bytes": 398,
+    "promotion_literal_bytes": 52,
+    "promotion_range_count": 10,
+    "promotion_union_range_count": 7,
+    "range_vector_sha256": "9a91de64231f4d1cf2bbf41e4aa4858c4fa4e3af7dddf60a5ae79287da506ad0",
+    "ranges": [
+      [
+        397812,
+        397882
+      ],
+      [
+        397884,
+        397942
+      ],
+      [
+        397944,
+        397964
+      ],
+      [
+        399612,
+        399670
+      ],
+      [
+        571120,
+        571290
+      ],
+      [
+        631776,
+        631842
+      ],
+      [
+        631844,
+        631852
+      ]
+    ],
+    "rejected_root_count": 1,
+    "rejected_roots": [
+      639220
+    ],
+    "semantic_range_count": 10,
+    "semantic_range_vector_sha256": "4cb1b785aa18b03873dee55781289574009c42231d1dfd198aa024bc41d38974",
+    "semantic_ranges": [
+      [
+        397812,
+        397882
+      ],
+      [
+        397884,
+        397904
+      ],
+      [
+        397904,
+        397942
+      ],
+      [
+        397944,
+        397964
+      ],
+      [
+        399612,
+        399648
+      ],
+      [
+        399648,
+        399652
+      ],
+      [
+        399652,
+        399670
+      ],
+      [
+        571120,
+        571290
+      ],
+      [
+        631776,
+        631842
+      ],
+      [
+        631844,
+        631852
+      ]
+    ],
+    "summary": {
+      "decoded_basic_block_count": 31,
+      "decoded_instruction_count": 197,
+      "external_call_edge_count": 2,
+      "frontier_count": 3,
+      "literal_only_bytes": 52,
+      "reachable_instruction_bytes": 398
+    },
+    "union_range_vector_sha256": "9a91de64231f4d1cf2bbf41e4aa4858c4fa4e3af7dddf60a5ae79287da506ad0",
+    "union_ranges": [
+      [
+        397812,
+        397882
+      ],
+      [
+        397884,
+        397942
+      ],
+      [
+        397944,
+        397964
+      ],
+      [
+        399612,
+        399670
+      ],
+      [
+        571120,
+        571290
+      ],
+      [
+        631776,
+        631842
+      ],
+      [
+        631844,
+        631852
+      ]
+    ]
+  },
+  "rejected_targets": [
+    {
+      "accepted": false,
+      "block_internal_edge_count": 2,
+      "block_internal_edge_vector_sha256": "1a05203f1f1ebda6b94129b0593152b332aeb3f50a6f782167a795ecdd791137",
+      "block_range_vector_sha256": "50f8383f68c9f036a169590c3ba6a7cf8826637d298500dd9cd609944f513693",
+      "block_ranges": [
+        [
+          639220,
+          639238
+        ],
+        [
+          639238,
+          639240
+        ],
+        [
+          639240,
+          639248
+        ]
+      ],
+      "boundary_edges": [
+        {
+          "edge_kind": "opaque_boundary",
+          "reason": "accepted_owner_beginning",
+          "source_file_offset": 639246,
+          "target_file_offset": 639248
+        }
+      ],
+      "code_range_vector_sha256": "f3bf1fbee195bd5eee469801ca38354fc584b89af9dbe57647affda8ec54da9a",
+      "code_ranges": [
+        [
+          639220,
+          639248
+        ]
+      ],
+      "coverage_projection": {
+        "known_bytes": 0,
+        "overlaps": [
+          [
+            639220,
+            639248,
+            "unknown"
+          ]
+        ],
+        "unknown_bytes": 28
+      },
+      "decoded_basic_block_count": 3,
+      "decoded_instruction_count": 14,
+      "envelope": [
+        639220,
+        639248
+      ],
+      "envelope_bytes": 28,
+      "envelope_sha256": "db9e196e2017f65966801dc2de56caec130721776e440457c6b56c36ceee4fd1",
+      "external_edge_vector": [],
+      "external_edge_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "external_edges": [],
+      "frontier_vector_sha256": "baf48f33d14bf82cb58d75c2f2d972fdd50e4613e449bc5b7bac58230028a4c6",
+      "frontiers": [
+        [
+          639236,
+          "bios_swi_external"
+        ],
+        [
+          639238,
+          "bios_swi_external"
+        ]
+      ],
+      "holes": [],
+      "instruction_internal_edge_count": 13,
+      "instruction_internal_edge_vector_sha256": "a569ad18934b01f103d9eceadfde8ea63e32f1687cce67ed930717c0d1c72cfb",
+      "known_external_literal_ranges": [],
+      "literal_code_overlap_ranges": [
+        [
+          639240,
+          639248
+        ]
+      ],
+      "literal_only_bytes": 0,
+      "literal_projection": {
+        "all_ranges": [
+          [
+            639240,
+            639248
+          ]
+        ],
+        "binding_vector": [
+          [
+            639220,
+            639240
+          ],
+          [
+            639226,
+            639244
+          ]
+        ],
+        "binding_vector_sha256": "c3615edc4020c480aa561168a5f73993b4f1922ac31706d0c6021257a900cdb4",
+        "bindings": [
+          [
+            639220,
+            639240,
+            67109384,
+            "044b",
+            "08020004"
+          ],
+          [
+            639226,
+            639244,
+            50364410,
+            "044b",
+            "fa7f0003"
+          ]
+        ],
+        "internal_bytes": 8,
+        "internal_range_vector_sha256": "227c765ea12f2fd63e85b337647e7d75851026d85a9e396007078b9accac2989",
+        "internal_ranges": [
+          [
+            639240,
+            639248
+          ]
+        ],
+        "known_external_bytes": 0,
+        "known_external_range_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "known_external_ranges": [],
+        "literal_code_overlap_ranges": [
+          [
+            639240,
+            639248
+          ]
+        ],
+        "literal_only_bytes": 0,
+        "literal_only_ranges": [],
+        "literal_reference_count": 2,
+        "overlap_bytes": 8,
+        "packed_internal_sha256": "44096c8a841357e2d6f2708ad9beb99d706ced1ed2760f5aef8310179ea2e2a4",
+        "packed_known_external_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "unique_literal_word_count": 2
+      },
+      "name": "root-09c0f4-rejected",
+      "packed_code_sha256": "db9e196e2017f65966801dc2de56caec130721776e440457c6b56c36ceee4fd1",
+      "packed_literals_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "packed_promotion_sha256": "db9e196e2017f65966801dc2de56caec130721776e440457c6b56c36ceee4fd1",
+      "producer_denominator": {
+        "aligned_arm_pointers": [],
+        "arm_b_bl": [],
+        "thumb_b": [],
+        "thumb_bcond": [],
+        "thumb_bl": [
+          397510,
+          398104
+        ],
+        "thumb_pointers": [],
+        "vector": [
+          [
+            397510,
+            639220,
+            "thumb_bl"
+          ],
+          [
+            398104,
+            639220,
+            "thumb_bl"
+          ]
+        ],
+        "vector_sha256": "67196eaaeb5bcb8763f4b218c81361bb3491a957645e1ffff995f0dfc7343b1e"
+      },
+      "producer_membership": [
+        {
+          "artifact_node": {
+            "accepted": true,
+            "bytes_sha256": "8457f13ae76adf50d9b87a3699fd685267c2ccc363647a243b4a253b3e477390",
+            "conditional": false,
+            "file_offset": 398104,
+            "flow_kind": "call",
+            "frontiers": [],
+            "mnemonic": "bl",
+            "mode": "thumb",
+            "op_str": "#0x809c0f4",
+            "size": 4,
+            "successors": [
+              {
+                "file_offset": 639220,
+                "kind": "call_target",
+                "mode": "thumb"
+              },
+              {
+                "file_offset": 398108,
+                "kind": "fallthrough",
+                "mode": "thumb"
+              }
+            ]
+          },
+          "bytes_sha256": "8457f13ae76adf50d9b87a3699fd685267c2ccc363647a243b4a253b3e477390",
+          "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+          "coverage_owner_class": "consumer_code_slice",
+          "coverage_owner_range": [
+            398012,
+            398564
+          ],
+          "file_offset": 398104,
+          "gba_address": "0x08061318",
+          "kind": "v12-accepted-source-node",
+          "raw_hex": "3af0ecfe",
+          "source_pointer": "/source/nodes/43",
+          "target_file_offset": 639220,
+          "target_gba_address": "0x0809C0F4",
+          "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+          "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+          "upstream_version": 12
+        }
+      ],
+      "promotion_bytes": 28,
+      "promotion_range_vector_sha256": "f3bf1fbee195bd5eee469801ca38354fc584b89af9dbe57647affda8ec54da9a",
+      "promotion_ranges": [
+        [
+          639220,
+          639248
+        ]
+      ],
+      "reachable_instruction_bytes": 28,
+      "reasons": [
+        "literal_code_overlap",
+        "unbound_raw_thumb_bl_match"
+      ],
+      "root": 639220,
+      "root_gba_address": "0x0809C0F4",
+      "root_raw_hex": "044b0022",
+      "root_sha256": "5241b62224a24fc25ee6a35ecb82dcac617c106fa34e1da352a60459e80f8db0",
+      "semantic_instruction_vector_sha256": "4cc07b260e0877d22c0ee6cad130bac8e2065dbab77f37d122d3fde5d0413f4f",
+      "unbound_raw_matches": [
+        {
+          "bytes_sha256": "236e183cb82e127acd67a528c471fcbefcd128be9fe40916145ed608852f83ca",
+          "coverage_owner_class": "unknown",
+          "coverage_owner_range": [
+            397450,
+            397544
+          ],
+          "decoded_target": 639220,
+          "file_offset": 397510,
+          "promoted": false,
+          "raw_hex": "3bf015f8",
+          "source_membership": false
+        }
+      ],
+      "unbound_raw_thumb_bl_matches": [
+        397510
+      ]
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "accepted_roots_have_accepted_source_membership": true,
+    "accepted_sources_bound_to_current_coverage_owner": true,
+    "all_candidate_roots_accepted": false,
+    "all_raw_matching_encodings_source_bound": false,
+    "bios_terminal_semantics_proven": false,
+    "callee_semantics_proven": false,
+    "editing_relocation_safe": false,
+    "fixed_target_matching_encoding_denominators_complete": true,
+    "global_caller_denominator_complete": false,
+    "global_code_denominator_complete": false,
+    "global_indirect_target_denominator_complete": false,
+    "known_external_literals_provenance_only": true,
+    "literal_bindings_rebuilt_from_raw_rom": true,
+    "literal_business_meaning_proven": false,
+    "literal_overlap_rejected_fail_closed": true,
+    "nonclaims": [
+      "natural_execution_or_runtime_reachability",
+      "global_code_caller_or_producer_denominator",
+      "global_indirect_computed_or_ram_target_denominator",
+      "bios_swi0_terminal_or_return_semantics",
+      "callee_code_abi_or_business_semantics",
+      "literal_business_meaning_or_compiler_authorship",
+      "adjacent_bytes_padding_or_allocatable_space",
+      "editing_writeback_relocation_or_gameplay_behavior"
+    ],
+    "promotion_is_exact_unknown_union_within_frozen_envelopes": true,
+    "rejected_root_isolated": true,
+    "runtime_reachability_complete": false,
+    "target_worklists_bounded_to_frozen_envelopes": true,
+    "three_indirect_pc_frontiers_explicit_and_unresolved": true,
+    "unknown_external_calls_remain_opaque": true
+  },
+  "source_membership": [
+    {
+      "artifact_node": {
+        "accepted": true,
+        "bytes_sha256": "ba05baa0ae5ae3c2bfbfa22edb5326121496b77a6cf45cbf2c80df3e24922b0a",
+        "conditional": false,
+        "file_offset": 398024,
+        "flow_kind": "call",
+        "frontiers": [],
+        "mnemonic": "bl",
+        "mode": "thumb",
+        "op_str": "#0x809a3e0",
+        "size": 4,
+        "successors": [
+          {
+            "file_offset": 631776,
+            "kind": "call_target",
+            "mode": "thumb"
+          },
+          {
+            "file_offset": 398028,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ]
+      },
+      "bytes_sha256": "ba05baa0ae5ae3c2bfbfa22edb5326121496b77a6cf45cbf2c80df3e24922b0a",
+      "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        398012,
+        398564
+      ],
+      "file_offset": 398024,
+      "gba_address": "0x080612C8",
+      "kind": "v12-accepted-source-node",
+      "raw_hex": "39f08af8",
+      "source_pointer": "/source/nodes/6",
+      "target_file_offset": 631776,
+      "target_gba_address": "0x0809A3E0",
+      "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+      "upstream_version": 12
+    },
+    {
+      "artifact_node": {
+        "accepted": true,
+        "bytes_sha256": "8457f13ae76adf50d9b87a3699fd685267c2ccc363647a243b4a253b3e477390",
+        "conditional": false,
+        "file_offset": 398104,
+        "flow_kind": "call",
+        "frontiers": [],
+        "mnemonic": "bl",
+        "mode": "thumb",
+        "op_str": "#0x809c0f4",
+        "size": 4,
+        "successors": [
+          {
+            "file_offset": 639220,
+            "kind": "call_target",
+            "mode": "thumb"
+          },
+          {
+            "file_offset": 398108,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ]
+      },
+      "bytes_sha256": "8457f13ae76adf50d9b87a3699fd685267c2ccc363647a243b4a253b3e477390",
+      "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        398012,
+        398564
+      ],
+      "file_offset": 398104,
+      "gba_address": "0x08061318",
+      "kind": "v12-accepted-source-node",
+      "raw_hex": "3af0ecfe",
+      "source_pointer": "/source/nodes/43",
+      "target_file_offset": 639220,
+      "target_gba_address": "0x0809C0F4",
+      "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+      "upstream_version": 12
+    },
+    {
+      "artifact_node": {
+        "accepted": true,
+        "bytes_sha256": "c684260e8922f3083767f3583c6f01701f0f6c92acf8affbe395e2bc0b14b66b",
+        "conditional": false,
+        "file_offset": 398410,
+        "flow_kind": "call",
+        "frontiers": [],
+        "mnemonic": "bl",
+        "mode": "thumb",
+        "op_str": "#0x80611f4",
+        "size": 4,
+        "successors": [
+          {
+            "file_offset": 397812,
+            "kind": "call_target",
+            "mode": "thumb"
+          },
+          {
+            "file_offset": 398414,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ]
+      },
+      "bytes_sha256": "c684260e8922f3083767f3583c6f01701f0f6c92acf8affbe395e2bc0b14b66b",
+      "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        398012,
+        398564
+      ],
+      "file_offset": 398410,
+      "gba_address": "0x0806144A",
+      "kind": "v12-accepted-source-node",
+      "raw_hex": "fff7d3fe",
+      "source_pointer": "/source/nodes/168",
+      "target_file_offset": 397812,
+      "target_gba_address": "0x080611F4",
+      "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+      "upstream_version": 12
+    },
+    {
+      "artifact_node": {
+        "accepted": true,
+        "bytes_sha256": "46debfa97fff199d8166b31bc1697c5d0e2e1a1ca2b28ee66a2bf1fba6788cf2",
+        "conditional": false,
+        "file_offset": 398422,
+        "flow_kind": "call",
+        "frontiers": [],
+        "mnemonic": "bl",
+        "mode": "thumb",
+        "op_str": "#0x80618fc",
+        "size": 4,
+        "successors": [
+          {
+            "file_offset": 399612,
+            "kind": "call_target",
+            "mode": "thumb"
+          },
+          {
+            "file_offset": 398426,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ]
+      },
+      "bytes_sha256": "46debfa97fff199d8166b31bc1697c5d0e2e1a1ca2b28ee66a2bf1fba6788cf2",
+      "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        398012,
+        398564
+      ],
+      "file_offset": 398422,
+      "gba_address": "0x08061456",
+      "kind": "v12-accepted-source-node",
+      "raw_hex": "00f051fa",
+      "source_pointer": "/source/nodes/173",
+      "target_file_offset": 399612,
+      "target_gba_address": "0x080618FC",
+      "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+      "upstream_version": 12
+    },
+    {
+      "bytes_sha256": "26b656da1202d1fc837ddc2d419acf0f005af2843eafcdb83eb7ce18f72c6399",
+      "coverage_owner_claim_id": "verified-reuse-scene-visual-pack-setup-08bafc",
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        572156,
+        572372
+      ],
+      "file_offset": 572330,
+      "gba_address": "0x0808BBAA",
+      "kind": "v8-accepted-source-worklist-offset",
+      "raw_hex": "fff7a1fd",
+      "source_pointer": "/source/worklist/accepted_instruction_offsets/114",
+      "source_worklist_range": [
+        572080,
+        573150
+      ],
+      "target_file_offset": 571120,
+      "target_gba_address": "0x0808B6F0",
+      "upstream_manifest_sha256": "0c9194507c50b7f2c00c6ee09b517211f64b7b344475952fe3c908b1e54e0002",
+      "upstream_payload_sha256": "5fa1150d2ed9f785d50132a9eae316af192d70838fbee3061d7d3010c35fb1d6",
+      "upstream_version": 8
+    }
+  ],
+  "targets": [
+    {
+      "accepted": true,
+      "block_internal_edge_count": 11,
+      "block_internal_edge_vector_sha256": "6a7342282ff3a022ce471f05c3a9f9dfbcb1d3a8167b5cf385d5441538b44e3b",
+      "block_range_vector_sha256": "bfdb4d39bfd19cb77c9f56d7494da647ceb48a6b0dae1a3aae4fcebef1739d28",
+      "block_ranges": [
+        [
+          631776,
+          631790
+        ],
+        [
+          631790,
+          631798
+        ],
+        [
+          631798,
+          631810
+        ],
+        [
+          631810,
+          631814
+        ],
+        [
+          631814,
+          631820
+        ],
+        [
+          631820,
+          631824
+        ],
+        [
+          631824,
+          631840
+        ],
+        [
+          631840,
+          631842
+        ]
+      ],
+      "boundary_edges": [],
+      "code_range_vector_sha256": "04042f6768764c6cad59a956e7438e4cf6abd3af64f0a12369d1f8f0735aa57d",
+      "code_ranges": [
+        [
+          631776,
+          631842
+        ]
+      ],
+      "coverage_projection": {
+        "known_bytes": 0,
+        "overlaps": [
+          [
+            631776,
+            631842,
+            "unknown"
+          ],
+          [
+            631844,
+            631852,
+            "unknown"
+          ]
+        ],
+        "unknown_bytes": 74
+      },
+      "decoded_basic_block_count": 8,
+      "decoded_instruction_count": 33,
+      "envelope": [
+        631776,
+        631852
+      ],
+      "envelope_bytes": 76,
+      "envelope_sha256": "dc1f26a42cabf2ec4cddeffe54d52fe85e61473478f237d16d3b4f2774defd91",
+      "external_edge_vector": [],
+      "external_edge_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "external_edges": [],
+      "frontier_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "frontiers": [],
+      "holes": [
+        [
+          631842,
+          631844
+        ]
+      ],
+      "instruction_internal_edge_count": 36,
+      "instruction_internal_edge_vector_sha256": "1f75c3c241ab3ab7d14c431cbac9830008b7beff6bebe23e8775e7104483fe3d",
+      "known_external_literal_ranges": [
+        [
+          632460,
+          632468
+        ]
+      ],
+      "literal_code_overlap_ranges": [],
+      "literal_only_bytes": 8,
+      "literal_projection": {
+        "all_ranges": [
+          [
+            631844,
+            631852
+          ],
+          [
+            632460,
+            632468
+          ]
+        ],
+        "binding_vector": [
+          [
+            631776,
+            632460
+          ],
+          [
+            631780,
+            632464
+          ],
+          [
+            631802,
+            631844
+          ],
+          [
+            631810,
+            631848
+          ],
+          [
+            631820,
+            631848
+          ]
+        ],
+        "binding_vector_sha256": "4d528e3773d6c5f8300654db033f07b54c87612fa08216a1eb49b2f94ece0bfb",
+        "bindings": [
+          [
+            631776,
+            632460,
+            50364400,
+            "aa48",
+            "f07f0003"
+          ],
+          [
+            631780,
+            632464,
+            1752395091,
+            "aa4a",
+            "536d7368"
+          ],
+          [
+            631802,
+            631844,
+            67109052,
+            "0a4a",
+            "bc000004"
+          ],
+          [
+            631810,
+            631848,
+            2218786820,
+            "0949",
+            "04004084"
+          ],
+          [
+            631820,
+            631848,
+            2218786820,
+            "0649",
+            "04004084"
+          ]
+        ],
+        "internal_bytes": 8,
+        "internal_range_vector_sha256": "cc028ad9c32b2129258a9071e911574651828fd20e3eb6973d110bc9cd136470",
+        "internal_ranges": [
+          [
+            631844,
+            631852
+          ]
+        ],
+        "known_external_bytes": 8,
+        "known_external_range_vector_sha256": "a254c4aadd2e48aa5f8116a7c43fab1834f87fbcdffffa89d131d4c0ab8b02b3",
+        "known_external_ranges": [
+          [
+            632460,
+            632468
+          ]
+        ],
+        "literal_code_overlap_ranges": [],
+        "literal_only_bytes": 8,
+        "literal_only_ranges": [
+          [
+            631844,
+            631852
+          ]
+        ],
+        "literal_reference_count": 5,
+        "overlap_bytes": 0,
+        "packed_internal_sha256": "bf6a5df3083f3996afa62523d42508bf1d286a17e318da60f717c38ad488b4db",
+        "packed_known_external_sha256": "bd7783d6b3670f55050b3d22574ef8ef3a33d23da64e4900f7f11cee3dc80941",
+        "unique_literal_word_count": 4
+      },
+      "name": "root-09a3e0",
+      "packed_code_sha256": "30850910827424666137a474df6fc7ad26262f70f6047d2bf68fd6dcb0bd4c84",
+      "packed_literals_sha256": "bf6a5df3083f3996afa62523d42508bf1d286a17e318da60f717c38ad488b4db",
+      "packed_promotion_sha256": "d768becc596cf187cfb6fcecc81cf811c8a43e8ef7a36d06cf5dc643e03348bb",
+      "producer_denominator": {
+        "aligned_arm_pointers": [],
+        "arm_b_bl": [],
+        "thumb_b": [],
+        "thumb_bcond": [],
+        "thumb_bl": [
+          398024
+        ],
+        "thumb_pointers": [],
+        "vector": [
+          [
+            398024,
+            631776,
+            "thumb_bl"
+          ]
+        ],
+        "vector_sha256": "be586822e6d1efd806a48a63974ced4ef1f3dc1fe6c3670f74f85f967fdd1088"
+      },
+      "producer_membership": [
+        {
+          "artifact_node": {
+            "accepted": true,
+            "bytes_sha256": "ba05baa0ae5ae3c2bfbfa22edb5326121496b77a6cf45cbf2c80df3e24922b0a",
+            "conditional": false,
+            "file_offset": 398024,
+            "flow_kind": "call",
+            "frontiers": [],
+            "mnemonic": "bl",
+            "mode": "thumb",
+            "op_str": "#0x809a3e0",
+            "size": 4,
+            "successors": [
+              {
+                "file_offset": 631776,
+                "kind": "call_target",
+                "mode": "thumb"
+              },
+              {
+                "file_offset": 398028,
+                "kind": "fallthrough",
+                "mode": "thumb"
+              }
+            ]
+          },
+          "bytes_sha256": "ba05baa0ae5ae3c2bfbfa22edb5326121496b77a6cf45cbf2c80df3e24922b0a",
+          "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+          "coverage_owner_class": "consumer_code_slice",
+          "coverage_owner_range": [
+            398012,
+            398564
+          ],
+          "file_offset": 398024,
+          "gba_address": "0x080612C8",
+          "kind": "v12-accepted-source-node",
+          "raw_hex": "39f08af8",
+          "source_pointer": "/source/nodes/6",
+          "target_file_offset": 631776,
+          "target_gba_address": "0x0809A3E0",
+          "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+          "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+          "upstream_version": 12
+        }
+      ],
+      "promotion_bytes": 74,
+      "promotion_range_vector_sha256": "eb5bfece96cbf9e9f303513ba763eecf668df9afeac79a45906dc3d369388240",
+      "promotion_ranges": [
+        [
+          631776,
+          631842
+        ],
+        [
+          631844,
+          631852
+        ]
+      ],
+      "reachable_instruction_bytes": 66,
+      "reasons": [],
+      "root": 631776,
+      "root_gba_address": "0x0809A3E0",
+      "root_raw_hex": "aa480068",
+      "root_sha256": "8224015870e393eef6ab6de05eb1777743ce01af88efc59a8cc4c8d35f8f4314",
+      "semantic_instruction_vector_sha256": "3204851d18249f4c5b94d4cf1d9fac50d04119ac34b347dda8ec1164f62bffda",
+      "unbound_raw_matches": [],
+      "unbound_raw_thumb_bl_matches": []
+    },
+    {
+      "accepted": true,
+      "block_internal_edge_count": 9,
+      "block_internal_edge_vector_sha256": "7a81095bb3e1e546fe2f453068f38eba7ebb3f78035fbcf5c9100de82f82ad28",
+      "block_range_vector_sha256": "5ae15feea976567ee01e0499d43a2265a7ec10f3f788568eab14262680964e8a",
+      "block_ranges": [
+        [
+          397812,
+          397826
+        ],
+        [
+          397826,
+          397838
+        ],
+        [
+          397838,
+          397862
+        ],
+        [
+          397862,
+          397882
+        ],
+        [
+          397904,
+          397912
+        ],
+        [
+          397912,
+          397936
+        ],
+        [
+          397936,
+          397942
+        ]
+      ],
+      "boundary_edges": [],
+      "code_range_vector_sha256": "12a2c7060af8dd490febafd8e986e7f44ca489c5a2dffc2577bd396391055b41",
+      "code_ranges": [
+        [
+          397812,
+          397882
+        ],
+        [
+          397904,
+          397942
+        ]
+      ],
+      "coverage_projection": {
+        "known_bytes": 0,
+        "overlaps": [
+          [
+            397812,
+            397882,
+            "unknown"
+          ],
+          [
+            397884,
+            397942,
+            "unknown"
+          ],
+          [
+            397944,
+            397964,
+            "unknown"
+          ]
+        ],
+        "unknown_bytes": 148
+      },
+      "decoded_basic_block_count": 7,
+      "decoded_instruction_count": 53,
+      "envelope": [
+        397812,
+        398012
+      ],
+      "envelope_bytes": 200,
+      "envelope_sha256": "dd9f2ec693efe476274481ac356aab725e9490e6c9656ec3786a27bac0b04acd",
+      "external_edge_vector": [
+        [
+          397932,
+          398668,
+          "call_target"
+        ]
+      ],
+      "external_edge_vector_sha256": "5773ff521ef55199c96b2218d641bc3a7f476a40b0d41d7ec40433821dbe4314",
+      "external_edges": [
+        {
+          "edge_kind": "call_target",
+          "reason": "opaque_external",
+          "source_file_offset": 397932,
+          "target_file_offset": 398668
+        }
+      ],
+      "frontier_vector_sha256": "a5bb96aeb05a3f59cde8d0c3b48b1e76c2e211a3de933db953cb509f8d20bc0f",
+      "frontiers": [
+        [
+          397940,
+          "indirect_pc_target"
+        ]
+      ],
+      "holes": [
+        [
+          397882,
+          397884
+        ],
+        [
+          397942,
+          397944
+        ],
+        [
+          397964,
+          398012
+        ]
+      ],
+      "instruction_internal_edge_count": 55,
+      "instruction_internal_edge_vector_sha256": "6779b8c6bed5bfb3d3b55223c904bb0c0b83971fda37cca9f7ee3ee27e364587",
+      "known_external_literal_ranges": [],
+      "literal_code_overlap_ranges": [],
+      "literal_only_bytes": 40,
+      "literal_projection": {
+        "all_ranges": [
+          [
+            397884,
+            397904
+          ],
+          [
+            397944,
+            397964
+          ]
+        ],
+        "binding_vector": [
+          [
+            397814,
+            397884
+          ],
+          [
+            397826,
+            397888
+          ],
+          [
+            397830,
+            397892
+          ],
+          [
+            397838,
+            397896
+          ],
+          [
+            397848,
+            397900
+          ],
+          [
+            397862,
+            397900
+          ],
+          [
+            397904,
+            397944
+          ],
+          [
+            397912,
+            397948
+          ],
+          [
+            397916,
+            397952
+          ],
+          [
+            397922,
+            397956
+          ],
+          [
+            397926,
+            397960
+          ]
+        ],
+        "binding_vector_sha256": "2d3ecd6d922c39c10731e6ce596c125538b6c099ed1e0e796f60dcc9c95d76be",
+        "bindings": [
+          [
+            397814,
+            397884,
+            50333824,
+            "1148",
+            "80080003"
+          ],
+          [
+            397826,
+            397888,
+            50333828,
+            "0f4c",
+            "84080003"
+          ],
+          [
+            397830,
+            397892,
+            50333832,
+            "0f4b",
+            "88080003"
+          ],
+          [
+            397838,
+            397896,
+            67109376,
+            "0e4a",
+            "00020004"
+          ],
+          [
+            397848,
+            397900,
+            67108868,
+            "0c4a",
+            "04000004"
+          ],
+          [
+            397862,
+            397900,
+            67108868,
+            "094b",
+            "04000004"
+          ],
+          [
+            397904,
+            397944,
+            50333832,
+            "0948",
+            "88080003"
+          ],
+          [
+            397912,
+            397948,
+            67109376,
+            "084a",
+            "00020004"
+          ],
+          [
+            397916,
+            397952,
+            65531,
+            "0848",
+            "fbff0000"
+          ],
+          [
+            397922,
+            397956,
+            67108868,
+            "084a",
+            "04000004"
+          ],
+          [
+            397926,
+            397960,
+            65503,
+            "0848",
+            "dfff0000"
+          ]
+        ],
+        "internal_bytes": 40,
+        "internal_range_vector_sha256": "400abecec590b8e364a45cd7b8c7a3959e82b9e3d1a1f84749722d4bbfcdb59c",
+        "internal_ranges": [
+          [
+            397884,
+            397904
+          ],
+          [
+            397944,
+            397964
+          ]
+        ],
+        "known_external_bytes": 0,
+        "known_external_range_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "known_external_ranges": [],
+        "literal_code_overlap_ranges": [],
+        "literal_only_bytes": 40,
+        "literal_only_ranges": [
+          [
+            397884,
+            397904
+          ],
+          [
+            397944,
+            397964
+          ]
+        ],
+        "literal_reference_count": 11,
+        "overlap_bytes": 0,
+        "packed_internal_sha256": "ae25094faca6b4e4b53ef0e8f6fd8a47fa4fb24bc6693523d750ebdf04703ffc",
+        "packed_known_external_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "unique_literal_word_count": 10
+      },
+      "name": "root-0611f4",
+      "packed_code_sha256": "5538b1ade987c1ea2ba3930a03fa0df2ac388868f0d1cf49fb20c5e3430f34ce",
+      "packed_literals_sha256": "ae25094faca6b4e4b53ef0e8f6fd8a47fa4fb24bc6693523d750ebdf04703ffc",
+      "packed_promotion_sha256": "a77c6640f585163f527230d3f587dc74cdc5dfec45e72ddb2cb39a706e457b37",
+      "producer_denominator": {
+        "aligned_arm_pointers": [],
+        "arm_b_bl": [],
+        "thumb_b": [],
+        "thumb_bcond": [],
+        "thumb_bl": [
+          398410
+        ],
+        "thumb_pointers": [],
+        "vector": [
+          [
+            398410,
+            397812,
+            "thumb_bl"
+          ]
+        ],
+        "vector_sha256": "7c9f535dad62e3e3c8f1d611496530e01201bdcff788d2ae674cc6c02ebaff0d"
+      },
+      "producer_membership": [
+        {
+          "artifact_node": {
+            "accepted": true,
+            "bytes_sha256": "c684260e8922f3083767f3583c6f01701f0f6c92acf8affbe395e2bc0b14b66b",
+            "conditional": false,
+            "file_offset": 398410,
+            "flow_kind": "call",
+            "frontiers": [],
+            "mnemonic": "bl",
+            "mode": "thumb",
+            "op_str": "#0x80611f4",
+            "size": 4,
+            "successors": [
+              {
+                "file_offset": 397812,
+                "kind": "call_target",
+                "mode": "thumb"
+              },
+              {
+                "file_offset": 398414,
+                "kind": "fallthrough",
+                "mode": "thumb"
+              }
+            ]
+          },
+          "bytes_sha256": "c684260e8922f3083767f3583c6f01701f0f6c92acf8affbe395e2bc0b14b66b",
+          "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+          "coverage_owner_class": "consumer_code_slice",
+          "coverage_owner_range": [
+            398012,
+            398564
+          ],
+          "file_offset": 398410,
+          "gba_address": "0x0806144A",
+          "kind": "v12-accepted-source-node",
+          "raw_hex": "fff7d3fe",
+          "source_pointer": "/source/nodes/168",
+          "target_file_offset": 397812,
+          "target_gba_address": "0x080611F4",
+          "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+          "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+          "upstream_version": 12
+        }
+      ],
+      "promotion_bytes": 148,
+      "promotion_range_vector_sha256": "1eabfdb561cd5955641fcd211fd2f4d73adb95d485cae6ce14b47ccd07187a53",
+      "promotion_ranges": [
+        [
+          397812,
+          397882
+        ],
+        [
+          397884,
+          397942
+        ],
+        [
+          397944,
+          397964
+        ]
+      ],
+      "reachable_instruction_bytes": 108,
+      "reasons": [],
+      "root": 397812,
+      "root_gba_address": "0x080611F4",
+      "root_raw_hex": "10b51148",
+      "root_sha256": "0b9341dcc0f11aef976462b4ee9403dfb8d33bdba4e4dcd1d359fbcb92255ff2",
+      "semantic_instruction_vector_sha256": "43ffe2530765ebc908f0461bf495ac909d2a115e674cb8ca4d5ac9484743dc0d",
+      "unbound_raw_matches": [],
+      "unbound_raw_thumb_bl_matches": []
+    },
+    {
+      "accepted": true,
+      "block_internal_edge_count": 12,
+      "block_internal_edge_vector_sha256": "cdaa1b3f821721ce0fb1c2b9c39d3466ff67a9d0f89d69a1c9dd84f58e0d7afd",
+      "block_range_vector_sha256": "2c20cd6957fbcfa9ac0df88aa0842baa51bd2a2b907dbc2f4c3b86d30c65f775",
+      "block_ranges": [
+        [
+          399612,
+          399622
+        ],
+        [
+          399622,
+          399626
+        ],
+        [
+          399626,
+          399632
+        ],
+        [
+          399632,
+          399638
+        ],
+        [
+          399638,
+          399644
+        ],
+        [
+          399644,
+          399648
+        ],
+        [
+          399652,
+          399656
+        ],
+        [
+          399656,
+          399664
+        ],
+        [
+          399664,
+          399670
+        ]
+      ],
+      "boundary_edges": [],
+      "code_range_vector_sha256": "3ffa707793f636228f79645772c1f278e5b44a6012df5292be59e026b967f394",
+      "code_ranges": [
+        [
+          399612,
+          399648
+        ],
+        [
+          399652,
+          399670
+        ]
+      ],
+      "coverage_projection": {
+        "known_bytes": 0,
+        "overlaps": [
+          [
+            399612,
+            399670,
+            "unknown"
+          ]
+        ],
+        "unknown_bytes": 58
+      },
+      "decoded_basic_block_count": 9,
+      "decoded_instruction_count": 26,
+      "envelope": [
+        399612,
+        400000
+      ],
+      "envelope_bytes": 388,
+      "envelope_sha256": "61283963470a4195bc3a7b2531aba32ecbef91502cd86cda255866bfb39579ee",
+      "external_edge_vector": [
+        [
+          399640,
+          639252,
+          "call_target"
+        ]
+      ],
+      "external_edge_vector_sha256": "cd34903d76f36912120aed5fe2fbdd305934044b35e98af05886242849d532d2",
+      "external_edges": [
+        {
+          "edge_kind": "call_target",
+          "reason": "opaque_external",
+          "source_file_offset": 399640,
+          "target_file_offset": 639252
+        }
+      ],
+      "frontier_vector_sha256": "ca9c4c492850a3f5c0b5d971a92cb28e656a6047c0bf6a3793f1445c12136501",
+      "frontiers": [
+        [
+          399668,
+          "indirect_pc_target"
+        ]
+      ],
+      "holes": [
+        [
+          399670,
+          400000
+        ]
+      ],
+      "instruction_internal_edge_count": 29,
+      "instruction_internal_edge_vector_sha256": "02cc6462fd755477d7565c78b49ac9ac72b29a3a649205944f7f49861bfccd93",
+      "known_external_literal_ranges": [],
+      "literal_code_overlap_ranges": [],
+      "literal_only_bytes": 4,
+      "literal_projection": {
+        "all_ranges": [
+          [
+            399648,
+            399652
+          ]
+        ],
+        "binding_vector": [
+          [
+            399614,
+            399648
+          ]
+        ],
+        "binding_vector_sha256": "658a43eb1e28f77c898e232a3494fcf0142bc4487dad23334be4bd3f25ea4d97",
+        "bindings": [
+          [
+            399614,
+            399648,
+            50334196,
+            "084c",
+            "f4090003"
+          ]
+        ],
+        "internal_bytes": 4,
+        "internal_range_vector_sha256": "ae48f570e2232b82533505b50045a79d6d71bc3b153c8ea611e2803fdabd546c",
+        "internal_ranges": [
+          [
+            399648,
+            399652
+          ]
+        ],
+        "known_external_bytes": 0,
+        "known_external_range_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "known_external_ranges": [],
+        "literal_code_overlap_ranges": [],
+        "literal_only_bytes": 4,
+        "literal_only_ranges": [
+          [
+            399648,
+            399652
+          ]
+        ],
+        "literal_reference_count": 1,
+        "overlap_bytes": 0,
+        "packed_internal_sha256": "ab75ee2e74b92ed8c18bc0982efd954972ef47c20e8274c1445c71fba7cc9c9a",
+        "packed_known_external_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "unique_literal_word_count": 1
+      },
+      "name": "root-0618fc",
+      "packed_code_sha256": "d60c056e4a69ea8dcfab5134fad5690c675d727197533fa2c50c28141d5a370c",
+      "packed_literals_sha256": "ab75ee2e74b92ed8c18bc0982efd954972ef47c20e8274c1445c71fba7cc9c9a",
+      "packed_promotion_sha256": "9b8e2672a69855e923ce2ee460a088940c1db93e911154b1cc071f309160c685",
+      "producer_denominator": {
+        "aligned_arm_pointers": [],
+        "arm_b_bl": [],
+        "thumb_b": [],
+        "thumb_bcond": [],
+        "thumb_bl": [
+          398422
+        ],
+        "thumb_pointers": [],
+        "vector": [
+          [
+            398422,
+            399612,
+            "thumb_bl"
+          ]
+        ],
+        "vector_sha256": "a357c59daec4bd61f9e00e8bcc787e745fb726ea53e7fa137ca8aa6e79794175"
+      },
+      "producer_membership": [
+        {
+          "artifact_node": {
+            "accepted": true,
+            "bytes_sha256": "46debfa97fff199d8166b31bc1697c5d0e2e1a1ca2b28ee66a2bf1fba6788cf2",
+            "conditional": false,
+            "file_offset": 398422,
+            "flow_kind": "call",
+            "frontiers": [],
+            "mnemonic": "bl",
+            "mode": "thumb",
+            "op_str": "#0x80618fc",
+            "size": 4,
+            "successors": [
+              {
+                "file_offset": 399612,
+                "kind": "call_target",
+                "mode": "thumb"
+              },
+              {
+                "file_offset": 398426,
+                "kind": "fallthrough",
+                "mode": "thumb"
+              }
+            ]
+          },
+          "bytes_sha256": "46debfa97fff199d8166b31bc1697c5d0e2e1a1ca2b28ee66a2bf1fba6788cf2",
+          "coverage_owner_claim_id": "consumer-code-battle_effect_sprite_animations-0612bc",
+          "coverage_owner_class": "consumer_code_slice",
+          "coverage_owner_range": [
+            398012,
+            398564
+          ],
+          "file_offset": 398422,
+          "gba_address": "0x08061456",
+          "kind": "v12-accepted-source-node",
+          "raw_hex": "00f051fa",
+          "source_pointer": "/source/nodes/173",
+          "target_file_offset": 399612,
+          "target_gba_address": "0x080618FC",
+          "upstream_manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+          "upstream_payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee",
+          "upstream_version": 12
+        }
+      ],
+      "promotion_bytes": 58,
+      "promotion_range_vector_sha256": "0f67faae3672b4b0d6723a8737b71a2f1c3a5a2018ad98f83004c32943be893d",
+      "promotion_ranges": [
+        [
+          399612,
+          399670
+        ]
+      ],
+      "reachable_instruction_bytes": 54,
+      "reasons": [],
+      "root": 399612,
+      "root_gba_address": "0x080618FC",
+      "root_raw_hex": "30b5084c",
+      "root_sha256": "0d499deab1b5e26d0930e0dacc3d0e9a2db99df9f4827e29e2c1d699678fd0cf",
+      "semantic_instruction_vector_sha256": "083cbea57dfd42ca617fba267ce00e0531913e4d3f4bbf7851c37ddb386e200b",
+      "unbound_raw_matches": [],
+      "unbound_raw_thumb_bl_matches": []
+    },
+    {
+      "accepted": true,
+      "block_internal_edge_count": 10,
+      "block_internal_edge_vector_sha256": "8735636fd5b512ccb6a1f1e8e22c6412abcfd53fdc69726d99257b46cacf77e3",
+      "block_range_vector_sha256": "21d48f041ffb0d61b72e1e2f23052bf04320782c4dd13f2f83144fa5d6a2ad8b",
+      "block_ranges": [
+        [
+          571120,
+          571212
+        ],
+        [
+          571212,
+          571228
+        ],
+        [
+          571228,
+          571240
+        ],
+        [
+          571240,
+          571244
+        ],
+        [
+          571244,
+          571264
+        ],
+        [
+          571264,
+          571276
+        ],
+        [
+          571276,
+          571290
+        ]
+      ],
+      "boundary_edges": [],
+      "code_range_vector_sha256": "c0fad3e6e146839953e94c61f926afd47393587c5c172f4955882f97dc913b55",
+      "code_ranges": [
+        [
+          571120,
+          571290
+        ]
+      ],
+      "coverage_projection": {
+        "known_bytes": 0,
+        "overlaps": [
+          [
+            571120,
+            571290,
+            "unknown"
+          ]
+        ],
+        "unknown_bytes": 170
+      },
+      "decoded_basic_block_count": 7,
+      "decoded_instruction_count": 85,
+      "envelope": [
+        571120,
+        571292
+      ],
+      "envelope_bytes": 172,
+      "envelope_sha256": "5d82ab507ffc535d39e2fd6969bf8e301ed9b6d7a0ababa6dcd66f8e36104066",
+      "external_edge_vector": [],
+      "external_edge_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "external_edges": [],
+      "frontier_vector_sha256": "b619bf05e8309a7b59eb4255be3884b2dd981192a250a3d99978e57bf49276ab",
+      "frontiers": [
+        [
+          571288,
+          "indirect_pc_target"
+        ]
+      ],
+      "holes": [
+        [
+          571290,
+          571292
+        ]
+      ],
+      "instruction_internal_edge_count": 88,
+      "instruction_internal_edge_vector_sha256": "a1a826de7f184c62eee11c5ab69ea55689de70ff50217bc1aba48ebed5028479",
+      "known_external_literal_ranges": [],
+      "literal_code_overlap_ranges": [],
+      "literal_only_bytes": 0,
+      "literal_projection": {
+        "all_ranges": [],
+        "binding_vector": [],
+        "binding_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "bindings": [],
+        "internal_bytes": 0,
+        "internal_range_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "internal_ranges": [],
+        "known_external_bytes": 0,
+        "known_external_range_vector_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "known_external_ranges": [],
+        "literal_code_overlap_ranges": [],
+        "literal_only_bytes": 0,
+        "literal_only_ranges": [],
+        "literal_reference_count": 0,
+        "overlap_bytes": 0,
+        "packed_internal_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "packed_known_external_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "unique_literal_word_count": 0
+      },
+      "name": "root-08b6f0",
+      "packed_code_sha256": "fbc2ee13417cb7ac37b2e668ff6b2f4d3b1fa0a4637c52c9ca9d53183ec91fc1",
+      "packed_literals_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "packed_promotion_sha256": "fbc2ee13417cb7ac37b2e668ff6b2f4d3b1fa0a4637c52c9ca9d53183ec91fc1",
+      "producer_denominator": {
+        "aligned_arm_pointers": [],
+        "arm_b_bl": [],
+        "thumb_b": [],
+        "thumb_bcond": [],
+        "thumb_bl": [
+          572330
+        ],
+        "thumb_pointers": [],
+        "vector": [
+          [
+            572330,
+            571120,
+            "thumb_bl"
+          ]
+        ],
+        "vector_sha256": "3bd668893a7235226f1560bfffb3feb395c48aa70ed4a9273d7db1df2688d681"
+      },
+      "producer_membership": [
+        {
+          "bytes_sha256": "26b656da1202d1fc837ddc2d419acf0f005af2843eafcdb83eb7ce18f72c6399",
+          "coverage_owner_claim_id": "verified-reuse-scene-visual-pack-setup-08bafc",
+          "coverage_owner_class": "consumer_code_slice",
+          "coverage_owner_range": [
+            572156,
+            572372
+          ],
+          "file_offset": 572330,
+          "gba_address": "0x0808BBAA",
+          "kind": "v8-accepted-source-worklist-offset",
+          "raw_hex": "fff7a1fd",
+          "source_pointer": "/source/worklist/accepted_instruction_offsets/114",
+          "source_worklist_range": [
+            572080,
+            573150
+          ],
+          "target_file_offset": 571120,
+          "target_gba_address": "0x0808B6F0",
+          "upstream_manifest_sha256": "0c9194507c50b7f2c00c6ee09b517211f64b7b344475952fe3c908b1e54e0002",
+          "upstream_payload_sha256": "5fa1150d2ed9f785d50132a9eae316af192d70838fbee3061d7d3010c35fb1d6",
+          "upstream_version": 8
+        }
+      ],
+      "promotion_bytes": 170,
+      "promotion_range_vector_sha256": "c0fad3e6e146839953e94c61f926afd47393587c5c172f4955882f97dc913b55",
+      "promotion_ranges": [
+        [
+          571120,
+          571290
+        ]
+      ],
+      "reachable_instruction_bytes": 170,
+      "reasons": [],
+      "root": 571120,
+      "root_gba_address": "0x0808B6F0",
+      "root_raw_hex": "f0b55746",
+      "root_sha256": "715bb484d98123291dbfc7b03e6b6d0b85d3f836d828d1f9e196c59d842415fb",
+      "semantic_instruction_vector_sha256": "78f1549b462a0a48177de60b965988e4b1454f8b07bc5ab623f3f3e9822aed1a",
+      "unbound_raw_matches": [],
+      "unbound_raw_thumb_bl_matches": []
+    }
+  ],
+  "upstream": {
+    "v12": {
+      "manifest_path": "artifacts/rom-cfg-proven-roots-v12/manifest.json",
+      "manifest_sha256": "bf88e08f4eed6b53e1debef709c2ef13fb891c11e9c172485e494eef57954677",
+      "payload_path": "artifacts/rom-cfg-proven-roots-v12/rom-cfg-proven-roots-v12.json",
+      "payload_sha256": "fd9df8f3d93de1df5aa7e725040f27f854d08e8203d6cada51db829ddcd9bcee"
+    },
+    "v13": {
+      "manifest_path": "artifacts/rom-cfg-proven-roots-v13/manifest.json",
+      "manifest_sha256": "589dd8e1536b2b6d0cc3997f31c5841204593f64ce491d6c0647ca7230f8e133",
+      "payload_path": "artifacts/rom-cfg-proven-roots-v13/rom-cfg-proven-roots-v13.json",
+      "payload_sha256": "45b83aeb6e91249ebd5adefdb086c438b14c666e79aab780f7072a929343cb5b"
+    },
+    "v8": {
+      "manifest_path": "artifacts/rom-cfg-proven-roots-v8/manifest.json",
+      "manifest_sha256": "0c9194507c50b7f2c00c6ee09b517211f64b7b344475952fe3c908b1e54e0002",
+      "payload_path": "artifacts/rom-cfg-proven-roots-v8/rom-cfg-proven-roots-v8.json",
+      "payload_sha256": "5fa1150d2ed9f785d50132a9eae316af192d70838fbee3061d7d3010c35fb1d6"
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_cfg_proven_roots_v15.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-cfg-proven-roots-v15"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_roots": [
+        397812,
+        399612,
+        571120,
+        631776
+      ],
+      "control_flow_oracle": "armv4t-raw-encoding",
+      "errors": [],
+      "hole_bytes": 386,
+      "nonclaims": {
+        "adjacent_bytes_padding_or_allocatable_space": false,
+        "bios_swi0_terminal_or_return_semantics": false,
+        "callee_code_abi_or_business_semantics": false,
+        "editing_writeback_relocation_or_gameplay_behavior": false,
+        "global_code_caller_or_producer_denominator": false,
+        "global_indirect_computed_or_ram_target_denominator": false,
+        "literal_business_meaning_or_compiler_authorship": false,
+        "natural_execution_or_runtime_reachability": false
+      },
+      "producer_count": 5,
+      "promotion_bytes": 450,
+      "promotion_code_bytes": 398,
+      "promotion_literal_bytes": 52,
+      "promotion_packed_sha256": "764b272bc4d19be46d334c10e47d00419c05fa60d6878ef336f455d25e7b08e7",
+      "promotion_range_count": 10,
+      "promotion_union_range_count": 7,
+      "rejected_roots": [
+        639220
+      ],
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-cfg-proven-roots-v15-verification-v1",
+      "semantic_promotion_range_count": 10,
+      "semantic_range_vector_sha256": "4cb1b785aa18b03873dee55781289574009c42231d1dfd198aa024bc41d38974",
+      "target_block_internal_edge_count": 42,
+      "target_decoded_basic_block_count": 31,
+      "target_decoded_instruction_count": 197,
+      "target_external_call_edge_count": 2,
+      "target_frontier_count": 3,
+      "target_frontiers": [
+        [
+          397940,
+          "indirect_pc_target"
+        ],
+        [
+          399668,
+          "indirect_pc_target"
+        ],
+        [
+          571288,
+          "indirect_pc_target"
+        ]
+      ],
+      "target_instruction_internal_edge_count": 208,
+      "target_literal_bytes": 52,
+      "target_literal_reference_count": 17,
+      "target_reachable_instruction_bytes": 398,
+      "target_root_count": 4,
+      "target_roots": [
+        631776,
+        397812,
+        399612,
+        571120
+      ],
+      "target_unique_literal_word_count": 13,
+      "union_range_vector_sha256": "9a91de64231f4d1cf2bbf41e4aa4858c4fa4e3af7dddf60a5ae79287da506ad0",
+      "verified": true
+    },
+    "schema": "rom-cfg-proven-roots-v15-verification-v1",
+    "verifier_sha256": "163f04429f5bdd117f540cdf2421c483ff110e6eab1042403fe29ab7736dc167"
+  }
+}

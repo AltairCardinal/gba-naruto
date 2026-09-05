@@ -1,0 +1,44 @@
+{
+  "artifact_schema": "rom-text-bg-loop-continuation-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-text-bg-loop-continuation.json": {
+      "sha256": "b5d16813fab51b14d8752b7e9479997d488c557c9f1baba9e37bfaaca672b67e",
+      "size": 6593
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "7fddb801d0b39f51ce870a941bf09a0258da5b948f6b0989bffba414d262cd91",
+    "test_sha256": "3882771cdaaa7876ff015590198645cf88a9d69d5c339c810105a700c1f6d430",
+    "verifier_sha256": "abad4787f14ec2f793f5aeb7d38ed24967c066f26f00937ee7494a79d3edd114"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_text_bg_loop_continuation.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-text-bg-loop-continuation-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "code_bytes": 42,
+    "instruction_count": 21,
+    "literal_bytes": 12,
+    "literal_word_count": 3,
+    "producer_count": 1,
+    "promotion_bytes": 54
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_text_bg_loop_continuation.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-text-bg-loop-continuation-v1"
+    ]
+  }
+}

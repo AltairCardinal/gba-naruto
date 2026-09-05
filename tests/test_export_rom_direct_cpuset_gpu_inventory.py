@@ -157,6 +157,9 @@ class ExportRomDirectCpusetGpuInventoryTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertNotIn("from tools", source)
         self.assertNotIn("import tools", source)
+        self.assertNotIn("def _rebuild(", source)
+        self.assertNotIn("def _scan_literal_user(", source)
+        self.assertIn("def _resolve_call_inputs_backward(", source)
         report = verify_artifact(ROOT, self.output)
         self.assertTrue(report["verified"], report["errors"])
         self.assertEqual(146, report["direct_call_count"])
@@ -212,6 +215,35 @@ class ExportRomDirectCpusetGpuInventoryTests(unittest.TestCase):
                 rejected = verify_artifact(ROOT, tampered)
                 self.assertFalse(rejected["verified"])
                 self.assertTrue(rejected["errors"])
+
+    def test_independent_verifier_rejects_rehashed_bundle_tamper(self):
+        from tools.verify_rom_direct_cpuset_gpu_inventory import verify_artifact
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tampered = Path(tmp) / "artifact"
+            shutil.copytree(self.output, tampered)
+            bundle_path = tampered / "new-raw-sources.bin"
+            bundle = bytearray(bundle_path.read_bytes())
+            bundle[32] ^= 1
+            bundle_path.write_bytes(bundle)
+
+            manifest_path = tampered / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["files"][bundle_path.name] = hashlib.sha256(bundle).hexdigest()
+            manifest_path.write_text(
+                json.dumps(
+                    manifest,
+                    ensure_ascii=False,
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            rejected = verify_artifact(ROOT, tampered)
+            self.assertFalse(rejected["verified"])
+            self.assertTrue(rejected["errors"])
 
 
 if __name__ == "__main__":

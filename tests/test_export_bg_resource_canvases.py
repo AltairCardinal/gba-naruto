@@ -152,6 +152,9 @@ class ExportBgResourceCanvasesTest(unittest.TestCase):
         self.assertNotIn("import tools", source)
 
         report = verify_artifact(ROOT, self.output)
+        self.assertEqual(
+            "bg-resource-canvases-verification-v1", report["schema"]
+        )
         self.assertTrue(report["verified"], report["errors"])
         self.assertEqual([], report["errors"])
         self.assertEqual(12, report["canvases"])

@@ -1,0 +1,2219 @@
+{
+  "blocks": [
+    {
+      "bytes_sha256": "123c770a668e6b87544ed2fc9f36fa1041a1d47c0c4f29ba928f8e6a2d3da94e",
+      "id": "block-arm-00024c",
+      "instruction_count": 18,
+      "mode": "arm",
+      "range": [
+        588,
+        660
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-000328",
+          "file_offset": 808,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "block_id": "block-arm-000294",
+          "file_offset": 660,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": true,
+        "file_offset": 656,
+        "flow_kind": "conditional_branch",
+        "mnemonic": "beq",
+        "op_str": "#0x8000328",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "1e524d95806cd937ff1d584da9cd9ed1cf8390972c2ca31f9d5aef66888dfd7e",
+      "id": "block-arm-000294",
+      "instruction_count": 37,
+      "mode": "arm",
+      "range": [
+        660,
+        808
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-00032c",
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": false,
+        "file_offset": 804,
+        "flow_kind": "unconditional_branch",
+        "mnemonic": "b",
+        "op_str": "#0x800032c",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "c402c7ed1b0cac28463ca441dd5574cba9696725ae979ce47d0b71d0dab45da2",
+      "id": "block-arm-000328",
+      "instruction_count": 1,
+      "mode": "arm",
+      "range": [
+        808,
+        812
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-00032c",
+          "file_offset": 812,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": false,
+        "file_offset": 808,
+        "flow_kind": "linear",
+        "mnemonic": "add",
+        "op_str": "sp, sp, #0x40",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "2b4f130de6415bf8acb6a2c7a469ca2c601052c2c9cb4712f81811cd3f52b520",
+      "id": "block-arm-00032c",
+      "instruction_count": 5,
+      "mode": "arm",
+      "range": [
+        812,
+        832
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-0003a8",
+          "file_offset": 936,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "block_id": "block-arm-000340",
+          "file_offset": 832,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": true,
+        "file_offset": 828,
+        "flow_kind": "conditional_branch",
+        "mnemonic": "beq",
+        "op_str": "#0x80003a8",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "1a972be8ec46452326d2110ffba4b7f0060fd000051b1963b9058aba729794e0",
+      "id": "block-arm-000340",
+      "instruction_count": 3,
+      "mode": "arm",
+      "range": [
+        832,
+        844
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-00032c",
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "block_id": "block-arm-00034c",
+          "file_offset": 844,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": true,
+        "file_offset": 840,
+        "flow_kind": "conditional_branch",
+        "mnemonic": "beq",
+        "op_str": "#0x800032c",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "fa989bd3ac9a381c64256ab842a5608c0b7099f5770028f089d0f5eb3946a8ef",
+      "id": "block-arm-00034c",
+      "instruction_count": 4,
+      "mode": "arm",
+      "range": [
+        844,
+        860
+      ],
+      "successors": [
+        {
+          "block_id": "block-arm-00032c",
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "block_id": "block-arm-00035c",
+          "file_offset": 860,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ],
+      "terminator": {
+        "conditional": true,
+        "file_offset": 856,
+        "flow_kind": "conditional_branch",
+        "mnemonic": "bne",
+        "op_str": "#0x800032c",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "9f8d955826095ddba631e62378b39e3bf5a5e40f996e637789e08dc7dc0beeaf",
+      "id": "block-arm-00035c",
+      "instruction_count": 19,
+      "mode": "arm",
+      "range": [
+        860,
+        936
+      ],
+      "successors": [],
+      "terminator": {
+        "conditional": false,
+        "file_offset": 932,
+        "flow_kind": "return",
+        "mnemonic": "bx",
+        "op_str": "lr",
+        "size": 4
+      }
+    },
+    {
+      "bytes_sha256": "ea608c8186d4d96305bb37df4131edb195646868103b578c209328e2da9317a1",
+      "id": "block-arm-0003a8",
+      "instruction_count": 5,
+      "mode": "arm",
+      "range": [
+        936,
+        956
+      ],
+      "successors": [],
+      "terminator": {
+        "conditional": false,
+        "file_offset": 952,
+        "flow_kind": "return",
+        "mnemonic": "bx",
+        "op_str": "lr",
+        "size": 4
+      }
+    }
+  ],
+  "coverage_claims": [
+    {
+      "id": "arm-root-code",
+      "range": [
+        588,
+        956
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "b7a934aada08004fec2cd403027a1667c91d6cb93edfae149e237dd9c7908bf3",
+      "size": 368
+    },
+    {
+      "id": "arm-root-literal-pool",
+      "range": [
+        956,
+        992
+      ],
+      "semantic_class": "arm_literal_pool",
+      "sha256": "1f206af83e70f2bf5c7e21d4b96b42d639a75b6aa808fb975da4cc94cc41bcb3",
+      "size": 36
+    },
+    {
+      "id": "thumb-direct-caller",
+      "range": [
+        397446,
+        397450
+      ],
+      "semantic_class": "thumb_code",
+      "sha256": "589051c73628c96114c0977c1ee91cd7446f42932dfeed31936f351e436d58b7",
+      "size": 4
+    },
+    {
+      "id": "thumb-bx-pc",
+      "range": [
+        640364,
+        640366
+      ],
+      "semantic_class": "thumb_interwork_code",
+      "sha256": "aa1170db7a37e96c7cd2677a368bc6541819794ef3984f1d91b8b27914201f6e",
+      "size": 2
+    },
+    {
+      "id": "arm-root-branch",
+      "range": [
+        640368,
+        640372
+      ],
+      "semantic_class": "arm_interwork_code",
+      "sha256": "979a6ff29e93c31c8a5fd2a1d6502c75b4ae36e8dff16a0b6cabdd4d1a88e33e",
+      "size": 4
+    }
+  ],
+  "decoder": {
+    "architecture": "ARM7TDMI / ARMv4T",
+    "backend": "vendored-capstone",
+    "files": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f"
+    },
+    "independent_verifier_engine": {
+      "path": "tools/verify_rom_cfg_inventory.py",
+      "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+    },
+    "version": "5.0.7"
+  },
+  "denominators": {
+    "block_vector_sha256": "1c9d08d16c2f4c3b5cdb4123d8ae94b6fd3bb4f7921c9a28a55b77f279c3af50",
+    "edge_vector_sha256": "ba298a7c1f9f7811e7dd2ac899c7faa42d013599d9e94a6c41e129b34e7176e7",
+    "instruction_vector_sha256": "c25c738607397cb60f90d73d7a6efe079ef52c89c11f787b0cc7d896101beebf",
+    "literal_binding_vector_sha256": "1e812f886d0e0abe614780f0c4a94af1c789831fd966c59e85e0a6ef690f4e9f"
+  },
+  "edges": [
+    {
+      "block_id": "block-arm-000328",
+      "file_offset": 808,
+      "kind": "branch_target",
+      "mode": "arm",
+      "source_block_id": "block-arm-00024c"
+    },
+    {
+      "block_id": "block-arm-000294",
+      "file_offset": 660,
+      "kind": "fallthrough",
+      "mode": "arm",
+      "source_block_id": "block-arm-00024c"
+    },
+    {
+      "block_id": "block-arm-00032c",
+      "file_offset": 812,
+      "kind": "branch_target",
+      "mode": "arm",
+      "source_block_id": "block-arm-000294"
+    },
+    {
+      "block_id": "block-arm-00032c",
+      "file_offset": 812,
+      "kind": "fallthrough",
+      "mode": "arm",
+      "source_block_id": "block-arm-000328"
+    },
+    {
+      "block_id": "block-arm-0003a8",
+      "file_offset": 936,
+      "kind": "branch_target",
+      "mode": "arm",
+      "source_block_id": "block-arm-00032c"
+    },
+    {
+      "block_id": "block-arm-000340",
+      "file_offset": 832,
+      "kind": "fallthrough",
+      "mode": "arm",
+      "source_block_id": "block-arm-00032c"
+    },
+    {
+      "block_id": "block-arm-00032c",
+      "file_offset": 812,
+      "kind": "branch_target",
+      "mode": "arm",
+      "source_block_id": "block-arm-000340"
+    },
+    {
+      "block_id": "block-arm-00034c",
+      "file_offset": 844,
+      "kind": "fallthrough",
+      "mode": "arm",
+      "source_block_id": "block-arm-000340"
+    },
+    {
+      "block_id": "block-arm-00032c",
+      "file_offset": 812,
+      "kind": "branch_target",
+      "mode": "arm",
+      "source_block_id": "block-arm-00034c"
+    },
+    {
+      "block_id": "block-arm-00035c",
+      "file_offset": 860,
+      "kind": "fallthrough",
+      "mode": "arm",
+      "source_block_id": "block-arm-00034c"
+    }
+  ],
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_boot_interwork.py",
+      "sha256": "e9b87cba69eba1307403300d501d660c48ebb99356dd26cccdd1b2f962eadf41"
+    },
+    "test": {
+      "path": "tests/test_export_rom_boot_interwork.py",
+      "sha256": "7d98ef28788ef6d5a44ba0af2b36a7e1834db0be213c6c1138a4d06d5b829d50"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_boot_interwork.py",
+      "sha256": "66d34dc56f837e09c22fcebdd58e2e67b132c133ea7402e8d50f7e187d54984b"
+    }
+  },
+  "instructions": [
+    {
+      "bytes_sha256": "8a04c2e346e7375c2cf164f2b0e91ba8c325ffdd38c50e62ec922b266aa6c4dd",
+      "conditional": false,
+      "file_offset": 588,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x168]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 592,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "50b38dbccf61d53e60594083eba46325bae582beda57fc5a9d5ac310b174774f",
+      "conditional": false,
+      "file_offset": 592,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r2, [pc, #0x168]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 596,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d1e999207b543af0ef5a20640ea1d80c5a5e6f65bd01fff4af0592794deaf43e",
+      "conditional": false,
+      "file_offset": 596,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r2, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 600,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d88cfe6d851ac381a6026c7272e9dc4a2ee7498306668818ac53c26d2e87fd09",
+      "conditional": false,
+      "file_offset": 600,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x164]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 604,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2caa308a3d3b888f2f004cf7da460ebcd619a6310d1d34564ae69c02265ef268",
+      "conditional": false,
+      "file_offset": 604,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "lr, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 608,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "58ccaa2d42c7df3bca557f9431fb8def34a3e790265caa98617093a0490779f6",
+      "conditional": false,
+      "file_offset": 608,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x160]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 612,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "0bb034d16ad6a630da6a44305ceb19c1ae6494360ce3e8ac4ef7d7c6fdc07d2a",
+      "conditional": false,
+      "file_offset": 612,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "sp, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 616,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "58dbeddd4557794b37967765af4771f6f19fb33e294cb3c05d819534d8b48e66",
+      "conditional": false,
+      "file_offset": 616,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "mov",
+      "mode": "arm",
+      "op_str": "r0, #1",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 620,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "57c1386057459eea66351580829cee89671e7ceb50f4492a0ee072ae094ce378",
+      "conditional": false,
+      "file_offset": 620,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "push",
+      "mode": "arm",
+      "op_str": "{r0, r1, r2, r3, r4, r5, r6, r7, r8, sb, sl, fp, ip, lr, pc}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 624,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "61929aa71f8a22396ba2cb770e4f178bbab4ada2bed8c7d5da9e485e16229072",
+      "conditional": false,
+      "file_offset": 624,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "mrs",
+      "mode": "arm",
+      "op_str": "r0, spsr",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 628,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ad86c4fadb4edd9329637ee510a3d767da614fc58a8741199a20ac9b93364bb6",
+      "conditional": false,
+      "file_offset": 628,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "stmdb",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 632,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "c3ab0509761f65865594f2d9bf0c37d87048d8c430d691346c449be1a6d59098",
+      "conditional": false,
+      "file_offset": 632,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x14c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 636,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "3c88c43ed5c9e20003d0fc483ec83e0c8a29ce0b71699ecf64b2275faccc7838",
+      "conditional": false,
+      "file_offset": 636,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r5, [pc, #0x14c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 640,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ae1d13decca6e121b677cd8d8fbbcc6fee14cff5ee8a7090ddd9b7295e2c58f4",
+      "conditional": false,
+      "file_offset": 640,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r2, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 644,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ae6dfd0abdc006a5ffc82a22787a786835ebfeaf9f498d82c3a5771aa253da10",
+      "conditional": false,
+      "file_offset": 644,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r1, [pc, #0x148]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 648,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "5abf3b87f41a0c73c6849c597e04385edf10f70c1d1c4a5a2c63edb917338179",
+      "conditional": false,
+      "file_offset": 648,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r0, [r2, #8]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 652,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "27f02ccf7ea5b0a353fb2f440c37bb29bb4594580da3b4c15ec91e8222eaa40e",
+      "conditional": false,
+      "file_offset": 652,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "cmp",
+      "mode": "arm",
+      "op_str": "r0, r1",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 656,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "f84911e67c75058296a381722629877067827f5c5386a51867ca033e77c62506",
+      "conditional": true,
+      "file_offset": 656,
+      "flow_kind": "conditional_branch",
+      "frontiers": [],
+      "mnemonic": "beq",
+      "mode": "arm",
+      "op_str": "#0x8000328",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 808,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "file_offset": 660,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "28a2df15346adf2ec23773e75dd9ec02c0d181cb06be3a12b4b5243767ecb8d1",
+      "conditional": false,
+      "file_offset": 660,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "mov",
+      "mode": "arm",
+      "op_str": "r0, lr",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 664,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "441659e7ebacc6ec871da93b5c19922e87225047001b637deec713f13aa4ad13",
+      "conditional": false,
+      "file_offset": 664,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #8]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 668,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 668,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 672,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "e89d9c6a9bf43d16e460e95781bffaf070edbd053a69bdc6badb4bf178b1d765",
+      "conditional": false,
+      "file_offset": 672,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0xc]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 676,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 676,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 680,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7e2d9b44cce493beff438c8a533be129896b35528c5c3c2492ec50af97211c27",
+      "conditional": false,
+      "file_offset": 680,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x10]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 684,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "5ba9c699f3a7230a0dad23a817d80f07e99f7ca17bb8455ca08bbadf661fa3a6",
+      "conditional": false,
+      "file_offset": 684,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "strb",
+      "mode": "arm",
+      "op_str": "r0, [r2, #1]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 688,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 688,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 692,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "c9320327a8652d3a1faf71984f5a94beef0e027f9131bfec47d70b03784ed1d4",
+      "conditional": false,
+      "file_offset": 692,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x14]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 696,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 696,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 700,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "dd50ce39e08cead539f37e80d9d782054b4a5820844fa0da648257b24a8d467c",
+      "conditional": false,
+      "file_offset": 700,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x18]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 704,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 704,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 708,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ee554768df8a4849c0aa4d13f8b0e8f7da1b744c30891ae001a707cf0f830ece",
+      "conditional": false,
+      "file_offset": 708,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x1c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 712,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 712,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 716,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "83c1c3d9612984017dc558128f6ee5d02f486b92daf611dd0934ce8f87f09064",
+      "conditional": false,
+      "file_offset": 716,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x20]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 720,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 720,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 724,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "42633a60836852c6332e8dbaf9f6e25c6863a3f18a467bb0755b52b9b7332e23",
+      "conditional": false,
+      "file_offset": 724,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x24]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 728,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 728,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 732,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "bc2d9c67d9b30e485b3ce3b64891fe5810c81452433db1cb3eed133a19c6109a",
+      "conditional": false,
+      "file_offset": 732,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x28]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 736,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 736,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 740,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7b6f4d329b46a207a30e648283486a3c0936b36b476e3dce54454a1daa917aa9",
+      "conditional": false,
+      "file_offset": 740,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x2c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 744,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 744,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 748,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "45691ff018022d991f712b17952ab4d39cc658acb1428ae81ac14585f39f237b",
+      "conditional": false,
+      "file_offset": 748,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x30]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 752,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 752,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 756,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "9d27a2b62a4b4bc5fbe35e68ede70bd60916ffd52b91c93307437202b99db1ad",
+      "conditional": false,
+      "file_offset": 756,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x34]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 760,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 760,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 764,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "6d98bdb25ed87c81f89e113f8b29b5542de4d93a0c230f6d354f38be2f142bcd",
+      "conditional": false,
+      "file_offset": 764,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x38]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 768,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 768,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 772,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7bc6fee747d12ea63888e2bf3ea475df5b7c6908fb5161efc84f56944dfca383",
+      "conditional": false,
+      "file_offset": 772,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x3c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 776,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 776,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 780,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ca6c7b5223310bd85c0b82da875e432fb038e79d7f4dca240a40d65180d4f495",
+      "conditional": false,
+      "file_offset": 780,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x40]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 784,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 784,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 788,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d295877c8db9732383c5a5febbb8ac72551c05eb882fb11a9244591d894b59ee",
+      "conditional": false,
+      "file_offset": 788,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x44]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 792,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2fa6bf5d622df6074b0fafd298b26d8978553a42591e0ed383eb1d3a8898f8f3",
+      "conditional": false,
+      "file_offset": 792,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldm",
+      "mode": "arm",
+      "op_str": "sp!, {r0}",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 796,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "a621ea8c1a14dc973d47dc54d3f7cd8253e838f0daa79050d568edf6743699ef",
+      "conditional": false,
+      "file_offset": 796,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x48]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 800,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "4c1dc1809a0153ab2c1725a055a73f3d681e11a57ce25333db06622ccdc16c6e",
+      "conditional": false,
+      "file_offset": 800,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "sp, [r2, #4]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 804,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "55aa4a24971aef53d8fd257468c4761c924790459e0a721d6a2cb66567c42c7d",
+      "conditional": false,
+      "file_offset": 804,
+      "flow_kind": "unconditional_branch",
+      "frontiers": [],
+      "mnemonic": "b",
+      "mode": "arm",
+      "op_str": "#0x800032c",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "c402c7ed1b0cac28463ca441dd5574cba9696725ae979ce47d0b71d0dab45da2",
+      "conditional": false,
+      "file_offset": 808,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "add",
+      "mode": "arm",
+      "op_str": "sp, sp, #0x40",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 812,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "3f2b0649f62421072cbacb6ffad0b4cacb940e28f1c01040706cb5e7a055a752",
+      "conditional": false,
+      "file_offset": 812,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "add",
+      "mode": "arm",
+      "op_str": "r2, r2, #0x4c",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 816,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d1e999207b543af0ef5a20640ea1d80c5a5e6f65bd01fff4af0592794deaf43e",
+      "conditional": false,
+      "file_offset": 816,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "str",
+      "mode": "arm",
+      "op_str": "r2, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 820,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "27cebe77e0bf58cf1cf6a35242810dfe7d7acdfbd6e7f9caf9c2ffad3ea04888",
+      "conditional": false,
+      "file_offset": 820,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldrb",
+      "mode": "arm",
+      "op_str": "r0, [r2]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 824,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "cce6945d9d2e4fd97fd09ee2b86f92dac9faa2374803ec2e54889a220d228cf9",
+      "conditional": false,
+      "file_offset": 824,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "cmp",
+      "mode": "arm",
+      "op_str": "r0, #8",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 828,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ed9aeb5cda446c6147dc2644268720093a8bb9255b72472641e17f9ed6d7df30",
+      "conditional": true,
+      "file_offset": 828,
+      "flow_kind": "conditional_branch",
+      "frontiers": [],
+      "mnemonic": "beq",
+      "mode": "arm",
+      "op_str": "#0x80003a8",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 936,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "file_offset": 832,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "dd9a503b34302a7c17af7081f2c40de7d80af81f94b765fbe18fe23fbcfa9556",
+      "conditional": false,
+      "file_offset": 832,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "lr, [r2, #8]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 836,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "90a600e2ee3f30c73a223c461880cac6291089bc1fe910fd71b2b6704f17f8bb",
+      "conditional": false,
+      "file_offset": 836,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "cmp",
+      "mode": "arm",
+      "op_str": "lr, r1",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 840,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "50ad27a1daef37677e8ed0e176d8002d001365f788870100d51078b7514a79c8",
+      "conditional": true,
+      "file_offset": 840,
+      "flow_kind": "conditional_branch",
+      "frontiers": [],
+      "mnemonic": "beq",
+      "mode": "arm",
+      "op_str": "#0x800032c",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "file_offset": 844,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d9adfd72a4bcba6ecb0f59f8f9475c28bf4886352eb829a29f4b5f90124d65b4",
+      "conditional": false,
+      "file_offset": 844,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldrb",
+      "mode": "arm",
+      "op_str": "r4, [r2, #1]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 848,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "319c60e19566588e044ff079a0894f196d77a0ae0c404a25ac84c3e482f59a8d",
+      "conditional": false,
+      "file_offset": 848,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "subs",
+      "mode": "arm",
+      "op_str": "r4, r4, #1",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 852,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "3b429813ff5209b0c054350fed343b3fa2a90ad1a913c946ff3467ed999eef15",
+      "conditional": true,
+      "file_offset": 852,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "strbne",
+      "mode": "arm",
+      "op_str": "r4, [r2, #1]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 856,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "3495f6c24aba5d367149c7aed7b5eaea8f158b71852e7707585802216114e88f",
+      "conditional": true,
+      "file_offset": 856,
+      "flow_kind": "conditional_branch",
+      "frontiers": [],
+      "mnemonic": "bne",
+      "mode": "arm",
+      "op_str": "#0x800032c",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 812,
+          "kind": "branch_target",
+          "mode": "arm"
+        },
+        {
+          "file_offset": 860,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "4bd61a2510c4631c74b00542830faf4c5cdfac42c08d3c19b04f9db6b5a279d0",
+      "conditional": false,
+      "file_offset": 860,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "sub",
+      "mode": "arm",
+      "op_str": "r0, r0, #1",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 864,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7a0b57d77c48d547075dc5561486e2e5582de7768cc3da35536a3cf972c93ed4",
+      "conditional": false,
+      "file_offset": 864,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "strb",
+      "mode": "arm",
+      "op_str": "r0, [r5]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 868,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7a4f87d45cd2a43b194c7d3ac9131096dc9f5a478b7a22bca3997b4adfb37f58",
+      "conditional": false,
+      "file_offset": 868,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0xc]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 872,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "6c9b305ab89bccbfdcc2724f2bb7c14c447e9c11a7d2a292e49696501799b450",
+      "conditional": false,
+      "file_offset": 872,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "msr",
+      "mode": "arm",
+      "op_str": "spsr_fc, r0",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 876,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "5c7e153423fc1747bc3a30cd823106c1645766db514b4e156aa7c10656fba9e8",
+      "conditional": false,
+      "file_offset": 876,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r0, [r2, #0x10]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 880,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "0b7a03271f45ba1f542ee0bec37cbcaec5eeae35bf976caec7def40ab060f2a3",
+      "conditional": false,
+      "file_offset": 880,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r1, [r2, #0x18]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 884,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "dc7ecdb1f590e00a77e36236397420c426a806a325bc5ba97b2af0fd3c5ef779",
+      "conditional": false,
+      "file_offset": 884,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [r2, #0x1c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 888,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "ab11e1c602a637dfd547ba3e3cf65eab68366b9e2d633ef2c09f5538dda4f827",
+      "conditional": false,
+      "file_offset": 888,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r4, [r2, #0x20]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 892,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "7f580ddea966b26123285e8cb2f416f752e4065645d392e98b80daf0f9da2acd",
+      "conditional": false,
+      "file_offset": 892,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r5, [r2, #0x24]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 896,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "8786951bba30c4bfe981e3bd0cc8067e2b3af9e0e1e748d3e4018c6f328bac5e",
+      "conditional": false,
+      "file_offset": 896,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r6, [r2, #0x28]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 900,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "298d2020d65b785455e57a62569bb28a302958d2ae789ab2deaa947f5ed538e0",
+      "conditional": false,
+      "file_offset": 900,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r7, [r2, #0x2c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 904,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "8ec8e5b99027f4a59cb49597031f1dce6a0304da9e3e2ad37a8e0d38d0ac17db",
+      "conditional": false,
+      "file_offset": 904,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r8, [r2, #0x30]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 908,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "9355818be05d683d717477f134cbf298cb18570cc05fc110920550c2756bdf50",
+      "conditional": false,
+      "file_offset": 908,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "sb, [r2, #0x34]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 912,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "0f2ae5f2082a2533826bbe750063bccdf30efd65975cdbf32826770f2f6493f8",
+      "conditional": false,
+      "file_offset": 912,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "sl, [r2, #0x38]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 916,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "2e035836815644a8226bc39d64d1059bb0bbca297b2e082220269c6a9a74fd0e",
+      "conditional": false,
+      "file_offset": 916,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "fp, [r2, #0x3c]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 920,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "e5e0d7113bb9c6d2fcd91c2534a2ce3ca2e4ca8da79a4a3c57a1d6ecc5c64017",
+      "conditional": false,
+      "file_offset": 920,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "ip, [r2, #0x40]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 924,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "dfd79f35d7d4921a52947f4d7d898a00d5771eb277020e6dca433c9ee568f557",
+      "conditional": false,
+      "file_offset": 924,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "sp, [r2, #4]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 928,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "617f4c45b5301d243735f9fbaf28de28537d621b70954b881e568c3db35b3be1",
+      "conditional": false,
+      "file_offset": 928,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r2, [r2, #0x14]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 932,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "conditional": false,
+      "file_offset": 932,
+      "flow_kind": "return",
+      "frontiers": [],
+      "mnemonic": "bx",
+      "mode": "arm",
+      "op_str": "lr",
+      "size": 4,
+      "successors": []
+    },
+    {
+      "bytes_sha256": "6d7366353267691d70249baf61795dfb15a51556bc8e355bbdf4ec5c520ac548",
+      "conditional": false,
+      "file_offset": 936,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x28]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 940,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "d2303a4fc3c96a5e2b5eccb4368298b1caa857f6ffddae509d5d0d612afa7c64",
+      "conditional": false,
+      "file_offset": 940,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "sp, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 944,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "6f82b5899173b502311656b5ff147088d924cf4ffeb9f74eb6ceb24c0b501bbe",
+      "conditional": false,
+      "file_offset": 944,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "r3, [pc, #0x24]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 948,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "aab639134e8fdc61253741a4908cdeff32f6a30bddd7fbada0bffd460c7b7d35",
+      "conditional": false,
+      "file_offset": 948,
+      "flow_kind": "linear",
+      "frontiers": [],
+      "mnemonic": "ldr",
+      "mode": "arm",
+      "op_str": "lr, [r3]",
+      "size": 4,
+      "successors": [
+        {
+          "file_offset": 952,
+          "kind": "fallthrough",
+          "mode": "arm"
+        }
+      ]
+    },
+    {
+      "bytes_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "conditional": false,
+      "file_offset": 952,
+      "flow_kind": "return",
+      "frontiers": [],
+      "mnemonic": "bx",
+      "mode": "arm",
+      "op_str": "lr",
+      "size": 4,
+      "successors": []
+    }
+  ],
+  "limitations": [
+    "The fixed BL/BX-pc/ARM-B spine proves the ROM root, but the full reset-to-call runtime path is not established.",
+    "Only the independently closed 0x24C..0x3BC ARM worklist and its nine consumed literals are classified.",
+    "The skipped 0x9C56E..0x9C570 alignment bytes, sibling veneer, RAM values, and surrounding 0x24C..0x9F2E region remain outside this claim.",
+    "Static reachability does not prove natural execution, timing behavior, mGBA replay, or physical-GBA behavior."
+  ],
+  "literal_bindings": [
+    {
+      "literal_offset": 956,
+      "load_offset": 588,
+      "value": "0x03000D18"
+    },
+    {
+      "literal_offset": 960,
+      "load_offset": 592,
+      "value": "0x03000A88"
+    },
+    {
+      "literal_offset": 964,
+      "load_offset": 600,
+      "value": "0x03002E1C"
+    },
+    {
+      "literal_offset": 968,
+      "load_offset": 608,
+      "value": "0x03002E20"
+    },
+    {
+      "literal_offset": 972,
+      "load_offset": 632,
+      "value": "0x03000D18"
+    },
+    {
+      "literal_offset": 976,
+      "load_offset": 636,
+      "value": "0x03000A84"
+    },
+    {
+      "literal_offset": 980,
+      "load_offset": 644,
+      "value": "0xFFFFFFFF"
+    },
+    {
+      "literal_offset": 984,
+      "load_offset": 936,
+      "value": "0x03002E20"
+    },
+    {
+      "literal_offset": 988,
+      "load_offset": 944,
+      "value": "0x03002E1C"
+    }
+  ],
+  "producer_chain": {
+    "excluded_sibling": {
+      "part_of_root": false,
+      "range": [
+        640372,
+        640380
+      ],
+      "sha256": "9da7a0a5140808bec385f359df25633c88e2af77824236cf5146be8661086e49",
+      "target": "0x0800026C"
+    },
+    "interwork_spine": [
+      {
+        "gba_range": [
+          "0x08061086",
+          "0x0806108A"
+        ],
+        "kind": "thumb_bl",
+        "range": [
+          397446,
+          397450
+        ],
+        "sha256": "589051c73628c96114c0977c1ee91cd7446f42932dfeed31936f351e436d58b7",
+        "size": 4,
+        "target": "0x0809C56C"
+      },
+      {
+        "gba_range": [
+          "0x0809C56C",
+          "0x0809C56E"
+        ],
+        "kind": "thumb_bx_pc",
+        "range": [
+          640364,
+          640366
+        ],
+        "sha256": "aa1170db7a37e96c7cd2677a368bc6541819794ef3984f1d91b8b27914201f6e",
+        "size": 2,
+        "target": "0x0809C570"
+      },
+      {
+        "gba_range": [
+          "0x0809C570",
+          "0x0809C574"
+        ],
+        "kind": "arm_b",
+        "range": [
+          640368,
+          640372
+        ],
+        "sha256": "979a6ff29e93c31c8a5fd2a1d6502c75b4ae36e8dff16a0b6cabdd4d1a88e33e",
+        "size": 4,
+        "target": "0x0800024C"
+      }
+    ],
+    "skipped_padding_range": [
+      640366,
+      640368
+    ],
+    "skipped_padding_sha256": "3e39ed78e50103716c788d4147df413950e5eba73c6e33acd923f15865795676",
+    "unique_arm_b_producers": [
+      640368
+    ],
+    "unique_thumb_bl_producers": [
+      397446
+    ],
+    "veneer_range": [
+      640364,
+      640372
+    ],
+    "veneer_sha256": "bbf8fd2c580d0ac6a30f6022fb477322a80a12596a521f36877ea2858f6f773b"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root": {
+    "entry_sha256": "8a04c2e346e7375c2cf164f2b0e91ba8c325ffdd38c50e62ec922b266aa6c4dd",
+    "entry_size": 4,
+    "file_offset": 588,
+    "frontier_count": 0,
+    "gba_address": "0x0800024C",
+    "mode": "arm",
+    "reachable_block_count": 8,
+    "reachable_instruction_bytes": 368,
+    "reachable_instruction_count": 92,
+    "root_id": "root-arm-00024c",
+    "traversal_status": "closed"
+  },
+  "schema": "rom-boot-interwork-v1",
+  "scope": {
+    "arm_root_static_cfg_closed": true,
+    "armv4t_instruction_set_enforced": true,
+    "consumed_literal_pool_complete": true,
+    "direct_producer_denominator_complete": true,
+    "fixed_interwork_spine_verified": true,
+    "physical_gba_verified": false,
+    "ram_targets_classified_as_code": false,
+    "reset_to_root_path_complete": false,
+    "runtime_reachability_complete": false,
+    "skipped_interwork_padding_classified": false,
+    "surrounding_40k_region_classified": false
+  },
+  "summary": {
+    "arm_instruction_bytes": 368,
+    "arm_instruction_count": 92,
+    "basic_block_count": 8,
+    "classified_bytes": 414,
+    "closed_root_count": 1,
+    "coverage_claim_count": 5,
+    "edge_count": 10,
+    "frontier_count": 0,
+    "literal_binding_count": 9,
+    "literal_pool_bytes": 36,
+    "producer_instruction_bytes": 10,
+    "producer_instruction_count": 3,
+    "range_overlap_bytes": 0,
+    "root_count": 1
+  }
+}

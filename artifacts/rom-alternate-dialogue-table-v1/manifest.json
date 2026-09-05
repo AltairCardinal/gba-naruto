@@ -1,0 +1,35 @@
+{
+  "artifact_schema": "rom-alternate-dialogue-table-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "alternate-dialogue-table.json": "62576a9d495fb143575f1a9be43816d78806910ea3840db8305e05f4050f696e",
+    "alternate-dialogue-text.bin": "256d059e355d1a4a5af65416f40680bcb2eacdb397e1c71b6d5353522bf954a5"
+  },
+  "historical_coverage_reference": {
+    "live_projection_verified": false,
+    "observed_during_this_build": false,
+    "path": "sequel/rom-byte-coverage.json",
+    "projection_gate": "deferred_to_coverage_auditor",
+    "sha256": "b71a91d1e3c469a884f6d434a82ce23e751e201e83728e6ffc040a6226bfed52"
+  },
+  "limitations": [
+    "computed and indirect producers of 0x080914D8 are not exhausted",
+    "natural completeness of every entry path is not claimed",
+    "Unicode decoding, editing, write-back, relocation, free space, and allocatable space are not claimed"
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_alternate_dialogue_table.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-alternate-dialogue-table-v1"
+    ],
+    "exporter_sha256": "699bc3946c56ce06497a497e4a0f210b80f3edf8a0e4745b759ebea6cdf3b01c",
+    "test_sha256": "9edd44c1b4b11f18e6c65c1e0098890dd1966651d40195b69647e3d57210804a",
+    "verifier_sha256": "e0e72584e5aef7d6d55f8b9fa6498c67e01f2bb1f849fdbda0848152a82967da"
+  },
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "git-artifact-promotion-v1"
+}

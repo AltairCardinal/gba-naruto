@@ -1,0 +1,22 @@
+...F..........
+======================================================================
+FAIL: test_combined_cfg_aggregate_is_derived_from_all_packet_claims (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketQuickProjectionTests.test_combined_cfg_aggregate_is_derived_from_all_packet_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 147, in test_combined_cfg_aggregate_is_derived_from_all_packet_claims
+    self.assertEqual(CFG_EXPECTED,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+                     {key: aggregate[key] for key in CFG_EXPECTED})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'cfg[180 chars]6': 'dc8965eafb1970b019302705d489ec4233a0d2193[20 chars]b4b'} != {'cfg[180 chars]6': 'c8ffed470f28393f8a829d3312ac74083d60ae4e7[20 chars]f11'}
+  {'cfg_code_claim_kind_count': 54,
+-  'cfg_code_claim_kind_denominator_sha256': 'dc8965eafb1970b019302705d489ec4233a0d21933560038b319cb31c79dcb4b',
++  'cfg_code_claim_kind_denominator_sha256': 'c8ffed470f28393f8a829d3312ac74083d60ae4e719d82614993d6b973fa3f11',
+   'cfg_primary_claim_count': 4059,
+   'cfg_promoted_unknown_bytes': 174046,
+   'cfg_reachable_thumb_code_bytes': 173058}
+
+----------------------------------------------------------------------
+Ran 14 tests in 331.545s
+
+FAILED (failures=1)

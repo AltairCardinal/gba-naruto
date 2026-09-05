@@ -514,12 +514,17 @@ def verify_battle_effect_sequence_bindings(
     root = Path(root)
     artifact_dir = Path(artifact_dir)
     rom = (root / "rom/base.gba").read_bytes()
+    empty = {
+        "schema": "battle-effect-sequence-bindings-verification-v1",
+        "verified": False,
+        "verified_runtime_state_bindings": 0,
+        "verified_active_action_bindings": 0,
+        "verified_ninja_tool_bindings": 0,
+        "verified_sequences": 0,
+    }
     if _sha256(rom) != ROM_SHA256:
         return {
-            "verified_runtime_state_bindings": 0,
-            "verified_active_action_bindings": 0,
-            "verified_ninja_tool_bindings": 0,
-            "verified_sequences": 0,
+            **empty,
             "errors": ["rom.sha256: unexpected base ROM"],
         }
     errors: list[str] = []
@@ -527,10 +532,7 @@ def verify_battle_effect_sequence_bindings(
         expected = _expected_manifest(rom)
     except ValueError as error:
         return {
-            "verified_runtime_state_bindings": 0,
-            "verified_active_action_bindings": 0,
-            "verified_ninja_tool_bindings": 0,
-            "verified_sequences": 0,
+            **empty,
             "errors": [str(error)],
         }
     path = artifact_dir / "manifest.json"
@@ -538,14 +540,13 @@ def verify_battle_effect_sequence_bindings(
         actual = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         return {
-            "verified_runtime_state_bindings": 0,
-            "verified_active_action_bindings": 0,
-            "verified_ninja_tool_bindings": 0,
-            "verified_sequences": 0,
+            **empty,
             "errors": [f"manifest.json: {error}"],
         }
     _compare(expected, actual, "manifest", errors)
     return {
+        "schema": "battle-effect-sequence-bindings-verification-v1",
+        "verified": not errors,
         "verified_runtime_state_bindings": (
             0 if errors else RUNTIME_STATE_COUNT
         ),

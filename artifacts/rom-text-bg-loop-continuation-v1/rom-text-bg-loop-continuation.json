@@ -1,0 +1,301 @@
+{
+  "coverage_baseline": {
+    "historical_sha256": "e48c8f6d0df1d3469be2336caa71f628d82a51d4e637d6df42ebded412359c36",
+    "observed_during_artifact_build": true,
+    "path": "sequel/rom-byte-coverage.json"
+  },
+  "opaque_boundary_owner": {
+    "primary_claim_ids": [
+      "verified-reuse-wram-selection-bg-setup-08acf2"
+    ],
+    "primary_class": "consumer_code_slice",
+    "range": [
+      568562,
+      568584
+    ]
+  },
+  "producer_denominator": {
+    "forms": {
+      "aligned_arm_pointer": [],
+      "arm_b_bl": [],
+      "thumb_b": [],
+      "thumb_bcond": [],
+      "thumb_bl": [
+        570948
+      ],
+      "thumb_pointer": []
+    },
+    "matching_producer_count": 1,
+    "producer_bytes_sha256": "f7e047cc350bda582135e51f36c556fb0e6445de6ee9c286ae9383c6bbefdc7a",
+    "producer_raw_hex": "fff740fb",
+    "target_file_offset": 568520
+  },
+  "promotion": {
+    "batch": "rom-text-bg-loop-continuation-v1",
+    "claims": [
+      {
+        "bytes_sha256": "63b9d3ea83926af1934f0941783b87c11fd20e4f1d574077042c433103444b60",
+        "claim_kind": "reachable_thumb_code",
+        "id": "text-bg-loop-continuation-code",
+        "kind": "reachable_thumb_code",
+        "mode": "thumb",
+        "primary_class": "armv4t_text_bg_loop_continuation_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "rom-text-bg-loop-continuation-v1",
+        "range": [
+          568520,
+          568562
+        ],
+        "role": "primary"
+      },
+      {
+        "bytes_sha256": "bcdc220c3e327144ba44963a55291fe4bf8d4357ca1de84904b883b8bb1f4525",
+        "claim_kind": "consumed_literal_word",
+        "id": "text-bg-loop-continuation-literals",
+        "kind": "consumed_literal_words",
+        "primary_class": "armv4t_text_bg_loop_continuation_consumed_literal_word",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "rom-text-bg-loop-continuation-v1",
+        "range": [
+          569012,
+          569024
+        ],
+        "role": "primary"
+      }
+    ],
+    "code_bytes": 42,
+    "literal_bytes": 12,
+    "promotion_bytes": 54
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-text-bg-loop-continuation-v1",
+  "scope": {
+    "adjacent_padding_or_free_space": false,
+    "code_after_0x08acf2": false,
+    "editing_relocation_or_writeback": false,
+    "literal_business_semantics": false,
+    "natural_runtime_reachability": false
+  },
+  "source_membership": {
+    "instruction_bytes": 130,
+    "instruction_count": 55,
+    "natural_entry_callers": [
+      587844,
+      588292
+    ],
+    "packed_sha256": "bd33f635a92ec41c617e3638c0c3f7b0183c8f5b80cd52414da2038d3e323d97",
+    "path_ranges": [
+      [
+        570764,
+        570890
+      ],
+      [
+        570948,
+        570952
+      ]
+    ],
+    "producer_instruction_membership_proven": true,
+    "root_file_offset": 570764,
+    "semantic_instruction_vector_sha256": "be2a286014fa336d32da7ac145f3971617514e36bcab632c48cbd36067203675",
+    "terminal_branch": {
+      "file_offset": 570888,
+      "target_file_offset": 570948
+    },
+    "upstream_artifact": "artifacts/residual-text-bg-tilemap-resource-ownership-v1",
+    "upstream_manifest_sha256": "a4db6c9ecfb5bf1d4a408630900a1d6b061f0a04aa30191479522904a71b8ccc",
+    "upstream_payload_sha256": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741",
+    "upstream_verified": true
+  },
+  "source_owner": {
+    "primary_claim_ids": [
+      "verified-reuse-text-bg-loop-link-08b640"
+    ],
+    "primary_class": "consumer_code_slice",
+    "range": [
+      570944,
+      570958
+    ]
+  },
+  "target_local_cfg": {
+    "basic_block_count": 1,
+    "boundary": {
+      "edge_kind": "opaque_boundary",
+      "reason": "accepted_owner_beginning",
+      "source_file_offset": 568560,
+      "target_file_offset": 568562
+    },
+    "code_bytes": 42,
+    "code_bytes_sha256": "63b9d3ea83926af1934f0941783b87c11fd20e4f1d574077042c433103444b60",
+    "code_range": [
+      568520,
+      568562
+    ],
+    "frontier_count": 0,
+    "instruction_count": 21,
+    "literal_bindings": [
+      [
+        568532,
+        569012,
+        33564800
+      ],
+      [
+        568534,
+        569016,
+        50331724
+      ],
+      [
+        568548,
+        569016,
+        50331724
+      ],
+      [
+        568552,
+        569020,
+        50331732
+      ]
+    ],
+    "literal_bytes": 12,
+    "literal_bytes_sha256": "bcdc220c3e327144ba44963a55291fe4bf8d4357ca1de84904b883b8bb1f4525",
+    "literal_range": [
+      569012,
+      569024
+    ],
+    "literal_reference_count": 4,
+    "mode": "thumb",
+    "root_file_offset": 568520,
+    "semantic_instruction_vector": [
+      [
+        568520,
+        2,
+        "push",
+        "{r4, r5, r6, r7, lr}"
+      ],
+      [
+        568522,
+        2,
+        "mov",
+        "r7, sl"
+      ],
+      [
+        568524,
+        2,
+        "mov",
+        "r6, sb"
+      ],
+      [
+        568526,
+        2,
+        "mov",
+        "r5, r8"
+      ],
+      [
+        568528,
+        2,
+        "push",
+        "{r5, r6, r7}"
+      ],
+      [
+        568530,
+        2,
+        "sub",
+        "sp, #0x18"
+      ],
+      [
+        568532,
+        2,
+        "ldr",
+        "r7, [pc, #0x1dc]"
+      ],
+      [
+        568534,
+        2,
+        "ldr",
+        "r1, [pc, #0x1e0]"
+      ],
+      [
+        568536,
+        2,
+        "ldrh",
+        "r0, [r1]"
+      ],
+      [
+        568538,
+        2,
+        "movs",
+        "r2, #0xa0"
+      ],
+      [
+        568540,
+        2,
+        "lsls",
+        "r2, r2, #3"
+      ],
+      [
+        568542,
+        2,
+        "mov",
+        "sb, r2"
+      ],
+      [
+        568544,
+        2,
+        "mov",
+        "r1, sb"
+      ],
+      [
+        568546,
+        2,
+        "orrs",
+        "r0, r1"
+      ],
+      [
+        568548,
+        2,
+        "ldr",
+        "r2, [pc, #0x1d0]"
+      ],
+      [
+        568550,
+        2,
+        "strh",
+        "r0, [r2]"
+      ],
+      [
+        568552,
+        2,
+        "ldr",
+        "r0, [pc, #0x1d0]"
+      ],
+      [
+        568554,
+        2,
+        "movs",
+        "r1, #0"
+      ],
+      [
+        568556,
+        2,
+        "mov",
+        "r8, r1"
+      ],
+      [
+        568558,
+        2,
+        "str",
+        "r1, [r0]"
+      ],
+      [
+        568560,
+        2,
+        "str",
+        "r1, [r0, #4]"
+      ]
+    ],
+    "semantic_instruction_vector_sha256": "4854e8f9cb9eb8189929ce9e2b3f078b651b73b29c7e0ebc220717e6ae89f14f",
+    "unique_literal_word_count": 3
+  }
+}

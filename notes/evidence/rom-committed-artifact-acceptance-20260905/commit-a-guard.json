@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 90385,
+  "peak_tree_rss_mib": 0.88671875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/bin/sh",
+    "-c",
+    "git -c core.hooksPath=.githooks commit -m \"Verify frozen legacy ROM artifact receipts\" > build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/commit-a.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-05T09:47:19.106396Z",
+  "finished_at": "2026-09-05T09:47:20.160954Z"
+}
