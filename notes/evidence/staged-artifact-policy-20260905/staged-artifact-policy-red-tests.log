@@ -1,0 +1,79 @@
+.FF..FFFFFF
+======================================================================
+FAIL: test_accepts_structured_hash_and_size_receipt (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_accepts_structured_hash_and_size_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 65, in test_accepts_structured_hash_and_size_receipt
+    self.assertEqual(0, completed.returncode, completed.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : artifact-policy: artifacts/new-runtime: hash mismatch for asset.bin
+
+
+======================================================================
+FAIL: test_checks_staged_manifest_even_if_worktree_manifest_is_invalid (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_checks_staged_manifest_even_if_worktree_manifest_is_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 109, in test_checks_staged_manifest_even_if_worktree_manifest_is_invalid
+    self.assertEqual(0, completed.returncode, completed.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : artifact-policy: artifacts/new-runtime: invalid manifest.json: Expecting value: line 1 column 1 (char 0)
+
+
+======================================================================
+FAIL: test_rejects_corrupt_staged_payload_even_if_worktree_is_restored (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_corrupt_staged_payload_even_if_worktree_is_restored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 102, in test_rejects_corrupt_staged_payload_even_if_worktree_is_restored
+    self.assertNotEqual(0, completed.returncode)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_rejects_malformed_structured_receipts (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_malformed_structured_receipts) (receipt={'sha256': 'd59386e0ae435e292fbe0ebcdb954b75ed5fb3922091277cb19f798fc5d50718', 'size': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 93, in test_rejects_malformed_structured_receipts
+    self.assertIn("malformed file receipt", completed.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'malformed file receipt' not found in 'artifact-policy: artifacts/new-runtime: hash mismatch for asset.bin\n'
+
+======================================================================
+FAIL: test_rejects_malformed_structured_receipts (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_malformed_structured_receipts) (receipt={'sha256': 'd59386e0ae435e292fbe0ebcdb954b75ed5fb3922091277cb19f798fc5d50718'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 93, in test_rejects_malformed_structured_receipts
+    self.assertIn("malformed file receipt", completed.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'malformed file receipt' not found in 'artifact-policy: artifacts/new-runtime: hash mismatch for asset.bin\n'
+
+======================================================================
+FAIL: test_rejects_malformed_structured_receipts (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_malformed_structured_receipts) (receipt={'sha256': 'd59386e0ae435e292fbe0ebcdb954b75ed5fb3922091277cb19f798fc5d50718', 'size': 5, 'extra': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 93, in test_rejects_malformed_structured_receipts
+    self.assertIn("malformed file receipt", completed.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'malformed file receipt' not found in 'artifact-policy: artifacts/new-runtime: hash mismatch for asset.bin\n'
+
+======================================================================
+FAIL: test_rejects_staged_size_mismatch (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_staged_size_mismatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 73, in test_rejects_staged_size_mismatch
+    self.assertIn("size mismatch", completed.stdout)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'size mismatch' not found in 'artifact-policy: artifacts/new-runtime: hash mismatch for asset.bin\n'
+
+======================================================================
+FAIL: test_rejects_staged_symlink_even_if_worktree_is_regular (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_rejects_staged_symlink_even_if_worktree_is_regular)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 120, in test_rejects_staged_symlink_even_if_worktree_is_regular
+    self.assertNotEqual(0, completed.returncode)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.888s
+
+FAILED (failures=8)

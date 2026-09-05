@@ -1,0 +1,33 @@
+{
+  "schema": "staged-artifact-policy-tdd-receipts-v1",
+  "scope": "new artifact directories in immutable baseline and staged Git tree snapshots; does not freeze external edits after checker returns",
+  "files": {
+    "staged-artifact-policy-red-tests.log": {
+      "sha256": "342e43312bd213e93b35f23a5b6c003e6faa9b4d36a1d05ea4d1efcb5892eb31",
+      "size_bytes": 6210
+    },
+    "staged-artifact-policy-green-tests.log": {
+      "sha256": "d0c5466537226d884517f7880fcd047b7c9dad7c76692552ae80b5237cf6fdd7",
+      "size_bytes": 107
+    },
+    "staged-artifact-boundary-red-tests.log": {
+      "sha256": "93a9e4952ca2fe2e69ac0cf482e5035050b2c2c9c6e0f49c2403a238439fdf56",
+      "size_bytes": 2275
+    },
+    "staged-artifact-boundary-green-tests.log": {
+      "sha256": "e71ae72f57e75aed47790a39391b94ceb1c659c4b6775df938619d8a7f60c94f",
+      "size_bytes": 110
+    },
+    "staged-artifact-policy-refactor-tests.log": {
+      "sha256": "cddb649b04c782dc82f7f97791eb5e3bca85ed68e00bf2616edcf6b8bf640e5b",
+      "size_bytes": 110
+    }
+  },
+  "implementation": {
+    "tools/check_staged_artifact_policy.py": "4bf8661ba49bb7ff60f9d74e9d145abe46b26614a5937247cf91b81307778f3a",
+    "tests/test_check_staged_artifact_policy.py": "597feb8b842b3964999e44a14bd2969071c4c5d2762be7eb481a3df0b0453c8c"
+  },
+  "final_test_count": 11,
+  "final_tests_passed": true,
+  "final_read_only_review": "Sol medium: two reported P1 fixed, no new P0/P1 in final differential review"
+}

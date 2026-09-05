@@ -1,0 +1,32 @@
+FFF
+======================================================================
+FAIL: test_head_advance_during_check_cannot_hide_new_artifact (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_head_advance_during_check_cannot_hide_new_artifact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 145, in test_head_advance_during_check_cannot_hide_new_artifact
+    self.assertTrue(any("missing manifest.json" in error for error in errors), errors)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory) (kind='blob')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 164, in test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory
+    self.assertNotEqual(0, completed.returncode)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory (tests.test_check_staged_artifact_policy.CheckStagedArtifactPolicyTests.test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory) (kind='symlink')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_check_staged_artifact_policy.py", line 164, in test_baseline_blob_or_symlink_does_not_exempt_new_artifact_directory
+    self.assertNotEqual(0, completed.returncode)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.873s
+
+FAILED (failures=3)
