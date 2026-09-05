@@ -1,23 +1,27 @@
 # ROM 字节级语义逆向当前交接（2026-09-05）
 
-## 最新恢复点：A/B已提交，修复干净检出的历史合同依赖
+## 最新恢复点：A/B/C已提交，干净检出的证据闭包验收通过
 
-A=`47d9a60e668a5c3fe6e1123524864d21a2c93545`，91个精确文件，干净A的48项测试和
-独立bundle verifier通过。B=`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，835文件，
-85项既有工具回归通过，430个Python文件可编译，实际hook通过。两处历史exporter行尾
-空格因artifact固定源码哈希保留，格式例外及原始诊断已存入永久收据。
+- A=`47d9a60e668a5c3fe6e1123524864d21a2c93545`：固定历史身份验收包，91文件。
+- B=`80faaebd2d441e94afbe7f0c7921609659f4d0fe`：ROM证据闭包，835文件；85项既有
+  工具回归、430个Python源码编译通过。两处历史exporter行尾空格因原artifact固定源码
+  哈希保留，例外及原始诊断已归档。
+- C=`37bfe8bc40479040f25a5ab57960a8d3c9623c6f`：补三份原始运行合同与初始化，36文件。
+  11项TDD/consumer集成通过。新检出必须先运行
+  `python3 tools/prepare_rom_verifier_contracts.py --restore`，详见checkout setup文档。
+- 干净C：68/68测试、64历史根/160个Git成员、282固定输入的逐字节gzip重建通过。
+  独立报告SHA `42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c`，
+  重建包SHA `184f34a1871e7d451b429ecab0c6e1b9502080665e96db5290ac108d25fa0b93`。
+  最终guard10:45:01Z–10:45:39Z成功，无降级，峰值406.28125MiB；clean git status为空。
+  初次B缺合同及初次C脚本将无关submodule误当blob的失败均保留，没有覆盖原始日志。
 
-B的干净检出未通过：audit_rom_byte_coverage导入时，CgbSound verifier仍从ignored
-build路径读取CONTRACT.json。MP2K dispatcher和CGB helper也有同类实际读取依赖。
-三份原始合同合计27,865B已逐字节复制到tools/data/rom-verifier-contracts-v1；恢复入口
-及失败关闭测试见`docs/rom-verifier-checkout-setup.md`。旧工具、manifest、canonical、
-proof和A授权包均保持原字节；下一步提交初始化修复，再在干净检出恢复并重跑失败检查。
-
+永久收据：`notes/evidence/rom-committed-artifact-acceptance-20260905/`，56文件加manifest，
+manifest SHA=`8272ca6c8f2dc634dabf625e0eddc14f4a18b077d9d6d513c4d6aff53d26b3ba`；
+运行输入TDD收据另见`notes/evidence/rom-verifier-runtime-inputs-20260905/`。
 提交run为`build/experiments/active/committed-artifact-acceptance/post-selector-repair-20260905/`，
-clean-checkout当前位于B，失败日志为clean-b-replay.log/clean-b-tests.stderr及对应guard。
-修复run为`build/experiments/active/verifier-runtime-inputs/clean-checkout-repair-20260905/`。
-恢复前实时核对Goal/额度/代理/Git；最新余量73%，没有running heavy，主index仍为空。
-本仓库无持久hook，A/B使用`git -c core.hooksPath=.githooks commit`显式启用已有入口。
+`clean-checkout`仍在C，可复用；`clean-c-v2-receipt.json`固定全部提交、输入及结果身份。
+当前余量73%，没有running heavy；主index为空时再开始下一包。本仓库无持久hook，
+各次提交均用`git -c core.hooksPath=.githooks commit`显式启用现有入口，未push。
 
 canonical/proof仍为1c6af01a…df584b6 / c2862ea5…4857cbb，6,203,707 classified /
 87,749 unknown。123项selector修复后的完整formal在08:40:40Z–09:21:38Z成功结束：
@@ -25,9 +29,13 @@ canonical/proof仍为1c6af01a…df584b6 / c2862ea5…4857cbb，6,203,707 classif
 永久报告/guard位于notes/evidence/rom-evidence-selector-repair-20260905，SHA分别为
 `aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc` /
 `3e1722f8979fa68723acf3e5940cf7eacd5beaabde6d19c2c14bf277a6736c54`。
-当前只补原始运行输入，不改变上述正式输入；不要重复执行已结束的full formal。
+提交复验只补原始运行输入，已核对正式输入字节一致；没有重跑已结束的full formal。
 
-下文提交闭包预检和旧106/96结果为历史过程，由本段状态取代。
+下一步优先冻结59EAE0两consumer的分域逻辑读取候选：索引0..255只拟认领每24B中的
+前22B，索引256..503仅前6B；当前unknown交集估计2,500B，尚无新独立verifier，不能晋升。
+不得把第二consumer的字段域外推至256..503，也不声明112行物理表或自然生命周期闭合。
+之后按批次处理task-callback 10B边界、三个wrapper 54B及dispatcher候选。Goal保持active。
+下文预检和旧106/96结果为历史过程，由本段当前状态取代。
 
 ## 当前恢复状态
 
@@ -86,7 +94,7 @@ structured return=0；不证明opaque callee栈/内存副作用或自然运行�
 - 本轮按TDD关闭candidate误验收及成员替换竞态两个P1，packet15/15；原始失败日志保留。
   完整经过见 `notes/rom-cfg-proven-roots-v21-20260905.md`。
 
-## 提交闭包与恢复下一步
+## 提交闭包预检（修复前历史）
 
 1. 首先实时检查Goal/账户/代理/Git。恢复点 `resume-state-after-tier2.json`，独立index
    `candidate-index-v2/v3`只保存失败预检；主index仍为空。不要将其直接复制到主index。

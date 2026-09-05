@@ -1,10 +1,12 @@
 # 历史 ROM artifact 的固定身份验收合同 v1
 
-**A/B均已提交；干净B检出发现运行合同缺口，初始化修复验收中。**
+**A/B均已提交；初始化修复C及干净检出验收通过。**
 授权提交为`47d9a60e668a5c3fe6e1123524864d21a2c93545`，其干净检出48项测试和
 独立包verifier通过。B为`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，835文件，
 实际门禁通过；干净B的coverage导入因三份旧ignored合同缺失失败，原日志保留。
-恢复流程见`docs/rom-verifier-checkout-setup.md`；完成新检出复验前不宣称提交验收完成。
+C=`37bfe8bc40479040f25a5ab57960a8d3c9623c6f`补全三份原始运行合同及恢复入口。
+干净C经准备后68项测试、64根160成员Git身份检查及282输入重建均通过；恢复流程见
+`docs/rom-verifier-checkout-setup.md`。当前committed-artifact验收闭合，87,749 unknown仍未闭合。
 此前candidate-v3因真实selector错误被拒绝，修复后的candidate-v4已通过新formal关联检查。
 正式目录为`artifacts/rom-legacy-acceptance-20260905-v1/`；完整三成员身份和64根分母
 固定在`tools/legacy_artifact_acceptance_contract.py`，不能由未提交包授权自身。

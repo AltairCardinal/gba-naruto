@@ -11,7 +11,7 @@
   task callback `0x078E38` closure 778 bytes、CFG proven-roots v21 116 bytes。
   四包已接入 canonical，Tier-2唯一formal已完成：106/106 contracts、ROM gate96/96，
   coverage errors=0；队列归零。后续123个selector与两处project摘要修复后重新formal，
-  106/96仍全通过，global blocker从177变为175。A/B历史格式迁移已提交；干净B运行输入缺口正在修复。
+  106/96仍全通过，global blocker从177变为175。A/B历史格式迁移及C运行输入修复均已提交，干净C验收通过。
 - V21 按 TDD 修复 candidate 误验收、成员替换竞态两个 P1，packet 15/15；独立 official
   verifier 连续两次 report 相同。真实 canonical/proof/永久收据集成 **9/9** 非降级通过。
 - coverage guard：2026-09-05 06:01:04Z–06:32:46Z，完成、exit 0、非降级，峰值
@@ -20,7 +20,8 @@
   `notes/evidence/rom-post-story-four-packet-tier2-20260905/`，manifest 逐文件固定哈希。
   收据测试不再依赖 Git 忽略的 `build/`。A=`47d9a60e668a5c3fe6e1123524864d21a2c93545`，
   B=`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，64历史根完整通过冻结Git对象门禁。
-  干净B的auditor导入暴露三份历史运行合同遗漏；当前以已提交原字节恢复入口修复，未push。
+  干净B的auditor导入暴露三份历史运行合同遗漏；C=`37bfe8bc40479040f25a5ab57960a8d3c9623c6f`
+  补全原字节和初始化入口。干净C恢复后68项测试、64根/160成员和282输入重建通过，未push。
 - 最新修复formal永久收据在`notes/evidence/rom-evidence-selector-repair-20260905/`，报告
   SHA为`aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc`；
   原前态和失败证据保持不变。candidate-v4已通过验真/重建并在A提交，旧candidate-v3保持拒绝。

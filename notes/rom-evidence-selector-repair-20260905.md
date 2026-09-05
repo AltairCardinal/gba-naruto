@@ -1,6 +1,8 @@
 # ROM evidence selector 修复（2026-09-05）
 
-当前：canonical/proof已采用，完整formal已通过，尚未完成committed-artifact验收。
+当前：canonical/proof已采用，完整formal已通过；A/B/C本地提交及干净检出验收已完成。
+提交与最终68项测试/身份重建收据见`notes/evidence/rom-committed-artifact-acceptance-20260905/`。
+本修复仍新增语义字节0，87,749 unknown；全局formal complete=false。
 这是历史artifact迁移独立检查发现的真实元数据修复，不增加任何ROM分类字节。
 
 ## 问题、边界与修复

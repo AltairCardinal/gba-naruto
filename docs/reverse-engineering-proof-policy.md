@@ -155,7 +155,7 @@ CLI。复用条件还要求 proof spec 已哈希绑定同一脚本，命令或�
     合计 978 bytes / 21 claims；canonical/proof/持久收据集成9/9及formal106/106 contracts均通过。
     五个2-byte holes保留unknown；callback及V21间接frontier不声明structured return。
     原始收据在 `notes/evidence/rom-post-story-four-packet-tier2-20260905/`，不依赖被忽略
-    的实验工作目录。A/B已提交，干净检出运行合同修复尚在验收；
+    的实验工作目录。A/B/C已提交且干净检出恢复、68项测试和身份重建验收通过；
   - 角色战斗视觉 1,299 个源区间：`2,023,076` 字节；覆盖 descriptor、组件、
     帧指针、时间线、动画指针、4bpp 图形与 BGR555 调色板；
   - MP2K/m4a 842 个语义区间：`887,018` 字节；覆盖空 sound-ID、song header、
@@ -549,7 +549,8 @@ CLI。复用条件还要求 proof spec 已哈希绑定同一脚本，命令或�
   123个selector修复不改变分类；两个project摘要错误已关闭。global incomplete/175blockers
   来自87,749unknown和既有bank/round-trip/发布/硬件门。
   64个历史root已由A/B固定身份迁移并提交；干净B暴露三份旧运行合同缺失，
-  需按`docs/rom-verifier-checkout-setup.md`恢复并完成干净检出验收。后续列出的报告均为历史里程碑，不能覆盖此身份。
+  C已按`docs/rom-verifier-checkout-setup.md`补全输入；干净C的68项测试、64根160成员
+  Git身份及282输入重建均通过。此次提交复验未重复执行完整formal，原始正式输入保持一致。后续列出的报告均为历史里程碑，不能覆盖此身份。
 - 当前 proof spec 配置 96 个 ROM byte gate verifier，全部具备哈希绑定和结构化
   合同；MP2K dispatcher、MP2K note allocator、M4A initializer-chain、SoundMain
   relocated CFG 及其独立 alignment-gap、

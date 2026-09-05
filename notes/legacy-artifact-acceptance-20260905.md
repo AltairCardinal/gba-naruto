@@ -1,9 +1,11 @@
 # 历史 artifact 提交验收迁移（2026-09-05，进行中）
 
-最新状态：**A与历史证据B已提交，干净检出补全运行合同中**。
+最新状态：**A/B/C已提交，干净检出恢复、68项测试与逐字节重建通过**。
 B为`80faaebd2d441e94afbe7f0c7921609659f4d0fe`，835文件，通过真实hook。
 干净B导入auditor失败，原因是CgbSound仍读取ignored CONTRACT.json；另两份同类
-合同也需恢复。见`docs/rom-verifier-checkout-setup.md`，失败收据保持原样。
+合同也需恢复。C=`37bfe8bc40479040f25a5ab57960a8d3c9623c6f`修复后，干净检出
+重建包SHA仍为184f34a1…fa0b93，独立报告SHA仍为42e1d562…1577c。最终逐文件收据在
+`notes/evidence/rom-committed-artifact-acceptance-20260905/`，历史失败收据保持原样。
 A为`47d9a60e668a5c3fe6e1123524864d21a2c93545`，91个精确文件，通过显式启用的
 `.githooks`门禁。完整三成员包身份和64根分母已填入contract；干净A检出48项测试和
 bundle verifier也通过。主index为空；下面“pins为空”等描述均保留为此前失败关闭状态。

@@ -24,6 +24,9 @@ symlink的RED固定读取竞态，改用逐级dirfd/O_NOFOLLOW。最终11项测�
 原始consumer的真实合同读取集成；两份新增Python源码可编译。
 
 原始B失败、TDD红绿和逐文件manifest保存在
-`notes/evidence/rom-verifier-runtime-inputs-20260905/`。当前状态为初始化修复已验证，
-尚待提交后的干净检出重放。当前87,749 unknown，新增语义字节0；106/96 formal旧成功
+`notes/evidence/rom-verifier-runtime-inputs-20260905/`。初始化修复C=`37bfe8bc40479040f25a5ab57960a8d3c9623c6f`已提交，
+干净C恢复成功且68项测试通过，64根/160成员Git身份及282输入重建通过。首次C脚本把
+两个无关submodule误当blob而中止；限定正式artifact成员后v2正常结束，无降级，
+峰值406.28125MiB。原始失败保留；最终收据在
+`notes/evidence/rom-committed-artifact-acceptance-20260905/`。当前87,749 unknown，新增语义字节0；106/96 formal旧成功
 收据仍绑定相同ROM、canonical、proof和verifier字节，本修复不冒充新的全量formal执行。

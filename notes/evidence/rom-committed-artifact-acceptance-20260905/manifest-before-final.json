@@ -1,0 +1,131 @@
+{
+  "authority_commit": "47d9a60e668a5c3fe6e1123524864d21a2c93545",
+  "clean_authority_tests": 48,
+  "existing_source_change_tests": 85,
+  "files": {
+    "clean-a-bundle.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "clean-a-bundle.stdout": {
+      "sha256": "42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c",
+      "size_bytes": 32894
+    },
+    "clean-a-create-guard.json": {
+      "sha256": "5d8ca8fb9e3b1c3c64c41f6d54a6b2bab8e5e9a3884d6445a521f57235963de5",
+      "size_bytes": 648
+    },
+    "clean-a-create.log": {
+      "sha256": "fab2aa2c6ed37ece5de9c346dd57644e6c534154dd10925fc5c14968f37f00b2",
+      "size_bytes": 3166
+    },
+    "clean-a-receipt.json": {
+      "sha256": "ce2d921bd8da3f900765ba323b1270d0d98e9222374b02af5eb275c6da8b771a",
+      "size_bytes": 1400
+    },
+    "clean-a-replay-guard.json": {
+      "sha256": "5cbbe1e78be7571327d85406ca2eee2e68eb19e51d677294c583e38ad40224d9",
+      "size_bytes": 591
+    },
+    "clean-a-replay.log": {
+      "sha256": "96d5f3aa6374185b0f39657381e15e523a85473dc46023bf8bc97253558b51aa",
+      "size_bytes": 103
+    },
+    "clean-a-tests.stderr": {
+      "sha256": "c36d351b9d47b499fa014dfcd12ebe10e2c0e980879732d64b18cf5dd5bf86eb",
+      "size_bytes": 9442
+    },
+    "clean-a-tests.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "commit-a-guard.json": {
+      "sha256": "7f4568cd5586b6d5d6ea393eb4225863d80c26af4529d2095773fef45698b55c",
+      "size_bytes": 563
+    },
+    "commit-a-policy-guard.json": {
+      "sha256": "a6e39632afc121f570cd3055d3da5a254a10cf0d51f098925481c8b5e5a0f342",
+      "size_bytes": 536
+    },
+    "commit-a-policy.log": {
+      "sha256": "5c95e52cc7860025e6546f806684e7ed9df0cdb07625d7ad38cbffdaee9e0b87",
+      "size_bytes": 46
+    },
+    "commit-a-staged-v2.json": {
+      "sha256": "1196ec3fa7e2e03130ce6ea48f7fceff3a4ac8733440ac55d4cc9b32b48748c6",
+      "size_bytes": 17731
+    },
+    "commit-a-staged.json": {
+      "sha256": "2976caadc6a4b3dfdeb4d05f39507a7be02bfc4f7043811e6c63aabca0609241",
+      "size_bytes": 17545
+    },
+    "commit-a.log": {
+      "sha256": "fb29c5656aa6af86f72ca81a437b1e090e5ab735ce4204439e5bfcfbf9430561",
+      "size_bytes": 8424
+    },
+    "commit-b-existing-changes-tests-guard.json": {
+      "sha256": "f6bd994eda04751e43281df386fc072286144410e763586715b73409d1babed6",
+      "size_bytes": 941
+    },
+    "commit-b-existing-changes-tests.log": {
+      "sha256": "90bba209a198f8db057ff8f42854ffe8a78a7f9d8d241703557b082a8659889f",
+      "size_bytes": 18122
+    },
+    "commit-b-format-check-resolved.json": {
+      "sha256": "697de8fc6bfa0ffff3891b6e26c6c1280f7cd648a210958ecf39a1d4010b1279",
+      "size_bytes": 911
+    },
+    "commit-b-format-check.json": {
+      "sha256": "baa3d551d7369b9ea750d037f307fb95a0eb58200a4dec14def8077f5314af53",
+      "size_bytes": 182
+    },
+    "commit-b-format-check.log": {
+      "sha256": "a2127bcc7437a79a5917c3e0b13860581ce886736fde4586223ca118551d49fa",
+      "size_bytes": 256
+    },
+    "promoted-bundle-guard.json": {
+      "sha256": "eb1ef7e23ca9c39bf248a7be6a005f9b9102110d0df3bd347908f35601dac6f2",
+      "size_bytes": 703
+    },
+    "promoted-bundle-report.json": {
+      "sha256": "42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c",
+      "size_bytes": 32894
+    },
+    "promoted-bundle.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "replay_clean_a.py": {
+      "sha256": "9f983ba14ec94a479230a3a17a5e9b199913da19769510dd48d6d0e893fb1a36",
+      "size_bytes": 2175
+    },
+    "stage_commit_a.py": {
+      "sha256": "69c71a8f533d971e14435cd7a8b256846658d58ac66806560f39660bdb8de742",
+      "size_bytes": 2627
+    }
+  },
+  "format_check": {
+    "historical_exporter_whitespace_exceptions": [
+      {
+        "manifest": "artifacts/rom-battle-sound-selector-v1/manifest.json",
+        "path": "tools/export_rom_battle_sound_selector.py",
+        "selector": "/implementation/exporter/sha256",
+        "sha256": "cea1d2d57da46a910803b32ac50b063ad4e8842e3373af3aa6a2f1230d239d03"
+      },
+      {
+        "manifest": "artifacts/rom-cfg-proven-roots-v20/manifest.json",
+        "path": "tools/export_rom_cfg_proven_roots_v20.py",
+        "selector": "/implementation/exporter_sha256",
+        "sha256": "4d701fa18c114d7544cc04f2225b2584c83b9154586e0be4c3349b017c7500fa"
+      }
+    ],
+    "maintained_whitespace_exit": 0,
+    "python_sources_compiled": 430,
+    "reason": "Do not change recorded production source hashes to format historical bytes; original trailing whitespace diagnostics retained.",
+    "status": "passed_with_explicit_immutable_byte_exceptions",
+    "syntax_errors": []
+  },
+  "schema": "committed-rom-artifact-acceptance-receipts-v1",
+  "status": "authority_commit_a_and_clean_checkout_verified_evidence_commit_b_pending",
+  "verifier_report_sha256": "42e1d5628834efdf871a175d20feeba66d915b63daae66d669ac710f9821577c"
+}

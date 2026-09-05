@@ -1,0 +1,32 @@
+artifact-policy: staged artifact check passed
+[codex/reverse-engineering 37bfe8bc4] Restore frozen ROM verifier contracts in fresh checkouts
+ 36 files changed, 5812 insertions(+), 39 deletions(-)
+ create mode 100644 docs/rom-verifier-checkout-setup.md
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/clean-b-replay-guard.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/clean-b-replay.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/clean-b-tests.stderr
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/clean-b-tests.stdout
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/commit-b-guard.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/commit-b-policy-guard.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/commit-b-policy.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/commit-b-staged-v2.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/commit-b.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v1.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v2.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v3-integration.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v4-final.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v5-ownership.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/green-v6-final.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/input-copy-identities.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/manifest.json
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/red-fifo.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/red-source-ancestor-race.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/red-temporary-ownership.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/red.log
+ create mode 100644 notes/evidence/rom-verifier-runtime-inputs-20260905/replay_clean_b.py
+ create mode 100644 notes/rom-verifier-runtime-inputs-20260905.md
+ create mode 100644 tests/test_prepare_rom_verifier_contracts.py
+ create mode 100644 tools/data/rom-verifier-contracts-v1/cgb-helper.json
+ create mode 100644 tools/data/rom-verifier-contracts-v1/cgbsound.json
+ create mode 100644 tools/data/rom-verifier-contracts-v1/mp2k-dispatcher.json
+ create mode 100644 tools/prepare_rom_verifier_contracts.py

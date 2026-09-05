@@ -29,7 +29,8 @@
 > 106/106 contracts与ROM gate96/96，coverage errors=0。formal report SHA为
 > `aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc`。
 > 队列归零，global complete=false/175 blockers；64个历史root的
-> A/B验收迁移已提交；干净B发现三份旧运行合同缺失，恢复入口与复验正在闭合。详见 `docs/reverse-engineering-handoff-current-20260905.md`。
+> A/B验收迁移及C运行合同修复已提交；干净C的68项测试、160成员Git身份和
+> 282输入逐字节重建通过，当前committed-artifact验收闭合。详见 `docs/reverse-engineering-handoff-current-20260905.md`。
 
 ---
 
