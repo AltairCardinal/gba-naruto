@@ -311,6 +311,30 @@ task/units-character-definitions` 的实测特征：
 - **中断不会丢进度**：GitHub 把已收对象留在 quarantine，下次协商会跳过它们，
   断点重推的成本很低。批量推大分支时应预期需要重试而不是一次成功。
 
+### 6.2.2 推送结果
+
+一次推完，未发生重试：
+
+```
+To github.com:AltairCardinal/gba-naruto.git
+   2139f764..4359a470  codex/butano-foundation-research
+   4c446bc7..6e129bed  task/units-character-definitions
+ * [new branch]        codex/reverse-engineering
+```
+
+线上包 15,804 个对象 / **155.99 MiB**（delta 6,124，GitHub 侧以 102 个本地对象完成
+delta 还原），速率约 145 KB/s，耗时约 16 分钟。待发原始量 534 MiB → 线上 156 MiB
+（**3.4x**）。随后补推最后一个笔记提交 `42b185a9`。
+
+四个分支均已建立 upstream 跟踪并处于同步状态。远端内容抽查通过：
+`artifacts/character-battle-visuals-v1`(251 条)、`butano-sequel/graphics`(1000 条，API
+分页上限)、`notes/evidence`(71 条)、`tools/verify_rom_small_cfg_dependency_batch.py`、
+`artifacts/s49-fidelity-20261019-v1`(106 条)。
+
+`gh api` 的 `size` 字段仍显示 73,662 KB（72 MiB）——该指标由 GitHub 侧异步重算，
+大仓库刷新有延迟，不能作为推送成功的判据；判据是 `git ls-remote --heads` 出现了
+`refs/heads/codex/reverse-engineering`。
+
 工作区清理（均经 `mavis-trash`，可从 `~/.Trash` 恢复）：
 `butano-sequel/build*`（7 个）、`butano-sequel/*.elf`（11 个）、`build/macos-mgba`、
 `artifacts/macos-mgba-20261019-v1/evidence/sentinel-base.gba`。
