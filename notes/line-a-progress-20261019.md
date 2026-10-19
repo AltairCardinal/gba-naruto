@@ -888,5 +888,113 @@ site-packages 里，venv 自己的 purelib 是空的**，workaround 于是静默
 - 它的 `AGENTS.md` 里另外几行（PNG 透明化等）仍是未提交状态，
   留在工作树里归它自己提交。
 
+---
+
+## 17. 全量套件第一轮：29 个失败的四个根因（2026-10-20 06:2x–07:0x）
+
+§14 修完 12 个测试后，全量套件（93 个测试 / 2,039 s）跑完，
+**29 个失败**。本节记录这 29 个失败的完整归因与修复。
+
+### 17.1 一个必须先记住的方法论教训
+
+**每个测试的第一个失败会遮住它后面的所有断言。**
+
+29 个失败背后实际有 **72 处**坏点：
+16 个测试在 ledger SHA 处挂掉 → 遮住了同一测试里另外 6 处
+陈旧的 `script_sha256`；6 个测试在计数里程碑处挂掉 → 遮住了
+同一测试里后面的断言。
+
+> **只按"失败清单"修是不够的**，必须**穷举每一类断言形态**，
+> 把被遮住的一并修掉，否则下一轮还会红。
+
+### 17.2 四个根因与 71 处修复
+
+| # | 根因 | 处数 | 修法 |
+| --- | --- | ---: | --- |
+| A | `evidence["sequel/rom-byte-coverage.json"]` 钉在 9-05 的 `7726d471…` | 22 | 改为**与活文件对拍**：`_sha256(ROOT / "sequel/rom-byte-coverage.json")` |
+| B | `coverage["script_sha256"]` 钉在旧版 `audit_rom_byte_coverage.py` 的 `63870355…`（本轮给它加了解释器闸门后变了） | 21 | 同上，改为与活文件对拍 |
+| C | 计数里程碑 `assertEqual(96, sum(len(item["verifiers"]) …))` 等 | 23 | 改为 `assertGreaterEqual`（原意是"只增不减"） |
+| D | **上一轮批量派生的误伤** | 5 | 按**作用域**恢复原字面量 |
+
+A/B 的修法保留了断言的**实质含义**：「spec 声称的摘要 == 文件真实摘要」，
+既不随晋升过期，又真能抓出 spec 与磁盘不一致。
+C 的 23 处里 21 处是 `sum(len(item["verifiers"]) …)`、2 处是
+`rom_gate["hash_bound_verifier_count"]` / `["contracted_verifier_count"]`；
+`cfg_proven_roots_v4_extension_code_claim_count=118`、
+`chapter_script_claim_count=92`、`adjudicated_candidate_count=114`
+这些**批次量**经对拍确认仍然成立，保持硬编码。
+
+修复脚本：`notes/evidence/reverse-proof-update-20261019-v1/repair_stale_ledger_pins.py`
+（幂等：二次运行 0 替换 / `status: no-op`；写盘前先 `ast.parse` 兜底）。
+
+### 17.3 D 类：按**键名**分类是错的，必须按**作用域**
+
+`classified_bytes` 与 `unknown_bytes` 既是**全局覆盖量**的键名，
+也出现在**单验证器批次合同**和**合成夹具**里：
+
+| 位置 | 语义 | 正确值 | 被错换成 |
+| --- | --- | ---: | --- |
+| `test_current_spec_binds_selector_text_inventory` | 单验证器合同 | 816 | 6,205,367 |
+| `test_current_spec_binds_battle_message_text_inventory` | 单验证器合同 | 2,740 | 6,205,367 |
+| `test_current_spec_binds_boot_interwork_inventory` | 单验证器合同 | 414 | 6,205,367 |
+| `test_reuses_the_already_executed_rom_coverage_audit_contract` | 合成夹具合同 | 7 | 86,089 |
+| 同上（不匹配夹具） | 合成夹具合同 | 0 | 86,089 |
+
+上一轮按**键名**批量派生，把这 5 处也换成了活账本全局量，
+**直接打破 4 个测试**——这是我方引入的真回归。
+
+> **教训（比 §14 更重要）**：
+> **「是否随晋升变化」不能只看键名，必须看它属于哪个合同作用域。**
+> 跨域撞名的键（`classified_bytes` / `unknown_bytes`）必须按**作用域**判定：
+> 全局覆盖合同 → 派生；单验证器合同 / 合成夹具 → 保持字面量。
+
+### 17.4 元守卫补强：从 6 项到 9 项
+
+`tests/test_audit_reverse_engineering_coverage_count_liveness.py` 新增三道防线：
+
+1. `test_no_test_source_pins_a_stale_digest` —— 任何测试文件都不得把
+   **文件摘要**钉成字面量（`evidence["<path>"]` 与 `X["script_sha256"]`）。
+   注意要排除 `/summary/..._denominator_sha256` 这类**区间/分母派生哈希**，
+   它们不是文件摘要。
+2. `test_cumulative_counts_use_at_least_not_equal` —— 累计型计数不得用
+   `assertEqual` 钉死。作用域限 proof 套件模块：其他模块里的
+   `contracted_verifier_count == 1` 是**单 bank** 的稳定计数，语义不同。
+3. `test_per_verifier_contracts_do_not_use_global_derived_values` ——
+   **整字典对拍**只用于单验证器合同（全局覆盖合同永远逐键对拍），
+   所以「整字典里出现 `LIVE_COVERAGE_SUMMARY` 引用」即是越界；
+   合成夹具（`_reuse_rom_coverage_contract`）同理。
+
+另外把 `test_no_test_source_hardcodes_a_live_ledger_quantity` 的判定
+从"任何 summary 指针"收紧为"**确实绑定到活账本**的对象"：
+`<对象>["summary"][<key>]` 形态下，只有当该对象在本文件里
+从 `sequel/rom-byte-coverage.json` 读出来时才算活账本断言；
+夹具／历史收据的摘要写死是**对的**。
+
+**红绿验证**：把修复前的文件换回去，9 项守卫里**恰好 3 项变红**
+（上面三条新防线），恢复后 9/9 全绿（1.2–3.8 s）。
+
+### 17.5 越出 cron 范围的两个发现（**未修，留给用户裁决**）
+
+**发现一：`tests/` 实际有 622 个文件 / 4,487 个测试。**
+cron 说的"93 个测试"只是 `tests/test_audit_reverse_engineering_proof.py`
+**一个模块**。守卫按"活账本绑定"收紧后，在全树里精确锁定**1 处**
+同类问题：`tests/test_coverage_evidence_selector_repairs.py:66`
+（`self.coverage` 是活账本，钉着 87,749）——本轮已修为
+「`accounted_bytes == unknown_bytes + classified_bytes`」的自洽校验。
+其余 11 处经判定是**夹具／历史收据**的合法断言，未动。
+
+**发现二：池 3 晋升也打破了工具层。**
+`tools/export_rom_psg_frequency_lookup.py` 的 `_coverage_baseline()`
+在账本变化后抛 `ValueError: coverage baseline identity changed`，
+`tests/test_verify_rom_psg_frequency_lookup.py` 因此 6 个 error。
+
+**为什么本轮不修**：该脚本的 SHA-256 **被 proof 钉住**
+（`sequel/reverse-engineering-proof.json` 的 `script_sha256`），
+改它必须同步 SHA 并**再跑一次完整 formal**（本轮 3,905 s）
+才能复核；而且"导出器该不该钉住覆盖基线身份"本身是**语义决策**——
+钉住能保证"重跑得到逐字节相同的 artifact"，不钉住则让导出器
+总能对当前账本工作。**这需要用户裁决，不是我能替他假设的。**
+
+
 
 

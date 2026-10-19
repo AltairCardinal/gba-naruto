@@ -28,7 +28,9 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -98,10 +100,11 @@ def _subscript_chain(node: ast.AST) -> list[str] | None:
 def _summary_key(node: ast.AST) -> str | None:
     """把一个下标表达式解析成它指向的 summary 键名。
 
-    支持两种写法：
+    支持三种写法：
 
     - ``coverage["contract"]["assertions"]["/summary/unknown_bytes"]``
     - ``rom_gate["rom_coverage_audit"]["summary"]["unknown_bytes"]``
+    - ``coverage["summary"]["unknown_bytes"]``
     """
     keys = _subscript_chain(node)
     if not keys:
@@ -110,7 +113,125 @@ def _summary_key(node: ast.AST) -> str | None:
         return keys[-1][len("/summary/") :]
     if len(keys) >= 3 and keys[-3] == "rom_coverage_audit" and keys[-2] == "summary":
         return keys[-1]
+    if len(keys) >= 2 and keys[-2] == "summary":
+        return keys[-1]
     return None
+
+
+LIVE_LEDGER_PATH = "sequel/rom-byte-coverage.json"
+
+
+def _target_names(node: ast.AST) -> list[str]:
+    """取赋值目标的「最后一段标识符」（``cls.coverage`` → ``coverage``）。"""
+    if isinstance(node, ast.Name):
+        return [node.id]
+    if isinstance(node, ast.Attribute):
+        return [node.attr]
+    if isinstance(node, (ast.Tuple, ast.List)):
+        names: list[str] = []
+        for element in node.elts:
+            names.extend(_target_names(element))
+        return names
+    return []
+
+
+def _live_ledger_names(source: str) -> set[str]:
+    """找出本文件里**绑定到活账本**的变量名。
+
+    两步：先找出指向活账本路径的常量（例如 ``COVERAGE = ROOT / "…"``），
+    再找出读取这些常量或直接读取该路径的赋值目标。
+    """
+    tree = ast.parse(source)
+    path_globals: set[str] = set()
+    live_names: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+            continue
+        value = node.value
+        if value is None:
+            continue
+        rendered = ast.unparse(value)
+        targets = (
+            [node.target]
+            if isinstance(node, ast.AnnAssign)
+            else node.targets
+        )
+        names = [name for target in targets for name in _target_names(target)]
+        if LIVE_LEDGER_PATH in rendered:
+            live_names.update(names)
+            path_globals.update(names)
+            continue
+        # 只认「真的读了那个路径常量」的赋值：COVERAGE.read_text() / .read_bytes()
+        for name in path_globals:
+            if re.search(rf"\b{re.escape(name)}\.(read_text|read_bytes)\b", rendered):
+                live_names.update(names)
+                break
+    return live_names
+
+
+def _base_name(node: ast.AST) -> str | None:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    return None
+
+
+def _chain_base(node: ast.AST) -> ast.AST:
+    """沿下标链走到最内层的基对象。"""
+    while isinstance(node, ast.Subscript):
+        node = node.value
+    return node
+
+
+def _summary_key_scoped(node: ast.AST) -> tuple[str | None, str | None, str]:
+    """解析 summary 指针，返回 (键, 基对象名, 形态)。
+
+    形态：
+
+    - ``spec_pointer`` —— ``…["/summary/<key>"]``（来自 proof spec 的合同断言）；
+    - ``audit_summary`` —— ``…["rom_coverage_audit"]["summary"]["<key>"]``；
+    - ``direct_summary`` —— ``<对象>["summary"]["<key>"]``（直接读某个 summary）。
+    """
+    keys = _subscript_chain(node)
+    if not keys:
+        return None, None, "none"
+    if keys[-1].startswith("/summary/"):
+        return keys[-1][len("/summary/") :], _base_name(_chain_base(node)), "spec_pointer"
+    if len(keys) >= 3 and keys[-3] == "rom_coverage_audit" and keys[-2] == "summary":
+        return keys[-1], _base_name(_chain_base(node)), "audit_summary"
+    if len(keys) >= 2 and keys[-2] == "summary":
+        return keys[-1], _base_name(_chain_base(node)), "direct_summary"
+    return None, None, "none"
+
+
+def _scoped_literal_assertions(
+    source: str,
+) -> list[tuple[int, str, int, str, str | None]]:
+    """列出所有「字面量 vs summary 键」的断言，并标注形态与基对象名。
+
+    返回 (行号, 键, 字面量, 形态, 基对象名)。
+    """
+    tree = ast.parse(source)
+    found: list[tuple[int, str, int, str, str | None]] = []
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "assertEqual"
+            and len(node.args) == 2
+        ):
+            continue
+        left, right = node.args
+        for literal_side, pointer_side in ((left, right), (right, left)):
+            literal = _const_int(literal_side)
+            if literal is None:
+                continue
+            key, base, kind = _summary_key_scoped(pointer_side)
+            if key is None:
+                continue
+            found.append((node.lineno, key, literal, kind, base))
+    return found
 
 
 def _literal_assertions(source: str) -> list[tuple[int, str, int]]:
@@ -135,6 +256,144 @@ def _literal_assertions(source: str) -> list[tuple[int, str, int]]:
                 continue
             found.append((node.lineno, key, literal))
     return found
+
+
+_HEX64 = re.compile(r"[0-9a-f]{64}")
+#: 累计型计数表达式（引号无关——ast.unparse 输出单引号形式）
+#: 只匹配 `len(item['verifiers'])` 与 `*_verifier_count`，
+#: 不要泛化到任意 `len(item[...])`（那是单 artifact 的稳定字段长度）。
+_CUMULATIVE_COUNT_RE = re.compile(
+    r"len\(item\[['\"]verifiers['\"]\]\)|[\w]*verifier_count['\"]\]"
+)
+
+
+def _digest_assertions(source: str) -> list[tuple[int, str, str]]:
+    """列出所有「64 位十六进制字面量 vs 某个 spec 条目」的断言。
+
+    返回 (行号, 摘要, 目标描述)。目标描述形如
+    ``script_sha256`` 或 ``path:sequel/rom-byte-coverage.json``。
+    """
+    tree = ast.parse(source)
+    found: list[tuple[int, str, str]] = []
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "assertEqual"
+            and len(node.args) == 2
+        ):
+            continue
+        left, right = node.args
+        for literal_side, other_side in ((left, right), (right, left)):
+            if not (
+                isinstance(literal_side, ast.Constant)
+                and isinstance(literal_side.value, str)
+                and _HEX64.fullmatch(literal_side.value)
+            ):
+                continue
+            if not isinstance(other_side, ast.Subscript):
+                continue
+            key = _const_str(other_side.slice)
+            if key is None:
+                continue
+            if key == "script_sha256":
+                found.append((node.lineno, literal_side.value, "script_sha256"))
+            elif not key.startswith("/") and "/" in key:
+                # 只把「仓库相对路径」当文件摘要目标。
+                # `/summary/..._denominator_sha256` 这类 JSON pointer 是
+                # **区间/分母派生哈希**，不是文件摘要，不受本规则约束。
+                found.append((node.lineno, literal_side.value, f"path:{key}"))
+    return found
+
+
+def _cumulative_count_equalities(source: str) -> list[tuple[int, str, int]]:
+    """列出所有「把累计型计数钉成等号」的断言，返回 (行号, 表达式)。"""
+    tree = ast.parse(source)
+    found: list[tuple[int, str]] = []
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "assertEqual"
+            and len(node.args) == 2
+        ):
+            continue
+        left, right = node.args
+        for literal_side, other_side in ((left, right), (right, left)):
+            if _const_int(literal_side) is None:
+                continue
+            rendered = ast.unparse(other_side)
+            # ast.unparse 输出的是**单引号**形式，匹配必须引号无关。
+            if _CUMULATIVE_COUNT_RE.search(rendered):
+                found.append((node.lineno, rendered[:120], _const_int(literal_side)))
+    return found
+
+
+def _global_derived_in_scoped_contracts(
+    source: str,
+) -> list[tuple[int, str, str]]:
+    """找出「单验证器合同 / 合成夹具」里引用全局派生量的地方。
+
+    两种形态：
+
+    - ``assertEqual({…}, verifier["contract"]["assertions"])``——整字典对拍，
+      全局覆盖合同从不整字典对拍，所以这一定是单验证器合同；
+    - ``_reuse_rom_coverage_contract(…, contract, payload, …)``——合成夹具。
+    """
+    tree = ast.parse(source)
+    found: list[tuple[int, str, str]] = []
+
+    def mentions_global(node: ast.AST) -> bool:
+        for child in ast.walk(node):
+            if (
+                isinstance(child, ast.Subscript)
+                and isinstance(child.value, ast.Name)
+                and child.value.id == "LIVE_COVERAGE_SUMMARY"
+            ):
+                return True
+        return False
+
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "assertEqual"
+            and len(node.args) == 2
+        ):
+            continue
+        for dict_side, other_side in ((node.args[0], node.args[1]), (node.args[1], node.args[0])):
+            if not isinstance(dict_side, ast.Dict):
+                continue
+            keys = _subscript_chain(other_side)
+            if not keys or "assertions" not in keys:
+                continue
+            if "contract" not in keys:
+                continue
+            if mentions_global(dict_side):
+                found.append(
+                    (node.lineno, "per-verifier contract", ast.unparse(dict_side)[:120])
+                )
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "_reuse_rom_coverage_contract"
+        ):
+            continue
+        for argument in node.args:
+            if isinstance(argument, ast.Dict) and mentions_global(argument):
+                found.append(
+                    (node.lineno, "synthetic fixture", ast.unparse(argument)[:120])
+                )
+    return found
+
+
+def _sha256_of(path: Path) -> str | None:
+    """返回文件的 SHA-256；文件不存在时返回 None。"""
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return None
 
 
 class CoverageCountLivenessTests(unittest.TestCase):
@@ -173,17 +432,30 @@ class CoverageCountLivenessTests(unittest.TestCase):
         self.assertEqual([], mismatched)
 
     def test_no_test_source_hardcodes_a_live_ledger_quantity(self) -> None:
-        """任何测试文件都不得拿字面量去比一个活账本里存在的键。
+        """任何测试文件都不得拿字面量去比一个**活账本**里存在的键。
+
+        判定分两种：
+
+        - ``/summary/<key>`` 指针（来自 proof spec 的合同断言）与
+          ``["rom_coverage_audit"]["summary"][<key>]`` 形态——它们指向的
+          就是活账本的值，一律不得写死；
+        - ``<对象>["summary"][<key>]`` 形态——只有当该对象**确实绑定到
+          活账本**（本文件里从 ``sequel/rom-byte-coverage.json`` 读出来）时
+          才算活账本断言；否则它是夹具／历史收据的摘要，**写死是对的**。
 
         唯一例外是**登记过的历史钉**——它们钉的是冻结收据里的历史值。
         """
         stale: list[tuple[str, int, str, int, int]] = []
         for path in sorted(TESTS_DIR.glob("*.py")):
             source = path.read_text(encoding="utf-8")
-            if "/summary/" not in source and "rom_coverage_audit" not in source:
+            if "/summary/" not in source and "summary" not in source:
                 continue
+            live_names = _live_ledger_names(source)
             allowed = HISTORICAL_PINNED.get(path.name, {})
-            for line, key, literal in _literal_assertions(source):
+            for line, key, literal, kind, base in _scoped_literal_assertions(source):
+                if kind == "direct_summary" and base not in live_names:
+                    # 夹具／历史收据的摘要，不是活账本断言。
+                    continue
                 current = self.live.get(key)
                 if current is None:
                     continue
@@ -193,6 +465,113 @@ class CoverageCountLivenessTests(unittest.TestCase):
                     continue
                 stale.append((path.name, line, key, literal, current))
         self.assertEqual([], stale)
+
+    def test_no_test_source_pins_a_stale_digest(self) -> None:
+        """任何测试文件都不得把**文件摘要**钉成字面量。
+
+        覆盖三类会随晋升／脚本改动而过期的摘要：
+
+        - ``evidence["<path>"]`` —— 证据文件摘要（账本每次晋升都变）；
+        - ``X["script_sha256"]`` —— 验证器脚本摘要（脚本被改就会变）；
+        - 任何直接写死 64 位十六进制、并拿去与活文件对拍的字面量。
+
+        正确写法是**与活文件对拍**（``_sha256(ROOT / path)``），
+        断言的是「spec 声称的摘要 == 文件真实摘要」，
+        既不随晋升过期，又真的能抓出 spec 与磁盘不一致。
+        """
+        spec_scripts: dict[str, set[str]] = {}
+        for gate in self.spec["gates"].values():
+            for verifier in gate.get("verifiers", []):
+                for part in verifier.get("command", []):
+                    if part.endswith(".py") and (ROOT / part).is_file():
+                        spec_scripts.setdefault(verifier.get("script_sha256"), set()).add(
+                            part
+                        )
+                        break
+
+        stale: list[tuple[str, int, str]] = []
+        for path in sorted(TESTS_DIR.glob("*.py")):
+            source = path.read_text(encoding="utf-8")
+            if "[0-9a-f]" not in source and "script_sha256" not in source:
+                continue
+            for line, digest, target in _digest_assertions(source):
+                if target == "script_sha256":
+                    scripts = spec_scripts.get(digest)
+                    if not scripts:
+                        stale.append(
+                            (path.name, line, f"{digest[:16]}…（spec 里已无此脚本摘要）")
+                        )
+                        continue
+                    for script in sorted(scripts):
+                        actual = _sha256_of(ROOT / script)
+                        if actual != digest:
+                            stale.append(
+                                (
+                                    path.name,
+                                    line,
+                                    f"{digest[:16]}… != {str(actual)[:16]}… ({script})",
+                                )
+                            )
+                    continue
+                relative = target.split(":", 1)[1]
+                actual = _sha256_of(ROOT / relative)
+                if actual is None:
+                    stale.append((path.name, line, f"{digest[:16]}…（文件不存在 {relative}）"))
+                elif actual != digest:
+                    stale.append(
+                        (
+                            path.name,
+                            line,
+                            f"{digest[:16]}… != {actual[:16]}… ({relative})",
+                        )
+                    )
+        self.assertEqual([], stale)
+
+    def test_cumulative_counts_use_at_least_not_equal(self) -> None:
+        """累计型计数必须写成「至少」，不得用 assertEqual 钉死。
+
+        覆盖两种会随批次增长而变红的写法：
+
+        - ``assertEqual(N, sum(len(item["verifiers"]) …))``
+        - ``assertEqual(N, gate["…_verifier_count"])`` 且 N 是**全局**量级
+          （≥ 90；单 bank／单 artifact 的 ``contracted_verifier_count == 1``
+          是稳定的批次量，不在其列）
+
+        这类断言的**原意是下限**（「不比这个批次落地时更少」），
+        钉成等号就等于宣称「数量永远不变」——每次晋升都会打破。
+
+        作用域限于 proof 套件模块：其他模块里的 ``*_verifier_count``
+        多为单 bank／单 artifact 的稳定计数，语义不同。
+        """
+        offenders: list[tuple[str, int, str]] = []
+        source = PROOF_TEST.read_text(encoding="utf-8")
+        for line, expr, pinned in _cumulative_count_equalities(source):
+            if "_verifier_count" in expr and pinned < 90:
+                continue
+            offenders.append((PROOF_TEST.name, line, expr))
+        self.assertEqual([], offenders)
+
+    def test_per_verifier_contracts_do_not_use_global_derived_values(self) -> None:
+        """单验证器合同与合成夹具**不得**引用全局派生量。
+
+        这是本轮踩过的真回归：``classified_bytes`` / ``unknown_bytes``
+        既是全局覆盖量的键名，也是**单验证器批次合同**和**合成夹具**里的键名。
+        按键名批量派生时，单验证器合同的批次值（816 / 2,740 / 414）
+        和夹具值（7）被错换成活账本全局量，直接打破 4 个测试。
+
+        判定方式：**整字典对拍**只用于单验证器合同
+        （全局覆盖合同永远是逐键对拍），因此
+        「整字典里出现 LIVE_COVERAGE_SUMMARY 引用」即是越界；
+        合成夹具同理。
+        """
+        offenders: list[tuple[str, int, str]] = []
+        for path in sorted(TESTS_DIR.glob("*.py")):
+            source = path.read_text(encoding="utf-8")
+            if "LIVE_COVERAGE_SUMMARY" not in source:
+                continue
+            for line, kind, detail in _global_derived_in_scoped_contracts(source):
+                offenders.append((path.name, line, f"{kind}: {detail}"))
+        self.assertEqual([], offenders)
 
     def test_historical_pins_are_still_pinned_to_the_old_value(self) -> None:
         """反向护栏：登记过的历史钉必须**仍然**钉在旧值上。

@@ -63,7 +63,12 @@ class CoverageEvidenceSelectorRepairTests(unittest.TestCase):
         for claim in [*self.fast,*self.v10]:
             self.assertEqual({k:v for k,v in prior[claim['id']].items() if k!='evidence_selector'},
                              {k:v for k,v in claim.items() if k!='evidence_selector'})
-        self.assertEqual(87749,self.coverage['summary']['unknown_bytes'])
+        # 活账本的 unknown 计数**每轮晋升都会变**（87,749 → 87,631 → 86,089），
+        # 写死会让每次晋升都打破这个测试。改为校验活账本自身的自洽关系：
+        # accounted_bytes == unknown_bytes + classified_bytes。
+        summary=self.coverage['summary']
+        self.assertEqual(summary['accounted_bytes'],
+                         summary['unknown_bytes'] + summary['classified_bytes'])
 
 
 class SelectorRepairCanonicalBindingTests(unittest.TestCase):
