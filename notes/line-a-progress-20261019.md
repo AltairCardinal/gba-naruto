@@ -1189,6 +1189,88 @@ PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
 「该文件必须存在且自述」的改成**与活文件对拍**；
 「必须是某一版」的才保留硬编码。**本轮未动**（174 处一次性改动风险过高）。
 
+## 20. 甲线三包接入施工单（只读侦察产出，2026-10-20 08:0x）
+
+完整施工单：**`notes/evidence/reverse-proof-update-20261020-v2/三包接入施工单-raw.md`**（872 行，
+含可直接粘贴的常量块 / claim 函数 / spec 同步项 / 逐阶段验收命令）。
+下面是**结论层**。
+
+### 20.1 三个 packet 的实测身份
+
+| | M1 动画池 | 命令脚本 | 显示文本 |
+|---|---|---|---|
+| artifact | `artifacts/rom-animation-descriptor-pool-v2`（**已 promote**） | `rom-renderer-records-delta-v1`（**未 promote**） | `rom-display-text-delta-v1`（**未 promote**） |
+| claim 数 | **1** | 29 | 85 |
+| 认领字节 | 640 | 1,668 | 1,053 |
+| 区间 | `[4555564,4556204]`（0x458564–0x45879C） | 29 段，跨 0x0BCD–0x542E | 85 段，跨 0x12EE4C–0x463B16 |
+| `primary_class` | `fixed_consumer_animation_descriptor_group_bytes` | `fixed_cfg_consumer_renderer_command_script` | `fixed_cfg_consumer_renderer_display_text` |
+| 独立 verifier | `tools/verify_rom_animation_descriptor_pool_v2.py`（**0.17 s 通过**） | `tools/verify_rom_renderer_records_delta.py`（<1 s 通过） | `tools/verify_rom_display_text_delta.py`（~70 s 通过） |
+| `implementation_inputs` 与仓库实时文件 | 3/3 MATCH | 3/3 MATCH | 4/4 MATCH |
+
+**合计 3,361 B / 115 条 claim。**
+
+### 20.2 promote 的确切事实（实测，不是推算）
+
+- 两个受管 run **都还活着**：`build/experiments/active/renderer-records-delta/combined-tier1-20261001-v1/`
+  与 `build/experiments/active/display-text-delta/tier1-20261001-v1/`，`status: completed`、无 `promoted_to`。
+- 命令：`tools/experiment_workspace.py promote --root . --task <t> --run-id <r> --artifact-name <n>`。
+  `--artifact-name` **必须**等于 verifier 里写死的 `ARTIFACT` 常量，否则 `manifest contract changed`；
+  目标目录**必须不存在**（`promote_run` 抛 `FileExistsError`）——当前两个目录都不存在 ✅。
+- **`notes/evidence/**/final/` 的副本不能 promote**：`_run_path()` 硬编码为
+  `root/build/experiments/active/<task>/<run_id>`。副本内容与受管 run **逐字节相同**，
+  但若 `build/` 被清，必须**重建受管 run**（init → 重放 exporter → 重冻 final/），不能只拷文件。
+- promote **只改** `.experiment.json`（新增 `promoted_to` + `promoted_at`）；
+  `.inventory.json` 会被重写但**内容逐字节相同**（已离线复算验证）；
+  `notes/evidence/**` 的历史收据**不会被回写** ✅。
+- **主要收益**：`artifacts/` **不在** `.gitignore` 里（只有 `build/`）→ promote 之后
+  这两个包进入版本控制，从此不再依赖会被清理的 `build/`。
+
+### 20.3 canonical 重建后的投影（用审计器自己的原子化语义离线复算，基线自校验通过）
+
+| 指标 | 现值 | 投影值 | Δ |
+|---|---:|---:|---:|
+| `unknown_bytes` | 86,089 | **82,728** | **−3,361** |
+| `classified_bytes` | 6,205,367 | **6,208,728** | **+3,361** |
+| `claim_count` | 16,913 | **17,028** | **+115** |
+| `segment_count` | 18,675 | **18,882** | **+207** |
+
+复算的**基线自校验**：claim_count 16,913 / segment_count 18,675 / accounted 6,291,456 /
+unknown 86,089 / classified 6,205,367 **逐项与账本 `summary` 相等** → 复算方法与 `atomize_claims` 等价。
+（段数 +207 而非 +115：3,361 B 被切成 115 段后，原有的连续 unknown 段被这些边界**进一步细分**。）
+
+**不重叠核对**：三包内部自重叠 **0**；三包 × 活账本 16,913 条既有 primary claim **0**；
+三包两两 **0**；活账本自身 primary claim 之间 **0**。
+
+### 20.4 三个必须先知道的坑
+
+1. **M1 的 `primary_class` 与既有 `rom-fixed-animation-descriptor-groups-v1` 完全同名**
+   → 账本按 class 汇总时两族**合并**（1,136 + 640 = **1,776 B**）。
+   该值被 exporter/verifier **逐字节钉死**（`payload_raw != _canonical(rebuilt)`），
+   **改不了** → 接受撞名，靠 `promotion_batch` 区分。
+2. **两个 renderer verifier 的 report 里没有 `schema` 键** → **不能**进 proof 的 `verifiers`
+   （`_contract()` 校验 + 逐键比对会失败，**新增 blocker**）。只有 M1 的 report 形状合规。
+   ⇒ 接线时**只有 M1** 能作为新 verifier 进 spec；两个 renderer 包只能进 `evidence`。
+3. **`artifacts/rom-low-script-delta-v1`（12 B）是新命令脚本包的真子集**
+   （`low-script-delta-42b5` = `renderer-records-delta-42b5`，
+   `low-script-delta-42c2` = `renderer-records-delta-42c2`，**逐字节相同**）。
+   它是**账本孤儿**（账本引用 0、proof 引用 0）→ **不会**造成重复 claim，
+   但**绝不能**接进审计器（否则 `atomize_claims` 抛 conflicting primary claims）。
+
+### 20.5 不可并行的串行约束
+
+1. heavy lock 一次只容一个受管重活（busy 即 exit 75）；
+2. **promote → auditor 接线**（审计器常量指向 `artifacts/`）；
+3. **auditor 改完 → 账本重建**；
+4. **账本重建完 → proof 同步**（`/summary/*` 断言读活账本）；
+5. `NEW_AUDIT_SHA` 必须在 auditor 定稿后算；
+6. **proof 改完 → formal**。
+
+**接线后必须冻结的文件**（同时被 manifest 的 `implementation_inputs` 和审计器常量钉住）：
+`tools/verify_rom_renderer_records_delta.py`、`tools/verify_rom_display_text_delta.py`、
+`tools/export_rom_renderer_records_delta.py`、`tools/export_rom_display_text_delta.py`、
+`tools/rom_display_text_parameter_flow.py` 及两个测试文件 + 两个 `tools/data/` 合同 JSON。
+
+
 
 ### 18.5 待裁决项（证据已齐，等口径）
 
