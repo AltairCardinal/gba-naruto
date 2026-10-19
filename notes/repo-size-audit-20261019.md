@@ -228,7 +228,21 @@ gh api repos/AltairCardinal/gba-naruto --jq '.size'   # GitHub 侧体积 (KB)
   `docs/editor-emulator-link.md`
 - 与 master 差异仅 1131 个路径（四支中最小增量），但**领先 origin 344 提交**
 
-### 5.2 ⚠️ 10 月的工作没有进入任何分支
+### 5.2 分支保留理由
+
+拓扑：`master` ⊂ `task/units-character-definitions` ⊂ {`codex/butano-foundation-research`,
+`codex/reverse-engineering`}。后两者是**兄弟分支**，在 `765f4547`（2026-07-29）分岔。
+
+| 分支 | 独有提交 | 独有路径 | 独有路径是什么 | 保留理由 |
+| --- | --- | --- | --- | --- |
+| `master` | 0 | 18 | 全是 `web-editor/frontend/dist/` 构建产物 | GitHub 默认分支与公开门面。技术内容已被后代完全包含，但作为**收敛快照**保留价值：clone 后 checkout master 得到的是一份文档化的逆向结论，而不是 764 个提交的混合体。成本：blob 已在 GitHub 上，边际成本≈0 |
+| `task/units-character-definitions` | 0 | 48 | 全是 `build/tiles-v2/` 构建产物 | **保留理由最弱**。无独占技术内容；其 344 个未推送提交是 butano-foundation 的祖先，推后者即连带送出（已核实 `origin/task/units` 是 butano-foundation 的祖先）。其独有的是**工作线标签**——battle 15 逐回合恢复点链；快照本体 `artifacts/runtime-checkpoints/`（124 个 `.ss9`）在 butano-foundation 里同样存在 |
+| `codex/butano-foundation-research` | 3 | 2827 | 1626 个地图图块、234 个 C++ 战斗动作系统头文件、415 个 s49 收据、63 个 `tools/butano`、82 个 GPU 状态取证、17 个 reverse_benchmark | **10 月重制线的唯一真源**。删掉 = 重制工作归零。推它会连带送出 task/units 的 344 提交 |
+| `codex/reverse-engineering` | 143 | 13,495 | 24 个 artifact 家族（5,225+ 文件）+ 3,036 个 evidence 收据 + 运行时验证方法论 | **逆向证据的唯一存放处**。主工作树已删除的 `character-battle-visuals-v1`(3505)、`battle-presentation-glyphs-v1`(774)、`tile-assets-bg-v1/v2`(690)、`menu-portraits-v1`(312)、`map-canvases-v1`(289) 等 24 个家族，**全仓库只剩这一份**（已逐族核实：其余三支均为 0）。删掉等于必须从 ROM 重跑导出器重建，而导出器本身也在本支 |
+
+取舍点只有 `codex/reverse-engineering`：756.2 MiB，占全部推送体量的 55%，
+但它是上述 24 个家族与 143 个提交的唯一副本。GitHub 侧同样做 delta 压缩
+（本地实测 4.4x），全推后 GitHub 仓库约 450–500 MB，在 1 GB 软警告线内。
 
 reflog 最后一条 = **2026-07-29**；全部 ref（含 origin）最新日期 = **2026-09-05**。
 下列路径在四个分支的 HEAD 中**均不存在**：
