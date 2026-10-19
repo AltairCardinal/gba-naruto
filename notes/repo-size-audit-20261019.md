@@ -249,4 +249,112 @@ reflog 最后一条 = **2026-07-29**；全部 ref（含 origin）最新日期 = 
 结论：当前存在**两条并行的未提交工作流**——
 A（主工作树 / butano-foundation-research）：Butano 重制、s49 画面保真、mGBA 录制基础设施、GPU 状态取证；
 B（reverse 工作树 / codex/reverse-engineering）：ROM 资源重定位、固定变异写回、部分 bank 复验、CFG 闭包扩展。
+
+## 6. 清理执行记录（2026-10-19 晚间，实际执行）
+
+### 6.1 提交
+
+| 提交 | 分支 | 内容 |
+| --- | --- | --- |
+| `70ef4233c` | `codex/butano-foundation-research` | 7502 个可重建产物/构建输出停止跟踪 + 57 个过期音频副本 + `.gitignore` 补规则 |
+| `eed36ab8` | `codex/butano-foundation-research` | 10 月重制线：战斗动作系统重构、1626 个地图图块、127 个新测试、s49 保真工具链与收据、reverse benchmark harness |
+| `b4da99dfa` | `codex/reverse-engineering` | 10 月逆向线：2796 个证据文件（121 MiB）、8 个新验证器、`tools/data/` 合约 |
+
+删除项的可重建性在提交前逐族核对：每个被删 artifact 家族都能用仓库内的
+`tools/export_*.py` + `tools/verify_*.py` 从 ROM 重新生成。
+
+### 6.2 空间回收
+
+| 步骤 | 前 | 后 |
+| --- | --- | --- |
+| `git prune --expire=now` | 游离 2190 MiB / 62,175 个 | 游离 881 MiB / 34,691 个（回收 1.31 GiB 不可达对象） |
+| `git gc --prune=now` | `.git` 4.0G（pack 1.86 GiB + loose 2.0 GiB） | **`.git` 468M**（pack 445.89 MiB / 44,637 对象 / loose 0） |
+| 整体 | 5.7G | **1.4G** |
+| 磁盘可用 | 6.4 GiB | **9.9 GiB** |
+
+prune 前的安全核对：414 个 reflog 引用提交与不可达对象列表**零交集**，reflog 恢复链完整。
+
+`gc` 的 delta 压缩把 1.97 GiB 原始 blob 压成 445.89 MiB（**4.4x**）。这意味着
+GitHub 侧同样会压缩：全推所有分支后 GitHub 仓库约 **450–500 MB**，而不是按原始
+blob 估算的 1.97 GB。
+
+工作区清理（均经 `mavis-trash`，可从 `~/.Trash` 恢复）：
+`butano-sequel/build*`（7 个）、`butano-sequel/*.elf`（11 个）、`build/macos-mgba`、
+`artifacts/macos-mgba-20261019-v1/evidence/sentinel-base.gba`。
+
+`s49-fidelity-20261019-v1/` 下 13,089 个原始 `*.png`/`*.ss9`/`*.mp4` **最终保留未删**：
+mavis-trash 逐文件走一次 Finder 往返（13,089 个需数小时），且执行期间发现同一仓库有
+并发 writer 正在处理 s49 素材，继续删除风险过高，因此中止并把已删部分还原。
+
+**遗留损失（须知悉）**：还原时按 basename 匹配，13,089 个文件只有 6,183 个不同
+basename，重名文件在回收站中只保留一份，导致 **724 个原始帧**（144 个不同文件名，
+分布在 41 个目录，含 `analysis/player-turn-idle-stacked/gemini/staged/` 全部 96 帧）
+既不在工作区也不在回收站。
+
+影响范围有限：
+- 这些是**原始录像帧**，不是结论；`artifacts/s49-fidelity-20261019-v1` 的
+  **415 个收据/分析 JSON 全部完好并已入库**（`git ls-tree` 与磁盘逐条比对一致）。
+- 这些帧由 `tools/butano/capture_s49_*.py` 从 `rom/base.gba` 重新录制即可再生。
+- 它们被 `.gitignore` 排除，从未进入版本控制，不影响 GitHub 侧体积。
+
+教训：批量删除同名文件时不能用 basename 还原，必须按**完整路径**处理。
+
+### 6.3 各分支推送体量（gc 后实测）
+
+| 分支 | 唯一 blob | 提交 | 与 origin |
+| --- | --- | --- | --- |
+| `master` | 138.7 MiB | 105 | 已同步 |
+| `codex/butano-foundation-research` | 371.9 MiB | 623 | ahead 61 |
+| `codex/reverse-engineering` | 756.2 MiB | 764 | 未推送 |
+| `task/units-character-definitions` | 218.5 MiB | 561 | ahead 344 |
+
+全部 ref 去重后 blob 1969.2 MiB；按本地 4.4x 压缩率推算，GitHub 侧落点约 450–500 MB。
+
+### 6.4 测试基线（既存失败，非本次引入）
+
+`.venv` 跑全量 331 个测试模块：**Ran 1461 tests, failures=18, errors=122, skipped=19**。
+失败归因：
+
+| 类别 | 数量 | 根因 |
+| --- | --- | --- |
+| `ModuleNotFoundError` + `ImportError` | 105 | venv 只装了 capstone 与 pip，缺 PIL 等依赖 |
+| `FileNotFoundError` | 52 | worktree 已被清理：`build/audio-v2`(10)、`artifacts/*` 绝对路径(28)、`lua/`(3)、`node/`(2) |
+| `AssertionError` + `ValueError` | 21 | 测试断言与重构后的 C++ 源码不同步（如期望 `battle_ui_command_cursor`，源码已是 `battle_ui_action_cursor`；期望 `generate(-100, 33, …)`，源码为 `generate(-96, 32, …)`） |
+
+**本次改动不引入任何回归**，验证方式：本次只改动了工作区的 `.gitignore` 一个文件
+（其余全部是索引/提交操作，不触碰文件内容），而失败的测试无一读取 `.gitignore`
+或 git 索引；把 `.gitignore` 换回改动前的内容重跑这批用例，失败数完全一致
+（18 failures / 77 errors，83 个用例）。
+
+### 6.5 并发写入者告警
+
+执行期间检测到**另一个 writer** 在同一仓库工作：
+
+- 主工作树 6 个文件在 23:02–23:08 被改动（`docs/konoha-senki/01-battle-s49.md`、
+  `docs/konoha-senki/README.md`、`notes/s49-fidelity-handover-20261019.md`、
+  `tests/test_s49_{command_menu_chakra_glyphs,field_composition,menu_row_marker_assets}.py`），
+  内容是 s49 画面保真的新一轮结论与教训。
+- reverse 工作树 23:04–23:05 新增 `notes/evidence/reverse-throughput-20261019-v1/`
+  与 `tools/measure_reverse_throughput.py` 等 5 个文件。
+
+这些在途改动**未被本次提交收录**（两个提交都只快照了 22:45 之前的状态）。
+需要提醒的两点：
+1. 本次的 `git gc`（3m06s，3m17s user time）与 13,089 个文件的批量删除，与对方的
+   CPU／锁探针落在同一时间窗（22:58–23:10），**可能污染对方的吞吐测量**，
+   建议对方复测一次。
+2. 对方的在途工作不依赖本次删除的 s49 原始媒体（已核对 diff，未出现相关路径引用）。
+
+## 7. 遗留待决项
+
+1. **推送范围**（push 需单独授权）：本地 3 个分支未同步，`codex/reverse-engineering`
+   独占 756.2 MiB 唯一 blob。全部推送后 GitHub 侧按本地 4.4x 压缩率推算约
+   **450–500 MB**，在 GitHub 1 GB 软警告线以内。
+2. **版权**：原版商业 ROM `火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba` 已在公开
+   `master` 上（`gh api` 确认可见）。`codex/butano-foundation-research` 已在 Commit A
+   后不再跟踪 `build/naruto-sequel-dev.gba`，但 `rom/base.gba`、
+   `rom/experiment-00076d*.gba` 与原版 ROM 仍在 4 个分支中。可选：转 private、
+   `git filter-repo` 重写历史剔除、或维持现状。
+3. **`~/.Trash` 现有 71 GB**，是磁盘 98% 占满的主要来源之一；清空可立即回收。
+4. **本次未重跑 Butano/Docker 构建**：C++ 侧（126 个 `game/tests/*.cpp`）的验证依赖
+   devkitARM 容器，产物早于本次提交；Python 侧 1461 项测试已跑完并归因。
 两者都未进入版本控制，**这是比仓库体积更紧急的风险**。
