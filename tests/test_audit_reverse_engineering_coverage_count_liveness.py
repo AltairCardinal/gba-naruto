@@ -31,6 +31,7 @@ import ast
 import hashlib
 import json
 import re
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -329,6 +330,108 @@ def _cumulative_count_equalities(source: str) -> list[tuple[int, str, int]]:
     return found
 
 
+#: 「量」表达式：随批次／晋升变化的数值。
+#:
+#: 只有这种表达式出现在**第二个**参数时，字面量才是合法的上下界；
+#: 出现在第一个参数就说明上下界写反了。
+_QUANTITY_CALL_NAMES = frozenset(
+    {"len", "sum", "max", "min", "abs", "round", "int", "sorted", "set", "list", "dict"}
+)
+#: 下标键看起来像一个「量」的判据（``*_count`` / ``*_bytes`` / ``verifiers`` …）。
+_QUANTITY_KEY_RE = re.compile(
+    r"(?:_count|_bytes|_num\b|^count$|^bytes$|^num$|verifiers|_total|_size)"
+)
+#: 变量名看起来像一个「量」的判据。
+_QUANTITY_NAME_RE = re.compile(
+    r"(?:^LIVE_|^live_|_count$|_bytes$|_total$|_COUNT$|_BYTES$|_TOTAL$)"
+)
+
+
+def _module_level_constant_names(tree: ast.Module) -> set[str]:
+    """取模块级「常量」的变量名。
+
+    两种来源都算：
+
+    - 本文件直接赋值的数值常量（``VERIFIER_TIMEOUT_SECONDS = 3600``）；
+    - 从别处导入的名字（``from … import VERIFIER_TIMEOUT_SECONDS``）——
+      导入的通常是跨文件共享的量（超时、计数、容量），与字面量比较时
+      方向写反同样是坏点。
+    """
+    names: set[str] = set()
+    for node in tree.body:
+        if isinstance(node, ast.Assign):
+            value = node.value
+            if (
+                isinstance(value, ast.Constant)
+                and isinstance(value.value, int)
+                and not isinstance(value.value, bool)
+            ):
+                for target in node.targets:
+                    names.update(_target_names(target))
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                names.add(alias.asname or alias.name)
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                names.add(alias.asname or alias.name.split(".")[0])
+    return names
+
+
+def _is_quantity_expression(node: ast.AST, constants: set[str]) -> bool:
+    """判断表达式是否代表「一个会随批次变化的量」。
+
+    判定必须**窄**：宁可漏掉部分真越界，也不能误伤
+    「固定地址 vs 固定区间端点」这类写法——
+    ``assertGreaterEqual(0x735C6, DISPATCH_RANGE[0])`` 语义是正确的
+    （断言默认目标落在派发窗口内），把整数下标的区间端点误判成「量」就会误报。
+
+    ``constants`` 是同文件里模块级数值常量的名字；拿它们当「量」是安全的，
+    因为与字面量比较时结果只取决于常量本身，不随批次漂移。
+    """
+    if isinstance(node, ast.Call):
+        return isinstance(node.func, ast.Name) and node.func.id in _QUANTITY_CALL_NAMES
+    if isinstance(node, ast.BinOp):
+        # 算术表达式一定是算出来的值。
+        return True
+    if isinstance(node, ast.Subscript):
+        key = _const_str(node.slice)
+        if key is None:
+            # 整数下标（``RANGE[0]``）是**固定区间端点**，不是量。
+            return False
+        return bool(_QUANTITY_KEY_RE.search(key))
+    if isinstance(node, ast.Name):
+        return bool(_QUANTITY_NAME_RE.search(node.id)) or node.id in constants
+    return False
+
+
+def _reversed_bound_assertions(source: str) -> list[tuple[int, str]]:
+    """列出所有「上下界断言参数顺序写反」的调用点。
+
+    ``assertGreaterEqual(实际值, 下限)`` / ``assertLessEqual(实际值, 上限)``
+    的**第一个参数必须是实际值**。字面量写在第一位、量表达式写在第二位时，
+    断言方向就反了（``96 not greater than or equal to 109``），
+    而这种写法语法完全合法，任何「有没有用 assertEqual」的检查都抓不到。
+    """
+    tree = ast.parse(source)
+    constants = _module_level_constant_names(tree)
+    found: list[tuple[int, str]] = []
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr in ("assertGreaterEqual", "assertLessEqual")
+            and len(node.args) >= 2
+        ):
+            continue
+        first, second = node.args[0], node.args[1]
+        if _const_int(first) is None:
+            continue
+        if not _is_quantity_expression(second, constants):
+            continue
+        found.append((node.lineno, ast.unparse(node)[:120]))
+    return found
+
+
 def _global_derived_in_scoped_contracts(
     source: str,
 ) -> list[tuple[int, str, str]]:
@@ -550,6 +653,52 @@ class CoverageCountLivenessTests(unittest.TestCase):
                 continue
             offenders.append((PROOF_TEST.name, line, expr))
         self.assertEqual([], offenders)
+
+    def test_at_least_assertions_put_the_expression_first(self) -> None:
+        """``assertGreaterEqual(实际值, 下限)`` —— **实际值必须在第一个参数**。
+
+        这条是本轮真实踩过的坑：把 ``assertEqual(N, expr)`` 批量改成
+        ``assertGreaterEqual(N, expr)`` 时**参数顺序写反了**，
+        断言变成「下限 ≥ 实际值」，于是 21 个测试全红
+        （`96 not greater than or equal to 109`）。
+
+        顺序写反不会让语法出错、也不会被任何"有没有用 assertEqual"的
+        检查抓到——所以必须单独立一条守卫。
+        """
+        offenders: list[tuple[str, int, str]] = []
+        for path in sorted(TESTS_DIR.glob("*.py")):
+            source = path.read_text(encoding="utf-8")
+            if "assertGreaterEqual" not in source and "assertLessEqual" not in source:
+                continue
+            for line, rendered in _reversed_bound_assertions(source):
+                offenders.append((path.name, line, rendered[:120]))
+        self.assertEqual([], offenders)
+
+    def test_bound_order_detector_is_not_vacuous(self) -> None:
+        """反向自检：检测器本身必须能认出「写反」与「写对」。
+
+        没有这一条，规则一旦收窄到什么都不匹配，上面那条守卫就会**永远绿**，
+        而它保护的正是一类「语法完全合法、只在运行时炸」的错。
+        """
+        reversed_case = textwrap.dedent(
+            """
+            VERIFIER_TIMEOUT_SECONDS = 3600
+            self.assertGreaterEqual(96, len(gate["verifiers"]))
+            self.assertLessEqual(1800, len(gate["evidence"]))
+            self.assertGreaterEqual(1800, VERIFIER_TIMEOUT_SECONDS)
+            """
+        )
+        correct_cases = textwrap.dedent(
+            """
+            VERIFIER_TIMEOUT_SECONDS = 3600
+            self.assertGreaterEqual(len(gate["verifiers"]), 96)
+            self.assertLessEqual(len(gate["evidence"]), 1800)
+            self.assertGreaterEqual(0x735C6, DISPATCH_RANGE[0])
+            self.assertGreaterEqual(VERIFIER_TIMEOUT_SECONDS, 1_800)
+            """
+        )
+        self.assertEqual(3, len(_reversed_bound_assertions(reversed_case)))
+        self.assertEqual([], _reversed_bound_assertions(correct_cases))
 
     def test_per_verifier_contracts_do_not_use_global_derived_values(self) -> None:
         """单验证器合同与合成夹具**不得**引用全局派生量。

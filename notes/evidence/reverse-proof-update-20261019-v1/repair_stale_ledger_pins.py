@@ -63,8 +63,10 @@ COVERAGE_RE = re.compile(
 
 # --- 第 3 类：计数里程碑 ---------------------------------------------------
 # 3a. 多行 sum(len(item["verifiers"]) …)
+#     注意 assertGreaterEqual(first, second) 断言的是 first >= second，
+#     所以**表达式必须在前、下限在后**。
 COUNT_SUM_RE = re.compile(
-    r"assertEqual\(\s*\n(\s*)96,\n(\s*sum\(\n\s*len\(item\[\"verifiers\"\]\)\n"
+    r"assertGreaterEqual\(\s*\n(\s*)(96),\n(\s*sum\(\n\s*len\(item\[\"verifiers\"\]\)\n"
     r"\s*for item in specification\[\"gates\"\]\.values\(\)\n\s*\),)\n(\s*)\)",
     re.S,
 )
@@ -162,13 +164,14 @@ def transform(source: str) -> tuple[str, dict[str, int]]:
 
     source = COVERAGE_RE.sub(sub_coverage, source)
 
-    # 第 3a 类
+    # 第 3a 类：把「下限在前、表达式在后」的顺序纠正为「表达式在前」
     def sub_count_sum(match: re.Match) -> str:
         counts["count_sum"] = counts.get("count_sum", 0) + 1
         indent = match.group(1)
-        return (
-            f"assertGreaterEqual(\n{indent}96,\n{match.group(2)}\n{match.group(3)})"
-        )
+        literal = match.group(2)
+        expression = match.group(3)
+        closing = match.group(4)
+        return f"assertGreaterEqual(\n{indent}{expression}\n{indent}{literal},\n{closing})"
 
     source = COUNT_SUM_RE.sub(sub_count_sum, source)
 

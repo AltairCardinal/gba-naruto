@@ -995,6 +995,211 @@ cron 说的"93 个测试"只是 `tests/test_audit_reverse_engineering_proof.py`
 钉住能保证"重跑得到逐字节相同的 artifact"，不钉住则让导出器
 总能对当前账本工作。**这需要用户裁决，不是我能替他假设的。**
 
+## 18. 守卫补到 11 项 + psg 真相（三层因果）（2026-10-20 07:0x–08:0x）
+
+### 18.1 元守卫第 10、11 项：上下界断言的参数顺序
+
+**根因（本轮第二次同类事故）**：第 17 轮把 `assertEqual(N, expr)` 批量改成
+`assertGreaterEqual(N, expr)` 时**参数顺序写反了**——正确写法是
+`assertGreaterEqual(实际值, 下限)`，实际值在**第一个**参数。
+写反后断言变成「下限 ≥ 实际值」，21 个测试全红（`96 not greater than or equal to 109`）。
+
+**为什么元守卫抓不到**：这类写法**语法完全合法**，任何"有没有用 assertEqual"
+的检查都看不见；而且它只在运行到那条断言时才炸，仍然要等 45 分钟的套件末尾。
+
+**规则（`_reversed_bound_assertions`）**：
+
+| 判据 | 说明 |
+|---|---|
+| 第一个参数是**整数字面量** | 候选越界（字面量只能是界，不能是实际值） |
+| 第二个参数是**量表达式** | `Call(len/sum/max/min/…)` \| `BinOp` \| `Subscript` 且**字符串键**像计数（`*_count`/`*_bytes`/`verifiers`…） \| `Name` 且名字像计量或指向**模块级常量／导入名** |
+| **豁免**：`Subscript` 的下标是**整数** | `DISPATCH_RANGE[0]` 是**固定区间端点**，不是量。`assertGreaterEqual(0x735C6, DISPATCH_RANGE[0])` 语义正确（断言默认目标落在派发窗口内），不得误报 |
+
+判定必须**窄**：宁可漏掉部分真越界，也不能误伤「固定地址 vs 固定区间端点」。
+
+**红绿验证**：
+
+| 输入 | 期望 | 实测 |
+|---|---|---|
+| 当前（已修好）proof 测试文件 | 0 | **0** ✅ |
+| 重建「参数对调」错误态 | 全覆盖 | **92/92** ✅ |
+| 全 `tests/` 树 | 0 | **0** ✅ |
+| 合成反向自检（`test_bound_order_detector_is_not_vacuous`） | 3 正例 / 0 反例 | ✅ |
+
+**新加第 11 项** `test_bound_order_detector_is_not_vacuous`：用合成片段证明
+检测器**认得出"写反"、认不出"写对"**。没有这一条，规则一旦收窄到什么都不匹配，
+第 10 项就会**永远绿**——而它保护的正是「语法合法、只在运行时炸」的一类错。
+
+守卫现为 **11 项 / 3.98–4.16 s**。
+
+### 18.2 psg 的三层因果：不是 bug，是「冻结状态没有副本」
+
+§17.5 记的"导出器抛 `coverage baseline identity changed`"只是一层。实测到三层：
+
+**第一层（表面）**：`tools/export_rom_psg_frequency_lookup.py` 的 `_coverage_baseline(root)`
+读**活账本** `sequel/rom-byte-coverage.json`，要求其 SHA-256 等于冻结常量
+`922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6`；
+活账本现为 `9f8a8196…`。
+
+**第二层（这道闸门永远不可能通过）**：该冻结状态
+**在全仓 37,542 个文件里没有副本**（扫 `notes/evidence/**`、`notes/**`、
+`artifacts/**`、`build/experiments/**`，含 `.gz` 解压后复算）。
+晋升前的账本快照**从未被保存**。
+
+**第三层（语义：这 226 B 早已是 psg 自己的）**：psg packet 于 2026-08-27
+晋升并 accepted（`artifacts/rom-psg-frequency-lookup-v1/manifest.json`，
+`artifact_status: accepted`）。它的 5 条 claim（**合计 226 B**）**现在就是**
+这 5 个区间在活账本里的 owner：
+
+| 区间 | 字节 | live `primary_class` | live claim id |
+|---|---:|---|---|
+| `0x9b494–0x9b4c6` | 50 | `armv4t_psg_frequency_lookup_thumb_code` | `psg-frequency-code-a-09b494` |
+| `0x9b4c8–0x9b4cc` | 4 | `psg_frequency_lookup_consumed_pointer_literals` | `psg-frequency-noise-literal-09b4c8` |
+| `0x9b4cc–0x9b534` | 104 | `armv4t_psg_frequency_lookup_thumb_code` | `psg-frequency-code-b-09b4cc` |
+| `0x9b534–0x9b53c` | 8 | `psg_frequency_lookup_consumed_pointer_literals` | `psg-frequency-nonnoise-literals-09b534` |
+| `0x46475c–0x464798` | 60 | `psg_noise_register_descriptor_table` | `psg-noise-register-table-46475c` |
+
+所以「这 226 B 现在必须是 unknown」这个断言**被本 packet 自己的晋升推翻了**。
+任何声称它为真的导出器都是错的——**它不是配置问题，是前提已被自身行动消灭**。
+
+### 18.3 正确的分层：legacy 冻结 / bundle 活账本（设计写在代码里）
+
+`tools/verify_rom_psg_frequency_lookup_bundle.py` 的 docstring **原文**：
+
+> The accepted PSG verifier deliberately recognizes only its frozen pre/post
+> coverage states. Later independently audited promotions must not rewrite that
+> historical verifier or receipt. This wrapper replays the raw-ROM, payload,
+> binary, manifest, implementation, and accepted-receipt checks while leaving
+> the current live coverage state to `tools/audit_rom_byte_coverage.py`.
+
+代码印证：`tools/verify_rom_psg_frequency_lookup.py:1358`
+`rebuild_payload(repository, validate_live_baseline=status == "candidate")`
+——**accepted 走冻结基线**，只有 candidate 才走活基线。
+
+实测三道门的状态：
+
+| 命令 | 结果 | 耗时 |
+|---|---|---:|
+| `tools/verify_rom_psg_frequency_lookup_bundle.py`（**formal 用的就是这道**） | `artifact_bundle_verified: true`、`legacy_receipt_verified: true`、`errors: []` ✅ | 0.48 s |
+| `tools/verify_rom_psg_frequency_lookup.py`（legacy 完整验证器，对 accepted artifact） | ❌ `coverage exact post non-PSG claims identity changed` | 1.24 s |
+| `tools/export_rom_psg_frequency_lookup.py`（写 candidate） | ❌ `coverage baseline identity changed` | — |
+
+legacy 的失败点 `analyze_live_coverage`（`:1258`）的 else 分支要求
+「**非 PSG 的其余 claim 集合**」与晋升时的冻结集合**逐字节相同**——
+账本此后又被别的 packet 晋升过（unknown 169,832 → 86,089），这个
+「此后不许再变」的合同已不成立。值得注意的是 `analyze_live_coverage` **本身**
+已实现正确的二态判定（`unknown` / `owned`，且要求 5 个区间**同态**），
+只有 `verify_artifact` 的 candidate 分支多加了「活文件 SHA 必须等于冻结 SHA」
+这道死闸。
+
+**结论**：psg 的"坏"是**分层的**——formal 实际执行的那道门是绿的；
+坏的是 legacy 活账本路径与导出器，而它们**按设计只认冻结状态**。
+处置方向因此从「语义裁决」收敛为「让测试对齐真正生效的合同」。
+
+### 18.4 更正 §17.5 的一处判断
+
+§17.5 写「该脚本的 SHA-256 **被 proof 钉住**（`script_sha256`）」——**不准确**。
+实测：
+
+- proof 的 `script_sha256` 钉的是 **`tools/verify_rom_psg_frequency_lookup_bundle.py`**
+  （`f9bb2bed…`），**不是** exporter 或 legacy 验证器；
+- exporter / legacy 验证器的 SHA 出现在 **artifact manifest 的 `implementation` 段**，
+  而 manifest 本身作为 **evidence** 被 proof 钉摘要。
+
+所以改 exporter 或 legacy 验证器 → accepted manifest 必须重生成 → manifest 摘要变
+→ proof 的 evidence 摘要要同步 → **仍需重跑 formal**（结论不变，**机制不同**）。
+但改**测试**不动这些文件 → **零下游成本**。这就是本轮选「只改测试」路线的理由。
+
+## 19. 上面那条「零下游成本」也错了：审计器钉死了测试文件（2026-10-20 07:2x–08:0x）
+
+### 19.1 实测经过
+
+改完 psg 测试模块后重跑 93 个 proof 测试，结果是
+**93 tests / 1,488.160 s / failures=1**，唯一失败：
+
+```
+FAIL: test_current_repository_does_not_overclaim_completion
+  self.assertEqual([], rom_gate["rom_coverage_audit"].get("errors"))
+AssertionError: Lists differ: [] != ['PSG frequency verifier test identity changed']
+```
+
+`tools/audit_rom_byte_coverage.py:2998-3001` 有一处**硬钉**：
+
+```python
+PSG_FREQUENCY_VERIFIER_TEST = Path("tests/test_verify_rom_psg_frequency_lookup.py")
+PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
+    "74f41c42ca5511f9331d59aead138f6bdfc198233cc10ba1180fee37d996c124"   # 旧值
+)
+```
+
+`tools/audit_rom_byte_coverage.py:2994` 还有第二处，钉着导出器测试文件。
+
+**因此 §18.4 的「改测试不动这些文件 → 零下游成本」是错的**：
+审计器**把测试文件本身当受管输入钉住**，改测试就会打破 `rom_byte_coverage` 门。
+这不是新问题，而是**系统性模式**——审计器里共有 **174 处** `*_TEST_SHA256` 形式的硬钉。
+
+**失败是自伤造成的**：子代理在套件运行**中途**改了测试文件，
+而审计器在运行**时**从磁盘读该文件并与硬钉比对 → 套件末尾才报出来。
+**这本身是一个教训**：跑长套件期间不要改被 pin 的文件。
+
+### 19.2 实际影响面（实测，不是推算）
+
+| 改什么 | 要不要动账本 | 要不要重跑 formal | 原因 |
+|---|---|---|---|
+| `tests/test_verify_rom_psg_frequency_lookup.py` | **不要** | **要** | 审计器 pin 变 → 审计器 SHA 变 → spec 的 `script_sha256` 要同步 |
+| `tests/test_export_rom_psg_frequency_lookup.py` | **不要** | **要** | 同上（第二处 pin） |
+| `sequel/rom-byte-coverage.json` | **不要** | — | 账本 `summary` 的 569 个键里**没有** `script_sha256`；审计器源码里也搜不到该字段 → **改审计器不改变账本内容**，账本 SHA 保持 `9f8a8196…`，spec 的 evidence 条目不必改 |
+| `sequel/reverse-engineering-proof.json` | — | — | `gates.rom_byte_coverage.verifiers[0].script_sha256` 是**唯一**钉审计器 SHA 的地方 |
+
+**好消息**：链路比预想的短 —— **不需要重建账本**，只要
+「改 2 行 pin → 同步 spec 1 个 SHA → 重跑 formal」。
+
+### 19.3 已执行的修复
+
+| 步骤 | 内容 | 结果 |
+|---|---|---|
+| 1 | `PSG_FREQUENCY_VERIFIER_TEST_SHA256`：`74f41c42…` → `c10ff259…` | 审计器 SHA → `33932f14…`（与子代理独立预测的值**一致**） |
+| 2 | `PSG_FREQUENCY_EXPORTER_TEST_SHA256`：`d1983847…` → `9844b120…` | 审计器 SHA → `1fba1112…` |
+| 3 | spec `gates.rom_byte_coverage.verifiers[0].script_sha256` 同步 | `1fba1112…` |
+| 4 | 复验 | `tests/test_verify_rom_psg_frequency_lookup_bundle.py` **4/4 OK**（这两道 pin 的守门人） |
+
+### 19.4 psg 两个测试模块的最终状态
+
+| 模块 | 改前 | 改后 |
+|---|---|---|
+| `tests/test_verify_rom_psg_frequency_lookup.py` | 10 tests / **6 errors** | **10 tests / 全绿** |
+| `tests/test_export_rom_psg_frequency_lookup.py` | 11 tests / **9 errors** | **15 tests / 全绿** |
+| `artifacts/rom-psg-frequency-lookup-v1/` | manifest `4fffbcc7…` / .bin `e625a5fc…` / .json `d2631b1a…` | **逐字节不变** ✅ |
+| `tools/verify_rom_psg_frequency_lookup_bundle.py` | `f9bb2bed…` | **未变** ✅（proof 钉的就是它） |
+
+**改写原则**：不改任何脚本，只把「活账本耦合」的用例改成覆盖
+**今天真正成立的合同**——legacy 验证器的**冻结路径**
+（`rebuild_payload(validate_live_baseline=False)`）产出的 payload 与 accepted artifact
+**逐字节相同**；导出器的**活账本路径必须 fail-closed 且不落任何文件**；
+活账本侧的归属事实（psg 5 条 claim / 226 B / 区间正好等于 `PROMOTION_RANGES`）
+改为直接对拍活账本。**没有删除任何一条风险覆盖**，每个新断言都做过红绿验证。
+
+### 19.5 遗留的系统性问题
+
+审计器里 **174 处** `*_TEST_SHA256` 硬钉意味着：
+**每改一次被钉的测试文件，就要走一次「改 pin → 审计器 SHA 变 → spec 同步 → 重跑 formal」**。
+这与本轮刚修掉的 21 处「活账本量硬编码」是**同一类病**：
+**把会随正当演进而变化的东西钉成了常量**。
+可行的收窄方向：区分两种 pin 的语义——
+「该文件必须存在且自述」的改成**与活文件对拍**；
+「必须是某一版」的才保留硬编码。**本轮未动**（174 处一次性改动风险过高）。
+
+
+### 18.5 待裁决项（证据已齐，等口径）
+
+| # | 事项 | 关键实测证据 | 决策点 |
+|---|---|---|---|
+| ① | psg 修复路线 | legacy 活账本路径**在设计上**只认冻结状态；bundle 门绿 | 走「只改测试对齐 bundle 合同」（零 formal 成本）还是「连 legacy+导出器一起修、artifact 重落地」（需一次 formal） |
+| ② | **D0** bank 字段穷尽定义 | data-table-b 静态闭包**已 100% 提交**（79 记录、2740+316 B、unknown 0、2 个消费者已绑定），但 `natural_gameplay_all_ids_proven=false` | 「字段穷尽」= 静态闭包即可（A），还是每条记录都要运行时因果证据（B → 79 次采集） |
+| ③ | **Tier-2 门槛** | 门槛三选一：≥10 KiB \| ≥0.15 pp \| 同类待接入 ≥4 个。命令脚本类现为 **3 个 packet / 4,334 B / 0.0689 pp**，三门槛**全不满足**；两包 2,721 B 跨信任边界，政策明禁合计 | 是否允许以「同类 packet 计数」或「跨类合计」触门槛，还是先补第四个同边界 packet |
+| ④ | `sprite_loader_tail` 的 purelib workaround | `.venv` 是 `--system-site-packages` 建的，**venv 自己的 purelib 是空的**；验证器一律 `-I -S`（Pillow 本不可见），全靠手动补 purelib | 是否加固为「补所有候选 purelib」（改动需同步 SHA + 重跑 formal） |
+
+
 
 
 

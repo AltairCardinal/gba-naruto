@@ -2993,11 +2993,11 @@ PSG_FREQUENCY_VERIFIER_SHA256 = (
 )
 PSG_FREQUENCY_EXPORTER_TEST = Path("tests/test_export_rom_psg_frequency_lookup.py")
 PSG_FREQUENCY_EXPORTER_TEST_SHA256 = (
-    "d1983847f0d5798e20dabf872c00ac2831c0e01a9d55c5587426f120cd5ed13e"
+    "9844b12062b40e20a1921534ed3326fca80642fa3f2fb00d422258616f1f1915"
 )
 PSG_FREQUENCY_VERIFIER_TEST = Path("tests/test_verify_rom_psg_frequency_lookup.py")
 PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
-    "74f41c42ca5511f9331d59aead138f6bdfc198233cc10ba1180fee37d996c124"
+    "c10ff25952bfe308abb6d26c7c991052319b45eaf2e38889e8f124498513fe46"
 )
 PSG_FREQUENCY_BUNDLE_VERIFIER = Path(
     "tools/verify_rom_psg_frequency_lookup_bundle.py"

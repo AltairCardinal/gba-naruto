@@ -1742,11 +1742,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         gate = specification["gates"]["rom_byte_coverage"]
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         verifier = next(
             item
@@ -1822,11 +1822,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -1986,11 +1986,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -2180,11 +2180,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -4593,11 +4593,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         )
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_cfg_proven_roots_v11_and_exact_coverage_delta(self):
@@ -4697,11 +4697,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_cfg_proven_roots_v12_and_exact_coverage_delta(self):
@@ -4821,11 +4821,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_cfg_proven_roots_v13_and_exact_coverage_delta(self):
@@ -4960,11 +4960,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_u8_indexed_u16_pair_lookup_inventory(self):
@@ -5149,11 +5149,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_task_scheduler_core_and_exact_coverage_delta(self):
@@ -5310,11 +5310,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_directsound_pitch_lookup_and_exact_coverage_delta(self):
@@ -5458,11 +5458,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_psg_frequency_lookup_and_exact_coverage_delta(self):
@@ -5601,11 +5601,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_u8_indexed_u8_triplet_lookup_and_exact_coverage_delta(
@@ -5736,11 +5736,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_artifact_bound_alignment_gaps_and_exact_coverage_delta(
@@ -5883,11 +5883,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_cgb_bounded_cfgs_and_exact_coverage_delta(self):
@@ -6061,11 +6061,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_m4a_initializer_chain_and_exact_coverage_delta(
@@ -6078,11 +6078,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -6207,11 +6207,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -6331,11 +6331,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
         self.assertEqual(
             _sha256(ROOT / "sequel/rom-byte-coverage.json"),
@@ -7456,11 +7456,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_tile_bg_lz77_palette_gap_proof(self) -> None:
@@ -7606,11 +7606,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_current_spec_binds_boot_thumb_code_literal_alignment_gap_proof(
@@ -7778,11 +7778,11 @@ class ReverseEngineeringProofAuditTests(unittest.TestCase):
         self.assertGreaterEqual(len(gate["evidence"]), 96)
         self.assertGreaterEqual(len(gate["verifiers"]), 92)
         self.assertGreaterEqual(
-            96,
             sum(
                 len(item["verifiers"])
                 for item in specification["gates"].values()
             ),
+            96,
         )
 
     def test_rom_gate_requires_the_adjudication_overlay(self):
