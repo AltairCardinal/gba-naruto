@@ -292,6 +292,25 @@ prune 前的安全核对：414 个 reflog 引用提交与不可达对象列表**
 GitHub 侧同样会压缩：全推所有分支后 GitHub 仓库约 **450–500 MB**，而不是按原始
 blob 估算的 1.97 GB。
 
+### 6.2.1 推送实测：网络是瓶颈，不是 CPU
+
+`git push origin codex/butano-foundation-research codex/reverse-engineering
+task/units-character-definitions` 的实测特征：
+
+- 推送期间机器 load average 冲到 11.98：并发 session 的 Docker 构建（`Virtualization`
+  进程）独占 **311% CPU**，`tools/audit_rom_byte_coverage.py` 占 90%，mGBA 占 81%。
+- 但 `git pack-objects` 的 CPU 累计在 10 分钟里只涨了约 1.4s，ssh 侧
+  `nettop` 实测已发出 93,590,709 B（89.3 MiB）——**瓶颈是网络（约 150 KB/s），
+  不是本机 CPU**。
+- 推 `task/units-character-definitions` 的 344 个提交**不额外占带宽**：它是
+  `codex/butano-foundation-research` 的祖先，这些对象在推后者时一并送出，
+  单独推只是多一个 ref。
+- 推 `codex/butano-foundation-research` 连带送出 `task/units` 全部 561 个提交
+  （已核实 `origin/task/units-character-definitions` 是它的祖先，且
+  `build/tiles-v2` 的 36 个对象在其历史中可达）。
+- **中断不会丢进度**：GitHub 把已收对象留在 quarantine，下次协商会跳过它们，
+  断点重推的成本很低。批量推大分支时应预期需要重试而不是一次成功。
+
 工作区清理（均经 `mavis-trash`，可从 `~/.Trash` 恢复）：
 `butano-sequel/build*`（7 个）、`butano-sequel/*.elf`（11 个）、`build/macos-mgba`、
 `artifacts/macos-mgba-20261019-v1/evidence/sentinel-base.gba`。
@@ -359,7 +378,6 @@ basename，重名文件在回收站中只保留一份，导致 **724 个原始�
 2. 对方的在途工作不依赖本次删除的 s49 原始媒体（已核对 diff，未出现相关路径引用）。
 
 ## 7. 遗留待决项
-
 1. **推送范围**（push 需单独授权）：本地 3 个分支未同步，`codex/reverse-engineering`
    独占 756.2 MiB 唯一 blob。全部推送后 GitHub 侧按本地 4.4x 压缩率推算约
    **450–500 MB**，在 GitHub 1 GB 软警告线以内。
