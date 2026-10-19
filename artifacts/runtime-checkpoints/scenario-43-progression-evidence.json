@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "scope": "scenario-43-natural-progression-and-combat-survival",
+  "outcome": "scenario-43-natural-victory-level-three-verified",
+  "origin": {
+    "path": "artifacts/runtime-checkpoints/scenario-42-postbattle-world-map.ss9",
+    "sha256": "35fce6be208aa50044bdaa2232eab5986d9ea76340bc08c68b107f34b5a5b5a1",
+    "route": "world map -> story -> start mission -> natural battle"
+  },
+  "battle": {
+    "scenario": 43,
+    "initial_player": {
+      "coordinates": [4, 17],
+      "hp": 94
+    },
+    "initial_enemies": [
+      {"coordinates": [2, 11], "hp": 50},
+      {"coordinates": [4, 10], "hp": 50},
+      {"coordinates": [6, 11], "hp": 50}
+    ],
+    "final_hit_state_sha256": "d9cce5ad9c529180d94d1176d3f278f793474fe62659ddb1357b959353e948bc",
+    "victory_state_sha256": "5821143d397a3630b88b4fc6aa3da245eca1e17e6800c1db5891ad7919cac6ea"
+  },
+  "combat_findings": {
+    "defeated_enemy_stored_hp": [2, 5, 8],
+    "defeat_boundary": "all three enemy records changed their defeat state before their stored HP reached zero",
+    "shadow_clone": "created a second player-affiliated Naruto record; after the summoner was defeated the clone remained controllable",
+    "rest_hp_gain": 18,
+    "rest_example": {"before": 6, "after_action": 24, "after_enemy_attack": 15},
+    "stable_survival_loop": "alternate a melee turn with a rest turn while adjacent; rest exceeds the observed 8-9 HP enemy hit"
+  },
+  "natural_reward": {
+    "level_before": 2,
+    "level_after": 3,
+    "exp_after": 0,
+    "training_points_after": 2,
+    "result_exp": 155,
+    "level_up_state_sha256": "11ecc5a1de77494b68603712cc869278095676d581ce65a507e7bc05b9c3a722",
+    "reward_screen_state_sha256": "1a2ed30adc3a2a74346fe0b2c72804fe75e235276a1c413684eae27495bf23d5",
+    "reward": "Kakashi bells"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-43-postbattle-next-task-prompt.ss9",
+    "sha256": "55375b7736481505dc68cdfe774e1182d90ea77d31264d7be10c80279a978ce9",
+    "input_state_sha256": "715b144eb2bfde4e1da770ff84fd7118c72248dbdad8676ace2e02f0654d58f4",
+    "zero_input_run_id": "8c004d133c217788ab5d71326edb4fd2",
+    "zero_input_verified": true,
+    "task_2_resume": "0x08092FCE",
+    "rgb_pixels_sha256": "d57e39a268fe602010467cb904bfb2076331003dcc75e97ae9d774febb5d66df",
+    "peak_tree_rss_mib": 52.125,
+    "pgid_clean": true,
+    "screen": "postbattle reward page, start-next-task confirmation"
+  },
+  "levels_boundary": {
+    "verification": "code_verified",
+    "secondary_active_count": 0,
+    "required_character_level": 8,
+    "observed_character_level": 3,
+    "boundary": "Scenario 43 advances natural level and training points but still does not reach the level-8 type-4 training consumer."
+  },
+  "batch_runtime": {
+    "maximum_peak_tree_rss_mib": 107.64453125,
+    "exit_boundary": "Lua batch runs are navigation aids; only checkpoints saved before cleanup and the independently zero-input-verified publication are accepted as durable evidence."
+  }
+}

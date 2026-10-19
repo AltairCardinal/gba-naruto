@@ -9,6 +9,7 @@ Covers all checks that do not require mGBA runtime input injection:
   4. Bytes patches   — verify applied bytes match expected after_hex
   5. Dialogue bank   — all entries encode correctly in their declared encoding
   6. Encoding sanity — no patch text exceeds max_bytes (same-length strategy)
+  7. RE banks        — reverse-engineering bank invariants match base ROM
 
 Usage:
     python tools/automated_test.py                 # run all tests
@@ -21,6 +22,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sqlite3
 import struct
 import sys
@@ -104,8 +106,29 @@ def sha1_bytes(b: bytes) -> str:
 from tools.lib import load_json
 
 
+def build_context():
+    from tools import build_mod
+    return build_mod.load_context(ROOT / "sequel/project.json")
+
+
+def build_report_path() -> Path:
+    return build_context().report_path
+
+
+def output_rom_path() -> Path:
+    return build_context().output_rom_path
+
+
+def editor_db_path() -> Path:
+    configured = os.environ.get("DB_PATH")
+    if configured:
+        path = Path(configured)
+        return path if path.is_absolute() else ROOT / path
+    return ROOT / "sequel/editor.db"
+
+
 def load_build_report() -> dict:
-    path = ROOT / "build/naruto-sequel-build-report.json"
+    path = build_report_path()
     assert path.exists(), f"build report not found: {path}"
     return load_json(path)
 
@@ -135,14 +158,13 @@ def suite_build(runner: TestRunner) -> None:
         assert result.returncode == 0, f"build_mod.py exited {result.returncode}\n{result.stderr}"
 
     def test_output_rom_exists() -> None:
-        project = load_project()
-        out = ROOT / project["build"]["output_rom"]
+        out = output_rom_path()
         assert out.exists(), f"output ROM not found: {out}"
 
     def test_output_rom_size() -> None:
         project = load_project()
         base_path = ROOT / project["base_rom"]["path"]
-        out_path = ROOT / project["build"]["output_rom"]
+        out_path = output_rom_path()
         assert base_path.exists(), f"base ROM not found: {base_path}"
         assert out_path.exists(), f"output ROM not found: {out_path}"
         assert base_path.stat().st_size == out_path.stat().st_size, \
@@ -150,7 +172,7 @@ def suite_build(runner: TestRunner) -> None:
 
     def test_report_exists() -> None:
         project = load_project()
-        rp = ROOT / project["build"]["report"]
+        rp = build_report_path()
         assert rp.exists(), f"build report not found: {rp}"
 
     def test_report_has_patches() -> None:
@@ -208,7 +230,10 @@ def suite_manifest(runner: TestRunner) -> None:
     def test_enabled_patches_only() -> None:
         # All enabled patches should have valid types
         manifest = load_manifest()
-        valid_types = {"bytes", "dialogue", "pointer_redirect", "map", "battle_config", "dialogue_var"}
+        valid_types = {
+            "bytes", "dialogue", "pointer_redirect", "map", "battle_config",
+            "dialogue_var", "chapter_script",
+        }
         errors = []
         for patch in manifest["patches"]:
             if not patch.get("enabled", True):
@@ -232,8 +257,7 @@ def suite_patches(runner: TestRunner) -> None:
     suite = "patches"
 
     def _get_output_rom() -> bytes:
-        project = load_project()
-        out_path = ROOT / project["build"]["output_rom"]
+        out_path = output_rom_path()
         assert out_path.exists(), f"output ROM not found: run build first"
         return out_path.read_bytes()
 
@@ -319,6 +343,11 @@ ROM_TABLE_GENERATORS = {
     "rom_story_c": "generate_story_c_patches",
     "rom_story_d": "generate_story_d_patches",
     "rom_story_e": "generate_story_e_patches",
+    "rom_chapter_flow_primary": "generate_chapter_flow_primary_patches",
+    "rom_chapter_flow_alternate": "generate_chapter_flow_alternate_patches",
+    "rom_audio_sound_ids": "generate_audio_sound_id_patches",
+    "rom_character_definitions": "generate_character_definition_patches",
+    "rom_map_headers": "generate_map_header_patches",
     "rom_tile_assets": "generate_tile_asset_patches",
 }
 
@@ -348,8 +377,11 @@ def suite_db_integrity(runner: TestRunner) -> None:
     def test_populated_rom_tables_have_generator_output() -> None:
         from tools import build_db_patches
 
-        db_path = ROOT / "sequel/editor.db"
-        assert db_path.exists(), f"editor DB not found: {db_path}"
+        db_path = editor_db_path()
+        if not db_path.exists():
+            # editor.db is intentionally ignored; clean checkouts verify the
+            # wrappers through unit tests instead of a local mutable database.
+            return
         conn = sqlite3.connect(str(db_path))
         try:
             existing = {
@@ -368,10 +400,9 @@ def suite_db_integrity(runner: TestRunner) -> None:
                     continue
                 generator = getattr(build_db_patches, generator_name)
                 patches = generator(db_path)
-                byte_patches = [p for p in patches if p.get("type") == "bytes"]
-                if not byte_patches:
+                if not patches:
                     errors.append(
-                        f"{generator_name}: returned no byte patches for "
+                        f"{generator_name}: returned no patch or diagnostic rows for "
                         f"{table} ({row_count} rows); check the queried table name"
                     )
         finally:
@@ -436,7 +467,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
         report = load_build_report()
         project = load_project()
         base = (ROOT / project["base_rom"]["path"]).read_bytes()
-        output = (ROOT / project["build"]["output_rom"]).read_bytes()
+        output = output_rom_path().read_bytes()
         errors = []
         for patch in report.get("applied_patches", []):
             if patch.get("patch_source") != "db_real" or patch.get("type") != "bytes":
@@ -568,6 +599,61 @@ def suite_encoding(runner: TestRunner) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Suite: reverse-engineering bank invariants
+# ---------------------------------------------------------------------------
+
+def suite_reverse_engineering(runner: TestRunner) -> None:
+    """Verify extracted reverse-engineering bank metadata against base ROM."""
+    suite = "reverse_engineering"
+
+    def test_save_state_table_matches_base_rom() -> None:
+        from tools.verify_save_state_records import validate_bank
+
+        bank = load_json(ROOT / "sequel/content/save-state/bank.json")
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        report = validate_bank(bank, base_rom)
+        assert report["ok"], "save-state bank validation failed:\n" + "\n".join(
+            report["issues"]
+        )
+        assert report["entry_count"] == 10, report["entry_count"]
+        assert report["payload_lengths"] == [4732, 4732, 20, 4732, 20, 8, 24, 6084, 1404, 512], report["payload_lengths"]
+        assert report["record_offsets"][3:] == [0x2548, 0x37D8, 0x3800, 0x381C, 0x3848, 0x5020, 0x55B0], report["record_offsets"]
+        assert report["total_sram_span"] == 0x57C4, report["total_sram_span"]
+
+    runner.run("save-state table matches base ROM and cumulative variable records", suite,
+               test_save_state_table_matches_base_rom)
+
+    def test_battle_config_table_matches_base_rom() -> None:
+        from tools.verify_battle_config_records import validate_bank
+
+        bank = load_json(ROOT / "sequel/content/battle-config/bank.json")
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        report = validate_bank(bank, base_rom)
+        assert report["ok"], "battle-config bank validation failed:\n" + "\n".join(
+            report["issues"]
+        )
+        assert report["entry_count"] == 32, report["entry_count"]
+        assert report["entry_size"] == 16, report["entry_size"]
+
+    runner.run("battle-config table matches base ROM u16 records", suite,
+               test_battle_config_table_matches_base_rom)
+
+    def test_character_stats_tables_match_base_rom() -> None:
+        from tools.verify_character_stats_records import TABLE_SPECS, validate_bank
+
+        base_rom = (ROOT / "rom/base.gba").read_bytes()
+        for name, spec in TABLE_SPECS.items():
+            bank = load_json(ROOT / spec["bank"])
+            report = validate_bank(bank, spec, base_rom)
+            assert report["ok"], f"{name} bank validation failed:\n" + "\n".join(
+                report["issues"]
+            )
+
+    runner.run("character-growth table matches base ROM u16 records", suite,
+               test_character_stats_tables_match_base_rom)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -577,6 +663,7 @@ SUITES = {
     "patches":  suite_patches,
     "db_integrity": suite_db_integrity,
     "encoding": suite_encoding,
+    "reverse_engineering": suite_reverse_engineering,
 }
 
 

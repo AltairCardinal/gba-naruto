@@ -1,6 +1,6 @@
 # 逆向工程 Bank 完成度审计
 
-生成时间：`2026-07-11T06:23:25.351460+00:00`
+生成时间：`2026-07-13T15:41:43.232065+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。
 
@@ -8,56 +8,57 @@
 
 - 发现 `32` / 预期 `32` 个 bank。
 - 同时满足六项元数据与字节检查：`32` / `32`。
+- 有效数据 bank：`23`；已证伪且保持空条目的安全 tombstone：`9`。
 - `table_offset`：`32` / `32`。
 - `format`：`32` / `32`。
 - `entries`：`32` / `32`。
 - `verification`：`32` / `32`。
 - `documentation`：`32` / `32`。
 - `rom_fidelity`：`32` / `32`。
-- verification 分布：`code_verified`=1, `runtime_verified`=1, `static_verified`=30。
+- verification 分布：`code_verified`=10, `disproved`=9, `runtime_verified`=13。
 
 ## 逐结构结果
 
 | 结构 | table_offset | format | entries | verification | 文档覆盖 | ROM字节 | 完整 | 问题 |
 |---|---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
-| `audio` | ✅ `0x53F138` | ✅ | ✅ (88) | ✅ `static_verified` | ✅ (16) | ✅ (88) | ✅ | — |
-| `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `static_verified` | ✅ (15) | ✅ (256) | ✅ | — |
-| `battle-encounters` | ✅ `0x542384` | ✅ | ✅ (38) | ✅ `static_verified` | ✅ (11) | ✅ (38) | ✅ | — |
-| `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (14) | ✅ `static_verified` | ✅ (10) | ✅ (14) | ✅ | — |
-| `character-stats` | ✅ `0x54507A` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (13) | ✅ (160) | ✅ | — |
-| `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (18) | ✅ `static_verified` | ✅ (12) | ✅ (144) | ✅ | — |
-| `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (16) | ✅ `static_verified` | ✅ (10) | ✅ (16) | ✅ | — |
-| `data-table-a` | ✅ `0x5A14A4` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
-| `data-table-b` | ✅ `0x5A2120` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
-| `encounter-zones` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (19) | ✅ (423) | ✅ | — |
-| `fonts` | ✅ `0x53E5B4` | ✅ | ✅ (256) | ✅ `static_verified` | ✅ (8) | ✅ (256) | ✅ | — |
-| `function-pointers` | ✅ `0x53D5F4` | ✅ | ✅ (11) | ✅ `static_verified` | ✅ (9) | ✅ (11) | ✅ | — |
-| `items` | ✅ `0x546100` | ✅ | ✅ (12) | ✅ `static_verified` | ✅ (13) | ✅ (84) | ✅ | — |
-| `levels` | ✅ `0x5459D4` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (11) | ✅ (282) | ✅ | — |
-| `map-events` | ✅ `0x53EB08` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (12) | ✅ (47) | ✅ | — |
-| `map-sprites` | ✅ `0x53F1DC` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (9) | ✅ (47) | ✅ | — |
-| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `static_verified` | ✅ (28) | ✅ (423) | ✅ | — |
-| `menu-ui` | ✅ `0x5A5774` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
-| `palettes` | ✅ `0x53F138` | ✅ | ✅ (88) | ✅ `static_verified` | ✅ (12) | ✅ (88) | ✅ | — |
-| `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (17) | ✅ (10368) | ✅ | — |
-| `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (20) | ✅ `static_verified` | ✅ (9) | ✅ (20) | ✅ | — |
-| `sappy-engine` | ✅ `0x079668` | ✅ | ✅ (1) | ✅ `code_verified` | ✅ (8) | ✅ (1) | ✅ | — |
-| `save-state` | ✅ `0x053D848` | ✅ | ✅ (10) | ✅ `static_verified` | ✅ (11) | ✅ (20) | ✅ | — |
-| `skills` | ✅ `0x546100` | ✅ | ✅ (12) | ✅ `static_verified` | ✅ (14) | ✅ (84) | ✅ | — |
-| `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (38) | ✅ `static_verified` | ✅ (9) | ✅ (38) | ✅ | — |
-| `story` | ✅ `0x53636C` | ✅ | ✅ (9) | ✅ `static_verified` | ✅ (25) | ✅ (9) | ✅ | — |
-| `story-b` | ✅ `0x536BC8` | ✅ | ✅ (11) | ✅ `static_verified` | ✅ (11) | ✅ (11) | ✅ | — |
-| `story-c` | ✅ `0x538FF0` | ✅ | ✅ (10) | ✅ `static_verified` | ✅ (10) | ✅ (10) | ✅ | — |
-| `story-d` | ✅ `0x53AB78` | ✅ | ✅ (11) | ✅ `static_verified` | ✅ (10) | ✅ (11) | ✅ | — |
-| `story-e` | ✅ `0x53C3C0` | ✅ | ✅ (9) | ✅ `static_verified` | ✅ (10) | ✅ (9) | ✅ | — |
-| `tile-assets` | ✅ `0x5A3218` | ✅ | ✅ (6) | ✅ `static_verified` | ✅ (9) | ✅ (6) | ✅ | — |
-| `units` | ✅ `0x53F298` | ✅ | ✅ (64) | ✅ `static_verified` | ✅ (18) | ✅ (64) | ✅ | — |
+| `audio` | ✅ `0x465B70` | ✅ | ✅ (80) | ✅ `runtime_verified` | ✅ (35) | ✅ (240) | ✅ | — |
+| `battle-config` | ✅ `0x545458` | ✅ | ✅ (32) | ✅ `runtime_verified` | ✅ (18) | ✅ (480) | ✅ | — |
+| `battle-encounters` | ✅ `0x54229C` | ✅ | ✅ (24) | ✅ `code_verified` | ✅ (13) | ✅ (96) | ✅ | — |
+| `battle-handlers` | ✅ `0x53E6D8` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (12) | ✅ (0) | ✅ | — |
+| `character-stats` | ✅ `0x545068` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (15) | ✅ (504) | ✅ | — |
+| `character-stats-b` | ✅ `0x545200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (16) | ✅ (0) | ✅ | — |
+| `cutscene-scripts` | ✅ `0x53DF70` | ✅ | ✅ (8) | ✅ `code_verified` | ✅ (12) | ✅ (16) | ✅ | — |
+| `data-table-a` | ✅ `0x5A143C` | ✅ | ✅ (46) | ✅ `runtime_verified` | ✅ (7) | ✅ (46) | ✅ | — |
+| `data-table-b` | ✅ `0x5A2034` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (8) | ✅ (79) | ✅ | — |
+| `encounter-zones` | ✅ `0x53D910` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (22) | ✅ (0) | ✅ | — |
+| `fonts` | ✅ `0x53E5B4` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (10) | ✅ (0) | ✅ | — |
+| `function-pointers` | ✅ `0x53D5F4` | ✅ | ✅ (11) | ✅ `runtime_verified` | ✅ (11) | ✅ (11) | ✅ | — |
+| `items` | ✅ `0x546100` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (17) | ✅ (0) | ✅ | — |
+| `levels` | ✅ `0x5459C8` | ✅ | ✅ (45) | ✅ `code_verified` | ✅ (15) | ✅ (315) | ✅ | — |
+| `map-events` | ✅ `0x53E698` | ✅ | ✅ (256) | ✅ `code_verified` | ✅ (13) | ✅ (512) | ✅ | — |
+| `map-sprites` | ✅ `0x53F140` | ✅ | ✅ (43) | ✅ `code_verified` | ✅ (9) | ✅ (86) | ✅ | — |
+| `maps` | ✅ `0x53D910` | ✅ | ✅ (47) | ✅ `runtime_verified` | ✅ (35) | ✅ (423) | ✅ | — |
+| `menu-ui` | ✅ `0x5A4DEC` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (9) | ✅ (630) | ✅ | — |
+| `palettes` | ✅ `0x53EE98` | ✅ | ✅ (15) | ✅ `code_verified` | ✅ (14) | ✅ (75) | ✅ | — |
+| `positions` | ✅ `0x5461C4` | ✅ | ✅ (1728) | ✅ `runtime_verified` | ✅ (22) | ✅ (10368) | ✅ | — |
+| `resource-pointers` | ✅ `0x596F0C` | ✅ | ✅ (5) | ✅ `code_verified` | ✅ (13) | ✅ (20) | ✅ | — |
+| `sappy-engine` | ✅ `0x09AE3C` | ✅ | ✅ (1) | ✅ `code_verified` | ✅ (7) | ✅ (1) | ✅ | — |
+| `save-state` | ✅ `0x53D848` | ✅ | ✅ (10) | ✅ `runtime_verified` | ✅ (16) | ✅ (20) | ✅ | — |
+| `skills` | ✅ `0x545BE4` | ✅ | ✅ (94) | ✅ `runtime_verified` | ✅ (19) | ✅ (1504) | ✅ | — |
+| `sprite-animations` | ✅ `0x53F200` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
+| `story` | ✅ `0x060C74` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (39) | ✅ (56) | ✅ | — |
+| `story-b` | ✅ `0x060D54` | ✅ | ✅ (56) | ✅ `runtime_verified` | ✅ (17) | ✅ (56) | ✅ | — |
+| `story-c` | ✅ `0x538FF0` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (13) | ✅ (0) | ✅ | — |
+| `story-d` | ✅ `0x53AB78` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
+| `story-e` | ✅ `0x53C3C0` | ✅ | ✅ (0) | ✅ `disproved` | ✅ (11) | ✅ (0) | ✅ | — |
+| `tile-assets` | ✅ `0x5A320C` | ✅ | ✅ (79) | ✅ `code_verified` | ✅ (7) | ✅ (1343) | ✅ | — |
+| `units` | ✅ `0x54241C` | ✅ | ✅ (63) | ✅ `runtime_verified` | ✅ (22) | ✅ (630) | ✅ | — |
 
 ## 判定规则
 
 - `table_offset`：必须为非负整数；若有 `table_offset_hex`，两者必须一致。
 - `format`：`format`、`entry_format` 或已知领域格式字段至少一个非空。
-- `entries`：必须是非空数组；若声明 `entry_count`，必须与实际数量一致。
-- `verification`：必须是 `static_verified`、`code_verified` 或 `runtime_verified`。
+- `entries`：有效 bank 必须是非空数组；`disproved` tombstone 必须保持空数组；若声明 `entry_count`，必须与实际数量一致。
+- `verification`：必须是 `static_verified`、`code_verified`、`runtime_verified` 或带方法与说明的 `disproved`。
 - 文档覆盖：`docs/*.md` 或 `notes/*.md` 至少一处提到结构目录名、bank 路径或表偏移。
-- `rom_fidelity`：已提取字段的 `*_hex` 必须与校验过的基准 ROM 对应字节一致。
+- `rom_fidelity`：有效 bank 已提取字段的 `*_hex` 必须与校验过的基准 ROM 对应字节一致；空的 `disproved` tombstone 记为不适用。

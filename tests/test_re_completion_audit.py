@@ -12,6 +12,26 @@ from tools.audit_re_completion import audit_bank
 
 
 class ReCompletionAuditTests(unittest.TestCase):
+    def test_documented_disproved_tombstone_is_complete_without_fake_entries(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bank = root / "sequel/content/alias/bank.json"
+            bank.parent.mkdir(parents=True)
+            bank.write_text(json.dumps({
+                "table_offset": 4,
+                "table_offset_hex": "0x4",
+                "entry_count": 0,
+                "entry_format": {"fields": []},
+                "entries": [],
+                "verification": "disproved",
+                "verification_method": "Consumer proves this is a mid-record alias.",
+                "notes": "Kept empty to prevent unsafe write-back.",
+            }), encoding="utf-8")
+            result = audit_bank(root, bank, {root / "notes.md": "alias at 0x4"}, b"\0" * 16)
+
+        self.assertTrue(result["complete"], result["issues"])
+        self.assertEqual(result["rom_fidelity_fields_checked"], 0)
+
     def test_non_contiguous_entries_use_explicit_rom_offsets_and_numeric_fields(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

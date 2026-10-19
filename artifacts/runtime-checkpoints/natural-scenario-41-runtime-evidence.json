@@ -1,0 +1,37 @@
+{
+  "probe": {
+    "builder": "tools/build_alternate_chapter_runtime_probe.py --natural-selector",
+    "sha256": "0bc7d6a204dc75b542fa7803b6b04bdfa92ae6a3c0678a76a6c31920d73921f0",
+    "forced_table_branch": false
+  },
+  "entry_route": "cold-load tutorial-ui-save.sav, enter Konoha, choose Move then Battle",
+  "selector": {
+    "hit_count": 2,
+    "scenario_id": 41,
+    "table": "primary 0x60C74",
+    "table_entry": "0x60C74[41]",
+    "selected_script": "0x08031A12"
+  },
+  "initial_story_sample": {
+    "opcode_hit_count": 13,
+    "last_cursor": "0x08031A23",
+    "outer_state_0x020311D4_plus_0x10_hex": "0a003000000129270000000001020000",
+    "A880": 0,
+    "battle_state": 0
+  },
+  "terminal_story_sample": {
+    "opcode_hit_count": 44,
+    "last_cursor": "0x08031D5F",
+    "opcode_bytes": "00 1B 08 00",
+    "rom_bytes_match": true,
+    "outer_state_0x020311D4_plus_0x10_hex": "0a000001000129270100000001020000",
+    "outer_state_plus_0x12_u16": 256,
+    "outer_state_plus_0x16": 41,
+    "outer_state_plus_0x17": 39,
+    "outer_state_plus_0x18": 1,
+    "A880": 0,
+    "battle_state": 0,
+    "termination": "opcode 00 normal return; no SetBattle"
+  },
+  "conclusion": "The post-save Move/Battle route naturally consumes primary scenario 41 and enters its post-story preparation UI. It is not the title encyclopedia, but this story intentionally starts no battle and cannot yet prove a level-up."
+}

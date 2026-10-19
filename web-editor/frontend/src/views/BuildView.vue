@@ -21,10 +21,10 @@
       </button>
       <span v-else class="no-perm-hint">🔒 无构建权限，请联系管理员</span>
       <button
-        @click="() => store.downloadRom()"
-        :disabled="store.buildStatus.status !== 'done'"
+        @click="downloadRom"
+        :disabled="store.buildStatus.status !== 'done' || store.isDownloading"
       >
-        下载 ROM
+        {{ store.isDownloading ? '下载中…' : '下载 ROM' }}
       </button>
       <button
         @click="store.openInEmulator"
@@ -34,6 +34,10 @@
         在模拟器中打开
       </button>
       <button @click="store.clearLogs">清除日志</button>
+    </div>
+
+    <div v-if="store.buildStatus.error" class="build-error">
+      {{ store.buildStatus.error }}
     </div>
 
     <div v-if="store.currentBuildId" class="build-id-line">
@@ -94,18 +98,30 @@ async function triggerBuild() {
   }
 }
 
+async function downloadRom() {
+  try {
+    await store.downloadRom()
+  } catch {
+    // The store keeps the server-provided error visible in the page.
+  }
+}
+
 function scrollToBottom() {
   if (terminalRef.value) {
     terminalRef.value.scrollTop = terminalRef.value.scrollHeight
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   // Only attempt to reconnect WS if we have a token. If /me fails the
   // route guard will already have bounced us to /login, but be defensive.
   if (auth.isLoggedIn) {
-    store.connectBuildWs()
-    store.fetchBuildStatus().catch(() => {})
+    try {
+      const status = await store.fetchBuildStatus()
+      if (status.build_id) store.connectBuildWs(status.build_id)
+    } catch {
+      // A user with no prior build starts in the normal idle state.
+    }
   }
 })
 

@@ -1,0 +1,10 @@
+{
+  "track_count": 217,
+  "bounded_ticks_per_track": 2048,
+  "runtime_note_requests": 17546,
+  "runtime_eot_requests": 21,
+  "fine_stop_requests": 79,
+  "registers": ["TEMPO", "PRIO", "VOICE", "VOL", "PAN", "KEYSH", "BEND", "BENDR", "TUNE", "LFOS", "LFODL", "MOD", "MODT"],
+  "note_snapshot": ["voice", "key", "velocity", "gate", "pitch key/fine", "track right/left"],
+  "coverage_boundary": "All ROM tracks drive persistent musical registers and note/release requests for bounded runtime. Requests are not yet wired to terminal tones and allocated channels."
+}

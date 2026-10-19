@@ -1,0 +1,54 @@
+{
+  "date": "2026-07-13",
+  "bank": "function-pointers",
+  "table": "0x0853D5F4",
+  "dispatcher": "0x08061D8C",
+  "hooks": ["0x08061D84", "0x0807C61C"],
+  "scratch": "0x0203F1C0",
+  "input_mode": "keyboard",
+  "save_file_supplied": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+  "save_load_observed": false,
+  "route": "title-menu character encyclopedia",
+  "navigation": ["A", "A", "A", "A", "A", "Start", "Down", "A", "A"],
+  "control": {
+    "rom_sha256": "cfff79311cb2f68f0f2dde276fdd599076b4cb4b05cca2c93b081468c69be376",
+    "scratch_sha256": "ce8358313ccee2db89539fb52283f6c5cf4667e23c7ff1986a102caa10a75593",
+    "screenshot_sha256": "b4ecf88ecb52f634e2235e5b9276e88f68800a57c1afa812edc917616a166c6d",
+    "magic": "PFPR",
+    "hit_count": 4,
+    "last_callback_id": 2,
+    "last_argument_1": "0x0808C175",
+    "last_argument_2": "0x00000000",
+    "last_table_entry": "0x0853D5F8",
+    "last_selected_pointer": "0x08061C99",
+    "callback_2_hit_count": 2,
+    "callback_2_entry": "0x0853D5F8",
+    "callback_2_selected_pointer": "0x08061C99",
+    "visible_result": "complete Naruto profile panel"
+  },
+  "variant": {
+    "rom_sha256": "c632a4cff0f86cc563414a9e7de08f859cca9829c618166f1bc22a1ddc883c98",
+    "scratch_sha256": "8295c2ee75c05a0dfaa4b811e25df1251f8cdad13457f3ff7fde503ee88c2e5f",
+    "screenshot_sha256": "aacff5fe3b9dc5d2088c884b1c3dc81f7123dbc76118f803cc5b79afe436ba24",
+    "hit_count": 2,
+    "last_callback_id": 1,
+    "last_table_entry": "0x0853D5F4",
+    "last_selected_pointer": "0x08061C8D",
+    "callback_2_hit_count": 0,
+    "visible_result": "profile transition diverged early and left an incomplete panel"
+  },
+  "single_factor_patch": {
+    "rom_offset": "0x53D5F8",
+    "size": 4,
+    "original_pointer": "0x08061C99",
+    "replacement_pointer": "0x08061CA5",
+    "replacement_source_id": 3
+  },
+  "screen_difference": {
+    "changed_pixels": 151902,
+    "total_pixels": 691200,
+    "ratio": 0.219765625,
+    "bounding_box": [241, 56, 823, 513]
+  },
+  "result": "The natural title-menu character-encyclopedia route selected callback ID 2 twice from the exact table entry and rendered the full profile. Later replay proved the supplied save was not loaded by this input sequence. Changing only that four-byte slot to the adjacent valid wrapper caused the same input route to diverge before callback 2 was dispatched again and left the panel incomplete. The variant zero callback-2 trace is retained as a causal boundary, not presented as a second selected-pointer hit."
+}

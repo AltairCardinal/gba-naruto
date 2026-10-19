@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-12",
+  "source": "natural tutorial-ui-save.sav cold-load route",
+  "prebattle_checkpoint_sha256": "6a0edaaf1923488208250dc830cb800ee3b8a1e96f29c5de56e4cfee4b85b52a",
+  "prebattle_menu": ["队伍·装备", "查看地图", "开始任务", "保存"],
+  "input_route": ["ArrowDown", "ArrowDown", "KeyZ", "Enter"],
+  "outcome": "matched",
+  "reason": "strict-battle-arrival",
+  "step": 4,
+  "battle_id": 41,
+  "map_id": 41,
+  "row_file_offset": "0x53DE30",
+  "map_runtime": [36, 44, 9, 22],
+  "vram_buffer_index": 1,
+  "resource_checks": {
+    "tile_gfx_exact": true,
+    "bg_palette_after_transparent_color_zero_normalization": true,
+    "primary_layout_exact": true,
+    "alternate_layout_null_and_skipped": true,
+    "metatile_attributes_exact": true,
+    "collision_low_byte_passability_exact": true
+  },
+  "runtime_collision_overlay_word_count": 2,
+  "result_sha256": "750917e77348ef3ac30914cbdb3db9b43f3b3a6c695481bef5f4ea6a05d9b3f9",
+  "screenshot_sha256": "3e6fbf6bd1dc83a2795483f8e808917962eec73b46a2996d5521db3592c13d13",
+  "verification_sha256": "e42421b6569e537ca5bc8f9b74bc5c71acba017989c04eb5204e56650da11f34",
+  "dump_sha256": {
+    "ewram": "e4b8d67cd38296cd700802b79df14238bf450fba89b1e7ebc5021fd35ff3b8b5",
+    "palette_ram": "d1027fe2e7187397fae7c5818a32a9f89e536a9bb462558e59d4804e4ffcd28c",
+    "vram": "68d7ea3ef8cea21ead108dcac741058650f4c33ce816fc081d151f5b52b205ca"
+  }
+}

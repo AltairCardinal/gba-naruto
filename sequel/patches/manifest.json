@@ -14,7 +14,7 @@
     {
       "id": "dialogue_proof_same_length",
       "type": "dialogue",
-      "enabled": true,
+      "enabled": false,
       "description": "High-level dialogue import that reproduces the proof-of-write patch through sequel content files.",
       "bank": "sequel/content/text/dialogue-bank.json",
       "content": "sequel/content/text/dialogue-patches.json",
@@ -23,7 +23,7 @@
     {
       "id": "dialogue_group0_main",
       "type": "dialogue",
-      "enabled": true,
+      "enabled": false,
       "description": "Episode-01 opening dialogue replacement via pointer-table entry.",
       "bank": "sequel/content/text/dialogue-bank.json",
       "content": "sequel/content/text/dialogue-patches.json",
@@ -32,7 +32,7 @@
     {
       "id": "dialogue_group1_main",
       "type": "dialogue",
-      "enabled": true,
+      "enabled": false,
       "description": "Episode-01 encounter dialogue replacement.",
       "bank": "sequel/content/text/dialogue-bank.json",
       "content": "sequel/content/text/dialogue-patches.json",
@@ -41,7 +41,7 @@
     {
       "id": "dialogue_group2_main",
       "type": "dialogue",
-      "enabled": true,
+      "enabled": false,
       "description": "Episode-01 battle objective dialogue replacement.",
       "bank": "sequel/content/text/dialogue-bank.json",
       "content": "sequel/content/text/dialogue-patches.json",
@@ -50,11 +50,30 @@
     {
       "id": "dialogue_group0_label1",
       "type": "dialogue",
-      "enabled": true,
+      "enabled": false,
       "description": "Episode-01 chapter label replacement.",
       "bank": "sequel/content/text/dialogue-bank.json",
       "content": "sequel/content/text/dialogue-patches.json",
       "entry_id": "group0.label1"
+    },
+    {
+      "id": "dialogue_variable_allocator",
+      "type": "dialogue_var",
+      "enabled": true,
+      "description": "Deterministic in-place or variable-length dialogue import using its audited 32 KiB partition.",
+      "bank": "sequel/content/text/dialogue-bank.json",
+      "content": "sequel/content/text/dialogue-patches.json",
+      "free_space_start": "0x5F0000",
+      "free_space_end": "0x5F8000"
+    },
+    {
+      "id": "chapter_script_allocator",
+      "type": "chapter_script",
+      "enabled": true,
+      "description": "Atomic semantic chapter payload allocation and guarded table-pointer redirect in its audited 32 KiB partition.",
+      "spec": "sequel/content/story-b/scenario-39-relocation.json",
+      "free_space_start": "0x5F8000",
+      "free_space_end": "0x600000"
     }
   ]
 }

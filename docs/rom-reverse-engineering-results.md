@@ -2,6 +2,10 @@
 
 This document lists all discovered ROM offsets and data structures for the Naruto GBA sequel project.
 
+> Correction (2026-07-11): the character-stat sections at `0x54507A` and
+> `0x545200` are historical, misaligned interpretations. The authoritative
+> growth table is 63×`0x10` at `0x545068`; there is no independent B table.
+
 ## Summary
 
 - **Total structures discovered**: 32
@@ -196,18 +200,13 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - u16 unk3 (usually 0x0000)
   - u32 next_ptr (pointer to next frame in linked list)
 
-### 17. Map Event Handler Table ✨ NEW
-- **Offset**: 0x53EB08
-- **Format**: 47 entries × u32 pointer to Thumb event handler code
-- **Entry count**: 47
-- **Method**: Static analysis - found 47-entry pointer table matching map count
-- **Verification**: All entries point to valid ROM addresses with Thumb PUSH instructions
-- **Notes**: Map event handler pointer table with one entry per map (47 maps total). Only 6 unique handlers are used across all 47 maps, indicating maps share common event handling logic. Maps alternate between handlers in a pattern (odd maps use 0x07F065, even maps use various others).
-- **Entry format**: u32 pointer to Thumb code
-- **Unique handlers**:
-  - 0x07EA7D: Used by maps 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26
-  - 0x07EAF9: Used by maps 0, 2, 4
-  - 0x07EBA1: Used by maps 28, 30, 32
+### 17. Runtime Handler Pair Table ✨ CORRECTED
+- **Offset**: 0x53E698
+- **Format**: 256 entries × primary/secondary Thumb callback
+- **Entry count**: 256
+- **Method**: Consumer trace at `0x0807F934..0x0807F964`
+- **Verification**: One runtime-state byte indexes both pair fields and dispatches nonzero callbacks
+- **Notes**: The old `0x53EB08` 47-u32 view began at pair 142; its map-count match was coincidental.
   - 0x07EC49: Used by maps 34, 36, 38, 40, 42, 44
   - 0x07F065: Used by all odd-numbered maps (1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45)
 
@@ -237,15 +236,13 @@ This document lists all discovered ROM offsets and data structures for the Narut
   - u16 attack (typically 100)
   - u16 defense (typically 100)
 
-### 20. Battle Encounter Table ✨ NEW
-- **Offset**: 0x542384
-- **Format**: 38 entries × u32 (mixed pointers and small numbers)
-- **Entry count**: 38
-- **Method**: Static analysis - found table with 38 entries containing mixed pointers and small numbers
-- **Verification**: Referenced from code at 0x542310, 0x542314, and 0x54231C
-- **Notes**: Battle encounter table with 38 entries. The table has a repeating pattern of 4 entries: pointer, small_number, pointer, pointer. The small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) appear to be battle IDs or enemy counts. The pointers reference data in the 0x138xxx-0x13Dxxx region.
-- **Entry format**: Mixed table with u32 pointers and u32 small numbers
-- **Pattern**: ptr, val, ptr, ptr repeating (4 entries per group)
+### 20. Story Visual Descriptor Table ✨ CORRECTED
+- **Offset**: 0x54229C
+- **Format**: 24 entries × three LZ77 pointers + config ID
+- **Entry count**: 24
+- **Method**: Story opcode consumer trace through `0x08087C9C`
+- **Verification**: The loop loads all 24 records and decompresses three streams per record
+- **Notes**: The old `0x542384` base was descriptor 14 `+8`, creating a false mixed encounter pattern.
 
 ### 21. Story/Chapter Table B ✨ NEW
 - **Offset**: 0x536BC8
@@ -359,14 +356,14 @@ This document lists all discovered ROM offsets and data structures for the Narut
 - **Notes**: Sappy audio engine command handler. Processes commands 0x64-0x67 (special commands) and 0x80-0xE3 (indexed commands). Called from battle event handlers (0x07EFFD, 0x07F065, 0x07F149). Audio table at 0x53F138 contains 88 entries × u32 pointer to Sappy audio data.
 - **Entry format**: Function (not table)
 
-### 32. Cutscene Script Pointer Table ✨ NEW
+### 32. Cutscene Visual Resource Pair Tables (historical slug) ✨ CORRECTED
 - **Offset**: 0x53DF70
-- **Format**: 17 entries × u32 pointer to cutscene/script data in 0x12xxxx region
-- **Entry count**: 17
-- **Method**: Static analysis - found 17-entry pointer table in 0x53Dxxx region
-- **Verification**: All entries point to valid ROM addresses in the 0x12xxxx region
-- **Notes**: Cutscene script pointer table with 17 entries. All entries point to data in the 0x12xxxx region. The target data starts with patterns like 0x10 0x00 which could be script command headers or scene dimensions. Some entries contain what appears to be palette or graphics data (0xFF 0x7F patterns). Located in the 0x53Dxxx region near the map headers and function pointer tables.
-- **Entry format**: u32 pointer to cutscene/script data
+- **Format**: 8 records × 8-byte pointer pair, split into two four-record tables
+- **Entry count**: 8
+- **Method**: Thumb consumer trace through `0x08072EDC` and `0x080625A4`
+- **Verification**: IDs 0..3 index compressed gfx/palette pairs and matching sprite-definition/animation pairs
+- **Notes**: The former 16/17-script interpretation confused two adjacent visual-resource tables. The following object begins at `0x53DFB0`.
+- **Entry format**: primary_ptr + secondary_ptr; semantics depend on which four-record half contains the pair
 
 ## Build Pipeline Integration
 
@@ -435,12 +432,12 @@ The following structures were discovered and documented in the Phase 2 remaining
 1. **Palette Table** at 0x53F138 - 88 entries × u32 pointer to RGB555 palette data
 2. **Font Width Table** at 0x53E5B4 - 256 entries × u8 character width in pixels
 3. **Sprite Animation Table** at 0x53F200 - 38 entries × u32 pointer to animation frame data
-4. **Map Event Handler Table** at 0x53EB08 - 47 entries × u32 pointer to Thumb event handler code
+4. **Runtime Handler Pair Table** at 0x53E698 - 256 primary/secondary callback pairs
 
 ### Iteration 2-8 (5 structures)
 5. **Map Sprite Animation Table** at 0x53F1DC - 47 entries × u32 pointer to sprite animation frame data
 6. **Character Stat Table B** at 0x545200 - 18 entries × 16 bytes with different field ordering
-7. **Battle Encounter Table** at 0x542384 - 38 entries × u32 (mixed pointers and small numbers)
+7. **Story Visual Descriptor Table** at 0x54229C - 24 records × three LZ77 pointers + config
 8. **Story/Chapter Table B** at 0x536BC8 - 11 entries × u32 pointer to chapter data
 9. **Story/Chapter Table C** at 0x538FF0 - 10 entries × u32 pointer to chapter data
 
@@ -454,7 +451,7 @@ The following structures were discovered and documented in the Phase 2 remaining
 16. **Data Table B** at 0x5A2120 - 20 entries × u32 pointer to encoded data in 0x5Axxxx region
 17. **Tile Asset Pointer Table** at 0x5A3218 - 6 entries × u32 pointer to tile/map data in 0x34xxxx region
 18. **Menu UI Pointer Table** at 0x5A5774 - 20 entries × u32 pointer to menu/UI data in 0x43xxxx-0x44xxxx region
-19. **Cutscene Script Pointer Table** at 0x53DF70 - 16 entries × u32 pointer to cutscene/script data in 0x12xxxx region; the following word `0x090A0809` is packed data, not a ROM pointer
+19. **Cutscene visual resource tables** at 0x53DF70 - eight 8-byte pointer pairs: four compressed gfx/palette pairs followed by four sprite-definition/animation pairs; `0x53DFB0` begins a separate object
 
 ## Methodology
 

@@ -2,6 +2,10 @@
 
 ## Status: SUSPECTED (static analysis inconclusive)
 
+Correction (2026-07-11): the `0x54507A` / `0x545200` stat candidates mentioned
+below are not item evidence. They are misaligned views of the character-growth
+table at `0x545068`.
+
 ## Why It's Hard to Find
 
 Item/inventory tables are difficult to find via static analysis because:

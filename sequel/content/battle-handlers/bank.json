@@ -1,160 +1,24 @@
 {
-  "version": 1,
-  "description": "Battle event handler pointer table discovered at ROM offset 0x53E6D8. 14 entries of u32 pointers to Thumb event handler code.",
+  "version": 2,
+  "description": "Disproved independent battle-handler bank retained as a migration tombstone; the former words are handler-pair records 8..14 from the full table at 0x53E698.",
   "table_offset": 5498584,
   "table_offset_hex": "0x53E6D8",
-  "entry_count": 14,
+  "entry_count": 0,
   "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "handler_ptr",
-        "type": "u32",
-        "description": "Pointer to Thumb event handler code"
-      }
-    ]
-  },
-  "notes": "Battle event handler pointer table with 14 entries. All entries point to Thumb code (PUSH instructions starting with 0xB5). Only 3 unique handlers are used: 0x07EFFD (used 7 times), 0x07F065 (used 5 times), and 0x07F149 (used 2 times). The handlers alternate in a pattern similar to the map event handler table. Located in the 0x53Exxx region between the story tables and the map headers.",
-  "handler_summary": {
-    "0x07EFFD": "Used 7 times (entries 0, 2, 4, 6, 8, 10, 12)",
-    "0x07F065": "Used 5 times (entries 1, 5, 7, 9, 11)",
-    "0x07F149": "Used 2 times (entries 3, 13)"
-  },
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5498744,
-      "offset_hex": "0x53E6D8",
-      "handler_ptr": "0x0807EFFD",
-      "handler_offset": "0x07EFFD",
-      "notes": "Handler A"
-    },
-    {
-      "index": 1,
-      "offset": 5498748,
-      "offset_hex": "0x53E6DC",
-      "handler_ptr": "0x0807F065",
-      "handler_offset": "0x07F065",
-      "notes": "Handler B"
-    },
-    {
-      "index": 2,
-      "offset": 5498752,
-      "offset_hex": "0x53E6E0",
-      "handler_ptr": "0x0807EFFD",
-      "handler_offset": "0x07EFFD",
-      "notes": "Handler A"
-    },
-    {
-      "index": 3,
-      "offset": 5498756,
-      "offset_hex": "0x53E6E4",
-      "handler_ptr": "0x0807F149",
-      "handler_offset": "0x07F149",
-      "notes": "Handler C"
-    }
+  "verification": "disproved",
+  "verification_method": "0x53E6D8 = 0x53E698 + 8*8. All fourteen former u32 values exactly flatten seven records from the code-verified 256×8 primary/secondary handler-pair table; no independent base consumer exists.",
+  "superseded_by": "sequel/content/map-events/bank.json#entries[8:15]",
+  "do_not_write": true,
+  "entry_format": {"fields": []},
+  "notes": "Legacy battle-handler rows conflict with the canonical handler-pair bank and are diagnostic-only.",
+  "former_entries": [
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738021},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738249},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738021},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738021},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738021},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738021},
+    {"handler_ptr": 134737917}, {"handler_ptr": 134738249}
   ],
-  "verification_method": "Static analysis - found 14 consecutive u32 pointers at 0x53E6D8, all pointing to valid ROM addresses with Thumb PUSH instructions.",
-  "discovered_by": "Examining region 0x53E000-0x53F000 between story tables and map headers",
-  "entries": [
-    {
-      "_raw_offset": 5498584,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5498588,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5498592,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5498596,
-      "handler_ptr": 134738249,
-      "handler_ptr_hex": "49f10708",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5498600,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5498604,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5498608,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5498612,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5498616,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5498620,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5498624,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5498628,
-      "handler_ptr": 134738021,
-      "handler_ptr_hex": "65f00708",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5498632,
-      "handler_ptr": 134737917,
-      "handler_ptr_hex": "fdef0708",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5498636,
-      "handler_ptr": 134738249,
-      "handler_ptr_hex": "49f10708",
-      "_index": 13
-    }
-  ],
-  "verification": "static_verified",
-  "unique_handler_count": 3,
-  "unique_handlers": [
-    "0x807EFFD",
-    "0x807F065",
-    "0x807F149"
-  ],
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 14,
-    "rom_offset": 5498584,
-    "rom_offset_hex": "0x53E6D8"
-  }
+  "entries": []
 }

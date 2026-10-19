@@ -1,5 +1,20 @@
 # Testing Checklist
 
+## Authoritative Offline Smoke (2026-07-13)
+
+- [x] `python3 tools/automated_test.py --json-output ...` passes 25/25
+- [x] Actual output ROM SHA-1 and size match the build report
+- [x] Native mGBA loads the tracked actionable battle checkpoint
+- [x] Runtime snapshot is battle 41 on map 36×44 / grid 9×22
+- [x] Runtime units remain Naruto `(4,10)` and Iruka `(4,4)`
+- [x] Commands, exit codes, hashes and assertions are persisted under `artifacts/e2e/`
+- [ ] Editor mutation → isolated build → download → runtime-visible change
+- [ ] Cross-platform Chinese OCR comparison
+- [ ] Long-path story → battle → save/load regression
+
+Run `python3 tools/run_offline_e2e.py`. The unchecked sections below are the
+historical broad checklist and must not be interpreted as completed by this smoke.
+
 ## Build Verification
 
 - [ ] `python3 tools/build_mod.py` runs without errors

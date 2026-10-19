@@ -1,0 +1,16 @@
+{
+  "track_count": 217,
+  "bounded_ticks_per_track": 2048,
+  "running_after_bound": 138,
+  "fine_terminated": 79,
+  "runtime_goto_count": 163,
+  "interpreted_command_count": 39825,
+  "control_semantics": [
+    "WAIT is loaded and decremented in the same MP2K tick",
+    "PATT uses a 16-entry persistent return stack",
+    "REPT counters persist across ticks",
+    "backward GOTO continues in the same tick and across requested runtime duration",
+    "control loops that reach no WAIT fail explicitly"
+  ],
+  "coverage_boundary": "All decoded ROM tracks run through persistent control state for 2048 ticks. Musical register state, channel allocation and complete PCM song output remain open."
+}

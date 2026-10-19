@@ -15,7 +15,7 @@ Random encounter tables are difficult to find via static analysis because:
 
 1. **0x541A08 area**: Found sequences of u8 values (43%, 44%, 45%, 46%, 47%) that look like encounter rates, but all have enemy_id=0
 2. **0x5433A0 area**: Found sequences of u8 values (1%, 2%, 3%, 4%, 5%, 6%) that look like encounter rates, but all have enemy_id=0
-3. **Battle encounter table at 0x542384**: Contains mixed pointers and small numbers (48, 49, 51, 52, 58, 61, 74, 16, 77, 5) - these might be encounter-related
+3. **Former table at 0x542384**: disproved as an encounter candidate; it starts midway through the 24-record story visual descriptor table at 0x54229C.
 
 ## Next Steps (requires dynamic analysis)
 
@@ -27,7 +27,7 @@ Random encounter tables are difficult to find via static analysis because:
 ## Related Structures
 
 - Map header table at 0x53D910 (47 entries × 32 bytes)
-- Battle encounter table at 0x542384 (38 entries × u32)
+- Do not reuse the disproved 0x542384 encounter interpretation.
 
 ## Reason for Stopping
 

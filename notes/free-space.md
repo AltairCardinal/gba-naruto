@@ -17,17 +17,24 @@ verified by scanning for contiguous 0xFF-filled bytes after all known game data.
 
 ## Usage
 
-This region is used by the variable-length dialogue pipeline (`import_dialogue_var.py`)
-to store new text that is longer than the original slot, with the dialogue pointer table
-updated via `pointer_redirect` patches to point to the new location.
+The usable tail is divided into non-overlapping audited owners:
+
+| Range | Owner |
+|---|---|
+| `0x5E0000..0x5EFFFF` | DB audit rows |
+| `0x5F0000..0x5F7FFF` | variable-length dialogue |
+| `0x5F8000..0x5FFFFF` | semantic chapter scripts |
 
 ### Allocation strategy
 
 - Text is 4-byte aligned before writing.
 - Each entry occupies `len(encoded_text) + 1` bytes (null-terminated).
 - The cursor advances sequentially; no deallocation is performed.
-- `FREE_SPACE_START = 0x5DFBEC` and `FREE_SPACE_END = 0x5FFFFF` are defined as
-  constants in `tools/import_dialogue_var.py`.
+- Dialogue and chapter importers each align to four bytes, validate their complete
+  partition is still `0xFF`, enforce an exclusive upper bound, and derive every
+  `before_hex` from the immutable base ROM.
+- Chapter payloads and table redirects are planned together before any build write;
+  the output ROM is only written after the complete safety gate passes.
 
 ## Verification Method
 

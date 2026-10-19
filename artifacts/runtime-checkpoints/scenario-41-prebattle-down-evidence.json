@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "verdict": "accepted",
+  "checkpoint": {
+    "name": "scenario-41-prebattle-down",
+    "path": "artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9",
+    "sha256": "c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449",
+    "parent": "scenario-41-prebattle-menu",
+    "screen": "scenario-41-prebattle-menu-down-selected",
+    "stable_zero_input": true
+  },
+  "lineage": {
+    "parent_path": "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
+    "parent_sha256": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+    "transition_inputs": [
+      {
+        "key": "Down",
+        "down_frame": 5,
+        "up_frame": 13,
+        "hold_frames": 8
+      }
+    ],
+    "automatic_inputs": [],
+    "recovery_inputs": [],
+    "contains_a": false
+  },
+  "single_down_run": {
+    "run_id": "e32c5a6229aeec9e406b1d126695799d",
+    "evidence_mode": "single-input",
+    "capture_frame": 80,
+    "audit_sha256": "a4638dd0ee0472534d7dcd6a9e46eeef78ed43813d900b299f02e0fa5b49c6f9",
+    "sentinel_sha256": "a4638dd0ee0472534d7dcd6a9e46eeef78ed43813d900b299f02e0fa5b49c6f9",
+    "guard_summary_sha256": "97a259b6ff1a4009510df127c73edbb30e2080066571029c2db6392cda7448f5",
+    "input_state_sha256": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+    "output_state_sha256": "c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449",
+    "output_png_sha256": "3f2acc08500599f2093a75f856daf7220ea2334d4d2d01c537cdf863c94119ab",
+    "guard": {
+      "reason": "completed",
+      "exit_code": 0,
+      "protection_backend": "posix-process-group",
+      "degraded": false,
+      "child_pgid": 34294,
+      "peak_tree_rss_mib": 51.96484375,
+      "pgid_clean": true,
+      "listener_clean": true
+    }
+  },
+  "zero_input_replay": {
+    "run_id": "7d378580de56bea13a3d0e09b8bea185",
+    "evidence_mode": "zero-input",
+    "zero_input_verified": true,
+    "inputs": [],
+    "pre_scripts": [],
+    "capture_frame": 80,
+    "audit_sentinel_identical": true,
+    "audit_sha256": "da2789893412145cf6c1f2e82109c37bf52628b977b0999f1348c6d10298feea",
+    "sentinel_sha256": "da2789893412145cf6c1f2e82109c37bf52628b977b0999f1348c6d10298feea",
+    "guard_summary_sha256": "1a69a98fbdceec5106c42a8020a92d19234d65057a44241ae6d40c203c7012d0",
+    "input_state_sha256": "c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449",
+    "output_state_sha256": "235bf6040aaf3484935080b1a6a475fc13d2a609091cdc3a97c98bfac92ed8da",
+    "output_png_sha256": "3f2acc08500599f2093a75f856daf7220ea2334d4d2d01c537cdf863c94119ab",
+    "guard": {
+      "reason": "completed",
+      "exit_code": 0,
+      "protection_backend": "posix-process-group",
+      "degraded": false,
+      "child_pgid": 41717,
+      "peak_tree_rss_mib": 52.09375,
+      "pgid_clean": true,
+      "listener_clean": true
+    }
+  },
+  "caller_known_sha256": {
+    "base_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "single_down_staged_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "zero_input_staged_rom": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "binary": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "patch": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+    "single_input_lua": "ca0ec91d17f28c67f79f0f94d4aef215ab5417650e4bc90291db938a2429c884",
+    "zero_input_lua": "d1d1dbcce947f6a9149963cc947ef76944e5ac9065cb9906e12bd1a2dda173af"
+  },
+  "screen_identity": {
+    "method": "strict PNG decode to normalized RGB8 pixel SHA-256",
+    "width": 240,
+    "height": 160,
+    "bit_depth": 8,
+    "color_type": 2,
+    "ihdr_sha256": "871611332586f22c1375210f69ec1d114f6d6f8204939efd765af78f9851f0b1",
+    "rgb_pixels_length": 115200,
+    "rgb_pixels_sha256": "1e68324b6496cda1dc4cff6821a1c6b86dbfc422ac15fdfd1bcdfd0a9246352d",
+    "candidate_embedded_identical": true,
+    "single_down_png_identical": true,
+    "zero_output_embedded_identical": true,
+    "zero_output_png_identical": true,
+    "manual_view_identical": true
+  },
+  "savestate_equivalence": {
+    "task_2": {
+      "sp": "0x030011D8",
+      "lr": "0x08067D03",
+      "resume_pc": "0x08067D02",
+      "candidate_and_zero_output_identical": true
+    },
+    "active_unwind": {
+      "selection": "explicit-stack-slots-with-static-thumb-bl-validation",
+      "raw_return_words": [
+        "0x080885C1",
+        "0x08088F9F",
+        "0x0808F92D"
+      ],
+      "frames": [
+        {
+          "stack_address": "0x03001220",
+          "raw_return_word": "0x080885C1",
+          "callsite": "0x080885BC",
+          "decoded_target": "0x08067158"
+        },
+        {
+          "stack_address": "0x03001240",
+          "raw_return_word": "0x08088F9F",
+          "callsite": "0x08088F9A",
+          "decoded_target": "0x080884DC"
+        },
+        {
+          "stack_address": "0x03001278",
+          "raw_return_word": "0x0808F92D",
+          "callsite": "0x0808F928",
+          "decoded_target": "0x08088F10"
+        }
+      ],
+      "candidate_and_zero_output_identical": true
+    },
+    "memory_bytes": {
+      "0x0202680C": 0
+    }
+  },
+  "resources": {
+    "available_mib_before": 4991.793,
+    "available_mib_after": 5083.738,
+    "memory_source": "vm-stat",
+    "heavy_lock_acquirable_before": true,
+    "heavy_lock_released_after": true,
+    "rom_base_sav_absent_before": true,
+    "rom_base_sav_absent_after": true,
+    "mgba_qemu_processes_absent_before_after": true,
+    "mgba_qemu_listeners_absent_before_after": true
+  },
+  "scope": {
+    "proves": [
+      "the single Down transition selected the next prebattle menu row",
+      "the resulting checkpoint is stable for a fresh 80-frame zero-input replay"
+    ],
+    "does_not_prove": [
+      "battle controller entry",
+      "player control",
+      "MOVEDONE",
+      "victory",
+      "postbattle"
+    ],
+    "a_rule": "This acceptance does not itself authorize A; Step 4 must independently authorize any later A input."
+  },
+  "generated_at": "2026-07-16T06:19:03Z"
+}

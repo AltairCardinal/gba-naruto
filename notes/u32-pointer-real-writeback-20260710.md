@@ -13,12 +13,12 @@
 
 1. 编辑器实际 schema 使用 `rom_battle_handlers`、`rom_map_events` 等名称，旧生成器
    查询无前缀表名，因此过去会静默返回空列表。
-2. `battle_encounters@0x542384` 是指针/标量混合表，不适合通用指针 helper。
+2. `battle_encounters@0x542384` 后续已证实是从真实视觉资源描述符中间开始的错位切片，旧行必须 diagnostic-only。
 3. `cutscene_scripts@0x53DF70` 的第 17 个候选值是 `0x090A0809`，超出 48 Mbit
    ROM 地址空间。边界复核确认真实指针表是 16 项；`0x53DFB0` 是独立 byte
    table。两者分别在 ROM `0x072F3C`、`0x075C0C` 出现独立地址引用。
-4. `battle_handlers@0x53E6D8` 与 `map_events@0x53EB08` 是 Thumb 代码指针表，合法
-   值必须位于 `0x08000000..0x085FFFFF` 且 bit 0 为 1。
+4. `battle_handlers@0x53E6D8` 是 Thumb 代码指针表；`map_events@0x53EB08`
+   后续已证实是 256-pair 表的错位切片，旧真实回写已撤销。
 5. `map_sprites@0x53F1DC` 是数据指针表，bit 0 必须为 0。story B–E 指向无对齐
    保证的字节流，奇数地址可以是实际数据地址，故只检查 ROM 范围。
 6. 首次审计发现 `rom_battle_handlers` 和 `rom_map_sprites` 共 61 行的
@@ -29,7 +29,7 @@
 
 | 表 | 重要范围 | 当前 DB 结果 |
 |---|---:|---:|
-| `rom_map_events` | `0x53EB08..0x53EBC3` | 47/47 真实补丁 |
+| `rom_map_events` | legacy `0x53EB08..0x53EBC3` | 已撤销；diagnostic-only |
 | `rom_story_b` | `0x536BC8..0x536BF3` | 11/11 真实补丁 |
 | `rom_story_c` | `0x538FF0..0x539017` | 10/10 真实补丁 |
 | `rom_story_d` | `0x53AB78..0x53ABA3` | 11/11 真实补丁 |

@@ -1,0 +1,50 @@
+{
+  "date": "2026-07-13",
+  "checkpoint": "/tmp/round2-menu-clean.ss9",
+  "detail_renderer": "0x080708BC",
+  "branches": {
+    "effect": "0x080708F0 -> 0x0806D85C when action_id bit 7 is clear",
+    "skill": "0x08070906 -> 0x0806D910 when action_id bit 7 is set"
+  },
+  "observed_tutorial_action": {
+    "label": "忍者组合拳",
+    "action_id": 2,
+    "classification": "battle effect, not skill"
+  },
+  "writer_traces": {
+    "tilemap": {
+      "hit_count": 4,
+      "first_call_site": "0x08066E92",
+      "first_panel_id": 4,
+      "last_call_site": "0x0806ED9E",
+      "last_panel_id": 0,
+      "scratch_sha256": "be2c18755945a310854625b66e5796e98c8bb1ff7cd7139c9f97f69307b36762"
+    },
+    "numeric": {
+      "calls": [
+        {"call_site": "0x080710AA", "value": 80},
+        {"call_site": "0x080710C4", "value": 5}
+      ],
+      "interpretation": "bottom HUD HP/chakra, not detail values",
+      "scratch_sha256": "03167f663f0fe54c4d77e0ec82632a0ff46093bd6a2b07feb0a99e767ae55b5a"
+    },
+    "text": {
+      "hit_count": 10,
+      "call_range": "0x08070922..0x08071222",
+      "scratch_sha256": "36ce115162a627bc28a6eaedc43f10f511a82fb251670d9265f8dafee8dc00ba"
+    }
+  },
+  "forced_skill_diagnostic": {
+    "acceptance": "diagnostic only; does not upgrade skills verification",
+    "skill_id": 2,
+    "level_context": "0x02024294",
+    "destination": "0x02026B80",
+    "control_output_hex": "0501010206035a830200000000000000",
+    "variant_output_hex": "0501010207035a830200000000000000",
+    "changed_source": "skill 2 +4: 6 -> 7",
+    "control_scratch_sha256": "24aecc4d7c709e34b5285c04f0c38f9e6f5f3220bcf6c536089664d08a1a3027",
+    "variant_scratch_sha256": "d0efc6fed7f42aeec87eeead59c563b7c4444214d3e103910b7c3ab71f1ff4b5",
+    "control_rom_sha256": "963d133f430e035370ad7c0bd54c544c90da8f23517306dfb319da51395d7f86",
+    "variant_rom_sha256": "645042c1606cb186d94f251538ef446d78b2c72121b2c1dc037e22f500e04f6c"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "sound_mode_literal": "0x0095FA00",
+  "directsound_channel_count": 10,
+  "cgb_channel_count": 4,
+  "song_priority_counts": {"0": 18, "10": 4, "255": 58},
+  "effective_priority": "min(255, playerPriority + trackPriority)",
+  "direct_selection_order": ["first free", "best released", "eligible active"],
+  "direct_equal_priority_tiebreak": "oldTrack > newTrack",
+  "cgb_equal_priority_tiebreak": "oldTrack >= newTrack",
+  "released_priority": "any released channel outranks every active channel",
+  "track_chain": "newest-first doubly linked list",
+  "same_key": "DirectSound allows polyphony; EOT releases only newest matching active channel",
+  "coverage_boundary": "Selection, steal, chain and EOT rules are code-locked. Musical command state and full song PCM remain open."
+}

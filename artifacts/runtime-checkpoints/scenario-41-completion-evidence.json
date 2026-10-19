@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "scope": "scenario-41-natural-victory-and-postbattle-world-map",
+  "outcome": "accepted-victory-and-postbattle-world-map",
+  "origin": {
+    "checkpoint": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+    "sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5"
+  },
+  "natural_route": {
+    "method": "single audited input per guarded native-mGBA run; no forced WRAM writes or adaptive recovery",
+    "turn_2_boundary": {
+      "run_id": "81c37bfd31e752728bcd6c5685855c40",
+      "state_sha256": "e064f539ec8f4f32b29161aed32c48861e868938e5c911f7b0831cadaf0536ab"
+    },
+    "turn_3_boundary": {
+      "run_id": "796369069c7de3acf87fd882c69b5948",
+      "state_sha256": "a27946953ee1abb34272d669046df91d29a62cd6caca35e93c3b2f2141f2682e",
+      "player_xy": [5, 6],
+      "enemy_xy": [6, 3]
+    },
+    "decisive_action": {
+      "player_move": [[5, 6], [6, 4]],
+      "enemy_xy": [6, 3],
+      "technique_target_xy": [6, 3],
+      "result_byte_address": "0x02026807",
+      "result_byte": 1
+    },
+    "world_map_transition": {
+      "run_id": "053da9a192590a73fefdc0c47beaee4a",
+      "input_state_sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555",
+      "output_state_sha256": "a75117957d2581fb801498348a47ecd99fdcac0f2ec2c016bf00b115044be324",
+      "input": {"key": "A", "down_frame": 5, "up_frame": 13, "capture_frame": 256}
+    }
+  },
+  "decisive_base_control": {
+    "run_id": "dae8d9689279c84745f3312dcfc0dfd0",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "input_state_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+    "output_state_sha256": "835619f723509bcb34beac44f51f87a6f248532f3ebd60d3e48eacedb06f0e07",
+    "input": {"key": "A", "down_frame": 5, "up_frame": 13, "capture_frame": 512},
+    "task_2_resume": "0x08073114",
+    "result_byte": 1,
+    "rgb_pixels_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+    "observer_visible_exact": true,
+    "observer_wram_exact": true,
+    "peak_tree_rss_mib": 52.3046875,
+    "pgid_clean": true
+  },
+  "checkpoints": {
+    "victory": {
+      "path": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+      "sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "task_2_resume": "0x08073114",
+      "result_byte": 1
+    },
+    "postbattle": {
+      "path": "artifacts/runtime-checkpoints/scenario-41-postbattle.ss9",
+      "sha256": "950652381ae03ad60ad028f9063b9fc22f133ea532396fbafe7f5353d2553162",
+      "task_2_resume": "0x08067D02",
+      "result_byte": 1,
+      "screen": "konoha-world-map-main-menu"
+    }
+  },
+  "stability": {
+    "victory": {
+      "run_id": "c68415084dbc0168585cd3a841164773",
+      "zero_input_verified": true,
+      "input_state_sha256": "835619f723509bcb34beac44f51f87a6f248532f3ebd60d3e48eacedb06f0e07",
+      "output_state_sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "rgb_pixels_sha256": "6fc3d928abd921413dc8603c094387afa9c0c0b297fe8d9a5d79d7211396ffa2",
+      "peak_tree_rss_mib": 52.2734375,
+      "pgid_clean": true
+    },
+    "postbattle": {
+      "run_id": "5ad3c6ab83031b1e76525ab33517fc16",
+      "zero_input_verified": true,
+      "input_state_sha256": "a75117957d2581fb801498348a47ecd99fdcac0f2ec2c016bf00b115044be324",
+      "output_state_sha256": "950652381ae03ad60ad028f9063b9fc22f133ea532396fbafe7f5353d2553162",
+      "rgb_pixels_sha256": "298acd7711c13879ecb91cf3eb88563060b79584944289716a1811baa588e0ef",
+      "peak_tree_rss_mib": 52.4453125,
+      "pgid_clean": true
+    }
+  },
+  "natural_save_boundary": {
+    "status": "not-proven",
+    "hook": "0x08074F2C",
+    "probe_rom_sha256": "9e6b3aa245e3f457f09e94690b8c8da193c240283a759073977b284758a7a7d0",
+    "samples": [
+      {"phase": "decisive-victory-input", "run_id": "5a72db0ab873a8a896e0ec92d5b5411a", "capture_frame": 512, "scratch": "0000000000000000"},
+      {"phase": "final-dialogue-transition-20", "run_id": "bd11e74b321233b429d42a55c3876bd6", "capture_frame": 20, "scratch": "0000000000000000"},
+      {"phase": "final-dialogue-transition-40", "run_id": "586717fb795ffaf180da3932efcafedc", "capture_frame": 40, "scratch": "0000000000000000"},
+      {"phase": "final-dialogue-transition-80", "run_id": "965d91baee2225cdea71c1cb2061f2a3", "capture_frame": 80, "scratch": "0000000000000000"},
+      {"phase": "victory-to-world-map-chain", "run_id": "42ed74ba4649648f58e0100cbb5330e0", "capture_frame": 512, "scratch": "0000000000000000"}
+    ],
+    "boundary": "This bounded sample set does not prove that 0x08074F2C is unreachable: a short-lived publication could be cleared between sampled frames. The accepted postbattle checkpoint proves the natural world-map state only, not a natural-save hook hit or the transient 0xF400 dispatch."
+  },
+  "resource_summary": {
+    "maximum_peak_tree_rss_mib": 52.4453125,
+    "all_guard_runs_nondegraded": true,
+    "all_owned_process_groups_clean": true
+  }
+}

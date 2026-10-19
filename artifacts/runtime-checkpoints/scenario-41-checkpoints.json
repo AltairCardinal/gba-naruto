@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "checkpoints": [
+    {
+      "name": "tutorial-ui-save",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/tutorial-ui-save.sav",
+      "sha256": "9fedf6bf1c43ad08f7c821c76914726801f9a96147b64b181baed7562e0a972b",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": null,
+      "inputs": [],
+      "screen": "natural-konoha-save",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": []
+    },
+    {
+      "name": "scenario-41-start-row",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+      "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "tutorial-ui-save",
+      "inputs": [
+        "Down",
+        "Down"
+      ],
+      "screen": "scenario-41-start-row",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "build/task5-zero-replay-1.json",
+        "build/task5-zero-replay-2.json"
+      ],
+      "runtime_boundary": "From this checkpoint, a single explicit A reaches stable scenario 41 lineup/deployment. Offline analysis of the resulting savestate proves only that its current suspended task chain is outside 0x080732B4; this checkpoint is not authorized to prove controller entry or player control."
+    },
+    {
+      "name": "scenario-41-pre-controller-lineup",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-lineup.ss9",
+      "sha256": "894dddec77d56d98bc9aca4a1edae3ac4c88206930f39fe06d627fe7bcf7110f",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-start-row",
+      "inputs": [
+        "A"
+      ],
+      "screen": "scenario-41-pre-controller-lineup",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
+      ],
+      "runtime_boundary": "The saved current task-2 chain resumes in 0x0806F718 and unwinds through 0x0807509C, 0x08088F10 and 0x0808F928. Its active unwind does not contain the controller caller return 0x0808F957, so this state is accepted only as a stable pre-controller lineup/deployment checkpoint and negative boundary evidence."
+    },
+    {
+      "name": "scenario-41-prebattle-menu",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-candidate.ss9",
+      "sha256": "b7badf1c7988f01614b92a46bcd54322d7693d120c4cdd671f0a3f56a4db7078",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-pre-controller-lineup",
+      "inputs": [
+        "B"
+      ],
+      "screen": "scenario-41-prebattle-menu",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-prebattle-menu-evidence.json"
+      ],
+      "runtime_boundary": "Strict mGBA 0.10.5 replay held this tracked state for 80 frames with no input and preserved the exact prebattle-menu scanlines. Task 2 resumes at 0x08067D02 and its explicitly slotted, statically BL-validated unwind is 0x080885C1 -> 0x08088F9F -> 0x0808F92D; 0x0808F957 is absent and 0x0202680C remains zero. This checkpoint proves only a stable prebattle menu, not controller entry or player control."
+    },
+    {
+      "name": "scenario-41-prebattle-down",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-prebattle-down.ss9",
+      "sha256": "c1a16fa3fd505c5a4aeb3e593f639c26342c5048d5d506771aa9a6ad6418e449",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-prebattle-menu",
+      "inputs": [
+        "Down"
+      ],
+      "screen": "scenario-41-prebattle-menu-down-selected",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-prebattle-down-evidence.json"
+      ],
+      "runtime_boundary": "One audited Down from scenario-41-prebattle-menu selected the next prebattle row, and a fresh strict mGBA 0.10.5 zero-input replay preserved its exact normalized RGB screen, task-2 resume PC, explicit statically BL-validated unwind and 0x0202680C value. This accepted checkpoint does not prove battle controller entry or player control, and it does not independently authorize A or bypass the Step 4 A gate."
+    },
+    {
+      "name": "scenario-41-pre-controller-after-a",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a.ss9",
+      "sha256": "1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-prebattle-down",
+      "inputs": [
+        "A"
+      ],
+      "screen": "scenario-41-pre-controller-after-a",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-pre-controller-after-a-evidence.json"
+      ],
+      "controller_entry_attempt_evidence": "artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json",
+      "controller_entry_attempt_status": "superseded",
+      "runtime_boundary": "Accepted lineage is accepted Down -> unique A -> zero settle 19. Two independent 19-frame zero-input replays preserved the full normalized RGB screen, task-2 resume PC, every explicit statically BL-validated active-unwind slot and 0x0202680C. This checkpoint remains pre-controller only, does not prove controller entry or player control, and has allowed_evidence=[]. The old bounded B -> zero -> B -> zero -> Down controller attempt from this state was superseded: a corrected subsequent child path captured the static-BL-valid raw return 0x0808F957, and two independent 224-frame zero-input replays created the canonical controller checkpoint. That later child acceptance does not change this record's own pre-controller status, path or evidence boundary."
+    },
+    {
+      "name": "scenario-41-controller-entry",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+      "sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-pre-controller-after-a",
+      "inputs": [
+        "B",
+        "B",
+        "A",
+        "Down",
+        "Down",
+        "A",
+        "B",
+        "A",
+        "A"
+      ],
+      "screen": "scenario-41-controller-entry",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-controller-entry-evidence.json"
+      ],
+      "runtime_boundary": "The corrected segmented path reaches a static-BL-valid active raw return 0x0808F957 and two independent 224-frame zero-input replays preserve exact RGB, task-2 resume/SP/LR, all three explicit raw returns and A880/A882/2680C. This accepted checkpoint proves stable controller entry only. The validator schema has no controller-entry hook token, so allowed_evidence remains conservatively empty; player control, first turn, MOVEDONE, victory and postbattle remain unproven."
+    },
+    {
+      "name": "scenario-41-player-turn",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+      "sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-controller-entry",
+      "inputs": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+      ],
+      "screen": "battle-map",
+      "stable_zero_input": true,
+      "before_hooks": [
+        "0x08073946",
+        "0x08073BAC"
+      ],
+      "allowed_evidence": [
+        "player-control"
+      ],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
+      ],
+      "runtime_boundary": "The complete audit-hash lineage from the accepted controller-entry checkpoint contains exactly nine explicit A events; every intervening wait, settle, anchor, cycle and p64 replay has inputs=[]. Fresh ordered PCO1 selector (9,0,1) at 0x08073946 followed by PCA1 current slot 1 at 0x08073BAC binds the controlled WRAM unit record for character 1, affiliation 0 at (4,10). Base-ROM visible comparison and independent direct-call GDB evidence corroborate the boundary. This checkpoint is the accepted first player-control starting point only; MOVEDONE, victory and postbattle remain unproven."
+    },
+    {
+      "name": "scenario-41-first-movedone-facing",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+      "sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-player-turn",
+      "inputs": [
+        "A",
+        "Up",
+        "A",
+        "A"
+      ],
+      "screen": "facing-direction-prompt",
+      "stable_zero_input": true,
+      "before_hooks": [
+        "0x0807443C",
+        "0x08074918"
+      ],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing-evidence.json"
+      ],
+      "runtime_boundary": "This accepted checkpoint proves only a stable facing-direction prompt plus one observed fresh primary publication. The frozen evaluator returns verified=false with reason coordinates-unchanged, so it does not prove completed turn or accepted MOVEDONE evidence; victory and postbattle also remain unproven, and allowed_evidence stays empty."
+    },
+    {
+      "name": "scenario-41-first-turn-technique-menu",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9",
+      "sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-first-movedone-facing",
+      "inputs": [
+        "A",
+        "Up",
+        "A"
+      ],
+      "screen": "first-turn-technique-menu",
+      "stable_zero_input": true,
+      "before_hooks": [
+        "0x0807443C",
+        "0x08074918"
+      ],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu-evidence.json"
+      ],
+      "runtime_boundary": "This accepted checkpoint proves only a stable unsubmitted technique-menu boundary. It does not prove technique submission, fresh MOVEDONE, completed turn, victory, or postbattle; allowed_evidence remains empty."
+    },
+    {
+      "name": "scenario-41-turn-1-complete",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+      "sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-first-movedone-facing",
+      "inputs": ["A"],
+      "screen": "turn-1-complete-tutorial-dialogue",
+      "stable_zero_input": true,
+      "before_hooks": ["0x0807443C", "0x08074918"],
+      "allowed_evidence": ["movedone"],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-turn-1-complete-evidence.json"
+      ],
+      "runtime_boundary": "Fresh secondary MOVEDONE at 0x08074918 verifies the stationary first turn completion after one explicit A selected defense No; automatic enemy settle then reached a stable tutorial-dialogue boundary. Base-ROM business state and capture are exact, with observer differences confined to scratch. This does not prove second turn, victory, result exit, or postbattle."
+    },
+    {
+      "name": "scenario-41-victory",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+      "sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-turn-1-complete",
+      "inputs": ["audited natural route in scenario-41-completion-evidence.json"],
+      "screen": "scenario-41-victory",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-completion-evidence.json"
+      ],
+      "runtime_boundary": "A natural adjacent technique produces the visible victory state and natural result byte 0x02026807=1. The decisive A is exact on immutable base ROM and the accepted checkpoint is a fresh base-ROM zero-input replay. No completion observer hook was used, so allowed_evidence remains empty; this checkpoint does not by itself prove controller exit, postbattle save, or levels consumption."
+    },
+    {
+      "name": "scenario-41-postbattle",
+      "status": "accepted",
+      "path": "artifacts/runtime-checkpoints/scenario-41-postbattle.ss9",
+      "sha256": "950652381ae03ad60ad028f9063b9fc22f133ea532396fbafe7f5353d2553162",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "scenario-41-victory",
+      "inputs": ["result", "level-up", "postbattle dialogue", "world-map transition"],
+      "screen": "konoha-world-map-main-menu",
+      "stable_zero_input": true,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "zero_input_evidence": [
+        "artifacts/runtime-checkpoints/scenario-41-completion-evidence.json"
+      ],
+      "runtime_boundary": "The natural victory route exits battle UI through result, level-up and postbattle dialogue into a base-ROM zero-input-stable Konoha world-map main menu while preserving result byte 1. This proves the reusable postbattle world-map state, but does not prove 0x08074F2C natural-save publication or the transient 0xF400 dispatch; allowed_evidence remains empty."
+    },
+    {
+      "name": "natural-s41-start-prompt",
+      "status": "rejected",
+      "path": "build/natural-s41-start-prompt.ss9",
+      "sha256": "b980ec18123d0cfd5585ac81709213d313ad3de1af76b559f7dba349ccd4338e",
+      "rom": "rom/base.gba",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "parent": "tutorial-ui-save",
+      "inputs": [],
+      "screen": "team-equipment-page",
+      "stable_zero_input": false,
+      "before_hooks": [],
+      "allowed_evidence": [],
+      "rejection_reason": "Misleading filename: the checkpoint is the team/equipment page, not the scenario 41 start-confirm prompt."
+    }
+  ]
+}

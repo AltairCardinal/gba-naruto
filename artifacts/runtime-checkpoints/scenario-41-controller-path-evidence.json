@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-15",
+  "scope": "bounded runtime validation of five checked controller/action-dispatch call-site observers; this does not prove player control, MOVEDONE, victory, EXP, level-up, or postbattle",
+  "posthoc_reanalysis": {
+    "date": "2026-07-15",
+    "conclusion": "The scenario 41 white-grid savestate's current suspended task chain is pre-controller lineup/deployment; the actionable checkpoint is in 0x080732B4 but suspended on a different controller state. This does not rule out calls before the white-grid state was saved.",
+    "evidence": "artifacts/runtime-checkpoints/scenario-41-savestate-context-evidence.json"
+  },
+  "conclusion": "positive-control-not-proven",
+  "scenario_41_runs_executed": false,
+  "stop_reason": "the actionable positive-control final dump was byte-identical to its zero-input baseline and compare produced no fresh AC01..AC04 records",
+  "probe_rom": {
+    "path": "build/scenario-41-controller-path.gba",
+    "sha256": "253ab3a7b1fd28c5a70364422982e5032a03b951a2bb1e35c0c930f45ab6b93a",
+    "base_rom_sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+    "bytes": 79532,
+    "sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac"
+  },
+  "preflight": {
+    "provenance": "operator_recorded",
+    "recorded_at": "2026-07-15T10:00:35Z",
+    "free_physical_memory_mib": 7496.828125,
+    "heavy_lock_available": true,
+    "owned_project_processes": [],
+    "listener_2345": [],
+    "rom_sha256_recomputed": "253ab3a7b1fd28c5a70364422982e5032a03b951a2bb1e35c0c930f45ab6b93a",
+    "checkpoint_sha256_recomputed": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+    "raw_preflight_file": "not-recorded"
+  },
+  "observer_layout": {
+    "event_counter": "0x0203F040",
+    "dump_address": "0x0203F040",
+    "dump_length": 192,
+    "sites": [
+      {"name": "player-select", "call_site": "0x08073946", "original_target": "0x0806F718", "record": "0x0203F060", "event_code": 1},
+      {"name": "action-1", "call_site": "0x08073A16", "original_target": "0x08067158", "record": "0x0203F080", "event_code": 2},
+      {"name": "action-2", "call_site": "0x08073A2E", "original_target": "0x08067158", "record": "0x0203F0A0", "event_code": 3},
+      {"name": "action-3", "call_site": "0x08073A3E", "original_target": "0x08067158", "record": "0x0203F0C0", "event_code": 4},
+      {"name": "action-4", "call_site": "0x08073A4A", "original_target": "0x08067158", "record": "0x0203F0E0", "event_code": 5}
+    ]
+  },
+  "setup_attempt_0": {
+    "provenance": "operator_recorded",
+    "browser_started": false,
+    "reason": "PROBE_BROWSER was omitted",
+    "observed_guard_reason": "child-exit",
+    "observed_exit_code": 1,
+    "observed_peak_tree_rss_mib": 1.29296875,
+    "raw_guard_summary": "not-preserved; the same summary path was overwritten by the valid baseline run",
+    "counted_as_browser_run": false
+  },
+  "runs": [
+    {
+      "id": "actionable-zero-baseline",
+      "configuration_provenance": "operator_recorded",
+      "command": ["python", "tools/run_guarded.py", "--summary", "build/resource-guard/controller-path-positive-zero.json", "--", "node", "play/_scripts/runtime-formation-probe.js"],
+      "environment": {
+        "PROBE_BROWSER": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "PROBE_ROM": "build/scenario-41-controller-path.gba",
+        "PROBE_STATE_LOAD": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+        "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0",
+        "PROBE_ADVANCE_COUNT": "0",
+        "PROBE_TAIL_KEYS": "",
+        "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0",
+        "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_STOP_ON_MATCH": "0",
+        "PROBE_FORCE_SETTLE": "1",
+        "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_EVIDENCE_MODE": "",
+        "PROBE_MEMORY_DUMP": "build/controller-path-positive-zero.bin",
+        "PROBE_MEMORY_ADDRESS": "0x0203F040",
+        "PROBE_MEMORY_LENGTH": "192",
+        "PROBE_RESULT": "build/controller-path-positive-zero-result.json",
+        "PROBE_SCREENSHOT": "build/controller-path-positive-zero.png"
+      },
+      "outcome": "matched",
+      "reason": "strict-battle-arrival-after-settle",
+      "input_audit": {"events": []},
+      "runtime": {"battle_id": 41, "map_raw_hex": "242c0916", "screen_state": "battle-map"},
+      "decode": {"mode": "single_dump_decode", "freshness_evaluated": false, "event_counter": 0, "valid_records": []},
+      "artifacts": [
+        {"path": "build/controller-path-positive-zero.bin", "bytes": 192, "sha256": "5d89f056865052bcb89c910d2d62872e029fb273c3db03f8968a52a41593c1b5"},
+        {"path": "build/controller-path-positive-zero.png", "bytes": 72488, "sha256": "cb0fe1295150eec708f112f0378912d962e26e478bd81b059db560db2704c35a"},
+        {"path": "build/controller-path-positive-zero-settle.png", "bytes": 72372, "sha256": "ae24019fc260e7977fdedfe195862868dcd9101697a8c3a888eb3c145e4b244c"},
+        {"path": "build/controller-path-positive-zero-result.json", "bytes": 125220, "sha256": "ab313e317ac6c998d52633a2961d49f85b7d118a44968ac216e0bc549db17fdb"},
+        {"path": "build/controller-path-positive-zero-decode.json", "bytes": 1414, "sha256": "99bb8f81f8aa7d6c2876fdd7deb455c832f4170a8c50ac76eee5a471fafed75e"},
+        {"path": "build/resource-guard/controller-path-positive-zero.json", "bytes": 402, "sha256": "535d09647d6b99db032886a615a78fa2d5cea2fd404fd00a95ebdbc919f893ee"}
+      ],
+      "guard": {
+        "raw_reason": "completed",
+        "exit_code": 0,
+        "child_pid": 59864,
+        "peak_tree_rss_mib": 571.3671875,
+        "protection_backend": "windows-job-object",
+        "degraded": false,
+        "started_at": "2026-07-15T10:03:35.867226Z",
+        "finished_at": "2026-07-15T10:03:46.981585Z",
+        "owned_tree_postcheck": "not-recorded",
+        "listener_2345_postcheck": "not-recorded"
+      }
+    },
+    {
+      "id": "actionable-explicit-sequence",
+      "configuration_provenance": "operator_recorded",
+      "command": ["python", "tools/run_guarded.py", "--summary", "build/resource-guard/controller-path-positive.json", "--", "node", "play/_scripts/runtime-formation-probe.js"],
+      "environment": {
+        "PROBE_BROWSER": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "PROBE_ROM": "build/scenario-41-controller-path.gba",
+        "PROBE_STATE_LOAD": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+        "PROBE_SKIP_NEW_GAME": "1",
+        "PROBE_START_COUNT": "0",
+        "PROBE_ADVANCE_COUNT": "0",
+        "PROBE_TAIL_KEYS": "KeyX,ArrowDown,ArrowDown,KeyZ,KeyZ",
+        "PROBE_TAIL_REPEAT": "1",
+        "PROBE_ADAPTIVE_BACK": "0",
+        "PROBE_SETTLE_CONFIRM_EVERY": "0",
+        "PROBE_STOP_ON_MATCH": "0",
+        "PROBE_FORCE_SETTLE": "1",
+        "PROBE_KEY_HOLD_MS": "125",
+        "PROBE_EVIDENCE_MODE": "",
+        "PROBE_MEMORY_DUMP": "build/controller-path-positive.bin",
+        "PROBE_MEMORY_ADDRESS": "0x0203F040",
+        "PROBE_MEMORY_LENGTH": "192",
+        "PROBE_RESULT": "build/controller-path-positive-result.json",
+        "PROBE_SCREENSHOT": "build/controller-path-positive.png"
+      },
+      "outcome": "matched",
+      "reason": "strict-battle-arrival-after-settle",
+      "input_audit": {
+        "automatic_count": 0,
+        "events": [
+          {"step": 1, "logical_key": "KeyX", "gba_button": "B", "hold_ms": 125, "classification": "explicit", "down_completed": true, "up_completed": true},
+          {"step": 2, "logical_key": "ArrowDown", "gba_button": "Down", "hold_ms": 125, "classification": "explicit", "down_completed": true, "up_completed": true},
+          {"step": 3, "logical_key": "ArrowDown", "gba_button": "Down", "hold_ms": 125, "classification": "explicit", "down_completed": true, "up_completed": true},
+          {"step": 4, "logical_key": "KeyZ", "gba_button": "A", "hold_ms": 125, "classification": "explicit", "down_completed": true, "up_completed": true},
+          {"step": 5, "logical_key": "KeyZ", "gba_button": "A", "hold_ms": 125, "classification": "explicit", "down_completed": true, "up_completed": true}
+        ]
+      },
+      "runtime": {"battle_id": 41, "map_raw_hex": "242c0916", "screen_state": "battle-map"},
+      "comparison": {"mode": "baseline_final_compare", "freshness_evaluated": true, "baseline_event_counter": 0, "final_event_counter": 0, "fresh_records": [], "dumps_byte_identical": true},
+      "artifacts": [
+        {"path": "build/controller-path-positive.bin", "bytes": 192, "sha256": "5d89f056865052bcb89c910d2d62872e029fb273c3db03f8968a52a41593c1b5"},
+        {"path": "build/controller-path-positive.png", "bytes": 66712, "sha256": "ff25d5a42c1581ab3431b5e40e83ccd26956854407b43f3579e58a29c8a81893"},
+        {"path": "build/controller-path-positive-tail.png", "bytes": 66816, "sha256": "5702b6a468432ed6be1691186dfeb91339ccfacf88f7cf11d89c1c565ebdaa57"},
+        {"path": "build/controller-path-positive-settle.png", "bytes": 66759, "sha256": "4120701a0293b2292eefecd9c7dbe2dea1ad2524e67681a6ae33712daef85101"},
+        {"path": "build/controller-path-positive-result.json", "bytes": 136152, "sha256": "dd93c916b286e6ec1fd7f7b9e1fbee166ec1831ea1f39b0355cc2f28a6ce7c51"},
+        {"path": "build/controller-path-positive-compare.json", "bytes": 3201, "sha256": "2d466b574e3c6d19548cda939a52b9b62a6bd7cfd615dde87cf29d88eeb3ec03"},
+        {"path": "build/resource-guard/controller-path-positive.json", "bytes": 401, "sha256": "29f88748a929c3642727ef3cbb3fc10bff868202c24078f73afdf936746ba13b"}
+      ],
+      "guard": {
+        "raw_reason": "completed",
+        "exit_code": 0,
+        "child_pid": 43228,
+        "peak_tree_rss_mib": 550.484375,
+        "protection_backend": "windows-job-object",
+        "degraded": false,
+        "started_at": "2026-07-15T10:05:08.053797Z",
+        "finished_at": "2026-07-15T10:05:23.189747Z",
+        "owned_tree_postcheck": "not-recorded",
+        "listener_2345_postcheck": "not-recorded"
+      }
+    }
+  ],
+  "claim_boundary": [
+    "The builder and decoder remain code-verified, but this runtime route did not establish a fresh action-dispatch hit even on the selected positive-control suffix.",
+    "Because the positive control was not proven, scenario 41 runs 3 and 4 were intentionally not executed.",
+    "Zero fresh records do not prove the checked call-sites are absent from all tutorial control paths and do not prove or disprove player control.",
+    "The next probe must start from a checkpoint/input known to cross 0x08073A04 or move to an upstream checked dispatcher; it must not continue guessing keys on the scenario 41 white-box state."
+  ],
+  "verification": {
+    "provenance": "operator_recorded_from_fresh_commands",
+    "artifact_hash_consistency": "PASS (13 artifacts)",
+    "python_tests": "PASS (32/32)",
+    "checkpoint_ledger": "accepted=2 candidate=0 rejected=1 errors=0",
+    "openspec_strict": "valid=true issues=[]",
+    "git_diff_check": "PASS",
+    "final_resource_check": {
+      "free_physical_memory_mib": 7497.95,
+      "owned_project_processes": 0,
+      "port_2345_connections": 0
+    },
+    "independent_review": {
+      "report": ".superpowers/sdd/controller-path-task2-review.md",
+      "evidence_integrity": "APPROVED",
+      "claim_boundary": "APPROVED",
+      "critical": 0,
+      "important": 0,
+      "minor": 1,
+      "minor_resolution": "preflight is now persisted with explicit operator_recorded provenance; no raw preflight file is claimed"
+    }
+  }
+}

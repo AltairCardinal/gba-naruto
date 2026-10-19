@@ -1,0 +1,83 @@
+From 7cacae126207de5499857439b9c7919bf8e882c2 Mon Sep 17 00:00:00 2001
+From: Bastien Orivel <eijebong@bananium.fr>
+Date: Fri, 19 Jan 2024 17:45:37 +0100
+Subject: [PATCH] Add a `--script` option to load scripts automatically on
+ startup
+
+---
+ src/platform/qt/ConfigController.cpp | 21 ++++++++++++++++++++-
+ src/platform/qt/Window.cpp           | 12 ++++++++++++
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/src/platform/qt/ConfigController.cpp b/src/platform/qt/ConfigController.cpp
+index 086fcdc8..52792279 100644
+--- a/src/platform/qt/ConfigController.cpp
++++ b/src/platform/qt/ConfigController.cpp
+@@ -19,6 +19,9 @@
+ static const mOption s_frontendOptions[] = {
+ 	{ "ecard", true, '\0' },
+ 	{ "mb", true, '\0' },
++#ifdef ENABLE_SCRIPTING
++	{ "script", true, '\0' },
++#endif
+ 	{ 0 }
+ };
+ 
+@@ -153,7 +156,12 @@ ConfigController::ConfigController(QObject* parent)
+ 	m_subparsers[1].usage = "Frontend options:\n"
+ 	    "  --ecard FILE  Scan an e-Reader card in the first loaded game\n"
+ 	    "                Can be passed multiple times for multiple cards\n"
+-	    "  --mb FILE     Boot a multiboot image with FILE inserted into the ROM slot";
++	    "  --mb FILE     Boot a multiboot image with FILE inserted into the ROM slot"
++#ifdef ENABLE_SCRIPTING
++	    "\n  --script FILE Script file to load on start"
++#endif
++	    ;
++
+ 	m_subparsers[1].parse = nullptr;
+ 	m_subparsers[1].parseLong = [](struct mSubParser* parser, const char* option, const char* arg) {
+ 		ConfigController* self = static_cast<ConfigController*>(parser->opts);
+@@ -171,6 +179,17 @@ ConfigController::ConfigController(QObject* parent)
+ 			self->m_argvOptions[optionName] = QString::fromUtf8(arg);
+ 			return true;
+ 		}
++#ifdef ENABLE_SCRIPTING
++		if (optionName == QLatin1String("script")) {
++			QStringList scripts;
++			if (self->m_argvOptions.contains(optionName)) {
++				scripts = self->m_argvOptions[optionName].toStringList();
++			}
++			scripts.append(QString::fromUtf8(arg));
++			self->m_argvOptions[optionName] = scripts;
++			return true;
++		}
++#endif
+ 		return false;
+ 	};
+ 	m_subparsers[1].apply = nullptr;
+diff --git a/src/platform/qt/Window.cpp b/src/platform/qt/Window.cpp
+index 80045348..d394ae45 100644
+--- a/src/platform/qt/Window.cpp
++++ b/src/platform/qt/Window.cpp
+@@ -2184,6 +2184,18 @@ void Window::setController(CoreController* controller, const QString& fname) {
+ 		m_controller->setPaused(true);
+ 		m_pendingPause = false;
+ 	}
++
++#ifdef ENABLE_SCRIPTING
++	if (!m_scripting) {
++		QStringList scripts = m_config->getArgvOption("script").toStringList();
++		if (!scripts.isEmpty()) {
++			scriptingOpen();
++			for (const auto& scriptPath : scripts) {
++				m_scripting->loadFile(scriptPath);
++			}
++		}
++	}
++#endif
+ }
+ 
+ void Window::attachDisplay() {
+-- 
+2.39.5 (Apple Git-154)
+

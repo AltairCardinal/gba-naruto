@@ -43,8 +43,21 @@ Representative outputs:
 
 ## OCR Tooling
 
-- Native OCR binary: `tools/bin/ocr_screenshot`
+- Cross-platform adapter: `tools/ocr_screenshot.py`
+- macOS Vision binary (kept for compatibility): `tools/bin/ocr_screenshot`
 - Timeline helper: `tools/ocr_report.py`
+
+The adapter selects Apple Vision on macOS and Tesseract TSV on Linux. Linux
+requires the `tesseract` executable plus all three language packs `chi_sim`,
+`jpn`, and `eng` (Debian package names are normally `tesseract-ocr`,
+`tesseract-ocr-chi-sim`, and `tesseract-ocr-jpn`). It performs a preflight via
+`tesseract --list-langs`; a missing executable or language pack is an explicit
+nonzero failure, never a successful empty OCR result.
+
+Both backends emit the historical JSON shape:
+`{image, lineCount, lines: [{text, confidence, boundingBox}]}`. The timeline
+helper now uses the adapter by default; `--ocr-bin` can still select the native
+Vision binary explicitly.
 
 Example:
 

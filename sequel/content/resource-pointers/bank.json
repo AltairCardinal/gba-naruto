@@ -1,193 +1,102 @@
 {
-  "version": 1,
-  "description": "Resource pointer table discovered at ROM offset 0x596F0C. 20 entries of u32 pointers to resource data in the 0x17xxxx region.",
-  "table_offset": 5861132,
-  "table_offset_hex": "0x596F0C",
-  "entry_count": 20,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "resource_ptr",
-        "type": "u32",
-        "description": "Pointer to resource data in the 0x17xxxx region"
-      }
+    "version": 2,
+    "description": "Five 16-byte nested resource descriptors consumed by a sprite-task allocator.",
+    "table_offset": 5861132,
+    "table_offset_hex": "0x596F0C",
+    "entry_count": 5,
+    "entry_size": 16,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "resource_ptr_0",
+                "type": "u32"
+            },
+            {
+                "offset": 4,
+                "size": 4,
+                "name": "resource_ptr_1",
+                "type": "u32"
+            },
+            {
+                "offset": 8,
+                "size": 4,
+                "name": "resource_ptr_2",
+                "type": "u32"
+            },
+            {
+                "offset": 12,
+                "size": 4,
+                "name": "resource_ptr_3",
+                "type": "u32"
+            }
+        ]
+    },
+    "verification": "code_verified",
+    "verification_method": "0x0807B220 loads literal 0x08596F0C and passes the base to 0x080625A4 with the 16-byte descriptor flag. The 0x08062678 path indexes ID*16 and installs all four resource fields in the runtime object/copy path.",
+    "former_claim": "20 independent u32 resource pointers",
+    "notes": "The former rows merely flattened five four-pointer descriptors. Legacy one-pointer editor rows are diagnostic-only.",
+    "entries": [
+        {
+            "_index": 0,
+            "_raw_offset": 5861132,
+            "resource_ptr_0": 135742864,
+            "resource_ptr_0_hex": "90451708",
+            "resource_ptr_1": 135743168,
+            "resource_ptr_1_hex": "c0461708",
+            "resource_ptr_2": 135729072,
+            "resource_ptr_2_hex": "b00f1708",
+            "resource_ptr_3": 135729040,
+            "resource_ptr_3_hex": "900f1708"
+        },
+        {
+            "_index": 1,
+            "_raw_offset": 5861148,
+            "resource_ptr_0": 135748456,
+            "resource_ptr_0_hex": "685b1708",
+            "resource_ptr_1": 135748500,
+            "resource_ptr_1_hex": "945b1708",
+            "resource_ptr_2": 135743216,
+            "resource_ptr_2_hex": "f0461708",
+            "resource_ptr_3": 135729040,
+            "resource_ptr_3_hex": "900f1708"
+        },
+        {
+            "_index": 2,
+            "_raw_offset": 5861164,
+            "resource_ptr_0": 135753744,
+            "resource_ptr_0_hex": "10701708",
+            "resource_ptr_1": 135753792,
+            "resource_ptr_1_hex": "40701708",
+            "resource_ptr_2": 135748504,
+            "resource_ptr_2_hex": "985b1708",
+            "resource_ptr_3": 135729040,
+            "resource_ptr_3_hex": "900f1708"
+        },
+        {
+            "_index": 3,
+            "_raw_offset": 5861180,
+            "resource_ptr_0": 135761084,
+            "resource_ptr_0_hex": "bc8c1708",
+            "resource_ptr_1": 135761128,
+            "resource_ptr_1_hex": "e88c1708",
+            "resource_ptr_2": 135753796,
+            "resource_ptr_2_hex": "44701708",
+            "resource_ptr_3": 135729040,
+            "resource_ptr_3_hex": "900f1708"
+        },
+        {
+            "_index": 4,
+            "_raw_offset": 5861196,
+            "resource_ptr_0": 135766372,
+            "resource_ptr_0_hex": "64a11708",
+            "resource_ptr_1": 135766428,
+            "resource_ptr_1_hex": "9ca11708",
+            "resource_ptr_2": 135761132,
+            "resource_ptr_2_hex": "ec8c1708",
+            "resource_ptr_3": 135729040,
+            "resource_ptr_3_hex": "900f1708"
+        }
     ]
-  },
-  "notes": "Resource pointer table with 20 entries. All entries point to data in the 0x17xxxx region, which is the resource pointer table area mentioned in the addresses.md file. The target data includes pointers to other resources and structured data blocks. Some entries point to 0x170F90 which appears to be a null or default resource. Located in the 0x59xxxx region which is known to contain dense pointer-table-like structures.",
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5861132,
-      "offset_hex": "0x596F0C",
-      "resource_ptr": "0x08174590",
-      "resource_offset": "0x174590",
-      "notes": "Resource data"
-    },
-    {
-      "index": 1,
-      "offset": 5861136,
-      "offset_hex": "0x596F10",
-      "resource_ptr": "0x081746C0",
-      "resource_offset": "0x1746C0",
-      "notes": "Resource data"
-    },
-    {
-      "index": 2,
-      "offset": 5861140,
-      "offset_hex": "0x596F14",
-      "resource_ptr": "0x08170FB0",
-      "resource_offset": "0x170FB0",
-      "notes": "Null or default resource"
-    },
-    {
-      "index": 3,
-      "offset": 5861144,
-      "offset_hex": "0x596F18",
-      "resource_ptr": "0x08170F90",
-      "resource_offset": "0x170F90",
-      "notes": "Null or default resource"
-    },
-    {
-      "index": 4,
-      "offset": 5861148,
-      "offset_hex": "0x596F1C",
-      "resource_ptr": "0x08175B68",
-      "resource_offset": "0x175B68",
-      "notes": "Resource data"
-    }
-  ],
-  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x596F0C, all pointing to valid ROM addresses in the 0x17xxxx resource region.",
-  "discovered_by": "Examining region 0x580000-0x5A0000 for pointer tables",
-  "entries": [
-    {
-      "_raw_offset": 5861132,
-      "resource_ptr": 135742864,
-      "resource_ptr_hex": "90451708",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5861136,
-      "resource_ptr": 135743168,
-      "resource_ptr_hex": "c0461708",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5861140,
-      "resource_ptr": 135729072,
-      "resource_ptr_hex": "b00f1708",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5861144,
-      "resource_ptr": 135729040,
-      "resource_ptr_hex": "900f1708",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5861148,
-      "resource_ptr": 135748456,
-      "resource_ptr_hex": "685b1708",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5861152,
-      "resource_ptr": 135748500,
-      "resource_ptr_hex": "945b1708",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5861156,
-      "resource_ptr": 135743216,
-      "resource_ptr_hex": "f0461708",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5861160,
-      "resource_ptr": 135729040,
-      "resource_ptr_hex": "900f1708",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5861164,
-      "resource_ptr": 135753744,
-      "resource_ptr_hex": "10701708",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5861168,
-      "resource_ptr": 135753792,
-      "resource_ptr_hex": "40701708",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5861172,
-      "resource_ptr": 135748504,
-      "resource_ptr_hex": "985b1708",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5861176,
-      "resource_ptr": 135729040,
-      "resource_ptr_hex": "900f1708",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5861180,
-      "resource_ptr": 135761084,
-      "resource_ptr_hex": "bc8c1708",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5861184,
-      "resource_ptr": 135761128,
-      "resource_ptr_hex": "e88c1708",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5861188,
-      "resource_ptr": 135753796,
-      "resource_ptr_hex": "44701708",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5861192,
-      "resource_ptr": 135729040,
-      "resource_ptr_hex": "900f1708",
-      "_index": 15
-    },
-    {
-      "_raw_offset": 5861196,
-      "resource_ptr": 135766372,
-      "resource_ptr_hex": "64a11708",
-      "_index": 16
-    },
-    {
-      "_raw_offset": 5861200,
-      "resource_ptr": 135766428,
-      "resource_ptr_hex": "9ca11708",
-      "_index": 17
-    },
-    {
-      "_raw_offset": 5861204,
-      "resource_ptr": 135761132,
-      "resource_ptr_hex": "ec8c1708",
-      "_index": 18
-    },
-    {
-      "_raw_offset": 5861208,
-      "resource_ptr": 135729040,
-      "resource_ptr_hex": "900f1708",
-      "_index": 19
-    }
-  ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 20,
-    "rom_offset": 5861132,
-    "rom_offset_hex": "0x596F0C"
-  }
 }

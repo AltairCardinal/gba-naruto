@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Scan and extract DirectSound PCM audio samples from the GBA ROM.
+"""Legacy heuristic DirectSound scanner (superseded and unverified).
+
+WARNING: this assumes the wrong 12-byte wave header and does not convert signed
+ROM PCM to unsigned RIFF PCM. It is retained only to reproduce old diagnostics.
+Use ``extract_audio_assets.py`` for the pointer-reachable 16-byte m4a header,
+track, voicegroup, and WAV extraction path.
 
 GBA m4a/mp2k audio driver sample format:
   +0x00  u8   type        0x00 = uncompressed signed 8-bit PCM
@@ -131,7 +136,7 @@ def export_sample(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Scan and extract GBA DirectSound PCM samples.")
+    parser = argparse.ArgumentParser(description="Scan unverified DirectSound-like byte patterns.")
     parser.add_argument("rom", type=Path)
     parser.add_argument("--extract", action="store_true", help="Export WAV files")
     parser.add_argument("--output-dir", type=Path, default=Path("build/audio"))
@@ -155,7 +160,8 @@ def main() -> int:
 
     total_bytes = sum(s["size"] for s in samples)
     looping = sum(1 for s in samples if s["looping"])
-    print(f"Found {len(samples)} samples ({looping} looping) — {total_bytes:,} total PCM bytes\n")
+    print("WARNING: results are unreferenced heuristic candidates, not proven audio samples.")
+    print(f"Found {len(samples)} candidates ({looping} loop-like) — {total_bytes:,} candidate bytes\n")
 
     header = f"{'#':>4}  {'file_offset':>12}  {'freq':>6}  {'size':>8}  {'loop':>5}  {'loop_start':>10}"
     print(header)

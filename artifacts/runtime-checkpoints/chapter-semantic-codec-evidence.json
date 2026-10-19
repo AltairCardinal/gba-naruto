@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-13",
+  "scenario_id": 39,
+  "table": "primary 0x08060C74",
+  "original_script": "0x08031020",
+  "authored_script": {
+    "address": "0x0809E800",
+    "bytes_hex": "1a280200",
+    "commands": [
+      {"name": "set_battle", "battle_id": 40, "mode": 2, "length": 3},
+      {"name": "end", "length": 1}
+    ]
+  },
+  "runtime": {
+    "outcome": "verified",
+    "reason": "semantic-script-terminated",
+    "selector_hit_count": 1,
+    "selected_scenario_id": 39,
+    "selected_script_start": "0x0809E800",
+    "opcode_hit_count": 2,
+    "terminal_cursor": "0x0809E803",
+    "terminal_opcode_bytes_hex": "00000000",
+    "chapter_battle_state_before": 39,
+    "chapter_battle_state_after": 40,
+    "battle_control_after": 0,
+    "strict_battle_arrival": false,
+    "raw_probe_hex": "41435052010000002700000000e809080200000003e809080000000000000000"
+  },
+  "checks": {
+    "magic_valid": true,
+    "fresh_selector_hit": true,
+    "scenario_matches": true,
+    "selected_script_matches": true,
+    "fresh_opcode_hit": true,
+    "cursor_in_script": true,
+    "opcode_matches_rom": true,
+    "state_changed_or_terminated": true
+  },
+  "sha256": {
+    "probe_rom": "1f4865d00f9a7291715de332c64163a60768d0991a7778794ba3095e022ec1fa",
+    "full_result": "88402d34c79f4dd163f6d418fe9f62ab539f9c722ccbeeb4fc51b770badad47c",
+    "screenshot": "0423f64c08e9aead00eb8bd6be68846292edf76f85d40325e51bfd67ce3a835a"
+  },
+  "boundary": "This proves codec-authored bytes are selected, dispatched and update nonzero chapter/battle state. The short replay stops in dialogue before battle-control/formation setup, so it is not strict battle-arrival evidence."
+}

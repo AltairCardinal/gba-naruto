@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -15,9 +16,17 @@ def frame_num(path: Path) -> int:
     return int(match.group(1)) if match else -1
 
 
+def ocr_command(ocr_bin: Path, image: Path) -> list[str]:
+    """Launch Python adapters portably while retaining native-binary support."""
+    command = [str(ocr_bin), str(image)]
+    if ocr_bin.suffix == ".py":
+        command.insert(0, sys.executable)
+    return command
+
+
 def run_ocr(ocr_bin: Path, image: Path) -> dict:
     proc = subprocess.run(
-        [str(ocr_bin), str(image)],
+        ocr_command(ocr_bin, image),
         check=True,
         capture_output=True,
         text=True,
@@ -33,7 +42,7 @@ def summarize_line(text: str) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("glob", help="Glob of screenshots to OCR, e.g. 'notes/newgame-*.png'")
-    parser.add_argument("--ocr-bin", default="tools/bin/ocr_screenshot")
+    parser.add_argument("--ocr-bin", default="tools/ocr_screenshot.py")
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
 

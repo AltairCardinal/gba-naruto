@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "description": "Map header table discovered at ROM offset 0x53D910. 47 entries of 32-byte map headers containing dimensions, tileset/tilemap pointers, and palette pointers.",
   "table_offset": 5495056,
   "table_offset_hex": "0x53D910",
@@ -26,49 +26,49 @@
         "size": 4,
         "name": "tileset_ptr",
         "type": "u32",
-        "description": "Pointer to tile graphics data"
+        "description": "LZ77 tile graphics; 0x08068FF0 decompresses to 0x06000000 + buffer_index*0x4000"
       },
       {
         "offset": 8,
         "size": 4,
         "name": "tilemap_ptr",
         "type": "u32",
-        "description": "Pointer to primary tilemap data"
+        "description": "Legacy column name; actually LZ77 BG palette, decompressed to 0x05000000"
       },
       {
         "offset": 12,
         "size": 4,
         "name": "tilemap_alt_ptr",
         "type": "u32",
-        "description": "Pointer to alternate tilemap (0 if none)"
+        "description": "Legacy column name; actually primary coarse-grid layout, decompressed to 0x0201BE2C; size=(width>>2)*(height>>1)*4"
       },
       {
         "offset": 16,
         "size": 4,
         "name": "extra_ptr",
         "type": "u32",
-        "description": "Pointer to extra map data"
+        "description": "Legacy column name; optional alternate coarse-grid layout, decompressed to 0x0201CE2C when nonzero; same size as primary layout"
       },
       {
         "offset": 20,
         "size": 4,
         "name": "palette_ptr",
         "type": "u32",
-        "description": "Pointer to palette data"
+        "description": "Legacy column name; metatile/attribute definitions, decompressed to 0x0201DE2C"
       },
       {
         "offset": 24,
         "size": 4,
         "name": "palette2_ptr",
         "type": "u32",
-        "description": "Pointer to secondary palette"
+        "description": "Legacy column name; collision/passability grid, decompressed by 0x08069264 to 0x02021E2C; size=(width>>2)*(height>>1)*2"
       },
       {
         "offset": 28,
         "size": 4,
         "name": "flags",
         "type": "u32",
-        "description": "Map configuration flags"
+        "description": "Map configuration flags; byte +0x1D is consumed at 0x0806922A to select a display-register value"
       }
     ]
   },
@@ -1109,9 +1109,26 @@
       "_index": 46
     }
   ],
-  "verification_method": "Static analysis - found table with consistent structure (u16 width/height followed by u32 ROM pointers). Verified by checking that all 47 entries have valid dimensions (16-128) and valid ROM pointers.",
+  "verification_method": "Runtime row 41 produced dimensions 36x44 and strict battle arrival. Same-boundary EWRAM/palette-RAM/VRAM dumps matched the row's decompressed tile gfx, BG palette (except expected transparent color-zero normalization), primary layout, metatile attributes, and collision low-byte passability; null alternate layout was skipped. Width also has an independent row-40 36->32 A/B.",
   "discovered_by": "Pattern matching on u16 dimensions followed by u32 pointers",
-  "verification": "static_verified",
+  "verification": "runtime_verified",
+  "runtime_sample": {
+    "map_id": 41,
+    "row_file_offset": "0x53DE30",
+    "battle_id": 41,
+    "dimensions": [36, 44, 9, 22],
+    "strict_battle_arrival": true,
+    "vram_buffer_index": 1,
+    "resource_checks": {
+      "tile_gfx": true,
+      "bg_palette": true,
+      "primary_layout": true,
+      "alternate_layout_skipped": true,
+      "metatile_attributes": true,
+      "collision_grid": true
+    },
+    "evidence": "artifacts/runtime-checkpoints/maps-resource-runtime-evidence.json"
+  },
   "extraction": {
     "tool": "tools/extract_all_structures.py",
     "extracted_count": 47,

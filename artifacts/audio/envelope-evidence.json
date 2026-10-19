@@ -1,0 +1,39 @@
+{
+  "date": "2026-07-13",
+  "state_machine": "0x08099EC8..0x08099F68",
+  "final_gain": "0x08099F6A..0x08099F82",
+  "tone_adsr_copy": "0x0809A88E..0x0809A892",
+  "gate_release": "0x0809A49A..0x0809A4B2",
+  "eot_handler": "0x0809A908..0x0809A946",
+  "fine_handler": "0x0809A1EC..0x0809A218",
+  "channel_status_bits": {
+    "new": "0x80",
+    "release": "0x40",
+    "loop_sample": "0x10",
+    "pseudo_echo": "0x04",
+    "attack": 3,
+    "decay": 2,
+    "sustain": 1
+  },
+  "executed_directsound_coverage": {
+    "notes": 16169,
+    "valid_adsr_parameters": 16169,
+    "invalid_adsr_parameters": 0,
+    "parameter_tuples": 4,
+    "nonzero_decay_notes": 837,
+    "nonzero_release_notes": 326,
+    "tuples": [
+      {"attack": 255, "decay": 0, "sustain": 231, "release": 89, "notes": 155},
+      {"attack": 255, "decay": 0, "sustain": 231, "release": 127, "notes": 171},
+      {"attack": 255, "decay": 0, "sustain": 255, "release": 0, "notes": 15006},
+      {"attack": 255, "decay": 127, "sustain": 231, "release": 0, "notes": 837}
+    ]
+  },
+  "tie_lifecycle": {
+    "total": 90,
+    "closed_by_eot": 25,
+    "released_by_fine": 19,
+    "open_at_one_loop_goto_boundary": 46
+  },
+  "boundary": "The integer ADSR, release, pseudo-echo and master-gain primitives are code-locked. Envelope advances once per SoundMain mixer invocation, not per MP2K wait tick. Mapping the full track timeline to mixer buffers and emitting final PCM remains open. GOTO analysis boundaries never synthesize release."
+}

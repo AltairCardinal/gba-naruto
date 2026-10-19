@@ -36,6 +36,7 @@ export const useBuildStore = defineStore('build', () => {
   const wsConnection = ref<WebSocket | null>(null)
   const wsConnected = ref(false)
   const currentBuildId = ref<string | null>(null)
+  const isDownloading = ref(false)
 
   function connectBuildWs(buildId?: string | null) {
     if (wsConnection.value) {
@@ -43,13 +44,23 @@ export const useBuildStore = defineStore('build', () => {
       wsConnection.value = null
     }
 
+    const auth = useAuthStore()
+    if (!buildId) {
+      buildStatus.value.error = '缺少 build_id，无法连接构建日志'
+      return false
+    }
+    if (!auth.token) {
+      buildStatus.value.error = '登录已过期，请重新登录'
+      return false
+    }
+
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const idSegment = buildId ? `?build_id=${encodeURIComponent(buildId)}` : ''
-    const wsUrl = `${protocol}//${window.location.host}/ws/build${idSegment}`
+    const wsUrl = `${protocol}//${window.location.host}/ws/build`
 
     const ws = new WebSocket(wsUrl)
 
     ws.onopen = () => {
+      ws.send(JSON.stringify({ type: 'auth', token: auth.token, build_id: buildId }))
       wsConnected.value = true
     }
 
@@ -79,9 +90,17 @@ export const useBuildStore = defineStore('build', () => {
       }
     }
 
-    ws.onclose = () => {
+    ws.onclose = (event) => {
       wsConnected.value = false
       if (wsConnection.value === ws) wsConnection.value = null
+      if (event.code === 4401) {
+        auth.logout()
+        buildStatus.value.error = '登录已过期，请重新登录'
+      } else if (event.code === 4403) {
+        buildStatus.value.error = '无权查看该构建'
+      } else if (event.code === 4404) {
+        buildStatus.value.error = '构建记录不存在或已失效'
+      }
     }
 
     ws.onerror = () => {
@@ -89,6 +108,7 @@ export const useBuildStore = defineStore('build', () => {
     }
 
     wsConnection.value = ws
+    return true
   }
 
   /**
@@ -161,12 +181,33 @@ export const useBuildStore = defineStore('build', () => {
 
   async function downloadRom(buildId?: string | null) {
     const qs = buildId ? `?build_id=${encodeURIComponent(buildId)}` : ''
-    const link = document.createElement('a')
-    link.href = `/api/build/download${qs}`
-    link.download = 'naruto-sequel-dev.gba'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const auth = useAuthStore()
+    isDownloading.value = true
+    buildStatus.value.error = null
+    let objectUrl: string | null = null
+    try {
+      const res = await fetch(`/api/build/download${qs}`, {
+        headers: { ...auth.authHeaders() },
+      })
+      if (!res.ok) {
+        if (res.status === 401) auth.logout()
+        const payload = await res.json().catch(() => ({}))
+        throw new Error(payload.detail || `ROM 下载失败（${res.status}）`)
+      }
+      objectUrl = URL.createObjectURL(await res.blob())
+      const link = document.createElement('a')
+      link.href = objectUrl
+      link.download = 'naruto-sequel-dev.gba'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      buildStatus.value.error = error instanceof Error ? error.message : 'ROM 下载失败'
+      throw error
+    } finally {
+      if (objectUrl) URL.revokeObjectURL(objectUrl)
+      isDownloading.value = false
+    }
   }
 
   /**
@@ -202,6 +243,7 @@ export const useBuildStore = defineStore('build', () => {
     wsConnection,
     wsConnected,
     currentBuildId,
+    isDownloading,
     connectBuildWs,
     login,
     logout,

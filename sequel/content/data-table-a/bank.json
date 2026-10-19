@@ -1,193 +1,308 @@
 {
-  "version": 1,
-  "description": "Data pointer table discovered at ROM offset 0x5A14A4. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
-  "table_offset": 5903524,
-  "table_offset_hex": "0x5A14A4",
-  "entry_count": 20,
-  "entry_size": 4,
-  "entry_format": {
-    "fields": [
-      {
-        "offset": 0,
-        "size": 4,
-        "name": "data_ptr",
-        "type": "u32",
-        "description": "Pointer to encoded data in the 0x5Axxxx region"
-      }
+    "version": 2,
+    "description": "Forty-six character/profile long-text pointers consumed by profile display code.",
+    "table_offset": 5903420,
+    "table_offset_hex": "0x5A143C",
+    "entry_count": 46,
+    "entry_size": 4,
+    "entry_format": {
+        "fields": [
+            {
+                "offset": 0,
+                "size": 4,
+                "name": "text_ptr",
+                "type": "u32"
+            }
+        ]
+    },
+    "verification": "runtime_verified",
+    "verification_method": "Cold-load runtime A/B hit 0x0808B1A4 once for character ID 0. The control selected 0x0859F988 from entry 0; changing only that pointer to entry 7 selected 0x0859FDE8 and visibly changed the multi-line profile description.",
+    "runtime_sample": {
+        "character_id": 0,
+        "table_entry": "0x085A143C",
+        "control_text_ptr": 140114312,
+        "variant_text_ptr": 140115432,
+        "replacement_source_character_id": 7,
+        "evidence": "artifacts/runtime-checkpoints/profile-text-runtime-evidence.json"
+    },
+    "former_claim": "20 generic encoded-data pointers beginning at physical entry 26 (0x5A14A4)",
+    "notes": "All targets are NUL-terminated game-encoded profile/description text. Legacy tail rows are diagnostic-only.",
+    "entries": [
+        {
+            "_index": 0,
+            "_raw_offset": 5903420,
+            "text_ptr": 140114312,
+            "text_ptr_hex": "88f95908"
+        },
+        {
+            "_index": 1,
+            "_raw_offset": 5903424,
+            "text_ptr": 140114456,
+            "text_ptr_hex": "18fa5908"
+        },
+        {
+            "_index": 2,
+            "_raw_offset": 5903428,
+            "text_ptr": 140114620,
+            "text_ptr_hex": "bcfa5908"
+        },
+        {
+            "_index": 3,
+            "_raw_offset": 5903432,
+            "text_ptr": 140114784,
+            "text_ptr_hex": "60fb5908"
+        },
+        {
+            "_index": 4,
+            "_raw_offset": 5903436,
+            "text_ptr": 140114956,
+            "text_ptr_hex": "0cfc5908"
+        },
+        {
+            "_index": 5,
+            "_raw_offset": 5903440,
+            "text_ptr": 140115120,
+            "text_ptr_hex": "b0fc5908"
+        },
+        {
+            "_index": 6,
+            "_raw_offset": 5903444,
+            "text_ptr": 140115284,
+            "text_ptr_hex": "54fd5908"
+        },
+        {
+            "_index": 7,
+            "_raw_offset": 5903448,
+            "text_ptr": 140115432,
+            "text_ptr_hex": "e8fd5908"
+        },
+        {
+            "_index": 8,
+            "_raw_offset": 5903452,
+            "text_ptr": 140115592,
+            "text_ptr_hex": "88fe5908"
+        },
+        {
+            "_index": 9,
+            "_raw_offset": 5903456,
+            "text_ptr": 140115756,
+            "text_ptr_hex": "2cff5908"
+        },
+        {
+            "_index": 10,
+            "_raw_offset": 5903460,
+            "text_ptr": 140115880,
+            "text_ptr_hex": "a8ff5908"
+        },
+        {
+            "_index": 11,
+            "_raw_offset": 5903464,
+            "text_ptr": 140116036,
+            "text_ptr_hex": "44005a08"
+        },
+        {
+            "_index": 12,
+            "_raw_offset": 5903468,
+            "text_ptr": 140116200,
+            "text_ptr_hex": "e8005a08"
+        },
+        {
+            "_index": 13,
+            "_raw_offset": 5903472,
+            "text_ptr": 140116340,
+            "text_ptr_hex": "74015a08"
+        },
+        {
+            "_index": 14,
+            "_raw_offset": 5903476,
+            "text_ptr": 140116484,
+            "text_ptr_hex": "04025a08"
+        },
+        {
+            "_index": 15,
+            "_raw_offset": 5903480,
+            "text_ptr": 140116616,
+            "text_ptr_hex": "88025a08"
+        },
+        {
+            "_index": 16,
+            "_raw_offset": 5903484,
+            "text_ptr": 140116768,
+            "text_ptr_hex": "20035a08"
+        },
+        {
+            "_index": 17,
+            "_raw_offset": 5903488,
+            "text_ptr": 140116924,
+            "text_ptr_hex": "bc035a08"
+        },
+        {
+            "_index": 18,
+            "_raw_offset": 5903492,
+            "text_ptr": 140117060,
+            "text_ptr_hex": "44045a08"
+        },
+        {
+            "_index": 19,
+            "_raw_offset": 5903496,
+            "text_ptr": 140117180,
+            "text_ptr_hex": "bc045a08"
+        },
+        {
+            "_index": 20,
+            "_raw_offset": 5903500,
+            "text_ptr": 140117332,
+            "text_ptr_hex": "54055a08"
+        },
+        {
+            "_index": 21,
+            "_raw_offset": 5903504,
+            "text_ptr": 140117472,
+            "text_ptr_hex": "e0055a08"
+        },
+        {
+            "_index": 22,
+            "_raw_offset": 5903508,
+            "text_ptr": 140117628,
+            "text_ptr_hex": "7c065a08"
+        },
+        {
+            "_index": 23,
+            "_raw_offset": 5903512,
+            "text_ptr": 140117776,
+            "text_ptr_hex": "10075a08"
+        },
+        {
+            "_index": 24,
+            "_raw_offset": 5903516,
+            "text_ptr": 140117880,
+            "text_ptr_hex": "78075a08"
+        },
+        {
+            "_index": 25,
+            "_raw_offset": 5903520,
+            "text_ptr": 140118016,
+            "text_ptr_hex": "00085a08"
+        },
+        {
+            "_index": 26,
+            "_raw_offset": 5903524,
+            "text_ptr": 140118144,
+            "text_ptr_hex": "80085a08"
+        },
+        {
+            "_index": 27,
+            "_raw_offset": 5903528,
+            "text_ptr": 140118280,
+            "text_ptr_hex": "08095a08"
+        },
+        {
+            "_index": 28,
+            "_raw_offset": 5903532,
+            "text_ptr": 140118396,
+            "text_ptr_hex": "7c095a08"
+        },
+        {
+            "_index": 29,
+            "_raw_offset": 5903536,
+            "text_ptr": 140118572,
+            "text_ptr_hex": "2c0a5a08"
+        },
+        {
+            "_index": 30,
+            "_raw_offset": 5903540,
+            "text_ptr": 140118752,
+            "text_ptr_hex": "e00a5a08"
+        },
+        {
+            "_index": 31,
+            "_raw_offset": 5903544,
+            "text_ptr": 140118940,
+            "text_ptr_hex": "9c0b5a08"
+        },
+        {
+            "_index": 32,
+            "_raw_offset": 5903548,
+            "text_ptr": 140119080,
+            "text_ptr_hex": "280c5a08"
+        },
+        {
+            "_index": 33,
+            "_raw_offset": 5903552,
+            "text_ptr": 140119232,
+            "text_ptr_hex": "c00c5a08"
+        },
+        {
+            "_index": 34,
+            "_raw_offset": 5903556,
+            "text_ptr": 140119384,
+            "text_ptr_hex": "580d5a08"
+        },
+        {
+            "_index": 35,
+            "_raw_offset": 5903560,
+            "text_ptr": 140119564,
+            "text_ptr_hex": "0c0e5a08"
+        },
+        {
+            "_index": 36,
+            "_raw_offset": 5903564,
+            "text_ptr": 140119700,
+            "text_ptr_hex": "940e5a08"
+        },
+        {
+            "_index": 37,
+            "_raw_offset": 5903568,
+            "text_ptr": 140119852,
+            "text_ptr_hex": "2c0f5a08"
+        },
+        {
+            "_index": 38,
+            "_raw_offset": 5903572,
+            "text_ptr": 140120000,
+            "text_ptr_hex": "c00f5a08"
+        },
+        {
+            "_index": 39,
+            "_raw_offset": 5903576,
+            "text_ptr": 140120152,
+            "text_ptr_hex": "58105a08"
+        },
+        {
+            "_index": 40,
+            "_raw_offset": 5903580,
+            "text_ptr": 140120320,
+            "text_ptr_hex": "00115a08"
+        },
+        {
+            "_index": 41,
+            "_raw_offset": 5903584,
+            "text_ptr": 140120492,
+            "text_ptr_hex": "ac115a08"
+        },
+        {
+            "_index": 42,
+            "_raw_offset": 5903588,
+            "text_ptr": 140120616,
+            "text_ptr_hex": "28125a08"
+        },
+        {
+            "_index": 43,
+            "_raw_offset": 5903592,
+            "text_ptr": 140120740,
+            "text_ptr_hex": "a4125a08"
+        },
+        {
+            "_index": 44,
+            "_raw_offset": 5903596,
+            "text_ptr": 140120892,
+            "text_ptr_hex": "3c135a08"
+        },
+        {
+            "_index": 45,
+            "_raw_offset": 5903600,
+            "text_ptr": 140121004,
+            "text_ptr_hex": "ac135a08"
+        }
     ]
-  },
-  "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9A, 0x5F, 0x9A, 0x69 which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables.",
-  "entries_sample": [
-    {
-      "index": 0,
-      "offset": 5903524,
-      "offset_hex": "0x5A14A4",
-      "data_ptr": "0x085A0880",
-      "data_offset": "0x5A0880",
-      "notes": "Encoded data"
-    },
-    {
-      "index": 1,
-      "offset": 5903528,
-      "offset_hex": "0x5A14A8",
-      "data_ptr": "0x085A0908",
-      "data_offset": "0x5A0908",
-      "notes": "Encoded data"
-    },
-    {
-      "index": 2,
-      "offset": 5903532,
-      "offset_hex": "0x5A14AC",
-      "data_ptr": "0x085A097C",
-      "data_offset": "0x5A097C",
-      "notes": "Encoded data"
-    },
-    {
-      "index": 3,
-      "offset": 5903536,
-      "offset_hex": "0x5A14B0",
-      "data_ptr": "0x085A0A2C",
-      "data_offset": "0x5A0A2C",
-      "notes": "Encoded data"
-    },
-    {
-      "index": 4,
-      "offset": 5903540,
-      "offset_hex": "0x5A14B4",
-      "data_ptr": "0x085A0AE0",
-      "data_offset": "0x5A0AE0",
-      "notes": "Encoded data"
-    }
-  ],
-  "verification_method": "Static analysis - found 20 consecutive u32 pointers at 0x5A14A4, all pointing to valid ROM addresses in the 0x5Axxxx region.",
-  "discovered_by": "Examining region 0x5A0000-0x5C0000 for pointer tables",
-  "entries": [
-    {
-      "_raw_offset": 5903524,
-      "data_ptr": 140118144,
-      "data_ptr_hex": "80085a08",
-      "_index": 0
-    },
-    {
-      "_raw_offset": 5903528,
-      "data_ptr": 140118280,
-      "data_ptr_hex": "08095a08",
-      "_index": 1
-    },
-    {
-      "_raw_offset": 5903532,
-      "data_ptr": 140118396,
-      "data_ptr_hex": "7c095a08",
-      "_index": 2
-    },
-    {
-      "_raw_offset": 5903536,
-      "data_ptr": 140118572,
-      "data_ptr_hex": "2c0a5a08",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5903540,
-      "data_ptr": 140118752,
-      "data_ptr_hex": "e00a5a08",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5903544,
-      "data_ptr": 140118940,
-      "data_ptr_hex": "9c0b5a08",
-      "_index": 5
-    },
-    {
-      "_raw_offset": 5903548,
-      "data_ptr": 140119080,
-      "data_ptr_hex": "280c5a08",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5903552,
-      "data_ptr": 140119232,
-      "data_ptr_hex": "c00c5a08",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5903556,
-      "data_ptr": 140119384,
-      "data_ptr_hex": "580d5a08",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5903560,
-      "data_ptr": 140119564,
-      "data_ptr_hex": "0c0e5a08",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5903564,
-      "data_ptr": 140119700,
-      "data_ptr_hex": "940e5a08",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5903568,
-      "data_ptr": 140119852,
-      "data_ptr_hex": "2c0f5a08",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5903572,
-      "data_ptr": 140120000,
-      "data_ptr_hex": "c00f5a08",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5903576,
-      "data_ptr": 140120152,
-      "data_ptr_hex": "58105a08",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5903580,
-      "data_ptr": 140120320,
-      "data_ptr_hex": "00115a08",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5903584,
-      "data_ptr": 140120492,
-      "data_ptr_hex": "ac115a08",
-      "_index": 15
-    },
-    {
-      "_raw_offset": 5903588,
-      "data_ptr": 140120616,
-      "data_ptr_hex": "28125a08",
-      "_index": 16
-    },
-    {
-      "_raw_offset": 5903592,
-      "data_ptr": 140120740,
-      "data_ptr_hex": "a4125a08",
-      "_index": 17
-    },
-    {
-      "_raw_offset": 5903596,
-      "data_ptr": 140120892,
-      "data_ptr_hex": "3c135a08",
-      "_index": 18
-    },
-    {
-      "_raw_offset": 5903600,
-      "data_ptr": 140121004,
-      "data_ptr_hex": "ac135a08",
-      "_index": 19
-    }
-  ],
-  "verification": "static_verified",
-  "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 20,
-    "rom_offset": 5903524,
-    "rom_offset_hex": "0x5A14A4"
-  }
 }

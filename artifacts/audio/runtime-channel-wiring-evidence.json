@@ -1,0 +1,74 @@
+{
+  "date": "2026-07-13",
+  "rom_note_allocator": "0x0809A708..0x0809A8FE",
+  "track_sweep": "0x0809A474..0x0809A4B8",
+  "continuous_pitch_update": "0x0809A654",
+  "channel_gain_update": "0x0809A6D8..0x0809A706",
+  "bounded_structural_coverage": {
+    "ticks_per_track": 2048,
+    "song_count": 80,
+    "note_request_count": 17546,
+    "direct_allocation_count": 17121,
+    "cgb_allocation_count": 11,
+    "allocator_rejection_count": 414,
+    "gate_release_count": 16848,
+    "matched_eot_count": 18,
+    "fine_unlinked_channel_count": 106,
+    "boundary": "This run advances track VMs but not SoundMain sample/envelope lifetimes. Allocation and rejection counts prove request-to-allocator structural coverage only; they are not real-time dropped-note statistics."
+  },
+  "real_directsound_vector": {
+    "sound_id": 1,
+    "track_ptr": "0x08535CFC",
+    "voicegroup": "0x0846480C",
+    "voice": 0,
+    "key": 57,
+    "velocity": 72,
+    "tone": "0x0846480C",
+    "wave": "0x0846606C",
+    "sample_count": 20789,
+    "loop_start": 10505,
+    "step": 11772,
+    "two_note_first_chunk_sha256": "da11e7ede6b8fa119983d90d69f526aeffb11a9a49682d9caf36aea215d5939c",
+    "first_channel_after_264_frames": {
+      "sample_index": 197,
+      "remaining": 20592,
+      "phase": 798080
+    }
+  },
+  "real_drum_pitch_vector": {
+    "voice": 4,
+    "event_key": 36,
+    "terminal_tone": "0x08464F2C",
+    "terminal_root_key": 60,
+    "track_key_delta": 1,
+    "fine": 128,
+    "runtime_pitch_key": 61,
+    "step": 15273
+  },
+  "real_cgb_noise_vector": {
+    "sound_id": 144,
+    "track_ptr": "0x0853D38C",
+    "voicegroup": "0x08465778",
+    "voice": 43,
+    "key": 72,
+    "tone": "0x0846597C",
+    "channel": 4,
+    "registers": {
+      "NR41": 0,
+      "NR42": 24,
+      "NR43": 20,
+      "NR44": 128,
+      "NR51": 136
+    }
+  },
+  "closed_behavior": [
+    "terminal tone resolution and DirectSound/CGB channel selection",
+    "newest-first track chain and same-key EOT release",
+    "DirectSound wave, pitch, ADSR, gain and first 264-frame initialization",
+    "drum-root plus signed track pitch offset",
+    "mid-note pitch and mix dirty propagation",
+    "natural-stop unlink during the next track sweep",
+    "CGB channel-4 start-register initialization"
+  ],
+  "open_boundary": "A player-level SongEngine, real SoundMain lifetime allocation statistics, CGB envelope/noise PCM, DirectSound+CGB combined WAV, cross-loop TIE completion and emulator buffer differential remain open."
+}

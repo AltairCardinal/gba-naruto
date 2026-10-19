@@ -1,0 +1,61 @@
+{
+  "outcome": "scenario-44-natural-victory-two-stage-objective-verified",
+  "scope": "scenario-44-progression",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-44-postbattle-world-map.ss9",
+    "sha256": "b452a77ef623d36423ec19eb4b5635d58d186ec041fa7891b356889d367875cd",
+    "task_resume": "0x08067D02",
+    "rgb_pixels_sha256": "80f987fd20333739f3710ba0b0f59ce83f2ae9ab66fdfa3c34314c49cea6cb69",
+    "zero_input_verified": true,
+    "zero_input_run_id": "66782e8c7b989f8d136423e60262ceb6",
+    "zero_input_output_sha256": "990c1b59eb94b120a0546d9ecc5509f10e758de5d96d1672a9a6cb36063bee16"
+  },
+  "objective": {
+    "battle_scenario": 44,
+    "battle_scenario_hex": "0x2C",
+    "result": 1,
+    "enemy_defeat_stored_hp": 6,
+    "two_stage": [
+      "defeat Kakashi",
+      "end a player action above the bells chest"
+    ],
+    "accepted_tile": [4, 3],
+    "accepted_facing": "down",
+    "non_winning_tiles": [
+      [3, 9],
+      [3, 4],
+      [4, 4]
+    ],
+    "in_game_condition_title": "拿到卡卡西老师的铃铛"
+  },
+  "natural_reward": {
+    "per_character_exp": 125,
+    "naruto": {
+      "level": 3,
+      "exp": 125,
+      "training_points": 2
+    },
+    "sasuke_level": 2,
+    "sasuke": {
+      "level": 2,
+      "exp": 45,
+      "training_points": 1
+    },
+    "sakura": {
+      "level": 1,
+      "exp": 125,
+      "training_points": 0
+    }
+  },
+  "resources": {
+    "formal_zero_input_peak_tree_rss_mib": 52.04296875,
+    "navigation_peak_tree_rss_mib": 107.890625,
+    "memory_limit_mib": 140,
+    "memory_anomaly": false
+  },
+  "boundary": "The checkpoint proves the natural scenario-44 result, rewards, and stable return to the world map; it does not claim completion of later missions."
+}

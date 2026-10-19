@@ -1,0 +1,1390 @@
+{
+  "format": "gba-naruto-mgba-cgb-differential-v1",
+  "sound_id": 144,
+  "invocation_count": 68,
+  "counter_sequence_valid": true,
+  "matched_visible_register_count": 68,
+  "all_visible_registers_match": true,
+  "first_register_mismatch_invocation": null,
+  "matched_channel_status_count": 68,
+  "all_channel_statuses_match": true,
+  "first_status_mismatch_invocation": null,
+  "direct_fifo_silent": true,
+  "expected_nr44_trigger_writes": [
+    1,
+    7,
+    13,
+    19,
+    25,
+    31,
+    37,
+    43,
+    49,
+    55,
+    61
+  ],
+  "nr44_readback_boundary": "NR44 bit 7 is a trigger write and reads back as zero in mGBA; the comparison therefore records expected trigger invocations and compares NR41/NR42/NR43/NR51 plus channel-4 status directly.",
+  "offline_engine_finished": true,
+  "comparisons": [
+    {
+      "invocation": 0,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 8,
+        "NR43": 0,
+        "NR51": 0
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 8,
+        "NR43": 0,
+        "NR51": 0
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 0,
+      "expected_channel_status": 0,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 1,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 2,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 3,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 4,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 5,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 6,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 7,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 8,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 9,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 10,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 11,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 12,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 13,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 14,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 15,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 16,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 17,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 18,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 19,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 20,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 21,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 22,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 23,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 24,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 25,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 26,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 27,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 28,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 29,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 30,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 31,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 32,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 33,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 34,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 35,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 36,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 37,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 38,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 39,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 40,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 41,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 42,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 43,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 44,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 45,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 46,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 47,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 48,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 49,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 50,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 51,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 52,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 53,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 54,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 72,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 55,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 56,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 57,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 58,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 59,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 60,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 40,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 61,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 62,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 63,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 64,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 65,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 66,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 24,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 1,
+      "expected_channel_status": 1,
+      "direct_fifo_silent": true
+    },
+    {
+      "invocation": 67,
+      "visible_registers_match": true,
+      "captured_visible_registers": {
+        "NR41": 0,
+        "NR42": 8,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "expected_visible_registers": {
+        "NR41": 0,
+        "NR42": 8,
+        "NR43": 20,
+        "NR51": 136
+      },
+      "channel_status_match": true,
+      "captured_channel_status": 0,
+      "expected_channel_status": 0,
+      "direct_fifo_silent": true
+    }
+  ]
+}
