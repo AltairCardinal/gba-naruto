@@ -1,0 +1,32 @@
+[promotion] waiting for coverage rebuild pid 36446
+[promotion] coverage rebuild finished
+[promotion] ledger digest after rebuild
+9f8a819647afba8f2dc01791dd19bf6a5776012d324e5a2ff694fb51634efb26  sequel/rom-byte-coverage.json
+[promotion] checking the pool claim landed
+pool claim: renderer-script-pointer-pool-0cea [3306, 4848]
+unknown_bytes: 86089 classified_bytes: 6205367 claim_count: 16913 segment_count: 18675
+[promotion] applying the proof ledger update
+{
+  "coverage_sha256": "9f8a819647afba8f2dc01791dd19bf6a5776012d324e5a2ff694fb51634efb26",
+  "unknown_bytes": 86089,
+  "classified_bytes": 6205367,
+  "claim_count": 16913,
+  "segment_count": 18675,
+  "changes": [
+    "coverage evidence sha256 b568db6f2509 -> 9f8a819647af",
+    "coverage summary assertions updated: 3",
+    "promoted-byte limitation refreshed"
+  ]
+}
+[promotion] running the focused test suites
+...................................................................................
+----------------------------------------------------------------------
+Ran 83 tests in 5.169s
+
+OK
+[promotion] running the formal proof (non-degraded, idle 3600s)
+[promotion] formal guard exit: 124
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: 'notes/evidence/reverse-proof-update-20261019-v1/formal-report.json'
+[promotion] done

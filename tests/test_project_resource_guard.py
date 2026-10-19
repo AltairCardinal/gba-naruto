@@ -5,6 +5,7 @@ import json
 import subprocess
 import tempfile
 import threading
+import sys
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -256,13 +257,57 @@ Pages wired down:                        3000.
             GuardConfig(
                 min_available_mib=1024,
                 max_tree_rss_mib=1536,
-                wall_timeout_s=600,
-                idle_timeout_s=60,
+                wall_timeout_s=9000,
+                idle_timeout_s=7200,
                 sample_interval_s=1,
                 grace_period_s=5,
                 allow_degraded=False,
             ),
         )
+
+    def test_default_idle_timeout_outlives_non_streaming_project_tools(self):
+        """Non-streaming tools must not be killed by the idle gate.
+
+        The idle gate measures "no complete stdout/stderr line".  The coverage
+        audit and the formal proof print their whole report only once at the
+        end, so their idle timer never resets and the effective limit is their
+        own wall clock.  The 60s default killed the coverage audit and the
+        formal proof at exactly 60s (exit 124, no report); the documented
+        2026-09-30 run used wall 9000s / idle 7200s.
+        """
+        defaults = GuardConfig()
+        self.assertGreaterEqual(defaults.idle_timeout_s, 7200)
+        self.assertGreaterEqual(defaults.wall_timeout_s, 9000)
+
+    def test_child_output_is_kept_next_to_the_summary(self):
+        """A failed heavy run must stay diagnosable.
+
+        The guard drains the child's stdout and stderr to detect progress, and
+        that drain used to discard the content: the receipt only said
+        "child-exit 1" with no reason.  The child's own output is now written
+        to sidecar logs next to the summary.
+        """
+
+        with tempfile.TemporaryDirectory() as tmp:
+            summary = Path(tmp) / "guard.json"
+            result = run_guarded(
+                [
+                    sys.executable,
+                    "-c",
+                    "import sys; print('stdout marker'); "
+                    "print('stderr marker', file=sys.stderr); raise SystemExit(3)",
+                ],
+                summary_path=summary,
+                config=GuardConfig(wall_timeout_s=30, idle_timeout_s=30),
+            )
+            self.assertEqual(3, result.exit_code)
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            stdout_log = Path(payload["child_stdout_log"])
+            stderr_log = Path(payload["child_stderr_log"])
+            self.assertTrue(stdout_log.exists())
+            self.assertTrue(stderr_log.exists())
+            self.assertIn("stdout marker", stdout_log.read_text(encoding="utf-8"))
+            self.assertIn("stderr marker", stderr_log.read_text(encoding="utf-8"))
 
     def test_project_lock_fails_fast_and_is_reusable_after_exit(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -906,7 +951,18 @@ Pages wired down:                        3000.
             {"command", "cwd", "started_at", "finished_at"}.issubset(summary)
         )
         self.assertEqual(summary["reason"], result.reason)
-        self.assertEqual(remaining, ["summary.json", "task.lock"])
+        # The summary, the lock and the two child-output sidecars are the
+        # intended artifacts; nothing else (in particular no temporary file)
+        # may be left behind.
+        self.assertEqual(
+            remaining,
+            [
+                "summary.json",
+                "summary.json.stderr.log",
+                "summary.json.stdout.log",
+                "task.lock",
+            ],
+        )
 
     def _run(
         self,

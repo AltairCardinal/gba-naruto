@@ -1,0 +1,202 @@
+{
+  "bottlenecks": [
+    {
+      "bottleneck": "heavy-work-lock-serialization",
+      "evidence": "2/2 concurrent guarded runs were rejected with lock-busy instead of waiting for the project heavy lock",
+      "impact": "at most one guarded heavy operation (mGBA capture, formal proof replay) can run at a time; extra sub-agents cannot add heavy throughput, they only add rejected runs",
+      "mitigation": "fan out read-only reconnaissance and static analysis; keep every heavy stage on the single guarded path and queue it explicitly",
+      "rank": 0,
+      "severity": "hard"
+    },
+    {
+      "bottleneck": "disk-headroom",
+      "evidence": "only 9.92 GiB available on the data volume",
+      "impact": "artifact regeneration, mGBA capture and formal receipts all write to disk; a full volume fails runs late and wastes the compute spent before the failure",
+      "mitigation": "reclaim regenerable experiment trees before starting a heavy stage, and keep new captures under one run-id directory",
+      "rank": 2,
+      "severity": "soft"
+    },
+    {
+      "bottleneck": "single-heavy-stage-latency",
+      "evidence": "slowest heavy stage 'formal-proof' took 60.24s",
+      "impact": "a single guarded stage can dominate a milestone's wall clock; policy already forbids repeating a full formal audit for one small packet",
+      "mitigation": "batch packets up to the policy threshold and use the measured stage cost to decide how many milestones fit in a session",
+      "rank": 4,
+      "severity": "soft"
+    }
+  ],
+  "cpu_probe": {
+    "host": {
+      "at": "2026-10-19T15:05:03.348160+00:00",
+      "cpu_count": 12,
+      "disk_available_gib": 9.92,
+      "disk_total_gib": 242.14,
+      "load_average_1m": 10.12,
+      "memory_available_mib": 6466.5,
+      "memory_backend": "vm-stat"
+    },
+    "iterations": 8000000,
+    "parallel_efficiency": 0.621,
+    "parallel_seconds": 4.711,
+    "serial_seconds": 11.707,
+    "speedup": 2.485,
+    "workers": 4
+  },
+  "generated_at": "2026-10-19T15:05:03.572279+00:00",
+  "host": {
+    "at": "2026-10-19T15:05:03.572181+00:00",
+    "cpu_count": 12,
+    "disk_available_gib": 9.92,
+    "disk_total_gib": 242.14,
+    "load_average_1m": 10.12,
+    "memory_available_mib": 6467.0,
+    "memory_backend": "vm-stat"
+  },
+  "interpreter": "/usr/local/bin/python3",
+  "lock_probe": {
+    "host": {
+      "at": "2026-10-19T15:05:03.566176+00:00",
+      "cpu_count": 12,
+      "disk_available_gib": 9.92,
+      "disk_total_gib": 242.14,
+      "load_average_1m": 10.12,
+      "memory_available_mib": 6466.1,
+      "memory_backend": "vm-stat"
+    },
+    "lock_file": "/Users/altair/github/gba-naruto-reverse/build/resource-guard/heavy.lock",
+    "rejected": 2,
+    "results": [
+      {
+        "exit_code": 75,
+        "guard_reason": "lock-busy",
+        "stderr_tail": "",
+        "stdout_tail": "{\"reason\":\"lock-busy\",\"exit_code\":75,\"child_pid\":null,\"peak_tree_rss_mib\":0.0,\"protection_backend\":\"posix-process-group\",\"degraded\":false,\"command\":[\"/usr/local/bin/python3\",\"-c\",\"import time; time.sleep(6); print('probe-done')\"],\"cwd\":\"/Users/altair/github/gba-naruto-reverse\",\"started_at\":\"2026-10-19T15:05:03.532183Z\",\"finished_at\":\"2026-10-19T15:05:03.533259Z\"}\n"
+      },
+      {
+        "exit_code": 75,
+        "guard_reason": "lock-busy",
+        "stderr_tail": "",
+        "stdout_tail": "{\"reason\":\"lock-busy\",\"exit_code\":75,\"child_pid\":null,\"peak_tree_rss_mib\":0.0,\"protection_backend\":\"posix-process-group\",\"degraded\":false,\"command\":[\"/usr/local/bin/python3\",\"-c\",\"import time; time.sleep(6); print('probe-done')\"],\"cwd\":\"/Users/altair/github/gba-naruto-reverse\",\"started_at\":\"2026-10-19T15:05:03.535939Z\",\"finished_at\":\"2026-10-19T15:05:03.537027Z\"}\n"
+      }
+    ]
+  },
+  "root": "/Users/altair/github/gba-naruto-reverse",
+  "schema": "reverse-throughput-measurement-v1",
+  "stages": [
+    {
+      "command": [
+        "tools/audit_rom_byte_coverage.py",
+        "--root",
+        "."
+      ],
+      "exit_code": 124,
+      "guard_degraded": false,
+      "guard_finished_at": "2026-10-19T15:03:45.300494Z",
+      "guard_reason": "idle-timeout",
+      "guard_started_at": "2026-10-19T15:02:44.735099Z",
+      "host_after": {
+        "at": "2026-10-19T15:03:45.338477+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 7.44,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 11.42,
+        "memory_available_mib": 6231.9,
+        "memory_backend": "vm-stat"
+      },
+      "host_before": {
+        "at": "2026-10-19T15:02:44.509438+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 7.68,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 10.46,
+        "memory_available_mib": 6021.2,
+        "memory_backend": "vm-stat"
+      },
+      "kind": "static",
+      "label": "coverage-audit",
+      "peak_tree_rss_mib": 269.015625,
+      "stderr_tail": "",
+      "stdout_tail": "{\"reason\":\"idle-timeout\",\"exit_code\":124,\"child_pid\":36255,\"peak_tree_rss_mib\":269.015625,\"protection_backend\":\"posix-process-group\",\"degraded\":false,\"command\":[\"/usr/local/bin/python3\",\"tools/audit_rom_byte_coverage.py\",\"--root\",\".\"],\"cwd\":\"/Users/altair/github/gba-naruto-reverse\",\"started_at\":\"2026-10-19T15:02:44.735099Z\",\"finished_at\":\"2026-10-19T15:03:45.300494Z\"}\n",
+      "summary_path": "notes/evidence/reverse-throughput-20261019-v1/coverage-audit.guard.json",
+      "wall_seconds": 60.82
+    },
+    {
+      "command": [
+        "tools/analyze_rom_unknown_clusters.py",
+        "--rom",
+        "rom/base.gba",
+        "--coverage",
+        "sequel/rom-byte-coverage.json",
+        "--top",
+        "30"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_finished_at": "2026-10-19T15:03:46.629775Z",
+      "guard_reason": "completed",
+      "guard_started_at": "2026-10-19T15:03:45.541851Z",
+      "host_after": {
+        "at": "2026-10-19T15:03:46.664723+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 7.44,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 11.06,
+        "memory_available_mib": 6182.2,
+        "memory_backend": "vm-stat"
+      },
+      "host_before": {
+        "at": "2026-10-19T15:03:45.346506+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 7.44,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 11.42,
+        "memory_available_mib": 6230.3,
+        "memory_backend": "vm-stat"
+      },
+      "kind": "static",
+      "label": "unknown-ranking",
+      "peak_tree_rss_mib": 0.9140625,
+      "stderr_tail": "",
+      "stdout_tail": "{\"reason\":\"completed\",\"exit_code\":0,\"child_pid\":38409,\"peak_tree_rss_mib\":0.9140625,\"protection_backend\":\"posix-process-group\",\"degraded\":false,\"command\":[\"/usr/local/bin/python3\",\"tools/analyze_rom_unknown_clusters.py\",\"--rom\",\"rom/base.gba\",\"--coverage\",\"sequel/rom-byte-coverage.json\",\"--top\",\"30\"],\"cwd\":\"/Users/altair/github/gba-naruto-reverse\",\"started_at\":\"2026-10-19T15:03:45.541851Z\",\"finished_at\":\"2026-10-19T15:03:46.629775Z\"}\n",
+      "summary_path": "notes/evidence/reverse-throughput-20261019-v1/unknown-ranking.guard.json",
+      "wall_seconds": 1.31
+    },
+    {
+      "command": [
+        "tools/audit_reverse_engineering_proof.py",
+        "--execute-verifiers",
+        "--allow-incomplete"
+      ],
+      "exit_code": 124,
+      "guard_degraded": false,
+      "guard_finished_at": "2026-10-19T15:04:46.896151Z",
+      "guard_reason": "idle-timeout",
+      "guard_started_at": "2026-10-19T15:03:46.859919Z",
+      "host_after": {
+        "at": "2026-10-19T15:04:46.923439+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 9.92,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 9.77,
+        "memory_available_mib": 6499.8,
+        "memory_backend": "vm-stat"
+      },
+      "host_before": {
+        "at": "2026-10-19T15:03:46.672169+00:00",
+        "cpu_count": 12,
+        "disk_available_gib": 7.44,
+        "disk_total_gib": 242.14,
+        "load_average_1m": 11.06,
+        "memory_available_mib": 6182.7,
+        "memory_backend": "vm-stat"
+      },
+      "kind": "heavy",
+      "label": "formal-proof",
+      "peak_tree_rss_mib": 208.60546875,
+      "stderr_tail": "",
+      "stdout_tail": "{\"reason\":\"idle-timeout\",\"exit_code\":124,\"child_pid\":38415,\"peak_tree_rss_mib\":208.60546875,\"protection_backend\":\"posix-process-group\",\"degraded\":false,\"command\":[\"/usr/local/bin/python3\",\"tools/audit_reverse_engineering_proof.py\",\"--execute-verifiers\",\"--allow-incomplete\"],\"cwd\":\"/Users/altair/github/gba-naruto-reverse\",\"started_at\":\"2026-10-19T15:03:46.859919Z\",\"finished_at\":\"2026-10-19T15:04:46.896151Z\"}\n",
+      "summary_path": "notes/evidence/reverse-throughput-20261019-v1/formal-proof.guard.json",
+      "wall_seconds": 60.24
+    }
+  ]
+}

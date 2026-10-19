@@ -30,8 +30,14 @@ class MemorySnapshot:
 class GuardConfig:
     min_available_mib: int = 1024
     max_tree_rss_mib: int = 1536
-    wall_timeout_s: float = 600
-    idle_timeout_s: float = 60
+    # The idle gate measures "no complete stdout/stderr line", so a tool that
+    # prints its whole report only once at the end never resets the timer and
+    # is effectively limited by its own wall clock.  The coverage audit and the
+    # formal proof audit both behave that way and were killed at exactly 60s
+    # with exit 124 and no report.  The documented 2026-09-30 acceptance run
+    # used wall 9000s / idle 7200s, which is what these defaults now are.
+    wall_timeout_s: float = 9000
+    idle_timeout_s: float = 7200
     sample_interval_s: float = 1
     grace_period_s: float = 5
     allow_degraded: bool = False
@@ -618,12 +624,31 @@ def run_guarded(
     summary_state = {"written": False, "result": None}
     completion_state = {"trigger": None}
 
+    # Keep the child's own stdout and stderr next to the summary.  A failed
+    # heavy run must stay diagnosable: without these sidecars the receipt
+    # only says "child-exit 1" and the reason is lost.
+    sidecar_paths = {
+        "stdout": summary_path.with_name(summary_path.name + ".stdout.log"),
+        "stderr": summary_path.with_name(summary_path.name + ".stderr.log"),
+    }
+    sidecar_files: dict[str, object] = {}
+    for name, path in sidecar_paths.items():
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            sidecar_files[name] = path.open("w", encoding="utf-8", errors="replace")
+        except OSError:
+            sidecar_files[name] = None
+    _OUTPUT_SIDECARS.clear()
+    _OUTPUT_SIDECARS.update(sidecar_files)
+
     def write_summary(result: GuardResult) -> None:
         metadata = {
             "command": list(command),
             "cwd": str(cwd_path.resolve()),
             "started_at": started_at,
             "finished_at": _utc_timestamp(),
+            "child_stdout_log": str(sidecar_paths["stdout"]),
+            "child_stderr_log": str(sidecar_paths["stderr"]),
         }
         if (
             completion_state["trigger"] is not None
@@ -697,7 +722,20 @@ def run_guarded(
         if not isinstance(error, Exception):
             fatal_error = error
     if fatal_error is not None:
+        for handle in sidecar_files.values():
+            try:
+                handle.close()
+            except (OSError, ValueError, AttributeError):
+                pass
+        _OUTPUT_SIDECARS.clear()
         raise fatal_error
+    for handle in sidecar_files.values():
+        try:
+            handle.flush()
+            handle.close()
+        except (OSError, ValueError, AttributeError):
+            pass
+    _OUTPUT_SIDECARS.clear()
     return result
 
 
@@ -1024,24 +1062,42 @@ class _ProgressTracker:
             return now - self._last_progress >= timeout
 
 
-def _start_output_drainers(process, progress: _ProgressTracker) -> list[threading.Thread]:
-    threads = []
-    for stream in (getattr(process, "stdout", None), getattr(process, "stderr", None)):
-        if stream is None:
-            continue
-        thread = threading.Thread(target=_drain_stream, args=(stream, progress), daemon=True)
-        thread.start()
-        threads.append(thread)
-    return threads
-
-
-def _drain_stream(stream, progress: _ProgressTracker) -> None:
+def _drain_stream(stream, progress: _ProgressTracker, sink=None) -> None:
     try:
         for line in iter(stream.readline, ""):
             if line.endswith("\n"):
                 progress.record_complete_line()
+            if sink is not None:
+                try:
+                    sink.write(line)
+                except (OSError, ValueError):
+                    sink = None
     except (OSError, ValueError):
         return
+
+
+# Sidecar logs for the child's own stdout/stderr.  The guard drains both pipes
+# to detect progress, and that drain used to discard the content: a failed
+# heavy run produced a receipt saying only "child-exit 1" with no reason.  The
+# paths are set by run_guarded for the duration of one child.
+_OUTPUT_SIDECARS: dict[str, object] = {}
+
+
+def _start_output_drainers(process, progress: _ProgressTracker) -> list[threading.Thread]:
+    threads = []
+    for name, stream in (
+        ("stdout", getattr(process, "stdout", None)),
+        ("stderr", getattr(process, "stderr", None)),
+    ):
+        if stream is None:
+            continue
+        sink = _OUTPUT_SIDECARS.get(name)
+        thread = threading.Thread(
+            target=_drain_stream, args=(stream, progress, sink), daemon=True
+        )
+        thread.start()
+        threads.append(thread)
+    return threads
 
 
 def _finish_output_drainers(threads: Iterable[threading.Thread], timeout: float) -> None:

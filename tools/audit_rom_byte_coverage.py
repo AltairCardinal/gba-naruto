@@ -264,6 +264,32 @@ from tools.verify_sprite_definition_runtime_chain import (
 
 SCHEMA = "rom-byte-coverage-v1"
 ROM_PATH = Path("rom/base.gba")
+MINIMUM_PYTHON = (3, 10)
+
+
+def _require_supported_python(version: tuple[int, int] | None = None) -> None:
+    """Refuse to run on an interpreter this toolchain cannot support.
+
+    The repository uses ``zip(..., strict=True)`` in more than a thousand
+    places, which needs Python 3.10+.  On Python 3.9 the coverage audit fails
+    with "zip() takes no keyword arguments", and the formal proof would then
+    report that environment problem as missing evidence, i.e. as false
+    blockers.  Failing closed here keeps "the evidence is missing" and "the
+    interpreter is too old" distinguishable.
+    """
+
+    current = (
+        version
+        if version is not None
+        else (sys.version_info.major, sys.version_info.minor)
+    )
+    if current < MINIMUM_PYTHON:
+        raise RuntimeError(
+            "this toolchain requires Python >= "
+            f"{MINIMUM_PYTHON[0]}.{MINIMUM_PYTHON[1]} because it uses "
+            f"zip(strict=True); running Python {current[0]}.{current[1]}"
+        )
+
 LZ77_EVIDENCE = Path(
     "artifacts/rom-pointer-lz77-inventory-v1/rom-pointer-lz77-inventory.json"
 )
@@ -33586,6 +33612,26 @@ FIXED_RENDERER_SCRIPT_RECORDS_PAYLOAD_SIZE = 32_401
 FIXED_RENDERER_SCRIPT_RECORDS_PAYLOAD_SHA256 = "7b56a9a05d8ea7d78bddd68dba874f0c7cae2ae3fa5d1aa6c2ab3a3949ec7698"
 FIXED_RENDERER_SCRIPT_RECORDS_VERIFIER = Path("tools/verify_rom_fixed_renderer_script_records.py")
 FIXED_RENDERER_SCRIPT_RECORDS_VERIFIER_SHA256 = "c7f3eeaabc4a6755c7974838084aa7495f866924e40fd4ea2bb072d5db7f3927"
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_ARTIFACT = Path(
+    "artifacts/rom-renderer-script-pointer-pool-records-v1"
+)
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD = (
+    "rom-renderer-script-pointer-pool-records.json"
+)
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_MANIFEST_SIZE = 1_196
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_MANIFEST_SHA256 = (
+    "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1"
+)
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD_SIZE = 12_030
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD_SHA256 = (
+    "60cbe250ff5d1d9f8f260df0149fbc52e2b90c10338e19aeb64b9194caf6f79c"
+)
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_VERIFIER = Path(
+    "tools/verify_rom_renderer_script_pointer_pool_records.py"
+)
+RENDERER_SCRIPT_POINTER_POOL_RECORDS_VERIFIER_SHA256 = (
+    "e17a3ee6ceba86310b1a8e1dd1a3e5b807e32030059e4fb5b19f4cf9f2656eb4"
+)
 BOOT_STATE_DISPATCHER_CFG_ARTIFACT = Path("artifacts/rom-boot-state-dispatcher-cfg-v1")
 BOOT_STATE_DISPATCHER_CFG_PAYLOAD = "rom-boot-state-dispatcher-cfg.json"
 BOOT_STATE_DISPATCHER_CFG_MANIFEST_SIZE = 1_121
@@ -35016,6 +35062,63 @@ def _fixed_renderer_script_record_claims(root, rom, existing_claims):
     return claims
 
 
+def _renderer_script_pointer_pool_record_claims(root, rom, existing_claims):
+    """Project the 27 renderer script records behind the 28-slot pointer pool.
+
+    The pool at 0x0CEA..0x12F0 is closed by the already accepted renderer
+    command grammar; this claim only binds those records to their consumer,
+    the 28-slot pointer table at 0x53DF00 whose slot 0 is null and whose slots
+    1..27 point at the record roots in order.  Natural runtime reachability,
+    the RAM row index domain and the row writer lifecycle stay unclaimed.
+    """
+
+    from tools.verify_rom_renderer_script_pointer_pool_records import verify_artifact
+
+    def class_for(row):
+        value = row.get("primary_class")
+        if value != "fixed_cfg_consumer_renderer_command_script":
+            raise ValueError("renderer script pointer-pool semantic class changed")
+        return value
+
+    def kind_for(row):
+        value = row.get("claim_kind")
+        if value != "fixed_cfg_consumer_renderer_command_script_bytes":
+            raise ValueError("renderer script pointer-pool claim kind changed")
+        return value
+
+    spec = {
+        "label": "renderer script pointer-pool records",
+        "artifact": RENDERER_SCRIPT_POINTER_POOL_RECORDS_ARTIFACT,
+        "payload": RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD,
+        "manifest_size": RENDERER_SCRIPT_POINTER_POOL_RECORDS_MANIFEST_SIZE,
+        "manifest_sha": RENDERER_SCRIPT_POINTER_POOL_RECORDS_MANIFEST_SHA256,
+        "payload_size": RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD_SIZE,
+        "payload_sha": RENDERER_SCRIPT_POINTER_POOL_RECORDS_PAYLOAD_SHA256,
+        "verifier": RENDERER_SCRIPT_POINTER_POOL_RECORDS_VERIFIER,
+        "verifier_sha": RENDERER_SCRIPT_POINTER_POOL_RECORDS_VERIFIER_SHA256,
+        "promotion_bytes": 1_542,
+        "claim_count": 1,
+        "batch": "rom-renderer-script-pointer-pool-records-v1",
+        "hash_field": "bytes_sha256",
+        "class_for": class_for,
+        "kind_for": kind_for,
+    }
+    claims = _project_dependency_packet_claims(
+        root,
+        rom,
+        existing_claims,
+        spec=spec,
+        verify_root=lambda verifier_root, artifact: verify_artifact(verifier_root, artifact),
+    )
+    for claim in claims:
+        claim["current_unknown_verified_by_auditor"] = True
+        claim["coverage_projection_gate"] = "current_unknown_before_projection"
+        claim["canonical_cfg_consumer_denominator_verified"] = True
+        claim["interpreter_r0_parameter_flow_verified"] = True
+        claim["pointer_pool_slot_denominator_verified"] = True
+    return claims
+
+
 def _boot_state_dispatcher_cfg_claims(root, rom, existing_claims):
     """Project the fixed dispatcher plus five bounded zero-frontier closures."""
 
@@ -35844,6 +35947,7 @@ def _padding_claim(rom: bytes) -> dict[str, Any]:
 
 
 def build_manifest(root: Path) -> dict[str, Any]:
+    _require_supported_python()
     root = Path(root).resolve(strict=True)
     rom_path = root / ROM_PATH
     rom = rom_path.read_bytes()
@@ -35965,6 +36069,7 @@ def build_manifest(root: Path) -> dict[str, Any]:
     claims += _boot_copy_source_claims(root, rom, claims)
     claims += _text_bg_task_closure_claims(root, rom, claims)
     claims += _fixed_renderer_script_record_claims(root, rom, claims)
+    claims += _renderer_script_pointer_pool_record_claims(root, rom, claims)
     claims += _boot_state_dispatcher_cfg_claims(root, rom, claims)
     claims += _fixed_animation_descriptor_group_claims(root, rom, claims)
     claims += _battle_distance_dispatcher_cfg_claims(root, rom, claims)
@@ -38354,6 +38459,7 @@ def build_manifest(root: Path) -> dict[str, Any]:
 
 
 def audit_manifest(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
+    _require_supported_python()
     errors: list[str] = []
     try:
         expected = build_manifest(root)

@@ -1,0 +1,1522 @@
+{
+  "base_pairs": {
+    "items": [
+      {
+        "descriptor_table_address": 4555892,
+        "descriptor_table_index": 0,
+        "descriptor_table_slots": 2,
+        "descriptor_targets": [
+          4555564,
+          4555808
+        ],
+        "group_table_address": 4555916,
+        "group_table_index": 0,
+        "group_table_slots": 2,
+        "group_targets": [
+          4555900,
+          4555908
+        ],
+        "pair_index": 0,
+        "r0_literal": 138773620,
+        "r1_literal": 138773644
+      },
+      {
+        "descriptor_table_address": 4555948,
+        "descriptor_table_index": 1,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4555924
+        ],
+        "group_table_address": 4555960,
+        "group_table_index": 1,
+        "group_table_slots": 1,
+        "group_targets": [
+          4555952
+        ],
+        "pair_index": 1,
+        "r0_literal": 138773676,
+        "r1_literal": 138773688
+      },
+      {
+        "descriptor_table_address": 4555988,
+        "descriptor_table_index": 2,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4555964
+        ],
+        "group_table_address": 4556000,
+        "group_table_index": 2,
+        "group_table_slots": 1,
+        "group_targets": [
+          4555992
+        ],
+        "pair_index": 2,
+        "r0_literal": 138773716,
+        "r1_literal": 138773728
+      },
+      {
+        "descriptor_table_address": 4556048,
+        "descriptor_table_index": 3,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4556004
+        ],
+        "group_table_address": 4556060,
+        "group_table_index": 3,
+        "group_table_slots": 1,
+        "group_targets": [
+          4556052
+        ],
+        "pair_index": 3,
+        "r0_literal": 138773776,
+        "r1_literal": 138773788
+      },
+      {
+        "descriptor_table_address": 4556108,
+        "descriptor_table_index": 4,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4556064
+        ],
+        "group_table_address": 4556120,
+        "group_table_index": 4,
+        "group_table_slots": 1,
+        "group_targets": [
+          4556112
+        ],
+        "pair_index": 4,
+        "r0_literal": 138773836,
+        "r1_literal": 138773848
+      },
+      {
+        "descriptor_table_address": 4556148,
+        "descriptor_table_index": 5,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4556124
+        ],
+        "group_table_address": 4556160,
+        "group_table_index": 5,
+        "group_table_slots": 1,
+        "group_targets": [
+          4556152
+        ],
+        "pair_index": 5,
+        "r0_literal": 138773876,
+        "r1_literal": 138773888
+      },
+      {
+        "descriptor_table_address": 4556188,
+        "descriptor_table_index": 6,
+        "descriptor_table_slots": 1,
+        "descriptor_targets": [
+          4556164
+        ],
+        "group_table_address": 4556200,
+        "group_table_index": 6,
+        "group_table_slots": 1,
+        "group_targets": [
+          4556192
+        ],
+        "pair_index": 6,
+        "r0_literal": 138773916,
+        "r1_literal": 138773928
+      }
+    ],
+    "pair_count": 7
+  },
+  "byte_attribution": {
+    "descriptor_bytes": 496,
+    "padding_bytes": 16,
+    "pointer_slot_bytes": 64,
+    "sequence_bytes": 64,
+    "total_bytes": 640,
+    "unattributed_bytes": 0
+  },
+  "claim": {
+    "bytes": 640,
+    "bytes_sha256": "9be0375fab3cd7f25c99d6cdcfedfd3727d5d787b56532ac72894c74f5ec511c",
+    "claim_kind": "fixed_consumer_animation_descriptor_group_bytes",
+    "primary_class": "fixed_consumer_animation_descriptor_group_bytes",
+    "range": [
+      4555564,
+      4556204
+    ]
+  },
+  "consumer_contract": {
+    "allocator_call_target": 403124,
+    "allocator_object_fields": {
+      "descriptor_table": 28,
+      "group_index": 20,
+      "group_table": 32,
+      "record_slot": 22
+    },
+    "caller_site_denominator": {
+      "attributed_callers": 2,
+      "attributed_pools": 2,
+      "base_pair_count": 7,
+      "base_pair_pools": 48,
+      "closed": false,
+      "unattributed_pools": 46
+    },
+    "identity_ranges": [
+      {
+        "bytes_sha256": "09cd85fb8fcdc85751019c67ef6b91d6d3d64c1fbeb0b0496e270234f846d804",
+        "label": "allocator",
+        "range": [
+          403124,
+          403302
+        ]
+      },
+      {
+        "bytes_sha256": "23ead2fcc1537d16a632bf68dbccdb96a142af170410f862baaf4c1d750e0a18",
+        "label": "renderer_select",
+        "range": [
+          403748,
+          403978
+        ]
+      },
+      {
+        "bytes_sha256": "79cb19c28c7f5a75ed323f99c837e131c0e11dd06c91f422e60ac9ff859e8f44",
+        "label": "renderer_step",
+        "range": [
+          406006,
+          406024
+        ]
+      },
+      {
+        "bytes_sha256": "b6dc39ac66ecaac48e16f37406bab7e579362759e9e3570e9c6fa9e24ec0ab23",
+        "label": "renderer_advance",
+        "range": [
+          406072,
+          406202
+        ]
+      }
+    ],
+    "literal_loader_binding": {
+      "base_pair_pool_count": 48,
+      "descriptor_table_literals": {
+        "0x08458474": {
+          "loaders": [
+            {
+              "loader": 549782,
+              "site": 549912
+            },
+            {
+              "loader": 559778,
+              "site": 559908
+            },
+            {
+              "loader": 581278,
+              "site": 581532
+            }
+          ],
+          "occurrence_denominator": 3,
+          "register": "r0",
+          "sites": [
+            549912,
+            559908,
+            581532
+          ]
+        },
+        "0x084584AC": {
+          "loaders": [
+            {
+              "loader": 554674,
+              "site": 554764
+            },
+            {
+              "loader": 555360,
+              "site": 555452
+            },
+            {
+              "loader": 599346,
+              "site": 599652
+            },
+            {
+              "loader": 609822,
+              "site": 609932
+            },
+            {
+              "loader": 613182,
+              "site": 613444
+            }
+          ],
+          "occurrence_denominator": 5,
+          "register": "r0",
+          "sites": [
+            554764,
+            555452,
+            599652,
+            609932,
+            613444
+          ]
+        },
+        "0x084584D4": {
+          "loaders": [
+            {
+              "loader": 462956,
+              "site": 463072
+            },
+            {
+              "loader": 491138,
+              "site": 491632
+            },
+            {
+              "loader": 494004,
+              "site": 494076
+            },
+            {
+              "loader": 554714,
+              "site": 554780
+            },
+            {
+              "loader": 555400,
+              "site": 555468
+            },
+            {
+              "loader": 599378,
+              "site": 599660
+            },
+            {
+              "loader": 604532,
+              "site": 605256
+            },
+            {
+              "loader": 609672,
+              "site": 609752
+            },
+            {
+              "loader": 609858,
+              "site": 609940
+            },
+            {
+              "loader": 613222,
+              "site": 613460
+            }
+          ],
+          "occurrence_denominator": 10,
+          "register": "r0",
+          "sites": [
+            463072,
+            491632,
+            494076,
+            554780,
+            555468,
+            599660,
+            605256,
+            609752,
+            609940,
+            613460
+          ]
+        },
+        "0x08458510": {
+          "loaders": [
+            {
+              "loader": 462916,
+              "site": 463064
+            },
+            {
+              "loader": 568752,
+              "site": 569080
+            },
+            {
+              "loader": 572474,
+              "site": 572772
+            },
+            {
+              "loader": 592174,
+              "site": 592304
+            },
+            {
+              "loader": 599304,
+              "site": 599636
+            },
+            {
+              "loader": 609582,
+              "site": 609728
+            }
+          ],
+          "occurrence_denominator": 6,
+          "register": "r0",
+          "sites": [
+            463064,
+            569080,
+            572772,
+            592304,
+            599636,
+            609728
+          ]
+        },
+        "0x0845854C": {
+          "loaders": [
+            {
+              "loader": 456972,
+              "site": 457048
+            },
+            {
+              "loader": 491092,
+              "site": 491624
+            },
+            {
+              "loader": 493956,
+              "site": 494060
+            },
+            {
+              "loader": 604492,
+              "site": 605248
+            },
+            {
+              "loader": 609630,
+              "site": 609744
+            },
+            {
+              "loader": 609774,
+              "site": 609916
+            }
+          ],
+          "occurrence_denominator": 6,
+          "register": "r0",
+          "sites": [
+            457048,
+            491624,
+            494060,
+            605248,
+            609744,
+            609916
+          ]
+        },
+        "0x08458574": {
+          "loaders": [
+            {
+              "loader": 491010,
+              "site": 491600
+            },
+            {
+              "loader": 494322,
+              "site": 494604
+            },
+            {
+              "loader": 496150,
+              "site": 496460
+            },
+            {
+              "loader": 582270,
+              "site": 582600
+            },
+            {
+              "loader": 583586,
+              "site": 583784
+            },
+            {
+              "loader": 585338,
+              "site": 585436
+            },
+            {
+              "loader": 604406,
+              "site": 605224
+            },
+            {
+              "loader": 610182,
+              "site": 610468
+            },
+            {
+              "loader": 612010,
+              "site": 612328
+            }
+          ],
+          "occurrence_denominator": 9,
+          "register": "r0",
+          "sites": [
+            491600,
+            494604,
+            496460,
+            582600,
+            583784,
+            585436,
+            605224,
+            610468,
+            612328
+          ]
+        },
+        "0x0845859C": {
+          "loaders": [
+            {
+              "loader": 491054,
+              "site": 491616
+            },
+            {
+              "loader": 494366,
+              "site": 494620
+            },
+            {
+              "loader": 496196,
+              "site": 496476
+            },
+            {
+              "loader": 582316,
+              "site": 582616
+            },
+            {
+              "loader": 583630,
+              "site": 583800
+            },
+            {
+              "loader": 585382,
+              "site": 585456
+            },
+            {
+              "loader": 604452,
+              "site": 605240
+            },
+            {
+              "loader": 610226,
+              "site": 610484
+            },
+            {
+              "loader": 612056,
+              "site": 612344
+            }
+          ],
+          "occurrence_denominator": 9,
+          "register": "r0",
+          "sites": [
+            491616,
+            494620,
+            496476,
+            582616,
+            583800,
+            585456,
+            605240,
+            610484,
+            612344
+          ]
+        }
+      },
+      "group_table_literals": {
+        "0x0845848C": {
+          "loaders": [
+            {
+              "loader": 549784,
+              "site": 549916
+            },
+            {
+              "loader": 559780,
+              "site": 559912
+            },
+            {
+              "loader": 581280,
+              "site": 581536
+            }
+          ],
+          "occurrence_denominator": 3,
+          "register": "r1",
+          "sites": [
+            549916,
+            559912,
+            581536
+          ]
+        },
+        "0x084584B8": {
+          "loaders": [
+            {
+              "loader": 554676,
+              "site": 554768
+            },
+            {
+              "loader": 555362,
+              "site": 555456
+            },
+            {
+              "loader": 599348,
+              "site": 599656
+            },
+            {
+              "loader": 609824,
+              "site": 609936
+            },
+            {
+              "loader": 613184,
+              "site": 613448
+            }
+          ],
+          "occurrence_denominator": 5,
+          "register": "r1",
+          "sites": [
+            554768,
+            555456,
+            599656,
+            609936,
+            613448
+          ]
+        },
+        "0x084584E0": {
+          "loaders": [
+            {
+              "loader": 462958,
+              "site": 463076
+            },
+            {
+              "loader": 491140,
+              "site": 491636
+            },
+            {
+              "loader": 494006,
+              "site": 494080
+            },
+            {
+              "loader": 554716,
+              "site": 554784
+            },
+            {
+              "loader": 555402,
+              "site": 555472
+            },
+            {
+              "loader": 599380,
+              "site": 599664
+            },
+            {
+              "loader": 604534,
+              "site": 605260
+            },
+            {
+              "loader": 609674,
+              "site": 609756
+            },
+            {
+              "loader": 609860,
+              "site": 609944
+            },
+            {
+              "loader": 613224,
+              "site": 613464
+            }
+          ],
+          "occurrence_denominator": 10,
+          "register": "r1",
+          "sites": [
+            463076,
+            491636,
+            494080,
+            554784,
+            555472,
+            599664,
+            605260,
+            609756,
+            609944,
+            613464
+          ]
+        },
+        "0x0845851C": {
+          "loaders": [
+            {
+              "loader": 462918,
+              "site": 463068
+            },
+            {
+              "loader": 568754,
+              "site": 569084
+            },
+            {
+              "loader": 572476,
+              "site": 572776
+            },
+            {
+              "loader": 592178,
+              "site": 592308
+            },
+            {
+              "loader": 599306,
+              "site": 599640
+            },
+            {
+              "loader": 609584,
+              "site": 609732
+            }
+          ],
+          "occurrence_denominator": 6,
+          "register": "r1",
+          "sites": [
+            463068,
+            569084,
+            572776,
+            592308,
+            599640,
+            609732
+          ]
+        },
+        "0x08458558": {
+          "loaders": [
+            {
+              "loader": 456974,
+              "site": 457052
+            },
+            {
+              "loader": 491094,
+              "site": 491628
+            },
+            {
+              "loader": 493958,
+              "site": 494064
+            },
+            {
+              "loader": 604494,
+              "site": 605252
+            },
+            {
+              "loader": 609632,
+              "site": 609748
+            },
+            {
+              "loader": 609776,
+              "site": 609920
+            }
+          ],
+          "occurrence_denominator": 6,
+          "register": "r1",
+          "sites": [
+            457052,
+            491628,
+            494064,
+            605252,
+            609748,
+            609920
+          ]
+        },
+        "0x08458580": {
+          "loaders": [
+            {
+              "loader": 491012,
+              "site": 491604
+            },
+            {
+              "loader": 494324,
+              "site": 494608
+            },
+            {
+              "loader": 496152,
+              "site": 496464
+            },
+            {
+              "loader": 582272,
+              "site": 582604
+            },
+            {
+              "loader": 583588,
+              "site": 583788
+            },
+            {
+              "loader": 585340,
+              "site": 585440
+            },
+            {
+              "loader": 604408,
+              "site": 605228
+            },
+            {
+              "loader": 610184,
+              "site": 610472
+            },
+            {
+              "loader": 612012,
+              "site": 612332
+            }
+          ],
+          "occurrence_denominator": 9,
+          "register": "r1",
+          "sites": [
+            491604,
+            494608,
+            496464,
+            582604,
+            583788,
+            585440,
+            605228,
+            610472,
+            612332
+          ]
+        },
+        "0x084585A8": {
+          "loaders": [
+            {
+              "loader": 491056,
+              "site": 491620
+            },
+            {
+              "loader": 494368,
+              "site": 494624
+            },
+            {
+              "loader": 496198,
+              "site": 496480
+            },
+            {
+              "loader": 582318,
+              "site": 582620
+            },
+            {
+              "loader": 583634,
+              "site": 583804
+            },
+            {
+              "loader": 585384,
+              "site": 585460
+            },
+            {
+              "loader": 604454,
+              "site": 605244
+            },
+            {
+              "loader": 610228,
+              "site": 610488
+            },
+            {
+              "loader": 612058,
+              "site": 612348
+            }
+          ],
+          "occurrence_denominator": 9,
+          "register": "r1",
+          "sites": [
+            491620,
+            494624,
+            496480,
+            582620,
+            583804,
+            585460,
+            605244,
+            610488,
+            612348
+          ]
+        }
+      },
+      "literal_occurrence_count": 96,
+      "r0_literal_occurrence_count": 48,
+      "r1_literal_occurrence_count": 48,
+      "rule": "nearest preceding Thumb LDR-literal instruction resolving to the literal site",
+      "scan_limit_bytes": 1024
+    },
+    "located_caller_count": 2,
+    "located_callers": [
+      {
+        "base_pair_index": 4,
+        "call_halfword": 63474,
+        "call_site": 456980,
+        "call_target": 403124,
+        "caller_id": "animation-descriptor-base-caller-a",
+        "code_range": [
+          456968,
+          456992
+        ],
+        "code_sha256": "9316d77b9803a7651036902beb53e5de737e064505f560ff9987ee09256134e1",
+        "literal_load_halfwords": [
+          18450,
+          18707
+        ],
+        "literal_load_sites": [
+          456972,
+          456974
+        ],
+        "literal_pool_range": [
+          457048,
+          457056
+        ],
+        "literal_pool_sha256": "4dfab96f5dbd463a6b305159ed1bb143e71b34df58f6be23b462d09e4ae600e4",
+        "literal_pool_sites": [
+          457048,
+          457052
+        ],
+        "literal_values": [
+          138773836,
+          138773848
+        ]
+      },
+      {
+        "base_pair_index": 3,
+        "call_halfword": 63473,
+        "call_site": 462944,
+        "call_target": 403124,
+        "caller_id": "animation-descriptor-base-caller-b",
+        "code_range": [
+          462912,
+          462944
+        ],
+        "code_sha256": "643d8b3c834c44f6c667f3a83dca3e3897b44f45f2a381f174d74bf1ab18c9da",
+        "literal_load_halfwords": [
+          18468,
+          18725
+        ],
+        "literal_load_sites": [
+          462916,
+          462918
+        ],
+        "literal_pool_range": [
+          463064,
+          463072
+        ],
+        "literal_pool_sha256": "f57f4ff0bfd5bf3dd7383f0f24ce930fe6184f68b82e5b00ad90717ec82e82a2",
+        "literal_pool_sites": [
+          463064,
+          463068
+        ],
+        "literal_values": [
+          138773776,
+          138773788
+        ]
+      }
+    ],
+    "pinned_literal_occurrence_denominator": {
+      "0x08458510": [
+        463064,
+        569080,
+        572772,
+        592304,
+        599636,
+        609728
+      ],
+      "0x0845851C": [
+        463068,
+        569084,
+        572776,
+        592308,
+        599640,
+        609732
+      ],
+      "0x0845854C": [
+        457048,
+        491624,
+        494060,
+        605248,
+        609744,
+        609916
+      ],
+      "0x08458558": [
+        457052,
+        491628,
+        494064,
+        605252,
+        609748,
+        609920
+      ]
+    }
+  },
+  "descriptors": {
+    "descriptor_bytes": 496,
+    "descriptor_count": 8,
+    "entry_count": 24,
+    "entry_head_domain": {
+      "distinct": [
+        0,
+        2,
+        4,
+        8,
+        12,
+        16,
+        17,
+        18,
+        19,
+        20,
+        24,
+        32,
+        40
+      ],
+      "max": 40,
+      "min": 0
+    },
+    "entry_stride": 20,
+    "flag_halfword_domain": {
+      "distinct": [
+        0
+      ]
+    },
+    "items": [
+      {
+        "bytes_sha256": "b84a774c42c7b85fe98f9e66414a9c841863af7b956a113df87fa4374403cc53",
+        "descriptor_index": 0,
+        "entry_count": 12,
+        "entry_heads": [
+          0,
+          0,
+          4,
+          4,
+          8,
+          8,
+          12,
+          12,
+          16,
+          17,
+          18,
+          19
+        ],
+        "entry_stride": 20,
+        "range": [
+          4555564,
+          4555806
+        ],
+        "terminator_offset": 4555804
+      },
+      {
+        "bytes_sha256": "4085018b24b393ea6bef2d4e35963420773b94da717a83313cf085e44ec7f6d1",
+        "descriptor_index": 1,
+        "entry_count": 4,
+        "entry_heads": [
+          20,
+          24,
+          32,
+          40
+        ],
+        "entry_stride": 20,
+        "range": [
+          4555808,
+          4555890
+        ],
+        "terminator_offset": 4555888
+      },
+      {
+        "bytes_sha256": "4d8b5af34b30657241ce01b0f172470c85d619aec034b05b5fbed2f365306814",
+        "descriptor_index": 2,
+        "entry_count": 1,
+        "entry_heads": [
+          0
+        ],
+        "entry_stride": 20,
+        "range": [
+          4555924,
+          4555946
+        ],
+        "terminator_offset": 4555944
+      },
+      {
+        "bytes_sha256": "4d8b5af34b30657241ce01b0f172470c85d619aec034b05b5fbed2f365306814",
+        "descriptor_index": 3,
+        "entry_count": 1,
+        "entry_heads": [
+          0
+        ],
+        "entry_stride": 20,
+        "range": [
+          4555964,
+          4555986
+        ],
+        "terminator_offset": 4555984
+      },
+      {
+        "bytes_sha256": "ede5a9a7e629bf11e7d0a5620708675945f5463a0834a13d9ba054114bcd7ddf",
+        "descriptor_index": 4,
+        "entry_count": 2,
+        "entry_heads": [
+          0,
+          2
+        ],
+        "entry_stride": 20,
+        "range": [
+          4556004,
+          4556046
+        ],
+        "terminator_offset": 4556044
+      },
+      {
+        "bytes_sha256": "ede5a9a7e629bf11e7d0a5620708675945f5463a0834a13d9ba054114bcd7ddf",
+        "descriptor_index": 5,
+        "entry_count": 2,
+        "entry_heads": [
+          0,
+          2
+        ],
+        "entry_stride": 20,
+        "range": [
+          4556064,
+          4556106
+        ],
+        "terminator_offset": 4556104
+      },
+      {
+        "bytes_sha256": "4d8b5af34b30657241ce01b0f172470c85d619aec034b05b5fbed2f365306814",
+        "descriptor_index": 6,
+        "entry_count": 1,
+        "entry_heads": [
+          0
+        ],
+        "entry_stride": 20,
+        "range": [
+          4556124,
+          4556146
+        ],
+        "terminator_offset": 4556144
+      },
+      {
+        "bytes_sha256": "4d8b5af34b30657241ce01b0f172470c85d619aec034b05b5fbed2f365306814",
+        "descriptor_index": 7,
+        "entry_count": 1,
+        "entry_heads": [
+          0
+        ],
+        "entry_stride": 20,
+        "range": [
+          4556164,
+          4556186
+        ],
+        "terminator_offset": 4556184
+      }
+    ],
+    "terminator_position": "head",
+    "terminator_value": 65535,
+    "terminator_width": 2
+  },
+  "excluded_regions": [
+    {
+      "bytes": 488,
+      "bytes_sha256": "11d1938dc0a00025ed1e953ba3e7e69892467f757a1de07fbc162cdc5b6c0f69",
+      "family_attributed": false,
+      "inside_claim": false,
+      "range": [
+        4556204,
+        4556692
+      ],
+      "reason": "heterogeneous family: the tail opens with the ASCII marker 'LV' and carries the ASCII digit runs '0123', '4567' and '89', so it is not part of the animation descriptor pool"
+    }
+  ],
+  "padding": {
+    "items": [
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4555806,
+          4555808
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4555890,
+          4555892
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4555946,
+          4555948
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4555986,
+          4555988
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4556046,
+          4556048
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4556106,
+          4556108
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4556146,
+          4556148
+        ]
+      },
+      {
+        "bytes": 2,
+        "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "range": [
+          4556186,
+          4556188
+        ]
+      }
+    ],
+    "padding_bytes": 16,
+    "segment_count": 8
+  },
+  "pointer_slots": {
+    "pointer_slot_bytes": 64,
+    "slot_count": 16,
+    "table_count": 14,
+    "tables": [
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4555892,
+          4555900
+        ],
+        "slot_count": 2,
+        "slots": [
+          {
+            "slot_offset": 4555892,
+            "target": 4555564
+          },
+          {
+            "slot_offset": 4555896,
+            "target": 4555808
+          }
+        ],
+        "table_index": 0
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4555948,
+          4555952
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4555948,
+            "target": 4555924
+          }
+        ],
+        "table_index": 1
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4555988,
+          4555992
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4555988,
+            "target": 4555964
+          }
+        ],
+        "table_index": 2
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4556048,
+          4556052
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556048,
+            "target": 4556004
+          }
+        ],
+        "table_index": 3
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4556108,
+          4556112
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556108,
+            "target": 4556064
+          }
+        ],
+        "table_index": 4
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4556148,
+          4556152
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556148,
+            "target": 4556124
+          }
+        ],
+        "table_index": 5
+      },
+      {
+        "kind": "descriptor_table",
+        "range": [
+          4556188,
+          4556192
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556188,
+            "target": 4556164
+          }
+        ],
+        "table_index": 6
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4555916,
+          4555924
+        ],
+        "slot_count": 2,
+        "slots": [
+          {
+            "slot_offset": 4555916,
+            "target": 4555900
+          },
+          {
+            "slot_offset": 4555920,
+            "target": 4555908
+          }
+        ],
+        "table_index": 7
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4555960,
+          4555964
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4555960,
+            "target": 4555952
+          }
+        ],
+        "table_index": 8
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4556000,
+          4556004
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556000,
+            "target": 4555992
+          }
+        ],
+        "table_index": 9
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4556060,
+          4556064
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556060,
+            "target": 4556052
+          }
+        ],
+        "table_index": 10
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4556120,
+          4556124
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556120,
+            "target": 4556112
+          }
+        ],
+        "table_index": 11
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4556160,
+          4556164
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556160,
+            "target": 4556152
+          }
+        ],
+        "table_index": 12
+      },
+      {
+        "kind": "group_table",
+        "range": [
+          4556200,
+          4556204
+        ],
+        "slot_count": 1,
+        "slots": [
+          {
+            "slot_offset": 4556200,
+            "target": 4556192
+          }
+        ],
+        "table_index": 13
+      }
+    ]
+  },
+  "promotion": {
+    "claim_count": 1,
+    "claims": [
+      {
+        "bytes_sha256": "9be0375fab3cd7f25c99d6cdcfedfd3727d5d787b56532ac72894c74f5ec511c",
+        "claim_kind": "fixed_consumer_animation_descriptor_group_bytes",
+        "id": "animation-descriptor-pool-45832c",
+        "primary_class": "fixed_consumer_animation_descriptor_group_bytes",
+        "range": [
+          4555564,
+          4556204
+        ]
+      }
+    ],
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-animation-descriptor-pool-v2",
+    "promotion_bytes": 640
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-animation-descriptor-pool-v2",
+  "scope": {
+    "all_callers_share_this_input": false,
+    "callback_domain_closed": false,
+    "caller_denominator_closed": false,
+    "descriptor_editing_safety": false,
+    "flags_domain_closed": false,
+    "heterogeneous_tail_family_closed": false,
+    "index_domain_closed": false,
+    "natural_runtime_reachability": false,
+    "opaque_renderer_side_effects": false
+  },
+  "scope_notes": {
+    "callback_domain_closed": "descriptor entry heads and sequence record indices select records in a table that this package does not identify, so the callback domain is not closed",
+    "caller_denominator_closed": "seven base pairs are known and every literal site binds r0 to the descriptor table and r1 to the group table, but only two of the literal sites are attributed to a pinned caller, so the caller denominator is not closed",
+    "flags_domain_closed": "the second halfword of every descriptor entry head is 0x0000 for all 24 entries; no writer and no flag meaning is bound here, so the flag domain is not closed",
+    "heterogeneous_tail_family_closed": "the 488-byte tail 0x4585AC..0x458794 is excluded from the claim, but the family it belongs to is still unknown",
+    "natural_runtime_reachability": "no claim is made that the pool is reached during normal play"
+  },
+  "sequences": {
+    "duration_domain": [
+      0,
+      1
+    ],
+    "item_size": 8,
+    "items": [
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4555900,
+          4555908
+        ],
+        "record_index": 0,
+        "sequence_index": 0,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+        "duration": 0,
+        "range": [
+          4555908,
+          4555916
+        ],
+        "record_index": 1,
+        "sequence_index": 1,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4555952,
+          4555960
+        ],
+        "record_index": 0,
+        "sequence_index": 2,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4555992,
+          4556000
+        ],
+        "record_index": 0,
+        "sequence_index": 3,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4556052,
+          4556060
+        ],
+        "record_index": 0,
+        "sequence_index": 4,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4556112,
+          4556120
+        ],
+        "record_index": 0,
+        "sequence_index": 5,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4556152,
+          4556160
+        ],
+        "record_index": 0,
+        "sequence_index": 6,
+        "terminator": 65535
+      },
+      {
+        "bytes_sha256": "cfe613ddf7ac996bb41e613804e044f1cf35df1d654f7138e27e83465ff1ee58",
+        "duration": 1,
+        "range": [
+          4556192,
+          4556200
+        ],
+        "record_index": 0,
+        "sequence_index": 7,
+        "terminator": 65535
+      }
+    ],
+    "record_index_domain": [
+      0,
+      1
+    ],
+    "sequence_bytes": 64,
+    "sequence_count": 8,
+    "terminator_value": 65535,
+    "terminator_width": 4
+  }
+}

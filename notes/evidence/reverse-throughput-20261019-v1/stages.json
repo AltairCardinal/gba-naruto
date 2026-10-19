@@ -1,0 +1,35 @@
+{
+  "note": "Stage specification for tools/measure_reverse_throughput.py. Each stage runs behind tools/run_guarded.py against the project heavy lock; the guard receipt is kept verbatim. wall_timeout_s and idle_timeout_s are raised above the guard defaults (600s / 60s) because the default 60s idle timeout kills the coverage audit and the formal proof replay: both are silent for longer than 60s while they replay committed verifiers.",
+  "stages": [
+    {
+      "label": "coverage-audit",
+      "kind": "static",
+      "command": ["tools/audit_rom_byte_coverage.py", "--root", "."],
+      "wall_timeout_s": 3600,
+      "idle_timeout_s": 1800
+    },
+    {
+      "label": "unknown-ranking",
+      "kind": "static",
+      "command": [
+        "tools/analyze_rom_unknown_clusters.py",
+        "--rom", "rom/base.gba",
+        "--coverage", "sequel/rom-byte-coverage.json",
+        "--top", "30"
+      ],
+      "wall_timeout_s": 900,
+      "idle_timeout_s": 300
+    },
+    {
+      "label": "formal-proof",
+      "kind": "heavy",
+      "command": [
+        "tools/audit_reverse_engineering_proof.py",
+        "--execute-verifiers",
+        "--allow-incomplete"
+      ],
+      "wall_timeout_s": 7200,
+      "idle_timeout_s": 3600
+    }
+  ]
+}

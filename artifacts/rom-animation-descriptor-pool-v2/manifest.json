@@ -1,0 +1,43 @@
+{
+  "artifact_schema": "rom-animation-descriptor-pool-v2",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-animation-descriptor-pool-v2.json": {
+      "sha256": "7f9c4a36c0f29f3abe0351a7ba5af96c5f27a8d396d81fbe28ed34df574ebf7f",
+      "size": 35254
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "537d2af7c8ff457d7bddda2a1430e6c85f66a889dbdd7a7f2d34cc3f459e01e3",
+    "test_sha256": "c0d8486e3474e17ad90f3b301303f0cc33a9a30a2641f5d949d6b614642abd2e",
+    "verifier_sha256": "53d7a82acf5a8a55ceb311ce51da392a29c5ec6dfcd18d1c2a21cd2a8745fea7"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_animation_descriptor_pool_v2.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-animation-descriptor-pool-v2"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "base_pair_count": 7,
+    "descriptor_count": 8,
+    "descriptor_entry_count": 24,
+    "promotion_bytes": 640,
+    "sequence_count": 8
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_animation_descriptor_pool_v2.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-animation-descriptor-pool-v2"
+    ]
+  }
+}

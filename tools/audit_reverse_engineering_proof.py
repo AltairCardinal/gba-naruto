@@ -10,6 +10,7 @@ actual verifier run.
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import json
 import os
@@ -22,6 +23,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from tools.audit_rom_byte_coverage import MINIMUM_PYTHON
+from tools.audit_rom_byte_coverage import _require_supported_python
 from tools.audit_rom_byte_coverage import audit_manifest as audit_rom_manifest
 from tools.verify_similar_table_candidates import (
     verify_repository_manifests as verify_similar_table_manifest,
@@ -831,6 +834,83 @@ def _check_similar_table_candidates(
     return report
 
 
+def _verifier_job_count(requested: int) -> int:
+    """Bound verifier concurrency by the memory the host actually has free.
+
+    The verifier replay is CPU bound and each worker holds a native trace
+    replay in memory.  Running many of them at once on a host that is already
+    swapping makes every verifier slower, so the pool shrinks when the
+    available memory is low.  One job is always safe.
+    """
+
+    jobs = max(1, int(requested))
+    try:
+        from tools.project_resource_guard import available_physical_memory_mib
+
+        available = float(available_physical_memory_mib().available_physical_mib)
+    except Exception:  # pragma: no cover - the guard is optional here
+        return jobs
+    if available < 2048:
+        return 1
+    if available < 4096:
+        return min(jobs, 2)
+    return min(jobs, 4)
+
+
+def _execute_groups(
+    root: Path,
+    groups: list[dict[str, Any]],
+    rom_coverage_report: dict[str, Any] | None,
+    jobs: int,
+) -> list[tuple[int, dict[str, Any], list[str], dict[str, Any]]]:
+    """Execute the verifier groups and return them in their original order.
+
+    The verifier replay dominates this audit's wall clock: 107 independent
+    subprocess verifications used to run one after another.  They do not
+    depend on each other, so they run in a bounded thread pool.  The coverage
+    verifier is reused in-process and is not a subprocess, so it stays on the
+    calling thread.
+
+    The returned list is sorted by the original group index, so the report
+    order - and therefore the report digest - does not depend on which
+    verifier happened to finish first.
+    """
+
+    prepared: list[tuple[int, dict[str, Any], list[str], dict[str, Any]]] = []
+    pending: list[tuple[int, dict[str, Any], list[str]]] = []
+    for index, group in enumerate(groups):
+        local: list[str] = []
+        if _is_rom_coverage_command(group["command"]) and rom_coverage_report is not None:
+            execution = _reuse_rom_coverage_contract(
+                group["labels"][0],
+                group["command"],
+                group["contract"],
+                rom_coverage_report,
+                local,
+            )
+            prepared.append((index, group, local, execution))
+        else:
+            pending.append((index, group, local))
+    if pending:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as pool:
+            futures = {
+                pool.submit(
+                    _execute_contract,
+                    root,
+                    group["labels"][0],
+                    group["command"],
+                    group["contract"],
+                    local,
+                ): (index, group, local)
+                for index, group, local in pending
+            }
+            for future in concurrent.futures.as_completed(futures):
+                index, group, local = futures[future]
+                prepared.append((index, group, local, future.result()))
+    prepared.sort(key=lambda item: item[0])
+    return prepared
+
+
 def _execute_contract(
     root: Path,
     label: str,
@@ -947,7 +1027,9 @@ def audit_proof(
     *,
     execute_verifiers: bool = False,
     trusted_spec_sha256: str | None = None,
+    verifier_jobs: int = 4,
 ) -> dict[str, Any]:
+    _require_supported_python()
     root = Path(root).resolve(strict=True)
     requested_spec = Path(spec_path)
     if requested_spec.is_absolute():
@@ -1086,29 +1168,13 @@ def audit_proof(
         gate_results_by_label = {
             f"gate {name}": item for name, item in gate_results.items()
         }
-        for group in grouped_commands.values():
+
+        def _record_execution(group, execution, execution_blockers):
             labels = group["labels"]
-            execution_blockers: list[str] = []
-            if _is_rom_coverage_command(group["command"]) and rom_coverage_report is not None:
-                execution = _reuse_rom_coverage_contract(
-                    labels[0],
-                    group["command"],
-                    group["contract"],
-                    rom_coverage_report,
-                    execution_blockers,
-                )
-            else:
-                execution = _execute_contract(
-                    root,
-                    labels[0],
-                    group["command"],
-                    group["contract"],
-                    execution_blockers,
-                )
             execution["labels"] = labels
             verifier_results.append(execution)
             if execution["contract_ok"]:
-                continue
+                return
 
             failure = "; ".join(execution_blockers) or "unknown verifier failure"
             for label in labels:
@@ -1123,6 +1189,18 @@ def audit_proof(
                 if subject is not None:
                     subject["blockers"].append(blocker)
                     subject["complete"] = False
+
+        # The verifier replay dominates this audit's wall clock: 107 independent
+        # subprocess verifications were executed one after another.  They do not
+        # depend on each other, so they run in a bounded thread pool.  The
+        # results are re-sorted by their original group index, so the report
+        # order (and therefore the report digest) is unchanged.
+        groups = list(grouped_commands.values())
+        prepared = _execute_groups(
+            root, groups, rom_coverage_report, _verifier_job_count(verifier_jobs)
+        )
+        for _index, group, execution_blockers, execution in prepared:
+            _record_execution(group, execution, execution_blockers)
 
     if claim_status != "complete":
         blockers.append(f"claim_status is {claim_status}, expected complete")
@@ -1164,6 +1242,15 @@ def main() -> int:
         default=Path("sequel/reverse-engineering-proof.json"),
     )
     parser.add_argument("--execute-verifiers", action="store_true")
+    parser.add_argument(
+        "--verifier-jobs",
+        type=int,
+        default=4,
+        help=(
+            "how many verifier subprocesses may run at once; the effective "
+            "count is additionally bounded by the host's available memory"
+        ),
+    )
     parser.add_argument("--trusted-spec-sha256")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--allow-incomplete", action="store_true")
@@ -1174,6 +1261,7 @@ def main() -> int:
             args.spec,
             execute_verifiers=args.execute_verifiers,
             trusted_spec_sha256=args.trusted_spec_sha256,
+            verifier_jobs=args.verifier_jobs,
         )
     except ValueError as error:
         result = {
@@ -1181,6 +1269,22 @@ def main() -> int:
             "complete": False,
             "blockers": [str(error)],
         }
+    except RuntimeError as error:
+        # An unsupported interpreter is an environment problem, not missing
+        # evidence.  Report it as a refusal instead of a blocker so the two
+        # never get confused.
+        print(
+            json.dumps(
+                {
+                    "schema": "reverse-engineering-proof-audit-v2",
+                    "complete": False,
+                    "refused": str(error),
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 2
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         output = args.output

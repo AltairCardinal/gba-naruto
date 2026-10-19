@@ -405,6 +405,39 @@
     {
       "alignment_gap_classification_claimed": false,
       "baseline_unknown_only": true,
+      "bytes_sha256": "1730e92b4cc9ace8f484b61aedcbd2e670b45b522bd5807bdf72fd9cc03595cf",
+      "canonical_cfg_consumer_denominator_verified": true,
+      "claim_kind": "fixed_cfg_consumer_renderer_command_script_bytes",
+      "coverage_projection_gate": "current_unknown_before_projection",
+      "current_unknown_verified_by_auditor": true,
+      "editing_writeback_relocation_safe_claimed": false,
+      "evidence_path": "artifacts/rom-renderer-script-pointer-pool-records-v1/rom-renderer-script-pointer-pool-records.json",
+      "evidence_selector": "/promotion/claims/0",
+      "evidence_sha256": "60cbe250ff5d1d9f8f260df0149fbc52e2b90c10338e19aeb64b9194caf6f79c",
+      "free_or_allocatable_space_claimed": false,
+      "id": "renderer-script-pointer-pool-0cea",
+      "independent_verifier_path": "tools/verify_rom_renderer_script_pointer_pool_records.py",
+      "independent_verifier_report_sha256": "0b04f081c25ef8e382c4dbf46a65ca95372975a1002043913399919ae9663aae",
+      "independent_verifier_sha256": "e17a3ee6ceba86310b1a8e1dd1a3e5b807e32030059e4fb5b19f4cf9f2656eb4",
+      "interpreter_r0_parameter_flow_verified": true,
+      "loaded_value_semantics_claimed": false,
+      "mode": null,
+      "pointer_pool_slot_denominator_verified": true,
+      "primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "promoted_from_primary_class": "unknown",
+      "promotion_batch": "rom-renderer-script-pointer-pool-records-v1",
+      "promotion_manifest_path": "artifacts/rom-renderer-script-pointer-pool-records-v1/manifest.json",
+      "promotion_manifest_sha256": "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1",
+      "range": [
+        3306,
+        4848
+      ],
+      "role": "primary",
+      "runtime_reachability_claimed": false
+    },
+    {
+      "alignment_gap_classification_claimed": false,
+      "baseline_unknown_only": true,
       "bytes_sha256": "3ce42db81ef9c29faa251029044baca89172709af872513b4629e4b0b225f4bb",
       "canonical_cfg_consumer_denominator_verified": true,
       "claim_kind": "fixed_cfg_consumer_renderer_command_script_bytes",
@@ -585678,14 +585711,15 @@
       "secondary_claim_ids": []
     },
     {
-      "primary_claim_ids": [],
-      "primary_class": "unknown",
+      "primary_claim_ids": [
+        "renderer-script-pointer-pool-0cea"
+      ],
+      "primary_class": "fixed_cfg_consumer_renderer_command_script",
       "range": [
         3306,
         4848
       ],
-      "secondary_claim_ids": [],
-      "unknown_reason": "no accepted primary classification claim"
+      "secondary_claim_ids": []
     },
     {
       "primary_claim_ids": [
@@ -789335,8 +789369,8 @@
     "chapter_speaker_label_slot_padding_claim_count": 49,
     "character_battle_visual_bytes": 2023076,
     "character_battle_visual_claim_count": 1299,
-    "claim_count": 16912,
-    "classified_bytes": 6203825,
+    "claim_count": 16913,
+    "classified_bytes": 6205367,
     "consumer_code_slice_bytes": 27404,
     "consumer_code_slice_claim_count": 116,
     "cutscene_obj_alignment_gap_bytes": 8,
@@ -789740,7 +789774,7 @@
     "unbound_chapter_script_tail_claim_count": 3,
     "unbound_lz77_syntax_bytes": 14725,
     "unbound_lz77_syntax_claim_count": 41,
-    "unknown_bytes": 87631,
+    "unknown_bytes": 86089,
     "value_range_renderer_text_bytes": 862,
     "value_range_renderer_text_claim_count": 38,
     "value_range_text_map_bytes": 152,

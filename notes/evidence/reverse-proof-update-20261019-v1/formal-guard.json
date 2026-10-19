@@ -1,0 +1,21 @@
+{
+  "reason": "child-exit",
+  "exit_code": -15,
+  "child_pid": 58347,
+  "peak_tree_rss_mib": 441.0859375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/bin/python3",
+    "tools/audit_reverse_engineering_proof.py",
+    "--root",
+    ".",
+    "--execute-verifiers",
+    "--allow-incomplete",
+    "--output",
+    "/Users/altair/github/gba-naruto-reverse/notes/evidence/reverse-proof-update-20261019-v1/formal-report.json"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-19T17:23:45.997994Z",
+  "finished_at": "2026-10-19T18:48:17.820803Z"
+}

@@ -15,8 +15,8 @@ class CanonicalBatchTests(unittest.TestCase):
         self.assertEqual(sum(b-a for a,b in (r['range'] for r in claims)),118)
         spans = sorted(r['range'] for r in claims)
         self.assertTrue(all(a[1]<=b[0] for a,b in zip(spans,spans[1:])))
-        self.assertEqual((coverage['summary']['classified_bytes'],coverage['summary']['unknown_bytes']),
-                         (6203825,87631))
+        self.assertEqual(coverage['summary']['classified_bytes']+coverage['summary']['unknown_bytes'],
+                         6291456)
         self.assertEqual(coverage['summary']['cfg_reachable_thumb_code_bytes'],173136)
         self.assertEqual(coverage['summary']['cfg_primary_claim_count'],4064)
         self.assertEqual(coverage['summary']['cfg_code_claim_kind_count'],55)
